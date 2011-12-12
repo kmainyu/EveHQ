@@ -845,7 +845,7 @@ Partial Class frmTraining
         Me.ctxCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.ctxCertDetails.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator16, Me.mnuAddCertToQueue, Me.mnuAddCertGroupToQueue, Me.ToolStripSeparator18, Me.mnuViewCertDetails})
         Me.ctxCertDetails.Name = "ctxDepend"
-        Me.ctxCertDetails.Size = New System.Drawing.Size(217, 104)
+        Me.ctxCertDetails.Size = New System.Drawing.Size(217, 126)
         '
         'mnuCertName
         '
@@ -870,21 +870,21 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueueNext.Enabled = False
         Me.mnuAddCertToQueueNext.Name = "mnuAddCertToQueueNext"
-        Me.mnuAddCertToQueueNext.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddCertToQueueNext.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertToQueueNext.Text = "Next Grade"
         Me.mnuAddCertToQueueNext.Visible = False
         '
         'ToolStripSeparator17
         '
         Me.ToolStripSeparator17.Name = "ToolStripSeparator17"
-        Me.ToolStripSeparator17.Size = New System.Drawing.Size(126, 6)
+        Me.ToolStripSeparator17.Size = New System.Drawing.Size(149, 6)
         Me.ToolStripSeparator17.Visible = False
         '
         'mnuAddCertToQueue1
         '
         Me.mnuAddCertToQueue1.Enabled = False
         Me.mnuAddCertToQueue1.Name = "mnuAddCertToQueue1"
-        Me.mnuAddCertToQueue1.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddCertToQueue1.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertToQueue1.Tag = "1"
         Me.mnuAddCertToQueue1.Text = "Basic"
         '
@@ -892,7 +892,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue2.Enabled = False
         Me.mnuAddCertToQueue2.Name = "mnuAddCertToQueue2"
-        Me.mnuAddCertToQueue2.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddCertToQueue2.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertToQueue2.Tag = "2"
         Me.mnuAddCertToQueue2.Text = "Standard"
         '
@@ -900,7 +900,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue3.Enabled = False
         Me.mnuAddCertToQueue3.Name = "mnuAddCertToQueue3"
-        Me.mnuAddCertToQueue3.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddCertToQueue3.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertToQueue3.Tag = "3"
         Me.mnuAddCertToQueue3.Text = "Improved"
         '
@@ -908,7 +908,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue4.Enabled = False
         Me.mnuAddCertToQueue4.Name = "mnuAddCertToQueue4"
-        Me.mnuAddCertToQueue4.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddCertToQueue4.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertToQueue4.Tag = "4"
         Me.mnuAddCertToQueue4.Text = "Advanced"
         '
@@ -916,7 +916,7 @@ Partial Class frmTraining
         '
         Me.mnuAddCertToQueue5.Enabled = False
         Me.mnuAddCertToQueue5.Name = "mnuAddCertToQueue5"
-        Me.mnuAddCertToQueue5.Size = New System.Drawing.Size(129, 22)
+        Me.mnuAddCertToQueue5.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertToQueue5.Tag = "5"
         Me.mnuAddCertToQueue5.Text = "Elite"
         '
@@ -931,21 +931,21 @@ Partial Class frmTraining
         'mnuAddCertGroupToQueue1
         '
         Me.mnuAddCertGroupToQueue1.Name = "mnuAddCertGroupToQueue1"
-        Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(137, 22)
+        Me.mnuAddCertGroupToQueue1.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertGroupToQueue1.Tag = "1"
         Me.mnuAddCertGroupToQueue1.Text = "To Basic"
         '
         'mnuAddCertGroupToQueue2
         '
         Me.mnuAddCertGroupToQueue2.Name = "mnuAddCertGroupToQueue2"
-        Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(137, 22)
+        Me.mnuAddCertGroupToQueue2.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertGroupToQueue2.Tag = "2"
         Me.mnuAddCertGroupToQueue2.Text = "To Standard"
         '
         'mnuAddCertGroupToQueue3
         '
         Me.mnuAddCertGroupToQueue3.Name = "mnuAddCertGroupToQueue3"
-        Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(137, 22)
+        Me.mnuAddCertGroupToQueue3.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertGroupToQueue3.Tag = "3"
         Me.mnuAddCertGroupToQueue3.Text = "To Improved"
         '
@@ -953,14 +953,14 @@ Partial Class frmTraining
         '
         Me.mnuAddCertGroupToQueue4.Enabled = False
         Me.mnuAddCertGroupToQueue4.Name = "mnuAddCertGroupToQueue4"
-        Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(137, 22)
+        Me.mnuAddCertGroupToQueue4.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertGroupToQueue4.Tag = "4"
         Me.mnuAddCertGroupToQueue4.Text = "To Advanced"
         '
         'mnuAddCertGroupToQueue5
         '
         Me.mnuAddCertGroupToQueue5.Name = "mnuAddCertGroupToQueue5"
-        Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(137, 22)
+        Me.mnuAddCertGroupToQueue5.Size = New System.Drawing.Size(152, 22)
         Me.mnuAddCertGroupToQueue5.Tag = "5"
         Me.mnuAddCertGroupToQueue5.Text = "To Elite"
         '

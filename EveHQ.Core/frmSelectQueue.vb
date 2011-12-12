@@ -73,7 +73,7 @@ Public Class frmSelectQueue
                 For Each skill As String In skillsNeeded
                     Dim skillName As String = skill.Substring(0, skill.Length - 1)
                     Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl, , True)
+                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl, False, True)
                 Next
             Else
                 MessageBox.Show(displayPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)

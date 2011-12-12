@@ -75,10 +75,10 @@ Public Class DragAndDropListView
                         If moveSkill.Key = din Then Exit For
                     Next
                     ' This is a skill being dragged from the treeview
-                    displayPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, testItem.Text.Trim("#".ToCharArray), dIDX, displayPilot.ActiveQueue)
+                    displayPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, testItem.Text.Trim("#".ToCharArray), dIDX, displayPilot.ActiveQueue, 0, False, False)
                 Else
                     ' Set the skill's destination to the bottom of the list
-                    displayPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, testItem.Text.Trim("#".ToCharArray), displayPilot.ActiveQueue.Queue.Count + 1, displayPilot.ActiveQueue)
+                    displayPilot.ActiveQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, testItem.Text.Trim("#".ToCharArray), displayPilot.ActiveQueue.Queue.Count + 1, displayPilot.ActiveQueue, 0, False, False)
                 End If
 
             Else

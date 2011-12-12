@@ -750,7 +750,7 @@ Public Class SkillQueueFunctions
 
     End Sub
 
-    Public Shared Function AddSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal addSkill As String, ByVal di As Integer, ByVal qQueue As EveHQ.Core.SkillQueue, Optional ByVal planLevel As Integer = 0, Optional ByVal silent As Boolean = False, Optional ByVal exitIfTrained As Boolean = False) As EveHQ.Core.SkillQueue
+    Public Shared Function AddSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal addSkill As String, ByVal di As Integer, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal planLevel As Integer, ByVal silent As Boolean, ByVal exitIfTrained As Boolean) As EveHQ.Core.SkillQueue
         ' Check if the skill is already in the list - key names are skill IDs!
         ' NB: include the current training skill!
         Dim newSkill As New ListViewItem

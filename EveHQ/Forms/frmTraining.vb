@@ -2045,7 +2045,7 @@ Public Class frmTraining
 
 #Region "Skill Queue Modification Functions"
     Private Sub AddSkillToQueueOption()
-        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue)
+        activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 0, False, False)
         Call Me.RefreshTraining(activeQueueName)
     End Sub
     Private Sub DeleteFromQueueOption()
@@ -2648,7 +2648,7 @@ Public Class frmTraining
     Private Sub mnuAddToQueue1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue1.Click
         If activeQueue IsNot Nothing Then
             If tvwSkillList.SelectedNode IsNot Nothing Then
-                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 1)
+                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 1, False, False)
                 Call Me.RefreshTraining(activeQueueName)
             End If
         End If
@@ -2656,7 +2656,7 @@ Public Class frmTraining
     Private Sub mnuAddToQueue2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue2.Click
         If activeQueue IsNot Nothing Then
             If tvwSkillList.SelectedNode IsNot Nothing Then
-                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 2)
+                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 2, False, False)
                 Call Me.RefreshTraining(activeQueueName)
             End If
         End If
@@ -2664,7 +2664,7 @@ Public Class frmTraining
     Private Sub mnuAddToQueue3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue3.Click
         If activeQueue IsNot Nothing Then
             If tvwSkillList.SelectedNode IsNot Nothing Then
-                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 3)
+                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 3, False, False)
                 Call Me.RefreshTraining(activeQueueName)
             End If
         End If
@@ -2672,7 +2672,7 @@ Public Class frmTraining
     Private Sub mnuAddToQueue4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue4.Click
         If tvwSkillList.SelectedNode IsNot Nothing Then
             If activeQueue IsNot Nothing Then
-                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 4)
+                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 4, False, False)
                 Call Me.RefreshTraining(activeQueueName)
             End If
         End If
@@ -2680,7 +2680,7 @@ Public Class frmTraining
     Private Sub mnuAddToQueue5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueue5.Click
         If tvwSkillList.SelectedNode IsNot Nothing Then
             If activeQueue IsNot Nothing Then
-                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 5)
+                activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, tvwSkillList.SelectedNode.Text, activeQueue.Queue.Count + 1, activeQueue, 5, False, False)
                 Call Me.RefreshTraining(activeQueueName)
             End If
         End If
@@ -2790,7 +2790,7 @@ Public Class frmTraining
                 ' Add all the sublevels
                 For level As Integer = CInt(fromLevel) To CInt(toLevel) - 1
                     mySkillPos += 1
-                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, level + 1)
+                    activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, level + 1, False, False)
                 Next
             End If
         Next selItem
@@ -2810,8 +2810,8 @@ Public Class frmTraining
             Call Me.DeleteFromQueue(mySkill)
 
             ' Add the new levels, 
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, CInt(toLevel) - 1)
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, CInt(ToLevel) - 1, False, False)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos + 1, activeQueue, CInt(ToLevel), False, False)
         Next selItem
 
         Call Me.RefreshTraining(activeQueueName)
@@ -2830,8 +2830,8 @@ Public Class frmTraining
             Call Me.DeleteFromQueue(mySkill)
 
             ' Add the new levels, 
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, CInt(fromLevel) + 1)
-            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos + 1, activeQueue, CInt(toLevel))
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos, activeQueue, CInt(fromLevel) + 1, False, False)
+            activeQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, mySkillPos + 1, activeQueue, CInt(ToLevel), False, False)
         Next selItem
         Call Me.RefreshTraining(activeQueueName)
     End Sub
