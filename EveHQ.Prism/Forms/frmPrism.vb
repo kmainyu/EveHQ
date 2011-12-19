@@ -3381,33 +3381,37 @@ Public Class frmPrism
         End If
     End Function
     Private Sub LoadRecyclingInfo()
-        ' Form a string of the asset IDs in the AssetList Property
-        Dim strAssets As New StringBuilder
-        For Each asset As String In RecyclerAssetList.Keys
-            strAssets.Append(", " & asset)
-        Next
-        strAssets.Remove(0, 2)
-
-        ' Fetch the data from the database
-        Dim strSQL As String = "SELECT invTypeMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, invTypeMaterials.quantity AS materialQuantity"
-        strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.materialTypeID) ON invCategories.categoryID = invGroups.categoryID"
-        strSQL &= " WHERE (invTypeMaterials.typeID IN (" & strAssets.ToString & ") AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
-        Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-
-        ' Add the data into a collection for parsing
 
         itemList.Clear()
-        With mDataSet.Tables(0)
-            For row As Integer = 0 To .Rows.Count - 1
-                If itemList.ContainsKey(.Rows(row).Item("itemTypeID").ToString.Trim) = True Then
-                    matList = CType(itemList(.Rows(row).Item("itemTypeID").ToString.Trim), Collections.SortedList)
-                Else
-                    matList = New SortedList
-                    itemList.Add(.Rows(row).Item("itemTypeID").ToString.Trim, matList)
-                End If
-                matList.Add(.Rows(row).Item("materialTypeName").ToString.Trim, CLng(.Rows(row).Item("materialQuantity").ToString.Trim))
+        If RecyclerAssetList.Count > 0 Then
+
+            ' Form a string of the asset IDs in the AssetList Property
+            Dim strAssets As New StringBuilder
+            For Each asset As String In RecyclerAssetList.Keys
+                strAssets.Append(", " & asset)
             Next
-        End With
+            strAssets.Remove(0, 2)
+
+            ' Fetch the data from the database
+            Dim strSQL As String = "SELECT invTypeMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, invTypeMaterials.quantity AS materialQuantity"
+            strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.materialTypeID) ON invCategories.categoryID = invGroups.categoryID"
+            strSQL &= " WHERE (invTypeMaterials.typeID IN (" & strAssets.ToString & ") AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
+            Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+
+            ' Add the data into a collection for parsing
+            With mDataSet.Tables(0)
+                For row As Integer = 0 To .Rows.Count - 1
+                    If itemList.ContainsKey(.Rows(row).Item("itemTypeID").ToString.Trim) = True Then
+                        matList = CType(itemList(.Rows(row).Item("itemTypeID").ToString.Trim), Collections.SortedList)
+                    Else
+                        matList = New SortedList
+                        itemList.Add(.Rows(row).Item("itemTypeID").ToString.Trim, matList)
+                    End If
+                    matList.Add(.Rows(row).Item("materialTypeName").ToString.Trim, CLng(.Rows(row).Item("materialQuantity").ToString.Trim))
+                Next
+            End With
+
+        End If
 
         ' Load the characters into the combobox
         cboRecyclePilots.Items.Clear()
