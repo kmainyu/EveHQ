@@ -573,13 +573,14 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("End: Load ErrorAPI")
 
         ' Check for additional database tables in the custom database
-        EveHQ.Core.HQ.WriteLogEvent("Start: Check Custom Database")
-        lblStatus.Text = "> Checking Custom Database..."
+        EveHQ.Core.HQ.WriteLogEvent("Start: Check custom database tables")
+        lblStatus.Text = "> Checking custom database tables..."
         lblStatus.Refresh()
         Call EveHQ.Core.DataFunctions.CheckForEveMailTable()
-        'Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
+        Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
         Call EveHQ.Core.DataFunctions.CheckForIDNameTable()
-        EveHQ.Core.HQ.WriteLogEvent("End: Check Custom Database")
+        Call EveHQ.Core.RequisitionDataFunctions.CheckForRequisitionsTable()
+        EveHQ.Core.HQ.WriteLogEvent("End: Check custom database tables")
 
         ' Check if we need to start the market watcher
         EveHQ.Core.HQ.WriteLogEvent("Start: Enable Market Watcher")
