@@ -3965,8 +3965,12 @@ Public Class frmPrism
 
     Private Sub ctxRecycleItem_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ctxRecycleItem.Opening
         If adtRecycle.SelectedNodes.Count > 0 Then
-            mnuAlterRecycleQuantity.Enabled = True
-            mnuRemoveRecycleItem.Enabled = True
+            If adtRecycle.SelectedNodes(0).Level = 0 Then
+                mnuAlterRecycleQuantity.Enabled = True
+                mnuRemoveRecycleItem.Enabled = True
+            Else
+                e.Cancel = True
+            End If
         Else
             mnuAlterRecycleQuantity.Enabled = False
             mnuRemoveRecycleItem.Enabled = False
