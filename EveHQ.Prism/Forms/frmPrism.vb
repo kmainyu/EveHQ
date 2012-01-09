@@ -3713,6 +3713,15 @@ Public Class frmPrism
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 
+    Private Sub adtRecycle_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles adtRecycle.KeyDown
+        If e.Control = True And e.KeyCode = Keys.A Then
+            adtRecycle.SelectedNodes.Clear()
+            For Each rNode As Node In adtRecycle.Nodes
+                adtRecycle.SelectedNodes.Add(rNode)
+            Next
+        End If
+    End Sub
+
     Private Sub adtTotals_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtTotals.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
