@@ -1195,8 +1195,8 @@ Public Class DataFunctions
         devBuy = 0 : devSell = 0 : devAll = 0
 
         For Each order As String In orderList
+            order = order.Replace(Chr(0), "")
             orderDetails = order.Split(",".ToCharArray)
-
             oPrice = Double.Parse(orderDetails(0).Trim, Globalization.NumberStyles.Any, culture)
             oVol = CLng(orderDetails(1).Trim)
             oTypeID = CLng(orderDetails(2).Trim)
