@@ -3909,7 +3909,9 @@ Public Class frmPrism
         If adtRecycle.SelectedNodes.Count > 0 Then
             Dim newQ As New frmSelectQuantity(CInt(RecyclerAssetList(adtRecycle.SelectedNodes(0).Tag.ToString)))
             newQ.ShowDialog()
-            RecyclerAssetList(adtRecycle.SelectedNodes(0).Tag.ToString) = newQ.Quantity
+            For Each rNode As Node In adtRecycle.SelectedNodes
+                RecyclerAssetList(rNode.Tag.ToString) = newQ.Quantity
+            Next
             newQ.Dispose()
             Call Me.RecalcRecycling()
         End If
@@ -3917,7 +3919,9 @@ Public Class frmPrism
 
     Private Sub mnuRemoveRecycleItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveRecycleItem.Click
         If adtRecycle.SelectedNodes.Count > 0 Then
-            RecyclerAssetList.Remove(adtRecycle.SelectedNodes(0).Tag.ToString)
+            For Each rNode As Node In adtRecycle.SelectedNodes
+                RecyclerAssetList.Remove(rNode.Tag.ToString)
+            Next
             Call Me.RecalcRecycling()
         End If
     End Sub
