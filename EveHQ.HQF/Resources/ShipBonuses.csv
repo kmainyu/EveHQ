@@ -744,7 +744,7 @@
 4306,0,0,50,4,563;566,0,0,0,-50,15,Large Hybrid Turret CPU Need
 4306,0,0,6,4,563;566,0,0,0,-50,15,Large Hybrid Turret Cap Use
 # Naglfar,,,,,,,,,,,
-19722,1,20532,51,2,524,0,1,0,-5,15,Citadel Launcher ROF
+19722,1,20532,10013,4,775;776,0,1,0,-5,15,Capital Projectile Turret ROF
 19722,1,20532,10016,4,775;776,0,1,0,5,15,Capital Projectile Turret Damage
 # Navitas,,,,,,,,,,,
 592,1,3328,10004,1,592,0,1,0,5,15,Cargo Capacity
