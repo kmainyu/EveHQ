@@ -466,28 +466,32 @@ Public Class frmBCBrowser
     End Sub
 
     Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
-        Dim shipName As String = lblShipType.Text
-        Dim fittingName As String = lblLoadoutName.Text
-        ' If the fitting exists, add a number onto the end
-        If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
-            Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If response = Windows.Forms.DialogResult.Yes Then
-                Dim newFittingName As String = ""
-                Dim revision As Integer = 1
-                Do
-                    revision += 1
-                    newFittingName = fittingName & " " & revision.ToString
-                Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
-                fittingName = newFittingName
-                MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                Exit Sub
+        If currentFitting IsNot Nothing Then
+            Dim shipName As String = lblShipType.Text
+            Dim fittingName As String = lblLoadoutName.Text
+            ' If the fitting exists, add a number onto the end
+            If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
+                Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If response = Windows.Forms.DialogResult.Yes Then
+                    Dim newFittingName As String = ""
+                    Dim revision As Integer = 1
+                    Do
+                        revision += 1
+                        newFittingName = fittingName & " " & revision.ToString
+                    Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
+                    fittingName = newFittingName
+                    MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    Exit Sub
+                End If
             End If
+            ' Lets create the fitting
+            Dim NewFit As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
+            Fittings.FittingList.Add(NewFit.KeyName, NewFit)
+            HQFEvents.StartUpdateFittingList = True
+        Else
+            MessageBox.Show("Please ensure a fitting is loaded before importing.", "Import Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-        ' Lets create the fitting
-        Dim NewFit As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
-        Fittings.FittingList.Add(NewFit.KeyName, NewFit)
-        HQFEvents.StartUpdateFittingList = True
     End Sub
 
     Private Sub ReorderModules()
