@@ -31,7 +31,6 @@ Partial Public Class frmPilot
         Me.mnuCtxPicGetPortraitFromServer = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuCtxPicGetPortraitFromLocal = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuSavePortrait = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lblSkills = New System.Windows.Forms.Label()
         Me.chkGroupSkills = New System.Windows.Forms.CheckBox()
         Me.ctxCerts = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem()
@@ -113,6 +112,7 @@ Partial Public Class frmPilot
         Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
         Me.tiSkills = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
+        Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
         Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpCerts = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtCerts = New DevComponents.AdvTree.AdvTree()
@@ -127,7 +127,6 @@ Partial Public Class frmPilot
         Me.lblAccountExpiry = New DevComponents.DotNetBar.LabelX()
         Me.LabelX2 = New DevComponents.DotNetBar.LabelX()
         Me.pnlMain = New DevComponents.DotNetBar.PanelEx()
-        Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
         Me.ctxSkills.SuspendLayout()
         Me.ctxPic.SuspendLayout()
         Me.ctxCerts.SuspendLayout()
@@ -210,22 +209,13 @@ Partial Public Class frmPilot
         Me.mnuSavePortrait.Size = New System.Drawing.Size(245, 22)
         Me.mnuSavePortrait.Text = "Save Portrait into Image Cache"
         '
-        'lblSkills
-        '
-        Me.lblSkills.AutoSize = True
-        Me.lblSkills.Location = New System.Drawing.Point(349, 168)
-        Me.lblSkills.Name = "lblSkills"
-        Me.lblSkills.Size = New System.Drawing.Size(92, 13)
-        Me.lblSkills.TabIndex = 30
-        Me.lblSkills.Text = "Skills/Certificates:"
-        '
         'chkGroupSkills
         '
         Me.chkGroupSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.chkGroupSkills.AutoSize = True
         Me.chkGroupSkills.Checked = True
         Me.chkGroupSkills.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkGroupSkills.Location = New System.Drawing.Point(1133, 167)
+        Me.chkGroupSkills.Location = New System.Drawing.Point(1133, 142)
         Me.chkGroupSkills.Name = "chkGroupSkills"
         Me.chkGroupSkills.Size = New System.Drawing.Size(139, 17)
         Me.chkGroupSkills.TabIndex = 38
@@ -1160,15 +1150,15 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
         Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
+        Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
         Me.tabPilotInfo.Controls.Add(Me.tcpSkillQueue)
         Me.tabPilotInfo.Controls.Add(Me.tcpCerts)
-        Me.tabPilotInfo.Location = New System.Drawing.Point(348, 184)
+        Me.tabPilotInfo.Location = New System.Drawing.Point(348, 165)
         Me.tabPilotInfo.Name = "tabPilotInfo"
         Me.tabPilotInfo.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tabPilotInfo.SelectedTabIndex = 0
-        Me.tabPilotInfo.Size = New System.Drawing.Size(933, 688)
+        Me.tabPilotInfo.Size = New System.Drawing.Size(933, 707)
         Me.tabPilotInfo.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tabPilotInfo.TabIndex = 52
         Me.tabPilotInfo.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -1189,7 +1179,7 @@ Partial Public Class frmPilot
         Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
         Me.tcpStandings.Name = "tcpStandings"
         Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpStandings.Size = New System.Drawing.Size(933, 665)
+        Me.tcpStandings.Size = New System.Drawing.Size(933, 684)
         Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1294,7 +1284,7 @@ Partial Public Class frmPilot
         Me.tcpSkills.Location = New System.Drawing.Point(0, 23)
         Me.tcpSkills.Name = "tcpSkills"
         Me.tcpSkills.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpSkills.Size = New System.Drawing.Size(933, 665)
+        Me.tcpSkills.Size = New System.Drawing.Size(933, 684)
         Me.tcpSkills.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.tcpSkills.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.tcpSkills.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1334,7 +1324,7 @@ Partial Public Class frmPilot
         Me.adtSkills.NodeStyle = Me.Skill
         Me.adtSkills.PathSeparator = ";"
         Me.adtSkills.SelectionBox = False
-        Me.adtSkills.Size = New System.Drawing.Size(931, 663)
+        Me.adtSkills.Size = New System.Drawing.Size(931, 682)
         Me.adtSkills.Styles.Add(Me.Skill)
         Me.adtSkills.Styles.Add(Me.SkillGroup)
         Me.adtSkills.TabIndex = 38
@@ -1438,7 +1428,7 @@ Partial Public Class frmPilot
         Me.tcpSkillQueue.Location = New System.Drawing.Point(0, 23)
         Me.tcpSkillQueue.Name = "tcpSkillQueue"
         Me.tcpSkillQueue.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpSkillQueue.Size = New System.Drawing.Size(933, 665)
+        Me.tcpSkillQueue.Size = New System.Drawing.Size(933, 684)
         Me.tcpSkillQueue.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.tcpSkillQueue.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.tcpSkillQueue.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1448,6 +1438,15 @@ Partial Public Class frmPilot
         Me.tcpSkillQueue.Style.GradientAngle = 90
         Me.tcpSkillQueue.TabIndex = 3
         Me.tcpSkillQueue.TabItem = Me.tiSkillQueue
+        '
+        'sqcEveQueue
+        '
+        Me.sqcEveQueue.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.sqcEveQueue.Location = New System.Drawing.Point(1, 1)
+        Me.sqcEveQueue.Name = "sqcEveQueue"
+        Me.sqcEveQueue.PilotName = ""
+        Me.sqcEveQueue.Size = New System.Drawing.Size(931, 682)
+        Me.sqcEveQueue.TabIndex = 0
         '
         'tiSkillQueue
         '
@@ -1462,7 +1461,7 @@ Partial Public Class frmPilot
         Me.tcpCerts.Location = New System.Drawing.Point(0, 23)
         Me.tcpCerts.Name = "tcpCerts"
         Me.tcpCerts.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpCerts.Size = New System.Drawing.Size(933, 665)
+        Me.tcpCerts.Size = New System.Drawing.Size(933, 684)
         Me.tcpCerts.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.tcpCerts.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.tcpCerts.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1498,7 +1497,7 @@ Partial Public Class frmPilot
         Me.adtCerts.NodeStyle = Me.ElementStyle2
         Me.adtCerts.PathSeparator = ";"
         Me.adtCerts.SelectionBox = False
-        Me.adtCerts.Size = New System.Drawing.Size(931, 663)
+        Me.adtCerts.Size = New System.Drawing.Size(931, 682)
         Me.adtCerts.Styles.Add(Me.ElementStyle2)
         Me.adtCerts.Styles.Add(Me.ElementStyle1)
         Me.adtCerts.TabIndex = 39
@@ -1674,7 +1673,6 @@ Partial Public Class frmPilot
         Me.pnlMain.Controls.Add(Me.chkGroupSkills)
         Me.pnlMain.Controls.Add(Me.picRace)
         Me.pnlMain.Controls.Add(Me.picBlood)
-        Me.pnlMain.Controls.Add(Me.lblSkills)
         Me.pnlMain.Controls.Add(Me.pnlInfo)
         Me.pnlMain.Controls.Add(Me.cboPilots)
         Me.pnlMain.Controls.Add(Me.tabPilotInfo)
@@ -1691,15 +1689,6 @@ Partial Public Class frmPilot
         Me.pnlMain.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlMain.Style.GradientAngle = 90
         Me.pnlMain.TabIndex = 54
-        '
-        'sqcEveQueue
-        '
-        Me.sqcEveQueue.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.sqcEveQueue.Location = New System.Drawing.Point(1, 1)
-        Me.sqcEveQueue.Name = "sqcEveQueue"
-        Me.sqcEveQueue.PilotName = ""
-        Me.sqcEveQueue.Size = New System.Drawing.Size(931, 663)
-        Me.sqcEveQueue.TabIndex = 0
         '
         'frmPilot
         '
@@ -1740,7 +1729,6 @@ Partial Public Class frmPilot
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents lblSkills As System.Windows.Forms.Label
     Friend WithEvents ctxSkills As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuSkillName As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
