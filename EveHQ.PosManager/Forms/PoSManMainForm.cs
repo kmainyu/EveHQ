@@ -2406,11 +2406,11 @@ namespace EveHQ.PosManager
             }
 
             if (nud_DesFuelPeriod.Minimum < 0)
-                nud_DesFuelPeriod.Minimum = 1;
+                nud_DesFuelPeriod.Minimum = 0;
             if (nud_DesFuelPeriod.Maximum < 0)
                 nud_DesFuelPeriod.Minimum = 99999;
             if (nud_StrontInterval.Minimum < 0)
-                nud_StrontInterval.Minimum = 1;
+                nud_StrontInterval.Minimum = 0;
             if (nud_StrontInterval.Maximum < 0)
                 nud_StrontInterval.Maximum = 99999;
 
@@ -8631,6 +8631,9 @@ namespace EveHQ.PosManager
             if (e.Button == MouseButtons.Right)
             {
                 dgv = (DataGridView)sender;
+                if ((dgv == null) || (dgv.Columns == null) || (dgv.CurrentCell == null))
+                    return;
+
                 name = dgv.Columns[dgv.CurrentCell.ColumnIndex].HeaderText;
 
                 if (name.Equals("Enr Uranium"))

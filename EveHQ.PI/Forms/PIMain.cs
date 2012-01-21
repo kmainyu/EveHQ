@@ -172,6 +172,7 @@ namespace EveHQ.PI
             P4RsrcLoc.Add("Wetware Mainframe", "{Gas} + {Lava | Plasma} + {Oceanic | Temperate}");
         }
 
+
         public void UpdateFacilityCB(bool newF)
         {
             int dg_index;
@@ -186,10 +187,7 @@ namespace EveHQ.PI
                 dg_index = dgv_OverviewSelection.Rows.Add();
                 cb_SelectFacility.Items.Add(pf.Name);
 
-                if (pf.inOverview)
-                    dgv_OverviewSelection.Rows[dg_index].Cells[0].Value = "Y";
-                else
-                    dgv_OverviewSelection.Rows[dg_index].Cells[0].Value = "N";
+                dgv_OverviewSelection.Rows[dg_index].Cells[0].Value = pf.inOverview;
                 
                 dgv_OverviewSelection.Rows[dg_index].Cells[1].Value = pf.Name;
                 if (pf.OVQty < 1)
@@ -222,7 +220,7 @@ namespace EveHQ.PI
                 FacName = dgv_OverviewSelection.Rows[e.RowIndex].Cells[1].Value.ToString();
                 cVal = dgv_OverviewSelection.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
 
-                if (cVal.Equals("Y"))
+                if (cVal.Equals("True"))
                     PlugInData.Facilities[FacName].inOverview = true;
                 else
                     PlugInData.Facilities[FacName].inOverview = false;
@@ -3151,6 +3149,11 @@ namespace EveHQ.PI
         }
 
         #endregion
+
+        private void dgv_OverviewSelection_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
 
       }
 }
