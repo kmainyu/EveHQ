@@ -55,9 +55,11 @@ Public Class frmRequisitions
         Next
         ' Add in corps
         For Each cCorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHQSettings.Corporations.Values
-            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cCorp.Accounts(0)), EveAccount)
-            If cAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.AssetList) = True Then
-                cboAssetSelection.Items.Add(cCorp.Name)
+            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(cCorp.Accounts(0)) Then
+                Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cCorp.Accounts(0)), EveAccount)
+                If cAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.AssetList) = True Then
+                    cboAssetSelection.Items.Add(cCorp.Name)
+                End If
             End If
         Next
         cboAssetSelection.EndUpdate()

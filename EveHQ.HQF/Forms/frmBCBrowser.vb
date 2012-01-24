@@ -156,7 +156,7 @@ Public Class frmBCBrowser
             EveHQ.Core.AdvTreeSorter.Sort(adtLoadouts, 1, True, True)
             adtLoadouts.EndUpdate()
             lblShipType.Text = currentShip.Name
-            lblBCStatus.Text = "Update of loudouts completed!"
+            lblBCStatus.Text = "Update of loadouts completed!"
             pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
             ' Save the XML into the cache
             If UseCacheFile = False Then
@@ -548,7 +548,7 @@ Public Class frmBCBrowser
         Try
             Clipboard.SetText(SourceURL)
         Catch ex As Exception
-            MessageBox.Show("There was an error copying data to the cliboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("There was an error copying data to the clipboard: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf & "Please try again.", "Copy to Clipboard Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Sub
 
