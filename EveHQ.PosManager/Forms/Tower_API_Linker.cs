@@ -48,7 +48,7 @@ namespace EveHQ.PosManager
         private void b_UnLink_Click(object sender, EventArgs e)
         {
             TreeNode pos;
-            POS pli;
+            New_POS pli;
 
             pos = tv_PoSList.SelectedNode;
             if (pos == null)
@@ -79,7 +79,7 @@ namespace EveHQ.PosManager
         private void b_LinkEm_Click(object sender, EventArgs e)
         {
             TreeNode pos, api;
-            POS pli;
+            New_POS pli;
             long itemID;
             APITowerData apid;
 
@@ -151,7 +151,7 @@ namespace EveHQ.PosManager
 
             tv_PoSList.Nodes.Clear();
             
-            foreach (POS pl in PlugInData.PDL.Designs.Values)
+            foreach (New_POS pl in PlugInData.PDL.Designs.Values)
             {
                 posName = pl.Name;
                 itemID = pl.itemID;
@@ -237,7 +237,7 @@ namespace EveHQ.PosManager
                     loc = "Unkown";
                 twrName = apid.towerName + " < " + loc + " >";
 
-                foreach (POS pl in PlugInData.PDL.Designs.Values)
+                foreach (New_POS pl in PlugInData.PDL.Designs.Values)
                 {
                     if (pl.itemID == apid.itemID)
                     {
@@ -251,77 +251,17 @@ namespace EveHQ.PosManager
                 mtn.Name = "Tower"+towerNum;
                 towerNum++;
 
-                if (apid.EnrUr > 0)
+                if (apid.Blocks > 0)
                 {
-                    tn = mtn.Nodes.Add("Enriched Uranium = " + String.Format("{0:0,0}", apid.EnrUr));
-                    tn.Name = "EnrUr";
-                    tn.Tag = apid.EnrUr;
-                }
-                if (apid.Oxygn > 0)
-                {
-                    tn = mtn.Nodes.Add("Oxygen = " + String.Format("{0:0,0}", apid.Oxygn));
-                    tn.Name = "Oxygn";
-                    tn.Tag = apid.Oxygn;
-                }
-                if (apid.MechP > 0)
-                {
-                    tn = mtn.Nodes.Add("Mechanical Parts = " + String.Format("{0:0,0}", apid.MechP));
-                    tn.Name = "MechP";
-                    tn.Tag = apid.MechP;
-                }
-                if (apid.Coolt > 0)
-                {
-                    tn = mtn.Nodes.Add("Coolant = " + String.Format("{0:0,0}", apid.Coolt));
-                    tn.Name = "Coolt";
-                    tn.Tag = apid.Coolt;
-                }
-                if (apid.Robot > 0)
-                { 
-                    tn = mtn.Nodes.Add("Robotics = " + String.Format("{0:0,0}", apid.Robot));
-                    tn.Name = "Robot";
-                    tn.Tag = apid.Robot;
-                }
-                if (apid.LiqOz > 0)
-                {
-                    tn = mtn.Nodes.Add("Liquid Ozone = " + String.Format("{0:0,0}", apid.LiqOz));
-                    tn.Name = "LiqOz";
-                    tn.Tag = apid.LiqOz;
-                }
-                if (apid.HvyWt > 0)
-                {
-                    tn = mtn.Nodes.Add("Heavy Water = " + String.Format("{0:0,0}", apid.HvyWt));
-                    tn.Name = "HvyWt";
-                    tn.Tag = apid.HvyWt;
+                    tn = mtn.Nodes.Add("Fuel Blocks = " + String.Format("{0:0,0}", apid.Blocks));
+                    tn.Name = "FuelBlocks";
+                    tn.Tag = apid.Blocks;
                 }
                 if (apid.Charters > 0)
                 {
                     tn = mtn.Nodes.Add("Faction Charters = " + String.Format("{0:0,0}", apid.Charters));
                     tn.Name = "Charters";
                     tn.Tag = apid.Charters;
-                }
-                if (apid.HeIso > 0)
-                {
-                    tn = mtn.Nodes.Add("Helium Isotopes = " + String.Format("{0:0,0}", apid.HeIso));
-                    tn.Name = "HeIso";
-                    tn.Tag = apid.HeIso;
-                }
-                if (apid.N2Iso > 0)
-                {
-                    tn = mtn.Nodes.Add("Nitrogen Isotopes = " + String.Format("{0:0,0}", apid.N2Iso));
-                    tn.Name = "N2Iso";
-                    tn.Tag = apid.N2Iso;
-                }
-                if (apid.H2Iso > 0)
-                {
-                    tn = mtn.Nodes.Add("Hydrogen Isotopes = " + String.Format("{0:0,0}", apid.H2Iso));
-                    tn.Name = "H2Iso";
-                    tn.Tag = apid.H2Iso;
-                }
-                if (apid.O2Iso > 0)
-                {
-                    tn = mtn.Nodes.Add("Oxygen Isotopes = " + String.Format("{0:0,0}", apid.O2Iso));
-                    tn.Name = "O2Iso";
-                    tn.Tag = apid.O2Iso;
                 }
                 if (apid.Stront > 0)
                 {

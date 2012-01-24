@@ -76,7 +76,7 @@ namespace EveHQ.PosManager
         public static ModuleListing ML = new ModuleListing();
         public static CategoryList CL = new CategoryList();
         public static SystemList SLs = new SystemList();
-        public static POSDesigns PDL = new POSDesigns();
+        public static New_Designs PDL = new New_Designs();
         public static SystemSovList SL = new SystemSovList();
         public static AllianceList AL = new AllianceList();
         public static API_List API_D = new API_List();                   // API Tower Listing (if it Exists)
@@ -91,7 +91,8 @@ namespace EveHQ.PosManager
         public static SortedList<long, string> CorpIDToName;
         public static SortedList<long, ModuleLink> ModuleLinks;           // modID, ModuleLink 
         public static SortedList<string, SortedList<string, SystemIHub>> iHubs; // corp name, iHub location, IHub
-        public static FuelBay BFStats;
+        public static FuelBay BFStats, FBMults;
+        public static TFuelBay BBStats;
         public static SortedList<string, throttlePlayer> ThrottleList;
         public static bool UpdateReactTime = false;
 
@@ -101,7 +102,7 @@ namespace EveHQ.PosManager
         public static ModuleLink LinkInProgress;
         public static LinkModule LMInProgress;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.99.2.3379";
+        public string LastCacheRefresh = "2.1.2";
         public static ManualResetEvent[] resetEvents;
         public static PoSManMainForm PMF = null;
         public static BackgroundWorker bgw_APIUpdate = new System.ComponentModel.BackgroundWorker();
@@ -162,6 +163,22 @@ namespace EveHQ.PosManager
             CorpIDToName = new SortedList<long, string>();
             iHubs = new SortedList<string, SortedList<string, SystemIHub>>();
             BFStats = new FuelBay();
+            FBMults = new FuelBay();
+            BBStats = new TFuelBay();
+
+            // Setup a feul bay object with multipliers to use for Fuel Block Qty calculations.
+            FBMults.Coolant.Qty = 8;
+            FBMults.EnrUran.Qty = 8;
+            FBMults.H2Iso.Qty = 400;
+            FBMults.HeIso.Qty = 400;
+            FBMults.O2Iso.Qty = 400;
+            FBMults.N2Iso.Qty = 400;
+            FBMults.MechPart.Qty = 4;
+            FBMults.Oxygen.Qty = 20;
+            FBMults.Robotics.Qty = 1;
+            FBMults.HvyWater.Qty = 150;
+            FBMults.LiqOzone.Qty = 150;
+
             ThrottleList = new SortedList<string, throttlePlayer>();
 
             _random = new Random(RandomSeed);
@@ -249,6 +266,7 @@ namespace EveHQ.PosManager
             foreach (Sov_Data sd in SLs.Systems.Values)
                 SystemIDToStr.Add((int)sd.systemID, sd.systemName);
 
+            LoadBFStatsFromDB();            // Load Base Fuel Stats
             PDL.LoadDesignListing();        // Load Tower Designs from Disk
             Config.LoadConfiguration();     // Load PoS Manager Configuration Information
             API_D.LoadAPIListing();         // Load Tower API Data from Disk
@@ -256,12 +274,24 @@ namespace EveHQ.PosManager
             NL.LoadNotificationList();      // Load Notifications
             LoadIHubListing();              // Load I-Hub data - if it exists
             LoadModuleLinkListFromDisk();   // Load Module Link List data
-            LoadBFStatsFromDB();            // Load Base Fuel Stats
             LoadSecurityListing();
             if (Config.data.Extra.Count <= 0)
                 Config.data.Extra.Add((int)400);
             if (Config.data.Extra.Count < 2)
                 Config.data.Extra.Add((int)0);
+
+            if (!UseSerializableData)
+            {
+                // Uncheck - force now un-used DG columns from being visible.
+                Config.data.dgMonBool[10] = false;
+                Config.data.dgMonBool[11] = false;
+                Config.data.dgMonBool[12] = false;
+                Config.data.dgMonBool[13] = false;
+                Config.data.dgMonBool[14] = false;
+                Config.data.dgMonBool[15] = false;
+                Config.data.dgMonBool[16] = false;
+                Config.SaveConfiguration();
+            }
             // 
             // bgw_APIUpdate
             // 
@@ -428,6 +458,15 @@ namespace EveHQ.PosManager
             BFStats.Strontium.QtyVol = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[9]);
             BFStats.Strontium.Cost = Convert.ToDecimal(fuelData.Tables[0].Rows[0].ItemArray[11]);
             BFStats.Strontium.itemID = "16275";
+
+            // Here is where I would get information on Fuel Blocks - if it existed in the DB yet. For now - hard code it
+            BBStats.Blocks.Name = "Fuel Blocks";
+            BBStats.Blocks.BaseVol = 5;
+            BBStats.Blocks.QtyVol = 1;
+            BBStats.Blocks.BaseQty = 1;
+            BBStats.Blocks.APIPerQty = 1;
+            BBStats.Blocks.Cost = 1000;
+            BBStats.Blocks.itemID = "0";
         }
 
         private void UdateMonitorInformation(object sender, EventArgs e)
@@ -612,7 +651,7 @@ namespace EveHQ.PosManager
             long fillV = 0, modID;
             ArrayList fills = new ArrayList();
             StringBuilder strHTML = new StringBuilder();
-            POS p;
+            New_POS p;
 
              // Get corret POS Object
             p = PDL.Designs[ActiveReactTower];
@@ -690,7 +729,7 @@ namespace EveHQ.PosManager
             bool fInp, fOutp;
             decimal xfIn, xfOut;
 
-            foreach (POS p in PDL.Designs.Values)
+            foreach (New_POS p in PDL.Designs.Values)
             {
                 foreach (Module m in p.Modules)
                 {
@@ -794,7 +833,7 @@ namespace EveHQ.PosManager
             StringBuilder reactHTML = new StringBuilder();
             StringBuilder siloHTML = new StringBuilder();
             string line, CapText;
-            POS p;
+            New_POS p;
 
             SetModuleWarnOnValueAndTime();
             // Get corret POS Object
@@ -852,14 +891,14 @@ namespace EveHQ.PosManager
             APITowerData apid;
             ArrayList ReactRet;
             StringBuilder strHTML = new StringBuilder();
-            List<POS> sorted = new List<POS>();
+            List<New_POS> sorted = new List<New_POS>();
             DateTime cTim, ref_TM, now;
             TimeSpan diffT;
             bool reinf = false;
             decimal ReactTime;
 
             SetModuleWarnOnValueAndTime();
-            foreach (POS p in PDL.Designs.Values)
+            foreach (New_POS p in PDL.Designs.Values)
             {
                 if (p.Monitored)
                 {
@@ -867,8 +906,8 @@ namespace EveHQ.PosManager
                 }
             }
 
-            sorted.Sort(delegate(POS p1, POS p2) { return p1.PosTower.F_RunTime.CompareTo(p2.PosTower.F_RunTime); });
-            foreach (POS p in sorted)
+            sorted.Sort(delegate(New_POS p1, New_POS p2) { return p1.PosTower.Data["F_RunTime"].CompareTo(p2.PosTower.Data["F_RunTime"]); });
+            foreach (New_POS p in sorted)
             {
                 // Put a blank line between each tower
                 strHTML.Append("<br>");
@@ -934,12 +973,12 @@ namespace EveHQ.PosManager
                 strHTML.Append("<tr>");
                 strHTML.Append("<table border=\"1\" bordercolor=\"#666666\" style=\"background-color:#000000\" width=\"100%\" cellpadding=\"1\" cellspacing=\"1\">");
 
-                if (p.PosTower.F_RunTime < 24)
-                    strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"red\">Run: " + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "</font></td>");
-                else if (p.PosTower.F_RunTime < 48)
-                    strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"gold\">Run: " + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "</font></td>");
+                if (p.PosTower.Data["F_RunTime"] < 24)
+                    strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"red\">Run: " + ConvertHoursToTextDisplay(p.PosTower.Data["F_RunTime"]) + "</font></td>");
+                else if (p.PosTower.Data["F_RunTime"] < 48)
+                    strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"gold\">Run: " + ConvertHoursToTextDisplay(p.PosTower.Data["F_RunTime"]) + "</font></td>");
                 else
-                    strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"lime\">Run: " + ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "</font></td>");
+                    strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"lime\">Run: " + ConvertHoursToTextDisplay(p.PosTower.Data["F_RunTime"]) + "</font></td>");
 
                 if (reinf)
                     strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"red\">Out at: " + refStr + " Eve Time</font></td>");
@@ -953,8 +992,8 @@ namespace EveHQ.PosManager
                 else
                     strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"red\">State: " + p.PosTower.State + "</font></td>");
 
-                strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"cyan\">CPU: " + String.Format("{0:#,0.#}", p.PosTower.CPU_Used) + "</font></td>");
-                strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"orange\">Power: " + String.Format("{0:#,0.#}", p.PosTower.Power_Used) + "</font></td>");
+                strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"cyan\">CPU: " + String.Format("{0:#,0.#}", p.PosTower.Data["CPU_Used"]) + "</font></td>");
+                strHTML.Append("<td width=\"20%\"><font size=\"2\" color=\"orange\">Power: " + String.Format("{0:#,0.#}", p.PosTower.Data["Power_Used"]) + "</font></td>");
              
                 if (ReactTime < 6)
                     strHTML.Append("<tr><td width=\"20%\"><a href=/PosManager/RMNG/" + linkName + "/><font size=\"2\" color=\"red\">Rection Run: " + ReactRet[1].ToString() + "</font></a></td>");
@@ -1240,8 +1279,8 @@ namespace EveHQ.PosManager
             string vol;
             decimal vlm, sov_mod, totVol = 0;
             string tower, line, twrnospc;
-            POS p;
-            FuelBay sfb = new FuelBay();
+            New_POS p;
+            TFuelBay sfb = new TFuelBay();
             string[,] fVal;
 
             tower = context.Request.Url.AbsolutePath;
@@ -1258,8 +1297,8 @@ namespace EveHQ.PosManager
             vlm = Convert.ToDecimal(vol);
             sfb = p.ComputeMaxPosRunForVolume(vlm);
             sfb.SetCurrentFuelVolumes();
-            sfb.SetFuelRunTimes(p.PosTower.CPU, p.PosTower.CPU_Used, p.PosTower.Power, p.PosTower.Power_Used, sov_mod);
-            p.PosTower.Fuel.SetFuelRunTimes(p.PosTower.CPU, p.PosTower.CPU_Used, p.PosTower.Power, p.PosTower.Power_Used, sov_mod);
+            sfb.SetFuelRunTimes(sov_mod);
+            p.PosTower.Fuel.SetFuelRunTimes(sov_mod);
             fVal = sfb.GetFuelAmountsAndBayTotals(p, sov_mod);
 
             StringBuilder strHTML = new StringBuilder();
@@ -1282,21 +1321,9 @@ namespace EveHQ.PosManager
             strHTML.Append("<td width=\"100\" align=\"center\"><b><font size=\"2\" color=\"blue\">Final Run Tm</font></b></td>");
             strHTML.Append("</tr>");
 
-            for (int x = 0; x < 12; x++)
+            for (int x = 0; x < 2; x++)
             {
-                if ((!p.UseChart) && (x == 11))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.N2Iso.Name == "") && (x == 7))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.HeIso.Name == "") && (x == 5))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.H2Iso.Name == "") && (x == 6))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.O2Iso.Name == "") && (x == 8))
+                if ((!p.UseChart) && (x == 1))
                     continue;
 
                 strHTML.Append("<tr>");
@@ -1329,8 +1356,8 @@ namespace EveHQ.PosManager
         {
             decimal sov_mod, period, totVol = 0;
             string tower, line, twrnospc;
-            POS p;
-            FuelBay sfb = new FuelBay();
+            New_POS p;
+            TFuelBay sfb = new TFuelBay();
             string[,] fVal;
 
             StringBuilder strHTML = new StringBuilder();
@@ -1347,7 +1374,7 @@ namespace EveHQ.PosManager
 
             period = p.ComputePosFuelUsageForFillTracking(4, 99999, Config.data.FuelCosts);
 
-            sfb = new FuelBay(PDL.Designs[tower].PosTower.T_Fuel);
+            sfb = new TFuelBay(PDL.Designs[tower].PosTower.T_Fuel);
             sfb.SetCurrentFuelVolumes();
             sfb.SetCurrentFuelCosts(PlugInData.Config.data.FuelCosts);
             fVal = sfb.GetFuelBayAndBurnTotals(p, sov_mod);
@@ -1372,21 +1399,9 @@ namespace EveHQ.PosManager
             strHTML.Append("<td width=\"100\" align=\"center\"><b><font size=\"2\" color=\"blue\">Fill Run Tm</font></b></td>");
             strHTML.Append("</tr>");
 
-            for (int x = 0; x < 13; x++)
+            for (int x = 0; x < 3; x++)
             {
-                if ((!p.UseChart) && (x == 11))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.N2Iso.Name == "") && (x == 7))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.HeIso.Name == "") && (x == 5))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.H2Iso.Name == "") && (x == 6))
-                    continue;
-
-                if ((p.PosTower.T_Fuel.O2Iso.Name == "") && (x == 8))
+                if ((!p.UseChart) && (x == 1))
                     continue;
 
                 strHTML.Append("<tr>");
@@ -1448,7 +1463,7 @@ namespace EveHQ.PosManager
 
                 switch (type)
                 {
-                    case 0:         // POS - View
+                    case 0:         // New_POS - View
                         foreach (IGBSecurity igbS in POSSecList)
                         {
                             if (!igbS.Active)
@@ -1614,7 +1629,7 @@ namespace EveHQ.PosManager
             decimal qty, cpu = 0, pwr = 0;
             long tID, modID, lnkID, inpID, outID, XfrQ, XferV;
             Module nm;
-            POS p;
+            New_POS p;
             Reaction nr;
             MoonSiloReactMineral msr;
             ReactionLink rl;
@@ -1666,7 +1681,7 @@ namespace EveHQ.PosManager
                         return strHTML.ToString();
                     }
                     else
-                        p.PosTower = new Tower(TL.Towers[tID]);
+                        p.PosTower = new New_Tower(TL.Towers[tID]);
             }
 
             // Modules
@@ -3465,7 +3480,7 @@ namespace EveHQ.PosManager
             return retVal;
         }
 
-        public static ArrayList GetLongestSiloRunTime(POS p)
+        public static ArrayList GetLongestSiloRunTime(New_POS p)
         {
             decimal runT = 9999999999999999;
             string rText, rName = "";

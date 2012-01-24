@@ -33,10 +33,10 @@ using System.Collections.Generic;
 namespace EveHQ.PosManager
 {
     [Serializable]
-    public class POS
+    public class New_POS
     {
         // For NEW data variable additions, go to: UpdatePOSDesignData in POSDesigns.cs for load time addition and setup
-        public Tower PosTower;
+        public New_Tower PosTower;
         public ArrayList Modules;
         public DateTime Fuel_TS, Stront_TS, API_TS, React_TS;
         public ArrayList Extra;
@@ -51,9 +51,9 @@ namespace EveHQ.PosManager
         public string Owner, FuelTech;
         public decimal ownerID, fuelTechID;
     
-        public POS()
+        public New_POS()
         {
-            PosTower = new Tower();
+            PosTower = new New_Tower();
             Name = "";
             System = "";
             CorpName = "";
@@ -78,9 +78,9 @@ namespace EveHQ.PosManager
             ReactionLinks = new ArrayList();
         }
 
-        public POS(string nm)
+        public New_POS(string nm)
         {
-            PosTower = new Tower();
+            PosTower = new New_Tower();
             Name = nm;
             System = "";
             CorpName = "";
@@ -105,9 +105,50 @@ namespace EveHQ.PosManager
             ReactionLinks = new ArrayList();
         }
 
-        public POS(POS p)
+        public New_POS(POS p)
         {
-            PosTower = new Tower(p.PosTower);
+            PosTower = new New_Tower(p.PosTower);
+            Name = p.Name;
+            System = p.System;
+            CorpName = p.CorpName;
+            Moon = p.Moon;
+            itemID = p.itemID;
+            locID = p.locID;
+            corpID = p.corpID;
+            Owner = p.Owner;
+            FuelTech = p.FuelTech;
+            ownerID = p.ownerID;
+            fuelTechID = p.fuelTechID;
+            SovLevel = p.SovLevel;
+
+            Modules = new ArrayList();
+            foreach (Module m in p.Modules)
+                Modules.Add(new Module(m));
+
+            Monitored = p.Monitored;
+            Fuel_TS = p.Fuel_TS;
+            Stront_TS = p.Stront_TS;
+            API_TS = p.API_TS;
+            React_TS = p.React_TS;
+            Extra = new ArrayList();
+            foreach (Object o in p.Extra)
+                Extra.Add(o);
+
+            FillCheck = p.FillCheck;
+            UseChart = p.UseChart;
+            if (p.ReactionLinks != null)
+            {
+                ReactionLinks = new ArrayList();
+                foreach (ReactionLink rl in p.ReactionLinks)
+                    ReactionLinks.Add(new ReactionLink(rl));
+            }
+            else
+                ReactionLinks = new ArrayList();
+        }
+
+        public New_POS(New_POS p)
+        {
+            PosTower = new New_Tower(p.PosTower);
             Name = p.Name;
             System = p.System;
             CorpName = p.CorpName;
@@ -146,9 +187,9 @@ namespace EveHQ.PosManager
                 ReactionLinks = new ArrayList();
         }
 
-        public POS(string nm, POS p)
+        public New_POS(string nm, New_POS p)
         {
-            PosTower = new Tower(p.PosTower);
+            PosTower = new New_Tower(p.PosTower);
             Name = nm;
             System = p.System;
             CorpName = p.CorpName;
@@ -189,7 +230,7 @@ namespace EveHQ.PosManager
 
         public void ClearAllPOSData()
         {
-            PosTower = new Tower();
+            PosTower = new New_Tower();
             Name = "";
             System = "";
             CorpName = "";
@@ -214,9 +255,9 @@ namespace EveHQ.PosManager
             ReactionLinks.Clear();
         }
 
-        public void CopyPOSData(POS p)
+        public void CopyPOSData(New_POS p)
         {
-            PosTower = new Tower(p.PosTower);
+            PosTower = new New_Tower(p.PosTower);
             Name = p.Name;
             System = p.System;
             CorpName = p.CorpName;
@@ -256,9 +297,9 @@ namespace EveHQ.PosManager
         }
 
         // Copy over new data and information, but do not copy over link or monitor state information.
-        public void ImportPOSData(POS p)
+        public void ImportPOSData(New_POS p)
         {
-            PosTower = new Tower(p.PosTower);
+            PosTower = new New_Tower(p.PosTower);
             System = p.System;
             CorpName = p.CorpName;
             Moon = p.Moon;
@@ -308,7 +349,7 @@ namespace EveHQ.PosManager
 
         public void RemoveTowerFromPOS()
         {
-            PosTower = new Tower();
+            PosTower = new New_Tower();
         }
 
         public decimal GetFuelRunTime(decimal qty, decimal pdQty)
@@ -323,7 +364,6 @@ namespace EveHQ.PosManager
         {
             decimal sov_mult;
 
-            // Note: After Dominion patch, this will be either 1.0 or 0.75
             if (SovLevel == 5)
                 sov_mult = 0.75M;
             else if (SovLevel == 0)
@@ -334,148 +374,140 @@ namespace EveHQ.PosManager
             return sov_mult;
         }
 
-        public void CalculatePOSFuelRunTime(API_List APIL, FuelBay fbay)
+        public void CalculatePOSFuelRunTime(API_List APIL, TFuelBay fbay)
         {
-            //string status;
-            //DateTime F_TimeStamp, S_TimeStamp, C_TimeStamp, A_TimeStamp;
-            //DateTime A_In_TimeStamp = DateTime.Now;
-            //TimeSpan D_TimeStamp, API_TimeSpan;
-            //APITowerData apid = new APITowerData();
-            //TFuelBay fb = new TFuelBay(PosTower.Fuel);
-            //ArrayList shortRun;
-            //long F_HourDiff = 0, S_HourDiff = 0;
-            //long F_DayDiff = 0, F_MinDiff = 0, S_DayDiff = 0, S_MinDiff = 0;
-            //decimal sov_mult;
+            string status;
+            DateTime F_TimeStamp, S_TimeStamp, C_TimeStamp, A_TimeStamp;
+            DateTime A_In_TimeStamp = DateTime.Now;
+            TimeSpan D_TimeStamp, API_TimeSpan;
+            APITowerData apid = new APITowerData();
+            TFuelBay fb = new TFuelBay(PosTower.Fuel);
+            ArrayList shortRun;
+            long F_HourDiff = 0, S_HourDiff = 0;
+            long F_DayDiff = 0, F_MinDiff = 0, S_DayDiff = 0, S_MinDiff = 0;
+            decimal sov_mult;
 
-            //sov_mult = GetSovMultiple();
+            sov_mult = GetSovMultiple();
+            if (PosTower.Fuel == null)
+                PosTower.Fuel = new TFuelBay();
 
-            //C_TimeStamp = DateTime.Now;
+            C_TimeStamp = DateTime.Now;
 
-            //// This function will calculate the fuel run times for the current POS.
-            //// Get Fuel calc start timestamp
-            //F_TimeStamp = Fuel_TS;
-            //S_TimeStamp = Stront_TS;
-            //A_TimeStamp = API_TS;
-            //status = PosTower.State;
+            // This function will calculate the fuel run times for the current POS.
+            // Get Fuel calc start timestamp
+            F_TimeStamp = Fuel_TS;
+            S_TimeStamp = Stront_TS;
+            A_TimeStamp = API_TS;
+            status = PosTower.State;
 
-            //// Get monitored POS Fuel Values - ie: Not the design time values
-            //if (itemID != 0)
-            //{
-            //    // LINKED POS
-            //    apid = APIL.GetAPIDataMemberForTowerID(itemID);
-            //    if ((apid == null) || (apid.curTime == null))
-            //        return;
+            // Get monitored POS Fuel Values - ie: Not the design time values
+            if (itemID != 0)
+            {
+                // LINKED POS
+                apid = APIL.GetAPIDataMemberForTowerID(itemID);
+                if ((apid == null) || (apid.curTime == null))
+                    return;
 
-            //    A_In_TimeStamp = Convert.ToDateTime(apid.curTime);
-            //    A_In_TimeStamp = TimeZone.CurrentTimeZone.ToLocalTime(A_In_TimeStamp);
+                A_In_TimeStamp = Convert.ToDateTime(apid.curTime);
+                A_In_TimeStamp = TimeZone.CurrentTimeZone.ToLocalTime(A_In_TimeStamp);
 
-            //    if (!A_TimeStamp.Equals(A_In_TimeStamp))
-            //    {
-            //        // POS is linked, API in tower is NOT Current, use new API Data
-            //        F_TimeStamp = A_In_TimeStamp;
-            //        S_TimeStamp = A_In_TimeStamp;
+                if (!A_TimeStamp.Equals(A_In_TimeStamp))
+                {
+                    // POS is linked, API in tower is NOT Current, use new API Data
+                    F_TimeStamp = A_In_TimeStamp;
+                    S_TimeStamp = A_In_TimeStamp;
 
-            //        //PosTower.Fuel.EnrUran.Qty = apid.EnrUr;
-            //        //PosTower.Fuel.Oxygen.Qty = apid.Oxygn;
-            //        //PosTower.Fuel.MechPart.Qty = apid.MechP;
-            //        //PosTower.Fuel.Coolant.Qty = apid.Coolt;
-            //        //PosTower.Fuel.Robotics.Qty = apid.Robot;
-            //        //PosTower.Fuel.HvyWater.Qty = apid.HvyWt;
-            //        //PosTower.Fuel.LiqOzone.Qty = apid.LiqOz;
-            //        //PosTower.Fuel.Charters.Qty = apid.Charters;
-            //        //PosTower.Fuel.N2Iso.Qty = apid.N2Iso;
-            //        //PosTower.Fuel.HeIso.Qty = apid.HeIso;
-            //        //PosTower.Fuel.H2Iso.Qty = apid.H2Iso;
-            //        //PosTower.Fuel.O2Iso.Qty = apid.O2Iso;
-            //        PosTower.Fuel.Strontium.Qty = apid.Stront;
+                    PosTower.Fuel.Blocks.Qty = apid.Blocks;
+                    PosTower.Fuel.Charters.Qty = apid.Charters;
+                    PosTower.Fuel.Strontium.Qty = apid.Stront;
 
-            //        API_TimeSpan = F_TimeStamp.Subtract(A_TimeStamp);
+                    API_TimeSpan = F_TimeStamp.Subtract(A_TimeStamp);
 
-            //        if (PosTower.Fuel.EnrUran.LastQty == 0)
-            //        {
-            //            PosTower.Fuel.SetLastFuelRead();
-            //        }
-            //        else
-            //        {
-            //            if ((API_TimeSpan.Hours > 1) || ((API_TimeSpan.Days > 0)))
-            //            {
-            //                // We have a data time difference of greater than 1 hour - just leave it alone
-            //                // and do not update the values.
-            //            }
-            //            else if ((API_TimeSpan.Hours == 1) && (API_TimeSpan.Minutes < 5))
-            //            {
-            //                // We only want to apply new data if it is reasonably close to 1 hour apart.
-            //                PosTower.Fuel.SetAPIFuelUsage(sov_mult);
-            //            }
-            //            else if ((API_TimeSpan.Minutes > 50) && (API_TimeSpan.Hours == 0))
-            //            {
-            //                // We only want to apply new data if it is reasonably close to 1 hour apart.
-            //                PosTower.Fuel.SetAPIFuelUsage(sov_mult);
-            //            }
-            //            PosTower.Fuel.SetLastFuelRead();
-            //        }
-            //        PosTower.T_Fuel.CopyLastAndAPI(PosTower.Fuel);
-            //        PosTower.A_Fuel.CopyLastAndAPI(PosTower.Fuel);
-            //        PosTower.D_Fuel.CopyLastAndAPI(PosTower.Fuel);
-            //    }
-            //}
+                    if (PosTower.Fuel.Blocks.LastQty == 0)
+                    {
+                        PosTower.Fuel.SetLastFuelRead();
+                    }
+                    else
+                    {
+                        if ((API_TimeSpan.Hours > 1) || ((API_TimeSpan.Days > 0)))
+                        {
+                            // We have a data time difference of greater than 1 hour - just leave it alone
+                            // and do not update the values.
+                        }
+                        else if ((API_TimeSpan.Hours == 1) && (API_TimeSpan.Minutes < 5))
+                        {
+                            // We only want to apply new data if it is reasonably close to 1 hour apart.
+                            PosTower.Fuel.SetAPIFuelUsage(sov_mult);
+                        }
+                        else if ((API_TimeSpan.Minutes > 50) && (API_TimeSpan.Hours == 0))
+                        {
+                            // We only want to apply new data if it is reasonably close to 1 hour apart.
+                            PosTower.Fuel.SetAPIFuelUsage(sov_mult);
+                        }
+                        PosTower.Fuel.SetLastFuelRead();
+                    }
+                    PosTower.T_Fuel.CopyLastAndAPI(PosTower.Fuel);
+                    PosTower.A_Fuel.CopyLastAndAPI(PosTower.Fuel);
+                    PosTower.D_Fuel.CopyLastAndAPI(PosTower.Fuel);
+                }
+            }
 
-            //// Determine the difference in time between the Timestamp values, and current time
-            //D_TimeStamp = C_TimeStamp.Subtract(F_TimeStamp);
-            //F_HourDiff = D_TimeStamp.Hours;
-            //F_DayDiff = D_TimeStamp.Days;
-            //F_MinDiff = D_TimeStamp.Minutes;
-            //F_HourDiff += F_DayDiff * 24;
-            //D_TimeStamp = C_TimeStamp.Subtract(S_TimeStamp);
-            //S_HourDiff = D_TimeStamp.Hours;
-            //S_DayDiff = D_TimeStamp.Days;
-            //S_MinDiff = D_TimeStamp.Minutes;
-            //S_HourDiff += S_DayDiff * 24;
+            // Determine the difference in time between the Timestamp values, and current time
+            D_TimeStamp = C_TimeStamp.Subtract(F_TimeStamp);
+            F_HourDiff = D_TimeStamp.Hours;
+            F_DayDiff = D_TimeStamp.Days;
+            F_MinDiff = D_TimeStamp.Minutes;
+            F_HourDiff += F_DayDiff * 24;
+            D_TimeStamp = C_TimeStamp.Subtract(S_TimeStamp);
+            S_HourDiff = D_TimeStamp.Hours;
+            S_DayDiff = D_TimeStamp.Days;
+            S_MinDiff = D_TimeStamp.Minutes;
+            S_HourDiff += S_DayDiff * 24;
 
-            //if (status == "Offline")
-            //{
-            //    F_HourDiff = 0;
-            //    S_HourDiff = 0;
-            //}
-            //else if (status == "Reinforced")
-            //{
-            //    if (S_HourDiff > 0)
-            //    {
-            //        // At least 1 hour has expired, so we can reset the timestamp
-            //        Stront_TS = C_TimeStamp.Subtract(TimeSpan.FromMinutes(S_MinDiff));
-            //    }
-            //    // Tower is in Reinforced mode, Compute Strontium Run Time
-            //    // A reinforced tower consumes ALL stront for reinforce time at the moment it enters
-            //    // reinforced mode.
-            //    // PosTower.Fuel.DecrementStrontQtyForPeriod(S_HourDiff, sov_mult);
-            //}
+            if (status == "Offline")
+            {
+                F_HourDiff = 0;
+                S_HourDiff = 0;
+            }
+            else if (status == "Reinforced")
+            {
+                if (S_HourDiff > 0)
+                {
+                    // At least 1 hour has expired, so we can reset the timestamp
+                    Stront_TS = C_TimeStamp.Subtract(TimeSpan.FromMinutes(S_MinDiff));
+                }
+                // Tower is in Reinforced mode, Compute Strontium Run Time
+                // A reinforced tower consumes ALL stront for reinforce time at the moment it enters
+                // reinforced mode.
+                // PosTower.Fuel.DecrementStrontQtyForPeriod(S_HourDiff, sov_mult);
+            }
 
-            //Fuel_TS = F_TimeStamp;
-            //API_TS = A_In_TimeStamp;
+            Fuel_TS = F_TimeStamp;
+            API_TS = A_In_TimeStamp;
 
-            //if (F_HourDiff > 0)
-            //{
-            //    // At least 1 hour has expired, so we can reset the timestamp
-            //    Fuel_TS = C_TimeStamp.Subtract(TimeSpan.FromMinutes(F_MinDiff));
-            //}
+            if (F_HourDiff > 0)
+            {
+                // At least 1 hour has expired, so we can reset the timestamp
+                Fuel_TS = C_TimeStamp.Subtract(TimeSpan.FromMinutes(F_MinDiff));
+            }
 
-            //// Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-            //PosTower.Fuel.DecrementFuelQtyForPeriod(F_HourDiff, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+            // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
+            PosTower.Fuel.DecrementFuelQtyForPeriod(F_HourDiff, sov_mult, UseChart);
 
-            //// Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
-            //PosTower.Fuel.SetCurrentFuelVolumes();
+            // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
+            PosTower.Fuel.SetCurrentFuelVolumes();
 
-            //shortRun = PosTower.Fuel.GetShortestFuelRunTimeAndName(PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, sov_mult, UseChart);
+            shortRun = PosTower.Fuel.GetShortestFuelRunTimeAndName(sov_mult, UseChart);
 
-            //PosTower.F_RunTime = (decimal)shortRun[0];
-            //PosTower.Low_Fuel = (string)shortRun[1];
-            //PosTower.Fuel.SetCurrentFuelCosts(fbay);
-            //PosTower.Fuel.SetFuelRunTimes(PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, sov_mult);
+            PosTower.Data["F_RunTime"] = (decimal)shortRun[0];
+            PosTower.Low_Fuel = (string)shortRun[1];
+            PosTower.Fuel.SetCurrentFuelCosts(fbay);
+            PosTower.Fuel.SetFuelRunTimes(sov_mult);
         }
 
         public decimal ComputeMaxPosRunTimeForLoad()
         {
-            FuelBay fb = new FuelBay(PosTower.Fuel);
+            TFuelBay fb = new TFuelBay(PosTower.Fuel);
             decimal fuel_cap = 0;
             decimal period = 0;
             decimal sov_mult;
@@ -488,7 +520,7 @@ namespace EveHQ.PosManager
                 period++;
 
                 // Modify POS Fuel Numbers on amount (multiplicative)
-                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+                fb.SetFuelQtyForPeriod(period, sov_mult, UseChart);
 
                 // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
                 fb.SetCurrentFuelVolumes();
@@ -499,7 +531,7 @@ namespace EveHQ.PosManager
 
         public decimal ComputeMaxPosStrontTime()
         {
-            FuelBay fb = new FuelBay(PosTower.Fuel);
+            TFuelBay fb = new TFuelBay(PosTower.Fuel);
             decimal str_cap = 0;
             decimal period = 0;
             decimal sov_mult;
@@ -521,88 +553,78 @@ namespace EveHQ.PosManager
             return (period - 1);
         }
         
-        public void CalculatePOSDesignFuelValues(FuelBay fb)
+        public void CalculatePOSDesignFuelValues(TFuelBay fb)
         {
             decimal period, s_period, maxPer;
             decimal sov_mult;
 
             sov_mult = GetSovMultiple();
             maxPer = ComputeMaxPosRunTimeForLoad();
-            switch ((int)PosTower.Design_Interval)
+            switch ((int)PosTower.Data["Design_Interval"])
             {
                 case 0: // Hours
-                    period = PosTower.Design_Int_Qty;
+                    period = PosTower.Data["Design_Interval_Qty"];
                     if (period > maxPer)
                         period = maxPer;
                     // Adjust quantity if needed for max stability
-                    PosTower.Design_Int_Qty = period;
+                    PosTower.Data["Design_Interval_Qty"] = period;
                     break;
                 case 1: // Days
-                    period = PosTower.Design_Int_Qty * 24;
+                    period = PosTower.Data["Design_Interval_Qty"] * 24;
                     if (period > maxPer)
                         period = maxPer;
                     // Adjust quantity if needed for max stability
-                    PosTower.Design_Int_Qty = Math.Floor(period/24);
+                    PosTower.Data["Design_Interval_Qty"] = Math.Floor(period / 24);
                     break;
                 case 2: // Weeks
-                    period = PosTower.Design_Int_Qty * 24 * 7;
+                    period = PosTower.Data["Design_Interval_Qty"] * 24 * 7;
                     if (period > maxPer)
                         period = maxPer;
                     // Adjust quantity if needed for max stability
-                    PosTower.Design_Int_Qty = Math.Floor(period / (24*7));
+                    PosTower.Data["Design_Interval_Qty"] = Math.Floor(period / (24 * 7));
                     break;
                 case 3: // Maximum Run
                     period = maxPer;
                     // Adjust quantity if needed for max stability
-                    PosTower.Design_Int_Qty = period;
+                    PosTower.Data["Design_Interval_Qty"] = period;
                     break;
                 default:
                     period = 1;
                     break;
             }
 
-            s_period = PosTower.Design_Stront_Qty;
+            s_period = PosTower.Data["Design_Stront_Qty"];
 
             // Determine actual CPU and POWER Fuel qty #s based upon CPU and Power usage of design
-            PosTower.D_Fuel.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+            PosTower.D_Fuel.SetFuelQtyForPeriod(period, sov_mult, UseChart);
             PosTower.D_Fuel.SetStrontQtyForPeriod(s_period, sov_mult);
           
             // Set Fuel Run Times
-            PosTower.D_Fuel.EnrUran.RunTime = period;
-            PosTower.D_Fuel.Oxygen.RunTime = period;
-            PosTower.D_Fuel.MechPart.RunTime = period;
-            PosTower.D_Fuel.Coolant.RunTime = period;
-            PosTower.D_Fuel.Robotics.RunTime = period;
-            PosTower.D_Fuel.HvyWater.RunTime = period;
-            PosTower.D_Fuel.LiqOzone.RunTime = period;
+            PosTower.D_Fuel.Blocks.RunTime = period;
             PosTower.D_Fuel.Charters.RunTime = period;
-            PosTower.D_Fuel.N2Iso.RunTime = period;
-            PosTower.D_Fuel.HeIso.RunTime = period;
-            PosTower.D_Fuel.H2Iso.RunTime = period;
-            PosTower.D_Fuel.O2Iso.RunTime = period;
             PosTower.D_Fuel.Strontium.RunTime = s_period;
 
             // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
             PosTower.D_Fuel.SetCurrentFuelVolumes();
-            //PosTower.D_Fuel.SetCurrentFuelCosts(fb);
+            PosTower.D_Fuel.SetCurrentFuelCosts(fb);
         }
 
-        public void CalculatePOSAdjustRunTime(FuelBay fbay, FuelBay nud_fuel)
+        public void CalculatePOSAdjustRunTime(TFuelBay fbay, TFuelBay nud_fuel)
         {
             decimal sov_mult;
 
-            PosTower.A_Fuel = new FuelBay(PosTower.Fuel);
+            PosTower.A_Fuel = new TFuelBay(PosTower.Fuel);
 
             sov_mult = GetSovMultiple();
 
             PosTower.A_Fuel.SetFuelQty(nud_fuel);
 
             // Compute Fuel Run Times
-            PosTower.A_Fuel.SetFuelRunTimes(PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, sov_mult);
+            PosTower.A_Fuel.SetFuelRunTimes(sov_mult);
 
             // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
             PosTower.A_Fuel.SetCurrentFuelVolumes();
-            //PosTower.A_Fuel.SetCurrentFuelCosts(fbay);
+            PosTower.A_Fuel.SetCurrentFuelCosts(fbay);
         }
 
         public decimal ComputeMaxPosRunTimeForPeriod(decimal per)
@@ -610,7 +632,7 @@ namespace EveHQ.PosManager
             decimal fuel_use = 0, fuel_cap = 0;
             decimal period = 0;
             decimal sov_mult;
-            FuelBay fb = new FuelBay(PosTower.D_Fuel);
+            TFuelBay fb = new TFuelBay(PosTower.D_Fuel);
 
             sov_mult = GetSovMultiple();
 
@@ -620,7 +642,7 @@ namespace EveHQ.PosManager
             {
                 period++;
 
-                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+                fb.SetFuelQtyForPeriod(period, sov_mult, UseChart);
                 fb.SetCurrentFuelVolumes();
 
                 // Calculate Fuel Bay Volume (and Stront) based on Individual Fuel Volumes.
@@ -630,13 +652,13 @@ namespace EveHQ.PosManager
             return (period - 1);
         }
 
-        public FuelBay ComputeMaxPosRunForVolume(decimal vol)
+        public TFuelBay ComputeMaxPosRunForVolume(decimal vol)
         {
             decimal fuel_use = 0, fuel_cap = 0;
             decimal period = 0;
             decimal sov_mult;
-            FuelBay fb = new FuelBay(PosTower.D_Fuel);
-            FuelBay retFB = new FuelBay();
+            TFuelBay fb = new TFuelBay(PosTower.D_Fuel);
+            TFuelBay retFB = new TFuelBay();
 
             sov_mult = GetSovMultiple();
 
@@ -646,7 +668,7 @@ namespace EveHQ.PosManager
             {
                 period++;
 
-                fb.SetFuelQtyForPeriod(period, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+                fb.SetFuelQtyForPeriod(period, sov_mult, UseChart);
                 fb.SubtractZeroMin(PosTower.Fuel);
                 fb.SetCurrentFuelVolumes();
 
@@ -655,7 +677,7 @@ namespace EveHQ.PosManager
 
                 if (fuel_use <= vol)
                 {
-                    retFB = new FuelBay(fb);
+                    retFB = new TFuelBay(fb);
                     retFB.Extra = new ArrayList();
                     retFB.Extra.Add(period);
                 }
@@ -664,7 +686,7 @@ namespace EveHQ.PosManager
             return retFB;
         }
 
-        public decimal ComputePosFuelUsageForFillTracking(long period, decimal value, FuelBay fb)
+        public decimal ComputePosFuelUsageForFillTracking(long period, decimal value, TFuelBay fb)
         {
             decimal run_time, run_perd;
             decimal sov_mult;
@@ -701,9 +723,9 @@ namespace EveHQ.PosManager
 
             // 3. Compute fuel vols, etc for the period
             if (PosTower.T_Fuel == null)
-                PosTower.T_Fuel = new FuelBay();
+                PosTower.T_Fuel = new TFuelBay();
 
-            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, UseChart);
             PosTower.T_Fuel.SetStrontQtyForPeriodOrMax(run_time, sov_mult);
 
             // Modify numbers based upon current bay quantities
@@ -713,12 +735,12 @@ namespace EveHQ.PosManager
             PosTower.T_Fuel.SetCurrentFuelVolumes();
 
             // Set the Fuel Bay Costs
-            //PosTower.T_Fuel.SetCurrentFuelCosts(fb);
+            PosTower.T_Fuel.SetCurrentFuelCosts(fb);
 
             return run_time;
         }
 
-        public decimal ComputePosFuelNeedForFillTracking(long period, decimal value, FuelBay fb)
+        public decimal ComputePosFuelNeedForFillTracking(long period, decimal value, TFuelBay fb)
         {
             decimal run_time, run_perd;
             decimal sov_mult;
@@ -755,9 +777,9 @@ namespace EveHQ.PosManager
 
             // 3. Compute fuel vols, etc for the period
             if (PosTower.T_Fuel == null)
-                PosTower.T_Fuel = new FuelBay();
+                PosTower.T_Fuel = new TFuelBay();
 
-            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, PosTower.CPU, PosTower.CPU_Used, PosTower.Power, PosTower.Power_Used, UseChart);
+            PosTower.T_Fuel.SetFuelQtyForPeriod(run_time, sov_mult, UseChart);
             PosTower.T_Fuel.SetStrontQtyForPeriodOrMax(run_time, sov_mult);
 
             // Modify numbers based upon current bay quantities
@@ -767,7 +789,7 @@ namespace EveHQ.PosManager
             PosTower.T_Fuel.SetCurrentFuelVolumes();
 
             // Set the Fuel Bay Costs
-            //PosTower.T_Fuel.SetCurrentFuelCosts(fb);
+            PosTower.T_Fuel.SetCurrentFuelCosts(fb);
 
             return run_time;
         }

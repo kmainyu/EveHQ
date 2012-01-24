@@ -35,12 +35,12 @@ namespace EveHQ.PosManager
     [Serializable]
     public class TowerListing
     {
-        public SortedList<long, Tower> Towers;
+        public SortedList<long, New_Tower> Towers;
         public DataSet invTypeData, towerStatData, towerFuelData;
 
         public TowerListing()
         {
-            Towers = new SortedList<long, Tower>();
+            Towers = new SortedList<long, New_Tower>();
         }
 
         private void GetItemData(long typeID, long groupID)
@@ -112,22 +112,23 @@ namespace EveHQ.PosManager
 
         private void PlaceDataIntoTowerList()
         {
-            Tower nt;
+            New_Tower nt;
             DataRow row;
             long numItem;
             string extL = "";
             string extT = "";
             double timVal;
-            nt = new Tower();
+            decimal bQty = 40;
+            nt = new New_Tower();
 
             // Place data into the data table
             nt.Name = invTypeData.Tables[0].Rows[0].ItemArray[2].ToString();
             nt.Desc = invTypeData.Tables[0].Rows[0].ItemArray[3].ToString();
             nt.typeID = Convert.ToInt64(invTypeData.Tables[0].Rows[0].ItemArray[0]);
             nt.groupID = Convert.ToInt64(invTypeData.Tables[0].Rows[0].ItemArray[1]);
-            nt.Capacity = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[8]);
-            nt.Volume = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[7]);
-            nt.Cost = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[11]);
+            nt.Data["Capacity"] = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[8]);
+            nt.Data["Volume"] = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[7]);
+            nt.Data["Cost"] = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[11]);
             nt.Category = "Control Tower";
 
             if (towerFuelData != null)
@@ -135,6 +136,7 @@ namespace EveHQ.PosManager
                 nt.Fuel.FuelCap = Convert.ToDecimal(invTypeData.Tables[0].Rows[0].ItemArray[8]);
 
                 // We are looking at a tower, parse out Fuel Information
+                // This is made more difficult as Fuel Blocks are not currently in the DB
                 numItem = towerFuelData.Tables[0].Rows.Count;
                 for (int x = 0; x < numItem; x++)
                 {
@@ -142,76 +144,6 @@ namespace EveHQ.PosManager
 
                     switch (Convert.ToInt64(row.ItemArray[1]))
                     {
-                        case 44:    // Enr Uranium
-                            nt.Fuel.EnrUran.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.EnrUran.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.EnrUran.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.EnrUran.PeriodQty = nt.Fuel.EnrUran.BaseQty;
-                            nt.Fuel.EnrUran.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.EnrUran.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.EnrUran.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.EnrUran.UsedFor = row.ItemArray[7].ToString();
-                            break;
-                        case 3683:  // Oxygen
-                            nt.Fuel.Oxygen.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.Oxygen.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.Oxygen.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.Oxygen.PeriodQty = nt.Fuel.Oxygen.BaseQty;
-                            nt.Fuel.Oxygen.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.Oxygen.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.Oxygen.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.Oxygen.UsedFor = row.ItemArray[7].ToString();
-                            break;
-                        case 3689:  // Mech Parts
-                            nt.Fuel.MechPart.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.MechPart.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.MechPart.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.MechPart.PeriodQty = nt.Fuel.MechPart.BaseQty;
-                            nt.Fuel.MechPart.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.MechPart.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.MechPart.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.MechPart.UsedFor = row.ItemArray[7].ToString();
-                            break;
-                        case 9832:  // Coolant
-                            nt.Fuel.Coolant.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.Coolant.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.Coolant.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.Coolant.PeriodQty = nt.Fuel.Coolant.BaseQty;
-                            nt.Fuel.Coolant.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.Coolant.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.Coolant.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.Coolant.UsedFor = row.ItemArray[7].ToString();
-                            break;
-                        case 9848:  // Robotics
-                            nt.Fuel.Robotics.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.Robotics.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.Robotics.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.Robotics.PeriodQty = nt.Fuel.Robotics.BaseQty;
-                            nt.Fuel.Robotics.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.Robotics.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.Robotics.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.Robotics.UsedFor = row.ItemArray[7].ToString();
-                            break;
-                        case 16272: // Heavy Water
-                            nt.Fuel.HvyWater.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.HvyWater.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.HvyWater.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.HvyWater.PeriodQty = nt.Fuel.HvyWater.BaseQty;
-                            nt.Fuel.HvyWater.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.HvyWater.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.HvyWater.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.HvyWater.UsedFor = row.ItemArray[7].ToString();
-                            break;
-                        case 16273: // Liquid Ozone
-                            nt.Fuel.LiqOzone.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.LiqOzone.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.LiqOzone.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.LiqOzone.PeriodQty = nt.Fuel.LiqOzone.BaseQty;
-                            nt.Fuel.LiqOzone.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.LiqOzone.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.LiqOzone.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.LiqOzone.UsedFor = row.ItemArray[7].ToString();
-                            break;
                         case 24592: // Charter
                         case 24593: // Charter
                         case 24594: // Charter
@@ -228,44 +160,32 @@ namespace EveHQ.PosManager
                             nt.Fuel.Charters.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 17888: // Nitrogen Isotopes
-                            nt.Fuel.N2Iso.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.N2Iso.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.N2Iso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.N2Iso.PeriodQty = nt.Fuel.N2Iso.BaseQty;
-                            nt.Fuel.N2Iso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.N2Iso.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.N2Iso.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.N2Iso.UsedFor = row.ItemArray[7].ToString();
+                            nt.Data["Req_Isotope"] = 1;   // N2 = 1, O2 = 2, He = 3, H2 = 4
+                            nt.Data["Block_Qty"] = Convert.ToDecimal(row.ItemArray[3]);
+                            bQty = nt.ComputeBlocksForTower(nt.Data["Block_Qty"]);
+                            nt.Fuel.Blocks.BaseQty = bQty;
+                            nt.Fuel.Blocks.PeriodQty = bQty;
                             break;
                         case 16274: // Helium Isotopes
-                            nt.Fuel.HeIso.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.HeIso.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.HeIso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.HeIso.PeriodQty = nt.Fuel.HeIso.BaseQty;
-                            nt.Fuel.HeIso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.HeIso.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.HeIso.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.HeIso.UsedFor = row.ItemArray[7].ToString();
+                            nt.Data["Req_Isotope"] = 3;   // N2 = 1, O2 = 2, He = 3, H2 = 4
+                            nt.Data["Block_Qty"] = Convert.ToDecimal(row.ItemArray[3]);
+                            bQty = nt.ComputeBlocksForTower(nt.Data["Block_Qty"]);
+                            nt.Fuel.Blocks.BaseQty = bQty;
+                            nt.Fuel.Blocks.PeriodQty = bQty;
                             break;
                         case 17889: // Hydrogen Isotopes
-                            nt.Fuel.H2Iso.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.H2Iso.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.H2Iso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.H2Iso.PeriodQty = nt.Fuel.H2Iso.BaseQty;
-                            nt.Fuel.H2Iso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.H2Iso.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.H2Iso.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.H2Iso.UsedFor = row.ItemArray[7].ToString();
+                            nt.Data["Req_Isotope"] = 4;   // N2 = 1, O2 = 2, He = 3, H2 = 4
+                            nt.Data["Block_Qty"] = Convert.ToDecimal(row.ItemArray[3]);
+                            bQty = nt.ComputeBlocksForTower(nt.Data["Block_Qty"]);
+                            nt.Fuel.Blocks.BaseQty = bQty;
+                            nt.Fuel.Blocks.PeriodQty = bQty;
                             break;
                         case 17887: // Oxygen Isotopes
-                            nt.Fuel.O2Iso.Name = row.ItemArray[10].ToString();
-                            nt.Fuel.O2Iso.itemID = row.ItemArray[1].ToString();
-                            nt.Fuel.O2Iso.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
-                            nt.Fuel.O2Iso.PeriodQty = nt.Fuel.O2Iso.BaseQty;
-                            nt.Fuel.O2Iso.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.O2Iso.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.O2Iso.Cost = Convert.ToDecimal(row.ItemArray[19]);
-                            nt.Fuel.O2Iso.UsedFor = row.ItemArray[7].ToString();
+                            nt.Data["Req_Isotope"] = 2;   // N2 = 1, O2 = 2, He = 3, H2 = 4
+                            nt.Data["Block_Qty"] = Convert.ToDecimal(row.ItemArray[3]);
+                            bQty = nt.ComputeBlocksForTower(nt.Data["Block_Qty"]);
+                            nt.Fuel.Blocks.BaseQty = bQty;
+                            nt.Fuel.Blocks.PeriodQty = bQty;
                             break;
                         case 16275: // Strontium
                             nt.Fuel.Strontium.Name = row.ItemArray[10].ToString();
@@ -293,16 +213,16 @@ namespace EveHQ.PosManager
                         nt.Struct.Amount = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 11:            // Power Grid - double
-                        nt.Power = GetDecimalFromVariableIA(row, 2, 3);
+                        nt.Data["Power"] = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 30:            // Power Need - double
-                        nt.Power_Used = GetDecimalFromVariableIA(row, 2, 3);
+                        nt.Data["Power_Used"] = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 48:            // CPU - double
-                        nt.CPU = GetDecimalFromVariableIA(row, 2, 3);
+                        nt.Data["CPU"] = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 50:            // CPU Need - double
-                        nt.CPU_Used = GetDecimalFromVariableIA(row, 2, 3);
+                        nt.Data["CPU_Used"] = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 263:           // Shield HP - float
                         nt.Shield.Amount = GetDecimalFromVariableIA(row, 2, 3);
@@ -327,26 +247,26 @@ namespace EveHQ.PosManager
                         nt.Shield.Extra.Add(extL);
                         break;
                     case 552:           // Signature Radius
-                        nt.SigRad = GetDecimalFromVariableIA(row, 2, 3);
+                        nt.Data["Sig_Radius"] = GetDecimalFromVariableIA(row, 2, 3);
                         break;
                     case 556:   // Anchor
                         timVal = GetDoubleFromVariableIA(row, 2, 3);
                         timVal = timVal / 1000; // convert ms to seconds
-                        nt.Anchor_Time = Convert.ToDecimal(timVal);
+                        nt.Data["Anchor_Time"] = Convert.ToDecimal(timVal);
                         break;
                     case 676:   // UnAnchor
                         timVal = GetDoubleFromVariableIA(row, 2, 3);
                         timVal = timVal / 1000; // convert ms to seconds
-                        nt.UnAnchor_Time = Convert.ToDecimal(timVal);
+                        nt.Data["UnAnchor_Time"] = Convert.ToDecimal(timVal);
                         break;
                     case 677:   // Online
                         timVal = GetDoubleFromVariableIA(row, 2, 3);
                         timVal = timVal / 1000; // convert ms to seconds
-                        nt.Online_Time = Convert.ToDecimal(timVal);
+                        nt.Data["Online_Time"] = Convert.ToDecimal(timVal);
                         break;
                     case 722:   // Tower Period
                         // Comes in as ms, convert to Minutes (60000ms per minute)
-                        nt.Cycle_Period = Convert.ToDecimal(GetDecimalFromVariableIA(row, 2, 3) / 60000);
+                        nt.Data["Cycle_Period"] = Convert.ToDecimal(GetDecimalFromVariableIA(row, 2, 3) / 60000);
                         break;
                     case 728:   // Laser Dmg Bonus
                         nt.Bonuses.LaserDmg = GetDoubleFromVariableIA(row, 2, 3);
@@ -485,9 +405,9 @@ namespace EveHQ.PosManager
                 }
             }
 
-            nt.D_Fuel = new FuelBay(nt.Fuel);
-            nt.A_Fuel = new FuelBay(nt.Fuel);
-            nt.T_Fuel = new FuelBay(nt.Fuel);
+            nt.D_Fuel = new TFuelBay(nt.Fuel);
+            nt.A_Fuel = new TFuelBay(nt.Fuel);
+            nt.T_Fuel = new TFuelBay(nt.Fuel);
 
             Towers.Add(nt.typeID, nt);
         }
@@ -576,7 +496,7 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    Towers = (SortedList<long, Tower>)myBf.Deserialize(cStr);
+                    Towers = (SortedList<long, New_Tower>)myBf.Deserialize(cStr);
                     cStr.Close();
                 }
                 catch

@@ -47,7 +47,7 @@ namespace EveHQ.PosManager
             int indx = 0;
 
             // Scroll through the list of POSes
-            foreach (POS pl in PlugInData.PDL.Designs.Values)
+            foreach (New_POS pl in PlugInData.PDL.Designs.Values)
             {
                 if (pl.Moon == "")
                     nam = pl.Name + " < " + pl.Moon + " >[ " + pl.CorpName + " ]";
@@ -77,7 +77,7 @@ namespace EveHQ.PosManager
                 chkd = clb_PosList.GetItemChecked(indx);
 
                 nm = clb_PosList.Items[indx].ToString();
-                foreach (POS pl in PlugInData.PDL.Designs.Values)
+                foreach (New_POS pl in PlugInData.PDL.Designs.Values)
                 {
                     if (pl.Moon == "")
                         nam = pl.Name + " < " + pl.Moon + " >[ " + pl.CorpName + " ]";
