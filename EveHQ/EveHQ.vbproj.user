@@ -18,7 +18,4 @@
     <ErrorReportUrlHistory>
     </ErrorReportUrlHistory>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>/local</StartArguments>
-  </PropertyGroup>
 </Project>
