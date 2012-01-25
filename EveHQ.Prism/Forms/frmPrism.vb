@@ -4014,7 +4014,7 @@ Public Class frmPrism
 
     Private Sub btnExportJournal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportJournal.Click
         'TODO: Update the called routine
-        'Call Me.GenerateCSVFileFromCLV("Wallet Journal", clvJournal)
+        Call Me.GenerateCSVFileFromCLV(cboJournalOwners.Text, "Wallet Journal", adtJournal)
     End Sub
 
     Private Sub btnExportJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportJobs.Click
