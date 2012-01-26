@@ -375,6 +375,7 @@
 12044,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 12044,1,12095,54,4,564;561,0,1,0,10,15,Small Hybrid Turret Range
 12044,1,12095,160,4,564;561,0,1,0,7.5,15,Small Hybrid Turret Tracking
+12044,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Eos,,,,,,,,,,,
 22442,1,12099,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 22442,1,12099,84,2,62,0,1,0,7.5,15,Armor Repair Amount
@@ -486,10 +487,12 @@
 11381,1,3330,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
 11381,1,12095,54,4,564;561,0,1,0,10,15,Small Hybrid Turret Range
 11381,1,12095,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
+11381,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Hawk,,,,,,,,,,,
 11379,1,3330,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,1,0,10,15,Kinetic Missile Damage
 11379,1,12095,68,2,40,0,1,0,7.5,15,Shield Booster Boost
 11379,1,12095,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,1,0,10,15,Missile Velocity
+11379,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Hel,,,,,,,,,,,
 22852,1,24314,54,4,1056,0,1,0,50,15,Capital Armor Transfer Range
 22852,1,24314,87,4,600,0,1,0,50,15,Capital Shield Transporter Range
@@ -577,6 +580,7 @@
 12042,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 12042,1,12095,54,4,564;561,0,1,0,10,15,Small Hybrid Turret Range
 12042,1,12095,283,1,12042,0,1,1,5,15,Drone Bay Capacity
+12042,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Ishtar,,,,,,,,,,,
 12005,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 12005,1,3332,263,3,18,0,1,0,10,15,Drone Shield HP
@@ -604,6 +608,7 @@
 11400,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11400,1,12095,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11400,1,12095,54,4,574;577,0,1,0,10,15,Small Projectile Turret Optimal Range
+11400,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Keres,,,,,,,,,,,
 11174,1,3328,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
 11174,1,3328,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
@@ -997,6 +1002,7 @@
 11393,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
 11393,1,12095,54,4,567;570,0,1,0,10,15,Small Energy Turret Optimal Range
 11393,1,12095,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
+11393,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Retriever,,,,,,,,,,,
 17478,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
 # Revelation,,,,,,,,,,,
@@ -1244,6 +1250,7 @@
 11365,1,12095,269,1,11365,0,1,2,-5,15,Armor Kinetic Resistance
 11365,1,12095,270,1,11365,0,1,2,-5,15,Armor Thermal Resistance
 11365,1,12095,55,1,11365,0,1,0,-5,15,Capacitor Recharge Rate
+11365,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Vexor,,,,,,,,,,,
 626,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 626,1,3332,263,3,18,0,1,0,10,15,Drone Shield HP
@@ -1298,6 +1305,7 @@
 11371,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11371,1,12095,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11371,1,12095,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
+11371,0,0,554,2,46,0,1,0,-50,15,MWD Signature Radius Penalty
 # Worm,,,,,,,,,,,
 17930,0,0,37,2,387;648;384;653;394,0,0,0,50,15,"Rocket, Light Missile Velocity"
 17930,1,3330,271,1,17930,0,1,2,-5,15,Shield EM Resistance
