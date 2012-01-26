@@ -892,7 +892,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=2.5.0.3748, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=2.5.0.3750, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_CA7D0E7C08CB9F6B17CEB39E3825E690"
@@ -923,7 +923,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=2.5.0.3748, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=2.5.0.3750, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_DAE4CC2B236566AE419D7A39CA2939D7"
@@ -1005,7 +1005,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.EveAPI, Version=2.5.0.3748, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.EveAPI, Version=2.5.0.3750, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E795E7400EDB6AE1AB92D5E9655B5734"
@@ -1036,7 +1036,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ, Version=2.5.0.3748, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ, Version=2.5.0.3750, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_EBE1F7CF44DF21E4EC59B60BFCDB9E5B"
@@ -1184,7 +1184,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
         "ProductCode" = "8:{74E3508A-7352-4738-934F-C1AAF25616CF}"
-        "PackageCode" = "8:{D88179BD-E235-466C-AA72-7FCDCDFD6BCA}"
+        "PackageCode" = "8:{FA40AF05-EE42-4007-AC30-19E948899F74}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
