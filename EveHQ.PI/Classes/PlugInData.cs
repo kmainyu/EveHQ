@@ -584,7 +584,7 @@ namespace EveHQ.PI
 
             switch (rsrc)
             {
-                case "Micro Organisms":
+                case "Microorganisms":
                     retList.Add("Barren");
                     retList.Add("Ice");
                     retList.Add("Oceanic");
