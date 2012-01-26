@@ -1024,6 +1024,10 @@
 1202,1,4294,73,2,585,0,0,0,4,Remote Hull Repair Duration Bonus
 1203,1,4294,90,2,67,0,0,0,4,Energy Transfer Bonus
 1204,1,4294,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
+1802,1,4294,6,2,41,0,0,0,4,Shield Transporter Cap Use
+1802,1,4294,6,2,325,0,0,0,4,Remote Armor Repair Cap Use
+1802,1,4294,6,2,585,0,0,0,4,Remote Hull Repair Cap Use
+1802,1,4294,6,2,67,0,0,0,4,Energy Transfer Cap Use
 # Tracking Computers,,,,,,,,,,
 349,2,213,158,2,55;53;74,1,0,0,4,Falloff
 351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
