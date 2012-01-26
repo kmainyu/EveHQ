@@ -1,6 +1,6 @@
 // ========================================================================
 // EveHQ - An Eve-Online™ character assistance application
-// Copyright © 2005-2011  EveHQ Development Team
+// Copyright © 2005-2012  EveHQ Development Team
 // 
 // This file is part of EveHQ.
 //
@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("EveHQ.PosManager")]
-[assembly: AssemblyCopyright("Copyright © 2010")]
+[assembly: AssemblyCopyright("Copyright © 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

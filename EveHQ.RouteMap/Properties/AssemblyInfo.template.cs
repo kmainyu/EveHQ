@@ -1,6 +1,6 @@
 // ========================================================================
 // EveHQ - An Eve-Online™ character assistance application
-// Copyright © 2005-2011  EveHQ Development Team
+// Copyright © 2005-2012  EveHQ Development Team
 // 
 // This file is part of the "EveHQ RouteMap" plug-in
 //
@@ -8,7 +8,7 @@
 // General Public License originally created by Lhyda Souljacker.
 //
 // This version has been modified pursuant to the GNU General Public 
-// License as of 30 November 2011, and as distributed, it includes or is 
+// License as of 26 January 2012, and as distributed, it includes or is 
 // derivative of works licensed under the GNU General Public License.
 //
 // EveHQ is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("EveHQ.RouteMap")]
-[assembly: AssemblyCopyright("Copyright © 2011")]
+[assembly: AssemblyCopyright("Copyright © 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

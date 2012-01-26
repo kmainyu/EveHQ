@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2011  EveHQ Development Team
+' Copyright © 2005-2012  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -35,7 +35,7 @@ Public Class DataFunctions
     Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Shared SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-    Shared LastCacheRefresh As String = "2.4.2.3730"
+    Shared LastCacheRefresh As String = "2.4.3.3747"
 
     Public Shared Function CreateEveHQDataDB() As Boolean
         Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat

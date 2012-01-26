@@ -1,6 +1,6 @@
 ﻿// ========================================================================
 // EveHQ - An Eve-Online™ character assistance application
-// Copyright © 2005-2011  EveHQ Development Team
+// Copyright © 2005-2012  EveHQ Development Team
 // 
 // This file is part of EveHQ.
 //
@@ -59,7 +59,7 @@ namespace EveHQ.PI
         public static int ExtractRate, CycleTime;
 
         private bool UseSerializableData = false;
-        public string LastCacheRefresh = "2.4.0.3730";
+        public string LastCacheRefresh = "2.4.3.3747";
 
         #region Plug-in Interface Functions
 

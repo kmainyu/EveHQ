@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2011  EveHQ Development Team
+' Copyright © 2005-2012  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -31,7 +31,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("EveHQPatcher")> 
-<Assembly: AssemblyCopyright("Copyright © 2011")> 
+<Assembly: AssemblyCopyright("Copyright © 2012")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online character assistance application
-' Copyright  2005-2011  EveHQ Development Team
+' Copyright  2005-2012  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -31,7 +31,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Eve Online game tool")> 
 <Assembly: AssemblyCompany("Indicium Technologies")> 
 <Assembly: AssemblyProduct("EveHQ")> 
-<Assembly: AssemblyCopyright("© EveHQ Development Team 2007-2011")> 
+<Assembly: AssemblyCopyright("© EveHQ Development Team 2005-2012")> 
 
 <Assembly: CLSCompliant(True)> 
 

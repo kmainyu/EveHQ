@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2011  EveHQ Development Team
+' Copyright © 2005-2012  EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
