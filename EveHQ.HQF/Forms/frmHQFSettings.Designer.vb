@@ -88,14 +88,6 @@ Partial Public Class frmHQFSettings
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.btnClose = New DevComponents.DotNetBar.ButtonX()
         Me.pnlSettings = New DevComponents.DotNetBar.PanelEx()
-        Me.gbAttributeColumns = New System.Windows.Forms.GroupBox()
-        Me.btnClearAttributes = New DevComponents.DotNetBar.ButtonX()
-        Me.btnRemoveAttribute = New DevComponents.DotNetBar.ButtonX()
-        Me.adtAttributeColumns = New DevComponents.AdvTree.AdvTree()
-        Me.colAttributeID = New DevComponents.AdvTree.ColumnHeader()
-        Me.colAttributeName = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.gbDefenceProfiles = New System.Windows.Forms.GroupBox()
         Me.gpDefenceProfile = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.pbHullDefence = New System.Windows.Forms.PictureBox()
@@ -130,6 +122,14 @@ Partial Public Class frmHQFSettings
         Me.lvwDefenceProfiles = New DevComponents.DotNetBar.Controls.ListViewEx()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.gbAttributeColumns = New System.Windows.Forms.GroupBox()
+        Me.btnClearAttributes = New DevComponents.DotNetBar.ButtonX()
+        Me.btnRemoveAttribute = New DevComponents.DotNetBar.ButtonX()
+        Me.adtAttributeColumns = New DevComponents.AdvTree.AdvTree()
+        Me.colAttributeID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAttributeName = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.gbDamageProfiles = New System.Windows.Forms.GroupBox()
         Me.gpProfile = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.lblNPCName = New System.Windows.Forms.Label()
@@ -182,13 +182,13 @@ Partial Public Class frmHQFSettings
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlSettings.SuspendLayout()
-        Me.gbAttributeColumns.SuspendLayout()
-        CType(Me.adtAttributeColumns, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDefenceProfiles.SuspendLayout()
         Me.gpDefenceProfile.SuspendLayout()
         CType(Me.pbHullDefence, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbArmorDefence, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShieldDefence, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbAttributeColumns.SuspendLayout()
+        CType(Me.adtAttributeColumns, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbDamageProfiles.SuspendLayout()
         Me.gpProfile.SuspendLayout()
         Me.SuspendLayout()
@@ -548,9 +548,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(270, 200)
+        Me.gbCache.Location = New System.Drawing.Point(200, 105)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(209, 46)
+        Me.gbCache.Size = New System.Drawing.Size(537, 330)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -653,6 +653,7 @@ Partial Public Class frmHQFSettings
         Me.btnDeleteAllFittings.TabIndex = 3
         Me.btnDeleteAllFittings.Text = "Delete All Fittings"
         Me.btnDeleteAllFittings.UseVisualStyleBackColor = True
+        Me.btnDeleteAllFittings.Visible = False
         '
         'btnCheckData
         '
@@ -699,7 +700,7 @@ Partial Public Class frmHQFSettings
         Me.chkAmmoLoadTime.AutoSize = True
         Me.chkAmmoLoadTime.Location = New System.Drawing.Point(18, 178)
         Me.chkAmmoLoadTime.Name = "chkAmmoLoadTime"
-        Me.chkAmmoLoadTime.Size = New System.Drawing.Size(252, 17)
+        Me.chkAmmoLoadTime.Size = New System.Drawing.Size(247, 17)
         Me.chkAmmoLoadTime.TabIndex = 10
         Me.chkAmmoLoadTime.Text = "Include Ammo Reload Time in DPS Calculations"
         Me.chkAmmoLoadTime.UseVisualStyleBackColor = True
@@ -853,96 +854,6 @@ Partial Public Class frmHQFSettings
         Me.pnlSettings.Style.GradientAngle = 90
         Me.pnlSettings.TabIndex = 32
         '
-        'gbAttributeColumns
-        '
-        Me.gbAttributeColumns.Controls.Add(Me.btnClearAttributes)
-        Me.gbAttributeColumns.Controls.Add(Me.btnRemoveAttribute)
-        Me.gbAttributeColumns.Controls.Add(Me.adtAttributeColumns)
-        Me.gbAttributeColumns.Location = New System.Drawing.Point(586, 265)
-        Me.gbAttributeColumns.Name = "gbAttributeColumns"
-        Me.gbAttributeColumns.Size = New System.Drawing.Size(132, 38)
-        Me.gbAttributeColumns.TabIndex = 34
-        Me.gbAttributeColumns.TabStop = False
-        Me.gbAttributeColumns.Text = "Attribute Columns"
-        Me.gbAttributeColumns.Visible = False
-        '
-        'btnClearAttributes
-        '
-        Me.btnClearAttributes.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnClearAttributes.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnClearAttributes.Location = New System.Drawing.Point(137, 471)
-        Me.btnClearAttributes.Name = "btnClearAttributes"
-        Me.btnClearAttributes.Size = New System.Drawing.Size(125, 23)
-        Me.btnClearAttributes.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnClearAttributes.TabIndex = 2
-        Me.btnClearAttributes.Text = "Clear All Attributes"
-        '
-        'btnRemoveAttribute
-        '
-        Me.btnRemoveAttribute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnRemoveAttribute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnRemoveAttribute.Location = New System.Drawing.Point(6, 471)
-        Me.btnRemoveAttribute.Name = "btnRemoveAttribute"
-        Me.btnRemoveAttribute.Size = New System.Drawing.Size(125, 23)
-        Me.btnRemoveAttribute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnRemoveAttribute.TabIndex = 1
-        Me.btnRemoveAttribute.Text = "Remove Attribute"
-        '
-        'adtAttributeColumns
-        '
-        Me.adtAttributeColumns.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtAttributeColumns.AllowDrop = True
-        Me.adtAttributeColumns.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.adtAttributeColumns.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtAttributeColumns.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtAttributeColumns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtAttributeColumns.Columns.Add(Me.colAttributeID)
-        Me.adtAttributeColumns.Columns.Add(Me.colAttributeName)
-        Me.adtAttributeColumns.DragDropEnabled = False
-        Me.adtAttributeColumns.DragDropNodeCopyEnabled = False
-        Me.adtAttributeColumns.ExpandWidth = 0
-        Me.adtAttributeColumns.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtAttributeColumns.Location = New System.Drawing.Point(6, 20)
-        Me.adtAttributeColumns.Name = "adtAttributeColumns"
-        Me.adtAttributeColumns.NodesConnector = Me.NodeConnector1
-        Me.adtAttributeColumns.NodeStyle = Me.ElementStyle1
-        Me.adtAttributeColumns.PathSeparator = ";"
-        Me.adtAttributeColumns.Size = New System.Drawing.Size(111, 0)
-        Me.adtAttributeColumns.Styles.Add(Me.ElementStyle1)
-        Me.adtAttributeColumns.TabIndex = 0
-        '
-        'colAttributeID
-        '
-        Me.colAttributeID.DisplayIndex = 1
-        Me.colAttributeID.Name = "colAttributeID"
-        Me.colAttributeID.SortingEnabled = False
-        Me.colAttributeID.Text = "Attribute ID"
-        Me.colAttributeID.Width.Absolute = 100
-        '
-        'colAttributeName
-        '
-        Me.colAttributeName.DisplayIndex = 2
-        Me.colAttributeName.Name = "colAttributeName"
-        Me.colAttributeName.SortingEnabled = False
-        Me.colAttributeName.Text = "Attribute Name"
-        Me.colAttributeName.Width.Absolute = 400
-        '
-        'NodeConnector1
-        '
-        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle1
-        '
-        Me.ElementStyle1.Class = ""
-        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle1.Name = "ElementStyle1"
-        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
-        '
         'gbDefenceProfiles
         '
         Me.gbDefenceProfiles.Controls.Add(Me.gpDefenceProfile)
@@ -953,7 +864,7 @@ Partial Public Class frmHQFSettings
         Me.gbDefenceProfiles.Controls.Add(Me.lvwDefenceProfiles)
         Me.gbDefenceProfiles.Location = New System.Drawing.Point(194, 12)
         Me.gbDefenceProfiles.Name = "gbDefenceProfiles"
-        Me.gbDefenceProfiles.Size = New System.Drawing.Size(582, 500)
+        Me.gbDefenceProfiles.Size = New System.Drawing.Size(180, 69)
         Me.gbDefenceProfiles.TabIndex = 33
         Me.gbDefenceProfiles.TabStop = False
         Me.gbDefenceProfiles.Text = "Defence Profiles"
@@ -1358,6 +1269,96 @@ Partial Public Class frmHQFSettings
         '
         Me.ColumnHeader2.Text = "Profile Type"
         Me.ColumnHeader2.Width = 100
+        '
+        'gbAttributeColumns
+        '
+        Me.gbAttributeColumns.Controls.Add(Me.btnClearAttributes)
+        Me.gbAttributeColumns.Controls.Add(Me.btnRemoveAttribute)
+        Me.gbAttributeColumns.Controls.Add(Me.adtAttributeColumns)
+        Me.gbAttributeColumns.Location = New System.Drawing.Point(586, 265)
+        Me.gbAttributeColumns.Name = "gbAttributeColumns"
+        Me.gbAttributeColumns.Size = New System.Drawing.Size(132, 38)
+        Me.gbAttributeColumns.TabIndex = 34
+        Me.gbAttributeColumns.TabStop = False
+        Me.gbAttributeColumns.Text = "Attribute Columns"
+        Me.gbAttributeColumns.Visible = False
+        '
+        'btnClearAttributes
+        '
+        Me.btnClearAttributes.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnClearAttributes.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnClearAttributes.Location = New System.Drawing.Point(137, 471)
+        Me.btnClearAttributes.Name = "btnClearAttributes"
+        Me.btnClearAttributes.Size = New System.Drawing.Size(125, 23)
+        Me.btnClearAttributes.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnClearAttributes.TabIndex = 2
+        Me.btnClearAttributes.Text = "Clear All Attributes"
+        '
+        'btnRemoveAttribute
+        '
+        Me.btnRemoveAttribute.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnRemoveAttribute.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnRemoveAttribute.Location = New System.Drawing.Point(6, 471)
+        Me.btnRemoveAttribute.Name = "btnRemoveAttribute"
+        Me.btnRemoveAttribute.Size = New System.Drawing.Size(125, 23)
+        Me.btnRemoveAttribute.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnRemoveAttribute.TabIndex = 1
+        Me.btnRemoveAttribute.Text = "Remove Attribute"
+        '
+        'adtAttributeColumns
+        '
+        Me.adtAttributeColumns.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtAttributeColumns.AllowDrop = True
+        Me.adtAttributeColumns.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.adtAttributeColumns.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtAttributeColumns.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtAttributeColumns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtAttributeColumns.Columns.Add(Me.colAttributeID)
+        Me.adtAttributeColumns.Columns.Add(Me.colAttributeName)
+        Me.adtAttributeColumns.DragDropEnabled = False
+        Me.adtAttributeColumns.DragDropNodeCopyEnabled = False
+        Me.adtAttributeColumns.ExpandWidth = 0
+        Me.adtAttributeColumns.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtAttributeColumns.Location = New System.Drawing.Point(6, 20)
+        Me.adtAttributeColumns.Name = "adtAttributeColumns"
+        Me.adtAttributeColumns.NodesConnector = Me.NodeConnector1
+        Me.adtAttributeColumns.NodeStyle = Me.ElementStyle1
+        Me.adtAttributeColumns.PathSeparator = ";"
+        Me.adtAttributeColumns.Size = New System.Drawing.Size(111, 0)
+        Me.adtAttributeColumns.Styles.Add(Me.ElementStyle1)
+        Me.adtAttributeColumns.TabIndex = 0
+        '
+        'colAttributeID
+        '
+        Me.colAttributeID.DisplayIndex = 1
+        Me.colAttributeID.Name = "colAttributeID"
+        Me.colAttributeID.SortingEnabled = False
+        Me.colAttributeID.Text = "Attribute ID"
+        Me.colAttributeID.Width.Absolute = 100
+        '
+        'colAttributeName
+        '
+        Me.colAttributeName.DisplayIndex = 2
+        Me.colAttributeName.Name = "colAttributeName"
+        Me.colAttributeName.SortingEnabled = False
+        Me.colAttributeName.Text = "Attribute Name"
+        Me.colAttributeName.Width.Absolute = 400
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.Class = ""
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
         '
         'gbDamageProfiles
         '
@@ -1845,14 +1846,14 @@ Partial Public Class frmHQFSettings
         CType(Me.nudShieldRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCapRecharge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlSettings.ResumeLayout(False)
-        Me.gbAttributeColumns.ResumeLayout(False)
-        CType(Me.adtAttributeColumns, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDefenceProfiles.ResumeLayout(False)
         Me.gpDefenceProfile.ResumeLayout(False)
         Me.gpDefenceProfile.PerformLayout()
         CType(Me.pbHullDefence, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbArmorDefence, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbShieldDefence, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbAttributeColumns.ResumeLayout(False)
+        CType(Me.adtAttributeColumns, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbDamageProfiles.ResumeLayout(False)
         Me.gpProfile.ResumeLayout(False)
         Me.gpProfile.PerformLayout()
