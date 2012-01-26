@@ -59,7 +59,7 @@ namespace EveHQ.PI
         public static int ExtractRate, CycleTime;
 
         private bool UseSerializableData = false;
-        public string LastCacheRefresh = "1.99.35.39";
+        public string LastCacheRefresh = "2.4.0.3730";
 
         #region Plug-in Interface Functions
 
