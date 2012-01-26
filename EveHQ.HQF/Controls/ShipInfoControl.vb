@@ -631,36 +631,42 @@ Public Class ShipInfoControl
     Private Sub epDefence_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epDefence.ExpandedChanged
         If StartUp = False Then
             HQF.Settings.HQFSettings.DefensePanelIsCollapsed = Not epDefence.Expanded
+            pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epCapacitor_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epCapacitor.ExpandedChanged
         If StartUp = False Then
             HQF.Settings.HQFSettings.CapacitorPanelIsCollapsed = Not epCapacitor.Expanded
+            pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epDamage_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epDamage.ExpandedChanged
         If StartUp = False Then
             HQF.Settings.HQFSettings.DamagePanelIsCollapsed = Not epDamage.Expanded
+            pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epTargeting_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epTargeting.ExpandedChanged
         If StartUp = False Then
             HQF.Settings.HQFSettings.TargetingPanelIsCollapsed = Not epTargeting.Expanded
+            pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epPropulsion_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epPropulsion.ExpandedChanged
         If StartUp = False Then
             HQF.Settings.HQFSettings.PropulsionPanelIsCollapsed = Not epPropulsion.Expanded
+            pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epCargo_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epCargo.ExpandedChanged
         If StartUp = False Then
             HQF.Settings.HQFSettings.CargoPanelIsCollapsed = Not epCargo.Expanded
+            pnlInfo.Invalidate()
         End If
     End Sub
 

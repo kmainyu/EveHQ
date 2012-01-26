@@ -105,6 +105,7 @@ Partial Class ShipInfoControl
         Me.btnCapSim = New System.Windows.Forms.Button()
         Me.pbProbeability = New System.Windows.Forms.PictureBox()
         Me.lblDPR = New System.Windows.Forms.Label()
+        Me.lblCapBal = New System.Windows.Forms.Label()
         Me.lblProbeable = New System.Windows.Forms.Label()
         Me.pbxCalibration = New DevComponents.DotNetBar.Controls.ProgressBarX()
         Me.pbxPG = New DevComponents.DotNetBar.Controls.ProgressBarX()
@@ -130,7 +131,6 @@ Partial Class ShipInfoControl
         Me.ControlContainerItem5 = New DevComponents.DotNetBar.ControlContainerItem()
         Me.ControlContainerItem6 = New DevComponents.DotNetBar.ControlContainerItem()
         Me.ControlContainerItem7 = New DevComponents.DotNetBar.ControlContainerItem()
-        Me.lblCapBal = New System.Windows.Forms.Label()
         CType(Me.pbStructureHP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbArmorHP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbShieldHP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,6 +191,7 @@ Partial Class ShipInfoControl
         '
         'pbStructureHP
         '
+        Me.pbStructureHP.BackColor = System.Drawing.Color.Transparent
         Me.pbStructureHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgStructure
         Me.pbStructureHP.Location = New System.Drawing.Point(5, 109)
         Me.pbStructureHP.Name = "pbStructureHP"
@@ -202,6 +203,7 @@ Partial Class ShipInfoControl
         '
         'pbArmorHP
         '
+        Me.pbArmorHP.BackColor = System.Drawing.Color.Transparent
         Me.pbArmorHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgArmor
         Me.pbArmorHP.Location = New System.Drawing.Point(5, 79)
         Me.pbArmorHP.Name = "pbArmorHP"
@@ -213,6 +215,7 @@ Partial Class ShipInfoControl
         '
         'pbShieldHP
         '
+        Me.pbShieldHP.BackColor = System.Drawing.Color.Transparent
         Me.pbShieldHP.Image = Global.EveHQ.HQF.My.Resources.Resources.imgShield
         Me.pbShieldHP.Location = New System.Drawing.Point(5, 48)
         Me.pbShieldHP.Name = "pbShieldHP"
@@ -225,6 +228,7 @@ Partial Class ShipInfoControl
         'lblTankAbility
         '
         Me.lblTankAbility.AutoSize = True
+        Me.lblTankAbility.BackColor = System.Drawing.Color.Transparent
         Me.lblTankAbility.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankAbility.Location = New System.Drawing.Point(5, 149)
         Me.lblTankAbility.Name = "lblTankAbility"
@@ -236,6 +240,7 @@ Partial Class ShipInfoControl
         'lblEffectiveHP
         '
         Me.lblEffectiveHP.AutoSize = True
+        Me.lblEffectiveHP.BackColor = System.Drawing.Color.Transparent
         Me.lblEffectiveHP.Location = New System.Drawing.Point(5, 136)
         Me.lblEffectiveHP.Name = "lblEffectiveHP"
         Me.lblEffectiveHP.Size = New System.Drawing.Size(113, 13)
@@ -246,8 +251,9 @@ Partial Class ShipInfoControl
         'lblStructureHP
         '
         Me.lblStructureHP.AutoSize = True
+        Me.lblStructureHP.BackColor = System.Drawing.Color.Transparent
         Me.lblStructureHP.ForeColor = System.Drawing.Color.Maroon
-        Me.lblStructureHP.Location = New System.Drawing.Point(26, 115)
+        Me.lblStructureHP.Location = New System.Drawing.Point(28, 115)
         Me.lblStructureHP.Name = "lblStructureHP"
         Me.lblStructureHP.Size = New System.Drawing.Size(47, 13)
         Me.lblStructureHP.TabIndex = 14
@@ -257,6 +263,7 @@ Partial Class ShipInfoControl
         'lblStructureThermal
         '
         Me.lblStructureThermal.AutoSize = True
+        Me.lblStructureThermal.BackColor = System.Drawing.Color.Transparent
         Me.lblStructureThermal.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureThermal.Location = New System.Drawing.Point(183, 119)
         Me.lblStructureThermal.Name = "lblStructureThermal"
@@ -268,6 +275,7 @@ Partial Class ShipInfoControl
         'lblStructureExplosive
         '
         Me.lblStructureExplosive.AutoSize = True
+        Me.lblStructureExplosive.BackColor = System.Drawing.Color.Transparent
         Me.lblStructureExplosive.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureExplosive.Location = New System.Drawing.Point(107, 119)
         Me.lblStructureExplosive.Name = "lblStructureExplosive"
@@ -279,8 +287,9 @@ Partial Class ShipInfoControl
         'lblArmorHP
         '
         Me.lblArmorHP.AutoSize = True
+        Me.lblArmorHP.BackColor = System.Drawing.Color.Transparent
         Me.lblArmorHP.ForeColor = System.Drawing.Color.DarkGreen
-        Me.lblArmorHP.Location = New System.Drawing.Point(26, 85)
+        Me.lblArmorHP.Location = New System.Drawing.Point(28, 85)
         Me.lblArmorHP.Name = "lblArmorHP"
         Me.lblArmorHP.Size = New System.Drawing.Size(47, 13)
         Me.lblArmorHP.TabIndex = 14
@@ -290,6 +299,7 @@ Partial Class ShipInfoControl
         'lblStructureKinetic
         '
         Me.lblStructureKinetic.AutoSize = True
+        Me.lblStructureKinetic.BackColor = System.Drawing.Color.Transparent
         Me.lblStructureKinetic.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureKinetic.Location = New System.Drawing.Point(183, 74)
         Me.lblStructureKinetic.Name = "lblStructureKinetic"
@@ -301,6 +311,7 @@ Partial Class ShipInfoControl
         'lblStructureEM
         '
         Me.lblStructureEM.AutoSize = True
+        Me.lblStructureEM.BackColor = System.Drawing.Color.Transparent
         Me.lblStructureEM.ForeColor = System.Drawing.Color.Maroon
         Me.lblStructureEM.Location = New System.Drawing.Point(107, 74)
         Me.lblStructureEM.Name = "lblStructureEM"
@@ -312,6 +323,7 @@ Partial Class ShipInfoControl
         'lblArmorThermal
         '
         Me.lblArmorThermal.AutoSize = True
+        Me.lblArmorThermal.BackColor = System.Drawing.Color.Transparent
         Me.lblArmorThermal.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorThermal.Location = New System.Drawing.Point(183, 106)
         Me.lblArmorThermal.Name = "lblArmorThermal"
@@ -323,6 +335,7 @@ Partial Class ShipInfoControl
         'lblShieldEM
         '
         Me.lblShieldEM.AutoSize = True
+        Me.lblShieldEM.BackColor = System.Drawing.Color.Transparent
         Me.lblShieldEM.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldEM.Location = New System.Drawing.Point(107, 47)
         Me.lblShieldEM.Name = "lblShieldEM"
@@ -334,6 +347,7 @@ Partial Class ShipInfoControl
         'lblArmorExplosive
         '
         Me.lblArmorExplosive.AutoSize = True
+        Me.lblArmorExplosive.BackColor = System.Drawing.Color.Transparent
         Me.lblArmorExplosive.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorExplosive.Location = New System.Drawing.Point(107, 106)
         Me.lblArmorExplosive.Name = "lblArmorExplosive"
@@ -345,6 +359,7 @@ Partial Class ShipInfoControl
         'lblArmorKinetic
         '
         Me.lblArmorKinetic.AutoSize = True
+        Me.lblArmorKinetic.BackColor = System.Drawing.Color.Transparent
         Me.lblArmorKinetic.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorKinetic.Location = New System.Drawing.Point(183, 61)
         Me.lblArmorKinetic.Name = "lblArmorKinetic"
@@ -356,6 +371,7 @@ Partial Class ShipInfoControl
         'lblShieldKinetic
         '
         Me.lblShieldKinetic.AutoSize = True
+        Me.lblShieldKinetic.BackColor = System.Drawing.Color.Transparent
         Me.lblShieldKinetic.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldKinetic.Location = New System.Drawing.Point(183, 47)
         Me.lblShieldKinetic.Name = "lblShieldKinetic"
@@ -367,6 +383,7 @@ Partial Class ShipInfoControl
         'lblArmorEM
         '
         Me.lblArmorEM.AutoSize = True
+        Me.lblArmorEM.BackColor = System.Drawing.Color.Transparent
         Me.lblArmorEM.ForeColor = System.Drawing.Color.DarkGreen
         Me.lblArmorEM.Location = New System.Drawing.Point(107, 61)
         Me.lblArmorEM.Name = "lblArmorEM"
@@ -378,6 +395,7 @@ Partial Class ShipInfoControl
         'lblShieldExplosive
         '
         Me.lblShieldExplosive.AutoSize = True
+        Me.lblShieldExplosive.BackColor = System.Drawing.Color.Transparent
         Me.lblShieldExplosive.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldExplosive.Location = New System.Drawing.Point(107, 93)
         Me.lblShieldExplosive.Name = "lblShieldExplosive"
@@ -389,6 +407,7 @@ Partial Class ShipInfoControl
         'lblShieldThermal
         '
         Me.lblShieldThermal.AutoSize = True
+        Me.lblShieldThermal.BackColor = System.Drawing.Color.Transparent
         Me.lblShieldThermal.ForeColor = System.Drawing.Color.DarkBlue
         Me.lblShieldThermal.Location = New System.Drawing.Point(183, 93)
         Me.lblShieldThermal.Name = "lblShieldThermal"
@@ -400,8 +419,9 @@ Partial Class ShipInfoControl
         'lblShieldHP
         '
         Me.lblShieldHP.AutoSize = True
+        Me.lblShieldHP.BackColor = System.Drawing.Color.Transparent
         Me.lblShieldHP.ForeColor = System.Drawing.Color.DarkBlue
-        Me.lblShieldHP.Location = New System.Drawing.Point(26, 54)
+        Me.lblShieldHP.Location = New System.Drawing.Point(28, 54)
         Me.lblShieldHP.Name = "lblShieldHP"
         Me.lblShieldHP.Size = New System.Drawing.Size(47, 13)
         Me.lblShieldHP.TabIndex = 14
@@ -410,6 +430,7 @@ Partial Class ShipInfoControl
         '
         'PictureBox1
         '
+        Me.PictureBox1.BackColor = System.Drawing.Color.Transparent
         Me.PictureBox1.Image = Global.EveHQ.HQF.My.Resources.Resources.imgEMResist
         Me.PictureBox1.Location = New System.Drawing.Point(83, 48)
         Me.PictureBox1.Name = "PictureBox1"
@@ -421,6 +442,7 @@ Partial Class ShipInfoControl
         '
         'PictureBox2
         '
+        Me.PictureBox2.BackColor = System.Drawing.Color.Transparent
         Me.PictureBox2.Image = Global.EveHQ.HQF.My.Resources.Resources.imgKineticResist
         Me.PictureBox2.Location = New System.Drawing.Point(159, 47)
         Me.PictureBox2.Name = "PictureBox2"
@@ -432,6 +454,7 @@ Partial Class ShipInfoControl
         '
         'PictureBox3
         '
+        Me.PictureBox3.BackColor = System.Drawing.Color.Transparent
         Me.PictureBox3.Image = Global.EveHQ.HQF.My.Resources.Resources.imgExplosiveResist
         Me.PictureBox3.Location = New System.Drawing.Point(83, 93)
         Me.PictureBox3.Name = "PictureBox3"
@@ -443,6 +466,7 @@ Partial Class ShipInfoControl
         '
         'PictureBox4
         '
+        Me.PictureBox4.BackColor = System.Drawing.Color.Transparent
         Me.PictureBox4.Image = Global.EveHQ.HQF.My.Resources.Resources.imgThermalResist
         Me.PictureBox4.Location = New System.Drawing.Point(159, 93)
         Me.PictureBox4.Name = "PictureBox4"
@@ -455,6 +479,7 @@ Partial Class ShipInfoControl
         'lblDamage
         '
         Me.lblDamage.AutoSize = True
+        Me.lblDamage.BackColor = System.Drawing.Color.Transparent
         Me.lblDamage.Location = New System.Drawing.Point(29, 27)
         Me.lblDamage.Name = "lblDamage"
         Me.lblDamage.Size = New System.Drawing.Size(53, 13)
@@ -464,6 +489,7 @@ Partial Class ShipInfoControl
         '
         'pbDamage
         '
+        Me.pbDamage.BackColor = System.Drawing.Color.Transparent
         Me.pbDamage.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTurretSlots
         Me.pbDamage.Location = New System.Drawing.Point(5, 22)
         Me.pbDamage.Name = "pbDamage"
@@ -536,6 +562,7 @@ Partial Class ShipInfoControl
         'lblDroneControl
         '
         Me.lblDroneControl.AutoSize = True
+        Me.lblDroneControl.BackColor = System.Drawing.Color.Transparent
         Me.lblDroneControl.Location = New System.Drawing.Point(137, 47)
         Me.lblDroneControl.Name = "lblDroneControl"
         Me.lblDroneControl.Size = New System.Drawing.Size(29, 13)
@@ -545,6 +572,7 @@ Partial Class ShipInfoControl
         '
         'pbDroneControl
         '
+        Me.pbDroneControl.BackColor = System.Drawing.Color.Transparent
         Me.pbDroneControl.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDroneControl
         Me.pbDroneControl.Location = New System.Drawing.Point(107, 44)
         Me.pbDroneControl.Name = "pbDroneControl"
@@ -557,6 +585,7 @@ Partial Class ShipInfoControl
         'lblDroneBandwidth
         '
         Me.lblDroneBandwidth.AutoSize = True
+        Me.lblDroneBandwidth.BackColor = System.Drawing.Color.Transparent
         Me.lblDroneBandwidth.Location = New System.Drawing.Point(35, 47)
         Me.lblDroneBandwidth.Name = "lblDroneBandwidth"
         Me.lblDroneBandwidth.Size = New System.Drawing.Size(53, 13)
@@ -566,6 +595,7 @@ Partial Class ShipInfoControl
         '
         'pbDroneBandwidth
         '
+        Me.pbDroneBandwidth.BackColor = System.Drawing.Color.Transparent
         Me.pbDroneBandwidth.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDrone
         Me.pbDroneBandwidth.Location = New System.Drawing.Point(5, 44)
         Me.pbDroneBandwidth.Name = "pbDroneBandwidth"
@@ -578,6 +608,7 @@ Partial Class ShipInfoControl
         'lblDroneBay
         '
         Me.lblDroneBay.AutoSize = True
+        Me.lblDroneBay.BackColor = System.Drawing.Color.Transparent
         Me.lblDroneBay.Location = New System.Drawing.Point(137, 24)
         Me.lblDroneBay.Name = "lblDroneBay"
         Me.lblDroneBay.Size = New System.Drawing.Size(58, 13)
@@ -587,6 +618,7 @@ Partial Class ShipInfoControl
         '
         'pbDroneBay
         '
+        Me.pbDroneBay.BackColor = System.Drawing.Color.Transparent
         Me.pbDroneBay.Image = Global.EveHQ.HQF.My.Resources.Resources.imgDroneBay
         Me.pbDroneBay.Location = New System.Drawing.Point(107, 21)
         Me.pbDroneBay.Name = "pbDroneBay"
@@ -599,6 +631,7 @@ Partial Class ShipInfoControl
         'lblCargoBay
         '
         Me.lblCargoBay.AutoSize = True
+        Me.lblCargoBay.BackColor = System.Drawing.Color.Transparent
         Me.lblCargoBay.Location = New System.Drawing.Point(35, 24)
         Me.lblCargoBay.Name = "lblCargoBay"
         Me.lblCargoBay.Size = New System.Drawing.Size(64, 13)
@@ -608,6 +641,7 @@ Partial Class ShipInfoControl
         '
         'pbCargoBay
         '
+        Me.pbCargoBay.BackColor = System.Drawing.Color.Transparent
         Me.pbCargoBay.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCargo
         Me.pbCargoBay.Location = New System.Drawing.Point(5, 21)
         Me.pbCargoBay.Name = "pbCargoBay"
@@ -620,6 +654,7 @@ Partial Class ShipInfoControl
         'lblAlignTime
         '
         Me.lblAlignTime.AutoSize = True
+        Me.lblAlignTime.BackColor = System.Drawing.Color.Transparent
         Me.lblAlignTime.Location = New System.Drawing.Point(125, 48)
         Me.lblAlignTime.Name = "lblAlignTime"
         Me.lblAlignTime.Size = New System.Drawing.Size(43, 13)
@@ -629,6 +664,7 @@ Partial Class ShipInfoControl
         '
         'pbAlignTime
         '
+        Me.pbAlignTime.BackColor = System.Drawing.Color.Transparent
         Me.pbAlignTime.Image = Global.EveHQ.HQF.My.Resources.Resources.imgWarpAlign
         Me.pbAlignTime.Location = New System.Drawing.Point(101, 45)
         Me.pbAlignTime.Name = "pbAlignTime"
@@ -641,6 +677,7 @@ Partial Class ShipInfoControl
         'lblInertia
         '
         Me.lblInertia.AutoSize = True
+        Me.lblInertia.BackColor = System.Drawing.Color.Transparent
         Me.lblInertia.Location = New System.Drawing.Point(29, 48)
         Me.lblInertia.Name = "lblInertia"
         Me.lblInertia.Size = New System.Drawing.Size(41, 13)
@@ -650,6 +687,7 @@ Partial Class ShipInfoControl
         '
         'pbInertia
         '
+        Me.pbInertia.BackColor = System.Drawing.Color.Transparent
         Me.pbInertia.Image = Global.EveHQ.HQF.My.Resources.Resources.imgInertia
         Me.pbInertia.Location = New System.Drawing.Point(5, 45)
         Me.pbInertia.Name = "pbInertia"
@@ -662,6 +700,7 @@ Partial Class ShipInfoControl
         'lblWarpSpeed
         '
         Me.lblWarpSpeed.AutoSize = True
+        Me.lblWarpSpeed.BackColor = System.Drawing.Color.Transparent
         Me.lblWarpSpeed.Location = New System.Drawing.Point(125, 25)
         Me.lblWarpSpeed.Name = "lblWarpSpeed"
         Me.lblWarpSpeed.Size = New System.Drawing.Size(59, 13)
@@ -671,6 +710,7 @@ Partial Class ShipInfoControl
         '
         'pbWarpSpeed
         '
+        Me.pbWarpSpeed.BackColor = System.Drawing.Color.Transparent
         Me.pbWarpSpeed.Image = Global.EveHQ.HQF.My.Resources.Resources.imgWarpSpeed
         Me.pbWarpSpeed.Location = New System.Drawing.Point(101, 22)
         Me.pbWarpSpeed.Name = "pbWarpSpeed"
@@ -683,6 +723,7 @@ Partial Class ShipInfoControl
         'lblSpeed
         '
         Me.lblSpeed.AutoSize = True
+        Me.lblSpeed.BackColor = System.Drawing.Color.Transparent
         Me.lblSpeed.Location = New System.Drawing.Point(30, 25)
         Me.lblSpeed.Name = "lblSpeed"
         Me.lblSpeed.Size = New System.Drawing.Size(61, 13)
@@ -692,6 +733,7 @@ Partial Class ShipInfoControl
         '
         'pbSpeed
         '
+        Me.pbSpeed.BackColor = System.Drawing.Color.Transparent
         Me.pbSpeed.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSpeed
         Me.pbSpeed.Location = New System.Drawing.Point(5, 22)
         Me.pbSpeed.Name = "pbSpeed"
@@ -704,6 +746,7 @@ Partial Class ShipInfoControl
         'lblCapBalN
         '
         Me.lblCapBalN.AutoSize = True
+        Me.lblCapBalN.BackColor = System.Drawing.Color.Transparent
         Me.lblCapBalN.Location = New System.Drawing.Point(29, 57)
         Me.lblCapBalN.Name = "lblCapBalN"
         Me.lblCapBalN.Size = New System.Drawing.Size(17, 13)
@@ -714,6 +757,7 @@ Partial Class ShipInfoControl
         'lblCapBalP
         '
         Me.lblCapBalP.AutoSize = True
+        Me.lblCapBalP.BackColor = System.Drawing.Color.Transparent
         Me.lblCapBalP.Location = New System.Drawing.Point(29, 45)
         Me.lblCapBalP.Name = "lblCapBalP"
         Me.lblCapBalP.Size = New System.Drawing.Size(21, 13)
@@ -723,6 +767,7 @@ Partial Class ShipInfoControl
         '
         'pbCapBal
         '
+        Me.pbCapBal.BackColor = System.Drawing.Color.Transparent
         Me.pbCapBal.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapBal
         Me.pbCapBal.Location = New System.Drawing.Point(5, 45)
         Me.pbCapBal.Name = "pbCapBal"
@@ -735,6 +780,7 @@ Partial Class ShipInfoControl
         'lblCapPeak
         '
         Me.lblCapPeak.AutoSize = True
+        Me.lblCapPeak.BackColor = System.Drawing.Color.Transparent
         Me.lblCapPeak.Location = New System.Drawing.Point(182, 48)
         Me.lblCapPeak.Name = "lblCapPeak"
         Me.lblCapPeak.Size = New System.Drawing.Size(41, 13)
@@ -744,6 +790,7 @@ Partial Class ShipInfoControl
         '
         'pbCapPeak
         '
+        Me.pbCapPeak.BackColor = System.Drawing.Color.Transparent
         Me.pbCapPeak.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCapPeak
         Me.pbCapPeak.Location = New System.Drawing.Point(158, 45)
         Me.pbCapPeak.Name = "pbCapPeak"
@@ -756,6 +803,7 @@ Partial Class ShipInfoControl
         'lblCapRecharge
         '
         Me.lblCapRecharge.AutoSize = True
+        Me.lblCapRecharge.BackColor = System.Drawing.Color.Transparent
         Me.lblCapRecharge.Location = New System.Drawing.Point(182, 24)
         Me.lblCapRecharge.Name = "lblCapRecharge"
         Me.lblCapRecharge.Size = New System.Drawing.Size(43, 13)
@@ -765,6 +813,7 @@ Partial Class ShipInfoControl
         '
         'pbCapRecharge
         '
+        Me.pbCapRecharge.BackColor = System.Drawing.Color.Transparent
         Me.pbCapRecharge.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTimer
         Me.pbCapRecharge.Location = New System.Drawing.Point(158, 21)
         Me.pbCapRecharge.Name = "pbCapRecharge"
@@ -777,6 +826,7 @@ Partial Class ShipInfoControl
         'lblCapacitor
         '
         Me.lblCapacitor.AutoSize = True
+        Me.lblCapacitor.BackColor = System.Drawing.Color.Transparent
         Me.lblCapacitor.Location = New System.Drawing.Point(29, 24)
         Me.lblCapacitor.Name = "lblCapacitor"
         Me.lblCapacitor.Size = New System.Drawing.Size(41, 13)
@@ -786,6 +836,7 @@ Partial Class ShipInfoControl
         '
         'pbCapacitor
         '
+        Me.pbCapacitor.BackColor = System.Drawing.Color.Transparent
         Me.pbCapacitor.Image = Global.EveHQ.HQF.My.Resources.Resources.imgCap
         Me.pbCapacitor.Location = New System.Drawing.Point(5, 21)
         Me.pbCapacitor.Name = "pbCapacitor"
@@ -798,6 +849,7 @@ Partial Class ShipInfoControl
         'lblTargets
         '
         Me.lblTargets.AutoSize = True
+        Me.lblTargets.BackColor = System.Drawing.Color.Transparent
         Me.lblTargets.Location = New System.Drawing.Point(119, 25)
         Me.lblTargets.Name = "lblTargets"
         Me.lblTargets.Size = New System.Drawing.Size(29, 13)
@@ -807,6 +859,7 @@ Partial Class ShipInfoControl
         '
         'pbTargets
         '
+        Me.pbTargets.BackColor = System.Drawing.Color.Transparent
         Me.pbTargets.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMaxTargets
         Me.pbTargets.Location = New System.Drawing.Point(95, 22)
         Me.pbTargets.Name = "pbTargets"
@@ -819,6 +872,7 @@ Partial Class ShipInfoControl
         'lblSigRadius
         '
         Me.lblSigRadius.AutoSize = True
+        Me.lblSigRadius.BackColor = System.Drawing.Color.Transparent
         Me.lblSigRadius.Location = New System.Drawing.Point(118, 48)
         Me.lblSigRadius.Name = "lblSigRadius"
         Me.lblSigRadius.Size = New System.Drawing.Size(46, 13)
@@ -828,6 +882,7 @@ Partial Class ShipInfoControl
         '
         'pbSigRadius
         '
+        Me.pbSigRadius.BackColor = System.Drawing.Color.Transparent
         Me.pbSigRadius.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSigRadius
         Me.pbSigRadius.Location = New System.Drawing.Point(95, 45)
         Me.pbSigRadius.Name = "pbSigRadius"
@@ -840,6 +895,7 @@ Partial Class ShipInfoControl
         'lblSensorStrength
         '
         Me.lblSensorStrength.AutoSize = True
+        Me.lblSensorStrength.BackColor = System.Drawing.Color.Transparent
         Me.lblSensorStrength.Location = New System.Drawing.Point(191, 25)
         Me.lblSensorStrength.Name = "lblSensorStrength"
         Me.lblSensorStrength.Size = New System.Drawing.Size(19, 13)
@@ -849,6 +905,7 @@ Partial Class ShipInfoControl
         '
         'pbSensorStrength
         '
+        Me.pbSensorStrength.BackColor = System.Drawing.Color.Transparent
         Me.pbSensorStrength.Image = Global.EveHQ.HQF.My.Resources.Resources.imgSensorStregthL
         Me.pbSensorStrength.Location = New System.Drawing.Point(168, 22)
         Me.pbSensorStrength.Name = "pbSensorStrength"
@@ -861,6 +918,7 @@ Partial Class ShipInfoControl
         'lblScanResolution
         '
         Me.lblScanResolution.AutoSize = True
+        Me.lblScanResolution.BackColor = System.Drawing.Color.Transparent
         Me.lblScanResolution.Location = New System.Drawing.Point(35, 48)
         Me.lblScanResolution.Name = "lblScanResolution"
         Me.lblScanResolution.Size = New System.Drawing.Size(44, 13)
@@ -870,6 +928,7 @@ Partial Class ShipInfoControl
         '
         'pbScanResolution
         '
+        Me.pbScanResolution.BackColor = System.Drawing.Color.Transparent
         Me.pbScanResolution.Image = Global.EveHQ.HQF.My.Resources.Resources.imgScanResolution
         Me.pbScanResolution.Location = New System.Drawing.Point(5, 45)
         Me.pbScanResolution.Name = "pbScanResolution"
@@ -882,6 +941,7 @@ Partial Class ShipInfoControl
         'lblTargetRange
         '
         Me.lblTargetRange.AutoSize = True
+        Me.lblTargetRange.BackColor = System.Drawing.Color.Transparent
         Me.lblTargetRange.Location = New System.Drawing.Point(35, 25)
         Me.lblTargetRange.Name = "lblTargetRange"
         Me.lblTargetRange.Size = New System.Drawing.Size(58, 13)
@@ -891,6 +951,7 @@ Partial Class ShipInfoControl
         '
         'pbTargetRange
         '
+        Me.pbTargetRange.BackColor = System.Drawing.Color.Transparent
         Me.pbTargetRange.Image = Global.EveHQ.HQF.My.Resources.Resources.imgTargetRange
         Me.pbTargetRange.Location = New System.Drawing.Point(5, 22)
         Me.pbTargetRange.Name = "pbTargetRange"
@@ -1008,6 +1069,7 @@ Partial Class ShipInfoControl
         '
         'pbProbeability
         '
+        Me.pbProbeability.BackColor = System.Drawing.Color.Transparent
         Me.pbProbeability.Image = Global.EveHQ.HQF.My.Resources.Resources.imgScannable
         Me.pbProbeability.Location = New System.Drawing.Point(168, 45)
         Me.pbProbeability.Name = "pbProbeability"
@@ -1020,6 +1082,7 @@ Partial Class ShipInfoControl
         'lblDPR
         '
         Me.lblDPR.AutoSize = True
+        Me.lblDPR.BackColor = System.Drawing.Color.Transparent
         Me.lblDPR.Location = New System.Drawing.Point(5, 73)
         Me.lblDPR.Name = "lblDPR"
         Me.lblDPR.Size = New System.Drawing.Size(81, 13)
@@ -1027,9 +1090,21 @@ Partial Class ShipInfoControl
         Me.lblDPR.Text = "000 / 000 / 000"
         Me.ToolTip1.SetToolTip(Me.lblDPR, "DPS on Shield/Armor/Hull")
         '
+        'lblCapBal
+        '
+        Me.lblCapBal.AutoSize = True
+        Me.lblCapBal.BackColor = System.Drawing.Color.Transparent
+        Me.lblCapBal.Location = New System.Drawing.Point(92, 45)
+        Me.lblCapBal.Name = "lblCapBal"
+        Me.lblCapBal.Size = New System.Drawing.Size(31, 13)
+        Me.lblCapBal.TabIndex = 15
+        Me.lblCapBal.Text = "Δ +0"
+        Me.ToolTip1.SetToolTip(Me.lblCapBal, "Total Consumption Rate (GJ/s)")
+        '
         'lblProbeable
         '
         Me.lblProbeable.AutoSize = True
+        Me.lblProbeable.BackColor = System.Drawing.Color.Transparent
         Me.lblProbeable.Location = New System.Drawing.Point(191, 48)
         Me.lblProbeable.Name = "lblProbeable"
         Me.lblProbeable.Size = New System.Drawing.Size(19, 13)
@@ -1243,6 +1318,7 @@ Partial Class ShipInfoControl
         '
         'epDefence
         '
+        Me.epDefence.AnimationTime = 0
         Me.epDefence.CanvasColor = System.Drawing.SystemColors.Control
         Me.epDefence.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epDefence.Controls.Add(Me.lblArmorHP)
@@ -1295,6 +1371,7 @@ Partial Class ShipInfoControl
         '
         'epCapacitor
         '
+        Me.epCapacitor.AnimationTime = 0
         Me.epCapacitor.CanvasColor = System.Drawing.SystemColors.Control
         Me.epCapacitor.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epCapacitor.Controls.Add(Me.lblCapBal)
@@ -1331,6 +1408,7 @@ Partial Class ShipInfoControl
         '
         'epDamage
         '
+        Me.epDamage.AnimationTime = 0
         Me.epDamage.CanvasColor = System.Drawing.SystemColors.Control
         Me.epDamage.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epDamage.Controls.Add(Me.lblDPR)
@@ -1362,6 +1440,7 @@ Partial Class ShipInfoControl
         '
         'epTargeting
         '
+        Me.epTargeting.AnimationTime = 0
         Me.epTargeting.CanvasColor = System.Drawing.SystemColors.Control
         Me.epTargeting.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epTargeting.Controls.Add(Me.lblProbeable)
@@ -1400,6 +1479,7 @@ Partial Class ShipInfoControl
         '
         'epPropulsion
         '
+        Me.epPropulsion.AnimationTime = 0
         Me.epPropulsion.CanvasColor = System.Drawing.SystemColors.Control
         Me.epPropulsion.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epPropulsion.Controls.Add(Me.lblAlignTime)
@@ -1434,6 +1514,7 @@ Partial Class ShipInfoControl
         '
         'epCargo
         '
+        Me.epCargo.AnimationTime = 0
         Me.epCargo.CanvasColor = System.Drawing.SystemColors.Control
         Me.epCargo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epCargo.Controls.Add(Me.lblDroneControl)
@@ -1514,16 +1595,6 @@ Partial Class ShipInfoControl
         Me.ControlContainerItem7.Control = Me.epCargo
         Me.ControlContainerItem7.MenuVisibility = DevComponents.DotNetBar.eMenuVisibility.VisibleAlways
         Me.ControlContainerItem7.Name = "ControlContainerItem7"
-        '
-        'lblCapBal
-        '
-        Me.lblCapBal.AutoSize = True
-        Me.lblCapBal.Location = New System.Drawing.Point(92, 45)
-        Me.lblCapBal.Name = "lblCapBal"
-        Me.lblCapBal.Size = New System.Drawing.Size(31, 13)
-        Me.lblCapBal.TabIndex = 15
-        Me.lblCapBal.Text = "Δ +0"
-        Me.ToolTip1.SetToolTip(Me.lblCapBal, "Total Consumption Rate (GJ/s)")
         '
         'ShipInfoControl
         '

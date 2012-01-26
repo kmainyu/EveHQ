@@ -219,6 +219,8 @@ Partial Class frmPrism
         Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
         Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
         Me.tabPrism = New DevComponents.DotNetBar.TabControl()
+        Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
         Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
@@ -468,8 +470,6 @@ Partial Class frmPrism
         Me.ElementStyle6 = New DevComponents.DotNetBar.ElementStyle()
         Me.pnlOrderStats = New DevComponents.DotNetBar.PanelEx()
         Me.tiMarketOrders = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel9 = New DevComponents.DotNetBar.TabControlPanel()
         Me.cboBPOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.lblBPOwner = New System.Windows.Forms.Label()
@@ -514,6 +514,7 @@ Partial Class frmPrism
         Me.pnlPrism.SuspendLayout()
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrism.SuspendLayout()
+        Me.TabControlPanel8.SuspendLayout()
         Me.TabControlPanel1.SuspendLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel14.SuspendLayout()
@@ -562,7 +563,6 @@ Partial Class frmPrism
         Me.pnlBuyOrders.SuspendLayout()
         CType(Me.adtBuyOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlOrderStats.SuspendLayout()
-        Me.TabControlPanel8.SuspendLayout()
         Me.TabControlPanel9.SuspendLayout()
         CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbBPO, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2726,8 +2726,8 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel6)
@@ -2766,6 +2766,64 @@ Partial Class frmPrism
         Me.tabPrism.Tabs.Add(Me.tiRigBuilder)
         Me.tabPrism.Tabs.Add(Me.tiInventionResults)
         Me.tabPrism.Text = "TabControl2"
+        '
+        'TabControlPanel8
+        '
+        Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
+        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnItems)
+        Me.TabControlPanel8.Controls.Add(Me.TabControl1)
+        Me.TabControlPanel8.Controls.Add(Me.lblPriceTotals)
+        Me.TabControlPanel8.Controls.Add(Me.lblPilot)
+        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnRefine)
+        Me.TabControlPanel8.Controls.Add(Me.cboRecyclePilots)
+        Me.TabControlPanel8.Controls.Add(Me.lblTotalFees)
+        Me.TabControlPanel8.Controls.Add(Me.chkPerfectRefine)
+        Me.TabControlPanel8.Controls.Add(Me.lblTotalFeesLbl)
+        Me.TabControlPanel8.Controls.Add(Me.lblBaseYieldLbl)
+        Me.TabControlPanel8.Controls.Add(Me.nudTax)
+        Me.TabControlPanel8.Controls.Add(Me.lblNetYieldLbl)
+        Me.TabControlPanel8.Controls.Add(Me.nudBrokerFee)
+        Me.TabControlPanel8.Controls.Add(Me.lblStandingsLbl)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideTax)
+        Me.TabControlPanel8.Controls.Add(Me.lblStationTakeLbl)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBrokerFee)
+        Me.TabControlPanel8.Controls.Add(Me.lblStationTake)
+        Me.TabControlPanel8.Controls.Add(Me.lblItems)
+        Me.TabControlPanel8.Controls.Add(Me.lblStandings)
+        Me.TabControlPanel8.Controls.Add(Me.lblVolume)
+        Me.TabControlPanel8.Controls.Add(Me.lblNetYield)
+        Me.TabControlPanel8.Controls.Add(Me.lblItemsLbl)
+        Me.TabControlPanel8.Controls.Add(Me.lblBaseYield)
+        Me.TabControlPanel8.Controls.Add(Me.lblVolumeLbl)
+        Me.TabControlPanel8.Controls.Add(Me.lblStationLbl)
+        Me.TabControlPanel8.Controls.Add(Me.cboRefineMode)
+        Me.TabControlPanel8.Controls.Add(Me.lblStation)
+        Me.TabControlPanel8.Controls.Add(Me.lblCorpLbl)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideStandings)
+        Me.TabControlPanel8.Controls.Add(Me.lblCorp)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBaseYield)
+        Me.TabControlPanel8.Controls.Add(Me.nudBaseYield)
+        Me.TabControlPanel8.Controls.Add(Me.nudStandings)
+        Me.TabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel8.Name = "TabControlPanel8"
+        Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
+        Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel8.Style.GradientAngle = 90
+        Me.TabControlPanel8.TabIndex = 8
+        Me.TabControlPanel8.TabItem = Me.tiRecycler
+        '
+        'tiRecycler
+        '
+        Me.tiRecycler.AttachedControl = Me.TabControlPanel8
+        Me.tiRecycler.Name = "tiRecycler"
+        Me.tiRecycler.Text = "Recycler"
         '
         'TabControlPanel1
         '
@@ -6230,64 +6288,6 @@ Partial Class frmPrism
         Me.tiMarketOrders.Name = "tiMarketOrders"
         Me.tiMarketOrders.Text = "Market Orders"
         '
-        'TabControlPanel8
-        '
-        Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
-        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnItems)
-        Me.TabControlPanel8.Controls.Add(Me.TabControl1)
-        Me.TabControlPanel8.Controls.Add(Me.lblPriceTotals)
-        Me.TabControlPanel8.Controls.Add(Me.lblPilot)
-        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnRefine)
-        Me.TabControlPanel8.Controls.Add(Me.cboRecyclePilots)
-        Me.TabControlPanel8.Controls.Add(Me.lblTotalFees)
-        Me.TabControlPanel8.Controls.Add(Me.chkPerfectRefine)
-        Me.TabControlPanel8.Controls.Add(Me.lblTotalFeesLbl)
-        Me.TabControlPanel8.Controls.Add(Me.lblBaseYieldLbl)
-        Me.TabControlPanel8.Controls.Add(Me.nudTax)
-        Me.TabControlPanel8.Controls.Add(Me.lblNetYieldLbl)
-        Me.TabControlPanel8.Controls.Add(Me.nudBrokerFee)
-        Me.TabControlPanel8.Controls.Add(Me.lblStandingsLbl)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideTax)
-        Me.TabControlPanel8.Controls.Add(Me.lblStationTakeLbl)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBrokerFee)
-        Me.TabControlPanel8.Controls.Add(Me.lblStationTake)
-        Me.TabControlPanel8.Controls.Add(Me.lblItems)
-        Me.TabControlPanel8.Controls.Add(Me.lblStandings)
-        Me.TabControlPanel8.Controls.Add(Me.lblVolume)
-        Me.TabControlPanel8.Controls.Add(Me.lblNetYield)
-        Me.TabControlPanel8.Controls.Add(Me.lblItemsLbl)
-        Me.TabControlPanel8.Controls.Add(Me.lblBaseYield)
-        Me.TabControlPanel8.Controls.Add(Me.lblVolumeLbl)
-        Me.TabControlPanel8.Controls.Add(Me.lblStationLbl)
-        Me.TabControlPanel8.Controls.Add(Me.cboRefineMode)
-        Me.TabControlPanel8.Controls.Add(Me.lblStation)
-        Me.TabControlPanel8.Controls.Add(Me.lblCorpLbl)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideStandings)
-        Me.TabControlPanel8.Controls.Add(Me.lblCorp)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBaseYield)
-        Me.TabControlPanel8.Controls.Add(Me.nudBaseYield)
-        Me.TabControlPanel8.Controls.Add(Me.nudStandings)
-        Me.TabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel8.Name = "TabControlPanel8"
-        Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel8.Style.GradientAngle = 90
-        Me.TabControlPanel8.TabIndex = 8
-        Me.TabControlPanel8.TabItem = Me.tiRecycler
-        '
-        'tiRecycler
-        '
-        Me.tiRecycler.AttachedControl = Me.TabControlPanel8
-        Me.tiRecycler.Name = "tiRecycler"
-        Me.tiRecycler.Text = "Recycler"
-        '
         'TabControlPanel9
         '
         Me.TabControlPanel9.Controls.Add(Me.btnCopyListToClipboard)
@@ -6616,6 +6616,8 @@ Partial Class frmPrism
         Me.pnlPrism.ResumeLayout(False)
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrism.ResumeLayout(False)
+        Me.TabControlPanel8.ResumeLayout(False)
+        Me.TabControlPanel8.PerformLayout()
         Me.TabControlPanel1.ResumeLayout(False)
         Me.TabControlPanel1.PerformLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6677,8 +6679,6 @@ Partial Class frmPrism
         CType(Me.adtBuyOrders, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlOrderStats.ResumeLayout(False)
         Me.pnlOrderStats.PerformLayout()
-        Me.TabControlPanel8.ResumeLayout(False)
-        Me.TabControlPanel8.PerformLayout()
         Me.TabControlPanel9.ResumeLayout(False)
         Me.TabControlPanel9.PerformLayout()
         CType(Me.adtBlueprints, System.ComponentModel.ISupportInitialize).EndInit()
