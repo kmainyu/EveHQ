@@ -614,7 +614,7 @@
 657,1,3340,37,1,657,0,1,0,5,15,Max Velocity
 # Jaguar,,,,,,,,,,,
 11400,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-11400,1,3329,10016,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
+11400,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 11400,1,12095,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11400,1,12095,54,4,574;577,0,1,0,10,15,Small Projectile Turret Optimal Range
 11400,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
@@ -1314,7 +1314,7 @@
 22436,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Wolf,,,,,,,,,,,
 11371,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-11371,1,3329,10016,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
+11371,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 11371,1,12095,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 11371,1,12095,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
 11371,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
