@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>22/11/2011 23:00:00</lastUpdated>
-  <title>UPDATE YOUR API KEYS - LAST REMINDER</title>
-  <allowIgnore>1</allowIgnore>
+  <lastUpdated>27/01/2012 13:00:00</lastUpdated>
+  <title>EVEHQ FEATURE USE POLL</title>
+  <allowIgnore>0</allowIgnore>
   <message>
-  <![CDATA[With effect from EveHQ v2.4 due out sometime after the Eve Crucible patch, legacy API keys will no longer be supported in EveHQ.<br /><br />See <a href="http://forum.battleclinic.com/index.php/topic,154971.0.html">http://forum.battleclinic.com/index.php/topic,154971.0.html</a> for details.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
+  <![CDATA[To enable us to focus future development efforts, we are hoping to collect some information as to how people use EveHQ. Please spare a few seconds to complete the <a href="http://evedev.wordpress.com/2012/01/27/feature-use-feedback/">feature use poll</a>.<br /><br />It's completely anonymous and no login/registration is required.<br /><br />Thanks for your time.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
   <disabledPlugins>
     <plugin name="Invention Calculator" version="3.5.0.0" />
     <plugin name="EveHQ Route Map" version="2.4.0.3671" />
