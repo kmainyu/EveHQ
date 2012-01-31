@@ -630,4 +630,9 @@ Public Enum EveNotificationTypes As Integer
     Corporation_Requests_Leaving_Factional_Warfare = 82
     Corporation_Withdrawing_A_Request_To_Join_Factional_Warfare = 83
     Corporation_Withdrawing_A_Request_To_Leave_Factional_Warfare = 84
+    Corporation_Liquidation = 85
+    Territorial_Claim_Unit_Under_Attack = 86
+    Sovereignty_Blockade_Unit_Under_Attack = 87
+    Infrastructure_Hub_Under_Attack = 88
+    Contact_Notification = 89
 End Enum
