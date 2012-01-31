@@ -132,6 +132,7 @@ Partial Class frmMail
         Me.lblMail.TabIndex = 0
         Me.lblMail.Text = "LabelX1"
         Me.lblMail.TextLineAlignment = System.Drawing.StringAlignment.Near
+        Me.lblMail.WordWrap = True
         '
         'adtMails
         '
