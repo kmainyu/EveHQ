@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>27/01/2012 13:00:00</lastUpdated>
+  <lastUpdated>30/01/2012 13:00:00</lastUpdated>
   <title>EVEHQ FEATURE USE POLL</title>
-  <allowIgnore>0</allowIgnore>
+  <allowIgnore>1</allowIgnore>
   <message>
-  <![CDATA[To enable us to focus future development efforts, we are hoping to collect some information as to how people use EveHQ. Please spare a few seconds to complete the <a href="http://evedev.wordpress.com/2012/01/27/feature-use-feedback/">feature use poll</a>.<br /><br />It's completely anonymous and no login/registration is required.<br /><br />Thanks for your time.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
+  <![CDATA[Thanks to everyone who took the time to vote and comment in our recent poll! The response has been awesome and gives us a lot to look at in the forthcoming weeks. Those that haven't voted can still do so at the <a href="http://evedev.wordpress.com/2012/01/27/feature-use-feedback/">feature use poll</a>.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
   <disabledPlugins>
     <plugin name="Invention Calculator" version="3.5.0.0" />
     <plugin name="EveHQ Route Map" version="2.4.0.3671" />
