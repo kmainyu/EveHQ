@@ -165,66 +165,66 @@ namespace EveHQ.PosManager
             // Go through the active POS Designs, and update the data to reflect any
             // new data slots or values.
             // 11/30/09 -- Added FuelType.itemID for fuel costs
-            //foreach (POS pl in Designs.Values)
-            //{
-            //    // FuelBays are: Fuel, D_Fuel, A_Fuel, T_Fuel
-            //    if (PlugInData.TL.Towers.ContainsKey(pl.PosTower.typeID))
-            //    {
-            //        // Same base tower found, update the fuel bay data
-            //        pl.PosTower.Fuel.SetFuelBaseValues(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.D_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.A_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.T_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //    }
+            foreach (POS pl in Designs.Values)
+            {
+                // FuelBays are: Fuel, D_Fuel, A_Fuel, T_Fuel
+                if (PlugInData.TL.Towers.ContainsKey(pl.PosTower.typeID))
+                {
+                    // Same base tower found, update the fuel bay data
+                    pl.PosTower.Fuel.SetFuelBaseValues(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
+                    pl.PosTower.Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
+                    pl.PosTower.D_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
+                    pl.PosTower.A_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
+                    pl.PosTower.T_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
+                }
 
-            //    if (pl.ReactionLinks == null)
-            //    {
-            //        pl.ReactionLinks = new ArrayList();
-            //        pl.React_TS = DateTime.Now;
-            //    }
+                if (pl.ReactionLinks == null)
+                {
+                    pl.ReactionLinks = new ArrayList();
+                    pl.React_TS = DateTime.Now;
+                }
 
-            //    if (pl.Owner == null)
-            //    {
-            //        pl.Owner = "";
-            //        pl.FuelTech = "";
-            //        pl.ownerID = 0;
-            //        pl.fuelTechID = 0;
-            //    }
+                if (pl.Owner == null)
+                {
+                    pl.Owner = "";
+                    pl.FuelTech = "";
+                    pl.ownerID = 0;
+                    pl.fuelTechID = 0;
+                }
 
-            //    if (pl.Owner == "")
-            //        pl.Owner = pl.CorpName;
+                if (pl.Owner == "")
+                    pl.Owner = pl.CorpName;
 
-            //    // Actual testing reveals that the DB values are NOT correct for 
-            //    // structure resistances, they are in reality ZERO
-            //    pl.PosTower.Struct.EMP = 0;
-            //    pl.PosTower.Struct.Explosive = 0;
-            //    pl.PosTower.Struct.Kinetic = 0;
-            //    pl.PosTower.Struct.Thermal = 0;
+                // Actual testing reveals that the DB values are NOT correct for 
+                // structure resistances, they are in reality ZERO
+                pl.PosTower.Struct.EMP = 0;
+                pl.PosTower.Struct.Explosive = 0;
+                pl.PosTower.Struct.Kinetic = 0;
+                pl.PosTower.Struct.Thermal = 0;
 
-            //    foreach (Module m in pl.Modules)
-            //    {
-            //        if (m.ReactList == null)
-            //            m.CopyMissingReactData();
-            //        else
-            //        {
-            //            // Copy the Cache load data for Reactions, etc... Just in case it changed
-            //            // or was updated.
-            //            if (PlugInData.ML.Modules.ContainsKey(m.typeID))
-            //            {
-            //                m.ReactList = new ArrayList(PlugInData.ML.Modules[m.typeID].ReactList);
-            //                m.MSRList = new ArrayList(PlugInData.ML.Modules[m.typeID].MSRList);
-            //                m.InputList = new ArrayList(PlugInData.ML.Modules[m.typeID].InputList);
-            //                m.OutputList = new ArrayList(PlugInData.ML.Modules[m.typeID].OutputList);
-            //            }
-            //        }
-            //        if (m.curTS == null)
-            //        {
-            //            m.modID = 0;
-            //            m.curTS = "";
-            //        }
-            //    }
-            //}
+                foreach (Module m in pl.Modules)
+                {
+                    if (m.ReactList == null)
+                        m.CopyMissingReactData();
+                    else
+                    {
+                        // Copy the Cache load data for Reactions, etc... Just in case it changed
+                        // or was updated.
+                        if (PlugInData.ML.Modules.ContainsKey(m.typeID))
+                        {
+                            m.ReactList = new ArrayList(PlugInData.ML.Modules[m.typeID].ReactList);
+                            m.MSRList = new ArrayList(PlugInData.ML.Modules[m.typeID].MSRList);
+                            m.InputList = new ArrayList(PlugInData.ML.Modules[m.typeID].InputList);
+                            m.OutputList = new ArrayList(PlugInData.ML.Modules[m.typeID].OutputList);
+                        }
+                    }
+                    if (m.curTS == null)
+                    {
+                        m.modID = 0;
+                        m.curTS = "";
+                    }
+                }
+            }
         }
 
         public void CalculatePOSFuelRunTimes(API_List APIL, FuelBay fb)

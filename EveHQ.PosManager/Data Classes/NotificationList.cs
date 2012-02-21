@@ -125,7 +125,7 @@ namespace EveHQ.PosManager
 
             cts = DateTime.Now;
 
-            foreach (New_POS p in PlugInData.PDL.Designs.Values)
+            foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 foreach (PosNotify pn in PlugInData.NL.NotifyList)
                 {
@@ -155,7 +155,7 @@ namespace EveHQ.PosManager
                         {
                             if (pn.Notify_Active)
                             {
-                                if (ntfyHours > p.PosTower.Data["F_RunTime"])
+                                if (ntfyHours > p.PosTower.F_RunTime)
                                 {
                                     diff = cts.Subtract(pn.Notify_Sent);
                                     if (diff.Hours >= freqHrs)
@@ -172,7 +172,7 @@ namespace EveHQ.PosManager
                             else
                             {
                                 // Check to see if tower fuel run time is less than notification time
-                                if (ntfyHours >= p.PosTower.Data["F_RunTime"])
+                                if (ntfyHours >= p.PosTower.F_RunTime)
                                 {
                                     pn.Notify_Active = true;
                                     if (SendNotification(pn, p))
@@ -225,7 +225,7 @@ namespace EveHQ.PosManager
             }
         }
 
-        public bool SendNotification(PosNotify pn, New_POS p)
+        public bool SendNotification(PosNotify pn, POS p)
         {
             string eServe, eAddy, eUser, ePass, paddStr = "", mailMsg = "", subject;
             string paddLine = "";
@@ -274,13 +274,13 @@ namespace EveHQ.PosManager
 
                 mailMsg += "Tower   : " + p.Name + "\n";
                 mailMsg += "Location: " + p.Moon + "\n";
-                mailMsg += "Fuel Run Time Is: " + PlugInData.ConvertHoursToTextDisplay(p.PosTower.Data["F_RunTime"]) + "\n";
+                mailMsg += "Fuel Run Time Is: " + PlugInData.ConvertHoursToTextDisplay(p.PosTower.F_RunTime) + "\n";
                 mailMsg += "\nThe Tower Needs the Following Fuel for MAX Run Time:\n";
                 mailMsg += "----------------------------------------------------\n\n";
 
-                for (int x = 0; x < 3; x++)
+                for (int x = 0; x < 13; x++)
                 {
-                    if ((!p.UseChart) && (x == 1))
+                    if ((!p.UseChart) && (x == 11))
                         continue;
 
                     if (Convert.ToDecimal(fVal[x, 1]) > 0)

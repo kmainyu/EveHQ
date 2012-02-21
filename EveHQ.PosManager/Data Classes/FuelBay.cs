@@ -205,21 +205,61 @@ namespace EveHQ.PosManager
             return fCost;
         }
 
-        public void SetCurrentFuelCosts(TFuelBay fb)
+        public void SetCurrentFuelCosts(FuelBay fb)
         {
             decimal fCost;
             int cat;
 
             cat = PlugInData.Config.data.FuelCat;
 
-            // Fuel Blocks - Placeholder
+            fCost = GetFuelItemCost("44", cat);
+            if (fb.EnrUran.Cost > 0)
+                EnrUran.CostForQty = (EnrUran.Qty * fb.EnrUran.Cost);
+            else
+                EnrUran.CostForQty = (EnrUran.Qty * fCost);
+            FuelCost = EnrUran.CostForQty;
 
-            //fCost = GetFuelItemCost("44", cat);
-            //if (fb.EnrUran.Cost > 0)
-            //    EnrUran.CostForQty = (EnrUran.Qty * fb.EnrUran.Cost);
-            //else
-            //    EnrUran.CostForQty = (EnrUran.Qty * fCost);
-            //FuelCost = EnrUran.CostForQty;
+            fCost = GetFuelItemCost("3683", cat);
+            if (fb.Oxygen.Cost > 0)
+                Oxygen.CostForQty = (Oxygen.Qty * fb.Oxygen.Cost);
+            else
+                Oxygen.CostForQty = (Oxygen.Qty * fCost);
+            FuelCost += Oxygen.CostForQty;
+
+            fCost = GetFuelItemCost("3689", cat);
+            if (fb.MechPart.Cost > 0)
+                MechPart.CostForQty = (MechPart.Qty * fb.MechPart.Cost);
+            else
+                MechPart.CostForQty = (MechPart.Qty * fCost);
+            FuelCost += MechPart.CostForQty;
+
+            fCost = GetFuelItemCost("9832", cat);
+            if (fb.Coolant.Cost > 0)
+                Coolant.CostForQty = (Coolant.Qty * fb.Coolant.Cost);
+            else
+                Coolant.CostForQty = (Coolant.Qty * fCost);
+            FuelCost += Coolant.CostForQty;
+
+            fCost = GetFuelItemCost("9848", cat);
+            if (fb.Robotics.Cost > 0)
+                Robotics.CostForQty = (Robotics.Qty * fb.Robotics.Cost);
+            else
+                Robotics.CostForQty = (Robotics.Qty * fCost);
+            FuelCost += Robotics.CostForQty;
+
+            fCost = GetFuelItemCost("16272", cat);
+            if (fb.HvyWater.Cost > 0)
+                HvyWater.CostForQty = (HvyWater.Qty * fb.HvyWater.Cost);
+            else
+                HvyWater.CostForQty = (HvyWater.Qty * fCost);
+            FuelCost += HvyWater.CostForQty;
+
+            fCost = GetFuelItemCost("16273", cat);
+            if (fb.LiqOzone.Cost > 0)
+                LiqOzone.CostForQty = (LiqOzone.Qty * fb.LiqOzone.Cost);
+            else
+                LiqOzone.CostForQty = (LiqOzone.Qty * fCost);
+            FuelCost += LiqOzone.CostForQty;
 
             fCost = GetFuelItemCost(Charters.itemID, cat);
             if (fb.Charters.Cost > 0)
@@ -235,6 +275,35 @@ namespace EveHQ.PosManager
                 Strontium.CostForQty = (Strontium.Qty * fb.Strontium.Cost);
             else
                 Strontium.CostForQty = (Strontium.Qty * fCost);
+
+            fCost = GetFuelItemCost("17888", cat);
+            if (fb.N2Iso.Cost > 0)
+                N2Iso.CostForQty = (N2Iso.Qty * fb.N2Iso.Cost);
+            else
+                N2Iso.CostForQty = (N2Iso.Qty * fCost);
+            FuelCost += N2Iso.CostForQty;
+
+            fCost = GetFuelItemCost("17889", cat);
+            if (fb.H2Iso.Cost > 0)
+                H2Iso.CostForQty = (H2Iso.Qty * fb.H2Iso.Cost);
+            else
+                H2Iso.CostForQty = (H2Iso.Qty * fCost);
+            FuelCost += H2Iso.CostForQty;
+
+            fCost = GetFuelItemCost("16274", cat);
+            if (fb.HeIso.Cost > 0)
+                HeIso.CostForQty = (HeIso.Qty * fb.HeIso.Cost);
+            else
+                HeIso.CostForQty = (HeIso.Qty * fCost);
+            FuelCost += HeIso.CostForQty;
+
+            fCost = GetFuelItemCost("17887", cat);
+            if (fb.O2Iso.Cost > 0)
+                O2Iso.CostForQty = (O2Iso.Qty * fb.O2Iso.Cost);
+            else
+                O2Iso.CostForQty = (O2Iso.Qty * fCost);
+            FuelCost += O2Iso.CostForQty;
+
         }
 
         public decimal GetVolumeForFuel(decimal qty, decimal vol, decimal qtyVol)

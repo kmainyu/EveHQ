@@ -48,7 +48,7 @@ namespace EveHQ.PosManager
 
             // Populate Tower Pull Down
 
-            foreach (New_POS p in PlugInData.PDL.Designs.Values)
+            foreach (POS p in PlugInData.PDL.Designs.Values)
             {
                 if (p.Monitored)
                 {

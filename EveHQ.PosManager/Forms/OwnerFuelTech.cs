@@ -45,13 +45,13 @@ namespace EveHQ.PosManager
         private void b_OK_Click(object sender, EventArgs e)
         {
             string twrName;
-            New_POS pl;
+            POS pl;
 
             twrName = PlugInData.SelectedTower;
 
            if (PlugInData.PDL.Designs.ContainsKey(twrName))
            {
-                pl = PlugInData.PDL.Designs[twrName];
+               pl = PlugInData.PDL.Designs[twrName];
                 pl.Owner = cb_OwnerName.Text;
                 pl.FuelTech = cb_FuelTechName.Text;
 
