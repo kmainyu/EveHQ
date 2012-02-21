@@ -515,7 +515,7 @@ namespace EveHQ.PosManager
             sov_mult = GetSovMultiple();
             fuel_cap = PosTower.D_Fuel.FuelCap;
 
-            while (fb.FuelUsed < fuel_cap)
+            while (fb.FuelUsed < fuel_cap && period <= 10000)
             {
                 period++;
 
