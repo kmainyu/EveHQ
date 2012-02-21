@@ -36,7 +36,7 @@ Public Class frmMarketOrders
         Set(ByVal value As String)
             cOrdersFile = value
             Call Me.CheckIndustry()
-            Call Me.ProcessMLPrices(cOrdersFile, True)
+            Call Me.ProcessMLPrices(cOrdersFile, False)
         End Set
     End Property
 
@@ -108,7 +108,7 @@ Public Class frmMarketOrders
     Private Sub CalculateMLStats(ByVal orderList As ArrayList, ByVal orderDate As Date, WriteToDB As Boolean)
         Dim orderDetails(), oDate As String
         Dim issueDate As Date
-        Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+        Dim TimeFormat As String = "yyyy-MM-dd HH:mm:ss.fff"
         Dim OldTimeFormat As String = "yyyy-MM-dd"
         Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
         Dim orderExpires As TimeSpan
