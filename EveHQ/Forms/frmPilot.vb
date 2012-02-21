@@ -615,14 +615,16 @@ Public Class frmPilot
                             percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
                         End If
                     End If
-                    TrainingSkill.Cells(3).Text = percent.ToString("N0") & "%"
-                    TrainingSkill.Cells(3).Tag = percent
-                    TrainingSkill.Cells(4).Text = (cSkill.SP + displayPilot.TrainingCurrentSP).ToString("N0")
-                    TrainingSkill.Cells(4).Tag = cSkill.SP
-                    TrainingSkill.Cells(5).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
-                    TrainingSkill.Cells(5).Tag = displayPilot.TrainingCurrentTime
+                    If TrainingSkill IsNot Nothing Then
+                        TrainingSkill.Cells(3).Text = percent.ToString("N0") & "%"
+                        TrainingSkill.Cells(3).Tag = percent
+                        TrainingSkill.Cells(4).Text = (cSkill.SP + displayPilot.TrainingCurrentSP).ToString("N0")
+                        TrainingSkill.Cells(4).Tag = cSkill.SP
+                        TrainingSkill.Cells(5).Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                        TrainingSkill.Cells(5).Tag = displayPilot.TrainingCurrentTime
+                    End If
                     'TrainingSkill.Cells(2).HostedControl.Refresh()
-                    If chkGroupSkills.Checked = True Then
+                    If chkGroupSkills.Checked = True And TrainingGroup IsNot Nothing Then
                         TrainingGroup.Cells(4).Text = "<font color=""#FFD700"">" & (CLng(TrainingGroup.Cells(4).Tag) + displayPilot.TrainingCurrentSP).ToString("N0") & "</font>"
                         TrainingGroup.Text = TrainingGroup.Tag.ToString & "<font color=""#FFD700"">  - Training</font>"
                         'TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
