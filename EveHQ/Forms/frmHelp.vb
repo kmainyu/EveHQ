@@ -131,7 +131,7 @@ Public Class frmHelp
         BlogUpdater.RunWorkerAsync()
         pbTwitterUpdate.Visible = True
         TwitterUpdater.RunWorkerAsync()
-        wbHelp.Navigate("http://wiki.indiceve.com")
+        wbHelp.Navigate("http://www.evehq.net/wiki")
     End Sub
 
     Private Sub BlogUpdater_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BlogUpdater.DoWork
