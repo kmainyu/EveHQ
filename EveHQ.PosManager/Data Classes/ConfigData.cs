@@ -35,7 +35,7 @@ namespace EveHQ.PosManager
     [Serializable]
     public class ConfigData
     {
-        public FuelBay FuelCosts;
+        public TFuelBay FuelCosts;
         public long SortedColumnIndex;
         public int MonSelIndex;
         public int FuelCat;
@@ -50,7 +50,7 @@ namespace EveHQ.PosManager
 
         public ConfigData()
         {
-            FuelCosts = new FuelBay();
+            FuelCosts = new TFuelBay();
             Extra = new ArrayList();
             dgMonBool = new ArrayList();
             dgDesBool = new ArrayList();

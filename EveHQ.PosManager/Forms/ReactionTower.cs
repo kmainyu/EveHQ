@@ -42,14 +42,14 @@ namespace EveHQ.PosManager
     {
         ArrayList ReactInfo; // 1 = 0-3, 2 = 4-7, 3 = 8-11, 4 = 12-15, 5 = 16-19, etc...
         PoSManMainForm PMMF;
-        POS rPos;
+        New_POS rPos;
 
         public ReactionTower()
         {
             InitializeComponent();
         }
 
-        public void UpdateReactionInformation(POS p, ArrayList ri, PoSManMainForm pm)
+        public void UpdateReactionInformation(New_POS p, ArrayList ri, PoSManMainForm pm)
         {
             int totBar;
             ReactBar rBar;

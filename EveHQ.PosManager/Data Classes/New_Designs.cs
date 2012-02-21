@@ -33,14 +33,14 @@ using System.Collections.Generic;
 namespace EveHQ.PosManager
 {
     [Serializable]
-    public class POSDesigns
+    public class New_Designs
     {
-        public SortedList<string, POS> Designs;
+        public SortedList<string, New_POS> Designs;
         private static bool AccessControl = false;
 
-        public POSDesigns()
+        public New_Designs()
         {
-            Designs = new SortedList<string, POS>();
+            Designs = new SortedList<string, New_POS>();
         }
 
         public void SaveDesignListing()
@@ -81,19 +81,19 @@ namespace EveHQ.PosManager
 
                 try
                 {
-                    Designs = (SortedList<string, POS>)myBf.Deserialize(cStr);
+                    Designs = (SortedList<string, New_POS>)myBf.Deserialize(cStr);
                 }
                 catch
                 {
                     // We have the old structure type - need to load and convert it !
                     try
                     {
-                        ArrayList OLDDesigns = new ArrayList();
+                        SortedList<string, POS> OLDDesigns = new SortedList<string, POS>();
 
                         cStr.Close();
                         cStr = File.OpenRead(fname);
 
-                        OLDDesigns = (ArrayList)myBf.Deserialize(cStr);
+                        OLDDesigns = (SortedList<string, POS>)myBf.Deserialize(cStr);
                         cStr.Close();
 
                         // Preserve the old design file
@@ -111,17 +111,17 @@ namespace EveHQ.PosManager
             }
         }
 
-        public void ConvertOldToNewDesign(ArrayList OD)
+        public void ConvertOldToNewDesign(SortedList<string, POS> OD)
         {
             Designs.Clear();
-            foreach (POS p in OD)
+            foreach (POS p in OD.Values)
             {
-                Designs.Add(p.Name, p);
+                Designs.Add(p.Name, new New_POS(p));
             }
             SaveDesignListing();
         }
 
-        public void AddDesignToList(POS des)
+        public void AddDesignToList(New_POS des)
         {
             bool nameChange = false;
 
@@ -136,7 +136,7 @@ namespace EveHQ.PosManager
                 AddDesignToList(des);
         }
 
-        public void RemoveDesignFromList(POS des)
+        public void RemoveDesignFromList(New_POS des)
         {
             if (Designs.ContainsKey(des.Name))
             {
@@ -152,7 +152,7 @@ namespace EveHQ.PosManager
             }
         }
 
-        public void UpdateListDesign(POS des)
+        public void UpdateListDesign(New_POS des)
         {
             if (Designs.ContainsKey(des.Name))
             {
@@ -164,74 +164,15 @@ namespace EveHQ.PosManager
         {
             // Go through the active POS Designs, and update the data to reflect any
             // new data slots or values.
-            // 11/30/09 -- Added FuelType.itemID for fuel costs
-            //foreach (POS pl in Designs.Values)
-            //{
-            //    // FuelBays are: Fuel, D_Fuel, A_Fuel, T_Fuel
-            //    if (PlugInData.TL.Towers.ContainsKey(pl.PosTower.typeID))
-            //    {
-            //        // Same base tower found, update the fuel bay data
-            //        pl.PosTower.Fuel.SetFuelBaseValues(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.D_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.A_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //        pl.PosTower.T_Fuel.SetFuelItemID(PlugInData.TL.Towers[pl.PosTower.typeID].Fuel);
-            //    }
 
-            //    if (pl.ReactionLinks == null)
-            //    {
-            //        pl.ReactionLinks = new ArrayList();
-            //        pl.React_TS = DateTime.Now;
-            //    }
-
-            //    if (pl.Owner == null)
-            //    {
-            //        pl.Owner = "";
-            //        pl.FuelTech = "";
-            //        pl.ownerID = 0;
-            //        pl.fuelTechID = 0;
-            //    }
-
-            //    if (pl.Owner == "")
-            //        pl.Owner = pl.CorpName;
-
-            //    // Actual testing reveals that the DB values are NOT correct for 
-            //    // structure resistances, they are in reality ZERO
-            //    pl.PosTower.Struct.EMP = 0;
-            //    pl.PosTower.Struct.Explosive = 0;
-            //    pl.PosTower.Struct.Kinetic = 0;
-            //    pl.PosTower.Struct.Thermal = 0;
-
-            //    foreach (Module m in pl.Modules)
-            //    {
-            //        if (m.ReactList == null)
-            //            m.CopyMissingReactData();
-            //        else
-            //        {
-            //            // Copy the Cache load data for Reactions, etc... Just in case it changed
-            //            // or was updated.
-            //            if (PlugInData.ML.Modules.ContainsKey(m.typeID))
-            //            {
-            //                m.ReactList = new ArrayList(PlugInData.ML.Modules[m.typeID].ReactList);
-            //                m.MSRList = new ArrayList(PlugInData.ML.Modules[m.typeID].MSRList);
-            //                m.InputList = new ArrayList(PlugInData.ML.Modules[m.typeID].InputList);
-            //                m.OutputList = new ArrayList(PlugInData.ML.Modules[m.typeID].OutputList);
-            //            }
-            //        }
-            //        if (m.curTS == null)
-            //        {
-            //            m.modID = 0;
-            //            m.curTS = "";
-            //        }
-            //    }
-            //}
+            // 1_21_12 - new structure, no new slots at this time
         }
 
-        public void CalculatePOSFuelRunTimes(API_List APIL, FuelBay fb)
+        public void CalculatePOSFuelRunTimes(API_List APIL, TFuelBay fb)
         {
             // This function will calculate the fuel run times for the current
             // monitored POS list if the PoS has a timestamp for monitoring set.
-            foreach (POS pl in Designs.Values)
+            foreach (New_POS pl in Designs.Values)
             {
                 if (pl.Monitored)
                 {
@@ -246,7 +187,7 @@ namespace EveHQ.PosManager
         public void UpdateTowerSiloValuesForAPI()
         {
             // Scan all towers
-            foreach (POS pl in Designs.Values)
+            foreach (New_POS pl in Designs.Values)
             {
                 // Scan all modules
                 foreach (Module m in pl.Modules)
@@ -290,7 +231,7 @@ namespace EveHQ.PosManager
             bool changed = false, anyChange = false;
             // This function will calculate the fuel run times for the current
             // monitored POS list if the PoS has a timestamp for monitoring set.
-            foreach (POS pl in Designs.Values)
+            foreach (New_POS pl in Designs.Values)
             {
                 if (pl.Monitored)
                 {

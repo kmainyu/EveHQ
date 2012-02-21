@@ -48,7 +48,7 @@ namespace EveHQ.PosManager
             foreach (APITowerData apid in PlugInData.API_D.apiTower.Values)
             {
                 present = false;
-                foreach (POS p in PlugInData.PDL.Designs.Values)
+                foreach (New_POS p in PlugInData.PDL.Designs.Values)
                 {
                     if (p.itemID == apid.itemID)
                     {
@@ -88,7 +88,7 @@ namespace EveHQ.PosManager
             bool chkd;
             bool mon;
             string tName;
-            POS APITower;
+            New_POS APITower;
 
             mon = cbx_Monitored.Checked;
 
@@ -107,12 +107,12 @@ namespace EveHQ.PosManager
                         {
                             // Found the correct one, now add it
                             tName = apid.corpName + "-->" + apid.towerName;
-                            APITower = new POS(tName);
+                            APITower = new New_POS(tName);
 
                             // I have the name. Need to add the tower object to the POS
                             if (PlugInData.TL.Towers.ContainsKey(apid.towerID))
                             {
-                                APITower.PosTower = new Tower(PlugInData.TL.Towers[apid.towerID]);
+                                APITower.PosTower = new New_Tower(PlugInData.TL.Towers[apid.towerID]);
                             }
 
                             APITower.CorpName = apid.corpName;
@@ -143,18 +143,8 @@ namespace EveHQ.PosManager
                             }
 
                             // Also need to set Fuel Data Amounts
-                            APITower.PosTower.Fuel.EnrUran.Qty = apid.EnrUr;
-                            APITower.PosTower.Fuel.Oxygen.Qty = apid.Oxygn;
-                            APITower.PosTower.Fuel.MechPart.Qty = apid.MechP;
-                            APITower.PosTower.Fuel.Robotics.Qty = apid.Robot;
-                            APITower.PosTower.Fuel.HvyWater.Qty = apid.HvyWt;
-                            APITower.PosTower.Fuel.LiqOzone.Qty = apid.LiqOz;
+                            APITower.PosTower.Fuel.Blocks.Qty = apid.Blocks;
                             APITower.PosTower.Fuel.Charters.Qty = apid.Charters;
-                            APITower.PosTower.Fuel.Coolant.Qty = apid.Coolt;
-                            APITower.PosTower.Fuel.H2Iso.Qty = apid.H2Iso;
-                            APITower.PosTower.Fuel.HeIso.Qty = apid.HeIso;
-                            APITower.PosTower.Fuel.O2Iso.Qty = apid.O2Iso;
-                            APITower.PosTower.Fuel.N2Iso.Qty = apid.N2Iso;
                             APITower.PosTower.Fuel.Strontium.Qty = apid.Stront;
                             APITower.Monitored = mon;
 

@@ -53,7 +53,7 @@ namespace EveHQ.PosManager
         public bool onWar;
         public string stateTS;  // Time when tower will have a server computation for fuel run next. If in reinforced mode, time tower will come out of that mode
         public string onlineTS; // Timestamp for when tower was placed online / online status changed
-        public decimal EnrUr, Oxygn, MechP, Coolt, Robot, HeIso, N2Iso, H2Iso, O2Iso, LiqOz, HvyWt, Charters, Stront;
+        public decimal Charters, Stront, Blocks;
 
         public APITowerData()
         {
@@ -81,17 +81,7 @@ namespace EveHQ.PosManager
             onWar = false;
             stateTS = "";
             onlineTS = "";
-            EnrUr = 0;
-            Oxygn = 0;
-            MechP = 0;
-            Coolt = 0;
-            Robot = 0;
-            HeIso = 0;
-            N2Iso = 0;
-            H2Iso = 0;
-            O2Iso = 0;
-            LiqOz = 0;
-            HvyWt = 0;
+            Blocks = 0;
             Charters = 0;
             Stront = 0;
         }
@@ -122,17 +112,7 @@ namespace EveHQ.PosManager
             onWar = apt.onWar;
             stateTS = apt.stateTS;
             onlineTS = apt.onlineTS;
-            EnrUr = apt.EnrUr;
-            Oxygn = apt.Oxygn;
-            MechP = apt.MechP;
-            Coolt = apt.Coolt;
-            Robot = apt.Robot;
-            HeIso = apt.HeIso;
-            N2Iso = apt.N2Iso;
-            H2Iso = apt.H2Iso;
-            O2Iso = apt.O2Iso;
-            LiqOz = apt.LiqOz;
-            HvyWt = apt.HvyWt;
+            Blocks = apt.Blocks;
             Charters = apt.Charters;
             Stront = apt.Stront;
         }

@@ -376,27 +376,27 @@ namespace EveHQ.PosManager
 
                             switch (typeID)
                             {
-                                case 44:    // Enr Uranium
-                                    aptd.EnrUr = qty;
-                                    break;
-                                case 3683:  // Oxygen
-                                    aptd.Oxygn = qty;
-                                    break;
-                                case 3689:  // Mech Parts
-                                    aptd.MechP = qty;
-                                    break;
-                                case 9832:  // Coolant
-                                    aptd.Coolt = qty;
-                                    break;
-                                case 9848:  // Robotics
-                                    aptd.Robot = qty;
-                                    break;
-                                case 16272: // Heavy Water
-                                    aptd.HvyWt = qty;
-                                    break;
-                                case 16273: // Liquid Ozone
-                                    aptd.LiqOz = qty;
-                                    break;
+                                //case 44:    // Enr Uranium
+                                //    aptd.EnrUr = qty;
+                                //    break;
+                                //case 3683:  // Oxygen
+                                //    aptd.Oxygn = qty;
+                                //    break;
+                                //case 3689:  // Mech Parts
+                                //    aptd.MechP = qty;
+                                //    break;
+                                //case 9832:  // Coolant
+                                //    aptd.Coolt = qty;
+                                //    break;
+                                //case 9848:  // Robotics
+                                //    aptd.Robot = qty;
+                                //    break;
+                                //case 16272: // Heavy Water
+                                //    aptd.HvyWt = qty;
+                                //    break;
+                                //case 16273: // Liquid Ozone
+                                //    aptd.LiqOz = qty;
+                                //    break;
                                 case 24592: // Charter
                                 case 24593: // Charter
                                 case 24594: // Charter
@@ -405,18 +405,18 @@ namespace EveHQ.PosManager
                                 case 24597: // Charter
                                     aptd.Charters = qty;
                                     break;
-                                case 17888: // Nitrogen Isotopes
-                                    aptd.N2Iso = qty;
-                                    break;
-                                case 16274: // Helium Isotopes
-                                    aptd.HeIso = qty;
-                                    break;
-                                case 17889: // Hydrogen Isotopes
-                                    aptd.H2Iso = qty;
-                                    break;
-                                case 17887: // Oxygen Isotopes
-                                    aptd.O2Iso = qty;
-                                    break;
+                                //case 17888: // Nitrogen Isotopes
+                                //    aptd.N2Iso = qty;
+                                //    break;
+                                //case 16274: // Helium Isotopes
+                                //    aptd.HeIso = qty;
+                                //    break;
+                                //case 17889: // Hydrogen Isotopes
+                                //    aptd.H2Iso = qty;
+                                //    break;
+                                //case 17887: // Oxygen Isotopes
+                                //    aptd.O2Iso = qty;
+                                //    break;
                                 case 16275: // Strontium
                                     aptd.Stront = qty;
                                     break;
@@ -604,27 +604,27 @@ namespace EveHQ.PosManager
 
                             switch (typeID)
                             {
-                                case 44:    // Enr Uranium
-                                    aptd.EnrUr = qty;
-                                    break;
-                                case 3683:  // Oxygen
-                                    aptd.Oxygn = qty;
-                                    break;
-                                case 3689:  // Mech Parts
-                                    aptd.MechP = qty;
-                                    break;
-                                case 9832:  // Coolant
-                                    aptd.Coolt = qty;
-                                    break;
-                                case 9848:  // Robotics
-                                    aptd.Robot = qty;
-                                    break;
-                                case 16272: // Heavy Water
-                                    aptd.HvyWt = qty;
-                                    break;
-                                case 16273: // Liquid Ozone
-                                    aptd.LiqOz = qty;
-                                    break;
+                                //case 44:    // Enr Uranium
+                                //    aptd.EnrUr = qty;
+                                //    break;
+                                //case 3683:  // Oxygen
+                                //    aptd.Oxygn = qty;
+                                //    break;
+                                //case 3689:  // Mech Parts
+                                //    aptd.MechP = qty;
+                                //    break;
+                                //case 9832:  // Coolant
+                                //    aptd.Coolt = qty;
+                                //    break;
+                                //case 9848:  // Robotics
+                                //    aptd.Robot = qty;
+                                //    break;
+                                //case 16272: // Heavy Water
+                                //    aptd.HvyWt = qty;
+                                //    break;
+                                //case 16273: // Liquid Ozone
+                                //    aptd.LiqOz = qty;
+                                //    break;
                                 case 24592: // Charter
                                 case 24593: // Charter
                                 case 24594: // Charter
@@ -633,18 +633,18 @@ namespace EveHQ.PosManager
                                 case 24597: // Charter
                                     aptd.Charters = qty;
                                     break;
-                                case 17888: // Nitrogen Isotopes
-                                    aptd.N2Iso = qty;
-                                    break;
-                                case 16274: // Helium Isotopes
-                                    aptd.HeIso = qty;
-                                    break;
-                                case 17889: // Hydrogen Isotopes
-                                    aptd.H2Iso = qty;
-                                    break;
-                                case 17887: // Oxygen Isotopes
-                                    aptd.O2Iso = qty;
-                                    break;
+                                //case 17888: // Nitrogen Isotopes
+                                //    aptd.N2Iso = qty;
+                                //    break;
+                                //case 16274: // Helium Isotopes
+                                //    aptd.HeIso = qty;
+                                //    break;
+                                //case 17889: // Hydrogen Isotopes
+                                //    aptd.H2Iso = qty;
+                                //    break;
+                                //case 17887: // Oxygen Isotopes
+                                //    aptd.O2Iso = qty;
+                                //    break;
                                 case 16275: // Strontium
                                     aptd.Stront = qty;
                                     break;
