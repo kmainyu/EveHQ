@@ -1290,7 +1290,7 @@
 17722,1,3332,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff
 17722,1,3333,20,2,65,0,1,0,10,15,Stasis Web Strength
 # Vindicator,,,,,,,,,,,
-17740,0,0,10015,4,563;566,0,0,0,25,15,Large Hybrid Turret Damage
+17740,0,0,10015,4,563;566,0,0,0,37.5,15,Large Hybrid Turret Damage
 17740,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 17740,1,3337,20,2,65,0,1,0,10,15,Stasis Web Strength
 # Vulture,,,,,,,,,,,
