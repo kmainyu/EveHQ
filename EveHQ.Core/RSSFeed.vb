@@ -108,13 +108,25 @@ Namespace RSS
 
                 Dim source As String = (From ele In feed.Descendants("channel").Elements("title") Select ele.Value).[Single]
 
-                Dim items As List(Of FeedItem) = (From item In feed.Descendants("item") Select New FeedItem With { _
-                                        .Title = item.Element("title").Value, _
-                                        .Link = item.Element("link").Value, _
-                                        .PubDate = IIf(item.Element("pubDate").Value IsNot Nothing, item.Element("pubDate").Value, "").ToString, _
-                                        .Description = IIf(item.Element("description").Value IsNot Nothing, item.Element("description").Value, "").ToString, _
-                                        .GUID = IIf(item.Element("guid").Value IsNot Nothing, item.Element("guid").Value, .Link).ToString, _
-                                        .Source = source}).ToList()
+                Dim items As New List(Of FeedItem)
+                For Each item As XElement In feed.Descendants("item")
+                    Dim fi As New FeedItem
+                    fi.Title = item.Element("title").Value
+                    fi.Link = item.Element("link").Value
+                    fi.PubDate = IIf(item.Element("pubDate") IsNot Nothing, item.Element("pubDate").Value, "").ToString
+                    If item.Element("description") IsNot Nothing Then
+                        fi.Description = item.Element("description").Value
+                    Else
+                        fi.Description = ""
+                    End If
+                    If item.Element("guid") IsNot Nothing Then
+                        fi.GUID = item.Element("guid").Value
+                    Else
+                        fi.GUID = fi.Link
+                    End If
+                    fi.Source = source
+                    items.Add(fi)
+                Next
 
                 Return items
 
@@ -137,14 +149,26 @@ Namespace RSS
 
                 Dim source As String = (From ele In feed.Descendants(d + "channel").Elements(d + "title") Select ele.Value).Single
 
-                Dim items As List(Of FeedItem) = (From item In feed.Descendants(d + "item") Select New FeedItem With { _
-                                        .Title = item.Element(d + "title").Value, _
-                                        .Link = item.Element(d + "link").Value, _
-                                        .PubDate = IIf(item.Element(dc + "date").Value IsNot Nothing, item.Element(dc + "date").Value, "").ToString, _
-                                        .Description = IIf(item.Element(d + "description").Value IsNot Nothing, item.Element(d + "description").Value, "").ToString, _
-                                        .GUID = item.Element(d + "link").Value, _
-                                        .Source = source}).ToList()
-
+                Dim items As New List(Of FeedItem)
+                For Each item As XElement In feed.Descendants(d + "item")
+                    Dim fi As New FeedItem
+                    fi.Title = item.Element(d + "title").Value
+                    fi.Link = item.Element(d + "link").Value
+                    If item.Element(dc + "date") IsNot Nothing Then
+                        fi.PubDate = item.Element(dc + "date").Value
+                    Else
+                        fi.PubDate = ""
+                    End If
+                    If item.Element(dc + "description") IsNot Nothing Then
+                        fi.Description = item.Element(dc + "description").Value
+                    Else
+                        fi.Description = ""
+                    End If
+                    fi.GUID = item.Element(d + "link").Value
+                    fi.Source = source
+                    items.Add(fi)
+                Next
+               
                 Return items
 
             Catch ex As Exception
@@ -164,13 +188,29 @@ Namespace RSS
 
                 Dim source As String = (From ele In feed.Descendants(d + "feed").Elements(d + "title") Select ele.Value).Single()
 
-                Dim items As List(Of FeedItem) = (From entry In feed.Descendants(d + "entry") Select New FeedItem With { _
-                                        .Title = entry.Element(d + "title").Value, _
-                                        .Link = entry.Element(d + "link").Attribute("href").Value, _
-                                        .PubDate = IIf(entry.Element(d + "updated").Value IsNot Nothing, entry.Element(d + "updated").Value, "").ToString, _
-                                        .Description = IIf(entry.Element(d + "summary").Value IsNot Nothing, entry.Element(d + "summary").Value, "").ToString, _
-                                        .GUID = IIf(entry.Element(d + "id").Value IsNot Nothing, entry.Element(d + "id").Value, .Link).ToString, _
-                                        .Source = source}).ToList()
+                Dim items As New List(Of FeedItem)
+                For Each entry As XElement In feed.Descendants(d + "entry")
+                    Dim fi As New FeedItem
+                    fi.Title = entry.Element(d + "title").Value
+                    fi.Link = entry.Element(d + "link").Attribute("href").Value
+                    If entry.Element(d + "updated") IsNot Nothing Then
+                        fi.PubDate = entry.Element(d + "updated").Value
+                    Else
+                        fi.PubDate = ""
+                    End If
+                    If entry.Element(d + "summary") IsNot Nothing Then
+                        fi.Description = entry.Element(d + "summary").Value
+                    Else
+                        fi.Description = ""
+                    End If
+                    If entry.Element(d + "id") IsNot Nothing Then
+                        fi.GUID = entry.Element(d + "id").Value
+                    Else
+                        fi.GUID = fi.Link
+                    End If
+                    fi.Source = source
+                    items.Add(fi)
+                Next
 
                 Return items
 
