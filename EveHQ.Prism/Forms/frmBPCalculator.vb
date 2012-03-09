@@ -1175,7 +1175,7 @@ Public Class frmBPCalculator
         lblUnitCost.Text = unitcosts.ToString("N2") & " isk"
         lblUnitValue.Text = value.ToString("N2") & " isk"
         lblUnitProfit.Text = profit.ToString("N2") & " isk"
-        lblProfitRate.Text = (profit / ((currentJob.RunTime / currentJob.Runs) / 3600)).ToString("N2") & " isk"
+        lblProfitRate.Text = (profit * product.PortionSize / ((currentJob.RunTime / currentJob.Runs) / 3600)).ToString("N2") & " isk"
         lblProfitMargin.Text = CDbl(profit / value * 100).ToString("N2") & " %"
         lblProfitMarkup.Text = CDbl(profit / unitcosts * 100).ToString("N2") & " %"
         If profit > 0 Then
