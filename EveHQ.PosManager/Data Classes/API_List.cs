@@ -397,6 +397,13 @@ namespace EveHQ.PosManager
                                 //case 16273: // Liquid Ozone
                                 //    aptd.LiqOz = qty;
                                 //    break;
+                                case 4051:  //Caldari Fuel Block
+                                case 4246:  //Minmatar Fuel Block
+                                case 4247:  //Amarr Fuel Block
+                                case 4312:  //Gallente Fuel Block
+                                    aptd.Blocks = qty;
+                                    break;
+
                                 case 24592: // Charter
                                 case 24593: // Charter
                                 case 24594: // Charter
@@ -625,6 +632,13 @@ namespace EveHQ.PosManager
                                 //case 16273: // Liquid Ozone
                                 //    aptd.LiqOz = qty;
                                 //    break;
+                                case 4051:  //Caldari Fuel Block
+                                case 4246:  //Minmatar Fuel Block
+                                case 4247:  //Amarr Fuel Block
+                                case 4312:  //Gallente Fuel Block
+                                    aptd.Blocks = qty;
+                                    break;
+
                                 case 24592: // Charter
                                 case 24593: // Charter
                                 case 24594: // Charter
