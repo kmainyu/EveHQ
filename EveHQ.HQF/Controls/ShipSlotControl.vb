@@ -776,6 +776,10 @@ Public Class ShipSlotControl
                 HQF.Settings.HQFSettings.UserSlotColumns(EndIdx) = StartUserCol
             End If
         End If
+		
+		Call UpdateShipSlotColumns()
+        Call UpdateAllSlotLocations()
+		
     End Sub
 
     Private Sub adtSlots_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtSlots.ColumnResized
