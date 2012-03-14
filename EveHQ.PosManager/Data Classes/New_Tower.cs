@@ -92,6 +92,7 @@ namespace EveHQ.PosManager
 
         public New_Tower(New_Tower t)
         {
+            decimal bQty = 40;
             Armor = new Defense(t.Armor);
             Shield = new Defense(t.Shield);
             Struct = new Defense(t.Struct);
@@ -116,6 +117,25 @@ namespace EveHQ.PosManager
             Category = t.Category;
 
             Low_Fuel = t.Low_Fuel;
+
+            bQty = ComputeBlocksForTower(Data["Block_Qty"]);
+            Fuel.FuelCap = Data["Capacity"];
+            Fuel.Blocks.APIPerQty = bQty;
+            Fuel.Blocks.BaseQty = bQty;
+            Fuel.Blocks.PeriodQty = bQty;
+            A_Fuel.FuelCap = Data["Capacity"];
+            A_Fuel.Blocks.APIPerQty = bQty;
+            A_Fuel.Blocks.BaseQty = bQty;
+            A_Fuel.Blocks.PeriodQty = bQty;
+            D_Fuel.FuelCap = Data["Capacity"];
+            D_Fuel.Blocks.APIPerQty = bQty;
+            D_Fuel.Blocks.BaseQty = bQty;
+            D_Fuel.Blocks.PeriodQty = bQty;
+            T_Fuel.FuelCap = Data["Capacity"];
+            T_Fuel.Blocks.APIPerQty = bQty;
+            T_Fuel.Blocks.BaseQty = bQty;
+            T_Fuel.Blocks.PeriodQty = bQty;
+
 
             Extra = new ArrayList();
             foreach (var s in t.Extra)

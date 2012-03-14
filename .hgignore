@@ -6,3 +6,4 @@ Release/*
 *.suo
 *.user
 AssemblyInfo.*
+_ReSharper.EveHQ/
