@@ -709,7 +709,9 @@ Public Class PilotParseFunctions
                             newSkill.LevelUp(3) = thisSkill.LevelUp(3)
                             newSkill.LevelUp(4) = thisSkill.LevelUp(4)
                             newSkill.LevelUp(5) = thisSkill.LevelUp(5)
-                            cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                            If cPilot.PilotSkills.Contains(newSkill.Name) = False Then
+                                cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                            End If
                             ' Check if a pilot skill is missing from the global skill list
                         Else
                             Dim missingSkill As EveHQ.Core.EveSkill = New EveHQ.Core.EveSkill
@@ -734,7 +736,9 @@ Public Class PilotParseFunctions
                             EveHQ.Core.HQ.SkillListName.Add(missingSkill.Name, missingSkill)
                             EveHQ.Core.HQ.SkillListID.Add(missingSkill.ID, missingSkill)
                             missingSkills &= newSkill.Name & ControlChars.CrLf
-                            cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                            If cPilot.PilotSkills.Contains(newSkill.Name) = False Then
+                                cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                            End If
                         End If
                         ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
                         If EveHQ.Core.HQ.SkillListID.ContainsKey(newSkill.ID) = True And EveHQ.Core.HQ.SkillListName.ContainsKey(newSkill.Name) = False Then
