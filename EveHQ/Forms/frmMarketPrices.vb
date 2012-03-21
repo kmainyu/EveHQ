@@ -1432,7 +1432,7 @@ Public Class frmMarketPrices
 
             ' Download the correct data file
             If DownloadRequired = True Then
-                Call GetBCPriceFeed("MarketPrices", "http://eve.static.battleclinic.com/xml/market_data/", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
+                Call GetBCPriceFeed("MarketPrices", "http://eve.battleclinic.com/xml/market_data/", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
             End If
 
         Next
