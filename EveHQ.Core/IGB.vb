@@ -800,7 +800,9 @@ Public Class IGB
                                     If skillLvl <> "" Then attributes(att, 3) &= " (Level " & skillLvl & ")"
                                     attributes(att, 4) = ""
                                 Else
-                                    attributes(att, 3) = CDbl(attributes(att, 3)).ToString("N6")
+                                    If IsNumeric(attributes(att, 3)) Then
+                                        attributes(att, 3) = CDbl(attributes(att, 3)).ToString("N6")
+                                    End If
                                 End If
                             Next
 
