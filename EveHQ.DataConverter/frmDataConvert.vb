@@ -19,25 +19,18 @@
 '=========================================================================
 Imports System.IO
 Imports System.Windows.Forms
-Imports System.Text.RegularExpressions
 Imports System.Data
-Imports System.Data.OleDb
 Imports System.Data.SqlClient
-Imports System.IO.Compression
 Imports System.Text
 Imports System.Xml
-Imports System.Runtime.Serialization.Formatters.Binary
-Imports ICSharpCode.SharpZipLib.Core
-Imports ICSharpCode.SharpZipLib.Zip
 Imports System.Data.SqlServerCe
 
 Public Class frmDataConvert
-
-    Dim DBVersion As String = "2.4.3.0"
+    Private Const DBVersion As String = "2.4.3.0"
 
 #Region "SQLCE Version Table Routines"
 
-    Private Sub btnBrowseDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBrowseDB.Click
+    Private Sub btnBrowseDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnBrowseDB.Click
         With ofd1
             .Title = "Select the source SQLCE database to add the version table..."
             .FileName = ""
@@ -46,7 +39,7 @@ Public Class frmDataConvert
             .FilterIndex = 1
             .RestoreDirectory = True
             If .ShowDialog() = Windows.Forms.DialogResult.OK Then
-                Call Me.AddSQLCEVersionTable(ofd1.FileName)
+                Call AddSQLCEVersionTable(ofd1.FileName)
             End If
         End With
     End Sub
@@ -71,7 +64,7 @@ Public Class frmDataConvert
 
 #Region "Wormhole Routines"
 
-    Private Sub btnGenerateWHClassLocations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateWHClassLocations.Click
+    Private Sub btnGenerateWHClassLocations_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGenerateWHClassLocations.Click
         With ofd1
             .Title = "Select WH Locations XML file..."
             .FileName = ""
@@ -96,7 +89,7 @@ Public Class frmDataConvert
         End With
     End Sub
 
-    Private Sub btnGenerateWHAttribs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateWHAttribs.Click
+    Private Sub btnGenerateWHAttribs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGenerateWHAttribs.Click
         With ofd1
             .Title = "Select dgmTypeAttributes XML file..."
             .FileName = ""
@@ -111,8 +104,8 @@ Public Class frmDataConvert
                 Dim ClassList As XmlNodeList = WHXML.SelectNodes("data/dgmtypeattribs")
                 Dim sw As New StreamWriter(My.Computer.FileSystem.SpecialDirectories.MyDocuments & "\EveHQ\WHattribs.txt")
                 For Each ClassItem As XmlNode In ClassList
-                    If EveHQ.Core.HQ.itemData.ContainsKey(ClassItem.ChildNodes(0).InnerText) = True Then
-                        Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ClassItem.ChildNodes(0).InnerText)
+                    If Core.HQ.itemData.ContainsKey(ClassItem.ChildNodes(0).InnerText) = True Then
+                        Dim item As Core.EveItem = Core.HQ.itemData(ClassItem.ChildNodes(0).InnerText)
                         If item.Group = 988 Then
                             sw.WriteLine(ClassItem.ChildNodes(0).InnerText & "," & ClassItem.ChildNodes(1).InnerText & "," & CLng(ClassItem.ChildNodes(2).InnerText).ToString)
                         End If
@@ -129,12 +122,12 @@ Public Class frmDataConvert
 
 #Region "DB Changes"
 
-    Private Sub btnCompare_Click(sender As System.Object, e As System.EventArgs) Handles btnCompare.Click
+    Private Sub btnCompare_Click(sender As Object, e As EventArgs) Handles btnCompare.Click
 
-        Dim ICS As String = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "; Database = " & txtInitialDB.Text & "; Integrated Security = SSPI;"
-        Dim RCS As String = "Server=" & EveHQ.Core.HQ.EveHQSettings.DBServer & "; Database = " & txtRevisedDB.Text & "; Integrated Security = SSPI;"
+        Dim ICS As String = "Server=" & Core.HQ.EveHQSettings.DBServer & "; Database = " & txtInitialDB.Text & "; Integrated Security = SSPI;"
+        Dim RCS As String = "Server=" & Core.HQ.EveHQSettings.DBServer & "; Database = " & txtRevisedDB.Text & "; Integrated Security = SSPI;"
 
-        Dim strSQL As String = "SELECT typeID, typeName FROM invTypes;"
+        Const strSQL As String = "SELECT typeID, typeName FROM invTypes;"
 
         Dim IDS As DataSet = GetData(ICS, strSQL)
         Dim RDS As DataSet = GetData(RCS, strSQL)
@@ -153,26 +146,27 @@ Public Class frmDataConvert
             End If
         End If
 
-        Dim Added As New SortedList(Of String, String)
         Dim Changes As New SortedList(Of String, String)
-        Dim Removed As New SortedList(Of String, String)
 
         For Each ID As String In IL.Keys
             If RL.ContainsKey(ID) = True Then
                 If IL(ID) <> RL(ID) Then
-                    Changes.Add(IL(ID), RL(ID))
+                    Changes.Add(ID, IL(ID) & ControlChars.Tab & RL(ID))
                 End If
             End If
         Next
 
         Dim str As New StringBuilder
-        str.AppendLine("Old Name" & ControlChars.Tab & "New Name")
+        str.AppendLine("Type ID" & ControlChars.Tab & "CategoryID" & ControlChars.Tab & "GroupID" & ControlChars.Tab & "Old Name" & ControlChars.Tab & "New Name")
         For Each Item As String In Changes.Keys
-            str.AppendLine(Item & ControlChars.Tab & Changes(Item))
+            str.Append(Item & ControlChars.Tab)
+            str.Append(EveHQ.Core.HQ.itemData(Item).Category & ControlChars.Tab)
+            str.Append(EveHQ.Core.HQ.itemData(Item).Group & ControlChars.Tab)
+            str.AppendLine(Changes(Item))
         Next
         Clipboard.SetText(str.ToString)
 
-        MessageBox.Show("Comparison Complete - posted to clipboard")
+        MessageBox.Show("Comparison Complete - data posted to clipboard")
 
     End Sub
 
@@ -183,12 +177,12 @@ Public Class frmDataConvert
         Try
             conn.Open()
             Dim da As New SqlDataAdapter(strSQL, conn)
-            da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+            da.SelectCommand.CommandTimeout = Core.HQ.EveHQSettings.DBTimeout
             da.Fill(EveHQData, "EveHQData")
             conn.Close()
             Return EveHQData
         Catch e As Exception
-            EveHQ.Core.HQ.dataError = e.Message
+            Core.HQ.dataError = e.Message
             Return Nothing
         Finally
             If conn.State = ConnectionState.Open Then
@@ -201,5 +195,5 @@ Public Class frmDataConvert
 
 #End Region
 
-  
+
 End Class

@@ -39,11 +39,11 @@ Partial Class frmDataConvert
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.tabDBChanges = New System.Windows.Forms.TabPage()
         Me.pnlDBChanges = New System.Windows.Forms.Panel()
-        Me.btnCompare = New System.Windows.Forms.Button()
-        Me.lblInitialDB = New System.Windows.Forms.Label()
-        Me.txtInitialDB = New System.Windows.Forms.TextBox()
         Me.txtRevisedDB = New System.Windows.Forms.TextBox()
         Me.lblRevisedDB = New System.Windows.Forms.Label()
+        Me.txtInitialDB = New System.Windows.Forms.TextBox()
+        Me.lblInitialDB = New System.Windows.Forms.Label()
+        Me.btnCompare = New System.Windows.Forms.Button()
         CType(Me.FileSystemWatcher1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabSQLCEVersion.SuspendLayout()
         Me.pnlDBVersion.SuspendLayout()
@@ -201,14 +201,30 @@ Partial Class frmDataConvert
         Me.pnlDBChanges.Size = New System.Drawing.Size(639, 229)
         Me.pnlDBChanges.TabIndex = 1
         '
-        'btnCompare
+        'txtRevisedDB
         '
-        Me.btnCompare.Location = New System.Drawing.Point(85, 67)
-        Me.btnCompare.Name = "btnCompare"
-        Me.btnCompare.Size = New System.Drawing.Size(182, 23)
-        Me.btnCompare.TabIndex = 0
-        Me.btnCompare.Text = "Compare Versions"
-        Me.btnCompare.UseVisualStyleBackColor = True
+        Me.txtRevisedDB.Location = New System.Drawing.Point(85, 40)
+        Me.txtRevisedDB.Name = "txtRevisedDB"
+        Me.txtRevisedDB.Size = New System.Drawing.Size(182, 21)
+        Me.txtRevisedDB.TabIndex = 4
+        Me.txtRevisedDB.Text = "Crucible1.6"
+        '
+        'lblRevisedDB
+        '
+        Me.lblRevisedDB.AutoSize = True
+        Me.lblRevisedDB.Location = New System.Drawing.Point(14, 43)
+        Me.lblRevisedDB.Name = "lblRevisedDB"
+        Me.lblRevisedDB.Size = New System.Drawing.Size(65, 13)
+        Me.lblRevisedDB.TabIndex = 3
+        Me.lblRevisedDB.Text = "Revised DB:"
+        '
+        'txtInitialDB
+        '
+        Me.txtInitialDB.Location = New System.Drawing.Point(85, 13)
+        Me.txtInitialDB.Name = "txtInitialDB"
+        Me.txtInitialDB.Size = New System.Drawing.Size(182, 21)
+        Me.txtInitialDB.TabIndex = 2
+        Me.txtInitialDB.Text = "Incarna"
         '
         'lblInitialDB
         '
@@ -219,30 +235,14 @@ Partial Class frmDataConvert
         Me.lblInitialDB.TabIndex = 1
         Me.lblInitialDB.Text = "Initial DB:"
         '
-        'txtInitialDB
+        'btnCompare
         '
-        Me.txtInitialDB.Location = New System.Drawing.Point(85, 13)
-        Me.txtInitialDB.Name = "txtInitialDB"
-        Me.txtInitialDB.Size = New System.Drawing.Size(182, 21)
-        Me.txtInitialDB.TabIndex = 2
-        Me.txtInitialDB.Text = "Incarna"
-        '
-        'txtRevisedDB
-        '
-        Me.txtRevisedDB.Location = New System.Drawing.Point(85, 40)
-        Me.txtRevisedDB.Name = "txtRevisedDB"
-        Me.txtRevisedDB.Size = New System.Drawing.Size(182, 21)
-        Me.txtRevisedDB.TabIndex = 4
-        Me.txtRevisedDB.Text = "Crucible"
-        '
-        'lblRevisedDB
-        '
-        Me.lblRevisedDB.AutoSize = True
-        Me.lblRevisedDB.Location = New System.Drawing.Point(14, 43)
-        Me.lblRevisedDB.Name = "lblRevisedDB"
-        Me.lblRevisedDB.Size = New System.Drawing.Size(65, 13)
-        Me.lblRevisedDB.TabIndex = 3
-        Me.lblRevisedDB.Text = "Revised DB:"
+        Me.btnCompare.Location = New System.Drawing.Point(85, 67)
+        Me.btnCompare.Name = "btnCompare"
+        Me.btnCompare.Size = New System.Drawing.Size(182, 23)
+        Me.btnCompare.TabIndex = 0
+        Me.btnCompare.Text = "Compare Versions"
+        Me.btnCompare.UseVisualStyleBackColor = True
         '
         'frmDataConvert
         '
