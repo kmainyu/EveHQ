@@ -2077,8 +2077,8 @@ Public Class frmPrism
 
     Private Sub InitialiseJournal()
         ' Prepare info
-        dtiJournalEndDate.Value = Now
-        dtiJournalStartDate.Value = Now.AddMonths(-1)
+        dtiJournalEndDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
+        dtiJournalStartDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now.AddMonths(-1))
         cboJournalOwners.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalOwnersAll, False, cboJournalOwners)
         AddHandler CType(cboJournalOwners.DropDownControl, PrismSelectionControl).SelectionChanged, AddressOf JournalOwnersChanged
         cboJournalRefTypes.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalRefTypes, True, cboJournalRefTypes)
@@ -2581,7 +2581,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub dtiJournalStartDate_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiJournalStartDate.ButtonCustomClick
-        dtiJournalStartDate.Value = Now
+        dtiJournalStartDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
     End Sub
 
     Private Sub dtiJournalEndDate_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiJournalEndDate.ButtonCustom2Click
@@ -2589,7 +2589,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub dtiJournalEndDate_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiJournalEndDate.ButtonCustomClick
-        dtiJournalEndDate.Value = Now
+        dtiJournalEndDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
     End Sub
 
     Private Sub btnResetJournal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetJournal.Click

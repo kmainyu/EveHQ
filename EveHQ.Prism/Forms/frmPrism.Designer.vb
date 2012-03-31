@@ -219,8 +219,6 @@ Partial Class frmPrism
         Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
         Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
         Me.tabPrism = New DevComponents.DotNetBar.TabControl()
-        Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
         Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
@@ -235,6 +233,8 @@ Partial Class frmPrism
         Me.txtItemSearch = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.lblSearch = New System.Windows.Forms.Label()
         Me.tiPrismHome = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel8 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiRecycler = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel14 = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtContracts = New DevComponents.AdvTree.AdvTree()
         Me.colContractTitle = New DevComponents.AdvTree.ColumnHeader()
@@ -514,9 +514,9 @@ Partial Class frmPrism
         Me.pnlPrism.SuspendLayout()
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrism.SuspendLayout()
-        Me.TabControlPanel8.SuspendLayout()
         Me.TabControlPanel1.SuspendLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControlPanel8.SuspendLayout()
         Me.TabControlPanel14.SuspendLayout()
         CType(Me.adtContracts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel15.SuspendLayout()
@@ -974,7 +974,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.sbShowEveBalance.BackgroundStyle.Class = ""
         Me.sbShowEveBalance.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.sbShowEveBalance.Location = New System.Drawing.Point(490, 62)
         Me.sbShowEveBalance.Name = "sbShowEveBalance"
@@ -984,6 +983,7 @@ Partial Class frmPrism
         Me.sbShowEveBalance.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.sbShowEveBalance.TabIndex = 15
         Me.sbShowEveBalance.Value = True
+        Me.sbShowEveBalance.ValueObject = "Y"
         '
         'btnJournalQuery
         '
@@ -1084,7 +1084,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiJournalEndDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiJournalEndDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiJournalEndDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiJournalEndDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiJournalEndDate.MonthCalendar.ClearButtonVisible = True
@@ -1097,7 +1096,6 @@ Partial Class frmPrism
         Me.dtiJournalEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiJournalEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiJournalEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiJournalEndDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiJournalEndDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiJournalEndDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiJournalEndDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -1109,7 +1107,6 @@ Partial Class frmPrism
         Me.dtiJournalEndDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiJournalEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiJournalEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiJournalEndDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiJournalEndDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiJournalEndDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiJournalEndDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -1145,7 +1142,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiJournalStartDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiJournalStartDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiJournalStartDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiJournalStartDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiJournalStartDate.MonthCalendar.ClearButtonVisible = True
@@ -1158,7 +1154,6 @@ Partial Class frmPrism
         Me.dtiJournalStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiJournalStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiJournalStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiJournalStartDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiJournalStartDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiJournalStartDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiJournalStartDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -1170,7 +1165,6 @@ Partial Class frmPrism
         Me.dtiJournalStartDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiJournalStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiJournalStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiJournalStartDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiJournalStartDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiJournalStartDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiJournalStartDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -1779,29 +1773,29 @@ Partial Class frmPrism
         Me.ctxRecycleItem.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ctxRecycleItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddRecycleItem, Me.ToolStripMenuItem2, Me.mnuAlterRecycleQuantity, Me.mnuRemoveRecycleItem})
         Me.ctxRecycleItem.Name = "ctxRecycleItem"
-        Me.ctxRecycleItem.Size = New System.Drawing.Size(153, 98)
+        Me.ctxRecycleItem.Size = New System.Drawing.Size(143, 76)
         '
         'mnuAddRecycleItem
         '
         Me.mnuAddRecycleItem.Name = "mnuAddRecycleItem"
-        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAddRecycleItem.Size = New System.Drawing.Size(142, 22)
         Me.mnuAddRecycleItem.Text = "Add Item"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(139, 6)
         '
         'mnuAlterRecycleQuantity
         '
         Me.mnuAlterRecycleQuantity.Name = "mnuAlterRecycleQuantity"
-        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(152, 22)
+        Me.mnuAlterRecycleQuantity.Size = New System.Drawing.Size(142, 22)
         Me.mnuAlterRecycleQuantity.Text = "Alter Quantity"
         '
         'mnuRemoveRecycleItem
         '
         Me.mnuRemoveRecycleItem.Name = "mnuRemoveRecycleItem"
-        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(152, 22)
+        Me.mnuRemoveRecycleItem.Size = New System.Drawing.Size(142, 22)
         Me.mnuRemoveRecycleItem.Text = "Remove Item"
         '
         'NodeConnector12
@@ -1810,7 +1804,6 @@ Partial Class frmPrism
         '
         'ItemNormal
         '
-        Me.ItemNormal.Class = ""
         Me.ItemNormal.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemNormal.Name = "ItemNormal"
         Me.ItemNormal.TextColor = System.Drawing.SystemColors.ControlText
@@ -1821,7 +1814,6 @@ Partial Class frmPrism
         Me.ItemGood.BackColor2 = System.Drawing.Color.LimeGreen
         Me.ItemGood.BackColorGradientAngle = 90
         Me.ItemGood.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.ItemGood.Class = ""
         Me.ItemGood.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemGood.Name = "ItemGood"
         Me.ItemGood.TextColor = System.Drawing.SystemColors.ControlText
@@ -1922,7 +1914,6 @@ Partial Class frmPrism
         '
         'ElementStyle8
         '
-        Me.ElementStyle8.Class = ""
         Me.ElementStyle8.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle8.Name = "ElementStyle8"
         Me.ElementStyle8.TextColor = System.Drawing.SystemColors.ControlText
@@ -2262,17 +2253,14 @@ Partial Class frmPrism
         '
         '
         '
-        Me.RibbonBarMergeContainer1.Style.Class = ""
         Me.RibbonBarMergeContainer1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.RibbonBarMergeContainer1.StyleMouseDown.Class = ""
         Me.RibbonBarMergeContainer1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.RibbonBarMergeContainer1.StyleMouseOver.Class = ""
         Me.RibbonBarMergeContainer1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonBarMergeContainer1.TabIndex = 17
         Me.RibbonBarMergeContainer1.Visible = False
@@ -2283,12 +2271,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbProduction.BackgroundMouseOverStyle.Class = ""
         Me.rbProduction.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbProduction.BackgroundStyle.Class = ""
         Me.rbProduction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbProduction.ContainerControlProcessDialogKey = True
         Me.rbProduction.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnProductionManager, Me.btnInventionManager, Me.btnBlueprintCalc, Me.btnRigBuilder})
@@ -2302,12 +2288,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbProduction.TitleStyle.Class = ""
         Me.rbProduction.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbProduction.TitleStyleMouseOver.Class = ""
         Me.rbProduction.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnProductionManager
@@ -2356,12 +2340,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbQuickCalcs.BackgroundMouseOverStyle.Class = ""
         Me.rbQuickCalcs.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQuickCalcs.BackgroundStyle.Class = ""
         Me.rbQuickCalcs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQuickCalcs.ContainerControlProcessDialogKey = True
         Me.rbQuickCalcs.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInventionChance, Me.btnQuickProduction})
@@ -2375,12 +2357,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbQuickCalcs.TitleStyle.Class = ""
         Me.rbQuickCalcs.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQuickCalcs.TitleStyleMouseOver.Class = ""
         Me.rbQuickCalcs.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnInventionChance
@@ -2409,12 +2389,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbAnalysisTools.BackgroundMouseOverStyle.Class = ""
         Me.rbAnalysisTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAnalysisTools.BackgroundStyle.Class = ""
         Me.rbAnalysisTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbAnalysisTools.ContainerControlProcessDialogKey = True
         Me.rbAnalysisTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnReports, Me.btnCharts, Me.btnInventionResults})
@@ -2428,12 +2406,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbAnalysisTools.TitleStyle.Class = ""
         Me.rbAnalysisTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAnalysisTools.TitleStyleMouseOver.Class = ""
         Me.rbAnalysisTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnReports
@@ -2470,12 +2446,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbMarketTools.BackgroundMouseOverStyle.Class = ""
         Me.rbMarketTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbMarketTools.BackgroundStyle.Class = ""
         Me.rbMarketTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbMarketTools.ContainerControlProcessDialogKey = True
         Me.rbMarketTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOrders, Me.btnJobs, Me.btnContracts})
@@ -2489,12 +2463,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbMarketTools.TitleStyle.Class = ""
         Me.rbMarketTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbMarketTools.TitleStyleMouseOver.Class = ""
         Me.rbMarketTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnOrders
@@ -2533,12 +2505,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbAssetManagement.BackgroundMouseOverStyle.Class = ""
         Me.rbAssetManagement.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAssetManagement.BackgroundStyle.Class = ""
         Me.rbAssetManagement.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbAssetManagement.ContainerControlProcessDialogKey = True
         Me.rbAssetManagement.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnAssets, Me.btnBPManager, Me.btnRecycler})
@@ -2552,12 +2522,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbAssetManagement.TitleStyle.Class = ""
         Me.rbAssetManagement.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAssetManagement.TitleStyleMouseOver.Class = ""
         Me.rbAssetManagement.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnAssets
@@ -2596,12 +2564,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbWallet.BackgroundMouseOverStyle.Class = ""
         Me.rbWallet.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbWallet.BackgroundStyle.Class = ""
         Me.rbWallet.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbWallet.ContainerControlProcessDialogKey = True
         Me.rbWallet.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnWalletJournal, Me.btnWalletTransactions})
@@ -2615,12 +2581,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbWallet.TitleStyle.Class = ""
         Me.rbWallet.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbWallet.TitleStyleMouseOver.Class = ""
         Me.rbWallet.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnWalletJournal
@@ -2649,12 +2613,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbData.BackgroundMouseOverStyle.Class = ""
         Me.rbData.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbData.BackgroundStyle.Class = ""
         Me.rbData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbData.ContainerControlProcessDialogKey = True
         Me.rbData.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOptions, Me.btnDownloadAPIData})
@@ -2668,12 +2630,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.rbData.TitleStyle.Class = ""
         Me.rbData.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbData.TitleStyleMouseOver.Class = ""
         Me.rbData.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnOptions
@@ -2726,11 +2686,11 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
         Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
-        Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel17)
         Me.tabPrism.Controls.Add(Me.TabControlPanel3)
         Me.tabPrism.Controls.Add(Me.TabControlPanel11)
@@ -2766,64 +2726,6 @@ Partial Class frmPrism
         Me.tabPrism.Tabs.Add(Me.tiRigBuilder)
         Me.tabPrism.Tabs.Add(Me.tiInventionResults)
         Me.tabPrism.Text = "TabControl2"
-        '
-        'TabControlPanel8
-        '
-        Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
-        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnItems)
-        Me.TabControlPanel8.Controls.Add(Me.TabControl1)
-        Me.TabControlPanel8.Controls.Add(Me.lblPriceTotals)
-        Me.TabControlPanel8.Controls.Add(Me.lblPilot)
-        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnRefine)
-        Me.TabControlPanel8.Controls.Add(Me.cboRecyclePilots)
-        Me.TabControlPanel8.Controls.Add(Me.lblTotalFees)
-        Me.TabControlPanel8.Controls.Add(Me.chkPerfectRefine)
-        Me.TabControlPanel8.Controls.Add(Me.lblTotalFeesLbl)
-        Me.TabControlPanel8.Controls.Add(Me.lblBaseYieldLbl)
-        Me.TabControlPanel8.Controls.Add(Me.nudTax)
-        Me.TabControlPanel8.Controls.Add(Me.lblNetYieldLbl)
-        Me.TabControlPanel8.Controls.Add(Me.nudBrokerFee)
-        Me.TabControlPanel8.Controls.Add(Me.lblStandingsLbl)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideTax)
-        Me.TabControlPanel8.Controls.Add(Me.lblStationTakeLbl)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBrokerFee)
-        Me.TabControlPanel8.Controls.Add(Me.lblStationTake)
-        Me.TabControlPanel8.Controls.Add(Me.lblItems)
-        Me.TabControlPanel8.Controls.Add(Me.lblStandings)
-        Me.TabControlPanel8.Controls.Add(Me.lblVolume)
-        Me.TabControlPanel8.Controls.Add(Me.lblNetYield)
-        Me.TabControlPanel8.Controls.Add(Me.lblItemsLbl)
-        Me.TabControlPanel8.Controls.Add(Me.lblBaseYield)
-        Me.TabControlPanel8.Controls.Add(Me.lblVolumeLbl)
-        Me.TabControlPanel8.Controls.Add(Me.lblStationLbl)
-        Me.TabControlPanel8.Controls.Add(Me.cboRefineMode)
-        Me.TabControlPanel8.Controls.Add(Me.lblStation)
-        Me.TabControlPanel8.Controls.Add(Me.lblCorpLbl)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideStandings)
-        Me.TabControlPanel8.Controls.Add(Me.lblCorp)
-        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBaseYield)
-        Me.TabControlPanel8.Controls.Add(Me.nudBaseYield)
-        Me.TabControlPanel8.Controls.Add(Me.nudStandings)
-        Me.TabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel8.Name = "TabControlPanel8"
-        Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel8.Style.GradientAngle = 90
-        Me.TabControlPanel8.TabIndex = 8
-        Me.TabControlPanel8.TabItem = Me.tiRecycler
-        '
-        'tiRecycler
-        '
-        Me.tiRecycler.AttachedControl = Me.TabControlPanel8
-        Me.tiRecycler.Name = "tiRecycler"
-        Me.tiRecycler.Text = "Recycler"
         '
         'TabControlPanel1
         '
@@ -2978,7 +2880,6 @@ Partial Class frmPrism
         '
         'ElementStyle2
         '
-        Me.ElementStyle2.Class = ""
         Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle2.Name = "ElementStyle2"
         Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
@@ -3010,6 +2911,64 @@ Partial Class frmPrism
         Me.tiPrismHome.AttachedControl = Me.TabControlPanel1
         Me.tiPrismHome.Name = "tiPrismHome"
         Me.tiPrismHome.Text = "Prism Home"
+        '
+        'TabControlPanel8
+        '
+        Me.TabControlPanel8.Controls.Add(Me.lblRefineMode)
+        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnItems)
+        Me.TabControlPanel8.Controls.Add(Me.TabControl1)
+        Me.TabControlPanel8.Controls.Add(Me.lblPriceTotals)
+        Me.TabControlPanel8.Controls.Add(Me.lblPilot)
+        Me.TabControlPanel8.Controls.Add(Me.chkFeesOnRefine)
+        Me.TabControlPanel8.Controls.Add(Me.cboRecyclePilots)
+        Me.TabControlPanel8.Controls.Add(Me.lblTotalFees)
+        Me.TabControlPanel8.Controls.Add(Me.chkPerfectRefine)
+        Me.TabControlPanel8.Controls.Add(Me.lblTotalFeesLbl)
+        Me.TabControlPanel8.Controls.Add(Me.lblBaseYieldLbl)
+        Me.TabControlPanel8.Controls.Add(Me.nudTax)
+        Me.TabControlPanel8.Controls.Add(Me.lblNetYieldLbl)
+        Me.TabControlPanel8.Controls.Add(Me.nudBrokerFee)
+        Me.TabControlPanel8.Controls.Add(Me.lblStandingsLbl)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideTax)
+        Me.TabControlPanel8.Controls.Add(Me.lblStationTakeLbl)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBrokerFee)
+        Me.TabControlPanel8.Controls.Add(Me.lblStationTake)
+        Me.TabControlPanel8.Controls.Add(Me.lblItems)
+        Me.TabControlPanel8.Controls.Add(Me.lblStandings)
+        Me.TabControlPanel8.Controls.Add(Me.lblVolume)
+        Me.TabControlPanel8.Controls.Add(Me.lblNetYield)
+        Me.TabControlPanel8.Controls.Add(Me.lblItemsLbl)
+        Me.TabControlPanel8.Controls.Add(Me.lblBaseYield)
+        Me.TabControlPanel8.Controls.Add(Me.lblVolumeLbl)
+        Me.TabControlPanel8.Controls.Add(Me.lblStationLbl)
+        Me.TabControlPanel8.Controls.Add(Me.cboRefineMode)
+        Me.TabControlPanel8.Controls.Add(Me.lblStation)
+        Me.TabControlPanel8.Controls.Add(Me.lblCorpLbl)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideStandings)
+        Me.TabControlPanel8.Controls.Add(Me.lblCorp)
+        Me.TabControlPanel8.Controls.Add(Me.chkOverrideBaseYield)
+        Me.TabControlPanel8.Controls.Add(Me.nudBaseYield)
+        Me.TabControlPanel8.Controls.Add(Me.nudStandings)
+        Me.TabControlPanel8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel8.Name = "TabControlPanel8"
+        Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
+        Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel8.Style.GradientAngle = 90
+        Me.TabControlPanel8.TabIndex = 8
+        Me.TabControlPanel8.TabItem = Me.tiRecycler
+        '
+        'tiRecycler
+        '
+        Me.tiRecycler.AttachedControl = Me.TabControlPanel8
+        Me.tiRecycler.Name = "tiRecycler"
+        Me.tiRecycler.Text = "Recycler"
         '
         'TabControlPanel14
         '
@@ -3161,7 +3120,6 @@ Partial Class frmPrism
         '
         'ElementStyle9
         '
-        Me.ElementStyle9.Class = ""
         Me.ElementStyle9.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle9.Name = "ElementStyle9"
         Me.ElementStyle9.TextColor = System.Drawing.SystemColors.ControlText
@@ -3360,7 +3318,6 @@ Partial Class frmPrism
         '
         'ElementStyle11
         '
-        Me.ElementStyle11.Class = ""
         Me.ElementStyle11.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle11.Name = "ElementStyle11"
         Me.ElementStyle11.TextColor = System.Drawing.SystemColors.ControlText
@@ -3510,7 +3467,6 @@ Partial Class frmPrism
         '
         'ElementStyle10
         '
-        Me.ElementStyle10.Class = ""
         Me.ElementStyle10.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle10.Name = "ElementStyle10"
         Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
@@ -3590,7 +3546,6 @@ Partial Class frmPrism
         Me.gpAutoRig.Style.BorderRightWidth = 1
         Me.gpAutoRig.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpAutoRig.Style.BorderTopWidth = 1
-        Me.gpAutoRig.Style.Class = ""
         Me.gpAutoRig.Style.CornerDiameter = 4
         Me.gpAutoRig.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpAutoRig.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -3599,12 +3554,10 @@ Partial Class frmPrism
         '
         '
         '
-        Me.gpAutoRig.StyleMouseDown.Class = ""
         Me.gpAutoRig.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpAutoRig.StyleMouseOver.Class = ""
         Me.gpAutoRig.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpAutoRig.TabIndex = 63
         Me.gpAutoRig.Text = "Automatic Rig Availability Options"
@@ -3627,7 +3580,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.chkRigMargin.BackgroundStyle.Class = ""
         Me.chkRigMargin.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkRigMargin.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkRigMargin.Checked = True
@@ -3647,7 +3599,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.chkRigSalePrice.BackgroundStyle.Class = ""
         Me.chkRigSalePrice.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkRigSalePrice.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkRigSalePrice.Location = New System.Drawing.Point(11, 6)
@@ -3664,7 +3615,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.chkTotalProfit.BackgroundStyle.Class = ""
         Me.chkTotalProfit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkTotalProfit.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkTotalProfit.Location = New System.Drawing.Point(136, 27)
@@ -3681,7 +3631,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.chkTotalSalePrice.BackgroundStyle.Class = ""
         Me.chkTotalSalePrice.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkTotalSalePrice.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkTotalSalePrice.Location = New System.Drawing.Point(11, 27)
@@ -3698,7 +3647,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.chkRigProfit.BackgroundStyle.Class = ""
         Me.chkRigProfit.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkRigProfit.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkRigProfit.Location = New System.Drawing.Point(136, 6)
@@ -3907,7 +3855,6 @@ Partial Class frmPrism
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -3944,7 +3891,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.adtInventionJobs.BackgroundStyle.Class = ""
         Me.adtInventionJobs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.adtInventionJobs.Columns.Add(Me.colInvJobName)
         Me.adtInventionJobs.Columns.Add(Me.colInvJobItem)
@@ -4040,7 +3986,6 @@ Partial Class frmPrism
         '
         'ElementStyle14
         '
-        Me.ElementStyle14.Class = ""
         Me.ElementStyle14.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle14.Name = "ElementStyle14"
         Me.ElementStyle14.TextColor = System.Drawing.SystemColors.ControlText
@@ -4174,7 +4119,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiReportEndDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiReportEndDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiReportEndDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiReportEndDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiReportEndDate.MonthCalendar.ClearButtonVisible = True
@@ -4187,7 +4131,6 @@ Partial Class frmPrism
         Me.dtiReportEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiReportEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiReportEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiReportEndDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiReportEndDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiReportEndDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiReportEndDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -4199,7 +4142,6 @@ Partial Class frmPrism
         Me.dtiReportEndDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiReportEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiReportEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiReportEndDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiReportEndDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiReportEndDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiReportEndDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -4234,7 +4176,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiReportStartDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiReportStartDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiReportStartDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiReportStartDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiReportStartDate.MonthCalendar.ClearButtonVisible = True
@@ -4247,7 +4188,6 @@ Partial Class frmPrism
         Me.dtiReportStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiReportStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiReportStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiReportStartDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiReportStartDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiReportStartDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiReportStartDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -4259,7 +4199,6 @@ Partial Class frmPrism
         Me.dtiReportStartDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiReportStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiReportStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiReportStartDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiReportStartDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiReportStartDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiReportStartDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -4367,7 +4306,6 @@ Partial Class frmPrism
         '
         '
         '
-        Me.adtProdJobs.BackgroundStyle.Class = ""
         Me.adtProdJobs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.adtProdJobs.Columns.Add(Me.colJobName)
         Me.adtProdJobs.Columns.Add(Me.colJobItem)
@@ -4436,7 +4374,6 @@ Partial Class frmPrism
         '
         'ElementStyle3
         '
-        Me.ElementStyle3.Class = ""
         Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle3.Name = "ElementStyle3"
         Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
@@ -4577,7 +4514,6 @@ Partial Class frmPrism
         '
         'ElementStyle4
         '
-        Me.ElementStyle4.Class = ""
         Me.ElementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle4.Name = "ElementStyle4"
         Me.ElementStyle4.TextColor = System.Drawing.SystemColors.ControlText
@@ -4721,7 +4657,6 @@ Partial Class frmPrism
         '
         'ElementStyle13
         '
-        Me.ElementStyle13.Class = ""
         Me.ElementStyle13.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle13.Name = "ElementStyle13"
         Me.ElementStyle13.TextColor = System.Drawing.SystemColors.ControlText
@@ -4796,7 +4731,6 @@ Partial Class frmPrism
         '
         'ElementStyle12
         '
-        Me.ElementStyle12.Class = ""
         Me.ElementStyle12.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle12.Name = "ElementStyle12"
         Me.ElementStyle12.TextColor = System.Drawing.SystemColors.ControlText
@@ -4880,7 +4814,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiInventionEndDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiInventionEndDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiInventionEndDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiInventionEndDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiInventionEndDate.MonthCalendar.ClearButtonVisible = True
@@ -4893,7 +4826,6 @@ Partial Class frmPrism
         Me.dtiInventionEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiInventionEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiInventionEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiInventionEndDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiInventionEndDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiInventionEndDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiInventionEndDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -4905,7 +4837,6 @@ Partial Class frmPrism
         Me.dtiInventionEndDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiInventionEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiInventionEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiInventionEndDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiInventionEndDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiInventionEndDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiInventionEndDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -4951,7 +4882,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiInventionStartDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiInventionStartDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiInventionStartDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiInventionStartDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiInventionStartDate.MonthCalendar.ClearButtonVisible = True
@@ -4964,7 +4894,6 @@ Partial Class frmPrism
         Me.dtiInventionStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiInventionStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiInventionStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiInventionStartDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiInventionStartDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiInventionStartDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiInventionStartDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -4976,7 +4905,6 @@ Partial Class frmPrism
         Me.dtiInventionStartDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiInventionStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiInventionStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiInventionStartDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiInventionStartDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiInventionStartDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiInventionStartDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -5210,7 +5138,6 @@ Partial Class frmPrism
         '
         'ElementStyle5
         '
-        Me.ElementStyle5.Class = ""
         Me.ElementStyle5.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle5.Name = "ElementStyle5"
         Me.ElementStyle5.TextColor = System.Drawing.SystemColors.ControlText
@@ -5428,7 +5355,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiTransEndDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiTransEndDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiTransEndDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiTransEndDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiTransEndDate.MonthCalendar.ClearButtonVisible = True
@@ -5441,7 +5367,6 @@ Partial Class frmPrism
         Me.dtiTransEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiTransEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiTransEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiTransEndDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiTransEndDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiTransEndDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiTransEndDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -5453,7 +5378,6 @@ Partial Class frmPrism
         Me.dtiTransEndDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiTransEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiTransEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiTransEndDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiTransEndDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiTransEndDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiTransEndDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -5499,7 +5423,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiTransStartDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiTransStartDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiTransStartDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiTransStartDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiTransStartDate.MonthCalendar.ClearButtonVisible = True
@@ -5512,7 +5435,6 @@ Partial Class frmPrism
         Me.dtiTransStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiTransStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiTransStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiTransStartDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiTransStartDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiTransStartDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiTransStartDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -5524,7 +5446,6 @@ Partial Class frmPrism
         Me.dtiTransStartDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiTransStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiTransStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiTransStartDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiTransStartDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiTransStartDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiTransStartDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -5648,21 +5569,18 @@ Partial Class frmPrism
         '
         'Personal
         '
-        Me.Personal.Class = ""
         Me.Personal.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Personal.Name = "Personal"
         Me.Personal.TextColor = System.Drawing.SystemColors.ControlText
         '
         'Corp
         '
-        Me.Corp.Class = ""
         Me.Corp.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Corp.Name = "Corp"
         Me.Corp.TextColor = System.Drawing.Color.SlateBlue
         '
         'Buy
         '
-        Me.Buy.Class = ""
         Me.Buy.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Buy.Name = "Buy"
         Me.Buy.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
@@ -5670,7 +5588,6 @@ Partial Class frmPrism
         '
         'Sell
         '
-        Me.Sell.Class = ""
         Me.Sell.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Sell.Name = "Sell"
         Me.Sell.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
@@ -5678,7 +5595,6 @@ Partial Class frmPrism
         '
         'Numeric
         '
-        Me.Numeric.Class = ""
         Me.Numeric.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Numeric.Name = "Numeric"
         Me.Numeric.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
@@ -5820,7 +5736,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiChartEndDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiChartEndDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiChartEndDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiChartEndDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiChartEndDate.MonthCalendar.ClearButtonVisible = True
@@ -5833,7 +5748,6 @@ Partial Class frmPrism
         Me.dtiChartEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiChartEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiChartEndDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiChartEndDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiChartEndDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiChartEndDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiChartEndDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -5845,7 +5759,6 @@ Partial Class frmPrism
         Me.dtiChartEndDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiChartEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiChartEndDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiChartEndDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiChartEndDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiChartEndDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiChartEndDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -5880,7 +5793,6 @@ Partial Class frmPrism
         '
         '
         Me.dtiChartStartDate.MonthCalendar.BackgroundStyle.BackColor = System.Drawing.SystemColors.Window
-        Me.dtiChartStartDate.MonthCalendar.BackgroundStyle.Class = ""
         Me.dtiChartStartDate.MonthCalendar.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiChartStartDate.MonthCalendar.CalendarDimensions = New System.Drawing.Size(1, 1)
         Me.dtiChartStartDate.MonthCalendar.ClearButtonVisible = True
@@ -5893,7 +5805,6 @@ Partial Class frmPrism
         Me.dtiChartStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.dtiChartStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarDockedBorder
         Me.dtiChartStartDate.MonthCalendar.CommandsBackgroundStyle.BorderTopWidth = 1
-        Me.dtiChartStartDate.MonthCalendar.CommandsBackgroundStyle.Class = ""
         Me.dtiChartStartDate.MonthCalendar.CommandsBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiChartStartDate.MonthCalendar.DisplayMonth = New Date(2010, 9, 1, 0, 0, 0, 0)
         Me.dtiChartStartDate.MonthCalendar.FirstDayOfWeek = System.DayOfWeek.Monday
@@ -5905,7 +5816,6 @@ Partial Class frmPrism
         Me.dtiChartStartDate.MonthCalendar.NavigationBackgroundStyle.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
         Me.dtiChartStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorGradientAngle = 90
         Me.dtiChartStartDate.MonthCalendar.NavigationBackgroundStyle.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.dtiChartStartDate.MonthCalendar.NavigationBackgroundStyle.Class = ""
         Me.dtiChartStartDate.MonthCalendar.NavigationBackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.dtiChartStartDate.MonthCalendar.TodayButtonVisible = True
         Me.dtiChartStartDate.MonthCalendar.WeeklyMarkedDays = New System.DayOfWeek(-1) {}
@@ -6086,7 +5996,6 @@ Partial Class frmPrism
         '
         'ElementStyle7
         '
-        Me.ElementStyle7.Class = ""
         Me.ElementStyle7.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle7.Name = "ElementStyle7"
         Me.ElementStyle7.TextColor = System.Drawing.SystemColors.ControlText
@@ -6240,7 +6149,6 @@ Partial Class frmPrism
         '
         'ElementStyle6
         '
-        Me.ElementStyle6.Class = ""
         Me.ElementStyle6.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle6.Name = "ElementStyle6"
         Me.ElementStyle6.TextColor = System.Drawing.SystemColors.ControlText
@@ -6470,7 +6378,6 @@ Partial Class frmPrism
         '
         Me.BP.BackColorGradientAngle = 90
         Me.BP.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.BP.Class = ""
         Me.BP.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.BP.Name = "BP"
         Me.BP.TextColor = System.Drawing.SystemColors.ControlText
@@ -6616,11 +6523,11 @@ Partial Class frmPrism
         Me.pnlPrism.ResumeLayout(False)
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrism.ResumeLayout(False)
-        Me.TabControlPanel8.ResumeLayout(False)
-        Me.TabControlPanel8.PerformLayout()
         Me.TabControlPanel1.ResumeLayout(False)
         Me.TabControlPanel1.PerformLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControlPanel8.ResumeLayout(False)
+        Me.TabControlPanel8.PerformLayout()
         Me.TabControlPanel14.ResumeLayout(False)
         Me.TabControlPanel14.PerformLayout()
         CType(Me.adtContracts, System.ComponentModel.ISupportInitialize).EndInit()
