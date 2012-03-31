@@ -469,6 +469,22 @@ Imports System.Runtime.Serialization.Formatters.Binary
             Call Me.LoadOldHQFSettings()
         End If
 
+        ' Update implant names
+        For Each impGroup As ImplantGroup In HQFSettings.ImplantGroups.Values
+            For slot As Integer = 1 To 10
+                If PlugInData.ModuleChanges.ContainsKey(impGroup.ImplantName(slot)) Then
+                    impGroup.ImplantName(slot) = PlugInData.ModuleChanges(impGroup.ImplantName(slot))
+                End If
+            Next
+        Next
+        For Each pilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
+            For slot As Integer = 1 To 10
+                If PlugInData.ModuleChanges.ContainsKey(pilot.ImplantName(slot)) Then
+                    pilot.ImplantName(slot) = PlugInData.ModuleChanges(pilot.ImplantName(slot))
+                End If
+            Next
+        Next
+
         ' Check if the standard columns have changed and we need to add columns
         If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
             Dim MissingFlag As Boolean = True
