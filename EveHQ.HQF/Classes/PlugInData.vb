@@ -32,7 +32,7 @@ Public Class PlugInData
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
     Public Shared ModuleChanges As New SortedList(Of String, String)
-    Shared LastCacheRefresh As String = "2.5.1.3773"
+    Shared LastCacheRefresh As String = "2.5.1.3790"
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -93,8 +93,7 @@ Public Class PlugInData
             End If
 
             EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for module replacement list...")
-            Dim ModChanges As String = My.Resources.ModuleChanges
-            Dim Mods() As String = ModChanges.Split(ControlChars.CrLf.ToCharArray)
+            Dim Mods() As String = My.Resources.ModuleChanges.Split(ControlChars.CrLf.ToCharArray)
             ModuleChanges.Clear()
             For Each ModLine As String In Mods
                 If ModLine <> "" Then
