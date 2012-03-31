@@ -26,7 +26,7 @@ Imports System.Xml
 Imports System.Data.SqlServerCe
 
 Public Class frmDataConvert
-    Private Const DBVersion As String = "2.4.3.0"
+    Private Const DBVersion As String = "2.6.0.0"
 
 #Region "SQLCE Version Table Routines"
 
