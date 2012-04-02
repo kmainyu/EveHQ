@@ -2821,8 +2821,8 @@ Public Class frmPrism
 
     Private Sub InitialiseTransactions()
         ' Prepare info
-        dtiTransEndDate.Value = Now
-        dtiTransStartDate.Value = Now.AddMonths(-1)
+        dtiTransEndDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
+        dtiTransStartDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now.AddMonths(-1))
         cboTransactionOwner.DropDownControl = New PrismSelectionControl(PrismSelectionType.TransactionOwnersAll, False, cboTransactionOwner)
         AddHandler CType(cboTransactionOwner.DropDownControl, PrismSelectionControl).SelectionChanged, AddressOf TransactionOwnersChanged
         cboWalletTransItem.DropDownControl = New PrismSelectionControl(PrismSelectionType.TransactionItems, True, cboWalletTransItem)
@@ -3051,7 +3051,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub dtiTransStartDate_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiTransStartDate.ButtonCustomClick
-        dtiTransStartDate.Value = Now
+        dtiTransStartDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
     End Sub
 
     Private Sub dtiTransEndDate_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiTransEndDate.ButtonCustom2Click
@@ -3059,7 +3059,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub dtiTransEndDate_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles dtiTransEndDate.ButtonCustomClick
-        dtiTransEndDate.Value = Now
+        dtiTransEndDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
     End Sub
 
     Private Sub adtTransactions_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseUp
