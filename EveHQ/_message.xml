@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>30/01/2012 13:00:00</lastUpdated>
-  <title>EVEHQ FEATURE USE POLL</title>
+  <lastUpdated>31/03/2012 23:00:00</lastUpdated>
+  <title>EveHQ - State Of Play</title>
   <allowIgnore>1</allowIgnore>
   <message>
-  <![CDATA[Thanks to everyone who took the time to vote and comment in our recent poll! The response has been awesome and gives us a lot to look at in the forthcoming weeks. Those that haven't voted can still do so at the <a href="http://evedev.wordpress.com/2012/01/27/feature-use-feedback/">feature use poll</a>.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
+  <![CDATA[It's been quiet for a while so it's about time there was an update on the <a href="http://evedev.wordpress.com/2012/03/31/the-state-of-play/">state of play of EveHQ</a>.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
   <disabledPlugins>
     <plugin name="Invention Calculator" version="3.5.0.0" />
     <plugin name="EveHQ Route Map" version="2.4.0.3671" />
