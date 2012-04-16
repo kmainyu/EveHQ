@@ -201,6 +201,8 @@ namespace EveHQ.RouteMap
             ActMon_3.InitializeMonitor();
             ActMon_4.InitializeMonitor();
 
+            SetMapMode(false);
+
             endT = DateTime.Now;
             runT = endT.Subtract(startT);
         }
@@ -581,11 +583,6 @@ namespace EveHQ.RouteMap
             MainMapView.SetMapScale = PlugInData.Config.Zooms["Zoom On Search"];
             MainMapView.SearchSelectedSystem(sysName);
 
-            if (!SSMap.InitMapSettings)
-                SSMap.SetupSystemMap(PlugInData.SystemList, PlugInData.Config, PlugInData.GalMap.GetSystemByName(sysName), this);
-
-            if (tc_MapSelect.SelectedTab == tp_SolarSystem)
-                SSMap.UpdateSystemMap(PlugInData.GalMap.GetSystemByName(sysName));
         }
 
         private void tc_MapSelect_SelectedTabChanged(object sender, DevComponents.DotNetBar.TabStripTabChangedEventArgs e)
@@ -593,19 +590,12 @@ namespace EveHQ.RouteMap
             string sysName = cb_SystemSelect.Text;
             //tc_MapSelect.Refresh();
 
-            if (tc_MapSelect.SelectedTab == tp_SolarSystem)
-            {
-                SSMap.UpdateSystemMap(PlugInData.GalMap.GetSystemByName(sysName));
-            }
-            else if (tc_MapSelect.SelectedTab == tp_AddSysDetails)
+            if (tc_MapSelect.SelectedTab == tp_AddSysDetails)
             {
                 ColorizeMGDG();
             }
         }
-
-
-
-
+        
         #endregion
 
         #region Config_Tab
@@ -1306,14 +1296,7 @@ namespace EveHQ.RouteMap
 
             AvoidListUpdated();
         }
-
-        public void MapViewSelectSystemView(SolarSystem sSys)
-        {
-            tc_MapSelect.SelectedTab = tp_SolarSystem;
-
-            SSMap.SetupSystemMap(PlugInData.SystemList, PlugInData.Config, sSys, this);
-        }
-
+        
         private void b_SetStart_Click(object sender, EventArgs e)
         {
             if (cb_SystemSelect.Text != "")
@@ -5764,7 +5747,6 @@ namespace EveHQ.RouteMap
                 if (sNode.Parent.Text.Equals("Ice Fields"))
                     return;
 
-                SSMap.FindSystemCelestialScreen(sNode.Text);
             //}
         }
 

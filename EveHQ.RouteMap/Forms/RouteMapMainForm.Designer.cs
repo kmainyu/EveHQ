@@ -34,6 +34,16 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RouteMapMainForm));
             this.label6 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -390,7 +400,6 @@
             this.groupPanel3 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.cb_Pilot = new DevComponents.DotNetBar.Controls.ComboBoxEx();
             this.cb_ShipSelect = new DevComponents.DotNetBar.Controls.ComboTree();
-            this.MiniMap = new EveHQ.RouteMap.SmallMap();
             this.tabControlPanel2 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_TowerEntry = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.dgv_SystemCelest = new DevComponents.DotNetBar.Controls.DataGridViewX();
@@ -399,14 +408,37 @@
             this.tsmi_ClearTowerData = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AddCorpName = new System.Windows.Forms.ToolStripMenuItem();
             this.tp_Towers = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tcp_SolarSystem = new DevComponents.DotNetBar.TabControlPanel();
-            this.SSMap = new EveHQ.RouteMap.SystemMap();
-            this.tp_SolarSystem = new DevComponents.DotNetBar.TabItem(this.components);
             this.ep_SearchResult = new DevComponents.DotNetBar.PanelEx();
             this.dgv_SearchResult = new DevComponents.DotNetBar.Controls.DataGridViewX();
             this.tc_MapSelect = new DevComponents.DotNetBar.TabControl();
+            this.tcp_AddSysDetails = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_AddSystemDetails = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.b_ExportSD = new DevComponents.DotNetBar.ButtonX();
+            this.bi_ExportCurrent = new DevComponents.DotNetBar.ButtonItem();
+            this.bbi_ExportCSV = new DevComponents.DotNetBar.ButtonItem();
+            this.bbi_XMLExport = new DevComponents.DotNetBar.ButtonItem();
+            this.bi_ExportAll = new DevComponents.DotNetBar.ButtonItem();
+            this.bbi_CSVA = new DevComponents.DotNetBar.ButtonItem();
+            this.bbi_XMLAll = new DevComponents.DotNetBar.ButtonItem();
+            this.b_ImportSD = new DevComponents.DotNetBar.ButtonX();
+            this.bi_ImportData = new DevComponents.DotNetBar.ButtonItem();
+            this.bi_ImportCSV = new DevComponents.DotNetBar.ButtonItem();
+            this.cb_SDSystemName = new DevComponents.DotNetBar.Controls.ComboBoxEx();
+            this.lb_SDSovHolder = new DevComponents.DotNetBar.LabelX();
+            this.tc_EditType = new DevComponents.DotNetBar.TabControl();
+            this.tabControlPanel1 = new DevComponents.DotNetBar.TabControlPanel();
+            this.gp_UnderGoo = new DevComponents.DotNetBar.Controls.GroupPanel();
+            this.dgv_MoonGoo = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.MLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tp_MoonGoo = new DevComponents.DotNetBar.TabItem(this.components);
+            this.tabControlPanel6 = new DevComponents.DotNetBar.TabControlPanel();
+            this.dgv_Planets = new DevComponents.DotNetBar.Controls.DataGridViewX();
+            this.dgc_Planet_Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tp_Planets = new DevComponents.DotNetBar.TabItem(this.components);
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.tp_AddSysDetails = new DevComponents.DotNetBar.TabItem(this.components);
             this.tcp_Galaxy = new DevComponents.DotNetBar.TabControlPanel();
-            this.MainMapView = new EveHQ.RouteMap.MapView();
             this.tp_Galaxy = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel5 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_HelpInfo = new DevComponents.DotNetBar.Controls.GroupPanel();
@@ -414,10 +446,6 @@
             this.tp_Help = new DevComponents.DotNetBar.TabItem(this.components);
             this.tcp_ActivityMonitor = new DevComponents.DotNetBar.TabControlPanel();
             this.tlp_ActivityMonitorSelects = new System.Windows.Forms.TableLayoutPanel();
-            this.ActMon_4 = new EveHQ.RouteMap.ActivityMonitor();
-            this.ActMon_3 = new EveHQ.RouteMap.ActivityMonitor();
-            this.ActMon_1 = new EveHQ.RouteMap.ActivityMonitor();
-            this.ActMon_2 = new EveHQ.RouteMap.ActivityMonitor();
             this.ti_ActivityMon = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel4 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_JB_BG = new DevComponents.DotNetBar.Controls.GroupPanel();
@@ -456,33 +484,6 @@
             this.bi_ExportEveHQJB = new DevComponents.DotNetBar.ButtonItem();
             this.bi_ExportDotLanJB = new DevComponents.DotNetBar.ButtonItem();
             this.tp_Bridges = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tcp_AddSysDetails = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_AddSystemDetails = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.b_ExportSD = new DevComponents.DotNetBar.ButtonX();
-            this.bi_ExportCurrent = new DevComponents.DotNetBar.ButtonItem();
-            this.bbi_ExportCSV = new DevComponents.DotNetBar.ButtonItem();
-            this.bbi_XMLExport = new DevComponents.DotNetBar.ButtonItem();
-            this.bi_ExportAll = new DevComponents.DotNetBar.ButtonItem();
-            this.bbi_CSVA = new DevComponents.DotNetBar.ButtonItem();
-            this.bbi_XMLAll = new DevComponents.DotNetBar.ButtonItem();
-            this.b_ImportSD = new DevComponents.DotNetBar.ButtonX();
-            this.bi_ImportData = new DevComponents.DotNetBar.ButtonItem();
-            this.bi_ImportCSV = new DevComponents.DotNetBar.ButtonItem();
-            this.cb_SDSystemName = new DevComponents.DotNetBar.Controls.ComboBoxEx();
-            this.lb_SDSovHolder = new DevComponents.DotNetBar.LabelX();
-            this.tc_EditType = new DevComponents.DotNetBar.TabControl();
-            this.tabControlPanel1 = new DevComponents.DotNetBar.TabControlPanel();
-            this.gp_UnderGoo = new DevComponents.DotNetBar.Controls.GroupPanel();
-            this.dgv_MoonGoo = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.MLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tp_MoonGoo = new DevComponents.DotNetBar.TabItem(this.components);
-            this.tabControlPanel6 = new DevComponents.DotNetBar.TabControlPanel();
-            this.dgv_Planets = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.dgc_Planet_Location = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tp_Planets = new DevComponents.DotNetBar.TabItem(this.components);
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.tp_AddSysDetails = new DevComponents.DotNetBar.TabItem(this.components);
             this.tabControlPanel3 = new DevComponents.DotNetBar.TabControlPanel();
             this.gp_CynoGenBG = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.ti_CynoGens = new DevComponents.DotNetBar.TabItem(this.components);
@@ -551,6 +552,12 @@
             this.cms_RemoveSWH = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmi_RemoveWH = new System.Windows.Forms.ToolStripMenuItem();
             this.t_APICheck = new System.Windows.Forms.Timer(this.components);
+            this.MiniMap = new EveHQ.RouteMap.SmallMap();
+            this.MainMapView = new EveHQ.RouteMap.MapView();
+            this.ActMon_4 = new EveHQ.RouteMap.ActivityMonitor();
+            this.ActMon_3 = new EveHQ.RouteMap.ActivityMonitor();
+            this.ActMon_1 = new EveHQ.RouteMap.ActivityMonitor();
+            this.ActMon_2 = new EveHQ.RouteMap.ActivityMonitor();
             this.cms_AvoidList.SuspendLayout();
             this.cms_WaypointList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_JumpFrom)).BeginInit();
@@ -623,20 +630,10 @@
             this.gp_TowerEntry.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SystemCelest)).BeginInit();
             this.cms_ClearTowerData.SuspendLayout();
-            this.tcp_SolarSystem.SuspendLayout();
             this.ep_SearchResult.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SearchResult)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_MapSelect)).BeginInit();
             this.tc_MapSelect.SuspendLayout();
-            this.tcp_Galaxy.SuspendLayout();
-            this.tabControlPanel5.SuspendLayout();
-            this.gp_HelpInfo.SuspendLayout();
-            this.tcp_ActivityMonitor.SuspendLayout();
-            this.tlp_ActivityMonitorSelects.SuspendLayout();
-            this.tabControlPanel4.SuspendLayout();
-            this.gp_JB_BG.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Bridges)).BeginInit();
-            this.cms_JBRemove.SuspendLayout();
             this.tcp_AddSysDetails.SuspendLayout();
             this.gp_AddSystemDetails.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tc_EditType)).BeginInit();
@@ -646,6 +643,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MoonGoo)).BeginInit();
             this.tabControlPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Planets)).BeginInit();
+            this.tcp_Galaxy.SuspendLayout();
+            this.tabControlPanel5.SuspendLayout();
+            this.gp_HelpInfo.SuspendLayout();
+            this.tcp_ActivityMonitor.SuspendLayout();
+            this.tlp_ActivityMonitorSelects.SuspendLayout();
+            this.tabControlPanel4.SuspendLayout();
+            this.gp_JB_BG.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Bridges)).BeginInit();
+            this.cms_JBRemove.SuspendLayout();
             this.tabControlPanel3.SuspendLayout();
             this.gp_CynoGenBG.SuspendLayout();
             this.gp_MapViews.SuspendLayout();
@@ -966,7 +972,7 @@
             this.dgv_JumpFrom.Name = "dgv_JumpFrom";
             this.dgv_JumpFrom.RowHeadersVisible = false;
             this.dgv_JumpFrom.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_JumpFrom.Size = new System.Drawing.Size(208, 176);
+            this.dgv_JumpFrom.Size = new System.Drawing.Size(203, 161);
             this.dgv_JumpFrom.TabIndex = 1;
             // 
             // dataGridViewTextBoxColumn4
@@ -1037,7 +1043,7 @@
             this.dgv_JumpTo.Name = "dgv_JumpTo";
             this.dgv_JumpTo.RowHeadersVisible = false;
             this.dgv_JumpTo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgv_JumpTo.Size = new System.Drawing.Size(208, 176);
+            this.dgv_JumpTo.Size = new System.Drawing.Size(205, 161);
             this.dgv_JumpTo.TabIndex = 0;
             // 
             // dataGridViewTextBoxColumn1
@@ -1101,7 +1107,7 @@
             this.tv_SystemDetails.Location = new System.Drawing.Point(235, 1);
             this.tv_SystemDetails.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tv_SystemDetails.Name = "tv_SystemDetails";
-            this.tv_SystemDetails.Size = new System.Drawing.Size(195, 190);
+            this.tv_SystemDetails.Size = new System.Drawing.Size(183, 190);
             this.tv_SystemDetails.TabIndex = 4;
             // 
             // cms_GateRouteAvoidWP
@@ -1331,7 +1337,7 @@
             this.clb_SearchSelections.FormattingEnabled = true;
             this.clb_SearchSelections.Location = new System.Drawing.Point(195, 64);
             this.clb_SearchSelections.Name = "clb_SearchSelections";
-            this.clb_SearchSelections.Size = new System.Drawing.Size(239, 324);
+            this.clb_SearchSelections.Size = new System.Drawing.Size(227, 292);
             this.clb_SearchSelections.Sorted = true;
             this.clb_SearchSelections.TabIndex = 50;
             // 
@@ -1872,7 +1878,6 @@
             // 
             // 
             // 
-            this.sw_RedoJump.BackgroundStyle.Class = "";
             this.sw_RedoJump.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_RedoJump.Location = new System.Drawing.Point(119, 365);
             this.sw_RedoJump.Name = "sw_RedoJump";
@@ -1887,7 +1892,6 @@
             // 
             // 
             // 
-            this.sw_BridgeHL.BackgroundStyle.Class = "";
             this.sw_BridgeHL.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_BridgeHL.Location = new System.Drawing.Point(119, 1);
             this.sw_BridgeHL.Name = "sw_BridgeHL";
@@ -1902,7 +1906,6 @@
             // 
             // 
             // 
-            this.sw_JumpFromHL.BackgroundStyle.Class = "";
             this.sw_JumpFromHL.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_JumpFromHL.Location = new System.Drawing.Point(119, 29);
             this.sw_JumpFromHL.Name = "sw_JumpFromHL";
@@ -1917,7 +1920,6 @@
             // 
             // 
             // 
-            this.sw_RedoGate.BackgroundStyle.Class = "";
             this.sw_RedoGate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_RedoGate.Location = new System.Drawing.Point(119, 337);
             this.sw_RedoGate.Name = "sw_RedoGate";
@@ -1932,7 +1934,6 @@
             // 
             // 
             // 
-            this.sw_JumpToHL.BackgroundStyle.Class = "";
             this.sw_JumpToHL.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_JumpToHL.Location = new System.Drawing.Point(119, 57);
             this.sw_JumpToHL.Name = "sw_JumpToHL";
@@ -1947,7 +1948,6 @@
             // 
             // 
             // 
-            this.sw_SearchResultHL.BackgroundStyle.Class = "";
             this.sw_SearchResultHL.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_SearchResultHL.Location = new System.Drawing.Point(119, 85);
             this.sw_SearchResultHL.Name = "sw_SearchResultHL";
@@ -1962,7 +1962,6 @@
             // 
             // 
             // 
-            this.sw_RegionNm.BackgroundStyle.Class = "";
             this.sw_RegionNm.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_RegionNm.Location = new System.Drawing.Point(119, 113);
             this.sw_RegionNm.Name = "sw_RegionNm";
@@ -1977,7 +1976,6 @@
             // 
             // 
             // 
-            this.sw_ConstNm.BackgroundStyle.Class = "";
             this.sw_ConstNm.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_ConstNm.Location = new System.Drawing.Point(119, 141);
             this.sw_ConstNm.Name = "sw_ConstNm";
@@ -1992,7 +1990,6 @@
             // 
             // 
             // 
-            this.sw_SystemNm.BackgroundStyle.Class = "";
             this.sw_SystemNm.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_SystemNm.Location = new System.Drawing.Point(119, 169);
             this.sw_SystemNm.Name = "sw_SystemNm";
@@ -2007,7 +2004,6 @@
             // 
             // 
             // 
-            this.sw_ShowDetail.BackgroundStyle.Class = "";
             this.sw_ShowDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_ShowDetail.Location = new System.Drawing.Point(119, 197);
             this.sw_ShowDetail.Name = "sw_ShowDetail";
@@ -2022,7 +2018,6 @@
             // 
             // 
             // 
-            this.sw_ShowJB.BackgroundStyle.Class = "";
             this.sw_ShowJB.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_ShowJB.Location = new System.Drawing.Point(119, 225);
             this.sw_ShowJB.Name = "sw_ShowJB";
@@ -2037,7 +2032,6 @@
             // 
             // 
             // 
-            this.sw_ShowCyno.BackgroundStyle.Class = "";
             this.sw_ShowCyno.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_ShowCyno.Location = new System.Drawing.Point(119, 253);
             this.sw_ShowCyno.Name = "sw_ShowCyno";
@@ -2052,7 +2046,6 @@
             // 
             // 
             // 
-            this.sw_BridgeDetail.BackgroundStyle.Class = "";
             this.sw_BridgeDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_BridgeDetail.Location = new System.Drawing.Point(119, 309);
             this.sw_BridgeDetail.Name = "sw_BridgeDetail";
@@ -2067,7 +2060,6 @@
             // 
             // 
             // 
-            this.sw_ShowSov.BackgroundStyle.Class = "";
             this.sw_ShowSov.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sw_ShowSov.Location = new System.Drawing.Point(119, 281);
             this.sw_ShowSov.Name = "sw_ShowSov";
@@ -2145,7 +2137,6 @@
             this.gp_RightPanel.Style.BorderRightWidth = 1;
             this.gp_RightPanel.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_RightPanel.Style.BorderTopWidth = 1;
-            this.gp_RightPanel.Style.Class = "";
             this.gp_RightPanel.Style.CornerDiameter = 4;
             this.gp_RightPanel.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_RightPanel.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -2154,12 +2145,10 @@
             // 
             // 
             // 
-            this.gp_RightPanel.StyleMouseDown.Class = "";
             this.gp_RightPanel.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_RightPanel.StyleMouseOver.Class = "";
             this.gp_RightPanel.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_RightPanel.TabIndex = 14;
             this.gp_RightPanel.Visible = false;
@@ -2229,7 +2218,6 @@
             this.gp_CELBG.Style.BorderRightWidth = 1;
             this.gp_CELBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_CELBG.Style.BorderTopWidth = 1;
-            this.gp_CELBG.Style.Class = "";
             this.gp_CELBG.Style.CornerDiameter = 4;
             this.gp_CELBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_CELBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -2238,12 +2226,10 @@
             // 
             // 
             // 
-            this.gp_CELBG.StyleMouseDown.Class = "";
             this.gp_CELBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_CELBG.StyleMouseOver.Class = "";
             this.gp_CELBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_CELBG.TabIndex = 0;
             // 
@@ -2334,7 +2320,6 @@
             this.gp_HLBG.Style.BorderRightWidth = 1;
             this.gp_HLBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_HLBG.Style.BorderTopWidth = 1;
-            this.gp_HLBG.Style.Class = "";
             this.gp_HLBG.Style.CornerDiameter = 4;
             this.gp_HLBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_HLBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -2343,12 +2328,10 @@
             // 
             // 
             // 
-            this.gp_HLBG.StyleMouseDown.Class = "";
             this.gp_HLBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_HLBG.StyleMouseOver.Class = "";
             this.gp_HLBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_HLBG.TabIndex = 0;
             // 
@@ -2358,7 +2341,6 @@
             // 
             // 
             // 
-            this.labelX22.BackgroundStyle.Class = "";
             this.labelX22.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX22.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX22.ForeColor = System.Drawing.Color.Maroon;
@@ -2377,7 +2359,6 @@
             // 
             // 
             // 
-            this.labelX16.BackgroundStyle.Class = "";
             this.labelX16.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX16.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX16.Location = new System.Drawing.Point(2, 362);
@@ -2394,7 +2375,6 @@
             // 
             // 
             // 
-            this.labelX7.BackgroundStyle.Class = "";
             this.labelX7.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX7.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX7.Location = new System.Drawing.Point(2, 60);
@@ -2409,7 +2389,6 @@
             // 
             // 
             // 
-            this.labelX13.BackgroundStyle.Class = "";
             this.labelX13.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX13.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX13.Location = new System.Drawing.Point(2, 334);
@@ -2437,7 +2416,6 @@
             // 
             // 
             // 
-            this.labelX15.BackgroundStyle.Class = "";
             this.labelX15.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX15.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX15.Location = new System.Drawing.Point(2, 172);
@@ -2452,7 +2430,6 @@
             // 
             // 
             // 
-            this.labelX5.BackgroundStyle.Class = "";
             this.labelX5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX5.Location = new System.Drawing.Point(2, 4);
@@ -2467,7 +2444,6 @@
             // 
             // 
             // 
-            this.labelX14.BackgroundStyle.Class = "";
             this.labelX14.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX14.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX14.Location = new System.Drawing.Point(2, 312);
@@ -2482,7 +2458,6 @@
             // 
             // 
             // 
-            this.labelX6.BackgroundStyle.Class = "";
             this.labelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX6.Location = new System.Drawing.Point(2, 32);
@@ -2497,7 +2472,6 @@
             // 
             // 
             // 
-            this.labelX8.BackgroundStyle.Class = "";
             this.labelX8.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX8.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX8.Location = new System.Drawing.Point(2, 88);
@@ -2512,7 +2486,6 @@
             // 
             // 
             // 
-            this.labelX12.BackgroundStyle.Class = "";
             this.labelX12.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX12.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX12.Location = new System.Drawing.Point(2, 228);
@@ -2527,7 +2500,6 @@
             // 
             // 
             // 
-            this.labelX11.BackgroundStyle.Class = "";
             this.labelX11.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX11.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX11.Location = new System.Drawing.Point(2, 200);
@@ -2542,7 +2514,6 @@
             // 
             // 
             // 
-            this.labelX10.BackgroundStyle.Class = "";
             this.labelX10.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX10.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX10.Location = new System.Drawing.Point(2, 284);
@@ -2557,7 +2528,6 @@
             // 
             // 
             // 
-            this.labelX9.BackgroundStyle.Class = "";
             this.labelX9.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX9.Location = new System.Drawing.Point(2, 144);
@@ -2572,7 +2542,6 @@
             // 
             // 
             // 
-            this.labelX4.BackgroundStyle.Class = "";
             this.labelX4.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX4.Location = new System.Drawing.Point(2, 256);
@@ -2587,7 +2556,6 @@
             // 
             // 
             // 
-            this.labelX3.BackgroundStyle.Class = "";
             this.labelX3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelX3.Location = new System.Drawing.Point(2, 116);
@@ -2648,7 +2616,6 @@
             this.gp_DBG.Style.BorderRightWidth = 1;
             this.gp_DBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_DBG.Style.BorderTopWidth = 1;
-            this.gp_DBG.Style.Class = "";
             this.gp_DBG.Style.CornerDiameter = 4;
             this.gp_DBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_DBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -2657,12 +2624,10 @@
             // 
             // 
             // 
-            this.gp_DBG.StyleMouseDown.Class = "";
             this.gp_DBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_DBG.StyleMouseOver.Class = "";
             this.gp_DBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_DBG.TabIndex = 0;
             // 
@@ -2695,7 +2660,7 @@
             this.at_Regions.NodesConnector = this.nodeConnector1;
             this.at_Regions.NodeStyle = this.elementStyle1;
             this.at_Regions.PathSeparator = ";";
-            this.at_Regions.Size = new System.Drawing.Size(186, 606);
+            this.at_Regions.Size = new System.Drawing.Size(186, 617);
             this.at_Regions.Styles.Add(this.elementStyle1);
             this.at_Regions.TabIndex = 0;
             this.at_Regions.AfterCheck += new DevComponents.AdvTree.AdvTreeCellEventHandler(this.at_Regions_AfterCheck);
@@ -2730,7 +2695,6 @@
             // 
             // elementStyle1
             // 
-            this.elementStyle1.Class = "";
             this.elementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.elementStyle1.Name = "elementStyle1";
             this.elementStyle1.TextColor = System.Drawing.SystemColors.ControlText;
@@ -2743,6 +2707,7 @@
             this.bar_RegionControls.AntiAlias = true;
             this.bar_RegionControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.bar_RegionControls.DockSide = DevComponents.DotNetBar.eDockSide.Document;
+            this.bar_RegionControls.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bar_RegionControls.Items.AddRange(new DevComponents.DotNetBar.BaseItem[] {
             this.bi_CheckAllRC,
             this.bi_ClearAllRC,
@@ -2782,7 +2747,6 @@
             // 
             // 
             // 
-            this.cbx_SelGalaxy.BackgroundStyle.Class = "";
             this.cbx_SelGalaxy.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.cbx_SelGalaxy.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton;
             this.cbx_SelGalaxy.Checked = true;
@@ -2802,7 +2766,6 @@
             // 
             // 
             // 
-            this.cbx_SelRegions.BackgroundStyle.Class = "";
             this.cbx_SelRegions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.cbx_SelRegions.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton;
             this.cbx_SelRegions.Location = new System.Drawing.Point(-1, 43);
@@ -2819,7 +2782,6 @@
             // 
             // 
             // 
-            this.cbx_SelConst.BackgroundStyle.Class = "";
             this.cbx_SelConst.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.cbx_SelConst.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton;
             this.cbx_SelConst.Location = new System.Drawing.Point(-1, 61);
@@ -2964,7 +2926,6 @@
             this.gp_SearchRoute.Style.BorderRightWidth = 1;
             this.gp_SearchRoute.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_SearchRoute.Style.BorderTopWidth = 1;
-            this.gp_SearchRoute.Style.Class = "";
             this.gp_SearchRoute.Style.CornerDiameter = 4;
             this.gp_SearchRoute.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_SearchRoute.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -2973,12 +2934,10 @@
             // 
             // 
             // 
-            this.gp_SearchRoute.StyleMouseDown.Class = "";
             this.gp_SearchRoute.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_SearchRoute.StyleMouseOver.Class = "";
             this.gp_SearchRoute.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_SearchRoute.TabIndex = 4;
             // 
@@ -3002,7 +2961,6 @@
             this.lb_SystemSize.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.lb_SystemSize.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lb_SystemSize.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_SystemSize.BackgroundStyle.Class = "";
             this.lb_SystemSize.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lb_SystemSize.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_SystemSize.Location = new System.Drawing.Point(86, 172);
@@ -3028,9 +2986,9 @@
             this.groupPanel2.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel2.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
             this.groupPanel2.Controls.Add(this.dgv_JumpFrom);
-            this.groupPanel2.Location = new System.Drawing.Point(221, 193);
+            this.groupPanel2.Location = new System.Drawing.Point(213, 193);
             this.groupPanel2.Name = "groupPanel2";
-            this.groupPanel2.Size = new System.Drawing.Size(214, 198);
+            this.groupPanel2.Size = new System.Drawing.Size(210, 186);
             // 
             // 
             // 
@@ -3046,7 +3004,6 @@
             this.groupPanel2.Style.BorderRightWidth = 1;
             this.groupPanel2.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel2.Style.BorderTopWidth = 1;
-            this.groupPanel2.Style.Class = "";
             this.groupPanel2.Style.CornerDiameter = 4;
             this.groupPanel2.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel2.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -3055,12 +3012,10 @@
             // 
             // 
             // 
-            this.groupPanel2.StyleMouseDown.Class = "";
             this.groupPanel2.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel2.StyleMouseOver.Class = "";
             this.groupPanel2.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel2.TabIndex = 101;
             this.groupPanel2.Text = "Systems Can Jump From";
@@ -3075,7 +3030,7 @@
             this.groupPanel1.Controls.Add(this.dgv_JumpTo);
             this.groupPanel1.Location = new System.Drawing.Point(-1, 193);
             this.groupPanel1.Name = "groupPanel1";
-            this.groupPanel1.Size = new System.Drawing.Size(214, 198);
+            this.groupPanel1.Size = new System.Drawing.Size(214, 186);
             // 
             // 
             // 
@@ -3091,7 +3046,6 @@
             this.groupPanel1.Style.BorderRightWidth = 1;
             this.groupPanel1.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel1.Style.BorderTopWidth = 1;
-            this.groupPanel1.Style.Class = "";
             this.groupPanel1.Style.CornerDiameter = 4;
             this.groupPanel1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel1.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -3100,12 +3054,10 @@
             // 
             // 
             // 
-            this.groupPanel1.StyleMouseDown.Class = "";
             this.groupPanel1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel1.StyleMouseOver.Class = "";
             this.groupPanel1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel1.TabIndex = 100;
             this.groupPanel1.Text = "Systems Can Jump To";
@@ -3130,7 +3082,6 @@
             this.tb_ConstellationJumps.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_ConstellationJumps.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_ConstellationJumps.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_ConstellationJumps.BackgroundStyle.Class = "";
             this.tb_ConstellationJumps.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_ConstellationJumps.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_ConstellationJumps.Location = new System.Drawing.Point(86, 153);
@@ -3158,7 +3109,6 @@
             this.tb_ConstellationKills.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_ConstellationKills.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_ConstellationKills.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_ConstellationKills.BackgroundStyle.Class = "";
             this.tb_ConstellationKills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_ConstellationKills.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_ConstellationKills.Location = new System.Drawing.Point(86, 134);
@@ -3186,7 +3136,6 @@
             this.tb_SystemJumps.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_SystemJumps.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_SystemJumps.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_SystemJumps.BackgroundStyle.Class = "";
             this.tb_SystemJumps.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_SystemJumps.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_SystemJumps.Location = new System.Drawing.Point(86, 115);
@@ -3214,7 +3163,6 @@
             this.tb_SystemKills.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_SystemKills.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_SystemKills.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_SystemKills.BackgroundStyle.Class = "";
             this.tb_SystemKills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_SystemKills.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_SystemKills.Location = new System.Drawing.Point(86, 96);
@@ -3242,7 +3190,6 @@
             this.tb_SystemSovHolder.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_SystemSovHolder.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_SystemSovHolder.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_SystemSovHolder.BackgroundStyle.Class = "";
             this.tb_SystemSovHolder.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_SystemSovHolder.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_SystemSovHolder.Location = new System.Drawing.Point(86, 77);
@@ -3270,7 +3217,6 @@
             this.tb_SystemSecurity.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_SystemSecurity.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_SystemSecurity.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_SystemSecurity.BackgroundStyle.Class = "";
             this.tb_SystemSecurity.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_SystemSecurity.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_SystemSecurity.Location = new System.Drawing.Point(86, 58);
@@ -3298,7 +3244,6 @@
             this.tb_RegionName.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_RegionName.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_RegionName.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_RegionName.BackgroundStyle.Class = "";
             this.tb_RegionName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_RegionName.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_RegionName.Location = new System.Drawing.Point(86, 39);
@@ -3326,7 +3271,6 @@
             this.tb_ConstellationName.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_ConstellationName.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_ConstellationName.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_ConstellationName.BackgroundStyle.Class = "";
             this.tb_ConstellationName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_ConstellationName.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_ConstellationName.Location = new System.Drawing.Point(86, 20);
@@ -3354,7 +3298,6 @@
             this.tb_SystemName.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_SystemName.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_SystemName.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_SystemName.BackgroundStyle.Class = "";
             this.tb_SystemName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_SystemName.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_SystemName.Location = new System.Drawing.Point(86, 1);
@@ -3442,7 +3385,6 @@
             // 
             // 
             // 
-            this.pbar_RouteCalc.BackgroundStyle.Class = "";
             this.pbar_RouteCalc.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.pbar_RouteCalc.Location = new System.Drawing.Point(1, 69);
             this.pbar_RouteCalc.Name = "pbar_RouteCalc";
@@ -3489,7 +3431,6 @@
             this.gp_JumpRoute.Style.BorderRightWidth = 1;
             this.gp_JumpRoute.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_JumpRoute.Style.BorderTopWidth = 1;
-            this.gp_JumpRoute.Style.Class = "";
             this.gp_JumpRoute.Style.CornerDiameter = 4;
             this.gp_JumpRoute.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_JumpRoute.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -3498,12 +3439,10 @@
             // 
             // 
             // 
-            this.gp_JumpRoute.StyleMouseDown.Class = "";
             this.gp_JumpRoute.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_JumpRoute.StyleMouseOver.Class = "";
             this.gp_JumpRoute.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_JumpRoute.TabIndex = 0;
             // 
@@ -3513,7 +3452,6 @@
             // 
             // 
             // 
-            this.lbx_JumpRouteLength.BackgroundStyle.Class = "";
             this.lbx_JumpRouteLength.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_JumpRouteLength.Location = new System.Drawing.Point(160, 20);
             this.lbx_JumpRouteLength.Name = "lbx_JumpRouteLength";
@@ -3620,7 +3558,6 @@
             this.gp_SearchPanel.Style.BorderRightWidth = 1;
             this.gp_SearchPanel.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_SearchPanel.Style.BorderTopWidth = 1;
-            this.gp_SearchPanel.Style.Class = "";
             this.gp_SearchPanel.Style.CornerDiameter = 4;
             this.gp_SearchPanel.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_SearchPanel.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -3629,12 +3566,10 @@
             // 
             // 
             // 
-            this.gp_SearchPanel.StyleMouseDown.Class = "";
             this.gp_SearchPanel.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_SearchPanel.StyleMouseOver.Class = "";
             this.gp_SearchPanel.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_SearchPanel.TabIndex = 0;
             // 
@@ -3932,7 +3867,6 @@
             this.gp_Configs.Style.BorderRightWidth = 1;
             this.gp_Configs.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_Configs.Style.BorderTopWidth = 1;
-            this.gp_Configs.Style.Class = "";
             this.gp_Configs.Style.CornerDiameter = 4;
             this.gp_Configs.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_Configs.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -3941,12 +3875,10 @@
             // 
             // 
             // 
-            this.gp_Configs.StyleMouseDown.Class = "";
             this.gp_Configs.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_Configs.StyleMouseOver.Class = "";
             this.gp_Configs.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_Configs.TabIndex = 0;
             // 
@@ -4014,7 +3946,6 @@
             this.gp_ColorSettings.Style.BorderRightWidth = 1;
             this.gp_ColorSettings.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_ColorSettings.Style.BorderTopWidth = 1;
-            this.gp_ColorSettings.Style.Class = "";
             this.gp_ColorSettings.Style.CornerDiameter = 4;
             this.gp_ColorSettings.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_ColorSettings.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4023,12 +3954,10 @@
             // 
             // 
             // 
-            this.gp_ColorSettings.StyleMouseDown.Class = "";
             this.gp_ColorSettings.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_ColorSettings.StyleMouseOver.Class = "";
             this.gp_ColorSettings.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_ColorSettings.TabIndex = 2;
             this.gp_ColorSettings.Text = "Color Settings";
@@ -4038,7 +3967,6 @@
             // 
             // 
             // 
-            this.sl_Alpha.BackgroundStyle.Class = "";
             this.sl_Alpha.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_Alpha.Location = new System.Drawing.Point(3, 44);
             this.sl_Alpha.Maximum = 255;
@@ -4096,7 +4024,6 @@
             this.gp_JumpRouteWt.Style.BorderRightWidth = 1;
             this.gp_JumpRouteWt.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_JumpRouteWt.Style.BorderTopWidth = 1;
-            this.gp_JumpRouteWt.Style.Class = "";
             this.gp_JumpRouteWt.Style.CornerDiameter = 4;
             this.gp_JumpRouteWt.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_JumpRouteWt.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4105,12 +4032,10 @@
             // 
             // 
             // 
-            this.gp_JumpRouteWt.StyleMouseDown.Class = "";
             this.gp_JumpRouteWt.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_JumpRouteWt.StyleMouseOver.Class = "";
             this.gp_JumpRouteWt.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_JumpRouteWt.TabIndex = 2;
             this.gp_JumpRouteWt.Text = "Jump Route Weights";
@@ -4176,7 +4101,6 @@
             this.gp_GateRouteWt.Style.BorderRightWidth = 1;
             this.gp_GateRouteWt.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_GateRouteWt.Style.BorderTopWidth = 1;
-            this.gp_GateRouteWt.Style.Class = "";
             this.gp_GateRouteWt.Style.CornerDiameter = 4;
             this.gp_GateRouteWt.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_GateRouteWt.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4185,12 +4109,10 @@
             // 
             // 
             // 
-            this.gp_GateRouteWt.StyleMouseDown.Class = "";
             this.gp_GateRouteWt.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_GateRouteWt.StyleMouseOver.Class = "";
             this.gp_GateRouteWt.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_GateRouteWt.TabIndex = 1;
             this.gp_GateRouteWt.Text = "Gate Route Weights";
@@ -4220,7 +4142,6 @@
             this.gp_MapDetails.Style.BorderRightWidth = 1;
             this.gp_MapDetails.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_MapDetails.Style.BorderTopWidth = 1;
-            this.gp_MapDetails.Style.Class = "";
             this.gp_MapDetails.Style.CornerDiameter = 4;
             this.gp_MapDetails.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_MapDetails.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4229,12 +4150,10 @@
             // 
             // 
             // 
-            this.gp_MapDetails.StyleMouseDown.Class = "";
             this.gp_MapDetails.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_MapDetails.StyleMouseOver.Class = "";
             this.gp_MapDetails.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_MapDetails.TabIndex = 0;
             this.gp_MapDetails.Text = "Map Details";
@@ -4289,7 +4208,6 @@
             this.groupPanel5.Style.BorderRightWidth = 1;
             this.groupPanel5.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel5.Style.BorderTopWidth = 1;
-            this.groupPanel5.Style.Class = "";
             this.groupPanel5.Style.CornerDiameter = 4;
             this.groupPanel5.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel5.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4298,12 +4216,10 @@
             // 
             // 
             // 
-            this.groupPanel5.StyleMouseDown.Class = "";
             this.groupPanel5.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel5.StyleMouseOver.Class = "";
             this.groupPanel5.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel5.TabIndex = 0;
             // 
@@ -4330,7 +4246,6 @@
             this.gp_WHPossible.Style.BorderRightWidth = 1;
             this.gp_WHPossible.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_WHPossible.Style.BorderTopWidth = 1;
-            this.gp_WHPossible.Style.Class = "";
             this.gp_WHPossible.Style.CornerDiameter = 4;
             this.gp_WHPossible.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_WHPossible.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4339,12 +4254,10 @@
             // 
             // 
             // 
-            this.gp_WHPossible.StyleMouseDown.Class = "";
             this.gp_WHPossible.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_WHPossible.StyleMouseOver.Class = "";
             this.gp_WHPossible.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_WHPossible.TabIndex = 2;
             this.gp_WHPossible.Text = "Possible Wormholes";
@@ -4373,7 +4286,6 @@
             this.groupPanel7.Style.BorderRightWidth = 1;
             this.groupPanel7.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel7.Style.BorderTopWidth = 1;
-            this.groupPanel7.Style.Class = "";
             this.groupPanel7.Style.CornerDiameter = 4;
             this.groupPanel7.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel7.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4382,12 +4294,10 @@
             // 
             // 
             // 
-            this.groupPanel7.StyleMouseDown.Class = "";
             this.groupPanel7.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel7.StyleMouseOver.Class = "";
             this.groupPanel7.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel7.TabIndex = 1;
             this.groupPanel7.Text = "System Static Wormhole(s)";
@@ -4444,7 +4354,6 @@
             this.groupPanel6.Style.BorderRightWidth = 1;
             this.groupPanel6.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel6.Style.BorderTopWidth = 1;
-            this.groupPanel6.Style.Class = "";
             this.groupPanel6.Style.CornerDiameter = 4;
             this.groupPanel6.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel6.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4453,12 +4362,10 @@
             // 
             // 
             // 
-            this.groupPanel6.StyleMouseDown.Class = "";
             this.groupPanel6.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel6.StyleMouseOver.Class = "";
             this.groupPanel6.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel6.TabIndex = 0;
             this.groupPanel6.Text = "Wormhole Type Information";
@@ -4483,7 +4390,6 @@
             // 
             // 
             // 
-            this.lbx_MassRegen.BackgroundStyle.Class = "";
             this.lbx_MassRegen.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_MassRegen.ForeColor = System.Drawing.Color.Maroon;
             this.lbx_MassRegen.Location = new System.Drawing.Point(96, 48);
@@ -4496,7 +4402,6 @@
             // 
             // 
             // 
-            this.labelX25.BackgroundStyle.Class = "";
             this.labelX25.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX25.Location = new System.Drawing.Point(2, 48);
             this.labelX25.Name = "labelX25";
@@ -4510,7 +4415,6 @@
             // 
             // 
             // 
-            this.lbx_WHClass.BackgroundStyle.Class = "";
             this.lbx_WHClass.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_WHClass.ForeColor = System.Drawing.Color.Maroon;
             this.lbx_WHClass.Location = new System.Drawing.Point(299, 6);
@@ -4523,7 +4427,6 @@
             // 
             // 
             // 
-            this.lbx_WHMaxMass.BackgroundStyle.Class = "";
             this.lbx_WHMaxMass.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_WHMaxMass.ForeColor = System.Drawing.Color.Maroon;
             this.lbx_WHMaxMass.Location = new System.Drawing.Point(299, 49);
@@ -4536,7 +4439,6 @@
             // 
             // 
             // 
-            this.lbx_WHShipMass.BackgroundStyle.Class = "";
             this.lbx_WHShipMass.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_WHShipMass.ForeColor = System.Drawing.Color.Maroon;
             this.lbx_WHShipMass.Location = new System.Drawing.Point(299, 28);
@@ -4549,7 +4451,6 @@
             // 
             // 
             // 
-            this.lbx_WHLife.BackgroundStyle.Class = "";
             this.lbx_WHLife.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_WHLife.ForeColor = System.Drawing.Color.Maroon;
             this.lbx_WHLife.Location = new System.Drawing.Point(96, 28);
@@ -4562,7 +4463,6 @@
             // 
             // 
             // 
-            this.labelX21.BackgroundStyle.Class = "";
             this.labelX21.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX21.Location = new System.Drawing.Point(188, 6);
             this.labelX21.Name = "labelX21";
@@ -4576,7 +4476,6 @@
             // 
             // 
             // 
-            this.labelX20.BackgroundStyle.Class = "";
             this.labelX20.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX20.Location = new System.Drawing.Point(188, 49);
             this.labelX20.Name = "labelX20";
@@ -4590,7 +4489,6 @@
             // 
             // 
             // 
-            this.labelX19.BackgroundStyle.Class = "";
             this.labelX19.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX19.Location = new System.Drawing.Point(188, 28);
             this.labelX19.Name = "labelX19";
@@ -4604,7 +4502,6 @@
             // 
             // 
             // 
-            this.labelX18.BackgroundStyle.Class = "";
             this.labelX18.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX18.Location = new System.Drawing.Point(2, 28);
             this.labelX18.Name = "labelX18";
@@ -4618,7 +4515,6 @@
             // 
             // 
             // 
-            this.labelX17.BackgroundStyle.Class = "";
             this.labelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX17.Location = new System.Drawing.Point(2, 5);
             this.labelX17.Name = "labelX17";
@@ -4691,7 +4587,6 @@
             this.gp_systemInfo.Style.BorderRightWidth = 1;
             this.gp_systemInfo.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_systemInfo.Style.BorderTopWidth = 1;
-            this.gp_systemInfo.Style.Class = "";
             this.gp_systemInfo.Style.CornerDiameter = 4;
             this.gp_systemInfo.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_systemInfo.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4700,12 +4595,10 @@
             // 
             // 
             // 
-            this.gp_systemInfo.StyleMouseDown.Class = "";
             this.gp_systemInfo.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_systemInfo.StyleMouseOver.Class = "";
             this.gp_systemInfo.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_systemInfo.TabIndex = 0;
             // 
@@ -4729,7 +4622,6 @@
             this.sl_SystemSize.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.sl_SystemSize.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sl_SystemSize.BackgroundStyle.BorderTopWidth = 1;
-            this.sl_SystemSize.BackgroundStyle.Class = "";
             this.sl_SystemSize.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_SystemSize.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sl_SystemSize.Location = new System.Drawing.Point(322, 63);
@@ -4761,7 +4653,7 @@
             this.ct_StationLoc.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F";
             this.ct_StationLoc.Location = new System.Drawing.Point(86, 84);
             this.ct_StationLoc.Name = "ct_StationLoc";
-            this.ct_StationLoc.Size = new System.Drawing.Size(183, 19);
+            this.ct_StationLoc.Size = new System.Drawing.Size(171, 19);
             this.ct_StationLoc.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.ct_StationLoc.TabIndex = 144;
             // 
@@ -4800,7 +4692,6 @@
             this.gp_Strategic.Style.BorderRightWidth = 1;
             this.gp_Strategic.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_Strategic.Style.BorderTopWidth = 1;
-            this.gp_Strategic.Style.Class = "";
             this.gp_Strategic.Style.CornerDiameter = 4;
             this.gp_Strategic.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_Strategic.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4809,12 +4700,10 @@
             // 
             // 
             // 
-            this.gp_Strategic.StyleMouseDown.Class = "";
             this.gp_Strategic.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_Strategic.StyleMouseOver.Class = "";
             this.gp_Strategic.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_Strategic.TabIndex = 134;
             this.gp_Strategic.Text = "Strategic";
@@ -4825,7 +4714,6 @@
             // 
             // 
             // 
-            this.scbx_TCU.BackgroundStyle.Class = "";
             this.scbx_TCU.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_TCU.Location = new System.Drawing.Point(14, 13);
             this.scbx_TCU.Name = "scbx_TCU";
@@ -4841,7 +4729,6 @@
             // 
             // 
             // 
-            this.scbx_IHub.BackgroundStyle.Class = "";
             this.scbx_IHub.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_IHub.Location = new System.Drawing.Point(14, -5);
             this.scbx_IHub.Name = "scbx_IHub";
@@ -4895,7 +4782,6 @@
             this.gp_POS.Style.BorderRightWidth = 1;
             this.gp_POS.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_POS.Style.BorderTopWidth = 1;
-            this.gp_POS.Style.Class = "";
             this.gp_POS.Style.CornerDiameter = 4;
             this.gp_POS.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_POS.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -4904,12 +4790,10 @@
             // 
             // 
             // 
-            this.gp_POS.StyleMouseDown.Class = "";
             this.gp_POS.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_POS.StyleMouseOver.Class = "";
             this.gp_POS.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_POS.TabIndex = 131;
             this.gp_POS.Text = "Tower";
@@ -4940,7 +4824,7 @@
             this.ci_CynoGen});
             this.cbx_CynoType.Location = new System.Drawing.Point(71, 135);
             this.cbx_CynoType.Name = "cbx_CynoType";
-            this.cbx_CynoType.Size = new System.Drawing.Size(179, 21);
+            this.cbx_CynoType.Size = new System.Drawing.Size(167, 21);
             this.cbx_CynoType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbx_CynoType.TabIndex = 173;
             // 
@@ -4983,7 +4867,7 @@
             this.ci_DikStar});
             this.cbx_TowerDef.Location = new System.Drawing.Point(71, 113);
             this.cbx_TowerDef.Name = "cbx_TowerDef";
-            this.cbx_TowerDef.Size = new System.Drawing.Size(179, 21);
+            this.cbx_TowerDef.Size = new System.Drawing.Size(167, 21);
             this.cbx_TowerDef.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cbx_TowerDef.TabIndex = 171;
             // 
@@ -5008,7 +4892,6 @@
             // 
             // 
             // 
-            this.scbx_IsMining.BackgroundStyle.Class = "";
             this.scbx_IsMining.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_IsMining.Location = new System.Drawing.Point(132, 174);
             this.scbx_IsMining.Name = "scbx_IsMining";
@@ -5024,7 +4907,6 @@
             // 
             // 
             // 
-            this.scbx_CynoSafeSpot.BackgroundStyle.Class = "";
             this.scbx_CynoSafeSpot.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_CynoSafeSpot.Location = new System.Drawing.Point(132, 192);
             this.scbx_CynoSafeSpot.Name = "scbx_CynoSafeSpot";
@@ -5051,7 +4933,7 @@
             this.tb_SysTowerPW.ForeColor = System.Drawing.Color.Navy;
             this.tb_SysTowerPW.Location = new System.Drawing.Point(72, 91);
             this.tb_SysTowerPW.Name = "tb_SysTowerPW";
-            this.tb_SysTowerPW.Size = new System.Drawing.Size(129, 21);
+            this.tb_SysTowerPW.Size = new System.Drawing.Size(117, 21);
             this.tb_SysTowerPW.TabIndex = 143;
             // 
             // tb_TowerName
@@ -5073,7 +4955,6 @@
             // 
             // 
             // 
-            this.scbx_HasJumpBridge.BackgroundStyle.Class = "";
             this.scbx_HasJumpBridge.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_HasJumpBridge.Location = new System.Drawing.Point(5, 156);
             this.scbx_HasJumpBridge.Name = "scbx_HasJumpBridge";
@@ -5088,7 +4969,6 @@
             // 
             // 
             // 
-            this.scbx_HasHangerArray.BackgroundStyle.Class = "";
             this.scbx_HasHangerArray.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_HasHangerArray.Location = new System.Drawing.Point(5, 174);
             this.scbx_HasHangerArray.Name = "scbx_HasHangerArray";
@@ -5103,7 +4983,6 @@
             // 
             // 
             // 
-            this.scbx_HasShipArray.BackgroundStyle.Class = "";
             this.scbx_HasShipArray.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_HasShipArray.Location = new System.Drawing.Point(5, 192);
             this.scbx_HasShipArray.Name = "scbx_HasShipArray";
@@ -5118,7 +4997,6 @@
             // 
             // 
             // 
-            this.scbx_HasCapArray.BackgroundStyle.Class = "";
             this.scbx_HasCapArray.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_HasCapArray.Location = new System.Drawing.Point(5, 210);
             this.scbx_HasCapArray.Name = "scbx_HasCapArray";
@@ -5133,7 +5011,6 @@
             // 
             // 
             // 
-            this.scbx_HasCapAssembly.BackgroundStyle.Class = "";
             this.scbx_HasCapAssembly.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.scbx_HasCapAssembly.Location = new System.Drawing.Point(132, 156);
             this.scbx_HasCapAssembly.Name = "scbx_HasCapAssembly";
@@ -5165,7 +5042,7 @@
             this.cb_TowerType.ItemHeight = 15;
             this.cb_TowerType.Location = new System.Drawing.Point(72, 69);
             this.cb_TowerType.Name = "cb_TowerType";
-            this.cb_TowerType.Size = new System.Drawing.Size(179, 21);
+            this.cb_TowerType.Size = new System.Drawing.Size(167, 21);
             this.cb_TowerType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cb_TowerType.TabIndex = 127;
             // 
@@ -5191,7 +5068,7 @@
             this.cb_Alliance.ItemHeight = 15;
             this.cb_Alliance.Location = new System.Drawing.Point(72, 47);
             this.cb_Alliance.Name = "cb_Alliance";
-            this.cb_Alliance.Size = new System.Drawing.Size(179, 21);
+            this.cb_Alliance.Size = new System.Drawing.Size(167, 21);
             this.cb_Alliance.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cb_Alliance.TabIndex = 125;
             // 
@@ -5217,7 +5094,7 @@
             this.cb_Corporation.ItemHeight = 15;
             this.cb_Corporation.Location = new System.Drawing.Point(72, 25);
             this.cb_Corporation.Name = "cb_Corporation";
-            this.cb_Corporation.Size = new System.Drawing.Size(179, 21);
+            this.cb_Corporation.Size = new System.Drawing.Size(167, 21);
             this.cb_Corporation.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cb_Corporation.TabIndex = 123;
             // 
@@ -5262,7 +5139,6 @@
             this.gp_MoonGoo.Style.BorderRightWidth = 1;
             this.gp_MoonGoo.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_MoonGoo.Style.BorderTopWidth = 1;
-            this.gp_MoonGoo.Style.Class = "";
             this.gp_MoonGoo.Style.CornerDiameter = 4;
             this.gp_MoonGoo.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_MoonGoo.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -5271,12 +5147,10 @@
             // 
             // 
             // 
-            this.gp_MoonGoo.StyleMouseDown.Class = "";
             this.gp_MoonGoo.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_MoonGoo.StyleMouseOver.Class = "";
             this.gp_MoonGoo.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_MoonGoo.TabIndex = 130;
             this.gp_MoonGoo.Text = "Moon Goo";
@@ -5421,7 +5295,6 @@
             this.sl_Distance.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.sl_Distance.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sl_Distance.BackgroundStyle.BorderTopWidth = 1;
-            this.sl_Distance.BackgroundStyle.Class = "";
             this.sl_Distance.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_Distance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sl_Distance.Location = new System.Drawing.Point(86, 63);
@@ -5459,7 +5332,6 @@
             this.sl_DistTo.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.sl_DistTo.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sl_DistTo.BackgroundStyle.BorderTopWidth = 1;
-            this.sl_DistTo.BackgroundStyle.Class = "";
             this.sl_DistTo.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_DistTo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sl_DistTo.Location = new System.Drawing.Point(264, 42);
@@ -5497,7 +5369,6 @@
             this.sl_DistFrom.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.sl_DistFrom.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sl_DistFrom.BackgroundStyle.BorderTopWidth = 1;
-            this.sl_DistFrom.BackgroundStyle.Class = "";
             this.sl_DistFrom.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_DistFrom.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sl_DistFrom.Location = new System.Drawing.Point(86, 42);
@@ -5545,7 +5416,6 @@
             this.sl_Celestial.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.sl_Celestial.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sl_Celestial.BackgroundStyle.BorderTopWidth = 1;
-            this.sl_Celestial.BackgroundStyle.Class = "";
             this.sl_Celestial.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_Celestial.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sl_Celestial.Location = new System.Drawing.Point(86, 21);
@@ -5583,7 +5453,6 @@
             this.sl_Name.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.sl_Name.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.sl_Name.BackgroundStyle.BorderTopWidth = 1;
-            this.sl_Name.BackgroundStyle.Class = "";
             this.sl_Name.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.sl_Name.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sl_Name.Location = new System.Drawing.Point(86, 0);
@@ -5693,7 +5562,6 @@
             this.gp_GateRoute.Style.BorderRightWidth = 1;
             this.gp_GateRoute.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_GateRoute.Style.BorderTopWidth = 1;
-            this.gp_GateRoute.Style.Class = "";
             this.gp_GateRoute.Style.CornerDiameter = 4;
             this.gp_GateRoute.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_GateRoute.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -5702,12 +5570,10 @@
             // 
             // 
             // 
-            this.gp_GateRoute.StyleMouseDown.Class = "";
             this.gp_GateRoute.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_GateRoute.StyleMouseOver.Class = "";
             this.gp_GateRoute.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_GateRoute.TabIndex = 99;
             // 
@@ -5718,7 +5584,6 @@
             // 
             // 
             // 
-            this.pbar_GRSearch.BackgroundStyle.Class = "";
             this.pbar_GRSearch.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.pbar_GRSearch.ForeColor = System.Drawing.Color.Green;
             this.pbar_GRSearch.Location = new System.Drawing.Point(1, 69);
@@ -5770,7 +5635,6 @@
             // 
             // 
             // 
-            this.lbx_RouteLength.BackgroundStyle.Class = "";
             this.lbx_RouteLength.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lbx_RouteLength.Location = new System.Drawing.Point(160, 20);
             this.lbx_RouteLength.Name = "lbx_RouteLength";
@@ -5865,7 +5729,6 @@
             this.gp_Cynos.Style.BorderRightWidth = 1;
             this.gp_Cynos.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_Cynos.Style.BorderTopWidth = 1;
-            this.gp_Cynos.Style.Class = "";
             this.gp_Cynos.Style.CornerDiameter = 4;
             this.gp_Cynos.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_Cynos.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -5874,12 +5737,10 @@
             // 
             // 
             // 
-            this.gp_Cynos.StyleMouseDown.Class = "";
             this.gp_Cynos.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_Cynos.StyleMouseOver.Class = "";
             this.gp_Cynos.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_Cynos.TabIndex = 101;
             this.gp_Cynos.SizeChanged += new System.EventHandler(this.gp_Cynos_SizeChanged);
@@ -5929,7 +5790,6 @@
             this.tb_FuelPerLY.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_FuelPerLY.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_FuelPerLY.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_FuelPerLY.BackgroundStyle.Class = "";
             this.tb_FuelPerLY.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_FuelPerLY.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_FuelPerLY.Location = new System.Drawing.Point(53, 85);
@@ -5949,7 +5809,7 @@
             this.cb_SystemSelect.ItemHeight = 15;
             this.cb_SystemSelect.Location = new System.Drawing.Point(239, 0);
             this.cb_SystemSelect.Name = "cb_SystemSelect";
-            this.cb_SystemSelect.Size = new System.Drawing.Size(150, 21);
+            this.cb_SystemSelect.Size = new System.Drawing.Size(138, 21);
             this.cb_SystemSelect.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.cb_SystemSelect.TabIndex = 0;
             // 
@@ -5958,7 +5818,7 @@
             this.b_FindSystemR.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_FindSystemR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_FindSystemR.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_FindSystemR.Location = new System.Drawing.Point(391, 0);
+            this.b_FindSystemR.Location = new System.Drawing.Point(379, 0);
             this.b_FindSystemR.Name = "b_FindSystemR";
             this.b_FindSystemR.Size = new System.Drawing.Size(45, 21);
             this.b_FindSystemR.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5971,7 +5831,7 @@
             this.b_SetWaypoint.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_SetWaypoint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_SetWaypoint.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_SetWaypoint.Location = new System.Drawing.Point(390, 22);
+            this.b_SetWaypoint.Location = new System.Drawing.Point(378, 22);
             this.b_SetWaypoint.Name = "b_SetWaypoint";
             this.b_SetWaypoint.Size = new System.Drawing.Size(46, 18);
             this.b_SetWaypoint.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -5984,7 +5844,7 @@
             this.b_SetAvoid.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_SetAvoid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_SetAvoid.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_SetAvoid.Location = new System.Drawing.Point(390, 41);
+            this.b_SetAvoid.Location = new System.Drawing.Point(378, 41);
             this.b_SetAvoid.Name = "b_SetAvoid";
             this.b_SetAvoid.Size = new System.Drawing.Size(46, 18);
             this.b_SetAvoid.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -6012,7 +5872,6 @@
             this.tb_ShipJumpRange.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_ShipJumpRange.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_ShipJumpRange.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_ShipJumpRange.BackgroundStyle.Class = "";
             this.tb_ShipJumpRange.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_ShipJumpRange.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_ShipJumpRange.Location = new System.Drawing.Point(53, 60);
@@ -6044,7 +5903,6 @@
             this.gp_Waypoints.Style.BorderRightWidth = 1;
             this.gp_Waypoints.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_Waypoints.Style.BorderTopWidth = 1;
-            this.gp_Waypoints.Style.Class = "";
             this.gp_Waypoints.Style.CornerDiameter = 4;
             this.gp_Waypoints.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_Waypoints.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6053,12 +5911,10 @@
             // 
             // 
             // 
-            this.gp_Waypoints.StyleMouseDown.Class = "";
             this.gp_Waypoints.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_Waypoints.StyleMouseOver.Class = "";
             this.gp_Waypoints.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_Waypoints.TabIndex = 23;
             this.gp_Waypoints.Text = "Waypoint List";
@@ -6098,12 +5954,11 @@
             this.tb_DestSystem.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_DestSystem.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_DestSystem.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_DestSystem.BackgroundStyle.Class = "";
             this.tb_DestSystem.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_DestSystem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_DestSystem.Location = new System.Drawing.Point(239, 41);
             this.tb_DestSystem.Name = "tb_DestSystem";
-            this.tb_DestSystem.Size = new System.Drawing.Size(102, 18);
+            this.tb_DestSystem.Size = new System.Drawing.Size(90, 18);
             this.tb_DestSystem.TabIndex = 91;
             // 
             // label4
@@ -6138,12 +5993,11 @@
             this.tb_StartSystem.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.tb_StartSystem.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.tb_StartSystem.BackgroundStyle.BorderTopWidth = 1;
-            this.tb_StartSystem.BackgroundStyle.Class = "";
             this.tb_StartSystem.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.tb_StartSystem.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tb_StartSystem.Location = new System.Drawing.Point(239, 22);
             this.tb_StartSystem.Name = "tb_StartSystem";
-            this.tb_StartSystem.Size = new System.Drawing.Size(102, 18);
+            this.tb_StartSystem.Size = new System.Drawing.Size(90, 18);
             this.tb_StartSystem.TabIndex = 90;
             // 
             // labelX2
@@ -6153,7 +6007,6 @@
             // 
             // 
             // 
-            this.labelX2.BackgroundStyle.Class = "";
             this.labelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX2.Location = new System.Drawing.Point(3, 62);
             this.labelX2.Name = "labelX2";
@@ -6166,7 +6019,7 @@
             this.b_SetStart.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_SetStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_SetStart.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_SetStart.Location = new System.Drawing.Point(343, 22);
+            this.b_SetStart.Location = new System.Drawing.Point(331, 22);
             this.b_SetStart.Name = "b_SetStart";
             this.b_SetStart.Size = new System.Drawing.Size(46, 18);
             this.b_SetStart.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -6181,7 +6034,6 @@
             // 
             // 
             // 
-            this.labelX1.BackgroundStyle.Class = "";
             this.labelX1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.labelX1.Location = new System.Drawing.Point(3, 87);
             this.labelX1.Name = "labelX1";
@@ -6194,7 +6046,7 @@
             this.b_SetEnd.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
             this.b_SetEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.b_SetEnd.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_SetEnd.Location = new System.Drawing.Point(343, 41);
+            this.b_SetEnd.Location = new System.Drawing.Point(331, 41);
             this.b_SetEnd.Name = "b_SetEnd";
             this.b_SetEnd.Size = new System.Drawing.Size(46, 18);
             this.b_SetEnd.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -6226,7 +6078,6 @@
             this.gp_Avoids.Style.BorderRightWidth = 1;
             this.gp_Avoids.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_Avoids.Style.BorderTopWidth = 1;
-            this.gp_Avoids.Style.Class = "";
             this.gp_Avoids.Style.CornerDiameter = 4;
             this.gp_Avoids.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_Avoids.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6235,12 +6086,10 @@
             // 
             // 
             // 
-            this.gp_Avoids.StyleMouseDown.Class = "";
             this.gp_Avoids.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_Avoids.StyleMouseOver.Class = "";
             this.gp_Avoids.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_Avoids.TabIndex = 24;
             this.gp_Avoids.Text = "Avoid List";
@@ -6299,7 +6148,6 @@
             this.gp_MiniMap.Style.BorderRightWidth = 1;
             this.gp_MiniMap.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_MiniMap.Style.BorderTopWidth = 1;
-            this.gp_MiniMap.Style.Class = "";
             this.gp_MiniMap.Style.CornerDiameter = 4;
             this.gp_MiniMap.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_MiniMap.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6308,12 +6156,10 @@
             // 
             // 
             // 
-            this.gp_MiniMap.StyleMouseDown.Class = "";
             this.gp_MiniMap.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_MiniMap.StyleMouseOver.Class = "";
             this.gp_MiniMap.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_MiniMap.TabIndex = 10;
             // 
@@ -6341,7 +6187,6 @@
             this.groupPanel4.Style.BorderRightWidth = 1;
             this.groupPanel4.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel4.Style.BorderTopWidth = 1;
-            this.groupPanel4.Style.Class = "";
             this.groupPanel4.Style.CornerDiameter = 4;
             this.groupPanel4.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel4.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6350,12 +6195,10 @@
             // 
             // 
             // 
-            this.groupPanel4.StyleMouseDown.Class = "";
             this.groupPanel4.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel4.StyleMouseOver.Class = "";
             this.groupPanel4.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel4.TabIndex = 0;
             this.groupPanel4.Text = "Map Selections";
@@ -6422,7 +6265,6 @@
             this.groupPanel3.Style.BorderRightWidth = 1;
             this.groupPanel3.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.groupPanel3.Style.BorderTopWidth = 1;
-            this.groupPanel3.Style.Class = "";
             this.groupPanel3.Style.CornerDiameter = 4;
             this.groupPanel3.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.groupPanel3.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6431,12 +6273,10 @@
             // 
             // 
             // 
-            this.groupPanel3.StyleMouseDown.Class = "";
             this.groupPanel3.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.groupPanel3.StyleMouseOver.Class = "";
             this.groupPanel3.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.groupPanel3.TabIndex = 0;
             this.groupPanel3.Text = "Jump Ranges";
@@ -6474,17 +6314,6 @@
             this.cb_ShipSelect.TabIndex = 7;
             this.cb_ShipSelect.TabStop = false;
             this.cb_ShipSelect.SelectedIndexChanged += new System.EventHandler(this.cb_ShipSelect_SelectedIndexChanged);
-            // 
-            // MiniMap
-            // 
-            this.MiniMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MiniMap.BackColor = System.Drawing.Color.Transparent;
-            this.MiniMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MiniMap.Location = new System.Drawing.Point(236, 61);
-            this.MiniMap.Name = "MiniMap";
-            this.MiniMap.Size = new System.Drawing.Size(200, 240);
-            this.MiniMap.TabIndex = 99;
             // 
             // tabControlPanel2
             // 
@@ -6528,7 +6357,6 @@
             this.gp_TowerEntry.Style.BorderRightWidth = 1;
             this.gp_TowerEntry.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_TowerEntry.Style.BorderTopWidth = 1;
-            this.gp_TowerEntry.Style.Class = "";
             this.gp_TowerEntry.Style.CornerDiameter = 4;
             this.gp_TowerEntry.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_TowerEntry.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6537,12 +6365,10 @@
             // 
             // 
             // 
-            this.gp_TowerEntry.StyleMouseDown.Class = "";
             this.gp_TowerEntry.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_TowerEntry.StyleMouseOver.Class = "";
             this.gp_TowerEntry.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_TowerEntry.TabIndex = 0;
             // 
@@ -6555,21 +6381,38 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgv_SystemCelest.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SystemCelest.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_SystemCelest.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_SystemCelest.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CelestialName});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_SystemCelest.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_SystemCelest.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_SystemCelest.EnableHeadersVisualStyles = false;
             this.dgv_SystemCelest.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_SystemCelest.Location = new System.Drawing.Point(0, 0);
             this.dgv_SystemCelest.MultiSelect = false;
             this.dgv_SystemCelest.Name = "dgv_SystemCelest";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SystemCelest.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgv_SystemCelest.RowHeadersVisible = false;
             this.dgv_SystemCelest.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgv_SystemCelest.Size = new System.Drawing.Size(535, 612);
@@ -6616,43 +6459,6 @@
             this.tp_Towers.Name = "tp_Towers";
             this.tp_Towers.Text = "Towers";
             // 
-            // tcp_SolarSystem
-            // 
-            this.tcp_SolarSystem.Controls.Add(this.SSMap);
-            this.tcp_SolarSystem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcp_SolarSystem.Location = new System.Drawing.Point(0, 23);
-            this.tcp_SolarSystem.Name = "tcp_SolarSystem";
-            this.tcp_SolarSystem.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_SolarSystem.Size = new System.Drawing.Size(553, 695);
-            this.tcp_SolarSystem.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tcp_SolarSystem.Style.BackColor2.Color = System.Drawing.Color.Silver;
-            this.tcp_SolarSystem.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tcp_SolarSystem.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tcp_SolarSystem.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tcp_SolarSystem.Style.GradientAngle = 90;
-            this.tcp_SolarSystem.TabIndex = 2;
-            this.tcp_SolarSystem.TabItem = this.tp_SolarSystem;
-            // 
-            // SSMap
-            // 
-            this.SSMap.BackColor = System.Drawing.Color.Silver;
-            this.SSMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SSMap.Location = new System.Drawing.Point(1, 1);
-            this.SSMap.Name = "SSMap";
-            this.SSMap.ScrollEnabled = true;
-            this.SSMap.SetMapScale = 1F;
-            this.SSMap.Size = new System.Drawing.Size(551, 693);
-            this.SSMap.TabIndex = 0;
-            this.SSMap.ZoomEnabled = true;
-            // 
-            // tp_SolarSystem
-            // 
-            this.tp_SolarSystem.AttachedControl = this.tcp_SolarSystem;
-            this.tp_SolarSystem.Name = "tp_SolarSystem";
-            this.tp_SolarSystem.Text = "System Map";
-            this.tp_SolarSystem.Click += new System.EventHandler(this.tp_SolarSystem_Click);
-            // 
             // ep_SearchResult
             // 
             this.ep_SearchResult.CanvasColor = System.Drawing.SystemColors.Control;
@@ -6680,21 +6486,38 @@
             this.dgv_SearchResult.AllowUserToOrderColumns = true;
             this.dgv_SearchResult.AllowUserToResizeRows = false;
             this.dgv_SearchResult.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgv_SearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dgv_SearchResult.ContextMenuStrip = this.cms_SearchItemMenu;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_SearchResult.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_SearchResult.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_SearchResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_SearchResult.EnableHeadersVisualStyles = false;
             this.dgv_SearchResult.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_SearchResult.Location = new System.Drawing.Point(0, 0);
             this.dgv_SearchResult.Name = "dgv_SearchResult";
             this.dgv_SearchResult.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_SearchResult.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_SearchResult.RowHeadersVisible = false;
             this.dgv_SearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_SearchResult.Size = new System.Drawing.Size(563, 225);
@@ -6718,12 +6541,11 @@
             new DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247))))), 1F)});
             this.tc_MapSelect.ColorScheme.TabPanelBackground2 = System.Drawing.Color.Silver;
             this.tc_MapSelect.Controls.Add(this.tcp_Galaxy);
+            this.tc_MapSelect.Controls.Add(this.tcp_AddSysDetails);
             this.tc_MapSelect.Controls.Add(this.tabControlPanel5);
             this.tc_MapSelect.Controls.Add(this.tcp_ActivityMonitor);
             this.tc_MapSelect.Controls.Add(this.tabControlPanel4);
-            this.tc_MapSelect.Controls.Add(this.tcp_AddSysDetails);
             this.tc_MapSelect.Controls.Add(this.tabControlPanel3);
-            this.tc_MapSelect.Controls.Add(this.tcp_SolarSystem);
             this.tc_MapSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tc_MapSelect.Location = new System.Drawing.Point(0, 0);
             this.tc_MapSelect.Name = "tc_MapSelect";
@@ -6734,13 +6556,451 @@
             this.tc_MapSelect.TabIndex = 0;
             this.tc_MapSelect.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
             this.tc_MapSelect.Tabs.Add(this.tp_Galaxy);
-            this.tc_MapSelect.Tabs.Add(this.tp_SolarSystem);
             this.tc_MapSelect.Tabs.Add(this.tp_AddSysDetails);
             this.tc_MapSelect.Tabs.Add(this.tp_Bridges);
             this.tc_MapSelect.Tabs.Add(this.ti_CynoGens);
             this.tc_MapSelect.Tabs.Add(this.ti_ActivityMon);
             this.tc_MapSelect.Tabs.Add(this.tp_Help);
             this.tc_MapSelect.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tc_MapSelect_SelectedTabChanged);
+            // 
+            // tcp_AddSysDetails
+            // 
+            this.tcp_AddSysDetails.Controls.Add(this.gp_AddSystemDetails);
+            this.tcp_AddSysDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcp_AddSysDetails.Location = new System.Drawing.Point(0, 23);
+            this.tcp_AddSysDetails.Name = "tcp_AddSysDetails";
+            this.tcp_AddSysDetails.Padding = new System.Windows.Forms.Padding(1);
+            this.tcp_AddSysDetails.Size = new System.Drawing.Size(553, 695);
+            this.tcp_AddSysDetails.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.tcp_AddSysDetails.Style.BackColor2.Color = System.Drawing.Color.Silver;
+            this.tcp_AddSysDetails.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tcp_AddSysDetails.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tcp_AddSysDetails.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tcp_AddSysDetails.Style.GradientAngle = 90;
+            this.tcp_AddSysDetails.TabIndex = 3;
+            this.tcp_AddSysDetails.TabItem = this.tp_AddSysDetails;
+            // 
+            // gp_AddSystemDetails
+            // 
+            this.gp_AddSystemDetails.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_AddSystemDetails.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_AddSystemDetails.Controls.Add(this.b_ExportSD);
+            this.gp_AddSystemDetails.Controls.Add(this.b_ImportSD);
+            this.gp_AddSystemDetails.Controls.Add(this.cb_SDSystemName);
+            this.gp_AddSystemDetails.Controls.Add(this.lb_SDSovHolder);
+            this.gp_AddSystemDetails.Controls.Add(this.tc_EditType);
+            this.gp_AddSystemDetails.Controls.Add(this.label29);
+            this.gp_AddSystemDetails.Controls.Add(this.label30);
+            this.gp_AddSystemDetails.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_AddSystemDetails.Location = new System.Drawing.Point(1, 1);
+            this.gp_AddSystemDetails.Name = "gp_AddSystemDetails";
+            this.gp_AddSystemDetails.Size = new System.Drawing.Size(551, 693);
+            // 
+            // 
+            // 
+            this.gp_AddSystemDetails.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_AddSystemDetails.Style.BackColorGradientAngle = 90;
+            this.gp_AddSystemDetails.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_AddSystemDetails.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AddSystemDetails.Style.BorderBottomWidth = 1;
+            this.gp_AddSystemDetails.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_AddSystemDetails.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AddSystemDetails.Style.BorderLeftWidth = 1;
+            this.gp_AddSystemDetails.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AddSystemDetails.Style.BorderRightWidth = 1;
+            this.gp_AddSystemDetails.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_AddSystemDetails.Style.BorderTopWidth = 1;
+            this.gp_AddSystemDetails.Style.CornerDiameter = 4;
+            this.gp_AddSystemDetails.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_AddSystemDetails.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_AddSystemDetails.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_AddSystemDetails.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_AddSystemDetails.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_AddSystemDetails.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_AddSystemDetails.TabIndex = 0;
+            // 
+            // b_ExportSD
+            // 
+            this.b_ExportSD.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_ExportSD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.b_ExportSD.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_ExportSD.Location = new System.Drawing.Point(481, 0);
+            this.b_ExportSD.Name = "b_ExportSD";
+            this.b_ExportSD.Size = new System.Drawing.Size(62, 23);
+            this.b_ExportSD.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_ExportSD.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.bi_ExportCurrent,
+            this.bi_ExportAll});
+            this.b_ExportSD.TabIndex = 169;
+            this.b_ExportSD.Text = "Export";
+            // 
+            // bi_ExportCurrent
+            // 
+            this.bi_ExportCurrent.Name = "bi_ExportCurrent";
+            this.bi_ExportCurrent.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.bbi_ExportCSV,
+            this.bbi_XMLExport});
+            this.bi_ExportCurrent.Text = "Export Current System";
+            // 
+            // bbi_ExportCSV
+            // 
+            this.bbi_ExportCSV.Name = "bbi_ExportCSV";
+            this.bbi_ExportCSV.Text = "CSV Format (Goo Only)";
+            this.bbi_ExportCSV.Click += new System.EventHandler(this.bbi_ExportCSV_Click);
+            // 
+            // bbi_XMLExport
+            // 
+            this.bbi_XMLExport.Name = "bbi_XMLExport";
+            this.bbi_XMLExport.Text = "XML Format (All Data)";
+            this.bbi_XMLExport.Click += new System.EventHandler(this.bbi_XMLExport_Click);
+            // 
+            // bi_ExportAll
+            // 
+            this.bi_ExportAll.Name = "bi_ExportAll";
+            this.bi_ExportAll.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.bbi_CSVA,
+            this.bbi_XMLAll});
+            this.bi_ExportAll.Text = "Export All Systems";
+            // 
+            // bbi_CSVA
+            // 
+            this.bbi_CSVA.Name = "bbi_CSVA";
+            this.bbi_CSVA.Text = "CSV Format (Goo Only)";
+            this.bbi_CSVA.Click += new System.EventHandler(this.bbi_CSVA_Click);
+            // 
+            // bbi_XMLAll
+            // 
+            this.bbi_XMLAll.Name = "bbi_XMLAll";
+            this.bbi_XMLAll.Text = "XML Format (All Data)";
+            this.bbi_XMLAll.Click += new System.EventHandler(this.bbi_XMLAll_Click);
+            // 
+            // b_ImportSD
+            // 
+            this.b_ImportSD.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
+            this.b_ImportSD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.b_ImportSD.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
+            this.b_ImportSD.Location = new System.Drawing.Point(481, 27);
+            this.b_ImportSD.Name = "b_ImportSD";
+            this.b_ImportSD.Size = new System.Drawing.Size(62, 23);
+            this.b_ImportSD.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.b_ImportSD.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
+            this.bi_ImportData,
+            this.bi_ImportCSV});
+            this.b_ImportSD.TabIndex = 168;
+            this.b_ImportSD.Text = "Import";
+            // 
+            // bi_ImportData
+            // 
+            this.bi_ImportData.Name = "bi_ImportData";
+            this.bi_ImportData.Text = "Import XML Data";
+            this.bi_ImportData.Click += new System.EventHandler(this.bi_ImportData_Click);
+            // 
+            // bi_ImportCSV
+            // 
+            this.bi_ImportCSV.Name = "bi_ImportCSV";
+            this.bi_ImportCSV.Text = "Import CSV Data";
+            this.bi_ImportCSV.Click += new System.EventHandler(this.bi_ImportCSV_Click);
+            // 
+            // cb_SDSystemName
+            // 
+            this.cb_SDSystemName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cb_SDSystemName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cb_SDSystemName.DisplayMember = "Text";
+            this.cb_SDSystemName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cb_SDSystemName.FormattingEnabled = true;
+            this.cb_SDSystemName.ItemHeight = 15;
+            this.cb_SDSystemName.Location = new System.Drawing.Point(83, 3);
+            this.cb_SDSystemName.Name = "cb_SDSystemName";
+            this.cb_SDSystemName.Size = new System.Drawing.Size(322, 21);
+            this.cb_SDSystemName.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
+            this.cb_SDSystemName.TabIndex = 167;
+            this.cb_SDSystemName.SelectedIndexChanged += new System.EventHandler(this.cb_SDSystemName_SelectedIndexChanged);
+            // 
+            // lb_SDSovHolder
+            // 
+            this.lb_SDSovHolder.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lb_SDSovHolder.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_SDSovHolder.BackgroundStyle.BorderBottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_SDSovHolder.BackgroundStyle.BorderBottomWidth = 1;
+            this.lb_SDSovHolder.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_SDSovHolder.BackgroundStyle.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_SDSovHolder.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_SDSovHolder.BackgroundStyle.BorderLeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_SDSovHolder.BackgroundStyle.BorderLeftWidth = 1;
+            this.lb_SDSovHolder.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_SDSovHolder.BackgroundStyle.BorderRightColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_SDSovHolder.BackgroundStyle.BorderRightWidth = 1;
+            this.lb_SDSovHolder.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.lb_SDSovHolder.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lb_SDSovHolder.BackgroundStyle.BorderTopWidth = 1;
+            this.lb_SDSovHolder.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lb_SDSovHolder.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lb_SDSovHolder.Location = new System.Drawing.Point(83, 27);
+            this.lb_SDSovHolder.Name = "lb_SDSovHolder";
+            this.lb_SDSovHolder.Size = new System.Drawing.Size(321, 21);
+            this.lb_SDSovHolder.TabIndex = 151;
+            // 
+            // tc_EditType
+            // 
+            this.tc_EditType.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tc_EditType.BackColor = System.Drawing.Color.Transparent;
+            this.tc_EditType.CanReorderTabs = true;
+            this.tc_EditType.Controls.Add(this.tabControlPanel1);
+            this.tc_EditType.Controls.Add(this.tabControlPanel6);
+            this.tc_EditType.Controls.Add(this.tabControlPanel2);
+            this.tc_EditType.Location = new System.Drawing.Point(0, 47);
+            this.tc_EditType.Name = "tc_EditType";
+            this.tc_EditType.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.tc_EditType.SelectedTabIndex = 0;
+            this.tc_EditType.Size = new System.Drawing.Size(543, 645);
+            this.tc_EditType.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document;
+            this.tc_EditType.TabIndex = 150;
+            this.tc_EditType.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
+            this.tc_EditType.Tabs.Add(this.tp_MoonGoo);
+            this.tc_EditType.Tabs.Add(this.tp_Towers);
+            this.tc_EditType.Tabs.Add(this.tp_Planets);
+            this.tc_EditType.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tc_EditType_SelectedTabChanged);
+            // 
+            // tabControlPanel1
+            // 
+            this.tabControlPanel1.Controls.Add(this.gp_UnderGoo);
+            this.tabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel1.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel1.Name = "tabControlPanel1";
+            this.tabControlPanel1.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel1.Size = new System.Drawing.Size(543, 622);
+            this.tabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.tabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.tabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel1.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel1.Style.GradientAngle = 90;
+            this.tabControlPanel1.TabIndex = 1;
+            this.tabControlPanel1.TabItem = this.tp_MoonGoo;
+            // 
+            // gp_UnderGoo
+            // 
+            this.gp_UnderGoo.BackColor = System.Drawing.Color.Transparent;
+            this.gp_UnderGoo.CanvasColor = System.Drawing.SystemColors.Control;
+            this.gp_UnderGoo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
+            this.gp_UnderGoo.Controls.Add(this.dgv_MoonGoo);
+            this.gp_UnderGoo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gp_UnderGoo.Location = new System.Drawing.Point(1, 1);
+            this.gp_UnderGoo.Name = "gp_UnderGoo";
+            this.gp_UnderGoo.Size = new System.Drawing.Size(541, 620);
+            // 
+            // 
+            // 
+            this.gp_UnderGoo.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
+            this.gp_UnderGoo.Style.BackColorGradientAngle = 90;
+            this.gp_UnderGoo.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
+            this.gp_UnderGoo.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_UnderGoo.Style.BorderBottomWidth = 1;
+            this.gp_UnderGoo.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
+            this.gp_UnderGoo.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_UnderGoo.Style.BorderLeftWidth = 1;
+            this.gp_UnderGoo.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_UnderGoo.Style.BorderRightWidth = 1;
+            this.gp_UnderGoo.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
+            this.gp_UnderGoo.Style.BorderTopWidth = 1;
+            this.gp_UnderGoo.Style.CornerDiameter = 4;
+            this.gp_UnderGoo.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
+            this.gp_UnderGoo.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
+            this.gp_UnderGoo.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
+            this.gp_UnderGoo.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
+            // 
+            // 
+            // 
+            this.gp_UnderGoo.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            // 
+            // 
+            // 
+            this.gp_UnderGoo.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.gp_UnderGoo.TabIndex = 1;
+            // 
+            // dgv_MoonGoo
+            // 
+            this.dgv_MoonGoo.AllowUserToAddRows = false;
+            this.dgv_MoonGoo.AllowUserToDeleteRows = false;
+            this.dgv_MoonGoo.AllowUserToResizeRows = false;
+            this.dgv_MoonGoo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_MoonGoo.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dgv_MoonGoo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_MoonGoo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.MLocation});
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_MoonGoo.DefaultCellStyle = dataGridViewCellStyle8;
+            this.dgv_MoonGoo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_MoonGoo.EnableHeadersVisualStyles = false;
+            this.dgv_MoonGoo.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
+            this.dgv_MoonGoo.Location = new System.Drawing.Point(0, 0);
+            this.dgv_MoonGoo.MultiSelect = false;
+            this.dgv_MoonGoo.Name = "dgv_MoonGoo";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_MoonGoo.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dgv_MoonGoo.RowHeadersVisible = false;
+            this.dgv_MoonGoo.SelectAllSignVisible = false;
+            this.dgv_MoonGoo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgv_MoonGoo.Size = new System.Drawing.Size(535, 614);
+            this.dgv_MoonGoo.TabIndex = 145;
+            this.dgv_MoonGoo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_MoonGoo_CellClick);
+            this.dgv_MoonGoo.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_MoonGoo_CellEndEdit);
+            // 
+            // MLocation
+            // 
+            this.MLocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.MLocation.DataPropertyName = "MName";
+            this.MLocation.Frozen = true;
+            this.MLocation.HeaderText = "Location";
+            this.MLocation.MinimumWidth = 200;
+            this.MLocation.Name = "MLocation";
+            this.MLocation.ReadOnly = true;
+            this.MLocation.Width = 200;
+            // 
+            // tp_MoonGoo
+            // 
+            this.tp_MoonGoo.AttachedControl = this.tabControlPanel1;
+            this.tp_MoonGoo.Name = "tp_MoonGoo";
+            this.tp_MoonGoo.Text = "Moon Goo";
+            // 
+            // tabControlPanel6
+            // 
+            this.tabControlPanel6.Controls.Add(this.dgv_Planets);
+            this.tabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlPanel6.Location = new System.Drawing.Point(0, 23);
+            this.tabControlPanel6.Name = "tabControlPanel6";
+            this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
+            this.tabControlPanel6.Size = new System.Drawing.Size(543, 622);
+            this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
+            this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
+            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
+            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
+            | DevComponents.DotNetBar.eBorderSide.Bottom)));
+            this.tabControlPanel6.Style.GradientAngle = 90;
+            this.tabControlPanel6.TabIndex = 3;
+            this.tabControlPanel6.TabItem = this.tp_Planets;
+            // 
+            // dgv_Planets
+            // 
+            this.dgv_Planets.AllowUserToAddRows = false;
+            this.dgv_Planets.AllowUserToDeleteRows = false;
+            this.dgv_Planets.AllowUserToResizeRows = false;
+            this.dgv_Planets.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Planets.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            this.dgv_Planets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_Planets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgc_Planet_Location});
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Planets.DefaultCellStyle = dataGridViewCellStyle11;
+            this.dgv_Planets.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_Planets.EnableHeadersVisualStyles = false;
+            this.dgv_Planets.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
+            this.dgv_Planets.Location = new System.Drawing.Point(1, 1);
+            this.dgv_Planets.MultiSelect = false;
+            this.dgv_Planets.Name = "dgv_Planets";
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Planets.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            this.dgv_Planets.RowHeadersVisible = false;
+            this.dgv_Planets.SelectAllSignVisible = false;
+            this.dgv_Planets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgv_Planets.Size = new System.Drawing.Size(541, 620);
+            this.dgv_Planets.TabIndex = 146;
+            this.dgv_Planets.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Planets_CellClick);
+            // 
+            // dgc_Planet_Location
+            // 
+            this.dgc_Planet_Location.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dgc_Planet_Location.DataPropertyName = "PName";
+            this.dgc_Planet_Location.Frozen = true;
+            this.dgc_Planet_Location.HeaderText = "Location";
+            this.dgc_Planet_Location.MinimumWidth = 200;
+            this.dgc_Planet_Location.Name = "dgc_Planet_Location";
+            this.dgc_Planet_Location.ReadOnly = true;
+            this.dgc_Planet_Location.Width = 200;
+            // 
+            // tp_Planets
+            // 
+            this.tp_Planets.AttachedControl = this.tabControlPanel6;
+            this.tp_Planets.Name = "tp_Planets";
+            this.tp_Planets.Text = "Planets";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.BackColor = System.Drawing.Color.Transparent;
+            this.label29.Location = new System.Drawing.Point(5, 7);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(76, 13);
+            this.label29.TabIndex = 23;
+            this.label29.Text = "System Name:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.BackColor = System.Drawing.Color.Transparent;
+            this.label30.Location = new System.Drawing.Point(16, 31);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(65, 13);
+            this.label30.TabIndex = 96;
+            this.label30.Text = "SOV Holder:";
+            // 
+            // tp_AddSysDetails
+            // 
+            this.tp_AddSysDetails.AttachedControl = this.tcp_AddSysDetails;
+            this.tp_AddSysDetails.Name = "tp_AddSysDetails";
+            this.tp_AddSysDetails.Text = "Add/View System Details";
             // 
             // tcp_Galaxy
             // 
@@ -6760,21 +7020,6 @@
             this.tcp_Galaxy.TabIndex = 1;
             this.tcp_Galaxy.TabItem = this.tp_Galaxy;
             this.tcp_Galaxy.Visible = false;
-            // 
-            // MainMapView
-            // 
-            this.MainMapView.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.MainMapView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainMapView.Location = new System.Drawing.Point(1, 1);
-            this.MainMapView.Name = "MainMapView";
-            this.MainMapView.Route = null;
-            this.MainMapView.ScrollEnabled = true;
-            this.MainMapView.SelectedSystem = null;
-            this.MainMapView.SelectedSystemName = "";
-            this.MainMapView.SetMapScale = 0.035F;
-            this.MainMapView.Size = new System.Drawing.Size(551, 693);
-            this.MainMapView.TabIndex = 0;
-            this.MainMapView.ZoomEnabled = false;
             // 
             // tp_Galaxy
             // 
@@ -6824,7 +7069,6 @@
             this.gp_HelpInfo.Style.BorderRightWidth = 1;
             this.gp_HelpInfo.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_HelpInfo.Style.BorderTopWidth = 1;
-            this.gp_HelpInfo.Style.Class = "";
             this.gp_HelpInfo.Style.CornerDiameter = 4;
             this.gp_HelpInfo.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_HelpInfo.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -6833,12 +7077,10 @@
             // 
             // 
             // 
-            this.gp_HelpInfo.StyleMouseDown.Class = "";
             this.gp_HelpInfo.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_HelpInfo.StyleMouseOver.Class = "";
             this.gp_HelpInfo.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_HelpInfo.TabIndex = 0;
             // 
@@ -6897,38 +7139,6 @@
             this.tlp_ActivityMonitorSelects.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlp_ActivityMonitorSelects.Size = new System.Drawing.Size(551, 693);
             this.tlp_ActivityMonitorSelects.TabIndex = 0;
-            // 
-            // ActMon_4
-            // 
-            this.ActMon_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ActMon_4.Location = new System.Drawing.Point(5, 350);
-            this.ActMon_4.Name = "ActMon_4";
-            this.ActMon_4.Size = new System.Drawing.Size(266, 338);
-            this.ActMon_4.TabIndex = 25;
-            // 
-            // ActMon_3
-            // 
-            this.ActMon_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ActMon_3.Location = new System.Drawing.Point(279, 350);
-            this.ActMon_3.Name = "ActMon_3";
-            this.ActMon_3.Size = new System.Drawing.Size(267, 338);
-            this.ActMon_3.TabIndex = 24;
-            // 
-            // ActMon_1
-            // 
-            this.ActMon_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ActMon_1.Location = new System.Drawing.Point(5, 5);
-            this.ActMon_1.Name = "ActMon_1";
-            this.ActMon_1.Size = new System.Drawing.Size(266, 337);
-            this.ActMon_1.TabIndex = 22;
-            // 
-            // ActMon_2
-            // 
-            this.ActMon_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ActMon_2.Location = new System.Drawing.Point(279, 5);
-            this.ActMon_2.Name = "ActMon_2";
-            this.ActMon_2.Size = new System.Drawing.Size(267, 337);
-            this.ActMon_2.TabIndex = 23;
             // 
             // ti_ActivityMon
             // 
@@ -6997,7 +7207,6 @@
             this.gp_JB_BG.Style.BorderRightWidth = 1;
             this.gp_JB_BG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_JB_BG.Style.BorderTopWidth = 1;
-            this.gp_JB_BG.Style.Class = "";
             this.gp_JB_BG.Style.CornerDiameter = 4;
             this.gp_JB_BG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_JB_BG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -7006,12 +7215,10 @@
             // 
             // 
             // 
-            this.gp_JB_BG.StyleMouseDown.Class = "";
             this.gp_JB_BG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_JB_BG.StyleMouseOver.Class = "";
             this.gp_JB_BG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_JB_BG.TabIndex = 0;
             // 
@@ -7034,6 +7241,14 @@
             this.dgv_Bridges.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Bridges.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.dgv_Bridges.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_Bridges.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FromSystem,
@@ -7045,19 +7260,28 @@
             this.FromID,
             this.ToID});
             this.dgv_Bridges.ContextMenuStrip = this.cms_JBRemove;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Bridges.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_Bridges.DefaultCellStyle = dataGridViewCellStyle14;
+            this.dgv_Bridges.EnableHeadersVisualStyles = false;
             this.dgv_Bridges.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgv_Bridges.Location = new System.Drawing.Point(0, 93);
             this.dgv_Bridges.MultiSelect = false;
             this.dgv_Bridges.Name = "dgv_Bridges";
             this.dgv_Bridges.ReadOnly = true;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_Bridges.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dgv_Bridges.RowHeadersVisible = false;
             this.dgv_Bridges.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_Bridges.Size = new System.Drawing.Size(543, 595);
@@ -7386,418 +7610,6 @@
             this.tp_Bridges.Name = "tp_Bridges";
             this.tp_Bridges.Text = "Jump Bridges";
             // 
-            // tcp_AddSysDetails
-            // 
-            this.tcp_AddSysDetails.Controls.Add(this.gp_AddSystemDetails);
-            this.tcp_AddSysDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcp_AddSysDetails.Location = new System.Drawing.Point(0, 23);
-            this.tcp_AddSysDetails.Name = "tcp_AddSysDetails";
-            this.tcp_AddSysDetails.Padding = new System.Windows.Forms.Padding(1);
-            this.tcp_AddSysDetails.Size = new System.Drawing.Size(553, 695);
-            this.tcp_AddSysDetails.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tcp_AddSysDetails.Style.BackColor2.Color = System.Drawing.Color.Silver;
-            this.tcp_AddSysDetails.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tcp_AddSysDetails.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tcp_AddSysDetails.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tcp_AddSysDetails.Style.GradientAngle = 90;
-            this.tcp_AddSysDetails.TabIndex = 3;
-            this.tcp_AddSysDetails.TabItem = this.tp_AddSysDetails;
-            // 
-            // gp_AddSystemDetails
-            // 
-            this.gp_AddSystemDetails.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_AddSystemDetails.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_AddSystemDetails.Controls.Add(this.b_ExportSD);
-            this.gp_AddSystemDetails.Controls.Add(this.b_ImportSD);
-            this.gp_AddSystemDetails.Controls.Add(this.cb_SDSystemName);
-            this.gp_AddSystemDetails.Controls.Add(this.lb_SDSovHolder);
-            this.gp_AddSystemDetails.Controls.Add(this.tc_EditType);
-            this.gp_AddSystemDetails.Controls.Add(this.label29);
-            this.gp_AddSystemDetails.Controls.Add(this.label30);
-            this.gp_AddSystemDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_AddSystemDetails.Location = new System.Drawing.Point(1, 1);
-            this.gp_AddSystemDetails.Name = "gp_AddSystemDetails";
-            this.gp_AddSystemDetails.Size = new System.Drawing.Size(551, 693);
-            // 
-            // 
-            // 
-            this.gp_AddSystemDetails.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_AddSystemDetails.Style.BackColorGradientAngle = 90;
-            this.gp_AddSystemDetails.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_AddSystemDetails.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AddSystemDetails.Style.BorderBottomWidth = 1;
-            this.gp_AddSystemDetails.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_AddSystemDetails.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AddSystemDetails.Style.BorderLeftWidth = 1;
-            this.gp_AddSystemDetails.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AddSystemDetails.Style.BorderRightWidth = 1;
-            this.gp_AddSystemDetails.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_AddSystemDetails.Style.BorderTopWidth = 1;
-            this.gp_AddSystemDetails.Style.Class = "";
-            this.gp_AddSystemDetails.Style.CornerDiameter = 4;
-            this.gp_AddSystemDetails.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_AddSystemDetails.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_AddSystemDetails.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_AddSystemDetails.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_AddSystemDetails.StyleMouseDown.Class = "";
-            this.gp_AddSystemDetails.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_AddSystemDetails.StyleMouseOver.Class = "";
-            this.gp_AddSystemDetails.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_AddSystemDetails.TabIndex = 0;
-            // 
-            // b_ExportSD
-            // 
-            this.b_ExportSD.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_ExportSD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_ExportSD.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ExportSD.Location = new System.Drawing.Point(481, 0);
-            this.b_ExportSD.Name = "b_ExportSD";
-            this.b_ExportSD.Size = new System.Drawing.Size(62, 23);
-            this.b_ExportSD.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_ExportSD.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.bi_ExportCurrent,
-            this.bi_ExportAll});
-            this.b_ExportSD.TabIndex = 169;
-            this.b_ExportSD.Text = "Export";
-            // 
-            // bi_ExportCurrent
-            // 
-            this.bi_ExportCurrent.Name = "bi_ExportCurrent";
-            this.bi_ExportCurrent.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.bbi_ExportCSV,
-            this.bbi_XMLExport});
-            this.bi_ExportCurrent.Text = "Export Current System";
-            // 
-            // bbi_ExportCSV
-            // 
-            this.bbi_ExportCSV.Name = "bbi_ExportCSV";
-            this.bbi_ExportCSV.Text = "CSV Format (Goo Only)";
-            this.bbi_ExportCSV.Click += new System.EventHandler(this.bbi_ExportCSV_Click);
-            // 
-            // bbi_XMLExport
-            // 
-            this.bbi_XMLExport.Name = "bbi_XMLExport";
-            this.bbi_XMLExport.Text = "XML Format (All Data)";
-            this.bbi_XMLExport.Click += new System.EventHandler(this.bbi_XMLExport_Click);
-            // 
-            // bi_ExportAll
-            // 
-            this.bi_ExportAll.Name = "bi_ExportAll";
-            this.bi_ExportAll.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.bbi_CSVA,
-            this.bbi_XMLAll});
-            this.bi_ExportAll.Text = "Export All Systems";
-            // 
-            // bbi_CSVA
-            // 
-            this.bbi_CSVA.Name = "bbi_CSVA";
-            this.bbi_CSVA.Text = "CSV Format (Goo Only)";
-            this.bbi_CSVA.Click += new System.EventHandler(this.bbi_CSVA_Click);
-            // 
-            // bbi_XMLAll
-            // 
-            this.bbi_XMLAll.Name = "bbi_XMLAll";
-            this.bbi_XMLAll.Text = "XML Format (All Data)";
-            this.bbi_XMLAll.Click += new System.EventHandler(this.bbi_XMLAll_Click);
-            // 
-            // b_ImportSD
-            // 
-            this.b_ImportSD.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.b_ImportSD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.b_ImportSD.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.b_ImportSD.Location = new System.Drawing.Point(481, 27);
-            this.b_ImportSD.Name = "b_ImportSD";
-            this.b_ImportSD.Size = new System.Drawing.Size(62, 23);
-            this.b_ImportSD.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.b_ImportSD.SubItems.AddRange(new DevComponents.DotNetBar.BaseItem[] {
-            this.bi_ImportData,
-            this.bi_ImportCSV});
-            this.b_ImportSD.TabIndex = 168;
-            this.b_ImportSD.Text = "Import";
-            // 
-            // bi_ImportData
-            // 
-            this.bi_ImportData.Name = "bi_ImportData";
-            this.bi_ImportData.Text = "Import XML Data";
-            this.bi_ImportData.Click += new System.EventHandler(this.bi_ImportData_Click);
-            // 
-            // bi_ImportCSV
-            // 
-            this.bi_ImportCSV.Name = "bi_ImportCSV";
-            this.bi_ImportCSV.Text = "Import CSV Data";
-            this.bi_ImportCSV.Click += new System.EventHandler(this.bi_ImportCSV_Click);
-            // 
-            // cb_SDSystemName
-            // 
-            this.cb_SDSystemName.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cb_SDSystemName.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cb_SDSystemName.DisplayMember = "Text";
-            this.cb_SDSystemName.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cb_SDSystemName.FormattingEnabled = true;
-            this.cb_SDSystemName.ItemHeight = 15;
-            this.cb_SDSystemName.Location = new System.Drawing.Point(83, 3);
-            this.cb_SDSystemName.Name = "cb_SDSystemName";
-            this.cb_SDSystemName.Size = new System.Drawing.Size(322, 21);
-            this.cb_SDSystemName.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
-            this.cb_SDSystemName.TabIndex = 167;
-            this.cb_SDSystemName.SelectedIndexChanged += new System.EventHandler(this.cb_SDSystemName_SelectedIndexChanged);
-            // 
-            // lb_SDSovHolder
-            // 
-            this.lb_SDSovHolder.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lb_SDSovHolder.BackgroundStyle.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_SDSovHolder.BackgroundStyle.BorderBottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_SDSovHolder.BackgroundStyle.BorderBottomWidth = 1;
-            this.lb_SDSovHolder.BackgroundStyle.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_SDSovHolder.BackgroundStyle.BorderColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_SDSovHolder.BackgroundStyle.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_SDSovHolder.BackgroundStyle.BorderLeftColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_SDSovHolder.BackgroundStyle.BorderLeftWidth = 1;
-            this.lb_SDSovHolder.BackgroundStyle.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_SDSovHolder.BackgroundStyle.BorderRightColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_SDSovHolder.BackgroundStyle.BorderRightWidth = 1;
-            this.lb_SDSovHolder.BackgroundStyle.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.lb_SDSovHolder.BackgroundStyle.BorderTopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lb_SDSovHolder.BackgroundStyle.BorderTopWidth = 1;
-            this.lb_SDSovHolder.BackgroundStyle.Class = "";
-            this.lb_SDSovHolder.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lb_SDSovHolder.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lb_SDSovHolder.Location = new System.Drawing.Point(83, 27);
-            this.lb_SDSovHolder.Name = "lb_SDSovHolder";
-            this.lb_SDSovHolder.Size = new System.Drawing.Size(321, 21);
-            this.lb_SDSovHolder.TabIndex = 151;
-            // 
-            // tc_EditType
-            // 
-            this.tc_EditType.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tc_EditType.BackColor = System.Drawing.Color.Transparent;
-            this.tc_EditType.CanReorderTabs = true;
-            this.tc_EditType.Controls.Add(this.tabControlPanel1);
-            this.tc_EditType.Controls.Add(this.tabControlPanel6);
-            this.tc_EditType.Controls.Add(this.tabControlPanel2);
-            this.tc_EditType.Location = new System.Drawing.Point(0, 47);
-            this.tc_EditType.Name = "tc_EditType";
-            this.tc_EditType.SelectedTabFont = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.tc_EditType.SelectedTabIndex = 0;
-            this.tc_EditType.Size = new System.Drawing.Size(543, 645);
-            this.tc_EditType.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document;
-            this.tc_EditType.TabIndex = 150;
-            this.tc_EditType.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox;
-            this.tc_EditType.Tabs.Add(this.tp_MoonGoo);
-            this.tc_EditType.Tabs.Add(this.tp_Towers);
-            this.tc_EditType.Tabs.Add(this.tp_Planets);
-            this.tc_EditType.SelectedTabChanged += new DevComponents.DotNetBar.TabStrip.SelectedTabChangedEventHandler(this.tc_EditType_SelectedTabChanged);
-            // 
-            // tabControlPanel1
-            // 
-            this.tabControlPanel1.Controls.Add(this.gp_UnderGoo);
-            this.tabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel1.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel1.Name = "tabControlPanel1";
-            this.tabControlPanel1.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel1.Size = new System.Drawing.Size(543, 622);
-            this.tabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
-            this.tabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel1.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel1.Style.GradientAngle = 90;
-            this.tabControlPanel1.TabIndex = 1;
-            this.tabControlPanel1.TabItem = this.tp_MoonGoo;
-            // 
-            // gp_UnderGoo
-            // 
-            this.gp_UnderGoo.BackColor = System.Drawing.Color.Transparent;
-            this.gp_UnderGoo.CanvasColor = System.Drawing.SystemColors.Control;
-            this.gp_UnderGoo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007;
-            this.gp_UnderGoo.Controls.Add(this.dgv_MoonGoo);
-            this.gp_UnderGoo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gp_UnderGoo.Location = new System.Drawing.Point(1, 1);
-            this.gp_UnderGoo.Name = "gp_UnderGoo";
-            this.gp_UnderGoo.Size = new System.Drawing.Size(541, 620);
-            // 
-            // 
-            // 
-            this.gp_UnderGoo.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2;
-            this.gp_UnderGoo.Style.BackColorGradientAngle = 90;
-            this.gp_UnderGoo.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground;
-            this.gp_UnderGoo.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_UnderGoo.Style.BorderBottomWidth = 1;
-            this.gp_UnderGoo.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder;
-            this.gp_UnderGoo.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_UnderGoo.Style.BorderLeftWidth = 1;
-            this.gp_UnderGoo.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_UnderGoo.Style.BorderRightWidth = 1;
-            this.gp_UnderGoo.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
-            this.gp_UnderGoo.Style.BorderTopWidth = 1;
-            this.gp_UnderGoo.Style.Class = "";
-            this.gp_UnderGoo.Style.CornerDiameter = 4;
-            this.gp_UnderGoo.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
-            this.gp_UnderGoo.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
-            this.gp_UnderGoo.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText;
-            this.gp_UnderGoo.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near;
-            // 
-            // 
-            // 
-            this.gp_UnderGoo.StyleMouseDown.Class = "";
-            this.gp_UnderGoo.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            // 
-            // 
-            // 
-            this.gp_UnderGoo.StyleMouseOver.Class = "";
-            this.gp_UnderGoo.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.gp_UnderGoo.TabIndex = 1;
-            // 
-            // dgv_MoonGoo
-            // 
-            this.dgv_MoonGoo.AllowUserToAddRows = false;
-            this.dgv_MoonGoo.AllowUserToDeleteRows = false;
-            this.dgv_MoonGoo.AllowUserToResizeRows = false;
-            this.dgv_MoonGoo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgv_MoonGoo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_MoonGoo.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MLocation});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_MoonGoo.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dgv_MoonGoo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_MoonGoo.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
-            this.dgv_MoonGoo.Location = new System.Drawing.Point(0, 0);
-            this.dgv_MoonGoo.MultiSelect = false;
-            this.dgv_MoonGoo.Name = "dgv_MoonGoo";
-            this.dgv_MoonGoo.RowHeadersVisible = false;
-            this.dgv_MoonGoo.SelectAllSignVisible = false;
-            this.dgv_MoonGoo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv_MoonGoo.Size = new System.Drawing.Size(535, 614);
-            this.dgv_MoonGoo.TabIndex = 145;
-            this.dgv_MoonGoo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_MoonGoo_CellClick);
-            this.dgv_MoonGoo.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_MoonGoo_CellEndEdit);
-            // 
-            // MLocation
-            // 
-            this.MLocation.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.MLocation.DataPropertyName = "MName";
-            this.MLocation.Frozen = true;
-            this.MLocation.HeaderText = "Location";
-            this.MLocation.MinimumWidth = 200;
-            this.MLocation.Name = "MLocation";
-            this.MLocation.ReadOnly = true;
-            this.MLocation.Width = 200;
-            // 
-            // tp_MoonGoo
-            // 
-            this.tp_MoonGoo.AttachedControl = this.tabControlPanel1;
-            this.tp_MoonGoo.Name = "tp_MoonGoo";
-            this.tp_MoonGoo.Text = "Moon Goo";
-            // 
-            // tabControlPanel6
-            // 
-            this.tabControlPanel6.Controls.Add(this.dgv_Planets);
-            this.tabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlPanel6.Location = new System.Drawing.Point(0, 23);
-            this.tabControlPanel6.Name = "tabControlPanel6";
-            this.tabControlPanel6.Padding = new System.Windows.Forms.Padding(1);
-            this.tabControlPanel6.Size = new System.Drawing.Size(543, 622);
-            this.tabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.tabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(195)))), ((int)(((byte)(195)))));
-            this.tabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine;
-            this.tabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(70)))), ((int)(((byte)(70)))));
-            this.tabControlPanel6.Style.BorderSide = ((DevComponents.DotNetBar.eBorderSide)(((DevComponents.DotNetBar.eBorderSide.Left | DevComponents.DotNetBar.eBorderSide.Right) 
-            | DevComponents.DotNetBar.eBorderSide.Bottom)));
-            this.tabControlPanel6.Style.GradientAngle = 90;
-            this.tabControlPanel6.TabIndex = 3;
-            this.tabControlPanel6.TabItem = this.tp_Planets;
-            // 
-            // dgv_Planets
-            // 
-            this.dgv_Planets.AllowUserToAddRows = false;
-            this.dgv_Planets.AllowUserToDeleteRows = false;
-            this.dgv_Planets.AllowUserToResizeRows = false;
-            this.dgv_Planets.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgv_Planets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_Planets.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgc_Planet_Location});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.Navy;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_Planets.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgv_Planets.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_Planets.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
-            this.dgv_Planets.Location = new System.Drawing.Point(1, 1);
-            this.dgv_Planets.MultiSelect = false;
-            this.dgv_Planets.Name = "dgv_Planets";
-            this.dgv_Planets.RowHeadersVisible = false;
-            this.dgv_Planets.SelectAllSignVisible = false;
-            this.dgv_Planets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv_Planets.Size = new System.Drawing.Size(541, 620);
-            this.dgv_Planets.TabIndex = 146;
-            this.dgv_Planets.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Planets_CellClick);
-            // 
-            // dgc_Planet_Location
-            // 
-            this.dgc_Planet_Location.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgc_Planet_Location.DataPropertyName = "PName";
-            this.dgc_Planet_Location.Frozen = true;
-            this.dgc_Planet_Location.HeaderText = "Location";
-            this.dgc_Planet_Location.MinimumWidth = 200;
-            this.dgc_Planet_Location.Name = "dgc_Planet_Location";
-            this.dgc_Planet_Location.ReadOnly = true;
-            this.dgc_Planet_Location.Width = 200;
-            // 
-            // tp_Planets
-            // 
-            this.tp_Planets.AttachedControl = this.tabControlPanel6;
-            this.tp_Planets.Name = "tp_Planets";
-            this.tp_Planets.Text = "Planets";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.BackColor = System.Drawing.Color.Transparent;
-            this.label29.Location = new System.Drawing.Point(5, 7);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(76, 13);
-            this.label29.TabIndex = 23;
-            this.label29.Text = "System Name:";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.BackColor = System.Drawing.Color.Transparent;
-            this.label30.Location = new System.Drawing.Point(16, 31);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(65, 13);
-            this.label30.TabIndex = 96;
-            this.label30.Text = "SOV Holder:";
-            // 
-            // tp_AddSysDetails
-            // 
-            this.tp_AddSysDetails.AttachedControl = this.tcp_AddSysDetails;
-            this.tp_AddSysDetails.Name = "tp_AddSysDetails";
-            this.tp_AddSysDetails.Text = "Add/View System Details";
-            // 
             // tabControlPanel3
             // 
             this.tabControlPanel3.Controls.Add(this.gp_CynoGenBG);
@@ -7851,7 +7663,6 @@
             this.gp_CynoGenBG.Style.BorderRightWidth = 1;
             this.gp_CynoGenBG.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_CynoGenBG.Style.BorderTopWidth = 1;
-            this.gp_CynoGenBG.Style.Class = "";
             this.gp_CynoGenBG.Style.CornerDiameter = 4;
             this.gp_CynoGenBG.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_CynoGenBG.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -7860,12 +7671,10 @@
             // 
             // 
             // 
-            this.gp_CynoGenBG.StyleMouseDown.Class = "";
             this.gp_CynoGenBG.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_CynoGenBG.StyleMouseOver.Class = "";
             this.gp_CynoGenBG.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_CynoGenBG.TabIndex = 0;
             // 
@@ -7903,7 +7712,6 @@
             this.gp_MapViews.Style.BorderRightWidth = 1;
             this.gp_MapViews.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid;
             this.gp_MapViews.Style.BorderTopWidth = 1;
-            this.gp_MapViews.Style.Class = "";
             this.gp_MapViews.Style.CornerDiameter = 4;
             this.gp_MapViews.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded;
             this.gp_MapViews.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center;
@@ -7912,12 +7720,10 @@
             // 
             // 
             // 
-            this.gp_MapViews.StyleMouseDown.Class = "";
             this.gp_MapViews.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             // 
             // 
             // 
-            this.gp_MapViews.StyleMouseOver.Class = "";
             this.gp_MapViews.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.gp_MapViews.TabIndex = 19;
             // 
@@ -8386,6 +8192,64 @@
             this.t_APICheck.Interval = 300000;
             this.t_APICheck.Tick += new System.EventHandler(this.t_APICheck_Tick);
             // 
+            // MiniMap
+            // 
+            this.MiniMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MiniMap.BackColor = System.Drawing.Color.Transparent;
+            this.MiniMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MiniMap.Location = new System.Drawing.Point(236, 61);
+            this.MiniMap.Name = "MiniMap";
+            this.MiniMap.Size = new System.Drawing.Size(188, 240);
+            this.MiniMap.TabIndex = 99;
+            // 
+            // MainMapView
+            // 
+            this.MainMapView.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.MainMapView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainMapView.Location = new System.Drawing.Point(1, 1);
+            this.MainMapView.Name = "MainMapView";
+            this.MainMapView.Route = null;
+            this.MainMapView.ScrollEnabled = true;
+            this.MainMapView.SelectedSystem = null;
+            this.MainMapView.SelectedSystemName = "";
+            this.MainMapView.SetMapScale = 0.035F;
+            this.MainMapView.Size = new System.Drawing.Size(551, 693);
+            this.MainMapView.TabIndex = 0;
+            this.MainMapView.ZoomEnabled = false;
+            // 
+            // ActMon_4
+            // 
+            this.ActMon_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ActMon_4.Location = new System.Drawing.Point(5, 350);
+            this.ActMon_4.Name = "ActMon_4";
+            this.ActMon_4.Size = new System.Drawing.Size(266, 338);
+            this.ActMon_4.TabIndex = 25;
+            // 
+            // ActMon_3
+            // 
+            this.ActMon_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ActMon_3.Location = new System.Drawing.Point(279, 350);
+            this.ActMon_3.Name = "ActMon_3";
+            this.ActMon_3.Size = new System.Drawing.Size(267, 338);
+            this.ActMon_3.TabIndex = 24;
+            // 
+            // ActMon_1
+            // 
+            this.ActMon_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ActMon_1.Location = new System.Drawing.Point(5, 5);
+            this.ActMon_1.Name = "ActMon_1";
+            this.ActMon_1.Size = new System.Drawing.Size(266, 337);
+            this.ActMon_1.TabIndex = 22;
+            // 
+            // ActMon_2
+            // 
+            this.ActMon_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ActMon_2.Location = new System.Drawing.Point(279, 5);
+            this.ActMon_2.Name = "ActMon_2";
+            this.ActMon_2.Size = new System.Drawing.Size(267, 337);
+            this.ActMon_2.TabIndex = 23;
+            // 
             // RouteMapMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -8487,21 +8351,10 @@
             this.gp_TowerEntry.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SystemCelest)).EndInit();
             this.cms_ClearTowerData.ResumeLayout(false);
-            this.tcp_SolarSystem.ResumeLayout(false);
             this.ep_SearchResult.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_SearchResult)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tc_MapSelect)).EndInit();
             this.tc_MapSelect.ResumeLayout(false);
-            this.tcp_Galaxy.ResumeLayout(false);
-            this.tabControlPanel5.ResumeLayout(false);
-            this.gp_HelpInfo.ResumeLayout(false);
-            this.tcp_ActivityMonitor.ResumeLayout(false);
-            this.tlp_ActivityMonitorSelects.ResumeLayout(false);
-            this.tabControlPanel4.ResumeLayout(false);
-            this.gp_JB_BG.ResumeLayout(false);
-            this.gp_JB_BG.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv_Bridges)).EndInit();
-            this.cms_JBRemove.ResumeLayout(false);
             this.tcp_AddSysDetails.ResumeLayout(false);
             this.gp_AddSystemDetails.ResumeLayout(false);
             this.gp_AddSystemDetails.PerformLayout();
@@ -8512,6 +8365,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_MoonGoo)).EndInit();
             this.tabControlPanel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Planets)).EndInit();
+            this.tcp_Galaxy.ResumeLayout(false);
+            this.tabControlPanel5.ResumeLayout(false);
+            this.gp_HelpInfo.ResumeLayout(false);
+            this.tcp_ActivityMonitor.ResumeLayout(false);
+            this.tlp_ActivityMonitorSelects.ResumeLayout(false);
+            this.tabControlPanel4.ResumeLayout(false);
+            this.gp_JB_BG.ResumeLayout(false);
+            this.gp_JB_BG.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_Bridges)).EndInit();
+            this.cms_JBRemove.ResumeLayout(false);
             this.tabControlPanel3.ResumeLayout(false);
             this.gp_CynoGenBG.ResumeLayout(false);
             this.gp_CynoGenBG.PerformLayout();
@@ -8708,8 +8571,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DevComponents.DotNetBar.TabControlPanel tcp_SolarSystem;
-        private SystemMap SSMap;
         private DevComponents.DotNetBar.PanelEx ep_SearchResult;
         private DevComponents.DotNetBar.TabControlPanel tcp_SystemInfo;
         private DevComponents.DotNetBar.TabItem tp_SystemInfo;
@@ -8788,7 +8649,6 @@
         private DevComponents.DotNetBar.Controls.ComboBoxEx cb_MoonGoo6;
         internal System.Windows.Forms.CheckBox cbx_JRSafeTower;
         private DevComponents.DotNetBar.TabItem tp_Towers;
-        private DevComponents.DotNetBar.TabItem tp_SolarSystem;
         private DevComponents.DotNetBar.TabControl tc_MapSelect;
         private DevComponents.DotNetBar.TabControlPanel tcp_Galaxy;
         private MapView MainMapView;

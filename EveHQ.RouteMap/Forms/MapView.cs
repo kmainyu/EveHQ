@@ -2489,11 +2489,6 @@ namespace EveHQ.RouteMap
             RMA.MapViewShowSystemInformation();
         }
 
-        private void tsmi_ViewSystemMap_Click(object sender, EventArgs e)
-        {
-            RMA.MapViewSelectSystemView(_selectedSystem);
-        }
-
         public void ToggleJBRangeHL()
         {
             if (HLJBRange)

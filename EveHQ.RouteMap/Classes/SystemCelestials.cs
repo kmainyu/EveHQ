@@ -220,7 +220,8 @@ namespace EveHQ.RouteMap
                                 m.orbitR = Convert.ToDouble(row.ItemArray[37]);
                                 m.orbitP = Convert.ToDouble(row.ItemArray[45]);
                                 m.CelIndex = Convert.ToInt32(row.ItemArray[29]);
-                                m.OrbitIndex = Convert.ToInt32(row.ItemArray[30]);
+                                if (row.ItemArray[30] != DBNull.Value)
+                                    m.OrbitIndex = Convert.ToInt32(row.ItemArray[30]);
                                 m.graphicID = Convert.ToInt32(row.ItemArray[4]);
                                 m.ID = Convert.ToInt32(row.ItemArray[16]);
                                 if (!CelestToID.ContainsKey(m.Name))
@@ -333,7 +334,8 @@ namespace EveHQ.RouteMap
                         g.X = Convert.ToDouble(row.ItemArray[23]);
                         g.Y = Convert.ToDouble(row.ItemArray[24]);
                         g.Z = Convert.ToDouble(row.ItemArray[25]);
-                        g.radius = Convert.ToDouble(row.ItemArray[26]);
+                        if (row.ItemArray[26] != DBNull.Value)
+                            g.radius = Convert.ToDouble(row.ItemArray[26]);
                         g.graphicID = Convert.ToInt32(row.ItemArray[4]);
                         g.destSys = row.ItemArray[27].ToString();
                         g.ID = Convert.ToInt32(row.ItemArray[16]);
