@@ -395,9 +395,9 @@ Public Class frmBPCalculator
 
         ' Set Runs
         nudInventionBPCRuns.LockUpdateChecked = currentJob.InventionJob.OverrideBPCRuns
-        If currentJob.InventionJob.OverrideBPCRuns = True Then
-            nudInventionBPCRuns.Value = currentJob.InventionJob.BPCRuns
-        End If
+        'If currentJob.InventionJob.OverrideBPCRuns = True Then
+        '    nudInventionBPCRuns.Value = currentJob.InventionJob.BPCRuns
+        'End If
 
         ' Set Skills
         nudInventionSkill1.LockUpdateChecked = currentJob.InventionJob.OverrideEncSkill
@@ -819,6 +819,7 @@ Public Class frmBPCalculator
 
 		' Update the BPC Override Values
         nudInventionBPCRuns.MaxValue = CurrentInventionBP.MaxProdLimit
+        nudInventionBPCRuns.Value = CurrentInventionBP.MaxProdLimit
 
         Call Me.DisplayInventionDetails()
 
@@ -1496,7 +1497,9 @@ Public Class frmBPCalculator
             ' Use current BP Runs, replacing max for unlimited
             If CurrentBP.Runs = -1 Then
                 ' Use max runs
-                CurrentInventionJob.BPCRuns = CurrentBP.MaxProdLimit
+                If CurrentInventionJob.InventedBPID <> 0 Then
+                    CurrentInventionJob.BPCRuns = CurrentInventionJob.GetBaseBP.MaxProdLimit
+                End If
             End If
         End If
         If PlugInData.Decryptors.ContainsKey(InventionDecryptorName) Then
@@ -1596,10 +1599,8 @@ Public Class frmBPCalculator
                     Case 6
                         BPCRuns = 1
                     Case Else
-                        If CurrentInventionBP.Runs = -1 Then
-                            ' Use max runs
-                            BPCRuns = CurrentInventionBP.MaxProdLimit
-                        End If
+                        ' Use max runs
+                        BPCRuns = CurrentInventionBP.MaxProdLimit
                 End Select
             Else
                 BPCRuns = nudInventionBPCRuns.Value
