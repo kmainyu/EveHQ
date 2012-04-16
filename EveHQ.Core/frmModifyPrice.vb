@@ -23,6 +23,7 @@ Public Class frmModifyPrice
 
     Dim ItemID As String = ""
     Dim Value As Double = 0
+    Dim PreviousPrice As Double = 0
     Dim EditingPrice As Boolean = False
 
 #Region "Form Constructors"
@@ -38,8 +39,10 @@ Public Class frmModifyPrice
 
         If EveHQ.Core.HQ.CustomPriceList.ContainsKey(Me.ItemID) Then
             EditingPrice = True
+            PreviousPrice = EveHQ.Core.HQ.CustomPriceList(Me.ItemID)
         Else
             EditingPrice = False
+            PreviousPrice = 0
         End If
 
         ' Set the prices
@@ -87,17 +90,33 @@ Public Class frmModifyPrice
             Exit Sub
         End If
 
-        If Me.EditingPrice = False Then
-            ' Add the custom price
-            Call EveHQ.Core.DataFunctions.AddCustomPrice(ItemID, CDbl(txtNewPrice.Text), False)
+        If CDbl(txtNewPrice.Text) = 0 Then
+            Call EveHQ.Core.DataFunctions.DeleteCustomPrice(ItemID)
         Else
-            ' Edit the custom price
-            Call EveHQ.Core.DataFunctions.EditCustomPrice(ItemID, CDbl(txtNewPrice.Text), False)
+            If Me.EditingPrice = False Then
+                ' Add the custom price
+                Call EveHQ.Core.DataFunctions.AddCustomPrice(ItemID, CDbl(txtNewPrice.Text), False)
+            Else
+                ' Edit the custom price
+                Call EveHQ.Core.DataFunctions.EditCustomPrice(ItemID, CDbl(txtNewPrice.Text), False)
+            End If
         End If
 
         ' Close the form
         Me.Close()
     End Sub
 
+    Private Sub txtNewPrice_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtNewPrice.TextChanged
+        ' Check if the original value is non-zero and therefore if the price should be removed
+        If IsNumeric(txtNewPrice.Text) = True Then
+            If PreviousPrice <> 0 And CDbl(txtNewPrice.Text) = 0 Then
+                lblClearingCustomPrice.Visible = True
+            Else
+                lblClearingCustomPrice.Visible = False
+            End If
+        Else
+            lblClearingCustomPrice.Visible = False
+        End If
+    End Sub
 
 End Class

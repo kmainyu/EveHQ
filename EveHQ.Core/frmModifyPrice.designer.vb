@@ -23,25 +23,26 @@ Partial Class frmModifyPrice
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmModifyPrice))
-        Me.lblCurrentBasePrice = New System.Windows.Forms.Label
-        Me.lblCurrentMarketPrice = New System.Windows.Forms.Label
-        Me.btnAccept = New System.Windows.Forms.Button
-        Me.btnCancel = New System.Windows.Forms.Button
-        Me.txtNewPrice = New System.Windows.Forms.TextBox
-        Me.lblNewPrice = New System.Windows.Forms.Label
-        Me.lblCurrentCustomPrice = New System.Windows.Forms.Label
-        Me.lblCustomPrice = New System.Windows.Forms.Label
-        Me.lblMarketPrice = New System.Windows.Forms.Label
-        Me.lblBasePrice = New System.Windows.Forms.Label
-        Me.Highlighter1 = New DevComponents.DotNetBar.Validator.Highlighter
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
+        Me.lblCurrentBasePrice = New System.Windows.Forms.Label()
+        Me.lblCurrentMarketPrice = New System.Windows.Forms.Label()
+        Me.btnAccept = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.txtNewPrice = New System.Windows.Forms.TextBox()
+        Me.lblNewPrice = New System.Windows.Forms.Label()
+        Me.lblCurrentCustomPrice = New System.Windows.Forms.Label()
+        Me.lblCustomPrice = New System.Windows.Forms.Label()
+        Me.lblMarketPrice = New System.Windows.Forms.Label()
+        Me.lblBasePrice = New System.Windows.Forms.Label()
+        Me.Highlighter1 = New DevComponents.DotNetBar.Validator.Highlighter()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
+        Me.lblClearingCustomPrice = New System.Windows.Forms.Label()
         Me.PanelEx1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblCurrentBasePrice
         '
         Me.lblCurrentBasePrice.AutoSize = True
-        Me.lblCurrentBasePrice.Location = New System.Drawing.Point(13, 11)
+        Me.lblCurrentBasePrice.Location = New System.Drawing.Point(23, 11)
         Me.lblCurrentBasePrice.Name = "lblCurrentBasePrice"
         Me.lblCurrentBasePrice.Size = New System.Drawing.Size(100, 13)
         Me.lblCurrentBasePrice.TabIndex = 0
@@ -50,7 +51,7 @@ Partial Class frmModifyPrice
         'lblCurrentMarketPrice
         '
         Me.lblCurrentMarketPrice.AutoSize = True
-        Me.lblCurrentMarketPrice.Location = New System.Drawing.Point(13, 37)
+        Me.lblCurrentMarketPrice.Location = New System.Drawing.Point(16, 37)
         Me.lblCurrentMarketPrice.Name = "lblCurrentMarketPrice"
         Me.lblCurrentMarketPrice.Size = New System.Drawing.Size(110, 13)
         Me.lblCurrentMarketPrice.TabIndex = 4
@@ -59,7 +60,7 @@ Partial Class frmModifyPrice
         'btnAccept
         '
         Me.Highlighter1.SetHighlightOnFocus(Me.btnAccept, True)
-        Me.btnAccept.Location = New System.Drawing.Point(193, 128)
+        Me.btnAccept.Location = New System.Drawing.Point(202, 138)
         Me.btnAccept.Name = "btnAccept"
         Me.btnAccept.Size = New System.Drawing.Size(75, 23)
         Me.btnAccept.TabIndex = 1
@@ -70,7 +71,7 @@ Partial Class frmModifyPrice
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.Highlighter1.SetHighlightOnFocus(Me.btnCancel, True)
-        Me.btnCancel.Location = New System.Drawing.Point(274, 128)
+        Me.btnCancel.Location = New System.Drawing.Point(283, 138)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnCancel.TabIndex = 2
@@ -80,7 +81,7 @@ Partial Class frmModifyPrice
         'txtNewPrice
         '
         Me.Highlighter1.SetHighlightOnFocus(Me.txtNewPrice, True)
-        Me.txtNewPrice.Location = New System.Drawing.Point(141, 101)
+        Me.txtNewPrice.Location = New System.Drawing.Point(141, 87)
         Me.txtNewPrice.Name = "txtNewPrice"
         Me.txtNewPrice.Size = New System.Drawing.Size(208, 21)
         Me.txtNewPrice.TabIndex = 0
@@ -88,7 +89,7 @@ Partial Class frmModifyPrice
         'lblNewPrice
         '
         Me.lblNewPrice.AutoSize = True
-        Me.lblNewPrice.Location = New System.Drawing.Point(13, 104)
+        Me.lblNewPrice.Location = New System.Drawing.Point(26, 90)
         Me.lblNewPrice.Name = "lblNewPrice"
         Me.lblNewPrice.Size = New System.Drawing.Size(97, 13)
         Me.lblNewPrice.TabIndex = 16
@@ -140,6 +141,7 @@ Partial Class frmModifyPrice
         '
         Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.lblClearingCustomPrice)
         Me.PanelEx1.Controls.Add(Me.lblCurrentBasePrice)
         Me.PanelEx1.Controls.Add(Me.lblCustomPrice)
         Me.PanelEx1.Controls.Add(Me.lblCurrentMarketPrice)
@@ -162,6 +164,17 @@ Partial Class frmModifyPrice
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
         Me.PanelEx1.TabIndex = 23
+        '
+        'lblClearingCustomPrice
+        '
+        Me.lblClearingCustomPrice.AutoSize = True
+        Me.lblClearingCustomPrice.ForeColor = System.Drawing.Color.DarkRed
+        Me.lblClearingCustomPrice.Location = New System.Drawing.Point(7, 111)
+        Me.lblClearingCustomPrice.Name = "lblClearingCustomPrice"
+        Me.lblClearingCustomPrice.Size = New System.Drawing.Size(334, 13)
+        Me.lblClearingCustomPrice.TabIndex = 23
+        Me.lblClearingCustomPrice.Text = "Warning: Custom Price will be deleted when new price is set to zero."
+        Me.lblClearingCustomPrice.Visible = False
         '
         'frmModifyPrice
         '
@@ -198,4 +211,5 @@ Partial Class frmModifyPrice
     Friend WithEvents lblBasePrice As System.Windows.Forms.Label
     Friend WithEvents Highlighter1 As DevComponents.DotNetBar.Validator.Highlighter
     Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents lblClearingCustomPrice As System.Windows.Forms.Label
 End Class
