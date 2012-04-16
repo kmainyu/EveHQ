@@ -462,28 +462,30 @@ Public Class frmBPCalculator
         Dim BPData As New Blueprint
         For Each BP As BlueprintAsset In ownerBPs.Values
             If BP.Runs <> 0 Then
-                Dim BPACBI As New BPAssetComboboxItem(PlugInData.Blueprints(BP.TypeID).Name, BP.AssetID, BP.MELevel, BP.PELevel, BP.Runs)
+                If PlugInData.Blueprints.ContainsKey(BP.TypeID) Then
+                    Dim BPACBI As New BPAssetComboboxItem(PlugInData.Blueprints(BP.TypeID).Name, BP.AssetID, BP.MELevel, BP.PELevel, BP.Runs)
 
-                'Basic filter if inventable item filtering is on
-                If chkInventBPOs.Checked = True Then
-                    If btnToggleInvention.Value = True Then
-                        ' Use T1 data
-                        If PlugInData.Blueprints(BP.TypeID).Inventions.Count > 0 Then
-                            cboBPs.Items.Add(BPACBI)
+                    'Basic filter if inventable item filtering is on
+                    If chkInventBPOs.Checked = True Then
+                        If btnToggleInvention.Value = True Then
+                            ' Use T1 data
+                            If PlugInData.Blueprints(BP.TypeID).Inventions.Count > 0 Then
+                                cboBPs.Items.Add(BPACBI)
+                            End If
+                        Else
+                            ' Use T2 data
+                            If PlugInData.Blueprints(BP.TypeID).InventFrom.Count > 0 Then
+                                cboBPs.Items.Add(BPACBI)
+                            End If
                         End If
                     Else
-                        ' Use T2 data
-                        If PlugInData.Blueprints(BP.TypeID).InventFrom.Count > 0 Then
-                            cboBPs.Items.Add(BPACBI)
-                        End If
+                        cboBPs.Items.Add(BPACBI)
                     End If
-                Else
-                    cboBPs.Items.Add(BPACBI)
-                End If
 
-                ' Check if this matches the ownedBPID
-                If BPACBI.AssetID = cOwnedBPID Then
-                    OwnedBP = BPACBI
+                    ' Check if this matches the ownedBPID
+                    If BPACBI.AssetID = cOwnedBPID Then
+                        OwnedBP = BPACBI
+                    End If
                 End If
             End If
         Next
