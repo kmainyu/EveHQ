@@ -4176,29 +4176,31 @@ Public Class frmPrism
                 For Each BP As BlueprintAsset In ownerBPs.Values
                     If BP.LocationDetails Is Nothing Then BP.LocationDetails = "" ' Resets details
                     If BP.LocationID Is Nothing Then BP.LocationID = "0" ' Resets details
-                    BPData = PlugInData.Blueprints(BP.TypeID)
-                    LocationName = Locations.GetLocationNameFromID(BP.LocationID)
-                    If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
-                        If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
-                            matchCat = False
-                            If cboCategoryFilter.SelectedIndex = 0 Then
-                                matchCat = True
-                            Else
-                                If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                                    If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BPData.ProductID.ToString).Category) Then
-                                        matchCat = True
+                    If PlugInData.Blueprints.ContainsKey(BP.TypeID) Then
+                        BPData = PlugInData.Blueprints(BP.TypeID)
+                        LocationName = Locations.GetLocationNameFromID(BP.LocationID)
+                        If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
+                            If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
+                                matchCat = False
+                                If cboCategoryFilter.SelectedIndex = 0 Then
+                                    matchCat = True
+                                Else
+                                    If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
+                                        If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BPData.ProductID.ToString).Category) Then
+                                            matchCat = True
+                                        End If
                                     End If
                                 End If
-                            End If
-                            If matchCat = True Then
-                                If search = "" Or BPData.Name.ToLower.Contains(search.ToLower) Or BP.LocationDetails.ToLower.Contains(search.ToLower) Or LocationName.ToLower.Contains(search.ToLower) Then
-                                    Dim newBPItem As New Node
-                                    For NewCell As Integer = 1 To 7 : newBPItem.Cells.Add(New Cell) : Next
-                                    newBPItem.Text = BPData.Name
-                                    newBPItem.Tag = BP.AssetID
-                                    adtBlueprints.Nodes.Add(newBPItem)
-                                    newBPItem.Cells(3).Text = BPData.TechLevel.ToString
-                                    Call UpdateOwnerBPItem(owner, LocationName, BP, newBPItem)
+                                If matchCat = True Then
+                                    If search = "" Or BPData.Name.ToLower.Contains(search.ToLower) Or BP.LocationDetails.ToLower.Contains(search.ToLower) Or LocationName.ToLower.Contains(search.ToLower) Then
+                                        Dim newBPItem As New Node
+                                        For NewCell As Integer = 1 To 7 : newBPItem.Cells.Add(New Cell) : Next
+                                        newBPItem.Text = BPData.Name
+                                        newBPItem.Tag = BP.AssetID
+                                        adtBlueprints.Nodes.Add(newBPItem)
+                                        newBPItem.Cells(3).Text = BPData.TechLevel.ToString
+                                        Call UpdateOwnerBPItem(owner, LocationName, BP, newBPItem)
+                                    End If
                                 End If
                             End If
                         End If
