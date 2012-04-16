@@ -3787,7 +3787,9 @@ namespace EveHQ.RouteMap
                             UseOre = false;
                         if (!zero && (s.Security <= 0))
                             UseOre = false;
-
+                        if (PlugInData.WHRegions.Contains(s.RegionID) || PlugInData.WHRegions.Contains(sSys.RegionID))
+                            UseOre = false;
+                       
                         if (UseOre)
                         {
                             SystemRoute.Clear();
