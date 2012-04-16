@@ -628,8 +628,9 @@ Public Class frmBPCalculator
                 ' Set change flag
                 Me.ProductionChanged = True
             End If
-            ' Reset the invention flag for a new item
+            ' Reset the invention flags for a new item
             currentJob.InventionJob = Nothing
+            InventionBPID = 0
             Me.ResetInventedBP = True
             ' Check if all the invention data is present
             Call BlueprintSelection.CheckForInventionItems(CurrentBP)
