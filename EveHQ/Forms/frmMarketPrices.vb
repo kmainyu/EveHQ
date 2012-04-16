@@ -442,14 +442,18 @@ Public Class frmMarketPrices
         Dim itemID As String = selItem.Name
         Dim newPrice As New EveHQ.Core.frmModifyPrice(itemID, 0)
         newPrice.ShowDialog()
-        selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(itemID).ToString("N2")
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(itemID).ToString("N2")
+        End If
     End Sub
     Private Sub mnuPriceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceEdit.Click
         Dim selItem As Node = adtPrices.SelectedNodes(0)
         Dim itemID As String = selItem.Name
         Dim newPrice As New EveHQ.Core.frmModifyPrice(itemID, 0)
         newPrice.ShowDialog()
-        selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(itemID).ToString("N2")
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(itemID).ToString("N2")
+        End If
     End Sub
     Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOnlyCustom.CheckedChanged
         If Len(txtSearchPrices.Text) > 2 Then
