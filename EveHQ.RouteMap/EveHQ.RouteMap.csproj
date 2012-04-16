@@ -194,12 +194,6 @@
     <Compile Include="Forms\RouteMapMainForm.Designer.cs">
       <DependentUpon>RouteMapMainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SystemMap.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\SystemMap.designer.cs">
-      <DependentUpon>SystemMap.cs</DependentUpon>
-    </Compile>
     <Compile Include="Classes\SystemCelestials.cs" />
     <Compile Include="Forms\RouteSystem.cs">
       <SubType>UserControl</SubType>
@@ -281,10 +275,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SystemMap.resx">
-      <DependentUpon>SystemMap.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\RouteSystem.resx">

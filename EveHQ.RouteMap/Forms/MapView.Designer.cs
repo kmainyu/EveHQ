@@ -38,7 +38,6 @@
             this.tsmi_AddAsWaypoint = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_AddToAvoid = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_ShowInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmi_ViewSystemMap = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_HL_JB_Range = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_HL_ShipJumpRange = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmi_ShipJumpToRange = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +79,6 @@
             this.tsmi_AddAsWaypoint,
             this.tsmi_AddToAvoid,
             this.tsmi_ShowInfo,
-            this.tsmi_ViewSystemMap,
             this.tsmi_HL_JB_Range,
             this.tsmi_HL_ShipJumpRange,
             this.tsmi_ShipJumpToRange});
@@ -121,13 +119,6 @@
             this.tsmi_ShowInfo.Size = new System.Drawing.Size(287, 22);
             this.tsmi_ShowInfo.Text = "Show &Information";
             this.tsmi_ShowInfo.Click += new System.EventHandler(this.tsmi_ShowInfo_Click);
-            // 
-            // tsmi_ViewSystemMap
-            // 
-            this.tsmi_ViewSystemMap.Name = "tsmi_ViewSystemMap";
-            this.tsmi_ViewSystemMap.Size = new System.Drawing.Size(287, 22);
-            this.tsmi_ViewSystemMap.Text = "&View System Map";
-            this.tsmi_ViewSystemMap.Click += new System.EventHandler(this.tsmi_ViewSystemMap_Click);
             // 
             // tsmi_HL_JB_Range
             // 
@@ -276,7 +267,6 @@
         private System.Windows.Forms.Button b_ZoomIn;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox cb_FindSystem;
-        private System.Windows.Forms.ToolStripMenuItem tsmi_ViewSystemMap;
         private System.Windows.Forms.ImageList MV_Images;
         private System.Windows.Forms.ToolStripMenuItem tsmi_HL_JB_Range;
         private System.Windows.Forms.ToolStripMenuItem tsmi_HL_ShipJumpRange;
