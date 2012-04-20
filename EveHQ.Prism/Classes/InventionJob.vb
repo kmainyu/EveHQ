@@ -87,7 +87,7 @@
                 IME += UseDecryptor.MEMod
                 IPE += UseDecryptor.PEMod
                 'IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1) + UseDecryptor.RunMod, IBP.MaxProdLimit)
-                IRC = CInt(Math.Min(Math.Max(Math.Round((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10) + UseDecryptor.RunMod), 1), IBP.MaxProdLimit))
+                IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10) + UseDecryptor.RunMod), 1), IBP.MaxProdLimit))
             Else
                 IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
             End If
