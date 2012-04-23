@@ -261,7 +261,7 @@ Public Class PrismResources
                     newRes.Cells.Add(New Cell((total * CurrentJob.Runs).ToString))
                     newRes.Cells.Add(New Cell(price.ToString))
                     newRes.Cells.Add(New Cell((value * CurrentJob.Runs).ToString))
-                    newRes.Cells.Add(New Cell((Int(subJob.PerfectUnits / CurrentJob.CurrentBP.MatMod)).ToString))
+                    newRes.Cells.Add(New Cell((Int(subJob.PerfectUnits * CurrentJob.CurrentBP.WasteFactor / 50)).ToString))
                     Dim BPDetails As New StringBuilder
                     BPDetails.AppendLine("The blueprint used for this job is as follows:")
                     BPDetails.AppendLine("")
