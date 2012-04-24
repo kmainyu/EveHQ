@@ -1240,7 +1240,11 @@ Imports System.Runtime.Serialization
             If Me.cWHEffect = "Red Giant" Then
                 modName = Me.cWHEffect & " Beacon Class " & Me.cWHLevel.ToString
             Else
-                modName = Me.cWHEffect & " Effect Beacon Class " & Me.cWHLevel.ToString
+                If Me.cWHEffect.StartsWith("Incursion") Then
+                    modName = Me.cWHEffect.Replace("-", "ship attributes effects")
+                Else
+                    modName = Me.cWHEffect & " Effect Beacon Class " & Me.cWHLevel
+                End If
             End If
             Dim modID As String = CStr(ModuleLists.moduleListName(modName))
             Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone

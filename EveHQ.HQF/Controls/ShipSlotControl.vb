@@ -3831,6 +3831,9 @@ Public Class ShipSlotControl
         cboWHEffect.Items.Add("Pulsar")
         cboWHEffect.Items.Add("Red Giant")
         cboWHEffect.Items.Add("Wolf Rayet")
+        cboWHEffect.Items.Add("Incursion - Assault")
+        cboWHEffect.Items.Add("Incursion - HQ")
+        cboWHEffect.Items.Add("Incursion - Vanguard")
         cboWHClass.Items.Clear()
         cboWHClass.Items.Add("1")
         cboWHClass.Items.Add("2")
@@ -3860,7 +3863,11 @@ Public Class ShipSlotControl
                     If cboWHEffect.SelectedItem.ToString = "Red Giant" Then
                         modName = cboWHEffect.SelectedItem.ToString & " Beacon Class " & cboWHClass.SelectedItem.ToString
                     Else
-                        modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                        If cboWHEffect.SelectedItem.ToString.StartsWith("Incursion") Then
+                            modName = cboWHEffect.SelectedItem.ToString.Replace("-", "ship attributes effects")
+                        Else
+                            modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                        End If
                     End If
                     Dim modID As String = CStr(ModuleLists.moduleListName(modName))
                     Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
@@ -3882,7 +3889,11 @@ Public Class ShipSlotControl
                 If cboWHEffect.SelectedItem.ToString = "Red Giant" Then
                     modName = cboWHEffect.SelectedItem.ToString & " Beacon Class " & cboWHClass.SelectedItem.ToString
                 Else
-                    modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                    If cboWHEffect.SelectedItem.ToString.StartsWith("Incursion") Then
+                        modName = cboWHEffect.SelectedItem.ToString.Replace("-", "ship attributes effects")
+                    Else
+                        modName = cboWHEffect.SelectedItem.ToString & " Effect Beacon Class " & cboWHClass.SelectedItem.ToString
+                    End If
                 End If
                 Dim modID As String = CStr(ModuleLists.moduleListName(modName))
                 Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone

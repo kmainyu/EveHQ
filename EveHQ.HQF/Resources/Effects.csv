@@ -1357,6 +1357,21 @@
 1498,2,920,84,2,325,0,0,5,15,Remote Repair Amount Multiplier
 1499,2,920,482,3,6,0,0,5,15,Capacitor Capacity Multiplier
 1500,2,920,55,3,6,0,0,5,15,Capacitor Recharge Multiplier
+1686,2,920,10014,2,53,0,0,0,15,Incursion Damage Reduction - Lasers
+1686,2,920,10015,2,74,0,0,0,15,Incursion Damage Reduction - Hybrids
+1686,2,920,10016,2,55,0,0,0,15,Incursion Damage Reduction - Projectiles
+1686,2,920,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,15,Incursion Damage Reduction - EM Missiles
+1686,2,920,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,15,Incursion Damage Reduction - Explosive Missiles
+1686,2,920,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,15,Incursion Damage Reduction - Kinetic Missiles
+1686,2,920,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396;1019,0,0,0,15,Incursion Damage Reduction - Thermal Missiles
+1686,2,920,114,2,72,0,0,0,15,Incursion Damage Reduction - EM Smartbomb
+1686,2,920,116,2,72,0,0,0,15,Incursion Damage Reduction - Explosive Smartbomb
+1686,2,920,117,2,72,0,0,0,15,Incursion Damage Reduction - Kinetic Smartbomb
+1686,2,920,118,2,72,0,0,0,15,Incursion Damage Reduction - Thermal Smartbomb
+1686,2,920,114,3,18,0,0,0,15,Incursion Damage Reduction - EM Drone
+1686,2,920,116,3,18,0,0,0,15,Incursion Damage Reduction - Explosive Drone
+1686,2,920,117,3,18,0,0,0,15,Incursion Damage Reduction - Kinetic Drone
+1686,2,920,118,3,18,0,0,0,15,Incursion Damage Reduction - Thermal Drone
 # BOOSTERS,,,,,,,,,,
 548,1,10155,68,2,40,0,0,0,15,Improved Blue Pill - Shield Boost Bonus
 848,1,10151,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Radius Bonus
