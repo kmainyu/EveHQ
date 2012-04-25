@@ -1571,7 +1571,8 @@ Public Class frmBPCalculator
 
         Dim DecryptorID As Integer = 0
         Dim DecryptorMod As Double = 0
-        Dim IJ As ProductionJob = currentJob.InventionJob.ProductionJob.Clone
+        Dim CJ As ProductionJob = currentJob.Clone
+        Dim PJ As ProductionJob = currentJob.InventionJob.ProductionJob.Clone
 
         adtInventionProfits.BeginUpdate()
         adtInventionProfits.Nodes.Clear()
@@ -1583,16 +1584,19 @@ Public Class frmBPCalculator
                 If PlugInData.Decryptors.ContainsKey(DecryptorName) Then
                     DecryptorMod = PlugInData.Decryptors(DecryptorName).ProbMod
                     DecryptorID = CInt(PlugInData.Decryptors(DecryptorName).ID)
+                    CJ.InventionJob.DecryptorUsed = PlugInData.Decryptors(DecryptorName)
                 Else
                     DecryptorMod = 1
                     DecryptorID = 0
+                    CJ.InventionJob.DecryptorUsed = Nothing
                 End If
             Else
                 DecryptorMod = 1
                 DecryptorID = 0
+                CJ.InventionJob.DecryptorUsed = Nothing
             End If
 
-            Dim BPCRuns As Integer = CurrentBP.Runs
+            Dim BPCRuns As Integer = nudInventionBPCRuns.Value
             If nudInventionBPCRuns.LockUpdateChecked = False Then
                 ' Use current BP Runs, replacing max for unlimited
                 Select Case EveHQ.Core.HQ.itemData(CurrentBP.ProductID.ToString).Category
@@ -1611,20 +1615,23 @@ Public Class frmBPCalculator
             Dim IC As Double = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, DecryptorMod)
 
             Dim ICost As Double = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, DecryptorID.ToString, BPCRuns)
-            Dim IBP As BlueprintSelection = CurrentInventionBP.CalculateInventedBPC(InventionBPID, DecryptorID, BPCRuns)
+            Dim IBP As BlueprintSelection = CJ.InventionJob.CalculateInventedBPC
             Dim IA As Double = Math.Max(Math.Round(100 / IC, 4), 1)
             Dim ISC As Double = IA * ICost
-            IBP.UpdateProductionJob(IJ)
-            'Dim IJ As ProductionJob = IBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, PPRInvention.BuildResources)
+            IBP.UpdateProductionJob(PJ)
             Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
-            Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * IJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
-            Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + IJ.Cost + FactoryCost) / BatchQty
+            Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * PJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+            Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + PJ.Cost + FactoryCost) / BatchQty
             Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
             Dim UnitProfit As Double = SalesPrice - AvgCost
             Dim TotalProfit As Double = (UnitProfit * IBP.Runs) * BatchQty
 
             Dim NewLine As New Node
-            NewLine.Text = DecryptorMod.ToString("N1") & "x (" & IBP.Runs.ToString & " runs)"
+            If DecryptorID = 0 Then
+                NewLine.Text = "None (" & IBP.Runs.ToString & " run" & IIf(IBP.Runs = 1, ")", "s)").ToString
+            Else
+                NewLine.Text = DecryptorMod.ToString("N1") & "x (" & IBP.Runs.ToString & " run" & IIf(IBP.Runs = 1, ")", "s)").ToString
+            End If
             NewLine.Cells.Add(New Cell(UnitProfit.ToString("N2") & "<br />" & TotalProfit.ToString("N2")))
             adtInventionProfits.Nodes.Add(NewLine)
 

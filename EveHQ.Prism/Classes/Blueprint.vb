@@ -431,13 +431,15 @@ End Class
                 Dim UseDecryptor As Decryptor = PlugInData.Decryptors(DecryptorName)
                 IME += UseDecryptor.MEMod
                 IPE += UseDecryptor.PEMod
-                IRC = Math.Min(Math.Max(CInt((BPCRuns / Me.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1) + UseDecryptor.RunMod, IBP.MaxProdLimit)
+                'IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1) + UseDecryptor.RunMod, IBP.MaxProdLimit)
+                IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / IBP.MaxProdLimit) * (IBP.MaxProdLimit / 10) + UseDecryptor.RunMod), 1), IBP.MaxProdLimit))
             Else
-                IRC = Math.Min(Math.Max(CInt((BPCRuns / Me.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
+                IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / IBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit))
             End If
         Else
-            IRC = Math.Min(Math.Max(CInt((BPCRuns / Me.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit)
+            IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / IBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit))
         End If
+
 
         IBP.MELevel = IME
         IBP.PELevel = IPE
