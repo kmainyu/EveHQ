@@ -219,6 +219,18 @@ Partial Class frmPrism
         Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
         Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
         Me.tabPrism = New DevComponents.DotNetBar.TabControl()
+        Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnImportEntries = New DevComponents.DotNetBar.ButtonX()
+        Me.btnExportEntries = New DevComponents.DotNetBar.ButtonX()
+        Me.btnCheckJournalOmissions = New DevComponents.DotNetBar.ButtonX()
+        Me.adtJournal = New DevComponents.AdvTree.AdvTree()
+        Me.colJournalDate = New DevComponents.AdvTree.ColumnHeader()
+        Me.colJournalType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colJournalAmount = New DevComponents.AdvTree.ColumnHeader()
+        Me.colJournalBalance = New DevComponents.AdvTree.ColumnHeader()
+        Me.colJournalDescription = New DevComponents.AdvTree.ColumnHeader()
+        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
+        Me.tiJournal = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
         Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
@@ -297,18 +309,6 @@ Partial Class frmPrism
         Me.nudRigMELevel = New System.Windows.Forms.NumericUpDown()
         Me.lblRigMELevel = New System.Windows.Forms.Label()
         Me.tiRigBuilder = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.btnImportEntries = New DevComponents.DotNetBar.ButtonX()
-        Me.btnExportEntries = New DevComponents.DotNetBar.ButtonX()
-        Me.btnCheckJournalOmissions = New DevComponents.DotNetBar.ButtonX()
-        Me.adtJournal = New DevComponents.AdvTree.AdvTree()
-        Me.colJournalDate = New DevComponents.AdvTree.ColumnHeader()
-        Me.colJournalType = New DevComponents.AdvTree.ColumnHeader()
-        Me.colJournalAmount = New DevComponents.AdvTree.ColumnHeader()
-        Me.colJournalBalance = New DevComponents.AdvTree.ColumnHeader()
-        Me.colJournalDescription = New DevComponents.AdvTree.ColumnHeader()
-        Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
-        Me.tiJournal = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel17 = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtInventionJobs = New DevComponents.AdvTree.AdvTree()
         Me.colInvJobName = New DevComponents.AdvTree.ColumnHeader()
@@ -514,6 +514,8 @@ Partial Class frmPrism
         Me.pnlPrism.SuspendLayout()
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrism.SuspendLayout()
+        Me.TabControlPanel6.SuspendLayout()
+        CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel1.SuspendLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel8.SuspendLayout()
@@ -525,8 +527,6 @@ Partial Class frmPrism
         CType(Me.adtRigBuildList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpAutoRig.SuspendLayout()
         CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.TabControlPanel6.SuspendLayout()
-        CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel17.SuspendLayout()
         CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel3.SuspendLayout()
@@ -2686,15 +2686,15 @@ Partial Class frmPrism
         Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPrism.Controls.Add(Me.TabControlPanel6)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel16)
         Me.tabPrism.Controls.Add(Me.TabControlPanel1)
+        Me.tabPrism.Controls.Add(Me.TabControlPanel6)
         Me.tabPrism.Controls.Add(Me.TabControlPanel8)
         Me.tabPrism.Controls.Add(Me.TabControlPanel14)
         Me.tabPrism.Controls.Add(Me.TabControlPanel15)
         Me.tabPrism.Controls.Add(Me.TabControlPanel17)
         Me.tabPrism.Controls.Add(Me.TabControlPanel3)
         Me.tabPrism.Controls.Add(Me.TabControlPanel11)
-        Me.tabPrism.Controls.Add(Me.TabControlPanel16)
         Me.tabPrism.Controls.Add(Me.TabControlPanel7)
         Me.tabPrism.Controls.Add(Me.TabControlPanel5)
         Me.tabPrism.Controls.Add(Me.TabControlPanel10)
@@ -2726,6 +2726,156 @@ Partial Class frmPrism
         Me.tabPrism.Tabs.Add(Me.tiRigBuilder)
         Me.tabPrism.Tabs.Add(Me.tiInventionResults)
         Me.tabPrism.Text = "TabControl2"
+        '
+        'TabControlPanel6
+        '
+        Me.TabControlPanel6.Controls.Add(Me.btnImportEntries)
+        Me.TabControlPanel6.Controls.Add(Me.btnExportEntries)
+        Me.TabControlPanel6.Controls.Add(Me.btnCheckJournalOmissions)
+        Me.TabControlPanel6.Controls.Add(Me.adtJournal)
+        Me.TabControlPanel6.Controls.Add(Me.btnResetJournal)
+        Me.TabControlPanel6.Controls.Add(Me.lblWalletJournalDivision)
+        Me.TabControlPanel6.Controls.Add(Me.lblAlwaysShowEveBalance)
+        Me.TabControlPanel6.Controls.Add(Me.sbShowEveBalance)
+        Me.TabControlPanel6.Controls.Add(Me.btnExportJournal)
+        Me.TabControlPanel6.Controls.Add(Me.btnJournalQuery)
+        Me.TabControlPanel6.Controls.Add(Me.cboWalletJournalDivision)
+        Me.TabControlPanel6.Controls.Add(Me.cboJournalRefTypes)
+        Me.TabControlPanel6.Controls.Add(Me.dtiJournalStartDate)
+        Me.TabControlPanel6.Controls.Add(Me.cboJournalOwners)
+        Me.TabControlPanel6.Controls.Add(Me.dtiJournalEndDate)
+        Me.TabControlPanel6.Controls.Add(Me.lblJournalEndDate)
+        Me.TabControlPanel6.Controls.Add(Me.lblJournalStartDate)
+        Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel6.Name = "TabControlPanel6"
+        Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel6.Size = New System.Drawing.Size(1284, 650)
+        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel6.Style.GradientAngle = 90
+        Me.TabControlPanel6.TabIndex = 6
+        Me.TabControlPanel6.TabItem = Me.tiJournal
+        '
+        'btnImportEntries
+        '
+        Me.btnImportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnImportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnImportEntries.Location = New System.Drawing.Point(757, 38)
+        Me.btnImportEntries.Name = "btnImportEntries"
+        Me.btnImportEntries.Size = New System.Drawing.Size(100, 23)
+        Me.btnImportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnImportEntries.TabIndex = 21
+        Me.btnImportEntries.Text = "Import Entries"
+        '
+        'btnExportEntries
+        '
+        Me.btnExportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnExportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnExportEntries.Location = New System.Drawing.Point(757, 8)
+        Me.btnExportEntries.Name = "btnExportEntries"
+        Me.btnExportEntries.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnExportEntries.TabIndex = 20
+        Me.btnExportEntries.Text = "Export Entries"
+        '
+        'btnCheckJournalOmissions
+        '
+        Me.btnCheckJournalOmissions.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnCheckJournalOmissions.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnCheckJournalOmissions.Location = New System.Drawing.Point(651, 8)
+        Me.btnCheckJournalOmissions.Name = "btnCheckJournalOmissions"
+        Me.btnCheckJournalOmissions.Size = New System.Drawing.Size(100, 23)
+        Me.btnCheckJournalOmissions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnCheckJournalOmissions.TabIndex = 19
+        Me.btnCheckJournalOmissions.Text = "Check Omissions"
+        '
+        'adtJournal
+        '
+        Me.adtJournal.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtJournal.AllowDrop = True
+        Me.adtJournal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.adtJournal.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtJournal.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtJournal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtJournal.Columns.Add(Me.colJournalDate)
+        Me.adtJournal.Columns.Add(Me.colJournalType)
+        Me.adtJournal.Columns.Add(Me.colJournalAmount)
+        Me.adtJournal.Columns.Add(Me.colJournalBalance)
+        Me.adtJournal.Columns.Add(Me.colJournalDescription)
+        Me.adtJournal.DragDropEnabled = False
+        Me.adtJournal.DragDropNodeCopyEnabled = False
+        Me.adtJournal.ExpandWidth = 16
+        Me.adtJournal.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtJournal.Location = New System.Drawing.Point(4, 88)
+        Me.adtJournal.Name = "adtJournal"
+        Me.adtJournal.NodeStyle = Me.ElementStyle1
+        Me.adtJournal.PathSeparator = ";"
+        Me.adtJournal.Size = New System.Drawing.Size(1276, 558)
+        Me.adtJournal.Styles.Add(Me.ElementStyle1)
+        Me.adtJournal.TabIndex = 18
+        Me.adtJournal.Text = "AdvTree1"
+        '
+        'colJournalDate
+        '
+        Me.colJournalDate.DisplayIndex = 1
+        Me.colJournalDate.Name = "colJournalDate"
+        Me.colJournalDate.SortingEnabled = False
+        Me.colJournalDate.Text = "Date"
+        Me.colJournalDate.Width.Absolute = 150
+        '
+        'colJournalType
+        '
+        Me.colJournalType.DisplayIndex = 2
+        Me.colJournalType.Name = "colJournalType"
+        Me.colJournalType.SortingEnabled = False
+        Me.colJournalType.Text = "Type"
+        Me.colJournalType.Width.Absolute = 250
+        '
+        'colJournalAmount
+        '
+        Me.colJournalAmount.DisplayIndex = 3
+        Me.colJournalAmount.Name = "colJournalAmount"
+        Me.colJournalAmount.SortingEnabled = False
+        Me.colJournalAmount.Text = "Amount"
+        Me.colJournalAmount.Width.Absolute = 125
+        '
+        'colJournalBalance
+        '
+        Me.colJournalBalance.DisplayIndex = 4
+        Me.colJournalBalance.Name = "colJournalBalance"
+        Me.colJournalBalance.SortingEnabled = False
+        Me.colJournalBalance.Text = "Balance"
+        Me.colJournalBalance.Width.Absolute = 125
+        '
+        'colJournalDescription
+        '
+        Me.colJournalDescription.DisplayIndex = 5
+        Me.colJournalDescription.Name = "colJournalDescription"
+        Me.colJournalDescription.SortingEnabled = False
+        Me.colJournalDescription.Text = "Description"
+        Me.colJournalDescription.Width.Absolute = 500
+        '
+        'ElementStyle1
+        '
+        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle1.Name = "ElementStyle1"
+        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'tiJournal
+        '
+        Me.tiJournal.AttachedControl = Me.TabControlPanel6
+        Me.tiJournal.Name = "tiJournal"
+        Me.tiJournal.Text = "Journal"
         '
         'TabControlPanel1
         '
@@ -3714,156 +3864,6 @@ Partial Class frmPrism
         Me.tiRigBuilder.AttachedControl = Me.TabControlPanel15
         Me.tiRigBuilder.Name = "tiRigBuilder"
         Me.tiRigBuilder.Text = "Rig Builder"
-        '
-        'TabControlPanel6
-        '
-        Me.TabControlPanel6.Controls.Add(Me.btnImportEntries)
-        Me.TabControlPanel6.Controls.Add(Me.btnExportEntries)
-        Me.TabControlPanel6.Controls.Add(Me.btnCheckJournalOmissions)
-        Me.TabControlPanel6.Controls.Add(Me.adtJournal)
-        Me.TabControlPanel6.Controls.Add(Me.btnResetJournal)
-        Me.TabControlPanel6.Controls.Add(Me.lblWalletJournalDivision)
-        Me.TabControlPanel6.Controls.Add(Me.lblAlwaysShowEveBalance)
-        Me.TabControlPanel6.Controls.Add(Me.sbShowEveBalance)
-        Me.TabControlPanel6.Controls.Add(Me.btnExportJournal)
-        Me.TabControlPanel6.Controls.Add(Me.btnJournalQuery)
-        Me.TabControlPanel6.Controls.Add(Me.cboWalletJournalDivision)
-        Me.TabControlPanel6.Controls.Add(Me.cboJournalRefTypes)
-        Me.TabControlPanel6.Controls.Add(Me.dtiJournalStartDate)
-        Me.TabControlPanel6.Controls.Add(Me.cboJournalOwners)
-        Me.TabControlPanel6.Controls.Add(Me.dtiJournalEndDate)
-        Me.TabControlPanel6.Controls.Add(Me.lblJournalEndDate)
-        Me.TabControlPanel6.Controls.Add(Me.lblJournalStartDate)
-        Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel6.Name = "TabControlPanel6"
-        Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel6.Size = New System.Drawing.Size(1284, 650)
-        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel6.Style.GradientAngle = 90
-        Me.TabControlPanel6.TabIndex = 6
-        Me.TabControlPanel6.TabItem = Me.tiJournal
-        '
-        'btnImportEntries
-        '
-        Me.btnImportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnImportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnImportEntries.Location = New System.Drawing.Point(757, 38)
-        Me.btnImportEntries.Name = "btnImportEntries"
-        Me.btnImportEntries.Size = New System.Drawing.Size(100, 23)
-        Me.btnImportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnImportEntries.TabIndex = 21
-        Me.btnImportEntries.Text = "Import Entries"
-        '
-        'btnExportEntries
-        '
-        Me.btnExportEntries.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnExportEntries.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnExportEntries.Location = New System.Drawing.Point(757, 8)
-        Me.btnExportEntries.Name = "btnExportEntries"
-        Me.btnExportEntries.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportEntries.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnExportEntries.TabIndex = 20
-        Me.btnExportEntries.Text = "Export Entries"
-        '
-        'btnCheckJournalOmissions
-        '
-        Me.btnCheckJournalOmissions.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnCheckJournalOmissions.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnCheckJournalOmissions.Location = New System.Drawing.Point(651, 8)
-        Me.btnCheckJournalOmissions.Name = "btnCheckJournalOmissions"
-        Me.btnCheckJournalOmissions.Size = New System.Drawing.Size(100, 23)
-        Me.btnCheckJournalOmissions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnCheckJournalOmissions.TabIndex = 19
-        Me.btnCheckJournalOmissions.Text = "Check Omissions"
-        '
-        'adtJournal
-        '
-        Me.adtJournal.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtJournal.AllowDrop = True
-        Me.adtJournal.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.adtJournal.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtJournal.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtJournal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtJournal.Columns.Add(Me.colJournalDate)
-        Me.adtJournal.Columns.Add(Me.colJournalType)
-        Me.adtJournal.Columns.Add(Me.colJournalAmount)
-        Me.adtJournal.Columns.Add(Me.colJournalBalance)
-        Me.adtJournal.Columns.Add(Me.colJournalDescription)
-        Me.adtJournal.DragDropEnabled = False
-        Me.adtJournal.DragDropNodeCopyEnabled = False
-        Me.adtJournal.ExpandWidth = 16
-        Me.adtJournal.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtJournal.Location = New System.Drawing.Point(4, 88)
-        Me.adtJournal.Name = "adtJournal"
-        Me.adtJournal.NodeStyle = Me.ElementStyle1
-        Me.adtJournal.PathSeparator = ";"
-        Me.adtJournal.Size = New System.Drawing.Size(1276, 558)
-        Me.adtJournal.Styles.Add(Me.ElementStyle1)
-        Me.adtJournal.TabIndex = 18
-        Me.adtJournal.Text = "AdvTree1"
-        '
-        'colJournalDate
-        '
-        Me.colJournalDate.DisplayIndex = 1
-        Me.colJournalDate.Name = "colJournalDate"
-        Me.colJournalDate.SortingEnabled = False
-        Me.colJournalDate.Text = "Date"
-        Me.colJournalDate.Width.Absolute = 150
-        '
-        'colJournalType
-        '
-        Me.colJournalType.DisplayIndex = 2
-        Me.colJournalType.Name = "colJournalType"
-        Me.colJournalType.SortingEnabled = False
-        Me.colJournalType.Text = "Type"
-        Me.colJournalType.Width.Absolute = 250
-        '
-        'colJournalAmount
-        '
-        Me.colJournalAmount.DisplayIndex = 3
-        Me.colJournalAmount.Name = "colJournalAmount"
-        Me.colJournalAmount.SortingEnabled = False
-        Me.colJournalAmount.Text = "Amount"
-        Me.colJournalAmount.Width.Absolute = 125
-        '
-        'colJournalBalance
-        '
-        Me.colJournalBalance.DisplayIndex = 4
-        Me.colJournalBalance.Name = "colJournalBalance"
-        Me.colJournalBalance.SortingEnabled = False
-        Me.colJournalBalance.Text = "Balance"
-        Me.colJournalBalance.Width.Absolute = 125
-        '
-        'colJournalDescription
-        '
-        Me.colJournalDescription.DisplayIndex = 5
-        Me.colJournalDescription.Name = "colJournalDescription"
-        Me.colJournalDescription.SortingEnabled = False
-        Me.colJournalDescription.Text = "Description"
-        Me.colJournalDescription.Width.Absolute = 500
-        '
-        'ElementStyle1
-        '
-        Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle1.Name = "ElementStyle1"
-        Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'tiJournal
-        '
-        Me.tiJournal.AttachedControl = Me.TabControlPanel6
-        Me.tiJournal.Name = "tiJournal"
-        Me.tiJournal.Text = "Journal"
         '
         'TabControlPanel17
         '
@@ -6523,6 +6523,9 @@ Partial Class frmPrism
         Me.pnlPrism.ResumeLayout(False)
         CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrism.ResumeLayout(False)
+        Me.TabControlPanel6.ResumeLayout(False)
+        Me.TabControlPanel6.PerformLayout()
+        CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel1.ResumeLayout(False)
         Me.TabControlPanel1.PerformLayout()
         CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6539,9 +6542,6 @@ Partial Class frmPrism
         Me.gpAutoRig.ResumeLayout(False)
         Me.gpAutoRig.PerformLayout()
         CType(Me.nudRigMELevel, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.TabControlPanel6.ResumeLayout(False)
-        Me.TabControlPanel6.PerformLayout()
-        CType(Me.adtJournal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel17.ResumeLayout(False)
         CType(Me.adtInventionJobs, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel3.ResumeLayout(False)

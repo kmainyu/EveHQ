@@ -6194,7 +6194,7 @@ Public Class frmPrism
                 End If
             Next
 
-            EveHQ.Core.AdvTreeSorter.Sort(adtInventionStats, 1, False, False)
+            EveHQ.Core.AdvTreeSorter.Sort(adtInventionStats, 1, False, True)
 
             adtInventionStats.Enabled = True
         Else
