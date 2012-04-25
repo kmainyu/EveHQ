@@ -971,7 +971,6 @@
 292,1,20280,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
 548,1,20280,68,2,40,1,0,0,4,Shield Boost Bonus
 565,1,20280,564,3,6,0,0,0,4,Scan Resolution Penalty
-767,1,20280,160,2,55;53;74,0,0,0,4,Tracking Speed
 847,1,20280,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,0,0,4,Missile Explosion Velocity
 895,1,20280,84,2,62,0,0,0,4,Armor Repair Amount
 896,1,20280,73,2,62,0,0,0,4,Armor Repair Duration
@@ -986,7 +985,6 @@
 292,1,4292,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
 548,1,4292,68,2,40,1,0,0,4,Shield Boost Bonus
 565,1,4292,564,3,6,0,0,0,4,Scan Resolution Penalty
-767,1,4292,160,2,55;53;74,0,0,0,4,Tracking Speed
 847,1,4292,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,0,0,4,Missile Explosion Velocity
 895,1,4292,84,2,62,0,0,0,4,Armor Repair Amount
 896,1,4292,73,2,62,0,0,0,4,Armor Repair Duration
