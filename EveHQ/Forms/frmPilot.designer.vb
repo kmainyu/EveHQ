@@ -90,16 +90,6 @@ Partial Public Class frmPilot
         Me.LabelX17 = New DevComponents.DotNetBar.LabelX()
         Me.picPilot = New System.Windows.Forms.PictureBox()
         Me.tabPilotInfo = New DevComponents.DotNetBar.TabControl()
-        Me.tcpStandings = New DevComponents.DotNetBar.TabControlPanel()
-        Me.adtStandings = New DevComponents.AdvTree.AdvTree()
-        Me.colEntity = New DevComponents.AdvTree.ColumnHeader()
-        Me.colEntityID = New DevComponents.AdvTree.ColumnHeader()
-        Me.colEntityType = New DevComponents.AdvTree.ColumnHeader()
-        Me.colStandingRaw = New DevComponents.AdvTree.ColumnHeader()
-        Me.colStandingActual = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
-        Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpSkills = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtSkills = New DevComponents.AdvTree.AdvTree()
         Me.colSkill = New DevComponents.AdvTree.ColumnHeader()
@@ -111,6 +101,16 @@ Partial Public Class frmPilot
         Me.Skill = New DevComponents.DotNetBar.ElementStyle()
         Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
         Me.tiSkills = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpStandings = New DevComponents.DotNetBar.TabControlPanel()
+        Me.adtStandings = New DevComponents.AdvTree.AdvTree()
+        Me.colEntity = New DevComponents.AdvTree.ColumnHeader()
+        Me.colEntityID = New DevComponents.AdvTree.ColumnHeader()
+        Me.colEntityType = New DevComponents.AdvTree.ColumnHeader()
+        Me.colStandingRaw = New DevComponents.AdvTree.ColumnHeader()
+        Me.colStandingActual = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
+        Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
         Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
         Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -138,10 +138,10 @@ Partial Public Class frmPilot
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabPilotInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPilotInfo.SuspendLayout()
-        Me.tcpStandings.SuspendLayout()
-        CType(Me.adtStandings, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcpSkills.SuspendLayout()
         CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tcpStandings.SuspendLayout()
+        CType(Me.adtStandings, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcpSkillQueue.SuspendLayout()
         Me.tcpCerts.SuspendLayout()
         CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -326,7 +326,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.picRace.BackgroundStyle.Class = ""
         Me.picRace.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.picRace.BackgroundStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
         Me.picRace.Image = CType(resources.GetObject("picRace.Image"), System.Drawing.Image)
@@ -341,7 +340,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.picBlood.BackgroundStyle.Class = ""
         Me.picBlood.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.picBlood.BackgroundStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
         Me.picBlood.Image = CType(resources.GetObject("picBlood.Image"), System.Drawing.Image)
@@ -391,7 +389,6 @@ Partial Public Class frmPilot
         Me.grpAttributes.Style.BorderRightWidth = 1
         Me.grpAttributes.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.grpAttributes.Style.BorderTopWidth = 1
-        Me.grpAttributes.Style.Class = ""
         Me.grpAttributes.Style.CornerDiameter = 4
         Me.grpAttributes.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.grpAttributes.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -400,12 +397,10 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.grpAttributes.StyleMouseDown.Class = ""
         Me.grpAttributes.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.grpAttributes.StyleMouseOver.Class = ""
         Me.grpAttributes.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.grpAttributes.TabIndex = 46
         '
@@ -427,7 +422,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.chkManImplants.BackgroundStyle.Class = ""
         Me.chkManImplants.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkManImplants.Location = New System.Drawing.Point(13, 157)
         Me.chkManImplants.Name = "chkManImplants"
@@ -442,7 +436,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblWillpowerTotal.BackgroundStyle.Class = ""
         Me.lblWillpowerTotal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblWillpowerTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblWillpowerTotal.Location = New System.Drawing.Point(242, 128)
@@ -458,7 +451,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblWillpowerDetail.BackgroundStyle.Class = ""
         Me.lblWillpowerDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblWillpowerDetail.Location = New System.Drawing.Point(110, 128)
         Me.lblWillpowerDetail.Name = "lblWillpowerDetail"
@@ -472,7 +464,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblWillpower.BackgroundStyle.Class = ""
         Me.lblWillpower.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblWillpower.Image = Global.EveHQ.My.Resources.Resources.Willpower32
         Me.lblWillpower.Location = New System.Drawing.Point(7, 128)
@@ -487,7 +478,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPerceptionTotal.BackgroundStyle.Class = ""
         Me.lblPerceptionTotal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPerceptionTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPerceptionTotal.Location = New System.Drawing.Point(242, 104)
@@ -503,7 +493,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPerceptionDetail.BackgroundStyle.Class = ""
         Me.lblPerceptionDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPerceptionDetail.Location = New System.Drawing.Point(110, 104)
         Me.lblPerceptionDetail.Name = "lblPerceptionDetail"
@@ -517,7 +506,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPerception.BackgroundStyle.Class = ""
         Me.lblPerception.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPerception.Image = Global.EveHQ.My.Resources.Resources.Perception32
         Me.lblPerception.Location = New System.Drawing.Point(7, 104)
@@ -532,7 +520,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblMemoryTotal.BackgroundStyle.Class = ""
         Me.lblMemoryTotal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblMemoryTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMemoryTotal.Location = New System.Drawing.Point(242, 80)
@@ -548,7 +535,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblMemoryDetail.BackgroundStyle.Class = ""
         Me.lblMemoryDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblMemoryDetail.Location = New System.Drawing.Point(110, 80)
         Me.lblMemoryDetail.Name = "lblMemoryDetail"
@@ -562,7 +548,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblMemory.BackgroundStyle.Class = ""
         Me.lblMemory.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblMemory.Image = Global.EveHQ.My.Resources.Resources.Memory32
         Me.lblMemory.Location = New System.Drawing.Point(7, 80)
@@ -577,7 +562,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblIntelligenceTotal.BackgroundStyle.Class = ""
         Me.lblIntelligenceTotal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblIntelligenceTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIntelligenceTotal.Location = New System.Drawing.Point(242, 56)
@@ -593,7 +577,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblIntelligenceDetail.BackgroundStyle.Class = ""
         Me.lblIntelligenceDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblIntelligenceDetail.Location = New System.Drawing.Point(110, 56)
         Me.lblIntelligenceDetail.Name = "lblIntelligenceDetail"
@@ -607,7 +590,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblIntelligence.BackgroundStyle.Class = ""
         Me.lblIntelligence.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblIntelligence.Image = Global.EveHQ.My.Resources.Resources.Intelligence32
         Me.lblIntelligence.Location = New System.Drawing.Point(7, 56)
@@ -622,7 +604,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblCharismaTotal.BackgroundStyle.Class = ""
         Me.lblCharismaTotal.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblCharismaTotal.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCharismaTotal.Location = New System.Drawing.Point(242, 32)
@@ -638,7 +619,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblCharismaDetail.BackgroundStyle.Class = ""
         Me.lblCharismaDetail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblCharismaDetail.Location = New System.Drawing.Point(110, 32)
         Me.lblCharismaDetail.Name = "lblCharismaDetail"
@@ -652,7 +632,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblCharisma.BackgroundStyle.Class = ""
         Me.lblCharisma.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblCharisma.Image = Global.EveHQ.My.Resources.Resources.Charisma32
         Me.lblCharisma.Location = New System.Drawing.Point(7, 32)
@@ -669,7 +648,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblAttributes.BackgroundStyle.Class = ""
         Me.lblAttributes.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblAttributes.ForeColor = System.Drawing.SystemColors.HighlightText
         Me.lblAttributes.Image = Global.EveHQ.My.Resources.Resources.Attributes32
@@ -707,7 +685,6 @@ Partial Public Class frmPilot
         Me.grpTraining.Style.BorderRightWidth = 1
         Me.grpTraining.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.grpTraining.Style.BorderTopWidth = 1
-        Me.grpTraining.Style.Class = ""
         Me.grpTraining.Style.CornerDiameter = 4
         Me.grpTraining.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.grpTraining.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -716,12 +693,10 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.grpTraining.StyleMouseDown.Class = ""
         Me.grpTraining.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.grpTraining.StyleMouseOver.Class = ""
         Me.grpTraining.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.grpTraining.TabIndex = 47
         '
@@ -731,7 +706,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblTrainingRate.BackgroundStyle.Class = ""
         Me.lblTrainingRate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTrainingRate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTrainingRate.Location = New System.Drawing.Point(11, 92)
@@ -746,7 +720,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblTrainingEnds.BackgroundStyle.Class = ""
         Me.lblTrainingEnds.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTrainingEnds.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTrainingEnds.Location = New System.Drawing.Point(11, 72)
@@ -761,7 +734,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblTrainingTime.BackgroundStyle.Class = ""
         Me.lblTrainingTime.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTrainingTime.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTrainingTime.Location = New System.Drawing.Point(11, 52)
@@ -776,7 +748,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblTrainingSkill.BackgroundStyle.Class = ""
         Me.lblTrainingSkill.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTrainingSkill.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTrainingSkill.Location = New System.Drawing.Point(11, 32)
@@ -793,7 +764,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblSkillTraining.BackgroundStyle.Class = ""
         Me.lblSkillTraining.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblSkillTraining.ForeColor = System.Drawing.SystemColors.HighlightText
         Me.lblSkillTraining.Image = CType(resources.GetObject("lblSkillTraining.Image"), System.Drawing.Image)
@@ -838,7 +808,6 @@ Partial Public Class frmPilot
         Me.grpPilotInfo.Style.BorderRightWidth = 1
         Me.grpPilotInfo.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.grpPilotInfo.Style.BorderTopWidth = 1
-        Me.grpPilotInfo.Style.Class = ""
         Me.grpPilotInfo.Style.CornerDiameter = 4
         Me.grpPilotInfo.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.grpPilotInfo.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -847,12 +816,10 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.grpPilotInfo.StyleMouseDown.Class = ""
         Me.grpPilotInfo.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.grpPilotInfo.StyleMouseOver.Class = ""
         Me.grpPilotInfo.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.grpPilotInfo.TabIndex = 48
         '
@@ -862,7 +829,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotClone.BackgroundStyle.Class = ""
         Me.lblPilotClone.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotClone.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotClone.Location = New System.Drawing.Point(84, 132)
@@ -877,7 +843,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotSP.BackgroundStyle.Class = ""
         Me.lblPilotSP.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotSP.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotSP.Location = New System.Drawing.Point(84, 112)
@@ -892,7 +857,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotIsk.BackgroundStyle.Class = ""
         Me.lblPilotIsk.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotIsk.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotIsk.Location = New System.Drawing.Point(84, 92)
@@ -907,7 +871,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotCorp.BackgroundStyle.Class = ""
         Me.lblPilotCorp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotCorp.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotCorp.Location = New System.Drawing.Point(84, 72)
@@ -922,7 +885,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotID.BackgroundStyle.Class = ""
         Me.lblPilotID.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotID.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotID.Location = New System.Drawing.Point(84, 52)
@@ -937,7 +899,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotCloneLbl.BackgroundStyle.Class = ""
         Me.lblPilotCloneLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotCloneLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotCloneLbl.Location = New System.Drawing.Point(13, 132)
@@ -952,7 +913,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotSPLbl.BackgroundStyle.Class = ""
         Me.lblPilotSPLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotSPLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotSPLbl.Location = New System.Drawing.Point(13, 112)
@@ -967,7 +927,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotIskLbl.BackgroundStyle.Class = ""
         Me.lblPilotIskLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotIskLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotIskLbl.Location = New System.Drawing.Point(13, 92)
@@ -982,7 +941,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotCorpLbl.BackgroundStyle.Class = ""
         Me.lblPilotCorpLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotCorpLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotCorpLbl.Location = New System.Drawing.Point(13, 72)
@@ -997,7 +955,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotIDLbl.BackgroundStyle.Class = ""
         Me.lblPilotIDLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotIDLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotIDLbl.Location = New System.Drawing.Point(13, 52)
@@ -1012,7 +969,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblPilotName.BackgroundStyle.Class = ""
         Me.lblPilotName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilotName.Font = New System.Drawing.Font("Tahoma", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPilotName.Location = New System.Drawing.Point(13, 32)
@@ -1029,7 +985,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.LabelX6.BackgroundStyle.Class = ""
         Me.LabelX6.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX6.ForeColor = System.Drawing.SystemColors.HighlightText
         Me.LabelX6.Image = CType(resources.GetObject("LabelX6.Image"), System.Drawing.Image)
@@ -1065,7 +1020,6 @@ Partial Public Class frmPilot
         Me.grpAPI.Style.BorderRightWidth = 1
         Me.grpAPI.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.grpAPI.Style.BorderTopWidth = 1
-        Me.grpAPI.Style.Class = ""
         Me.grpAPI.Style.CornerDiameter = 4
         Me.grpAPI.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.grpAPI.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -1074,12 +1028,10 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.grpAPI.StyleMouseDown.Class = ""
         Me.grpAPI.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.grpAPI.StyleMouseOver.Class = ""
         Me.grpAPI.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.grpAPI.TabIndex = 49
         '
@@ -1101,7 +1053,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblCharacterXML.BackgroundStyle.Class = ""
         Me.lblCharacterXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblCharacterXML.Location = New System.Drawing.Point(11, 32)
         Me.lblCharacterXML.Name = "lblCharacterXML"
@@ -1117,7 +1068,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.LabelX17.BackgroundStyle.Class = ""
         Me.LabelX17.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX17.ForeColor = System.Drawing.SystemColors.HighlightText
         Me.LabelX17.Image = CType(resources.GetObject("LabelX17.Image"), System.Drawing.Image)
@@ -1150,8 +1100,8 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabPilotInfo.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
         Me.tabPilotInfo.Controls.Add(Me.tcpStandings)
+        Me.tabPilotInfo.Controls.Add(Me.tcpSkills)
         Me.tabPilotInfo.Controls.Add(Me.tcpSkillQueue)
         Me.tabPilotInfo.Controls.Add(Me.tcpCerts)
         Me.tabPilotInfo.Location = New System.Drawing.Point(348, 165)
@@ -1167,115 +1117,6 @@ Partial Public Class frmPilot
         Me.tabPilotInfo.Tabs.Add(Me.tiSkillQueue)
         Me.tabPilotInfo.Tabs.Add(Me.tiStandings)
         Me.tabPilotInfo.Text = "TabControl1"
-        '
-        'tcpStandings
-        '
-        Me.tcpStandings.Controls.Add(Me.adtStandings)
-        Me.tcpStandings.Controls.Add(Me.btnGetStandings)
-        Me.tcpStandings.Controls.Add(Me.lblTypeFilter)
-        Me.tcpStandings.Controls.Add(Me.btExportStandings)
-        Me.tcpStandings.Controls.Add(Me.cboFilter)
-        Me.tcpStandings.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
-        Me.tcpStandings.Name = "tcpStandings"
-        Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpStandings.Size = New System.Drawing.Size(933, 684)
-        Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpStandings.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpStandings.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpStandings.Style.GradientAngle = 90
-        Me.tcpStandings.TabIndex = 4
-        Me.tcpStandings.TabItem = Me.tiStandings
-        '
-        'adtStandings
-        '
-        Me.adtStandings.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtStandings.AllowDrop = True
-        Me.adtStandings.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtStandings.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtStandings.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtStandings.Columns.Add(Me.colEntity)
-        Me.adtStandings.Columns.Add(Me.colEntityID)
-        Me.adtStandings.Columns.Add(Me.colEntityType)
-        Me.adtStandings.Columns.Add(Me.colStandingRaw)
-        Me.adtStandings.Columns.Add(Me.colStandingActual)
-        Me.adtStandings.ContextMenuStrip = Me.ctxStandings
-        Me.adtStandings.DragDropEnabled = False
-        Me.adtStandings.DragDropNodeCopyEnabled = False
-        Me.adtStandings.ExpandWidth = 0
-        Me.adtStandings.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtStandings.Location = New System.Drawing.Point(4, 33)
-        Me.adtStandings.Name = "adtStandings"
-        Me.adtStandings.NodesConnector = Me.NodeConnector1
-        Me.adtStandings.NodeStyle = Me.ElementStyle3
-        Me.adtStandings.PathSeparator = ";"
-        Me.adtStandings.Size = New System.Drawing.Size(925, 628)
-        Me.adtStandings.Styles.Add(Me.ElementStyle3)
-        Me.adtStandings.TabIndex = 17
-        Me.adtStandings.Text = "AdvTree1"
-        '
-        'colEntity
-        '
-        Me.colEntity.DisplayIndex = 1
-        Me.colEntity.Name = "colEntity"
-        Me.colEntity.SortingEnabled = False
-        Me.colEntity.Text = "Entity Name"
-        Me.colEntity.Width.Absolute = 300
-        '
-        'colEntityID
-        '
-        Me.colEntityID.DisplayIndex = 2
-        Me.colEntityID.Name = "colEntityID"
-        Me.colEntityID.SortingEnabled = False
-        Me.colEntityID.Text = "Entity ID"
-        Me.colEntityID.Width.Absolute = 100
-        '
-        'colEntityType
-        '
-        Me.colEntityType.DisplayIndex = 3
-        Me.colEntityType.Name = "colEntityType"
-        Me.colEntityType.SortingEnabled = False
-        Me.colEntityType.Text = "Entity Type"
-        Me.colEntityType.Width.Absolute = 100
-        '
-        'colStandingRaw
-        '
-        Me.colStandingRaw.DisplayIndex = 4
-        Me.colStandingRaw.Name = "colStandingRaw"
-        Me.colStandingRaw.SortingEnabled = False
-        Me.colStandingRaw.Text = "Raw Standing"
-        Me.colStandingRaw.Width.Absolute = 100
-        '
-        'colStandingActual
-        '
-        Me.colStandingActual.DisplayIndex = 5
-        Me.colStandingActual.Name = "colStandingActual"
-        Me.colStandingActual.SortingEnabled = False
-        Me.colStandingActual.Text = "Actual Standing"
-        Me.colStandingActual.Width.Absolute = 100
-        '
-        'NodeConnector1
-        '
-        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle3
-        '
-        Me.ElementStyle3.Class = ""
-        Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle3.Name = "ElementStyle3"
-        Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'tiStandings
-        '
-        Me.tiStandings.AttachedControl = Me.tcpStandings
-        Me.tiStandings.Name = "tiStandings"
-        Me.tiStandings.Text = "Standings"
         '
         'tcpSkills
         '
@@ -1384,7 +1225,6 @@ Partial Public Class frmPilot
         '
         Me.Skill.BackColorGradientAngle = 45
         Me.Skill.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.Skill.Class = ""
         Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Skill.Name = "Skill"
         Me.Skill.TextColor = System.Drawing.Color.Black
@@ -1404,7 +1244,6 @@ Partial Public Class frmPilot
         Me.SkillGroup.BorderRightWidth = 1
         Me.SkillGroup.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.SkillGroup.BorderTopWidth = 1
-        Me.SkillGroup.Class = ""
         Me.SkillGroup.CornerDiameter = 4
         Me.SkillGroup.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.SkillGroup.Description = "Gray"
@@ -1420,6 +1259,116 @@ Partial Public Class frmPilot
         Me.tiSkills.AttachedControl = Me.tcpSkills
         Me.tiSkills.Name = "tiSkills"
         Me.tiSkills.Text = "Skills"
+        '
+        'tcpStandings
+        '
+        Me.tcpStandings.Controls.Add(Me.adtStandings)
+        Me.tcpStandings.Controls.Add(Me.btnGetStandings)
+        Me.tcpStandings.Controls.Add(Me.lblTypeFilter)
+        Me.tcpStandings.Controls.Add(Me.btExportStandings)
+        Me.tcpStandings.Controls.Add(Me.cboFilter)
+        Me.tcpStandings.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpStandings.Location = New System.Drawing.Point(0, 23)
+        Me.tcpStandings.Name = "tcpStandings"
+        Me.tcpStandings.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpStandings.Size = New System.Drawing.Size(933, 684)
+        Me.tcpStandings.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpStandings.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpStandings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpStandings.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpStandings.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpStandings.Style.GradientAngle = 90
+        Me.tcpStandings.TabIndex = 4
+        Me.tcpStandings.TabItem = Me.tiStandings
+        '
+        'adtStandings
+        '
+        Me.adtStandings.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtStandings.AllowDrop = True
+        Me.adtStandings.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.adtStandings.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtStandings.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtStandings.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtStandings.Columns.Add(Me.colEntity)
+        Me.adtStandings.Columns.Add(Me.colEntityID)
+        Me.adtStandings.Columns.Add(Me.colEntityType)
+        Me.adtStandings.Columns.Add(Me.colStandingRaw)
+        Me.adtStandings.Columns.Add(Me.colStandingActual)
+        Me.adtStandings.ContextMenuStrip = Me.ctxStandings
+        Me.adtStandings.DragDropEnabled = False
+        Me.adtStandings.DragDropNodeCopyEnabled = False
+        Me.adtStandings.ExpandWidth = 0
+        Me.adtStandings.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtStandings.Location = New System.Drawing.Point(4, 33)
+        Me.adtStandings.Name = "adtStandings"
+        Me.adtStandings.NodesConnector = Me.NodeConnector1
+        Me.adtStandings.NodeStyle = Me.ElementStyle3
+        Me.adtStandings.PathSeparator = ";"
+        Me.adtStandings.Size = New System.Drawing.Size(925, 645)
+        Me.adtStandings.Styles.Add(Me.ElementStyle3)
+        Me.adtStandings.TabIndex = 17
+        Me.adtStandings.Text = "AdvTree1"
+        '
+        'colEntity
+        '
+        Me.colEntity.DisplayIndex = 1
+        Me.colEntity.Name = "colEntity"
+        Me.colEntity.SortingEnabled = False
+        Me.colEntity.Text = "Entity Name"
+        Me.colEntity.Width.Absolute = 300
+        '
+        'colEntityID
+        '
+        Me.colEntityID.DisplayIndex = 2
+        Me.colEntityID.Name = "colEntityID"
+        Me.colEntityID.SortingEnabled = False
+        Me.colEntityID.Text = "Entity ID"
+        Me.colEntityID.Width.Absolute = 100
+        '
+        'colEntityType
+        '
+        Me.colEntityType.DisplayIndex = 3
+        Me.colEntityType.Name = "colEntityType"
+        Me.colEntityType.SortingEnabled = False
+        Me.colEntityType.Text = "Entity Type"
+        Me.colEntityType.Width.Absolute = 100
+        '
+        'colStandingRaw
+        '
+        Me.colStandingRaw.DisplayIndex = 4
+        Me.colStandingRaw.Name = "colStandingRaw"
+        Me.colStandingRaw.SortingEnabled = False
+        Me.colStandingRaw.Text = "Raw Standing"
+        Me.colStandingRaw.Width.Absolute = 100
+        '
+        'colStandingActual
+        '
+        Me.colStandingActual.DisplayIndex = 5
+        Me.colStandingActual.Name = "colStandingActual"
+        Me.colStandingActual.SortingEnabled = False
+        Me.colStandingActual.Text = "Actual Standing"
+        Me.colStandingActual.Width.Absolute = 100
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle3
+        '
+        Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle3.Name = "ElementStyle3"
+        Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'tiStandings
+        '
+        Me.tiStandings.AttachedControl = Me.tcpStandings
+        Me.tiStandings.Name = "tiStandings"
+        Me.tiStandings.Text = "Standings"
         '
         'tcpSkillQueue
         '
@@ -1523,7 +1472,6 @@ Partial Public Class frmPilot
         '
         Me.ElementStyle2.BackColorGradientAngle = 45
         Me.ElementStyle2.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.ElementStyle2.Class = ""
         Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle2.Name = "ElementStyle2"
         Me.ElementStyle2.TextColor = System.Drawing.Color.Black
@@ -1543,7 +1491,6 @@ Partial Public Class frmPilot
         Me.ElementStyle1.BorderRightWidth = 1
         Me.ElementStyle1.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.ElementStyle1.BorderTopWidth = 1
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerDiameter = 4
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Description = "Gray"
@@ -1601,7 +1548,6 @@ Partial Public Class frmPilot
         Me.grpAccount.Style.BorderRightWidth = 1
         Me.grpAccount.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.grpAccount.Style.BorderTopWidth = 1
-        Me.grpAccount.Style.Class = ""
         Me.grpAccount.Style.CornerDiameter = 4
         Me.grpAccount.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.grpAccount.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -1610,12 +1556,10 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.grpAccount.StyleMouseDown.Class = ""
         Me.grpAccount.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.grpAccount.StyleMouseOver.Class = ""
         Me.grpAccount.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.grpAccount.TabIndex = 50
         '
@@ -1625,7 +1569,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblAccountLogins.BackgroundStyle.Class = ""
         Me.lblAccountLogins.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblAccountLogins.Location = New System.Drawing.Point(11, 52)
         Me.lblAccountLogins.Name = "lblAccountLogins"
@@ -1639,7 +1582,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.lblAccountExpiry.BackgroundStyle.Class = ""
         Me.lblAccountExpiry.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblAccountExpiry.Location = New System.Drawing.Point(11, 32)
         Me.lblAccountExpiry.Name = "lblAccountExpiry"
@@ -1655,7 +1597,6 @@ Partial Public Class frmPilot
         '
         '
         '
-        Me.LabelX2.BackgroundStyle.Class = ""
         Me.LabelX2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.LabelX2.ForeColor = System.Drawing.SystemColors.HighlightText
         Me.LabelX2.Image = Global.EveHQ.My.Resources.Resources.QueryAPI32
@@ -1714,11 +1655,11 @@ Partial Public Class frmPilot
         CType(Me.picPilot, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tabPilotInfo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPilotInfo.ResumeLayout(False)
+        Me.tcpSkills.ResumeLayout(False)
+        CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcpStandings.ResumeLayout(False)
         Me.tcpStandings.PerformLayout()
         CType(Me.adtStandings, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tcpSkills.ResumeLayout(False)
-        CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcpSkillQueue.ResumeLayout(False)
         Me.tcpCerts.ResumeLayout(False)
         CType(Me.adtCerts, System.ComponentModel.ISupportInitialize).EndInit()
