@@ -131,11 +131,11 @@ Public Class frmHelp
         BlogUpdater.RunWorkerAsync()
         pbTwitterUpdate.Visible = True
         TwitterUpdater.RunWorkerAsync()
-        wbHelp.Navigate("http://www.evehq.net/wiki")
+        wbHelp.Navigate("http://wiki.eveit.net")
     End Sub
 
     Private Sub BlogUpdater_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BlogUpdater.DoWork
-        Call Me.ParseFeed("http://evedev.wordpress.com/feed/", BlogItems)
+        Call Me.ParseFeed("http://blog.eveit.net/feed/", BlogItems)
     End Sub
 
     Private Sub BlogUpdater_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BlogUpdater.RunWorkerCompleted
