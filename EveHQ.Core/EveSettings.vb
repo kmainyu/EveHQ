@@ -123,7 +123,7 @@ Imports System.Data.OleDb
     Private cAPIRSAddress As String = ""
     Private cUseAPIRS As Boolean = False
     Private cUseCCPAPIBackup As Boolean = False
-    Private cUpdateURL As String = "http://evehq.indiceve.com/updatev2/"
+    Private cUpdateURL As String = "http://evehq.eveit.net/updatev2/"
     Private cOmitCurrentSkill As Boolean = False
     Private cUseAppDirectoryForDB As Boolean = False
     Private cAPIFileExtension As String = "aspx"
@@ -1864,8 +1864,8 @@ Public Class EveHQSettingsFunctions
         If ShowRawData = False Then
 
             ' Reset the update URL to a temp location
-            If EveHQ.Core.HQ.EveHQSettings.UpdateURL <> "http://evehq.indiceve.com/updatev2/" Then
-                EveHQ.Core.HQ.EveHQSettings.UpdateURL = "http://evehq.indiceve.com/updatev2/"
+            If EveHQ.Core.HQ.EveHQSettings.UpdateURL <> "http://evehq.eveit.net/updatev2/" Then
+                EveHQ.Core.HQ.EveHQSettings.UpdateURL = "http://evehq.eveit.net/updatev2/"
             End If
 
             ' Check if we were using a v1 database and see if we can automatically set it to v2
