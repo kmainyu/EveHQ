@@ -325,10 +325,12 @@ Public Class frmShipEditorAttributes
             newNode.Cells.Add(New Cell(bonus.AffectedAtt.ToString))
             newNode.Cells.Add(New Cell(bonus.AffectedType.ToString))
             Dim IDs As New StringBuilder
-            For Each ID As String In bonus.AffectedID
-                IDs.Append(";" & ID)
-            Next
-            IDs.Remove(0, 1)
+            If bonus.AffectedID.Count > 0 Then
+                For Each ID As String In bonus.AffectedID
+                    IDs.Append(";" & ID)
+                Next
+                IDs.Remove(0, 1)
+            End If
             newNode.Cells.Add(New Cell(IDs.ToString))
             newNode.Cells.Add(New Cell(bonus.Value.ToString("N4")))
             newNode.Cells.Add(New Cell(bonus.IsPerLevel.ToString))
