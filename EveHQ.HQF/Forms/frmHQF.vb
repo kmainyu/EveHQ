@@ -1985,17 +1985,12 @@ Public Class frmHQF
         If tvwModules.SelectedNodes.Count > 0 Then
             Dim moduleID As String = tvwModules.SelectedNodes(0).Name
             Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
-            If ModuleDisplay = "Favourites" Then
+            If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
                 mnuAddToFavourites_List.Visible = False
                 mnuRemoveFromFavourites.Visible = True
             Else
                 mnuAddToFavourites_List.Visible = True
                 mnuRemoveFromFavourites.Visible = False
-                If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
-                    mnuAddToFavourites_List.Enabled = False
-                Else
-                    mnuAddToFavourites_List.Enabled = True
-                End If
             End If
             If IsNumeric(ModuleDisplay) = True Then
                 mnuSep2.Visible = False

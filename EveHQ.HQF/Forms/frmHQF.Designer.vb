@@ -154,7 +154,7 @@ Partial Class frmHQF
         '
         Me.ctxFittings.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuFittingsFittingName, Me.ToolStripMenuItem4, Me.mnuPreviewShip2, Me.mnuFittingsShowFitting, Me.ToolStripMenuItem1, Me.mnuFittingsRenameFitting, Me.mnuFittingsCopyFitting, Me.mnuFittingsDeleteFitting, Me.ToolStripMenuItem3, Me.mnuFittingsCreateFitting, Me.mnuFittingsBCBrowser, Me.ToolStripMenuItem5, Me.mnuCompareFittings, Me.ToolStripMenuItem7, Me.mnuExportToEve, Me.mnuExportToRequisitions})
         Me.ctxFittings.Name = "ctxFittings"
-        Me.ctxFittings.Size = New System.Drawing.Size(192, 298)
+        Me.ctxFittings.Size = New System.Drawing.Size(192, 276)
         '
         'mnuFittingsFittingName
         '
@@ -330,7 +330,6 @@ Partial Class frmHQF
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -735,7 +734,6 @@ Partial Class frmHQF
         '
         'ElementStyle4
         '
-        Me.ElementStyle4.Class = ""
         Me.ElementStyle4.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle4.Name = "ElementStyle4"
         Me.ElementStyle4.TextColor = System.Drawing.SystemColors.ControlText
@@ -837,7 +835,6 @@ Partial Class frmHQF
         '
         'ElementStyle3
         '
-        Me.ElementStyle3.Class = ""
         Me.ElementStyle3.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle3.Name = "ElementStyle3"
         Me.ElementStyle3.TextColor = System.Drawing.SystemColors.ControlText
@@ -989,7 +986,6 @@ Partial Class frmHQF
         '
         'ElementStyle2
         '
-        Me.ElementStyle2.Class = ""
         Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle2.Name = "ElementStyle2"
         Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
@@ -1060,17 +1056,14 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbmc1.Style.Class = ""
         Me.rbmc1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbmc1.StyleMouseDown.Class = ""
         Me.rbmc1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbmc1.StyleMouseOver.Class = ""
         Me.rbmc1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbmc1.TabIndex = 1
         Me.rbmc1.Visible = False
@@ -1081,12 +1074,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbEditor.BackgroundMouseOverStyle.Class = ""
         Me.rbEditor.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbEditor.BackgroundStyle.Class = ""
         Me.rbEditor.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbEditor.ContainerControlProcessDialogKey = True
         Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
@@ -1100,12 +1091,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbEditor.TitleStyle.Class = ""
         Me.rbEditor.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbEditor.TitleStyleMouseOver.Class = ""
         Me.rbEditor.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnEditor
@@ -1124,12 +1113,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbImport.BackgroundMouseOverStyle.Class = ""
         Me.rbImport.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbImport.BackgroundStyle.Class = ""
         Me.rbImport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbImport.ContainerControlProcessDialogKey = True
         Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
@@ -1143,12 +1130,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbImport.TitleStyle.Class = ""
         Me.rbImport.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbImport.TitleStyleMouseOver.Class = ""
         Me.rbImport.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbImport.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1157,7 +1142,6 @@ Partial Class frmHQF
         '
         '
         '
-        Me.ItemContainer2.BackgroundStyle.Class = ""
         Me.ItemContainer2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer2.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer2.Name = "ItemContainer2"
@@ -1196,12 +1180,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbExport.BackgroundMouseOverStyle.Class = ""
         Me.rbExport.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbExport.BackgroundStyle.Class = ""
         Me.rbExport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbExport.ContainerControlProcessDialogKey = True
         Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
@@ -1215,12 +1197,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbExport.TitleStyle.Class = ""
         Me.rbExport.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbExport.TitleStyleMouseOver.Class = ""
         Me.rbExport.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbExport.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1253,7 +1233,6 @@ Partial Class frmHQF
         '
         Me.ItemContainer1.BackgroundStyle.BorderLeftColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.ItemContainer1.BackgroundStyle.BorderLeftWidth = 1
-        Me.ItemContainer1.BackgroundStyle.Class = ""
         Me.ItemContainer1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer1.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer1.Name = "ItemContainer1"
@@ -1321,12 +1300,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbTools.BackgroundMouseOverStyle.Class = ""
         Me.rbTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbTools.BackgroundStyle.Class = ""
         Me.rbTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbTools.ContainerControlProcessDialogKey = True
         Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnPilotManager, Me.btnImplantManager, Me.btnFleetManager})
@@ -1340,12 +1317,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbTools.TitleStyle.Class = ""
         Me.rbTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbTools.TitleStyleMouseOver.Class = ""
         Me.rbTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbTools.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1391,12 +1366,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbOptions.BackgroundMouseOverStyle.Class = ""
         Me.rbOptions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbOptions.BackgroundStyle.Class = ""
         Me.rbOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbOptions.ContainerControlProcessDialogKey = True
         Me.rbOptions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOptions})
@@ -1410,12 +1383,10 @@ Partial Class frmHQF
         '
         '
         '
-        Me.rbOptions.TitleStyle.Class = ""
         Me.rbOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbOptions.TitleStyleMouseOver.Class = ""
         Me.rbOptions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbOptions.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
