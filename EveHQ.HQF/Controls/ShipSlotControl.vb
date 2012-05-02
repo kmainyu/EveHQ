@@ -109,23 +109,23 @@ Public Class ShipSlotControl
         rigGroups.Add(777)
         rigGroups.Add(896)
         rigGroups.Add(774)
-        remoteGroups.Add(41)
-        remoteGroups.Add(325)
-        remoteGroups.Add(585)
-        remoteGroups.Add(67)
-        remoteGroups.Add(65)
-        remoteGroups.Add(68)
-        remoteGroups.Add(71)
-        remoteGroups.Add(291)
-        remoteGroups.Add(209)
-        remoteGroups.Add(289)
-        remoteGroups.Add(290)
-        remoteGroups.Add(208)
-        remoteGroups.Add(379)
-        remoteGroups.Add(544)
-        remoteGroups.Add(641)
-        remoteGroups.Add(640)
-        remoteGroups.Add(639)
+        remoteGroups.Add(41) ' Shield transporters
+        remoteGroups.Add(325) ' Remote armor repairers
+        remoteGroups.Add(585) ' Remote hull repairers
+        remoteGroups.Add(67) ' Energy transfer arrays
+        remoteGroups.Add(65) ' Stasis webifiers
+        remoteGroups.Add(68) ' Energy vampires (nos)
+        remoteGroups.Add(71) ' Energy neutralisers
+        remoteGroups.Add(291) ' Tracking disruptors
+        remoteGroups.Add(209) ' Tracking links
+        remoteGroups.Add(289) ' Projected ECCM
+        remoteGroups.Add(290) ' Remote sensor boosters
+        remoteGroups.Add(208) ' Remote sensor dampener
+        remoteGroups.Add(379) ' Target painter
+        remoteGroups.Add(544) ' Cap drain drone
+        remoteGroups.Add(641) ' Stasis web drone
+        remoteGroups.Add(640) ' Shield/armor repair drone
+        remoteGroups.Add(639) ' EW Drone
         fleetGroups.Add(316)
         fleetSkills.Add("Armored Warfare")
         fleetSkills.Add("Information Warfare")
@@ -3155,17 +3155,27 @@ Public Class ShipSlotControl
     Private Sub lvwRemoteEffects_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwRemoteEffects.ItemChecked
         ' Check for an active siege module in the current ship
         If e.Item.Checked = True Then
-            For Each cMod As ShipModule In ParentFitting.FittedShip.SlotCollection
-                If cMod.ID = "20280" And cMod.ModuleState = ModuleStates.Active Then
-                    MessageBox.Show("You cannot apply remote effects while the " & ParentFitting.BaseShip.Name & " is in Siege Mode!", "Remote Effect Not Permitted", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    e.Item.Checked = False
-                    Exit Sub
-                ElseIf cMod.ID = "27951" And cMod.ModuleState = ModuleStates.Active Then
-                    MessageBox.Show("You cannot apply remote effects while the " & ParentFitting.BaseShip.Name & " is in Triage Mode!", "Remote Effect Not Permitted", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    e.Item.Checked = False
-                    Exit Sub
-                End If
-            Next
+            ' Get mod group ID
+            Dim remoteMod As ShipModule
+            If TypeOf e.Item.Tag Is ShipModule Then
+                remoteMod = CType(e.Item.Tag, ShipModule)
+            Else
+                Dim remoteDrones As DroneBayItem = CType(e.Item.Tag, DroneBayItem)
+                remoteMod = remoteDrones.DroneType
+            End If
+            If remoteMod.DatabaseGroup <> "68" And remoteMod.DatabaseGroup <> "71" And remoteMod.DatabaseGroup <> "544" Then
+                For Each cMod As ShipModule In ParentFitting.FittedShip.SlotCollection
+                    If cMod.ID = "20280" And cMod.ModuleState = ModuleStates.Active Then
+                        MessageBox.Show("You cannot apply remote effects from " & remoteMod.Name & " while the " & ParentFitting.BaseShip.Name & " is in Siege Mode!", "Remote Effect Not Permitted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        e.Item.Checked = False
+                        Exit Sub
+                    ElseIf cMod.ID = "27951" And cMod.ModuleState = ModuleStates.Active Then
+                        MessageBox.Show("You cannot apply remote effects from " & remoteMod.Name & " while the " & ParentFitting.BaseShip.Name & " is in Triage Mode!", "Remote Effect Not Permitted", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        e.Item.Checked = False
+                        Exit Sub
+                    End If
+                Next
+            End If
         End If
         If lvwRemoteEffects.Tag.ToString <> "Refresh" Then
             ParentFitting.BaseShip.RemoteSlotCollection.Clear()
