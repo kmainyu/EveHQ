@@ -785,6 +785,8 @@
 566,2,208,564,3,6,1,0,0,16,Scan Resolution
 # Stasis Webifiers,,,,,,,,,,
 20,2,65,37,3,6,1,0,0,16,Max Velocity Penalty
+# Target Breakers,,,,,,,,,,
+565,2,1154,564,3,6,1,0,0,14,Scan Resolution
 # Target Painters,,,,,,,,,,
 554,2,379,552,3,6,1,0,0,16,Signature Radius Penalty
 # Tracking Disruptors,,,,,,,,,,
