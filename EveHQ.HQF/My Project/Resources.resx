@@ -1270,8 +1270,20 @@
   <data name="Mod02a" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\idle.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ModuleChanges" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ModuleChanges.csv;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_105_46" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\105_46.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_105_47" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\105_47.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_105_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\105_48.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_105_49" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\105_49.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
