@@ -437,7 +437,7 @@ Public Class ShipSlotControl
                 Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") & ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
             End If
             Desc &= shipMod.Description
-            SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
+            SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, ImageHandler.IconImage48(shipMod.Icon, shipMod.MetaType), My.Resources.imgInfo1, eTooltipColor.Yellow))
             ' Add the additional columns
             For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
                 If UserCol.Active = True Then
@@ -593,7 +593,7 @@ Public Class ShipSlotControl
             Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") & ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
         End If
         Desc &= shipMod.Description
-        SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, DefaultModuleTooltipInfo, Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
+        SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, DefaultModuleTooltipInfo, Desc, ImageHandler.IconImage48(shipMod.Icon, shipMod.MetaType), My.Resources.imgInfo1, eTooltipColor.Yellow))
         ' Add the additional columns
         For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
             If UserCol.Active = True Then
