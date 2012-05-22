@@ -75,8 +75,14 @@ Public Class Invention
                     If CurrentBP.InventionMetaItems.ContainsKey(InvRow.Item("parentTypeID").ToString) = False Then
                         CurrentBP.InventionMetaItems.Add(InvRow.Item("parentTypeID").ToString, InvRow.Item("parentTypeID").ToString)
                     End If
-                    If EveHQ.Core.HQ.itemData(InvRow.Item("typeID").ToString).MetaLevel < 5 Then
-                        CurrentBP.InventionMetaItems.Add(InvRow.Item("typeID").ToString, InvRow.Item("typeID").ToString)
+                    If EveHQ.Core.HQ.itemData.ContainsKey(InvRow.Item("typeID").ToString) Then
+                        If EveHQ.Core.HQ.itemData(InvRow.Item("typeID").ToString).MetaLevel < 5 Then
+                            CurrentBP.InventionMetaItems.Add(InvRow.Item("typeID").ToString, InvRow.Item("typeID").ToString)
+                        End If
+                    Else
+                        ' Probably outdated core cache data - get the user to rebuild the core cache and restart EveHQ
+                        MessageBox.Show("An attempt was made to access an item which does not exist. Please rebuild the core cache from the EveHQ Core ribbon menu and restart EveHQ.", "Prism Invention Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        Return False
                     End If
                 Next
             Else
