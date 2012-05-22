@@ -574,8 +574,8 @@
 17703,1,3331,54,4,567;570,0,1,0,10,15,Small Energy Turret Optimal Range
 17703,1,3331,10014,4,567;570,0,1,0,25,15,Small Energy Turret Damage
 # Incursus,,,,,,,,,,,
-594,1,3328,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
 594,1,3328,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
+594,1,3328,84,2,62,0,1,0,10,15,Armor Repair Amount
 # Inquisitor,,,,,,,,,,,
 590,1,3331,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,1,0,10,15,EM Missile Damage
 590,1,3331,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;394;395;396,0,1,0,5,15,Exp Missile Damage
@@ -725,7 +725,7 @@
 17728,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 17728,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Merlin,,,,,,,,,,,
-603,1,3330,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
+603,1,3330,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 603,1,3330,271,1,603,0,1,2,-5,15,Shield EM Resistance
 603,1,3330,272,1,603,0,1,2,-5,15,Shield Explosive Resistance
 603,1,3330,273,1,603,0,1,2,-5,15,Shield Kinetic Resistance
@@ -944,7 +944,7 @@
 12735,1,19719,50,2,330,0,1,0,-10,15,Cloaking Device CPU
 12735,1,19719,68,2,40,0,1,0,5,15,Shield Booster Boost
 # Punisher,,,,,,,,,,,
-597,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
+597,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 597,1,3331,267,1,597,0,1,2,-5,15,Armor EM Resistance
 597,1,3331,268,1,597,0,1,2,-5,15,Armor Explosive Resistance
 597,1,3331,269,1,597,0,1,2,-5,15,Armor Kinetic Resistance
@@ -1218,9 +1218,8 @@
 16242,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 16242,0,0,54,4,574;577,0,0,0,50,15,Small Projectile Turret Optimal Range
 # Tormentor,,,,,,,,,,,
-591,1,3331,10004,1,591,0,1,0,5,15,Cargo Capacity
-591,1,3331,77,2,54,0,1,0,20,15,Mining Laser Yield
-591,0,0,6,2,54,0,0,0,-60,15,Mining Laser Cap Use
+591,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+591,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Tornado,,,,,,,,,,,
 4310,1,12099,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
 4310,1,12099,158,4,576;579,0,1,0,5,15,Large Projectile Turret Falloff
