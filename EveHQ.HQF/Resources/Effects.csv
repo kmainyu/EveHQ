@@ -739,6 +739,10 @@
 567,2,644,37,3,18,0,0,0,15,Drone Navigation Computer - Drone Velocity
 243,2,646,54,3,18,1,0,5,15,Omni Tracking Link - Max Range
 244,2,646,160,3,18,1,0,5,15,Omni Tracking Link - Tracking Speed
+1255,2,645,114,3,18,1,0,0,15,Drone Damage Amplifier
+1255,2,645,116,3,18,1,0,0,15,Drone Damage Amplifier
+1255,2,645,117,3,18,1,0,0,15,Drone Damage Amplifier
+1255,2,645,118,3,18,1,0,0,15,Drone Damage Amplifier
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
 517,2,639,158,2,55;53;74,0,0,0,16,TD Drone - Falloff
