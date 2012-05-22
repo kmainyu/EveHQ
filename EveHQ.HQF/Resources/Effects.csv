@@ -857,11 +857,16 @@
 # Armor Plates,,,,,,,,,,
 796,2,329,10002,3,6,0,0,1,14,Armor Plates - Mass Addition
 1159,2,329,265,3,6,0,0,1,14,Armor Plates - Armor HP
+# Armor Resistance Shift Hardener,,,,,,,,,,
+267,2,1150,267,3,6,2,0,2,12,Armor Resistance Shift Hardeners - Active EM Resist
+268,2,1150,268,3,6,2,0,2,12,Armor Resistance Shift Hardeners - Active Exp Resist
+269,2,1150,269,3,6,2,0,2,12,Armor Resistance Shift Hardeners - Active Kin Resist
+270,2,1150,270,3,6,2,0,2,12,Armor Resistance Shift Hardeners - Active Therm Resist
 # Damage Controls,,,,,,,,,,
-267,2,60,267,3,6,0,0,2,12,Armor EM Resistance Bonus
-268,2,60,268,3,6,0,0,2,12,Armor Exp Resistance Bonus
-269,2,60,269,3,6,0,0,2,12,Armor Kin Resistance Bonus
-270,2,60,270,3,6,0,0,2,12,Armor Therm Resistance Bonus
+267,2,60,267,3,6,2,0,2,12,Armor EM Resistance Bonus
+268,2,60,268,3,6,2,0,2,12,Armor Exp Resistance Bonus
+269,2,60,269,3,6,2,0,2,12,Armor Kin Resistance Bonus
+270,2,60,270,3,6,2,0,2,12,Armor Therm Resistance Bonus
 271,2,60,271,3,6,0,0,2,12,Shield EM Resistance Bonus
 272,2,60,272,3,6,0,0,2,12,Shield Exp Resistance Bonus
 273,2,60,273,3,6,0,0,2,12,Shield Kin Resistance Bonus

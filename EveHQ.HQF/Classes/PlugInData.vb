@@ -1159,9 +1159,17 @@ Public Class PlugInData
                                 End If
                         End Select
                         attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                    Case "267", "268", "269", "270" ' Armor resistances
+                        ' Invert Armor Resistance Shift Hardener values
+                        Select Case attMod.DatabaseGroup
+                            Case "1150"
+                                attValue = -attValue
+                        End Select
+                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                     Case Else
                         attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                 End Select
+
 
                 Select Case CInt(modRow.Item("attributeID"))
                     Case 30

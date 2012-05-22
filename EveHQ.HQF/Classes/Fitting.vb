@@ -2145,7 +2145,7 @@ Imports System.Runtime.Serialization
                 NewModule.Attributes(Att) = NewModule.Attributes(Att) * (1 + (FEffect.AffectedValue / 100))
             Case EffectCalcType.Addition
                 NewModule.Attributes(Att) = NewModule.Attributes(Att) + FEffect.AffectedValue
-            Case EffectCalcType.Difference ' Used for resistances
+            Case EffectCalcType.Difference  ' Used for resistances
                 If FEffect.AffectedValue <= 0 Then
                     NewModule.Attributes(Att) = ((100 - NewModule.Attributes(Att)) * (-FEffect.AffectedValue / 100)) + NewModule.Attributes(Att)
                 Else
