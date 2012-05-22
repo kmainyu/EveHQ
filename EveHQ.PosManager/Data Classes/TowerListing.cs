@@ -435,7 +435,7 @@ namespace EveHQ.PosManager
                 foreach (DataRow dr in cd.Tables[0].Rows)
                 {
                     groupID = Convert.ToInt64(dr[0]);
-                    strSQL = "SELECT * FROM invTypes INNER JOIN eveGraphics ON invTypes.graphicID = eveGraphics.graphicID WHERE invTypes.groupID=" + groupID + " AND invTypes.published=1 ORDER BY invTypes.typeName;";
+                    strSQL = "SELECT * FROM invTypes WHERE invTypes.groupID=" + groupID + " AND invTypes.published=1 ORDER BY invTypes.typeName;";
                     scd = EveHQ.Core.DataFunctions.GetData(strSQL);
 
                     if (scd.Tables.Count > 0)
