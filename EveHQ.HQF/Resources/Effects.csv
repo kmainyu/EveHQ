@@ -1176,6 +1176,7 @@
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
 1164,2,778,20,3,18,0,0,0,15,Stasis Drone Augmentor
 # RIGS - ELECTRONIC,,,,,,,,,,
+134,2,780,479,3,6,0,0,0,15,Electronic Rig Drawback - Shield Recharge Rate
 1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
 1160,1,31207,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
 1160,1,31203,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
@@ -1190,6 +1191,7 @@
 1160,1,31246,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
 1160,1,25932,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
 1160,1,26346,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+424,2,780,48,3,6,0,0,0,15,Processor Overclocking Unit
 317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 # RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
 1138,2,786,263,3,6,0,0,0,15,Electronic Superiority Rig Drawback - Shield HP
