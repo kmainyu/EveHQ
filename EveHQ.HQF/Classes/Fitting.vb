@@ -1958,7 +1958,7 @@ Imports System.Runtime.Serialization
         Dim sRP, sRA, aR, hR As Double
         For Each cModule As ShipModule In newShip.SlotCollection
             ' Calculate shield boosting
-            If cModule.DatabaseGroup = "40" And (cModule.ModuleState And 12) = cModule.ModuleState Then
+            If (cModule.DatabaseGroup = "40" Or cModule.DatabaseGroup = "1156") And (cModule.ModuleState And 12) = cModule.ModuleState Then
                 sRA = sRA + cModule.Attributes("68") / cModule.Attributes("73")
             End If
             ' Calculate remote shield boosting

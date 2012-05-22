@@ -924,7 +924,7 @@
 565,2,315,564,3,6,1,0,0,14,Scan Resolution Penalty
 # SHIELD,,,,,,,,,,
 # Shield Boost Amplifiers,,,,,,,,,,
-548,2,338,68,2,40,1,0,0,14,Shield Boost Bonus
+548,2,338,68,2,40;1156,1,0,0,14,Shield Boost Bonus
 # Shield Extenders,,,,,,,,,,
 72,2,38,263,3,6,0,0,1,14,Shield Extenders - Shield HP
 983,2,38,552,3,6,0,0,1,14,Shield Extenders - Signature Radius
