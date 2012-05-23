@@ -636,7 +636,7 @@
 10032,0,0,10050,0,6,0,0,7,28,Cap rate (+ve)
 # AMMUNITION & CHARGES,,,,,,,,,,
 # CAP BOOSTER,,,,,,,,,,
-67,2,87,6,6,0,0,0,8,15,Cap Booster Charges
+67,2,87,6,6,0,0,0,14,15,Cap Booster Charges
 # T1 AMMO,,,,,,,,,,
 120,2,86,54,6,0,0,0,0,15,Freq Crystals - Optimal Range
 317,2,86,6,6,0,0,0,0,15,Freq Crystals - Activation Cost

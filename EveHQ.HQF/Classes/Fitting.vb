@@ -2126,6 +2126,8 @@ Imports System.Runtime.Serialization
                 NewShip.Attributes(Att) = Math.Max(FEffect.AffectedValue, NewShip.Attributes(Att))
             Case EffectCalcType.AbsoluteMin
                 NewShip.Attributes(Att) = Math.Min(FEffect.AffectedValue, NewShip.Attributes(Att))
+            Case EffectCalcType.CapBoosters
+                NewShip.Attributes(Att) = Math.Min(NewShip.Attributes(Att) - FEffect.AffectedValue, 0)
         End Select
         log &= "# " & NewShip.Attributes(Att).ToString
         If oldAtt <> NewShip.Attributes(Att).ToString Then
@@ -2177,6 +2179,8 @@ Imports System.Runtime.Serialization
                 NewModule.Attributes(Att) = Math.Max(FEffect.AffectedValue, NewModule.Attributes(Att))
             Case EffectCalcType.AbsoluteMin
                 NewModule.Attributes(Att) = Math.Min(FEffect.AffectedValue, NewModule.Attributes(Att))
+            Case EffectCalcType.CapBoosters
+                NewModule.Attributes(Att) = Math.Min(NewModule.Attributes(Att) - FEffect.AffectedValue, 0)
         End Select
         log &= " --> " & NewModule.Attributes(Att).ToString
         If oldAtt <> NewModule.Attributes(Att).ToString Then

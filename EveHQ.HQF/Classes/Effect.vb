@@ -113,6 +113,7 @@ Public Enum EffectCalcType As Integer
     SkillLevelxAtt = 11 ' Multiply the attribute by the skill level
     AbsoluteMax = 12 ' Set value only if higher than the existing value
     AbsoluteMin = 13 ' Set value only if lower than the existing value
+    CapBoosters = 14 ' For cap and fueled shield boosters
 End Enum
 
 Public Enum EffectStackType As Integer
