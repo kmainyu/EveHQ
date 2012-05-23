@@ -1044,7 +1044,7 @@ Imports System.Runtime.Serialization
                                     processData = True
                                 End If
                             Case EffectType.Group
-                                If Math.Abs(chkEffect.AffectingID).ToString = aModule.DatabaseGroup Then
+                                If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
                                     processData = True
                                 End If
                             Case EffectType.Category
@@ -2055,6 +2055,9 @@ Imports System.Runtime.Serialization
                     Return True
                 End If
             Case EffectType.Group
+                If NewModule.ModuleState = ModuleStates.Gang And FEffect.AffectedID.Contains(CStr(-CInt(NewModule.DatabaseGroup))) Then
+                    Return True
+                End If
                 If FEffect.AffectedID.Contains(NewModule.DatabaseGroup) Then
                     Return True
                 End If
