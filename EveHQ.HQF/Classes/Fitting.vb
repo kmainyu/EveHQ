@@ -1044,7 +1044,7 @@ Imports System.Runtime.Serialization
                                     processData = True
                                 End If
                             Case EffectType.Group
-                                If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
+                                If Math.Abs(chkEffect.AffectingID).ToString = aModule.DatabaseGroup Then
                                     processData = True
                                 End If
                             Case EffectType.Category

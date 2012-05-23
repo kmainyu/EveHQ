@@ -179,7 +179,6 @@ End Class
     Overloaded = 8
     Gang = 16
     Fleet = 32
-    Remote = 64
 End Enum
 
 ''' <summary>

@@ -828,8 +828,8 @@
 # ENGINEERING EQUIPMENT,,,,,,,,,,
 # Capacitor Batteries,,,,,,,,,,
 67,2,61,482,3,6,0,0,1,14,Capacitor Battery - Capacitor Capacity
-1816,2,61,97,2,71,0,0,0,14,Capacitor Battery - Neut Reflector
-1817,2,61,90,2,68,0,0,0,14,Capacitor Battery - Nos Reflector
+1816,2,61,97,2,-71,0,0,0,14,Capacitor Battery - Neut Reflector
+1817,2,61,90,2,-68,0,0,0,14,Capacitor Battery - Nos Reflector
 # Energy Destablilizers,,,,,,,,,,
 97,2,71,6,6,0,0,0,8,16,Energy Neutralized
 # Energy Transfer Arrays,,,,,,,,,,
