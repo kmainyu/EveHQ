@@ -102,7 +102,7 @@ namespace EveHQ.PosManager
         public static ModuleLink LinkInProgress;
         public static LinkModule LMInProgress;
         public bool UseSerializableData = false;
-        public string LastCacheRefresh = "2.1.2";
+        public string LastCacheRefresh = "2.8.1";
         public static ManualResetEvent[] resetEvents;
         public static PoSManMainForm PMF = null;
         public static BackgroundWorker bgw_APIUpdate = new System.ComponentModel.BackgroundWorker();
