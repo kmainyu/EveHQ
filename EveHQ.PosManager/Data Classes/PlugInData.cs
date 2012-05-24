@@ -414,11 +414,11 @@ namespace EveHQ.PosManager
             BFStats.O2Iso.itemID = Convert.ToString(item.ID);
 
             item = EveHQ.Core.HQ.itemData["16275"]; //Strontium
-            BFStats.HeIso.Name = item.Name;
-            BFStats.HeIso.BaseVol = Convert.ToDecimal(item.Volume);
-            BFStats.HeIso.QtyVol = item.PortionSize;
-            BFStats.HeIso.Cost = Convert.ToDecimal(item.BasePrice);
-            BFStats.HeIso.itemID = Convert.ToString(item.ID);
+            BFStats.Strontium.Name = item.Name;
+            BFStats.Strontium.BaseVol = Convert.ToDecimal(item.Volume);
+            BFStats.Strontium.QtyVol = item.PortionSize;
+            BFStats.Strontium.Cost = Convert.ToDecimal(item.BasePrice);
+            BFStats.Strontium.itemID = Convert.ToString(item.ID);
 
             // Here is where I would get information on Fuel Blocks - if it existed in the DB yet. For now - hard code it
             BBStats.Blocks.Name = "Fuel Blocks";
