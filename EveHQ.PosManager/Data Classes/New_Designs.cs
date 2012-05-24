@@ -97,8 +97,15 @@ namespace EveHQ.PosManager
                         cStr.Close();
 
                         // Preserve the old design file
-                        File.Move(fname, fname.Replace("PoS_Designs.bin", "PoS_Designs_Old.bin"));
-
+                        try
+                        {
+                            File.Move(fname, fname.Replace("PoS_Designs.bin", "PoS_Designs_Old.bin"));
+                        }
+                        catch
+                        {
+                          // Not got a fucking clue what I'm doing really but hope this works :P
+                        }
+                        
                         // Convert old to new, and save
                         ConvertOldToNewDesign(OLDDesigns);
                     }

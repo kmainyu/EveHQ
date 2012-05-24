@@ -155,8 +155,8 @@ namespace EveHQ.PosManager
                             nt.Fuel.Charters.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Charters.PeriodQty = nt.Fuel.Charters.BaseQty;
                             nt.Fuel.Charters.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.Charters.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.Charters.Cost = Convert.ToDecimal(row.ItemArray[19]);
+                            nt.Fuel.Charters.QtyVol = Convert.ToDecimal(row.ItemArray[towerFuelData.Tables[0].Columns["portionSize"].Ordinal]);
+                            nt.Fuel.Charters.Cost = Convert.ToDecimal(row.ItemArray[towerFuelData.Tables[0].Columns["basePrice"].Ordinal]);
                             nt.Fuel.Charters.UsedFor = row.ItemArray[7].ToString();
                             break;
                         case 17888: // Nitrogen Isotopes
@@ -193,8 +193,8 @@ namespace EveHQ.PosManager
                             nt.Fuel.Strontium.BaseQty = Convert.ToDecimal(row.ItemArray[3]);
                             nt.Fuel.Strontium.PeriodQty = nt.Fuel.Strontium.BaseQty;
                             nt.Fuel.Strontium.BaseVol = Convert.ToDecimal(row.ItemArray[15]);
-                            nt.Fuel.Strontium.QtyVol = Convert.ToDecimal(row.ItemArray[17]);
-                            nt.Fuel.Strontium.Cost = Convert.ToDecimal(row.ItemArray[19]);
+                            nt.Fuel.Strontium.QtyVol = Convert.ToDecimal(row.ItemArray[towerFuelData.Tables[0].Columns["portionSize"].Ordinal]);
+                            nt.Fuel.Strontium.Cost = Convert.ToDecimal(row.ItemArray[towerFuelData.Tables[0].Columns["basePrice"].Ordinal]);
                             nt.Fuel.Strontium.UsedFor = row.ItemArray[7].ToString();
                             break;
                     }
