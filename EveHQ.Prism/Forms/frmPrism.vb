@@ -880,7 +880,7 @@ Public Class frmPrism
                         Dim LastTrans As Long = DataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(Owner.ID), 1000)
 
                         ' Start a loop to collect multiple APIs
-                        Dim WalletJournals As New SortedList(Of Long, WalletJournalItem)
+                        Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
                         Dim LastRefID As Long = 0
                         Dim WalletExhausted As Boolean = False
                         APIReq = New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
@@ -895,13 +895,13 @@ Public Class frmPrism
 
                             ' Parse the Journal XML to get the data
                             If APIXML IsNot Nothing Then
-                                WalletExhausted = Prism.DataFunctions.ParseWalletJournalXML(APIXML, WalletJournals)
+                                WalletExhausted = Prism.DataFunctions.ParseWalletJournalXML(APIXML, WalletJournals, Owner.ID)
                             Else
                                 WalletExhausted = True
                             End If
 
                             If WalletJournals.Count <> 0 Then
-                                LastRefID = WalletJournals.Keys(0)
+                                LastRefID = WalletJournals(WalletJournals.Keys(0)).RefID
                             Else
                                 WalletExhausted = True
                             End If
@@ -1270,7 +1270,7 @@ Public Class frmPrism
                                 Dim LastTrans As Long = DataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(Owner.ID), divID)
 
                                 ' Start a loop to collect multiple APIs
-                                Dim WalletJournals As New SortedList(Of Long, WalletJournalItem)
+                                Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
                                 Dim LastRefID As Long = 0
                                 Dim WalletExhausted As Boolean = False
                                 APIReq = New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
@@ -1285,13 +1285,13 @@ Public Class frmPrism
 
                                     ' Parse the Journal XML to get the data
                                     If APIXML IsNot Nothing Then
-                                        WalletExhausted = Prism.DataFunctions.ParseWalletJournalXML(APIXML, WalletJournals)
+                                        WalletExhausted = Prism.DataFunctions.ParseWalletJournalXML(APIXML, WalletJournals, Owner.ID)
                                     Else
                                         WalletExhausted = True
                                     End If
 
                                     If WalletJournals.Count <> 0 Then
-                                        LastRefID = WalletJournals.Keys(0)
+                                        LastRefID = WalletJournals(WalletJournals.Keys(0)).RefID
                                     Else
                                         WalletExhausted = True
                                     End If
@@ -2799,8 +2799,8 @@ Public Class frmPrism
         End Try
 
         ' Step 5: Import new transactions
-        Dim WalletJournals As New SortedList(Of Long, WalletJournalItem)
-        Prism.DataFunctions.ParseWalletJournalExportXML(xmlDoc, WalletJournals)
+        Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
+        Prism.DataFunctions.ParseWalletJournalExportXML(xmlDoc, WalletJournals, OwnerID)
         Prism.DataFunctions.WriteWalletJournalToDB(WalletJournals, CInt(OwnerID), OwnerName, WalletID, 0)
 
         ' Step 6: Tidy up

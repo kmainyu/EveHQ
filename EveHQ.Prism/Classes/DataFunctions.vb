@@ -409,7 +409,7 @@ Public Class DataFunctions
 
     End Function
 
-    Public Shared Function ParseWalletJournalXML(ByVal JXML As XmlDocument, ByRef WalletJournals As SortedList(Of Long, WalletJournalItem)) As Boolean
+    Public Shared Function ParseWalletJournalXML(ByVal JXML As XmlDocument, ByRef WalletJournals As SortedList(Of String, WalletJournalItem), OwnerID As String) As Boolean
 
         If JXML IsNot Nothing Then
 
@@ -451,9 +451,14 @@ Public Class DataFunctions
                             WJI.TaxAmount = 0
                         End If
 
-                        If WalletJournals.ContainsKey(WJI.RefID) = False Then
-                            WalletJournals.Add(WJI.RefID, WJI)
+                        ' Create a key
+                        CreateWalletJournalKey(WJI, CInt(OwnerID))
+
+                        If WalletJournals.ContainsKey(WJI.Key) = False Then
+                            WalletJournals.Add(WJI.Key, WJI)
                             NewJournals = True
+                        Else
+                            Debug.Write(WJI.Key)
                         End If
 
                     Next
@@ -476,7 +481,7 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Function ParseWalletJournalExportXML(ByVal JXML As XmlDocument, ByRef WalletJournals As SortedList(Of Long, WalletJournalItem)) As Boolean
+    Public Shared Function ParseWalletJournalExportXML(ByVal JXML As XmlDocument, ByRef WalletJournals As SortedList(Of String, WalletJournalItem), OwnerID As String) As Boolean
 
         If JXML IsNot Nothing Then
 
@@ -518,8 +523,11 @@ Public Class DataFunctions
                             WJI.TaxAmount = 0
                         End If
 
-                        If WalletJournals.ContainsKey(WJI.RefID) = False Then
-                            WalletJournals.Add(WJI.RefID, WJI)
+                        ' Create a key
+                        CreateWalletJournalKey(WJI, CInt(OwnerID))
+
+                        If WalletJournals.ContainsKey(WJI.Key) = False Then
+                            WalletJournals.Add(WJI.Key, WJI)
                             NewJournals = True
                         End If
 
@@ -543,38 +551,34 @@ Public Class DataFunctions
         End If
     End Function
 
-	Public Shared Sub WriteWalletJournalToDB(ByVal WalletJournals As SortedList(Of Long, WalletJournalItem), ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer, ByVal LastTrans As Long)
+    Public Shared Sub WriteWalletJournalToDB(ByVal WalletJournals As SortedList(Of String, WalletJournalItem), ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer, ByVal LastTrans As Long)
 
-		' Setup the default header
-		Dim strInsert As String = "INSERT INTO walletJournal (transDate, transRef, transKey, refTypeID, ownerName1, ownerID1, ownerName2, ownerID2, argName1, argID1, amount, balance, reason, taxID, taxAmount, charID, charName, walletID, importDate) VALUES "
+        ' Setup the default header
+        Dim strInsert As String = "INSERT INTO walletJournal (transDate, transRef, transKey, refTypeID, ownerName1, ownerID1, ownerName2, ownerID2, argName1, argID1, amount, balance, reason, taxID, taxAmount, charID, charName, walletID, importDate) VALUES "
 
-		If WalletJournals.Count > 0 Then
+        If WalletJournals.Count > 0 Then
 
-			For Each WalletJournal As WalletJournalItem In WalletJournals.Values
+            For Each WalletJournal As WalletJournalItem In WalletJournals.Values
 
-				If WalletJournal.RefID > LastTrans Then
+                If WalletJournal.RefID > LastTrans Then
 
                     If WriteSingleWalletJournalToDB(WalletJournal, strInsert, CharID, CharName, WalletID) = -1 Then
                         MessageBox.Show("There was an error writing data to the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
 
-				End If
+                End If
 
-			Next
+            Next
 
-		End If
-	End Sub
+        End If
+    End Sub
 
     Public Shared Function WriteSingleWalletJournalToDB(ByVal Trans As WalletJournalItem, ByVal Header As String, ByVal CharID As Integer, ByVal CharName As String, ByVal WalletID As Integer) As Integer
 
         Dim IsTax As Boolean = False
 
-        ' Create key
-        Dim TransDate As String = Trans.JournalDate.ToString("yyyyMMddHHmmss")
-        Dim TransRef As String = Trans.RefID.ToString("D20")
-        Dim TransTypeID As String = Trans.RefTypeID.ToString("D4")
-        Dim TransCharID As String = CharID.ToString("D20")
-        Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID
+        ' Create key for the wallet journal
+        CreateWalletJournalKey(Trans, CharID)
 
         ' Get amounts
         Dim amount As Double = Trans.Amount
@@ -588,7 +592,7 @@ Public Class DataFunctions
         ' Start of record
         strSQL.Append("'" & Trans.JournalDate.ToString(SQLTimeFormat, culture) & "',")
         strSQL.Append(Trans.RefID.ToString & ",")
-        strSQL.Append("'" & TransKey & "',")
+        strSQL.Append("'" & Trans.Key & "',")
         strSQL.Append(Trans.RefTypeID.ToString & ",")
         strSQL.Append("'" & Trans.OwnerName1.Replace("'", "''") & "',")
         strSQL.Append(Trans.OwnerID1 & ",")
@@ -640,7 +644,13 @@ Public Class DataFunctions
         Dim TransRef As String = Trans.RefID.ToString("D20")
         Dim TransTypeID As String = RefID.ToString("D4")
         Dim TransCharID As String = CharID.ToString("D20")
-        Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID
+        Dim TransAmountFlag As String = "0"
+        If -Trans.Amount < 0 Then
+            TransAmountFlag = "0"
+        Else
+            TransAmountFlag = "1"
+        End If
+        Dim TransKey As String = TransDate & TransRef & TransTypeID & TransCharID & TransAmountFlag
 
         ' Get amounts
         Dim amount As Double = -Trans.TaxAmount
@@ -678,6 +688,22 @@ Public Class DataFunctions
         Return EveHQ.Core.DataFunctions.SetData(strSQL.ToString)
 
     End Function
+
+    Private Shared Sub CreateWalletJournalKey(ByRef Trans As WalletJournalItem, ByVal CharID As Integer)
+
+        Dim TransDate As String = Trans.JournalDate.ToString("yyyyMMddHHmmss")
+        Dim TransRef As String = Trans.RefID.ToString("D20")
+        Dim TransTypeID As String = Trans.RefTypeID.ToString("D4")
+        Dim TransCharID As String = CharID.ToString("D20")
+        Dim TransAmountFlag As String = "0"
+        If Trans.Amount < 0 Then
+            TransAmountFlag = "0"
+        Else
+            TransAmountFlag = "1"
+        End If
+        Trans.Key = TransDate & TransRef & TransTypeID & TransCharID & TransAmountFlag
+
+    End Sub
 
     Public Shared Function GetLastWalletID(ByVal WalletType As WalletTypes, ByVal CharID As Integer, ByVal WalletID As Integer) As Long
         Dim strSQL As String = ""

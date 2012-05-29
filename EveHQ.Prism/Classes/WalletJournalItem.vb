@@ -20,6 +20,7 @@
 
 Public Class WalletJournalItem
 
+    Public Key As String
     Public JournalDate As Date
     Public RefID As Long
     Public RefTypeID As Integer
