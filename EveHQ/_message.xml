@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>09/04/2012 01:00:00</lastUpdated>
-  <title>EveHQ - Combat Log Analyser</title>
+  <lastUpdated>02/06/2012 21:40:00</lastUpdated>
+  <title>EveHQ - New Location</title>
   <allowIgnore>1</allowIgnore>
   <message>
-  <![CDATA[Work has started on a combat log analyser, which will exist as a standalone app and a plug-in for EveHQ.<br /><br />At present, we can parse all combat logs from now back to 2004, both detailed and simple logs.<br /><br />So, we're looking for ideas to present this information to users, and <a href="http://evedev.wordpress.com/2012/04/03/request-for-ideas-for-combat-log-analyser/">this blog</a> should give ideas for inspiration.<br /><br /><br /><br />- The EveHQ Development Team]]></message>
+  <![CDATA[Please note that the EveHQ website has now been moved to a new location to house EveHQ and all other projects currently in development. This includes all information and support, including forums.<br /><br />Please update any bookmarks to <a href="http://eveit.net">http://eveit.net</a> and use this location from now on.<br /><br /><br /><br />- Vessper]]></message>
   <disabledPlugins>
     <plugin name="PoS Manager" version="2.8.1.3869" />
     <plugin name="EveHQ Route Map" version="2.4.0.3671" />

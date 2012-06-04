@@ -32,7 +32,7 @@ Public Class PlugInData
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
     Public Shared ModuleChanges As New SortedList(Of String, String)
-    Shared LastCacheRefresh As String = "2.8.0.3862"
+    Shared LastCacheRefresh As String = "2.8.2.3873"
 
 #Region "Plug-in Interface Properties and Functions"
 
