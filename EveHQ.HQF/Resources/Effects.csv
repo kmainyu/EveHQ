@@ -3,59 +3,29 @@
 # SKILL ATTRIBUTE MAPPING,,,,,,,,,,
 # DRONES,,,,,,,,,,
 280,1,24613,763,2,407,0,1,10,0,Advanced Drone Interfacing
-292,1,12484,114,5,12484,0,1,0,0,Amarr Drone Specialization - EM
-292,1,12484,116,5,12484,0,1,0,0,Amarr Drone Specialization - Explosive
-292,1,12484,117,5,12484,0,1,0,0,Amarr Drone Specialization - Kinetic
-292,1,12484,118,5,12484,0,1,0,0,Amarr Drone Specialization - Thermal
-292,1,12487,114,5,12487,0,1,0,0,Caldari Drone Specialization - EM
-292,1,12487,116,5,12487,0,1,0,0,Caldari Drone Specialization - Explosive
-292,1,12487,117,5,12487,0,1,0,0,Caldari Drone Specialization - Kinetic
-292,1,12487,118,5,12487,0,1,0,0,Caldari Drone Specialization - Thermal
-292,1,24241,114,4,837,0,1,0,0,Combat Drone Operation - Light - EM
-292,1,24241,116,4,837,0,1,0,0,Combat Drone Operation - Light - Explosive
-292,1,24241,117,4,837,0,1,0,0,Combat Drone Operation - Light - Kinetic
-292,1,24241,118,4,837,0,1,0,0,Combat Drone Operation - Light - Thermal
-292,1,24241,114,4,838,0,1,0,0,Combat Drone Operation - Medium - EM
-292,1,24241,116,4,838,0,1,0,0,Combat Drone Operation - Medium - Explosive
-292,1,24241,117,4,838,0,1,0,0,Combat Drone Operation - Medium - Kinetic
-292,1,24241,118,4,838,0,1,0,0,Combat Drone Operation - Medium - Thermal
+292,1,12484,64,5,12484,0,1,0,0,Amarr Drone Specialization
+292,1,12487,64,5,12487,0,1,0,0,Caldari Drone Specialization
+292,1,24241,64,4,837,0,1,0,0,Combat Drone Operation - Light
+292,1,24241,64,4,838,0,1,0,0,Combat Drone Operation - Medium
 327,1,23618,9,3,18,0,1,0,0,Drone Durability - Hull
 335,1,23618,265,3,18,0,1,0,0,Drone Durability - Armor
 337,1,23618,263,3,18,0,1,0,0,Drone Durability - Shield
-292,1,3442,114,2,100,0,1,0,0,Drone Interfacing - EM
-292,1,3442,116,2,100,0,1,0,0,Drone Interfacing - Explosive
-292,1,3442,117,2,100,0,1,0,0,Drone Interfacing - Kinetic
-292,1,3442,118,2,100,0,1,0,0,Drone Interfacing - Thermal
+292,1,3442,64,2,100,0,1,0,0,Drone Interfacing - EM
 434,1,3442,77,2,101,0,1,0,0,Drone Interfacing - Mining
 591,1,12305,37,3,18,0,1,0,0,Drone Navigation
 294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
 353,1,3436,10005,3,6,0,1,1,0,Drones
 459,1,23566,10007,3,6,0,1,1,0,Electronic Warfare Drone Interfacing
-292,1,23069,114,2,549,0,1,0,0,Fighters - EM
-292,1,23069,116,2,549,0,1,0,0,Fighters - Explosive
-292,1,23069,117,2,549,0,1,0,0,Fighters - Kinetic
-292,1,23069,118,2,549,0,1,0,0,Fighters - Thermal
+292,1,23069,64,2,549,0,1,0,0,Fighters
 292,1,32339,64,2,1023,0,1,0,0,Fighter Bombers
-292,1,12486,114,5,12486,0,1,0,0,Gallente Drone Specialization - EM
-292,1,12486,116,5,12486,0,1,0,0,Gallente Drone Specialization - Explosive
-292,1,12486,117,5,12486,0,1,0,0,Gallente Drone Specialization - Kinetic
-292,1,12486,118,5,12486,0,1,0,0,Gallente Drone Specialization - Thermal
-292,1,3441,114,4,839,0,1,0,0,Heavy Drone Operation - EM
-292,1,3441,116,4,839,0,1,0,0,Heavy Drone Operation - Explosive
-292,1,3441,117,4,839,0,1,0,0,Heavy Drone Operation - Kinetic
-292,1,3441,118,4,839,0,1,0,0,Heavy Drone Operation - Theermal
+292,1,12486,64,5,12486,0,1,0,0,Gallente Drone Specialization
+292,1,3441,64,4,839,0,1,0,0,Heavy Drone Operation
 434,1,3438,77,3,18,0,1,0,0,Mining Drone Operation
-292,1,12485,114,5,12485,0,1,0,0,Minmatar Drone Specialization
-292,1,12485,116,5,12485,0,1,0,0,Minmatar Drone Specialization
-292,1,12485,117,5,12485,0,1,0,0,Minmatar Drone Specialization
-292,1,12485,118,5,12485,0,1,0,0,Minmatar Drone Specialization
+292,1,12485,64,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
 39,1,3439,84,2,640,0,1,0,0,Repair Drone Operation - Armor
 459,1,3437,10007,3,6,0,1,1,0,Scout Drone Operation
-292,1,23594,114,4,911,0,1,0,0,Sentry Drone Interfacing - EM
-292,1,23594,116,4,911,0,1,0,0,Sentry Drone Interfacing - Explosive
-292,1,23594,117,4,911,0,1,0,0,Sentry Drone Interfacing - Kinetic
-292,1,23594,118,4,911,0,1,0,0,Sentry Drone Interfacing - Thermal
+292,1,23594,64,4,911,0,1,0,0,Sentry Drone Interfacing
 # ELECTRONICS,,,,,,,,,,
 619,1,11579,560,2,330,0,1,0,0,Cloaking
 1296,1,21603,714,2,658,0,1,0,0,Cynosural Field Theory
@@ -741,10 +711,7 @@
 567,2,644,37,3,18,0,0,0,15,Drone Navigation Computer - Drone Velocity
 243,2,646,54,3,18,1,0,5,15,Omni Tracking Link - Max Range
 244,2,646,160,3,18,1,0,5,15,Omni Tracking Link - Tracking Speed
-1255,2,645,114,3,18,1,0,0,15,Drone Damage Amplifier
-1255,2,645,116,3,18,1,0,0,15,Drone Damage Amplifier
-1255,2,645,117,3,18,1,0,0,15,Drone Damage Amplifier
-1255,2,645,118,3,18,1,0,0,15,Drone Damage Amplifier
+1255,2,645,64,3,18,1,0,0,15,Drone Damage Amplifier
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
 517,2,639,158,2,55;53;74,0,0,0,16,TD Drone - Falloff
