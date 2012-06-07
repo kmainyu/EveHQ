@@ -2779,6 +2779,8 @@ Public Class frmHQF
     Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
         ' Pick the text up from the clipboard
         Dim fileText As String = CStr(Clipboard.GetDataObject().GetData(DataFormats.Text))
+        fileText = fileText.Replace(Chr(150), "-")
+
         ' Use Regex to get the data - No checking as this is done in the tmrClipboard_Tick sub
         Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
         Dim shipName As String = fittingMatch.Groups.Item("ShipName").Value
