@@ -999,13 +999,15 @@ Public Class ShipSlotControl
                         ParentFitting.BaseShip.Attributes("10063") -= 1
                         ' Check if we need to deactivate a highslot ganglink
                         Dim ActiveGanglinks As New List(Of Integer)
-                        For slot As Integer = 8 To 1 Step -1
-                            If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = "316" And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
-                                    ActiveGanglinks.Add(slot)
+                        If ParentFitting.BaseShip.HiSlots > 0 Then
+                            For slot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step -1
+                                If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
+                                    If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = "316" And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+                                        ActiveGanglinks.Add(slot)
+                                    End If
                                 End If
-                            End If
-                        Next
+                            Next
+                        End If
                         If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes("10063") Then
                             ParentFitting.BaseShip.HiSlot(ActiveGanglinks(0)).ModuleState = ModuleStates.Inactive
                         End If
@@ -1251,6 +1253,22 @@ Public Class ShipSlotControl
             If selMod IsNot Nothing Then
                 If selMod.ID = "11014" Then
                     ParentFitting.BaseShip.Attributes("10063") -= 1
+
+                    ' Check if we need to deactivate a highslot ganglink
+                    Dim ActiveGanglinks As New List(Of Integer)
+                    If ParentFitting.BaseShip.HiSlots > 0 Then
+                        For hSlot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step -1
+                            If ParentFitting.BaseShip.HiSlot(hSlot) IsNot Nothing Then
+                                If ParentFitting.BaseShip.HiSlot(hSlot).DatabaseGroup = "316" And ParentFitting.BaseShip.HiSlot(hSlot).ModuleState = ModuleStates.Active Then
+                                    ActiveGanglinks.Add(hSlot)
+                                End If
+                            End If
+                        Next
+                    End If
+                    If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes("10063") Then
+                        ParentFitting.BaseShip.HiSlot(ActiveGanglinks(0)).ModuleState = ModuleStates.Inactive
+                    End If
+
                 End If
                 If SuppressUndo = False Then
                     If selMod.LoadedCharge IsNot Nothing Then

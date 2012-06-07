@@ -2807,10 +2807,15 @@ Imports System.Runtime.Serialization
         Me.ApplySkillEffectsToModule(fittedMod, True)
         Dim maxAllowed As Integer = 0
         If fittedMod.DatabaseGroup = "316" Then
-            maxAllowed = CInt(Me.BaseShip.Attributes("10063"))
+            maxAllowed = 1
             If Me.BaseShip.Attributes.ContainsKey("435") = True Then
                 maxAllowed += CInt(Me.BaseShip.Attributes("435"))
             End If
+            For Each shipmod As ModuleWithState In Me.cModules
+                If shipmod.ID = "11014" And shipmod.State = ModuleStates.Active Then
+                    maxAllowed += 1
+                End If
+            Next
         Else
             maxAllowed = CInt(fittedMod.Attributes("763"))
         End If
