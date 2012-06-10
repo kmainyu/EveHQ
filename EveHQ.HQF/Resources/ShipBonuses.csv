@@ -1029,7 +1029,7 @@
 3514,0,0,263,2,549,0,0,0,100,15,Fighter Shield HP
 3514,0,0,265,2,549,0,0,0,100,15,Fighter Armor HP
 3514,0,0,9,2,549,0,0,0,100,15,Fighter Hull HP
-3514,0,0,212,2,1023,0,0,0,100,15,Deployed Fighter Bomber Damage
+3514,0,0,64,2,1023,0,0,0,100,15,Deployed Fighter Bomber Damage
 3514,0,0,263,2,1023,0,0,0,100,15,Fighter Bomber Shield HP
 3514,0,0,265,2,1023,0,0,0,100,15,Fighter Bomber Armor HP
 3514,0,0,9,2,1023,0,0,0,100,15,Fighter Bomber Hull HP
