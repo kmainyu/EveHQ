@@ -303,6 +303,8 @@ Public Class PilotParseFunctions
 
     Public Shared Sub GetCharactersInAccount(ByVal caccount As EveAccount)
 
+        ' Check the API key status
+        caccount.CheckAPIKey()
         ' Check Account Status
         Call GetAccountStatus(caccount)
 
@@ -456,55 +458,55 @@ Public Class PilotParseFunctions
                 End Select
         End Select     
     End Sub
-	Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
+    Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
 
-		' Set up an API Request for this character
+        ' Set up an API Request for this character
         Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
-		' Get the Character Sheet
-		Dim cXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+        ' Get the Character Sheet
+        Dim cXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
 
-		' Store the Character Sheet API result
-		If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
-			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
-				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, -APIReq.LastAPIError)
-			End If
-		Else
-			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
-				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, APIReq.LastAPIResult)
-			End If
-		End If
+        ' Store the Character Sheet API result
+        If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
+            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
+                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, -APIReq.LastAPIError)
+            End If
+        Else
+            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
+                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, APIReq.LastAPIResult)
+            End If
+        End If
 
-		' Get the Skill Queue
-		Dim tXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillQueue, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+        ' Get the Skill Queue
+        Dim tXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillQueue, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
 
-		' Store the Skill Queue API result
-		If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
-			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue) = False Then
-				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue, -APIReq.LastAPIError)
-			End If
-		Else
-			If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue) = False Then
-				EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue, APIReq.LastAPIResult)
-			End If
-		End If
+        ' Store the Skill Queue API result
+        If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
+            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue) = False Then
+                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue, -APIReq.LastAPIError)
+            End If
+        Else
+            If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue) = False Then
+                EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.SkillQueue, APIReq.LastAPIResult)
+            End If
+        End If
 
-		' Only parse the sheets if both the CharacterSheet and TrainingQueue APIs are not null
-		If cXML IsNot Nothing And tXML IsNot Nothing Then
-			' Check if we need to reset the pilot notifications (if not a cached response)
-			If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Then
-				cPilot.TrainingNotifiedEarly = False
-				cPilot.TrainingNotifiedNow = False
-			End If
+        ' Only parse the sheets if both the CharacterSheet and TrainingQueue APIs are not null
+        If cXML IsNot Nothing And tXML IsNot Nothing Then
+            ' Check if we need to reset the pilot notifications (if not a cached response)
+            If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Then
+                cPilot.TrainingNotifiedEarly = False
+                cPilot.TrainingNotifiedNow = False
+            End If
 
-			' Parse the API data
-			Call ParsePilotSkills(cPilot, cXML)
-			Call ParsePilotXML(cPilot, cXML)
-			Call ParseTrainingXML(cPilot, tXML)
-			Call BuildAttributeData(cPilot)
-		End If
+            ' Parse the API data
+            Call ParsePilotSkills(cPilot, cXML)
+            Call ParsePilotXML(cPilot, cXML)
+            Call ParseTrainingXML(cPilot, tXML)
+            Call BuildAttributeData(cPilot)
+        End If
 
-	End Sub
+    End Sub
     Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument)
 
         Dim CharDetails As XmlNodeList
