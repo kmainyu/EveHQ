@@ -559,7 +559,7 @@ Public Class frmPrism
                             Call DisplayAPIDetails(apiXML, APIOwner, Pos)
                         Else
                             APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                            APIOwner.SubItems(Pos).Text = "No Access"
+                            APIOwner.SubItems(Pos).Text = "M1: " & Owner.Account.AccessMask.ToString
                         End If
                     Else
                         If Owner.IsCorp = False And APIType = CorpRepType.CorpSheet Then
@@ -573,7 +573,7 @@ Public Class frmPrism
                             Else
                                 ' Put generic "No Access" notice here, but we could expand on this later
                                 APIOwner.SubItems(Pos).ForeColor = Drawing.Color.Red
-                                APIOwner.SubItems(Pos).Text = "No Access"
+                                APIOwner.SubItems(Pos).Text = "M2: " & Owner.Account.AccessMask.ToString
                             End If
                         End If
                     End If
