@@ -1,3 +1,7 @@
+100MN MicroWarpdrive I,100MN Microwarpdrive I
+100MN MicroWarpdrive II,100MN Microwarpdrive II
+10MN MicroWarpdrive I,10MN Microwarpdrive I
+10MN MicroWarpdrive II,10MN Microwarpdrive II
 1200mm Heavy Gallium I Cannon,1200mm Heavy Gallium Cannon
 1200mm Heavy Prototype I Artillery,1200mm Heavy Prototype Artillery
 1200mm Heavy Prototype I Siege Cannon,1200mm Heavy Prototype Siege Cannon
@@ -11,6 +15,8 @@
 150mm Light Prototype I Automatic Cannon,150mm Light Prototype Automatic Cannon
 150mm Prototype I Gauss Gun,150mm Prototype Gauss Gun
 150mm 'Scout' I Accelerator Cannon,150mm 'Scout' Accelerator Cannon
+1MN MicroWarpdrive I,1MN Microwarpdrive I
+1MN MicroWarpdrive II,1MN Microwarpdrive II
 200mm Light Gallium I Machine Gun,200mm Light Gallium Machine Gun
 200mm Light Prototype I Automatic Cannon,200mm Light Prototype Automatic Cannon
 200mm Prototype I Gauss Gun,200mm Prototype Gauss Gun
@@ -90,6 +96,7 @@ Brokara's Modified Energized Reflective Membrane,Brokara's Modified Energized EM
 Brokara's Modified Magnetic Plating,Brokara's Modified Kinetic Plating
 Brokara's Modified Reactive Plating,Brokara's Modified Explosive Plating
 Brokara's Modified Reflective Plating,Brokara's Modified EM Plating
+Brynn's Modified 100MN MicroWarpdrive,Brynn's Modified 100MN Microwarpdrive
 Brynn's Modified Energized Magnetic Membrane,Brynn's Modified Energized Kinetic Membrane
 Brynn's Modified Energized Reactive Membrane,Brynn's Modified Energized Explosive Membrane
 Brynn's Modified Energized Reflective Membrane,Brynn's Modified Energized EM Membrane
@@ -183,24 +190,35 @@ CONCORD Standard Missile Launcher,CONCORD Light Missile Launcher
 Connected Scanning I CPU Uplink,Connected Scanning CPU Uplink
 'Contour' Reflective Plating I,'Contour' EM Plating I
 'Copasetic' I Particle Field Acceleration,'Copasetic' Particle Field Acceleration
+Core A-Type 100MN MicroWarpdrive,Core A-Type 100MN Microwarpdrive
+Core B-Type 100MN MicroWarpdrive,Core B-Type 100MN Microwarpdrive
+Core C-Type 100MN MicroWarpdrive,Core C-Type 100MN Microwarpdrive
+Core X-Type 100MN MicroWarpdrive,Core X-Type 100MN Microwarpdrive
+Coreli A-Type 1MN MicroWarpdrive,Coreli A-Type 1MN Microwarpdrive
 Coreli A-Type Magnetic Plating,Coreli A-Type Kinetic Plating
 Coreli A-Type Reactive Plating,Coreli A-Type Explosive Plating
 Coreli A-Type Reflective Plating,Coreli A-Type EM Plating
+Coreli B-Type 1MN MicroWarpdrive,Coreli B-Type 1MN Microwarpdrive
 Coreli B-Type Magnetic Plating,Coreli B-Type Kinetic Plating
 Coreli B-Type Reactive Plating,Coreli B-Type Explosive Plating
 Coreli B-Type Reflective Plating,Coreli B-Type EM Plating
+Coreli C-Type 1MN MicroWarpdrive,Coreli C-Type 1MN Microwarpdrive
 Coreli C-Type Magnetic Plating,Coreli C-Type Kinetic Plating
 Coreli C-Type Reactive Plating,Coreli C-Type Explosive Plating
 Coreli C-Type Reflective Plating,Coreli C-Type EM Plating
+Corelum A-Type 10MN MicroWarpdrive,Corelum A-Type 10MN Microwarpdrive
 Corelum A-Type Energized Magnetic Membrane,Corelum A-Type Energized Kinetic Membrane
 Corelum A-Type Energized Reactive Membrane,Corelum A-Type Energized Explosive Membrane
 Corelum A-Type Energized Reflective Membrane,Corelum A-Type Energized EM Membrane
+Corelum B-Type 10MN MicroWarpdrive,Corelum B-Type 10MN Microwarpdrive
 Corelum B-Type Energized Magnetic Membrane,Corelum B-Type Energized Kinetic Membrane
 Corelum B-Type Energized Reactive Membrane,Corelum B-Type Energized Explosive Membrane
 Corelum B-Type Energized Reflective Membrane,Corelum B-Type Energized EM Membrane
+Corelum C-Type 10MN MicroWarpdrive,Corelum C-Type 10MN Microwarpdrive
 Corelum C-Type Energized Magnetic Membrane,Corelum C-Type Energized Kinetic Membrane
 Corelum C-Type Energized Reactive Membrane,Corelum C-Type Energized Explosive Membrane
 Corelum C-Type Energized Reflective Membrane,Corelum C-Type Energized EM Membrane
+Cormack's Modified 100MN MicroWarpdrive,Cormack's Modified 100MN Microwarpdrive
 Cormack's Modified Energized Magnetic Membrane,Cormack's Modified Energized Kinetic Membrane
 Cormack's Modified Energized Reactive Membrane,Cormack's Modified Energized Explosive Membrane
 Cormack's Modified Energized Reflective Membrane,Cormack's Modified Energized EM Membrane
@@ -237,6 +255,9 @@ Devastator Fury Cruise Missile,Nova Fury Cruise Missile
 Devastator Precision Cruise Missile,Nova Precision Cruise Missile
 Dipolar Weave Magnetic Plating,Experimental Kinetic Plating I
 Ditrigonal Thermal Barrier Crystallization I,Limited Thermic Dissipation Field I
+Domination 100MN MicroWarpdrive,Domination 100MN Microwarpdrive
+Domination 10MN MicroWarpdrive,Domination 10MN Microwarpdrive
+Domination 1MN MicroWarpdrive,Domination 1MN Microwarpdrive
 Domination Assault Missile Launcher,Domination Rapid Light Missile Launcher
 Domination Ballistic Deflection Field,Domination Kinetic Deflection Field
 Domination Explosion Dampening Amplifier,Domination Explosive Deflection Amplifier
@@ -337,10 +358,14 @@ Estamel's Modified Magnetic Scattering Amplifier,Estamel's Modified EM Ward Ampl
 Estamel's Modified Photon Scattering Field,Estamel's Modified EM Ward Field
 Estamel's Modified Siege Missile Launcher,Estamel's Modified Torpedo Launcher
 Eutectic I Capacitor Charge Array,Eutectic Capacitor Charge Array
+Experimental 10MN MicroWarpdrive I,Experimental 10MN Microwarpdrive I
 Explosion Dampening Amplifier I,Explosive Deflection Amplifier I
 Explosion Dampening Amplifier II,Explosive Deflection Amplifier II
 Explosion Dampening Field I,Explosive Deflection Field I
 Explosion Dampening Field II,Explosive Deflection Field II
+Federation Navy 100MN MicroWarpdrive,Federation Navy 100MN Microwarpdrive
+Federation Navy 10MN MicroWarpdrive,Federation Navy 10MN Microwarpdrive
+Federation Navy 1MN MicroWarpdrive,Federation Navy 1MN Microwarpdrive
 Federation Navy Energized Magnetic Membrane,Federation Navy Energized Kinetic Membrane
 Federation Navy Energized Reactive Membrane,Federation Navy Energized Explosive Membrane
 Federation Navy Energized Reflective Membrane,Federation Navy Energized EM Membrane
@@ -364,28 +389,38 @@ Fulmination Assault Missile,Nova Assault Missile
 Fulmination Javelin Assault Missile,Nova Javelin Assault Missile
 Fulmination Rage Assault Missile,Nova Rage Assault Missile
 'Gallows' Standard Missile Launcher,'Gallows' Light Missile Launcher
+Gist A-Type 100MN MicroWarpdrive,Gist A-Type 100MN Microwarpdrive
 Gist A-Type Ballistic Deflection Field,Gist A-Type Kinetic Deflection Field
 Gist A-Type Explosion Dampening Field,Gist A-Type Explosive Deflection Field
 Gist A-Type Heat Dissipation Field,Gist A-Type Thermic Dissipation Field
 Gist A-Type Photon Scattering Field,Gist A-Type EM Ward Field
+Gist B-Type 100MN MicroWarpdrive,Gist B-Type 100MN Microwarpdrive
 Gist B-Type Ballistic Deflection Field,Gist B-Type Kinetic Deflection Field
 Gist B-Type Explosion Dampening Field,Gist B-Type Explosive Deflection Field
 Gist B-Type Heat Dissipation Field,Gist B-Type Thermic Dissipation Field
 Gist B-Type Photon Scattering Field,Gist B-Type EM Ward Field
+Gist C-Type 100MN MicroWarpdrive,Gist C-Type 100MN Microwarpdrive
 Gist C-Type Ballistic Deflection Field,Gist C-Type Kinetic Deflection Field
 Gist C-Type Explosion Dampening Field,Gist C-Type Explosive Deflection Field
 Gist C-Type Heat Dissipation Field,Gist C-Type Thermic Dissipation Field
 Gist C-Type Photon Scattering Field,Gist C-Type EM Ward Field
+Gist X-Type 100MN MicroWarpdrive,Gist X-Type 100MN Microwarpdrive
 Gist X-Type Ballistic Deflection Field,Gist X-Type Kinetic Deflection Field
 Gist X-Type Explosion Dampening Field,Gist X-Type Explosive Deflection Field
 Gist X-Type Heat Dissipation Field,Gist X-Type Thermic Dissipation Field
 Gist X-Type Photon Scattering Field,Gist X-Type EM Ward Field
+Gistii A-Type 1MN MicroWarpdrive,Gistii A-Type 1MN Microwarpdrive
+Gistii B-Type 1MN MicroWarpdrive,Gistii B-Type 1MN Microwarpdrive
+Gistii C-Type 1MN MicroWarpdrive,Gistii C-Type 1MN Microwarpdrive
+Gistum A-Type 10MN MicroWarpdrive,Gistum A-Type 10MN Microwarpdrive
 Gistum A-Type Explosion Dampening Amplifier,Gistum A-Type Explosive Deflection Amplifier
 Gistum A-Type Heat Dissipation Amplifier,Gistum A-Type Thermic Dissipation Amplifier
 Gistum A-Type Magnetic Scattering Amplifier,Gistum A-Type EM Ward Amplifier
+Gistum B-Type 10MN MicroWarpdrive,Gistum B-Type 10MN Microwarpdrive
 Gistum B-Type Explosion Dampening Amplifier,Gistum B-Type Explosive Deflection Amplifier
 Gistum B-Type Heat Dissipation Amplifier,Gistum B-Type Thermic Dissipation Amplifier
 Gistum B-Type Magnetic Scattering Amplifier,Gistum B-Type EM Ward Amplifier
+Gistum C-Type 10MN MicroWarpdrive,Gistum C-Type 10MN Microwarpdrive
 Gistum C-Type Explosion Dampening Amplifier,Gistum C-Type Explosive Deflection Amplifier
 Gistum C-Type Heat Dissipation Amplifier,Gistum C-Type Thermic Dissipation Amplifier
 Gistum C-Type Magnetic Scattering Amplifier,Gistum C-Type EM Ward Amplifier
@@ -393,6 +428,7 @@ Gistum C-Type Magnetic Scattering Amplifier,Gistum C-Type EM Ward Amplifier
 GM Cloak,QA Cloaking Device
 GM ECM Burst,QA ECM Burst
 GM Shield Extender,QA Shield Extender
+Gotan's Modified 100MN MicroWarpdrive,Gotan's Modified 100MN Microwarpdrive
 Gotan's Modified Magnetic Plating,Gotan's Modified Kinetic Plating
 Gotan's Modified Reactive Plating,Gotan's Modified Explosive Plating
 Gotan's Modified Reflective Plating,Gotan's Modified EM Plating
@@ -430,6 +466,7 @@ Guristas Thunderbolt Heavy Missile,Guristas Mjolnir Heavy Missile
 Guristas Torrent Assault Missile,Guristas Mjolnir Assault Missile
 Guristas Widowmaker Heavy Missile,Guristas Inferno Heavy Missile
 Guristas Wrath Cruise Missile,Guristas Scourge Cruise Missile
+Hakim's Modified 100MN MicroWarpdrive,Hakim's Modified 100MN Microwarpdrive
 Hakim's Modified Explosion Dampening Amplifier,Hakim's Modified Explosive Deflection Amplifier
 Hakim's Modified Heat Dissipation Amplifier,Hakim's Modified Thermic Dissipation Amplifier
 Hakim's Modified Magnetic Scattering Amplifier,Hakim's Modified EM Ward Amplifier
@@ -924,6 +961,7 @@ Large 'Regard' I Power Projector,Large 'Regard' Power Projector
 Large 'Solace' I Remote Bulwark Reconstruction,Large 'Solace' Remote Bulwark Reconstruction
 Large 'Vehemence' I Shockwave Charge,Large 'Vehemence' Shockwave Charge
 LiF Fueled I Booster Rockets,Experimental 100MN Afterburner I
+Limited 1MN MicroWarpdrive I,Limited 1MN Microwarpdrive I
 Linked I Sensor Network,Linked Sensor Network
 Luther Veron's Modified Invulnerability Field,Luther Veron's Modified Adaptive Invulnerability Field
 'Mafia' Energized Magnetic Membrane I,'Mafia' Energized Kinetic Membrane I
@@ -976,6 +1014,7 @@ Microcell Nanite Thermic Membrane I,Limited Energized Thermic Membrane I
 Mining Foreman Link - Harvester Capacitor Efficiency,Mining Foreman Link - Harvester Capacitor Efficiency I
 Mining Foreman Link - Laser Optimization,Mining Foreman Link - Laser Optimization I
 Mining Foreman Link - Mining Laser Field Enhancement,Mining Foreman Link - Mining Laser Field Enhancement I
+Mizuro's Modified 100MN MicroWarpdrive,Mizuro's Modified 100MN Microwarpdrive
 Mizuro's Modified Magnetic Plating,Mizuro's Modified Kinetic Plating
 Mizuro's Modified Reactive Plating,Mizuro's Modified Explosive Plating
 Mizuro's Modified Reflective Plating,Mizuro's Modified EM Plating
@@ -1043,6 +1082,7 @@ Pithum C-Type Magnetic Scattering Amplifier,Pithum C-Type EM Ward Amplifier
 Poacher Photon Scattering Field,'Poacher' EM Ward Field
 Posse Invulnerability Field,'Posse' Adaptive Invulnerability Field
 Prospector Magnetic Scattering Amplifier,'Prospector' EM Ward Amplifier
+Prototype 100MN MicroWarpdrive I,Prototype 100MN Microwarpdrive I
 Prototype ECCM I Gravimetric Sensor Cluster,Prototype ECCM Gravimetric Sensor Cluster
 Prototype ECCM I Ladar Sensor Cluster,Prototype ECCM Ladar Sensor Cluster
 Prototype ECCM I Magnetometric Sensor Cluster,Prototype ECCM Magnetometric Sensor Cluster
@@ -1079,6 +1119,9 @@ Reflective Plating II,EM Plating II
 Regenerative Plating I,Layered Plating I
 Regenerative Plating II,Layered Plating II
 'Repose' I Core Compensation,'Repose' Core Compensation
+Republic Fleet 100MN MicroWarpdrive,Republic Fleet 100MN Microwarpdrive
+Republic Fleet 10MN MicroWarpdrive,Republic Fleet 10MN Microwarpdrive
+Republic Fleet 1MN MicroWarpdrive,Republic Fleet 1MN Microwarpdrive
 Republic Fleet Assault Missile Launcher,Republic Fleet Rapid Light Missile Launcher
 Republic Fleet Eradicator F.O.F. Heavy Missile I,Republic Fleet Nova F.O.F. Heavy Missile I
 Republic Fleet Explosion Dampening Amplifier,Republic Fleet Explosive Deflection Amplifier
@@ -1110,6 +1153,7 @@ Selynne's Modified Energized Reflective Membrane,Selynne's Modified Energized EM
 Selynne's Modified Magnetic Plating,Selynne's Modified Kinetic Plating
 Selynne's Modified Reactive Plating,Selynne's Modified Explosive Plating
 Selynne's Modified Reflective Plating,Selynne's Modified EM Plating
+Setele's Modified 100MN MicroWarpdrive,Setele's Modified 100MN Microwarpdrive
 Setele's Modified Energized Magnetic Membrane,Setele's Modified Energized Kinetic Membrane
 Setele's Modified Energized Reactive Membrane,Setele's Modified Energized Explosive Membrane
 Setele's Modified Energized Reflective Membrane,Setele's Modified Energized EM Membrane
@@ -1117,6 +1161,9 @@ Setele's Modified Magnetic Plating,Setele's Modified Kinetic Plating
 Setele's Modified Reactive Plating,Setele's Modified Explosive Plating
 Setele's Modified Reflective Plating,Setele's Modified EM Plating
 'Shade' I White Noise ECM,'Shade' White Noise ECM
+Shadow Serpentis 100MN MicroWarpdrive,Shadow Serpentis 100MN Microwarpdrive
+Shadow Serpentis 10MN MicroWarpdrive,Shadow Serpentis 10MN Microwarpdrive
+Shadow Serpentis 1MN MicroWarpdrive,Shadow Serpentis 1MN Microwarpdrive
 Shadow Serpentis Energized Magnetic Membrane,Shadow Serpentis Energized Kinetic Membrane
 Shadow Serpentis Energized Reactive Membrane,Shadow Serpentis Energized Explosive Membrane
 Shadow Serpentis Energized Reflective Membrane,Shadow Serpentis Energized EM Membrane
@@ -1193,6 +1240,7 @@ Thunar Citadel Cruise Missile,Mjolnir Citadel Cruise Missile
 Thunderbolt Fury Heavy Missile,Mjolnir Fury Heavy Missile
 Thunderbolt Heavy Missile,Mjolnir Heavy Missile
 Thunderbolt Precision Heavy Missile,Mjolnir Precision Heavy Missile
+Tobias' Modified 100MN MicroWarpdrive,Tobias' Modified 100MN Microwarpdrive
 Tobias' Modified Explosion Dampening Amplifier,Tobias' Modified Explosive Deflection Amplifier
 Tobias' Modified Heat Dissipation Amplifier,Tobias' Modified Thermic Dissipation Amplifier
 Tobias' Modified Magnetic Scattering Amplifier,Tobias' Modified EM Ward Amplifier
@@ -1239,6 +1287,7 @@ True Sansha Reflective Plating,True Sansha EM Plating
 True Sansha Siege Missile Launcher,True Sansha Torpedo Launcher
 True Sansha Standard Missile Launcher,True Sansha Light Missile Launcher
 True Sansha Torrent Assault Missile,True Sansha Mjolnir Assault Missile
+Tuvan's Modified 100MN MicroWarpdrive,Tuvan's Modified 100MN Microwarpdrive
 Tuvan's Modified Energized Magnetic Membrane,Tuvan's Modified Energized Kinetic Membrane
 Tuvan's Modified Energized Reactive Membrane,Tuvan's Modified Energized Explosive Membrane
 Tuvan's Modified Energized Reflective Membrane,Tuvan's Modified Energized EM Membrane
@@ -1288,6 +1337,5 @@ X-Large F-4a Ld-Sulfate I Capacitor Charge Unit,X-Large F-4a Ld-Sulfate Capacito
 X-Large Peroxide I Capacitor Power Cell,X-Large Peroxide Capacitor Power Cell
 XT-2800 Heavy Assault Missile Launcher I,Experimental XT-2800 Heavy Assault Missile Launcher I
 Y-S8 Hydrocarbon I Afterburners,Experimental 10MN Afterburner I
-Y-T8 Overcharged Hydrocarbon I Microwarpdrive,Experimental 10MN MicroWarpdrive I
+Y-T8 Overcharged Hydrocarbon I Microwarpdrive,Experimental 10MN Microwarpdrive I
 ZW-4100 Siege Missile Bay,Experimental ZW-4100 Torpedo Launcher
-
