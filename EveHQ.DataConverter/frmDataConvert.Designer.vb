@@ -207,7 +207,7 @@ Partial Class frmDataConvert
         Me.txtRevisedDB.Name = "txtRevisedDB"
         Me.txtRevisedDB.Size = New System.Drawing.Size(182, 21)
         Me.txtRevisedDB.TabIndex = 4
-        Me.txtRevisedDB.Text = "Crucible1.6"
+        Me.txtRevisedDB.Text = "Inferno1.1"
         '
         'lblRevisedDB
         '
@@ -224,7 +224,7 @@ Partial Class frmDataConvert
         Me.txtInitialDB.Name = "txtInitialDB"
         Me.txtInitialDB.Size = New System.Drawing.Size(182, 21)
         Me.txtInitialDB.TabIndex = 2
-        Me.txtInitialDB.Text = "Incarna"
+        Me.txtInitialDB.Text = "Inferno1.0"
         '
         'lblInitialDB
         '
