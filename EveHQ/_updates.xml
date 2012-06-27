@@ -5,28 +5,28 @@
     <file>
       <name>EveHQ.exe</name>
       <type>Required</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Executable</description>
     </file>
     <file>
       <name>EveHQ.Core.dll</name>
       <type>Required</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Core Library</description>
     </file>
     <file>
       <name>EveHQ.CoreControls.dll</name>
       <type>Required</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ Controls Library</description>
     </file>
     <file>
       <name>EveHQ.EveAPI.dll</name>
       <type>Required</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>EveHQ API Library</description>
     </file>
@@ -47,35 +47,35 @@
     <file>
       <name>EveHQ.ItemBrowser.dll</name>
       <type>Plug-in</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>Item Browser Plug-in</description>
     </file>
     <file>
       <name>EveHQ.KillMailViewer.dll</name>
       <type>Plug-in</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>Killmail Viewer and Parser</description>
     </file>
     <file>
       <name>EveHQ.HQF.dll</name>
       <type>Plug-in</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>Ship Fitting Plug-in</description>
     </file>
     <file>
       <name>EveHQ.Prism.dll</name>
       <type>Plug-in</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>Science and Industry Plug-in</description>
     </file>
     <file>
       <name>EveHQ.Void.dll</name>
       <type>Plug-in</type>
-      <version>2.9.0.3862</version>
+      <version>2.9.0.3890</version>
       <hasDebug>True</hasDebug>
       <description>Wormhole and W-Space Information Tool</description>
     </file>
