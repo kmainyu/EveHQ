@@ -593,6 +593,8 @@
 1210,2,55,10016,6,0,0,0,0,8,Projectile Weapon Damage Bonus
 1231,2,40,68,6,0,0,0,0,8,Shield Booster Boost Amount
 1206,2,40,73,6,0,0,0,0,8,Shield Booster Duration
+1231,2,1156,68,6,0,0,0,0,8,Ancillary Shield Booster Boost Amount
+1206,2,1156,73,6,0,0,0,0,8,Ancillary Shield Booster Duration
 1208,2,77,984,6,0,0,0,0,8,Shield Hardener - EM
 1208,2,77,985,6,0,0,0,0,8,Shield Hardener - Exp
 1208,2,77,986,6,0,0,0,0,8,Shield Hardener - Kin
