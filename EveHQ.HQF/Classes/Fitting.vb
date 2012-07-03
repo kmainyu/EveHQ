@@ -2798,11 +2798,6 @@ Imports System.Runtime.Serialization
             If Me.FittedShip.Attributes.ContainsKey("10063") = True Then
                 maxAllowed = CInt(Me.FittedShip.Attributes("10063"))
             End If
-            For Each shipmod As ModuleWithState In Me.cModules
-                If shipmod.ID = "11014" And shipmod.State = ModuleStates.Active Then
-                    maxAllowed += 1
-                End If
-            Next
         Else
             maxAllowed = CInt(fittedMod.Attributes("763"))
         End If
