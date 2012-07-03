@@ -423,7 +423,6 @@ Imports System.Runtime.Serialization
 
 #Region "Fitting Mapping Collections"
     Private SkillEffectsTable As New SortedList(Of String, List(Of FinalEffect))
-    Private BaseSkillEffectsTable As New SortedList(Of String, List(Of FinalEffect))
     Private ModuleEffectsTable As New SortedList(Of String, List(Of FinalEffect))
     Private ChargeEffectsTable As New SortedList(Of String, List(Of FinalEffect))
 #End Region
@@ -951,7 +950,6 @@ Imports System.Runtime.Serialization
                     End If
                 Next
             End If
-            BaseSkillEffectsTable = CloneEffectList(SkillEffectsTable)
         End If
     End Sub
     Private Sub BuildChargeEffects(ByRef newShip As Ship)
@@ -1309,9 +1307,9 @@ Imports System.Runtime.Serialization
         Next
         ' Reset max gang links status
         newShip.Attributes("10063") = 1
-        If newShip.Attributes.ContainsKey("435") = True Then
-            newShip.Attributes("10063") = newShip.Attributes("10063") + Me.BaseShip.Attributes("435")
-        End If
+        'If newShip.Attributes.ContainsKey("435") = True Then
+        '    newShip.Attributes("10063") = newShip.Attributes("10063") + Me.BaseShip.Attributes("435")
+        'End If
         Return newShip
     End Function
     Private Sub ApplySkillEffectsToShip(ByRef newShip As Ship)
@@ -2195,16 +2193,6 @@ Imports System.Runtime.Serialization
 
 #Region "Cloning Function"
 
-    Private Function CloneEffectList(ByVal oldSortedList As SortedList(Of String, List(Of FinalEffect))) As SortedList(Of String, List(Of FinalEffect))
-        Dim myMemoryStream As New MemoryStream()
-        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-        objBinaryFormatter.Serialize(myMemoryStream, oldSortedList)
-        myMemoryStream.Seek(0, SeekOrigin.Begin)
-        Dim newSortedList As SortedList(Of String, List(Of FinalEffect)) = CType(objBinaryFormatter.Deserialize(myMemoryStream), SortedList(Of String, List(Of FinalEffect)))
-        myMemoryStream.Close()
-        Return newSortedList
-    End Function
-
     ''' <summary>
     ''' Clones a fitting for use in experimentation without affecting the default fitting
     ''' </summary>
@@ -2805,11 +2793,10 @@ Imports System.Runtime.Serialization
         Dim count As Integer = 0
         Dim fittedMod As ShipModule = testMod.Clone
         Me.ApplySkillEffectsToModule(fittedMod, True)
-        Dim maxAllowed As Integer = 0
+        Dim maxAllowed As Integer = 1
         If fittedMod.DatabaseGroup = "316" Then
-            maxAllowed = 1
-            If Me.BaseShip.Attributes.ContainsKey("435") = True Then
-                maxAllowed += CInt(Me.BaseShip.Attributes("435"))
+            If Me.FittedShip.Attributes.ContainsKey("10063") = True Then
+                maxAllowed = CInt(Me.FittedShip.Attributes("10063"))
             End If
             For Each shipmod As ModuleWithState In Me.cModules
                 If shipmod.ID = "11014" And shipmod.State = ModuleStates.Active Then
