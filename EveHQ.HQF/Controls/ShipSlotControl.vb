@@ -165,7 +165,6 @@ Public Class ShipSlotControl
         Me.ClearDroneBay()
         Me.ClearCargoBay()
         Me.ClearShipBay()
-        Me.ParentFitting.ApplyFitting(BuildType.BuildEverything) ' Do this to build the fitted ship bonuses!
         Me.ParentFitting.UpdateBaseShipFromFitting()
         Me.UpdateShipSlotLayout()
         lvwCargoBay.EndUpdate()

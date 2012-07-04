@@ -2230,6 +2230,8 @@ Imports System.Runtime.Serialization
     ''' <remarks></remarks>
     Public Sub UpdateBaseShipFromFitting()
 
+        ApplyFitting(BuildType.BuildEverything) ' Do this to build the fitted ship bonuses!
+
         Call Me.ReorderModules()
 
         ' Add the modules
