@@ -18,12 +18,14 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+Imports ProtoBuf
+
 ''' <summary>
 ''' Class for holding an instance of a EveHQ HQF fitting in storage
 ''' Collection of the class are serialized to the disk for later sessions
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Class SavedFitting
+<Serializable()> <ProtoContract()> Public Class SavedFitting
 
 #Region "Property variables"
 
@@ -59,7 +61,7 @@
     ''' <value></value>
     ''' <returns>The name of the ship used for the fitting</returns>
     ''' <remarks></remarks>
-    Public Property ShipName() As String
+    <ProtoMember(1)> Public Property ShipName() As String
         Get
             Return cShipName
         End Get
@@ -75,7 +77,7 @@
     ''' <value></value>
     ''' <returns>The name of the fitting</returns>
     ''' <remarks></remarks>
-    Public Property FittingName() As String
+    <ProtoMember(2)> Public Property FittingName() As String
         Get
             Return cFittingName
         End Get
@@ -103,7 +105,7 @@
     ''' <value></value>
     ''' <returns>The name of the pilot used for the fitting</returns>
     ''' <remarks></remarks>
-    Public Property PilotName() As String
+    <ProtoMember(4)> Public Property PilotName() As String
         Get
             Return cPilotName
         End Get
@@ -118,7 +120,7 @@
     ''' <value></value>
     ''' <returns>The name of the profile used for the fitting</returns>
     ''' <remarks></remarks>
-    Public Property DamageProfileName() As String
+    <ProtoMember(5)> Public Property DamageProfileName() As String
         Get
             Return cDamageProfileName
         End Get
@@ -133,7 +135,7 @@
     ''' <value></value>
     ''' <returns>A collection of modules used in the fitting</returns>
     ''' <remarks></remarks>
-    Public Property Modules() As List(Of ModuleWithState)
+    <ProtoMember(6)> Public Property Modules() As List(Of ModuleWithState)
         Get
             Return cModules
         End Get
@@ -148,7 +150,7 @@
     ''' <value></value>
     ''' <returns>A collection of drones used in the fitting</returns>
     ''' <remarks></remarks>
-    Public Property Drones() As List(Of ModuleQWithState)
+    <ProtoMember(7)> Public Property Drones() As List(Of ModuleQWithState)
         Get
             Return cDrones
         End Get
@@ -163,7 +165,7 @@
     ''' <value></value>
     ''' <returns>A collection of items stored in the cargo bay</returns>
     ''' <remarks></remarks>
-    Public Property Items() As List(Of ModuleQWithState)
+    <ProtoMember(8)> Public Property Items() As List(Of ModuleQWithState)
         Get
             Return cItems
         End Get
@@ -178,7 +180,7 @@
     ''' <value></value>
     ''' <returns>A collection of ships stored in the ship maintenance bay</returns>
     ''' <remarks></remarks>
-    Public Property Ships() As List(Of ModuleQWithState)
+    <ProtoMember(9)> Public Property Ships() As List(Of ModuleQWithState)
         Get
             Return cShips
         End Get
@@ -194,7 +196,7 @@
     ''' <value></value>
     ''' <returns>The name of the implant group used for the pilot</returns>
     ''' <remarks></remarks>
-    Public Property ImplantGroup() As String
+    <ProtoMember(10)> Public Property ImplantGroup() As String
         Get
             Return cImplantGroup
         End Get
@@ -209,7 +211,7 @@
     ''' <value></value>
     ''' <returns>A collection of implants used for the pilot</returns>
     ''' <remarks></remarks>
-    Public Property Implants() As List(Of ModuleWithState)
+    <ProtoMember(11)> Public Property Implants() As List(Of ModuleWithState)
         Get
             Return cImplants
         End Get
@@ -224,7 +226,7 @@
     ''' <value></value>
     ''' <returns>A collection of combat boosters used for the pilot</returns>
     ''' <remarks></remarks>
-    Public Property Boosters() As List(Of ModuleWithState)
+    <ProtoMember(12)> Public Property Boosters() As List(Of ModuleWithState)
         Get
             Return cBoosters
         End Get
@@ -239,7 +241,7 @@
     ''' <value></value>
     ''' <returns>The name of the wormwhole effect to apply to the fitting</returns>
     ''' <remarks></remarks>
-    Public Property WHEffect() As String
+    <ProtoMember(13)> Public Property WHEffect() As String
         Get
             Return cWHEffect
         End Get
@@ -254,7 +256,7 @@
     ''' <value></value>
     ''' <returns>The level of the wormhole effect to apply to the fitting</returns>
     ''' <remarks></remarks>
-    Public Property WHLevel() As Integer
+    <ProtoMember(14)> Public Property WHLevel() As Integer
         Get
             Return cWHLevel
         End Get
@@ -269,7 +271,7 @@
     ''' <value></value>
     ''' <returns>A collection of fleet effects to be applied to the fitting</returns>
     ''' <remarks></remarks>
-    Public Property FleetEffects() As List(Of FleetEffect)
+    <ProtoMember(15)> Public Property FleetEffects() As List(Of FleetEffect)
         Get
             Return cFleetEffects
         End Get
@@ -284,7 +286,7 @@
     ''' <value></value>
     ''' <returns>A collection of fleet effects to be applied to the fitting</returns>
     ''' <remarks></remarks>
-    Public Property RemoteEffects() As List(Of RemoteEffect)
+    <ProtoMember(16)> Public Property RemoteEffects() As List(Of RemoteEffect)
         Get
             Return cRemoteEffects
         End Get

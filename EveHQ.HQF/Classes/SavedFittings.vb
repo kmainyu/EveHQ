@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports ProtoBuf
 
 ''' <summary>
 ''' Class used to serialize fittings onto storage
@@ -35,12 +36,20 @@ Imports System.Runtime.Serialization.Formatters.Binary
     Public Shared Sub LoadFittings()
         ' Load the fittings from the binary file
         Fittings.FittingList.Clear()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            SavedFittingList = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
-            s.Close()
+        'If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin")) = True Then
+        '    Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
+        '    Dim f As BinaryFormatter = New BinaryFormatter
+        '    SavedFittingList = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
+        '    s.Close()
+        'End If
+
+        ' Test protobuf load
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "Fittings.dat")) = True Then
+            Dim fs As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.dat"), FileMode.Open)
+            SavedFittingList = Serializer.Deserialize(Of SortedList(Of String, SavedFitting))(fs)
+            fs.Close()
         End If
+
         ' Copy the saved fittings ready for use
         Call CopySavedFittings()
     End Sub
@@ -59,6 +68,14 @@ Imports System.Runtime.Serialization.Formatters.Binary
             f.Serialize(s, SavedFittingList)
             s.Flush()
             s.Close()
+
+            ' Test protobuf save
+            Dim fs As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.dat"), FileMode.Create)
+            Serializer.Serialize(fs, SavedFittingList)
+            fs.Flush()
+            fs.Close()
+            fs.Dispose()
+
         Catch ex As Exception
             Windows.Forms.MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information)
         End Try

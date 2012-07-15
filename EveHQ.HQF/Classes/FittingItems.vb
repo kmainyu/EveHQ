@@ -18,11 +18,13 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+Imports ProtoBuf
+
 ''' <summary>
 ''' Class to store an itemID together with a state
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Class ModuleWithState
+<Serializable()> <ProtoContract()> Public Class ModuleWithState
     Dim cID As String
     Dim cChargeID As String
     Dim cState As ModuleStates
@@ -33,7 +35,7 @@
     ''' <value></value>
     ''' <returns>A string containing the typeID of the module</returns>
     ''' <remarks></remarks>
-    Public Property ID() As String
+    <ProtoMember(1)> Public Property ID() As String
         Get
             Return cID
         End Get
@@ -42,7 +44,7 @@
         End Set
     End Property
 
-    Public Property ChargeID() As String
+    <ProtoMember(2)> Public Property ChargeID() As String
         Get
             Return cChargeID
         End Get
@@ -57,7 +59,7 @@
     ''' <value></value>
     ''' <returns>A value containing the state of the module</returns>
     ''' <remarks></remarks>
-    Public Property State() As ModuleStates
+    <ProtoMember(3)> Public Property State() As ModuleStates
         Get
             Return cState
         End Get
@@ -94,7 +96,7 @@ End Class
 ''' Class to store an itemID together with a state and quantity
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Class ModuleQWithState
+<Serializable()> <ProtoContract()> Public Class ModuleQWithState
     Dim cID As String
     Dim cState As ModuleStates
     Dim cQuantity As Integer
@@ -105,7 +107,7 @@ End Class
     ''' <value></value>
     ''' <returns>A string containing the typeID of the module</returns>
     ''' <remarks></remarks>
-    Public Property ID() As String
+    <ProtoMember(1)> Public Property ID() As String
         Get
             Return cID
         End Get
@@ -120,7 +122,7 @@ End Class
     ''' <value></value>
     ''' <returns>A value containing the state of the module</returns>
     ''' <remarks></remarks>
-    Public Property State() As ModuleStates
+    <ProtoMember(2)> Public Property State() As ModuleStates
         Get
             Return cState
         End Get
@@ -135,7 +137,7 @@ End Class
     ''' <value></value>
     ''' <returns>An integer containing the number of modules in the collection</returns>
     ''' <remarks></remarks>
-    Public Property Quantity() As Integer
+    <ProtoMember(3)> Public Property Quantity() As Integer
         Get
             Return cQuantity
         End Get
@@ -172,7 +174,7 @@ End Class
 ''' Enumeration containing the various states a ShipModule can exist in
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Enum ModuleStates
+<Serializable()> <ProtoContract()> Public Enum ModuleStates
     Offline = 1
     Inactive = 2
     Active = 4
@@ -185,7 +187,7 @@ End Enum
 ''' Class to store details of a fleet effect applied to the fitting
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Class FleetEffect
+<Serializable()> <ProtoContract()> Public Class FleetEffect
     Dim cFleetPosition As FleetPositions
     Dim cFittingName As String
     Dim cPilotName As String
@@ -198,7 +200,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A value indicating the position in the fleet of the effect</returns>
     ''' <remarks></remarks>
-    Public Property FleetPosition() As FleetPositions
+    <ProtoMember(1)> Public Property FleetPosition() As FleetPositions
         Get
             Return cFleetPosition
         End Get
@@ -213,7 +215,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A string containing the name of the fitting for the fleet effect</returns>
     ''' <remarks></remarks>
-    Public Property FittingName() As String
+    <ProtoMember(2)> Public Property FittingName() As String
         Get
             Return cFittingName
         End Get
@@ -228,7 +230,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A string containing the name of the pilot for the fleet effect</returns>
     ''' <remarks></remarks>
-    Public Property PilotName() As String
+    <ProtoMember(3)> Public Property PilotName() As String
         Get
             Return cPilotName
         End Get
@@ -243,7 +245,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A collection of implants to be used by the pilot for the fleet effect</returns>
     ''' <remarks></remarks>
-    Public Property Implants() As List(Of ModuleWithState)
+    <ProtoMember(4)> Public Property Implants() As List(Of ModuleWithState)
         Get
             Return cImplants
         End Get
@@ -258,7 +260,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A boolean value indication whether the fleet effect is active</returns>
     ''' <remarks></remarks>
-    Public Property IsActive() As Boolean
+    <ProtoMember(5)> Public Property IsActive() As Boolean
         Get
             Return cIsActive
         End Get
@@ -273,7 +275,7 @@ End Class
 ''' Enumeration containing the possible positions of gang boosters/commanders
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Enum FleetPositions As Integer
+<Serializable()> <ProtoContract()> Public Enum FleetPositions As Integer
     Fleet = 1
     Wing = 2
     Squad = 3
@@ -283,7 +285,7 @@ End Enum
 ''' Class to store details of a remote effect applied to the fitting
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Class RemoteEffect
+<Serializable()> <ProtoContract()> Public Class RemoteEffect
     Dim cFittingName As String
     Dim cPilotName As String
     Dim cImplants As List(Of ModuleWithState)
@@ -296,7 +298,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A string containing the name of the fitting for the remote effect</returns>
     ''' <remarks></remarks>
-    Public Property FittingName() As String
+    <ProtoMember(1)> Public Property FittingName() As String
         Get
             Return cFittingName
         End Get
@@ -311,7 +313,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A string containing the name of the pilot for the remote effect</returns>
     ''' <remarks></remarks>
-    Public Property PilotName() As String
+    <ProtoMember(2)> Public Property PilotName() As String
         Get
             Return cPilotName
         End Get
@@ -326,7 +328,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A collection of implants to be used by the pilot for the remote effect</returns>
     ''' <remarks></remarks>
-    Public Property Implants() As List(Of ModuleWithState)
+    <ProtoMember(3)> Public Property Implants() As List(Of ModuleWithState)
         Get
             Return cImplants
         End Get
@@ -341,7 +343,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A collection of modules to be used for the remote effect</returns>
     ''' <remarks></remarks>
-    Public Property Modules() As List(Of ModuleWithState)
+    <ProtoMember(4)> Public Property Modules() As List(Of ModuleWithState)
         Get
             Return cModules
         End Get
@@ -356,7 +358,7 @@ End Enum
     ''' <value></value>
     ''' <returns>A boolean value indication whether the remote effect is active</returns>
     ''' <remarks></remarks>
-    Public Property IsActive() As Boolean
+    <ProtoMember(5)> Public Property IsActive() As Boolean
         Get
             Return cIsActive
         End Get
