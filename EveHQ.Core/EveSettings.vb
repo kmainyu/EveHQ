@@ -1843,6 +1843,26 @@ Public Class EveHQSettingsFunctions
                 EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
                 Call ResetPilotData()
                 s.Close()
+
+                ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
+                Dim TempAccounts As New List(Of EveAccount)
+                Dim TempPilots As New List(Of Pilot)
+                For Each a As EveAccount In HQ.EveHQSettings.Accounts
+                    TempAccounts.Add(a)
+                Next
+                For Each p As Pilot In HQ.EveHQSettings.Pilots
+                    TempPilots.Add(p)
+                Next
+                HQ.EveHQSettings.Accounts.Clear()
+                HQ.EveHQSettings.Pilots.Clear()
+                For Each a As EveAccount In TempAccounts
+                    HQ.EveHQSettings.Accounts.Add(a, a.userID)
+                Next
+                For Each p As Pilot In TempPilots
+                    HQ.EveHQSettings.Pilots.Add(p, p.Name)
+                Next
+                SaveEveHQSettings()
+
             Catch ex As Exception
                 Dim msg As String = "There was an error trying to load the settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "The error was: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf
