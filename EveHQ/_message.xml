@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <eveHQMessage>
-  <lastUpdated>02/06/2012 21:40:00</lastUpdated>
-  <title>EveHQ - New Location</title>
+  <lastUpdated>10/07/2012 18:20:00</lastUpdated>
+  <title>EveHQ OS Poll</title>
   <allowIgnore>1</allowIgnore>
   <message>
-  <![CDATA[Please note that the EveHQ website has now been moved to a new location to house EveHQ and all other projects currently in development. This includes all information and support, including forums.<br /><br />Please update any bookmarks to <a href="http://eveit.net">http://eveit.net</a> and use this location from now on.<br /><br /><br /><br />- Vessper]]></message>
+  <![CDATA[I've started running a poll on what operating systems people are using to run EveHQ on. If you can spare a few seconds, please visit the <a href="http://eveit.net/2012/07/10/which-os-do-you-use-for-evehq/">poll</a> and make your vote (no registration/login is required).<br /><br />Thanks in advance!<br /><br />- Vessper]]></message>
   <disabledPlugins>
     <plugin name="PoS Manager" version="2.8.1.3869" />
     <plugin name="EveHQ Route Map" version="2.4.0.3671" />

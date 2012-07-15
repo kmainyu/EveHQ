@@ -349,6 +349,7 @@
     <Content Include="ExternalLibs\GammaJul.LgLcd.dll" />
     <Content Include="ExternalLibs\GammaJul.LgLcd.Native32.dll" />
     <Content Include="ExternalLibs\GammaJul.LgLcd.Native64.dll" />
+    <Content Include="ExternalLibs\protobuf-net.dll" />
     <Content Include="ExternalLibs\System.Data.SqlServerCe.dll" />
     <None Include="Resources\ArrowDown.png" />
     <None Include="Resources\ArrowUp.png" />
