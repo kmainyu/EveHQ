@@ -71,7 +71,7 @@ Public Class RequisitionDataFunctions
             strSQL.AppendLine("[requestDate] [datetime] NOT NULL,")
             strSQL.AppendLine("[requisition] [nvarchar](50) NOT NULL,")
             strSQL.AppendLine("CONSTRAINT [PK_requisitions] PRIMARY KEY ([orderID]) );")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -2 Then
                 ' Create the indexes
                 strSQL = New StringBuilder
                 EveHQ.Core.DataFunctions.SetData("CREATE INDEX idxReqSource ON requisitions (source);")

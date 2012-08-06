@@ -447,7 +447,7 @@ Public Class frmMail
             Exit Sub
         Else
             Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
-            If EveHQ.Core.DataFunctions.SetData(updateSQL) = -1 Then
+            If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
                 MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             Call Me.UpdateMails()
@@ -462,7 +462,7 @@ Public Class frmMail
             Exit Sub
         Else
             Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
-            If EveHQ.Core.DataFunctions.SetData(updateSQL) = -1 Then
+            If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
                 MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             Call Me.UpdateNotifications()
@@ -521,7 +521,7 @@ Public Class frmMail
                         CurrentUnreadMails -= 1
                         KeyNode.Parent.Text = "EveMail Inbox (" & CurrentUnreadMails.ToString & ")"
                         Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE messageKey='" & allMails(-CLng(key)).MessageKey & "';"
-                        If EveHQ.Core.DataFunctions.SetData(updateSQL) = -1 Then
+                        If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
                             MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                         Call frmEveHQ.UpdateEveMailButton()
@@ -539,7 +539,7 @@ Public Class frmMail
                         CurrentUnreadNotices -= 1
                         KeyNode.Parent.Text = "Eve Notifications (" & CurrentUnreadNotices.ToString & ")"
                         Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE messageKey='" & allNotices(-CLng(key)).MessageKey & "';"
-                        If EveHQ.Core.DataFunctions.SetData(updateSQL) = -1 Then
+                        If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
                             MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                         Call frmEveHQ.UpdateEveMailButton()

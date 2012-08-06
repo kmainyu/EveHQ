@@ -188,7 +188,7 @@ Public Class frmPrismSettings
             Case 1 ' SQL
                 strSQL = "DELETE T1 FROM walletJournal T1, walletJournal T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
         End Select
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Journal table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted duplicate entries from the Wallet Journal table!", "Delete Duplicates Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -209,7 +209,7 @@ Public Class frmPrismSettings
             Case 1 ' SQL
                 strSQL = "DELETE T1 FROM walletTransactions T1, walletTransactions T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
         End Select
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Transactions table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted duplicate entries from the Wallet Transactions table!", "Delete Duplicates Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -683,7 +683,7 @@ Public Class frmPrismSettings
             Case 1 ' SQL
                 strSQL = "DELETE FROM walletJournal WHERE refTypeID = 0;"
         End Select
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
             MessageBox.Show("Error deleting undefined entries from the Wallet Journal table!", "Delete Undefined Entries Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted undefined entries from the Wallet Journal table!", "Delete Undefined Entries Success", MessageBoxButtons.OK, MessageBoxIcon.Information)

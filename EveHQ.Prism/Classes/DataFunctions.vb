@@ -84,7 +84,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT inventionResults_PK PRIMARY KEY (resultID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -2 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -132,7 +132,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -2 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -247,7 +247,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT walletTransactions_PK PRIMARY KEY (transID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -2 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -275,7 +275,7 @@ Public Class DataFunctions
                 If CurrentTrans > LastTrans Then
 
                     ' Write the details
-                    If WriteSingleWalletTransactionToDB(Trans, strInsert, CharID, CharName, WalletID) = -1 Then
+                    If WriteSingleWalletTransactionToDB(Trans, strInsert, CharID, CharName, WalletID) = -2 Then
                         MessageBox.Show("There was an error writing data to the Wallet Transactions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Transactions", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
 
@@ -399,7 +399,7 @@ Public Class DataFunctions
             strSQL.AppendLine("")
             strSQL.AppendLine("  CONSTRAINT walletJournal_PK PRIMARY KEY (transID)")
             strSQL.AppendLine(")")
-            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -2 Then
                 Return True
             Else
                 MessageBox.Show("There was an error creating the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -562,7 +562,7 @@ Public Class DataFunctions
 
                 If WalletJournal.RefID > LastTrans Then
 
-                    If WriteSingleWalletJournalToDB(WalletJournal, strInsert, CharID, CharName, WalletID) = -1 Then
+                    If WriteSingleWalletJournalToDB(WalletJournal, strInsert, CharID, CharName, WalletID) = -2 Then
                         MessageBox.Show("There was an error writing data to the Wallet Journal database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     End If
 
@@ -616,7 +616,7 @@ Public Class DataFunctions
 
         ' Check for tax record and write
         If tax <> 0 Then
-            If WriteTaxJournalToDB(Trans, Header, CharID, CharName, WalletID) = -1 Then
+            If WriteTaxJournalToDB(Trans, Header, CharID, CharName, WalletID) = -2 Then
                 MessageBox.Show("Error writing the tax journal!")
             End If
         End If
@@ -805,7 +805,7 @@ Public Class DataFunctions
                 uSQL.Append(Job.InstallerID & ", ")
                 uSQL.Append("'" & Job.InstallerName.Replace("'", "''") & "', ")
                 uSQL.Append(Job.result & ");")
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -1 Then
+                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -2 Then
                     'MessageBox.Show("There was an error writing data to the Invention Results database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve IDs", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)  
                 End If
             End If

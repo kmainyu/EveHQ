@@ -92,7 +92,7 @@ Public Class frmUpdatePricesDB
         strSQL.AppendLine("")
         strSQL.AppendLine("  CONSTRAINT priceLists_PK PRIMARY KEY (priceListID)")
         strSQL.AppendLine(")")
-        If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = -2 Then
             MessageBox.Show("There was an error creating the Price Lists database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
@@ -109,7 +109,7 @@ Public Class frmUpdatePricesDB
         strSQL.AppendLine("")
         strSQL.AppendLine("  CONSTRAINT prices_PK PRIMARY KEY (priceListID, typeID)")
         strSQL.AppendLine(")")
-        If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) = -2 Then
             MessageBox.Show("There was an error creating the Prices database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
@@ -117,7 +117,7 @@ Public Class frmUpdatePricesDB
         ' Step 3: Create the old Market Prices price list
         FormWorker.ReportProgress(100, "Stage 3/6: Creating Market Price List...")
         Dim priceListSQL As String = "INSERT INTO priceLists (name, description) VALUES ('EveHQ Market Prices','Old EveHQ Market Prices data');"
-        If EveHQ.Core.DataFunctions.SetData(priceListSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(priceListSQL) = -2 Then
             MessageBox.Show("There was an error writing the Market price list to the Price List database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Market Price List", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
@@ -125,7 +125,7 @@ Public Class frmUpdatePricesDB
         ' Step 4: Create the old Market Prices price list
         FormWorker.ReportProgress(100, "Stage 4/6: Creating Custom Price List...")
         priceListSQL = "INSERT INTO priceLists (name, description) VALUES ('EveHQ Custom Prices','EveHQ Custom Prices data');"
-        If EveHQ.Core.DataFunctions.SetData(priceListSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(priceListSQL) = -2 Then
             MessageBox.Show("There was an error writing the Custom price list to the Price List database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Writing Custom Price List", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If

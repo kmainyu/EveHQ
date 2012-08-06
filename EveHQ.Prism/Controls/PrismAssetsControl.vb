@@ -1890,7 +1890,7 @@ Public Class PrismAssetsControl
         Dim assetID As String = mnuAddCustomName.Tag.ToString
         Dim itemName As String = mnuItemName.Text
         Dim assetSQL As String = "DELETE FROM assetItemNames WHERE itemID=" & assetID & ";"
-        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -2 Then
             MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
             PlugInData.AssetItemNames.Remove(assetID)

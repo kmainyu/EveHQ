@@ -130,7 +130,7 @@ Public Class frmUpgradeMDB
 		strSQL.AppendLine("")
 		strSQL.AppendLine("  CONSTRAINT assetItemNames_PK PRIMARY KEY (itemID)")
 		strSQL.AppendLine(")")
-        If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL.ToString) <> -2 Then
             Return True
         Else
             MessageBox.Show("There was an error creating the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError, "Error Creating Database Table", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

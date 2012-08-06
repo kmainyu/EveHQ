@@ -196,7 +196,7 @@ Public Class Requisition
             For Each newOrder As EveHQ.Core.RequisitionOrder In Me.cOrders.Values
                 Dim strSQL As String = BuildInsertSQLFromOrder(newOrder)
                 ' Attempt to write the new requisition
-                If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+                If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
                     MessageBox.Show("There was an error writing data to the EveHQ Requisitions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL.ToString, "Error Writing EveHQ Requisition", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
@@ -214,7 +214,7 @@ Public Class Requisition
         ' Remove the entire requisition and order
         Dim strSQL As String = "DELETE FROM requisitions WHERE requisition='" & Me.Name.Replace("'", "''") & "';"
         ' Attempt to delete the requisitions
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
             MessageBox.Show("There was an error writing data to the EveHQ Requisitions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL.ToString, "Error Writing EveHQ Requisition", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         End If
@@ -242,7 +242,7 @@ Public Class Requisition
             ' Build the SQL
             Dim strSQL As String = "DELETE FROM requisitions WHERE orderID IN (" & OldOrderList.ToString & ");"
             ' Attempt to delete the requisitions
-            If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+            If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
                 MessageBox.Show("There was an error writing data to the EveHQ Requisitions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL.ToString, "Error Writing EveHQ Requisition", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             End If
@@ -253,7 +253,7 @@ Public Class Requisition
             If newOrder.ID <> "-1" Then
                 Dim strSQL As String = BuildUpdateSQLFromOrder(Me, newOrder)
                 ' Attempt to write the new requisition order
-                If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+                If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
                     MessageBox.Show("There was an error writing data to the EveHQ Requisitions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL.ToString, "Error Writing EveHQ Requisition", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
@@ -265,7 +265,7 @@ Public Class Requisition
             If newOrder.ID = "-1" Then
                 Dim strSQL As String = BuildInsertSQLFromOrder(newOrder)
                 ' Attempt to write the new requisition
-                If EveHQ.Core.DataFunctions.SetData(strSQL) = -1 Then
+                If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
                     MessageBox.Show("There was an error writing data to the EveHQ Requisitions database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & strSQL.ToString, "Error Writing EveHQ Requisition", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Return False
                 End If
