@@ -1360,7 +1360,7 @@
 # BOOSTERS,,,,,,,,,,
 548,1,10155,68,2,40,0,0,0,15,Improved Blue Pill - Shield Boost Bonus
 848,1,10151,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Radius Bonus
-244,1,15477,160,2,55;53;74,0,0,5,15,Improved Drop - Tracking Speed Bonus
+767,1,15477,160,2,55;53;74,0,0,0,15,Improved Drop - Tracking Speed Bonus
 895,1,15480,84,2,62,0,0,0,15,Improved Exile - Armor Repair Bonus
 294,1,15461,54,2,55;53;74,0,0,0,15,Improved Frentix - Turret Optimal Range Bonus
 1079,1,15464,482,3,6,0,0,0,15,Improved Mindflood - Capacitor Bonus
@@ -1368,7 +1368,7 @@
 554,1,15458,552,3,6,0,0,0,15,Improved Xinstict - Sig Radius Bonus
 548,1,9950,68,2,40,0,0,0,15,Standard Blue Pill - Shield Boost Bonus
 848,1,9947,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Explosion Radius Bonus
-244,1,15466,160,2,55;53;74,0,0,5,15,Standard Drop - Tracking Speed Bonus
+767,1,15466,160,2,55;53;74,0,0,0,15,Standard Drop - Tracking Speed Bonus
 895,1,15479,84,2,62,0,0,0,15,Standard Exile - Armor Repair Bonus
 294,1,15460,54,2,55;53;74,0,0,0,15,Standard Frentix - Turret Optimal Range Bonus
 1079,1,15463,482,3,6,0,0,0,15,Standard Mindflood - Capacitor Bonus
@@ -1376,7 +1376,7 @@
 554,1,15457,552,3,6,0,0,0,15,Standard Xinstict - Sig Radius Bonus
 548,1,10156,68,2,40,0,0,0,15,Strong Blue Pill - Shield Boost Bonus
 848,1,10152,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Explosion Radius Bonus
-244,1,15478,160,2,55;53;74,0,0,5,15,Strong Drop - Tracking Speed Bonus
+767,1,15478,160,2,55;53;74,0,0,0,15,Strong Drop - Tracking Speed Bonus
 895,1,25349,84,2,62,0,0,0,15,Strong Exile - Armor Repair Bonus
 294,1,15462,54,2,55;53;74,0,0,0,15,Strong Frentix - Turret Optimal Range Bonus
 1079,1,15465,482,3,6,0,0,0,15,Strong Mindflood - Capacitor Bonus
@@ -1384,7 +1384,7 @@
 554,1,15459,552,3,6,0,0,0,15,Strong Xinstict - Sig Radius Bonus
 548,1,28670,68,2,40,0,0,0,15,Synth Blue Pill - Shield Boost Bonus
 848,1,28672,654,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Synth Crash - Explosion Radius Bonus
-244,1,28674,160,2,55;53;74,0,0,5,15,Synth Drop - Tracking Speed Bonus
+767,1,28674,160,2,55;53;74,0,0,0,15,Synth Drop - Tracking Speed Bonus
 895,1,28676,84,2,62,0,0,0,15,Synth Exile - Armor Repair Bonus
 294,1,28678,54,2,55;53;74,0,0,0,15,Synth Frentix - Turret Optimal Range Bonus
 1079,1,28680,482,3,6,0,0,0,15,Synth Mindflood - Capacitor Bonus
