@@ -5448,10 +5448,12 @@ Public Class frmPrism
 
     Private Sub adtInventionJobs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtInventionJobs.NodeDoubleClick
         Dim JobName As String = e.Node.Name
-        Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
-        Dim BPCalc As New frmBPCalculator(ExistingJob, True)
-        BPCalc.Location = New Point(CInt(Me.ParentForm.Left + ((Me.ParentForm.Width - BPCalc.Width) / 2)), CInt(Me.ParentForm.Top + ((Me.ParentForm.Height - BPCalc.Height) / 2)))
-        BPCalc.Show()
+        If ProductionJobs.Jobs.ContainsKey(JobName) Then
+            Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
+            Dim BPCalc As New frmBPCalculator(ExistingJob, True)
+            BPCalc.Location = New Point(CInt(Me.ParentForm.Left + ((Me.ParentForm.Width - BPCalc.Width) / 2)), CInt(Me.ParentForm.Top + ((Me.ParentForm.Height - BPCalc.Height) / 2)))
+            BPCalc.Show()
+        End If
     End Sub
 
     Private Sub adtInventionJobs_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseUp
