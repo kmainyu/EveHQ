@@ -76,7 +76,16 @@ Imports System.Runtime.Serialization.Formatters.Binary
     Private cPropulsionPanelIsCollapsed As Boolean = False
     Private cCargoPanelIsCollapsed As Boolean = False
     Private cSortedModuleListInfo As New EveHQ.Core.AdvTreeSortResult
+    Private cAutoResizeColumns As Boolean = False
 
+    Public Property AutoResizeColumns As Boolean
+        Get
+            Return cAutoResizeColumns
+        End Get
+        Set(ByVal value As Boolean)
+            cAutoResizeColumns = value
+        End Set
+    End Property
     Public Property SortedModuleListInfo As EveHQ.Core.AdvTreeSortResult
         Get
             If cSortedModuleListInfo Is Nothing Then

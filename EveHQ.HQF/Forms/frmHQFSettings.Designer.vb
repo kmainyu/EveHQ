@@ -167,6 +167,7 @@ Partial Public Class frmHQFSettings
         Me.lvwProfiles = New DevComponents.DotNetBar.Controls.ListViewEx()
         Me.colProfileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.colProfileType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.chkAutoResizeColumns = New System.Windows.Forms.CheckBox()
         Me.gbGeneral.SuspendLayout()
         Me.gbFittingProtocol.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -216,7 +217,6 @@ Partial Public Class frmHQFSettings
         '
         '
         '
-        Me.chkUseLastPilot.BackgroundStyle.Class = ""
         Me.chkUseLastPilot.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkUseLastPilot.Location = New System.Drawing.Point(25, 131)
         Me.chkUseLastPilot.Name = "chkUseLastPilot"
@@ -231,7 +231,6 @@ Partial Public Class frmHQFSettings
         '
         '
         '
-        Me.chkAutoUpdateHQFSkills.BackgroundStyle.Class = ""
         Me.chkAutoUpdateHQFSkills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkAutoUpdateHQFSkills.Location = New System.Drawing.Point(25, 109)
         Me.chkAutoUpdateHQFSkills.Name = "chkAutoUpdateHQFSkills"
@@ -246,7 +245,6 @@ Partial Public Class frmHQFSettings
         '
         '
         '
-        Me.chkRestoreLastSession.BackgroundStyle.Class = ""
         Me.chkRestoreLastSession.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkRestoreLastSession.Location = New System.Drawing.Point(25, 87)
         Me.chkRestoreLastSession.Name = "chkRestoreLastSession"
@@ -261,7 +259,6 @@ Partial Public Class frmHQFSettings
         '
         '
         '
-        Me.chkShowPerformance.BackgroundStyle.Class = ""
         Me.chkShowPerformance.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkShowPerformance.Location = New System.Drawing.Point(25, 446)
         Me.chkShowPerformance.Name = "chkShowPerformance"
@@ -448,6 +445,7 @@ Partial Public Class frmHQFSettings
         '
         'gbSlotFormat
         '
+        Me.gbSlotFormat.Controls.Add(Me.chkAutoResizeColumns)
         Me.gbSlotFormat.Controls.Add(Me.lblSubSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.pbSubSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.btnMoveDown)
@@ -462,9 +460,9 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.pbHiSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblMidSlotColour)
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
-        Me.gbSlotFormat.Location = New System.Drawing.Point(430, 277)
+        Me.gbSlotFormat.Location = New System.Drawing.Point(194, 10)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(101, 26)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(582, 499)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
@@ -548,9 +546,9 @@ Partial Public Class frmHQFSettings
         Me.gbCache.Controls.Add(Me.btnDeleteAllFittings)
         Me.gbCache.Controls.Add(Me.btnCheckData)
         Me.gbCache.Controls.Add(Me.btnDeleteCache)
-        Me.gbCache.Location = New System.Drawing.Point(200, 105)
+        Me.gbCache.Location = New System.Drawing.Point(555, 109)
         Me.gbCache.Name = "gbCache"
-        Me.gbCache.Size = New System.Drawing.Size(537, 330)
+        Me.gbCache.Size = New System.Drawing.Size(87, 48)
         Me.gbCache.TabIndex = 29
         Me.gbCache.TabStop = False
         Me.gbCache.Text = "Data and Cache Settings"
@@ -832,11 +830,11 @@ Partial Public Class frmHQFSettings
         '
         Me.pnlSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.pnlSettings.Controls.Add(Me.gbSlotFormat)
         Me.pnlSettings.Controls.Add(Me.gbDefenceProfiles)
         Me.pnlSettings.Controls.Add(Me.gbGeneral)
         Me.pnlSettings.Controls.Add(Me.gbAttributeColumns)
         Me.pnlSettings.Controls.Add(Me.gbCache)
-        Me.pnlSettings.Controls.Add(Me.gbSlotFormat)
         Me.pnlSettings.Controls.Add(Me.gbDamageProfiles)
         Me.pnlSettings.Controls.Add(Me.gbConstants)
         Me.pnlSettings.Controls.Add(Me.btnClose)
@@ -862,7 +860,7 @@ Partial Public Class frmHQFSettings
         Me.gbDefenceProfiles.Controls.Add(Me.btnResetDefenceProfiles)
         Me.gbDefenceProfiles.Controls.Add(Me.btnAddDefenceProfile)
         Me.gbDefenceProfiles.Controls.Add(Me.lvwDefenceProfiles)
-        Me.gbDefenceProfiles.Location = New System.Drawing.Point(194, 12)
+        Me.gbDefenceProfiles.Location = New System.Drawing.Point(228, 204)
         Me.gbDefenceProfiles.Name = "gbDefenceProfiles"
         Me.gbDefenceProfiles.Size = New System.Drawing.Size(180, 69)
         Me.gbDefenceProfiles.TabIndex = 33
@@ -916,7 +914,6 @@ Partial Public Class frmHQFSettings
         Me.gpDefenceProfile.Style.BorderRightWidth = 1
         Me.gpDefenceProfile.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpDefenceProfile.Style.BorderTopWidth = 1
-        Me.gpDefenceProfile.Style.Class = ""
         Me.gpDefenceProfile.Style.CornerDiameter = 4
         Me.gpDefenceProfile.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpDefenceProfile.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -925,12 +922,10 @@ Partial Public Class frmHQFSettings
         '
         '
         '
-        Me.gpDefenceProfile.StyleMouseDown.Class = ""
         Me.gpDefenceProfile.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpDefenceProfile.StyleMouseOver.Class = ""
         Me.gpDefenceProfile.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpDefenceProfile.TabIndex = 16
         Me.gpDefenceProfile.Text = "Selected Profile Information"
@@ -1355,7 +1350,6 @@ Partial Public Class frmHQFSettings
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -1425,7 +1419,6 @@ Partial Public Class frmHQFSettings
         Me.gpProfile.Style.BorderRightWidth = 1
         Me.gpProfile.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpProfile.Style.BorderTopWidth = 1
-        Me.gpProfile.Style.Class = ""
         Me.gpProfile.Style.CornerDiameter = 4
         Me.gpProfile.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpProfile.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -1434,12 +1427,10 @@ Partial Public Class frmHQFSettings
         '
         '
         '
-        Me.gpProfile.StyleMouseDown.Class = ""
         Me.gpProfile.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpProfile.StyleMouseOver.Class = ""
         Me.gpProfile.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpProfile.TabIndex = 16
         Me.gpProfile.Text = "Selected Profile Information"
@@ -1809,6 +1800,16 @@ Partial Public Class frmHQFSettings
         Me.colProfileType.Text = "Profile Type"
         Me.colProfileType.Width = 100
         '
+        'chkAutoResizeColumns
+        '
+        Me.chkAutoResizeColumns.AutoSize = True
+        Me.chkAutoResizeColumns.Location = New System.Drawing.Point(287, 269)
+        Me.chkAutoResizeColumns.Name = "chkAutoResizeColumns"
+        Me.chkAutoResizeColumns.Size = New System.Drawing.Size(167, 17)
+        Me.chkAutoResizeColumns.TabIndex = 34
+        Me.chkAutoResizeColumns.Text = "Automatically Resize Columns"
+        Me.chkAutoResizeColumns.UseVisualStyleBackColor = True
+        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1999,4 +2000,5 @@ Partial Public Class frmHQFSettings
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
     Friend WithEvents btnClearAttributes As DevComponents.DotNetBar.ButtonX
     Friend WithEvents btnRemoveAttribute As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents chkAutoResizeColumns As System.Windows.Forms.CheckBox
 End Class

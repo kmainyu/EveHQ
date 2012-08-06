@@ -155,6 +155,7 @@ Public Class frmHQFSettings
 #Region "Slot Format Options"
 
     Private Sub UpdateSlotFormatOptions()
+        chkAutoResizeColumns.Checked = Settings.HQFSettings.AutoResizeColumns
         Dim HColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.HiSlotColour))
         Me.pbHiSlotColour.BackColor = HColor
         Dim MColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.MidSlotColour))
@@ -314,6 +315,11 @@ Public Class frmHQFSettings
             Me.pbSubSlotColour.BackColor = cd1.Color
             Settings.HQFSettings.SubSlotColour = cd1.Color.ToArgb
         End If
+    End Sub
+
+    Private Sub chkAutoResizeColumns_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkAutoResizeColumns.CheckedChanged
+        Settings.HQFSettings.AutoResizeColumns = chkAutoResizeColumns.Checked
+        forceUpdate = True
     End Sub
 
 #End Region
@@ -1063,4 +1069,5 @@ Public Class frmHQFSettings
 #End Region
 
    
+  
 End Class

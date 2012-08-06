@@ -239,6 +239,9 @@ Public Class ShipSlotControl
         eTime = Now
         'MessageBox.Show((eTime - sTime).TotalMilliseconds.ToString & "ms", "Ship Slot Control Update")
         Call UpdateShipDetails()
+        If Settings.HQFSettings.AutoResizeColumns = True Then
+            Call Me.AutoSizeAllColumns()
+        End If
     End Sub
     Private Sub UpdateSlotLocation(ByVal oldMod As ShipModule, ByVal slotNo As Integer)
         If oldMod IsNot Nothing Then
