@@ -218,6 +218,11 @@ Partial Class frmTraining
         Me.panelInfo = New DevComponents.DotNetBar.PanelEx()
         Me.cboPilots = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+        Me.TabItem5 = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lvwQueues = New System.Windows.Forms.ListView()
+        Me.ColumnHeader7 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.ctxReqs.SuspendLayout()
@@ -241,6 +246,7 @@ Partial Class frmTraining
         Me.tcpQueue.SuspendLayout()
         Me.ctxQueues.SuspendLayout()
         Me.panelInfo.SuspendLayout()
+        Me.TabControlPanel6.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvwSkillList
@@ -1000,17 +1006,14 @@ Partial Class frmTraining
         '
         '
         '
-        Me.RibbonBarMergeContainer1.Style.Class = ""
         Me.RibbonBarMergeContainer1.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.RibbonBarMergeContainer1.StyleMouseDown.Class = ""
         Me.RibbonBarMergeContainer1.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.RibbonBarMergeContainer1.StyleMouseOver.Class = ""
         Me.RibbonBarMergeContainer1.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonBarMergeContainer1.TabIndex = 47
         Me.RibbonBarMergeContainer1.Visible = False
@@ -1021,12 +1024,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbImportExport.BackgroundMouseOverStyle.Class = ""
         Me.rbImportExport.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbImportExport.BackgroundStyle.Class = ""
         Me.rbImportExport.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbImportExport.ContainerControlProcessDialogKey = True
         Me.rbImportExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer1})
@@ -1040,12 +1041,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbImportExport.TitleStyle.Class = ""
         Me.rbImportExport.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbImportExport.TitleStyleMouseOver.Class = ""
         Me.rbImportExport.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'ItemContainer1
@@ -1053,7 +1052,6 @@ Partial Class frmTraining
         '
         '
         '
-        Me.ItemContainer1.BackgroundStyle.Class = ""
         Me.ItemContainer1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer1.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer1.Name = "ItemContainer1"
@@ -1082,12 +1080,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbAttributeTools.BackgroundMouseOverStyle.Class = ""
         Me.rbAttributeTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAttributeTools.BackgroundStyle.Class = ""
         Me.rbAttributeTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbAttributeTools.ContainerControlProcessDialogKey = True
         Me.rbAttributeTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnImplants, Me.btnRemap})
@@ -1101,12 +1097,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbAttributeTools.TitleStyle.Class = ""
         Me.rbAttributeTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAttributeTools.TitleStyleMouseOver.Class = ""
         Me.rbAttributeTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbAttributeTools.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1138,12 +1132,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbQueueSettings.BackgroundMouseOverStyle.Class = ""
         Me.rbQueueSettings.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueueSettings.BackgroundStyle.Class = ""
         Me.rbQueueSettings.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueueSettings.ContainerControlProcessDialogKey = True
         Me.rbQueueSettings.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnQueueSettings})
@@ -1157,12 +1149,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbQueueSettings.TitleStyle.Class = ""
         Me.rbQueueSettings.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueueSettings.TitleStyleMouseOver.Class = ""
         Me.rbQueueSettings.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueueSettings.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1182,12 +1172,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbQueueFunctions.BackgroundMouseOverStyle.Class = ""
         Me.rbQueueFunctions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueueFunctions.BackgroundStyle.Class = ""
         Me.rbQueueFunctions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueueFunctions.ContainerControlProcessDialogKey = True
         Me.rbQueueFunctions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnRBAddSkill, Me.btnRBDeleteSkill, Me.btnRBIncreaseLevel, Me.btnRBDecreaseLevel, Me.btnRBMoveUpQueue, Me.btnRBMoveDownQueue, Me.btnRBClearQueue, Me.btnRBSplitQueue})
@@ -1201,12 +1189,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbQueueFunctions.TitleStyle.Class = ""
         Me.rbQueueFunctions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueueFunctions.TitleStyleMouseOver.Class = ""
         Me.rbQueueFunctions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueueFunctions.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1296,12 +1282,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbQueueAdmin.BackgroundMouseOverStyle.Class = ""
         Me.rbQueueAdmin.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueueAdmin.BackgroundStyle.Class = ""
         Me.rbQueueAdmin.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueueAdmin.ContainerControlProcessDialogKey = True
         Me.rbQueueAdmin.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnRBAddQueue, Me.btnRBEditQueue, Me.btnRBDeleteQueue, Me.btnRBSetPrimaryQueue, Me.btnRBMergeQueues, Me.btnRBCopyQueue, Me.btnRBCopyQueueToPilot, Me.btnIncTraining})
@@ -1315,12 +1299,10 @@ Partial Class frmTraining
         '
         '
         '
-        Me.rbQueueAdmin.TitleStyle.Class = ""
         Me.rbQueueAdmin.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueueAdmin.TitleStyleMouseOver.Class = ""
         Me.rbQueueAdmin.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueueAdmin.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
@@ -1536,12 +1518,13 @@ Partial Class frmTraining
         Me.tabSkillDetails.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabSkillDetails.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabSkillDetails.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
-        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel1)
-        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel7)
-        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel5)
+        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel6)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel4)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel3)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel2)
+        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel5)
+        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel7)
+        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel1)
         Me.tabSkillDetails.Location = New System.Drawing.Point(3, 541)
         Me.tabSkillDetails.Name = "tabSkillDetails"
         Me.tabSkillDetails.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1554,6 +1537,7 @@ Partial Class frmTraining
         Me.tabSkillDetails.Tabs.Add(Me.TabItem1)
         Me.tabSkillDetails.Tabs.Add(Me.TabItem2)
         Me.tabSkillDetails.Tabs.Add(Me.TabItem3)
+        Me.tabSkillDetails.Tabs.Add(Me.TabItem5)
         Me.tabSkillDetails.Tabs.Add(Me.TabItem4)
         Me.tabSkillDetails.Tabs.Add(Me.TabItem6)
         Me.tabSkillDetails.Text = "TabControl1"
@@ -1676,7 +1660,7 @@ Partial Class frmTraining
         '
         Me.TabItem6.AttachedControl = Me.TabControlPanel7
         Me.TabItem6.Name = "TabItem6"
-        Me.TabItem6.Text = "Training Times"
+        Me.TabItem6.Text = "Times"
         '
         'TabControlPanel5
         '
@@ -1999,6 +1983,56 @@ Partial Class frmTraining
         Me.ExpandableSplitter1.TabIndex = 52
         Me.ExpandableSplitter1.TabStop = False
         '
+        'TabItem5
+        '
+        Me.TabItem5.AttachedControl = Me.TabControlPanel6
+        Me.TabItem5.Name = "TabItem5"
+        Me.TabItem5.Text = "Queues"
+        '
+        'TabControlPanel6
+        '
+        Me.TabControlPanel6.Controls.Add(Me.lvwQueues)
+        Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel6.Name = "TabControlPanel6"
+        Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel6.Size = New System.Drawing.Size(431, 258)
+        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel6.Style.GradientAngle = 90
+        Me.TabControlPanel6.TabIndex = 8
+        Me.TabControlPanel6.TabItem = Me.TabItem5
+        '
+        'lvwQueues
+        '
+        Me.lvwQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader7, Me.ColumnHeader8})
+        Me.lvwQueues.ContextMenuStrip = Me.ctxDepend
+        Me.lvwQueues.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwQueues.FullRowSelect = True
+        Me.lvwQueues.GridLines = True
+        Me.lvwQueues.Location = New System.Drawing.Point(1, 1)
+        Me.lvwQueues.Name = "lvwQueues"
+        Me.lvwQueues.ShowItemToolTips = True
+        Me.lvwQueues.Size = New System.Drawing.Size(429, 256)
+        Me.lvwQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwQueues.TabIndex = 1
+        Me.lvwQueues.UseCompatibleStateImageBehavior = False
+        Me.lvwQueues.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "Queue Name"
+        Me.ColumnHeader7.Width = 300
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "Queued Level"
+        Me.ColumnHeader8.Width = 100
+        '
         'frmTraining
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2040,6 +2074,7 @@ Partial Class frmTraining
         Me.ctxQueues.ResumeLayout(False)
         Me.panelInfo.ResumeLayout(False)
         Me.panelInfo.PerformLayout()
+        Me.TabControlPanel6.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -2227,5 +2262,10 @@ Partial Class frmTraining
     Friend WithEvents cboFilter As DevComponents.DotNetBar.Controls.ComboBoxEx
 	Friend WithEvents btnRBSplitQueue As DevComponents.DotNetBar.ButtonItem
 	Friend WithEvents ToolStripMenuItem8 As System.Windows.Forms.ToolStripSeparator
-	Friend WithEvents mnuSplitQueue As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents mnuSplitQueue As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents TabControlPanel6 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents lvwQueues As System.Windows.Forms.ListView
+    Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents TabItem5 As DevComponents.DotNetBar.TabItem
 End Class

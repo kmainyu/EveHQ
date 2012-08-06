@@ -46,6 +46,7 @@ Public Class frmSkillDetails
         Call Me.PrepareTree(skillID)
         Call Me.PrepareDepends(skillID)
         Call Me.PrepareDescription(skillID)
+        Call Me.PrepareQueues(skillID)
         Call Me.PrepareSPs(skillID)
         Call Me.PrepareTimes(skillID)
 
@@ -348,7 +349,26 @@ Public Class frmSkillDetails
         Next
         lvwDepend.EndUpdate()
     End Sub
-
+    Private Sub PrepareQueues(ByVal skillID As String)
+        lvwQueues.BeginUpdate()
+        lvwQueues.Items.Clear()
+        For Each skillQ As EveHQ.Core.SkillQueue In displayPilot.TrainingQueues.Values
+            Dim maxLevel As Integer = 0
+            For Each s As EveHQ.Core.SkillQueueItem In skillQ.Queue
+                If s.Name = EveHQ.Core.SkillFunctions.SkillIDToName(skillID) Then
+                    maxLevel = Math.Max(maxLevel, s.ToLevel)
+                End If
+            Next
+            If maxLevel > 0 Then
+                Dim newItem As New ListViewItem
+                newItem.Name = skillQ.Name
+                newItem.Text = skillQ.Name
+                newItem.SubItems.Add(maxLevel.ToString)
+                lvwQueues.Items.Add(newItem)
+            End If
+        Next
+        lvwQueues.EndUpdate()
+    End Sub
     Private Sub PrepareDescription(ByVal skillID As String)
         Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Me.lblDescription.Text = cSkill.Description
