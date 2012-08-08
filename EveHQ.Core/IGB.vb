@@ -664,13 +664,6 @@ Public Class IGB
                             attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("description").ToString
                             attributes(attNo, 4) = ""
                             attributes(attNo, 5) = "0"
-                            ' Insert attribute 3 from tblTypes
-                            attNo += 1
-                            attributes(attNo, 1) = "C"
-                            attributes(attNo, 2) = "Radius"
-                            attributes(attNo, 3) = eveData.Tables(0).Rows(0).Item("radius").ToString
-                            attributes(attNo, 4) = " m"
-                            attributes(attNo, 5) = "1"
                             ' Insert attribute 4 from tblTypes
                             attNo += 1
                             attributes(attNo, 1) = "D"

@@ -226,8 +226,7 @@ Public Class frmItemBrowser
             item = eveData.Tables(0).Rows(row).Item("typeID").ToString
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("A"), 0) = eveData.Tables(0).Rows(row).Item("groupID").ToString
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("B"), 0) = eveData.Tables(0).Rows(row).Item("description").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("C"), 0) = eveData.Tables(0).Rows(row).Item("radius").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("D"), 0) = eveData.Tables(0).Rows(row).Item("mass").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("D"), 0) = EveData.Tables(0).Rows(row).Item("mass").ToString
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("E"), 0) = eveData.Tables(0).Rows(row).Item("volume").ToString
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("F"), 0) = eveData.Tables(0).Rows(row).Item("capacity").ToString
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("G"), 0) = eveData.Tables(0).Rows(row).Item("portionSize").ToString
@@ -685,13 +684,6 @@ Public Class frmItemBrowser
         attributes(attNo, 3) = desc
         attributes(attNo, 4) = ""
         attributes(attNo, 5) = "0"
-        ' Insert attribute 3 from tblTypes
-        attNo += 1
-        attributes(attNo, 1) = "C"
-        attributes(attNo, 2) = "Radius"
-        attributes(attNo, 3) = BasicItemData.Tables(0).Rows(0).Item("radius")
-        attributes(attNo, 4) = " m"
-        attributes(attNo, 5) = "1"
         ' Insert attribute 4 from tblTypes
         attNo += 1
         attributes(attNo, 1) = "D"

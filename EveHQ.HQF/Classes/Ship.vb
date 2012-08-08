@@ -101,7 +101,6 @@ Imports System.ComponentModel
     Private cCargoBay As Double
     Private cMass As Double
     Private cVolume As Double
-    Private cRadius As Double
 
     ' Drones
     Private cDroneBay As Double
@@ -861,15 +860,6 @@ Imports System.ComponentModel
         End Get
         Set(ByVal value As Double)
             cVolume = value
-        End Set
-    End Property
-
-    <Description("The radius of the ship")> <Category("Structure")> Public Property Radius() As Double
-        Get
-            Return cRadius
-        End Get
-        Set(ByVal value As Double)
-            cRadius = value
         End Set
     End Property
 
@@ -2067,7 +2057,6 @@ Imports System.ComponentModel
 #Region "Add Custom Attributes"
     Public Sub AddCustomShipAttributes()
         ' Add the custom attributes to the list
-        Me.Attributes.Add("10001", Me.Radius)
         Me.Attributes.Add("10002", Me.Mass)
         Me.Attributes.Add("10003", Me.Volume)
         Me.Attributes.Add("10004", Me.CargoBay)
