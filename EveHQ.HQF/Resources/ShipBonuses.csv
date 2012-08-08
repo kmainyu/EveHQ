@@ -114,6 +114,10 @@
 22466,1,23950,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 22466,1,23950,158,4,562;565,0,1,0,5,15,Medium Hybrid Turret Falloff
 22466,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408;4262;4264;4266;4268;4270;4272;4274;4276;4278;4280;4282;4284;4286;4288;4290,0,0,0,-99,15,Warfare Link Module CPU Use
+# Atron,,,,,,,,,,,
+608,1,3328,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
+608,1,3328,10015,4,561;564,0,1,0,5,15,Small Hybrid Turret Damage
+608,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Augoror,,,,,,,,,,,
 625,1,3335,265,1,625,0,1,0,10,15,Armor HP
 625,1,3335,6,2,67,0,1,0,-10,15,Energy Transfer Cap Use
@@ -264,9 +268,9 @@
 16236,1,12097,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
 16236,0,0,54,4,567;570,0,0,0,50,15,Small Energy Turret Optimal Range
 # Condor,,,,,,,,,,,
-583,1,3330,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
-583,1,3330,117,2,384;653;394,0,1,0,5,15,Light Missile Damage - Kin
-583,1,3330,37,2,387;648;384;653;394,0,1,0,10,15,"Rocket, Light Missile Velocity"
+583,1,3330,117,2,387;648,0,1,0,10,15,Rocket Damage - Kin
+583,1,3330,117,2,384;653;394,0,1,0,10,15,Light Missile Damage - Kin
+583,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Cormorant,,,,,,,,,,,
 16238,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
 16238,1,12097,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
@@ -420,6 +424,7 @@
 # Executioner,,,,,,,,,,,
 589,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 589,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+589,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Exequror,,,,,,,,,,,
 634,1,3332,10004,1,634,0,1,0,10,15,Cargo Capacity
 634,1,3332,6,2,325,0,1,0,-10,15,Armor Transfer Capacitor
@@ -1176,6 +1181,7 @@
 # Slasher,,,,,,,,,,,
 585,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 585,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
+585,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Sleipnir,,,,,,,,,,,
 22444,1,12099,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 22444,1,12099,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
