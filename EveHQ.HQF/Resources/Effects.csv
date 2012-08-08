@@ -1169,6 +1169,7 @@
 1160,1,25930,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
 1160,1,26342,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
 846,2,780,1371,2,479,0,0,0,15,Gravity Capacitor Upgrade
+780,2,780,73,4,1038,0,0,0,15,Ice Harvester Accelerator
 310,2,780,50,5,3432,0,0,0,15,Liquid Cooled Electronics
 1160,1,31238,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
 1160,1,31244,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
@@ -1176,6 +1177,7 @@
 1160,1,31246,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
 1160,1,25932,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
 1160,1,26346,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank
+434,2,780,782,2,663,0,0,0,15,Mercoxit Mining Crystal Optimization
 424,2,780,48,3,6,0,0,0,15,Processor Overclocking Unit
 317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 # RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
