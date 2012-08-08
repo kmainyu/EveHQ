@@ -51,7 +51,7 @@
 292,1,19689,10016,4,575;578,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Medium Projectile Turret MP-805
 292,1,3189,10016,4,575;578,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Medium Projectile Turret MP-806
 292,1,27084,10016,4,574;577,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Small Projectile Turret SP-601
-292,1,3199,10016,4,574;577,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Smalll Projectie Turret SP-602
+292,1,3199,10016,4,574;577,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Small Projectile Turret SP-602
 292,1,13225,10016,4,574;577,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Small Projectile Turret SP-603
 292,1,3200,10016,4,574;577,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Small Projectile Turret SP-604
 292,1,19690,10016,4,574;577,0,0,0,Gunnery,Eifyr and Co. 'Gunslinger' Small Projectile Turret SP-605
@@ -83,18 +83,18 @@
 317,1,3102,6,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Fuel Conservation FC-804
 317,1,16005,6,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Fuel Conservation FC-805
 317,1,3103,6,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Fuel Conservation FC-806
-66,1,27111,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-601
-66,1,3104,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-602
-66,1,13239,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-603
-66,1,3105,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-604
-66,1,27110,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-605
-66,1,3108,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-606
-319,1,27113,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-601
-319,1,3109,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-602
-319,1,13241,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-603
-319,1,3110,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-604
-319,1,27112,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-605
-319,1,3111,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-606
+66,1,27111,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-602
+66,1,3104,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-604
+66,1,13239,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-606
+66,1,3105,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-608
+66,1,27110,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-610
+66,1,3108,73,4,542,0,0,0,Navigation,Eifyr and Co. 'Rogue' Afterburner AB-612
+319,1,27113,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-602
+319,1,3109,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-604
+319,1,13241,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-606
+319,1,3110,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-608
+319,1,27112,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-610
+319,1,3111,153,3,6,0,0,0,Navigation,Eifyr and Co. 'Rogue' Warp Drive Operation WD-612
 216,1,27100,6,4,131,0,0,0,Navigation,Eifyr and Co. 'Rogue' High Speed Maneuvering HS-901
 216,1,3112,6,4,131,0,0,0,Navigation,Eifyr and Co. 'Rogue' High Speed Maneuvering HS-902
 216,1,13243,6,4,131,0,0,0,Navigation,Eifyr and Co. 'Rogue' High Speed Maneuvering HS-903
@@ -129,7 +129,7 @@
 927,1,27151,1082,4,935,0,0,0,Industry,Inherent Implants 'Highwall' Mining Upgrades MU-1001
 927,1,27149,1082,4,935,0,0,0,Industry,Inherent Implants 'Highwall' Mining Upgrades MU-1003
 927,1,27150,1082,4,935,0,0,0,Industry,Inherent Implants 'Highwall' Mining Upgrades MU-1005
-292,1,3202,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SD-602
+292,1,3202,10014,4,567;570,0,0,0,Gunnery,Inherent Implants 'Lancer' Small Energy Turret SE-602
 317,1,3203,6,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Controlled Bursts CB-702
 441,1,3204,10011;10012;10013,2,53;55;74,0,0,0,Gunnery,Inherent Implants 'Lancer' Gunnery RF-902
 292,1,3205,10014,4,569;573,0,0,0,Gunnery,Inherent Implants 'Lancer' Large Energy Turret LE-1002
