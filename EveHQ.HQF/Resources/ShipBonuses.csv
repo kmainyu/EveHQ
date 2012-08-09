@@ -720,7 +720,7 @@
 22548,1,22551,77,4,1040,0,1,0,1,15,Strip Miner Mining Yield
 22548,1,22551,73,4,1038,0,1,0,-1,15,Ice Harvester Duration
 22548,0,0,77,4,1040,0,0,0,50,15,Strip Miner Mining Yield
-22548,0,0,73,4,1038,0,1,0,-33.33333333,15,Ice Harvester Duration
+22548,0,0,73,4,1038,0,0,0,-33.33333333,15,Ice Harvester Duration
 # Maelstrom,,,,,,,,,,,
 24694,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
 24694,1,3337,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
@@ -973,7 +973,7 @@
 17480,1,17940,263,1,17480,0,1,0,5,15,Shield HP
 17480,1,17940,72,2,38,0,1,0,5,15,Shield HP (Extenders)
 17480,0,0,77,4,1040,0,0,0,200,15,Strip Miner Mining Yield
-17480,0,0,73,4,1038,0,1,0,-66.66666667,15,Ice Harvester Duration
+17480,0,0,73,4,1038,0,0,0,-66.66666667,15,Ice Harvester Duration
 # Prophecy,,,,,,,,,,,
 16233,1,12099,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
 16233,1,12099,267,1,16233,0,1,2,-5,15,Armor EM Resistance
@@ -1074,7 +1074,7 @@
 # Retriever,,,,,,,,,,,
 17478,1,17940,1556,1,17478,0,1,0,5,15,Ore Hold Capacity Bonus
 17478,0,0,77,4,1040,0,0,0,50,15,Strip Miner Mining Yield
-17478,0,0,73,4,1038,0,1,0,-33.33333333,15,Ice Harvester Duration
+17478,0,0,73,4,1038,0,0,0,-33.33333333,15,Ice Harvester Duration
 # Revelation,,,,,,,,,,,
 19720,1,20525,6,4,773;774,0,1,0,-10,15,Capital Energy Turret Cap
 19720,1,20525,10011,4,773;774,0,1,0,-5,15,Capital Energy Turret ROF
@@ -1221,7 +1221,7 @@
 22546,1,22551,77,4,1040,0,1,0,1,15,Strip Miner Mining Yield
 22546,1,22551,73,4,1038,0,1,0,-1,15,Ice Harvester Duration
 22546,0,0,77,4,1040,0,0,0,200,15,Strip Miner Mining Yield
-22546,0,0,73,4,1038,0,1,0,-66.66666667,15,Ice Harvester Duration
+22546,0,0,73,4,1038,0,0,0,-66.66666667,15,Ice Harvester Duration
 # Slasher,,,,,,,,,,,
 585,1,3329,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 585,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
