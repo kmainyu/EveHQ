@@ -630,6 +630,7 @@ Public Class frmBPCalculator
             End If
             ' Reset the invention flags for a new item
             currentJob.InventionJob = Nothing
+            chkInventionFlag.Checked = False
             InventionBPID = 0
             Me.ResetInventedBP = True
             ' Check if all the invention data is present
