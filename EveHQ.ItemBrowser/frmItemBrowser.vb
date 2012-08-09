@@ -131,7 +131,6 @@ Public Class frmItemBrowser
                 times(9) = Now
                 Call GetDependencies(itemTypeID, itemTypeName)
                 times(10) = Now
-                System.Threading.ThreadPool.QueueUserWorkItem(AddressOf GetEveCentralData, itemTypeID)
                 lblDBLocation.Text = "Location: " & itemCatName & " --> " & itemGroupName
                 times(11) = Now
                 itemTime = times(11) - times(0)
@@ -401,69 +400,6 @@ Public Class frmItemBrowser
             lstComparisons.Items.Add(lstItem)
         Next
         lstComparisons.EndUpdate()
-    End Sub
-    Private Sub GetEveCentralData(ByVal itemID As Object)
-        Dim itemTypeID As String = itemID.ToString
-        Dim webdata As String = ""
-        Try
-
-            Dim RemoteURL As String = "http://eve-central.com/home/marketstat_xml.html?typeid=" & itemTypeID
-            Dim request As HttpWebRequest = CType(WebRequest.Create(RemoteURL), HttpWebRequest)
-            ' Setup proxy server (if required)
-            Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
-            ' Setup request parameters
-            request.Method = "GET"
-            request.ContentType = "application/x-www-form-urlencoded"
-            request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-            ' Prepare for a response from the server
-            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-            ' Get the stream associated with the response.
-            Dim receiveStream As Stream = response.GetResponseStream()
-            ' Pipes the stream to a higher level stream reader with the required encoding format. 
-            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-            webdata = readStream.ReadToEnd()
-            ' Save the response in the pilotdata area for later retrieval
-            Dim ECXML As New XmlDocument
-            ECXML.LoadXml(webdata)
-            ' Close the connections
-            response.Close()
-            readStream.Close()
-
-            Dim MarketDetails As XmlNodeList
-            MarketDetails = ECXML.SelectNodes("/market_stat")
-            If MarketDetails.Count = 0 Then
-                Throw New System.Exception
-            End If
-            Dim MarketItem As XmlNode = MarketDetails(0)
-
-            ' Populate the information
-            lstEveCentral.Items.Clear()
-            lstEveCentral.Items.Add("Average Price")
-            lstEveCentral.Items.Add("Total Volume")
-            lstEveCentral.Items.Add("Avg Buy Price")
-            lstEveCentral.Items.Add("Buy Volume")
-            lstEveCentral.Items.Add("Std Dev Buy Price")
-            lstEveCentral.Items.Add("Max Buy Price")
-            lstEveCentral.Items.Add("Min Buy Price")
-            lstEveCentral.Items.Add("Avg Sell Price")
-            lstEveCentral.Items.Add("Sell Volume")
-            lstEveCentral.Items.Add("Std Dev Sell Price")
-            lstEveCentral.Items.Add("Max Sell Price")
-            lstEveCentral.Items.Add("Min Sell Price")
-            For node As Integer = 0 To 11
-                Dim nodeText As String = MarketItem.ChildNodes(node + 1).InnerText
-                If IsNumeric(nodeText) = True Then
-                    lstEveCentral.Items(node).SubItems.Add(Double.Parse(nodeText, Globalization.NumberStyles.Any, culture).ToString("N2"))
-                Else
-                    Me.EveCentralDataFound = False
-                    Exit Sub
-                End If
-            Next
-            Me.EveCentralDataFound = True
-        Catch e As Exception
-            lstEveCentral.Items.Clear()
-            lstEveCentral.Items.Add("Unable to Load XML Feed")
-        End Try
     End Sub
 
     Private Sub frmItemBrowser_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
@@ -2143,33 +2079,6 @@ Public Class frmItemBrowser
     Private Sub chkShowAllColumns_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowAllColumns.CheckedChanged
         Call Me.DrawComparatives()
     End Sub
-
-#Region "EveCentral Routines"
-    Private Property EveCentralDataFound() As Boolean
-        Get
-            Return bEveCentralDataFound
-        End Get
-        Set(ByVal value As Boolean)
-            bEveCentralDataFound = value
-            Me.Invoke(New MethodInvoker(AddressOf SetEveCentralTab))
-        End Set
-    End Property
-    Private Sub SetEveCentralTab()
-        If bEveCentralDataFound = True Then
-            tiEveCentral.Visible = True
-        Else
-            tiEveCentral.Visible = False
-        End If
-    End Sub
-    Private Sub lstEveCentral_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lstEveCentral.DoubleClick
-        Try
-            Process.Start("http://eve-central.com/home/quicklook.html?typeid=" & Me.itemTypeID)
-        Catch ex As Exception
-            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Sub
-
-#End Region
 
     Private Sub lblUsableTime_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblUsableTime.LinkClicked
         Call Me.AddNeededSkillsToQueue()
