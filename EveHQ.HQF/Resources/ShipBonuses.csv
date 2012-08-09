@@ -713,7 +713,7 @@
 17738,1,3336,158,4,576;579,0,1,0,10,15,Large Projectile Turret Falloff
 # Mackinaw,,,,,,,,,,,
 22548,1,17940,1556,1,22548,0,1,0,5,15,Ore Hold Capacity Bonus
-22548,1,14940,271,1,22548,0,1,2,-5,15,Shield EM Resistance
+22548,1,17940,271,1,22548,0,1,2,-5,15,Shield EM Resistance
 22548,1,17940,272,1,22548,0,1,2,-5,15,Shield Explosive Resistance
 22548,1,17940,273,1,22548,0,1,2,-5,15,Shield Kinetic Resistance
 22548,1,17940,274,1,22548,0,1,2,-5,15,Shield Thermal Resistance
