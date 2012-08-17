@@ -659,8 +659,10 @@ Public Class PilotParseFunctions
             End If
             ' Get Cache details
             TrainingDetails = TXMLDoc.SelectNodes("/eveapi")
-            cPilot.TrainingFileTime = CDate(TrainingDetails(0).ChildNodes(0).InnerText)
-            cPilot.TrainingExpirationTime = CDate(TrainingDetails(0).ChildNodes(2).InnerText)
+            If TrainingDetails.Count > 0 Then
+                cPilot.TrainingFileTime = CDate(TrainingDetails(0).ChildNodes(0).InnerText)
+                cPilot.TrainingExpirationTime = CDate(TrainingDetails(0).ChildNodes(2).InnerText)
+            End If
         Else
             cPilot.Training = False
         End If
@@ -927,7 +929,7 @@ Public Class PilotParseFunctions
                                 Exit Sub
                             End If
                         End If
-                        reply = MessageBox.Show("You will be importing pilot " & pilotName & " (id: " & pilotID & "). Do you have want to import the training XML?", "Import Training XML?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        reply = MessageBox.Show("You will be importing pilot " & pilotName & " (id: " & pilotID & "). Do you want to import the training XML?", "Import Training XML?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                         If reply = Windows.Forms.DialogResult.Yes Then
                             pilotTXML = ImportTrainingXML(pilotID)
                             If pilotTXML Is Nothing Then
