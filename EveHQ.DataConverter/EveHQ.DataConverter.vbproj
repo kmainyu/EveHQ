@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>EveHQ.DataConverter.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <WarningLevel>1</WarningLevel>
@@ -52,7 +52,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\EveHQ\bin\Debug\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>EveHQ.DataConverter.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
     <WarningLevel>1</WarningLevel>
@@ -162,7 +162,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->
-   <UsingTask TaskName="HgVersionFile" AssemblyFile="..\MSBuildVersioning.dll" />
+  <UsingTask TaskName="HgVersionFile" AssemblyFile="..\MSBuildVersioning.dll" />
   <Target Name="BeforeBuild">
     <HgVersionFile TemplateFile="My Project\AssemblyInfo.template.vb" DestinationFile="My Project\AssemblyInfo.vb" />
   </Target>
