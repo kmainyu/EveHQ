@@ -2541,7 +2541,7 @@ Public Class frmEveHQ
 
     Private Sub btnViewHistory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewHistory.Click
         Try
-            Process.Start("http://wiki.eveit.net/doku.php?id=guide:history")
+            Process.Start("http://evehq.net/wiki/doku.php?id=guide:history")
         Catch ex As Exception
             ' Guess the user needs to reset the http protocol in the OS - not much EveHQ can do here!
         End Try
@@ -2624,7 +2624,7 @@ Public Class frmEveHQ
         btnHTMLQueueShoppingList.SubItems.Clear()
         btnTextTrainingQueue.SubItems.Clear()
         btnTextQueueShoppingList.SubItems.Clear()
-		' Rebuild the queue and shopping list options based on the pilot
+        ' Rebuild the queue and shopping list options based on the pilot
         If cboReportPilot.SelectedItem IsNot Nothing Then
             If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboReportPilot.SelectedItem.ToString) Then
                 Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboReportPilot.SelectedItem.ToString), Core.Pilot)
@@ -2664,7 +2664,7 @@ Public Class frmEveHQ
                 End If
             End If
         End If
-	End Sub
+    End Sub
     Private Sub ReportsMenuHandler(ByVal sender As Object, ByVal e As System.EventArgs)
         ' Identify queue name
         Dim queueBtn As DevComponents.DotNetBar.ButtonItem = CType(sender, DevComponents.DotNetBar.ButtonItem)
