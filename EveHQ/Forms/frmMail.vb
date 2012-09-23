@@ -230,7 +230,7 @@ Public Class frmMail
     Public Sub UpdateMailInfo()
         Call Me.UpdateMails()
         Call Me.UpdateNotifications()
-        lblMail.Text = ""
+        txtMail.Text = ""
     End Sub
 
     Private Sub UpdateMails()
@@ -514,7 +514,7 @@ Public Class frmMail
                 If KeyNode.Parent.Text.StartsWith("EveMail") = True Then
                     ' Is an Evemail
                     Dim mailtext As String = CleanMessage(allMails(-CLng(key)).MessageBody)
-                    lblMail.Text = mailtext
+                    txtMail.Text = mailtext
                     ' Update the style of the item to read
                     If KeyNode.Parent.Text.StartsWith("EveMail Inbox") And KeyNode.Style.Name = "unreaditemstyle" Then
                         KeyNode.Style = ReadItemStyle
@@ -528,11 +528,11 @@ Public Class frmMail
                     End If
                 Else
                     Dim newnotice As EveHQ.Core.EveNotification = allNotices(-CLng(key))
-                    lblMail.Text = CleanMessage(newnotice.MessageBody)
+                    txtMail.Text = CleanMessage(newnotice.MessageBody)
                     'If [Enum].IsDefined(GetType(EveHQ.Core.EveNotificationTypes), CInt(newnotice.TypeID)) = True Then
-                    '   lblMail.Text = CleanMessage(newnotice.MessageBody)
+                    '   txtMail.Text = CleanMessage(newnotice.MessageBody)
                     'Else
-                    '	lblMail.Text = "Unknown Notification"
+                    '	txtMail.Text = "Unknown Notification"
                     'End If
                     If KeyNode.Style.Name = "unreaditemstyle" Then
                         KeyNode.Style = ReadItemStyle
@@ -568,7 +568,7 @@ Public Class frmMail
 
     Private Sub btnCopyEvemail_Click(sender As System.Object, e As System.EventArgs) Handles btnCopyEvemail.Click
         Try
-            Clipboard.SetText(lblMail.Text.Replace("<br />", ControlChars.CrLf))
+            Clipboard.SetText(txtMail.Text.Replace("<br />", ControlChars.CrLf))
         Catch ex As Exception
             ' Error - don't bother doing anything
         End Try
