@@ -26,6 +26,7 @@ Partial Class frmMail
         Me.panelMails = New DevComponents.DotNetBar.PanelEx()
         Me.btnCopyEvemail = New DevComponents.DotNetBar.ButtonX()
         Me.pnlMail = New DevComponents.DotNetBar.PanelEx()
+        Me.lblMail = New DevComponents.DotNetBar.LabelX()
         Me.adtMails = New DevComponents.AdvTree.AdvTree()
         Me.Node1 = New DevComponents.AdvTree.Node()
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
@@ -36,7 +37,6 @@ Partial Class frmMail
         Me.cboPilots = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.btnGetEveIDs = New DevComponents.DotNetBar.ButtonX()
         Me.btnDownloadMail = New DevComponents.DotNetBar.ButtonX()
-        Me.txtMail = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.panelMails.SuspendLayout()
         Me.pnlMail.SuspendLayout()
         CType(Me.adtMails, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,7 +101,7 @@ Partial Class frmMail
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlMail.CanvasColor = System.Drawing.SystemColors.Control
         Me.pnlMail.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.pnlMail.Controls.Add(Me.txtMail)
+        Me.pnlMail.Controls.Add(Me.lblMail)
         Me.pnlMail.Location = New System.Drawing.Point(335, 36)
         Me.pnlMail.Name = "pnlMail"
         Me.pnlMail.Size = New System.Drawing.Size(886, 728)
@@ -113,6 +113,26 @@ Partial Class frmMail
         Me.pnlMail.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlMail.Style.GradientAngle = 90
         Me.pnlMail.TabIndex = 60
+        '
+        'lblMail
+        '
+        '
+        '
+        '
+        Me.lblMail.BackgroundStyle.Class = ""
+        Me.lblMail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblMail.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lblMail.Location = New System.Drawing.Point(0, 0)
+        Me.lblMail.Name = "lblMail"
+        Me.lblMail.PaddingBottom = 3
+        Me.lblMail.PaddingLeft = 3
+        Me.lblMail.PaddingRight = 3
+        Me.lblMail.PaddingTop = 3
+        Me.lblMail.Size = New System.Drawing.Size(886, 728)
+        Me.lblMail.TabIndex = 0
+        Me.lblMail.Text = "LabelX1"
+        Me.lblMail.TextLineAlignment = System.Drawing.StringAlignment.Near
+        Me.lblMail.WordWrap = True
         '
         'adtMails
         '
@@ -154,6 +174,7 @@ Partial Class frmMail
         '
         'ElementStyle1
         '
+        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -176,6 +197,7 @@ Partial Class frmMail
         '
         '
         '
+        Me.lblPilot.BackgroundStyle.Class = ""
         Me.lblPilot.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilot.Location = New System.Drawing.Point(15, 10)
         Me.lblPilot.Name = "lblPilot"
@@ -190,6 +212,7 @@ Partial Class frmMail
         '
         '
         '
+        Me.lblDownloadMailStatus.BackgroundStyle.Class = ""
         Me.lblDownloadMailStatus.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblDownloadMailStatus.Location = New System.Drawing.Point(335, 9)
         Me.lblDownloadMailStatus.Name = "lblDownloadMailStatus"
@@ -236,23 +259,6 @@ Partial Class frmMail
         Me.btnDownloadMail.TabIndex = 52
         Me.btnDownloadMail.Text = "Download Mail"
         '
-        'txtMail
-        '
-        '
-        '
-        '
-        Me.txtMail.Border.Class = "TextBoxBorder"
-        Me.txtMail.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.txtMail.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtMail.Location = New System.Drawing.Point(0, 0)
-        Me.txtMail.Multiline = True
-        Me.txtMail.Name = "txtMail"
-        Me.txtMail.ReadOnly = True
-        Me.txtMail.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtMail.Size = New System.Drawing.Size(886, 728)
-        Me.txtMail.TabIndex = 0
-        Me.txtMail.Text = "txtMail"
-        '
         'frmMail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -284,6 +290,6 @@ Partial Class frmMail
     Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
     Friend WithEvents pnlMail As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents lblMail As DevComponents.DotNetBar.LabelX
     Friend WithEvents btnCopyEvemail As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents txtMail As DevComponents.DotNetBar.Controls.TextBoxX
 End Class

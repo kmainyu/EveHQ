@@ -72,6 +72,7 @@ Global
 		{83C70597-C790-4B09-8030-903C1A13B454}.Release|.NET.Build.0 = Release
 		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Any CPU.ActiveCfg = Release
 		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Mixed Platforms.ActiveCfg = Release
+		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Mixed Platforms.Build.0 = Release
 		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Win32.ActiveCfg = Release
 		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Win32.Build.0 = Release
 		{83C70597-C790-4B09-8030-903C1A13B454}.Release|x86.ActiveCfg = Release
