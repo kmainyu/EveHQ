@@ -47,6 +47,7 @@ Imports System.Runtime.Serialization
     Public InventionJob As New InventionJob
     Public SubJobMEs As New SortedList(Of String, Integer)
 
+
     Public Function Clone() As ProductionJob
         Dim CloneMemoryStream As New MemoryStream
         Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
@@ -283,7 +284,7 @@ Imports System.Runtime.Serialization
                 subBPS.MELevel = Me.SubJobMEs(resource.TypeID.ToString)
             End If
 
-			subBPS.PELevel = 0
+            subBPS.PELevel = 0
             subBPS.Runs = -1
             Dim subBPWF As Double = subBPS.CalculateWasteFactor(Me.PESkill)
 
@@ -302,7 +303,7 @@ Imports System.Runtime.Serialization
             subPJ.ProdImplant = Me.ProdImplant
             subPJ.AssemblyArray = Me.AssemblyArray
             subPJ.StartTime = Now
-            
+
             ' Do the iteration on the component BP
             subPJ.CalculateResourceRequirements(False, Me.BPOwner)
 
@@ -344,10 +345,12 @@ Imports System.Runtime.Serialization
                 ' Get the resource
                 Dim newResource As RequiredResource = CType(resource, RequiredResource)
                 Dim key As String = newResource.TypeID.ToString & "_1"
-                Dim BPResource As BlueprintResource = CurrentBP.Resources(key)
-                ' Calculate Waste - Mark II!
-                waste = CalculateWasteUnits(BPResource, BPWF, MatMod)
-                newResource.WasteUnits = waste
+                If CurrentBP.Resources.ContainsKey(key) Then
+                    Dim BPResource As BlueprintResource = CurrentBP.Resources(key)
+                    ' Calculate Waste - Mark II!
+                    waste = CalculateWasteUnits(BPResource, BPWF, MatMod)
+                    newResource.WasteUnits = waste
+                End If
             Else
                 ' Get the production job
                 Dim subPJ As ProductionJob = CType(resource, ProductionJob)
@@ -381,61 +384,61 @@ Imports System.Runtime.Serialization
         Return waste
     End Function
 
-	Public Sub UpdateManufacturer(ByVal PilotName As String)
-		Me.Manufacturer = PilotName
-		For Each resource As Object In Me.RequiredResources.Values
-			If TypeOf (resource) Is ProductionJob Then
-				' Get the production job
-				Dim subPJ As ProductionJob = CType(resource, ProductionJob)
-				subPJ.UpdateManufacturer(PilotName)
-			End If
-		Next
-	End Sub
+    Public Sub UpdateManufacturer(ByVal PilotName As String)
+        Me.Manufacturer = PilotName
+        For Each resource As Object In Me.RequiredResources.Values
+            If TypeOf (resource) Is ProductionJob Then
+                ' Get the production job
+                Dim subPJ As ProductionJob = CType(resource, ProductionJob)
+                subPJ.UpdateManufacturer(PilotName)
+            End If
+        Next
+    End Sub
 
-	Public Sub UpdateJobSkills(ByVal NewPESkill As Integer, ByVal NewIndSkill As Integer, ByVal NewProdImplant As Integer)
-		Me.PESkill = NewPESkill
-		Me.IndSkill = NewIndSkill
-		Me.ProdImplant = NewProdImplant
-		For Each resource As Object In Me.RequiredResources.Values
-			If TypeOf (resource) Is ProductionJob Then
-				' Get the production job
-				Dim subPJ As ProductionJob = CType(resource, ProductionJob)
-				subPJ.UpdateJobSkills(NewPESkill, NewIndSkill, NewProdImplant)
-			End If
-		Next
-	End Sub
+    Public Sub UpdateJobSkills(ByVal NewPESkill As Integer, ByVal NewIndSkill As Integer, ByVal NewProdImplant As Integer)
+        Me.PESkill = NewPESkill
+        Me.IndSkill = NewIndSkill
+        Me.ProdImplant = NewProdImplant
+        For Each resource As Object In Me.RequiredResources.Values
+            If TypeOf (resource) Is ProductionJob Then
+                ' Get the production job
+                Dim subPJ As ProductionJob = CType(resource, ProductionJob)
+                subPJ.UpdateJobSkills(NewPESkill, NewIndSkill, NewProdImplant)
+            End If
+        Next
+    End Sub
 
-	Public Sub UpdateJobPESkill(ByVal NewPESkill As Integer)
-		Me.PESkill = NewPESkill
-		For Each resource As Object In Me.RequiredResources.Values
-			If TypeOf (resource) Is ProductionJob Then
-				' Get the production job
-				Dim subPJ As ProductionJob = CType(resource, ProductionJob)
-				subPJ.UpdateJobPESkill(NewPESkill)
-			End If
-		Next
-	End Sub
+    Public Sub UpdateJobPESkill(ByVal NewPESkill As Integer)
+        Me.PESkill = NewPESkill
+        For Each resource As Object In Me.RequiredResources.Values
+            If TypeOf (resource) Is ProductionJob Then
+                ' Get the production job
+                Dim subPJ As ProductionJob = CType(resource, ProductionJob)
+                subPJ.UpdateJobPESkill(NewPESkill)
+            End If
+        Next
+    End Sub
 
-	Public Sub UpdateJobIndSkill(ByVal NewIndSkill As Integer)
-		Me.IndSkill = NewIndSkill
-		For Each resource As Object In Me.RequiredResources.Values
-			If TypeOf (resource) Is ProductionJob Then
-				' Get the production job
-				Dim subPJ As ProductionJob = CType(resource, ProductionJob)
-				subPJ.UpdateJobIndSkill(NewIndSkill)
-			End If
-		Next
-	End Sub
+    Public Sub UpdateJobIndSkill(ByVal NewIndSkill As Integer)
+        Me.IndSkill = NewIndSkill
+        For Each resource As Object In Me.RequiredResources.Values
+            If TypeOf (resource) Is ProductionJob Then
+                ' Get the production job
+                Dim subPJ As ProductionJob = CType(resource, ProductionJob)
+                subPJ.UpdateJobIndSkill(NewIndSkill)
+            End If
+        Next
+    End Sub
 
-	Public Sub UpdateJobProdImplant(ByVal NewProdImplant As Integer)
-		Me.ProdImplant = NewProdImplant
-		For Each resource As Object In Me.RequiredResources.Values
-			If TypeOf (resource) Is ProductionJob Then
-				' Get the production job
-				Dim subPJ As ProductionJob = CType(resource, ProductionJob)
-				subPJ.UpdateJobProdImplant(NewProdImplant)
-			End If
-		Next
+    Public Sub UpdateJobProdImplant(ByVal NewProdImplant As Integer)
+        Me.ProdImplant = NewProdImplant
+        For Each resource As Object In Me.RequiredResources.Values
+            If TypeOf (resource) Is ProductionJob Then
+                ' Get the production job
+                Dim subPJ As ProductionJob = CType(resource, ProductionJob)
+                subPJ.UpdateJobProdImplant(NewProdImplant)
+            End If
+        Next
     End Sub
 
 End Class

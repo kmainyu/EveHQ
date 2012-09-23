@@ -40,6 +40,10 @@ Public Class PrismResources
             Return CurrentJob
         End Get
         Set(ByVal value As Prism.ProductionJob)
+            CurrentJob = Nothing
+            ' Reset the "build all resources" check box, since we are switching jobs
+            ' Setting the current job to nothing should prevent any side effect processing of the checked/unchecked event.
+            chkUseStandardCosting.Checked = False
             CurrentJob = value
             If CurrentJob IsNot Nothing Then
                 If CurrentJob.CurrentBP IsNot Nothing Then
@@ -51,6 +55,7 @@ Public Class PrismResources
                 DisplayRequiredResources()
                 RaiseEvent ProductionResourcesChanged()
             End If
+
         End Set
     End Property
 
@@ -146,10 +151,12 @@ Public Class PrismResources
     End Sub
 
     Private Sub chkUseStandardCosting_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseStandardCosting.CheckedChanged
-        If CurrentJob.CurrentBP IsNot Nothing Then
-            CurrentJob.CalculateResourceRequirements(chkUseStandardCosting.Checked, CurrentJob.BPOwner)
-            Call Me.DisplayRequiredResources()
-            RaiseEvent ProductionResourcesChanged()
+        If CurrentJob IsNot Nothing Then
+            If (CurrentJob.CurrentBP IsNot Nothing) Then
+                CurrentJob.CalculateResourceRequirements(chkUseStandardCosting.Checked, CurrentJob.BPOwner)
+                Call Me.DisplayRequiredResources()
+                RaiseEvent ProductionResourcesChanged()
+            End If
         End If
     End Sub
 
@@ -198,6 +205,7 @@ Public Class PrismResources
                                 newRes.Cells.Add(New Cell("0"))
                                 Dim BPME As New BPMEControl
                                 BPME.nudME.Value = 0
+
                                 BPME.AssignedTypeID = rResource.TypeID.ToString
                                 BPME.ParentJob = CurrentJob
                                 AddHandler BPME.ResourcesChanged, AddressOf Me.UpdateResources
@@ -228,6 +236,7 @@ Public Class PrismResources
                                         newRes.Cells(c).TextDisplayFormat = "N2"
                                 End Select
                             Next
+
                             adtResources.Nodes.Add(newRes)
                         End If
                     End If
@@ -245,7 +254,7 @@ Public Class PrismResources
                         newRes.Cells.Add(New Cell(subJob.CurrentBP.MELevel.ToString))
                         Dim BPME As New BPMEControl
                         BPME.nudME.Value = subJob.CurrentBP.MELevel
-                        BPME.nudME.LockUpdateChecked = True
+                        BPME.nudME.LockUpdateChecked = Me.chkUseStandardCosting.Checked
                         BPME.nudME.ButtonCustom.Enabled = True
                         BPME.nudME.ButtonCustom.Enabled = False
                         BPME.AssignedTypeID = subJob.TypeID.ToString
@@ -286,6 +295,7 @@ Public Class PrismResources
                                 newRes.Cells(c).TextDisplayFormat = "N2"
                         End Select
                     Next
+
                     adtResources.Nodes.Add(newRes)
                 End If
             Next
