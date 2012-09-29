@@ -83,6 +83,19 @@ Public Class frmBPCalculator
 
 #Region "Constructors"
 
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        ' This is for a default blank BPCalc
+        cUsingOwnedBPs = False
+        StartMode = BPCalcStartMode.None
+        cBPOwnerName = Settings.PrismSettings.DefaultBPOwner
+
+    End Sub
+
     Public Sub New(ByVal UsingOwnedBPs As Boolean)
 
         ' This call is required by the Windows Form Designer.
