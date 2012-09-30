@@ -269,7 +269,28 @@ Public Class frmShowInfo
     End Sub
 
     Private Sub PrepareDescription(ByVal itemType As Object)
-        Me.lblDescription.Text = itemType.Description
+        Dim value As String = CType(itemType.Description, String)
+
+        ' adjust bare LF's to be CRLFs
+        value = value.Replace(vbLf, vbCrLf)
+
+        Dim charlist As List(Of Char) = New List(Of Char)
+        Dim skip As Boolean
+        ' remove any HTML markup/format tags
+        For Each letter As Char In value
+            If letter = "<" Then
+                skip = True
+            End If
+            If letter = ">" Then
+                skip = False
+
+            ElseIf skip = False Then
+                charlist.Add(letter)
+            End If
+        Next
+
+        value = charlist.ToArray()
+        txtDescription.Text = value
     End Sub
 
     Private Sub tvwReqs_NodeClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwReqs.NodeClick

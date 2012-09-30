@@ -38,7 +38,6 @@ Partial Class frmShowInfo
         Me.pbPilot = New System.Windows.Forms.PictureBox()
         Me.tabShowInfo = New DevComponents.DotNetBar.TabControl()
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.lblDescription = New DevComponents.DotNetBar.LabelX()
         Me.tabDescription = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
         Me.tabAudit = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -53,6 +52,7 @@ Partial Class frmShowInfo
         Me.tabAttributes = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.pnlInfo = New DevComponents.DotNetBar.PanelEx()
+        Me.txtDescription = New DevComponents.DotNetBar.Controls.TextBoxX()
         CType(Me.picItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabShowInfo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -244,7 +244,7 @@ Partial Class frmShowInfo
         '
         'TabControlPanel1
         '
-        Me.TabControlPanel1.Controls.Add(Me.lblDescription)
+        Me.TabControlPanel1.Controls.Add(Me.txtDescription)
         Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel1.Name = "TabControlPanel1"
@@ -259,22 +259,6 @@ Partial Class frmShowInfo
         Me.TabControlPanel1.Style.GradientAngle = 90
         Me.TabControlPanel1.TabIndex = 1
         Me.TabControlPanel1.TabItem = Me.tabDescription
-        '
-        'lblDescription
-        '
-        '
-        '
-        '
-        Me.lblDescription.BackgroundStyle.Class = ""
-        Me.lblDescription.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.lblDescription.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lblDescription.Location = New System.Drawing.Point(1, 1)
-        Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.PaddingBottom = 10
-        Me.lblDescription.Size = New System.Drawing.Size(559, 439)
-        Me.lblDescription.TabIndex = 0
-        Me.lblDescription.TextLineAlignment = System.Drawing.StringAlignment.Near
-        Me.lblDescription.WordWrap = True
         '
         'tabDescription
         '
@@ -378,7 +362,6 @@ Partial Class frmShowInfo
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -441,6 +424,22 @@ Partial Class frmShowInfo
         Me.pnlInfo.Style.GradientAngle = 90
         Me.pnlInfo.TabIndex = 19
         '
+        'txtDescription
+        '
+        '
+        '
+        '
+        Me.txtDescription.Border.Class = "TextBoxBorder"
+        Me.txtDescription.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.txtDescription.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtDescription.Location = New System.Drawing.Point(1, 1)
+        Me.txtDescription.Multiline = True
+        Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReadOnly = True
+        Me.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtDescription.Size = New System.Drawing.Size(559, 439)
+        Me.txtDescription.TabIndex = 0
+        '
         'frmShowInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -487,7 +486,6 @@ Partial Class frmShowInfo
     Friend WithEvents tabDescription As DevComponents.DotNetBar.TabItem
     Friend WithEvents TabControlPanel2 As DevComponents.DotNetBar.TabControlPanel
     Friend WithEvents tabAttributes As DevComponents.DotNetBar.TabItem
-    Friend WithEvents lblDescription As DevComponents.DotNetBar.LabelX
     Friend WithEvents TabControlPanel5 As DevComponents.DotNetBar.TabControlPanel
     Friend WithEvents tabAudit As DevComponents.DotNetBar.TabItem
     Friend WithEvents TabControlPanel4 As DevComponents.DotNetBar.TabControlPanel
@@ -502,4 +500,5 @@ Partial Class frmShowInfo
     Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
     Friend WithEvents pnlInfo As DevComponents.DotNetBar.PanelEx
+    Friend WithEvents txtDescription As DevComponents.DotNetBar.Controls.TextBoxX
 End Class
