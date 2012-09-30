@@ -3546,13 +3546,13 @@ Public Class frmPrism
             newCLVItem.Text = itemInfo.Name
             newCLVItem.Tag = itemInfo.ID
             adtRecycle.Nodes.Add(newCLVItem)
-            price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2)
+            price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2, MidpointRounding.AwayFromZero)
             batches = CInt(Int(CLng(RecyclerAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
             quantity = CLng(RecyclerAssetList(asset))
             volume += itemInfo.Volume * quantity
             items += CLng(quantity)
             value = price * quantity
-            fees = Math.Round(value * (RTotalFees / 100), 2)
+            fees = Math.Round(value * (RTotalFees / 100), 2, MidpointRounding.AwayFromZero)
             sale = value - fees
             newCLVItem.Cells(1).Text = itemInfo.MetaLevel.ToString("N0")
             newCLVItem.Cells(2).Text = quantity.ToString("N0")
@@ -3568,14 +3568,14 @@ Public Class frmPrism
             recycleTotal = 0
             If matList IsNot Nothing Then ' i.e. it can be refined
                 For Each mat As String In matList.Keys
-                    price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2)
+                    price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
                     perfect = CLng(matList(mat)) * batches
                     wastage = CLng(perfect * (1 - tempNetYield))
                     quant = CLng(perfect * tempNetYield)
                     taken = CLng(quant * (StationTake / 100))
                     quant = quant - taken
                     value = price * quant
-                    fees = Math.Round(value * (RTotalFees / 100), 2)
+                    fees = Math.Round(value * (RTotalFees / 100), 2, MidpointRounding.AwayFromZero)
                     sale = value - fees
                     newCLVSubItem = New Node
                     For NewCell As Integer = 1 To adtRecycle.Columns.Count : newCLVSubItem.Cells.Add(New Cell) : Next
@@ -3640,7 +3640,7 @@ Public Class frmPrism
         adtTotals.Nodes.Clear()
         If RecycleResults IsNot Nothing Then
             For Each mat As String In RecycleResults.Keys
-                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2)
+                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
                 wastage = CLng(RecycleWaste(mat))
                 taken = CLng(RecycleTake(mat))
                 quant = CLng(RecycleResults(mat))
@@ -5217,8 +5217,8 @@ Public Class frmPrism
             NewJob.Cells.Add(New Cell(cJob.TypeName))
             If cJob.CurrentBP IsNot Nothing Then
                 Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBP.ProductID))
-                Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
-                Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2)
+                Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+                Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
                 Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(cJob.CurrentBP.ProductID))
                 Dim profit As Double = value - unitcosts
                 Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
@@ -5412,12 +5412,12 @@ Public Class frmPrism
                     Dim IBP As BlueprintSelection = cJob.InventionJob.CalculateInventedBPC
                     Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(IBP.ProductID.ToString).PortionSize
                     Dim InventionChance As Double = cJob.InventionJob.CalculateInventionChance
-                    Dim InventionAttempts As Double = Math.Max(Math.Round(100 / InventionChance, 4), 1)
+                    Dim InventionAttempts As Double = Math.Max(Math.Round(100 / InventionChance, 4, MidpointRounding.AwayFromZero), 1)
                     Dim InventionSuccessCost As Double = InventionAttempts * InvCost.TotalCost
 
                     ' Calculate Production Cost of invented item
-                    Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
-                    Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
+                    Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+                    Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2, MidpointRounding.AwayFromZero) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
                     Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
                     Dim UnitProfit As Double = SalesPrice - AvgCost
                     Dim TotalProfit As Double = UnitProfit * IBP.Runs * BatchQty
@@ -5836,7 +5836,7 @@ Public Class frmPrism
                 groupID = EveHQ.Core.HQ.itemData(SalvageID).Group.ToString
                 If groupID = "754" Then
                     SalvageName = EveHQ.Core.HQ.itemData(SalvageID).Name
-                    SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0)
+                    SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0, MidpointRounding.AwayFromZero)
                     RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
                     RigBuildData.Add(SalvageName, SalvageQ)
                 End If

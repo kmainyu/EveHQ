@@ -133,7 +133,7 @@ Public Class frmSplash
 
         ' Insert the version number to the splash screen
         EveHQ.Core.HQ.WriteLogEvent("Start: Insert version info into splash screen")
-        lblVersion.Text = "Version " & My.Application.Info.Version.ToString
+        lblVersion.Text = "Version " & FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion
         lblDate.Text = "Released: " & My.Application.Info.Trademark
         lblCopyright.Text = My.Application.Info.Copyright
         EveHQ.Core.HQ.WriteLogEvent("End: Insert version info into splash screen")

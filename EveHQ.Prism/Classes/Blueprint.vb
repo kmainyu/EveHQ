@@ -401,7 +401,7 @@ End Class
 
         ' Calculate lab cost
         InvCost += Settings.PrismSettings.LabInstallCost
-        InvCost += Math.Round(Settings.PrismSettings.LabRunningCost * (Me.ResearchTechTime / 3600), 2)
+        InvCost += Math.Round(Settings.PrismSettings.LabRunningCost * (Me.ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
 
         ' Calculate BPC cost
         If Settings.PrismSettings.BPCCosts.ContainsKey(Me.ID.ToString) Then
@@ -410,7 +410,7 @@ End Class
             If runrange = 0 Then
                 InvCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost
             Else
-                InvCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (BPCRuns - 1), 2)
+                InvCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (BPCRuns - 1), 2, MidpointRounding.AwayFromZero)
             End If
         End If
 

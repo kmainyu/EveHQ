@@ -37,6 +37,9 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <AssemblyInfoTitle>EveHQ.Void</AssemblyInfoTitle>
+    <AssemblyInfoDescription>Eve Online game tool</AssemblyInfoDescription>
+    <AssemblyInfoGUID>2a2a4c0d-33da-4486-9090-d76d8010aaca</AssemblyInfoGUID>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,7 +48,7 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\debug\</OutputPath>
     <DocumentationFile>EveHQ.Void.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40010</NoWarn>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -56,7 +59,7 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\debug\</OutputPath>
     <DocumentationFile>EveHQ.Void.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40010</NoWarn>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -172,10 +175,13 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->
-  <UsingTask TaskName="HgVersionFile" AssemblyFile="..\MSBuildVersioning.dll" />
+  <Import Project="..\Version.Targets" />
   <Target Name="BeforeBuild">
-    <HgVersionFile TemplateFile="My Project\AssemblyInfo.template.vb" DestinationFile="My Project\AssemblyInfo.vb" />
+    <CallTarget Targets="SetAssemblyVersion" />
   </Target>
   <Target Name="AfterBuild">
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y $(TargetFileName) ..\..\..\evehq\$(outdir)$(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

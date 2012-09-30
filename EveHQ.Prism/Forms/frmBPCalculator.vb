@@ -22,6 +22,7 @@ Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Text
 Imports DevComponents.AdvTree
+Imports EveHQ.Core
 
 Public Class frmBPCalculator
 
@@ -30,9 +31,9 @@ Public Class frmBPCalculator
     Dim UpdateBPInfo As Boolean = False
     Dim StartUp As Boolean = False
     Dim InventionStartUp As Boolean = True
-	Dim CurrentBP As New BlueprintSelection
-	Dim CurrentInventionBP As New BlueprintSelection
-	Dim OwnedBP As BPAssetComboboxItem
+    Dim CurrentBP As New BlueprintSelection
+    Dim CurrentInventionBP As New BlueprintSelection
+    Dim OwnedBP As BPAssetComboboxItem
     Dim currentJob As New ProductionJob
     Dim ProductionArray As AssemblyArray
     Dim CopyTimeMod As Double = 1.0
@@ -177,14 +178,14 @@ Public Class frmBPCalculator
                 RemoveHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.InventionResourcesChanged
                 RemoveHandler PPRProduction.ProductionResourcesChanged, AddressOf Me.ProductionResourcesChanged
 
-				' Remove handlers for the price modification controls
-				RemoveHandler PACUnitValue.PriceUpdated, AddressOf Me.CalculateInvention
+                ' Remove handlers for the price modification controls
+                RemoveHandler PACUnitValue.PriceUpdated, AddressOf Me.CalculateInvention
                 RemoveHandler PACDecryptor.PriceUpdated, AddressOf Me.CalculateInvention
                 RemoveHandler PACMetaItem.PriceUpdated, AddressOf Me.CalculateInvention
-				RemoveHandler PACSalesPrice.PriceUpdated, AddressOf Me.CalculateInvention
+                RemoveHandler PACSalesPrice.PriceUpdated, AddressOf Me.CalculateInvention
 
-				RemoveHandler PACUnitValue.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
-				RemoveHandler PACSalesPrice.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+                RemoveHandler PACUnitValue.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+                RemoveHandler PACSalesPrice.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
 
             End If
         End If
@@ -195,14 +196,14 @@ Public Class frmBPCalculator
         AddHandler PPRInvention.ProductionResourcesChanged, AddressOf Me.InventionResourcesChanged
         AddHandler PPRProduction.ProductionResourcesChanged, AddressOf Me.ProductionResourcesChanged
 
-		' Set up handlers for the price modification controls
-		AddHandler PACUnitValue.PriceUpdated, AddressOf Me.CalculateInvention
+        ' Set up handlers for the price modification controls
+        AddHandler PACUnitValue.PriceUpdated, AddressOf Me.CalculateInvention
         AddHandler PACDecryptor.PriceUpdated, AddressOf Me.CalculateInvention
         AddHandler PACMetaItem.PriceUpdated, AddressOf Me.CalculateInvention
-		AddHandler PACSalesPrice.PriceUpdated, AddressOf Me.CalculateInvention
+        AddHandler PACSalesPrice.PriceUpdated, AddressOf Me.CalculateInvention
 
-		AddHandler PACUnitValue.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
-		AddHandler PACSalesPrice.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+        AddHandler PACUnitValue.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
+        AddHandler PACSalesPrice.PriceUpdated, AddressOf Me.UpdateBlueprintInformation
 
         ' Set the implants
         cboResearchImplant.SelectedIndex = 0
@@ -441,22 +442,22 @@ Public Class frmBPCalculator
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
         For Each newBP As Blueprint In PlugInData.Blueprints.Values
-			If chkInventBPOs.Checked = True Then
-				If btnToggleInvention.Value = True Then
-					' Use T1 data
-					If newBP.Inventions.Count > 0 Then
-						cboBPs.Items.Add(newBP.Name)
-					End If
-				Else
-					' Use T2 data
-					If newBP.InventFrom.Count > 0 Then
-						cboBPs.Items.Add(newBP.Name)
-					End If
-				End If
-			Else
-				cboBPs.Items.Add(newBP.Name)
-			End If
-		Next
+            If chkInventBPOs.Checked = True Then
+                If btnToggleInvention.Value = True Then
+                    ' Use T1 data
+                    If newBP.Inventions.Count > 0 Then
+                        cboBPs.Items.Add(newBP.Name)
+                    End If
+                Else
+                    ' Use T2 data
+                    If newBP.InventFrom.Count > 0 Then
+                        cboBPs.Items.Add(newBP.Name)
+                    End If
+                End If
+            Else
+                cboBPs.Items.Add(newBP.Name)
+            End If
+        Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
@@ -502,7 +503,7 @@ Public Class frmBPCalculator
                 End If
             End If
         Next
-		cboBPs.Sorted = True
+        cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
 
@@ -694,161 +695,161 @@ Public Class frmBPCalculator
 
     Private Sub UpdateInventionUI()
 
-		InventionStartUp = True
+        InventionStartUp = True
 
-		' Set the InventionBP based on selection
-		If CurrentBP.InventFrom.Count > 0 Then
-			CurrentInventionBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(CurrentBP.InventFrom(0)))
-		Else
-			CurrentInventionBP = BlueprintSelection.CopyFromBlueprint(CurrentBP)
-		End If
+        ' Set the InventionBP based on selection
+        If CurrentBP.InventFrom.Count > 0 Then
+            CurrentInventionBP = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(CurrentBP.InventFrom(0)))
+        Else
+            CurrentInventionBP = BlueprintSelection.CopyFromBlueprint(CurrentBP)
+        End If
 
-		' Update the available inventions
-		cboInventions.BeginUpdate()
-		cboInventions.Items.Clear()
-		For Each BPID As String In CurrentInventionBP.Inventions
-			cboInventions.Items.Add(EveHQ.Core.HQ.itemData(BPID).Name)
-		Next
-		cboInventions.Sorted = True
-		cboInventions.EndUpdate()
+        ' Update the available inventions
+        cboInventions.BeginUpdate()
+        cboInventions.Items.Clear()
+        For Each BPID As String In CurrentInventionBP.Inventions
+            cboInventions.Items.Add(EveHQ.Core.HQ.itemData(BPID).Name)
+        Next
+        cboInventions.Sorted = True
+        cboInventions.EndUpdate()
 
-		Dim InventionSkills As New SortedList(Of String, Integer)
+        Dim InventionSkills As New SortedList(Of String, Integer)
 
-		' Update the decryptors and get skills by looking at the resources and determining the type of interface used
-		Dim DecryptorGroupID As String = ""
-		For Each Resource As BlueprintResource In CurrentInventionBP.Resources.Values
-			If Resource.Activity = 8 = True Then
-				' Add the resource to the list
-				Dim IRPrice As Double = EveHQ.Core.DataFunctions.GetPrice(Resource.TypeID.ToString)
-				If Resource.TypeName.EndsWith("Interface") = True Then
-					Select Case Resource.TypeName.Substring(0, 1)
-						Case "O"
-							' Amarr
-							DecryptorGroupID = "728"
-							Dim SkillLevel As Integer = 0
-							If BPPilot.PilotSkills.Contains("Amarr Encryption Methods") = True Then
-								SkillLevel = CType(BPPilot.PilotSkills("Amarr Encryption Methods"), EveHQ.Core.PilotSkill).Level
-							End If
-							InventionSkills.Add("Amarr Encryption Methods", SkillLevel)
-						Case "C"
-							' Minmatar
-							DecryptorGroupID = "729"
-							Dim SkillLevel As Integer = 0
-							If BPPilot.PilotSkills.Contains("Minmatar Encryption Methods") = True Then
-								SkillLevel = CType(BPPilot.PilotSkills("Minmatar Encryption Methods"), EveHQ.Core.PilotSkill).Level
-							End If
-							InventionSkills.Add("Minmatar Encryption Methods", SkillLevel)
-						Case "I"
-							' Gallente
-							DecryptorGroupID = "730"
-							Dim SkillLevel As Integer = 0
-							If BPPilot.PilotSkills.Contains("Gallente Encryption Methods") = True Then
-								SkillLevel = CType(BPPilot.PilotSkills("Gallente Encryption Methods"), EveHQ.Core.PilotSkill).Level
-							End If
-							InventionSkills.Add("Gallente Encryption Methods", SkillLevel)
-						Case "E"
-							' Caldari
-							DecryptorGroupID = "731"
-							Dim SkillLevel As Integer = 0
-							If BPPilot.PilotSkills.Contains("Caldari Encryption Methods") = True Then
-								SkillLevel = CType(BPPilot.PilotSkills("Caldari Encryption Methods"), EveHQ.Core.PilotSkill).Level
-							End If
-							InventionSkills.Add("Caldari Encryption Methods", SkillLevel)
-					End Select
-					' Terminate early once we know
-				ElseIf Resource.TypeName.StartsWith("Datacore") = True Then
-					Dim SkillName As String = Resource.TypeName.TrimStart("Datacore - ".ToCharArray)
-					Dim SkillLevel As Integer = 0
-					If BPPilot.PilotSkills.Contains(SkillName) = True Then
-						SkillLevel = CType(BPPilot.PilotSkills(SkillName), EveHQ.Core.PilotSkill).Level
-					End If
-					InventionSkills.Add(SkillName, SkillLevel)
-				End If
-			End If
-		Next
-		' Update the invention resources with this BP
-		PPRInvention.InventionBP = CurrentInventionBP
+        ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
+        Dim DecryptorGroupID As String = ""
+        For Each Resource As BlueprintResource In CurrentInventionBP.Resources.Values
+            If Resource.Activity = 8 = True Then
+                ' Add the resource to the list
+                Dim IRPrice As Double = EveHQ.Core.DataFunctions.GetPrice(Resource.TypeID.ToString)
+                If Resource.TypeName.EndsWith("Interface") = True Then
+                    Select Case Resource.TypeName.Substring(0, 1)
+                        Case "O"
+                            ' Amarr
+                            DecryptorGroupID = "728"
+                            Dim SkillLevel As Integer = 0
+                            If BPPilot.PilotSkills.Contains("Amarr Encryption Methods") = True Then
+                                SkillLevel = CType(BPPilot.PilotSkills("Amarr Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            End If
+                            InventionSkills.Add("Amarr Encryption Methods", SkillLevel)
+                        Case "C"
+                            ' Minmatar
+                            DecryptorGroupID = "729"
+                            Dim SkillLevel As Integer = 0
+                            If BPPilot.PilotSkills.Contains("Minmatar Encryption Methods") = True Then
+                                SkillLevel = CType(BPPilot.PilotSkills("Minmatar Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            End If
+                            InventionSkills.Add("Minmatar Encryption Methods", SkillLevel)
+                        Case "I"
+                            ' Gallente
+                            DecryptorGroupID = "730"
+                            Dim SkillLevel As Integer = 0
+                            If BPPilot.PilotSkills.Contains("Gallente Encryption Methods") = True Then
+                                SkillLevel = CType(BPPilot.PilotSkills("Gallente Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            End If
+                            InventionSkills.Add("Gallente Encryption Methods", SkillLevel)
+                        Case "E"
+                            ' Caldari
+                            DecryptorGroupID = "731"
+                            Dim SkillLevel As Integer = 0
+                            If BPPilot.PilotSkills.Contains("Caldari Encryption Methods") = True Then
+                                SkillLevel = CType(BPPilot.PilotSkills("Caldari Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            End If
+                            InventionSkills.Add("Caldari Encryption Methods", SkillLevel)
+                    End Select
+                    ' Terminate early once we know
+                ElseIf Resource.TypeName.StartsWith("Datacore") = True Then
+                    Dim SkillName As String = Resource.TypeName.TrimStart("Datacore - ".ToCharArray)
+                    Dim SkillLevel As Integer = 0
+                    If BPPilot.PilotSkills.Contains(SkillName) = True Then
+                        SkillLevel = CType(BPPilot.PilotSkills(SkillName), EveHQ.Core.PilotSkill).Level
+                    End If
+                    InventionSkills.Add(SkillName, SkillLevel)
+                End If
+            End If
+        Next
+        ' Update the invention resources with this BP
+        PPRInvention.InventionBP = CurrentInventionBP
 
-		' Load the decryptors
-		cboDecryptor.BeginUpdate()
-		cboDecryptor.Items.Clear()
-		cboDecryptor.Items.Add("<None>")
-		For Each Decrypt As Decryptor In PlugInData.Decryptors.Values
-			If Decrypt.GroupID = DecryptorGroupID Then
-				cboDecryptor.Items.Add(Decrypt.Name & " (" & Decrypt.ProbMod.ToString & "x, " & Decrypt.MEMod.ToString & "ME, " & Decrypt.PEMod.ToString & "PE, " & Decrypt.RunMod.ToString & "r)")
-			End If
-		Next
-		cboDecryptor.SelectedIndex = 0
-		cboDecryptor.EndUpdate()
+        ' Load the decryptors
+        cboDecryptor.BeginUpdate()
+        cboDecryptor.Items.Clear()
+        cboDecryptor.Items.Add("<None>")
+        For Each Decrypt As Decryptor In PlugInData.Decryptors.Values
+            If Decrypt.GroupID = DecryptorGroupID Then
+                cboDecryptor.Items.Add(Decrypt.Name & " (" & Decrypt.ProbMod.ToString & "x, " & Decrypt.MEMod.ToString & "ME, " & Decrypt.PEMod.ToString & "PE, " & Decrypt.RunMod.ToString & "r)")
+            End If
+        Next
+        cboDecryptor.SelectedIndex = 0
+        cboDecryptor.EndUpdate()
 
-		' Display the skills - hopefully should be 3 :)
-		If InventionSkills.Count = 3 Then
-			lblInvSkill1.Text = "Skill 1: " & InventionSkills.Keys(0)
-			lblInvSkill1.Tag = InventionSkills.Keys(0)
-			nudInventionSkill1.Value = InventionSkills.Values(0)
-			InventionSkill1 = InventionSkills.Values(0)
-			lblInvSkill2.Text = "Skill 2: " & InventionSkills.Keys(1)
-			lblInvSkill2.Tag = InventionSkills.Keys(1)
-			nudInventionSkill2.Value = InventionSkills.Values(1)
-			InventionSkill2 = InventionSkills.Values(1)
-			lblInvSkill3.Text = "Skill 3: " & InventionSkills.Keys(2)
-			lblInvSkill3.Tag = InventionSkills.Keys(2)
-			nudInventionSkill3.Value = InventionSkills.Values(2)
-			InventionSkill3 = InventionSkills.Values(2)
-		Else
-			MessageBox.Show("Ooops! Seems to be more invention skills here than what we can use in the calculation!", "Invention Skills Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-		End If
+        ' Display the skills - hopefully should be 3 :)
+        If InventionSkills.Count = 3 Then
+            lblInvSkill1.Text = "Skill 1: " & InventionSkills.Keys(0)
+            lblInvSkill1.Tag = InventionSkills.Keys(0)
+            nudInventionSkill1.Value = InventionSkills.Values(0)
+            InventionSkill1 = InventionSkills.Values(0)
+            lblInvSkill2.Text = "Skill 2: " & InventionSkills.Keys(1)
+            lblInvSkill2.Tag = InventionSkills.Keys(1)
+            nudInventionSkill2.Value = InventionSkills.Values(1)
+            InventionSkill2 = InventionSkills.Values(1)
+            lblInvSkill3.Text = "Skill 3: " & InventionSkills.Keys(2)
+            lblInvSkill3.Tag = InventionSkills.Keys(2)
+            nudInventionSkill3.Value = InventionSkills.Values(2)
+            InventionSkill3 = InventionSkills.Values(2)
+        Else
+            MessageBox.Show("Ooops! Seems to be more invention skills here than what we can use in the calculation!", "Invention Skills Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        End If
 
-		' Load the meta items
-		cboMetaItem.BeginUpdate()
-		cboMetaItem.Items.Clear()
-		cboMetaItem.Items.Add("<None>")
-		For Each MetaItem As String In CurrentInventionBP.InventionMetaItems.Keys
-			cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(MetaItem).MetaLevel & ": " & EveHQ.Core.HQ.itemData(MetaItem).Name)
-		Next
-		cboMetaItem.SelectedIndex = 0
-		cboMetaItem.EndUpdate()
+        ' Load the meta items
+        cboMetaItem.BeginUpdate()
+        cboMetaItem.Items.Clear()
+        cboMetaItem.Items.Add("<None>")
+        For Each MetaItem As String In CurrentInventionBP.InventionMetaItems.Keys
+            cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(MetaItem).MetaLevel & ": " & EveHQ.Core.HQ.itemData(MetaItem).Name)
+        Next
+        cboMetaItem.SelectedIndex = 0
+        cboMetaItem.EndUpdate()
 
-		' Work out Base Chance
-		Select Case EveHQ.Core.HQ.itemData(CurrentInventionBP.ProductID.ToString).Group
-			Case 27, 419
-				InventionBaseChance = 20
-			Case 26, 28
-				InventionBaseChance = 25
-			Case 25, 420, 513
-				InventionBaseChance = 30
-			Case Else
-				Select Case CurrentInventionBP.ID
+        ' Work out Base Chance
+        Select Case EveHQ.Core.HQ.itemData(CurrentInventionBP.ProductID.ToString).Group
+            Case 27, 419
+                InventionBaseChance = 20
+            Case 26, 28
+                InventionBaseChance = 25
+            Case 25, 420, 513
+                InventionBaseChance = 30
+            Case Else
+                Select Case CurrentInventionBP.ID
                     Case 17477
                         InventionBaseChance = 20
                     Case 17479
                         InventionBaseChance = 25
                     Case 17481
                         InventionBaseChance = 30
-					Case Else
-						InventionBaseChance = 40
-				End Select
-		End Select
-		lblBaseChance.Text = "Base Invention Chance: " & InventionBaseChance.ToString & "%"
+                    Case Else
+                        InventionBaseChance = 40
+                End Select
+        End Select
+        lblBaseChance.Text = "Base Invention Chance: " & InventionBaseChance.ToString & "%"
 
-		' Update the BPC Override Values
+        ' Update the BPC Override Values
         nudInventionBPCRuns.MaxValue = CurrentInventionBP.MaxProdLimit
         nudInventionBPCRuns.Value = CurrentInventionBP.MaxProdLimit
 
         Call Me.DisplayInventionDetails()
 
-		If cboInventions.Items.Count > 0 Then
-			If cboInventions.Items.Contains(CurrentBP.Name) Then
-				cboInventions.SelectedItem = CurrentBP.Name
-			Else
-				cboInventions.SelectedIndex = 0
-			End If
-		End If
+        If cboInventions.Items.Count > 0 Then
+            If cboInventions.Items.Contains(CurrentBP.Name) Then
+                cboInventions.SelectedItem = CurrentBP.Name
+            Else
+                cboInventions.SelectedIndex = 0
+            End If
+        End If
 
         InventionStartUp = False
         Call Me.CalculateInvention()
 
-	End Sub
+    End Sub
 
     Private Sub SetBlueprintInformation(ByVal RecalcOnly As Boolean)
         ' Recalculate the required resources
@@ -1175,7 +1176,7 @@ Public Class frmBPCalculator
         lblBatchSize.Text = product.PortionSize.ToString("N0")
         lblProdQuantity.Text = (product.PortionSize * currentJob.Runs).ToString("N0")
         ' Calculate the factory costs
-        Dim FactoryCosts As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
+        Dim FactoryCosts As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
         ' Display Build Time Information
         lblUnitBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime / currentJob.Runs, False)
         lblTotalBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime, False)
@@ -1185,7 +1186,7 @@ Public Class frmBPCalculator
         ' Display Factory costs
         lblFactoryCosts.Text = FactoryCosts.ToString("N2") & " isk"
         Dim totalCosts As Double = currentJob.Cost + FactoryCosts
-        Dim unitcosts As Double = Math.Round(totalCosts / (currentJob.Runs * product.PortionSize), 2)
+        Dim unitcosts As Double = Math.Round(totalCosts / (currentJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
         Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(productID)
         Dim profit As Double = value - unitcosts
         PACUnitValue.TypeID = CLng(productID)
@@ -1253,24 +1254,24 @@ Public Class frmBPCalculator
 
 #Region "Invention UI Routines"
 
-	Private Sub chkInventBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkInventBPOs.CheckedChanged
-		cboOwner.Enabled = chkOwnedBPOs.Checked
-		btnToggleInvention.Enabled = chkInventBPOs.Checked
+    Private Sub chkInventBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkInventBPOs.CheckedChanged
+        cboOwner.Enabled = chkOwnedBPOs.Checked
+        btnToggleInvention.Enabled = chkInventBPOs.Checked
         If chkOwnedBPOs.Checked = True Then
             Call Me.DisplayOwnedBlueprints()
         Else
             Call Me.DisplayAllBlueprints()
         End If
-	End Sub
+    End Sub
 
-	Private Sub btnToggleInvention_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnToggleInvention.ValueChanged
-		If chkOwnedBPOs.Checked = True Then
-			Call Me.DisplayOwnedBlueprints()
-		Else
-			Call Me.DisplayAllBlueprints()
-		End If
-	End Sub
-	
+    Private Sub btnToggleInvention_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnToggleInvention.ValueChanged
+        If chkOwnedBPOs.Checked = True Then
+            Call Me.DisplayOwnedBlueprints()
+        Else
+            Call Me.DisplayAllBlueprints()
+        End If
+    End Sub
+
     Private Sub cboInventions_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboInventions.SelectedIndexChanged
         InventionBPID = CInt(EveHQ.Core.HQ.itemList(Me.cboInventions.SelectedItem.ToString))
         If InventionStartUp = False Then
@@ -1485,7 +1486,7 @@ Public Class frmBPCalculator
             lblInventionBPCCost.Text = InvCost.BPCCost.ToString("N2") & " Isk"
             lblInventionCost.Text = InvCost.TotalCost.ToString("N2") & " Isk"
 
-            InventionAttempts = Math.Max(Math.Round(100 / InventionChance, 4), 1)
+            InventionAttempts = Math.Max(Math.Round(100 / InventionChance, 4, MidpointRounding.AwayFromZero), 1)
             InventionSuccessCost = InventionAttempts * InvCost.TotalCost
 
             lblInventedBP.Text = "ME:" & InventedBP.MELevel.ToString & "  PE:" & InventedBP.PELevel.ToString & "  Runs: " & InventedBP.Runs.ToString("N0")
@@ -1552,8 +1553,8 @@ Public Class frmBPCalculator
         ' Show Production Cost
 
         Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
-        Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
-        Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2) + PPRInvention.ProductionJob.Cost + FactoryCost) / BatchQty
+        Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+        Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2, MidpointRounding.AwayFromZero) + PPRInvention.ProductionJob.Cost + FactoryCost) / BatchQty
         Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(InventedBP.ProductID.ToString)
         Dim UnitProfit As Double = SalesPrice - AvgCost
         Dim TotalProfit As Double = UnitProfit * InventedBP.Runs * BatchQty
@@ -1630,12 +1631,12 @@ Public Class frmBPCalculator
 
             Dim ICost As Double = CurrentInventionBP.CalculateInventionCost(InventionMetaItemID.ToString, DecryptorID.ToString, BPCRuns)
             Dim IBP As BlueprintSelection = CJ.InventionJob.CalculateInventedBPC
-            Dim IA As Double = Math.Max(Math.Round(100 / IC, 4), 1)
+            Dim IA As Double = Math.Max(Math.Round(100 / IC, 4, MidpointRounding.AwayFromZero), 1)
             Dim ISC As Double = IA * ICost
             IBP.UpdateProductionJob(PJ)
             Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(InventedBP.ProductID.ToString).PortionSize
-            Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * PJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2)
-            Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2) + PJ.Cost + FactoryCost) / BatchQty
+            Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * PJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+            Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2, MidpointRounding.AwayFromZero) + PJ.Cost + FactoryCost) / BatchQty
             Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
             Dim UnitProfit As Double = SalesPrice - AvgCost
             Dim TotalProfit As Double = (UnitProfit * IBP.Runs) * BatchQty
@@ -1671,7 +1672,7 @@ Public Class frmBPCalculator
 
 #End Region
 
-   
+
 End Class
 
 Public Enum BPCalcStartMode

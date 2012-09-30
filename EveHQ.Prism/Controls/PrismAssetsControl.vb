@@ -232,7 +232,7 @@ Public Class PrismAssetsControl
                     End If
                 End If
                 If IsBPO = True Then
-                    AssetData.price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.typeID), 2)
+                    AssetData.Price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.TypeID), 2, MidpointRounding.AwayFromZero)
                     AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                 Else
                     AssetData.price = 0
@@ -240,7 +240,7 @@ Public Class PrismAssetsControl
                 End If
             End If
         Else
-            AssetData.price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.typeID), 2)
+            AssetData.Price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.TypeID), 2, MidpointRounding.AwayFromZero)
         End If
 
         ' Add the additional columns
@@ -1312,7 +1312,7 @@ Public Class PrismAssetsControl
                                     If runrange = 0 Then
                                         price = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID.ToString).MinRunCost
                                     Else
-                                        price = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (Job.InstalledRuns - 1), 2)
+                                        price = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (Job.InstalledRuns - 1), 2, MidpointRounding.AwayFromZero)
                                     End If
                                 End If
                             Else

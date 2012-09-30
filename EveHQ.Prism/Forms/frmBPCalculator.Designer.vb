@@ -117,6 +117,20 @@ Partial Class frmBPCalculator
         Me.pbBP = New System.Windows.Forms.PictureBox()
         Me.nudCopyRuns = New DevComponents.Editors.IntegerInput()
         Me.tabBPCalcFunctions = New DevComponents.DotNetBar.TabControl()
+        Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblProfitMarkup = New System.Windows.Forms.Label()
+        Me.lblProfitMargin = New System.Windows.Forms.Label()
+        Me.lblProfitMarkupLbl = New System.Windows.Forms.Label()
+        Me.lblProfitMarginLbl = New System.Windows.Forms.Label()
+        Me.lblProdQuantity = New System.Windows.Forms.Label()
+        Me.lblBatchSize = New System.Windows.Forms.Label()
+        Me.lblFactoryCostsLbl = New System.Windows.Forms.LinkLabel()
+        Me.nudRuns = New DevComponents.Editors.IntegerInput()
+        Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PPRProduction = New EveHQ.Prism.PrismResources()
+        Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
         Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.chkResearchAtPOS = New DevComponents.DotNetBar.Controls.CheckBoxX()
@@ -175,19 +189,11 @@ Partial Class frmBPCalculator
         Me.cboMetaItem = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboDecryptor = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboInventions = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.PPRInvention = New EveHQ.Prism.PrismResources()
+        Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
         Me.tiInvention = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpProduction = New DevComponents.DotNetBar.TabControlPanel()
-        Me.lblProfitMarkup = New System.Windows.Forms.Label()
-        Me.lblProfitMargin = New System.Windows.Forms.Label()
-        Me.lblProfitMarkupLbl = New System.Windows.Forms.Label()
-        Me.lblProfitMarginLbl = New System.Windows.Forms.Label()
-        Me.lblProdQuantity = New System.Windows.Forms.Label()
-        Me.lblBatchSize = New System.Windows.Forms.Label()
-        Me.lblFactoryCostsLbl = New System.Windows.Forms.LinkLabel()
-        Me.nudRuns = New DevComponents.Editors.IntegerInput()
-        Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.nudPELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJobAs = New DevComponents.DotNetBar.ButtonX()
         Me.nudMELevel = New DevComponents.Editors.IntegerInput()
@@ -195,12 +201,6 @@ Partial Class frmBPCalculator
         Me.btnExportToCSV = New DevComponents.DotNetBar.ButtonItem()
         Me.btnExportToTSV = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
-        Me.PPRInvention = New EveHQ.Prism.PrismResources()
-        Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PPRProduction = New EveHQ.Prism.PrismResources()
         Me.PanelEx1.SuspendLayout()
         Me.gpPilotSkills.SuspendLayout()
         Me.gpProductionSkills.SuspendLayout()
@@ -210,6 +210,8 @@ Partial Class frmBPCalculator
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabBPCalcFunctions.SuspendLayout()
+        Me.tcpProduction.SuspendLayout()
+        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcpResearch.SuspendLayout()
         Me.tcpInvention.SuspendLayout()
         CType(Me.adtInventionProfits, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -217,8 +219,6 @@ Partial Class frmBPCalculator
         CType(Me.nudInventionSkill3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionSkill1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudInventionBPCRuns, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tcpProduction.SuspendLayout()
-        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -231,7 +231,6 @@ Partial Class frmBPCalculator
         Me.lblBPRuns.Size = New System.Drawing.Size(13, 13)
         Me.lblBPRuns.TabIndex = 19
         Me.lblBPRuns.Text = "0"
-        Me.lblBPRuns.UseWaitCursor = True
         '
         'lblBPRunsLbl
         '
@@ -241,7 +240,6 @@ Partial Class frmBPCalculator
         Me.lblBPRunsLbl.Size = New System.Drawing.Size(35, 13)
         Me.lblBPRunsLbl.TabIndex = 18
         Me.lblBPRunsLbl.Text = "Runs:"
-        Me.lblBPRunsLbl.UseWaitCursor = True
         '
         'lblBPME
         '
@@ -251,7 +249,6 @@ Partial Class frmBPCalculator
         Me.lblBPME.Size = New System.Drawing.Size(13, 13)
         Me.lblBPME.TabIndex = 17
         Me.lblBPME.Text = "0"
-        Me.lblBPME.UseWaitCursor = True
         '
         'lblBPPE
         '
@@ -261,7 +258,6 @@ Partial Class frmBPCalculator
         Me.lblBPPE.Size = New System.Drawing.Size(13, 13)
         Me.lblBPPE.TabIndex = 16
         Me.lblBPPE.Text = "0"
-        Me.lblBPPE.UseWaitCursor = True
         '
         'lblBPWF
         '
@@ -271,7 +267,6 @@ Partial Class frmBPCalculator
         Me.lblBPWF.Size = New System.Drawing.Size(13, 13)
         Me.lblBPWF.TabIndex = 15
         Me.lblBPWF.Text = "0"
-        Me.lblBPWF.UseWaitCursor = True
         '
         'lblBPOMarketValue
         '
@@ -281,7 +276,6 @@ Partial Class frmBPCalculator
         Me.lblBPOMarketValue.Size = New System.Drawing.Size(28, 13)
         Me.lblBPOMarketValue.TabIndex = 12
         Me.lblBPOMarketValue.Text = "0 isk"
-        Me.lblBPOMarketValue.UseWaitCursor = True
         '
         'lblBPOMarketValueLbl
         '
@@ -291,7 +285,6 @@ Partial Class frmBPCalculator
         Me.lblBPOMarketValueLbl.Size = New System.Drawing.Size(57, 13)
         Me.lblBPOMarketValueLbl.TabIndex = 11
         Me.lblBPOMarketValueLbl.Text = "BPO Price:"
-        Me.lblBPOMarketValueLbl.UseWaitCursor = True
         '
         'lblBPMELbl
         '
@@ -301,7 +294,6 @@ Partial Class frmBPCalculator
         Me.lblBPMELbl.Size = New System.Drawing.Size(53, 13)
         Me.lblBPMELbl.TabIndex = 4
         Me.lblBPMELbl.Text = "ME level :"
-        Me.lblBPMELbl.UseWaitCursor = True
         '
         'lblBPWFLbl
         '
@@ -311,7 +303,6 @@ Partial Class frmBPCalculator
         Me.lblBPWFLbl.Size = New System.Drawing.Size(76, 13)
         Me.lblBPWFLbl.TabIndex = 8
         Me.lblBPWFLbl.Text = "Waste Factor:"
-        Me.lblBPWFLbl.UseWaitCursor = True
         '
         'lblBPPELbl
         '
@@ -321,7 +312,6 @@ Partial Class frmBPCalculator
         Me.lblBPPELbl.Size = New System.Drawing.Size(51, 13)
         Me.lblBPPELbl.TabIndex = 6
         Me.lblBPPELbl.Text = "PE Level:"
-        Me.lblBPPELbl.UseWaitCursor = True
         '
         'lblRuns
         '
@@ -332,7 +322,6 @@ Partial Class frmBPCalculator
         Me.lblRuns.Size = New System.Drawing.Size(89, 13)
         Me.lblRuns.TabIndex = 16
         Me.lblRuns.Text = "Production Runs:"
-        Me.lblRuns.UseWaitCursor = True
         '
         'lblProdQuantityLbl
         '
@@ -343,7 +332,6 @@ Partial Class frmBPCalculator
         Me.lblProdQuantityLbl.Size = New System.Drawing.Size(107, 13)
         Me.lblProdQuantityLbl.TabIndex = 20
         Me.lblProdQuantityLbl.Text = "Production Quantity:"
-        Me.lblProdQuantityLbl.UseWaitCursor = True
         '
         'lblBatchSizeLbl
         '
@@ -354,7 +342,6 @@ Partial Class frmBPCalculator
         Me.lblBatchSizeLbl.Size = New System.Drawing.Size(60, 13)
         Me.lblBatchSizeLbl.TabIndex = 18
         Me.lblBatchSizeLbl.Text = "Batch Size:"
-        Me.lblBatchSizeLbl.UseWaitCursor = True
         '
         'lblRunsPerCopy
         '
@@ -365,7 +352,6 @@ Partial Class frmBPCalculator
         Me.lblRunsPerCopy.Size = New System.Drawing.Size(82, 13)
         Me.lblRunsPerCopy.TabIndex = 29
         Me.lblRunsPerCopy.Text = "Runs Per Copy:"
-        Me.lblRunsPerCopy.UseWaitCursor = True
         '
         'lblCopyTime
         '
@@ -376,7 +362,6 @@ Partial Class frmBPCalculator
         Me.lblCopyTime.Size = New System.Drawing.Size(18, 13)
         Me.lblCopyTime.TabIndex = 28
         Me.lblCopyTime.Text = "0s"
-        Me.lblCopyTime.UseWaitCursor = True
         '
         'lblBPCopyTimeLbl
         '
@@ -387,7 +372,6 @@ Partial Class frmBPCalculator
         Me.lblBPCopyTimeLbl.Size = New System.Drawing.Size(106, 13)
         Me.lblBPCopyTimeLbl.TabIndex = 27
         Me.lblBPCopyTimeLbl.Text = "Blueprint Copy Time:"
-        Me.lblBPCopyTimeLbl.UseWaitCursor = True
         '
         'lblPETime
         '
@@ -398,7 +382,6 @@ Partial Class frmBPCalculator
         Me.lblPETime.Size = New System.Drawing.Size(18, 13)
         Me.lblPETime.TabIndex = 26
         Me.lblPETime.Text = "0s"
-        Me.lblPETime.UseWaitCursor = True
         '
         'lblMETime
         '
@@ -409,7 +392,6 @@ Partial Class frmBPCalculator
         Me.lblMETime.Size = New System.Drawing.Size(18, 13)
         Me.lblMETime.TabIndex = 25
         Me.lblMETime.Text = "0s"
-        Me.lblMETime.UseWaitCursor = True
         '
         'lblPETimeLbl
         '
@@ -420,7 +402,6 @@ Partial Class frmBPCalculator
         Me.lblPETimeLbl.Size = New System.Drawing.Size(96, 13)
         Me.lblPETimeLbl.TabIndex = 13
         Me.lblPETimeLbl.Text = "PE Research Time:"
-        Me.lblPETimeLbl.UseWaitCursor = True
         '
         'lblMETimeLbl
         '
@@ -431,7 +412,6 @@ Partial Class frmBPCalculator
         Me.lblMETimeLbl.Size = New System.Drawing.Size(98, 13)
         Me.lblMETimeLbl.TabIndex = 12
         Me.lblMETimeLbl.Text = "ME Research Time:"
-        Me.lblMETimeLbl.UseWaitCursor = True
         '
         'lblNewMELbl
         '
@@ -442,7 +422,6 @@ Partial Class frmBPCalculator
         Me.lblNewMELbl.Size = New System.Drawing.Size(80, 13)
         Me.lblNewMELbl.TabIndex = 4
         Me.lblNewMELbl.Text = "New ME Level :"
-        Me.lblNewMELbl.UseWaitCursor = True
         '
         'LblNewWFLbl
         '
@@ -453,7 +432,6 @@ Partial Class frmBPCalculator
         Me.LblNewWFLbl.Size = New System.Drawing.Size(103, 13)
         Me.LblNewWFLbl.TabIndex = 8
         Me.LblNewWFLbl.Text = "New Waste Factor :"
-        Me.LblNewWFLbl.UseWaitCursor = True
         '
         'lblNewPELbl
         '
@@ -464,7 +442,6 @@ Partial Class frmBPCalculator
         Me.lblNewPELbl.Size = New System.Drawing.Size(78, 13)
         Me.lblNewPELbl.TabIndex = 6
         Me.lblNewPELbl.Text = "New PE Level :"
-        Me.lblNewPELbl.UseWaitCursor = True
         '
         'txtNewWasteFactor
         '
@@ -477,7 +454,6 @@ Partial Class frmBPCalculator
         Me.txtNewWasteFactor.TabStop = False
         Me.txtNewWasteFactor.Text = "0"
         Me.txtNewWasteFactor.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNewWasteFactor.UseWaitCursor = True
         '
         'lblProfitRate
         '
@@ -489,7 +465,6 @@ Partial Class frmBPCalculator
         Me.lblProfitRate.Size = New System.Drawing.Size(28, 13)
         Me.lblProfitRate.TabIndex = 175
         Me.lblProfitRate.Text = "0 isk"
-        Me.lblProfitRate.UseWaitCursor = True
         '
         'lblProfitRateLbl
         '
@@ -501,7 +476,6 @@ Partial Class frmBPCalculator
         Me.lblProfitRateLbl.Size = New System.Drawing.Size(93, 13)
         Me.lblProfitRateLbl.TabIndex = 174
         Me.lblProfitRateLbl.Text = "Profit/(Loss) p/hr:"
-        Me.lblProfitRateLbl.UseWaitCursor = True
         '
         'lblUnitProfit
         '
@@ -513,7 +487,6 @@ Partial Class frmBPCalculator
         Me.lblUnitProfit.Size = New System.Drawing.Size(28, 13)
         Me.lblUnitProfit.TabIndex = 173
         Me.lblUnitProfit.Text = "0 isk"
-        Me.lblUnitProfit.UseWaitCursor = True
         '
         'lblUnitProfitlbl
         '
@@ -525,7 +498,6 @@ Partial Class frmBPCalculator
         Me.lblUnitProfitlbl.Size = New System.Drawing.Size(92, 13)
         Me.lblUnitProfitlbl.TabIndex = 172
         Me.lblUnitProfitlbl.Text = "Unit Profit/(Loss):"
-        Me.lblUnitProfitlbl.UseWaitCursor = True
         '
         'lblUnitValue
         '
@@ -537,7 +509,6 @@ Partial Class frmBPCalculator
         Me.lblUnitValue.Size = New System.Drawing.Size(28, 13)
         Me.lblUnitValue.TabIndex = 171
         Me.lblUnitValue.Text = "0 isk"
-        Me.lblUnitValue.UseWaitCursor = True
         '
         'lblUnitValuelbl
         '
@@ -549,7 +520,6 @@ Partial Class frmBPCalculator
         Me.lblUnitValuelbl.Size = New System.Drawing.Size(84, 13)
         Me.lblUnitValuelbl.TabIndex = 170
         Me.lblUnitValuelbl.Text = "Unit Sales Price:"
-        Me.lblUnitValuelbl.UseWaitCursor = True
         '
         'lblUnitCost
         '
@@ -561,7 +531,6 @@ Partial Class frmBPCalculator
         Me.lblUnitCost.Size = New System.Drawing.Size(28, 13)
         Me.lblUnitCost.TabIndex = 169
         Me.lblUnitCost.Text = "0 isk"
-        Me.lblUnitCost.UseWaitCursor = True
         '
         'lblUnitCostLbl
         '
@@ -573,7 +542,6 @@ Partial Class frmBPCalculator
         Me.lblUnitCostLbl.Size = New System.Drawing.Size(55, 13)
         Me.lblUnitCostLbl.TabIndex = 168
         Me.lblUnitCostLbl.Text = "Unit Cost:"
-        Me.lblUnitCostLbl.UseWaitCursor = True
         '
         'lblTotalCosts
         '
@@ -585,7 +553,6 @@ Partial Class frmBPCalculator
         Me.lblTotalCosts.Size = New System.Drawing.Size(28, 13)
         Me.lblTotalCosts.TabIndex = 163
         Me.lblTotalCosts.Text = "0 isk"
-        Me.lblTotalCosts.UseWaitCursor = True
         '
         'lblTotalCostsLbl
         '
@@ -597,7 +564,6 @@ Partial Class frmBPCalculator
         Me.lblTotalCostsLbl.Size = New System.Drawing.Size(65, 13)
         Me.lblTotalCostsLbl.TabIndex = 162
         Me.lblTotalCostsLbl.Text = "Total Costs:"
-        Me.lblTotalCostsLbl.UseWaitCursor = True
         '
         'lblFactoryCosts
         '
@@ -609,7 +575,6 @@ Partial Class frmBPCalculator
         Me.lblFactoryCosts.Size = New System.Drawing.Size(28, 13)
         Me.lblFactoryCosts.TabIndex = 161
         Me.lblFactoryCosts.Text = "0 isk"
-        Me.lblFactoryCosts.UseWaitCursor = True
         '
         'lblTotalBuildCost
         '
@@ -621,7 +586,6 @@ Partial Class frmBPCalculator
         Me.lblTotalBuildCost.Size = New System.Drawing.Size(28, 13)
         Me.lblTotalBuildCost.TabIndex = 159
         Me.lblTotalBuildCost.Text = "0 isk"
-        Me.lblTotalBuildCost.UseWaitCursor = True
         '
         'lblUnitBuildCost
         '
@@ -633,7 +597,6 @@ Partial Class frmBPCalculator
         Me.lblUnitBuildCost.Size = New System.Drawing.Size(28, 13)
         Me.lblUnitBuildCost.TabIndex = 158
         Me.lblUnitBuildCost.Text = "0 isk"
-        Me.lblUnitBuildCost.UseWaitCursor = True
         '
         'lblTotalBuildCostsLbl
         '
@@ -645,7 +608,6 @@ Partial Class frmBPCalculator
         Me.lblTotalBuildCostsLbl.Size = New System.Drawing.Size(101, 13)
         Me.lblTotalBuildCostsLbl.TabIndex = 157
         Me.lblTotalBuildCostsLbl.Text = "Total Material Cost:"
-        Me.lblTotalBuildCostsLbl.UseWaitCursor = True
         '
         'lblUnitBuildCostsLbl
         '
@@ -657,7 +619,6 @@ Partial Class frmBPCalculator
         Me.lblUnitBuildCostsLbl.Size = New System.Drawing.Size(104, 13)
         Me.lblUnitBuildCostsLbl.TabIndex = 156
         Me.lblUnitBuildCostsLbl.Text = "Batch Material Cost:"
-        Me.lblUnitBuildCostsLbl.UseWaitCursor = True
         '
         'lblTotalBuildTime
         '
@@ -669,7 +630,6 @@ Partial Class frmBPCalculator
         Me.lblTotalBuildTime.Size = New System.Drawing.Size(18, 13)
         Me.lblTotalBuildTime.TabIndex = 155
         Me.lblTotalBuildTime.Text = "0s"
-        Me.lblTotalBuildTime.UseWaitCursor = True
         '
         'lblUnitBuildTime
         '
@@ -681,7 +641,6 @@ Partial Class frmBPCalculator
         Me.lblUnitBuildTime.Size = New System.Drawing.Size(18, 13)
         Me.lblUnitBuildTime.TabIndex = 154
         Me.lblUnitBuildTime.Text = "0s"
-        Me.lblUnitBuildTime.UseWaitCursor = True
         '
         'lblTotalBuildTimeLbl
         '
@@ -693,7 +652,6 @@ Partial Class frmBPCalculator
         Me.lblTotalBuildTimeLbl.Size = New System.Drawing.Size(85, 13)
         Me.lblTotalBuildTimeLbl.TabIndex = 23
         Me.lblTotalBuildTimeLbl.Text = "Total Build Time:"
-        Me.lblTotalBuildTimeLbl.UseWaitCursor = True
         '
         'lblUnitBuildTimeLbl
         '
@@ -705,7 +663,6 @@ Partial Class frmBPCalculator
         Me.lblUnitBuildTimeLbl.Size = New System.Drawing.Size(88, 13)
         Me.lblUnitBuildTimeLbl.TabIndex = 22
         Me.lblUnitBuildTimeLbl.Text = "Batch Build Time:"
-        Me.lblUnitBuildTimeLbl.UseWaitCursor = True
         '
         'lblPESkill
         '
@@ -716,7 +673,6 @@ Partial Class frmBPCalculator
         Me.lblPESkill.TabIndex = 5
         Me.lblPESkill.Text = "Prod. Eff:"
         Me.ToolTip1.SetToolTip(Me.lblPESkill, "Reduces manufacturing waste material")
-        Me.lblPESkill.UseWaitCursor = True
         '
         'lblIndustrySkill
         '
@@ -727,7 +683,6 @@ Partial Class frmBPCalculator
         Me.lblIndustrySkill.TabIndex = 4
         Me.lblIndustrySkill.Text = "Industry:"
         Me.ToolTip1.SetToolTip(Me.lblIndustrySkill, "Reduces manufacturing time.")
-        Me.lblIndustrySkill.UseWaitCursor = True
         '
         'lblScienceSkill
         '
@@ -738,7 +693,6 @@ Partial Class frmBPCalculator
         Me.lblScienceSkill.TabIndex = 5
         Me.lblScienceSkill.Text = "Science:"
         Me.ToolTip1.SetToolTip(Me.lblScienceSkill, "Reduces the time taken to make a blueprint copy.")
-        Me.lblScienceSkill.UseWaitCursor = True
         '
         'lblMetallurgySkill
         '
@@ -749,7 +703,6 @@ Partial Class frmBPCalculator
         Me.lblMetallurgySkill.TabIndex = 1
         Me.lblMetallurgySkill.Text = "Metallurgy:"
         Me.ToolTip1.SetToolTip(Me.lblMetallurgySkill, "Reduces the time taken to research the ME Level.")
-        Me.lblMetallurgySkill.UseWaitCursor = True
         '
         'lblResearchSkill
         '
@@ -760,7 +713,6 @@ Partial Class frmBPCalculator
         Me.lblResearchSkill.TabIndex = 0
         Me.lblResearchSkill.Text = "Research:"
         Me.ToolTip1.SetToolTip(Me.lblResearchSkill, "Reduces the time taken to research the PE Level.")
-        Me.lblResearchSkill.UseWaitCursor = True
         '
         'lblPilot
         '
@@ -770,7 +722,6 @@ Partial Class frmBPCalculator
         Me.lblPilot.Size = New System.Drawing.Size(31, 13)
         Me.lblPilot.TabIndex = 5
         Me.lblPilot.Text = "Pilot:"
-        Me.lblPilot.UseWaitCursor = True
         '
         'cboIndustryImplant
         '
@@ -787,7 +738,6 @@ Partial Class frmBPCalculator
         Me.cboIndustryImplant.TabIndex = 13
         Me.cboIndustryImplant.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.cboIndustryImplant, "'Beancounter' F Series: Reduces manufacturing time.")
-        Me.cboIndustryImplant.UseWaitCursor = True
         '
         'ComboItem1
         '
@@ -820,7 +770,6 @@ Partial Class frmBPCalculator
         Me.cboResearchImplant.TabIndex = 14
         Me.cboResearchImplant.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.cboResearchImplant, "'Beancounter' I Series: Reduces the time taken to research the PE Level.")
-        Me.cboResearchImplant.UseWaitCursor = True
         '
         'ComboItem5
         '
@@ -853,7 +802,6 @@ Partial Class frmBPCalculator
         Me.cboMetallurgyImplant.TabIndex = 15
         Me.cboMetallurgyImplant.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.cboMetallurgyImplant, "'Beancounter' J Series: Reduces the time taken to research the ME Level.")
-        Me.cboMetallurgyImplant.UseWaitCursor = True
         '
         'ComboItem9
         '
@@ -886,7 +834,6 @@ Partial Class frmBPCalculator
         Me.cboScienceImplant.TabIndex = 16
         Me.cboScienceImplant.Text = "0%"
         Me.ToolTip1.SetToolTip(Me.cboScienceImplant, "'Beancounter' K Series: Reduces the time taken to make a blueprint copy.")
-        Me.cboScienceImplant.UseWaitCursor = True
         '
         'ComboItem13
         '
@@ -933,7 +880,6 @@ Partial Class frmBPCalculator
         Me.PanelEx1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.PanelEx1.Style.GradientAngle = 90
         Me.PanelEx1.TabIndex = 155
-        Me.PanelEx1.UseWaitCursor = True
         '
         'gpPilotSkills
         '
@@ -978,7 +924,6 @@ Partial Class frmBPCalculator
         Me.gpPilotSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpPilotSkills.TabIndex = 1
         Me.gpPilotSkills.Text = "Pilot & Skill Selection"
-        Me.gpPilotSkills.UseWaitCursor = True
         '
         'gpProductionSkills
         '
@@ -1022,7 +967,6 @@ Partial Class frmBPCalculator
         Me.gpProductionSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpProductionSkills.TabIndex = 10
         Me.gpProductionSkills.Text = "Production Skills / Implants"
-        Me.gpProductionSkills.UseWaitCursor = True
         '
         'cboIndustrySkill
         '
@@ -1037,7 +981,6 @@ Partial Class frmBPCalculator
         Me.cboIndustrySkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboIndustrySkill.TabIndex = 12
         Me.cboIndustrySkill.Text = "0"
-        Me.cboIndustrySkill.UseWaitCursor = True
         '
         'cboProdEffSkill
         '
@@ -1052,7 +995,6 @@ Partial Class frmBPCalculator
         Me.cboProdEffSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboProdEffSkill.TabIndex = 11
         Me.cboProdEffSkill.Text = "0"
-        Me.cboProdEffSkill.UseWaitCursor = True
         '
         'gpResearchSkills
         '
@@ -1100,7 +1042,6 @@ Partial Class frmBPCalculator
         Me.gpResearchSkills.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpResearchSkills.TabIndex = 9
         Me.gpResearchSkills.Text = "Research Skills / Implants"
-        Me.gpResearchSkills.UseWaitCursor = True
         '
         'cboScienceSkill
         '
@@ -1115,7 +1056,6 @@ Partial Class frmBPCalculator
         Me.cboScienceSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboScienceSkill.TabIndex = 14
         Me.cboScienceSkill.Text = "0"
-        Me.cboScienceSkill.UseWaitCursor = True
         '
         'cboResearchSkill
         '
@@ -1130,7 +1070,6 @@ Partial Class frmBPCalculator
         Me.cboResearchSkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboResearchSkill.TabIndex = 13
         Me.cboResearchSkill.Text = "0"
-        Me.cboResearchSkill.UseWaitCursor = True
         '
         'cboMetallurgySkill
         '
@@ -1145,7 +1084,6 @@ Partial Class frmBPCalculator
         Me.cboMetallurgySkill.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboMetallurgySkill.TabIndex = 13
         Me.cboMetallurgySkill.Text = "0"
-        Me.cboMetallurgySkill.UseWaitCursor = True
         '
         'chkOverrideSkills
         '
@@ -1160,7 +1098,6 @@ Partial Class frmBPCalculator
         Me.chkOverrideSkills.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkOverrideSkills.TabIndex = 8
         Me.chkOverrideSkills.Text = "Override Skills"
-        Me.chkOverrideSkills.UseWaitCursor = True
         '
         'cboPilot
         '
@@ -1174,7 +1111,6 @@ Partial Class frmBPCalculator
         Me.cboPilot.Size = New System.Drawing.Size(168, 21)
         Me.cboPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboPilot.TabIndex = 7
-        Me.cboPilot.UseWaitCursor = True
         '
         'gpBPSelection
         '
@@ -1233,7 +1169,6 @@ Partial Class frmBPCalculator
         Me.gpBPSelection.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpBPSelection.TabIndex = 0
         Me.gpBPSelection.Text = "Blueprint Selection & Information"
-        Me.gpBPSelection.UseWaitCursor = True
         '
         'lblToggleInvention
         '
@@ -1247,7 +1182,6 @@ Partial Class frmBPCalculator
         Me.lblToggleInvention.Size = New System.Drawing.Size(124, 16)
         Me.lblToggleInvention.TabIndex = 27
         Me.lblToggleInvention.Text = "Invention BP Tech Level:"
-        Me.lblToggleInvention.UseWaitCursor = True
         '
         'btnToggleInvention
         '
@@ -1267,7 +1201,6 @@ Partial Class frmBPCalculator
         Me.SuperTooltip1.SetSuperTooltip(Me.btnToggleInvention, New DevComponents.DotNetBar.SuperTooltipInfo("", "Invention BP Tech Level", "Toggles between displaying T2 Blueprints to invent (default) or T1 Blueprints to " & _
             "invent from.", Nothing, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnToggleInvention.TabIndex = 26
-        Me.btnToggleInvention.UseWaitCursor = True
         '
         'cboOwner
         '
@@ -1282,7 +1215,6 @@ Partial Class frmBPCalculator
         Me.cboOwner.Size = New System.Drawing.Size(249, 21)
         Me.cboOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboOwner.TabIndex = 25
-        Me.cboOwner.UseWaitCursor = True
         '
         'lblBPMaxRuns
         '
@@ -1292,7 +1224,6 @@ Partial Class frmBPCalculator
         Me.lblBPMaxRuns.Size = New System.Drawing.Size(13, 13)
         Me.lblBPMaxRuns.TabIndex = 23
         Me.lblBPMaxRuns.Text = "0"
-        Me.lblBPMaxRuns.UseWaitCursor = True
         '
         'lblBPMaxRunsLbl
         '
@@ -1302,7 +1233,6 @@ Partial Class frmBPCalculator
         Me.lblBPMaxRunsLbl.Size = New System.Drawing.Size(58, 13)
         Me.lblBPMaxRunsLbl.TabIndex = 22
         Me.lblBPMaxRunsLbl.Text = "Max Runs:"
-        Me.lblBPMaxRunsLbl.UseWaitCursor = True
         '
         'cboBPs
         '
@@ -1316,7 +1246,6 @@ Partial Class frmBPCalculator
         Me.cboBPs.Size = New System.Drawing.Size(392, 21)
         Me.cboBPs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboBPs.TabIndex = 21
-        Me.cboBPs.UseWaitCursor = True
         '
         'chkOwnedBPOs
         '
@@ -1331,7 +1260,6 @@ Partial Class frmBPCalculator
         Me.chkOwnedBPOs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkOwnedBPOs.TabIndex = 20
         Me.chkOwnedBPOs.Text = "Owned Blueprints Only"
-        Me.chkOwnedBPOs.UseWaitCursor = True
         '
         'chkInventBPOs
         '
@@ -1346,7 +1274,6 @@ Partial Class frmBPCalculator
         Me.chkInventBPOs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkInventBPOs.TabIndex = 20
         Me.chkInventBPOs.Text = "Invention Related Blueprints only"
-        Me.chkInventBPOs.UseWaitCursor = True
         '
         'pbBP
         '
@@ -1357,7 +1284,6 @@ Partial Class frmBPCalculator
         Me.pbBP.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.pbBP.TabIndex = 10
         Me.pbBP.TabStop = False
-        Me.pbBP.UseWaitCursor = True
         '
         'nudCopyRuns
         '
@@ -1374,7 +1300,6 @@ Partial Class frmBPCalculator
         Me.nudCopyRuns.ShowUpDown = True
         Me.nudCopyRuns.Size = New System.Drawing.Size(80, 21)
         Me.nudCopyRuns.TabIndex = 36
-        Me.nudCopyRuns.UseWaitCursor = True
         Me.nudCopyRuns.Value = 1
         '
         'tabBPCalcFunctions
@@ -1390,8 +1315,8 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpResearch)
-        Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Controls.Add(Me.tcpProduction)
+        Me.tabBPCalcFunctions.Controls.Add(Me.tcpInvention)
         Me.tabBPCalcFunctions.Location = New System.Drawing.Point(3, 187)
         Me.tabBPCalcFunctions.Name = "tabBPCalcFunctions"
         Me.tabBPCalcFunctions.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1404,7 +1329,211 @@ Partial Class frmBPCalculator
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiProduction)
         Me.tabBPCalcFunctions.Tabs.Add(Me.tiInvention)
         Me.tabBPCalcFunctions.Text = "TabControl1"
-        Me.tabBPCalcFunctions.UseWaitCursor = True
+        '
+        'tcpProduction
+        '
+        Me.tcpProduction.Controls.Add(Me.lblProfitMarkup)
+        Me.tcpProduction.Controls.Add(Me.lblProfitMargin)
+        Me.tcpProduction.Controls.Add(Me.lblProfitMarkupLbl)
+        Me.tcpProduction.Controls.Add(Me.lblProfitMarginLbl)
+        Me.tcpProduction.Controls.Add(Me.lblProdQuantity)
+        Me.tcpProduction.Controls.Add(Me.lblBatchSize)
+        Me.tcpProduction.Controls.Add(Me.lblFactoryCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.nudRuns)
+        Me.tcpProduction.Controls.Add(Me.chkPOSProduction)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.cboPOSArrays)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTime)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCost)
+        Me.tcpProduction.Controls.Add(Me.lblProfitRate)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTime)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCost)
+        Me.tcpProduction.Controls.Add(Me.lblProfitRateLbl)
+        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTimeLbl)
+        Me.tcpProduction.Controls.Add(Me.lblUnitProfit)
+        Me.tcpProduction.Controls.Add(Me.lblUnitProfitlbl)
+        Me.tcpProduction.Controls.Add(Me.lblBatchSizeLbl)
+        Me.tcpProduction.Controls.Add(Me.lblFactoryCosts)
+        Me.tcpProduction.Controls.Add(Me.lblUnitValue)
+        Me.tcpProduction.Controls.Add(Me.lblUnitValuelbl)
+        Me.tcpProduction.Controls.Add(Me.lblTotalCostsLbl)
+        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTimeLbl)
+        Me.tcpProduction.Controls.Add(Me.lblUnitCost)
+        Me.tcpProduction.Controls.Add(Me.lblTotalCosts)
+        Me.tcpProduction.Controls.Add(Me.lblRuns)
+        Me.tcpProduction.Controls.Add(Me.lblUnitCostLbl)
+        Me.tcpProduction.Controls.Add(Me.lblProdQuantityLbl)
+        Me.tcpProduction.Controls.Add(Me.PACUnitValue)
+        Me.tcpProduction.Controls.Add(Me.PPRProduction)
+        Me.tcpProduction.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpProduction.Location = New System.Drawing.Point(0, 23)
+        Me.tcpProduction.Name = "tcpProduction"
+        Me.tcpProduction.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpProduction.Size = New System.Drawing.Size(836, 525)
+        Me.tcpProduction.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.tcpProduction.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+        Me.tcpProduction.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpProduction.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+        Me.tcpProduction.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpProduction.Style.GradientAngle = 90
+        Me.tcpProduction.TabIndex = 2
+        Me.tcpProduction.TabItem = Me.tiProduction
+        '
+        'lblProfitMarkup
+        '
+        Me.lblProfitMarkup.AutoSize = True
+        Me.lblProfitMarkup.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMarkup.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMarkup.Location = New System.Drawing.Point(709, 138)
+        Me.lblProfitMarkup.Name = "lblProfitMarkup"
+        Me.lblProfitMarkup.Size = New System.Drawing.Size(27, 13)
+        Me.lblProfitMarkup.TabIndex = 213
+        Me.lblProfitMarkup.Text = "0 %"
+        '
+        'lblProfitMargin
+        '
+        Me.lblProfitMargin.AutoSize = True
+        Me.lblProfitMargin.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMargin.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMargin.Location = New System.Drawing.Point(709, 125)
+        Me.lblProfitMargin.Name = "lblProfitMargin"
+        Me.lblProfitMargin.Size = New System.Drawing.Size(27, 13)
+        Me.lblProfitMargin.TabIndex = 212
+        Me.lblProfitMargin.Text = "0 %"
+        '
+        'lblProfitMarkupLbl
+        '
+        Me.lblProfitMarkupLbl.AutoSize = True
+        Me.lblProfitMarkupLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMarkupLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMarkupLbl.Location = New System.Drawing.Point(618, 138)
+        Me.lblProfitMarkupLbl.Name = "lblProfitMarkupLbl"
+        Me.lblProfitMarkupLbl.Size = New System.Drawing.Size(75, 13)
+        Me.lblProfitMarkupLbl.TabIndex = 211
+        Me.lblProfitMarkupLbl.Text = "Profit Markup:"
+        '
+        'lblProfitMarginLbl
+        '
+        Me.lblProfitMarginLbl.AutoSize = True
+        Me.lblProfitMarginLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblProfitMarginLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProfitMarginLbl.Location = New System.Drawing.Point(618, 125)
+        Me.lblProfitMarginLbl.Name = "lblProfitMarginLbl"
+        Me.lblProfitMarginLbl.Size = New System.Drawing.Size(72, 13)
+        Me.lblProfitMarginLbl.TabIndex = 210
+        Me.lblProfitMarginLbl.Text = "Profit Margin:"
+        '
+        'lblProdQuantity
+        '
+        Me.lblProdQuantity.AutoSize = True
+        Me.lblProdQuantity.BackColor = System.Drawing.Color.Transparent
+        Me.lblProdQuantity.Location = New System.Drawing.Point(123, 120)
+        Me.lblProdQuantity.Name = "lblProdQuantity"
+        Me.lblProdQuantity.Size = New System.Drawing.Size(13, 13)
+        Me.lblProdQuantity.TabIndex = 183
+        Me.lblProdQuantity.Text = "1"
+        '
+        'lblBatchSize
+        '
+        Me.lblBatchSize.AutoSize = True
+        Me.lblBatchSize.BackColor = System.Drawing.Color.Transparent
+        Me.lblBatchSize.Location = New System.Drawing.Point(123, 94)
+        Me.lblBatchSize.Name = "lblBatchSize"
+        Me.lblBatchSize.Size = New System.Drawing.Size(13, 13)
+        Me.lblBatchSize.TabIndex = 182
+        Me.lblBatchSize.Text = "1"
+        '
+        'lblFactoryCostsLbl
+        '
+        Me.lblFactoryCostsLbl.AutoSize = True
+        Me.lblFactoryCostsLbl.BackColor = System.Drawing.Color.Transparent
+        Me.lblFactoryCostsLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
+        Me.lblFactoryCostsLbl.Location = New System.Drawing.Point(272, 69)
+        Me.lblFactoryCostsLbl.Name = "lblFactoryCostsLbl"
+        Me.lblFactoryCostsLbl.Size = New System.Drawing.Size(78, 13)
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblFactoryCostsLbl, New DevComponents.DotNetBar.SuperTooltipInfo("Factory Costs", "Click to edit Factory Costs", "Factory Costs comprise of two components: an amount for the original installation" & _
+            " and a cost per hour running cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblFactoryCostsLbl.TabIndex = 181
+        Me.lblFactoryCostsLbl.TabStop = True
+        Me.lblFactoryCostsLbl.Text = "Factory Costs:"
+        '
+        'nudRuns
+        '
+        '
+        '
+        '
+        Me.nudRuns.BackgroundStyle.Class = "DateTimeInputBackground"
+        Me.nudRuns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.nudRuns.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
+        Me.nudRuns.Location = New System.Drawing.Point(119, 65)
+        Me.nudRuns.MaxValue = 1500
+        Me.nudRuns.MinValue = 1
+        Me.nudRuns.Name = "nudRuns"
+        Me.nudRuns.ShowUpDown = True
+        Me.nudRuns.Size = New System.Drawing.Size(93, 21)
+        Me.nudRuns.TabIndex = 180
+        Me.nudRuns.Value = 1
+        '
+        'chkPOSProduction
+        '
+        Me.chkPOSProduction.AutoSize = True
+        Me.chkPOSProduction.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.chkPOSProduction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkPOSProduction.Location = New System.Drawing.Point(9, 13)
+        Me.chkPOSProduction.Name = "chkPOSProduction"
+        Me.chkPOSProduction.Size = New System.Drawing.Size(165, 16)
+        Me.chkPOSProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkPOSProduction.TabIndex = 176
+        Me.chkPOSProduction.Text = "Use POS Array for production"
+        '
+        'cboPOSArrays
+        '
+        Me.cboPOSArrays.DisplayMember = "Text"
+        Me.cboPOSArrays.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboPOSArrays.Enabled = False
+        Me.cboPOSArrays.FormattingEnabled = True
+        Me.cboPOSArrays.ItemHeight = 15
+        Me.cboPOSArrays.Location = New System.Drawing.Point(9, 35)
+        Me.cboPOSArrays.Name = "cboPOSArrays"
+        Me.cboPOSArrays.Size = New System.Drawing.Size(224, 21)
+        Me.cboPOSArrays.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboPOSArrays.TabIndex = 177
+        Me.cboPOSArrays.WatermarkFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboPOSArrays.WatermarkText = "Select your POS array..."
+        '
+        'PACUnitValue
+        '
+        Me.PACUnitValue.Location = New System.Drawing.Point(381, 113)
+        Me.PACUnitValue.Name = "PACUnitValue"
+        Me.PACUnitValue.Price = 0.0R
+        Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
+        Me.PACUnitValue.TabIndex = 209
+        Me.PACUnitValue.TypeID = CType(0, Long)
+        '
+        'PPRProduction
+        '
+        Me.PPRProduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PPRProduction.BatchJob = Nothing
+        Me.PPRProduction.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PPRProduction.InventionBP = Nothing
+        Me.PPRProduction.Location = New System.Drawing.Point(0, 163)
+        Me.PPRProduction.Name = "PPRProduction"
+        Me.PPRProduction.ProductionJob = Nothing
+        Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
+        Me.PPRProduction.TabIndex = 0
+        '
+        'tiProduction
+        '
+        Me.tiProduction.AttachedControl = Me.tcpProduction
+        Me.tiProduction.Name = "tiProduction"
+        Me.tiProduction.Text = "Production"
         '
         'tcpResearch
         '
@@ -1430,7 +1559,6 @@ Partial Class frmBPCalculator
         Me.tcpResearch.Style.GradientAngle = 90
         Me.tcpResearch.TabIndex = 1
         Me.tcpResearch.TabItem = Me.tiResearch
-        Me.tcpResearch.UseWaitCursor = True
         '
         'chkAdvancedLab
         '
@@ -1447,7 +1575,6 @@ Partial Class frmBPCalculator
         Me.chkAdvancedLab.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkAdvancedLab.TabIndex = 33
         Me.chkAdvancedLab.Text = "Advanced Lab (Copy)"
-        Me.chkAdvancedLab.UseWaitCursor = True
         '
         'chkResearchAtPOS
         '
@@ -1463,7 +1590,6 @@ Partial Class frmBPCalculator
         Me.chkResearchAtPOS.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkResearchAtPOS.TabIndex = 32
         Me.chkResearchAtPOS.Text = "Research at POS?"
-        Me.chkResearchAtPOS.UseWaitCursor = True
         '
         'tiResearch
         '
@@ -1540,7 +1666,6 @@ Partial Class frmBPCalculator
         Me.tcpInvention.Style.GradientAngle = 90
         Me.tcpInvention.TabIndex = 3
         Me.tcpInvention.TabItem = Me.tiInvention
-        Me.tcpInvention.UseWaitCursor = True
         '
         'chkInventionFlag
         '
@@ -1556,7 +1681,6 @@ Partial Class frmBPCalculator
         Me.chkInventionFlag.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.chkInventionFlag.TabIndex = 213
         Me.chkInventionFlag.Text = "Save in Invention Manager"
-        Me.chkInventionFlag.UseWaitCursor = True
         '
         'lblBatchTotalCost
         '
@@ -1568,7 +1692,6 @@ Partial Class frmBPCalculator
         Me.lblBatchTotalCost.Size = New System.Drawing.Size(30, 13)
         Me.lblBatchTotalCost.TabIndex = 212
         Me.lblBatchTotalCost.Text = "0 Isk"
-        Me.lblBatchTotalCost.UseWaitCursor = True
         '
         'lblBatchTotalCostLbl
         '
@@ -1580,7 +1703,6 @@ Partial Class frmBPCalculator
         Me.lblBatchTotalCostLbl.Size = New System.Drawing.Size(90, 13)
         Me.lblBatchTotalCostLbl.TabIndex = 211
         Me.lblBatchTotalCostLbl.Text = "Batch Total Cost:"
-        Me.lblBatchTotalCostLbl.UseWaitCursor = True
         '
         'adtInventionProfits
         '
@@ -1607,7 +1729,6 @@ Partial Class frmBPCalculator
         Me.adtInventionProfits.Styles.Add(Me.ElementStyle2)
         Me.adtInventionProfits.TabIndex = 210
         Me.adtInventionProfits.Text = "AdvTree1"
-        Me.adtInventionProfits.UseWaitCursor = True
         '
         'colIPDecryptor
         '
@@ -1643,7 +1764,6 @@ Partial Class frmBPCalculator
         Me.lblTotalInventionProfit.Size = New System.Drawing.Size(30, 13)
         Me.lblTotalInventionProfit.TabIndex = 204
         Me.lblTotalInventionProfit.Text = "0 Isk"
-        Me.lblTotalInventionProfit.UseWaitCursor = True
         '
         'lblTotalInventionProfitLbl
         '
@@ -1655,7 +1775,6 @@ Partial Class frmBPCalculator
         Me.lblTotalInventionProfitLbl.Size = New System.Drawing.Size(64, 13)
         Me.lblTotalInventionProfitLbl.TabIndex = 203
         Me.lblTotalInventionProfitLbl.Text = "Total Profit:"
-        Me.lblTotalInventionProfitLbl.UseWaitCursor = True
         '
         'lblUnitInventionProfit
         '
@@ -1667,7 +1786,6 @@ Partial Class frmBPCalculator
         Me.lblUnitInventionProfit.Size = New System.Drawing.Size(30, 13)
         Me.lblUnitInventionProfit.TabIndex = 202
         Me.lblUnitInventionProfit.Text = "0 Isk"
-        Me.lblUnitInventionProfit.UseWaitCursor = True
         '
         'lblUnitInventionProfitLbl
         '
@@ -1679,7 +1797,6 @@ Partial Class frmBPCalculator
         Me.lblUnitInventionProfitLbl.Size = New System.Drawing.Size(78, 13)
         Me.lblUnitInventionProfitLbl.TabIndex = 201
         Me.lblUnitInventionProfitLbl.Text = "Profit per Unit:"
-        Me.lblUnitInventionProfitLbl.UseWaitCursor = True
         '
         'lblInventionSalesPrice
         '
@@ -1691,7 +1808,6 @@ Partial Class frmBPCalculator
         Me.lblInventionSalesPrice.Size = New System.Drawing.Size(30, 13)
         Me.lblInventionSalesPrice.TabIndex = 200
         Me.lblInventionSalesPrice.Text = "0 Isk"
-        Me.lblInventionSalesPrice.UseWaitCursor = True
         '
         'lblInventionSalesPriceLbl
         '
@@ -1703,7 +1819,6 @@ Partial Class frmBPCalculator
         Me.lblInventionSalesPriceLbl.Size = New System.Drawing.Size(84, 13)
         Me.lblInventionSalesPriceLbl.TabIndex = 199
         Me.lblInventionSalesPriceLbl.Text = "Unit Sales Price:"
-        Me.lblInventionSalesPriceLbl.UseWaitCursor = True
         '
         'lblAvgInventionCost
         '
@@ -1715,7 +1830,6 @@ Partial Class frmBPCalculator
         Me.lblAvgInventionCost.Size = New System.Drawing.Size(30, 13)
         Me.lblAvgInventionCost.TabIndex = 198
         Me.lblAvgInventionCost.Text = "0 Isk"
-        Me.lblAvgInventionCost.UseWaitCursor = True
         '
         'lblAvgInventionCostLbl
         '
@@ -1727,7 +1841,6 @@ Partial Class frmBPCalculator
         Me.lblAvgInventionCostLbl.Size = New System.Drawing.Size(82, 13)
         Me.lblAvgInventionCostLbl.TabIndex = 197
         Me.lblAvgInventionCostLbl.Text = "Unit Total Cost:"
-        Me.lblAvgInventionCostLbl.UseWaitCursor = True
         '
         'lblBatchProductionCost
         '
@@ -1739,7 +1852,6 @@ Partial Class frmBPCalculator
         Me.lblBatchProductionCost.Size = New System.Drawing.Size(30, 13)
         Me.lblBatchProductionCost.TabIndex = 196
         Me.lblBatchProductionCost.Text = "0 Isk"
-        Me.lblBatchProductionCost.UseWaitCursor = True
         '
         'lblBatchProductionCostLbl
         '
@@ -1751,7 +1863,6 @@ Partial Class frmBPCalculator
         Me.lblBatchProductionCostLbl.Size = New System.Drawing.Size(88, 13)
         Me.lblBatchProductionCostLbl.TabIndex = 195
         Me.lblBatchProductionCostLbl.Text = "Batch Prod Cost:"
-        Me.lblBatchProductionCostLbl.UseWaitCursor = True
         '
         'nudInventionSkill2
         '
@@ -1772,7 +1883,6 @@ Partial Class frmBPCalculator
         Me.nudInventionSkill2.ShowUpDown = True
         Me.nudInventionSkill2.Size = New System.Drawing.Size(104, 21)
         Me.nudInventionSkill2.TabIndex = 194
-        Me.nudInventionSkill2.UseWaitCursor = True
         Me.nudInventionSkill2.Value = 5
         Me.nudInventionSkill2.WatermarkEnabled = False
         '
@@ -1795,7 +1905,6 @@ Partial Class frmBPCalculator
         Me.nudInventionSkill3.ShowUpDown = True
         Me.nudInventionSkill3.Size = New System.Drawing.Size(104, 21)
         Me.nudInventionSkill3.TabIndex = 193
-        Me.nudInventionSkill3.UseWaitCursor = True
         Me.nudInventionSkill3.Value = 5
         Me.nudInventionSkill3.WatermarkEnabled = False
         '
@@ -1818,7 +1927,6 @@ Partial Class frmBPCalculator
         Me.nudInventionSkill1.ShowUpDown = True
         Me.nudInventionSkill1.Size = New System.Drawing.Size(104, 21)
         Me.nudInventionSkill1.TabIndex = 192
-        Me.nudInventionSkill1.UseWaitCursor = True
         Me.nudInventionSkill1.Value = 5
         Me.nudInventionSkill1.WatermarkEnabled = False
         '
@@ -1832,7 +1940,6 @@ Partial Class frmBPCalculator
         Me.lblSuccessCost.Size = New System.Drawing.Size(35, 13)
         Me.lblSuccessCost.TabIndex = 191
         Me.lblSuccessCost.Text = "0 Isk"
-        Me.lblSuccessCost.UseWaitCursor = True
         '
         'lblSuccessCostLbl
         '
@@ -1844,7 +1951,6 @@ Partial Class frmBPCalculator
         Me.lblSuccessCostLbl.Size = New System.Drawing.Size(83, 13)
         Me.lblSuccessCostLbl.TabIndex = 190
         Me.lblSuccessCostLbl.Text = "Success Cost:"
-        Me.lblSuccessCostLbl.UseWaitCursor = True
         '
         'lblAvgAttempts
         '
@@ -1856,7 +1962,6 @@ Partial Class frmBPCalculator
         Me.lblAvgAttempts.Size = New System.Drawing.Size(164, 13)
         Me.lblAvgAttempts.TabIndex = 189
         Me.lblAvgAttempts.Text = "Average Attempts Until Success:"
-        Me.lblAvgAttempts.UseWaitCursor = True
         '
         'lblInventionBPCCost
         '
@@ -1872,7 +1977,6 @@ Partial Class frmBPCalculator
         Me.lblInventionBPCCost.TabIndex = 188
         Me.lblInventionBPCCost.TabStop = True
         Me.lblInventionBPCCost.Text = "0 Isk"
-        Me.lblInventionBPCCost.UseWaitCursor = True
         '
         'lblInventionBPCCostLbl
         '
@@ -1888,7 +1992,6 @@ Partial Class frmBPCalculator
         Me.lblInventionBPCCostLbl.TabIndex = 187
         Me.lblInventionBPCCostLbl.TabStop = True
         Me.lblInventionBPCCostLbl.Text = "BPC Cost:"
-        Me.lblInventionBPCCostLbl.UseWaitCursor = True
         '
         'lblInventedBP
         '
@@ -1900,7 +2003,6 @@ Partial Class frmBPCalculator
         Me.lblInventedBP.Size = New System.Drawing.Size(73, 13)
         Me.lblInventedBP.TabIndex = 186
         Me.lblInventedBP.Text = "<not known>"
-        Me.lblInventedBP.UseWaitCursor = True
         '
         'lblInventionDecryptorCost
         '
@@ -1912,7 +2014,6 @@ Partial Class frmBPCalculator
         Me.lblInventionDecryptorCost.Size = New System.Drawing.Size(30, 13)
         Me.lblInventionDecryptorCost.TabIndex = 185
         Me.lblInventionDecryptorCost.Text = "0 Isk"
-        Me.lblInventionDecryptorCost.UseWaitCursor = True
         '
         'lblInventionMetaItemCost
         '
@@ -1924,7 +2025,6 @@ Partial Class frmBPCalculator
         Me.lblInventionMetaItemCost.Size = New System.Drawing.Size(30, 13)
         Me.lblInventionMetaItemCost.TabIndex = 184
         Me.lblInventionMetaItemCost.Text = "0 Isk"
-        Me.lblInventionMetaItemCost.UseWaitCursor = True
         '
         'lblInventionLabCosts
         '
@@ -1936,7 +2036,6 @@ Partial Class frmBPCalculator
         Me.lblInventionLabCosts.Size = New System.Drawing.Size(30, 13)
         Me.lblInventionLabCosts.TabIndex = 183
         Me.lblInventionLabCosts.Text = "0 Isk"
-        Me.lblInventionLabCosts.UseWaitCursor = True
         '
         'lblInventionCost
         '
@@ -1948,7 +2047,6 @@ Partial Class frmBPCalculator
         Me.lblInventionCost.Size = New System.Drawing.Size(30, 13)
         Me.lblInventionCost.TabIndex = 182
         Me.lblInventionCost.Text = "0 Isk"
-        Me.lblInventionCost.UseWaitCursor = True
         '
         'lblInventionBaseCost
         '
@@ -1960,7 +2058,6 @@ Partial Class frmBPCalculator
         Me.lblInventionBaseCost.Size = New System.Drawing.Size(30, 13)
         Me.lblInventionBaseCost.TabIndex = 181
         Me.lblInventionBaseCost.Text = "0 Isk"
-        Me.lblInventionBaseCost.UseWaitCursor = True
         '
         'lblInventionLabCostsLbl
         '
@@ -1975,7 +2072,6 @@ Partial Class frmBPCalculator
         Me.lblInventionLabCostsLbl.TabIndex = 180
         Me.lblInventionLabCostsLbl.TabStop = True
         Me.lblInventionLabCostsLbl.Text = "Lab Costs:"
-        Me.lblInventionLabCostsLbl.UseWaitCursor = True
         '
         'lblOverrideBPCRuns
         '
@@ -1987,7 +2083,6 @@ Partial Class frmBPCalculator
         Me.lblOverrideBPCRuns.Size = New System.Drawing.Size(102, 13)
         Me.lblOverrideBPCRuns.TabIndex = 179
         Me.lblOverrideBPCRuns.Text = "Override BPC Runs:"
-        Me.lblOverrideBPCRuns.UseWaitCursor = True
         '
         'lblBlueprintInventions
         '
@@ -1999,7 +2094,6 @@ Partial Class frmBPCalculator
         Me.lblBlueprintInventions.Size = New System.Drawing.Size(62, 13)
         Me.lblBlueprintInventions.TabIndex = 178
         Me.lblBlueprintInventions.Text = "Inventions:"
-        Me.lblBlueprintInventions.UseWaitCursor = True
         '
         'lblMetaItem
         '
@@ -2011,7 +2105,6 @@ Partial Class frmBPCalculator
         Me.lblMetaItem.Size = New System.Drawing.Size(60, 13)
         Me.lblMetaItem.TabIndex = 177
         Me.lblMetaItem.Text = "Meta Item:"
-        Me.lblMetaItem.UseWaitCursor = True
         '
         'lblDecryptor
         '
@@ -2023,7 +2116,6 @@ Partial Class frmBPCalculator
         Me.lblDecryptor.Size = New System.Drawing.Size(59, 13)
         Me.lblDecryptor.TabIndex = 176
         Me.lblDecryptor.Text = "Decryptor:"
-        Me.lblDecryptor.UseWaitCursor = True
         '
         'lblBaseChance
         '
@@ -2035,7 +2127,6 @@ Partial Class frmBPCalculator
         Me.lblBaseChance.Size = New System.Drawing.Size(122, 13)
         Me.lblBaseChance.TabIndex = 175
         Me.lblBaseChance.Text = "Base Invention Chance:"
-        Me.lblBaseChance.UseWaitCursor = True
         '
         'lblInvSkill2
         '
@@ -2047,7 +2138,6 @@ Partial Class frmBPCalculator
         Me.lblInvSkill2.Size = New System.Drawing.Size(86, 13)
         Me.lblInvSkill2.TabIndex = 174
         Me.lblInvSkill2.Text = "Invention Skill 2:"
-        Me.lblInvSkill2.UseWaitCursor = True
         '
         'lblInvSkill3
         '
@@ -2059,7 +2149,6 @@ Partial Class frmBPCalculator
         Me.lblInvSkill3.Size = New System.Drawing.Size(86, 13)
         Me.lblInvSkill3.TabIndex = 173
         Me.lblInvSkill3.Text = "Invention Skill 3:"
-        Me.lblInvSkill3.UseWaitCursor = True
         '
         'lblInvSkill1
         '
@@ -2071,7 +2160,6 @@ Partial Class frmBPCalculator
         Me.lblInvSkill1.Size = New System.Drawing.Size(86, 13)
         Me.lblInvSkill1.TabIndex = 172
         Me.lblInvSkill1.Text = "Invention Skill 1:"
-        Me.lblInvSkill1.UseWaitCursor = True
         '
         'lblInventionCostLbl
         '
@@ -2083,7 +2171,6 @@ Partial Class frmBPCalculator
         Me.lblInventionCostLbl.Size = New System.Drawing.Size(60, 13)
         Me.lblInventionCostLbl.TabIndex = 171
         Me.lblInventionCostLbl.Text = "Total Cost:"
-        Me.lblInventionCostLbl.UseWaitCursor = True
         '
         'lblInventionMetaItemCostLbl
         '
@@ -2095,7 +2182,6 @@ Partial Class frmBPCalculator
         Me.lblInventionMetaItemCostLbl.Size = New System.Drawing.Size(58, 13)
         Me.lblInventionMetaItemCostLbl.TabIndex = 170
         Me.lblInventionMetaItemCostLbl.Text = "Item Cost:"
-        Me.lblInventionMetaItemCostLbl.UseWaitCursor = True
         '
         'lblInventionDecryptorCostLbl
         '
@@ -2107,7 +2193,6 @@ Partial Class frmBPCalculator
         Me.lblInventionDecryptorCostLbl.Size = New System.Drawing.Size(84, 13)
         Me.lblInventionDecryptorCostLbl.TabIndex = 169
         Me.lblInventionDecryptorCostLbl.Text = "Decryptor Cost:"
-        Me.lblInventionDecryptorCostLbl.UseWaitCursor = True
         '
         'lblInventionBaseCostLbl
         '
@@ -2119,7 +2204,6 @@ Partial Class frmBPCalculator
         Me.lblInventionBaseCostLbl.Size = New System.Drawing.Size(59, 13)
         Me.lblInventionBaseCostLbl.TabIndex = 168
         Me.lblInventionBaseCostLbl.Text = "Base Cost:"
-        Me.lblInventionBaseCostLbl.UseWaitCursor = True
         '
         'lblInventedBPLbl
         '
@@ -2131,7 +2215,6 @@ Partial Class frmBPCalculator
         Me.lblInventedBPLbl.Size = New System.Drawing.Size(105, 13)
         Me.lblInventedBPLbl.TabIndex = 167
         Me.lblInventedBPLbl.Text = "Invented BP Details:"
-        Me.lblInventedBPLbl.UseWaitCursor = True
         '
         'lblInventionChance
         '
@@ -2143,7 +2226,6 @@ Partial Class frmBPCalculator
         Me.lblInventionChance.Size = New System.Drawing.Size(123, 13)
         Me.lblInventionChance.TabIndex = 166
         Me.lblInventionChance.Text = "Chance of Invention:"
-        Me.lblInventionChance.UseWaitCursor = True
         '
         'lblInventionTime
         '
@@ -2155,7 +2237,6 @@ Partial Class frmBPCalculator
         Me.lblInventionTime.Size = New System.Drawing.Size(18, 13)
         Me.lblInventionTime.TabIndex = 165
         Me.lblInventionTime.Text = "0s"
-        Me.lblInventionTime.UseWaitCursor = True
         '
         'lblInventionTimeLbl
         '
@@ -2167,7 +2248,6 @@ Partial Class frmBPCalculator
         Me.lblInventionTimeLbl.Size = New System.Drawing.Size(82, 13)
         Me.lblInventionTimeLbl.TabIndex = 164
         Me.lblInventionTimeLbl.Text = "Invention Time:"
-        Me.lblInventionTimeLbl.UseWaitCursor = True
         '
         'nudInventionBPCRuns
         '
@@ -2190,7 +2270,6 @@ Partial Class frmBPCalculator
         Me.nudInventionBPCRuns.ShowUpDown = True
         Me.nudInventionBPCRuns.Size = New System.Drawing.Size(171, 21)
         Me.nudInventionBPCRuns.TabIndex = 162
-        Me.nudInventionBPCRuns.UseWaitCursor = True
         Me.nudInventionBPCRuns.Value = 1
         Me.nudInventionBPCRuns.WatermarkEnabled = False
         '
@@ -2207,7 +2286,6 @@ Partial Class frmBPCalculator
         Me.cboMetaItem.Sorted = True
         Me.cboMetaItem.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboMetaItem.TabIndex = 4
-        Me.cboMetaItem.UseWaitCursor = True
         Me.cboMetaItem.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
         Me.cboMetaItem.WatermarkColor = System.Drawing.Color.Silver
         Me.cboMetaItem.WatermarkText = "Select a Meta Item to use..."
@@ -2225,7 +2303,6 @@ Partial Class frmBPCalculator
         Me.cboDecryptor.Sorted = True
         Me.cboDecryptor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboDecryptor.TabIndex = 2
-        Me.cboDecryptor.UseWaitCursor = True
         Me.cboDecryptor.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
         Me.cboDecryptor.WatermarkColor = System.Drawing.Color.Silver
         Me.cboDecryptor.WatermarkText = "Select a Decryptor to use..."
@@ -2243,10 +2320,50 @@ Partial Class frmBPCalculator
         Me.cboInventions.Sorted = True
         Me.cboInventions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.cboInventions.TabIndex = 1
-        Me.cboInventions.UseWaitCursor = True
         Me.cboInventions.WatermarkBehavior = DevComponents.DotNetBar.eWatermarkBehavior.HideNonEmpty
         Me.cboInventions.WatermarkColor = System.Drawing.Color.Silver
         Me.cboInventions.WatermarkText = "Select Blueprint to invent..."
+        '
+        'PPRInvention
+        '
+        Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.PPRInvention.BatchJob = Nothing
+        Me.PPRInvention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PPRInvention.InventionBP = Nothing
+        Me.PPRInvention.Location = New System.Drawing.Point(0, 229)
+        Me.PPRInvention.Name = "PPRInvention"
+        Me.PPRInvention.ProductionJob = Nothing
+        Me.PPRInvention.Size = New System.Drawing.Size(833, 296)
+        Me.PPRInvention.TabIndex = 0
+        '
+        'PACDecryptor
+        '
+        Me.PACDecryptor.Location = New System.Drawing.Point(429, 18)
+        Me.PACDecryptor.Name = "PACDecryptor"
+        Me.PACDecryptor.Price = 0.0R
+        Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
+        Me.PACDecryptor.TabIndex = 209
+        Me.PACDecryptor.TypeID = CType(0, Long)
+        '
+        'PACSalesPrice
+        '
+        Me.PACSalesPrice.Location = New System.Drawing.Point(429, 154)
+        Me.PACSalesPrice.Name = "PACSalesPrice"
+        Me.PACSalesPrice.Price = 0.0R
+        Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
+        Me.PACSalesPrice.TabIndex = 208
+        Me.PACSalesPrice.TypeID = CType(0, Long)
+        '
+        'PACMetaItem
+        '
+        Me.PACMetaItem.Location = New System.Drawing.Point(429, 31)
+        Me.PACMetaItem.Name = "PACMetaItem"
+        Me.PACMetaItem.Price = 0.0R
+        Me.PACMetaItem.Size = New System.Drawing.Size(20, 12)
+        Me.PACMetaItem.TabIndex = 207
+        Me.PACMetaItem.TypeID = CType(0, Long)
         '
         'tiInvention
         '
@@ -2254,199 +2371,6 @@ Partial Class frmBPCalculator
         Me.tiInvention.Name = "tiInvention"
         Me.tiInvention.Text = "Invention"
         Me.tiInvention.Visible = False
-        '
-        'tcpProduction
-        '
-        Me.tcpProduction.Controls.Add(Me.lblProfitMarkup)
-        Me.tcpProduction.Controls.Add(Me.lblProfitMargin)
-        Me.tcpProduction.Controls.Add(Me.lblProfitMarkupLbl)
-        Me.tcpProduction.Controls.Add(Me.lblProfitMarginLbl)
-        Me.tcpProduction.Controls.Add(Me.lblProdQuantity)
-        Me.tcpProduction.Controls.Add(Me.lblBatchSize)
-        Me.tcpProduction.Controls.Add(Me.lblFactoryCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.nudRuns)
-        Me.tcpProduction.Controls.Add(Me.chkPOSProduction)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.cboPOSArrays)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTime)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildCost)
-        Me.tcpProduction.Controls.Add(Me.lblProfitRate)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTime)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildCost)
-        Me.tcpProduction.Controls.Add(Me.lblProfitRateLbl)
-        Me.tcpProduction.Controls.Add(Me.lblTotalBuildTimeLbl)
-        Me.tcpProduction.Controls.Add(Me.lblUnitProfit)
-        Me.tcpProduction.Controls.Add(Me.lblUnitProfitlbl)
-        Me.tcpProduction.Controls.Add(Me.lblBatchSizeLbl)
-        Me.tcpProduction.Controls.Add(Me.lblFactoryCosts)
-        Me.tcpProduction.Controls.Add(Me.lblUnitValue)
-        Me.tcpProduction.Controls.Add(Me.lblUnitValuelbl)
-        Me.tcpProduction.Controls.Add(Me.lblTotalCostsLbl)
-        Me.tcpProduction.Controls.Add(Me.lblUnitBuildTimeLbl)
-        Me.tcpProduction.Controls.Add(Me.lblUnitCost)
-        Me.tcpProduction.Controls.Add(Me.lblTotalCosts)
-        Me.tcpProduction.Controls.Add(Me.lblRuns)
-        Me.tcpProduction.Controls.Add(Me.lblUnitCostLbl)
-        Me.tcpProduction.Controls.Add(Me.lblProdQuantityLbl)
-        Me.tcpProduction.Controls.Add(Me.PACUnitValue)
-        Me.tcpProduction.Controls.Add(Me.PPRProduction)
-        Me.tcpProduction.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpProduction.Location = New System.Drawing.Point(0, 23)
-        Me.tcpProduction.Name = "tcpProduction"
-        Me.tcpProduction.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpProduction.Size = New System.Drawing.Size(836, 525)
-        Me.tcpProduction.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-        Me.tcpProduction.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-        Me.tcpProduction.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpProduction.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-        Me.tcpProduction.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpProduction.Style.GradientAngle = 90
-        Me.tcpProduction.TabIndex = 2
-        Me.tcpProduction.TabItem = Me.tiProduction
-        Me.tcpProduction.UseWaitCursor = True
-        '
-        'lblProfitMarkup
-        '
-        Me.lblProfitMarkup.AutoSize = True
-        Me.lblProfitMarkup.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMarkup.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMarkup.Location = New System.Drawing.Point(709, 138)
-        Me.lblProfitMarkup.Name = "lblProfitMarkup"
-        Me.lblProfitMarkup.Size = New System.Drawing.Size(27, 13)
-        Me.lblProfitMarkup.TabIndex = 213
-        Me.lblProfitMarkup.Text = "0 %"
-        Me.lblProfitMarkup.UseWaitCursor = True
-        '
-        'lblProfitMargin
-        '
-        Me.lblProfitMargin.AutoSize = True
-        Me.lblProfitMargin.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMargin.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMargin.Location = New System.Drawing.Point(709, 125)
-        Me.lblProfitMargin.Name = "lblProfitMargin"
-        Me.lblProfitMargin.Size = New System.Drawing.Size(27, 13)
-        Me.lblProfitMargin.TabIndex = 212
-        Me.lblProfitMargin.Text = "0 %"
-        Me.lblProfitMargin.UseWaitCursor = True
-        '
-        'lblProfitMarkupLbl
-        '
-        Me.lblProfitMarkupLbl.AutoSize = True
-        Me.lblProfitMarkupLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMarkupLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMarkupLbl.Location = New System.Drawing.Point(618, 138)
-        Me.lblProfitMarkupLbl.Name = "lblProfitMarkupLbl"
-        Me.lblProfitMarkupLbl.Size = New System.Drawing.Size(75, 13)
-        Me.lblProfitMarkupLbl.TabIndex = 211
-        Me.lblProfitMarkupLbl.Text = "Profit Markup:"
-        Me.lblProfitMarkupLbl.UseWaitCursor = True
-        '
-        'lblProfitMarginLbl
-        '
-        Me.lblProfitMarginLbl.AutoSize = True
-        Me.lblProfitMarginLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblProfitMarginLbl.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProfitMarginLbl.Location = New System.Drawing.Point(618, 125)
-        Me.lblProfitMarginLbl.Name = "lblProfitMarginLbl"
-        Me.lblProfitMarginLbl.Size = New System.Drawing.Size(72, 13)
-        Me.lblProfitMarginLbl.TabIndex = 210
-        Me.lblProfitMarginLbl.Text = "Profit Margin:"
-        Me.lblProfitMarginLbl.UseWaitCursor = True
-        '
-        'lblProdQuantity
-        '
-        Me.lblProdQuantity.AutoSize = True
-        Me.lblProdQuantity.BackColor = System.Drawing.Color.Transparent
-        Me.lblProdQuantity.Location = New System.Drawing.Point(123, 120)
-        Me.lblProdQuantity.Name = "lblProdQuantity"
-        Me.lblProdQuantity.Size = New System.Drawing.Size(13, 13)
-        Me.lblProdQuantity.TabIndex = 183
-        Me.lblProdQuantity.Text = "1"
-        Me.lblProdQuantity.UseWaitCursor = True
-        '
-        'lblBatchSize
-        '
-        Me.lblBatchSize.AutoSize = True
-        Me.lblBatchSize.BackColor = System.Drawing.Color.Transparent
-        Me.lblBatchSize.Location = New System.Drawing.Point(123, 94)
-        Me.lblBatchSize.Name = "lblBatchSize"
-        Me.lblBatchSize.Size = New System.Drawing.Size(13, 13)
-        Me.lblBatchSize.TabIndex = 182
-        Me.lblBatchSize.Text = "1"
-        Me.lblBatchSize.UseWaitCursor = True
-        '
-        'lblFactoryCostsLbl
-        '
-        Me.lblFactoryCostsLbl.AutoSize = True
-        Me.lblFactoryCostsLbl.BackColor = System.Drawing.Color.Transparent
-        Me.lblFactoryCostsLbl.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline
-        Me.lblFactoryCostsLbl.Location = New System.Drawing.Point(272, 69)
-        Me.lblFactoryCostsLbl.Name = "lblFactoryCostsLbl"
-        Me.lblFactoryCostsLbl.Size = New System.Drawing.Size(78, 13)
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblFactoryCostsLbl, New DevComponents.DotNetBar.SuperTooltipInfo("Factory Costs", "Click to edit Factory Costs", "Factory Costs comprise of two components: an amount for the original installation" & _
-            " and a cost per hour running cost.", Global.EveHQ.Prism.My.Resources.Resources.Question32, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblFactoryCostsLbl.TabIndex = 181
-        Me.lblFactoryCostsLbl.TabStop = True
-        Me.lblFactoryCostsLbl.Text = "Factory Costs:"
-        Me.lblFactoryCostsLbl.UseWaitCursor = True
-        '
-        'nudRuns
-        '
-        '
-        '
-        '
-        Me.nudRuns.BackgroundStyle.Class = "DateTimeInputBackground"
-        Me.nudRuns.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.nudRuns.ButtonFreeText.Shortcut = DevComponents.DotNetBar.eShortcut.F2
-        Me.nudRuns.Location = New System.Drawing.Point(119, 65)
-        Me.nudRuns.MaxValue = 1500
-        Me.nudRuns.MinValue = 1
-        Me.nudRuns.Name = "nudRuns"
-        Me.nudRuns.ShowUpDown = True
-        Me.nudRuns.Size = New System.Drawing.Size(93, 21)
-        Me.nudRuns.TabIndex = 180
-        Me.nudRuns.UseWaitCursor = True
-        Me.nudRuns.Value = 1
-        '
-        'chkPOSProduction
-        '
-        Me.chkPOSProduction.AutoSize = True
-        Me.chkPOSProduction.BackColor = System.Drawing.Color.Transparent
-        '
-        '
-        '
-        Me.chkPOSProduction.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkPOSProduction.Location = New System.Drawing.Point(9, 13)
-        Me.chkPOSProduction.Name = "chkPOSProduction"
-        Me.chkPOSProduction.Size = New System.Drawing.Size(165, 16)
-        Me.chkPOSProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkPOSProduction.TabIndex = 176
-        Me.chkPOSProduction.Text = "Use POS Array for production"
-        Me.chkPOSProduction.UseWaitCursor = True
-        '
-        'cboPOSArrays
-        '
-        Me.cboPOSArrays.DisplayMember = "Text"
-        Me.cboPOSArrays.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboPOSArrays.Enabled = False
-        Me.cboPOSArrays.FormattingEnabled = True
-        Me.cboPOSArrays.ItemHeight = 15
-        Me.cboPOSArrays.Location = New System.Drawing.Point(9, 35)
-        Me.cboPOSArrays.Name = "cboPOSArrays"
-        Me.cboPOSArrays.Size = New System.Drawing.Size(224, 21)
-        Me.cboPOSArrays.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboPOSArrays.TabIndex = 177
-        Me.cboPOSArrays.UseWaitCursor = True
-        Me.cboPOSArrays.WatermarkFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboPOSArrays.WatermarkText = "Select your POS array..."
-        '
-        'tiProduction
-        '
-        Me.tiProduction.AttachedControl = Me.tcpProduction
-        Me.tiProduction.Name = "tiProduction"
-        Me.tiProduction.Text = "Production"
         '
         'nudPELevel
         '
@@ -2463,7 +2387,6 @@ Partial Class frmBPCalculator
         Me.nudPELevel.ShowUpDown = True
         Me.nudPELevel.Size = New System.Drawing.Size(80, 21)
         Me.nudPELevel.TabIndex = 35
-        Me.nudPELevel.UseWaitCursor = True
         '
         'btnSaveProductionJobAs
         '
@@ -2475,7 +2398,6 @@ Partial Class frmBPCalculator
         Me.btnSaveProductionJobAs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnSaveProductionJobAs.TabIndex = 185
         Me.btnSaveProductionJobAs.Text = "Save Job As..."
-        Me.btnSaveProductionJobAs.UseWaitCursor = True
         '
         'nudMELevel
         '
@@ -2492,7 +2414,6 @@ Partial Class frmBPCalculator
         Me.nudMELevel.ShowUpDown = True
         Me.nudMELevel.Size = New System.Drawing.Size(80, 21)
         Me.nudMELevel.TabIndex = 34
-        Me.nudMELevel.UseWaitCursor = True
         '
         'btnSaveProductionJob
         '
@@ -2505,7 +2426,6 @@ Partial Class frmBPCalculator
         Me.btnSaveProductionJob.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnSaveProductionJob.TabIndex = 184
         Me.btnSaveProductionJob.Text = "Save Job"
-        Me.btnSaveProductionJob.UseWaitCursor = True
         '
         'btnExportToCSV
         '
@@ -2520,76 +2440,6 @@ Partial Class frmBPCalculator
         'SuperTooltip1
         '
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        '
-        'PPRInvention
-        '
-        Me.PPRInvention.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PPRInvention.BatchJob = Nothing
-        Me.PPRInvention.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PPRInvention.InventionBP = Nothing
-        Me.PPRInvention.Location = New System.Drawing.Point(0, 229)
-        Me.PPRInvention.Name = "PPRInvention"
-        Me.PPRInvention.ProductionJob = Nothing
-        Me.PPRInvention.Size = New System.Drawing.Size(833, 296)
-        Me.PPRInvention.TabIndex = 0
-        Me.PPRInvention.UseWaitCursor = True
-        '
-        'PACDecryptor
-        '
-        Me.PACDecryptor.Location = New System.Drawing.Point(429, 18)
-        Me.PACDecryptor.Name = "PACDecryptor"
-        Me.PACDecryptor.Price = 0.0R
-        Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
-        Me.PACDecryptor.TabIndex = 209
-        Me.PACDecryptor.TypeID = CType(0, Long)
-        Me.PACDecryptor.UseWaitCursor = True
-        '
-        'PACSalesPrice
-        '
-        Me.PACSalesPrice.Location = New System.Drawing.Point(429, 154)
-        Me.PACSalesPrice.Name = "PACSalesPrice"
-        Me.PACSalesPrice.Price = 0.0R
-        Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
-        Me.PACSalesPrice.TabIndex = 208
-        Me.PACSalesPrice.TypeID = CType(0, Long)
-        Me.PACSalesPrice.UseWaitCursor = True
-        '
-        'PACMetaItem
-        '
-        Me.PACMetaItem.Location = New System.Drawing.Point(429, 31)
-        Me.PACMetaItem.Name = "PACMetaItem"
-        Me.PACMetaItem.Price = 0.0R
-        Me.PACMetaItem.Size = New System.Drawing.Size(20, 12)
-        Me.PACMetaItem.TabIndex = 207
-        Me.PACMetaItem.TypeID = CType(0, Long)
-        Me.PACMetaItem.UseWaitCursor = True
-        '
-        'PACUnitValue
-        '
-        Me.PACUnitValue.Location = New System.Drawing.Point(381, 113)
-        Me.PACUnitValue.Name = "PACUnitValue"
-        Me.PACUnitValue.Price = 0.0R
-        Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
-        Me.PACUnitValue.TabIndex = 209
-        Me.PACUnitValue.TypeID = CType(0, Long)
-        Me.PACUnitValue.UseWaitCursor = True
-        '
-        'PPRProduction
-        '
-        Me.PPRProduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.PPRProduction.BatchJob = Nothing
-        Me.PPRProduction.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PPRProduction.InventionBP = Nothing
-        Me.PPRProduction.Location = New System.Drawing.Point(0, 163)
-        Me.PPRProduction.Name = "PPRProduction"
-        Me.PPRProduction.ProductionJob = Nothing
-        Me.PPRProduction.Size = New System.Drawing.Size(836, 362)
-        Me.PPRProduction.TabIndex = 0
-        Me.PPRProduction.UseWaitCursor = True
         '
         'frmBPCalculator
         '
@@ -2606,7 +2456,6 @@ Partial Class frmBPCalculator
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Blueprint Calculator"
         Me.TransparencyKey = System.Drawing.Color.LavenderBlush
-        Me.UseWaitCursor = True
         Me.PanelEx1.ResumeLayout(False)
         Me.PanelEx1.PerformLayout()
         Me.gpPilotSkills.ResumeLayout(False)
@@ -2621,6 +2470,9 @@ Partial Class frmBPCalculator
         CType(Me.nudCopyRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tabBPCalcFunctions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabBPCalcFunctions.ResumeLayout(False)
+        Me.tcpProduction.ResumeLayout(False)
+        Me.tcpProduction.PerformLayout()
+        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcpResearch.ResumeLayout(False)
         Me.tcpResearch.PerformLayout()
         Me.tcpInvention.ResumeLayout(False)
@@ -2630,9 +2482,6 @@ Partial Class frmBPCalculator
         CType(Me.nudInventionSkill3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudInventionSkill1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudInventionBPCRuns, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tcpProduction.ResumeLayout(False)
-        Me.tcpProduction.PerformLayout()
-        CType(Me.nudRuns, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudPELevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudMELevel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

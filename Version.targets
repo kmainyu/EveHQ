@@ -1,0 +1,49 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)..\VersionNumber.targets" />
+  <Import Project="$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets" Condition="Exists('$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets')" />
+<UsingTask TaskName="HgVersionFile" AssemblyFile="$(ProjectDir)..\MSBuildVersioning.dll" />
+
+  <!--<PropertyGroup>
+    <VersionPreRelease>PreReleaseBuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
+    
+      <SemanticVersionText>2.11.2</SemanticVersionText>
+    
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
+    <VersionPreRelease></VersionPreRelease>
+  </PropertyGroup>-->
+
+ 
+  <Target Name="SetAssemblyVersion">
+    <Message Text="Building Package" Importance="high" />
+    <PropertyGroup Condition="$(VersionPreRelease)==''">
+      <VersionTxt>$(SemanticVersionText)</VersionTxt>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(VersionPreRelease)!=''">
+      <VersionTxt>$(SemanticVersionText).$REVNUM$-$(VersionPreRelease)</VersionTxt>
+      <SemanticVersionText>$(SemanticVersionText).$REVNUM$</SemanticVersionText>
+    </PropertyGroup>
+    <PropertyGroup>
+      <TradeMarkText>$UTCDATE$ (Version $(VersionTxt))</TradeMarkText>
+      <CopyRightYear>$([System.DateTime]::Now.ToString("yyyy"))</CopyRightYear>
+    </PropertyGroup>
+    <Message Importance="high" Text="-Version $(VersionTxt)" />
+    <AssemblyInfo CodeLanguage="VB" 
+                  OutputFile="My Project\AssemblyInfo.template.vb" 
+                  AssemblyTitle="$(AssemblyInfoTitle)"
+                  AssemblyDescription="$(AssemblyInfoDescription)"
+                  AssemblyCompany="Indicium Technologies"
+                  AssemblyProduct="EveHQ"
+                  AssemblyCopyright="� EveHQ Development Team 2005-$(CopyRightYear)"
+                  AssemblyFileVersion="$(VersionTxt)" 
+                  AssemblyVersion="$(SemanticVersionText)" 
+                  AssemblyConfiguration="$(Configuration)"
+                  AssemblyTrademark="$(TradeMarkText)"
+                  CLSCompliant="False"
+                  ComVisible="False"
+                  Guid="$(AssemblyInfoGUID)"
+                  />
+    
+    <HgVersionFile TemplateFile="My Project\AssemblyInfo.template.vb" DestinationFile="My Project\AssemblyInfo.vb" />
+  </Target>
+</Project>

@@ -1,0 +1,41 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)..\VersionNumber.targets" />
+<Import Project="$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets" Condition="Exists('$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets')" />
+<UsingTask TaskName="HgVersionFile" AssemblyFile="$(ProjectDir)..\MSBuildVersioning.dll" />
+
+  
+
+ 
+  <Target Name="SetAssemblyVersion">
+    <Message Text="Building Package" Importance="high" />
+    <PropertyGroup Condition="$(VersionPreRelease)==''">
+      <VersionTxt>$(SemanticVersionText)</VersionTxt>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(VersionPreRelease)!=''">
+      <VersionTxt>$(SemanticVersionText).$REVNUM$-$(VersionPreRelease)</VersionTxt>
+      <SemanticVersionText>$(SemanticVersionText).$REVNUM$</SemanticVersionText>
+    </PropertyGroup>
+    <PropertyGroup>
+      <TradeMarkText>$UTCDATE$ (Version $(VersionTxt))</TradeMarkText>
+      <CopyRightYear>$([System.DateTime]::Now.ToString("yyyy"))</CopyRightYear>
+    </PropertyGroup>
+    <Message Importance="high" Text="-Version $(VersionTxt)" />
+    <AssemblyInfo CodeLanguage="CS" 
+                  OutputFile="Properties\AssemblyInfo.template.cs" 
+                  AssemblyTitle="$(AssemblyInfoTitle)"
+                  AssemblyDescription="$(AssemblyInfoDescription)"
+                  AssemblyCompany="Indicium Technologies"
+                  AssemblyProduct="EveHQ"
+                  AssemblyCopyright="� EveHQ Development Team 2005-$(CopyRightYear)"
+                  AssemblyFileVersion="$(VersionTxt)" 
+                  AssemblyVersion="$(SemanticVersionText)" 
+                  AssemblyConfiguration="$(Configuration)"
+                  AssemblyTrademark="$(TradeMarkText)"
+                  CLSCompliant="False"
+                  ComVisible="False"
+                  Guid="$(AssemblyInfoGUID)"
+                  />
+    
+    <HgVersionFile TemplateFile="Properties\AssemblyInfo.template.cs" DestinationFile="Properties\AssemblyInfo.CS" />
+  </Target>
+</Project>

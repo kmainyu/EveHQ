@@ -150,26 +150,26 @@ Public Class frmJournalCheck
 									' Calculate the expected balance
 									ExpBalance = LastBalance + JournalAmount - TaxAmount
 									' Check if the expected balance is different to the actual
-									If Math.Abs(Math.Round(ExpBalance - ActualBalance, 2)) > 0.01 Then
-										' We have a difference so store it for review
-										BalDiff = ExpBalance - ActualBalance
-										Dim NewDiff As New WalletJournalDiff
-										NewDiff.OwnerID = CInt(SQLRow.Item("charID"))
-										NewDiff.OwnerName = Owner
-										NewDiff.WalletID = walletID
-										NewDiff.Amount = JournalAmount
-										NewDiff.TaxAmount = TaxAmount
-										NewDiff.PrevBal = LastBalance
-										NewDiff.PrevDate = LastDate
-										NewDiff.PrevKey = LastRefKey
-										NewDiff.PrevRef = LastRef
-										NewDiff.CurrBal = ActualBalance
-										NewDiff.CurrDate = CDate(SQLRow.Item("transDate"))
-										NewDiff.CurrKey = SQLRow.Item("transKey").ToString
-										NewDiff.CurrRef = CLng(SQLRow.Item("transRef"))
-										NewDiff.Difference = NewDiff.CurrBal - NewDiff.PrevBal - (NewDiff.Amount - NewDiff.TaxAmount)
-										JournalDiffs.Add(NewDiff.CurrKey, NewDiff)
-									End If
+                                    If Math.Abs(Math.Round(ExpBalance - ActualBalance, 2, MidpointRounding.AwayFromZero)) > 0.01 Then
+                                        ' We have a difference so store it for review
+                                        BalDiff = ExpBalance - ActualBalance
+                                        Dim NewDiff As New WalletJournalDiff
+                                        NewDiff.OwnerID = CInt(SQLRow.Item("charID"))
+                                        NewDiff.OwnerName = Owner
+                                        NewDiff.WalletID = walletID
+                                        NewDiff.Amount = JournalAmount
+                                        NewDiff.TaxAmount = TaxAmount
+                                        NewDiff.PrevBal = LastBalance
+                                        NewDiff.PrevDate = LastDate
+                                        NewDiff.PrevKey = LastRefKey
+                                        NewDiff.PrevRef = LastRef
+                                        NewDiff.CurrBal = ActualBalance
+                                        NewDiff.CurrDate = CDate(SQLRow.Item("transDate"))
+                                        NewDiff.CurrKey = SQLRow.Item("transKey").ToString
+                                        NewDiff.CurrRef = CLng(SQLRow.Item("transRef"))
+                                        NewDiff.Difference = NewDiff.CurrBal - NewDiff.PrevBal - (NewDiff.Amount - NewDiff.TaxAmount)
+                                        JournalDiffs.Add(NewDiff.CurrKey, NewDiff)
+                                    End If
 									' Update the Last items
 									LastBalance = ActualBalance
 									LastRefKey = SQLRow.Item("transKey").ToString

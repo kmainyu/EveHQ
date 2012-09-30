@@ -1,0 +1,9 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<PropertyGroup>
+    <VersionPreRelease>preBuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
+     <SemanticVersionText>2.11.1</SemanticVersionText>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
+    <VersionPreRelease></VersionPreRelease>
+  </PropertyGroup>
+  </Project>
