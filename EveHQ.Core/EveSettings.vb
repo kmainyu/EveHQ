@@ -32,6 +32,9 @@ Imports System.Diagnostics
 Imports System.Data.OleDb
 
 <Serializable()> Public Class EveSettings
+
+    Private Const OfficalApiLocation As String = "https://api.eveonline.com"
+
     Private cAccounts As New Collection
     Private cPilots As New Collection
     Private cPlugins As New SortedList
@@ -119,7 +122,7 @@ Imports System.Data.OleDb
     Private cPilotPartTrainedSkillColor As Long = System.Drawing.Color.Gold.ToArgb
     Private cPilotCurrentTrainSkillColor As Long = System.Drawing.Color.LimeGreen.ToArgb
     Private cEveFolderLabel(4) As String
-    Private cCCPAPIServerAddress As String = "http://api.eveonline.com"
+    Private cCCPAPIServerAddress As String = OfficalApiLocation
     Private cAPIRSAddress As String = ""
     Private cUseAPIRS As Boolean = False
     Private cUseCCPAPIBackup As Boolean = False
@@ -817,10 +820,14 @@ Imports System.Data.OleDb
     End Property
     Public Property CCPAPIServerAddress() As String
         Get
+            'Bug #75: Broken API update due to CCP disabling HTTP endpoint
+            'Resolution: Now the code will check and forcibly update the api location to https 
+            'Any time it is retrieved or saved.
+            cCCPAPIServerAddress = ForceHTTPSOnCCPEndpoints(cCCPAPIServerAddress)
             Return cCCPAPIServerAddress
         End Get
         Set(ByVal value As String)
-            cCCPAPIServerAddress = value
+            cCCPAPIServerAddress = ForceHTTPSOnCCPEndpoints(value)
         End Set
     End Property
     Public Property EveFolderLabel(ByVal index As Integer) As String
@@ -1586,6 +1593,25 @@ Imports System.Data.OleDb
             cPilots = value
         End Set
     End Property
+
+    ''' <summary>
+    ''' Validates that when "official" CCP api endpoints are used, the http scheme is forced to https.
+    ''' Also the older eve-online.com domain will be changed to eveonline.com
+    ''' </summary>
+    ''' <remarks></remarks>
+    Private Shared Function ForceHTTPSOnCCPEndpoints(endpoint As String) As String
+        Const oldApi1 As String = "http://api.eveonline.com"
+        Const oldApi2 As String = "http://api.eve-online.com"
+        Const badApi As String = "https://api.eve-online.com" 'this https endpoint isn't supported anymore
+
+        Dim normalizedEndpoint As String = endpoint.ToLowerInvariant()
+
+        If (normalizedEndpoint = oldApi1 Or normalizedEndpoint = oldApi2 Or normalizedEndpoint = badApi) Then
+            normalizedEndpoint = OfficalApiLocation
+        End If
+
+        Return normalizedEndpoint
+    End Function
 End Class
 
 Public Class EveHQSettingsFunctions
