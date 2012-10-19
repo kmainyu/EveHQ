@@ -30,7 +30,7 @@ Imports System.IO
 Public Class EveAPIRequest
 
     Private Const ErrorRetries As Integer = 5
-    Private Const CCPServerAddress As String = "http://api.eveonline.com"
+    Private Const CCPServerAddress As String = "https://api.eveonline.com"
     Private cAPILastRequestType As APITypes
     Private cAPILastResult As APIResults
     Private cAPILastError As Integer = -1
@@ -38,7 +38,7 @@ Public Class EveAPIRequest
     Private cAPILastFileName As String
     Private cAPIFileExtension As String = "aspx"
     Private cAPICacheLocation As String = Path.Combine(My.Computer.FileSystem.SpecialDirectories.CurrentUserApplicationData, "EveAPICache")
-    Private cAPIServerAddress As String = "http://api.eveonline.com"
+    Private cAPIServerAddress As String = "https://api.eveonline.com"
     Private cProxyServer As New RemoteProxyServer
 
     ''' <summary>
