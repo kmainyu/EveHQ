@@ -970,8 +970,10 @@ Public Class frmMarketPrices
             For Each file As String In My.Computer.FileSystem.GetFiles(marketCacheFolder, FileIO.SearchOption.SearchTopLevelOnly, FeedName & "*.xml")
                 ' Get region details
                 Dim FI As New FileInfo(file)
-                Dim regionID As Long = CLng(FI.Name.TrimStart(FeedName.ToCharArray).TrimEnd(".xml".ToCharArray))
-                If RegionNames.ContainsKey(regionID) = True Then
+                ' Bug 44 (http://issues.evehq.net/thebuggenie/evehq/issues/44): hardening the parsing of cache files from manual modifications that would make them invalid to parse.
+                ' Using TryParse instead of casting/converting.
+                Dim regionID As Long
+                If Long.TryParse(FI.Name.TrimStart(FeedName.ToCharArray).TrimEnd(".xml".ToCharArray), regionID) And RegionNames.ContainsKey(regionID) = True Then
                     Dim regionName As String = RegionNames(regionID)
                     Dim RegionNode As New Node(regionName)
                     RegionNode.Cells.Add(New Cell(FI.LastWriteTime.ToString))
