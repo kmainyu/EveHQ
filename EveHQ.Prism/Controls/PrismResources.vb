@@ -790,7 +790,10 @@ Public Class PrismResources
         If BatchJob IsNot Nothing Then
             GroupResources.Clear()
             For Each JobName As String In Me.BatchJob.ProductionJobs
-                Call Me.GetResourcesFromJob(ProductionJobs.Jobs(JobName))
+                ' Bug 69 : if there is a mismatch between these two collections then an error will occur
+                If (ProductionJobs.Jobs.ContainsKey((JobName))) Then
+                    Call Me.GetResourcesFromJob(ProductionJobs.Jobs(JobName))
+                End If
             Next
             lblBatchName.Text = "Batch: " & BatchJob.BatchName
         Else
