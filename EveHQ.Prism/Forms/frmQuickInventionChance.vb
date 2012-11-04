@@ -127,14 +127,28 @@ Public Class frmQuickInventionChance
 
     Private Sub RecalculateProbability()
         ' Calculate the probability of the successful vs total attempts
-        Dim IC As Double = Math.Min(InventionChance, 100)
+        Dim IC As Double = Math.Min(InventionChance, 100) / 100
         Dim Attempts As Integer = nudAttempts.Value
         Dim Success As Integer = nudSuccess.Value
-        Dim PS As Double = Math.Pow((IC / 100), Success)
-        Dim PF As Double = Math.Pow(1 - (IC / 100), Attempts - Success)
-        Dim FP As Double = Factorial(Attempts) / Factorial(Success) / Factorial(Attempts - Success)
-        Dim TP As Double = FP * PS * PF * 100
-        Me.lblProbability.Text = "Probability: " & TP.ToString("N4") & "%"
+
+        'Calculate probability to get exactly the specified number of successes 
+        'Dim PS As Double = Math.Pow(IC, Success)
+        'Dim PF As Double = Math.Pow(1 - IC, Attempts - Success)
+        'Dim FP As Double = Factorial(Attempts) / Factorial(Success) / Factorial(Attempts - Success)
+        'Dim TP As Double = FP * PS * PF
+
+        'Calculate cumulative probability to get at least the specified number of successes
+        Dim CP As Double = 0
+        If Success = 0 Then
+            CP = 1
+        ElseIf Success >= Attempts Then
+            CP = Math.Pow(IC, Attempts)
+        Else
+            BinomialDistribution(CP, Attempts, Success - 1, IC)
+            CP = 1 - CP
+        End If
+
+        Me.lblProbability.Text = "Probability: " & (CP * 100).ToString("N4") & "%"
     End Sub
 
     Private Function Factorial(ByVal n As Integer) As Double
@@ -146,6 +160,19 @@ Public Class frmQuickInventionChance
             Return sum
         Else
             Return 1
+        End If
+    End Function
+
+    Private Function BinomialDistribution(ByRef cp As Double, ByVal n As Integer, ByVal k As Integer, ByVal p As Double) As Double
+        Dim value As Double = 0
+        If k > 0 Then
+            value = (n - k + 1) / k * p / (1 - p) * BinomialDistribution(cp, n, k - 1, p)
+            cp += value
+            Return value
+        Else
+            value = Math.Pow(1 - p, n)
+            cp += value
+            Return value
         End If
     End Function
 
