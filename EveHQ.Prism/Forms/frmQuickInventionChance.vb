@@ -127,7 +127,7 @@ Public Class frmQuickInventionChance
 
     Private Sub RecalculateProbability()
         ' Calculate the probability of the successful vs total attempts
-        Dim IC As Double = Math.Min(InventionChance, 100) / 100
+        Dim IC As Double = Math.Min(InventionChance, 100) / 100.0
         Dim Attempts As Integer = nudAttempts.Value
         Dim Success As Integer = nudSuccess.Value
 
@@ -139,7 +139,7 @@ Public Class frmQuickInventionChance
 
         'Calculate cumulative probability to get at least the specified number of successes
         Dim CP As Double = 0
-        If Success = 0 Then
+        If Success = 0 Or IC = 1 Then
             CP = 1
         ElseIf Success >= Attempts Then
             CP = Math.Pow(IC, Attempts)
