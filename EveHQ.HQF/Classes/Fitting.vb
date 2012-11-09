@@ -448,7 +448,7 @@ Imports System.Runtime.Serialization
     ''' </summary>
     ''' <param name="BuildMethod"></param>
     ''' <remarks></remarks>
-    Public Sub ApplyFitting(Optional ByVal BuildMethod As BuildType = BuildType.BuildEverything)
+    Public Sub ApplyFitting(Optional ByVal BuildMethod As BuildType = BuildType.BuildEverything, Optional ByVal VisualUpdates As Boolean = True)
         ' Update the pilot from the pilot name
         If HQFPilotCollection.HQFPilots.ContainsKey(Me.PilotName) = False Then
             MessageBox.Show("The pilot '" & Me.PilotName & "' is not a listed pilot - please check this pilot exists.", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -630,14 +630,14 @@ Imports System.Runtime.Serialization
         Ship.MapShipAttributes(newShip)
         cFittedShip = newShip
 
-        If Me.ShipSlotCtrl IsNot Nothing Then
+        If Me.ShipSlotCtrl IsNot Nothing And VisualUpdates = True Then
             'Dim SSC As New Threading.Thread(AddressOf Me.ShipSlotCtrl.UpdateAllSlotLocations)
             'SSC.Priority = Threading.ThreadPriority.Highest
             'SSC.Start()
             Me.ShipSlotCtrl.UpdateAllSlotLocations()
         End If
 
-        If Me.ShipInfoCtrl IsNot Nothing Then
+        If Me.ShipInfoCtrl IsNot Nothing And VisualUpdates = True Then
             'Dim SIC As New Threading.Thread(AddressOf Me.ShipInfoCtrl.UpdateInfoDisplay)
             'SIC.Priority = Threading.ThreadPriority.Highest
             'SIC.Start()
@@ -2230,7 +2230,7 @@ Imports System.Runtime.Serialization
     ''' <remarks></remarks>
     Public Sub UpdateBaseShipFromFitting()
 
-        ApplyFitting(BuildType.BuildEverything) ' Do this to build the fitted ship bonuses!
+        ApplyFitting(BuildType.BuildEverything, False) ' Do this to build the fitted ship bonuses!
 
         Call Me.ReorderModules()
 
@@ -2243,6 +2243,8 @@ Imports System.Runtime.Serialization
             NewMod.ModuleState = MWS.State
             Call Me.AddModule(NewMod, 0, True, True, Nothing, False, False)
         Next
+
+        ApplyFitting(BuildType.BuildFromEffectsMaps, False) ' Add modules/subsystems to FittedShip
 
         ' Add the drones
         For Each MWS As ModuleQWithState In Me.Drones
@@ -2505,7 +2507,7 @@ Imports System.Runtime.Serialization
         Else
             myShip = Me.BaseShip
         End If
-        If myShip.DroneBay - Me.BaseShip.DroneBay_Used >= vol Then
+        If myShip.DroneBay - Me.BaseShip.DroneBay_Used >= vol * Qty Then
             ' Scan through existing items and see if we can group this new one
             For Each droneGroup As DroneBayItem In Me.BaseShip.DroneBayItems.Values
                 If Drone.Name = droneGroup.DroneType.Name And Active = droneGroup.IsActive And UpdateAll = False Then
@@ -2517,10 +2519,15 @@ Imports System.Runtime.Serialization
             Next
             ' Put the drone into the drone bay if not grouped
             If grouped = False Then
+                Dim bw As Double = CDbl(Drone.Attributes("1272"))
                 Dim DBI As New DroneBayItem
                 DBI.DroneType = Drone
                 DBI.Quantity = Qty
-                DBI.IsActive = Active
+                If Active = True And myShip.MaxDrones - Me.BaseShip.UsedDrones >= Qty And myShip.DroneBandwidth - Me.BaseShip.DroneBandwidth_Used >= Qty * bw Then
+                    DBI.IsActive = True
+                Else
+                    DBI.IsActive = False
+                End If
                 Me.BaseShip.DroneBayItems.Add(Me.BaseShip.DroneBayItems.Count, DBI)
             End If
             ' Update stuff
@@ -2529,9 +2536,11 @@ Imports System.Runtime.Serialization
                 If Me.ShipSlotCtrl IsNot Nothing Then
                     Call Me.ShipSlotCtrl.UpdateDroneBay()
                 End If
+            Else
+                Me.BaseShip.DroneBay_Used += vol * Qty
             End If
         Else
-            MessageBox.Show("There is not enough space in the Drone Bay to hold 1 unit of " & Drone.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("There is not enough space in the Drone Bay to hold " & Qty & " unit(s) of " & Drone.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -2547,11 +2556,11 @@ Imports System.Runtime.Serialization
             Else
                 myShip = Me.BaseShip
             End If
-            If myShip.CargoBay - Me.BaseShip.CargoBay_Used >= vol Then
+            If myShip.CargoBay - Me.BaseShip.CargoBay_Used >= vol * Qty Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As CargoBayItem In Me.BaseShip.CargoBayItems.Values
                     If Item.Name = itemGroup.ItemType.Name And UpdateAll = False Then
-                        ' Add to existing drone group
+                        ' Add to existing item group
                         itemGroup.Quantity += Qty
                         grouped = True
                         Exit For
@@ -2570,9 +2579,11 @@ Imports System.Runtime.Serialization
                     If Me.ShipSlotCtrl IsNot Nothing Then
                         Call Me.ShipSlotCtrl.UpdateItemBay()
                     End If
+                Else
+                    Me.BaseShip.CargoBay_Used += vol * Qty
                 End If
             Else
-                MessageBox.Show("There is not enough space in the Cargo Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There is not enough space in the Cargo Bay to hold " & Qty & " unit(s) of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
@@ -2589,17 +2600,17 @@ Imports System.Runtime.Serialization
             Else
                 myShip = Me.BaseShip
             End If
-            If myShip.ShipBay - Me.BaseShip.ShipBay_Used >= vol Then
+            If myShip.ShipBay - Me.BaseShip.ShipBay_Used >= vol * Qty Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As ShipBayItem In Me.BaseShip.ShipBayItems.Values
                     If Item.Name = itemGroup.ShipType.Name And UpdateAll = False Then
-                        ' Add to existing drone group
+                        ' Add to existing item group
                         itemGroup.Quantity += Qty
                         grouped = True
                         Exit For
                     End If
                 Next
-                ' Put the item into the cargo bay if not grouped
+                ' Put the item into the ship maintenance bay if not grouped
                 If grouped = False Then
                     Dim sBI As New ShipBayItem
                     sBI.ShipType = Item
@@ -2612,9 +2623,11 @@ Imports System.Runtime.Serialization
                     If Me.ShipSlotCtrl IsNot Nothing Then
                         Call Me.ShipSlotCtrl.UpdateShipBay()
                     End If
+                Else
+                    Me.BaseShip.ShipBay_Used += vol * Qty
                 End If
             Else
-                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold 1 unit of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold " & Qty & " unit(s) of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
