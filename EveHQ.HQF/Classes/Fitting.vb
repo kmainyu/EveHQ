@@ -2092,7 +2092,7 @@ Imports System.Runtime.Serialization
         log &= "# " & oldAtt
         Select Case FEffect.CalcType
             Case EffectCalcType.Percentage
-                NewShip.Attributes(Att) = NewShip.Attributes(Att) * (1 + (FEffect.AffectedValue / 100))
+                NewShip.Attributes(Att) = NewShip.Attributes(Att) * ((100 + FEffect.AffectedValue) / 100.0)
             Case EffectCalcType.Addition
                 NewShip.Attributes(Att) = NewShip.Attributes(Att) + FEffect.AffectedValue
             Case EffectCalcType.Difference ' Used for resistances
@@ -2130,6 +2130,10 @@ Imports System.Runtime.Serialization
             Case EffectCalcType.CapBoosters
                 NewShip.Attributes(Att) = Math.Min(NewShip.Attributes(Att) - FEffect.AffectedValue, 0)
         End Select
+        ' Use only 2 decimal places of precision for PG and CPU output
+        If Att = Attributes.Ship_PowergridOutput Or Att = Attributes.Ship_CpuOutput Then
+            NewShip.Attributes(Att) = Math.Round(NewShip.Attributes(Att), 2, MidpointRounding.AwayFromZero)
+        End If
         log &= "# " & NewShip.Attributes(Att).ToString
         If oldAtt <> NewShip.Attributes(Att).ToString Then
             NewShip.AuditLog.Add(log)
@@ -2145,7 +2149,7 @@ Imports System.Runtime.Serialization
         log &= ": " & oldAtt
         Select Case FEffect.CalcType
             Case EffectCalcType.Percentage
-                NewModule.Attributes(Att) = NewModule.Attributes(Att) * (1 + (FEffect.AffectedValue / 100))
+                NewModule.Attributes(Att) = NewModule.Attributes(Att) * ((100 + FEffect.AffectedValue) / 100.0)
             Case EffectCalcType.Addition
                 NewModule.Attributes(Att) = NewModule.Attributes(Att) + FEffect.AffectedValue
             Case EffectCalcType.Difference  ' Used for resistances
@@ -2183,6 +2187,10 @@ Imports System.Runtime.Serialization
             Case EffectCalcType.CapBoosters
                 NewModule.Attributes(Att) = Math.Min(NewModule.Attributes(Att) - FEffect.AffectedValue, 0)
         End Select
+        ' Use only 2 decimal places of precision for PG and CPU usage
+        If Att = Attributes.Module_PowergridUsage Or Att = Attributes.Module_CpuUsage Then
+            NewModule.Attributes(Att) = Math.Round(NewModule.Attributes(Att), 2, MidpointRounding.AwayFromZero)
+        End If
         log &= " --> " & NewModule.Attributes(Att).ToString
         If oldAtt <> NewModule.Attributes(Att).ToString Then
             NewModule.AuditLog.Add(log)
@@ -2415,8 +2423,8 @@ Imports System.Runtime.Serialization
 
     Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal UpdateShip As Boolean, ByVal UpdateAll As Boolean, ByVal repMod As ShipModule, ByVal SuppressUndo As Boolean, ByVal IsSwappingModules As Boolean)
         ' Check for command processors as this affects the fitting!
-        If shipMod.ID = "11014" And shipMod.ModuleState = ModuleStates.Active Then
-            Me.BaseShip.Attributes("10063") += 1
+        If shipMod.ID = ShipModule.Item_CommandProcessorI And shipMod.ModuleState = ModuleStates.Active Then
+            Me.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) += 1
         End If
 
         ' Check slot availability (only if not adding in a specific slot?)
@@ -2519,7 +2527,7 @@ Imports System.Runtime.Serialization
             Next
             ' Put the drone into the drone bay if not grouped
             If grouped = False Then
-                Dim bw As Double = CDbl(Drone.Attributes("1272"))
+                Dim bw As Double = Drone.Attributes(Attributes.Module_DroneBandwidthNeeded)
                 Dim DBI As New DroneBayItem
                 DBI.DroneType = Drone
                 DBI.Quantity = Qty
@@ -2809,12 +2817,12 @@ Imports System.Runtime.Serialization
         Dim fittedMod As ShipModule = testMod.Clone
         Me.ApplySkillEffectsToModule(fittedMod, True)
         Dim maxAllowed As Integer = 1
-        If fittedMod.DatabaseGroup = "316" Then
-            If Me.FittedShip.Attributes.ContainsKey("10063") = True Then
-                maxAllowed = CInt(Me.FittedShip.Attributes("10063"))
+        If fittedMod.DatabaseGroup = ShipModule.Group_GangLinks Then
+            If Me.FittedShip.Attributes.ContainsKey(Attributes.Ship_MaxGangLinks) = True Then
+                maxAllowed = CInt(Me.FittedShip.Attributes(Attributes.Ship_MaxGangLinks))
             End If
         Else
-            maxAllowed = CInt(fittedMod.Attributes("763"))
+            maxAllowed = CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive))
         End If
         For slot As Integer = 1 To Me.BaseShip.HiSlots
             If Me.BaseShip.HiSlot(slot) IsNot Nothing Then
@@ -2825,7 +2833,7 @@ Imports System.Runtime.Serialization
         Next
         For slot As Integer = 1 To Me.BaseShip.MidSlots
             If Me.BaseShip.MidSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.MidSlot(slot).ID <> "11014" Then
+                If Me.BaseShip.MidSlot(slot).ID <> ShipModule.Item_CommandProcessorI Then
                     If Me.BaseShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.MidSlot(slot).ModuleState >= 4 Then
                         count += 1
                     End If

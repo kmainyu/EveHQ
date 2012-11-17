@@ -22,6 +22,22 @@
     Public Shared AttributeList As New SortedList
     Public Shared AttributeQuickList As New SortedList
 
+#Region "Constants"
+    ' attributeIDs (see dbo.dgmAttributeTypes)
+    ' ship attributes
+    Public Const Ship_PowergridOutput As String = "11"
+    Public Const Ship_CpuOutput As String = "48"
+    ' module attributes
+    Public Const Module_PowergridUsage As String = "30"
+    Public Const Module_CpuUsage As String = "50"
+    Public Const Module_MaxGroupActive As String = "763"
+    Public Const Module_DroneBandwidthNeeded As String = "1272"
+
+    ' attributeIDs (see HQF/Resources/Attributes.csv)
+    Public Const Ship_MaxGangLinks As String = "10063"
+
+#End Region
+
 End Class
 
 <Serializable()> Public Class Attribute

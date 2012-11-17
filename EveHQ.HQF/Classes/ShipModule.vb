@@ -23,6 +23,15 @@ Imports System.Runtime.Serialization
 
 <Serializable()> Public Class ShipModule
 
+#Region "Constants"
+    ' itemIDs (see dbo.invTypes)
+    Public Const Item_CommandProcessorI As String = "11014"
+
+    ' groupIDs (see dbo.invGroups)
+    Public Const Group_GangLinks As String = "316"
+
+#End Region
+
 #Region "Property Variables"
 
     ' Name and Classification
