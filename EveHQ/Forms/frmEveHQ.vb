@@ -49,6 +49,7 @@ Public Class frmEveHQ
     Dim appStartUp As Boolean = True
     Private EveHQTrayForm As Form = Nothing
     Dim IconShutdown As Boolean = False
+    Dim saveTrainingBarSize As Boolean = True
 
 #Region "Icon Routines"
 
@@ -58,6 +59,7 @@ Public Class frmEveHQ
             (TypeOf e Is MouseEventArgs AndAlso
              (Not TypeOf e Is MouseEventArgs OrElse (TryCast(e, MouseEventArgs).Button = MouseButtons.Right))) Then
             MyBase.Visible = True
+            saveTrainingBarSize = False
             Select Case HQ.EveHQSettings.MainFormPosition(4)
                 Case FormWindowState.Maximized
                     Me.WindowState = FormWindowState.Maximized
@@ -68,6 +70,7 @@ Public Class frmEveHQ
                     Me.Height = HQ.EveHQSettings.MainFormPosition(3)
                     Me.WindowState = FormWindowState.Normal
             End Select
+            saveTrainingBarSize = True
             ' Set the training bar position, after checking for null!
             If HQ.EveHQSettings.TrainingBarDockPosition = eDockSide.None Then
                 HQ.EveHQSettings.TrainingBarDockPosition = eDockSide.Bottom
@@ -3335,7 +3338,7 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub Bar1_SizeChanged(ByVal sender As Object, ByVal e As EventArgs) Handles Bar1.SizeChanged
-        If appStartUp = False Then
+        If appStartUp = False And saveTrainingBarSize = True Then
             HQ.EveHQSettings.TrainingBarHeight = DockContainerItem1.Height + 3
             HQ.EveHQSettings.TrainingBarWidth = DockContainerItem1.Width
         End If
