@@ -1159,7 +1159,7 @@
 591,2,778,37,3,18,1,0,0,15,Drone Speed Augmentor
 459,2,778,10007,2,639,0,0,1,15,EW Drone Range Augmentor
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
-1164,2,778,20,3,18,0,0,0,15,Stasis Drone Augmentor
+1619,2,778,20,3,18,1,0,0,15,Stasis Drone Augmentor
 # RIGS - ELECTRONIC,,,,,,,,,,
 134,2,780,479,3,6,0,0,0,15,Electronic Rig Drawback - Shield Recharge Rate
 1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
