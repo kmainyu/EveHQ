@@ -708,12 +708,13 @@ Public Class Reports
         HTML.AppendLine("<tr><td width=50></td><td colspan=5><b>TRADING PROFITS</b></td></tr>")
         HTML.AppendLine("<tr><td width=50></td><td width=50></td><td width=300></td><td align=right><i><u>Amount Traded</u></i></td><td align=right><i><u>Average Unit Profit</u></i></td><td align=right><i><u>Total Profit</u></i></td></tr>")
 
+        Dim totalProfitAllItems As Double = 0
+
         For Each TRI As TransactionProfitItem In TransList.Values
-
             If TRI.QtyBought <> 0 And TRI.QtySold <> 0 Then
-
                 Dim amount As Long = If(TRI.QtySold > TRI.QtyBought, TRI.QtyBought, TRI.QtySold)
                 Dim avgProfit As Double = (TRI.ValueSold / TRI.QtySold) - (TRI.ValueBought / TRI.QtyBought)
+                Dim totalProfit As Double = Math.Round(amount * avgProfit, 2, MidpointRounding.AwayFromZero)
                 If avgProfit >= 0 Then
                     HTML.AppendLine("<tr class='pos'>")
                 Else
@@ -723,12 +724,22 @@ Public Class Reports
                 HTML.AppendLine("<td>" & TRI.ItemName & "</td>")
                 HTML.AppendLine("<td align='right'>" & amount.ToString("N0") & "</td>")
                 HTML.AppendLine("<td align='right'>" & avgProfit.ToString("N2") & "</td>")
-                HTML.AppendLine("<td align='right'>" & (amount * avgProfit).ToString("N2") & "</td>")
+                HTML.AppendLine("<td align='right'>" & totalProfit.ToString("N2") & "</td>")
                 HTML.AppendLine("</tr>")
-
+                totalProfitAllItems += totalProfit
             End If
-
         Next
+
+        HTML.AppendLine("<tr></tr>")
+        If totalProfitAllItems >= 0 Then
+            HTML.AppendLine("<tr class='pos'>")
+        Else
+            HTML.AppendLine("<tr class='neg'>")
+        End If
+        HTML.AppendLine("<td colspan=4></td>")
+        HTML.AppendLine("<td align='center' style='color: #ffffff'><b>Transaction Trading Total:</b></td>")
+        HTML.AppendLine("<td align='right'>" & totalProfitAllItems.ToString("N2") & "</td>")
+        HTML.AppendLine("</tr>")
 
         HTML.AppendLine("<tr></tr>")
         HTML.AppendLine("</table>")
