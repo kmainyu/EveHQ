@@ -578,7 +578,8 @@ Public Class frmHQF
     End Sub
     Private Sub CreateNewFitting(ByVal shipName As String)
         ' Check we have some valid characters
-        If HQF.HQFPilotCollection.HQFPilots.Count > 0 Then
+        ' Bug 83: Adding a check of the core pilots collection as well, since it may end up in an unstable state due to other actors, and needs to contain pilots before loading the new fitting.
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And HQF.HQFPilotCollection.HQFPilots.Count > 0 Then
             ' Clear the text boxes
             Dim myNewFitting As New frmModifyFittingName
             Dim fittingName As String = ""

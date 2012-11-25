@@ -164,8 +164,9 @@ Public Class frmMarketOrders
             oJumps = Integer.Parse(orderDetails(13).Trim, Globalization.NumberStyles.Any, culture)
 
             ' Display the order (irrespective of whether we process it)
-            If DateTime.TryParseExact(oDate, TimeFormat, Nothing, Globalization.DateTimeStyles.None, issueDate) = False Then
-                issueDate = DateTime.ParseExact(oDate, OldTimeFormat, Nothing, Globalization.DateTimeStyles.None)
+            If DateTime.TryParseExact(oDate, TimeFormat, Nothing, Globalization.DateTimeStyles.None, issueDate) = False And DateTime.TryParseExact(oDate, OldTimeFormat, Nothing, Globalization.DateTimeStyles.None, issueDate) = False Then
+                ' fall back to safe display default as the current value does not match the expected formats.
+                issueDate = New DateTime(1970, 1, 1)
             End If
             orderExpires = issueDate - Now
             orderExpires = orderExpires.Add(New TimeSpan(oDuration, 0, 0, 0))
