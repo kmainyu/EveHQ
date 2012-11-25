@@ -80,20 +80,17 @@
         Dim IME As Integer = -4
         Dim IPE As Integer = -4
         Dim IRC As Integer = 10
+        Dim runMod As Integer = 0
 
         If DecryptorUsed IsNot Nothing Then
             If PlugInData.Decryptors.ContainsKey(DecryptorUsed.Name) Then
                 Dim UseDecryptor As Decryptor = PlugInData.Decryptors(DecryptorUsed.Name)
                 IME += UseDecryptor.MEMod
                 IPE += UseDecryptor.PEMod
-                'IRC = Math.Min(Math.Max(CInt((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1) + UseDecryptor.RunMod, IBP.MaxProdLimit)
-                IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10) + UseDecryptor.RunMod), 1), IBP.MaxProdLimit))
-            Else
-                IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit))
+                runMod = UseDecryptor.RunMod
             End If
-        Else
-            IRC = CInt(Math.Min(Math.Max(Math.Truncate((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10)), 1), IBP.MaxProdLimit))
         End If
+        IRC = Math.Min(Math.Max(CInt(Math.Truncate((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10))), 1) + runMod, IBP.MaxProdLimit)
 
         IBP.MELevel = IME
         IBP.PELevel = IPE
