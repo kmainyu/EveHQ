@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.IO
+Imports System.Windows.Forms
 
 <Serializable()> Public Class HQFPilot
 
@@ -99,6 +100,23 @@ End Class
         End If
     End Sub
 
+    'Bug 40: HQF skills are never checked for invalid/renamed skills so if a pilot's data persists though a database change they can have skills that were changed, and that results in a doubling
+    ' or otherwise inaccurate calculation for bonuses and effects.
+    Public Shared Sub CheckForInvalidSkills(ByVal hPilot As HQFPilot)
+        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(hPilot.PilotName), Core.Pilot)
+            ' validate that all the skills in the HQF pilot record exist in the core skill list
+            For Each skill As HQFSkill In hPilot.SkillSet
+                If EveHQ.Core.HQ.SkillListName.Keys.Contains(skill.Name) = False Then
+                    ' HQF record has a skill that doesn't exist anymore (or was renamed)
+                    ' the pilot will be reset to default
+                    ResetSkillsToDefault(hPilot)
+                    MessageBox.Show(String.Format("The pilot '{0}', was found to have a skill that either has been renamed or no longer exists ({1}). In order to ensure a proper experience for fitting calculations, this pilot has had their HQFitter skills reset back to match what the Eve API has reported. If you had some custom values set on this pilot, they will have to be recreated.", hPilot.PilotName, skill.Name))
+                End If
+            Next
+        End If
+    End Sub
+
     Public Shared Sub ResetSkillsToDefault(ByVal hPilot As HQFPilot)
         Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(hPilot.PilotName), Core.Pilot)
         hPilot.SkillSet.Clear()
@@ -154,39 +172,43 @@ End Class
                 Next
             End If
         End If
-	End Sub
+    End Sub
 
-	Public Shared Sub SetSkillsToSkillList(ByVal hPilot As HQFPilot, ByVal SkillList As SortedList(Of String, Integer))
-		For Each SkillName As String In SkillList.Keys
-			If hPilot.SkillSet.Contains(SkillName) = True Then
-				CType(hPilot.SkillSet(SkillName), HQFSkill).Level = SkillList(SkillName)
-			Else
-				Dim MyHQFSkill As New HQFSkill
-				MyHQFSkill.ID = CType(EveHQ.Core.HQ.SkillListName(SkillName), EveHQ.Core.EveSkill).ID
-				MyHQFSkill.Name = SkillName
-				MyHQFSkill.Level = SkillList(SkillName)
-				hPilot.SkillSet.Add(MyHQFSkill, MyHQFSkill.Name)
-			End If
-		Next
-	End Sub
+    Public Shared Sub SetSkillsToSkillList(ByVal hPilot As HQFPilot, ByVal SkillList As SortedList(Of String, Integer))
+        For Each SkillName As String In SkillList.Keys
+            If hPilot.SkillSet.Contains(SkillName) = True Then
+                CType(hPilot.SkillSet(SkillName), HQFSkill).Level = SkillList(SkillName)
+            Else
+                Dim MyHQFSkill As New HQFSkill
+                MyHQFSkill.ID = CType(EveHQ.Core.HQ.SkillListName(SkillName), EveHQ.Core.EveSkill).ID
+                MyHQFSkill.Name = SkillName
+                MyHQFSkill.Level = SkillList(SkillName)
+                hPilot.SkillSet.Add(MyHQFSkill, MyHQFSkill.Name)
+            End If
+        Next
+    End Sub
 
 
-	Public Shared Sub SaveHQFPilotData()
-		Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
-		Dim f As New BinaryFormatter
-		f.Serialize(s, HQFPilotCollection.HQFPilots)
-		s.Flush()
-		s.Close()
-	End Sub
+    Public Shared Sub SaveHQFPilotData()
+        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
+        Dim f As New BinaryFormatter
+        f.Serialize(s, HQFPilotCollection.HQFPilots)
+        s.Flush()
+        s.Close()
+    End Sub
 
-	Public Shared Sub LoadHQFPilotData()
-		If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
-			Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
-			Dim f As BinaryFormatter = New BinaryFormatter
-			HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
-			s.Close()
-		End If
-	End Sub
+    Public Shared Sub LoadHQFPilotData()
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
+            Dim f As BinaryFormatter = New BinaryFormatter
+            HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
+            s.Close()
+        End If
+    End Sub
+
+    Public Sub New()
+
+    End Sub
 End Class
 
 <Serializable()> Public Class HQFSkill

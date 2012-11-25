@@ -420,10 +420,19 @@ Public Class frmHQF
                     morePilots = True
                 End If
             Next
-            ' Check for missing skills in the pilots info
             For Each hPilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
+                ' Check to make sure the skills the HQF record has are infact existing skills
+                ' Bug #40: The Heavy Assault Missile Specialization skill was renamed to just Assault Missile Specialization,
+                ' however HQF pilot records which had the old skill were having it added to modules as well as the new skill.
+                ' If a pilot is found to have invalid/unknown skills in their HQF record, their skills will get reset to what
+                ' the EVE record states as valid.
+                Call HQFPilotCollection.CheckForInvalidSkills(hPilot)
+                
+                ' Check for missing skills in the pilots info
+
                 Call HQFPilotCollection.CheckForMissingSkills(hPilot)
             Next
+
             ' Check if we need to update the HQFPilot skills to actuals
             If HQF.Settings.HQFSettings.AutoUpdateHQFSkills = True Then
                 morePilots = True
