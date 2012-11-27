@@ -271,8 +271,24 @@ Public Class frmShowInfo
     Private Sub PrepareDescription(ByVal itemType As Object)
         Dim value As String = CType(itemType.Description, String)
 
-        ' adjust bare LF's to be CRLFs
-        value = value.Replace(vbLf, vbCrLf)
+        txtDescription.Text = FormatDescriptionText(value)
+    End Sub
+
+    Public Shared Function FormatDescriptionText(ByVal description As String) As String
+        Dim value As String = description
+
+        ' adjust bare LFs to be CRLFs
+        ' turn already existing CRLFs into LFs first so they don't end up CRCRLFs
+        value = value.Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf)
+
+        'use CRLFs instead of <br> tags 
+        value = value.Replace("<br>", vbCrLf)
+
+        ' remove double spaces
+        value = value.Replace("  ", " ")
+
+        'remove spaces before CRLFs
+        value = value.Replace(" " & vbCrLf, vbCrLf)
 
         Dim charlist As List(Of Char) = New List(Of Char)
         Dim skip As Boolean
@@ -280,18 +296,16 @@ Public Class frmShowInfo
         For Each letter As Char In value
             If letter = "<" Then
                 skip = True
-            End If
-            If letter = ">" Then
+            ElseIf letter = ">" Then
                 skip = False
-
             ElseIf skip = False Then
                 charlist.Add(letter)
             End If
         Next
 
         value = charlist.ToArray()
-        txtDescription.Text = value
-    End Sub
+        Return value
+    End Function
 
     Private Sub tvwReqs_NodeClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwReqs.NodeClick
         tvwReqs.SelectedNode = e.Node

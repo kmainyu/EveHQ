@@ -35,6 +35,8 @@ Public Class ShipSlotControl
     Dim cancelSlotMenu As Boolean = False
     Dim DefaultModuleTooltipInfo As String = "<b><i>Double-click to remove this module<br />Right-click to bring up the module menu<br />Middle-click to toggle module state (extra uses with Ctrl/Shift)</i></b>"
 
+    Private Const MaxTooltipWidth As Integer = 100
+
 #Region "Property Variables"
 
     Private currentInfo As ShipInfoControl
@@ -2045,7 +2047,7 @@ Public Class ShipSlotControl
 	End Sub
 
     Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles pbShipInfo.MouseHover
-        ToolTip1.SetToolTip(pbShipInfo, SquishText(ParentFitting.BaseShip.Description))
+        ToolTip1.SetToolTip(pbShipInfo, SquishText(frmShowInfo.FormatDescriptionText(ParentFitting.BaseShip.Description)))
     End Sub
 
     Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -2062,21 +2064,24 @@ Public Class ShipSlotControl
     End Sub
 
     Private Function SquishText(ByVal text As String) As String
-        Dim MaxLength As Integer = 80
         Dim words() As String = text.Split(" ".ToCharArray)
         Dim newText As New StringBuilder
         Dim charCount As Integer = 0
         For c As Integer = 0 To words.Length - 1
-            If charCount + words(c).Length > MaxLength Then
-                newText.AppendLine("")
+            If words(c).Contains(vbCrLf) Then
+                If charCount + words(c).IndexOf(vbCrLf) > MaxTooltipWidth Then
+                    newText.AppendLine()
+                End If
+                charCount = 0
+            ElseIf charCount + words(c).Length > MaxTooltipWidth Then
+                newText.AppendLine()
                 charCount = 0
             End If
             newText.Append(words(c) & " ")
-            charCount += words(c).Length
-            If words(c).Contains(ControlChars.CrLf) Then
-                charCount = 0
-            End If
+            ' if no CRLF is found LastIndexOf(vbCrLf) returns -1 which makes charCount what it should be in that case
+            charCount += words(c).Length - words(c).LastIndexOf(vbCrLf)
         Next
+
         Return newText.ToString
     End Function
 
