@@ -144,7 +144,7 @@ Public Class frmHelp
     End Sub
 
     Private Sub TwitterUpdater_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles TwitterUpdater.DoWork
-        Call Me.ParseFeed("http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=EveHQ", TwitterItems)
+        Call Me.ParseFeed("http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=EveHQToolkit", TwitterItems)
     End Sub
 
     Private Sub TwitterUpdater_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles TwitterUpdater.RunWorkerCompleted
