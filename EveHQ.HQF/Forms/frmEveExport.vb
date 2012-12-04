@@ -26,8 +26,8 @@ Public Class frmEveExport
 
     Dim EveFolder As String = Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "fittings")
     Dim EveFile As String = ""
-	Dim cFittingList As New ArrayList
-	Dim cUpdateRequired As Boolean = False
+    Dim cFittingList As New ArrayList
+    Dim cUpdateRequired As Boolean = False
 
     Public Property FittingList() As ArrayList
         Get
@@ -37,16 +37,16 @@ Public Class frmEveExport
             cFittingList = value
             UpdateFittingList()
         End Set
-	End Property
+    End Property
 
-	Public Property UpdateRequired As Boolean
-		Get
-			Return cUpdateRequired
-		End Get
-		Set(ByVal value As Boolean)
-			cUpdateRequired = value
-		End Set
-	End Property
+    Public Property UpdateRequired As Boolean
+        Get
+            Return cUpdateRequired
+        End Get
+        Set(ByVal value As Boolean)
+            cUpdateRequired = value
+        End Set
+    End Property
 
     Private Sub UpdateFittingList()
         lvwFittings.BeginUpdate()
@@ -73,27 +73,33 @@ Public Class frmEveExport
 
         If FittingList.Count > 0 Then
             For Each shipFit As String In cFittingList
-                currentFit = Fittings.FittingList.Item(shipFit).Clone
+                If Fittings.FittingList.ContainsKey(shipFit) Then
+                    'Bug 104: There are cases of where the string being used to export a fit is not found in the actual collection of fits.
+                    ' Added the check and a comment to alert the user to the error without throwing an exception. 
+                    currentFit = Fittings.FittingList.Item(shipFit).Clone
 
-                Dim fit As XmlNode = fitXML.CreateElement("fitting")
-                fitAtt = fitXML.CreateAttribute("name")
-                fitAtt.Value = currentFit.FittingName
-                fit.Attributes.Append(fitAtt)
-                fitRoot.AppendChild(fit)
+                    Dim fit As XmlNode = fitXML.CreateElement("fitting")
+                    fitAtt = fitXML.CreateAttribute("name")
+                    fitAtt.Value = currentFit.FittingName
+                    fit.Attributes.Append(fitAtt)
+                    fitRoot.AppendChild(fit)
 
-                Dim desc As XmlNode = fitXML.CreateElement("description")
-                fitAtt = fitXML.CreateAttribute("value")
-                fitAtt.Value = currentFit.FittingName
-                desc.Attributes.Append(fitAtt)
-                fit.AppendChild(desc)
+                    Dim desc As XmlNode = fitXML.CreateElement("description")
+                    fitAtt = fitXML.CreateAttribute("value")
+                    fitAtt.Value = currentFit.FittingName
+                    desc.Attributes.Append(fitAtt)
+                    fit.AppendChild(desc)
 
-                Dim shiptype As XmlNode = fitXML.CreateElement("shipType")
-                fitAtt = fitXML.CreateAttribute("value")
-                fitAtt.Value = currentFit.ShipName
-                shiptype.Attributes.Append(fitAtt)
-                fit.AppendChild(shiptype)
+                    Dim shiptype As XmlNode = fitXML.CreateElement("shipType")
+                    fitAtt = fitXML.CreateAttribute("value")
+                    fitAtt.Value = currentFit.ShipName
+                    shiptype.Attributes.Append(fitAtt)
+                    fit.AppendChild(shiptype)
 
-				Call ExportFittingList(currentFit, fitXML, fit, cUpdateRequired)
+                    Call ExportFittingList(currentFit, fitXML, fit, cUpdateRequired)
+                Else
+                    MessageBox.Show(String.Format("There was a mismatch of expected data. The fit requested to be exported ({0}), was not found in the collection of saved fittings.", shipFit))
+                End If
 
             Next
 
@@ -118,99 +124,99 @@ Public Class frmEveExport
         End If
     End Function
 
-	Private Sub ExportFittingList(ByVal ExpFitting As Fitting, ByRef fitXML As XmlDocument, ByRef fitNode As XmlNode, ByVal UpdateRequired As Boolean)
-		Dim hardware As XmlNode
-		Dim hardwareAtt As XmlAttribute
-		Dim slotGroup As String = ""
+    Private Sub ExportFittingList(ByVal ExpFitting As Fitting, ByRef fitXML As XmlDocument, ByRef fitNode As XmlNode, ByVal UpdateRequired As Boolean)
+        Dim hardware As XmlNode
+        Dim hardwareAtt As XmlAttribute
+        Dim slotGroup As String = ""
 
-		' Update the base ship fitting from the actual fit
+        ' Update the base ship fitting from the actual fit
         If UpdateRequired = True Then
             ExpFitting.BaseShip = CType(ShipLists.shipList(ExpFitting.ShipName), Ship).Clone
             ExpFitting.UpdateBaseShipFromFitting()
         End If
 
-		For slotNo As Integer = 1 To ExpFitting.BaseShip.SubSlots
-			If ExpFitting.BaseShip.SubSlot(slotNo) IsNot Nothing Then
-				slotGroup = "subsystem slot "
-				hardware = fitXML.CreateElement("hardware")
-				hardwareAtt = fitXML.CreateAttribute("slot")
-				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
-				hardware.Attributes.Append(hardwareAtt)
-				hardwareAtt = fitXML.CreateAttribute("type")
-				hardwareAtt.Value = ExpFitting.BaseShip.SubSlot(slotNo).Name
-				hardware.Attributes.Append(hardwareAtt)
-				fitNode.AppendChild(hardware)
-			End If
-		Next
+        For slotNo As Integer = 1 To ExpFitting.BaseShip.SubSlots
+            If ExpFitting.BaseShip.SubSlot(slotNo) IsNot Nothing Then
+                slotGroup = "subsystem slot "
+                hardware = fitXML.CreateElement("hardware")
+                hardwareAtt = fitXML.CreateAttribute("slot")
+                hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+                hardware.Attributes.Append(hardwareAtt)
+                hardwareAtt = fitXML.CreateAttribute("type")
+                hardwareAtt.Value = ExpFitting.BaseShip.SubSlot(slotNo).Name
+                hardware.Attributes.Append(hardwareAtt)
+                fitNode.AppendChild(hardware)
+            End If
+        Next
 
-		For slotNo As Integer = 1 To ExpFitting.BaseShip.RigSlots
-			If ExpFitting.BaseShip.RigSlot(slotNo) IsNot Nothing Then
-				slotGroup = "rig slot "
-				hardware = fitXML.CreateElement("hardware")
-				hardwareAtt = fitXML.CreateAttribute("slot")
-				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
-				hardware.Attributes.Append(hardwareAtt)
-				hardwareAtt = fitXML.CreateAttribute("type")
-				hardwareAtt.Value = ExpFitting.BaseShip.RigSlot(slotNo).Name
-				hardware.Attributes.Append(hardwareAtt)
-				fitNode.AppendChild(hardware)
-			End If
-		Next
+        For slotNo As Integer = 1 To ExpFitting.BaseShip.RigSlots
+            If ExpFitting.BaseShip.RigSlot(slotNo) IsNot Nothing Then
+                slotGroup = "rig slot "
+                hardware = fitXML.CreateElement("hardware")
+                hardwareAtt = fitXML.CreateAttribute("slot")
+                hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+                hardware.Attributes.Append(hardwareAtt)
+                hardwareAtt = fitXML.CreateAttribute("type")
+                hardwareAtt.Value = ExpFitting.BaseShip.RigSlot(slotNo).Name
+                hardware.Attributes.Append(hardwareAtt)
+                fitNode.AppendChild(hardware)
+            End If
+        Next
 
-		For slotNo As Integer = 1 To ExpFitting.BaseShip.LowSlots
-			If ExpFitting.BaseShip.LowSlot(slotNo) IsNot Nothing Then
-				slotGroup = "low slot "
-				hardware = fitXML.CreateElement("hardware")
-				hardwareAtt = fitXML.CreateAttribute("slot")
-				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
-				hardware.Attributes.Append(hardwareAtt)
-				hardwareAtt = fitXML.CreateAttribute("type")
-				hardwareAtt.Value = ExpFitting.BaseShip.LowSlot(slotNo).Name
-				hardware.Attributes.Append(hardwareAtt)
-				fitNode.AppendChild(hardware)
-			End If
-		Next
+        For slotNo As Integer = 1 To ExpFitting.BaseShip.LowSlots
+            If ExpFitting.BaseShip.LowSlot(slotNo) IsNot Nothing Then
+                slotGroup = "low slot "
+                hardware = fitXML.CreateElement("hardware")
+                hardwareAtt = fitXML.CreateAttribute("slot")
+                hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+                hardware.Attributes.Append(hardwareAtt)
+                hardwareAtt = fitXML.CreateAttribute("type")
+                hardwareAtt.Value = ExpFitting.BaseShip.LowSlot(slotNo).Name
+                hardware.Attributes.Append(hardwareAtt)
+                fitNode.AppendChild(hardware)
+            End If
+        Next
 
-		For slotNo As Integer = 1 To ExpFitting.BaseShip.MidSlots
-			If ExpFitting.BaseShip.MidSlot(slotNo) IsNot Nothing Then
-				slotGroup = "med slot "
-				hardware = fitXML.CreateElement("hardware")
-				hardwareAtt = fitXML.CreateAttribute("slot")
-				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
-				hardware.Attributes.Append(hardwareAtt)
-				hardwareAtt = fitXML.CreateAttribute("type")
-				hardwareAtt.Value = ExpFitting.BaseShip.MidSlot(slotNo).Name
-				hardware.Attributes.Append(hardwareAtt)
-				fitNode.AppendChild(hardware)
-			End If
-		Next
+        For slotNo As Integer = 1 To ExpFitting.BaseShip.MidSlots
+            If ExpFitting.BaseShip.MidSlot(slotNo) IsNot Nothing Then
+                slotGroup = "med slot "
+                hardware = fitXML.CreateElement("hardware")
+                hardwareAtt = fitXML.CreateAttribute("slot")
+                hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+                hardware.Attributes.Append(hardwareAtt)
+                hardwareAtt = fitXML.CreateAttribute("type")
+                hardwareAtt.Value = ExpFitting.BaseShip.MidSlot(slotNo).Name
+                hardware.Attributes.Append(hardwareAtt)
+                fitNode.AppendChild(hardware)
+            End If
+        Next
 
-		For slotNo As Integer = 1 To ExpFitting.BaseShip.HiSlots
-			If ExpFitting.BaseShip.HiSlot(slotNo) IsNot Nothing Then
-				slotGroup = "hi slot "
-				hardware = fitXML.CreateElement("hardware")
-				hardwareAtt = fitXML.CreateAttribute("slot")
-				hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
-				hardware.Attributes.Append(hardwareAtt)
-				hardwareAtt = fitXML.CreateAttribute("type")
-				hardwareAtt.Value = ExpFitting.BaseShip.HiSlot(slotNo).Name
-				hardware.Attributes.Append(hardwareAtt)
-				fitNode.AppendChild(hardware)
-			End If
-		Next
+        For slotNo As Integer = 1 To ExpFitting.BaseShip.HiSlots
+            If ExpFitting.BaseShip.HiSlot(slotNo) IsNot Nothing Then
+                slotGroup = "hi slot "
+                hardware = fitXML.CreateElement("hardware")
+                hardwareAtt = fitXML.CreateAttribute("slot")
+                hardwareAtt.Value = slotGroup & (slotNo - 1).ToString
+                hardware.Attributes.Append(hardwareAtt)
+                hardwareAtt = fitXML.CreateAttribute("type")
+                hardwareAtt.Value = ExpFitting.BaseShip.HiSlot(slotNo).Name
+                hardware.Attributes.Append(hardwareAtt)
+                fitNode.AppendChild(hardware)
+            End If
+        Next
 
-		For Each DBI As DroneBayItem In ExpFitting.BaseShip.DroneBayItems.Values
-			' Add the XML data
-			hardware = fitXML.CreateElement("hardware")
-			hardwareAtt = fitXML.CreateAttribute("qty") : hardwareAtt.Value = DBI.Quantity.ToString
-			hardware.Attributes.Append(hardwareAtt)
-			hardwareAtt = fitXML.CreateAttribute("slot") : hardwareAtt.Value = "drone bay"
-			hardware.Attributes.Append(hardwareAtt)
-			hardwareAtt = fitXML.CreateAttribute("type") : hardwareAtt.Value = DBI.DroneType.Name
-			hardware.Attributes.Append(hardwareAtt)
-			fitNode.AppendChild(hardware)
-		Next
-	End Sub
+        For Each DBI As DroneBayItem In ExpFitting.BaseShip.DroneBayItems.Values
+            ' Add the XML data
+            hardware = fitXML.CreateElement("hardware")
+            hardwareAtt = fitXML.CreateAttribute("qty") : hardwareAtt.Value = DBI.Quantity.ToString
+            hardware.Attributes.Append(hardwareAtt)
+            hardwareAtt = fitXML.CreateAttribute("slot") : hardwareAtt.Value = "drone bay"
+            hardware.Attributes.Append(hardwareAtt)
+            hardwareAtt = fitXML.CreateAttribute("type") : hardwareAtt.Value = DBI.DroneType.Name
+            hardware.Attributes.Append(hardwareAtt)
+            fitNode.AppendChild(hardware)
+        Next
+    End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
         Me.Close()

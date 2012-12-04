@@ -1081,7 +1081,8 @@ Public Class SkillQueueFunctions
         Dim count As Integer = 1
         If qList IsNot Nothing Then
             For Each qItem As EveHQ.Core.SortedQueueItem In qList
-                If qItem.IsTraining = False Then
+                'Bug 107 : added check to the queue collection to ensure duplicate/corrupt items are not added.
+                If qItem.IsTraining = False And nQueue.Contains(qItem.Key) = False Then
                     'If qItem.Done = False Then
                     Dim newSkill As New EveHQ.Core.SkillQueueItem
                     newSkill.FromLevel = CInt(qItem.FromLevel)
