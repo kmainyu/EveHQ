@@ -602,6 +602,7 @@
     <None Include="Resources\icon22_10.png" />
     <None Include="Resources\icon41_13.png" />
     <None Include="Resources\redo.png" />
+    <None Include="Resources\typeIDs.yaml" />
     <None Include="Resources\undo.png" />
   </ItemGroup>
   <ItemGroup>

@@ -81,7 +81,9 @@ Public Class DBCWHole
             End If
         Next
         ' Load the data
-        Dim strSQL As String = "SELECT * from invTypes WHERE groupID=988;"
+        ' Retribution 1.0 DB: There was a row added with a null input for typename, which causes this code to 
+        ' throw an exception. Adding a clause to the query should work around this faulty row without having to edit the db directly.
+        Dim strSQL As String = "SELECT * from invTypes WHERE groupID=988 and typeName is not null;"
         Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
             If WHData IsNot Nothing Then

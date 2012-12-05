@@ -82,7 +82,8 @@ Public Class PlugInData
             End If
         Next
         ' Load the data
-        Dim strSQL As String = "SELECT * from invTypes WHERE groupID=988;"
+        ' Added null check on typeName for Retribution 1.0 database update.
+        Dim strSQL As String = "SELECT * from invTypes WHERE groupID=988 and typeName is not null;"
         Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
         Try
             If WHData IsNot Nothing Then

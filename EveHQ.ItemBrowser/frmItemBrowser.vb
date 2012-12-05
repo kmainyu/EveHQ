@@ -23,6 +23,7 @@ Imports System.Net
 Imports System.IO
 Imports System.Text
 Imports System.Xml
+Imports EveHQ.Core
 
 
 Public Class frmItemBrowser
@@ -41,8 +42,8 @@ Public Class frmItemBrowser
     Dim itemSkills As New Dictionary(Of String, Integer)
     Dim itemFitting As New Collection
     Dim fittingAtts As New ArrayList
-	Dim tabPagesM(ActivityCount) As DevComponents.DotNetBar.TabItem
-	Dim tabPagesC(ActivityCount) As DevComponents.DotNetBar.TabItem
+    Dim tabPagesM(ActivityCount) As DevComponents.DotNetBar.TabItem
+    Dim tabPagesC(ActivityCount) As DevComponents.DotNetBar.TabItem
     Dim itemStart As DateTime
     Dim itemEnd As DateTime
     Dim itemTime As TimeSpan
@@ -82,16 +83,16 @@ Public Class frmItemBrowser
     Private Sub LoadItem(ByVal strSQL As String)
         Dim times(11) As DateTime
         times(0) = Now
-		' Reset Item Skills
-		itemSkills.Clear()
-		'Me.tiSkills.Visible = False
-		'Me.tiFitting.Visible = False
-		'Me.tiMaterials.Visible = False
-		'Me.tiComponent.Visible = False
-		'Me.tiRecommended.Visible = False
-		'Me.tiVariations.Visible = False
-		'Me.tiDependencies.Visible = False
-		'Me.tiEveCentral.Visible = False
+        ' Reset Item Skills
+        itemSkills.Clear()
+        'Me.tiSkills.Visible = False
+        'Me.tiFitting.Visible = False
+        'Me.tiMaterials.Visible = False
+        'Me.tiComponent.Visible = False
+        'Me.tiRecommended.Visible = False
+        'Me.tiVariations.Visible = False
+        'Me.tiDependencies.Visible = False
+        'Me.tiEveCentral.Visible = False
         BasicItemData = EveHQ.Core.DataFunctions.GetData(strSQL)
         times(1) = Now
         If BasicItemData IsNot Nothing Then
@@ -158,51 +159,51 @@ Public Class frmItemBrowser
         strSQL &= " FROM invMetaTypes"
         strSQL &= " WHERE (((invMetaTypes.typeID)=" & metaTypeID & ") OR ((invMetaTypes.parentTypeID)=" & metaTypeID & "));"
         eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-		If eveData.Tables(0).Rows.Count = 0 Then
-			tiVariations.Visible = False
-		Else
-			tiVariations.Visible = True
-			metaParentID = eveData.Tables(0).Rows(0).Item("parentTypeID")
-			strSQL = ""
-			strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invTypes.typeName, invMetaTypes.typeID AS invMetaTypes_typeID, invMetaTypes.parentTypeID, invMetaTypes.metaGroupID AS invMetaTypes_metaGroupID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID, invMetaGroups.metaGroupName"
-			strSQL &= " FROM invMetaGroups INNER JOIN (invTypes INNER JOIN invMetaTypes ON invTypes.typeID = invMetaTypes.typeID) ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID"
-			strSQL &= " WHERE (((invMetaTypes.parentTypeID)=" & metaParentID & "));"
-			eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-			metaItemCount = eveData.Tables(0).Rows.Count
-			ReDim itemVariations(2, metaItemCount)
-			For item As Integer = 0 To metaItemCount - 1
-				itemVariations(0, item + 1) = eveData.Tables(0).Rows(item).Item("invTypes_typeID").ToString
-				itemVariations(1, item + 1) = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
-				itemVariations(2, item + 1) = eveData.Tables(0).Rows(item).Item("metaGroupName").ToString.Trim
-			Next
-			itemVariations(0, 0) = EveHQ.Core.HQ.itemData(metaParentID).ID.ToString
-			itemVariations(1, 0) = EveHQ.Core.HQ.itemData(metaParentID).Name.ToString
-			itemVariations(2, 0) = "Tech I"
+        If eveData.Tables(0).Rows.Count = 0 Then
+            tiVariations.Visible = False
+        Else
+            tiVariations.Visible = True
+            metaParentID = eveData.Tables(0).Rows(0).Item("parentTypeID")
+            strSQL = ""
+            strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invTypes.typeName, invMetaTypes.typeID AS invMetaTypes_typeID, invMetaTypes.parentTypeID, invMetaTypes.metaGroupID AS invMetaTypes_metaGroupID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID, invMetaGroups.metaGroupName"
+            strSQL &= " FROM invMetaGroups INNER JOIN (invTypes INNER JOIN invMetaTypes ON invTypes.typeID = invMetaTypes.typeID) ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID"
+            strSQL &= " WHERE (((invMetaTypes.parentTypeID)=" & metaParentID & "));"
+            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            metaItemCount = eveData.Tables(0).Rows.Count
+            ReDim itemVariations(2, metaItemCount)
+            For item As Integer = 0 To metaItemCount - 1
+                itemVariations(0, item + 1) = eveData.Tables(0).Rows(item).Item("invTypes_typeID").ToString
+                itemVariations(1, item + 1) = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
+                itemVariations(2, item + 1) = eveData.Tables(0).Rows(item).Item("metaGroupName").ToString.Trim
+            Next
+            itemVariations(0, 0) = EveHQ.Core.HQ.itemData(metaParentID).ID.ToString
+            itemVariations(1, 0) = EveHQ.Core.HQ.itemData(metaParentID).Name.ToString
+            itemVariations(2, 0) = "Tech I"
 
-			lstVariations.BeginUpdate()
-			lstVariations.Items.Clear()
-			For item As Integer = 0 To metaItemCount
-				Dim lstItem As New ListViewItem
-				lstItem.Tag = itemVariations(0, item)
-				lstItem.Text = itemVariations(1, item)
-				lstItem.SubItems.Add(itemVariations(2, item))
-				lstVariations.Items.Add(lstItem)
-			Next
-			lstVariations.EndUpdate()
+            lstVariations.BeginUpdate()
+            lstVariations.Items.Clear()
+            For item As Integer = 0 To metaItemCount
+                Dim lstItem As New ListViewItem
+                lstItem.Tag = itemVariations(0, item)
+                lstItem.Text = itemVariations(1, item)
+                lstItem.SubItems.Add(itemVariations(2, item))
+                lstVariations.Items.Add(lstItem)
+            Next
+            lstVariations.EndUpdate()
 
-			' Generate Comparisons
-			' NB Attribute list is already generated in the generate attributes routine
-			compItems.Clear() : compMetas.Clear()
-			For item As Integer = 0 To metaItemCount
-				compItems.Add(itemVariations(0, item), itemVariations(1, item))
-				compMetas.Add(itemVariations(0, item), itemVariations(2, item))
-			Next
-			' Get all the comparatives
-			Call Me.GetComparatives()
-			' Put into a table
-			Call Me.DrawComparatives()
+            ' Generate Comparisons
+            ' NB Attribute list is already generated in the generate attributes routine
+            compItems.Clear() : compMetas.Clear()
+            For item As Integer = 0 To metaItemCount
+                compItems.Add(itemVariations(0, item), itemVariations(1, item))
+                compMetas.Add(itemVariations(0, item), itemVariations(2, item))
+            Next
+            ' Get all the comparatives
+            Call Me.GetComparatives()
+            ' Put into a table
+            Call Me.DrawComparatives()
 
-		End If
+        End If
     End Sub
     Private Sub GetComparatives()
         Dim EveData As DataSet
@@ -220,21 +221,21 @@ Public Class frmItemBrowser
 
         ' Get basic attributes
         Dim strSQL As String = "SELECT * from invTypes WHERE typeID IN (" & strIn.ToString & ");"
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-            item = eveData.Tables(0).Rows(row).Item("typeID").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("A"), 0) = eveData.Tables(0).Rows(row).Item("groupID").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("B"), 0) = eveData.Tables(0).Rows(row).Item("description").ToString
+        EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        For row As Integer = 0 To EveData.Tables(0).Rows.Count - 1
+            item = EveData.Tables(0).Rows(row).Item("typeID").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("A"), 0) = EveData.Tables(0).Rows(row).Item("groupID").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("B"), 0) = EveData.Tables(0).Rows(row).Item("description").ToString
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("D"), 0) = EveData.Tables(0).Rows(row).Item("mass").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("E"), 0) = eveData.Tables(0).Rows(row).Item("volume").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("F"), 0) = eveData.Tables(0).Rows(row).Item("capacity").ToString
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("G"), 0) = eveData.Tables(0).Rows(row).Item("portionSize").ToString
-            If IsDBNull(eveData.Tables(0).Rows(0).Item("raceID").ToString) = False Then
-                CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = eveData.Tables(0).Rows(row).Item("raceID").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("E"), 0) = EveData.Tables(0).Rows(row).Item("volume").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("F"), 0) = EveData.Tables(0).Rows(row).Item("capacity").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("G"), 0) = EveData.Tables(0).Rows(row).Item("portionSize").ToString
+            If IsDBNull(EveData.Tables(0).Rows(0).Item("raceID").ToString) = False Then
+                CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = EveData.Tables(0).Rows(row).Item("raceID").ToString
             Else
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = "0"
             End If
-            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I1"), 0) = eveData.Tables(0).Rows(row).Item("basePrice").ToString
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I1"), 0) = EveData.Tables(0).Rows(row).Item("basePrice").ToString
             If EveHQ.Core.HQ.MarketPriceList.ContainsKey(item) = True Then
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = EveHQ.Core.HQ.MarketPriceList.Item(item)
             Else
@@ -251,20 +252,20 @@ Public Class frmItemBrowser
         strSQL = "SELECT dgmTypeAttributes.typeID, dgmAttributeTypes.attributeGroup, eveUnits.unitID, eveUnits.displayName as unitDisplayName, eveUnits.unitName, dgmTypeAttributes.attributeID, dgmAttributeTypes.attributeID, dgmAttributeTypes.displayName as attributeDisplayName, dgmAttributeTypes.attributeName, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
         strSQL &= " FROM (eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID=dgmAttributeTypes.unitID) INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID=dgmTypeAttributes.attributeID"
         strSQL &= " WHERE typeID IN (" & strIn.ToString & ") ORDER BY dgmTypeAttributes.attributeID;"
-        eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-        For row As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-            item = eveData.Tables(0).Rows(row).Item("typeID")
+        EveData = EveHQ.Core.DataFunctions.GetData(strSQL)
+        For row As Integer = 0 To EveData.Tables(0).Rows.Count - 1
+            item = EveData.Tables(0).Rows(row).Item("typeID")
             Dim compAttID As String = ""
             Dim compValue As String = ""
-            Dim compUnit As String = eveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
-            compAttID = eveData.Tables(0).Rows(row).Item("attributeID")
-            If IsDBNull(eveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
-                compValue = eveData.Tables(0).Rows(row).Item("valueFloat")
+            Dim compUnit As String = EveData.Tables(0).Rows(row).Item("unitDisplayName").ToString.Trim
+            compAttID = EveData.Tables(0).Rows(row).Item("attributeID")
+            If IsDBNull(EveData.Tables(0).Rows(row).Item("valueFloat")) = False Then
+                compValue = EveData.Tables(0).Rows(row).Item("valueFloat")
             Else
-                compValue = eveData.Tables(0).Rows(row).Item("valueInt")
+                compValue = EveData.Tables(0).Rows(row).Item("valueInt")
             End If
             ' Do modifier calculations here!
-            Select Case eveData.Tables(0).Rows(row).Item("unitID")
+            Select Case EveData.Tables(0).Rows(row).Item("unitID")
                 Case "108"
                     compValue = Math.Round(100 - (Val(compValue) * 100), 2)
                 Case "109"
@@ -347,11 +348,11 @@ Public Class frmItemBrowser
                     Next
                 End If
             Next
-			tiDependencies.Visible = True
+            tiDependencies.Visible = True
             lvwDepend.EndUpdate()
         Else
             ' Remove the relevant tab
-			tiDependencies.Visible = False
+            tiDependencies.Visible = False
         End If
     End Sub
     Private Sub DrawComparatives()
@@ -782,8 +783,8 @@ Public Class frmItemBrowser
         Dim attName As String = ""
         For att As Integer = 1 To attNo
             If attributes(att, 4) = " attributeID" Then
-                eveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes WHERE attributeID=" & attributes(att, 3))
-                attributes(att, 3) = eveData.Tables(0).Rows(0).Item("attributeName").ToString.Trim
+                EveData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM dgmAttributeTypes WHERE attributeID=" & attributes(att, 3))
+                attributes(att, 3) = EveData.Tables(0).Rows(0).Item("attributeName").ToString.Trim
                 attributes(att, 4) = ""
             End If
         Next
@@ -1746,16 +1747,21 @@ Public Class frmItemBrowser
                     ' Load the Browser with items
                     Dim newNode As TreeNode
                     For Each item As String In EveHQ.Core.HQ.itemList.Keys
-                        newNode = New TreeNode
-                        newNode.Text = item ' Name
-                        newNode.Name = EveHQ.Core.HQ.itemList(item) ' ID
-                        If e.Name = EveHQ.Core.HQ.itemData(newNode.Name).Group.ToString Then
-                            ' Check published flag
-                            If EveHQ.Core.HQ.EveHQSettings.IBShowAllItems = True Then
-                                e.Nodes.Add(newNode)
-                            Else
-                                If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
+                        If String.IsNullOrEmpty(item) = False Then
+
+
+                            newNode = New TreeNode
+                            newNode.Text = item ' Name
+                            newNode.Name = EveHQ.Core.HQ.itemList(item) ' ID
+                            Dim eveItem As EveItem
+                            If EveHQ.Core.HQ.itemData.TryGetValue(newNode.Name, eveItem) = True And (eveItem IsNot Nothing) = True And e.Name = eveItem.Group.ToString Then
+                                ' Check published flag
+                                If EveHQ.Core.HQ.EveHQSettings.IBShowAllItems = True Then
                                     e.Nodes.Add(newNode)
+                                Else
+                                    If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
+                                        e.Nodes.Add(newNode)
+                                    End If
                                 End If
                             End If
                         End If
@@ -2062,7 +2068,7 @@ Public Class frmItemBrowser
     End Sub
 
 #End Region
-   
+
 
     Private Sub lstComparisons_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lstComparisons.ColumnClick
         If lstComparisons.Tag = e.Column Then

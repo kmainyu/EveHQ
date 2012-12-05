@@ -495,7 +495,8 @@ Public Class DataFunctions
         Try
             EveHQ.Core.HQ.itemData.Clear()
             ' Get type data
-            Dim strSQL As String = "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.basePrice, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID;"
+            ' Retribution 1.0 DB: introduced null typenames 
+            Dim strSQL As String = "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.basePrice, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID where typeName is not null;"
             itemData = EveHQ.Core.DataFunctions.GetData(strSQL)
             ' Get meta data
             strSQL = ""
