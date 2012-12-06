@@ -10,7 +10,7 @@
 327,1,23618,9,3,18,0,1,0,0,Drone Durability - Hull
 335,1,23618,265,3,18,0,1,0,0,Drone Durability - Armor
 337,1,23618,263,3,18,0,1,0,0,Drone Durability - Shield
-292,1,3442,64,2,100,0,1,0,0,Drone Interfacing - EM
+292,1,3442,64,2,100,0,1,0,0,Drone Interfacing - Damage
 434,1,3442,77,2,101,0,1,0,0,Drone Interfacing - Mining
 591,1,12305,37,3,18,0,1,0,0,Drone Navigation
 294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
@@ -20,7 +20,7 @@
 292,1,32339,64,2,1023,0,1,0,0,Fighter Bombers
 292,1,12486,64,5,12486,0,1,0,0,Gallente Drone Specialization
 292,1,3441,64,4,839,0,1,0,0,Heavy Drone Operation
-434,1,3438,77,3,18,0,1,0,0,Mining Drone Operation
+434,1,3438,77,2,101,0,1,0,0,Mining Drone Operation
 292,1,12485,64,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
 39,1,3439,84,2,640,0,1,0,0,Repair Drone Operation - Armor
