@@ -300,7 +300,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Enumerate widgets")
         lblStatus.Text = "> Enumerating Widgets..."
         lblStatus.Refresh()
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.EnumerateWidgets)
+        Me.EnumerateWidgets(Nothing)
         EveHQ.Core.HQ.WriteLogEvent("End: Enumerate widgets")
 
         ' Check for server messages (only if auto-web connections enabled)
@@ -309,7 +309,7 @@ Public Class frmSplash
             lblStatus.Text = "> Fetching messages..."
             lblStatus.Refresh()
             ' Store a message ready for when the main form comes up
-            Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.GetServerMessage)
+            Me.GetServerMessage(Nothing)
             EveHQ.Core.HQ.WriteLogEvent("End: Server Message Thread")
         Else
             EveHQ.Core.HQ.WriteLogEvent(" *** Message Finished Loading - AutoWebConnections disabled")
@@ -503,7 +503,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Load skills and item data")
         lblStatus.Text = "> Loading skills and items..."
         lblStatus.Refresh()
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.LoadItemData)
+        Me.LoadItemData(Nothing)
         EveHQ.Core.HQ.WriteLogEvent("End: Load skills and item data")
 
         ' If we get this far we have loaded a DB so check for SQL format and check the custom data
@@ -534,7 +534,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Load Plug-ins")
         lblStatus.Text = "> Loading modules..."
         lblStatus.Refresh()
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf Me.LoadModules)
+        Me.LoadModules(Nothing)
         EveHQ.Core.HQ.WriteLogEvent("End: Load Plug-ins")
 
         'Set the servers to their server details
@@ -625,7 +625,11 @@ Public Class frmSplash
                 If reply = Windows.Forms.DialogResult.No Then
                     End
                 End If
-                frmSettings.ShowDialog()
+                Dim EveHQSettings As New frmSettings
+                EveHQSettings.DoNotRecalculatePilots = True
+                EveHQSettings.Tag = "nodeDatabaseFormat"
+                EveHQSettings.ShowDialog()
+                EveHQSettings.Dispose()
             Loop
             Call EveHQ.Core.DataFunctions.LoadSolarSystems()
             Call EveHQ.Core.DataFunctions.LoadStations()
