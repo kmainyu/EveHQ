@@ -298,36 +298,36 @@
 292,1,3225,10015,4,561;564,0,0,0,Gunnery,Zainou 'Deadeye' Small Hybrid Turret SH-602
 292,1,3226,10015,4,561;564,0,0,0,Gunnery,Zainou 'Deadeye' Small Hybrid Turret SH-604
 292,1,3227,10015,4,561;564,0,0,0,Gunnery,Zainou 'Deadeye' Small Hybrid Turret SH-606
-848,1,27094,654,2,384;653;385;655;386;656,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-801
-848,1,24632,654,2,384;653;385;655;386;656,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-803
-848,1,24640,654,2,384;653;385;655;386;656,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-805
-848,1,3125,654,2,384;653;385;655;386;656,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-802
-848,1,3126,654,2,384;653;385;655;386;656,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-804
-848,1,3127,654,2,384;653;385;655;386;656,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-806
-557,1,27092,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-701
-557,1,13247,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-703
-557,1,24636,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-705
-557,1,3128,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-702
-557,1,3129,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-704
-557,1,3132,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-706
-20,1,27093,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-701
-20,1,13248,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-703
-20,1,24637,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-705
-20,1,3133,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-702
-20,1,3134,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-704
-20,1,3135,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-706
+848,1,27094,654,2,384;653;385;655;386;656;387;89;772;654;648;657,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-801
+848,1,24632,654,2,384;653;385;655;386;656;387;89;772;654;648;657,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-803
+848,1,24640,654,2,384;653;385;655;386;656;387;89;772;654;648;657,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-805
+848,1,3125,654,2,384;653;385;655;386;656;387;89;772;654;648;657,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-802
+848,1,3126,654,2,384;653;385;655;386;656;387;89;772;654;648;657,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-804
+848,1,3127,654,2,384;653;385;655;386;656;387;89;772;654;648;657,0,0,0,Missiles,Zainou 'Deadeye' Guided Missile Precision GP-806
+557,1,27092,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-701
+557,1,13247,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-703
+557,1,24636,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-705
+557,1,3128,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-702
+557,1,3129,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-704
+557,1,3132,281,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Bombardment MB-706
+20,1,27093,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-701
+20,1,13248,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-703
+20,1,24637,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-705
+20,1,3133,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-702
+20,1,3134,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-704
+20,1,3135,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-706
 293,1,27096,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1001
 293,1,13249,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1003
 293,1,24638,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1005
 293,1,3136,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1002
 293,1,3137,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1004
 293,1,3140,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1006
-847,1,27095,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-901
-847,1,13250,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-903
-847,1,24639,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-905
-847,1,3141,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-902
-847,1,3142,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-904
-847,1,3143,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-906
+847,1,27095,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-901
+847,1,13250,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-903
+847,1,24639,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-905
+847,1,3141,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-902
+847,1,3142,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-904
+847,1,3143,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;914,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-906
 310,1,27091,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-601
 310,1,24641,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-603
 310,1,24642,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-605
