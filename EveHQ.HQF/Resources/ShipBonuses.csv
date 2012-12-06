@@ -62,8 +62,8 @@
 17726,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
 # Arazu,,,,,,,,,,,
 11969,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-11969,1,3332,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
-11969,1,3332,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
+11969,1,3332,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
+11969,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
 11969,1,22761,54,2,52,0,1,0,20,15,Warp Scrambler Range
 11969,0,0,50,2,330,0,0,0,-95,15,Cloaking Device CPU
 11969,1,22761,50,2,330,0,1,0,-20,15,Cloaking Device CPU
@@ -324,9 +324,9 @@
 11184,1,12092,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
 11184,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Curse,,,,,,,,,,,
-20125,1,3335,351,2,291,0,1,0,5,15,Tracking Disruptor Range
-20125,1,3335,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
-20125,1,3335,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
+20125,1,3335,351,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Optimal Range
+20125,1,3335,767,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Tracking
+20125,1,3335,349,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Falloff
 20125,1,3335,263,3,18,0,1,0,10,15,Drone Shield HP
 20125,1,3335,265,3,18,0,1,0,10,15,Drone Armor HP
 20125,1,3335,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -507,7 +507,7 @@
 28710,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 28710,1,3338,653,2,656;657;386;89;396,0,1,0,5,15,Cruise & Torpedo Explosion Velocity
 28710,1,28667,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
-28710,1,28667,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
+28710,1,28667,554,2,379,0,1,0,10,15,Target Painter Effect Sig Radius
 28710,0,0,114,2,656;657;386;89;396,0,0,0,100,15,EM Cruise & Torpedo Damage
 28710,0,0,116,2,656;657;386;89;396,0,0,0,100,15,Explosive Cruise & Torpedo Damage
 28710,0,0,117,2,656;657;386;89;396,0,0,0,100,15,Kinetic Cruise & Torpedo Damage
@@ -591,7 +591,7 @@
 12034,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Huginn,,,,,,,,,,,
 11961,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-11961,1,3333,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
+11961,1,3333,554,2,379,0,1,0,10,15,Target Painter Effect Sig Radius
 11961,1,22761,54,2,65,0,1,0,60,15,Stasis Web Range
 11961,1,22761,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
 # Hulk,,,,,,,,,,,
@@ -608,7 +608,7 @@
 24702,0,0,50,1,20069;20409;22227;20406;20405;11052;22553;22557;22555;20124;22228;20514;20070;11017;20408;4262;4264;4266;4268;4270;4272;4274;4276;4278;4280;4282;4284;4286;4288;4290,0,0,0,-99,15,Warfare Link Module CPU Use
 # Hyena,,,,,,,,,,,
 11387,1,3329,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
-11387,1,3329,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
+11387,1,3329,554,2,379,0,1,0,10,15,Target Painter Effect Sig Radius
 11387,1,28615,552,1,11387,0,1,0,-3,15,Signature Radius
 11387,1,28615,54,2,65,0,1,0,20,15,Stasis Web Range
 # Hyperion,,,,,,,,,,,
@@ -691,10 +691,9 @@
 11400,1,12095,54,4,574;577,0,1,0,10,15,Small Projectile Turret Optimal Range
 11400,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Keres,,,,,,,,,,,
-11174,1,3328,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
-11174,1,3328,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
+11174,1,3328,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
+11174,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
 11174,1,3328,6,2,208,0,1,0,-10,15,Remote Sensor Capacitor Use
-11174,1,28615,552,1,11174,0,1,0,-3,15,Signature Radius
 11174,1,28615,54,2,52,0,1,0,10,15,Warp Disruptor Range
 11174,1,28615,6,2,52,0,1,0,-10,15,Warp Disruptor Cap Use
 # Kestrel,,,,,,,,,,,
@@ -709,7 +708,7 @@
 11194,1,3330,240,2,201,0,1,0,20,15,ECM Jam Strength Mag
 11194,1,3330,241,2,201,0,1,0,20,15,ECM Jam Strength Radar
 11194,1,3330,6,2,201,0,1,0,-10,15,ECM Capacitor Use
-11194,1,28615,54,2,201,0,1,0,10,15,ECM Optimal Range
+11194,1,28615,54,2,201,0,1,0,12.5,15,ECM Optimal Range
 11194,1,28615,482,1,11194,0,1,0,5,15,Capacitor Capacity
 # Kronos,,,,,,,,,,,
 28661,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
@@ -721,8 +720,8 @@
 28661,0,0,54,2,650,0,0,0,100,15,Tractor Beam Range
 # Lachesis,,,,,,,,,,,
 11971,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-11971,1,3332,309,2,208,0,1,0,5,15,Remote Sensor Damp Range
-11971,1,3332,566,2,208,0,1,0,5,15,Remote Sensor Damp Res
+11971,1,3332,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
+11971,1,3332,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
 11971,1,22761,54,2,52,0,1,0,20,15,Warp Scrambler Range
 11971,1,22761,51,2,511;510,0,1,0,-5,15,Heavy & HAM Launcher ROF
 # Legion,,,,,,,,,,,
@@ -983,9 +982,9 @@
 19726,1,20530,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;88;1158;394;395;396,0,1,0,5,15,Kinetic Missile Damage
 19726,1,20530,51,2,524,0,1,0,-5,15,Citadel Launcher ROF
 # Pilgrim,,,,,,,,,,,
-11965,1,3335,351,2,291,0,1,0,5,15,Tracking Disruptor Range
-11965,1,3335,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
-11965,1,3335,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
+11965,1,3335,351,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Optimal Range
+11965,1,3335,767,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Tracking
+11965,1,3335,349,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Falloff
 11965,1,3335,263,3,18,0,1,0,10,15,Drone Shield HP
 11965,1,3335,265,3,18,0,1,0,10,15,Drone Armor HP
 11965,1,3335,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -1050,7 +1049,7 @@
 23773,1,3345,10063,1,23773,0,1,1,1,15,Warfare Link Bonus
 # Rapier,,,,,,,,,,,
 11963,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-11963,1,3333,554,2,379,0,1,0,7.5,15,Target Painter Sig Radius
+11963,1,3333,554,2,379,0,1,0,10,15,Target Painter Effect Sig Radius
 11963,1,22761,54,2,65,0,1,0,60,15,Stasis Web Range
 11963,0,0,50,2,330,0,0,0,-95,15,Cloaking Device CPU
 11963,1,22761,50,2,330,0,1,0,-20,15,Cloaking Device CPU
@@ -1192,8 +1191,8 @@
 11978,1,12096,349,2,209,0,1,0,10,15,Tracking Link Falloff Bonus
 11978,0,0,50,2,41,0,0,0,-50,15,Shield Transporter CPU
 # Scorpion,,,,,,,,,,,
-640,1,3338,54,2,201,0,1,0,20,15,ECM Optimal Range
-640,1,3338,158,2,201,0,1,0,20,15,ECM Falloff
+640,1,3338,54,2,201,0,1,0,25,15,ECM Optimal Range
+640,1,3338,158,2,201,0,1,0,25,15,ECM Falloff
 640,1,3338,238,2,201,0,1,0,15,15,ECM Jam Strength Grav
 640,1,3338,239,2,201,0,1,0,15,15,ECM Jam Strength Ladar
 640,1,3338,240,2,201,0,1,0,15,15,ECM Jam Strength Mag
@@ -1202,7 +1201,7 @@
 640,1,3338,239,2,80,0,1,0,15,15,ECM Burst Strength Ladar
 640,1,3338,240,2,80,0,1,0,15,15,ECM Burst Strength Mag
 640,1,3338,241,2,80,0,1,0,15,15,ECM Burst Strength Radar
-640,1,3338,142,2,80,0,1,0,20,15,ECM Burst Radius
+640,1,3338,142,2,80,0,1,0,25,15,ECM Burst Radius
 # Scorpion Navy Issue,,,,,,,,,,,
 32309,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
 32309,1,3338,271,1,32309,0,1,2,-5,15,Shield EM Resistance
@@ -1219,9 +1218,9 @@
 29336,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 29336,1,3333,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
 # Sentinel,,,,,,,,,,,
-11190,1,3331,351,2,291,0,1,0,5,15,Tracking Disruptor Range
-11190,1,3331,767,2,291,0,1,0,5,15,Tracking Disruptor Tracking
-11190,1,3331,349,2,291,0,1,0,5,15,Tracking Disruptor Falloff
+11190,1,3331,351,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Optimal Range
+11190,1,3331,767,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Tracking
+11190,1,3331,349,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Falloff
 11190,1,3331,90,2,68,0,1,0,20,15,Nos Drain Amount
 11190,1,3331,97,2,71,0,1,0,20,15,Neut Drain Amount
 11190,1,28615,91,2,68,0,1,0,40,15,Nos Drain Range
