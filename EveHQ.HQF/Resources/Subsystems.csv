@@ -107,7 +107,7 @@
 30062,1,30541,1045,2,650,0,1,0,20,15,Tractor Beam Velocity
 30062,1,30541,54,2,650,0,1,0,20,15,Tractor Beam Range
 # Tengu Electronics - Obfuscation Manifold,,,,,,,,,,,
-30046,1,30542,54,2,201,0,1,0,10,15,ECM Optimal Range
+30046,1,30542,54,2,201,0,1,0,12.5,15,ECM Optimal Range
 # Tengu Electronics - CPU Efficiency Gate,,,,,,,,,,,
 30048,1,30542,48,1,29984,0,1,0,5,15,CPU Bonus
 # Tengu Electronics - Dissolution Sequencer,,,,,,,,,,,

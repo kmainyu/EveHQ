@@ -10,7 +10,7 @@
 327,1,23618,9,3,18,0,1,0,0,Drone Durability - Hull
 335,1,23618,265,3,18,0,1,0,0,Drone Durability - Armor
 337,1,23618,263,3,18,0,1,0,0,Drone Durability - Shield
-292,1,3442,64,2,100,0,1,0,0,Drone Interfacing - EM
+292,1,3442,64,2,100,0,1,0,0,Drone Interfacing - Damage
 434,1,3442,77,2,101,0,1,0,0,Drone Interfacing - Mining
 591,1,12305,37,3,18,0,1,0,0,Drone Navigation
 294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
@@ -20,10 +20,11 @@
 292,1,32339,64,2,1023,0,1,0,0,Fighter Bombers
 292,1,12486,64,5,12486,0,1,0,0,Gallente Drone Specialization
 292,1,3441,64,4,839,0,1,0,0,Heavy Drone Operation
-434,1,3438,77,3,18,0,1,0,0,Mining Drone Operation
+434,1,3438,77,2,101,0,1,0,0,Mining Drone Operation
 292,1,12485,64,5,12485,0,1,0,0,Minmatar Drone Specialization
 39,1,3439,68,2,640,0,1,0,0,Repair Drone Operation - Shield
 39,1,3439,84,2,640,0,1,0,0,Repair Drone Operation - Armor
+902,1,3440,902,2,1159,0,1,1,0,Salvage Drone Operation
 459,1,3437,10007,3,6,0,1,1,0,Scout Drone Operation
 292,1,23594,64,4,911,0,1,0,0,Sentry Drone Interfacing
 # ELECTRONICS,,,,,,,,,,
@@ -49,6 +50,10 @@
 317,1,3435,6,2,52,0,1,0,0,Propulsion Jamming - Warp Scrambler
 317,1,3435,6,2,65,0,1,0,0,Propulsion Jamming - Stasis Webifier
 317,1,3435,6,2,899,0,1,0,0,Propulsion Jamming - WDFG
+1851,1,33000,211,3,6,0,1,0,0,Sensor Compensation - Grav
+1851,1,33001,209,3,6,0,1,0,0,Sensor Compensation - Ladar
+1851,1,32999,210,3,6,0,1,0,0,Sensor Compensation - Mag
+1851,1,33002,208,3,6,0,1,0,0,Sensor Compensation - Radar
 317,1,3433,6,2,290,0,1,0,0,Sensor Linking - RSB
 317,1,3433,6,2,208,0,1,0,0,Sensor Linking - RSD
 317,1,3433,6,2,209,0,1,0,0,Sensor Linking - Tracking Link
@@ -262,7 +267,7 @@
 312,1,3393,73,4,1049,0,1,0,0,Repair Systems - Small
 312,1,3393,73,4,1050,0,1,0,0,Repair Systems - Medium
 312,1,3393,73,4,1051,0,1,0,0,Repair Systems - Large
-902,1,25863,902,1,25861;30836,0,1,11,0,Salvaging
+1772,1,25863,902,1,25861;30836,0,1,11,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 885,1,27906,714,1,27951,0,1,8,0,Tactical Logistics Reconfiguration
 958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation - Passive
@@ -282,7 +287,7 @@
 292,1,3326,116,2,386;656;396,0,1,0,0,Cruise Missiles - Explosive
 292,1,3326,117,2,386;656;396,0,1,0,0,Cruise Missiles - Kinetic
 292,1,3326,118,2,386;656;396,0,1,0,0,Cruise Missiles - Thermal
-547,1,3323,37,2,88,0,1,0,0,Defender Missiles
+547,1,3323,37,2,88;1158,0,1,0,0,Defender Missiles
 292,1,3322,114,2,394;395;396,0,1,0,0,FoF Missiles - EM
 292,1,3322,116,2,394;395;396,0,1,0,0,FoF Missiles - Explosive
 292,1,3322,117,2,394;395;396,0,1,0,0,FoF Missiles - Kinetic
@@ -290,13 +295,19 @@
 848,1,20312,654,2,384,0,1,0,0,Guided Missile Precision - Light
 848,1,20312,654,2,385,0,1,0,0,Guided Missile Precision - Heavy
 848,1,20312,654,2,386,0,1,0,0,Guided Missile Precision - Cruise
+848,1,20312,654,2,387,0,1,0,0,Guided Missile Precision - Rocket
+848,1,20312,654,2,772,0,1,0,0,Guided Missile Precision - Heavy Assault
+848,1,20312,654,2,89,0,1,0,0,Guided Missile Precision - Torpedo
+848,1,20312,654,2,648,0,1,0,0,Guided Missile Precision - T2 Rocket
+848,1,20312,654,2,654,0,1,0,0,Guided Missile Precision - T2 Heavy Assault
+848,1,20312,654,2,657,0,1,0,0,Guided Missile Precision - T2 Torpedo
 848,1,20312,654,2,656,0,1,0,0,Guided Missile Precision - T2 Cruise
 848,1,20312,654,2,655,0,1,0,0,Guided Missile Precision - T2 Heavy
 848,1,20312,654,2,653,0,1,0,0,Guided Missile Precision - T2 Light
 848,1,20312,654,2,396,0,1,0,0,Guided Missile Precision - FoF Cruise
 848,1,20312,654,2,395,0,1,0,0,Guided Missile Precision - FoF Heavy
 848,1,20312,654,2,394,0,1,0,0,Guided Missile Precision - FoF Light
-293,1,25718,51,5,25718,0,1,0,0,Assault Missile Specialization
+293,1,25718,51,5,25718,0,1,0,0,Heavy Assault Missile Specialization
 292,1,25719,114,2,772;654,0,1,0,0,Heavy Assault Missiles - EM
 292,1,25719,116,2,772;654,0,1,0,0,Heavy Assault Missiles - Explosive
 292,1,25719,117,2,772;654,0,1,0,0,Heavy Assault Missiles - Kinetic
@@ -306,73 +317,73 @@
 292,1,3324,116,2,385;655;395,0,1,0,0,Heavy Missiles - Explosive
 292,1,3324,117,2,385;655;395,0,1,0,0,Heavy Missiles - Kinetic
 292,1,3324,118,2,385;655;395,0,1,0,0,Heavy Missiles - Thermal
-557,1,12441,281,2,654,0,1,0,0,Missile Bombardment - T2 Assault
+557,1,12441,281,2,654,0,1,0,0,Missile Bombardment - T2 Heavy Assault
 557,1,12441,281,2,656,0,1,0,0,Missile Bombardment - T2 Cruise
 557,1,12441,281,2,655,0,1,0,0,Missile Bombardment - T2 Heavy
 557,1,12441,281,2,653,0,1,0,0,Missile Bombardment - T2 Light
 557,1,12441,281,2,648,0,1,0,0,Missile Bombardment - T2 Rocket
 557,1,12441,281,2,657,0,1,0,0,Missile Bombardment - T2 Torpedo
-557,1,12441,281,2,772,0,1,0,0,Missile Bombardment - Assault
+557,1,12441,281,2,772,0,1,0,0,Missile Bombardment - Heavy Assault
 557,1,12441,281,2,386,0,1,0,0,Missile Bombardment - Cruise
 557,1,12441,281,2,385,0,1,0,0,Missile Bombardment - Heavy
 557,1,12441,281,2,384,0,1,0,0,Missile Bombardment - Light
 557,1,12441,281,2,387,0,1,0,0,Missile Bombardment - Rocket
 557,1,12441,281,2,89,0,1,0,0,Missile Bombardment - Torpedo
 557,1,12441,281,2,476,0,1,0,0,Missile Bombardment - Citadel Torpedo
-557,1,12441,281,2,88,0,1,0,0,Missile Bombardment - Defender
+557,1,12441,281,2,88;1158,0,1,0,0,Missile Bombardment - Defender
 557,1,12441,281,2,394;395;396,0,1,0,0,Missile Bombardment - FoF
-293,1,3319,51,2,511,0,1,0,0,Missile Launcher Operation - Assault
+293,1,3319,51,2,511,0,1,0,0,Missile Launcher Operation - Rapid Light
 293,1,3319,51,2,862,0,1,0,0,Missile Launcher Operation - Bomb
 293,1,3319,51,2,524,0,1,0,0,Missile Launcher Operation - Citadel
 293,1,3319,51,2,506,0,1,0,0,Missile Launcher Operation - Cruise
 293,1,3319,51,2,510,0,1,0,0,Missile Launcher Operation - Heavy
 293,1,3319,51,2,771,0,1,0,0,Missile Launcher Operation - Heavy Assault
 293,1,3319,51,2,507,0,1,0,0,Missile Launcher Operation - Rocket
-293,1,3319,51,2,508,0,1,0,0,Missile Launcher Operation - Siege
+293,1,3319,51,2,508,0,1,0,0,Missile Launcher Operation - Torpedo
 293,1,3319,51,2,501,0,1,0,0,Missile Launcher Operation - Snowball
-293,1,3319,51,2,509,0,1,0,0,Missile Launcher Operation - Standard
-20,1,12442,37,2,654,0,1,0,0,Missile Projection - T2 Assault
+293,1,3319,51,2,509,0,1,0,0,Missile Launcher Operation - Light
+20,1,12442,37,2,654,0,1,0,0,Missile Projection - T2 Heavy Assault
 20,1,12442,37,2,656,0,1,0,0,Missile Projection - T2 Cruise
 20,1,12442,37,2,655,0,1,0,0,Missile Projection - T2 Heavy
 20,1,12442,37,2,653,0,1,0,0,Missile Projection - T2 Light
 20,1,12442,37,2,648,0,1,0,0,Missile Projection - T2 Rocket
 20,1,12442,37,2,657,0,1,0,0,Missile Projection - T2 Torpedo
-20,1,12442,37,2,772,0,1,0,0,Missile Projection - Assault
+20,1,12442,37,2,772,0,1,0,0,Missile Projection - Heavy Assault
 20,1,12442,37,2,386,0,1,0,0,Missile Projection - Cruise
 20,1,12442,37,2,385,0,1,0,0,Missile Projection - Heavy
 20,1,12442,37,2,384,0,1,0,0,Missile Projection - Light
 20,1,12442,37,2,387,0,1,0,0,Missile Projection - Rocket
 20,1,12442,37,2,89,0,1,0,0,Missile Projection - Torpedo
 20,1,12442,37,2,476,0,1,0,0,Missile Projection - Citadel Torpedo
-20,1,12442,37,2,88,0,1,0,0,Missile Projection - Defender
+20,1,12442,37,2,88;1158,0,1,0,0,Missile Projection - Defender
 20,1,12442,37,2,394;395;396,0,1,0,0,Missile Projection - FoF
-293,1,21071,51,2,511,0,1,0,0,Missile Launcher Operation - Assault
+293,1,21071,51,2,511,0,1,0,0,Missile Launcher Operation - Rapid Light
 293,1,21071,51,2,862,0,1,0,0,Missile Launcher Operation - Bomb
 293,1,21071,51,2,524,0,1,0,0,Missile Launcher Operation - Citadel
 293,1,21071,51,2,506,0,1,0,0,Missile Launcher Operation - Cruise
 293,1,21071,51,2,510,0,1,0,0,Missile Launcher Operation - Heavy
 293,1,21071,51,2,771,0,1,0,0,Missile Launcher Operation - Heavy Assault
 293,1,21071,51,2,507,0,1,0,0,Missile Launcher Operation - Rocket
-293,1,21071,51,2,508,0,1,0,0,Missile Launcher Operation - Siege
+293,1,21071,51,2,508,0,1,0,0,Missile Launcher Operation - Torpedo
 293,1,21071,51,2,501,0,1,0,0,Missile Launcher Operation - Snowball
-293,1,21071,51,2,509,0,1,0,0,Missile Launcher Operation - Standard
+293,1,21071,51,2,509,0,1,0,0,Missile Launcher Operation - Light
 293,1,20209,51,5,20209,0,1,0,0,Rocket Specialization
 292,1,3320,114,2,387;648,0,1,0,0,Rockets - EM
 292,1,3320,116,2,387;648,0,1,0,0,Rockets - Explosive
 292,1,3320,117,2,387;648,0,1,0,0,Rockets - Kinetic
 292,1,3320,118,2,387;648,0,1,0,0,Rockets - Thermal
-293,1,20210,51,5,20210,0,1,0,0,Standard Missile Specialization
-292,1,3321,114,2,384;653;394,0,1,0,0,Standard Missiles - EM
-292,1,3321,116,2,384;653;394,0,1,0,0,Standard Missiles - Explosive
-292,1,3321,117,2,384;653;394,0,1,0,0,Standard Missiles - Kinetic
-292,1,3321,118,2,384;653;394,0,1,0,0,Standard Missiles - Thermal
-847,1,20314,653,2,654,0,1,0,0,Target Navigation Prediction - T2 Assault
+293,1,20210,51,5,20210,0,1,0,0,Light Missile Specialization
+292,1,3321,114,2,384;653;394,0,1,0,0,Light Missiles - EM
+292,1,3321,116,2,384;653;394,0,1,0,0,Light Missiles - Explosive
+292,1,3321,117,2,384;653;394,0,1,0,0,Light Missiles - Kinetic
+292,1,3321,118,2,384;653;394,0,1,0,0,Light Missiles - Thermal
+847,1,20314,653,2,654,0,1,0,0,Target Navigation Prediction - T2 Heavy Assault
 847,1,20314,653,2,656,0,1,0,0,Target Navigation Prediction - T2 Cruise
 847,1,20314,653,2,655,0,1,0,0,Target Navigation Prediction - T2 Heavy
 847,1,20314,653,2,653,0,1,0,0,Target Navigation Prediction - T2 Light
 847,1,20314,653,2,648,0,1,0,0,Target Navigation Prediction - T2 Rocket
 847,1,20314,653,2,657,0,1,0,0,Target Navigation Prediction - T2 Torpedo
-847,1,20314,653,2,772,0,1,0,0,Target Navigation Prediction - Assault
+847,1,20314,653,2,772,0,1,0,0,Target Navigation Prediction - Heavy Assault
 847,1,20314,653,2,386,0,1,0,0,Target Navigation Prediction - Cruise
 847,1,20314,653,2,385,0,1,0,0,Target Navigation Prediction - Heavy
 847,1,20314,653,2,384,0,1,0,0,Target Navigation Prediction - Light
@@ -386,10 +397,10 @@
 292,1,3325,116,2,89;657,0,1,0,0,Torpedoes - Explosive
 292,1,3325,117,2,89;657,0,1,0,0,Torpedoes - Kinetic
 292,1,3325,118,2,89;657,0,1,0,0,Torpedoes - Thermal
-292,1,20315,114,2,654,0,1,0,0,Warhead Upgrades - T2 Assault - EM
-292,1,20315,116,2,654,0,1,0,0,Warhead Upgrades - T2 Assault - Explosive
-292,1,20315,117,2,654,0,1,0,0,Warhead Upgrades - T2 Assault - Kinetic
-292,1,20315,118,2,654,0,1,0,0,Warhead Upgrades - T2 Assault - Thermal
+292,1,20315,114,2,654,0,1,0,0,Warhead Upgrades - T2 Heavy Assault - EM
+292,1,20315,116,2,654,0,1,0,0,Warhead Upgrades - T2 Heavy Assault - Explosive
+292,1,20315,117,2,654,0,1,0,0,Warhead Upgrades - T2 Heavy Assault - Kinetic
+292,1,20315,118,2,654,0,1,0,0,Warhead Upgrades - T2 Heavy Assault - Thermal
 292,1,20315,114,2,656,0,1,0,0,Warhead Upgrades - T2 Cruise - EM
 292,1,20315,116,2,656,0,1,0,0,Warhead Upgrades - T2 Cruise - Explosive
 292,1,20315,117,2,656,0,1,0,0,Warhead Upgrades - T2 Cruise - Kinetic
@@ -410,10 +421,10 @@
 292,1,20315,116,2,657,0,1,0,0,Warhead Upgrades - T2 Torpedo - Explosive
 292,1,20315,117,2,657,0,1,0,0,Warhead Upgrades - T2 Torpedo - Kinetic
 292,1,20315,118,2,657,0,1,0,0,Warhead Upgrades - T2 Torpedo - Thermal
-292,1,20315,114,2,772,0,1,0,0,Warhead Upgrades - Assault - EM
-292,1,20315,116,2,772,0,1,0,0,Warhead Upgrades - Assault - Explosive
-292,1,20315,117,2,772,0,1,0,0,Warhead Upgrades - Assault - Kinetic
-292,1,20315,118,2,772,0,1,0,0,Warhead Upgrades - Assault - Thermal
+292,1,20315,114,2,772,0,1,0,0,Warhead Upgrades - Heavy Assault - EM
+292,1,20315,116,2,772,0,1,0,0,Warhead Upgrades - Heavy Assault - Explosive
+292,1,20315,117,2,772,0,1,0,0,Warhead Upgrades - Heavy Assault - Kinetic
+292,1,20315,118,2,772,0,1,0,0,Warhead Upgrades - Heavy Assault - Thermal
 292,1,20315,114,2,386,0,1,0,0,Warhead Upgrades - Cruise - EM
 292,1,20315,116,2,386,0,1,0,0,Warhead Upgrades - Cruise - Explosive
 292,1,20315,117,2,386,0,1,0,0,Warhead Upgrades - Cruise - Kinetic
@@ -438,10 +449,10 @@
 292,1,20315,116,2,476,0,1,0,0,Warhead Upgrades - Citadel Torpedo - Explosive
 292,1,20315,117,2,476,0,1,0,0,Warhead Upgrades - Citadel Torpedo - Kinetic
 292,1,20315,118,2,476,0,1,0,0,Warhead Upgrades - Citadel Torpedo - Thermal
-292,1,20315,114,2,88,0,1,0,0,Warhead Upgrades - Defender - EM
-292,1,20315,116,2,88,0,1,0,0,Warhead Upgrades - Defender - Explosive
-292,1,20315,117,2,88,0,1,0,0,Warhead Upgrades - Defender - Kinetic
-292,1,20315,118,2,88,0,1,0,0,Warhead Upgrades - Defender - Thermal
+292,1,20315,114,2,88;1158,0,1,0,0,Warhead Upgrades - Defender - EM
+292,1,20315,116,2,88;1158,0,1,0,0,Warhead Upgrades - Defender - Explosive
+292,1,20315,117,2,88;1158,0,1,0,0,Warhead Upgrades - Defender - Kinetic
+292,1,20315,118,2,88;1158,0,1,0,0,Warhead Upgrades - Defender - Thermal
 292,1,20315,114,2,396,0,1,0,0,Warhead Upgrades - FoF Cruise - EM
 292,1,20315,116,2,396,0,1,0,0,Warhead Upgrades - FoF Cruise - Explosive
 292,1,20315,117,2,396,0,1,0,0,Warhead Upgrades - FoF Cruise - Kinetic
@@ -456,13 +467,15 @@
 292,1,20315,118,2,394,0,1,0,0,Warhead Upgrades - FoF Light - Thermal
 # NAVIGATION,,,,,,,,,,
 318,1,3452,20,2,46,0,1,0,0,Acceleration Control - AB/MWD
-66,1,3450,73,4,542,0,1,0,0,Afterburner
+66,1,3450,73,4,542,0,1,0,0,Afterburner - Duration
+317,1,3450,6,4,542,0,1,0,0,Afterburner - Cap Usage
 151,1,3453,70,3,6,0,1,0,0,Evasive Maneuvering
 317,1,3451,6,4,542,0,1,0,0,Fuel Conservation
 216,1,3454,6,4,131,0,1,0,0,High Speed Maneuvering
 870,1,21611,867,2,30;485;547;659;883;898;902,0,1,0,0,Jump Drive Calibration
 899,1,3456,898,2,30;485;547;659;883;898;902,0,1,0,0,Jump Drive Operation
 1296,1,21610,868,2,30;485;547;659;883;898;902,0,1,0,0,Jump Fuel Conservation
+66,1,4385,73,2,1189,0,1,0,0,Micro Jump Drive Operation
 315,1,3449,37,3,6,0,1,0,0,Navigation
 319,1,3455,153,3,6,0,1,0,0,Warp Drive Operation
 # SCIENCE,,,,,,,,,,
@@ -556,7 +569,7 @@
 151,1,3327,70,3,6,0,1,0,0,Spaceship Command
 #,1,19719,0,0,0,0,1,0,0,Transport Ships
 # OVERLOADING ATTRIBUTE MAPPING,,,,,,,,,,
-1223,2,46,20,6,0,1,0,0,8,AB/MWD Speed Bonus
+1223,2,46,20,6,0,0,0,0,8,AB/MWD Speed Bonus
 1208,2,328,984,6,0,0,0,0,8,Armor Hardener - EM
 1208,2,328,985,6,0,0,0,0,8,Armor Hardener - Exp
 1208,2,328,986,6,0,0,0,0,8,Armor Hardener - Kin
@@ -565,20 +578,20 @@
 1230,2,62,84,6,0,0,0,0,8,Armor Rep Amount Bonus
 1206,2,62,73,6,0,0,0,0,8,Armor Rep Duration
 1206,2,76,73,6,0,0,0,0,8,Cap Booster Duration
-1226,2,202,1027,6,0,1,0,0,8,ECCM Strength Bonus - Grav
-1226,2,202,1028,6,0,1,0,0,8,ECCM Strength Bonus - Ladar
-1226,2,202,1029,6,0,1,0,0,8,ECCM Strength Bonus - Mag
-1226,2,202,1030,6,0,1,0,0,8,ECCM Strength Bonus - Radar
-1225,2,201,238,6,0,1,0,0,8,ECM Strength Bonus - Grav
-1225,2,201,239,6,0,1,0,0,8,ECM Strength Bonus - Ladar
-1225,2,201,240,6,0,1,0,0,8,ECM Strength Bonus - Mag
-1225,2,201,241,6,0,1,0,0,8,ECM Strength Bonus - Radar
-1206,2,71,73,6,0,1,0,0,8,Energy Neut Duration
-1206,2,67,73,6,0,1,0,0,8,Energy Transfer Duration
-1206,2,68,73,6,0,1,0,0,8,Energy Vampire Duration
+1226,2,202,1027,6,0,0,0,0,8,ECCM Strength Bonus - Grav
+1226,2,202,1028,6,0,0,0,0,8,ECCM Strength Bonus - Ladar
+1226,2,202,1029,6,0,0,0,0,8,ECCM Strength Bonus - Mag
+1226,2,202,1030,6,0,0,0,0,8,ECCM Strength Bonus - Radar
+1225,2,201,238,6,0,0,0,0,8,ECM Strength Bonus - Grav
+1225,2,201,239,6,0,0,0,0,8,ECM Strength Bonus - Ladar
+1225,2,201,240,6,0,0,0,0,8,ECM Strength Bonus - Mag
+1225,2,201,241,6,0,0,0,0,8,ECM Strength Bonus - Radar
+1206,2,71,73,6,0,0,0,0,8,Energy Neut Duration
+1206,2,67,73,6,0,0,0,0,8,Energy Transfer Duration
+1206,2,68,73,6,0,0,0,0,8,Energy Vampire Duration
 1205,2,53,10011,6,0,0,0,0,8,Energy Weapon ROF Bonus
 1210,2,53,10014,6,0,0,0,0,8,Energy Weapon Damage Bonus
-1206,2,63,73,6,0,1,0,0,8,Hull Rep Duration
+1206,2,63,73,6,0,0,0,0,8,Hull Rep Duration
 1205,2,74,10012,6,0,0,0,0,8,Hybrid Weapon ROF Bonus
 1210,2,74,10015,6,0,0,0,0,8,Hybrid Weapon Damage Bonus
 1205,2,511,51,6,0,0,0,0,8,Assault Launcher ROF Bonus
@@ -1222,14 +1235,14 @@
 # RIGS - LAUNCHER,,,,,,,,,,
 1138,2,779,50,2,511;524;506;510;771;507;508;509,0,0,0,15,Launcher Rig Drawback - CPU Penalty
 204,2,779,51,2,511;524;506;510;771;507;508;509,1,0,0,15,Bay Loading Accelerator
-20,2,779,37,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,2,0,0,15,Hydraulic Bay Thrusters
-557,2,779,281,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Rocket Fuel Cache Partition
-213,2,779,114,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
-213,2,779,116,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
-213,2,779,117,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
-213,2,779,118,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
-847,2,779,653,2,654;656;655;653;648;657;772;476;386;88;396;395;394;385;384;387;89,0,0,0,15,Warhead Flare Catalyst
-848,2,779,654,2,656;655;653;386;396;395;394;385;384,0,0,0,15,Warhead Rigor Catalyst
+20,2,779,37,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,2,0,0,15,Hydraulic Bay Thrusters
+557,2,779,281,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Rocket Fuel Cache Partition
+213,2,779,114,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+213,2,779,116,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+213,2,779,117,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+213,2,779,118,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst
+847,2,779,653,2,654;656;655;653;648;657;772;476;386;88;1158;396;395;394;385;384;387;89,0,0,0,15,Warhead Flare Catalyst
+848,2,779,654,2,656;655;653;386;396;395;394;385;384;387;89;772;654;648;657,0,0,0,15,Warhead Rigor Catalyst
 # RIGS - PROJECTILE WEAPON,,,,,,,,,,
 1138,2,777,30,2,55,0,0,0,15,Projectile Weapon Rig Drawback - PG Penalty
 349,2,777,158,2,55,1,0,0,15,Projectile Ambit Extension
