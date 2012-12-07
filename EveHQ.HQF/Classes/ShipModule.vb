@@ -24,11 +24,25 @@ Imports System.Runtime.Serialization
 <Serializable()> Public Class ShipModule
 
 #Region "Constants"
-    ' itemIDs (see dbo.invTypes)
+    ' itemIDs (see invTypes)
     Public Const Item_CommandProcessorI As String = "11014"
 
-    ' groupIDs (see dbo.invGroups)
+    ' groupIDs (see invGroups)
+    Public Const Group_BombLaunchers As String = "862"
+    Public Const Group_EnergyTurrets As String = "53"
     Public Const Group_GangLinks As String = "316"
+    Public Const Group_HybridTurrets As String = "74"
+    Public Const Group_MiningDrones As String = "101"
+    Public Const Group_ProjectileTurrets As String = "55"
+    Public Const Group_Smartbombs As String = "72"
+
+    ' marketGroupIDs (see invMarketGroups)
+    Public Const Marketgroup_IceHarvesters As String = "1038"
+    Public Const Marketgroup_MiningLasers As String = "1039"
+    Public Const Marketgroup_OrbitalEnergyAmmo As String = "1599"
+    Public Const Marketgroup_OrbitalHybridAmmo As String = "1600"
+    Public Const Marketgroup_OrbitalProjectileAmmo As String = "1598"
+    Public Const Marketgroup_StripMiners As String = "1040"
 
 #End Region
 

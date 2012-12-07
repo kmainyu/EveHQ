@@ -1286,7 +1286,7 @@
 4308,0,0,6,4,563;566,0,0,0,-50,15,Large Hybrid Turret Cap Use
 # Talwar,,,,,,,,,,,
 32878,0,0,37,2,387;648;384;653;394,0,0,0,50,15,Rocket & Light Missile Velocity
-32878,1,12097,117,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Explosive Damage
+32878,1,12097,116,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Explosive Damage
 32878,1,12097,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
 # Taranis,,,,,,,,,,,
 11200,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
