@@ -1662,10 +1662,10 @@ Public Class ShipSlotControl
                                     chargeGroups.Add(groupName)
                                 End If
                                 If currentMod.IsTurret Or currentMod.DatabaseGroup = "1156" Then ' Checks for turret or fueled shield boosters
-                                    If currentMod.ChargeSize = CInt(chargeGroupData(3)) Then
+                                    If currentMod.ChargeSize = CInt(chargeGroupData(3)) And chargeItems.ContainsKey(chargeGroupData(2)) = False Then
                                         chargeItems.Add(chargeGroupData(2), groupName)
                                     End If
-                                Else
+                                ElseIf chargeItems.ContainsKey(chargeGroupData(2)) = False Then
                                     chargeItems.Add(chargeGroupData(2), groupName)
                                 End If
                             End If

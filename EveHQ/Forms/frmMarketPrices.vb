@@ -582,7 +582,9 @@ Public Class frmMarketPrices
                         End If
                     Next
                     ' Check orphans
+                    Dim lastOrphanCount As Int32
                     Do
+                        lastOrphanCount = Orphans.Count
                         Dim RemoveOrphanList As New List(Of String)
                         For Each row As DataRow In Orphans.Values
                             TestNode = AdtItems.FindNodeByName(row.Item("parentGroupID").ToString)
@@ -600,7 +602,8 @@ Public Class frmMarketPrices
                         For Each Orphan As String In RemoveOrphanList
                             Orphans.Remove(Orphan)
                         Next
-                    Loop Until Orphans.Count = 0
+                        ' Loop until we remove all the orphans, or we end up in an endless 
+                    Loop Until Orphans.Count = 0 Or Orphans.Count = lastOrphanCount
 
                     ' Finally, add our items
                     For Each TypeID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
