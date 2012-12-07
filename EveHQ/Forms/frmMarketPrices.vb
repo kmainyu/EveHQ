@@ -362,25 +362,26 @@ Public Class frmMarketPrices
             For Each item As String In EveHQ.Core.HQ.itemList.Keys
                 If item.ToLower.Contains(search) = True Then
                     itemID = EveHQ.Core.HQ.itemList(item)
-                    itemData = EveHQ.Core.HQ.itemData(itemID)
-                    If itemData.Published = True Then
-                        lvItem = New Node
-                        lvItem.Text = itemData.Name
-                        lvItem.Name = CStr(itemData.ID)
-                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
-                        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
-                            price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
-                            lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                        Else
-                            lvItem.Cells.Add(New Cell(""))
+                    If HQ.itemData.TryGetValue(itemID, itemData) = True Then
+                        If itemData.Published = True Then
+                            lvItem = New Node
+                            lvItem.Text = itemData.Name
+                            lvItem.Name = CStr(itemData.ID)
+                            lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
+                            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
+                                price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
+                                lvItem.Cells.Add(New Cell(price.ToString("N2")))
+                            Else
+                                lvItem.Cells.Add(New Cell(""))
+                            End If
+                            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+                                price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                                lvItem.Cells.Add(New Cell(price.ToString("N2")))
+                            Else
+                                lvItem.Cells.Add(New Cell(""))
+                            End If
+                            adtPrices.Nodes.Add(lvItem)
                         End If
-                        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                            price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
-                            lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                        Else
-                            lvItem.Cells.Add(New Cell(""))
-                        End If
-                        adtPrices.Nodes.Add(lvItem)
                     End If
                 End If
             Next

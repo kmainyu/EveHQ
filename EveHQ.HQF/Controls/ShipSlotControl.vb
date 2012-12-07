@@ -2017,8 +2017,13 @@ Public Class ShipSlotControl
         Dim moduleID As String = CStr(ModuleLists.moduleListName(moduleName))
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
-        HQFEvents.DisplayedMarketGroup = pathLine
-	End Sub
+        If pathLine IsNot Nothing Then
+            HQFEvents.DisplayedMarketGroup = pathLine
+        Else
+            MessageBox.Show("The market group for this item could not be found in the database. Please check the data source to ensure it exists and has a path to it from the root.")
+        End If
+
+    End Sub
 
     Private Sub ShowMetaVariations(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ShowMarketMenu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
