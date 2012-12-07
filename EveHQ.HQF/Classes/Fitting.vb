@@ -21,6 +21,7 @@ Imports System.Windows.Forms
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
+Imports EveHQ.Core
 
 ''' <summary>
 ''' Class for holding an instance of a EveHQ HQF fitting used for processing
@@ -150,7 +151,22 @@ Imports System.Runtime.Serialization
             Return cPilotName
         End Get
         Set(ByVal value As String)
-            cPilotName = value
+            If HQFPilotCollection.HQFPilots.ContainsKey(value) = False Then
+                MessageBox.Show("The pilot '" & value & "' is not a listed pilot. The system will now try to use your configured default pilot instead for this fit (" & Me.FittingName & ").", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If HQFPilotCollection.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) Then
+                    'Fall back to the configured default pilot if they are valid.
+                    cPilotName = Settings.HQFSettings.DefaultPilot
+                Else
+                    ' Even the configured default isn't valid... fallback to the first valid pilot in the collection
+                    If HQFPilotCollection.HQFPilots.Count > 1 Then
+                        cPilotName = CType(HQFPilotCollection.HQFPilots.GetByIndex(0), HQFPilot).PilotName
+                        ' Thankfully there is already a check for pilots when HQF starts up...
+                    End If
+                End If
+            Else
+                ' original pilot name is good... use it.
+                cPilotName = value
+            End If
         End Set
     End Property
 
@@ -450,10 +466,7 @@ Imports System.Runtime.Serialization
     ''' <remarks></remarks>
     Public Sub ApplyFitting(Optional ByVal BuildMethod As BuildType = BuildType.BuildEverything, Optional ByVal VisualUpdates As Boolean = True)
         ' Update the pilot from the pilot name
-        If HQFPilotCollection.HQFPilots.ContainsKey(Me.PilotName) = False Then
-            MessageBox.Show("The pilot '" & Me.PilotName & "' is not a listed pilot - please check this pilot exists.", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Me.cFittedShip = Me.BaseShip
-        End If
+
         Dim baseShip As Ship = Me.BaseShip
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(Me.PilotName), HQFPilot)
 
@@ -1703,35 +1716,35 @@ Imports System.Runtime.Serialization
                         newShip.Attributes("10006") = newShip.Attributes("10006") + DBI.Quantity
                         cModule.Attributes("10018") = dgmMod * cModule.Attributes("10017")
                         cModule.Attributes("10019") = cModule.Attributes("10018") / ROF
-					Else
-						cModule.Attributes("10017") = 0
-						If cModule.Attributes.ContainsKey("114") Then
-							cModule.Attributes("10017") += cModule.Attributes("114")
-							cModule.Attributes("10051") = cModule.Attributes("114") * dgmMod
-						Else
-							cModule.Attributes("10051") = 0
-						End If
-						If cModule.Attributes.ContainsKey("116") Then
-							cModule.Attributes("10017") += cModule.Attributes("116")
-							cModule.Attributes("10052") = cModule.Attributes("116") * dgmMod
-						Else
-							cModule.Attributes("10052") = 0
-						End If
-						If cModule.Attributes.ContainsKey("117") Then
-							cModule.Attributes("10017") += cModule.Attributes("117")
-							cModule.Attributes("10053") = cModule.Attributes("117") * dgmMod
-						Else
-							cModule.Attributes("10053") = 0
-						End If
-						If cModule.Attributes.ContainsKey("118") Then
-							cModule.Attributes("10017") += cModule.Attributes("118")
-							cModule.Attributes("10054") = cModule.Attributes("118") * dgmMod
-						Else
-							cModule.Attributes("10054") = 0
-						End If
-						newShip.Attributes("10006") = newShip.Attributes("10006") + DBI.Quantity
-						cModule.Attributes("10018") = dgmMod * cModule.Attributes("10017")
-						cModule.Attributes("10019") = cModule.Attributes("10018") / ROF
+                    Else
+                        cModule.Attributes("10017") = 0
+                        If cModule.Attributes.ContainsKey("114") Then
+                            cModule.Attributes("10017") += cModule.Attributes("114")
+                            cModule.Attributes("10051") = cModule.Attributes("114") * dgmMod
+                        Else
+                            cModule.Attributes("10051") = 0
+                        End If
+                        If cModule.Attributes.ContainsKey("116") Then
+                            cModule.Attributes("10017") += cModule.Attributes("116")
+                            cModule.Attributes("10052") = cModule.Attributes("116") * dgmMod
+                        Else
+                            cModule.Attributes("10052") = 0
+                        End If
+                        If cModule.Attributes.ContainsKey("117") Then
+                            cModule.Attributes("10017") += cModule.Attributes("117")
+                            cModule.Attributes("10053") = cModule.Attributes("117") * dgmMod
+                        Else
+                            cModule.Attributes("10053") = 0
+                        End If
+                        If cModule.Attributes.ContainsKey("118") Then
+                            cModule.Attributes("10017") += cModule.Attributes("118")
+                            cModule.Attributes("10054") = cModule.Attributes("118") * dgmMod
+                        Else
+                            cModule.Attributes("10054") = 0
+                        End If
+                        newShip.Attributes("10006") = newShip.Attributes("10006") + DBI.Quantity
+                        cModule.Attributes("10018") = dgmMod * cModule.Attributes("10017")
+                        cModule.Attributes("10019") = cModule.Attributes("10018") / ROF
                     End If
                     newShip.Attributes("10023") = newShip.Attributes("10023") + cModule.Attributes("10018") * DBI.Quantity
                     newShip.Attributes("10027") = newShip.Attributes("10027") + cModule.Attributes("10019") * DBI.Quantity
@@ -2722,96 +2735,96 @@ Imports System.Runtime.Serialization
 
         Return True
     End Function
-	Private Function IsModulePermitted(ByRef shipMod As ShipModule) As Boolean
-		' Check for subsystem restrictions
-		If shipMod.DatabaseCategory = "32" Then
-			' Check for subsystem type restriction
-			If CStr(shipMod.Attributes("1380")) <> CStr(Me.BaseShip.ID) Then
-				MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))).Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
-				Return False
-			End If
-			' Check for subsystem group restriction
-			For s As Integer = 1 To Me.BaseShip.SubSlots
-				If Me.BaseShip.SubSlot(s) IsNot Nothing Then
-					If CStr(shipMod.Attributes("1366")) = CStr(Me.BaseShip.SubSlot(s).Attributes("1366")) Then
-						MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
-						Return False
-					End If
-				End If
-			Next
-		End If
+    Private Function IsModulePermitted(ByRef shipMod As ShipModule) As Boolean
+        ' Check for subsystem restrictions
+        If shipMod.DatabaseCategory = "32" Then
+            ' Check for subsystem type restriction
+            If CStr(shipMod.Attributes("1380")) <> CStr(Me.BaseShip.ID) Then
+                MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))).Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return False
+            End If
+            ' Check for subsystem group restriction
+            For s As Integer = 1 To Me.BaseShip.SubSlots
+                If Me.BaseShip.SubSlot(s) IsNot Nothing Then
+                    If CStr(shipMod.Attributes("1366")) = CStr(Me.BaseShip.SubSlot(s).Attributes("1366")) Then
+                        MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Return False
+                    End If
+                End If
+            Next
+        End If
 
-		' Check for Rig restrictions
-		If shipMod.SlotType = 1 Then
-			If shipMod.Attributes.ContainsKey("1547") Then
-				If CInt(shipMod.Attributes("1547")) <> CInt(Me.BaseShip.Attributes("1547")) Then
-					Dim requiredSize As String = ""
-					Select Case CInt(Me.BaseShip.Attributes("1547"))
-						Case 1
-							requiredSize = "Small"
-						Case 2
-							requiredSize = "Medium"
-						Case 3
-							requiredSize = "Large"
-						Case 4
-							requiredSize = "Capital"
-					End Select
-					Dim baseModName As String = requiredSize & shipMod.Name.Remove(0, shipMod.Name.IndexOf(" "))
-					MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-					shipMod = CType(ModuleLists.moduleList(ModuleLists.moduleListName(baseModName)), ShipModule)
-					'Return False
-				End If
-			End If
-		End If
+        ' Check for Rig restrictions
+        If shipMod.SlotType = 1 Then
+            If shipMod.Attributes.ContainsKey("1547") Then
+                If CInt(shipMod.Attributes("1547")) <> CInt(Me.BaseShip.Attributes("1547")) Then
+                    Dim requiredSize As String = ""
+                    Select Case CInt(Me.BaseShip.Attributes("1547"))
+                        Case 1
+                            requiredSize = "Small"
+                        Case 2
+                            requiredSize = "Medium"
+                        Case 3
+                            requiredSize = "Large"
+                        Case 4
+                            requiredSize = "Capital"
+                    End Select
+                    Dim baseModName As String = requiredSize & shipMod.Name.Remove(0, shipMod.Name.IndexOf(" "))
+                    MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    shipMod = CType(ModuleLists.moduleList(ModuleLists.moduleListName(baseModName)), ShipModule)
+                    'Return False
+                End If
+            End If
+        End If
 
-		' Check for ship group restrictions
-		Dim ShipGroups As New ArrayList
-		For att As Integer = 1298 To 1301
-			If shipMod.Attributes.ContainsKey(att.ToString) = True Then
-				ShipGroups.Add(CStr(shipMod.Attributes(att.ToString)))
-			End If
-		Next
-		If ShipGroups.Count > 0 And ShipGroups.Contains(Me.BaseShip.DatabaseGroup) = False Then
-			MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			Return False
-		End If
-		ShipGroups.Clear()
+        ' Check for ship group restrictions
+        Dim ShipGroups As New ArrayList
+        For att As Integer = 1298 To 1301
+            If shipMod.Attributes.ContainsKey(att.ToString) = True Then
+                ShipGroups.Add(CStr(shipMod.Attributes(att.ToString)))
+            End If
+        Next
+        If ShipGroups.Count > 0 And ShipGroups.Contains(Me.BaseShip.DatabaseGroup) = False Then
+            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
+        ShipGroups.Clear()
 
-		' Check for ship type restrictions
-		Dim ShipTypes As New ArrayList
-		For att As Integer = 1302 To 1305
-			If shipMod.Attributes.ContainsKey(att.ToString) = True Then
-				ShipTypes.Add(CStr(shipMod.Attributes(att.ToString)))
-			End If
-		Next
-		If ShipTypes.Count > 0 And ShipTypes.Contains(Me.BaseShip.ID) = False Then
-			MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-			Return False
-		End If
+        ' Check for ship type restrictions
+        Dim ShipTypes As New ArrayList
+        For att As Integer = 1302 To 1305
+            If shipMod.Attributes.ContainsKey(att.ToString) = True Then
+                ShipTypes.Add(CStr(shipMod.Attributes(att.ToString)))
+            End If
+        Next
+        If ShipTypes.Count > 0 And ShipTypes.Contains(Me.BaseShip.ID) = False Then
+            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Return False
+        End If
 
-		' Check for maxGroupActive flag
-		If shipMod.Attributes.ContainsKey("763") = True Then
-			If shipMod.DatabaseGroup <> "316" Then
-				If IsModuleGroupLimitExceeded(shipMod, True) = True Then
-					' Set the module offline
-					shipMod.ModuleState = ModuleStates.Inactive
-				End If
-			Else
-				' Check active command relay bonus (attID=435) on ship
-				If IsModuleGroupLimitExceeded(shipMod, True) = True Then
-					' Set the module offline
-					shipMod.ModuleState = ModuleStates.Inactive
-				Else
-					If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes("763")) Then
-						' Set the module offline
-						shipMod.ModuleState = ModuleStates.Inactive
-					End If
-				End If
-			End If
-		End If
+        ' Check for maxGroupActive flag
+        If shipMod.Attributes.ContainsKey("763") = True Then
+            If shipMod.DatabaseGroup <> "316" Then
+                If IsModuleGroupLimitExceeded(shipMod, True) = True Then
+                    ' Set the module offline
+                    shipMod.ModuleState = ModuleStates.Inactive
+                End If
+            Else
+                ' Check active command relay bonus (attID=435) on ship
+                If IsModuleGroupLimitExceeded(shipMod, True) = True Then
+                    ' Set the module offline
+                    shipMod.ModuleState = ModuleStates.Inactive
+                Else
+                    If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes("763")) Then
+                        ' Set the module offline
+                        shipMod.ModuleState = ModuleStates.Inactive
+                    End If
+                End If
+            End If
+        End If
 
-		Return True
-	End Function
+        Return True
+    End Function
     Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal excludeTestMod As Boolean) As Boolean
         Dim count As Integer = 0
         Dim fittedMod As ShipModule = testMod.Clone

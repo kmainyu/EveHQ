@@ -120,9 +120,9 @@ Imports System.Runtime.Serialization.Formatters.Binary
     ''' <remarks></remarks>
     Public Shared Function CreateFittingFromSavedFitting(ByVal Fit As SavedFitting) As Fitting
         Dim NewFit As New Fitting(Fit.ShipName, Fit.FittingName, Fit.PilotName)
-        NewFit.ShipName = Fit.ShipName
-        NewFit.FittingName = Fit.FittingName
-        NewFit.PilotName = Fit.PilotName
+        'NewFit.ShipName = Fit.ShipName
+        'NewFit.FittingName = Fit.FittingName
+        ' NewFit.PilotName = Fit.PilotName
         NewFit.DamageProfileName = Fit.DamageProfileName
         NewFit.Modules = Fit.Modules
         NewFit.Drones = Fit.Drones
