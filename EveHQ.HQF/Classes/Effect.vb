@@ -120,6 +120,6 @@ Public Enum EffectStackType As Integer
     None = 0
     Standard = 1
     Group = 2
-    Item = 3
+    Group2 = 3
 End Enum
 

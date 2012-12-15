@@ -1434,13 +1434,15 @@ Imports EveHQ.Core
         Dim tempNEffectList As New SortedList
         Dim groupPEffectList As New SortedList
         Dim groupNEffectList As New SortedList
-        Dim attOrder(,) As Double
+        Dim group2PEffectList As New SortedList
+        Dim group2NEffectList As New SortedList
         Dim att As String
         For attNumber As Integer = 0 To ModuleEffectsTable.Keys.Count - 1
             att = ModuleEffectsTable.Keys(attNumber)
             baseEffectList = ModuleEffectsTable(att)
             tempPEffectList.Clear() : tempNEffectList.Clear()
             groupPEffectList.Clear() : groupNEffectList.Clear()
+            group2PEffectList.Clear() : group2NEffectList.Clear()
             finalEffectList = New List(Of FinalEffect)
             For Each fEffect As FinalEffect In baseEffectList
                 Select Case fEffect.StackNerf
@@ -1458,146 +1460,72 @@ Imports EveHQ.Core
                         Else
                             groupNEffectList.Add(groupNEffectList.Count.ToString, fEffect)
                         End If
+                    Case EffectStackType.Group2
+                        If fEffect.AffectedValue >= 0 Then
+                            group2PEffectList.Add(group2PEffectList.Count.ToString, fEffect)
+                        Else
+                            group2NEffectList.Add(group2NEffectList.Count.ToString, fEffect)
+                        End If
                 End Select
             Next
             If tempPEffectList.Count > 0 Then
-                ReDim attOrder(tempPEffectList.Count - 1, 1)
-                Dim sEffect As FinalEffect
-                For Each attNo As String In tempPEffectList.Keys
-                    sEffect = CType(tempPEffectList(attNo), FinalEffect)
-                    attOrder(CInt(attNo), 0) = CDbl(attNo)
-                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
-                Next
-                ' Create a tag array ready to sort the skill times
-                Dim tagArray(tempPEffectList.Count - 1) As Integer
-                For a As Integer = 0 To tempPEffectList.Count - 1
-                    tagArray(a) = a
-                Next
-                ' Initialize the comparer and sort
-                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
-                Array.Sort(tagArray, myComparer)
-                Array.Reverse(tagArray)
-                ' Go through the data and apply the stacking penalty
-                Dim idx As Integer = 0
-                Dim penalty As Double = 0
-                For i As Integer = 0 To tagArray.Length - 1
-                    idx = tagArray(i)
-                    sEffect = CType(tempPEffectList(idx.ToString), FinalEffect)
-                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
-                    Select Case sEffect.CalcType
-                        Case EffectCalcType.Multiplier
-                            sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
-                        Case Else
-                            sEffect.AffectedValue = sEffect.AffectedValue * penalty
-                    End Select
-                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
-                    finalEffectList.Add(sEffect)
-                Next
+                Call ApplyGroupStackingPenalties(finalEffectList, tempPEffectList, True)
             End If
             If tempNEffectList.Count > 0 Then
-                ReDim attOrder(tempNEffectList.Count - 1, 1)
-                Dim sEffect As FinalEffect
-                For Each attNo As String In tempNEffectList.Keys
-                    sEffect = CType(tempNEffectList(attNo), FinalEffect)
-                    attOrder(CInt(attNo), 0) = CDbl(attNo)
-                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
-                Next
-                ' Create a tag array ready to sort the skill times
-                Dim tagArray(tempNEffectList.Count - 1) As Integer
-                For a As Integer = 0 To tempNEffectList.Count - 1
-                    tagArray(a) = a
-                Next
-                ' Initialize the comparer and sort
-                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
-                Array.Sort(tagArray, myComparer)
-                ' Go through the data and apply the stacking penalty
-                Dim idx As Integer = 0
-                Dim penalty As Double = 0
-                For i As Integer = 0 To tagArray.Length - 1
-                    idx = tagArray(i)
-                    sEffect = CType(tempNEffectList(idx.ToString), FinalEffect)
-                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
-                    Select Case sEffect.CalcType
-                        Case EffectCalcType.Multiplier
-                            sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
-                        Case Else
-                            sEffect.AffectedValue = sEffect.AffectedValue * penalty
-                    End Select
-                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
-                    finalEffectList.Add(sEffect)
-                Next
+                Call ApplyGroupStackingPenalties(finalEffectList, tempNEffectList, False)
             End If
             If groupPEffectList.Count > 0 Then
-                ReDim attOrder(groupPEffectList.Count - 1, 1)
-                Dim sEffect As FinalEffect
-                For Each attNo As String In groupPEffectList.Keys
-                    sEffect = CType(groupPEffectList(attNo), FinalEffect)
-                    attOrder(CInt(attNo), 0) = CDbl(attNo)
-                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
-                Next
-                ' Create a tag array ready to sort the skill times
-                Dim tagArray(groupPEffectList.Count - 1) As Integer
-                For a As Integer = 0 To groupPEffectList.Count - 1
-                    tagArray(a) = a
-                Next
-                ' Initialize the comparer and sort
-                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
-                Array.Sort(tagArray, myComparer)
-                Array.Reverse(tagArray)
-                ' Go through the data and apply the stacking penalty
-                Dim idx As Integer = 0
-                Dim penalty As Double = 0
-                For i As Integer = 0 To tagArray.Length - 1
-                    idx = tagArray(i)
-                    sEffect = CType(groupPEffectList(idx.ToString), FinalEffect)
-                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
-                    Select Case sEffect.CalcType
-                        Case EffectCalcType.Multiplier
-                            sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
-                        Case Else
-                            sEffect.AffectedValue = sEffect.AffectedValue * penalty
-                    End Select
-                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
-                    finalEffectList.Add(sEffect)
-                Next
+                Call ApplyGroupStackingPenalties(finalEffectList, groupPEffectList, True)
             End If
             If groupNEffectList.Count > 0 Then
-                ReDim attOrder(groupNEffectList.Count - 1, 1)
-                Dim sEffect As FinalEffect
-                For Each attNo As String In groupNEffectList.Keys
-                    sEffect = CType(groupNEffectList(attNo), FinalEffect)
-                    attOrder(CInt(attNo), 0) = CDbl(attNo)
-                    attOrder(CInt(attNo), 1) = sEffect.AffectedValue
-                Next
-                ' Create a tag array ready to sort the skill times
-                Dim tagArray(groupNEffectList.Count - 1) As Integer
-                For a As Integer = 0 To groupNEffectList.Count - 1
-                    tagArray(a) = a
-                Next
-                ' Initialize the comparer and sort
-                Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
-                Array.Sort(tagArray, myComparer)
-                ' Go through the data and apply the stacking penalty
-                Dim idx As Integer = 0
-                Dim penalty As Double = 0
-                For i As Integer = 0 To tagArray.Length - 1
-                    idx = tagArray(i)
-                    sEffect = CType(groupNEffectList(idx.ToString), FinalEffect)
-                    penalty = Math.Exp(-(i ^ 2 / 7.1289))
-                    Select Case sEffect.CalcType
-                        Case EffectCalcType.Multiplier
-                            sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
-                        Case Else
-                            sEffect.AffectedValue = sEffect.AffectedValue * penalty
-                    End Select
-                    sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
-                    finalEffectList.Add(sEffect)
-                Next
+                Call ApplyGroupStackingPenalties(finalEffectList, groupNEffectList, False)
+            End If
+            If group2PEffectList.Count > 0 Then
+                Call ApplyGroupStackingPenalties(finalEffectList, group2PEffectList, True)
+            End If
+            If group2NEffectList.Count > 0 Then
+                Call ApplyGroupStackingPenalties(finalEffectList, group2NEffectList, False)
             End If
             ModuleEffectsTable(att) = finalEffectList
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
+    End Sub
+    Private Sub ApplyGroupStackingPenalties(ByRef finalEffectList As List(Of FinalEffect), ByVal group As SortedList, ByVal positive As Boolean)
+        Dim attOrder(group.Count - 1, 1) As Double
+        Dim sEffect As FinalEffect
+        For Each attNo As String In group.Keys
+            sEffect = CType(group(attNo), FinalEffect)
+            attOrder(CInt(attNo), 0) = CDbl(attNo)
+            attOrder(CInt(attNo), 1) = sEffect.AffectedValue
+        Next
+        ' Create a tag array ready to sort the skill times
+        Dim tagArray(group.Count - 1) As Integer
+        For a As Integer = 0 To group.Count - 1
+            tagArray(a) = a
+        Next
+        ' Initialize the comparer and sort
+        Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
+        Array.Sort(tagArray, myComparer)
+        If positive = True Then
+            Array.Reverse(tagArray)
+        End If
+        ' Go through the data and apply the stacking penalty
+        Dim idx As Integer = 0
+        Dim penalty As Double = 0
+        For i As Integer = 0 To tagArray.Length - 1
+            idx = tagArray(i)
+            sEffect = CType(group(idx.ToString), FinalEffect)
+            penalty = Math.Exp(-(i ^ 2 / 7.1289))
+            Select Case sEffect.CalcType
+                Case EffectCalcType.Multiplier
+                    sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
+                Case Else
+                    sEffect.AffectedValue = sEffect.AffectedValue * penalty
+            End Select
+            sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
+            finalEffectList.Add(sEffect)
+        Next
     End Sub
     Private Sub PrioritiseEffects()
         Dim baseEffectList As New List(Of FinalEffect)
