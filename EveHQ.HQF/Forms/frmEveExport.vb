@@ -216,6 +216,18 @@ Public Class frmEveExport
             hardware.Attributes.Append(hardwareAtt)
             fitNode.AppendChild(hardware)
         Next
+
+        For Each CBI As CargoBayItem In ExpFitting.BaseShip.CargoBayItems.Values
+            ' Add the XML data
+            hardware = fitXML.CreateElement("hardware")
+            hardwareAtt = fitXML.CreateAttribute("qty") : hardwareAtt.Value = CBI.Quantity.ToString
+            hardware.Attributes.Append(hardwareAtt)
+            hardwareAtt = fitXML.CreateAttribute("slot") : hardwareAtt.Value = "cargo"
+            hardware.Attributes.Append(hardwareAtt)
+            hardwareAtt = fitXML.CreateAttribute("type") : hardwareAtt.Value = CBI.ItemType.Name
+            hardware.Attributes.Append(hardwareAtt)
+            fitNode.AppendChild(hardware)
+        Next
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click

@@ -2218,9 +2218,6 @@ Public Class frmHQF
 
 #Region "HQF Ribbon UI Functions"
 
-
-#End Region
-
     Private Sub btnOptions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOptions.Click
         Call Me.OpenSettingsForm()
     End Sub
@@ -2765,6 +2762,17 @@ Public Class frmHQF
             Next
         End If
 
+        ' Parse cargo bay
+        If currentship.CargoBayItems.Count > 0 Then
+            For Each cargoitem As CargoBayItem In currentship.CargoBayItems.Values
+                If ModList.ContainsKey(cargoitem.ItemType.Name) = True Then
+                    ModList(cargoitem.ItemType.Name) += cargoitem.Quantity
+                Else
+                    ModList.Add(cargoitem.ItemType.Name, cargoitem.Quantity)
+                End If
+            Next
+        End If
+
         ' Send list back to the caller
         Return ModList
 
@@ -2906,6 +2914,8 @@ Public Class frmHQF
         Next
         Return False
     End Function
+
+#End Region
 
 #Region "Undo & Redo Code"
 

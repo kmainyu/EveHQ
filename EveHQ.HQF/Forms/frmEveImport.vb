@@ -359,7 +359,8 @@ Public Class frmEveImport
 		Dim shipName As String = cLoadout.Parent.Text
 		currentShip = CType(ShipLists.shipList(shipName), Ship).Clone
 		Dim moduleList As New SortedList
-		Dim droneList As New SortedList
+        Dim droneList As New SortedList
+        Dim cargoList As New SortedList
 		' Open the file and load the XML
 		Dim fitXML As New XmlDocument
 		fitXML.Load(fileName)
@@ -372,34 +373,42 @@ Public Class frmEveImport
                     If ModuleLists.moduleListName.ContainsKey(modNode.Attributes("type").Value.Trim) Then
                         Dim fModule As ShipModule = CType(ModuleLists.moduleList(ModuleLists.moduleListName(modNode.Attributes("type").Value.Trim)), ShipModule)
                         If modNode.Attributes("slot").Value <> "subsystem slot 0" Then
-                            If moduleList.ContainsKey(modNode.Attributes("slot").Value) = False Then
-                                ' Add the mod/ammo to the slot
-                                If fModule.IsCharge = True Then
-                                    moduleList.Add(modNode.Attributes("slot").Value, ", " & fModule.Name)
-                                Else
-                                    If fModule.IsDrone = True Then
-                                        If droneList.ContainsKey(fModule.Name) = False Then
-                                            droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
-                                        Else
-                                            droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
-                                        End If
+                            If modNode.Attributes("slot").Value <> "cargo" Then
+                                If moduleList.ContainsKey(modNode.Attributes("slot").Value) = False Then
+                                    ' Add the mod/ammo to the slot
+                                    If fModule.IsCharge = True Then
+                                        moduleList.Add(modNode.Attributes("slot").Value, ", " & fModule.Name)
                                     Else
-                                        moduleList.Add(modNode.Attributes("slot").Value, fModule.Name)
+                                        If fModule.IsDrone = True Then
+                                            If droneList.ContainsKey(fModule.Name) = False Then
+                                                droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                            Else
+                                                droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
+                                            End If
+                                        Else
+                                            moduleList.Add(modNode.Attributes("slot").Value, fModule.Name)
+                                        End If
+                                    End If
+                                Else
+                                    If fModule.IsCharge = True Then
+                                        moduleList(modNode.Attributes("slot").Value) = CStr(moduleList(modNode.Attributes("slot").Value)) & ", " & fModule.Name
+                                    Else
+                                        If fModule.IsDrone = True Then
+                                            If droneList.ContainsKey(fModule.Name) = False Then
+                                                droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
+                                            Else
+                                                droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
+                                            End If
+                                        Else
+                                            moduleList(modNode.Attributes("slot").Value) = fModule.Name & ", " & CStr(moduleList(modNode.Attributes("slot").Value))
+                                        End If
                                     End If
                                 End If
                             Else
-                                If fModule.IsCharge = True Then
-                                    moduleList(modNode.Attributes("slot").Value) = CStr(moduleList(modNode.Attributes("slot").Value)) & ", " & fModule.Name
+                                If cargoList.ContainsKey(fModule.Name) = False Then
+                                    cargoList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
                                 Else
-                                    If fModule.IsDrone = True Then
-                                        If droneList.ContainsKey(fModule.Name) = False Then
-                                            droneList.Add(fModule.Name, CInt(modNode.Attributes("qty").Value))
-                                        Else
-                                            droneList(fModule.Name) = CInt(droneList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
-                                        End If
-                                    Else
-                                        moduleList(modNode.Attributes("slot").Value) = fModule.Name & ", " & CStr(moduleList(modNode.Attributes("slot").Value))
-                                    End If
+                                    cargoList(fModule.Name) = CInt(cargoList(fModule.Name)) + CInt(modNode.Attributes("qty").Value)
                                 End If
                             End If
                         Else
@@ -415,7 +424,10 @@ Public Class frmEveImport
 				Next
 				For Each fittedDrone As String In droneList.Keys
 					currentFit.Add(fittedDrone & " x" & CStr(droneList(fittedDrone)))
-				Next
+                Next
+                For Each cargoItem As String In cargoList.Keys
+                    currentFit.Add(cargoItem & " x" & CStr(cargoList(cargoItem)))
+                Next
 				currentFitName = fitName
 				currentFitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fitName, currentFit)
 				currentFitting.PilotName = cboPilots.SelectedItem.ToString
@@ -430,7 +442,7 @@ Public Class frmEveImport
 				Exit For
 			End If
 		Next
-	End Sub
+    End Sub
 
 	Private Sub ReorderModules()
 		Dim subs, mods As New ArrayList

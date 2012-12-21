@@ -2726,6 +2726,7 @@ Public Class ShipSlotControl
                 newSelectForm.nudQuantity.Value = CBI.Quantity
                 newSelectForm.ShowDialog()
                 newSelectForm.Dispose()
+                ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
                 Call ParentFitting.UpdateFittingFromBaseShip()
                 Call RedrawCargoBay()
             Case "lvwShipBay"

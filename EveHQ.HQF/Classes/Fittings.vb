@@ -58,6 +58,11 @@
                 End If
             End If
 
+            ' Check for stacks of cargo/drones
+            If modData.GetUpperBound(0) = 0 Then
+                modData = modData(0).Split({" x"}, StringSplitOptions.RemoveEmptyEntries)
+            End If
+
             ' Check if the module exists
             If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                 Dim modID As String = ModuleLists.moduleListName(modData(0)).ToString
