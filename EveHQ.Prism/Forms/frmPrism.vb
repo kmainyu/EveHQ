@@ -506,38 +506,30 @@ Public Class frmPrism
 
     Private Sub StartGetXMLDataThread()
         ' Perform this so that the API download process doesn't block the main UI thread
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetXMLData, Nothing)
+        GetXMLData()
     End Sub
-    Private Sub GetXMLData(ByVal State As Object)
+    Private Sub GetXMLData()
 
         PrismThreadMax = 16
         PrismThreadCurrent = 0
 
-        ' Start collection of threads
-        Dim PrismThreads As New List(Of Thread)
 
         ' Setup separate threads for getting each type of API
-        PrismThreads.Add(New Thread(AddressOf GetCharAssets2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpAssets2))
-        PrismThreads.Add(New Thread(AddressOf GetCharBalances2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpBalances2))
-        PrismThreads.Add(New Thread(AddressOf GetCharJobs2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpJobs2))
-        PrismThreads.Add(New Thread(AddressOf GetCharJournal2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpJournal2))
-        PrismThreads.Add(New Thread(AddressOf GetCharOrders2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpOrders2))
-        PrismThreads.Add(New Thread(AddressOf GetCharTransactions2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpTransactions2))
-        PrismThreads.Add(New Thread(AddressOf GetCharContracts2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpContracts2))
-        PrismThreads.Add(New Thread(AddressOf GetCorpSheet2))
-        PrismThreads.Add(New Thread(AddressOf UpdateNullCorpSheet2))
-
-        ' Start the threads
-        For Each PT As Thread In PrismThreads
-            PT.Start()
-        Next
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharAssets2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpAssets2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharBalances2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpBalances2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharJobs2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharJournal2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpJournal2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharOrders2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpJournal2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharTransactions2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpTransactions2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCharContracts2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpContracts2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf GetCorpSheet2)
+        Threading.ThreadPool.QueueUserWorkItem(AddressOf UpdateNullCorpSheet2)
 
     End Sub
     Private Sub CheckXML(apiXML As XmlDocument, Owner As PrismOwner, APIType As CorpRepType)

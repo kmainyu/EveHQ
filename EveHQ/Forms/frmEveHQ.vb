@@ -1457,10 +1457,10 @@ Public Class frmEveHQ
                 If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
                     'If PlugInInfo.Available = True Then
                     If PlugInInfo.RunAtStartup = True Then
-                        Dim t As New Thread(AddressOf Me.RunModuleStartUps)
-                        t.IsBackground = True
-                        t.Start(PlugInInfo)
-                        'ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
+                        'Dim t As New Thread(AddressOf Me.RunModuleStartUps)
+                        't.IsBackground = True
+                        't.Start(PlugInInfo)
+                        ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
                     End If
                 ElseIf PlugInInfo.Available = True And PlugInInfo.Disabled = True Then
                     ' Check for initialisation from a parameter

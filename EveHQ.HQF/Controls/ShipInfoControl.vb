@@ -70,7 +70,10 @@ Public Class ShipInfoControl
             ' Look at the settings for default pilot
             If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
                 cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
-                ' Bug 83: Else don't set anything. Pilot list may be empty and in that case setting index to 0 will produce an index out of range exception.
+
+            ElseIf cboPilots.Items.Count > 0 Then 'There are pilots, but not the default pilot
+                cboPilots.SelectedItem = cboPilots.Items(0) ' select the first pilot.
+
             End If
 
         End If

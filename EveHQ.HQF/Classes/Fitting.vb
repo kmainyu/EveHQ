@@ -152,13 +152,13 @@ Imports EveHQ.Core
         End Get
         Set(ByVal value As String)
             If HQFPilotCollection.HQFPilots.ContainsKey(value) = False Then
-                MessageBox.Show("The pilot '" & value & "' is not a listed pilot. The system will now try to use your configured default pilot instead for this fit (" & Me.FittingName & ").", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                '  MessageBox.Show("The pilot '" & value & "' is not a listed pilot. The system will now try to use your configured default pilot instead for this fit (" & Me.FittingName & ").", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 If HQFPilotCollection.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) Then
                     'Fall back to the configured default pilot if they are valid.
                     cPilotName = Settings.HQFSettings.DefaultPilot
                 Else
                     ' Even the configured default isn't valid... fallback to the first valid pilot in the collection
-                    If HQFPilotCollection.HQFPilots.Count > 1 Then
+                    If HQFPilotCollection.HQFPilots.Count > 0 Then
                         cPilotName = CType(HQFPilotCollection.HQFPilots.GetByIndex(0), HQFPilot).PilotName
                         ' Thankfully there is already a check for pilots when HQF starts up...
                     End If

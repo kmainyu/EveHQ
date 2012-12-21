@@ -115,6 +115,7 @@ Public Class frmModifyEveAccounts
             lblAPIKeyTypeV2.Text = "Checking..."
             lblAPIAccessMask.Text = "Checking..."
             Dim NT As New Threading.Thread(AddressOf Me.CheckAPIV2Key)
+            NT.IsBackground = True
             NT.Start()
         End If
     End Sub

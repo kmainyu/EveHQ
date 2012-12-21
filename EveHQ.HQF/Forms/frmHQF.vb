@@ -477,6 +477,12 @@ Public Class frmHQF
             btnImplantManager.Enabled = True
         End If
 
+        'Update the default pilot if it is null or set to a non-existing pilot
+        If (String.IsNullOrEmpty(Settings.HQFSettings.DefaultPilot) = True Or HQFPilotCollection.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) = False) And HQFPilotCollection.HQFPilots.Count > 0 Then
+            ' default to first pilot in the collection
+            Settings.HQFSettings.DefaultPilot = CType(HQFPilotCollection.HQFPilots.GetByIndex(0), HQFPilot).PilotName
+        End If
+
         ' Update the ship filter
         Call Me.UpdateShipFilter()
 

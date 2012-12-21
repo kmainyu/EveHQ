@@ -130,6 +130,7 @@ Public Class HQ
     End Sub
 
     Public Shared Function GetMDITab(ByVal TabName As String) As DevComponents.DotNetBar.TabItem
+
         Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
         For Each tp As DevComponents.DotNetBar.TabItem In mainTab.Tabs
             If tp.Text = TabName Then
