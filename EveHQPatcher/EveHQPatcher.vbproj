@@ -176,7 +176,7 @@
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
-      <Private>False</Private>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />

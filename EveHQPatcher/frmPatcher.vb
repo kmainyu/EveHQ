@@ -147,6 +147,50 @@ Public Class frmPatcher
             End Try
         End If
 
+        lblCurrentStatus.Text = "Clearing cache files..."
+        ' Clear any known cache files/folders ... except for image cache
+        Dim dataFolder As String
+        If isLocal = True Then
+            dataFolder = EveHQFolder
+        Else
+            dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "evehq")
+        End If
+
+        Dim cacheFolder As String = Path.Combine(dataFolder, "cache")
+        Dim coreCacheFolder As String = Path.Combine(dataFolder, "coreCache")
+        Dim HQFfolder As String = Path.Combine(dataFolder, "hqf")
+        Dim HQFCacheFolder As String = Path.Combine(HQFfolder, "cache")
+        Dim MarketCache As String = Path.Combine(dataFolder, "marketCache")
+        Try
+
+        If Directory.Exists(cacheFolder) = True Then
+            For Each File As String In Directory.GetFiles(cacheFolder)
+                System.IO.File.Delete(File)
+            Next
+        End If
+
+        If Directory.Exists(coreCacheFolder) = True Then
+            For Each File As String In Directory.GetFiles(coreCacheFolder)
+                System.IO.File.Delete(File)
+            Next
+        End If
+
+        If Directory.Exists(HQFfolder) = True And Directory.Exists(HQFCacheFolder) = True Then
+            For Each File As String In Directory.GetFiles(HQFCacheFolder)
+                System.IO.File.Delete(File)
+            Next
+        End If
+
+        If Directory.Exists(MarketCache) = True Then
+            For Each File As String In Directory.GetFiles(MarketCache)
+                System.IO.File.Delete(File)
+            Next
+        End If
+
+        Catch ex As Exception
+            ' proposely supressing the errors.
+        End Try
+
         ' Delete All Upgrades
         Try
             My.Computer.FileSystem.DeleteDirectory(updateFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
