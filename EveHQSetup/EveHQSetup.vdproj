@@ -561,7 +561,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=2.11.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_002F09DAC5BB00E2A06C65A49BFC5C0C"
@@ -592,7 +592,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.CoreControls, Version=2.11.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_00D6FC6EEE5426F475D0865FBCF0B37F"
@@ -623,7 +623,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.EveAPI, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.EveAPI, Version=2.11.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_03E13EC3937186C09AD67CAF7582CFF4"
@@ -745,7 +745,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.Core, Version=2.11.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_7881137148C1E5BF7F808F28965B0A53"
@@ -878,7 +878,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EveHQ.EveAPI, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EveHQ.EveAPI, Version=2.11.6.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_ECDE15D9DAF50ACF4CE0783DC4278D20"
@@ -994,21 +994,21 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EveHQ"
-        "ProductCode" = "8:{6566D84A-B0C0-49E7-A289-C862B579899A}"
-        "PackageCode" = "8:{DED16EBB-EA17-4DD5-894A-E17EDBCD0A48}"
+        "ProductCode" = "8:{0613D880-939E-4C9D-AD7C-A10DF7D7D5E9}"
+        "PackageCode" = "8:{66DF78AA-9994-42B8-9A9C-18880AB99CBB}"
         "UpgradeCode" = "8:{5EBB0328-70C2-4A58-A4AC-225419B25E51}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.10"
+        "ProductVersion" = "8:2.11.6"
         "Manufacturer" = "8:Indicium Technologies"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:EveHQ v2"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Quantum Blackstar"
+        "ARPCONTACT" = "8:Quantix Blackstar"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
