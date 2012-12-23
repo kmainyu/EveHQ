@@ -27,24 +27,33 @@
     ' ship attributes
     Public Const Ship_CpuOutput As String = "48"
     Public Const Ship_PowergridOutput As String = "11"
+    Public Const Ship_RigSize As String = "1547"
     ' module attributes
     Public Const Module_ActivationTime As String = "73"
     Public Const Module_BaseEMDamage As String = "114"
     Public Const Module_BaseExpDamage As String = "116"
     Public Const Module_BaseKinDamage As String = "117"
     Public Const Module_BaseThermDamage As String = "118"
+    Public Const Module_CapacitorNeed As String = "6"
+    Public Const Module_ConsumptionType As String = "713"
     Public Const Module_CpuUsage As String = "50"
     Public Const Module_DamageMod As String = "64"
     Public Const Module_DroneBandwidthNeeded As String = "1272"
+    Public Const Module_FitsToShipType As String = "1380"
+    Public Const Module_HeatDamage As String = "1211"
     Public Const Module_MaxFlightTime As String = "281"
     Public Const Module_MaxGroupActive As String = "763"
+    Public Const Module_MaxGroupFitted As String = "1544"
     Public Const Module_MaxVelocity As String = "37"
     Public Const Module_MiningAmount As String = "77"
     Public Const Module_MissileDamageMod As String = "212"
     Public Const Module_MissileROF As String = "506"
     Public Const Module_OptimalRange As String = "54"
     Public Const Module_PowergridUsage As String = "30"
+    Public Const Module_ReactivationDelay As String = "669"
+    Public Const Module_RigSize As String = "1547"
     Public Const Module_ROF As String = "51"
+    Public Const Module_SubsystemSlot As String = "1366"
 
     ' custom attributeIDs (see HQF/Resources/Attributes.csv)
     ' ship attributes

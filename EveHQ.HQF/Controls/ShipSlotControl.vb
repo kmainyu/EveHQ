@@ -1007,7 +1007,7 @@ Public Class ShipSlotControl
                         If ParentFitting.BaseShip.HiSlots > 0 Then
                             For slot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step -1
                                 If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                    If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = "316" And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+                                    If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
                                         ActiveGanglinks.Add(slot)
                                     End If
                                 End If
@@ -1023,22 +1023,22 @@ Public Class ShipSlotControl
                 Dim oldState As ModuleStates = currentMod.ModuleState
                 currentMod.ModuleState = CType(currentstate, ModuleStates)
                 ' Check for maxGroupActive flag
-                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
-                    If currentMod.DatabaseGroup <> "316" Then
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+                    If currentMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         End If
                     Else
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         Else
-                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) Then
+                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
                                 ' Set the module offline
                                 MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 currentMod.ModuleState = oldState
@@ -2160,22 +2160,22 @@ Public Class ShipSlotControl
         Dim oldState As ModuleStates = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Active
         ' Check for maxGroupActive flag
-        If sModule.Attributes.ContainsKey("763") = True Then
-            If sModule.DatabaseGroup <> "316" Then
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+        If sModule.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+            If sModule.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
                 End If
             Else
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
                 Else
-                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes(Attributes.Module_MaxGroupActive)) Then
                         ' Set the module offline
                         MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         sModule.ModuleState = oldState
@@ -2185,7 +2185,7 @@ Public Class ShipSlotControl
             End If
         End If
         ' Check for activation of siege mode with remote effects
-        If sModule.ID = "20280" Then
+        If sModule.ID = ShipModule.Item_SiegeModuleI Or sModule.ID = ShipModule.Item_SiegeModuleII Then
             If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
                 Dim msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
                 Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -2199,9 +2199,9 @@ Public Class ShipSlotControl
             End If
         End If
         ' Check for activation of triage mode with remote effects
-        If sModule.ID = "27951" Then
+        If sModule.ID = ShipModule.Item_TriageModuleI Or sModule.ID = ShipModule.Item_TriageModuleII Then
             If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                Dim msg As String = "You have active remote modules and activating Traige Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                Dim msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
                 Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 If reply = DialogResult.No Then
                     sModule.ModuleState = oldState
@@ -2231,22 +2231,22 @@ Public Class ShipSlotControl
         Dim oldState As ModuleStates = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Overloaded
         ' Check for maxGroupActive flag
-        If sModule.Attributes.ContainsKey("763") = True Then
-            If sModule.DatabaseGroup <> "316" Then
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+        If sModule.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+            If sModule.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
                 End If
             Else
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     sModule.ModuleState = oldState
                     Exit Sub
                 Else
-                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes(Attributes.Module_MaxGroupActive)) Then
                         ' Set the module offline
                         MessageBox.Show("You cannot activate the " & sModule.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         sModule.ModuleState = oldState

@@ -26,6 +26,13 @@ Imports System.Runtime.Serialization
 #Region "Constants"
     ' itemIDs (see invTypes)
     Public Const Item_CommandProcessorI As String = "11014"
+    Public Const Item_SiegeModuleI As String = "20280"
+    Public Const Item_SiegeModuleII As String = "4292"
+    Public Const Item_TriageModuleI As String = "27951"
+    Public Const Item_TriageModuleII As String = "4294"
+
+    ' categoryIDs (see invCategories)
+    Public Const Category_Subsystems As String = "32"
 
     ' groupIDs (see invGroups)
     Public Const Group_BombLaunchers As String = "862"

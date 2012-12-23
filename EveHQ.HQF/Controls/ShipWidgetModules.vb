@@ -440,10 +440,10 @@ Public Class ShipWidgetModules
             Dim canDeactivate As Boolean = False
             Dim canOverload As Boolean = False
             ' Check for activation cost
-            If currentMod.Attributes.ContainsKey("6") = True Or currentMod.Attributes.ContainsKey("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey("713") Then
+            If currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
                 canDeactivate = True
             End If
-            If currentMod.Attributes.ContainsKey("1211") = True Then
+            If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
                 canOverload = True
             End If
 
@@ -478,44 +478,44 @@ Public Class ShipWidgetModules
             ' Update only if the module state has changed
             If currentstate <> currentMod.ModuleState Then
                 ' Check for command processors as this affects the fitting!
-                If currentMod.ID = "11014" Then
+                If currentMod.ID = ShipModule.Item_CommandProcessorI Then
                     If currentstate = ModuleStates.Offline Then
-                        ParentFitting.BaseShip.Attributes("10063") -= 1
+                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) -= 1
                         ' Check if we need to deactivate a highslot ganglink
                         Dim ActiveGanglinks As New List(Of Integer)
                         For slot As Integer = 8 To 1 Step -1
                             If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = "316" And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
                                     ActiveGanglinks.Add(slot)
                                 End If
                             End If
                         Next
-                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes("10063") Then
+                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) Then
                             ParentFitting.BaseShip.HiSlot(ActiveGanglinks(0)).ModuleState = ModuleStates.Inactive
                         End If
                     Else
-                        ParentFitting.BaseShip.Attributes("10063") += 1
+                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) += 1
                     End If
                 End If
                 Dim oldState As ModuleStates = currentMod.ModuleState
                 currentMod.ModuleState = CType(currentstate, ModuleStates)
                 ' Check for maxGroupActive flag
-                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
-                    If currentMod.DatabaseGroup <> "316" Then
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+                    If currentMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         End If
                     Else
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         Else
-                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) Then
+                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
                                 ' Set the module offline
                                 MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 currentMod.ModuleState = oldState
