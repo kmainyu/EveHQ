@@ -390,11 +390,11 @@ Public Class frmUpdater
                 Dim remoteVers As List(Of String) = remoteVer.Split(CChar(".")).ToList()
                 If localVers.Count <> remoteVers.Count Then
                     If localVers.Count < remoteVers.Count Then
-                        For i As Int16 = 0 To (remoteVers.Count - localVers.Count)
+                        For i As Int32 = 0 To (remoteVers.Count - localVers.Count)
                             localVers.Add("0")
                         Next
                     Else
-                        For i As Int16 = 0 To (localVers.Count - remoteVers.Count)
+                        For i As Int32 = 0 To (localVers.Count - remoteVers.Count)
                             remoteVers.Add("0")
                         Next
                     End If
