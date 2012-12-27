@@ -2599,15 +2599,15 @@ Imports EveHQ.Core
 
         If repShipMod IsNot Nothing Then
             Select Case repShipMod.SlotType
-                Case SlotTypes.Rig  ' Rig
+                Case SlotTypes.Rig
                     cRig = Me.BaseShip.RigSlots_Used - 1
-                Case SlotTypes.Low  ' Low
+                Case SlotTypes.Low
                     cLow = Me.BaseShip.LowSlots_Used - 1
-                Case SlotTypes.Mid  ' Mid
+                Case SlotTypes.Mid
                     cMid = Me.BaseShip.MidSlots_Used - 1
-                Case SlotTypes.High  ' High
+                Case SlotTypes.High
                     cHi = Me.BaseShip.HiSlots_Used - 1
-                Case SlotTypes.Subsystem  ' High
+                Case SlotTypes.Subsystem
                     cSub = Me.BaseShip.SubSlots_Used - 1
             End Select
             If repShipMod.IsTurret = True Then
@@ -2627,27 +2627,27 @@ Imports EveHQ.Core
         End If
         ' First, check slot layout
         Select Case shipMod.SlotType
-            Case SlotTypes.Rig  ' Rig
+            Case SlotTypes.Rig
                 If cRig = Me.BaseShip.RigSlots Then
                     MessageBox.Show("There are no available rig slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.Low  ' Low
+            Case SlotTypes.Low
                 If cLow = Me.BaseShip.LowSlots Then
                     MessageBox.Show("There are no available low slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.Mid  ' Mid
+            Case SlotTypes.Mid
                 If cMid = Me.BaseShip.MidSlots Then
                     MessageBox.Show("There are no available mid slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.High  ' High
+            Case SlotTypes.High
                 If cHi = Me.BaseShip.HiSlots Then
                     MessageBox.Show("There are no available high slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.Subsystem  ' Subsystem
+            Case SlotTypes.Subsystem
                 If cSub = Me.BaseShip.SubSlots Then
                     MessageBox.Show("There are no available subsystem slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
@@ -2851,28 +2851,28 @@ Imports EveHQ.Core
         Dim count As Integer = 0
         For slot As Integer = 1 To Me.BaseShip.HiSlots
             If Me.BaseShip.HiSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.HiSlot(slot).ID = typeID And Me.BaseShip.HiSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.HiSlot(slot).ID = typeID And Me.BaseShip.HiSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.MidSlots
             If Me.BaseShip.MidSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.MidSlot(slot).ID = typeID And Me.BaseShip.MidSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.MidSlot(slot).ID = typeID And Me.BaseShip.MidSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.LowSlots
             If Me.BaseShip.LowSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.LowSlot(slot).ID = typeID And Me.BaseShip.LowSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.LowSlot(slot).ID = typeID And Me.BaseShip.LowSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.RigSlots
             If Me.BaseShip.RigSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.RigSlot(slot).ID = typeID And Me.BaseShip.RigSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.RigSlot(slot).ID = typeID And Me.BaseShip.RigSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
@@ -2881,7 +2881,7 @@ Imports EveHQ.Core
     End Function
     Private Function AddModuleInNextSlot(ByVal shipMod As ShipModule) As Integer
         Select Case shipMod.SlotType
-            Case SlotTypes.Rig  ' Rig
+            Case SlotTypes.Rig
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.RigSlot(slotNo) Is Nothing Then
                         Me.BaseShip.RigSlot(slotNo) = shipMod
@@ -2890,7 +2890,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available rig slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.Low  ' Low
+            Case SlotTypes.Low
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.LowSlot(slotNo) Is Nothing Then
                         Me.BaseShip.LowSlot(slotNo) = shipMod
@@ -2899,7 +2899,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available low slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.Mid  ' Mid
+            Case SlotTypes.Mid
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.MidSlot(slotNo) Is Nothing Then
                         Me.BaseShip.MidSlot(slotNo) = shipMod
@@ -2908,7 +2908,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available mid slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.High  ' High
+            Case SlotTypes.High
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.HiSlot(slotNo) Is Nothing Then
                         Me.BaseShip.HiSlot(slotNo) = shipMod
@@ -2917,7 +2917,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.Subsystem  ' Subsystem
+            Case SlotTypes.Subsystem
                 For slotNo As Integer = 1 To 5
                     If Me.BaseShip.SubSlot(slotNo) Is Nothing Then
                         Me.BaseShip.SubSlot(slotNo) = shipMod
@@ -2931,23 +2931,23 @@ Imports EveHQ.Core
     End Function
     Private Function AddModuleInSpecifiedSlot(ByVal shipMod As ShipModule, ByVal slotNo As Integer) As Integer
         Select Case shipMod.SlotType
-            Case SlotTypes.Rig  ' Rig
+            Case SlotTypes.Rig
                 Me.BaseShip.RigSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.Low  ' Low
+            Case SlotTypes.Low
                 Me.BaseShip.LowSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.Mid  ' Mid
+            Case SlotTypes.Mid
                 Me.BaseShip.MidSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.High  ' High
+            Case SlotTypes.High
                 Me.BaseShip.HiSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.Subsystem  ' Subsystem
+            Case SlotTypes.Subsystem
                 Me.BaseShip.SubSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo

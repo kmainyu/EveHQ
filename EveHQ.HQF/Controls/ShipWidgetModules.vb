@@ -275,7 +275,7 @@ Public Class ShipWidgetModules
             slotNode.Text = shipMod.Name
             Dim Desc As String = ""
             If shipMod.SlotType = SlotTypes.Subsystem Then
-                Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") & ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+                Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
             End If
             Desc &= shipMod.Description
             SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
@@ -304,7 +304,7 @@ Public Class ShipWidgetModules
         slotNode.Text = shipMod.Name
         Dim Desc As String = ""
         If shipMod.SlotType = SlotTypes.Subsystem Then
-            Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") & ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+            Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
         End If
         Desc &= shipMod.Description
         SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
@@ -346,15 +346,15 @@ Public Class ShipWidgetModules
         If oldMod IsNot Nothing Then
             Dim shipMod As New ShipModule
             Select Case oldMod.SlotType
-                Case SlotTypes.Rig  ' Rig
+                Case SlotTypes.Rig
                     shipMod = ParentFitting.FittedShip.RigSlot(slotNo)
-                Case SlotTypes.Low  ' Low
+                Case SlotTypes.Low
                     shipMod = ParentFitting.FittedShip.LowSlot(slotNo)
-                Case SlotTypes.Mid  ' Mid
+                Case SlotTypes.Mid
                     shipMod = ParentFitting.FittedShip.MidSlot(slotNo)
-                Case SlotTypes.High  ' High
+                Case SlotTypes.High
                     shipMod = ParentFitting.FittedShip.HiSlot(slotNo)
-                Case SlotTypes.Subsystem  ' Subsystem
+                Case SlotTypes.Subsystem
                     shipMod = ParentFitting.FittedShip.SubSlot(slotNo)
             End Select
             If shipMod IsNot Nothing Then
@@ -416,20 +416,20 @@ Public Class ShipWidgetModules
         Dim slotNo As Integer = CInt(slotNode.Name.Substring(sep + 1, 1))
         Dim canOffline As Boolean = True
         Select Case slotType
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 currentMod = ParentFitting.BaseShip.RigSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.RigSlot(slotNo)
                 canOffline = False
-            Case 2 ' Low
+            Case SlotTypes.Low
                 currentMod = ParentFitting.BaseShip.LowSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.LowSlot(slotNo)
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 currentMod = ParentFitting.BaseShip.MidSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.MidSlot(slotNo)
-            Case 8 ' High
+            Case SlotTypes.High
                 currentMod = ParentFitting.BaseShip.HiSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.HiSlot(slotNo)
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 currentMod = ParentFitting.BaseShip.SubSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.SubSlot(slotNo)
                 canOffline = False
