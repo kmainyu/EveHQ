@@ -820,65 +820,86 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function GetPrice(ByVal itemID As String, Optional ByVal metric As MarketMetric = MarketMetric.Default) As Double
+        Return GetMarketPrices(New String() {itemID}, metric)(itemID)
+    End Function
+
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), Optional ByVal metric As MarketMetric = MarketMetric.Default) As Dictionary(Of String, Double)
         If metric = MarketMetric.Default Then
             metric = HQ.EveHqSettings.MarketDefaultMetric
         End If
-
+        Dim itemPrices As New Dictionary(Of String, Double)
         Dim task As Task(Of IEnumerable(Of ItemOrderStats))
-        If itemID IsNot Nothing Then
-            Try
-                Dim itemIDNumber As Integer = itemID.ToInt()
+        If itemIDs IsNot Nothing Then
+
+            Dim itemNumbers As IEnumerable(Of Integer) = (From itemID In itemIDs Select itemID.ToInt())
+            'Fetch all the item prices in a single request
+            If HQ.EveHqSettings.MarketUseRegionMarket Then
+                task = HQ.MarketDataProvider.GetRegionBasedOrderStats(itemNumbers, HQ.EveHqSettings.MarketRegions, 1)
+            Else
+                task = HQ.MarketDataProvider.GetOrderStatsBySystem(itemNumbers, HQ.EveHqSettings.MarketSystem, 1)
+            End If
+
+            ' Still need to do this in a synchronous way...unfortunately
+            task.Wait()
+
+            ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
+
+            Dim result As IEnumerable(Of ItemOrderStats) = Nothing
+            Dim itemResult As ItemOrderStats = Nothing
+            If task.IsCompleted And task.IsFaulted = False And task.Result IsNot Nothing And task.Result.Any() Then
+                result = task.Result
+            End If
 
 
-                ' If there is a custom price set, use that if not get it from the provider.
-                If HQ.CustomPriceList.ContainsKey(itemID) = True Then
-                    Return CDbl(HQ.CustomPriceList(itemID))
-                Else
-                    If HQ.EveHqSettings.MarketUseRegionMarket Then
-                        task = HQ.MarketDataProvider.GetRegionBasedOrderStats(New Integer() {itemIDNumber}, HQ.EveHqSettings.MarketRegions, 1)
-                    Else
-                        task = HQ.MarketDataProvider.GetOrderStatsBySystem(New Integer() {itemIDNumber}, HQ.EveHqSettings.MarketSystem, 1)
+            For Each itemId As String In itemIDs.Distinct()
+                Try
+                    If result IsNot Nothing Then
+                        itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
                     End If
 
-                    task.Wait()
-                    If task.IsCompleted And task.IsFaulted = False And task.Result IsNot Nothing And task.Result.Any() Then
+                    ' If there is a custom price set, use that if not get it from the provider.
+                    If HQ.CustomPriceList.ContainsKey(itemId) = True Then
+                        itemPrices.Add(itemId, CDbl(HQ.CustomPriceList(itemId)))
+                    ElseIf itemResult IsNot Nothing Then
+
                         If metric = MarketMetric.Minimum Then
-                            Return task.Result.First().Sell.Minimum
+                            itemPrices.Add(itemId, itemResult.Sell.Minimum)
                         ElseIf metric = MarketMetric.Maximum Then
-                            Return task.Result.First().Sell.Maximum
+                            itemPrices.Add(itemId, itemResult.Sell.Maximum)
 
                         ElseIf metric = MarketMetric.Average Then
-                            Return task.Result.First().Sell.Average
+                            itemPrices.Add(itemId, itemResult.Sell.Average)
 
                         ElseIf metric = MarketMetric.Median Then
-                            Return task.Result.First().Sell.Median
+                            itemPrices.Add(itemId, itemResult.Sell.Median)
 
                         ElseIf metric = MarketMetric.Percentile Then
-                            Return task.Result.First().Sell.Percentile
+                            itemPrices.Add(itemId, itemResult.Sell.Percentile)
                         End If
                         'HQ.EveHQSettings.MarketDataProvider.
-                        If HQ.MarketPriceList.ContainsKey(itemID) Then
-                            Return CDbl(HQ.MarketPriceList(itemID))
+                        'If HQ.MarketPriceList.ContainsKey(itemID) Then
+                        '    Return CDbl(HQ.MarketPriceList(itemID))
+                    Else
+                        If HQ.itemData.ContainsKey(itemId) Then
+                            itemPrices.Add(itemId, HQ.itemData(itemId).BasePrice)
                         Else
-                            If HQ.itemData.ContainsKey(itemID) Then
-                                Return HQ.itemData(itemID).BasePrice
-                            Else
-                                Return 0
-                            End If
+                            itemPrices.Add(itemId, 0)
                         End If
+                        'End If
                     End If
-                End If
-
-            Catch e As Exception
-                If HQ.itemData.ContainsKey(itemID) Then
-                    Return HQ.itemData(itemID).BasePrice
-                Else
-                    Return 0
-                End If
-            End Try
+                Catch e As Exception
+                    If HQ.itemData.ContainsKey(itemId) Then
+                        itemPrices.Add(itemId, HQ.itemData(itemId).BasePrice)
+                    Else
+                        itemPrices.Add(itemId, 0)
+                    End If
+                End Try
+            Next
         Else
-            Return 0
+            itemPrices.Add(Nothing, 0)
         End If
+
+        Return itemPrices
     End Function
 
 #Region "MSSQL Data Conversion Routines"

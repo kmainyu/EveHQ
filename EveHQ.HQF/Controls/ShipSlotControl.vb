@@ -199,7 +199,53 @@ Public Class ShipSlotControl
         End If
     End Sub
     Private Sub UpdatePrices()
-        ParentFitting.BaseShip.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(ParentFitting.BaseShip.ID)
+        ' get a collection of the item Ids used in the fitting
+        Dim itemIds As New List(Of String)
+
+        ' add the base Ship
+        itemIds.Add(ParentFitting.BaseShip.ID)
+
+        ' add in the HiSlot items
+        For slot As Integer = 1 To ParentFitting.FittedShip.HiSlots
+            If ParentFitting.FittedShip.HiSlot(slot) IsNot Nothing Then
+                itemIds.Add(ParentFitting.FittedShip.HiSlot(slot).ID)
+            End If
+        Next
+        ' Mids
+        For slot As Integer = 1 To ParentFitting.FittedShip.MidSlots
+            If ParentFitting.FittedShip.MidSlot(slot) IsNot Nothing Then
+                itemIds.Add(ParentFitting.FittedShip.MidSlot(slot).ID)
+            End If
+        Next
+        ' Lows
+        For slot As Integer = 1 To ParentFitting.FittedShip.LowSlots
+            If ParentFitting.FittedShip.LowSlot(slot) IsNot Nothing Then
+                itemIds.Add(ParentFitting.FittedShip.LowSlot(slot).ID)
+            End If
+        Next
+        'Rigs
+        For slot As Integer = 1 To ParentFitting.FittedShip.RigSlots
+            If ParentFitting.FittedShip.RigSlot(slot) IsNot Nothing Then
+                itemIds.Add(ParentFitting.FittedShip.RigSlot(slot).ID)
+            End If
+        Next
+
+        'Drone bay
+        itemIds.AddRange(From dbi As Object In ParentFitting.FittedShip.DroneBayItems.Values Select CType(dbi, DroneBayItem).DroneType.ID)
+
+        'Cargo bay
+        itemIds.AddRange(From cbi As Object In ParentFitting.FittedShip.CargoBayItems.Values Select CType(cbi, CargoBayItem).ItemType.ID)
+
+        ' Calculate the fitted prices
+        Dim prices As Dictionary(Of String, Double) = EveHQ.Core.DataFunctions.GetMarketPrices(itemIds)
+
+        ' update the values
+        ' base ship price
+        ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
+        ' the sum of all the modules except the ship item.
+        ParentFitting.BaseShip.FittingMarketPrice = Aggregate item In prices Where item.Key <> ParentFitting.BaseShip.ID Into total = Sum(item.Value)
+
+
         lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToString("N2")
         lblFittingMarketPrice.Text = "Total Price: " & (ParentFitting.BaseShip.MarketPrice + ParentFitting.BaseShip.FittingMarketPrice).ToString("N2")
     End Sub

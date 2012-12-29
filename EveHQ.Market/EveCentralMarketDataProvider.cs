@@ -70,7 +70,7 @@ namespace EveHQ.Market
         private readonly SimpleTextFileCache _regionDataCache;
 
         /// <summary>The _system data cache.</summary>
-        private SimpleTextFileCache _systemDataCache;
+        private readonly SimpleTextFileCache _systemDataCache;
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
@@ -95,7 +95,7 @@ namespace EveHQ.Market
                     var cachedItems = new List<ItemOrderStats>();
                     var typesToRequest = new List<int>();
                     string cacheKey = this.CalcCacheKey(includeRegions);
-                    foreach (int typeId in typeIds)
+                    foreach (int typeId in typeIds.Distinct())
                     {
                         var itemStats = this._regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
                         if (itemStats != null)
@@ -164,7 +164,7 @@ namespace EveHQ.Market
                   var cachedItems = new List<ItemOrderStats>();
                   var typesToRequest = new List<int>();
                   string cacheKey = this.CalcCacheKey(new[] { systemId });
-                  foreach (int typeId in typeIds)
+                  foreach (int typeId in typeIds.Distinct())
                   {
                       var itemStats = this._systemDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
                       if (itemStats != null)

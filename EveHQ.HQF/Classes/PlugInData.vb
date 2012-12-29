@@ -694,7 +694,7 @@ Public Class PlugInData
                             newShip.DatabaseCategory = shipRow.Item("categoryID").ToString
                             newShip.MarketGroup = shipRow.Item("marketGroupID").ToString
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
-                            newShip.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newShip.ID)
+                            newShip.MarketPrice = 0 'EveHQ.Core.DataFunctions.GetPrice(newShip.ID)
                             newShip.Mass = CDbl(shipRow.Item("mass"))
                             newShip.Volume = CDbl(shipRow.Item("volume"))
                             newShip.CargoBay = CDbl(shipRow.Item("capacity"))
@@ -925,7 +925,7 @@ Public Class PlugInData
                 Else
                     newModule.RaceID = 0
                 End If
-                newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
+                newModule.MarketPrice = 0 ' EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
                 newModule.Icon = row.Item("iconFile").ToString
                 If IsDBNull(row.Item("marketGroupID")) = False Then
                     newModule.MarketGroup = row.Item("marketGroupID").ToString
