@@ -2932,7 +2932,7 @@ Imports EveHQ.Core
     Public Function CalculateNeededSkills(ByVal pilotName As String) As NeededSkillsCollection
         Dim allSkills As SortedList = CollectNeededSkills(Me.BaseShip)
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-        Dim truePilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotName), Core.Pilot)
+        Dim truePilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotName), Core.Pilot)
         Dim shipPilotSkills As New ArrayList
         Dim truePilotSkills As New ArrayList
 

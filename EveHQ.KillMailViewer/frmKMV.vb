@@ -41,7 +41,7 @@ Public Class frmKMV
     Private Sub UpdateAccounts()
         cboAccount.BeginUpdate()
         cboAccount.Items.Clear()
-        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
             If cAccount.FriendlyName <> "" Then
                 cboAccount.Items.Add(cAccount.FriendlyName)
             Else
@@ -69,7 +69,7 @@ Public Class frmKMV
     Private Sub cboAccount_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAccount.SelectedIndexChanged
 
         ' Get the accountID and pilots
-        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+        For Each cAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
             If cAccount.FriendlyName = cboAccount.SelectedItem.ToString Or cAccount.userID = cboAccount.SelectedItem.ToString Then
                 KMAccount = cAccount
                 ' Get the list of characters and the character IDs
@@ -79,11 +79,11 @@ Public Class frmKMV
                     For Each Character As String In cAccount.Characters
                         Dim newPilot As New ListViewItem
                         newPilot.Text = Character
-                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(Character) Then
-                            newPilot.Name = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(Character), EveHQ.Core.Pilot).ID
+                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(Character) Then
+                            newPilot.Name = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(Character), EveHQ.Core.Pilot).ID
                         Else
-                            If EveHQ.Core.HQ.EveHQSettings.Corporations.ContainsKey(Character) Then
-                                newPilot.Name = EveHQ.Core.HQ.EveHQSettings.Corporations(Character).ID
+                            If EveHQ.Core.HQ.EveHqSettings.Corporations.ContainsKey(Character) Then
+                                newPilot.Name = EveHQ.Core.HQ.EveHqSettings.Corporations(Character).ID
                             Else
                                 newPilot.Name = Character
                             End If
@@ -123,7 +123,7 @@ Public Class frmKMV
         KMAccount.FriendlyName = "Killmail Viewing Account"
 
         '  Create an instance of the API Request class
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
         ' Create an XML document for retrieving characters
         Dim CharactersXML As New XmlDocument
@@ -188,7 +188,7 @@ Public Class frmKMV
 
         Do
             ' Let's try and get the killmail details (use the standard caching method for this)
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             If KMAccount.APIKeyType = Core.APIKeyTypes.Corporation Then
                 KMXML = APIReq.GetAPIXML(EveAPI.APITypes.KillLogCorp, KMAccount.ToAPIAccount, charID, lastKillID, EveAPI.APIReturnMethods.ReturnStandard)
             Else
@@ -623,7 +623,7 @@ Public Class frmKMV
 
             ' Start the HQF plug-in if it's active
             Dim PluginName As String = "EveHQ Fitter"
-            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
             If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
                 Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
                 Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)

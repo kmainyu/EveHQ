@@ -97,8 +97,8 @@ Public Class SkillQueueBlock
         CurrentQueuedSkill = QueuedSkill
 
         ' Establish current skill & calculate level and percentage
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(CurrentPilotName) = True Then
-            currentPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(CurrentPilotName), EveHQ.Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(CurrentPilotName) = True Then
+            currentPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(CurrentPilotName), EveHQ.Core.Pilot)
             If currentPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID))) = True Then
                 currentSkill = CType(currentPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID))), EveHQ.Core.PilotSkill)
                 lblSkillName.Text = currentSkill.Name & " (" & currentSkill.Rank.ToString & "x)"

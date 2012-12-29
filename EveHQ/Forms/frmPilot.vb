@@ -66,7 +66,7 @@ Public Class frmPilot
         ' Update the pilots combo box
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -85,8 +85,8 @@ Public Class frmPilot
         Else
             If oldPilot = "" Then
                 If cboPilots.Items.Count > 0 Then
-                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
+                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
                     Else
                         cboPilots.SelectedIndex = 0
                     End If
@@ -206,14 +206,14 @@ Public Class frmPilot
 
             ' Display Account Info
             lblAccountExpiry.ForeColor = Color.Black
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(displayPilot.Account) = True Then
-                Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(displayPilot.Account), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(displayPilot.Account) = True Then
+                Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(displayPilot.Account), Core.EveAccount)
                 If (dAccount.APIKeySystem = Core.APIKeySystems.Version2 And dAccount.CanUseCharacterAPI(EveAPI.CharacterAccessMasks.AccountStatus)) Then
                     lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
                     lblAccountLogins.Text = "Login Count: " & dAccount.LogonCount & " (" & EveHQ.Core.SkillFunctions.TimeToString(dAccount.LogonMinutes * 60, False) & ")"
-                    If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
+                    If EveHQ.Core.HQ.EveHqSettings.NotifyAccountTime = True Then
                         Dim AccountTime As Date = dAccount.PaidUntil
-                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit Then
+                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHqSettings.AccountTimeLimit Then
                             lblAccountExpiry.ForeColor = Color.Red
                         End If
                     End If
@@ -287,27 +287,27 @@ Public Class frmPilot
 
         ' Set Styles
         Dim SkillGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-        SkillGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+        SkillGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupBackgroundColor))
         SkillGroupStyle.BackColor2 = Color.Black
-        SkillGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
+        SkillGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupTextColor))
         Dim NormalSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        NormalSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
+        NormalSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotStandardSkillColor))
         NormalSkillStyle.BackColor = Color.FromArgb(128, NormalSkillStyle.BackColor2)
-        NormalSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+        NormalSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
         Dim PartialSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        PartialSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotPartTrainedSkillColor))
+        PartialSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotPartTrainedSkillColor))
         PartialSkillStyle.BackColor = Color.FromArgb(128, PartialSkillStyle.BackColor2)
-        PartialSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+        PartialSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
         Dim Level5SkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        Level5SkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotLevel5SkillColor))
+        Level5SkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotLevel5SkillColor))
         Level5SkillStyle.BackColor = Color.FromArgb(128, Level5SkillStyle.BackColor2)
-        Level5SkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+        Level5SkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
         Dim TrainingSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        TrainingSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotCurrentTrainSkillColor))
+        TrainingSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotCurrentTrainSkillColor))
         TrainingSkillStyle.BackColor = Color.FromArgb(128, TrainingSkillStyle.BackColor2)
-        TrainingSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+        TrainingSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
         Dim SelSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        SelSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
+        SelSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillHighlightColor))
         SelSkillStyle.BackColor = Color.FromArgb(32, SelSkillStyle.BackColor2)
 
         ' Set up Groups
@@ -512,15 +512,15 @@ Public Class frmPilot
 
         ' Set Styles
         Dim CertGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-        CertGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupBackgroundColor))
+        CertGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupBackgroundColor))
         CertGroupStyle.BackColor2 = Color.Black
-        CertGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotGroupTextColor))
+        CertGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupTextColor))
         Dim NormalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        NormalCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotStandardSkillColor))
+        NormalCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotStandardSkillColor))
         NormalCertStyle.BackColor = Color.FromArgb(128, NormalCertStyle.BackColor2)
-        NormalCertStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillTextColor))
+        NormalCertStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
         Dim SelCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        SelCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PilotSkillHighlightColor))
+        SelCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillHighlightColor))
         SelCertStyle.BackColor = Color.FromArgb(32, SelCertStyle.BackColor2)
 
         'Set up Groups
@@ -652,11 +652,11 @@ Public Class frmPilot
 
             ' Display Account Info
             If grpAccount.Visible = True Then
-                Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(displayPilot.Account), Core.EveAccount)
+                Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(displayPilot.Account), Core.EveAccount)
                 lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
-                If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
+                If EveHQ.Core.HQ.EveHqSettings.NotifyAccountTime = True Then
                     Dim AccountTime As Date = dAccount.PaidUntil
-                    If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit Then
+                    If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHqSettings.AccountTimeLimit Then
                         lblAccountExpiry.ForeColor = Color.Red
                     Else
                         lblAccountExpiry.ForeColor = Color.Black
@@ -759,8 +759,8 @@ Public Class frmPilot
         ' If double-clicked, see if we can get it from the eve portrait folder
         For folder As Integer = 1 To 4
             Dim folderName As String
-            If EveHQ.Core.HQ.EveHQSettings.EveFolderLUA(folder) = False Then
-                Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(folder)
+            If EveHQ.Core.HQ.EveHqSettings.EveFolderLUA(folder) = False Then
+                Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHqSettings.EveFolder(folder)
                 If eveSettingsFolder IsNot Nothing Then
                     eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
                     Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
@@ -769,7 +769,7 @@ Public Class frmPilot
                     folderName = ""
                 End If
             Else
-                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.EveHQSettings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
+                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.EveHqSettings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
             End If
             If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
@@ -826,8 +826,8 @@ Public Class frmPilot
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             Call UpdatePilotInfo()
         End If
     End Sub
@@ -856,10 +856,10 @@ Public Class frmPilot
                     sw.WriteLine("Standings Export for " & cboPilots.SelectedItem.ToString & " (dated: " & Now.ToString & ")")
                     sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
                     For Each iStanding As Node In adtStandings.Nodes
-                        sw.Write(iStanding.Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-                        sw.Write(iStanding.Cells(1).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-                        sw.Write(iStanding.Cells(2).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
-                        sw.WriteLine(iStanding.Cells(3).Text & EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar & iStanding.Cells(4).Text)
+                        sw.Write(iStanding.Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+                        sw.Write(iStanding.Cells(1).Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+                        sw.Write(iStanding.Cells(2).Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+                        sw.WriteLine(iStanding.Cells(3).Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar & iStanding.Cells(4).Text)
                     Next
                     sw.Flush()
                     sw.Close()

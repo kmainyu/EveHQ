@@ -510,6 +510,10 @@
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
       <Name>EveHQ.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
+      <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
+      <Name>EveHQ.Market</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon17_04.png" />

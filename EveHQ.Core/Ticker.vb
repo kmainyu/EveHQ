@@ -75,7 +75,7 @@ Public Class Ticker
             Else
                 cScrollNumberOfImages = value
             End If
-            SetupImages()
+            '  SetupImages()
         End Set
     End Property
 
@@ -91,7 +91,7 @@ Public Class Ticker
         Me.DoubleBuffered = True
         r = New Random(Now.Millisecond)
         lastItem = EveHQ.Core.HQ.itemData.Count
-        Call SetupImages()
+        ' Call SetupImages()
     End Sub
 
     Private Sub SetupImages()
@@ -115,7 +115,7 @@ Public Class Ticker
         Dim strWidth As Integer
         If EveHQ.Core.HQ.itemList.Count > 0 Then
             Do
-                itemID = EveHQ.Core.HQ.itemData.Values(r.Next(1, lastItem)).ID.ToString
+                itemID = "34"
                 itemName = EveHQ.Core.HQ.itemData(itemID).Name
                 itemPrice = EveHQ.Core.DataFunctions.GetPrice(itemID)
             Loop Until itemPrice > 0 And EveHQ.Core.HQ.itemData(itemID).Published = True
@@ -157,7 +157,7 @@ Public Class Ticker
     Private Sub LaunchItemBrowser(ByVal itemID As String)
         ' Try to launch the item browser
         Dim PluginName As String = "EveHQ Item Browser"
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
             Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
             Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)

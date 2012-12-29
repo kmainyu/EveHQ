@@ -433,7 +433,7 @@ Public Class frmItemBrowser
         Me.lblUsableTime.Text = ""
 
         ' Load the browser
-        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.EveHQSettings.IBShowAllItems
+        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.EveHqSettings.IBShowAllItems
         If tvwBrowse.Nodes.Count = 0 Then Call Me.LoadBrowserGroups()
 
         ' Load the Pilots
@@ -509,7 +509,7 @@ Public Class frmItemBrowser
     Public Sub UpdatePilots()
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -517,16 +517,16 @@ Public Class frmItemBrowser
         cboPilots.EndUpdate()
 
         If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
+                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
             Else
                 cboPilots.SelectedIndex = 0
             End If
         End If
     End Sub
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             If startup = False Then
                 Call LoadItemID(itemTypeID)
             End If
@@ -1319,7 +1319,7 @@ Public Class frmItemBrowser
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
                         If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                             mySkill = displayPilot.PilotSkills(cSkill.Name)
@@ -1455,7 +1455,7 @@ Public Class frmItemBrowser
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
             If displayPilot.PilotSkills.Contains(newSkill.Name) Then
@@ -1756,7 +1756,7 @@ Public Class frmItemBrowser
                             Dim eveItem As EveItem
                             If EveHQ.Core.HQ.itemData.TryGetValue(newNode.Name, eveItem) = True And (eveItem IsNot Nothing) = True And e.Name = eveItem.Group.ToString Then
                                 ' Check published flag
-                                If EveHQ.Core.HQ.EveHQSettings.IBShowAllItems = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = True Then
                                     e.Nodes.Add(newNode)
                                 Else
                                     If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
@@ -2098,7 +2098,7 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub chkBrowseNonPublished_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkBrowseNonPublished.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.IBShowAllItems = chkBrowseNonPublished.Checked
+        EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = chkBrowseNonPublished.Checked
         Call Me.LoadBrowserGroups()
     End Sub
 

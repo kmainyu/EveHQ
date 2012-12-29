@@ -31,7 +31,7 @@ Public Class frmImplants
         End Get
         Set(ByVal value As String)
             cPilotName = value
-            iPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cPilotName), Core.Pilot)
+            iPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cPilotName), Core.Pilot)
             Call Me.InitialiseForm()
         End Set
     End Property

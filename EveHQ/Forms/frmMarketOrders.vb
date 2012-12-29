@@ -196,11 +196,11 @@ Public Class frmMarketOrders
             ' Check if we process this
             ProcessOrder = True
             If oType = 0 Then ' Sell Order
-                If EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHQSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.itemData(oTypeID.ToString).BasePrice)) Then
+                If EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrders = True And oPrice > (EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit * CDbl(EveHQ.Core.HQ.itemData(oTypeID.ToString).BasePrice)) Then
                     ProcessOrder = False
                 End If
             Else ' Buy Order
-                If EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrders = True And oPrice < EveHQ.Core.HQ.EveHQSettings.IgnoreBuyOrderLimit Then
+                If EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrders = True And oPrice < EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit Then
                     ProcessOrder = False
                 End If
             End If
@@ -352,7 +352,7 @@ Public Class frmMarketOrders
     Private Sub CheckIndustry()
         ' Check for the existence of the CorpHQ plug-in and try and get the standing data
         Dim PluginName As String = "EveHQ Prism"
-        Industry = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        Industry = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
         If Industry IsNot Nothing Then
             If Industry.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
                 IndustryPluginAvailable = True

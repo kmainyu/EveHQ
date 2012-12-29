@@ -47,8 +47,8 @@ Public Class frmException
     Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
         Dim strResponse As String = ""
         Dim remoteURL As String = "http://www.evehq.net/bugs/report.aspx"
-        Dim postData As String = "reporter=" & System.Web.HttpUtility.UrlEncode(EveHQ.Core.HQ.EveHQSettings.ErrorReportingName)
-        postData &= "&reporteremail=" & System.Web.HttpUtility.UrlEncode(EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail)
+        Dim postData As String = "reporter=" & System.Web.HttpUtility.UrlEncode(EveHQ.Core.HQ.EveHqSettings.ErrorReportingName)
+        postData &= "&reporteremail=" & System.Web.HttpUtility.UrlEncode(EveHQ.Core.HQ.EveHqSettings.ErrorReportingEmail)
         postData &= "&version=" & My.Application.Info.Version.ToString
         postData &= "&message=" & System.Web.HttpUtility.UrlEncode(lblError.Text)
         postData &= "&trace=" & System.Web.HttpUtility.UrlEncode(txtStackTrace.Text)
@@ -88,7 +88,7 @@ Public Class frmException
     End Sub
 
     Private Sub frmException_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        btnSend.Enabled = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEnabled
+        btnSend.Enabled = EveHQ.Core.HQ.EveHqSettings.ErrorReportingEnabled
     End Sub
 
     Private Sub btnContinue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContinue.Click

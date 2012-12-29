@@ -71,6 +71,9 @@
     <Reference Include="GammaJul.LgLcd">
       <HintPath>ExternalLibs\GammaJul.LgLcd.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -83,6 +86,9 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading, Version=1.0.2856.102, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\TaskParallelLibrary.1.0.2856.0\lib\Net35\System.Threading.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -102,6 +108,7 @@
   <ItemGroup>
     <Compile Include="AdvTreeSorter.vb" />
     <Compile Include="Corporation.vb" />
+    <Compile Include="Entities\EveGalaticRegion.vb" />
     <Compile Include="frmModifyPrices.Designer.vb">
       <DependentUpon>frmModifyPrices.vb</DependentUpon>
     </Compile>
@@ -246,7 +253,7 @@
     <Compile Include="SkillQueueControl\SkillQueueTimeControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SolarSystem.vb" />
+    <Compile Include="Entities\SolarSystem.vb" />
     <Compile Include="SortedQueueItem.vb" />
     <Compile Include="Standings.vb" />
     <Compile Include="Station.vb" />
@@ -339,6 +346,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\refresh.png" />
   </ItemGroup>
   <ItemGroup>
@@ -378,6 +386,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
+      <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
+      <Name>EveHQ.Market</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

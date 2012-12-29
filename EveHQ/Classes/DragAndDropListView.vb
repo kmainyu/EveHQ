@@ -58,7 +58,7 @@ Public Class DragAndDropListView
                 di = MyBase.GetItemAt(pt.X, pt.Y).Index
             End If
 
-            Dim displayPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(m_displayPilotName), Core.Pilot)
+            Dim displayPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(m_displayPilotName), Core.Pilot)
 
             Dim testData As DragItemData = CType(drgevent.Data.GetData(GetType(DragItemData).ToString), DragItemData)
             Dim testItem As ListViewItem = CType(testData.DragItems.Item(0), ListViewItem)

@@ -111,7 +111,7 @@ Partial Class DBCEveSkillQueueInfoConfig
         ' Load the combo box with the pilot info
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If pilot.Active = True Then
                 cboPilots.Items.Add(pilot.Name)
             End If

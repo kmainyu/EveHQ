@@ -31,7 +31,7 @@ Public Class frmBCBrowser
     Dim currentShip As Ship
     Dim currentFit As New ArrayList
     Dim currentFitting As Fitting
-    Dim BCLoadoutCache As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "BCLoadoutCache")
+    Dim BCLoadoutCache As String = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "BCLoadoutCache")
     Dim SourceURL As String = ""
 
     Public Sub New()
@@ -51,7 +51,7 @@ Public Class frmBCBrowser
         ' Add the current list of pilots to the combobox
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -593,12 +593,12 @@ Public Class frmBCBrowser
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.Pilot
         If cboPilots.SelectedItem IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem), Core.Pilot)
+            hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem), Core.Pilot)
         Else
-            If EveHQ.Core.HQ.EveHQSettings.StartupPilot <> "" Then
-                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(EveHQ.Core.HQ.EveHQSettings.StartupPilot), Core.Pilot)
+            If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
+                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot)
             Else
-                hPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), Core.Pilot)
+                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot)
             End If
         End If
         showInfo.ShowItemDetails(sModule, hPilot)

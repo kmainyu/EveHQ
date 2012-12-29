@@ -31,7 +31,7 @@ Public Class DBCSkillQueueInfo
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
         cboPilot.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If pilot.Active = True Then
                 cboPilot.Items.Add(pilot.Name)
             End If
@@ -58,8 +58,8 @@ Public Class DBCSkillQueueInfo
         End Get
         Set(ByVal value As String)
             cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(DefaultPilotName) Then
+                cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(DefaultPilotName), Core.Pilot)
             End If
             If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
             If ReadConfig = False Then
@@ -127,8 +127,8 @@ Public Class DBCSkillQueueInfo
 
 #Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
+            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
             ' Update the list of EveHQ Skill Queues
             Call Me.UpdateQueueList()
             ' Update the details

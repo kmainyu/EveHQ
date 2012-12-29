@@ -58,7 +58,7 @@ Namespace My
                 If param.StartsWith(EveHQ.Core.HQ.FittingProtocol) Then
                     ' Now see if HQF is available
                     Dim PluginName As String = "EveHQ Fitter"
-                    Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+                    Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
                     myPlugIn.PostStartupData = param
                     If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
                         Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
@@ -95,7 +95,7 @@ Namespace My
                 trace.AppendLine("")
                 trace.AppendLine("========== Plug-ins ==========")
                 trace.AppendLine("")
-                For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+                For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHqSettings.Plugins.Values
                     If myPlugIn.ShortFileName IsNot Nothing Then
                         trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
                     End If
@@ -107,7 +107,7 @@ Namespace My
                 trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
                 trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
                 trace.AppendLine("EveHQ Location: " & EveHQ.Core.HQ.appFolder)
-                trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.appDataFolder)
+                trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.AppDataFolder)
                 myException.txtStackTrace.Text = trace.ToString
                 Dim result As Integer = myException.ShowDialog()
                 If result = DialogResult.Ignore Then

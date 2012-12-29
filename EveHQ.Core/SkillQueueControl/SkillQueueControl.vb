@@ -62,11 +62,11 @@ Public Class SkillQueueControl
         If cPilotName = "" Then
             Exit Sub
         Else
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cPilotName) = False Then
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cPilotName) = False Then
                 Exit Sub
             Else
                 Me.panelSkillQueue.Controls.Clear()
-                Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cPilotName), Pilot)
+                Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cPilotName), Pilot)
                 Dim newSQT As New EveHQ.Core.SkillQueueTimeControl(cPilot.Name)
                 panelSkillQueue.Controls.Add(newSQT)
                 newSQT.Dock = Windows.Forms.DockStyle.Top
@@ -90,8 +90,8 @@ Public Class SkillQueueControl
 
     Private Function CheckUpdateRequired() As Boolean
         If cPilotName <> "" Then
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cPilotName) = True Then
-                Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cPilotName), Pilot)
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cPilotName) = True Then
+                Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cPilotName), Pilot)
                 For Each QueuedSkillNo As Long In cPilot.QueuedSkills.Keys
                     Dim QueuedSkill As EveHQ.Core.PilotQueuedSkill = cPilot.QueuedSkills(QueuedSkillNo)
                     If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime) >= Now Then

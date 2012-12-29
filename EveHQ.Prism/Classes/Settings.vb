@@ -235,7 +235,7 @@ Imports System.Windows.Forms
         Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetCategory", "Category", 100, True))
         Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystem", "System", 100, False))
         Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetConstellation", "Constellation", 100, False))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetRegion", "Region", 100, False))
+        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetRegion", "EveGalaticRegion", 100, False))
         Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystemSec", "Sec", 50, False))
         Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetLocation", "Specific Location", 250, True))
         Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetMeta", "Meta", 50, True))

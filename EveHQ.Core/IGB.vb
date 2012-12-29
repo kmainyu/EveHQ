@@ -55,7 +55,7 @@ Public Class IGB
     End Property
     Public Sub RunIGB(ByVal worker As BackgroundWorker, ByVal e As DoWorkEventArgs)
         Dim prefixes(0) As String
-        prefixes(0) = "http://*:" & EveHQ.Core.HQ.EveHQSettings.IGBPort & "/"
+        prefixes(0) = "http://*:" & EveHQ.Core.HQ.EveHqSettings.IGBPort & "/"
 
         ' URI prefixes are required,
         If prefixes Is Nothing OrElse prefixes.Length = 0 Then
@@ -100,7 +100,7 @@ Public Class IGB
                             Case "/HOME", "/HOME/"
                                 responseString &= CreateHome()
                             Case "/ITEMDB", "/ITEMDB/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Item Database") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Item Database") = True Then
                                     responseString &= CreateHTMLItemDB()
                                 Else
                                     responseString &= CreateHome()
@@ -112,55 +112,55 @@ Public Class IGB
                             Case "/HEADERS", "/HEADERS/"
                                 responseString &= CreateHeaders()
                             Case "/REPORTS", "/REPORTS/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Reports - Main Menu") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Reports - Main Menu") = True Then
                                     responseString &= CreateReports()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/ALLOY", "/REPORTS/ALLOY/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Alloy Composition") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Alloy Composition") = True Then
                                     responseString &= CreateAlloyReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/ORE", "/REPORTS/ORE/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ore Composition") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ore Composition") = True Then
                                     responseString &= CreateOreReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/ICE", "/REPORTS/ICE/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ice Composition") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ice Composition") = True Then
                                     responseString &= CreateIceReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/SKILLLEVELS", "/REPORTS/SKILLLEVELS/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Skill Level Table") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Skill Level Table") = True Then
                                     responseString &= CreateSPReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARACTER", "/REPORTS/CHARACTER/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= ShowCharReports()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARSUMM", "/REPORTS/CHARASUMM/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Summary") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Summary") = True Then
                                     responseString &= ShowCharSummary()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARREPORT", "/REPORTS/CHARREPORT/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= CreateCharReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARREPORT/QUEUES", "/REPORTS/CHARREPORT/QUEUES/"
-                                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= CreateQueueReport()
                                 Else
                                     responseString &= CreateHome()
@@ -199,7 +199,7 @@ Public Class IGB
                             Case Else
                                 ' Check for requisitions
                                 If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS") Or context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS/") Then
-                                    If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Requisitions") = True Then
+                                    If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Requisitions") = True Then
                                         responseString = EveHQ.Core.RequisitionIGB.Response(context)
                                     Else
                                         responseString = CreateHome()
@@ -207,9 +207,9 @@ Public Class IGB
                                 Else
                                     ' Check if this is a plugin string
                                     Dim IGBPlugin As Boolean = False
-                                    For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+                                    For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHqSettings.Plugins.Values
                                         If PlugInInfo.RunInIGB Then
-                                            If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData(PlugInInfo.Name) = True Then
+                                            If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData(PlugInInfo.Name) = True Then
                                                 Dim testName As String = PlugInInfo.Name.Replace(" ", "")
                                                 If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
                                                     IGBPlugin = True
@@ -277,8 +277,8 @@ Public Class IGB
         For Each IGBFeature As String In IGBAccessList
             If IGBFeature.Trim <> "" Then
                 Dim IGBFeatureData() As String = IGBFeature.Split(",".ToCharArray)
-                If EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.ContainsKey(IGBFeatureData(0)) = False Then
-                    EveHQ.Core.HQ.EveHQSettings.IGBAllowedData.Add(IGBFeatureData(0), CBool(IGBFeatureData(1)))
+                If EveHQ.Core.HQ.EveHqSettings.IGBAllowedData.ContainsKey(IGBFeatureData(0)) = False Then
+                    EveHQ.Core.HQ.EveHqSettings.IGBAllowedData.Add(IGBFeatureData(0), CBool(IGBFeatureData(1)))
                 End If
             End If
         Next
@@ -362,15 +362,15 @@ Public Class IGB
 
         strHTML &= "<hr><a href=/>Home</a>  | "
 
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Item Database") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Item Database") = True Then
             strHTML &= " <a href=/itemDB>Item Database</a>  | "
         End If
 
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Reports - Main Menu") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Reports - Main Menu") = True Then
             strHTML &= " <a href=/reports>Reports</a>  | "
         End If
 
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Requisitions") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Requisitions") = True Then
             If EveHQ.Core.RequisitionDataFunctions.CountRequisitions > 0 Then
                 strHTML &= " <a href=/reqs>Requisitions</a> | "
             End If
@@ -378,16 +378,16 @@ Public Class IGB
 
         strHTML &= " <a href=/headers>IGB Headers</a>"
 
-        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHqSettings.Plugins.Values
             If PlugInInfo.RunInIGB = True Then
-                If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData(PlugInInfo.Name) = True Then
+                If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData(PlugInInfo.Name) = True Then
                     strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
                 End If
             End If
         Next
         strHTML &= "</p>"
         strHTML &= "<form method=""GET"" action=""/searchResults"">"
-        If EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Item Database") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Item Database") = True Then
             strHTML &= "Search Item Database:  "
             strHTML &= "<input type=""text"" name=""str"">"
             strHTML &= "<input type=""submit"" value=""Search!""></form><hr><br>"
@@ -453,22 +453,22 @@ Public Class IGB
         Dim strHTML As String = ""
         strHTML &= IGBHTMLHeader(context, "EveHQ Reports", 0)
         strHTML &= "<p>Please select a report from the list below:</p><br>"
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Alloy Composition") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Alloy Composition") = True Then
             strHTML &= "<p><a href=/reports/alloy>Alloy Composition Report</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ore Composition") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ore Composition") = True Then
             strHTML &= "<br><a href=/reports/ore>Ore Composition Report</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Ice Composition") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Ice Composition") = True Then
             strHTML &= "<br><a href=/reports/ice>Ice Composition Report</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Skill Level Table") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Skill Level Table") = True Then
             strHTML &= "<br><a href=/reports/skilllevels>Skill Level Table</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Summary") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Summary") = True Then
             strHTML &= "<br><a href=/reports/charsumm>Character Summary</a><br>"
         End If
-        If EveHQ.Core.HQ.EveHQSettings.IGBFullMode Or EveHQ.Core.HQ.EveHQSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
+        If EveHQ.Core.HQ.EveHqSettings.IGBFullMode Or EveHQ.Core.HQ.EveHqSettings.IGBAllowedData("Report - Character Individual Reports") = True Then
             strHTML &= "<br><a href=/reports/character>Individual Character Reports</a></p>"
         End If
         strHTML &= "<br><br><br>"
@@ -1003,7 +1003,7 @@ Public Class IGB
 
         Dim pilotNames As ArrayList = New ArrayList
         Dim curPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each curPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If curPilot.Updated = True Then
                 pilotNames.Add(curPilot.Name)
             End If
@@ -1013,7 +1013,7 @@ Public Class IGB
         Dim strHTML As String = ""
         ' Step 1 - Draw the pilots drop down list
         strHTML &= "<p>Please select a Pilot and a report to view</p>"
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count <> pilotNames.Count Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count <> pilotNames.Count Then
             strHTML &= "<p><b>EveHQ is indicating that you have pilots but they have not been updated, therefore not all pilots will be accessible here.<br><br>"
             strHTML &= "Please update your accounts and/or pilots in order to view reports on all pilots.</b></p>"
         End If
@@ -1028,7 +1028,7 @@ Public Class IGB
                         strHTML &= "selected='selected'"
                     End If
                 Else
-                    If pilotName = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(1), EveHQ.Core.Pilot).Name Then
+                    If pilotName = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), EveHQ.Core.Pilot).Name Then
                         strHTML &= "selected='selected'"
                     End If
                 End If
@@ -1063,7 +1063,7 @@ Public Class IGB
             repString = repString.Replace("+", " ")
             pilotString = pilotString.Replace("+", " ")
             strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
-            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
+            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Character Sheet"
                     strHTML &= EveHQ.Core.Reports.HTMLTitle("Character Sheet - " & repPilot.Name)
@@ -1130,7 +1130,7 @@ Public Class IGB
             pilotString = pilotString.Replace("+", " ")
             queueString = queueString.Replace("+", " ")
             strHTML &= IGBHTMLHeader(context, repString & " Report For " & pilotString, 0)
-            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotString), Pilot)
+            Dim repPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotString), Pilot)
             Select Case repString
                 Case "Training Queue"
                     strHTML &= EveHQ.Core.Reports.HTMLTitle("Training Queue - " & repPilot.Name & " (" & queueString & ")")

@@ -34,7 +34,7 @@ Public Class frmUpgradeMDB
 
         ' Get startup arguments
         For Each param As String In System.Environment.GetCommandLineArgs
-            EveHQ.Core.HQ.appDataFolder = param
+            EveHQ.Core.HQ.AppDataFolder = param
         Next
 
         ' Load Settings
@@ -46,11 +46,11 @@ Public Class frmUpgradeMDB
     End Sub
 
     Private Function LoadEveHQSettings() As Boolean
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQSettings.bin"), FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
-                EveHQ.Core.HQ.EveHQSettings = CType(f.Deserialize(s), EveSettings)
+                EveHQ.Core.HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
                 s.Close()
                 Return True
             Catch ex As Exception
@@ -91,7 +91,7 @@ Public Class frmUpgradeMDB
         FormWorker.ReportProgress(100, "Stage 1/14: Checking Old Database details...")
         Dim ValidMDB As Boolean = True
         Dim MDBConnection As OleDbConnection = New OleDbConnection
-        MDBConnection.ConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename
+        MDBConnection.ConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHqSettings.DBDataFilename
         Try
             MDBConnection.Open()
         Catch ex As Exception
@@ -101,19 +101,19 @@ Public Class frmUpgradeMDB
 
         If ValidMDB = True Then
 
-            Dim OldMDB As String = EveHQ.Core.HQ.EveHQSettings.DBDataFilename
+            Dim OldMDB As String = EveHQ.Core.HQ.EveHqSettings.DBDataFilename
 
             ' Step 2 - Create a new .SDF database in the same location as the existing MDB
             ' IMPORTANT! Set the connection strings now so we can create our tables
             FormWorker.ReportProgress(100, "Stage 2/14: Creating New Database...")
-            Dim outputfile As String = Path.Combine(EveHQ.Core.HQ.appDataFolder, "EveHQData.sdf")
+            Dim outputfile As String = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf")
             'MessageBox.Show("Creating database using path: " & outputfile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
             ' Try to create a new SQL CE DB
             Dim strConnection As String = "Data Source = " & ControlChars.Quote & outputfile & ControlChars.Quote & "; Max Database Size = 512; Max Buffer Size = 2048;"
             Try
                 Dim SQLCE As New SqlCeEngine(strConnection)
                 SQLCE.CreateDatabase()
-                EveHQ.Core.HQ.EveHQSettings.DBDataFilename = outputfile
+                EveHQ.Core.HQ.EveHqSettings.DBDataFilename = outputfile
                 EveHQ.Core.HQ.EveHQDataConnectionString = strConnection
             Catch e As Exception
                 EveHQ.Core.HQ.dataError = "Unable to create SQL CE database in " & outputfile & ControlChars.CrLf & ControlChars.CrLf & e.Message
@@ -224,15 +224,15 @@ Public Class frmUpgradeMDB
         Try
             conn.Open()
             Dim da As New OleDbDataAdapter(strSQL, conn)
-            da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHQSettings.DBTimeout
+            da.SelectCommand.CommandTimeout = EveHQ.Core.HQ.EveHqSettings.DBTimeout
             da.Fill(EveHQData, "EveHQData")
             conn.Close()
             Return EveHQData
         Catch e As Exception
             Dim msg As New StringBuilder
-            msg.AppendLine("Database1: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-            msg.AppendLine("Database2: " & EveHQ.Core.HQ.EveHQSettings.DBDataFilename)
-            msg.AppendLine("Using App: " & EveHQ.Core.HQ.EveHQSettings.UseAppDirectoryForDB.ToString)
+            msg.AppendLine("Database1: " & EveHQ.Core.HQ.EveHqSettings.DBFilename)
+            msg.AppendLine("Database2: " & EveHQ.Core.HQ.EveHqSettings.DBDataFilename)
+            msg.AppendLine("Using App: " & EveHQ.Core.HQ.EveHqSettings.UseAppDirectoryForDB.ToString)
             msg.AppendLine("Connection String: " & conn.ConnectionString)
             msg.AppendLine("SQL: " & strSQL)
             msg.AppendLine("Message: " & e.Message)

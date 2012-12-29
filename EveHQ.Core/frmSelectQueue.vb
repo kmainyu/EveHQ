@@ -34,7 +34,7 @@ Public Class frmSelectQueue
         QueueReason = Reason
 
         ' Setup the pilot for this form
-        displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PilotName), Core.Pilot)
+        displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(PilotName), Core.Pilot)
         skillsNeeded = QueuedSkills
         Me.Text = "Add to Skill Queue - " & PilotName
     End Sub

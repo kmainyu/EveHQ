@@ -401,7 +401,7 @@ Public Class PrismAssetsControl
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -455,7 +455,7 @@ Public Class PrismAssetsControl
                 If OwnerAccount IsNot Nothing Then
 
                     Dim AssetXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     If Owner.IsCorp = True Then
                         assetCorpMode = chkCorpHangarMode.Checked
                         AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
@@ -964,7 +964,7 @@ Public Class PrismAssetsControl
 
                     If Owner.IsCorp = True Then
                         ' Check for corp wallets
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -994,7 +994,7 @@ Public Class PrismAssetsControl
                         End If
                     Else
                         ' Check for character wallets
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -1202,7 +1202,7 @@ Public Class PrismAssetsControl
             Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
             Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Orders)
             Dim OrderXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
             If OwnerAccount IsNot Nothing Then
 
@@ -1606,7 +1606,7 @@ Public Class PrismAssetsControl
         ' This routine is shit hot!!
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
             Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
             Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
@@ -1718,7 +1718,7 @@ Public Class PrismAssetsControl
                     If OwnerAccount IsNot Nothing Then
 
                         Dim AssetXML As New XmlDocument
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         If Owner.IsCorp = True Then
                             AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         Else
@@ -2468,7 +2468,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportGroupedAssets(Assets, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar, sfd.FileName)
+                    Call Me.ExportGroupedAssets(Assets, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
@@ -2580,7 +2580,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportAssets(Assets, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar, sfd.FileName)
+                    Call Me.ExportAssets(Assets, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
@@ -2607,7 +2607,7 @@ Public Class PrismAssetsControl
             sb.Append("Station" & SepChar)
             sb.Append("System" & SepChar)
             sb.Append("Constellation" & SepChar)
-            sb.Append("Region" & SepChar)
+            sb.Append("EveGalaticRegion" & SepChar)
             sb.Append("SystemSec" & SepChar)
             sb.Append("Quantity" & SepChar)
             sb.Append("Price" & SepChar)

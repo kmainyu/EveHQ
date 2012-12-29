@@ -79,7 +79,7 @@ Public Class frmTraining
 
     End Sub
     Private Sub frmTraining_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        EveHQ.Core.HQ.EveHQSettings.SkillQueuePanelWidth = panelInfo.Width
+        EveHQ.Core.HQ.EveHqSettings.SkillQueuePanelWidth = panelInfo.Width
         RemoveHandler EveHQ.Core.SkillQueueFunctions.RefreshQueue, AddressOf Me.RefreshAllTraining
     End Sub
 
@@ -88,7 +88,7 @@ Public Class frmTraining
         ' Set the startup flag
         startup = True
 
-        panelInfo.Width = EveHQ.Core.HQ.EveHQSettings.SkillQueuePanelWidth
+        panelInfo.Width = EveHQ.Core.HQ.EveHqSettings.SkillQueuePanelWidth
 
         ' Load the pilots
         Call UpdatePilots()
@@ -159,7 +159,7 @@ Public Class frmTraining
         ' Update the pilots combo box
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -179,8 +179,8 @@ Public Class frmTraining
         Else
             If oldPilot = "" Then
                 If cboPilots.Items.Count > 0 Then
-                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
+                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
                     Else
                         cboPilots.SelectedIndex = 0
                     End If
@@ -210,8 +210,8 @@ Public Class frmTraining
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             cDisplayPilotName = displayPilot.Name
             ' Only update if we are not starting up
             If startup = False Then
@@ -296,7 +296,7 @@ Public Class frmTraining
         End If
 
         Dim OldTab As DevComponents.DotNetBar.TabItem = tabQueues.Tabs(OldTabName)
-        If EveHQ.Core.HQ.EveHQSettings.StartWithPrimaryQueue = True And OldTabName = "tabSummary" Then
+        If EveHQ.Core.HQ.EveHqSettings.StartWithPrimaryQueue = True And OldTabName = "tabSummary" Then
             OldTab = tabQueues.Tabs(displayPilot.PrimaryQueue)
         End If
 
@@ -316,7 +316,7 @@ Public Class frmTraining
 
         ' Add subitems based on the user selected columns
         Dim colName As String = ""
-        For Each col As String In EveHQ.Core.HQ.EveHQSettings.UserQueueColumns
+        For Each col As String In EveHQ.Core.HQ.EveHqSettings.UserQueueColumns
             If col.EndsWith("1") = True Then
                 colName = col.Substring(0, col.Length - 1)
                 Dim newSI As New ListViewItem.ListViewSubItem
@@ -722,25 +722,25 @@ Public Class frmTraining
 				For Each qItem In sortedQueue
 					Dim newskill As ListViewItem = New ListViewItem
 					newskill.Name = qItem.Key
-					If qItem.Done = False Or (qItem.Done = True And EveHQ.Core.HQ.EveHQSettings.ShowCompletedSkills = True) Then
+					If qItem.Done = False Or (qItem.Done = True And EveHQ.Core.HQ.EveHqSettings.ShowCompletedSkills = True) Then
 						If qItem.Done = True Then newskill.Font = doneFont
 						If qItem.IsPrereq = True Then
 							If qItem.HasPrereq = True Then
 								newskill.ToolTipText &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
-								newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.BothPreReqColor))
+								newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.BothPreReqColor))
 							Else
 								newskill.ToolTipText = qItem.Prereq
-								newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.IsPreReqColor))
+								newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.IsPreReqColor))
 							End If
 						Else
 							If qItem.HasPrereq = True Then
 								newskill.ToolTipText = qItem.Reqs
-								newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.HasPreReqColor))
+								newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.HasPreReqColor))
 							Else
 								If qItem.PartTrained = True Then
-									newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.PartialTrainColor))
+									newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PartialTrainColor))
 								Else
-									newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.ReadySkillColor))
+									newskill.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.ReadySkillColor))
 								End If
 							End If
 						End If
@@ -751,7 +751,7 @@ Public Class frmTraining
 						End If
 						Dim clashTime As DateTime = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(qItem.DateFinished)
                         If clashTime.Hour = 11 And (clashTime.Minute >= 0 And clashTime.Minute <= 30) Then
-                            newskill.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHQSettings.DTClashColor))
+                            newskill.ForeColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.DTClashColor))
                             If newskill.ToolTipText <> "" Then
                                 newskill.ToolTipText &= ControlChars.CrLf & ControlChars.CrLf
                             End If
@@ -802,7 +802,7 @@ Public Class frmTraining
     Private Sub AddUserColumns(ByVal newskill As ListViewItem, ByVal qitem As EveHQ.Core.SortedQueueItem, ByVal totalSP As Long)
         ' Add subitems based on the user selected columns
         Dim colName As String = ""
-        For Each col As String In EveHQ.Core.HQ.EveHQSettings.UserQueueColumns
+        For Each col As String In EveHQ.Core.HQ.EveHqSettings.UserQueueColumns
             If col.EndsWith("1") = True Then
                 colName = col.Substring(0, col.Length - 1)
                 Dim newSI As New ListViewItem.ListViewSubItem
@@ -1645,7 +1645,7 @@ Public Class frmTraining
                 myGroup = Nothing
             End If
             Dim cLevel, cSP, cTime, cRate As String
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
                 If displayPilot.PilotSkills.Contains(cSkill.Name) = False Then
                     cLevel = "0" : cSP = "0" : cTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, cSkill, 1, ))
                     cRate = CStr(EveHQ.Core.SkillFunctions.CalculateSPRate(displayPilot, cSkill))
@@ -1699,7 +1699,7 @@ Public Class frmTraining
         curNode.Text = cSkill.Name
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                 mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
@@ -1756,7 +1756,7 @@ Public Class frmTraining
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
             If displayPilot.PilotSkills.Contains(newSkill.Name) Then
@@ -1950,7 +1950,7 @@ Public Class frmTraining
         lvwTimes.BeginUpdate()
         lvwTimes.Items.Clear()
 
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             Dim cskill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
 
             Dim timeToTrain As Long = 0
@@ -1996,7 +1996,7 @@ Public Class frmTraining
 
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
         Dim PluginFile As String = myPlugIn.FileName
         Dim PluginType As String = myPlugIn.FileType
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn
@@ -2988,7 +2988,7 @@ Public Class frmTraining
                     Dim planOwner As String = PlanNode.Attributes.GetNamedItem("owner").Value
                     If EMPilots.ContainsKey(planOwner) = True Then
                         Dim pilotName As String = CStr(EMPilots(planOwner))
-                        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(pilotName) = True Then
+                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(pilotName) = True Then
                             Dim planName As String = PlanNode.Attributes.GetNamedItem("name").Value
                             PlanInfo(count, 0) = pilotName : PlanInfo(count, 1) = planName
                             PlansParentNode = PlanNode.ChildNodes(1)
@@ -3015,7 +3015,7 @@ Public Class frmTraining
                                 newSQ.IncCurrentTraining = True
                                 newSQ.Primary = False
                                 newSQ.Queue = SQ
-                                Dim QPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PlanInfo(count, 0)), Core.Pilot)
+                                Dim QPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(PlanInfo(count, 0)), Core.Pilot)
                                 If QPilot.TrainingQueues.Contains(PlanInfo(count, 1)) = False Then
                                     QPilot.TrainingQueues.Add(newSQ.Name, newSQ)
                                     RecalcQueues = True

@@ -117,7 +117,7 @@ Public Class frmPrismSettings
         For Each owner As String In PlugInData.PrismOwners.Keys
             cboDefaultPrismCharacter.Items.Add(owner)
         Next
-        For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If selpilot.Active = True Then
                 cboDefaultBPCalcBPOwner.Items.Add(selpilot.Name)
                 If cboDefaultBPCalcBPOwner.Items.Contains(selpilot.Corp) = False Then
@@ -176,7 +176,7 @@ Public Class frmPrismSettings
 
     Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDuplicateJournals.Click
         Dim strSQL As String = ""
-        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+        Select Case EveHQ.Core.HQ.EveHqSettings.DBFormat
             Case 0 ' SQLCE
                 strSQL = "DELETE FROM walletJournal WHERE transID IN ("
                 strSQL &= " SELECT walletJournal.transID"
@@ -197,7 +197,7 @@ Public Class frmPrismSettings
 
     Private Sub btnDeleteDuplicateTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDuplicateTransactions.Click
         Dim strSQL As String = ""
-        Select EveHQ.Core.HQ.EveHQSettings.DBFormat
+        Select EveHQ.Core.HQ.EveHqSettings.DBFormat
             Case 0 ' SQLCE
                 strSQL = "DELETE FROM walletTransactions WHERE transID IN ("
                 strSQL &= " SELECT walletTransactions.transID"
@@ -373,7 +373,7 @@ Public Class frmPrismSettings
 
         Dim PlayerCorps As New List(Of String)
         ' Get a list of Corps
-        For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If PlugInData.NPCCorps.ContainsKey(selpilot.CorpID) = False Then
                 If PlayerCorps.Contains(selpilot.Corp) = False Then
                     PlayerCorps.Add(selpilot.Corp)
@@ -420,7 +420,7 @@ Public Class frmPrismSettings
             For Each cbo As ComboBoxEx In CorpRepCombos
                 cbo.Items.Clear()
             Next
-            For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            For Each selpilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
                 If selpilot.Corp = CorpName Then
                     For Each cbo As ComboBoxEx In CorpRepCombos
                         cbo.Items.Add(selpilot.Name)
@@ -677,7 +677,7 @@ Public Class frmPrismSettings
 
     Private Sub btnDeleteUndefinedJournals_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteUndefinedJournals.Click
         Dim strSQL As String = ""
-        Select Case EveHQ.Core.HQ.EveHQSettings.DBFormat
+        Select Case EveHQ.Core.HQ.EveHqSettings.DBFormat
             Case 0 ' SQLCE
                 strSQL = "DELETE FROM walletJournal WHERE refTypeID = 0;"
             Case 1 ' SQL

@@ -422,7 +422,7 @@ Public Class SkillFunctions
     Public Shared Sub LoadEveSkillDataFromAPI()
         Try
             ' Get the XML data from the API
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             Dim skillXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillTree, EveAPI.APIReturnMethods.BypassCache)
             ' Load the skills!
             If skillXML IsNot Nothing Then
@@ -821,10 +821,10 @@ Public Class SkillFunctions
                     .TrainingStartSP = trainSkill.SP
                     .TrainingCurrentSP = 0
                     .TrainingEndSP = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, nextLevel))
-                    .TrainingStartTimeActual = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now).AddSeconds(-EveHQ.Core.HQ.EveHQSettings.ServerOffset)
-                    .TrainingStartTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                    .TrainingStartTimeActual = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now).AddSeconds(-EveHQ.Core.HQ.EveHqSettings.ServerOffset)
+                    .TrainingStartTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
                     .TrainingEndTimeActual = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.SkillFunctions.CalcTimeToLevel(skillPilot, newSkill, nextLevel))
-                    .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHQSettings.ServerOffset)
+                    .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
                     .TrainingCurrentTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(skillPilot)
                 End With
                 ' Write the new XML Files
@@ -944,7 +944,7 @@ Public Class SkillFunctions
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
         skillTrained = False
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And rPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And rPilot.Updated = True Then
             If rPilot.PilotSkills.Contains(cSkill.Name) = True Then
                 Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                 mySkill = CType(rPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)

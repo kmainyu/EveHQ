@@ -193,7 +193,7 @@ Public Class PrismResources
                                 ' A skill
                                 newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(perfectRaw) & ")"
                                 ' Check for skill of recycler
-                                If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(CurrentJob.Manufacturer), Core.Pilot), rResource.TypeName, perfectRaw) = True Then
+                                If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(CurrentJob.Manufacturer), Core.Pilot), rResource.TypeName, perfectRaw) = True Then
                                     ' TODO - add colour and alignment styles
                                     'newRes.BackColor = Drawing.Color.LightGreen
                                 Else
@@ -336,7 +336,7 @@ Public Class PrismResources
                         ' A skill
                         newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(CInt(rResource.PerfectUnits)) & ")"
                         ' Check for skill of recycler
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(parentJob.Manufacturer), Core.Pilot), rResource.TypeName, CInt(rResource.PerfectUnits)) = True Then
+                        If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(parentJob.Manufacturer), Core.Pilot), rResource.TypeName, CInt(rResource.PerfectUnits)) = True Then
                             ' TODO - add colour and alignment styles
                             'newRes.BackColor = Drawing.Color.LightGreen
                         Else
@@ -634,7 +634,7 @@ Public Class PrismResources
                 If OwnerAccount IsNot Nothing Then
 
                     Dim AssetXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     If Owner.IsCorp = True Then
                         AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                     Else
@@ -702,7 +702,7 @@ Public Class PrismResources
     End Sub
 
     Private Sub btnExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToCSV.Click
-        Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
     End Sub
 
     Private Sub btnExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToTSV.Click

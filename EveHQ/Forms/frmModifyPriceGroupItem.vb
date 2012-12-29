@@ -161,7 +161,7 @@ Public Class frmModifyPriceGroupItem
             itemNode.Name = item.ID.ToString
             ' Check if the item has been added to another price group, and hence is a conflict
             itemNode.Image = My.Resources.Tick
-            For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHQSettings.PriceGroups.Values
+            For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
                 If PG.TypeIDs.Contains(item.ID.ToString) Then
                     itemNode.Image = My.Resources.Cross
                     Exit For

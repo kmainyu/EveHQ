@@ -659,7 +659,7 @@ Partial Class frmMarketPrices
         '
         Me.colRegionName.Name = "colRegionName"
         Me.colRegionName.SortingEnabled = False
-        Me.colRegionName.Text = "Region Name"
+        Me.colRegionName.Text = "EveGalaticRegion Name"
         Me.colRegionName.Width.Absolute = 300
         '
         'colFileDate
@@ -847,7 +847,7 @@ Partial Class frmMarketPrices
         Me.colRegion.DisplayIndex = 1
         Me.colRegion.Name = "colRegion"
         Me.colRegion.SortingEnabled = False
-        Me.colRegion.Text = "Region"
+        Me.colRegion.Text = "EveGalaticRegion"
         Me.colRegion.Width.Absolute = 200
         '
         'colItem
@@ -1154,7 +1154,7 @@ Partial Class frmMarketPrices
         'colPriceRegions
         '
         Me.colPriceRegions.Name = "colPriceRegions"
-        Me.colPriceRegions.Text = "Region Name"
+        Me.colPriceRegions.Text = "EveGalaticRegion Name"
         Me.colPriceRegions.Width.Absolute = 155
         '
         'NodeConnector3

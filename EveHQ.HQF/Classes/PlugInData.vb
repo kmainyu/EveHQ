@@ -55,7 +55,7 @@ Public Class PlugInData
             ' Check for existance of HQF folder & create if not existing
             EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for HQF folder...")
             If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "HQF")
+                Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "HQF")
             Else
                 Settings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
             End If

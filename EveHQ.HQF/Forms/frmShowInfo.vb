@@ -104,7 +104,7 @@ Public Class frmShowInfo
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And hPilot.Updated = True Then
+                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And hPilot.Updated = True Then
                         If hPilot.PilotSkills.Contains(cSkill.Name) Then
                             Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                             mySkill = hPilot.PilotSkills(cSkill.Name)
@@ -226,7 +226,7 @@ Public Class frmShowInfo
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And hPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And hPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
             If hPilot.PilotSkills.Contains(newSkill.Name) Then

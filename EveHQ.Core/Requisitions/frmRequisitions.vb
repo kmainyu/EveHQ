@@ -46,7 +46,7 @@ Public Class frmRequisitions
         cboAssetSelection.BeginUpdate()
         cboAssetSelection.Items.Clear()
         ' Add in pilots
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 If cPilot.Account <> "" Then
                     cboAssetSelection.Items.Add(cPilot.Name)
@@ -54,9 +54,9 @@ Public Class frmRequisitions
             End If
         Next
         ' Add in corps
-        For Each cCorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHQSettings.Corporations.Values
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(cCorp.Accounts(0)) Then
-                Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cCorp.Accounts(0)), EveAccount)
+        For Each cCorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHqSettings.Corporations.Values
+            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(cCorp.Accounts(0)) Then
+                Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(cCorp.Accounts(0)), EveAccount)
                 If cAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.AssetList) = True Then
                     cboAssetSelection.Items.Add(cCorp.Name)
                 End If
@@ -470,13 +470,13 @@ Public Class frmRequisitions
             Dim IsCorp As Boolean = False
 
             ' Check whether a pilot or a corp
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(AssetOwner) = True Then
-                AssetAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).Account), EveAccount)
-                OwnerID = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).ID
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(AssetOwner) = True Then
+                AssetAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).Account), EveAccount)
+                OwnerID = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).ID
                 IsCorp = False
             Else
-                AssetAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(EveHQ.Core.HQ.EveHQSettings.Corporations(AssetOwner).Accounts(0)), EveAccount)
-                OwnerID = EveHQ.Core.HQ.EveHQSettings.Corporations(AssetOwner).ID
+                AssetAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(EveHQ.Core.HQ.EveHqSettings.Corporations(AssetOwner).Accounts(0)), EveAccount)
+                OwnerID = EveHQ.Core.HQ.EveHqSettings.Corporations(AssetOwner).ID
                 IsCorp = True
             End If
 
@@ -486,7 +486,7 @@ Public Class frmRequisitions
             ' Fetch the resources owned
             ' Parse the Assets XML
             Dim assetXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             If IsCorp = True Then
                 assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
             Else
@@ -560,7 +560,7 @@ Public Class frmRequisitions
     End Sub
 
     Private Sub btnExportCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportCSV.Click
-        Call Me.ExportReq(EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+        Call Me.ExportReq(EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
     End Sub
 
     Private Sub ExportReq(ByVal sepChar As String)

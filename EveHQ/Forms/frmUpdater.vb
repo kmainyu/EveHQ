@@ -78,7 +78,7 @@ Public Class frmUpdater
             Me.Height = Screen.PrimaryScreen.Bounds.Height - 100
         End If
         ' Set Max Downloads
-        nudDownloads.Value = EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads
+        nudDownloads.Value = EveHQ.Core.HQ.EveHqSettings.MaxUpdateThreads
 
     End Sub
 
@@ -95,7 +95,7 @@ Public Class frmUpdater
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
-        Dim UpdateServer As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL
+        Dim UpdateServer As String = EveHQ.Core.HQ.EveHqSettings.UpdateURL
         Dim remoteURL As String = UpdateServer & "_updates.xml"
         Dim webdata As String = ""
         Dim UpdateXML As New XmlDocument
@@ -138,7 +138,7 @@ Public Class frmUpdater
 
         ' Set Locations
         If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-            BaseLocation = EveHQ.Core.HQ.appDataFolder
+            BaseLocation = EveHQ.Core.HQ.AppDataFolder
             PatcherLocation = Path.Combine(BaseLocation, "Updater")
             updateFolder = Path.Combine(BaseLocation, "Updates")
         Else
@@ -183,7 +183,7 @@ Public Class frmUpdater
             Next
 
             ' Add to that a list of the plug-ins used
-            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHQSettings.Plugins.Values
+            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.EveHqSettings.Plugins.Values
                 If myPlugIn.ShortFileName IsNot Nothing Then
                     If EveHQComponents.ContainsKey(myPlugIn.ShortFileName) = False Then
                         EveHQComponents.Add(myPlugIn.ShortFileName, New EveHQComponent(myPlugIn.ShortFileName, myPlugIn.Version, True))
@@ -195,7 +195,7 @@ Public Class frmUpdater
             EveHQComponents.Add("EveHQ.exe", New EveHQComponent("EveHQ.exe", My.Application.Info.Version.ToString, True))
 
             ' Try and add the database version (if using SQL CE)
-            If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
+            If EveHQ.Core.HQ.EveHqSettings.DBFormat = 0 Then
                 Dim databaseData As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM EveHQVersion;")
                 If databaseData IsNot Nothing Then
                     If databaseData.Tables(0).Rows.Count > 0 Then
@@ -322,7 +322,7 @@ Public Class frmUpdater
                 newFile.Cells(6).Text = "Update Not Required"
             End If
         Else
-            If newFile.Text <> "EveHQ.sdf.zip" Or (newFile.Text = "EveHQ.sdf.zip" And EveHQ.Core.HQ.EveHQSettings.DBFormat = 0) Then
+            If newFile.Text <> "EveHQ.sdf.zip" Or (newFile.Text = "EveHQ.sdf.zip" And EveHQ.Core.HQ.EveHqSettings.DBFormat = 0) Then
                 newFile.Cells(2).Text = "New!!"
                 newFile.Style = UpdateRequiredStyle
                 Dim chkDownload As New DevComponents.DotNetBar.CheckBoxItem
@@ -502,7 +502,7 @@ Public Class frmUpdater
         If FilesRequired.Count <> filesComplete.Count Then
             Do
                 ' Check if the queue is full
-                If UpdateQueue.Count < EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads Then
+                If UpdateQueue.Count < EveHQ.Core.HQ.EveHqSettings.MaxUpdateThreads Then
                     ' Get a file from the queue
                     Dim reqfile As String = FilesRequired.Dequeue
                     If FilesComplete.ContainsKey(reqfile) = False Then
@@ -536,7 +536,7 @@ Public Class frmUpdater
         Dim httpURI As String = ""
         Dim pdbFile As String = ""
         Dim localFile As String = ""
-        httpURI = EveHQ.Core.HQ.EveHQSettings.UpdateURL & FileNeeded
+        httpURI = EveHQ.Core.HQ.EveHqSettings.UpdateURL & FileNeeded
         localFile = Path.Combine(updateFolder, FileNeeded & ".tmp")
 
         ' Create the request to access the server and set credentials
@@ -658,7 +658,7 @@ Public Class frmUpdater
                         item.Cells(6).HostedItem.Text = "Download Failed!" : item.Cells(6).HostedItem.Refresh()
                         CType(item.Cells(6).HostedItem, ProgressBarItem).ColorTable = eProgressBarItemColor.Error
                     End If
-                    End If
+                End If
             End If
         Next
         ' Remove event handlers
@@ -677,7 +677,7 @@ Public Class frmUpdater
                 Dim msg As String = "The download process is complete. EveHQ will now update." & ControlChars.CrLf & ControlChars.CrLf & "Click OK to continue..."
                 MessageBox.Show(msg, "Ready To Update", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ' Try backup here?
-                If EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = True Then
+                If EveHQ.Core.HQ.EveHqSettings.BackupBeforeUpdate = True Then
                     EveHQ.Core.HQ.WriteLogEvent("Shutdown: Request to backup EveHQ Settings before update")
                     Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
                     Call EveHQ.Core.EveHQBackup.BackupEveHQSettings()
@@ -706,8 +706,8 @@ Public Class frmUpdater
                 Else
                     args &= " /Local;False"
                 End If
-                If EveHQ.Core.HQ.EveHQSettings.DBFormat = 0 Then
-                    args &= " /DB;" & ControlChars.Quote & EveHQ.Core.HQ.EveHQSettings.DBFilename & ControlChars.Quote
+                If EveHQ.Core.HQ.EveHqSettings.DBFormat = 0 Then
+                    args &= " /DB;" & ControlChars.Quote & EveHQ.Core.HQ.EveHqSettings.DBFilename & ControlChars.Quote
                 Else
                     args &= " /DB;None"
                 End If
@@ -743,7 +743,7 @@ Public Class frmUpdater
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
 
-        Dim httpURI As String = EveHQ.Core.HQ.EveHQSettings.UpdateURL & FileNeeded
+        Dim httpURI As String = EveHQ.Core.HQ.EveHqSettings.UpdateURL & FileNeeded
         Dim localFile As String = Path.Combine(PatcherLocation, FileNeeded)
 
         ' Create the request to access the server and set credentials
@@ -793,7 +793,7 @@ Public Class frmUpdater
     End Function
 
     Private Sub nudDownloads_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudDownloads.ValueChanged
-        EveHQ.Core.HQ.EveHQSettings.MaxUpdateThreads = nudDownloads.Value
+        EveHQ.Core.HQ.EveHqSettings.MaxUpdateThreads = nudDownloads.Value
     End Sub
 
     Private Sub btnCancelUpdate_Click(sender As System.Object, e As System.EventArgs) Handles btnCancelUpdate.Click

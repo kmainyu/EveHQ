@@ -233,7 +233,7 @@ Public Class frmBPCalculator
         'Load the characters into the comboboxes
         cboPilot.BeginUpdate() : cboPilot.Items.Clear()
         cboOwner.BeginUpdate() : cboOwner.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilot.Items.Add(cPilot.Name)
                 cboOwner.Items.Add(cPilot.Name)
@@ -520,8 +520,8 @@ Public Class frmBPCalculator
 
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         ' Set the pilot
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            BPPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
+            BPPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
             ' Update skills and stuff
             currentJob.UpdateManufacturer(BPPilot.Name)
             Call Me.UpdatePilotSkills()

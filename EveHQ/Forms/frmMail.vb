@@ -78,7 +78,7 @@ Public Class frmMail
         ' Update the pilots combo box
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -95,8 +95,8 @@ Public Class frmMail
         Else
             If oldPilot = "" Then
                 If cboPilots.Items.Count > 0 Then
-                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupPilot) = True Then
-                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupPilot
+                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
+                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
                     Else
                         cboPilots.SelectedIndex = 0
                     End If
@@ -178,7 +178,7 @@ Public Class frmMail
         ' Fetch all the emails in the database
         Try
             Dim MailingListIDs As New SortedList(Of Long, String)
-            For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+            For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
                 ' Stage 1: Download the latest EveMail API using the standard API method
                 Dim NewMailingListIDs As New SortedList(Of Long, String)
                 If mPilot.Active = True Then
@@ -221,8 +221,8 @@ Public Class frmMail
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
             Call UpdateMailInfo()
         End If
     End Sub

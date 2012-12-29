@@ -114,7 +114,7 @@ Public Class frmDamageAnalysis
             cboAttackerFitting.SelectedItem = cFittingName
         End If
         ' Add the pilots
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             cboAttackerPilot.Items.Add(cPilot.Name)
             cboTargetPilot.Items.Add(cPilot.Name)
         Next

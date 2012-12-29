@@ -35,8 +35,8 @@ Public Class SkillQueueTimeControl
 
         ' Add any initialization after the InitializeComponent() call.
         CurrentPilotName = PilotName
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(currentPilotName) = True Then
-            QueuedSkills = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).QueuedSkills
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(currentPilotName) = True Then
+            QueuedSkills = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).QueuedSkills
         End If
 
     End Sub
