@@ -386,8 +386,19 @@ Public Class frmUpdater
             If localVer = remoteVer Then
                 Return False
             Else
-                Dim localVers() As String = localVer.Split(CChar("."))
-                Dim remoteVers() As String = remoteVer.Split(CChar("."))
+                Dim localVers As List(Of String) = localVer.Split(CChar(".")).ToList()
+                Dim remoteVers As List(Of String) = remoteVer.Split(CChar(".")).ToList()
+                If localVers.Count <> remoteVers.Count Then
+                    If localVers.Count < remoteVers.Count Then
+                        For i As Int32 = 0 To (remoteVers.Count - localVers.Count)
+                            localVers.Add("0")
+                        Next
+                    Else
+                        For i As Int32 = 0 To (localVers.Count - remoteVers.Count)
+                            remoteVers.Add("0")
+                        Next
+                    End If
+                End If
                 Dim requiresUpdate As Boolean = False
                 For ver As Integer = 0 To 3
                     If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
