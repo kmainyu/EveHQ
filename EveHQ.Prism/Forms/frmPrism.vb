@@ -3490,6 +3490,7 @@ Public Class frmPrism
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
         Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From a In RecyclerAssetList.Keys Select CStr(a))
         For Each asset As String In RecyclerAssetList.Keys
             itemInfo = EveHQ.Core.HQ.itemData(asset)
             If itemInfo.Category = 25 Then
@@ -3539,7 +3540,7 @@ Public Class frmPrism
             newCLVItem.Text = itemInfo.Name
             newCLVItem.Tag = itemInfo.ID
             adtRecycle.Nodes.Add(newCLVItem)
-            price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(asset), 2, MidpointRounding.AwayFromZero)
+            price = Math.Round(prices(asset), 2, MidpointRounding.AwayFromZero)
             batches = CInt(Int(CLng(RecyclerAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
             quantity = CLng(RecyclerAssetList(asset))
             volume += itemInfo.Volume * quantity
@@ -3560,8 +3561,9 @@ Public Class frmPrism
             End If
             recycleTotal = 0
             If matList IsNot Nothing Then ' i.e. it can be refined
+                Dim matPrices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From m In matList.Keys Select EveHQ.Core.HQ.itemList(CStr(m)))
                 For Each mat As String In matList.Keys
-                    price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
+                    price = Math.Round(matPrices(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
                     perfect = CLng(matList(mat)) * batches
                     wastage = CLng(perfect * (1 - tempNetYield))
                     quant = CLng(perfect * tempNetYield)
@@ -3632,8 +3634,9 @@ Public Class frmPrism
         adtTotals.BeginUpdate()
         adtTotals.Nodes.Clear()
         If RecycleResults IsNot Nothing Then
+            Dim matPrices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From m In RecycleResults.Keys Select EveHQ.Core.HQ.itemList(CStr(m)))
             For Each mat As String In RecycleResults.Keys
-                price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
+                price = Math.Round(matPrices(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
                 wastage = CLng(RecycleWaste(mat))
                 taken = CLng(RecycleTake(mat))
                 quant = CLng(RecycleResults(mat))
@@ -5065,6 +5068,7 @@ Public Class frmPrism
         Dim UnitWaste As Double = 0
 
         If CurrentJob IsNot Nothing Then
+            Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
             For Each resource As Object In CurrentJob.RequiredResources.Values
                 If TypeOf (resource) Is RequiredResource Then
                     ' This is a resource so add it
@@ -5073,13 +5077,11 @@ Public Class frmPrism
                         Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
                         Dim waste As Integer = CInt(rResource.WasteUnits)
                         Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
+                        Dim price As Double = prices(CStr(rResource.TypeID))
                         Dim value As Double = total * price
                         If total > 0 Then
                             UnitMaterial += value
                             UnitWaste += waste * price
-                            Dim PerfectTotal As Long = CLng(perfectRaw) * CLng(CurrentJob.Runs)
-                            Dim WasteTotal As Long = CLng(waste) * CLng(CurrentJob.Runs)
                             Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
                             If Orders.ContainsKey(rResource.TypeName) = False Then
                                 Orders.Add(rResource.TypeName, CInt(TotalTotal))
@@ -5203,6 +5205,7 @@ Public Class frmPrism
     Private Sub UpdateProductionJobList()
         adtProdJobs.BeginUpdate()
         adtProdJobs.Nodes.Clear()
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In ProductionJobs.Jobs.Values Where r.CurrentBP IsNot Nothing Select CStr(r.CurrentBP.ProductID))
         For Each cJob As ProductionJob In ProductionJobs.Jobs.Values
             Dim NewJob As New Node
             NewJob.Name = cJob.JobName
@@ -5212,7 +5215,7 @@ Public Class frmPrism
                 Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBP.ProductID))
                 Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                 Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
-                Dim value As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(cJob.CurrentBP.ProductID))
+                Dim value As Double = prices(CStr(cJob.CurrentBP.ProductID))
                 Dim profit As Double = value - unitcosts
                 Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
                 Dim margin As Double = (profit / value * 100)
@@ -5392,13 +5395,14 @@ Public Class frmPrism
     Private Sub UpdateInventionJobList()
         adtInventionJobs.BeginUpdate()
         adtInventionJobs.Nodes.Clear()
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In ProductionJobs.Jobs.Values Where r.HasInventionJob = True Where r.InventionJob.InventedBpid <> 0 Select CStr(r.InventionJob.CalculateInventedBPC.ProductID))
         For Each cJob As ProductionJob In ProductionJobs.Jobs.Values
             ' Check for the Invention Manager Flag
             If cJob.HasInventionJob = True Then
                 Dim NewJob As New Node
                 NewJob.Name = cJob.JobName
                 NewJob.Text = cJob.JobName
-                If cJob.InventionJob.InventedBPID <> 0 Then
+                If cJob.InventionJob.InventedBpid <> 0 Then
 
                     ' Calculate costs
                     Dim InvCost As InventionCost = cJob.InventionJob.CalculateInventionCost
@@ -5411,12 +5415,12 @@ Public Class frmPrism
                     ' Calculate Production Cost of invented item
                     Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                     Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2, MidpointRounding.AwayFromZero) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
-                    Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductID.ToString)
+                    Dim SalesPrice As Double = prices(IBP.ProductID.ToString)
                     Dim UnitProfit As Double = SalesPrice - AvgCost
                     Dim TotalProfit As Double = UnitProfit * IBP.Runs * BatchQty
                     Dim Margin As Double = UnitProfit / SalesPrice * 100
 
-                    NewJob.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(cJob.InventionJob.InventedBPID)).Name))
+                    NewJob.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(cJob.InventionJob.InventedBpid)).Name))
                     NewJob.Cells.Add(New Cell(InventionChance.ToString("N2")))
                     NewJob.Cells.Add(New Cell(InventionSuccessCost.ToString("N2")))
                     NewJob.Cells.Add(New Cell(AvgCost.ToString("N2")))
@@ -5845,6 +5849,7 @@ Public Class frmPrism
         Dim rigCost As Double = 0
         adtRigs.BeginUpdate()
         adtRigs.Nodes.Clear()
+        Dim bpCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From blueprint In RigBPData.Keys Select EveHQ.Core.HQ.itemList(CStr(blueprint)))
         For Each BP As String In RigBPData.Keys
             If EveHQ.Core.HQ.itemList.ContainsKey(BP) = True Then
                 buildableBP = True
@@ -5872,11 +5877,12 @@ Public Class frmPrism
                 ' Find the results
                 If buildableBP = True Then
                     ' Caluclate the build cost
+                    Dim costs As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From mat In RigBuildData.Keys Select EveHQ.Core.HQ.itemList(CStr(mat)))
                     For Each material In RigBuildData.Keys
                         ' Get price
-                        buildCost += CInt(RigBuildData(material)) * EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(material))
+                        buildCost += CInt(RigBuildData(material)) * costs(EveHQ.Core.HQ.itemList(material))
                     Next
-                    rigCost = EveHQ.Core.DataFunctions.GetPrice(EveHQ.Core.HQ.itemList(BP))
+                    rigCost = bpCosts(EveHQ.Core.HQ.itemList(BP))
                     Dim lviBP2 As New Node
                     lviBP2.Text = BP
                     Dim Qty As Integer = CInt(Int(minQuantity))

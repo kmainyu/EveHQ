@@ -17,10 +17,10 @@ namespace EveHQ.Market
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -43,7 +43,7 @@ namespace EveHQ.Market
         private const string EveCentralBaseUrl = "http://api.eve-central.com/api/";
 
         /// <summary>The market stat api.</summary>
-        private const string MarketStatAPI = "marketstat";
+        private const string MarketStatApi = "marketstat";
 
         /// <summary>The type id.</summary>
         private const string TypeId = "typeid";
@@ -57,7 +57,7 @@ namespace EveHQ.Market
         /// <summary>The min quantity.</summary>
         private const string MinQuantity = "minQ";
 
-        /// <summary>The query param format.</summary>
+        /// <summary>The query parameter format.</summary>
         private const string QueryParamFormat = "{0}{1}={2}";
 
         /// <summary>The amp.</summary>
@@ -111,9 +111,9 @@ namespace EveHQ.Market
                     if (typesToRequest.Any())
                     {
                         // make the request for the types we don't have valid caches for
-                        Uri requestUri = this.CreateMarketStatRequest(typesToRequest, includeRegions, 0, minQuantity);
+                        NameValueCollection requestParameters = this.CreateMarketRequestParameters(typesToRequest, includeRegions, 0, minQuantity);
 
-                        Task<WebResponse> requestTask = this.RequestAsync(requestUri);
+                        Task<WebResponse> requestTask = this.PostAsync(new Uri(EveCentralBaseUrl+MarketStatApi), requestParameters);
                         requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
                         if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
@@ -159,65 +159,65 @@ namespace EveHQ.Market
         public Task<IEnumerable<ItemOrderStats>> GetOrderStatsBySystem(IEnumerable<int> typeIds, int systemId, int minQuantity)
         {
             return Task<IEnumerable<ItemOrderStats>>.Factory.StartNew(
-              () =>
-              {
-                  var cachedItems = new List<ItemOrderStats>();
-                  var typesToRequest = new List<int>();
-                  string cacheKey = this.CalcCacheKey(new[] { systemId });
-                  foreach (int typeId in typeIds.Distinct())
-                  {
-                      var itemStats = this._systemDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
-                      if (itemStats != null)
-                      {
-                          cachedItems.Add(itemStats);
-                      }
-                      else
-                      {
-                          typesToRequest.Add(typeId);
-                      }
-                  }
+                () =>
+                {
+                    var cachedItems = new List<ItemOrderStats>();
+                    var typesToRequest = new List<int>();
+                    string cacheKey = this.CalcCacheKey(new[] { systemId });
+                    foreach (int typeId in typeIds.Distinct())
+                    {
+                        var itemStats = this._systemDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
+                        if (itemStats != null)
+                        {
+                            cachedItems.Add(itemStats);
+                        }
+                        else
+                        {
+                            typesToRequest.Add(typeId);
+                        }
+                    }
 
-                  if (typesToRequest.Any())
-                  {
-                      // make the request for the types we don't have valid caches for
-                      Uri requestUri = this.CreateMarketStatRequest(typesToRequest, null, systemId, minQuantity);
+                    if (typesToRequest.Any())
+                    {
+                        // make the request for the types we don't have valid caches for
+                        NameValueCollection requestParameters = this.CreateMarketRequestParameters(typesToRequest, null, systemId, minQuantity);
 
-                      Task<WebResponse> requestTask = this.RequestAsync(requestUri);
-                      requestTask.Wait(); // wait for the completion (we're in a background task anyways)
+                        Task<WebResponse> requestTask = this.PostAsync(new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters);
+                        requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
-                      if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
-                      {
-                          using (Stream stream = requestTask.Result.GetResponseStream())
-                          {
-                              try
-                              {
-                                  // process result
-                                  List<ItemOrderStats> retrievedItems = this.GetOrderStatsFromXml(stream);
+                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+                        {
+                            using (Stream stream = requestTask.Result.GetResponseStream())
+                            {
+                                try
+                                {
+                                    // process result
+                                    List<ItemOrderStats> retrievedItems = this.GetOrderStatsFromXml(stream);
 
-                                  // cache it.
-                                  foreach (ItemOrderStats item in retrievedItems)
-                                  {
-                                      this._systemDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId.ToInvariantString(), cacheKey), item, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
-                                  }
+                                    // cache it.
+                                    foreach (ItemOrderStats item in retrievedItems)
+                                    {
+                                        this._systemDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId.ToInvariantString(), cacheKey), item, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
+                                    }
 
-                                  // add them to the cached item collection for return
-                                  cachedItems.AddRange(retrievedItems);
-                              }
-                              catch (Exception ex)
-                              {
-                                  // todo: log/report XML parsing error.
-                                  throw ex;
-                              }
-                          }
-                      }
-                      else
-                      {
-                          throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
-                      }
-                  }
+                                    // add them to the cached item collection for return
+                                    cachedItems.AddRange(retrievedItems);
+                                }
+                                catch (Exception ex)
+                                {
+                                    // todo: log/report XML parsing error.
+                                    throw ex;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
+                        }
+                    }
 
-                  return cachedItems;
-              });
+                    return cachedItems;
+                });
         }
 
         /// <summary>The get order stats from xml.</summary>
@@ -238,7 +238,7 @@ namespace EveHQ.Market
                               let buyData = this.GetOrderData(type.Element("buy"))
                               let sellData = this.GetOrderData(type.Element("sell"))
                               let allData = this.GetOrderData(type.Element("all"))
-                              select new ItemOrderStats() { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData }).ToList();
+                              select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData }).ToList();
                 }
             }
 
@@ -261,7 +261,8 @@ namespace EveHQ.Market
             double median = element.Element("median").Value.ToDouble();
             double percentile = element.Element("percentile").Value.ToDouble();
 
-            return new OrderStats() { Volume = volume, Average = avg, Maximum = max, Minimum = min, StdDeviation = stddev, Median = median, Percentile = percentile };
+            return new OrderStats { Volume = volume, Average = avg, Maximum = max, Minimum = min, StdDeviation = stddev, Median = median, Percentile = percentile };
+
             // ReSharper restore PossibleNullReferenceException
         }
 
@@ -273,7 +274,7 @@ namespace EveHQ.Market
         /// <returns>The <see cref="Uri"/>.</returns>
         private Uri CreateMarketStatRequest(IEnumerable<int> typesToRequest, IEnumerable<int> regions, int systemId, int minQuantity)
         {
-            var uri = new UriBuilder(string.Concat(EveCentralBaseUrl, MarketStatAPI));
+            var uri = new UriBuilder(string.Concat(EveCentralBaseUrl, MarketStatApi));
             var query = new StringBuilder();
             foreach (int type in typesToRequest)
             {
@@ -301,6 +302,42 @@ namespace EveHQ.Market
             return uri.Uri;
         }
 
+        /// <summary>The create market stat request.</summary>
+        /// <param name="typesToRequest">The types to request.</param>
+        /// <param name="regions">The regions.</param>
+        /// <param name="systemId">The system id.</param>
+        /// <param name="minQuantity">The min quantity.</param>
+        /// <returns>The <see cref="Uri"/>.</returns>
+        private NameValueCollection CreateMarketRequestParameters(IEnumerable<int> typesToRequest, IEnumerable<int> regions, int systemId, int minQuantity)
+        {
+            var parameters = new NameValueCollection();
+
+            foreach (int type in typesToRequest)
+            {
+                parameters.Add(TypeId, type.ToInvariantString());
+            }
+
+            if (systemId == 0)
+            {
+                foreach (int region in regions)
+                {
+                    parameters.Add(RegionLimit, region.ToInvariantString());
+                }
+            }
+            else
+            {
+                parameters.Add(UseSystem, systemId.ToInvariantString());
+            }
+
+            if (minQuantity > 1)
+            {
+                parameters.Add(MinQuantity, minQuantity.ToInvariantString());
+
+            }
+
+            return parameters;
+        }
+
         /// <summary>Calculates the cache key to use.</summary>
         /// <param name="ids">The ids.</param>
         /// <returns>The <see cref="string"/>.</returns>
@@ -312,10 +349,28 @@ namespace EveHQ.Market
         /// <summary>The request async.</summary>
         /// <param name="target">The target.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        private Task<WebResponse> RequestAsync(Uri target)
+        private Task<WebResponse> GetAsync(Uri target)
         {
             var request = WebRequest.Create(target) as HttpWebRequest;
-            
+
+            return Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, null);
+        }
+
+        private Task<WebResponse> PostAsync(Uri target, NameValueCollection postData)
+        {
+            var request = WebRequest.Create(target) as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            var data = new List<string>();
+            foreach (string key in postData.AllKeys)
+            {
+                data.AddRange(postData[key].Split(',').Select((value) => key + "=" + value).ToArray());
+            }
+            string paramData = string.Join("&", data.ToArray());
+            request.ContentLength = paramData.Length;
+            var reqStream = request.GetRequestStream();
+            reqStream.Write(Encoding.ASCII.GetBytes(paramData), 0, paramData.Length);
+
 
             return Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, null);
         }

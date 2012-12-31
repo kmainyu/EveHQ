@@ -17,12 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 
-<Serializable()> Public Class ProductionJob
+<Serializable()>
+Public Class ProductionJob
     Public JobName As String
     Public CurrentBP As BlueprintSelection
     Public BPID As Integer
@@ -69,7 +69,8 @@ Imports System.Runtime.Serialization
         If Me.OverridingPE = "" Then
             Me.RunTime = CurrentBP.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Me.Runs)
         Else
-            Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant, AssemblyArray, Me.Runs)
+            Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant, AssemblyArray,
+                                                           Me.Runs)
         End If
 
         Dim BPWF As Double = CurrentBP.WasteFactor
@@ -130,7 +131,8 @@ Imports System.Runtime.Serialization
                 ' See if we need to examine the BP
                 If ComponentIteration = True And subBP IsNot Nothing Then
                     ' Convert the BP to a BlueprintSelection ready for processing
-                    Dim subBPS As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(subBP.TypeID))
+                    Dim subBPS As BlueprintSelection =
+                            BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(subBP.TypeID))
                     subBPS.MELevel = subBP.MELevel
                     subBPS.PELevel = subBP.PELevel
                     subBPS.Runs = subBP.Runs
@@ -178,17 +180,19 @@ Imports System.Runtime.Serialization
 
     Private Function CalculateCost() As Double
         Dim cost As Double = 0
-        For Each resource As Object In Me.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                If rResource.TypeCategory <> 16 Then
-                    cost += (rResource.PerfectUnits + rResource.WasteUnits) * EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID)) * Me.Runs
-                End If
-            Else
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
-                cost += subJob.CalculateCost
-            End If
-        Next
+
+        'Get the ID's of the required resources
+        Dim resources As IEnumerable(Of RequiredResource) = Me.RequiredResources.Values.Where(Function(value) value.GetType.Name = GetType(RequiredResource).Name).Select(Function(value) CType(value, RequiredResource)).Where(Function(r) r.TypeCategory <> 16)
+        Dim subJobs As IEnumerable(Of ProductionJob) = Me.RequiredResources.Values.Where(Function(value) value.GetType.Name = GetType(ProductionJob).Name).Select(Function(v) CType(v, ProductionJob))
+
+        'Get the prices for the resource
+        Dim resourceCost As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(resources.Select(Function(r) r.TypeID.ToString))
+        cost += resources.Select(Function(r) ((r.PerfectUnits + r.WasteUnits) * resourceCost(r.TypeID.ToString())) * Me.Runs).Sum()
+
+        ' Add in the costs for the sub jobs
+        cost += subJobs.Sum(Function(j) j.CalculateCost)
+
+        
         Return cost
     End Function
 
@@ -205,7 +209,8 @@ Imports System.Runtime.Serialization
             If Me.OverridingPE = "" Then
                 Me.RunTime = CurrentBP.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Me.Runs)
             Else
-                Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant, AssemblyArray, Me.Runs)
+                Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant,
+                                                               AssemblyArray, Me.Runs)
             End If
 
             Dim BPWF As Double = CurrentBP.WasteFactor
@@ -240,7 +245,6 @@ Imports System.Runtime.Serialization
             Me.Cost = Me.CalculateCost()
 
         End If
-
     End Sub
 
     Public Sub ReplaceResourceWithJob(ByVal TypeID As String)
@@ -256,7 +260,8 @@ Imports System.Runtime.Serialization
             If Me.OverridingPE = "" Then
                 Me.RunTime = CurrentBP.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Me.Runs)
             Else
-                Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant, AssemblyArray, Me.Runs)
+                Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant,
+                                                               AssemblyArray, Me.Runs)
             End If
 
             Dim BPWF As Double = CurrentBP.WasteFactor
@@ -328,7 +333,8 @@ Imports System.Runtime.Serialization
         If Me.OverridingPE = "" Then
             Me.RunTime = CurrentBP.CalculateProductionTime(IndSkill, ProdImplant, AssemblyArray, Me.Runs)
         Else
-            Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant, AssemblyArray, Me.Runs)
+            Me.RunTime = CurrentBP.CalculateProductionTime(CInt(Me.OverridingPE), IndSkill, ProdImplant, AssemblyArray,
+                                                           Me.Runs)
         End If
 
         Dim BPWF As Double = CurrentBP.WasteFactor
@@ -371,15 +377,19 @@ Imports System.Runtime.Serialization
         Next
 
         Me.Cost = Me.CalculateCost()
-
     End Sub
 
     Public Function CalculateWasteUnits(resource As BlueprintResource, BPWF As Double, MatMod As Double) As Integer
         Dim waste As Integer = 0
         ' Calculate Waste - Mark II!
-        waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0, MidpointRounding.AwayFromZero))
+        waste = CInt(Math.Round((BPWF * resource.BaseMaterial) + (resource.BaseMaterial * (MatMod - 1)), 0,
+                                MidpointRounding.AwayFromZero))
         ' Provisional adjustment for "extra" mats
-        Dim ExtraWaste As Integer = CInt(Math.Round(((resource.Quantity - resource.BaseMaterial) * (1.25 - (0.05 * Me.PESkill))) - (resource.Quantity - resource.BaseMaterial), 0, MidpointRounding.AwayFromZero))
+        Dim ExtraWaste As Integer =
+                CInt(
+                    Math.Round(
+                        ((resource.Quantity - resource.BaseMaterial) * (1.25 - (0.05 * Me.PESkill))) -
+                        (resource.Quantity - resource.BaseMaterial), 0, MidpointRounding.AwayFromZero))
         waste += ExtraWaste
         Return waste
     End Function
@@ -395,7 +405,8 @@ Imports System.Runtime.Serialization
         Next
     End Sub
 
-    Public Sub UpdateJobSkills(ByVal NewPESkill As Integer, ByVal NewIndSkill As Integer, ByVal NewProdImplant As Integer)
+    Public Sub UpdateJobSkills(ByVal NewPESkill As Integer, ByVal NewIndSkill As Integer,
+                               ByVal NewProdImplant As Integer)
         Me.PESkill = NewPESkill
         Me.IndSkill = NewIndSkill
         Me.ProdImplant = NewProdImplant
@@ -440,6 +451,5 @@ Imports System.Runtime.Serialization
             End If
         Next
     End Sub
-
 End Class
 

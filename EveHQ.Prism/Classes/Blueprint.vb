@@ -19,6 +19,7 @@
 '=========================================================================
 
 Imports System.Windows.Forms
+Imports EveHQ.Market
 
 <Serializable()> Public Class Blueprint
     Public ID As Integer
@@ -38,8 +39,8 @@ Imports System.Windows.Forms
     Public MaxProdLimit As Integer
     Public Resources As New SortedList(Of String, BlueprintResource)
     Public Inventions As New List(Of String)
-	Public InventionMetaItems As New SortedList(Of String, String)
-	Public InventFrom As New List(Of String)
+    Public InventionMetaItems As New SortedList(Of String, String)
+    Public InventFrom As New List(Of String)
 
     Public Shared Function LoadBluePrintData() As Boolean
         ' Get the Blueprint data from the DB
@@ -138,18 +139,18 @@ Imports System.Windows.Forms
                         BPDataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
                         If BPDataSet IsNot Nothing Then
                             If BPDataSet.Tables(0).Rows.Count > 0 Then
-								For Each InvRow As DataRow In BPDataSet.Tables(0).Rows
-									' Add the "Inventable" item
-									If PlugInData.Blueprints.ContainsKey(InvRow.Item("SBP").ToString) Then
-										Dim CurrentBP As Blueprint = PlugInData.Blueprints(InvRow.Item("SBP").ToString)
-										CurrentBP.Inventions.Add(InvRow.Item("IBP").ToString)
-									End If
-									' Add the "Invented From" item
-									If PlugInData.Blueprints.ContainsKey(InvRow.Item("IBP").ToString) Then
-										Dim CurrentBP As Blueprint = PlugInData.Blueprints(InvRow.Item("IBP").ToString)
-										CurrentBP.InventFrom.Add(InvRow.Item("SBP").ToString)
-									End If
-								Next
+                                For Each InvRow As DataRow In BPDataSet.Tables(0).Rows
+                                    ' Add the "Inventable" item
+                                    If PlugInData.Blueprints.ContainsKey(InvRow.Item("SBP").ToString) Then
+                                        Dim CurrentBP As Blueprint = PlugInData.Blueprints(InvRow.Item("SBP").ToString)
+                                        CurrentBP.Inventions.Add(InvRow.Item("IBP").ToString)
+                                    End If
+                                    ' Add the "Invented From" item
+                                    If PlugInData.Blueprints.ContainsKey(InvRow.Item("IBP").ToString) Then
+                                        Dim CurrentBP As Blueprint = PlugInData.Blueprints(InvRow.Item("IBP").ToString)
+                                        CurrentBP.InventFrom.Add(InvRow.Item("SBP").ToString)
+                                    End If
+                                Next
                                 ' Return finished
                                 Return True
                             Else
@@ -287,8 +288,8 @@ End Class
             Next
         End If
         ' Copy Inventeds
-		For Each Invention As String In OriginalBlueprint.InventFrom
-			newBP.InventFrom.Add(Invention)
+        For Each Invention As String In OriginalBlueprint.InventFrom
+            newBP.InventFrom.Add(Invention)
         Next
         ' Copy meta items
         For Each metaitem As String In OriginalBlueprint.InventionMetaItems.Keys
@@ -376,45 +377,62 @@ End Class
         Return CLng(productionTime * Runs)
     End Function
 
-    Public Function CalculateInventionCost(ByVal ItemID As String, ByVal DecryptorID As String, ByVal BPCRuns As Integer) As Double
-        Dim InvCost As Double = 0
-
-        ' Calculate Datacore costs
+    Public Function CalculateInventionCost(ByVal metaItemId As String, ByVal decryptorId As String, ByVal bpcRuns As Integer) As Double
+        Dim quantityTable As New Dictionary(Of String, Integer)
+        ' Gather a list of resources and quantities
         For Each resource As BlueprintResource In Me.Resources.Values
             If resource.Activity = 8 Then
                 ' Only include datacores
                 If resource.TypeGroup = 333 Then
-                    InvCost += (EveHQ.Core.DataFunctions.GetPrice(resource.TypeID.ToString) * resource.Quantity)
+                    Dim idKey As String = resource.TypeID.ToString
+                    If quantityTable.ContainsKey(idKey) = False Then
+                        quantityTable.Add(idKey, resource.Quantity)
+                    Else
+                        quantityTable(idKey) = quantityTable(idKey) + resource.Quantity
+                    End If
                 End If
             End If
         Next
 
-        ' Calculate Item cost
-        If ItemID <> "" Then
-            InvCost += EveHQ.Core.DataFunctions.GetPrice(ItemID)
+        ' Add in the meta item id
+        If metaItemId.IsNullOrWhiteSpace() = False And metaItemId <> "0" Then
+            If quantityTable.ContainsKey(metaItemId) = False Then
+                quantityTable.Add(metaItemId, 1)
+            Else
+                quantityTable(metaItemId) = quantityTable(metaItemId) + 1
+            End If
         End If
 
-        ' Calculate Decryptor cost
-        If DecryptorID <> "" Then
-            InvCost += EveHQ.Core.DataFunctions.GetPrice(DecryptorID)
+        ' add the decryptor to the list of items to get prices for
+        If decryptorId.IsNullOrWhiteSpace() = False And decryptorId <> "0" Then
+            If quantityTable.ContainsKey(decryptorId) = False Then
+                quantityTable.Add(decryptorId, 1)
+            Else
+                quantityTable(decryptorId) = quantityTable(decryptorId) + 1
+            End If
         End If
+
+        ' Total the item costs
+        Dim itemCost As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+        Dim invCost As Double = itemCost.Keys.Sum(Function(key) itemCost(key) * quantityTable(key))
+
 
         ' Calculate lab cost
-        InvCost += Settings.PrismSettings.LabInstallCost
-        InvCost += Math.Round(Settings.PrismSettings.LabRunningCost * (Me.ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
+        invCost += Settings.PrismSettings.LabInstallCost
+        invCost += Math.Round(Settings.PrismSettings.LabRunningCost * (Me.ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
 
         ' Calculate BPC cost
         If Settings.PrismSettings.BPCCosts.ContainsKey(Me.ID.ToString) Then
             Dim pricerange As Double = Settings.PrismSettings.BPCCosts(Me.ID.ToString).MaxRunCost - Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost
             Dim runrange As Integer = Me.MaxProdLimit - 1
             If runrange = 0 Then
-                InvCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost
+                invCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost
             Else
-                InvCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (BPCRuns - 1), 2, MidpointRounding.AwayFromZero)
+                invCost += Settings.PrismSettings.BPCCosts(Me.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
             End If
         End If
 
-        Return InvCost
+        Return invCost
     End Function
 
     Public Function CalculateInventedBPC(ByVal InventedBPID As Integer, ByVal DecryptorID As Integer, ByVal BPCRuns As Integer) As BlueprintSelection

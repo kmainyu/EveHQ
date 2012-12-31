@@ -111,14 +111,15 @@ Public Class PrismResources
     Public Sub DisplayInventionResources()
         adtInventionResources.BeginUpdate()
         adtInventionResources.Nodes.Clear()
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r As BlueprintResource In CurrentBP.Resources.Values Where r.Activity = 8 Select CStr(r.TypeID))
         For Each Resource As BlueprintResource In CurrentBP.Resources.Values
-            If Resource.Activity = 8 = True Then
+            If Resource.Activity = 8 Then
                 ' Add the resource to the list
                 Dim NewIR As New Node
                 NewIR.Text = Resource.TypeName
                 NewIR.Name = Resource.TypeID.ToString
                 NewIR.Cells.Add(New Cell(Resource.Quantity.ToString))
-                Dim IRPrice As Double = EveHQ.Core.DataFunctions.GetPrice(Resource.TypeID.ToString)
+                Dim IRPrice As Double = prices(Resource.TypeID.ToString)
                 NewIR.Cells.Add(New Cell(IRPrice.ToString))
                 NewIR.Cells.Add(New Cell((IRPrice * Resource.Quantity).ToString))
                 adtInventionResources.Nodes.Add(NewIR)
@@ -170,6 +171,10 @@ Public Class PrismResources
         Dim UnitWaste As Double = 0
 
         If CurrentJob IsNot Nothing Then
+            ' resource costs
+            Dim resourceCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
+            ' production job costs
+            Dim jobCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
             For Each resource As Object In CurrentJob.RequiredResources.Values
                 If TypeOf (resource) Is RequiredResource Then
                     ' This is a resource so add it
@@ -178,7 +183,7 @@ Public Class PrismResources
                         Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
                         Dim waste As Integer = CInt(rResource.WasteUnits)
                         Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
+                        Dim price As Double = resourceCosts(rResource.TypeID.ToString)
                         Dim value As Double = total * price
                         ' Add a new list view item
                         If total > 0 Then
@@ -246,7 +251,7 @@ Public Class PrismResources
                     Dim perfectRaw As Integer = CInt(subJob.PerfectUnits)
                     Dim waste As Integer = CInt(subJob.WasteUnits)
                     Dim total As Integer = perfectRaw + waste
-                    Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(subJob.TypeID))
+                    Dim price As Double = jobCosts(subJob.TypeID.ToString)
                     Dim value As Double = total * price
                     Dim newRes As New Node(subJob.TypeName)
                     newRes.TextDisplayFormat = "N0"
@@ -312,6 +317,10 @@ Public Class PrismResources
     End Sub
 
     Private Sub DisplayJob(ByVal parentJob As ProductionJob, ByVal BaseRuns As Integer, ByVal parentRes As Node, ByRef maxProducableUnits As Long)
+        ' resource costs
+        Dim resourceCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
+        ' production job costs
+        Dim jobCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
         For Each resource As Object In parentJob.RequiredResources.Values
             If TypeOf (resource) Is RequiredResource Then
                 ' This is a resource so add it
@@ -319,10 +328,10 @@ Public Class PrismResources
                 Dim UnitMaterial As Double = 0
                 Dim UnitWaste As Double = 0
                 If rResource.TypeCategory <> 16 Or (rResource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
-					Dim perfectRaw As Long = CLng(rResource.PerfectUnits) * parentJob.Runs
-					Dim waste As Long = CLng(rResource.WasteUnits) * parentJob.Runs
-					Dim total As Long = perfectRaw + waste
-                    Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
+                    Dim perfectRaw As Long = CLng(rResource.PerfectUnits) * parentJob.Runs
+                    Dim waste As Long = CLng(rResource.WasteUnits) * parentJob.Runs
+                    Dim total As Long = perfectRaw + waste
+                    Dim price As Double = resourceCosts(CStr(rResource.TypeID))
                     Dim value As Double = total * price
                     ' Add a new list view item
                     Dim newRes As New Node(rResource.TypeName)
@@ -378,7 +387,7 @@ Public Class PrismResources
                 Dim waste As Integer = CInt(subJob.WasteUnits)
                 Dim runs As Integer = parentJob.Runs
                 Dim total As Integer = perfectRaw + waste
-                Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(subJob.TypeID))
+                Dim price As Double = jobCosts(CStr(subJob.TypeID))
                 Dim value As Double = total * price
                 Dim newRes As New Node(subJob.TypeName)
                 newRes.TextDisplayFormat = "N0"
@@ -819,12 +828,14 @@ Public Class PrismResources
         Dim BatchVolume As Double = 0
         adtBatchResources.BeginUpdate()
         adtBatchResources.Nodes.Clear()
+        ' batch price request ... yes it goes through the collection more than once, but 1 possible web request is better than dozens.
+        Dim costs As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From items In GroupResources.Keys)
         For Each itemID As String In GroupResources.Keys
             reqd = GroupResources(itemID)
             If reqd > 0 Then
                 ItemData = EveHQ.Core.HQ.itemData(itemID)
                 Dim newORes As New Node(ItemData.Name)
-                Dim Price As Double = EveHQ.Core.DataFunctions.GetPrice(itemID)
+                Dim Price As Double = costs(itemID)
                 newORes.Cells.Add(New Cell(reqd.ToString("N0")))
                 newORes.Cells.Add(New Cell(Price.ToString("N2")))
                 newORes.Cells.Add(New Cell((Price * reqd).ToString("N2")))
@@ -850,12 +861,13 @@ Public Class PrismResources
         Dim ItemData As EveHQ.Core.EveItem
         adtProductionList.BeginUpdate()
         adtProductionList.Nodes.Clear()
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From pi In ProductionList.Values Select pi.ItemID)
         For Each PI As ProductionItem In ProductionList.Values
             If PI.IsBuild = True Then
                 ItemData = EveHQ.Core.HQ.itemData(PI.ItemID)
                 If ItemData.Category <> 9 Then
                     Dim NewPI As New Node(ItemData.Name)
-                    Dim Price As Double = EveHQ.Core.DataFunctions.GetPrice(PI.ItemID)
+                    Dim Price As Double = prices(PI.ItemID)
                     NewPI.Cells.Add(New Cell(PI.Quantity.ToString("N0")))
                     NewPI.Cells.Add(New Cell(Price.ToString("N2")))
                     NewPI.Cells.Add(New Cell((Price * PI.Quantity).ToString("N2")))

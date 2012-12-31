@@ -289,6 +289,7 @@ Public Class frmRequisitions
         NumberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
         adtOrders.BeginUpdate()
         adtOrders.Nodes.Clear()
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From o In Req.Orders.Values Select o.ItemID)
         For Each order As RequisitionOrder In Req.Orders.Values
             Dim OrderOwned As Long = 0
             Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(order.ItemID)
@@ -310,7 +311,7 @@ Public Class frmRequisitions
             vCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(vCell)
             ' Add Unit Cost cell
-            UnitCost = EveHQ.Core.DataFunctions.GetPrice(order.ItemID)
+            UnitCost = prices(order.ItemID)
             Dim ucCell As New DevComponents.AdvTree.Cell(UnitCost.ToString("N2"))
             ucCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(ucCell)

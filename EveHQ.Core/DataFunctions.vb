@@ -820,26 +820,36 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function GetPrice(ByVal itemID As String, Optional ByVal metric As MarketMetric = MarketMetric.Default) As Double
-        Return GetMarketPrices(New String() {itemID}, metric)(itemID)
+        Return GetMarketPrices(New String() {itemID}, metric).Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
     End Function
 
     Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), Optional ByVal metric As MarketMetric = MarketMetric.Default) As Dictionary(Of String, Double)
         If metric = MarketMetric.Default Then
             metric = HQ.EveHqSettings.MarketDefaultMetric
         End If
+
         Dim itemPrices As New Dictionary(Of String, Double)
         Dim task As Task(Of IEnumerable(Of ItemOrderStats))
+
         If itemIDs IsNot Nothing Then
 
-            Dim itemNumbers As IEnumerable(Of Integer) = (From itemID In itemIDs Select itemID.ToInt())
+            ' TODO: ItemIds are integers but through out the existing code they are inconsistently treated as strings (or longs...)... must fix that.
+
+            ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
+            itemPrices = itemIDs.Distinct().ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
+
+            ' Go through the list of id's provided and only get the items that have a valid market group.
+            Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In itemIDs Where HQ.itemData(itemId).MarketGroup <> 0 Select itemId.ToInt())
+
+            If (itemIdNumbersToRequest.Any()) Then
             'Fetch all the item prices in a single request
             If HQ.EveHqSettings.MarketUseRegionMarket Then
-                task = HQ.MarketDataProvider.GetRegionBasedOrderStats(itemNumbers, HQ.EveHqSettings.MarketRegions, 1)
+                task = HQ.MarketDataProvider.GetRegionBasedOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, 1)
             Else
-                task = HQ.MarketDataProvider.GetOrderStatsBySystem(itemNumbers, HQ.EveHqSettings.MarketSystem, 1)
+                task = HQ.MarketDataProvider.GetOrderStatsBySystem(itemIdNumbersToRequest, HQ.EveHqSettings.MarketSystem, 1)
             End If
 
-            ' Still need to do this in a synchronous way...unfortunately
+            ' Still need to do this in a synchronous fashion...unfortunately
             task.Wait()
 
             ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
@@ -851,7 +861,7 @@ Public Class DataFunctions
             End If
 
 
-            For Each itemId As String In itemIDs.Distinct()
+            For Each itemId As String In itemIDs.Distinct() 'We only need to process the unique id results.
                 Try
                     If result IsNot Nothing Then
                         itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
@@ -859,42 +869,40 @@ Public Class DataFunctions
 
                     ' If there is a custom price set, use that if not get it from the provider.
                     If HQ.CustomPriceList.ContainsKey(itemId) = True Then
-                        itemPrices.Add(itemId, CDbl(HQ.CustomPriceList(itemId)))
+                            itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
                     ElseIf itemResult IsNot Nothing Then
-
+                        ' if there's a market provider result use that
                         If metric = MarketMetric.Minimum Then
-                            itemPrices.Add(itemId, itemResult.Sell.Minimum)
+                                itemPrices(itemId) = itemResult.Sell.Minimum
                         ElseIf metric = MarketMetric.Maximum Then
-                            itemPrices.Add(itemId, itemResult.Sell.Maximum)
+                                itemPrices(itemId) = itemResult.Sell.Maximum
 
                         ElseIf metric = MarketMetric.Average Then
-                            itemPrices.Add(itemId, itemResult.Sell.Average)
+                                itemPrices(itemId) = itemResult.Sell.Average
 
                         ElseIf metric = MarketMetric.Median Then
-                            itemPrices.Add(itemId, itemResult.Sell.Median)
+                                itemPrices(itemId) = itemResult.Sell.Median
 
                         ElseIf metric = MarketMetric.Percentile Then
-                            itemPrices.Add(itemId, itemResult.Sell.Percentile)
+                                itemPrices(itemId) = itemResult.Sell.Percentile
                         End If
-                        'HQ.EveHQSettings.MarketDataProvider.
-                        'If HQ.MarketPriceList.ContainsKey(itemID) Then
-                        '    Return CDbl(HQ.MarketPriceList(itemID))
                     Else
+                        ' failing all that, fallback onto the base price.
                         If HQ.itemData.ContainsKey(itemId) Then
-                            itemPrices.Add(itemId, HQ.itemData(itemId).BasePrice)
+                                itemPrices(itemId) = HQ.itemData(itemId).BasePrice
                         Else
-                            itemPrices.Add(itemId, 0)
+                                itemPrices(itemId) = 0
                         End If
-                        'End If
                     End If
                 Catch e As Exception
                     If HQ.itemData.ContainsKey(itemId) Then
-                        itemPrices.Add(itemId, HQ.itemData(itemId).BasePrice)
+                            itemPrices(itemId) = HQ.itemData(itemId).BasePrice
                     Else
-                        itemPrices.Add(itemId, 0)
+                            itemPrices(itemId) = 0
                     End If
                 End Try
-            Next
+                Next
+            End If
         Else
             itemPrices.Add(Nothing, 0)
         End If

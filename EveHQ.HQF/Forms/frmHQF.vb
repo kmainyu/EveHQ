@@ -27,6 +27,7 @@ Imports Microsoft.Win32
 Imports DevComponents.AdvTree
 Imports System.Text
 Imports DevComponents.DotNetBar
+Imports System.Linq
 
 Public Class frmHQF
 
@@ -1201,6 +1202,10 @@ Public Class frmHQF
 
         tvwModules.BeginUpdate()
         tvwModules.Nodes.Clear()
+
+        'query for the prices of each of the modules. This iterates the collection more than once, but it is more efficient than potientially making a dozen or more web requests
+        Dim costTable As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From modules In LastModuleResults.Values Let mods = CType(modules, ShipModule) Select mods.ID)
+
         For Each shipmod As ShipModule In LastModuleResults.Values
             If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
                 If (shipmod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
@@ -1210,7 +1215,7 @@ Public Class frmHQF
                     newModule.Cells.Add(New Cell(shipmod.MetaLevel.ToString))
                     newModule.Cells.Add(New Cell(shipmod.CPU.ToString))
                     newModule.Cells.Add(New Cell(shipmod.PG.ToString))
-                    newModule.Cells.Add(New Cell(CStr(EveHQ.Core.DataFunctions.GetPrice(shipmod.ID))))
+                    newModule.Cells.Add(New Cell(CStr(costTable(shipmod.ID))))
                     newModule.Cells(4).TextDisplayFormat = "N2"
                     newModule.Style = New DevComponents.DotNetBar.ElementStyle
                     newModule.Style.Font = Me.Font

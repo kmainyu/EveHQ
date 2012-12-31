@@ -1,120 +1,284 @@
-﻿<Serializable()> Public Class InventionJob
-
+﻿<Serializable()>
+Public Class InventionJob
     ' Invention specific items
-    Public InventedBPID As Integer
-    Public BaseChance As Double
-    Public DecryptorUsed As Decryptor
-    Public MetaItemID As Integer
-    Public MetaItemLevel As Integer
-    Public OverrideBPCRuns As Boolean
-    Public BPCRuns As Integer
-    Public OverrideEncSkill As Boolean
-    Public OverrideDCSkill1 As Boolean
-    Public OverrideDCSkill2 As Boolean
-    Public EncryptionSkill As Integer
-    Public DatacoreSkill1 As Integer
-    Public DatacoreSkill2 As Integer
-    Public ProductionJob As ProductionJob ' Specific manufacturing info for the invention
+    Private _inventedBpid As Integer
+    Private _baseChance As Double
+    Private _decryptorUsed As Decryptor
+    Private _metaItemId As Integer
+    Private _metaItemLevel As Integer
+    Private _overrideBpcRuns As Boolean
+    Private _bpcRuns As Integer
+    Private _overrideEncSkill As Boolean
+    Private _overrideDcSkill1 As Boolean
+    Private _overrideDcSkill2 As Boolean
+    Private _encryptionSkill As Integer
+    Private _datacoreSkill1 As Integer
+    Private _datacoreSkill2 As Integer
+    Private _productionJob As ProductionJob
+
+    Public Property InventedBpid As Integer
+        Get
+            Return _inventedBpid
+        End Get
+        Set(value As Integer)
+            _inventedBpid = value
+        End Set
+    End Property
+
+    Public Property BaseChance As Double
+        Get
+            Return _baseChance
+        End Get
+        Set(value As Double)
+            _baseChance = value
+        End Set
+    End Property
+
+    Public Property DecryptorUsed As Decryptor
+        Get
+            Return _decryptorUsed
+        End Get
+        Set(value As Decryptor)
+            _decryptorUsed = value
+        End Set
+    End Property
+
+    Public Property MetaItemId As Integer
+        Get
+            Return _metaItemId
+        End Get
+        Set(value As Integer)
+            _metaItemId = value
+        End Set
+    End Property
+
+    Public Property MetaItemLevel As Integer
+        Get
+            Return _metaItemLevel
+        End Get
+        Set(value As Integer)
+            _metaItemLevel = value
+        End Set
+    End Property
+
+    Public Property OverrideBpcRuns As Boolean
+        Get
+            Return _overrideBpcRuns
+        End Get
+        Set(value As Boolean)
+            _overrideBpcRuns = value
+        End Set
+    End Property
+
+    Public Property BpcRuns As Integer
+        Get
+            Return _bpcRuns
+        End Get
+        Set(value As Integer)
+            _bpcRuns = value
+        End Set
+    End Property
+
+    Public Property OverrideEncSkill As Boolean
+        Get
+            Return _overrideEncSkill
+        End Get
+        Set(value As Boolean)
+            _overrideEncSkill = value
+        End Set
+    End Property
+
+    Public Property OverrideDcSkill1 As Boolean
+        Get
+            Return _overrideDcSkill1
+        End Get
+        Set(value As Boolean)
+            _overrideDcSkill1 = value
+        End Set
+    End Property
+
+    Public Property OverrideDcSkill2 As Boolean
+        Get
+            Return _overrideDcSkill2
+        End Get
+        Set(value As Boolean)
+            _overrideDcSkill2 = value
+        End Set
+    End Property
+
+    Public Property EncryptionSkill As Integer
+        Get
+            Return _encryptionSkill
+        End Get
+        Set(value As Integer)
+            _encryptionSkill = value
+        End Set
+    End Property
+
+    Public Property DatacoreSkill1 As Integer
+        Get
+            Return _datacoreSkill1
+        End Get
+        Set(value As Integer)
+            _datacoreSkill1 = value
+        End Set
+    End Property
+
+    Public Property DatacoreSkill2 As Integer
+        Get
+            Return _datacoreSkill2
+        End Get
+        Set(value As Integer)
+            _datacoreSkill2 = value
+        End Set
+    End Property
+
+    Public Property ProductionJob As ProductionJob
+        Get
+            Return _productionJob
+        End Get
+        Set(value As ProductionJob)
+            _productionJob = value
+        End Set
+    End Property
+    ' Specific manufacturing info for the invention
 
     Public Function GetBaseBP() As Blueprint
-        Return PlugInData.Blueprints(PlugInData.Blueprints(Me.InventedBPID.ToString).InventFrom(0))
+        Return PlugInData.Blueprints(PlugInData.Blueprints(_inventedBpid.ToString).InventFrom(0))
     End Function
 
     Public Function CalculateInventionChance() As Double
-        Dim DecryptorMod As Double = 1
-        If DecryptorUsed IsNot Nothing Then
-            DecryptorMod = DecryptorUsed.ProbMod
+        Dim decryptorMod As Double = 1
+        If _decryptorUsed IsNot Nothing Then
+            decryptorMod = _decryptorUsed.ProbMod
         End If
-        Return Me.BaseChance * (1 + (0.01 * Me.EncryptionSkill)) * (1 + ((Me.DatacoreSkill1 + Me.DatacoreSkill2) * (0.1 / (5 - Me.MetaItemLevel)))) * DecryptorMod
+        Return _
+            _baseChance * (1 + (0.01 * _encryptionSkill)) *
+            (1 + ((_datacoreSkill1 + _datacoreSkill2) * (0.1 / (5 - _metaItemLevel)))) * decryptorMod
     End Function
 
     Public Function CalculateInventionCost() As InventionCost
-
-        Dim InvCost As New InventionCost
-        Dim TotalCost As Double = 0
-
+        'TODO: Refactor this so it is not a dupe of the blueprint Calc Invention Cost
+        Dim invCost As New InventionCost
+        Dim quantityTable As New Dictionary(Of String, Integer)
         ' Get base item BP for this invention
-        Dim BaseBP As Blueprint = GetBaseBP()
+        Dim baseBp As Blueprint = GetBaseBP()
 
         ' Calculate Datacore costs
-        For Each resource As BlueprintResource In BaseBP.Resources.Values
+        For Each resource As BlueprintResource In baseBp.Resources.Values
             If resource.Activity = 8 Then
                 ' Only include datacores
                 If resource.TypeGroup = 333 Then
-                    InvCost.DatacoreCost += (EveHQ.Core.DataFunctions.GetPrice(resource.TypeID.ToString) * resource.Quantity)
+                    Dim idKey As String = resource.TypeID.ToString
+                    If quantityTable.ContainsKey(idKey) = False Then
+                        quantityTable.Add(idKey, resource.Quantity)
+                    Else
+                        quantityTable(idKey) = quantityTable(idKey) + resource.Quantity
+                    End If
                 End If
             End If
         Next
 
         ' Calculate Item cost
-        If MetaItemID <> 0 Then
-            InvCost.MetaItemCost = EveHQ.Core.DataFunctions.GetPrice(MetaItemID.ToString)
+        If _metaItemId <> 0 Then
+            Dim metaId As String = CStr(_metaItemId)
+            If quantityTable.ContainsKey(metaId) = False Then
+                quantityTable.Add(metaId, 1)
+            Else
+                quantityTable(metaId) = quantityTable(metaId) + 1
+            End If
+
         End If
 
         ' Calculate Decryptor cost
-        If DecryptorUsed IsNot Nothing Then
-            If DecryptorUsed.ID <> "" Then
-                InvCost.DecryptorCost = EveHQ.Core.DataFunctions.GetPrice(DecryptorUsed.ID)
+        If _decryptorUsed IsNot Nothing Then
+            If _decryptorUsed.ID <> "" And _decryptorUsed.ID <> "0" Then
+                If quantityTable.ContainsKey(_decryptorUsed.ID) = False Then
+                    quantityTable.Add(_decryptorUsed.ID, 1)
+                Else
+                    quantityTable(_decryptorUsed.ID) = quantityTable(_decryptorUsed.ID) + 1
+                End If
             End If
         End If
 
+        ' Total the item costs
+        Dim itemCost As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+
+        invCost.DatacoreCost =
+            itemCost.Keys.Where(
+                Function(key) baseBp.Resources.Values.Any(Function(resource) resource.TypeID.ToString = key)).Sum(
+                    Function(key) itemCost(key)*quantityTable(key))
+        If _decryptorUsed IsNot Nothing Then
+            invCost.DecryptorCost =
+                itemCost.Keys.Where(Function(key) key = _decryptorUsed.ID).Select(
+                    Function(key) itemCost(key)*quantityTable(key)).Sum()
+        End If
+
+        invCost.MetaItemCost =
+            itemCost.Keys.Where(Function(key) key = _metaItemId.ToString).Select(
+                Function(key) itemCost(key)*quantityTable(key)).Sum()
+
         ' Calculate lab cost
-        InvCost.LabCost = Settings.PrismSettings.LabInstallCost
-        InvCost.LabCost += Math.Round(Settings.PrismSettings.LabRunningCost * (BaseBP.ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
+        invCost.LabCost = Settings.PrismSettings.LabInstallCost
+        invCost.LabCost += Math.Round(Settings.PrismSettings.LabRunningCost*(baseBp.ResearchTechTime/3600), 2,
+                                      MidpointRounding.AwayFromZero)
 
         ' Calculate BPC cost
-        InvCost.BPCCost = CalculateBPCCost()
+        invCost.BPCCost = CalculateBPCCost()
 
-        InvCost.TotalCost = InvCost.DatacoreCost + InvCost.MetaItemCost + InvCost.DecryptorCost + InvCost.LabCost + InvCost.BPCCost
+        invCost.TotalCost = invCost.DatacoreCost + invCost.MetaItemCost + invCost.DecryptorCost + invCost.LabCost +
+                            invCost.BPCCost
 
-        Return InvCost
+        Return invCost
     End Function
 
     Public Function CalculateInventedBPC() As BlueprintSelection
 
         ' Get base item BP for this invention
-        Dim BaseBP As Blueprint = GetBaseBP()
+        Dim baseBp As Blueprint = GetBaseBP()
 
-        Dim IBP As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(InventedBPID.ToString))
+        Dim ibp As BlueprintSelection =
+                BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(_inventedBpid.ToString))
 
-        Dim IME As Integer = -4
-        Dim IPE As Integer = -4
-        Dim IRC As Integer = 10
+        Dim ime As Integer = - 4
+        Dim ipe As Integer = - 4
+        Dim irc As Integer
         Dim runMod As Integer = 0
 
-        If DecryptorUsed IsNot Nothing Then
-            If PlugInData.Decryptors.ContainsKey(DecryptorUsed.Name) Then
-                Dim UseDecryptor As Decryptor = PlugInData.Decryptors(DecryptorUsed.Name)
-                IME += UseDecryptor.MEMod
-                IPE += UseDecryptor.PEMod
-                runMod = UseDecryptor.RunMod
+        If _decryptorUsed IsNot Nothing Then
+            If PlugInData.Decryptors.ContainsKey(_decryptorUsed.Name) Then
+                Dim useDecryptor As Decryptor = PlugInData.Decryptors(_decryptorUsed.Name)
+                ime += useDecryptor.MEMod
+                ipe += useDecryptor.PEMod
+                runMod = useDecryptor.RunMod
             End If
         End If
-        IRC = Math.Min(Math.Max(CInt(Math.Truncate((BPCRuns / BaseBP.MaxProdLimit) * (IBP.MaxProdLimit / 10))), 1) + runMod, IBP.MaxProdLimit)
+        irc = Math.Min(Math.Max(CInt(Math.Truncate((_bpcRuns/baseBp.MaxProdLimit)*(ibp.MaxProdLimit/10))), 1) + runMod,
+                       ibp.MaxProdLimit)
 
-        IBP.MELevel = IME
-        IBP.PELevel = IPE
-        IBP.Runs = IRC
+        ibp.MELevel = ime
+        ibp.PELevel = ipe
+        ibp.Runs = irc
 
-        Return IBP
-
+        Return ibp
     End Function
 
     Public Function CalculateBPCCost() As Double
-        Dim BPCCost As Double = 0
-        Dim BaseBP As Blueprint = GetBaseBP()
-        If Settings.PrismSettings.BPCCosts.ContainsKey(BaseBP.ID.ToString) Then
-            Dim pricerange As Double = Settings.PrismSettings.BPCCosts(BaseBP.ID.ToString).MaxRunCost - Settings.PrismSettings.BPCCosts(BaseBP.ID.ToString).MinRunCost
-            Dim runrange As Integer = BaseBP.MaxProdLimit - 1
+        Dim bpcCost As Double = 0
+        Dim baseBp As Blueprint = GetBaseBP()
+        If Settings.PrismSettings.BPCCosts.ContainsKey(baseBp.ID.ToString) Then
+            Dim pricerange As Double = Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MaxRunCost -
+                                       Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
+            Dim runrange As Integer = baseBp.MaxProdLimit - 1
             If runrange = 0 Then
-                BPCCost += Settings.PrismSettings.BPCCosts(BaseBP.ID.ToString).MinRunCost
+                bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
             Else
-                BPCCost += Settings.PrismSettings.BPCCosts(BaseBP.ID.ToString).MinRunCost + Math.Round((pricerange / runrange) * (BPCRuns - 1), 2, MidpointRounding.AwayFromZero)
+                bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost +
+                           Math.Round((pricerange/runrange)*(_bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
             End If
         End If
-        Return BPCCost
+        Return bpcCost
     End Function
-
 End Class
 
 Public Class InventionCost

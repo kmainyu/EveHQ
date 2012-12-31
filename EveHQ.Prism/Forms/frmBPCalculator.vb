@@ -395,7 +395,7 @@ Public Class frmBPCalculator
         End If
 
         ' Set InventionBP
-        cboInventions.SelectedItem = EveHQ.Core.HQ.itemData(currentJob.InventionJob.InventedBPID.ToString).Name
+        cboInventions.SelectedItem = EveHQ.Core.HQ.itemData(currentJob.InventionJob.InventedBpid.ToString).Name
 
         ' Set Decryptor
         If currentJob.InventionJob.DecryptorUsed IsNot Nothing Then
@@ -403,12 +403,12 @@ Public Class frmBPCalculator
         End If
 
         ' Set MetaItem
-        If currentJob.InventionJob.MetaItemID <> 0 Then
-            cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemID.ToString).MetaLevel & ": " & EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemID.ToString).Name)
+        If currentJob.InventionJob.MetaItemId <> 0 Then
+            cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemId.ToString).MetaLevel & ": " & EveHQ.Core.HQ.itemData(currentJob.InventionJob.MetaItemId.ToString).Name)
         End If
 
         ' Set Runs
-        nudInventionBPCRuns.LockUpdateChecked = currentJob.InventionJob.OverrideBPCRuns
+        nudInventionBPCRuns.LockUpdateChecked = currentJob.InventionJob.OverrideBpcRuns
         'If currentJob.InventionJob.OverrideBPCRuns = True Then
         '    nudInventionBPCRuns.Value = currentJob.InventionJob.BPCRuns
         'End If
@@ -418,12 +418,12 @@ Public Class frmBPCalculator
         If currentJob.InventionJob.OverrideEncSkill = True Then
             nudInventionSkill1.Value = currentJob.InventionJob.EncryptionSkill
         End If
-        nudInventionSkill2.LockUpdateChecked = currentJob.InventionJob.OverrideDCSkill1
-        If currentJob.InventionJob.OverrideDCSkill1 = True Then
+        nudInventionSkill2.LockUpdateChecked = currentJob.InventionJob.OverrideDcSkill1
+        If currentJob.InventionJob.OverrideDcSkill1 = True Then
             nudInventionSkill2.Value = currentJob.InventionJob.DatacoreSkill1
         End If
-        nudInventionSkill3.LockUpdateChecked = currentJob.InventionJob.OverrideDCSkill2
-        If currentJob.InventionJob.OverrideDCSkill2 = True Then
+        nudInventionSkill3.LockUpdateChecked = currentJob.InventionJob.OverrideDcSkill2
+        If currentJob.InventionJob.OverrideDcSkill2 = True Then
             nudInventionSkill3.Value = currentJob.InventionJob.DatacoreSkill2
         End If
 
@@ -715,12 +715,13 @@ Public Class frmBPCalculator
 
         Dim InventionSkills As New SortedList(Of String, Integer)
 
+
         ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
         Dim DecryptorGroupID As String = ""
         For Each Resource As BlueprintResource In CurrentInventionBP.Resources.Values
-            If Resource.Activity = 8 = True Then
+            If Resource.Activity = 8 Then
                 ' Add the resource to the list
-                Dim IRPrice As Double = EveHQ.Core.DataFunctions.GetPrice(Resource.TypeID.ToString)
+
                 If Resource.TypeName.EndsWith("Interface") = True Then
                     Select Case Resource.TypeName.Substring(0, 1)
                         Case "O"
@@ -1424,7 +1425,7 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub nudInventionSkill2_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill2.LockUpdateChanged
-        currentJob.InventionJob.OverrideDCSkill1 = nudInventionSkill2.LockUpdateChecked
+        currentJob.InventionJob.OverrideDcSkill1 = nudInventionSkill2.LockUpdateChecked
         If InventionStartUp = False Then
             Me.ProductionChanged = True
         End If
@@ -1451,7 +1452,7 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub nudInventionSkill3_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill3.LockUpdateChanged
-        currentJob.InventionJob.OverrideDCSkill2 = nudInventionSkill3.LockUpdateChecked
+        currentJob.InventionJob.OverrideDcSkill2 = nudInventionSkill3.LockUpdateChecked
         If InventionStartUp = False Then
             Me.ProductionChanged = True
         End If
@@ -1506,14 +1507,14 @@ Public Class frmBPCalculator
     Private Sub SetInventionJobData()
         ' Set the relevant parts of the current job
         Dim CurrentInventionJob As InventionJob = currentJob.InventionJob
-        CurrentInventionJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
-        CurrentInventionJob.BPCRuns = nudInventionBPCRuns.Value
+        CurrentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
+        CurrentInventionJob.BpcRuns = nudInventionBPCRuns.Value
         If nudInventionBPCRuns.LockUpdateChecked = False Then
             ' Use current BP Runs, replacing max for unlimited
             If CurrentBP.Runs = -1 Then
                 ' Use max runs
-                If CurrentInventionJob.InventedBPID <> 0 Then
-                    CurrentInventionJob.BPCRuns = CurrentInventionJob.GetBaseBP.MaxProdLimit
+                If CurrentInventionJob.InventedBpid <> 0 Then
+                    CurrentInventionJob.BpcRuns = CurrentInventionJob.GetBaseBP.MaxProdLimit
                 End If
             End If
         End If
@@ -1522,17 +1523,17 @@ Public Class frmBPCalculator
         Else
             CurrentInventionJob.DecryptorUsed = Nothing
         End If
-        CurrentInventionJob.InventedBPID = InventionBPID
+        CurrentInventionJob.InventedBpid = InventionBPID
         CurrentInventionJob.EncryptionSkill = InventionSkill1
         CurrentInventionJob.DatacoreSkill1 = InventionSkill2
         CurrentInventionJob.DatacoreSkill2 = InventionSkill3
-        CurrentInventionJob.MetaItemID = InventionMetaItemID
+        CurrentInventionJob.MetaItemId = InventionMetaItemID
         CurrentInventionJob.MetaItemLevel = InventionMetaLevel
-        CurrentInventionJob.OverrideBPCRuns = nudInventionBPCRuns.LockUpdateChecked
+        CurrentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
         CurrentInventionJob.BaseChance = InventionBaseChance
         CurrentInventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
-        CurrentInventionJob.OverrideDCSkill1 = nudInventionSkill2.LockUpdateChecked
-        CurrentInventionJob.OverrideDCSkill2 = nudInventionSkill3.LockUpdateChecked
+        CurrentInventionJob.OverrideDcSkill1 = nudInventionSkill2.LockUpdateChecked
+        CurrentInventionJob.OverrideDcSkill2 = nudInventionSkill3.LockUpdateChecked
         CurrentInventionJob.EncryptionSkill = nudInventionSkill1.Value
         CurrentInventionJob.DatacoreSkill1 = nudInventionSkill2.Value
         CurrentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
@@ -1624,8 +1625,6 @@ Public Class frmBPCalculator
             Else
                 BPCRuns = nudInventionBPCRuns.Value
             End If
-
-            Dim InvCost As InventionCost = currentJob.InventionJob.CalculateInventionCost
 
             Dim IC As Double = Invention.CalculateInventionChance(InventionBaseChance, InventionSkill1, InventionSkill2, InventionSkill3, InventionMetaLevel, DecryptorMod)
 

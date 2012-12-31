@@ -232,15 +232,12 @@ Public Class PrismAssetsControl
                     End If
                 End If
                 If IsBPO = True Then
-                    AssetData.Price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.TypeID), 2, MidpointRounding.AwayFromZero)
                     AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                 Else
                     AssetData.price = 0
                     AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Copy)")
                 End If
             End If
-        Else
-            AssetData.Price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.TypeID), 2, MidpointRounding.AwayFromZero)
         End If
 
         ' Add the additional columns
@@ -470,6 +467,9 @@ Public Class PrismAssetsControl
                         Dim EveLocation As New SolarSystem
                         locList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
                         If locList.Count > 0 Then
+
+                            ' batch query the contents of the location for their prices
+                            Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From node In locList Let n = CType(node, XmlNode) Select n.Attributes.GetNamedItem("typeID").Value)
                             'Dim linePrice As Double = 0
                             Dim containerPrice As Double = 0
                             Dim AssetIsInHanger As Boolean = False
@@ -669,7 +669,8 @@ Public Class PrismAssetsControl
                                 newAssetList.typeName = itemName
                                 newAssetList.owner = Owner.Name
                                 newAssetList.group = groupName
-                                newAssetList.category = catName
+                                newAssetList.Category = catName
+                                newAssetList.Price = Math.Round(prices(newAssetList.TypeID), 2, MidpointRounding.AwayFromZero)
                                 If EveLocation IsNot Nothing Then
                                     newAssetList.system = EveLocation.Name
                                     newAssetList.constellation = EveLocation.Constellation
@@ -690,7 +691,6 @@ Public Class PrismAssetsControl
                                 Else
                                     newAssetList.rawquantity = 0
                                 End If
-                                newAssetList.price = 0
                                 totalAssetCount += newAssetList.quantity
                                 If assetList.ContainsKey(newAssetList.itemID) = False Then
                                     assetList.Add(newAssetList.itemID, newAssetList)
@@ -766,6 +766,9 @@ Public Class PrismAssetsControl
             containerPrice = 0
             parentAsset.Cells(AssetColumn("AssetPrice")).Text = CDbl(0).ToString("N2")
         End If
+        ' batch query the contents of the location for their prices
+        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From node In subLocList Let n = CType(node, XmlNode) Select n.Attributes.GetNamedItem("typeID").Value)
+
         For Each subLoc In subLocList
             Try
                 Dim ItemID As String = subLoc.Attributes.GetNamedItem("typeID").Value
@@ -854,6 +857,7 @@ Public Class PrismAssetsControl
                 newAssetList.Owner = assetOwner
                 newAssetList.Group = groupName
                 newAssetList.Category = catName
+                newAssetList.Price = Math.Round(prices(newAssetList.TypeID), 2, MidpointRounding.AwayFromZero)
                 If EveLocation IsNot Nothing Then
                     newAssetList.System = EveLocation.Name
                     newAssetList.Constellation = EveLocation.Constellation
@@ -874,7 +878,7 @@ Public Class PrismAssetsControl
                 Else
                     newAssetList.RawQuantity = 0
                 End If
-                newAssetList.Price = 0
+
                 totalAssetCount += newAssetList.Quantity
 
                 If assetList.ContainsKey(newAssetList.ItemID) = False Then
@@ -1266,6 +1270,9 @@ Public Class PrismAssetsControl
             If JobList IsNot Nothing Then
                 Dim category, group As String
                 Dim EveLocation As SolarSystem
+
+                ' get the job prices as a batch 
+                Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From j As IndustryJob In JobList Where j.ActivityID <> 8 Select CStr(j.InstalledItemTypeID))
                 For Each Job As IndustryJob In JobList
                     If Job.Completed = 0 Then
                         Dim RNode As New Node
@@ -1316,7 +1323,7 @@ Public Class PrismAssetsControl
                                     End If
                                 End If
                             Else
-                                price = EveHQ.Core.DataFunctions.GetPrice(Job.InstalledItemTypeID.ToString)
+                                price = prices(Job.InstalledItemTypeID.ToString)
                             End If
                             ResearchValue += price
                             RNode.Cells(AssetColumn("AssetPrice")).Text = price.ToString("N2")
@@ -1432,6 +1439,8 @@ Public Class PrismAssetsControl
 
                         Dim ContractValue As Double = 0
 
+                        ' batch request price data for the collection
+                        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From item In OwnerContract.Items.Keys Select item)
                         For Each typeID As String In OwnerContract.Items.Keys
                             If EveHQ.Core.HQ.itemData.ContainsKey(typeID) = True Then
                                 Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeID)
@@ -1479,7 +1488,7 @@ Public Class PrismAssetsControl
                                 ItemNode.Cells(AssetColumn("AssetMeta")).Text = meta
                                 ItemNode.Cells(AssetColumn("AssetVolume")).Text = CDbl(vol).ToString("N2")
                                 ItemNode.Cells(AssetColumn("AssetQuantity")).Text = OwnerContract.Items(typeID).ToString("N0")
-                                Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(typeID)
+                                Dim price As Double = prices(typeID)
                                 ItemNode.Cells(AssetColumn("AssetPrice")).Text = price.ToString("N2")
                                 ItemNode.Cells(AssetColumn("AssetValue")).Text = (OwnerContract.Items(typeID) * price).ToString("N2")
                                 ContractValue += OwnerContract.Items(typeID) * price
