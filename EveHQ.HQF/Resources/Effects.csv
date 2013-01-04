@@ -96,7 +96,7 @@
 313,1,3413,11,3,6,0,1,0,0,Engineering - Ship
 313,1,3413,549,2,339,0,1,0,0,Engineering - MAPC
 958,1,12367,985,2,295,0,1,0,0,Explosive Shield Compensation - Passive
-988,1,12367,995,2,77,0,1,5,0,Explosive Shield Compensation - Acitve
+988,1,12367,995,2,77,0,1,5,0,Explosive Shield Compensation - Active
 958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
 988,1,12366,996,2,77,0,1,5,0,Kinetic Shield Compensation - Active
 851,1,21059,6,4,609;610;611;612,0,1,0,0,Shield Compensation
@@ -835,7 +835,7 @@
 147,2,768,482,3,6,0,0,0,14,Cap Flux Coil - Cap Capacity
 # Capacitor Power Relays,,,,,,,,,,
 144,2,767,55,3,6,0,0,0,14,Cap Power Relay - Cap Recharge Rate
-548,2,767,68,2,40,1,0,0,14,Shield Boost Bonus
+548,2,767,68,2,40;1156,1,0,0,14,Cap Power Relay - Shield Boost Bonus
 # Capacitor Rechargers,,,,,,,,,,
 144,2,43,55,3,6,0,0,0,14,Cap Recharger - Cap Recharge Rate
 # Power Diagnostic Systems,,,,,,,,,,
@@ -1206,21 +1206,67 @@
 317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 # RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
 1138,2,786,263,3,6,0,0,0,15,Electronic Superiority Rig Drawback - Shield HP
-828,2,786,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
-828,2,786,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+828,1,26110,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,1,26110,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+828,1,26354,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,1,26354,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+828,1,31262,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,1,31262,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+828,1,31264,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,1,31264,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+828,1,31268,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,1,31268,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
+828,1,31270,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
+828,1,31270,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
 309,2,786,76,3,6,1,0,0,15,Ionic Field Projector
-828,2,786,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
-828,2,786,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
-828,2,786,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
-828,2,786,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+828,1,26106,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,1,26106,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,1,26106,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,1,26106,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+828,1,26352,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,1,26352,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,1,26352,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,1,26352,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+828,1,31286,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,1,31286,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,1,31286,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,1,31286,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+828,1,31288,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,1,31288,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,1,31288,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,1,31288,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+828,1,31292,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,1,31292,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,1,31292,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,1,31292,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
+828,1,31294,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
+828,1,31294,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
+828,1,31294,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
+828,1,31294,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
 294,2,786,54,2,201;208;291;379,1,0,0,15,Particle Dispersion Projector
 308,2,786,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
 566,2,786,564,3,6,1,0,0,15,Targeting System Subcontroller
-619,2,786,560,2,330,0,0,0,15,Targeting Systems Stabiizer
-828,2,786,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines
-828,2,786,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines
+619,2,786,560,2,330,0,0,0,15,Targeting Systems Stabilizer
+828,1,26112,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
+828,1,26112,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
+828,1,26112,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
+828,1,26356,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
+828,1,26356,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
+828,1,26356,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
+828,1,31346,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
+828,1,31346,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
+828,1,31346,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
+828,1,31348,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
+828,1,31348,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
+828,1,31348,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
+828,1,31352,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
+828,1,31352,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
+828,1,31352,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
+828,1,31354,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
+828,1,31354,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
+828,1,31354,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
 # RIGS - ENERGY GRID,,,,,,,,,,
-313,2,781,11,3,6,0,0,0,15,Ancilliary Current Router
+313,2,781,11,3,6,0,0,0,15,Ancillary Current Router
 314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
 317,2,781,6,2,67;71,0,0,0,15,Egress Port Maximizer
 310,2,781,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
@@ -1268,11 +1314,11 @@
 985,2,774,272,3,6,1,0,2,15,Anti-Explosive Screen Reinforcer
 986,2,774,273,3,6,1,0,2,15,Anti-Kinetic Screen Reinforcer
 987,2,774,274,3,6,1,0,2,15,Anti-Thermal Screen Reinforcer
-851,2,774,6,5,3416,0,0,0,15,Core Defence Capacitor Safeguard
-323,2,774,30,5,3425,0,0,0,15,Core Defence Charge Economizer
-337,2,774,263,3,6,0,0,0,15,Core Defence Field Extender
-338,2,774,479,3,6,0,0,0,15,Core Defence Field Purger
-312,2,774,73,2,40,0,0,0,15,Core Defence Operational Solidifer
+851,2,774,6,5,3416,0,0,0,15,Core Defense Capacitor Safeguard
+323,2,774,30,5,3425,0,0,0,15,Core Defense Charge Economizer
+337,2,774,263,3,6,0,0,0,15,Core Defense Field Extender
+338,2,774,479,3,6,0,0,0,15,Core Defense Field Purger
+312,2,774,73,2,40;1156,0,0,0,15,Core Defense Operational Solidifier
 # SUBSYSTEMS,,,,,,,,,,
 11,3,32,11,3,6,0,0,1,15,PG Output
 37,3,32,37,3,6,0,0,1,15,Max Velocity
