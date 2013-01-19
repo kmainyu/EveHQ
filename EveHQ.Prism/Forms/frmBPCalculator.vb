@@ -247,6 +247,12 @@ Public Class frmBPCalculator
         cboPilot.EndUpdate()
         cboOwner.EndUpdate()
 
+        If cboPilot.Items.Count = 0 Then
+            MessageBox.Show("There are no active pilots available, create or activate a pilot in EveHQ Settings before using Blueprint Calculator.", "No Pilots Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MyBase.Close()
+            Return
+        End If
+
         If cBPOwnerName IsNot Nothing Then
             If cboOwner.Items.Contains(cBPOwnerName) = True Then
                 cboOwner.SelectedItem = cBPOwnerName
