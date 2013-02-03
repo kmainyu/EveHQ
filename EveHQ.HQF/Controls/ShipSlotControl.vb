@@ -36,9 +36,8 @@ Public Class ShipSlotControl
     Dim fleetSkills As New ArrayList
     Dim cancelSlotMenu As Boolean = False
 
-    Dim _
-        DefaultModuleTooltipInfo As String =
-            "<b><i>Double-click to remove this module<br />Right-click to bring up the module menu<br />Middle-click to toggle module state (extra uses with Ctrl/Shift)</i></b>"
+   Dim lvwBay As New ListView
+ Dim DefaultModuleTooltipInfo As String = "<b><i>Double-click to remove this module<br />Right-click to bring up the module menu<br />Middle-click to toggle module state (extra uses with Ctrl/Shift)</i></b>"
 
     Private Const MaxTooltipWidth As Integer = 100
 
@@ -329,15 +328,16 @@ Public Class ShipSlotControl
         If oldMod IsNot Nothing Then
             Dim shipMod As New ShipModule
             Select Case oldMod.SlotType
-                Case SlotTypes.Rig ' Rig
+ Case SlotTypes.Rig ' Rig
                     shipMod = ParentFitting.FittedShip.RigSlot(slotNo)
-                Case SlotTypes.Low ' Low
+Case SlotTypes.Low ' Low
+
                     shipMod = ParentFitting.FittedShip.LowSlot(slotNo)
-                Case SlotTypes.Mid ' Mid
+ Case SlotTypes.Mid ' Mid
                     shipMod = ParentFitting.FittedShip.MidSlot(slotNo)
-                Case SlotTypes.High ' High
+Case SlotTypes.High ' High
                     shipMod = ParentFitting.FittedShip.HiSlot(slotNo)
-                Case SlotTypes.Subsystem ' Subsystem
+Case SlotTypes.Subsystem ' Subsystem
                     shipMod = ParentFitting.FittedShip.SubSlot(slotNo)
             End Select
             If shipMod IsNot Nothing Then
@@ -523,8 +523,8 @@ Public Class ShipSlotControl
             slotNode.Text = shipMod.Name
             Dim Desc As String = ""
             If shipMod.SlotType = SlotTypes.Subsystem Then
-                Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") &
-                        ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+                Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
+
             End If
             Desc &= shipMod.Description
             SlotTip.SetSuperTooltip(slotNode,
@@ -557,7 +557,7 @@ Public Class ShipSlotControl
                             temp.Add(priceCell)
                             slotNode.Cells.Add(priceCell)
                         Case "ActCost"
-                            If shipMod.Attributes.ContainsKey("6") Then
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) Then
                                 If _
                                     shipMod.ModuleState = ModuleStates.Active Or
                                     shipMod.ModuleState = ModuleStates.Overloaded Then
@@ -569,7 +569,7 @@ Public Class ShipSlotControl
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "ActTime"
-                            If shipMod.Attributes.ContainsKey("73") Then
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_ActivationTime) Then
                                 If _
                                     shipMod.ModuleState = ModuleStates.Active Or
                                     shipMod.ModuleState = ModuleStates.Overloaded Then
@@ -581,7 +581,7 @@ Public Class ShipSlotControl
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "CapRate"
-                            If shipMod.Attributes.ContainsKey("10032") Then
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_CapUsageRate) Then
                                 If _
                                     shipMod.ModuleState = ModuleStates.Active Or
                                     shipMod.ModuleState = ModuleStates.Overloaded Then
@@ -593,63 +593,63 @@ Public Class ShipSlotControl
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "OptRange"
-                            If shipMod.Attributes.ContainsKey("54") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("54").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("87") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("87").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("91") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("91").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("98") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("98").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("99") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("99").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("103") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("103").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("142") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("142").ToString("N2")))
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_OptimalRange) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_OptimalRange).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_ShieldTransferRange) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_ShieldTransferRange).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_PowerTransferRange) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_PowerTransferRange).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_EnergyNeutRange) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_EnergyNeutRange).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_AoERadius) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_AoERadius).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_WarpScrambleRange) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_WarpScrambleRange).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_ECMBurstRadius) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_ECMBurstRadius).ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "ROF"
-                            If shipMod.Attributes.ContainsKey("51") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("51").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("10011") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10011").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("10012") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10012").ToString("N2")))
-                            ElseIf shipMod.Attributes.ContainsKey("10013") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10013").ToString("N2")))
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_ROF) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_ROF).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_EnergyROF) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_EnergyROF).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_HybridROF) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_HybridROF).ToString("N2")))
+                            ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_ProjectileROF) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_ProjectileROF).ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "Damage"
-                            If shipMod.Attributes.ContainsKey("10018") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10018").ToString("N2")))
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_VolleyDamage) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_VolleyDamage).ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "DPS"
-                            If shipMod.Attributes.ContainsKey("10019") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("10019").ToString("N2")))
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_DPS) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_DPS).ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "Falloff"
-                            If shipMod.Attributes.ContainsKey("158") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("158").ToString("N2")))
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_Falloff) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_Falloff).ToString("N2")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "Tracking"
-                            If shipMod.Attributes.ContainsKey("160") Then
-                                slotNode.Cells.Add(New Cell(shipMod.Attributes("160").ToString("N4")))
+                            If shipMod.Attributes.ContainsKey(Attributes.Module_TrackingSpeed) Then
+                                slotNode.Cells.Add(New Cell(shipMod.Attributes(Attributes.Module_TrackingSpeed).ToString("N4")))
                             Else
                                 slotNode.Cells.Add(New Cell(""))
                             End If
                         Case "ExpRad"
                             If shipMod.LoadedCharge IsNot Nothing Then
-                                If shipMod.LoadedCharge.Attributes.ContainsKey("654") Then
-                                    slotNode.Cells.Add(New Cell(shipMod.LoadedCharge.Attributes("654").ToString("N2")))
+                                If shipMod.LoadedCharge.Attributes.ContainsKey(Attributes.Module_ExplosionRadius) Then
+                                    slotNode.Cells.Add(New Cell(shipMod.LoadedCharge.Attributes(Attributes.Module_ExplosionRadius).ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -658,8 +658,8 @@ Public Class ShipSlotControl
                             End If
                         Case "ExpVel"
                             If shipMod.LoadedCharge IsNot Nothing Then
-                                If shipMod.LoadedCharge.Attributes.ContainsKey("653") Then
-                                    slotNode.Cells.Add(New Cell(shipMod.LoadedCharge.Attributes("653").ToString("N2")))
+                                If shipMod.LoadedCharge.Attributes.ContainsKey(Attributes.Module_ExplosionVelocity) Then
+                                    slotNode.Cells.Add(New Cell(shipMod.LoadedCharge.Attributes(Attributes.Module_ExplosionVelocity).ToString("N2")))
                                 Else
                                     slotNode.Cells.Add(New Cell(""))
                                 End If
@@ -696,8 +696,9 @@ Public Class ShipSlotControl
         slotNode.Text = shipMod.Name
         Dim Desc As String = ""
         If shipMod.SlotType = SlotTypes.Subsystem Then
-            Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") &
-                    ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
+
+                  
         End If
         Desc &= shipMod.Description
         SlotTip.SetSuperTooltip(slotNode,
@@ -729,7 +730,7 @@ Public Class ShipSlotControl
                         slotNode.Cells(idx).Text = shipMod.MarketPrice.ToString("N2")
                         idx += 1
                     Case "ActCost"
-                        If shipMod.Attributes.ContainsKey("6") Then
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) Then
                             If _
                                 shipMod.ModuleState = ModuleStates.Active Or
                                 shipMod.ModuleState = ModuleStates.Overloaded Then
@@ -742,7 +743,7 @@ Public Class ShipSlotControl
                         End If
                         idx += 1
                     Case "ActTime"
-                        If shipMod.Attributes.ContainsKey("73") Then
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_ActivationTime) Then
                             If _
                                 shipMod.ModuleState = ModuleStates.Active Or
                                 shipMod.ModuleState = ModuleStates.Overloaded Then
@@ -755,7 +756,7 @@ Public Class ShipSlotControl
                         End If
                         idx += 1
                     Case "CapRate"
-                        If shipMod.Attributes.ContainsKey("10032") Then
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_CapUsageRate) Then
                             If _
                                 shipMod.ModuleState = ModuleStates.Active Or
                                 shipMod.ModuleState = ModuleStates.Overloaded Then
@@ -768,69 +769,69 @@ Public Class ShipSlotControl
                         End If
                         idx += 1
                     Case "OptRange"
-                        If shipMod.Attributes.ContainsKey("54") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("54").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("87") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("87").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("91") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("91").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("98") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("98").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("99") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("99").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("103") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("103").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("142") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("142").ToString("N2")
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_OptimalRange) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_OptimalRange).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_ShieldTransferRange) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_ShieldTransferRange).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_PowerTransferRange) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_PowerTransferRange).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_EnergyNeutRange) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_EnergyNeutRange).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_AoERadius) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_AoERadius).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_WarpScrambleRange) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_WarpScrambleRange).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_ECMBurstRadius) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_ECMBurstRadius).ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "ROF"
-                        If shipMod.Attributes.ContainsKey("51") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("51").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("10011") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("10011").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("10012") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("10012").ToString("N2")
-                        ElseIf shipMod.Attributes.ContainsKey("10013") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("10013").ToString("N2")
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_ROF) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_ROF).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_EnergyROF) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_EnergyROF).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_HybridROF) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_HybridROF).ToString("N2")
+                        ElseIf shipMod.Attributes.ContainsKey(Attributes.Module_ProjectileROF) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_ProjectileROF).ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "Damage"
-                        If shipMod.Attributes.ContainsKey("10018") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("10018").ToString("N2")
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_VolleyDamage) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_VolleyDamage).ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "DPS"
-                        If shipMod.Attributes.ContainsKey("10019") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("10019").ToString("N2")
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_DPS) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_DPS).ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "Falloff"
-                        If shipMod.Attributes.ContainsKey("158") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("158").ToString("N2")
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_Falloff) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_Falloff).ToString("N2")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "Tracking"
-                        If shipMod.Attributes.ContainsKey("160") Then
-                            slotNode.Cells(idx).Text = shipMod.Attributes("160").ToString("N4")
+                        If shipMod.Attributes.ContainsKey(Attributes.Module_TrackingSpeed) Then
+                            slotNode.Cells(idx).Text = shipMod.Attributes(Attributes.Module_TrackingSpeed).ToString("N4")
                         Else
                             slotNode.Cells(idx).Text = ""
                         End If
                         idx += 1
                     Case "ExpRad"
                         If shipMod.LoadedCharge IsNot Nothing Then
-                            If shipMod.LoadedCharge.Attributes.ContainsKey("654") Then
-                                slotNode.Cells(idx).Text = shipMod.LoadedCharge.Attributes("654").ToString("N2")
+                            If shipMod.LoadedCharge.Attributes.ContainsKey(Attributes.Module_ExplosionRadius) Then
+                                slotNode.Cells(idx).Text = shipMod.LoadedCharge.Attributes(Attributes.Module_ExplosionRadius).ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -840,8 +841,8 @@ Public Class ShipSlotControl
                         idx += 1
                     Case "ExpVel"
                         If shipMod.LoadedCharge IsNot Nothing Then
-                            If shipMod.LoadedCharge.Attributes.ContainsKey("653") Then
-                                slotNode.Cells(idx).Text = shipMod.LoadedCharge.Attributes("653").ToString("N2")
+                            If shipMod.LoadedCharge.Attributes.ContainsKey(Attributes.Module_ExplosionVelocity) Then
+                                slotNode.Cells(idx).Text = shipMod.LoadedCharge.Attributes(Attributes.Module_ExplosionVelocity).ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -1052,20 +1053,20 @@ Public Class ShipSlotControl
         Dim slotNo As Integer = CInt(slotNode.Name.Substring(sep + 1, 1))
         Dim canOffline As Boolean = True
         Select Case slotType
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 currentMod = ParentFitting.BaseShip.RigSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.RigSlot(slotNo)
                 canOffline = False
-            Case 2 ' Low
+            Case SlotTypes.Low
                 currentMod = ParentFitting.BaseShip.LowSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.LowSlot(slotNo)
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 currentMod = ParentFitting.BaseShip.MidSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.MidSlot(slotNo)
-            Case 8 ' High
+            Case SlotTypes.High
                 currentMod = ParentFitting.BaseShip.HiSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.HiSlot(slotNo)
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 currentMod = ParentFitting.BaseShip.SubSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.SubSlot(slotNo)
                 canOffline = False
@@ -1076,12 +1077,13 @@ Public Class ShipSlotControl
             Dim canDeactivate As Boolean = False
             Dim canOverload As Boolean = False
             ' Check for activation cost
-            If _
+currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
+
                 currentMod.Attributes.ContainsKey("6") = True Or currentMod.Attributes.ContainsKey("669") Or
                 currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey("713") Then
                 canDeactivate = True
             End If
-            If currentMod.Attributes.ContainsKey("1211") = True Then
+            If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
                 canOverload = True
             End If
 
@@ -1118,37 +1120,36 @@ Public Class ShipSlotControl
             ' Update only if the module state has changed
             If currentstate <> currentMod.ModuleState Then
                 ' Check for command processors as this affects the fitting!
-                If currentMod.ID = "11014" Then
+                If currentMod.ID = ShipModule.Item_CommandProcessorI Then
                     If currentstate = ModuleStates.Offline Then
-                        ParentFitting.BaseShip.Attributes("10063") -= 1
+                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) -= 1
                         ' Check if we need to deactivate a highslot ganglink
                         Dim ActiveGanglinks As New List(Of Integer)
                         If ParentFitting.BaseShip.HiSlots > 0 Then
                             For slot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step - 1
                                 If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                    If _
-                                        ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = "316" And
-                                        ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+
+   
                                         ActiveGanglinks.Add(slot)
                                     End If
                                 End If
                             Next
                         End If
-                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes("10063") Then
+                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) Then
                             ParentFitting.BaseShip.HiSlot(ActiveGanglinks(0)).ModuleState = ModuleStates.Inactive
                         End If
                     Else
-                        ParentFitting.BaseShip.Attributes("10063") += 1
+                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) += 1
                     End If
                 End If
                 Dim oldState As ModuleStates = currentMod.ModuleState
                 currentMod.ModuleState = CType(currentstate, ModuleStates)
                 ' Check for maxGroupActive flag
-                If _
-                    (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And
-                    currentMod.Attributes.ContainsKey("763") = True Then
-                    If currentMod.DatabaseGroup <> "316" Then
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+                    If currentMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
+
                             ' Set the module offline
                             MessageBox.Show(
                                 "You cannot activate the " & currentMod.Name &
@@ -1158,7 +1159,7 @@ Public Class ShipSlotControl
                             Exit Sub
                         End If
                     Else
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show(
                                 "You cannot activate the " & currentMod.Name &
@@ -1167,8 +1168,9 @@ Public Class ShipSlotControl
                             currentMod.ModuleState = oldState
                             Exit Sub
                         Else
-                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) _
-                                Then
+   If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
+
+
                                 ' Set the module offline
                                 MessageBox.Show(
                                     "You cannot activate the " & currentMod.Name &
@@ -1181,7 +1183,7 @@ Public Class ShipSlotControl
                     End If
                 End If
                 ' Check for activation of siege mode with remote effects
-                If fittedMod.ID = "20280" Then
+                If fittedMod.ID = ShipModule.Item_SiegeModuleI Or fittedMod.ID = ShipModule.Item_SiegeModuleII Then
                     If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
                         Dim msg As String =
                                 "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
@@ -1197,12 +1199,11 @@ Public Class ShipSlotControl
                     End If
                 End If
                 ' Check for activation of triage mode with remote effects
-                If fittedMod.ID = "27951" Then
+                If fittedMod.ID = ShipModule.Item_TriageModuleI Or fittedMod.ID = ShipModule.Item_TriageModuleII Then
                     If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                        Dim msg As String =
-                                "You have active remote modules and activating Traige Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                        Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode",
-                                                               MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        Dim msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                        Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question
+                               
                         If reply = DialogResult.No Then
                             fittedMod.ModuleState = oldState
                             Exit Sub
@@ -1226,15 +1227,15 @@ Public Class ShipSlotControl
                 Dim slotNo As Integer = CInt(selitem.Name.Substring(sep + 1, 1))
                 Dim LoadedModule As New ShipModule
                 Select Case slotType
-                    Case 1 ' Rig
+                    Case SlotTypes.Rig
                         LoadedModule = ParentFitting.BaseShip.RigSlot(slotNo)
-                    Case 2 ' Low
+                    Case SlotTypes.Low
                         LoadedModule = ParentFitting.BaseShip.LowSlot(slotNo)
-                    Case 4 ' Mid
+                    Case SlotTypes.Mid
                         LoadedModule = ParentFitting.BaseShip.MidSlot(slotNo)
-                    Case 8 ' High
+                    Case SlotTypes.High
                         LoadedModule = ParentFitting.BaseShip.HiSlot(slotNo)
-                    Case 16 ' Subsystem
+                    Case SlotTypes.Subsystem
                         LoadedModule = ParentFitting.BaseShip.SubSlot(slotNo)
                 End Select
                 Clipboard.SetData("ShipModule", LoadedModule.Clone)
@@ -2118,15 +2119,15 @@ Public Class ShipSlotControl
         Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
         Dim sModule As New ShipModule
         Select Case CInt(slotInfo(0))
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 sModule = ParentFitting.FittedShip.RigSlot(CInt(slotInfo(1)))
-            Case 2 ' Low
+            Case SlotTypes.Low
                 sModule = ParentFitting.FittedShip.LowSlot(CInt(slotInfo(1)))
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 sModule = ParentFitting.FittedShip.MidSlot(CInt(slotInfo(1)))
-            Case 8 ' High
+            Case SlotTypes.High
                 sModule = ParentFitting.FittedShip.HiSlot(CInt(slotInfo(1)))
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 sModule = ParentFitting.FittedShip.SubSlot(CInt(slotInfo(1)))
         End Select
         Dim showInfo As New frmShowInfo
@@ -2148,15 +2149,15 @@ Public Class ShipSlotControl
         Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
         Dim sModule As New ShipModule
         Select Case CInt(slotInfo(0))
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 sModule = ParentFitting.FittedShip.RigSlot(CInt(slotInfo(1))).LoadedCharge
-            Case 2 ' Low
+            Case SlotTypes.Low
                 sModule = ParentFitting.FittedShip.LowSlot(CInt(slotInfo(1))).LoadedCharge
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 sModule = ParentFitting.FittedShip.MidSlot(CInt(slotInfo(1))).LoadedCharge
-            Case 8 ' High
+            Case SlotTypes.High
                 sModule = ParentFitting.FittedShip.HiSlot(CInt(slotInfo(1))).LoadedCharge
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 sModule = ParentFitting.FittedShip.SubSlot(CInt(slotInfo(1))).LoadedCharge
         End Select
         Dim showInfo As New frmShowInfo
@@ -2352,23 +2353,26 @@ Public Class ShipSlotControl
 
         Dim fModule As New ShipModule
         Select Case sModule.SlotType
-            Case SlotTypes.Rig ' Rig
+ Case SlotTypes.Rig
+
                 fModule = ParentFitting.FittedShip.RigSlot(sModule.SlotNo)
-            Case SlotTypes.Low ' Low
+ Case SlotTypes.Low
+
                 fModule = ParentFitting.FittedShip.LowSlot(sModule.SlotNo)
-            Case SlotTypes.Mid ' Mid
+ Case SlotTypes.Mid
+
                 fModule = ParentFitting.FittedShip.MidSlot(sModule.SlotNo)
-            Case SlotTypes.High ' High
+ Case SlotTypes.High
                 fModule = ParentFitting.FittedShip.HiSlot(sModule.SlotNo)
-            Case SlotTypes.Subsystem ' Subsystem
+ Case SlotTypes.Subsystem
                 fModule = ParentFitting.FittedShip.SubSlot(sModule.SlotNo)
         End Select
         Dim oldState As ModuleStates = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Active
         ' Check for maxGroupActive flag
-        If sModule.Attributes.ContainsKey("763") = True Then
-            If sModule.DatabaseGroup <> "316" Then
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+        If sModule.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+            If sModule.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show(
                         "You cannot activate the " & sModule.Name &
@@ -2378,7 +2382,7 @@ Public Class ShipSlotControl
                     Exit Sub
                 End If
             Else
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show(
                         "You cannot activate the " & sModule.Name &
@@ -2387,7 +2391,7 @@ Public Class ShipSlotControl
                     sModule.ModuleState = oldState
                     Exit Sub
                 Else
-                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes(Attributes.Module_MaxGroupActive)) Then
                         ' Set the module offline
                         MessageBox.Show(
                             "You cannot activate the " & sModule.Name &
@@ -2400,7 +2404,7 @@ Public Class ShipSlotControl
             End If
         End If
         ' Check for activation of siege mode with remote effects
-        If sModule.ID = "20280" Then
+        If sModule.ID = ShipModule.Item_SiegeModuleI Or sModule.ID = ShipModule.Item_SiegeModuleII Then
             If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
                 Dim msg As String =
                         "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
@@ -2416,12 +2420,12 @@ Public Class ShipSlotControl
             End If
         End If
         ' Check for activation of triage mode with remote effects
-        If sModule.ID = "27951" Then
+        If sModule.ID = ShipModule.Item_TriageModuleI Or sModule.ID = ShipModule.Item_TriageModuleII Then
             If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                Dim msg As String =
-                        "You have active remote modules and activating Traige Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo,
-                                                       MessageBoxIcon.Question)
+ Dim msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+                      
                 If reply = DialogResult.No Then
                     sModule.ModuleState = oldState
                     Exit Sub
@@ -2436,23 +2440,24 @@ Public Class ShipSlotControl
     Private Sub SetSingleModuleOverloaded(sModule As ShipModule)
         Dim fModule As New ShipModule
         Select Case sModule.SlotType
-            Case SlotTypes.Rig ' Rig
+Case SlotTypes.Rig
+
                 fModule = ParentFitting.FittedShip.RigSlot(sModule.SlotNo)
-            Case SlotTypes.Low ' Low
+            Case SlotTypes.Low
                 fModule = ParentFitting.FittedShip.LowSlot(sModule.SlotNo)
-            Case SlotTypes.Mid ' Mid
+            Case SlotTypes.Mid
                 fModule = ParentFitting.FittedShip.MidSlot(sModule.SlotNo)
-            Case SlotTypes.High ' High
+            Case SlotTypes.High
                 fModule = ParentFitting.FittedShip.HiSlot(sModule.SlotNo)
-            Case SlotTypes.Subsystem ' Subsystem
+            Case SlotTypes.Subsystem
                 fModule = ParentFitting.FittedShip.SubSlot(sModule.SlotNo)
         End Select
         Dim oldState As ModuleStates = sModule.ModuleState
         sModule.ModuleState = ModuleStates.Overloaded
         ' Check for maxGroupActive flag
-        If sModule.Attributes.ContainsKey("763") = True Then
-            If sModule.DatabaseGroup <> "316" Then
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+        If sModule.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+            If sModule.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show(
                         "You cannot activate the " & sModule.Name &
@@ -2462,7 +2467,7 @@ Public Class ShipSlotControl
                     Exit Sub
                 End If
             Else
-                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False) = True Then
+                If ParentFitting.IsModuleGroupLimitExceeded(sModule, False, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     MessageBox.Show(
                         "You cannot activate the " & sModule.Name &
@@ -2471,7 +2476,7 @@ Public Class ShipSlotControl
                     sModule.ModuleState = oldState
                     Exit Sub
                 Else
-                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes("763")) Then
+                    If ParentFitting.CountActiveTypeModules(sModule.ID) > CInt(fModule.Attributes(Attributes.Module_MaxGroupActive)) Then
                         ' Set the module offline
                         MessageBox.Show(
                             "You cannot activate the " & sModule.Name &
@@ -2741,7 +2746,7 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxBays_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxBays.Opening
-        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
+        Me.lvwBay = CType(ctxBays.SourceControl, ListView)
         Select Case lvwBay.Name
             Case "lvwCargoBay"
                 If lvwBay.SelectedItems.Count > 0 Then
@@ -2919,7 +2924,6 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxRemoveItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ctxRemoveItem.Click
-        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
         Select Case lvwBay.Name
             Case "lvwCargoBay"
                 ' Removes the item from the cargo bay
@@ -2952,7 +2956,6 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxShowBayInfoItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ctxShowBayInfoItem.Click
-        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
         Dim selItem As ListViewItem = lvwBay.SelectedItems(0)
         Dim sModule As New ShipModule
         Select Case lvwBay.Name
@@ -2980,7 +2983,6 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxAlterQuantity_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ctxAlterQuantity.Click
-        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
         Select Case lvwBay.Name
             Case "lvwCargoBay"
                 Dim selItem As ListViewItem = lvwCargoBay.SelectedItems(0)
@@ -3050,7 +3052,6 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub ctxSplitBatch_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ctxSplitBatch.Click
-        Dim lvwBay As ListView = CType(ctxBays.SourceControl, ListView)
         Select Case lvwBay.Name
             Case "lvwCargoBay"
                 Dim selItem As ListViewItem = lvwCargoBay.SelectedItems(0)
@@ -3836,25 +3837,33 @@ Public Class ShipSlotControl
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboSCShip.SelectedItem.ToString
                     If cboSCPilot.SelectedItem IsNot Nothing Then
-                        Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString),
-                                                       HQFPilot)
-                        Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                        NewFit.UpdateBaseShipFromFitting()
-                        NewFit.PilotName = pPilot.PilotName
-                        NewFit.ApplyFitting(BuildType.BuildEverything)
-                        Dim remoteShip As Ship = NewFit.FittedShip
-                        Dim SCModules As New ArrayList
-                        ' Check the ship bonuses for further effects (Titans use this!)
-                        SCModules = GetShipGangBonusModules(remoteShip, pPilot)
-                        ' Check the modules for fleet effects
-                        For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                            If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                                FleetModule.ModuleState = ModuleStates.Gang
-                                FleetModule.SlotNo = 0
-                                SCModules.Add(FleetModule)
+                        If HQFPilotCollection.HQFPilots.ContainsKey(cboSCPilot.SelectedItem.ToString) Then
+                            If Fittings.FittingList.ContainsKey(shipFit) Then
+                                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
+                                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                                NewFit.UpdateBaseShipFromFitting()
+                                NewFit.PilotName = pPilot.PilotName
+                                NewFit.ApplyFitting(BuildType.BuildEverything)
+                                Dim remoteShip As Ship = NewFit.FittedShip
+                                Dim SCModules As New ArrayList
+                                ' Check the ship bonuses for further effects (Titans use this!)
+                                SCModules = GetShipGangBonusModules(remoteShip, pPilot)
+                                ' Check the modules for fleet effects
+                                For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                                    If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                                        FleetModule.ModuleState = ModuleStates.Gang
+                                        FleetModule.SlotNo = 0
+                                        SCModules.Add(FleetModule)
+                                    End If
+                                Next
+                                cboSCShip.Tag = SCModules
+                            Else
+                                cboSCShip.Tag = Nothing
+                                MessageBox.Show("There was a mismatch of expected data. '" & shipFit & "' was not found in the collection of saved fittings.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             End If
-                        Next
-                        cboSCShip.Tag = SCModules
+                        Else
+                            MessageBox.Show("There was a mismatch of expected data. '" & cboSCPilot.SelectedItem.ToString & "' was not found in the collection of pilots.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
                     End If
                 End If
             End If
@@ -3873,22 +3882,30 @@ Public Class ShipSlotControl
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboWCShip.SelectedItem.ToString
                     If cboWCPilot.SelectedItem IsNot Nothing Then
-                        Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString),
-                                                       HQFPilot)
-                        Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                        NewFit.UpdateBaseShipFromFitting()
-                        NewFit.PilotName = pPilot.PilotName
-                        NewFit.ApplyFitting(BuildType.BuildEverything)
-                        Dim remoteShip As Ship = NewFit.FittedShip
-                        Dim WCModules As New ArrayList
-                        For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                            If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                                FleetModule.ModuleState = ModuleStates.Gang
-                                FleetModule.SlotNo = 0
-                                WCModules.Add(FleetModule)
+                        If HQFPilotCollection.HQFPilots.ContainsKey(cboWCPilot.SelectedItem.ToString) Then
+                            If Fittings.FittingList.ContainsKey(shipFit) Then
+                                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
+                                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                                NewFit.UpdateBaseShipFromFitting()
+                                NewFit.PilotName = pPilot.PilotName
+                                NewFit.ApplyFitting(BuildType.BuildEverything)
+                                Dim remoteShip As Ship = NewFit.FittedShip
+                                Dim WCModules As New ArrayList
+                                For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                                    If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                                        FleetModule.ModuleState = ModuleStates.Gang
+                                        FleetModule.SlotNo = 0
+                                        WCModules.Add(FleetModule)
+                                    End If
+                                Next
+                                cboWCShip.Tag = WCModules
+                            Else
+                                cboWCShip.Tag = Nothing
+                                MessageBox.Show("There was a mismatch of expected data. '" & shipFit & "' was not found in the collection of saved fittings.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             End If
-                        Next
-                        cboWCShip.Tag = WCModules
+                        Else
+                            MessageBox.Show("There was a mismatch of expected data. '" & cboWCPilot.SelectedItem.ToString & "' was not found in the collection of pilots.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
                     End If
                 End If
             End If
@@ -3907,22 +3924,30 @@ Public Class ShipSlotControl
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboFCShip.SelectedItem.ToString
                     If cboFCPilot.SelectedItem IsNot Nothing Then
-                        Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString),
-                                                       HQFPilot)
-                        Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                        NewFit.UpdateBaseShipFromFitting()
-                        NewFit.PilotName = pPilot.PilotName
-                        NewFit.ApplyFitting(BuildType.BuildEverything)
-                        Dim remoteShip As Ship = NewFit.FittedShip
-                        Dim FCModules As New ArrayList
-                        For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                            If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                                FleetModule.ModuleState = ModuleStates.Gang
-                                FleetModule.SlotNo = 0
-                                FCModules.Add(FleetModule)
+                        If HQFPilotCollection.HQFPilots.ContainsKey(cboFCPilot.SelectedItem.ToString) Then
+                            If Fittings.FittingList.ContainsKey(shipFit) Then
+                                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
+                                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
+                                NewFit.UpdateBaseShipFromFitting()
+                                NewFit.PilotName = pPilot.PilotName
+                                NewFit.ApplyFitting(BuildType.BuildEverything)
+                                Dim remoteShip As Ship = NewFit.FittedShip
+                                Dim FCModules As New ArrayList
+                                For Each FleetModule As ShipModule In remoteShip.SlotCollection
+                                    If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
+                                        FleetModule.ModuleState = ModuleStates.Gang
+                                        FleetModule.SlotNo = 0
+                                        FCModules.Add(FleetModule)
+                                    End If
+                                Next
+                                cboFCShip.Tag = FCModules
+                            Else
+                                cboFCShip.Tag = Nothing
+                                MessageBox.Show("There was a mismatch of expected data. '" & shipFit & "' was not found in the collection of saved fittings.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                             End If
-                        Next
-                        cboFCShip.Tag = FCModules
+                        Else
+                            MessageBox.Show("There was a mismatch of expected data. '" & cboFCPilot.SelectedItem.ToString & "' was not found in the collection of pilots.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End If
                     End If
                 End If
             End If
@@ -3950,20 +3975,16 @@ Public Class ShipSlotControl
                 Else
                     ' See if this module improves the fleet capabilities
                     Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
-                    If compareModule.Attributes.ContainsKey("833") = True Then
+                    If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
-                        If _
-                            Math.Abs(CDbl(fleetModule.Attributes("833"))) >=
-                            Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                        If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
-                        If compareModule.Attributes.ContainsKey("1320") = True Then
-                            ' Contains the Command Bonus attribute
-                            If _
-                                Math.Abs(CDbl(fleetModule.Attributes("1320"))) >=
-                                Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                        If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
+                            If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
+                               
                                 FleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
@@ -3982,20 +4003,18 @@ Public Class ShipSlotControl
                 Else
                     ' See if this module improves the fleet capabilities
                     Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
-                    If compareModule.Attributes.ContainsKey("833") = True Then
+                    If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
-                        If _
+                        If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
                             Math.Abs(CDbl(fleetModule.Attributes("833"))) >=
                             Math.Abs(CDbl(compareModule.Attributes("833"))) Then
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
-                        If compareModule.Attributes.ContainsKey("1320") = True Then
-                            ' Contains the Command Bonus attribute
-                            If _
-                                Math.Abs(CDbl(fleetModule.Attributes("1320"))) >=
-                                Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                        If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
+                            If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
+                             
                                 FleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
@@ -4013,20 +4032,18 @@ Public Class ShipSlotControl
                 Else
                     ' See if this module improves the fleet capabilities
                     Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
-                    If compareModule.Attributes.ContainsKey("833") = True Then
+                    If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
-                        If _
+                        If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
                             Math.Abs(CDbl(fleetModule.Attributes("833"))) >=
                             Math.Abs(CDbl(compareModule.Attributes("833"))) Then
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
-                        If compareModule.Attributes.ContainsKey("1320") = True Then
-                            ' Contains the Command Bonus attribute
-                            If _
-                                Math.Abs(CDbl(fleetModule.Attributes("1320"))) >=
-                                Math.Abs(CDbl(compareModule.Attributes("1320"))) Then
+                        If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
+                            If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
+                              
                                 FleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If

@@ -275,7 +275,7 @@ Public Class ShipWidgetModules
             slotNode.Text = shipMod.Name
             Dim Desc As String = ""
             If shipMod.SlotType = SlotTypes.Subsystem Then
-                Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") & ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+                Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
             End If
             Desc &= shipMod.Description
             SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
@@ -304,7 +304,7 @@ Public Class ShipWidgetModules
         slotNode.Text = shipMod.Name
         Dim Desc As String = ""
         If shipMod.SlotType = SlotTypes.Subsystem Then
-            Desc &= "Slot Modifiers - High: " & shipMod.Attributes("1374") & ", Mid: " & shipMod.Attributes("1375") & ", Low: " & shipMod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+            Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
         End If
         Desc &= shipMod.Description
         SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
@@ -346,15 +346,15 @@ Public Class ShipWidgetModules
         If oldMod IsNot Nothing Then
             Dim shipMod As New ShipModule
             Select Case oldMod.SlotType
-                Case SlotTypes.Rig  ' Rig
+                Case SlotTypes.Rig
                     shipMod = ParentFitting.FittedShip.RigSlot(slotNo)
-                Case SlotTypes.Low  ' Low
+                Case SlotTypes.Low
                     shipMod = ParentFitting.FittedShip.LowSlot(slotNo)
-                Case SlotTypes.Mid  ' Mid
+                Case SlotTypes.Mid
                     shipMod = ParentFitting.FittedShip.MidSlot(slotNo)
-                Case SlotTypes.High  ' High
+                Case SlotTypes.High
                     shipMod = ParentFitting.FittedShip.HiSlot(slotNo)
-                Case SlotTypes.Subsystem  ' Subsystem
+                Case SlotTypes.Subsystem
                     shipMod = ParentFitting.FittedShip.SubSlot(slotNo)
             End Select
             If shipMod IsNot Nothing Then
@@ -416,20 +416,20 @@ Public Class ShipWidgetModules
         Dim slotNo As Integer = CInt(slotNode.Name.Substring(sep + 1, 1))
         Dim canOffline As Boolean = True
         Select Case slotType
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 currentMod = ParentFitting.BaseShip.RigSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.RigSlot(slotNo)
                 canOffline = False
-            Case 2 ' Low
+            Case SlotTypes.Low
                 currentMod = ParentFitting.BaseShip.LowSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.LowSlot(slotNo)
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 currentMod = ParentFitting.BaseShip.MidSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.MidSlot(slotNo)
-            Case 8 ' High
+            Case SlotTypes.High
                 currentMod = ParentFitting.BaseShip.HiSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.HiSlot(slotNo)
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 currentMod = ParentFitting.BaseShip.SubSlot(slotNo)
                 fittedMod = ParentFitting.FittedShip.SubSlot(slotNo)
                 canOffline = False
@@ -440,10 +440,10 @@ Public Class ShipWidgetModules
             Dim canDeactivate As Boolean = False
             Dim canOverload As Boolean = False
             ' Check for activation cost
-            If currentMod.Attributes.ContainsKey("6") = True Or currentMod.Attributes.ContainsKey("669") Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey("713") Then
+            If currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
                 canDeactivate = True
             End If
-            If currentMod.Attributes.ContainsKey("1211") = True Then
+            If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
                 canOverload = True
             End If
 
@@ -478,44 +478,44 @@ Public Class ShipWidgetModules
             ' Update only if the module state has changed
             If currentstate <> currentMod.ModuleState Then
                 ' Check for command processors as this affects the fitting!
-                If currentMod.ID = "11014" Then
+                If currentMod.ID = ShipModule.Item_CommandProcessorI Then
                     If currentstate = ModuleStates.Offline Then
-                        ParentFitting.BaseShip.Attributes("10063") -= 1
+                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) -= 1
                         ' Check if we need to deactivate a highslot ganglink
                         Dim ActiveGanglinks As New List(Of Integer)
                         For slot As Integer = 8 To 1 Step -1
                             If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = "316" And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
                                     ActiveGanglinks.Add(slot)
                                 End If
                             End If
                         Next
-                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes("10063") Then
+                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) Then
                             ParentFitting.BaseShip.HiSlot(ActiveGanglinks(0)).ModuleState = ModuleStates.Inactive
                         End If
                     Else
-                        ParentFitting.BaseShip.Attributes("10063") += 1
+                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) += 1
                     End If
                 End If
                 Dim oldState As ModuleStates = currentMod.ModuleState
                 currentMod.ModuleState = CType(currentstate, ModuleStates)
                 ' Check for maxGroupActive flag
-                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey("763") = True Then
-                    If currentMod.DatabaseGroup <> "316" Then
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+                    If currentMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         End If
                     Else
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False) = True Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         Else
-                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes("763")) Then
+                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
                                 ' Set the module offline
                                 MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 currentMod.ModuleState = oldState

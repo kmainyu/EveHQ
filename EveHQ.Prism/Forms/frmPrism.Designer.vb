@@ -358,6 +358,7 @@ Partial Class frmPrism
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.btnClearBatches = New DevComponents.DotNetBar.ButtonX()
         Me.tiBatchJobs = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.splitterProductionMngr = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.PRPM = New EveHQ.Prism.PrismResources()
         Me.tiProductionManager = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel16 = New DevComponents.DotNetBar.TabControlPanel()
@@ -4238,6 +4239,7 @@ Partial Class frmPrism
         'TabControlPanel11
         '
         Me.TabControlPanel11.Controls.Add(Me.tcPM)
+        Me.TabControlPanel11.Controls.Add(Me.splitterProductionMngr)
         Me.TabControlPanel11.Controls.Add(Me.PRPM)
         Me.TabControlPanel11.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControlPanel11.Location = New System.Drawing.Point(0, 23)
@@ -4267,6 +4269,7 @@ Partial Class frmPrism
         Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.tcPM.Controls.Add(Me.TabControlPanel12)
         Me.tcPM.Controls.Add(Me.TabControlPanel13)
+        Me.tcPM.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tcPM.Location = New System.Drawing.Point(7, 5)
         Me.tcPM.Name = "tcPM"
         Me.tcPM.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -4387,9 +4390,9 @@ Partial Class frmPrism
         Me.pnlJobs.Controls.Add(Me.btnRefreshJobs)
         Me.pnlJobs.Controls.Add(Me.btnDeleteJob)
         Me.pnlJobs.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.pnlJobs.Location = New System.Drawing.Point(1, 590)
+        Me.pnlJobs.Location = New System.Drawing.Point(1, 566)
         Me.pnlJobs.Name = "pnlJobs"
-        Me.pnlJobs.Size = New System.Drawing.Size(662, 27)
+        Me.pnlJobs.Size = New System.Drawing.Size(662, 51)
         Me.pnlJobs.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.pnlJobs.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.pnlJobs.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -4427,9 +4430,9 @@ Partial Class frmPrism
         'btnRefreshJobs
         '
         Me.btnRefreshJobs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnRefreshJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnRefreshJobs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnRefreshJobs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnRefreshJobs.Location = New System.Drawing.Point(454, 3)
+        Me.btnRefreshJobs.Location = New System.Drawing.Point(3, 27)
         Me.btnRefreshJobs.Name = "btnRefreshJobs"
         Me.btnRefreshJobs.Size = New System.Drawing.Size(200, 21)
         Me.btnRefreshJobs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -4554,6 +4557,40 @@ Partial Class frmPrism
         Me.tiBatchJobs.Name = "tiBatchJobs"
         Me.tiBatchJobs.Text = "Batch Jobs"
         '
+        'splitterProductionMngr
+        '
+        Me.splitterProductionMngr.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterProductionMngr.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.splitterProductionMngr.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.splitterProductionMngr.Dock = System.Windows.Forms.DockStyle.Right
+        Me.splitterProductionMngr.ExpandableControl = Me.PRPM
+        Me.splitterProductionMngr.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterProductionMngr.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.splitterProductionMngr.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.splitterProductionMngr.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.splitterProductionMngr.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.splitterProductionMngr.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.splitterProductionMngr.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.splitterProductionMngr.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.splitterProductionMngr.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+        Me.splitterProductionMngr.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+        Me.splitterProductionMngr.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+        Me.splitterProductionMngr.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+        Me.splitterProductionMngr.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterProductionMngr.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.splitterProductionMngr.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.splitterProductionMngr.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+        Me.splitterProductionMngr.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterProductionMngr.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.splitterProductionMngr.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.splitterProductionMngr.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+        Me.splitterProductionMngr.Location = New System.Drawing.Point(671, 5)
+        Me.splitterProductionMngr.Name = "splitterProductionMngr"
+        Me.splitterProductionMngr.Size = New System.Drawing.Size(6, 641)
+        Me.splitterProductionMngr.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+        Me.splitterProductionMngr.TabIndex = 2
+        Me.splitterProductionMngr.TabStop = False
+        '
         'PRPM
         '
         Me.PRPM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -4562,6 +4599,7 @@ Partial Class frmPrism
         Me.PRPM.BatchJob = Nothing
         Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.PRPM.InventionBP = Nothing
+        Me.PRPM.Dock = System.Windows.Forms.DockStyle.Right
         Me.PRPM.Location = New System.Drawing.Point(677, 5)
         Me.PRPM.Name = "PRPM"
         Me.PRPM.ProductionJob = Nothing
@@ -6813,6 +6851,7 @@ Partial Class frmPrism
     Friend WithEvents btnDeleteJob As DevComponents.DotNetBar.ButtonX
     Friend WithEvents colJobUnitProfit As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colJobProfitRate As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents splitterProductionMngr As DevComponents.DotNetBar.ExpandableSplitter
     Friend WithEvents PRPM As EveHQ.Prism.PrismResources
     Friend WithEvents btnClearAllJobs As DevComponents.DotNetBar.ButtonX
     Friend WithEvents btnRefreshJobs As DevComponents.DotNetBar.ButtonX

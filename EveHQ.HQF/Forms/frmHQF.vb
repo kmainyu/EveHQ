@@ -902,7 +902,7 @@ Public Class frmHQF
                         If chkOnlyShowUsable.Checked = True Then
                             If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
-                                    If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                    If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 Else
@@ -911,7 +911,7 @@ Public Class frmHQF
                             End If
                         Else
                             If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                     results.Add(sMod.Name, sMod)
                                 End If
                             Else
@@ -941,7 +941,7 @@ Public Class frmHQF
                         If chkOnlyShowUsable.Checked = True Then
                             If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
-                                    If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                    If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 Else
@@ -950,7 +950,7 @@ Public Class frmHQF
                             End If
                         Else
                             If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                     results.Add(sMod.Name, sMod)
                                 End If
                             Else
@@ -1002,7 +1002,7 @@ Public Class frmHQF
                     If chkOnlyShowUsable.Checked = True Then
                         If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                             If chkOnlyShowFittable.Checked = True Then
-                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                     Results.Add(sMod.Name, sMod)
                                 End If
                             Else
@@ -1011,11 +1011,7 @@ Public Class frmHQF
                         End If
                     Else
                         If chkOnlyShowFittable.Checked = True Then
-                            If ActiveFitting IsNot Nothing Then
-                                If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
-                                    Results.Add(sMod.Name, sMod)
-                                End If
-                            Else
+                            If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                 Results.Add(sMod.Name, sMod)
                             End If
                         Else
@@ -1054,7 +1050,7 @@ Public Class frmHQF
                                 If chkOnlyShowUsable.Checked = True Then
                                     If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                         If chkOnlyShowFittable.Checked = True Then
-                                            If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                            If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                                 results.Add(sMod.Name, sMod)
                                             End If
                                         Else
@@ -1063,7 +1059,7 @@ Public Class frmHQF
                                     End If
                                 Else
                                     If chkOnlyShowFittable.Checked = True Then
-                                        If Engine.IsFittable(sMod, ActiveFitting.FittedShip) Then
+                                        If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                             results.Add(sMod.Name, sMod)
                                         End If
                                     Else
@@ -1115,12 +1111,13 @@ Public Class frmHQF
                     sMod = cMod.Clone
                     ActiveFitting.ApplySkillEffectsToModule(sMod, True)
                 End If
-            End If
-            If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
-                If sMod.SlotType = slotType Then
-                    Select Case slotType
-                        Case 16 ' Subsystem Slot
-                            If CStr(Int(sMod.Attributes("1380"))) = CStr(ActiveFitting.BaseShip.ID) Then
+                If ActiveFitting.IsModulePermitted(sMod, True) = False Then
+                    Continue For
+                End If
+                If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
+                    If sMod.SlotType = slotType Then
+                        Select Case slotType
+                            Case SlotTypes.Subsystem
                                 If chkOnlyShowUsable.Checked = True Then
                                     If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                         results.Add(sMod.Name, sMod)
@@ -1128,24 +1125,8 @@ Public Class frmHQF
                                 Else
                                     results.Add(sMod.Name, sMod)
                                 End If
-                            End If
-                        Case 1 ' Rig Slot
-                            If ActiveFitting.BaseShip.Attributes("1547") = sMod.Attributes("1547") Then
+                            Case SlotTypes.Rig
                                 If sMod.Calibration <= Calibration Then
-                                    If chkOnlyShowUsable.Checked = True Then
-                                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
-                                            results.Add(sMod.Name, sMod)
-                                        End If
-                                    Else
-                                        If ActiveFitting.BaseShip.Attributes("1547") = sMod.Attributes("1547") Then
-                                            results.Add(sMod.Name, sMod)
-                                        End If
-                                    End If
-                                End If
-                            End If
-                        Case 2, 4 ' Low & Mid Slot
-                            If sMod.CPU <= CPU Then
-                                If sMod.PG <= PG Then
                                     If chkOnlyShowUsable.Checked = True Then
                                         If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
                                             results.Add(sMod.Name, sMod)
@@ -1154,24 +1135,36 @@ Public Class frmHQF
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 End If
-                            End If
-                        Case 8 ' Hi Slot
-                            If sMod.CPU <= CPU Then
-                                If sMod.PG <= PG Then
-                                    If LauncherSlots >= Math.Abs(CInt(sMod.IsLauncher)) Then
-                                        If TurretSlots >= Math.Abs(CInt(sMod.IsTurret)) Then
-                                            If chkOnlyShowUsable.Checked = True Then
-                                                If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            Case SlotTypes.Low, SlotTypes.Mid
+                                If sMod.CPU <= CPU Then
+                                    If sMod.PG <= PG Then
+                                        If chkOnlyShowUsable.Checked = True Then
+                                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                                results.Add(sMod.Name, sMod)
+                                            End If
+                                        Else
+                                            results.Add(sMod.Name, sMod)
+                                        End If
+                                    End If
+                                End If
+                            Case SlotTypes.High
+                                If sMod.CPU <= CPU Then
+                                    If sMod.PG <= PG Then
+                                        If LauncherSlots >= Math.Abs(CInt(sMod.IsLauncher)) Then
+                                            If TurretSlots >= Math.Abs(CInt(sMod.IsTurret)) Then
+                                                If chkOnlyShowUsable.Checked = True Then
+                                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                                        results.Add(sMod.Name, sMod)
+                                                    End If
+                                                Else
                                                     results.Add(sMod.Name, sMod)
                                                 End If
-                                            Else
-                                                results.Add(sMod.Name, sMod)
                                             End If
                                         End If
                                     End If
                                 End If
-                            End If
-                    End Select
+                        End Select
+                    End If
                 End If
             End If
         Next

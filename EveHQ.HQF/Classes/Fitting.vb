@@ -2599,15 +2599,15 @@ Imports EveHQ.Core
 
         If repShipMod IsNot Nothing Then
             Select Case repShipMod.SlotType
-                Case SlotTypes.Rig  ' Rig
+                Case SlotTypes.Rig
                     cRig = Me.BaseShip.RigSlots_Used - 1
-                Case SlotTypes.Low  ' Low
+                Case SlotTypes.Low
                     cLow = Me.BaseShip.LowSlots_Used - 1
-                Case SlotTypes.Mid  ' Mid
+                Case SlotTypes.Mid
                     cMid = Me.BaseShip.MidSlots_Used - 1
-                Case SlotTypes.High  ' High
+                Case SlotTypes.High
                     cHi = Me.BaseShip.HiSlots_Used - 1
-                Case SlotTypes.Subsystem  ' High
+                Case SlotTypes.Subsystem
                     cSub = Me.BaseShip.SubSlots_Used - 1
             End Select
             If repShipMod.IsTurret = True Then
@@ -2627,27 +2627,27 @@ Imports EveHQ.Core
         End If
         ' First, check slot layout
         Select Case shipMod.SlotType
-            Case SlotTypes.Rig  ' Rig
+            Case SlotTypes.Rig
                 If cRig = Me.BaseShip.RigSlots Then
                     MessageBox.Show("There are no available rig slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.Low  ' Low
+            Case SlotTypes.Low
                 If cLow = Me.BaseShip.LowSlots Then
                     MessageBox.Show("There are no available low slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.Mid  ' Mid
+            Case SlotTypes.Mid
                 If cMid = Me.BaseShip.MidSlots Then
                     MessageBox.Show("There are no available mid slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.High  ' High
+            Case SlotTypes.High
                 If cHi = Me.BaseShip.HiSlots Then
                     MessageBox.Show("There are no available high slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
-            Case SlotTypes.Subsystem  ' Subsystem
+            Case SlotTypes.Subsystem
                 If cSub = Me.BaseShip.SubSlots Then
                     MessageBox.Show("There are no available subsystem slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
@@ -2672,19 +2672,23 @@ Imports EveHQ.Core
 
         Return True
     End Function
-    Private Function IsModulePermitted(ByRef shipMod As ShipModule) As Boolean
+    Public Function IsModulePermitted(ByRef shipMod As ShipModule, Optional ByVal search As Boolean = False) As Boolean
         ' Check for subsystem restrictions
-        If shipMod.DatabaseCategory = "32" Then
+        If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
             ' Check for subsystem type restriction
-            If CStr(shipMod.Attributes("1380")) <> CStr(Me.BaseShip.ID) Then
-                MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes("1380"))).Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If CStr(shipMod.Attributes(Attributes.Module_FitsToShipType)) <> CStr(Me.BaseShip.ID) Then
+                If search = False Then
+                    MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes(Attributes.Module_FitsToShipType))).Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
                 Return False
             End If
             ' Check for subsystem group restriction
             For s As Integer = 1 To Me.BaseShip.SubSlots
                 If Me.BaseShip.SubSlot(s) IsNot Nothing Then
-                    If CStr(shipMod.Attributes("1366")) = CStr(Me.BaseShip.SubSlot(s).Attributes("1366")) Then
-                        MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If CStr(shipMod.Attributes(Attributes.Module_SubsystemSlot)) = CStr(Me.BaseShip.SubSlot(s).Attributes(Attributes.Module_SubsystemSlot)) Then
+                        If search = False Then
+                            MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                         Return False
                     End If
                 End If
@@ -2693,10 +2697,10 @@ Imports EveHQ.Core
 
         ' Check for Rig restrictions
         If shipMod.SlotType = 1 Then
-            If shipMod.Attributes.ContainsKey("1547") Then
-                If CInt(shipMod.Attributes("1547")) <> CInt(Me.BaseShip.Attributes("1547")) Then
+            If shipMod.Attributes.ContainsKey(Attributes.Module_RigSize) Then
+                If CInt(shipMod.Attributes(Attributes.Module_RigSize)) <> CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize)) Then
                     Dim requiredSize As String = ""
-                    Select Case CInt(Me.BaseShip.Attributes("1547"))
+                    Select Case CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize))
                         Case 1
                             requiredSize = "Small"
                         Case 2
@@ -2707,9 +2711,12 @@ Imports EveHQ.Core
                             requiredSize = "Capital"
                     End Select
                     Dim baseModName As String = requiredSize & shipMod.Name.Remove(0, shipMod.Name.IndexOf(" "))
-                    MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    shipMod = CType(ModuleLists.moduleList(ModuleLists.moduleListName(baseModName)), ShipModule)
-                    'Return False
+                    If search = False Then
+                        MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        shipMod = CType(ModuleLists.moduleList(ModuleLists.moduleListName(baseModName)), ShipModule)
+                    Else
+                        Return False
+                    End If
                 End If
             End If
         End If
@@ -2722,7 +2729,9 @@ Imports EveHQ.Core
             End If
         Next
         If ShipGroups.Count > 0 And ShipGroups.Contains(Me.BaseShip.DatabaseGroup) = False Then
-            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If search = False Then
+                MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
             Return False
         End If
         ShipGroups.Clear()
@@ -2735,24 +2744,36 @@ Imports EveHQ.Core
             End If
         Next
         If ShipTypes.Count > 0 And ShipTypes.Contains(Me.BaseShip.ID) = False Then
-            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If search = False Then
+                MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
             Return False
         End If
 
+        ' Check for maxGroupFitted flag
+        If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupFitted) = True Then
+            If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupFitted) = True Then
+                If search = False Then
+                    MessageBox.Show("You cannot fit more than " & shipMod.Attributes(Attributes.Module_MaxGroupFitted) & " module(s) of this group to a ship.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+                Return False
+            End If
+        End If
+
         ' Check for maxGroupActive flag
-        If shipMod.Attributes.ContainsKey("763") = True Then
-            If shipMod.DatabaseGroup <> "316" Then
-                If IsModuleGroupLimitExceeded(shipMod, True) = True Then
+        If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True And search = False Then
+            If shipMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
+                If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = ModuleStates.Inactive
                 End If
             Else
                 ' Check active command relay bonus (attID=435) on ship
-                If IsModuleGroupLimitExceeded(shipMod, True) = True Then
+                If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = ModuleStates.Inactive
                 Else
-                    If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes("763")) Then
+                    If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes(Attributes.Module_MaxGroupActive)) Then
                         ' Set the module offline
                         shipMod.ModuleState = ModuleStates.Inactive
                     End If
@@ -2762,21 +2783,29 @@ Imports EveHQ.Core
 
         Return True
     End Function
-    Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal excludeTestMod As Boolean) As Boolean
+    Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal excludeTestMod As Boolean, ByVal attribute As String) As Boolean
         Dim count As Integer = 0
         Dim fittedMod As ShipModule = testMod.Clone
         Me.ApplySkillEffectsToModule(fittedMod, True)
         Dim maxAllowed As Integer = 1
-        If fittedMod.DatabaseGroup = ShipModule.Group_GangLinks Then
-            If Me.FittedShip.Attributes.ContainsKey(Attributes.Ship_MaxGangLinks) = True Then
-                maxAllowed = CInt(Me.FittedShip.Attributes(Attributes.Ship_MaxGangLinks))
-            End If
-        Else
-            maxAllowed = CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive))
-        End If
+        Dim moduleState As Integer = ModuleStates.Offline
+        Select Case attribute
+            Case Attributes.Module_MaxGroupFitted
+                maxAllowed = CInt(fittedMod.Attributes(Attributes.Module_MaxGroupFitted))
+            Case Attributes.Module_MaxGroupActive
+                moduleState = ModuleStates.Active
+                If fittedMod.DatabaseGroup = ShipModule.Group_GangLinks Then
+                    If Me.FittedShip.Attributes.ContainsKey(Attributes.Ship_MaxGangLinks) = True Then
+                        maxAllowed = CInt(Me.FittedShip.Attributes(Attributes.Ship_MaxGangLinks))
+                    End If
+                Else
+                    maxAllowed = CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive))
+                End If
+        End Select
+
         For slot As Integer = 1 To Me.BaseShip.HiSlots
             If Me.BaseShip.HiSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.HiSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.HiSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.HiSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.HiSlot(slot).ModuleState >= moduleState Then
                     count += 1
                 End If
             End If
@@ -2784,7 +2813,7 @@ Imports EveHQ.Core
         For slot As Integer = 1 To Me.BaseShip.MidSlots
             If Me.BaseShip.MidSlot(slot) IsNot Nothing Then
                 If Me.BaseShip.MidSlot(slot).ID <> ShipModule.Item_CommandProcessorI Then
-                    If Me.BaseShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.MidSlot(slot).ModuleState >= 4 Then
+                    If Me.BaseShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.MidSlot(slot).ModuleState >= moduleState Then
                         count += 1
                     End If
                 End If
@@ -2792,14 +2821,14 @@ Imports EveHQ.Core
         Next
         For slot As Integer = 1 To Me.BaseShip.LowSlots
             If Me.BaseShip.LowSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.LowSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.LowSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.LowSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.LowSlot(slot).ModuleState >= moduleState Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.RigSlots
             If Me.BaseShip.RigSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.RigSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.RigSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.RigSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.RigSlot(slot).ModuleState >= moduleState Then
                     count += 1
                 End If
             End If
@@ -2822,28 +2851,28 @@ Imports EveHQ.Core
         Dim count As Integer = 0
         For slot As Integer = 1 To Me.BaseShip.HiSlots
             If Me.BaseShip.HiSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.HiSlot(slot).ID = typeID And Me.BaseShip.HiSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.HiSlot(slot).ID = typeID And Me.BaseShip.HiSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.MidSlots
             If Me.BaseShip.MidSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.MidSlot(slot).ID = typeID And Me.BaseShip.MidSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.MidSlot(slot).ID = typeID And Me.BaseShip.MidSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.LowSlots
             If Me.BaseShip.LowSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.LowSlot(slot).ID = typeID And Me.BaseShip.LowSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.LowSlot(slot).ID = typeID And Me.BaseShip.LowSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
         Next
         For slot As Integer = 1 To Me.BaseShip.RigSlots
             If Me.BaseShip.RigSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.RigSlot(slot).ID = typeID And Me.BaseShip.RigSlot(slot).ModuleState >= 4 Then
+                If Me.BaseShip.RigSlot(slot).ID = typeID And Me.BaseShip.RigSlot(slot).ModuleState >= ModuleStates.Active Then
                     count += 1
                 End If
             End If
@@ -2852,7 +2881,7 @@ Imports EveHQ.Core
     End Function
     Private Function AddModuleInNextSlot(ByVal shipMod As ShipModule) As Integer
         Select Case shipMod.SlotType
-            Case SlotTypes.Rig  ' Rig
+            Case SlotTypes.Rig
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.RigSlot(slotNo) Is Nothing Then
                         Me.BaseShip.RigSlot(slotNo) = shipMod
@@ -2861,7 +2890,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available rig slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.Low  ' Low
+            Case SlotTypes.Low
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.LowSlot(slotNo) Is Nothing Then
                         Me.BaseShip.LowSlot(slotNo) = shipMod
@@ -2870,7 +2899,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available low slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.Mid  ' Mid
+            Case SlotTypes.Mid
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.MidSlot(slotNo) Is Nothing Then
                         Me.BaseShip.MidSlot(slotNo) = shipMod
@@ -2879,7 +2908,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available mid slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.High  ' High
+            Case SlotTypes.High
                 For slotNo As Integer = 1 To 8
                     If Me.BaseShip.HiSlot(slotNo) Is Nothing Then
                         Me.BaseShip.HiSlot(slotNo) = shipMod
@@ -2888,7 +2917,7 @@ Imports EveHQ.Core
                     End If
                 Next
                 MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Case SlotTypes.Subsystem  ' Subsystem
+            Case SlotTypes.Subsystem
                 For slotNo As Integer = 1 To 5
                     If Me.BaseShip.SubSlot(slotNo) Is Nothing Then
                         Me.BaseShip.SubSlot(slotNo) = shipMod
@@ -2902,23 +2931,23 @@ Imports EveHQ.Core
     End Function
     Private Function AddModuleInSpecifiedSlot(ByVal shipMod As ShipModule, ByVal slotNo As Integer) As Integer
         Select Case shipMod.SlotType
-            Case SlotTypes.Rig  ' Rig
+            Case SlotTypes.Rig
                 Me.BaseShip.RigSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.Low  ' Low
+            Case SlotTypes.Low
                 Me.BaseShip.LowSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.Mid  ' Mid
+            Case SlotTypes.Mid
                 Me.BaseShip.MidSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.High  ' High
+            Case SlotTypes.High
                 Me.BaseShip.HiSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
-            Case SlotTypes.Subsystem  ' Subsystem
+            Case SlotTypes.Subsystem
                 Me.BaseShip.SubSlot(slotNo) = shipMod
                 shipMod.SlotNo = slotNo
                 Return slotNo
