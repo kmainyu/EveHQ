@@ -36,8 +36,8 @@ Public Class ShipSlotControl
     Dim fleetSkills As New ArrayList
     Dim cancelSlotMenu As Boolean = False
 
-   Dim lvwBay As New ListView
- Dim DefaultModuleTooltipInfo As String = "<b><i>Double-click to remove this module<br />Right-click to bring up the module menu<br />Middle-click to toggle module state (extra uses with Ctrl/Shift)</i></b>"
+    Dim lvwBay As New ListView
+    Dim DefaultModuleTooltipInfo As String = "<b><i>Double-click to remove this module<br />Right-click to bring up the module menu<br />Middle-click to toggle module state (extra uses with Ctrl/Shift)</i></b>"
 
     Private Const MaxTooltipWidth As Integer = 100
 
@@ -328,16 +328,16 @@ Public Class ShipSlotControl
         If oldMod IsNot Nothing Then
             Dim shipMod As New ShipModule
             Select Case oldMod.SlotType
- Case SlotTypes.Rig ' Rig
+                Case SlotTypes.Rig ' Rig
                     shipMod = ParentFitting.FittedShip.RigSlot(slotNo)
-Case SlotTypes.Low ' Low
+                Case SlotTypes.Low ' Low
 
                     shipMod = ParentFitting.FittedShip.LowSlot(slotNo)
- Case SlotTypes.Mid ' Mid
+                Case SlotTypes.Mid ' Mid
                     shipMod = ParentFitting.FittedShip.MidSlot(slotNo)
-Case SlotTypes.High ' High
+                Case SlotTypes.High ' High
                     shipMod = ParentFitting.FittedShip.HiSlot(slotNo)
-Case SlotTypes.Subsystem ' Subsystem
+                Case SlotTypes.Subsystem ' Subsystem
                     shipMod = ParentFitting.FittedShip.SubSlot(slotNo)
             End Select
             If shipMod IsNot Nothing Then
@@ -354,7 +354,7 @@ Case SlotTypes.Subsystem ' Subsystem
 
 #Region "New Slot Update Routines"
 
-    
+
     ''' <summary>
     '''     Updates the column headers of the ship slot control
     ''' </summary>
@@ -384,7 +384,7 @@ Case SlotTypes.Subsystem ' Subsystem
         adtSlots.EndUpdate()
     End Sub
 
-    
+
     ''' <summary>
     '''     Draws placeholders for the ship slots
     ''' </summary>
@@ -508,7 +508,7 @@ Case SlotTypes.Subsystem ' Subsystem
         Call UpdatePrices()
     End Sub
 
-    
+
     ''' <summary>
     '''     Creates the individual cells of a node based on the ship module and user columns required
     ''' </summary>
@@ -681,7 +681,7 @@ Case SlotTypes.Subsystem ' Subsystem
         End If
     End Sub
 
-    
+
     ''' <summary>
     '''     Updates the individual cells of a node based on the ship module and user columns
     ''' </summary>
@@ -696,9 +696,9 @@ Case SlotTypes.Subsystem ' Subsystem
         slotNode.Text = shipMod.Name
         Dim Desc As String = ""
         If shipMod.SlotType = SlotTypes.Subsystem Then
-Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
+            Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
 
-                  
+
         End If
         Desc &= shipMod.Description
         SlotTip.SetSuperTooltip(slotNode,
@@ -760,7 +760,7 @@ Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlo
                             If _
                                 shipMod.ModuleState = ModuleStates.Active Or
                                 shipMod.ModuleState = ModuleStates.Overloaded Then
-                                slotNode.Cells(idx).Text = (shipMod.CapUsageRate*- 1).ToString("N2")
+                                slotNode.Cells(idx).Text = (shipMod.CapUsageRate * -1).ToString("N2")
                             Else
                                 slotNode.Cells(idx).Text = ""
                             End If
@@ -888,7 +888,7 @@ Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlo
                 Next
                 Settings.HQFSettings.UserSlotColumns(EndIdx) = StartUserCol
             Else
-                For Idx As Integer = StartIdx - 1 To EndIdx Step - 1
+                For Idx As Integer = StartIdx - 1 To EndIdx Step -1
                     Dim MCol As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(Idx)
                     Settings.HQFSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description,
                                                                                        MCol.Width, MCol.Active)
@@ -1037,7 +1037,7 @@ Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlo
         ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
     End Sub
 
-    
+
     ''' <summary>
     '''     Changes the module state of the module in the current node (slot)
     ''' </summary>
@@ -1077,10 +1077,8 @@ Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlo
             Dim canDeactivate As Boolean = False
             Dim canOverload As Boolean = False
             ' Check for activation cost
-currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
+            If currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
 
-                currentMod.Attributes.ContainsKey("6") = True Or currentMod.Attributes.ContainsKey("669") Or
-                currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey("713") Then
                 canDeactivate = True
             End If
             If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
@@ -1126,11 +1124,11 @@ currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or cur
                         ' Check if we need to deactivate a highslot ganglink
                         Dim ActiveGanglinks As New List(Of Integer)
                         If ParentFitting.BaseShip.HiSlots > 0 Then
-                            For slot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step - 1
+                            For slot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step -1
                                 If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+                                    If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
 
-   
+
                                         ActiveGanglinks.Add(slot)
                                     End If
                                 End If
@@ -1168,7 +1166,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                             currentMod.ModuleState = oldState
                             Exit Sub
                         Else
-   If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
+                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
 
 
                                 ' Set the module offline
@@ -1202,8 +1200,8 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                 If fittedMod.ID = ShipModule.Item_TriageModuleI Or fittedMod.ID = ShipModule.Item_TriageModuleII Then
                     If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
                         Dim msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                        Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question
-                               
+                        Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
                         If reply = DialogResult.No Then
                             fittedMod.ModuleState = oldState
                             Exit Sub
@@ -1408,7 +1406,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                     ' Check if we need to deactivate a highslot ganglink
                     Dim ActiveGanglinks As New List(Of Integer)
                     If ParentFitting.BaseShip.HiSlots > 0 Then
-                        For hSlot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step - 1
+                        For hSlot As Integer = ParentFitting.BaseShip.HiSlots To 1 Step -1
                             If ParentFitting.BaseShip.HiSlot(hSlot) IsNot Nothing Then
                                 If _
                                     ParentFitting.BaseShip.HiSlot(hSlot).DatabaseGroup = "316" And
@@ -1599,14 +1597,14 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                     newRelSkill.Text = relSkill
                                     Dim pilotLevel As Integer = 0
                                     If _
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
+                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                               HQFPilot).SkillSet.Contains(relSkill) Then
                                         pilotLevel =
                                             CType(
                                                 CType(
                                                     HQFPilotCollection.HQFPilots(
-                                                        currentInfo.cboPilots.SelectedItem.ToString),
-                                                    HQFPilot).SkillSet(relSkill),
+                                                        currentInfo.cboPilots.SelectedItem.ToString), 
+                                                    HQFPilot).SkillSet(relSkill), 
                                                 HQFSkill).Level
                                     Else
                                         MessageBox.Show(
@@ -1615,7 +1613,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                             MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     End If
                                     newRelSkill.Image =
-                                        CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString),
+                                        CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
                                               Image)
                                     For skillLevel As Integer = 0 To 5
                                         Dim newRelSkillLevel As New ToolStripMenuItem
@@ -1630,13 +1628,13 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                     newRelSkill.DropDownItems.Add("-")
                                     Dim defaultLevel As Integer = 0
                                     If _
-                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString),
+                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                               Pilot).PilotSkills.Contains(relSkill) = True Then
                                         defaultLevel =
                                             CType(
                                                 CType(
-                                                    HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                                    Pilot).PilotSkills(relSkill),
+                                                    HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                                    Pilot).PilotSkills(relSkill), 
                                                 PilotSkill).Level
                                     Else
                                     End If
@@ -1656,14 +1654,14 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                     newRelSkill.Text = relSkill
                                     Dim pilotLevel As Integer = 0
                                     If _
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
+                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                               HQFPilot).SkillSet.Contains(relSkill) Then
                                         pilotLevel =
                                             CType(
                                                 CType(
                                                     HQFPilotCollection.HQFPilots(
-                                                        currentInfo.cboPilots.SelectedItem.ToString),
-                                                    HQFPilot).SkillSet(relSkill),
+                                                        currentInfo.cboPilots.SelectedItem.ToString), 
+                                                    HQFPilot).SkillSet(relSkill), 
                                                 HQFSkill).Level
                                     Else
                                         MessageBox.Show(
@@ -1672,7 +1670,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                             MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     End If
                                     newRelSkill.Image =
-                                        CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString),
+                                        CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
                                               Image)
                                     For skillLevel As Integer = 0 To 5
                                         Dim newRelSkillLevel As New ToolStripMenuItem
@@ -1687,13 +1685,13 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                     newRelSkill.DropDownItems.Add("-")
                                     Dim defaultLevel As Integer = 0
                                     If _
-                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString),
+                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                               Pilot).PilotSkills.Contains(relSkill) = True Then
                                         defaultLevel =
                                             CType(
                                                 CType(
-                                                    HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                                    Pilot).PilotSkills(relSkill),
+                                                    HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                                    Pilot).PilotSkills(relSkill), 
                                                 PilotSkill).Level
                                     End If
                                     Dim newRelSkillDefault As New ToolStripMenuItem
@@ -1819,7 +1817,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                         Dim marketGroup As String = currentMod.MarketGroup
                         For Each selNodes As Node In adtSlots.SelectedNodes
                             If selNodes.Text <> "<Empty>" Then
-                                cMod = CType(ModuleLists.moduleList(CStr(ModuleLists.moduleListName.Item(selNodes.Text))),
+                                cMod = CType(ModuleLists.moduleList(CStr(ModuleLists.moduleListName.Item(selNodes.Text))), 
                                              ShipModule)
                                 If cMod.MarketGroup <> marketGroup Then
                                     AmmoAnalysis = Nothing
@@ -1900,7 +1898,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
                                     If chargeItems(charge).ToString = group Then
                                         Dim newCharge As New ToolStripMenuItem
                                         Dim chargeMod As ShipModule =
-                                                CType(ModuleLists.moduleList(ModuleLists.moduleListName(charge)),
+                                                CType(ModuleLists.moduleList(ModuleLists.moduleListName(charge)), 
                                                       ShipModule)
                                         If chargeMod.Volume <= currentMod.Capacity Then
                                             newCharge.Name = CStr(ModuleLists.moduleListName(charge))
@@ -2179,7 +2177,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
         ' Display the ammo types available by this module
         Dim AmmoAnalysis As New frmGunnery
         AmmoAnalysis.CurrentFit = ParentFitting
-        AmmoAnalysis.CurrentPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
+        AmmoAnalysis.CurrentPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                           HQFPilot)
         AmmoAnalysis.CurrentSlot = adtSlots.SelectedNodes(0).Name
         AmmoAnalysis.ShowDialog()
@@ -2257,9 +2255,9 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
 
     Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
         Dim mnuPilotLevel As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
+        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                        HQFPilot)
-        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)),
+        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), 
                                            HQFSkill)
         Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
         If level <> pilotSkill.Level Then
@@ -2353,18 +2351,18 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
 
         Dim fModule As New ShipModule
         Select Case sModule.SlotType
- Case SlotTypes.Rig
+            Case SlotTypes.Rig
 
                 fModule = ParentFitting.FittedShip.RigSlot(sModule.SlotNo)
- Case SlotTypes.Low
+            Case SlotTypes.Low
 
                 fModule = ParentFitting.FittedShip.LowSlot(sModule.SlotNo)
- Case SlotTypes.Mid
+            Case SlotTypes.Mid
 
                 fModule = ParentFitting.FittedShip.MidSlot(sModule.SlotNo)
- Case SlotTypes.High
+            Case SlotTypes.High
                 fModule = ParentFitting.FittedShip.HiSlot(sModule.SlotNo)
- Case SlotTypes.Subsystem
+            Case SlotTypes.Subsystem
                 fModule = ParentFitting.FittedShip.SubSlot(sModule.SlotNo)
         End Select
         Dim oldState As ModuleStates = sModule.ModuleState
@@ -2422,10 +2420,10 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
         ' Check for activation of triage mode with remote effects
         If sModule.ID = ShipModule.Item_TriageModuleI Or sModule.ID = ShipModule.Item_TriageModuleII Then
             If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
- Dim msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                Dim msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
                 Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
-                      
+
                 If reply = DialogResult.No Then
                     sModule.ModuleState = oldState
                     Exit Sub
@@ -2440,7 +2438,7 @@ If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLink
     Private Sub SetSingleModuleOverloaded(sModule As ShipModule)
         Dim fModule As New ShipModule
         Select Case sModule.SlotType
-Case SlotTypes.Rig
+            Case SlotTypes.Rig
 
                 fModule = ParentFitting.FittedShip.RigSlot(sModule.SlotNo)
             Case SlotTypes.Low
@@ -2589,9 +2587,9 @@ Case SlotTypes.Rig
             newCargoItem.Name = CStr(lvwCargoBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(CBI.Quantity))
             ParentFitting.BaseShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
-            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume*CBI.Quantity
+            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
             If CBI.ItemType.IsContainer Then _
-                ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume)*CBI.Quantity
+                ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
@@ -2616,7 +2614,7 @@ Case SlotTypes.Rig
                 newDroneItem.Checked = True
             End If
             ParentFitting.BaseShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
-            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume*DBI.Quantity
+            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
@@ -2638,9 +2636,9 @@ Case SlotTypes.Rig
             newCargoItem.Name = CStr(lvwShipBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(SBI.Quantity))
             newCargoItem.SubItems.Add(SBI.ShipType.Volume.ToString("N0"))
-            newCargoItem.SubItems.Add((SBI.ShipType.Volume*SBI.Quantity).ToString("N0"))
+            newCargoItem.SubItems.Add((SBI.ShipType.Volume * SBI.Quantity).ToString("N0"))
             ParentFitting.BaseShip.ShipBayItems.Add(lvwShipBay.Items.Count, SBI)
-            ParentFitting.BaseShip.ShipBay_Used += SBI.ShipType.Volume*SBI.Quantity
+            ParentFitting.BaseShip.ShipBay_Used += SBI.ShipType.Volume * SBI.Quantity
             lvwShipBay.Items.Add(newCargoItem)
         Next
         lvwShipBay.EndUpdate()
@@ -2719,7 +2717,7 @@ Case SlotTypes.Rig
                         Exit Sub
                     End If
                     If _
-                        ParentFitting.FittedShip.DroneBandwidth_Used + (reqQ*CDbl(DBI.DroneType.Attributes("1272"))) >
+                        ParentFitting.FittedShip.DroneBandwidth_Used + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) >
                         ParentFitting.FittedShip.DroneBandwidth Then
                         ' Cannot do this because we don't have enough bandwidth
                         MessageBox.Show(
@@ -2830,8 +2828,8 @@ Case SlotTypes.Rig
                             newRelSkill.Text = relSkill
                             Dim pilotLevel As Integer =
                                     CType(
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                              HQFPilot).SkillSet(relSkill),
+                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                              HQFPilot).SkillSet(relSkill), 
                                         HQFSkill).Level
                             newRelSkill.Image =
                                 CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
@@ -2852,8 +2850,8 @@ Case SlotTypes.Rig
                                     PilotSkills.Contains(relSkill) = True Then
                                 defaultLevel =
                                     CType(
-                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                              Pilot).PilotSkills(relSkill),
+                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                              Pilot).PilotSkills(relSkill), 
                                         PilotSkill).Level
                             End If
                             Dim newRelSkillDefault As New ToolStripMenuItem
@@ -2872,8 +2870,8 @@ Case SlotTypes.Rig
                             newRelSkill.Text = relSkill
                             Dim pilotLevel As Integer =
                                     CType(
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                              HQFPilot).SkillSet(relSkill),
+                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                              HQFPilot).SkillSet(relSkill), 
                                         HQFSkill).Level
                             newRelSkill.Image =
                                 CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
@@ -2894,8 +2892,8 @@ Case SlotTypes.Rig
                                     PilotSkills.Contains(relSkill) = True Then
                                 defaultLevel =
                                     CType(
-                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                              Pilot).PilotSkills(relSkill),
+                                        CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                              Pilot).PilotSkills(relSkill), 
                                         PilotSkill).Level
                             End If
                             Dim newRelSkillDefault As New ToolStripMenuItem
@@ -2998,7 +2996,7 @@ Case SlotTypes.Rig
                                                     CInt(
                                                         Int(
                                                             (ParentFitting.FittedShip.CargoBay -
-                                                             ParentFitting.BaseShip.CargoBay_Used)/CBI.ItemType.Volume))
+                                                             ParentFitting.BaseShip.CargoBay_Used) / CBI.ItemType.Volume))
                 newSelectForm.nudQuantity.Value = CBI.Quantity
                 newSelectForm.ShowDialog()
                 newSelectForm.Dispose()
@@ -3019,7 +3017,7 @@ Case SlotTypes.Rig
                                                     CInt(
                                                         Int(
                                                             (ParentFitting.FittedShip.ShipBay -
-                                                             ParentFitting.BaseShip.ShipBay_Used)/SBI.ShipType.Volume))
+                                                             ParentFitting.BaseShip.ShipBay_Used) / SBI.ShipType.Volume))
                 newSelectForm.nudQuantity.Value = SBI.Quantity
                 newSelectForm.ShowDialog()
                 newSelectForm.Dispose()
@@ -3039,7 +3037,7 @@ Case SlotTypes.Rig
                                                     CInt(
                                                         Int(
                                                             (ParentFitting.FittedShip.DroneBay -
-                                                             ParentFitting.BaseShip.DroneBay_Used)/DBI.DroneType.Volume))
+                                                             ParentFitting.BaseShip.DroneBay_Used) / DBI.DroneType.Volume))
                 newSelectForm.nudQuantity.Value = DBI.Quantity
                 newSelectForm.ShowDialog()
                 ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
@@ -3139,7 +3137,7 @@ Case SlotTypes.Rig
             newDroneItem.Name = CStr(lvwDroneBay.Items.Count)
             newDroneItem.SubItems.Add(CStr(DBI.Quantity))
             ParentFitting.BaseShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
-            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume*DBI.Quantity
+            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
@@ -3177,9 +3175,9 @@ Case SlotTypes.Rig
             newCargoItem.Name = CStr(lvwCargoBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(CBI.Quantity))
             ParentFitting.BaseShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
-            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume*CBI.Quantity
+            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
             If CBI.ItemType.IsContainer Then _
-                ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume)*CBI.Quantity
+                ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
@@ -3623,12 +3621,12 @@ Case SlotTypes.Rig
     Private Sub cboSCPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles cboSCPilot.SelectedIndexChanged
         ' Set the fleet status
-        If cboSCPilot.SelectedIndex <> - 1 Then
+        If cboSCPilot.SelectedIndex <> -1 Then
             lblFleetStatus.Text = "Active"
             btnLeaveFleet.Enabled = True
             lblSCShip.Enabled = True
             cboSCShip.Enabled = True
-            If cboSCShip.SelectedIndex = - 1 Then
+            If cboSCShip.SelectedIndex = -1 Then
                 Call Me.CalculateFleetEffects()
             Else
                 Call Me.UpdateSCShipEffects()
@@ -3639,12 +3637,12 @@ Case SlotTypes.Rig
     Private Sub cboWCPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles cboWCPilot.SelectedIndexChanged
         ' Set the fleet status
-        If cboWCPilot.SelectedIndex <> - 1 Then
+        If cboWCPilot.SelectedIndex <> -1 Then
             lblFleetStatus.Text = "Active"
             btnLeaveFleet.Enabled = True
             lblWCShip.Enabled = True
             cboWCShip.Enabled = True
-            If cboWCShip.SelectedIndex = - 1 Then
+            If cboWCShip.SelectedIndex = -1 Then
                 Call Me.CalculateFleetEffects()
             Else
                 Call Me.UpdateWCShipEffects()
@@ -3655,12 +3653,12 @@ Case SlotTypes.Rig
     Private Sub cboFCPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles cboFCPilot.SelectedIndexChanged
         ' Set the fleet status
-        If cboFCPilot.SelectedIndex <> - 1 Then
+        If cboFCPilot.SelectedIndex <> -1 Then
             lblFleetStatus.Text = "Active"
             btnLeaveFleet.Enabled = True
             lblFCShip.Enabled = True
             cboFCShip.Enabled = True
-            If cboFCShip.SelectedIndex = - 1 Then
+            If cboFCShip.SelectedIndex = -1 Then
                 Call Me.CalculateFleetEffects()
             Else
                 Call Me.UpdateFCShipEffects()
@@ -3670,12 +3668,12 @@ Case SlotTypes.Rig
 
     Private Sub btnLeaveFleet_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLeaveFleet.Click
         ' Set the fleet status
-        cboSCShip.SelectedIndex = - 1
-        cboWCShip.SelectedIndex = - 1
-        cboFCShip.SelectedIndex = - 1
-        cboSCPilot.SelectedIndex = - 1
-        cboWCPilot.SelectedIndex = - 1
-        cboFCPilot.SelectedIndex = - 1
+        cboSCShip.SelectedIndex = -1
+        cboWCShip.SelectedIndex = -1
+        cboFCShip.SelectedIndex = -1
+        cboSCPilot.SelectedIndex = -1
+        cboWCPilot.SelectedIndex = -1
+        cboFCPilot.SelectedIndex = -1
         cboSCShip.Enabled = False
         cboWCShip.Enabled = False
         cboFCShip.Enabled = False
@@ -3750,7 +3748,7 @@ Case SlotTypes.Rig
                                                    FleetSkill(Commanders.Count + 1, skill) & ")"
                                 fleetModule.Attributes.Add("335", 15)
                             Else
-                                fleetModule.Attributes.Add("335", 2*CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("335", 2 * CInt(FleetSkill(0, skill)))
                             End If
                         Case "Information Warfare"
                             If CInt(FleetSkill(0, skill)) = 6 Then
@@ -3758,17 +3756,17 @@ Case SlotTypes.Rig
                                                    FleetSkill(Commanders.Count + 1, skill) & ")"
                                 fleetModule.Attributes.Add("309", 15)
                             Else
-                                fleetModule.Attributes.Add("309", 2*CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("309", 2 * CInt(FleetSkill(0, skill)))
                             End If
                         Case "Leadership"
-                            fleetModule.Attributes.Add("566", 2*CInt(FleetSkill(0, skill)))
+                            fleetModule.Attributes.Add("566", 2 * CInt(FleetSkill(0, skill)))
                         Case "Mining Foreman"
                             If CInt(FleetSkill(0, skill)) = 6 Then
                                 fleetModule.Name = "Mining Foreman Mindlink (" & FleetSkill(Commanders.Count + 1, skill) &
                                                    ")"
                                 fleetModule.Attributes.Add("434", 15)
                             Else
-                                fleetModule.Attributes.Add("434", 2*CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("434", 2 * CInt(FleetSkill(0, skill)))
                             End If
                         Case "Siege Warfare"
                             If CInt(FleetSkill(0, skill)) = 6 Then
@@ -3776,15 +3774,15 @@ Case SlotTypes.Rig
                                                    ")"
                                 fleetModule.Attributes.Add("337", 15)
                             Else
-                                fleetModule.Attributes.Add("337", 2*CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("337", 2 * CInt(FleetSkill(0, skill)))
                             End If
                         Case "Skirmish Warfare"
                             If CInt(FleetSkill(0, skill)) = 6 Then
                                 fleetModule.Name = "Skirmish Warfare Mindlink (" &
                                                    FleetSkill(Commanders.Count + 1, skill) & ")"
-                                fleetModule.Attributes.Add("151", - 15)
+                                fleetModule.Attributes.Add("151", -15)
                             Else
-                                fleetModule.Attributes.Add("151", - 2*CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("151", -2 * CInt(FleetSkill(0, skill)))
                             End If
                     End Select
                     ParentFitting.BaseShip.FleetSlotCollection.Add(fleetModule)
@@ -3827,7 +3825,7 @@ Case SlotTypes.Rig
     End Sub
 
     Private Sub UpdateSCShipEffects()
-        If cboSCShip.SelectedIndex <> - 1 Then
+        If cboSCShip.SelectedIndex <> -1 Then
             If cboSCShip.SelectedItem.ToString = "<None>" Then
                 cboSCShip.Tag = Nothing
             Else
@@ -3872,7 +3870,7 @@ Case SlotTypes.Rig
     End Sub
 
     Private Sub UpdateWCShipEffects()
-        If cboWCShip.SelectedIndex <> - 1 Then
+        If cboWCShip.SelectedIndex <> -1 Then
             If cboWCShip.SelectedItem.ToString = "<None>" Then
                 cboWCShip.Tag = Nothing
             Else
@@ -3914,7 +3912,7 @@ Case SlotTypes.Rig
     End Sub
 
     Private Sub UpdateFCShipEffects()
-        If cboFCShip.SelectedIndex <> - 1 Then
+        If cboFCShip.SelectedIndex <> -1 Then
             If cboFCShip.SelectedItem.ToString = "<None>" Then
                 cboFCShip.Tag = Nothing
             Else
@@ -3984,7 +3982,7 @@ Case SlotTypes.Rig
                         ' Contains the ECM Command Bonus attribute
                         If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
                             If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
-                               
+
                                 FleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
@@ -4006,15 +4004,14 @@ Case SlotTypes.Rig
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
-                            Math.Abs(CDbl(fleetModule.Attributes("833"))) >=
-                            Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                          
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
                         If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
                             If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
-                             
+
                                 FleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
@@ -4035,15 +4032,14 @@ Case SlotTypes.Rig
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
-                            Math.Abs(CDbl(fleetModule.Attributes("833"))) >=
-                            Math.Abs(CDbl(compareModule.Attributes("833"))) Then
+                          
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
                         If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
                             If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
-                              
+
                                 FleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
@@ -4077,10 +4073,10 @@ Case SlotTypes.Rig
                         gangModule.ModuleState = ModuleStates.Gang
                         If hPilot.SkillSet.Contains(SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True _
                             Then
-                            hSkill = CType(hPilot.SkillSet(SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))),
+                            hSkill = CType(hPilot.SkillSet(SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), 
                                            HQFSkill)
                             If chkEffect.IsPerLevel = True Then
-                                gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value*hSkill.Level)
+                                gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value * hSkill.Level)
                             Else
                                 gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
                             End If
