@@ -585,12 +585,7 @@ Public Class frmSplash
         ' Check if we need to start the market watcher
         EveHQ.Core.HQ.WriteLogEvent("Start: Enable Market Watcher")
         If EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcherAtStartup = True Then
-            If frmEveHQ.InitialiseWatchers() = True Then
-                EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = True
-            Else
-                MessageBox.Show("Unable to start Market Log Watcher. Please check Eve is installed and the market log export folder exists.", "Error Starting Watcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = False
-            End If
+            Core.HQ.CacheProcessor.Start()
         Else
             EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = False
         End If

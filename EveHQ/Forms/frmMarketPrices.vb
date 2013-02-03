@@ -26,6 +26,8 @@ Imports System.IO
 Imports System.Xml
 Imports System.Net
 Imports System.Text
+Imports EveHQ.Market
+Imports System.Threading.Tasks
 
 Public Class frmMarketPrices
     Dim Regions As New SortedList(Of String, Long) ' RegionName, RegionID
@@ -47,6 +49,12 @@ Public Class frmMarketPrices
 #Region "Form Opening and Closing Routines"
 
     Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        ' Initialize Price check item list
+        If (_itemsList.Items.Count = 0) Then
+            _itemsList.Items.AddRange((From item In Core.HQ.itemData.Values Where item.MarketGroup <> 0 Select item.Name).ToArray())
+        End If
+
 
         ' Set Styles
         NormalLogStyle = adtLogs.Styles("Log").Copy
@@ -80,24 +88,24 @@ Public Class frmMarketPrices
         Call Me.ImportLogDetails()
 
         ' Update Market Price Settings
-        Call Me.UpdatePriceSettings()
+        'Call Me.UpdatePriceSettings()
 
         ' Update the Custom Price Grid
         Call Me.UpdatePriceMatrix()
 
         ' Update the Cache File List
-        Call Me.UpdateCacheFileList()
+        'Call Me.UpdateCacheFileList()
 
         ' Initialise the price group data
         Call Me.InitialisePriceGroupData()
 
         ' Set the market data source
-        Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
-            Case MarketSite.Battleclinic
-                radBattleclinic.Checked = True
-            Case MarketSite.EveMarketeer
-                radEveMarketeer.Checked = True
-        End Select
+        'Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
+        '    Case MarketSite.Battleclinic
+        '        radBattleclinic.Checked = True
+        '    Case MarketSite.EveMarketeer
+        '        radEveMarketeer.Checked = True
+        'End Select
 
         startUp = False
 
@@ -209,86 +217,86 @@ Public Class frmMarketPrices
         EveHQ.Core.AdvTreeSorter.Sort(adtLogs, 1, True, True)
     End Sub
 
-#Region "Market Price Settings"
+    '#Region "Market Price Settings"
 
-    Private Sub UpdatePriceSettings()
-        ' Update the checkboxes
-        chkEnableLogWatcher.Checked = EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher
-        chkEnableWatcherAtStartup.Checked = EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcherAtStartup
-        chkAutoUpdateCurrentPrice.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogUpdatePrice
-        chkAutoUpdatePriceData.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogUpdateData
-        chkNotifyPopup.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogPopupConfirm
-        chkNotifyTray.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogToolTipConfirm
-        chkIgnoreBuyOrders.Checked = EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrders
-        chkIgnoreSellOrders.Checked = EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrders
-        ' Update the NUD controls
-        nudIgnoreBuyOrderLimit.Value = CDec(EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit)
-        nudIgnoreSellOrderLimit.Value = CDec(EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit)
-    End Sub
+    '    Private Sub UpdatePriceSettings()
+    '        ' Update the checkboxes
+    '        chkEnableLogWatcher.Checked = EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher
+    '        chkEnableWatcherAtStartup.Checked = EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcherAtStartup
+    '        chkAutoUpdateCurrentPrice.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogUpdatePrice
+    '        chkAutoUpdatePriceData.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogUpdateData
+    '        chkNotifyPopup.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogPopupConfirm
+    '        chkNotifyTray.Checked = EveHQ.Core.HQ.EveHqSettings.MarketLogToolTipConfirm
+    '        chkIgnoreBuyOrders.Checked = EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrders
+    '        chkIgnoreSellOrders.Checked = EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrders
+    '        ' Update the NUD controls
+    '        nudIgnoreBuyOrderLimit.Value = CDec(EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit)
+    '        nudIgnoreSellOrderLimit.Value = CDec(EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit)
+    '    End Sub
 
-    Private Sub chkEnableLogWatcher_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableLogWatcher.CheckedChanged
-        If chkEnableLogWatcher.Checked = True Then
-            If frmEveHQ.InitialiseWatchers() = True Then
-                EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = True
-            Else
-                MessageBox.Show("Unable to start Market Log Watcher. Please check Eve is installed and the market log export folder exists.", "Error Starting Watcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                chkEnableLogWatcher.Checked = False
-            End If
-        Else
-            Call frmEveHQ.CancelWatchers()
-            EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = False
-        End If
-    End Sub
+    '    Private Sub chkEnableLogWatcher_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        If chkEnableLogWatcher.Checked = True Then
+    '            If frmEveHQ.InitialiseWatchers() = True Then
+    '                EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = True
+    '            Else
+    '                MessageBox.Show("Unable to start Market Log Watcher. Please check Eve is installed and the market log export folder exists.", "Error Starting Watcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '                chkEnableLogWatcher.Checked = False
+    '            End If
+    '        Else
+    '            Call frmEveHQ.CancelWatchers()
+    '            EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = False
+    '        End If
+    '    End Sub
 
-    Private Sub chkEnableWatcherAtStartup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableWatcherAtStartup.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcherAtStartup = chkEnableWatcherAtStartup.Checked
-    End Sub
+    '    Private Sub chkEnableWatcherAtStartup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcherAtStartup = chkEnableWatcherAtStartup.Checked
+    '    End Sub
 
-    Private Sub chkAutoUpdateCurrentPrice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoUpdateCurrentPrice.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.MarketLogUpdatePrice = chkAutoUpdateCurrentPrice.Checked
-    End Sub
+    '    Private Sub chkAutoUpdateCurrentPrice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.MarketLogUpdatePrice = chkAutoUpdateCurrentPrice.Checked
+    '    End Sub
 
-    Private Sub chkAutoUpdatePriceData_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoUpdatePriceData.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.MarketLogUpdateData = chkAutoUpdatePriceData.Checked
-    End Sub
+    '    Private Sub chkAutoUpdatePriceData_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.MarketLogUpdateData = chkAutoUpdatePriceData.Checked
+    '    End Sub
 
-    Private Sub chkNotifyPopup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyPopup.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.MarketLogPopupConfirm = chkNotifyPopup.Checked
-    End Sub
+    '    Private Sub chkNotifyPopup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.MarketLogPopupConfirm = chkNotifyPopup.Checked
+    '    End Sub
 
-    Private Sub chkNotifyTray_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyTray.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.MarketLogToolTipConfirm = chkNotifyTray.Checked
-    End Sub
+    '    Private Sub chkNotifyTray_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.MarketLogToolTipConfirm = chkNotifyTray.Checked
+    '    End Sub
 
-    Private Sub chkIgnoreBuyOrders_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIgnoreBuyOrders.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrders = chkIgnoreBuyOrders.Checked
-    End Sub
+    '    Private Sub chkIgnoreBuyOrders_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrders = chkIgnoreBuyOrders.Checked
+    '    End Sub
 
-    Private Sub chkIgnoreSellOrders_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIgnoreSellOrders.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrders = chkIgnoreSellOrders.Checked
-    End Sub
+    '    Private Sub chkIgnoreSellOrders_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrders = chkIgnoreSellOrders.Checked
+    '    End Sub
 
-    Private Sub nudIgnoreBuyOrderLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudIgnoreBuyOrderLimit.HandleDestroyed
-        EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit = nudIgnoreBuyOrderLimit.Value
-    End Sub
+    '    Private Sub nudIgnoreBuyOrderLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit = nudIgnoreBuyOrderLimit.Value
+    '    End Sub
 
-    Private Sub nudIgnoreBuyOrderLimit_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIgnoreBuyOrderLimit.ValueChanged
-        If startUp = False Then
-            EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit = nudIgnoreBuyOrderLimit.Value
-        End If
-    End Sub
+    '    Private Sub nudIgnoreBuyOrderLimit_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        If startUp = False Then
+    '            EveHQ.Core.HQ.EveHqSettings.IgnoreBuyOrderLimit = nudIgnoreBuyOrderLimit.Value
+    '        End If
+    '    End Sub
 
-    Private Sub nudIgnoreSellOrderLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudIgnoreSellOrderLimit.HandleDestroyed
-        EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit = nudIgnoreSellOrderLimit.Value
-    End Sub
+    '    Private Sub nudIgnoreSellOrderLimit_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs)
+    '        EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit = nudIgnoreSellOrderLimit.Value
+    '    End Sub
 
-    Private Sub nudIgnoreSellOrderLimit_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIgnoreSellOrderLimit.ValueChanged
-        If startUp = False Then
-            EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit = nudIgnoreSellOrderLimit.Value
-        End If
-    End Sub
+    '    Private Sub nudIgnoreSellOrderLimit_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        If startUp = False Then
+    '            EveHQ.Core.HQ.EveHqSettings.IgnoreSellOrderLimit = nudIgnoreSellOrderLimit.Value
+    '        End If
+    '    End Sub
 
-#End Region
+    '#End Region
 
 #Region "Custom Prices Functions"
     Private Sub txtSearchPrices_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchPrices.TextChanged
@@ -893,1001 +901,667 @@ Public Class frmMarketPrices
 
 #End Region
 
-#Region "Market UI Routines"
+    '#Region "Market UI Routines"
 
-    Private Sub btnDownloadMarketPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDownloadMarketPrices.Click
-        btnDownloadMarketPrices.Enabled = False
-        btnUpdateMarketPrices.Enabled = False
-        MarketDownloadWorker.WorkerReportsProgress = True
-        MarketDownloadWorker.RunWorkerAsync()
-    End Sub
-    Private Sub btnUpdateMarketPrices_Click(sender As System.Object, e As System.EventArgs) Handles btnUpdateMarketPrices.Click
-        btnDownloadMarketPrices.Enabled = False
-        btnUpdateMarketPrices.Enabled = False
-        MarketUpdateWorker.WorkerReportsProgress = True
-        MarketUpdateWorker.RunWorkerAsync()
-    End Sub
-    Private Sub lblBattleclinicLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblBattleclinicLink.LinkClicked
-        Try
-            Process.Start("http://www.battleclinic.com")
-        Catch ex As Exception
-            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Sub
-    Private Sub lblEveMarketeerLink_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblEveMarketeerLink.LinkClicked
-        Try
-            Process.Start("http://www.evemarketeer.com")
-        Catch ex As Exception
-            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Try
-    End Sub
-    Private Sub radBattleclinic_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radBattleclinic.CheckedChanged
-        If startUp = False Then
-            EveHQ.Core.HQ.EveHqSettings.MarketDataSource = MarketSite.Battleclinic
-            Call Me.UpdateCacheFileList()
-        End If
-    End Sub
-
-    Private Sub radEveMarketeer_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radEveMarketeer.CheckedChanged
-        If startUp = False Then
-            EveHQ.Core.HQ.EveHqSettings.MarketDataSource = MarketSite.EveMarketeer
-            Call Me.UpdateCacheFileList()
-        End If
-    End Sub
-
-    Private Sub UpdateCacheFileList()
-        Dim FeedName As String = ""
-        Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
-            Case MarketSite.Battleclinic
-                FeedName = "MarketPrices"
-            Case MarketSite.EveMarketeer
-                FeedName = "EveMarketeerPrices"
-        End Select
-        ' Get the contents of the market log folder and display them
-        adtMarketCache.BeginUpdate()
-        adtMarketCache.Nodes.Clear()
-        If My.Computer.FileSystem.DirectoryExists(marketCacheFolder) = True Then
-            For Each file As String In My.Computer.FileSystem.GetFiles(marketCacheFolder, FileIO.SearchOption.SearchTopLevelOnly, FeedName & "*.xml")
-                ' Get EveGalaticRegion details
-                Dim FI As New FileInfo(file)
-                ' Bug 44 (http://issues.evehq.net/thebuggenie/evehq/issues/44): hardening the parsing of cache files from manual modifications that would make them invalid to parse.
-                ' Using TryParse instead of casting/converting.
-                Dim regionID As Long
-                If Long.TryParse(FI.Name.TrimStart(FeedName.ToCharArray).TrimEnd(".xml".ToCharArray), regionID) And RegionNames.ContainsKey(regionID) = True Then
-                    Dim regionName As String = RegionNames(regionID)
-                    Dim RegionNode As New Node(regionName)
-                    RegionNode.Cells.Add(New Cell(FI.LastWriteTime.ToString))
-                    ' Get the cache file time
-                    Dim MarketFileCacheTime As DateTime = GetMarketFileCacheTime(file)
-                    RegionNode.Cells.Add(New Cell(GetMarketFileCacheTime(file).ToString))
-                    adtMarketCache.Nodes.Add(RegionNode)
-                End If
-            Next
-            ' Check the results
-            If adtMarketCache.Nodes.Count > 0 Then
-                adtMarketCache.Enabled = True
-            Else
-                adtMarketCache.Nodes.Add(New Node("Cache Directory Empty"))
-                adtMarketCache.Enabled = False
-            End If
-        Else
-            adtMarketCache.Nodes.Add(New Node("Cache Directory Not Available"))
-            adtMarketCache.Enabled = False
-        End If
-        adtMarketCache.EndUpdate()
-    End Sub
-
-    Private Function GetMarketFileCacheTime(Filename As String) As DateTime
-
-        Dim PriceXML As New XmlDocument
-        Try
-            PriceXML.Load(Filename)
-            Dim CacheNodeList As XmlNodeList = PriceXML.GetElementsByTagName("cacheExpires")
-            If CacheNodeList.Count > 0 Then
-                Dim CacheNode As XmlNode = CacheNodeList(0)
-                Dim RawTime As String = CacheNode.InnerText
-                Dim ActualTime As DateTime = DateTime.Parse(RawTime)
-                Return ActualTime
-            Else
-                Return Now.AddDays(-1)
-            End If
-        Catch ex As Exception
-            ' Error loading in XML file, probably due to corrupt format, allow a new XML file
-            Return Now.AddDays(-1)
-        End Try
-
-    End Function
-
-    'Private Sub ParseMarketPriceGroup(ByRef GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), ByRef UsedPriceList As List(Of String), MPG As EveHQ.Core.PriceGroup)
-
-    '    Dim MarketPrice As Double = 0
-    '    Dim PriceCount As Integer = 0
-    '    Dim PriceFlagList As New List(Of EveHQ.Core.PriceGroupFlags)
-    '    Dim RegionPrices As New SortedList(Of String, MarketData)
-    '    Dim ItemPrices As New MarketData
-
-    '    ' Establish which price criteria we should be using
-    '    Dim PFS As Integer = MPG.PriceFlags
-    '    PriceFlagList.Clear()
-    '    For i As Integer = 0 To 30
-    '        If (PFS Or CInt(2 ^ i)) = PFS Then
-    '            PriceFlagList.Add(CType(CInt(2 ^ i), Core.PriceGroupFlags))
+    '    Private Sub btnDownloadMarketPrices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '        btnDownloadMarketPrices.Enabled = False
+    '        btnUpdateMarketPrices.Enabled = False
+    '        MarketDownloadWorker.WorkerReportsProgress = True
+    '        MarketDownloadWorker.RunWorkerAsync()
+    '    End Sub
+    '    Private Sub btnUpdateMarketPrices_Click(sender As System.Object, e As System.EventArgs)
+    '        btnDownloadMarketPrices.Enabled = False
+    '        btnUpdateMarketPrices.Enabled = False
+    '        MarketUpdateWorker.WorkerReportsProgress = True
+    '        MarketUpdateWorker.RunWorkerAsync()
+    '    End Sub
+    '    Private Sub lblBattleclinicLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
+    '        Try
+    '            Process.Start("http://www.battleclinic.com")
+    '        Catch ex As Exception
+    '            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '        End Try
+    '    End Sub
+    '    Private Sub lblEveMarketeerLink_LinkClicked(sender As System.Object, e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
+    '        Try
+    '            Process.Start("http://www.evemarketeer.com")
+    '        Catch ex As Exception
+    '            MessageBox.Show("Unable to start default web browser. Please ensure a default browser has been configured and that the http protocol is registered to an application.", "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '        End Try
+    '    End Sub
+    '    Private Sub radBattleclinic_CheckedChanged(sender As System.Object, e As System.EventArgs)
+    '        If startUp = False Then
+    '            EveHQ.Core.HQ.EveHqSettings.MarketDataSource = MarketSite.Battleclinic
+    '            Call Me.UpdateCacheFileList()
     '        End If
-    '    Next
+    '    End Sub
 
-    '    ' Get each itemID
-    '    For Each ItemID As String In MPG.TypeIDs
-    '        ' Set the market price and price count to nil
-    '        MarketPrice = 0
-    '        PriceCount = 0
+    '    Private Sub radEveMarketeer_CheckedChanged(sender As System.Object, e As System.EventArgs)
+    '        If startUp = False Then
+    '            EveHQ.Core.HQ.EveHqSettings.MarketDataSource = MarketSite.EveMarketeer
+    '            Call Me.UpdateCacheFileList()
+    '        End If
+    '    End Sub
 
-    '        ' Go through each EveGalaticRegion and apply the correct prices
-    '        For Each RegionID As String In MPG.RegionIDs
-
-    '            If GlobalPriceData.ContainsKey(RegionID) Then
-    '                RegionPrices = GlobalPriceData(RegionID)
-
-    '                If RegionPrices.ContainsKey(ItemID) = True Then
-
-    '                    ItemPrices = RegionPrices(ItemID)
-
-    '                    For Each PF As EveHQ.Core.PriceGroupFlags In PriceFlagList
-    '                        ' Determine what we do here!
-    '                        Select Case PF
-    '                            Case Core.PriceGroupFlags.MinAll
-    '                                If ItemPrices.MinAll <> 0 Then
-    '                                    MarketPrice += ItemPrices.MinAll
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MinBuy
-    '                                If ItemPrices.MinBuy <> 0 Then
-    '                                    MarketPrice += ItemPrices.MinBuy
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MinSell
-    '                                If ItemPrices.MinSell <> 0 Then
-    '                                    MarketPrice += ItemPrices.MinSell
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MaxAll
-    '                                If ItemPrices.MaxAll <> 0 Then
-    '                                    MarketPrice += ItemPrices.MaxAll
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MaxBuy
-    '                                If ItemPrices.MaxBuy <> 0 Then
-    '                                    MarketPrice += ItemPrices.MaxBuy
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MaxSell
-    '                                If ItemPrices.MaxSell <> 0 Then
-    '                                    MarketPrice += ItemPrices.MaxSell
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.AvgAll
-    '                                If ItemPrices.AvgAll <> 0 Then
-    '                                    MarketPrice += ItemPrices.AvgAll
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.AvgBuy
-    '                                If ItemPrices.AvgBuy <> 0 Then
-    '                                    MarketPrice += ItemPrices.AvgBuy
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.AvgSell
-    '                                If ItemPrices.AvgSell <> 0 Then
-    '                                    MarketPrice += ItemPrices.AvgSell
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MedAll
-    '                                If ItemPrices.MedAll <> 0 Then
-    '                                    MarketPrice += ItemPrices.MedAll
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MedBuy
-    '                                If ItemPrices.MedBuy <> 0 Then
-    '                                    MarketPrice += ItemPrices.MedBuy
-    '                                    PriceCount += 1
-    '                                End If
-    '                            Case Core.PriceGroupFlags.MedSell
-    '                                If ItemPrices.MedSell <> 0 Then
-    '                                    MarketPrice += ItemPrices.MedSell
-    '                                    PriceCount += 1
-    '                                End If
-
-    '                        End Select
-
-    '                    Next
-
+    '    Private Sub UpdateCacheFileList()
+    '        Dim FeedName As String = ""
+    '        Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
+    '            Case MarketSite.Battleclinic
+    '                FeedName = "MarketPrices"
+    '            Case MarketSite.EveMarketeer
+    '                FeedName = "EveMarketeerPrices"
+    '        End Select
+    '        ' Get the contents of the market log folder and display them
+    '        adtMarketCache.BeginUpdate()
+    '        adtMarketCache.Nodes.Clear()
+    '        If My.Computer.FileSystem.DirectoryExists(marketCacheFolder) = True Then
+    '            For Each file As String In My.Computer.FileSystem.GetFiles(marketCacheFolder, FileIO.SearchOption.SearchTopLevelOnly, FeedName & "*.xml")
+    '                ' Get EveGalaticRegion details
+    '                Dim FI As New FileInfo(file)
+    '                ' Bug 44 (http://issues.evehq.net/thebuggenie/evehq/issues/44): hardening the parsing of cache files from manual modifications that would make them invalid to parse.
+    '                ' Using TryParse instead of casting/converting.
+    '                Dim regionID As Long
+    '                If Long.TryParse(FI.Name.TrimStart(FeedName.ToCharArray).TrimEnd(".xml".ToCharArray), regionID) And RegionNames.ContainsKey(regionID) = True Then
+    '                    Dim regionName As String = RegionNames(regionID)
+    '                    Dim RegionNode As New Node(regionName)
+    '                    RegionNode.Cells.Add(New Cell(FI.LastWriteTime.ToString))
+    '                    ' Get the cache file time
+    '                    Dim MarketFileCacheTime As DateTime = GetMarketFileCacheTime(file)
+    '                    RegionNode.Cells.Add(New Cell(GetMarketFileCacheTime(file).ToString))
+    '                    adtMarketCache.Nodes.Add(RegionNode)
     '                End If
+    '            Next
+    '            ' Check the results
+    '            If adtMarketCache.Nodes.Count > 0 Then
+    '                adtMarketCache.Enabled = True
+    '            Else
+    '                adtMarketCache.Nodes.Add(New Node("Cache Directory Empty"))
+    '                adtMarketCache.Enabled = False
+    '            End If
+    '        Else
+    '            adtMarketCache.Nodes.Add(New Node("Cache Directory Not Available"))
+    '            adtMarketCache.Enabled = False
+    '        End If
+    '        adtMarketCache.EndUpdate()
+    '    End Sub
 
+    '    Private Function GetMarketFileCacheTime(Filename As String) As DateTime
+
+    '        Dim PriceXML As New XmlDocument
+    '        Try
+    '            PriceXML.Load(Filename)
+    '            Dim CacheNodeList As XmlNodeList = PriceXML.GetElementsByTagName("cacheExpires")
+    '            If CacheNodeList.Count > 0 Then
+    '                Dim CacheNode As XmlNode = CacheNodeList(0)
+    '                Dim RawTime As String = CacheNode.InnerText
+    '                Dim ActualTime As DateTime = DateTime.Parse(RawTime)
+    '                Return ActualTime
+    '            Else
+    '                Return Now.AddDays(-1)
+    '            End If
+    '        Catch ex As Exception
+    '            ' Error loading in XML file, probably due to corrupt format, allow a new XML file
+    '            Return Now.AddDays(-1)
+    '        End Try
+
+    '    End Function
+
+    '    'Private Sub ParseMarketPriceGroup(ByRef GlobalPriceData As SortedList(Of String, SortedList(Of String, MarketData)), ByRef UsedPriceList As List(Of String), MPG As EveHQ.Core.PriceGroup)
+
+    '    '    Dim MarketPrice As Double = 0
+    '    '    Dim PriceCount As Integer = 0
+    '    '    Dim PriceFlagList As New List(Of EveHQ.Core.PriceGroupFlags)
+    '    '    Dim RegionPrices As New SortedList(Of String, MarketData)
+    '    '    Dim ItemPrices As New MarketData
+
+    '    '    ' Establish which price criteria we should be using
+    '    '    Dim PFS As Integer = MPG.PriceFlags
+    '    '    PriceFlagList.Clear()
+    '    '    For i As Integer = 0 To 30
+    '    '        If (PFS Or CInt(2 ^ i)) = PFS Then
+    '    '            PriceFlagList.Add(CType(CInt(2 ^ i), Core.PriceGroupFlags))
+    '    '        End If
+    '    '    Next
+
+    '    '    ' Get each itemID
+    '    '    For Each ItemID As String In MPG.TypeIDs
+    '    '        ' Set the market price and price count to nil
+    '    '        MarketPrice = 0
+    '    '        PriceCount = 0
+
+    '    '        ' Go through each EveGalaticRegion and apply the correct prices
+    '    '        For Each RegionID As String In MPG.RegionIDs
+
+    '    '            If GlobalPriceData.ContainsKey(RegionID) Then
+    '    '                RegionPrices = GlobalPriceData(RegionID)
+
+    '    '                If RegionPrices.ContainsKey(ItemID) = True Then
+
+    '    '                    ItemPrices = RegionPrices(ItemID)
+
+    '    '                    For Each PF As EveHQ.Core.PriceGroupFlags In PriceFlagList
+    '    '                        ' Determine what we do here!
+    '    '                        Select Case PF
+    '    '                            Case Core.PriceGroupFlags.MinAll
+    '    '                                If ItemPrices.MinAll <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MinAll
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MinBuy
+    '    '                                If ItemPrices.MinBuy <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MinBuy
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MinSell
+    '    '                                If ItemPrices.MinSell <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MinSell
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MaxAll
+    '    '                                If ItemPrices.MaxAll <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MaxAll
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MaxBuy
+    '    '                                If ItemPrices.MaxBuy <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MaxBuy
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MaxSell
+    '    '                                If ItemPrices.MaxSell <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MaxSell
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.AvgAll
+    '    '                                If ItemPrices.AvgAll <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.AvgAll
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.AvgBuy
+    '    '                                If ItemPrices.AvgBuy <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.AvgBuy
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.AvgSell
+    '    '                                If ItemPrices.AvgSell <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.AvgSell
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MedAll
+    '    '                                If ItemPrices.MedAll <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MedAll
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MedBuy
+    '    '                                If ItemPrices.MedBuy <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MedBuy
+    '    '                                    PriceCount += 1
+    '    '                                End If
+    '    '                            Case Core.PriceGroupFlags.MedSell
+    '    '                                If ItemPrices.MedSell <> 0 Then
+    '    '                                    MarketPrice += ItemPrices.MedSell
+    '    '                                    PriceCount += 1
+    '    '                                End If
+
+    '    '                        End Select
+
+    '    '                    Next
+
+    '    '                End If
+
+    '    '            End If
+
+    '    '        Next
+
+    '    '        ' Calculate an average of the prices if we need to
+    '    '        If PriceCount > 0 Then
+    '    '            MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
+
+    '    '            ' Set the price
+    '    '            EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
+    '    '        End If
+
+    '    '        ' Add the price to the used list
+    '    '        UsedPriceList.Add(ItemID)
+
+    '    '    Next
+
+    '    'End Sub
+
+    '#End Region
+
+    '#Region "Market & Faction Price Feed Routines"
+
+    '    Private Function GetBCPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal RegionID As String, ByVal SuppressProgress As Boolean, ByVal RegionTotal As Integer, ByVal RegionCount As Integer) As Boolean
+
+    '        ' Set a default policy level for the "http:" and "https" schemes.
+    '        Dim policy As System.Net.Cache.HttpRequestCachePolicy = New System.Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore)
+
+    '        ' Create the request to access the server and set credentials
+    '        If SuppressProgress = False Then
+    '            StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
+    '        End If
+
+    '        ' Build URL
+    '        URL &= RegionID & ".xml.gz"
+
+    '        Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml.gz")
+    '        ServicePointManager.DefaultConnectionLimit = 10
+    '        ServicePointManager.Expect100Continue = False
+    '        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
+    '        Dim request As HttpWebRequest = CType(WebRequest.Create(URL), HttpWebRequest)
+    '        request.CachePolicy = policy
+    '        ' Setup proxy server (if required)
+    '        Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
+    '        request.UserAgent = "EveHQ v" & My.Application.Info.Version.ToString
+
+    '        ' New File Method
+    '        request.Method = "GET"
+    '        request.ContentType = "application/x-www-form-urlencoded"
+    '        request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
+
+    '        ' Old API Method
+    '        'request.Method = "POST"
+    '        'Dim postData As String = "applicationKey=" & EveHQ.Core.HQ.BCAppKey & "&regions=" & RegionID & "&types=0"
+    '        'request.ContentLength = postData.Length
+    '        'request.ContentType = "application/x-www-form-urlencoded"
+    '        'request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
+    '        '' Setup a stream to write the HTTP "POST" data
+    '        'Dim WebEncoding As New ASCIIEncoding()
+    '        'Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
+    '        'Dim newStream As Stream = request.GetRequestStream()
+    '        'newStream.Write(byte1, 0, byte1.Length)
+    '        'newStream.Close()
+    '        'newStream.Dispose()
+
+    '        Try
+    '            If SuppressProgress = False Then
+    '                StatusLabel.Text = "Contacting '" & FeedName & "' Server..." : StatusLabel.Refresh()
+    '            End If
+    '            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
+    '                Dim filesize As Long = CLng(response.ContentLength)
+    '                'Using response As FtpWebResponse = CType(request.GetResponse, FtpWebResponse)
+    '                Using responseStream As IO.Stream = response.GetResponseStream
+    '                    'loop to read & write to file
+    '                    Using fs As New IO.FileStream(localfile, IO.FileMode.Create)
+    '                        Dim buffer(32767) As Byte
+    '                        Dim read As Integer = 0
+    '                        Dim totalBytes As Long = 0
+    '                        Dim percent As Integer = 0
+    '                        Do
+    '                            read = responseStream.Read(buffer, 0, buffer.Length)
+    '                            fs.Write(buffer, 0, read)
+    '                            totalBytes += read
+    '                            If filesize <> -1 Then
+    '                                percent = CInt(totalBytes / filesize * 100)
+    '                                If SuppressProgress = False Then
+    '                                    StatusLabel.Text = "Downloading File " & RegionCount.ToString & " of " & RegionTotal.ToString & ": '" & RegionNames(CLng(RegionID)) & "'... " & totalBytes.ToString("N0") & " of " & filesize.ToString("N0") & " (" & percent & "%)" : StatusLabel.Refresh()
+    '                                End If
+    '                            Else
+    '                                If SuppressProgress = False Then
+    '                                    StatusLabel.Text = "Downloading File " & RegionCount.ToString & " of " & RegionTotal.ToString & ": '" & RegionNames(CLng(RegionID)) & "'... " & totalBytes.ToString("N0") & " of unknown size" : StatusLabel.Refresh()
+    '                                End If
+    '                            End If
+    '                            Application.DoEvents()
+    '                        Loop Until read = 0 'see Note(1)
+    '                        responseStream.Close()
+    '                        fs.Flush()
+    '                        fs.Close()
+    '                    End Using
+    '                    responseStream.Close()
+    '                End Using
+    '                response.Close()
+    '            End Using
+    '            If SuppressProgress = False Then
+    '                StatusLabel.Text = "Download of '" & FeedName & "' Complete!" : StatusLabel.Refresh()
+    '            End If
+    '            ' Unzip the file
+    '            Dim ufs As FileStream = New FileStream(localfile, FileMode.Open, FileAccess.Read)
+    '            Dim compstream As New System.IO.Compression.GZipStream(ufs, System.IO.Compression.CompressionMode.Decompress)
+    '            Dim sr As New StreamReader(compstream)
+    '            Dim unzipfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml")
+    '            Dim sw As New StreamWriter(unzipfile)
+    '            sw.Write(sr.ReadToEnd)
+    '            sw.Flush()
+    '            sw.Close()
+    '            sw.Dispose()
+    '            sr.Close()
+    '            sr.Dispose()
+    '            ufs.Close()
+    '            ufs.Dispose()
+    '            Return True
+    '        Catch ex As Exception
+    '            ' Suppress this message for now - just return
+    '            'MessageBox.Show("There was an error downloading the '" & FeedName & "' data: " & ex.Message, "Error in Download", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '            Return False
+    '        End Try
+
+    '    End Function
+
+    '    Private Sub GetBCMarketPrices()
+
+    '        ' Setup variables
+    '        Dim PriceRegions As New List(Of String)
+    '        Dim FeedName As String = "MarketPrices"
+
+    '        ' Step 1: Determine which regions we need from the price groups
+    '        For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
+    '            For Each Region As String In PG.RegionIDs
+    '                If PriceRegions.Contains(Region) = False Then
+    '                    PriceRegions.Add(Region)
+    '                End If
+    '            Next
+    '        Next
+
+    '        ' Step 2: Cycle through each EveGalaticRegion and check the cache time to see if it needs an update
+    '        Dim TotalRegions As Integer = PriceRegions.Count
+    '        Dim RegionCount As Integer = 0
+    '        For Each Region As String In PriceRegions
+
+    '            RegionCount += 1
+
+    '            ' Update the status
+    '            MarketDownloadWorker.ReportProgress(100, "Status: Checking EveGalaticRegion: " & RegionNames(CLng(Region)) & " (" & RegionCount.ToString & " of " & TotalRegions.ToString & ")")
+
+    '            ' Check to see if we have an existing XML file that should be cached
+    '            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
+    '            Dim DownloadRequired As Boolean = True
+    '            If My.Computer.FileSystem.FileExists(localfile) = True Then
+    '                ' Load the file
+    '                Dim PriceXML As New XmlDocument
+    '                Try
+    '                    PriceXML.Load(localfile)
+    '                    ' Check the Cache details
+    '                    Dim CacheNodes As XmlNodeList = PriceXML.SelectNodes("/GetCalculatedPrice/cacheExpires")
+    '                    If CacheNodes.Count > 0 Then
+    '                        Dim CacheDate As Date
+    '                        If Date.TryParse(CacheNodes(0).InnerText, CacheDate) = True Then
+    '                            If Date.Compare(Now.ToUniversalTime, CacheDate.ToUniversalTime) < 0 Then
+    '                                DownloadRequired = False
+    '                            End If
+    '                        End If
+    '                    End If
+    '                Catch e As Exception
+    '                    ' Catch cases of corrupt XML files and re-download
+    '                    DownloadRequired = True
+    '                End Try
+    '            End If
+
+    '            ' Download the correct data file
+    '            If DownloadRequired = True Then
+    '                Call GetBCPriceFeed("MarketPrices", "http://eve.battleclinic.com/xml/market_data/", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
     '            End If
 
     '        Next
 
-    '        ' Calculate an average of the prices if we need to
-    '        If PriceCount > 0 Then
-    '            MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
+    '        ' Update the status
+    '        MarketDownloadWorker.ReportProgress(100, "Download of Market Pricing Data complete!")
 
-    '            ' Set the price
-    '            EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
+    '    End Sub
+
+    '    Private Sub ParseBCPrices(WriteToDB As Boolean)
+    '        ' New method of how we should roll!
+    '        Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    '        Dim EveDateFormat As String = "yyyy-MM-dd"
+
+    '        Dim PriceRegions As New List(Of String)
+    '        Dim FeedName As String = "MarketPrices"
+
+    '        ' Step 1: Create a list of all market price items
+    '        lblMarketPriceUpdateStatus.Text = "Establishing Market item list..." : lblMarketPriceUpdateStatus.Refresh()
+    '        Dim MarketItems As New List(Of String)
+    '        For Each Item As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
+    '            MarketItems.Add(Item)
+    '        Next
+
+    '        ' Step 2: Establish which regions we need to parse
+    '        lblMarketPriceUpdateStatus.Text = "Determining Market regions..." : lblMarketPriceUpdateStatus.Refresh()
+    '        For Each Region As String In EveHQ.Core.HQ.EveHqSettings.MarketRegionList
+    '            PriceRegions.Add(Region)
+    '        Next
+    '        For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
+    '            For Each Region As String In PG.RegionIDs
+    '                If PriceRegions.Contains(Region) = False Then
+    '                    PriceRegions.Add(Region)
+    '                End If
+    '            Next
+    '        Next
+
+    '        ' Step 3: Check we have all files
+    '        lblMarketPriceUpdateStatus.Text = "Downloading missing EveGalaticRegion files..." : lblMarketPriceUpdateStatus.Refresh()
+    '        For Each Region As String In PriceRegions
+    '            ' Check if the file exists and download it if not
+    '            ' We are not interested at this stage about out of date files
+    '            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
+    '            If My.Computer.FileSystem.FileExists(localfile) = False Then
+    '                ' Download the correct data file
+    '                Call GetBCPriceFeed("MarketPrices", "http://api.battleclinic.com/xml/eve/market/GetCalculatedCurrentValue.php", lblMarketPriceUpdateStatus, Region, False, 1, 1)
+    '            End If
+    '        Next
+
+    '        ' Step 4: Parse the XML files
+    '        lblMarketPriceUpdateStatus.Text = "Parsing regional XML files..." : lblMarketPriceUpdateStatus.Refresh()
+    '        Dim GlobalPriceData As New SortedList(Of String, SortedList(Of String, MarketData))
+    '        For Each Region As String In PriceRegions
+
+    '            ' Create a new set of regional data
+    '            Dim RegionData As New SortedList(Of String, MarketData)
+    '            GlobalPriceData.Add(Region, RegionData)
+
+    '            ' Load the XML
+    '            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
+    '            Dim PriceXML As New XmlDocument
+    '            Try
+    '                PriceXML.Load(localfile)
+
+    '                ' Get the records
+    '                Dim PriceNodes As XmlNodeList = PriceXML.SelectNodes("/GetCalculatedPrice/records/record")
+    '                If PriceNodes.Count > 0 Then
+    '                    For Each PriceNode As XmlNode In PriceNodes
+    '                        Dim itemID As String = PriceNode.Attributes.GetNamedItem("itemID").Value
+    '                        Dim NewPriceData As New MarketData
+    '                        If RegionData.ContainsKey(itemID) = True Then
+    '                            NewPriceData = RegionData(itemID)
+    '                        Else
+    '                            NewPriceData.ItemID = PriceNode.Attributes.GetNamedItem("itemID").Value
+    '                            NewPriceData.RegionID = PriceNode.Attributes.GetNamedItem("regionID").Value
+    '                            NewPriceData.HistoryDate = PriceNode.Attributes.GetNamedItem("historyDate").Value
+    '                            RegionData.Add(itemID, NewPriceData)
+    '                        End If
+    '                        Select Case PriceNode.Attributes.GetNamedItem("type").Value
+    '                            Case "all"
+    '                                NewPriceData.MinAll = Double.Parse(PriceNode.Attributes.GetNamedItem("lowPrice").Value, EveCulture)
+    '                                NewPriceData.MaxAll = Double.Parse(PriceNode.Attributes.GetNamedItem("highPrice").Value, EveCulture)
+    '                                NewPriceData.AvgAll = Double.Parse(PriceNode.Attributes.GetNamedItem("avgPrice").Value, EveCulture)
+    '                                NewPriceData.MedAll = Double.Parse(PriceNode.Attributes.GetNamedItem("medianPrice").Value, EveCulture)
+    '                                NewPriceData.StdAll = Double.Parse(PriceNode.Attributes.GetNamedItem("standardDeviation").Value, EveCulture)
+    '                                NewPriceData.VarAll = Double.Parse(PriceNode.Attributes.GetNamedItem("variance").Value, EveCulture)
+    '                                NewPriceData.VolAll = Double.Parse(PriceNode.Attributes.GetNamedItem("volume").Value, EveCulture)
+    '                                NewPriceData.QtyAll = Double.Parse(PriceNode.Attributes.GetNamedItem("orders").Value, EveCulture)
+    '                            Case "buy"
+    '                                NewPriceData.MinBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("lowPrice").Value, EveCulture)
+    '                                NewPriceData.MaxBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("highPrice").Value, EveCulture)
+    '                                NewPriceData.AvgBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("avgPrice").Value, EveCulture)
+    '                                NewPriceData.MedBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("medianPrice").Value, EveCulture)
+    '                                NewPriceData.StdBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("standardDeviation").Value, EveCulture)
+    '                                NewPriceData.VarBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("variance").Value, EveCulture)
+    '                                NewPriceData.VolBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("volume").Value, EveCulture)
+    '                                NewPriceData.QtyBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("orders").Value, EveCulture)
+    '                            Case "sell"
+    '                                NewPriceData.MinSell = Double.Parse(PriceNode.Attributes.GetNamedItem("lowPrice").Value, EveCulture)
+    '                                NewPriceData.MaxSell = Double.Parse(PriceNode.Attributes.GetNamedItem("highPrice").Value, EveCulture)
+    '                                NewPriceData.AvgSell = Double.Parse(PriceNode.Attributes.GetNamedItem("avgPrice").Value, EveCulture)
+    '                                NewPriceData.MedSell = Double.Parse(PriceNode.Attributes.GetNamedItem("medianPrice").Value, EveCulture)
+    '                                NewPriceData.StdSell = Double.Parse(PriceNode.Attributes.GetNamedItem("standardDeviation").Value, EveCulture)
+    '                                NewPriceData.VarSell = Double.Parse(PriceNode.Attributes.GetNamedItem("variance").Value, EveCulture)
+    '                                NewPriceData.VolSell = Double.Parse(PriceNode.Attributes.GetNamedItem("volume").Value, EveCulture)
+    '                                NewPriceData.QtySell = Double.Parse(PriceNode.Attributes.GetNamedItem("orders").Value, EveCulture)
+    '                        End Select
+    '                    Next
+    '                End If
+    '            Catch e As Exception
+    '                ' Report a message - probably due to bad format or corruption
+    '                Dim msg As New StringBuilder
+    '                msg.AppendLine("There was an error parsing the market price file for " & Region & ".")
+    '                msg.AppendLine("")
+    '                msg.AppendLine("The error was: " & e.Message)
+    '                msg.AppendLine("Stacktrace: " & e.StackTrace)
+    '                msg.AppendLine("")
+    '                msg.AppendLine("It is highly likely that the file is corrupt so re-downloading the file may resolve the issue.")
+    '                MessageBox.Show(msg.ToString, "Error Parsing Price File", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '            End Try
+    '        Next
+
+    '        ' Step 5: Open a connection to the database
+    '        If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
+
+    '            ' Step 6: Go through the price groups and apply the prices to them
+    '            ' Make a note of which item we have used here so we can apply general prices to everything else
+    '            Dim UsedPriceList As New SortedList(Of String, Double)
+
+    '            For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
+
+    '                If MPG.Name <> "<Global>" Then
+
+    '                    lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
+    '                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
+
+    '                End If
+
+    '            Next
+
+    '            ' Step 7: See which items are left and apply prices to them - temporarily add them to the <Global> group
+    '            If EveHQ.Core.HQ.EveHqSettings.PriceGroups.ContainsKey("<Global>") = True Then
+
+    '                Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.EveHqSettings.PriceGroups("<Global>")
+    '                For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
+    '                    If UsedPriceList.ContainsKey(ItemID) = False Then
+    '                        MPG.TypeIDs.Add(ItemID)
+    '                    End If
+    '                Next
+
+    '                lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
+    '                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
+
+    '                ' Clear the typeIDs
+    '                MPG.TypeIDs.Clear()
+
+    '            End If
+
+    '            ' Step 8: Close the database
+    '            EveHQ.Core.DataFunctions.CloseCustomDatabase()
+
+    '            ' Step 9: Update the price matrix
+    '            lblMarketPriceUpdateStatus.Text = "Updating Price Matrix..." : lblMarketPriceUpdateStatus.Refresh()
+    '            Call Me.UpdatePriceMatrix()
+
     '        End If
 
-    '        ' Add the price to the used list
-    '        UsedPriceList.Add(ItemID)
+    '        ' Update the status
+    '        lblMarketPriceUpdateStatus.Text = "Update of Market Pricing Data complete!" : lblMarketPriceUpdateStatus.Refresh()
 
-    '    Next
+    '    End Sub
 
+    '#End Region
+
+
+#Region "Market Worker Routines"
+
+    'Private Sub MarketDownloadWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MarketDownloadWorker.DoWork
+    '    Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
+    '        Case MarketSite.Battleclinic
+    '            Call Me.GetBCMarketPrices()
+    '        Case MarketSite.EveMarketeer
+    '            Call Me.GetEveMarketeerPrices()
+    '    End Select
+    'End Sub
+
+    'Private Sub MarketDownloadWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles MarketDownloadWorker.ProgressChanged
+    '    Dim StatusText As String = e.UserState.ToString
+    '    lblMarketPriceUpdateStatus.Text = StatusText : lblMarketPriceUpdateStatus.Refresh()
+    'End Sub
+
+    'Private Sub MarketDownloadWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles MarketDownloadWorker.RunWorkerCompleted
+    '    btnDownloadMarketPrices.Enabled = False
+    '    btnUpdateMarketPrices.Enabled = False
+    '    UpdateCacheFileList()
+    '    MarketUpdateWorker.WorkerReportsProgress = True
+    '    MarketUpdateWorker.RunWorkerAsync()
+    'End Sub
+
+    'Private Sub MarketUpdateWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MarketUpdateWorker.DoWork
+    '    Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
+    '        Case MarketSite.Battleclinic
+    '            Call Me.ParseBCPrices(True)
+    '        Case MarketSite.EveMarketeer
+    '            Call Me.ParseEveMarketeerPrices(True)
+    '    End Select
+    'End Sub
+
+    'Private Sub MarketUpdateWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles MarketUpdateWorker.ProgressChanged
+    '    Dim StatusText As String = e.UserState.ToString
+    '    lblMarketPriceUpdateStatus.Text = StatusText : lblMarketPriceUpdateStatus.Refresh()
+    'End Sub
+
+    'Private Sub MarketUpdateWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles MarketUpdateWorker.RunWorkerCompleted
+    '    btnDownloadMarketPrices.Enabled = True
+    '    btnUpdateMarketPrices.Enabled = True
     'End Sub
 
 #End Region
 
-#Region "Market & Faction Price Feed Routines"
-
-    Private Function GetBCPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal RegionID As String, ByVal SuppressProgress As Boolean, ByVal RegionTotal As Integer, ByVal RegionCount As Integer) As Boolean
-
-        ' Set a default policy level for the "http:" and "https" schemes.
-        Dim policy As System.Net.Cache.HttpRequestCachePolicy = New System.Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore)
-
-        ' Create the request to access the server and set credentials
-        If SuppressProgress = False Then
-            StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
+    Private Sub OnGetMarketOrdersClick(sender As System.Object, e As System.EventArgs) Handles _getMarketOrders.Click
+        ' check that an item is selected in the drop down
+        If _itemsList.SelectedItem Is Nothing Then
+            MessageBox.Show("You must first select an item from the drop down list before retrieving market information")
+            Return
         End If
 
-        ' Build URL
-        URL &= RegionID & ".xml.gz"
+        'get the itemid needed for retrieval
+        Dim itemId As Integer = (From items In Core.HQ.itemData.Values Where items.Name = CStr(_itemsList.SelectedItem) Select CInt(items.ID)).FirstOrDefault()
 
-        Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml.gz")
-        ServicePointManager.DefaultConnectionLimit = 10
-        ServicePointManager.Expect100Continue = False
-        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
-        Dim request As HttpWebRequest = CType(WebRequest.Create(URL), HttpWebRequest)
-        request.CachePolicy = policy
-        ' Setup proxy server (if required)
-        Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
-        request.UserAgent = "EveHQ v" & My.Application.Info.Version.ToString
-
-        ' New File Method
-        request.Method = "GET"
-        request.ContentType = "application/x-www-form-urlencoded"
-        request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-
-        ' Old API Method
-        'request.Method = "POST"
-        'Dim postData As String = "applicationKey=" & EveHQ.Core.HQ.BCAppKey & "&regions=" & RegionID & "&types=0"
-        'request.ContentLength = postData.Length
-        'request.ContentType = "application/x-www-form-urlencoded"
-        'request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-        '' Setup a stream to write the HTTP "POST" data
-        'Dim WebEncoding As New ASCIIEncoding()
-        'Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
-        'Dim newStream As Stream = request.GetRequestStream()
-        'newStream.Write(byte1, 0, byte1.Length)
-        'newStream.Close()
-        'newStream.Dispose()
-
-        Try
-            If SuppressProgress = False Then
-                StatusLabel.Text = "Contacting '" & FeedName & "' Server..." : StatusLabel.Refresh()
-            End If
-            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
-                Dim filesize As Long = CLng(response.ContentLength)
-                'Using response As FtpWebResponse = CType(request.GetResponse, FtpWebResponse)
-                Using responseStream As IO.Stream = response.GetResponseStream
-                    'loop to read & write to file
-                    Using fs As New IO.FileStream(localfile, IO.FileMode.Create)
-                        Dim buffer(32767) As Byte
-                        Dim read As Integer = 0
-                        Dim totalBytes As Long = 0
-                        Dim percent As Integer = 0
-                        Do
-                            read = responseStream.Read(buffer, 0, buffer.Length)
-                            fs.Write(buffer, 0, read)
-                            totalBytes += read
-                            If filesize <> -1 Then
-                                percent = CInt(totalBytes / filesize * 100)
-                                If SuppressProgress = False Then
-                                    StatusLabel.Text = "Downloading File " & RegionCount.ToString & " of " & RegionTotal.ToString & ": '" & RegionNames(CLng(RegionID)) & "'... " & totalBytes.ToString("N0") & " of " & filesize.ToString("N0") & " (" & percent & "%)" : StatusLabel.Refresh()
-                                End If
-                            Else
-                                If SuppressProgress = False Then
-                                    StatusLabel.Text = "Downloading File " & RegionCount.ToString & " of " & RegionTotal.ToString & ": '" & RegionNames(CLng(RegionID)) & "'... " & totalBytes.ToString("N0") & " of unknown size" : StatusLabel.Refresh()
-                                End If
-                            End If
-                            Application.DoEvents()
-                        Loop Until read = 0 'see Note(1)
-                        responseStream.Close()
-                        fs.Flush()
-                        fs.Close()
-                    End Using
-                    responseStream.Close()
-                End Using
-                response.Close()
-            End Using
-            If SuppressProgress = False Then
-                StatusLabel.Text = "Download of '" & FeedName & "' Complete!" : StatusLabel.Refresh()
-            End If
-            ' Unzip the file
-            Dim ufs As FileStream = New FileStream(localfile, FileMode.Open, FileAccess.Read)
-            Dim compstream As New System.IO.Compression.GZipStream(ufs, System.IO.Compression.CompressionMode.Decompress)
-            Dim sr As New StreamReader(compstream)
-            Dim unzipfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml")
-            Dim sw As New StreamWriter(unzipfile)
-            sw.Write(sr.ReadToEnd)
-            sw.Flush()
-            sw.Close()
-            sw.Dispose()
-            sr.Close()
-            sr.Dispose()
-            ufs.Close()
-            ufs.Dispose()
-            Return True
-        Catch ex As Exception
-            ' Suppress this message for now - just return
-            'MessageBox.Show("There was an error downloading the '" & FeedName & "' data: " & ex.Message, "Error in Download", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-
-    End Function
-
-    Private Sub GetBCMarketPrices()
-
-        ' Setup variables
-        Dim PriceRegions As New List(Of String)
-        Dim FeedName As String = "MarketPrices"
-
-        ' Step 1: Determine which regions we need from the price groups
-        For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
-            For Each Region As String In PG.RegionIDs
-                If PriceRegions.Contains(Region) = False Then
-                    PriceRegions.Add(Region)
-                End If
-            Next
-        Next
-
-        ' Step 2: Cycle through each EveGalaticRegion and check the cache time to see if it needs an update
-        Dim TotalRegions As Integer = PriceRegions.Count
-        Dim RegionCount As Integer = 0
-        For Each Region As String In PriceRegions
-
-            RegionCount += 1
-
-            ' Update the status
-            MarketDownloadWorker.ReportProgress(100, "Status: Checking EveGalaticRegion: " & RegionNames(CLng(Region)) & " (" & RegionCount.ToString & " of " & TotalRegions.ToString & ")")
-
-            ' Check to see if we have an existing XML file that should be cached
-            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
-            Dim DownloadRequired As Boolean = True
-            If My.Computer.FileSystem.FileExists(localfile) = True Then
-                ' Load the file
-                Dim PriceXML As New XmlDocument
-                Try
-                    PriceXML.Load(localfile)
-                    ' Check the Cache details
-                    Dim CacheNodes As XmlNodeList = PriceXML.SelectNodes("/GetCalculatedPrice/cacheExpires")
-                    If CacheNodes.Count > 0 Then
-                        Dim CacheDate As Date
-                        If Date.TryParse(CacheNodes(0).InnerText, CacheDate) = True Then
-                            If Date.Compare(Now.ToUniversalTime, CacheDate.ToUniversalTime) < 0 Then
-                                DownloadRequired = False
-                            End If
-                        End If
-                    End If
-                Catch e As Exception
-                    ' Catch cases of corrupt XML files and re-download
-                    DownloadRequired = True
-                End Try
-            End If
-
-            ' Download the correct data file
-            If DownloadRequired = True Then
-                Call GetBCPriceFeed("MarketPrices", "http://eve.battleclinic.com/xml/market_data/", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
-            End If
-
-        Next
-
-        ' Update the status
-        MarketDownloadWorker.ReportProgress(100, "Download of Market Pricing Data complete!")
-
-    End Sub
-
-    Private Sub ParseBCPrices(WriteToDB As Boolean)
-        ' New method of how we should roll!
-        Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim EveDateFormat As String = "yyyy-MM-dd"
-
-        Dim PriceRegions As New List(Of String)
-        Dim FeedName As String = "MarketPrices"
-
-        ' Step 1: Create a list of all market price items
-        lblMarketPriceUpdateStatus.Text = "Establishing Market item list..." : lblMarketPriceUpdateStatus.Refresh()
-        Dim MarketItems As New List(Of String)
-        For Each Item As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
-            MarketItems.Add(Item)
-        Next
-
-        ' Step 2: Establish which regions we need to parse
-        lblMarketPriceUpdateStatus.Text = "Determining Market regions..." : lblMarketPriceUpdateStatus.Refresh()
-        For Each Region As String In EveHQ.Core.HQ.EveHqSettings.MarketRegionList
-            PriceRegions.Add(Region)
-        Next
-        For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
-            For Each Region As String In PG.RegionIDs
-                If PriceRegions.Contains(Region) = False Then
-                    PriceRegions.Add(Region)
-                End If
-            Next
-        Next
-
-        ' Step 3: Check we have all files
-        lblMarketPriceUpdateStatus.Text = "Downloading missing EveGalaticRegion files..." : lblMarketPriceUpdateStatus.Refresh()
-        For Each Region As String In PriceRegions
-            ' Check if the file exists and download it if not
-            ' We are not interested at this stage about out of date files
-            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
-            If My.Computer.FileSystem.FileExists(localfile) = False Then
-                ' Download the correct data file
-                Call GetBCPriceFeed("MarketPrices", "http://api.battleclinic.com/xml/eve/market/GetCalculatedCurrentValue.php", lblMarketPriceUpdateStatus, Region, False, 1, 1)
-            End If
-        Next
-
-        ' Step 4: Parse the XML files
-        lblMarketPriceUpdateStatus.Text = "Parsing regional XML files..." : lblMarketPriceUpdateStatus.Refresh()
-        Dim GlobalPriceData As New SortedList(Of String, SortedList(Of String, MarketData))
-        For Each Region As String In PriceRegions
-
-            ' Create a new set of regional data
-            Dim RegionData As New SortedList(Of String, MarketData)
-            GlobalPriceData.Add(Region, RegionData)
-
-            ' Load the XML
-            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
-            Dim PriceXML As New XmlDocument
-            Try
-                PriceXML.Load(localfile)
-
-                ' Get the records
-                Dim PriceNodes As XmlNodeList = PriceXML.SelectNodes("/GetCalculatedPrice/records/record")
-                If PriceNodes.Count > 0 Then
-                    For Each PriceNode As XmlNode In PriceNodes
-                        Dim itemID As String = PriceNode.Attributes.GetNamedItem("itemID").Value
-                        Dim NewPriceData As New MarketData
-                        If RegionData.ContainsKey(itemID) = True Then
-                            NewPriceData = RegionData(itemID)
-                        Else
-                            NewPriceData.ItemID = PriceNode.Attributes.GetNamedItem("itemID").Value
-                            NewPriceData.RegionID = PriceNode.Attributes.GetNamedItem("regionID").Value
-                            NewPriceData.HistoryDate = PriceNode.Attributes.GetNamedItem("historyDate").Value
-                            RegionData.Add(itemID, NewPriceData)
-                        End If
-                        Select Case PriceNode.Attributes.GetNamedItem("type").Value
-                            Case "all"
-                                NewPriceData.MinAll = Double.Parse(PriceNode.Attributes.GetNamedItem("lowPrice").Value, EveCulture)
-                                NewPriceData.MaxAll = Double.Parse(PriceNode.Attributes.GetNamedItem("highPrice").Value, EveCulture)
-                                NewPriceData.AvgAll = Double.Parse(PriceNode.Attributes.GetNamedItem("avgPrice").Value, EveCulture)
-                                NewPriceData.MedAll = Double.Parse(PriceNode.Attributes.GetNamedItem("medianPrice").Value, EveCulture)
-                                NewPriceData.StdAll = Double.Parse(PriceNode.Attributes.GetNamedItem("standardDeviation").Value, EveCulture)
-                                NewPriceData.VarAll = Double.Parse(PriceNode.Attributes.GetNamedItem("variance").Value, EveCulture)
-                                NewPriceData.VolAll = Double.Parse(PriceNode.Attributes.GetNamedItem("volume").Value, EveCulture)
-                                NewPriceData.QtyAll = Double.Parse(PriceNode.Attributes.GetNamedItem("orders").Value, EveCulture)
-                            Case "buy"
-                                NewPriceData.MinBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("lowPrice").Value, EveCulture)
-                                NewPriceData.MaxBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("highPrice").Value, EveCulture)
-                                NewPriceData.AvgBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("avgPrice").Value, EveCulture)
-                                NewPriceData.MedBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("medianPrice").Value, EveCulture)
-                                NewPriceData.StdBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("standardDeviation").Value, EveCulture)
-                                NewPriceData.VarBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("variance").Value, EveCulture)
-                                NewPriceData.VolBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("volume").Value, EveCulture)
-                                NewPriceData.QtyBuy = Double.Parse(PriceNode.Attributes.GetNamedItem("orders").Value, EveCulture)
-                            Case "sell"
-                                NewPriceData.MinSell = Double.Parse(PriceNode.Attributes.GetNamedItem("lowPrice").Value, EveCulture)
-                                NewPriceData.MaxSell = Double.Parse(PriceNode.Attributes.GetNamedItem("highPrice").Value, EveCulture)
-                                NewPriceData.AvgSell = Double.Parse(PriceNode.Attributes.GetNamedItem("avgPrice").Value, EveCulture)
-                                NewPriceData.MedSell = Double.Parse(PriceNode.Attributes.GetNamedItem("medianPrice").Value, EveCulture)
-                                NewPriceData.StdSell = Double.Parse(PriceNode.Attributes.GetNamedItem("standardDeviation").Value, EveCulture)
-                                NewPriceData.VarSell = Double.Parse(PriceNode.Attributes.GetNamedItem("variance").Value, EveCulture)
-                                NewPriceData.VolSell = Double.Parse(PriceNode.Attributes.GetNamedItem("volume").Value, EveCulture)
-                                NewPriceData.QtySell = Double.Parse(PriceNode.Attributes.GetNamedItem("orders").Value, EveCulture)
-                        End Select
-                    Next
-                End If
-            Catch e As Exception
-                ' Report a message - probably due to bad format or corruption
-                Dim msg As New StringBuilder
-                msg.AppendLine("There was an error parsing the market price file for " & Region & ".")
-                msg.AppendLine("")
-                msg.AppendLine("The error was: " & e.Message)
-                msg.AppendLine("Stacktrace: " & e.StackTrace)
-                msg.AppendLine("")
-                msg.AppendLine("It is highly likely that the file is corrupt so re-downloading the file may resolve the issue.")
-                MessageBox.Show(msg.ToString, "Error Parsing Price File", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        Next
-
-        ' Step 5: Open a connection to the database
-        If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
-
-            ' Step 6: Go through the price groups and apply the prices to them
-            ' Make a note of which item we have used here so we can apply general prices to everything else
-            Dim UsedPriceList As New SortedList(Of String, Double)
-
-            For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
-
-                If MPG.Name <> "<Global>" Then
-
-                    lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
-
-                End If
-
-            Next
-
-            ' Step 7: See which items are left and apply prices to them - temporarily add them to the <Global> group
-            If EveHQ.Core.HQ.EveHqSettings.PriceGroups.ContainsKey("<Global>") = True Then
-
-                Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.EveHqSettings.PriceGroups("<Global>")
-                For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
-                    If UsedPriceList.ContainsKey(ItemID) = False Then
-                        MPG.TypeIDs.Add(ItemID)
-                    End If
-                Next
-
-                lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
-
-                ' Clear the typeIDs
-                MPG.TypeIDs.Clear()
-
-            End If
-
-            ' Step 8: Close the database
-            EveHQ.Core.DataFunctions.CloseCustomDatabase()
-
-            ' Step 9: Update the price matrix
-            lblMarketPriceUpdateStatus.Text = "Updating Price Matrix..." : lblMarketPriceUpdateStatus.Refresh()
-            Call Me.UpdatePriceMatrix()
-
+        Dim orderTask As Task(Of ItemMarketOrders)
+        If (HQ.EveHqSettings.MarketUseRegionMarket) = True Then
+            orderTask = HQ.MarketDataProvider.GetMarketOrdersForItemType(itemId, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+        Else
+            orderTask = HQ.MarketDataProvider.GetMarketOrdersForItemType(itemId, Nothing, HQ.EveHqSettings.MarketSystem, 1)
         End If
 
-        ' Update the status
-        lblMarketPriceUpdateStatus.Text = "Update of Market Pricing Data complete!" : lblMarketPriceUpdateStatus.Refresh()
+        Dim cont As Action(Of Task(Of ItemMarketOrders)) = Sub(dataTask As Task(Of ItemMarketOrders))
+
+                                                               If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing Then
+                                                                   Me.Invoke(Sub() UpdateMarketDisplayWithNewData(dataTask.Result))
+                                                                   'TODO: this is where display of an error message should go.
+                                                               End If
+                                                               'Return result
+                                                           End Sub
+
+        orderTask.ContinueWith(cont)
 
     End Sub
 
-#End Region
-
-#Region "Eve Marketeer Download and Parsing Routines"
-
-    Private Sub GetEveMarketeerPrices()
-
-        ' Setup variables
-        Dim PriceRegions As New List(Of String)
-        Dim FeedName As String = "EveMarketeerPrices"
-
-        ' Step 1: Determine which regions we need from the price groups
-        For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
-            For Each Region As String In PG.RegionIDs
-                If PriceRegions.Contains(Region) = False Then
-                    PriceRegions.Add(Region)
-                End If
-            Next
+    ' updates the market tables with new data
+    Private Sub UpdateMarketDisplayWithNewData(ByVal data As ItemMarketOrders)
+        _sellOrders.Nodes.Clear()
+        _buyOrders.Nodes.Clear()
+        For Each order As MarketOrder In data.SellOrders
+            Dim row As New Node
+            row.Text = order.StationName
+            row.Cells.Add(New Cell(order.QuantityRemaining.ToInvariantString))
+            row.Cells.Add(New Cell(order.Price.ToString("N2")))
+            row.Cells.Add(New Cell(order.Expires.ToString()))
+            _sellOrders.Nodes.Add(row)
+        Next
+        For Each order As MarketOrder In data.BuyOrders
+            Dim row As New Node
+            row.Text = order.StationName
+            row.Cells.Add(New Cell(order.QuantityRemaining.ToInvariantString))
+            row.Cells.Add(New Cell(order.Price.ToString("N2")))
+            row.Cells.Add(New Cell(order.Expires.ToString()))
+            _buyOrders.Nodes.Add(row)
         Next
 
-        ' Step 2: Cycle through each EveGalaticRegion and check the cache time to see if it needs an update
-        Dim TotalRegions As Integer = PriceRegions.Count
-        Dim RegionCount As Integer = 0
-        For Each Region As String In PriceRegions
-
-            RegionCount += 1
-
-            ' Update the status
-            MarketDownloadWorker.ReportProgress(100, "Status: Checking EveGalaticRegion: " & RegionNames(CLng(Region)) & " (" & RegionCount.ToString & " of " & TotalRegions.ToString & ")")
-
-            ' Check to see if we have an existing XML file that should be cached
-            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
-            Dim DownloadRequired As Boolean = True
-
-            ' ***** No cache checking at present!
-
-            If My.Computer.FileSystem.FileExists(localfile) = True Then
-                ' Load the file
-                Dim PriceXML As New XmlDocument
-                Try
-                    PriceXML.Load(localfile)
-                    ' Check the Cache details
-                    Dim CacheNodes As XmlNodeList = PriceXML.SelectNodes("/result/cacheExpires")
-                    If CacheNodes.Count > 0 Then
-                        Dim CacheDate As Date
-                        If Date.TryParse(CacheNodes(0).InnerText, CacheDate) = True Then
-                            If Date.Compare(Now.ToUniversalTime, CacheDate.ToUniversalTime) < 0 Then
-                                DownloadRequired = False
-                            End If
-                        End If
-                    End If
-                Catch e As Exception
-                    ' Catch cases of corrupt XML files and re-download
-                    DownloadRequired = True
-                End Try
-            End If
-
-            ' Download the correct data file
-            If DownloadRequired = True Then
-                Call GetEveMarketeerPriceFeed("EveMarketeerPrices", "http://www.evemarketeer.com/api/EveGalaticRegion/xml", lblMarketPriceUpdateStatus, Region, False, TotalRegions, RegionCount)
-            End If
-
-        Next
-
-        ' Update the status
-        MarketDownloadWorker.ReportProgress(100, "Download of Market Pricing Data complete!")
-
     End Sub
-
-    Private Function GetEveMarketeerPriceFeed(ByVal FeedName As String, ByVal URL As String, ByVal StatusLabel As Label, ByVal RegionID As String, ByVal SuppressProgress As Boolean, ByVal RegionTotal As Integer, ByVal RegionCount As Integer) As Boolean
-        ' Set a default policy level for the "http:" and "https" schemes.
-        Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
-
-        ' Create the request to access the server and set credentials
-        If SuppressProgress = False Then
-            StatusLabel.Text = "Setting '" & FeedName & "' Server Address..." : StatusLabel.Refresh()
-        End If
-        Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & RegionID & ".xml")
-        URL &= "/" & RegionID.ToString
-        ServicePointManager.DefaultConnectionLimit = 10
-        ServicePointManager.Expect100Continue = False
-        Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(URL))
-        Dim request As HttpWebRequest = CType(WebRequest.Create(URL), HttpWebRequest)
-        request.CachePolicy = policy
-        ' Setup proxy server (if required)
-        Call EveHQ.Core.ProxyServerFunctions.SetupWebProxy(request)
-        request.UserAgent = "EveHQ v" & My.Application.Info.Version.ToString
-        request.Method = "POST"
-        Dim postData As String = ""
-        request.ContentLength = postData.Length
-        request.ContentType = "application/x-www-form-urlencoded"
-        request.Headers.Set(HttpRequestHeader.AcceptEncoding, "identity")
-        ' Setup a stream to write the HTTP "POST" data
-        Dim WebEncoding As New ASCIIEncoding()
-        Dim byte1 As Byte() = WebEncoding.GetBytes(postData)
-        Dim newStream As Stream = request.GetRequestStream()
-        newStream.Write(byte1, 0, byte1.Length)
-        newStream.Close()
-        newStream.Dispose()
-
-        Try
-            If SuppressProgress = False Then
-                StatusLabel.Text = "Contacting '" & FeedName & "' Server..." : StatusLabel.Refresh()
-            End If
-            Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
-                Dim filesize As Long = CLng(response.ContentLength)
-                'Using response As FtpWebResponse = CType(request.GetResponse, FtpWebResponse)
-                Using responseStream As IO.Stream = response.GetResponseStream
-                    'loop to read & write to file
-                    Using fs As New IO.FileStream(localfile, IO.FileMode.Create)
-                        Dim buffer(32767) As Byte
-                        Dim read As Integer = 0
-                        Dim totalBytes As Long = 0
-                        Dim percent As Integer = 0
-                        Do
-                            read = responseStream.Read(buffer, 0, buffer.Length)
-                            fs.Write(buffer, 0, read)
-                            totalBytes += read
-                            If filesize <> -1 Then
-                                percent = CInt(totalBytes / filesize * 100)
-                                If SuppressProgress = False Then
-                                    StatusLabel.Text = "Downloading File " & RegionCount.ToString & " of " & RegionTotal.ToString & ": '" & RegionNames(CLng(RegionID)) & "'... " & totalBytes.ToString("N0") & " of " & filesize.ToString("N0") & " (" & percent & "%)" : StatusLabel.Refresh()
-                                End If
-                            Else
-                                If SuppressProgress = False Then
-                                    StatusLabel.Text = "Downloading File " & RegionCount.ToString & " of " & RegionTotal.ToString & ": '" & RegionNames(CLng(RegionID)) & "'... " & totalBytes.ToString("N0") & " of unknown size" : StatusLabel.Refresh()
-                                End If
-                            End If
-                            Application.DoEvents()
-                        Loop Until read = 0 'see Note(1)
-                        responseStream.Close()
-                        fs.Flush()
-                        fs.Close()
-                    End Using
-                    responseStream.Close()
-                End Using
-                response.Close()
-            End Using
-            If SuppressProgress = False Then
-                StatusLabel.Text = "Download of '" & FeedName & "' Complete!" : StatusLabel.Refresh()
-            End If
-            ' Add in our own internal caching timer
-            Call Me.AddCacheTimeToMarketFile(localfile)
-            Return True
-        Catch ex As Exception
-            ' Suppress this message for now - just return
-            'MessageBox.Show("There was an error downloading the '" & FeedName & "' data: " & ex.Message, "Error in Download", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-
-    End Function
-
-    Private Sub AddCacheTimeToMarketFile(LocalFile As String)
-        Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim EveDateFormat As String = "yyyy-MM-dd HH:mm:ss"
-        Try
-            ' Load in the XML file
-            Dim mXML As New XmlDocument
-            mXML.Load(LocalFile)
-            ' <cacheExpires>2011-09-21T15:04:18-08:00</cacheExpires>
-
-            Dim dec As XmlDeclaration = mXML.CreateXmlDeclaration("1.0", Nothing, Nothing)
-            'xmlDoc.AppendChild(dec)
-            mXML.InsertBefore(dec, mXML.ChildNodes(0))
-
-            ' Create XML cache tag
-            Dim xmlCache As XmlElement = mXML.CreateElement("cacheExpires")
-            xmlCache.InnerText = Now.AddHours(12).ToString(EveDateFormat)
-            mXML.ChildNodes(1).AppendChild(xmlCache)
-
-            ' Save the new XML file
-            mXML.Save(LocalFile)
-
-        Catch ex As Exception
-            ' Adding cache time failed, probably not a valid XML file to start with, so allow another download attempt
-        End Try
-    End Sub
-
-    Private Sub ParseEveMarketeerPrices(WriteToDB As Boolean)
-        ' New method of how we should roll!
-        Dim EveCulture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-        Dim EveDateFormat As String = "yyyy-MM-dd HH:mm:ss"
-
-        Dim PriceRegions As New List(Of String)
-        Dim FeedName As String = "EveMarketeerPrices"
-
-        ' Step 1: Create a list of all market price items
-        lblMarketPriceUpdateStatus.Text = "Establishing Market item list..." : lblMarketPriceUpdateStatus.Refresh()
-        Dim MarketItems As New List(Of String)
-        For Each Item As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
-            MarketItems.Add(Item)
-        Next
-
-        ' Step 2: Establish which regions we need to parse
-        lblMarketPriceUpdateStatus.Text = "Determining Market regions..." : lblMarketPriceUpdateStatus.Refresh()
-        For Each Region As String In EveHQ.Core.HQ.EveHqSettings.MarketRegionList
-            PriceRegions.Add(Region)
-        Next
-        For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
-            For Each Region As String In PG.RegionIDs
-                If PriceRegions.Contains(Region) = False Then
-                    PriceRegions.Add(Region)
-                End If
-            Next
-        Next
-
-        ' Step 3: Check we have all files
-        lblMarketPriceUpdateStatus.Text = "Downloading missing EveGalaticRegion files..." : lblMarketPriceUpdateStatus.Refresh()
-        For Each Region As String In PriceRegions
-            ' Check if the file exists and download it if not
-            ' We are not interested at this stage about out of date files
-            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
-            If My.Computer.FileSystem.FileExists(localfile) = False Then
-                ' Download the correct data file
-                Call GetEveMarketeerPriceFeed("EveMarketeerPrices", "http://www.evemarketeer.com/api/EveGalaticRegion/xml", lblMarketPriceUpdateStatus, Region, False, 1, 1)
-            End If
-        Next
-
-        ' Step 4: Parse the XML files
-        lblMarketPriceUpdateStatus.Text = "Parsing regional XML files..." : lblMarketPriceUpdateStatus.Refresh()
-        Dim GlobalPriceData As New SortedList(Of String, SortedList(Of String, MarketData))
-        For Each Region As String In PriceRegions
-
-            ' Create a new set of regional data
-            Dim RegionData As New SortedList(Of String, MarketData)
-            GlobalPriceData.Add(Region, RegionData)
-
-            ' Load the XML
-            Dim localfile As String = Path.Combine(marketCacheFolder, FeedName & Region & ".xml")
-            Dim PriceXML As New XmlDocument
-            Try
-                PriceXML.Load(localfile)
-
-                ' Get the records
-                Dim PriceNodes As XmlNodeList = PriceXML.SelectNodes("/result/row")
-                If PriceNodes.Count > 0 Then
-                    For Each PriceNode As XmlNode In PriceNodes
-                        Dim itemID As String = PriceNode.ChildNodes(0).InnerText
-                        Dim NewPriceData As New MarketData
-                        If RegionData.ContainsKey(itemID) = True Then
-                            NewPriceData = RegionData(itemID)
-                        Else
-                            NewPriceData.ItemID = PriceNode.ChildNodes(0).InnerText
-                            NewPriceData.RegionID = PriceNode.ChildNodes(1).InnerText
-                            NewPriceData.HistoryDate = PriceNode.ChildNodes(4).InnerText
-                            RegionData.Add(itemID, NewPriceData)
-                        End If
-
-                        ' Parse sell data
-                        If PriceNode.SelectSingleNode("sell_lowest") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("sell_lowest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MinSell) = False Then
-                                NewPriceData.MinSell = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("sell_highest") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("sell_highest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MaxSell) = False Then
-                                NewPriceData.MaxSell = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("sell_avg") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("sell_avg").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.AvgSell) = False Then
-                                NewPriceData.AvgSell = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("sell_geo_mean") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("sell_geo_mean").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MedSell) = False Then
-                                NewPriceData.MedSell = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("supply") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("supply").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.VolSell) = False Then
-                                NewPriceData.VolSell = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("sell_orders") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("sell_orders").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.QtySell) = False Then
-                                NewPriceData.QtySell = 0
-                            End If
-                        End If
-
-                        ' Parse buy data
-                        If PriceNode.SelectSingleNode("buy_lowest") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("buy_lowest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MinBuy) = False Then
-                                NewPriceData.MinBuy = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("buy_highest") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("buy_highest").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MaxBuy) = False Then
-                                NewPriceData.MaxBuy = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("buy_avg") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("buy_avg").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.AvgBuy) = False Then
-                                NewPriceData.AvgBuy = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("buy_geo_mean") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("buy_geo_mean").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.MedBuy) = False Then
-                                NewPriceData.MedBuy = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("demand") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("demand").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.VolBuy) = False Then
-                                NewPriceData.VolBuy = 0
-                            End If
-                        End If
-                        If PriceNode.SelectSingleNode("buy_orders") IsNot Nothing Then
-                            If Double.TryParse(PriceNode("buy_orders").InnerText, Globalization.NumberStyles.Any, EveCulture, NewPriceData.QtyBuy) = False Then
-                                NewPriceData.QtyBuy = 0
-                            End If
-                        End If
-
-                        ' Parse all data
-                        NewPriceData.VolAll = NewPriceData.VolBuy + NewPriceData.VolSell
-                        NewPriceData.QtyAll = NewPriceData.QtyBuy + NewPriceData.QtySell
-                        NewPriceData.MinAll = Math.Min(NewPriceData.MinBuy, NewPriceData.MinSell)
-                        NewPriceData.MaxAll = Math.Max(NewPriceData.MaxBuy, NewPriceData.MaxSell)
-                        If NewPriceData.VolAll <> 0 Then
-                            NewPriceData.AvgAll = ((NewPriceData.AvgBuy * NewPriceData.VolBuy) + (NewPriceData.AvgSell * NewPriceData.VolSell)) / (NewPriceData.VolAll)
-                        Else
-                            NewPriceData.AvgAll = 0
-                        End If
-                        NewPriceData.MedAll = (NewPriceData.MedBuy + NewPriceData.MedSell) / 2
-
-                    Next
-                End If
-            Catch e As Exception
-                ' Report a message - probably due to bad format or corruption
-                Dim msg As New StringBuilder
-                msg.AppendLine("There was an error parsing the market price file for " & Region & ".")
-                msg.AppendLine("")
-                msg.AppendLine("The error was: " & e.Message)
-                msg.AppendLine("Stacktrace: " & e.StackTrace)
-                msg.AppendLine("")
-                msg.AppendLine("It is highly likely that the file is corrupt so re-downloading the file may resolve the issue.")
-                MessageBox.Show(msg.ToString, "Error Parsing Price File", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
-        Next
-
-        ' Step 5: Open a connection to the database
-        If EveHQ.Core.DataFunctions.OpenCustomDatabase = True Then
-
-            ' Step 6: Go through the price groups and apply the prices to them
-            ' Make a note of which item we have used here so we can apply general prices to everything else
-            Dim UsedPriceList As New SortedList(Of String, Double)
-
-            For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
-
-                If MPG.Name <> "<Global>" Then
-
-                    lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                    Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
-
-                End If
-
-            Next
-
-            ' Step 7: See which items are left and apply prices to them - temporarily add them to the <Global> group
-            If EveHQ.Core.HQ.EveHqSettings.PriceGroups.ContainsKey("<Global>") = True Then
-
-                Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.EveHqSettings.PriceGroups("<Global>")
-                For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
-                    If UsedPriceList.ContainsKey(ItemID) = False Then
-                        MPG.TypeIDs.Add(ItemID)
-                    End If
-                Next
-
-                lblMarketPriceUpdateStatus.Text = "Updating '" & MPG.Name & "' Price Group..." : lblMarketPriceUpdateStatus.Refresh()
-                Call EveHQ.Core.MarketFunctions.ParseMarketPriceGroup(GlobalPriceData, UsedPriceList, MPG, WriteToDB)
-
-                ' Clear the typeIDs
-                MPG.TypeIDs.Clear()
-
-            End If
-
-            ' Step 8: Close the database
-            EveHQ.Core.DataFunctions.CloseCustomDatabase()
-
-            ' Step 9: Update the price matrix
-            lblMarketPriceUpdateStatus.Text = "Updating Price Matrix..." : lblMarketPriceUpdateStatus.Refresh()
-            Call Me.UpdatePriceMatrix()
-
-        End If
-
-        ' Update the status
-        lblMarketPriceUpdateStatus.Text = "Update of Market Pricing Data complete!" : lblMarketPriceUpdateStatus.Refresh()
-
-    End Sub
-
-#End Region
-
-#Region "Market Worker Routines"
-
-    Private Sub MarketDownloadWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MarketDownloadWorker.DoWork
-        Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
-            Case MarketSite.Battleclinic
-                Call Me.GetBCMarketPrices()
-            Case MarketSite.EveMarketeer
-                Call Me.GetEveMarketeerPrices()
-        End Select
-    End Sub
-
-    Private Sub MarketDownloadWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles MarketDownloadWorker.ProgressChanged
-        Dim StatusText As String = e.UserState.ToString
-        lblMarketPriceUpdateStatus.Text = StatusText : lblMarketPriceUpdateStatus.Refresh()
-    End Sub
-
-    Private Sub MarketDownloadWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles MarketDownloadWorker.RunWorkerCompleted
-        btnDownloadMarketPrices.Enabled = False
-        btnUpdateMarketPrices.Enabled = False
-        UpdateCacheFileList()
-        MarketUpdateWorker.WorkerReportsProgress = True
-        MarketUpdateWorker.RunWorkerAsync()
-    End Sub
-
-    Private Sub MarketUpdateWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles MarketUpdateWorker.DoWork
-        Select Case EveHQ.Core.HQ.EveHqSettings.MarketDataSource
-            Case MarketSite.Battleclinic
-                Call Me.ParseBCPrices(True)
-            Case MarketSite.EveMarketeer
-                Call Me.ParseEveMarketeerPrices(True)
-        End Select
-    End Sub
-
-    Private Sub MarketUpdateWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles MarketUpdateWorker.ProgressChanged
-        Dim StatusText As String = e.UserState.ToString
-        lblMarketPriceUpdateStatus.Text = StatusText : lblMarketPriceUpdateStatus.Refresh()
-    End Sub
-
-    Private Sub MarketUpdateWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles MarketUpdateWorker.RunWorkerCompleted
-        btnDownloadMarketPrices.Enabled = True
-        btnUpdateMarketPrices.Enabled = True
-    End Sub
-
-#End Region
 
 End Class
 

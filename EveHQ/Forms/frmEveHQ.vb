@@ -569,7 +569,7 @@ Public Class frmEveHQ
     Public Sub ShutdownRoutine()
 
         Try
-
+            HQ.CacheProcessor.Stop()
             ' Check we aren't updating
             If HQ.EveHQIsUpdating = True Then
                 MessageBox.Show(
@@ -2007,83 +2007,6 @@ Public Class frmEveHQ
             Return True
         End If
     End Function
-
-#Region "Market Log Watcher Routines"
-
-    Public Function InitialiseWatchers() As Boolean
-        ' Clear the list of watchers, just in case
-        Call Me.CancelWatchers()
-        Dim MLFolder As String =
-                Path.Combine(
-                    Path.Combine(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "Eve"), "logs"),
-                    "Marketlogs")
-        If My.Computer.FileSystem.DirectoryExists(MLFolder) = True Then
-            Dim emeFSW As New FileSystemWatcher
-            emeFSW = New FileSystemWatcher
-            emeFSW.Path = MLFolder
-            emeFSW.IncludeSubdirectories = True
-            emeFSW.NotifyFilter =
-                (NotifyFilters.LastAccess Or NotifyFilters.LastWrite Or NotifyFilters.FileName Or
-                 NotifyFilters.DirectoryName)
-            emeFSW.Filter = "*.txt"
-            AddHandler emeFSW.Created, AddressOf OnMarketLogCreated
-            emeFSW.EnableRaisingEvents = True
-            EveHQMLW.Add(MLFolder, emeFSW)
-            Me.iconEveHQMLW.Text = "EveHQ Market Export - Awaiting exports..."
-            Me.iconEveHQMLW.Visible = True
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
-    Public Sub CancelWatchers()
-        ' Stop and dispose of the watchers before clearing the list
-        For Each emeFSW As FileSystemWatcher In EveHQMLW.Values
-            RemoveHandler emeFSW.Created, AddressOf OnMarketLogCreated
-            emeFSW.EnableRaisingEvents = False
-            emeFSW.Dispose()
-        Next
-        EveHQMLW.Clear()
-        Me.iconEveHQMLW.Visible = False
-    End Sub
-
-    Private Sub OnMarketLogCreated(ByVal source As Object, ByVal e As FileSystemEventArgs)
-        ' Specify what is done when a file is created
-        If EveHQMLF.IsHandleCreated = True Then
-            Call EveHQMLF.DisplayLogDetails(e.FullPath)
-            Call EveHQMLF.ResortLogs()
-        End If
-        If HQ.EveHqSettings.MarketLogUpdatePrice = True Or HQ.EveHqSettings.MarketLogUpdateData = True Then
-            ' Get the price information
-            Dim priceData As ArrayList = DataFunctions.ProcessMarketExportFile(e.FullPath, False)
-            If priceData IsNot Nothing Then
-                Dim UserPrice As Double = CDbl(priceData(12))
-                Dim typeID As Long = CLng(priceData(13))
-                If HQ.EveHqSettings.MarketLogUpdatePrice = True Then
-                    If Not Double.IsNaN(UserPrice) And Not Double.IsInfinity(UserPrice) Then
-                        ' Update the market price
-                        If DataFunctions.SetCustomPrice(typeID, UserPrice, False) = True Then
-                            If HQ.EveHqSettings.MarketLogToolTipConfirm = True = True Then
-                                iconEveHQMLW.BalloonTipTitle = "Market Export Processing Completed"
-                                iconEveHQMLW.BalloonTipText = "The file: " & e.Name &
-                                                              " has been successfully processed!"
-                                iconEveHQMLW.BalloonTipIcon = ToolTipIcon.Info
-                                iconEveHQMLW.ShowBalloonTip(10)
-                            End If
-                            If HQ.EveHqSettings.MarketLogPopupConfirm = True Then
-                                MessageBox.Show("The file: " & e.Name & " has been successfully processed!",
-                                                "Market Export Processing Completed", MessageBoxButtons.OK,
-                                                MessageBoxIcon.Information)
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-        End If
-    End Sub
-
-#End Region
 
     Private Sub lblAPIStatus_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles lblAPIStatus.DoubleClick
         If HQ.APIResults.Count > 0 Then

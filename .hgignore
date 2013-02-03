@@ -7,3 +7,5 @@ Release/*
 *.user
 AssemblyInfo.*
 _ReSharper.EveHQ/
+syntax: glob
+Ref/EveCache.Net/EveCache.dll

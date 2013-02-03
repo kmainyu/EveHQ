@@ -120,7 +120,8 @@ Public Class PrismResources
                 NewIR.Name = Resource.TypeID.ToString
                 NewIR.Cells.Add(New Cell(Resource.Quantity.ToString))
                 Dim IRPrice As Double = prices(Resource.TypeID.ToString)
-                NewIR.Cells.Add(New Cell(IRPrice.ToString))
+                NewIR.Cells.
+                    Add(New Cell(IRPrice.ToString))
                 NewIR.Cells.Add(New Cell((IRPrice * Resource.Quantity).ToString))
                 adtInventionResources.Nodes.Add(NewIR)
                 For c As Integer = 1 To 3

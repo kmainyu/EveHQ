@@ -24,20 +24,20 @@ namespace EveHQ.Market
     /// </summary>
     public interface IMarketDataProvider
     {
-        /// <summary>The begin get order data by regions.</summary>
+        /// <summary>Get order data by regions.</summary>
         /// <param name="typeIds">The type ids.</param>
         /// <param name="includeRegions">The include regions.</param>
         /// <param name="minQuantity">The min quantity.</param>
-        /// <param name="callback">The callback.</param>
         /// <returns>The <see cref="IAsyncResult"/>.</returns>
-        Task<IEnumerable<ItemOrderStats>> GetRegionBasedOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int minQuantity);
+        Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity);
 
-        /// <summary>The begin get order data by system.</summary>
-        /// <param name="typeIds">The type ids.</param>
+
+        /// <summary>The get market orders for item type.</summary>
+        /// <param name="itemTypeId">The item type id.</param>
+        /// <param name="includedRegions">The included regions.</param>
         /// <param name="systemId">The system id.</param>
         /// <param name="minQuantity">The min quantity.</param>
-        /// <param name="callback">The callback.</param>
-        /// <returns>The <see cref="IAsyncResult"/>.</returns>
-        Task<IEnumerable<ItemOrderStats>> GetOrderStatsBySystem(IEnumerable<int> typeIds, int systemId, int minQuantity);
+        /// <returns>The <see cref="Task"/>.</returns>
+        Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity);
     }
 }

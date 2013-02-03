@@ -440,9 +440,11 @@ Public Class PlugInData
     Private Sub LoadOwnerBlueprints()
         If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")) = True Then
             Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
-            s.Close()
+            If s.Length > 0 Then
+                Dim f As BinaryFormatter = New BinaryFormatter
+                PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
+                s.Close()
+            End If
         End If
     End Sub
 #End Region

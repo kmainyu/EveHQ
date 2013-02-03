@@ -25,18 +25,6 @@ Partial Class frmMarketPrices
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMarketPrices))
         Me.ofd1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkEnableLogWatcher = New System.Windows.Forms.CheckBox()
-        Me.chkEnableWatcherAtStartup = New System.Windows.Forms.CheckBox()
-        Me.chkNotifyTray = New System.Windows.Forms.CheckBox()
-        Me.chkAutoUpdatePriceData = New System.Windows.Forms.CheckBox()
-        Me.chkNotifyPopup = New System.Windows.Forms.CheckBox()
-        Me.chkAutoUpdateCurrentPrice = New System.Windows.Forms.CheckBox()
-        Me.nudIgnoreBuyOrderLimit = New System.Windows.Forms.NumericUpDown()
-        Me.nudIgnoreSellOrderLimit = New System.Windows.Forms.NumericUpDown()
-        Me.chkIgnoreBuyOrders = New System.Windows.Forms.CheckBox()
-        Me.chkIgnoreSellOrders = New System.Windows.Forms.CheckBox()
-        Me.lblIgnoreSellOrderUnit = New System.Windows.Forms.Label()
-        Me.lblIgnoreBuyOrderUnit = New System.Windows.Forms.Label()
         Me.lblHighlightOldLogsText = New System.Windows.Forms.Label()
         Me.ctxMarketExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuViewOrders = New System.Windows.Forms.ToolStripMenuItem()
@@ -54,38 +42,20 @@ Partial Class frmMarketPrices
         Me.mnuPriceAdd = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuPriceEdit = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lblMarketPriceUpdateStatus = New System.Windows.Forms.Label()
-        Me.btnDownloadMarketPrices = New System.Windows.Forms.Button()
-        Me.lblBattleclinicLink = New System.Windows.Forms.LinkLabel()
         Me.TabControl1 = New DevComponents.DotNetBar.TabControl()
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
         Me.gpMarketPrices = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.lblEveMarketeerLink = New System.Windows.Forms.LinkLabel()
-        Me.radEveMarketeer = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.radBattleclinic = New DevComponents.DotNetBar.Controls.CheckBoxX()
-        Me.lblMarketSource = New System.Windows.Forms.Label()
-        Me.lblMarketCacheFiles = New System.Windows.Forms.Label()
-        Me.adtMarketCache = New DevComponents.AdvTree.AdvTree()
-        Me.colRegionName = New DevComponents.AdvTree.ColumnHeader()
-        Me.colFileDate = New DevComponents.AdvTree.ColumnHeader()
-        Me.colCacheDate = New DevComponents.AdvTree.ColumnHeader()
+        Me.openMarketSettings = New System.Windows.Forms.Button()
+        Me._getMarketOrders = New System.Windows.Forms.Button()
+        Me._sellOrders = New DevComponents.AdvTree.AdvTree()
+        Me.Location = New DevComponents.AdvTree.ColumnHeader()
+        Me.Quantity = New DevComponents.AdvTree.ColumnHeader()
+        Me.Price = New DevComponents.AdvTree.ColumnHeader()
         Me.NodeConnector6 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle5 = New DevComponents.DotNetBar.ElementStyle()
-        Me.btnUpdateMarketPrices = New System.Windows.Forms.Button()
-        Me.gpLogParsing = New DevComponents.DotNetBar.Controls.GroupPanel()
-        Me.gpMLWOptions = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me._itemsList = New System.Windows.Forms.ComboBox()
         Me.tiPriceSettings = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.adtLogs = New DevComponents.AdvTree.AdvTree()
-        Me.colRegion = New DevComponents.AdvTree.ColumnHeader()
-        Me.colItem = New DevComponents.AdvTree.ColumnHeader()
-        Me.colDate = New DevComponents.AdvTree.ColumnHeader()
-        Me.colAge = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
-        Me.Log = New DevComponents.DotNetBar.ElementStyle()
-        Me.panelLogSettings = New DevComponents.DotNetBar.PanelEx()
-        Me.btnRefreshLogs = New DevComponents.DotNetBar.ButtonX()
-        Me.tiMarketLogs = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
         Me.gpSelectedPriceGroup = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.btnClearItems = New DevComponents.DotNetBar.ButtonX()
@@ -124,6 +94,17 @@ Partial Class frmMarketPrices
         Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me.tiPriceGroups = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.adtLogs = New DevComponents.AdvTree.AdvTree()
+        Me.colRegion = New DevComponents.AdvTree.ColumnHeader()
+        Me.colItem = New DevComponents.AdvTree.ColumnHeader()
+        Me.colDate = New DevComponents.AdvTree.ColumnHeader()
+        Me.colAge = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
+        Me.Log = New DevComponents.DotNetBar.ElementStyle()
+        Me.panelLogSettings = New DevComponents.DotNetBar.PanelEx()
+        Me.btnRefreshLogs = New DevComponents.DotNetBar.ButtonX()
+        Me.tiMarketLogs = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
         Me.adtPrices = New DevComponents.AdvTree.AdvTree()
         Me.colCustomItem = New DevComponents.AdvTree.ColumnHeader()
@@ -133,8 +114,16 @@ Partial Class frmMarketPrices
         Me.NodeConnector5 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle4 = New DevComponents.DotNetBar.ElementStyle()
         Me.tiCustomPrices = New DevComponents.DotNetBar.TabItem(Me.components)
-        CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me._buyOrders = New DevComponents.AdvTree.AdvTree()
+        Me.ColumnHeader1 = New DevComponents.AdvTree.ColumnHeader()
+        Me.ColumnHeader2 = New DevComponents.AdvTree.ColumnHeader()
+        Me.ColumnHeader3 = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector7 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle6 = New DevComponents.DotNetBar.ElementStyle()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.ColumnHeader4 = New DevComponents.AdvTree.ColumnHeader()
+        Me.ColumnHeader5 = New DevComponents.AdvTree.ColumnHeader()
         Me.ctxMarketExport.SuspendLayout()
         CType(Me.nudAge, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxPrices.SuspendLayout()
@@ -142,154 +131,24 @@ Partial Class frmMarketPrices
         Me.TabControl1.SuspendLayout()
         Me.TabControlPanel1.SuspendLayout()
         Me.gpMarketPrices.SuspendLayout()
-        CType(Me.adtMarketCache, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gpLogParsing.SuspendLayout()
-        Me.gpMLWOptions.SuspendLayout()
-        Me.TabControlPanel3.SuspendLayout()
-        CType(Me.adtLogs, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.panelLogSettings.SuspendLayout()
+        CType(Me._sellOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel6.SuspendLayout()
         Me.gpSelectedPriceGroup.SuspendLayout()
         CType(Me.adtPriceGroupItems, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.adtPriceGroupRegions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupPanel1.SuspendLayout()
         CType(Me.adtPriceGroups, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControlPanel3.SuspendLayout()
+        CType(Me.adtLogs, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.panelLogSettings.SuspendLayout()
         Me.TabControlPanel4.SuspendLayout()
         CType(Me.adtPrices, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me._buyOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ofd1
         '
         Me.ofd1.FileName = "OpenFileDialog1"
-        '
-        'chkEnableLogWatcher
-        '
-        Me.chkEnableLogWatcher.AutoSize = True
-        Me.chkEnableLogWatcher.BackColor = System.Drawing.Color.Transparent
-        Me.chkEnableLogWatcher.Location = New System.Drawing.Point(3, 10)
-        Me.chkEnableLogWatcher.Name = "chkEnableLogWatcher"
-        Me.chkEnableLogWatcher.Size = New System.Drawing.Size(102, 17)
-        Me.chkEnableLogWatcher.TabIndex = 25
-        Me.chkEnableLogWatcher.Text = "Enable Watcher"
-        Me.chkEnableLogWatcher.UseVisualStyleBackColor = False
-        '
-        'chkEnableWatcherAtStartup
-        '
-        Me.chkEnableWatcherAtStartup.AutoSize = True
-        Me.chkEnableWatcherAtStartup.BackColor = System.Drawing.Color.Transparent
-        Me.chkEnableWatcherAtStartup.Location = New System.Drawing.Point(3, 33)
-        Me.chkEnableWatcherAtStartup.Name = "chkEnableWatcherAtStartup"
-        Me.chkEnableWatcherAtStartup.Size = New System.Drawing.Size(184, 17)
-        Me.chkEnableWatcherAtStartup.TabIndex = 26
-        Me.chkEnableWatcherAtStartup.Text = "Start Watcher on EveHQ Startup"
-        Me.chkEnableWatcherAtStartup.UseVisualStyleBackColor = False
-        '
-        'chkNotifyTray
-        '
-        Me.chkNotifyTray.AutoSize = True
-        Me.chkNotifyTray.BackColor = System.Drawing.Color.Transparent
-        Me.chkNotifyTray.Location = New System.Drawing.Point(353, 33)
-        Me.chkNotifyTray.Name = "chkNotifyTray"
-        Me.chkNotifyTray.Size = New System.Drawing.Size(212, 17)
-        Me.chkNotifyTray.TabIndex = 23
-        Me.chkNotifyTray.Text = "System Tray Notification on Processing"
-        Me.chkNotifyTray.UseVisualStyleBackColor = False
-        '
-        'chkAutoUpdatePriceData
-        '
-        Me.chkAutoUpdatePriceData.AutoSize = True
-        Me.chkAutoUpdatePriceData.BackColor = System.Drawing.Color.Transparent
-        Me.chkAutoUpdatePriceData.Enabled = False
-        Me.chkAutoUpdatePriceData.Location = New System.Drawing.Point(193, 33)
-        Me.chkAutoUpdatePriceData.Name = "chkAutoUpdatePriceData"
-        Me.chkAutoUpdatePriceData.Size = New System.Drawing.Size(151, 17)
-        Me.chkAutoUpdatePriceData.TabIndex = 28
-        Me.chkAutoUpdatePriceData.Text = "Auto-Update Price History"
-        Me.chkAutoUpdatePriceData.UseVisualStyleBackColor = False
-        '
-        'chkNotifyPopup
-        '
-        Me.chkNotifyPopup.AutoSize = True
-        Me.chkNotifyPopup.BackColor = System.Drawing.Color.Transparent
-        Me.chkNotifyPopup.Location = New System.Drawing.Point(353, 10)
-        Me.chkNotifyPopup.Name = "chkNotifyPopup"
-        Me.chkNotifyPopup.Size = New System.Drawing.Size(182, 17)
-        Me.chkNotifyPopup.TabIndex = 24
-        Me.chkNotifyPopup.Text = "Popup Notification on Processing"
-        Me.chkNotifyPopup.UseVisualStyleBackColor = False
-        '
-        'chkAutoUpdateCurrentPrice
-        '
-        Me.chkAutoUpdateCurrentPrice.AutoSize = True
-        Me.chkAutoUpdateCurrentPrice.BackColor = System.Drawing.Color.Transparent
-        Me.chkAutoUpdateCurrentPrice.Location = New System.Drawing.Point(193, 10)
-        Me.chkAutoUpdateCurrentPrice.Name = "chkAutoUpdateCurrentPrice"
-        Me.chkAutoUpdateCurrentPrice.Size = New System.Drawing.Size(154, 17)
-        Me.chkAutoUpdateCurrentPrice.TabIndex = 27
-        Me.chkAutoUpdateCurrentPrice.Text = "Auto-Update Current Price"
-        Me.chkAutoUpdateCurrentPrice.UseVisualStyleBackColor = False
-        '
-        'nudIgnoreBuyOrderLimit
-        '
-        Me.nudIgnoreBuyOrderLimit.DecimalPlaces = 2
-        Me.nudIgnoreBuyOrderLimit.Location = New System.Drawing.Point(176, 2)
-        Me.nudIgnoreBuyOrderLimit.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.nudIgnoreBuyOrderLimit.Name = "nudIgnoreBuyOrderLimit"
-        Me.nudIgnoreBuyOrderLimit.Size = New System.Drawing.Size(74, 21)
-        Me.nudIgnoreBuyOrderLimit.TabIndex = 29
-        Me.nudIgnoreBuyOrderLimit.Value = New Decimal(New Integer() {1, 0, 0, 65536})
-        '
-        'nudIgnoreSellOrderLimit
-        '
-        Me.nudIgnoreSellOrderLimit.DecimalPlaces = 2
-        Me.nudIgnoreSellOrderLimit.Location = New System.Drawing.Point(476, 2)
-        Me.nudIgnoreSellOrderLimit.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.nudIgnoreSellOrderLimit.Name = "nudIgnoreSellOrderLimit"
-        Me.nudIgnoreSellOrderLimit.Size = New System.Drawing.Size(74, 21)
-        Me.nudIgnoreSellOrderLimit.TabIndex = 30
-        Me.nudIgnoreSellOrderLimit.Value = New Decimal(New Integer() {1000, 0, 0, 0})
-        '
-        'chkIgnoreBuyOrders
-        '
-        Me.chkIgnoreBuyOrders.AutoSize = True
-        Me.chkIgnoreBuyOrders.BackColor = System.Drawing.Color.Transparent
-        Me.chkIgnoreBuyOrders.Location = New System.Drawing.Point(3, 3)
-        Me.chkIgnoreBuyOrders.Name = "chkIgnoreBuyOrders"
-        Me.chkIgnoreBuyOrders.Size = New System.Drawing.Size(170, 17)
-        Me.chkIgnoreBuyOrders.TabIndex = 33
-        Me.chkIgnoreBuyOrders.Text = "Ignore Buy Orders Less Than:"
-        Me.chkIgnoreBuyOrders.UseVisualStyleBackColor = False
-        '
-        'chkIgnoreSellOrders
-        '
-        Me.chkIgnoreSellOrders.AutoSize = True
-        Me.chkIgnoreSellOrders.BackColor = System.Drawing.Color.Transparent
-        Me.chkIgnoreSellOrders.Location = New System.Drawing.Point(303, 3)
-        Me.chkIgnoreSellOrders.Name = "chkIgnoreSellOrders"
-        Me.chkIgnoreSellOrders.Size = New System.Drawing.Size(171, 17)
-        Me.chkIgnoreSellOrders.TabIndex = 34
-        Me.chkIgnoreSellOrders.Text = "Ignore Sell Orders More Than:"
-        Me.chkIgnoreSellOrders.UseVisualStyleBackColor = False
-        '
-        'lblIgnoreSellOrderUnit
-        '
-        Me.lblIgnoreSellOrderUnit.AutoSize = True
-        Me.lblIgnoreSellOrderUnit.BackColor = System.Drawing.Color.Transparent
-        Me.lblIgnoreSellOrderUnit.Location = New System.Drawing.Point(556, 4)
-        Me.lblIgnoreSellOrderUnit.Name = "lblIgnoreSellOrderUnit"
-        Me.lblIgnoreSellOrderUnit.Size = New System.Drawing.Size(39, 13)
-        Me.lblIgnoreSellOrderUnit.TabIndex = 32
-        Me.lblIgnoreSellOrderUnit.Text = "x Base"
-        '
-        'lblIgnoreBuyOrderUnit
-        '
-        Me.lblIgnoreBuyOrderUnit.AutoSize = True
-        Me.lblIgnoreBuyOrderUnit.BackColor = System.Drawing.Color.Transparent
-        Me.lblIgnoreBuyOrderUnit.Location = New System.Drawing.Point(256, 4)
-        Me.lblIgnoreBuyOrderUnit.Name = "lblIgnoreBuyOrderUnit"
-        Me.lblIgnoreBuyOrderUnit.Size = New System.Drawing.Size(23, 13)
-        Me.lblIgnoreBuyOrderUnit.TabIndex = 31
-        Me.lblIgnoreBuyOrderUnit.Text = "ISK"
         '
         'lblHighlightOldLogsText
         '
@@ -430,50 +289,19 @@ Partial Class frmMarketPrices
         Me.mnuPriceDelete.Size = New System.Drawing.Size(170, 22)
         Me.mnuPriceDelete.Text = "Delete Custom Price"
         '
-        'lblMarketPriceUpdateStatus
-        '
-        Me.lblMarketPriceUpdateStatus.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblMarketPriceUpdateStatus.BackColor = System.Drawing.Color.Transparent
-        Me.lblMarketPriceUpdateStatus.Location = New System.Drawing.Point(4, 84)
-        Me.lblMarketPriceUpdateStatus.Name = "lblMarketPriceUpdateStatus"
-        Me.lblMarketPriceUpdateStatus.Size = New System.Drawing.Size(593, 13)
-        Me.lblMarketPriceUpdateStatus.TabIndex = 5
-        Me.lblMarketPriceUpdateStatus.Text = "Status:"
-        '
-        'btnDownloadMarketPrices
-        '
-        Me.btnDownloadMarketPrices.Location = New System.Drawing.Point(20, 58)
-        Me.btnDownloadMarketPrices.Name = "btnDownloadMarketPrices"
-        Me.btnDownloadMarketPrices.Size = New System.Drawing.Size(150, 23)
-        Me.btnDownloadMarketPrices.TabIndex = 4
-        Me.btnDownloadMarketPrices.Text = "Download Market Prices"
-        Me.btnDownloadMarketPrices.UseVisualStyleBackColor = True
-        '
-        'lblBattleclinicLink
-        '
-        Me.lblBattleclinicLink.AutoSize = True
-        Me.lblBattleclinicLink.BackColor = System.Drawing.Color.Transparent
-        Me.lblBattleclinicLink.Location = New System.Drawing.Point(110, 31)
-        Me.lblBattleclinicLink.Name = "lblBattleclinicLink"
-        Me.lblBattleclinicLink.Size = New System.Drawing.Size(140, 13)
-        Me.lblBattleclinicLink.TabIndex = 3
-        Me.lblBattleclinicLink.TabStop = True
-        Me.lblBattleclinicLink.Text = "http://www.battleclinic.com"
-        '
         'TabControl1
         '
         Me.TabControl1.BackColor = System.Drawing.Color.Transparent
         Me.TabControl1.CanReorderTabs = True
         Me.TabControl1.ColorScheme.TabBackground = System.Drawing.Color.Transparent
         Me.TabControl1.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-        Me.TabControl1.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+        Me.TabControl1.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.TabControl1.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-        Me.TabControl1.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.TabControl1.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
         Me.TabControl1.Controls.Add(Me.TabControlPanel1)
-        Me.TabControl1.Controls.Add(Me.TabControlPanel4)
-        Me.TabControl1.Controls.Add(Me.TabControlPanel3)
         Me.TabControl1.Controls.Add(Me.TabControlPanel6)
+        Me.TabControl1.Controls.Add(Me.TabControlPanel3)
+        Me.TabControl1.Controls.Add(Me.TabControlPanel4)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -492,17 +320,15 @@ Partial Class frmMarketPrices
         'TabControlPanel1
         '
         Me.TabControlPanel1.Controls.Add(Me.gpMarketPrices)
-        Me.TabControlPanel1.Controls.Add(Me.gpLogParsing)
-        Me.TabControlPanel1.Controls.Add(Me.gpMLWOptions)
         Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel1.Name = "TabControlPanel1"
         Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel1.Size = New System.Drawing.Size(882, 736)
-        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel1.Style.GradientAngle = 90
@@ -516,19 +342,17 @@ Partial Class frmMarketPrices
         Me.gpMarketPrices.BackColor = System.Drawing.Color.Transparent
         Me.gpMarketPrices.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpMarketPrices.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpMarketPrices.Controls.Add(Me.lblEveMarketeerLink)
-        Me.gpMarketPrices.Controls.Add(Me.radEveMarketeer)
-        Me.gpMarketPrices.Controls.Add(Me.radBattleclinic)
-        Me.gpMarketPrices.Controls.Add(Me.lblMarketSource)
-        Me.gpMarketPrices.Controls.Add(Me.lblMarketCacheFiles)
-        Me.gpMarketPrices.Controls.Add(Me.adtMarketCache)
-        Me.gpMarketPrices.Controls.Add(Me.btnUpdateMarketPrices)
-        Me.gpMarketPrices.Controls.Add(Me.lblMarketPriceUpdateStatus)
-        Me.gpMarketPrices.Controls.Add(Me.btnDownloadMarketPrices)
-        Me.gpMarketPrices.Controls.Add(Me.lblBattleclinicLink)
+        Me.gpMarketPrices.Controls.Add(Me.Label4)
+        Me.gpMarketPrices.Controls.Add(Me.Label2)
+        Me.gpMarketPrices.Controls.Add(Me._buyOrders)
+        Me.gpMarketPrices.Controls.Add(Me.openMarketSettings)
+        Me.gpMarketPrices.Controls.Add(Me._getMarketOrders)
+        Me.gpMarketPrices.Controls.Add(Me._sellOrders)
+        Me.gpMarketPrices.Controls.Add(Me.Label1)
+        Me.gpMarketPrices.Controls.Add(Me._itemsList)
         Me.gpMarketPrices.Location = New System.Drawing.Point(7, 5)
         Me.gpMarketPrices.Name = "gpMarketPrices"
-        Me.gpMarketPrices.Size = New System.Drawing.Size(616, 499)
+        Me.gpMarketPrices.Size = New System.Drawing.Size(616, 700)
         '
         '
         '
@@ -558,123 +382,69 @@ Partial Class frmMarketPrices
         '
         Me.gpMarketPrices.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpMarketPrices.TabIndex = 3
-        Me.gpMarketPrices.Text = "Market Prices Download and Update"
+        Me.gpMarketPrices.Text = "Market Price Check"
         '
-        'lblEveMarketeerLink
+        'openMarketSettings
         '
-        Me.lblEveMarketeerLink.AutoSize = True
-        Me.lblEveMarketeerLink.BackColor = System.Drawing.Color.Transparent
-        Me.lblEveMarketeerLink.Location = New System.Drawing.Point(393, 31)
-        Me.lblEveMarketeerLink.Name = "lblEveMarketeerLink"
-        Me.lblEveMarketeerLink.Size = New System.Drawing.Size(157, 13)
-        Me.lblEveMarketeerLink.TabIndex = 14
-        Me.lblEveMarketeerLink.TabStop = True
-        Me.lblEveMarketeerLink.Text = "http://www.evemarketeer.com"
-        Me.lblEveMarketeerLink.Visible = False
+        Me.openMarketSettings.Location = New System.Drawing.Point(210, 645)
+        Me.openMarketSettings.Name = "openMarketSettings"
+        Me.openMarketSettings.Size = New System.Drawing.Size(169, 24)
+        Me.openMarketSettings.TabIndex = 4
+        Me.openMarketSettings.Text = "Market Settings"
+        Me.openMarketSettings.UseVisualStyleBackColor = True
         '
-        'radEveMarketeer
+        '_getMarketOrders
         '
-        Me.radEveMarketeer.AutoSize = True
+        Me._getMarketOrders.Location = New System.Drawing.Point(457, 45)
+        Me._getMarketOrders.Name = "_getMarketOrders"
+        Me._getMarketOrders.Size = New System.Drawing.Size(120, 23)
+        Me._getMarketOrders.TabIndex = 3
+        Me._getMarketOrders.Text = "Get Market Orders"
+        Me._getMarketOrders.UseVisualStyleBackColor = True
         '
+        '_sellOrders
         '
-        '
-        Me.radEveMarketeer.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.radEveMarketeer.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.radEveMarketeer.Enabled = False
-        Me.radEveMarketeer.Location = New System.Drawing.Point(295, 29)
-        Me.radEveMarketeer.Name = "radEveMarketeer"
-        Me.radEveMarketeer.Size = New System.Drawing.Size(92, 16)
-        Me.radEveMarketeer.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.radEveMarketeer.TabIndex = 13
-        Me.radEveMarketeer.Text = "Eve Marketeer"
-        Me.radEveMarketeer.Visible = False
-        '
-        'radBattleclinic
-        '
-        Me.radBattleclinic.AutoSize = True
+        Me._sellOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me._sellOrders.AllowDrop = True
+        Me._sellOrders.BackColor = System.Drawing.SystemColors.Window
         '
         '
         '
-        Me.radBattleclinic.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.radBattleclinic.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.radBattleclinic.Checked = True
-        Me.radBattleclinic.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.radBattleclinic.CheckValue = "Y"
-        Me.radBattleclinic.Location = New System.Drawing.Point(30, 29)
-        Me.radBattleclinic.Name = "radBattleclinic"
-        Me.radBattleclinic.Size = New System.Drawing.Size(74, 16)
-        Me.radBattleclinic.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.radBattleclinic.TabIndex = 12
-        Me.radBattleclinic.Text = "Battleclinic"
+        Me._sellOrders.BackgroundStyle.Class = "TreeBorderKey"
+        Me._sellOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me._sellOrders.Columns.Add(Me.Location)
+        Me._sellOrders.Columns.Add(Me.Quantity)
+        Me._sellOrders.Columns.Add(Me.Price)
+        Me._sellOrders.Columns.Add(Me.ColumnHeader5)
+        Me._sellOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me._sellOrders.Location = New System.Drawing.Point(10, 124)
+        Me._sellOrders.Name = "_sellOrders"
+        Me._sellOrders.NodesConnector = Me.NodeConnector6
+        Me._sellOrders.NodeStyle = Me.ElementStyle5
+        Me._sellOrders.PathSeparator = ";"
+        Me._sellOrders.Size = New System.Drawing.Size(585, 232)
+        Me._sellOrders.Styles.Add(Me.ElementStyle5)
+        Me._sellOrders.TabIndex = 2
+        Me._sellOrders.Text = "AdvTree1"
         '
-        'lblMarketSource
+        'Location
         '
-        Me.lblMarketSource.AutoSize = True
-        Me.lblMarketSource.BackColor = System.Drawing.Color.Transparent
-        Me.lblMarketSource.Location = New System.Drawing.Point(6, 7)
-        Me.lblMarketSource.Name = "lblMarketSource"
-        Me.lblMarketSource.Size = New System.Drawing.Size(138, 13)
-        Me.lblMarketSource.TabIndex = 11
-        Me.lblMarketSource.Text = "Select Market Data Source:"
+        Me.Location.Name = "Location"
+        Me.Location.Text = "Location"
+        Me.Location.Width.Absolute = 150
         '
-        'lblMarketCacheFiles
+        'Quantity
         '
-        Me.lblMarketCacheFiles.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblMarketCacheFiles.BackColor = System.Drawing.Color.Transparent
-        Me.lblMarketCacheFiles.Location = New System.Drawing.Point(4, 107)
-        Me.lblMarketCacheFiles.Name = "lblMarketCacheFiles"
-        Me.lblMarketCacheFiles.Size = New System.Drawing.Size(593, 13)
-        Me.lblMarketCacheFiles.TabIndex = 10
-        Me.lblMarketCacheFiles.Text = "Existing Cache Files:"
+        Me.Quantity.Name = "Quantity"
+        Me.Quantity.ShowToolTips = False
+        Me.Quantity.Text = "Quantity"
+        Me.Quantity.Width.Absolute = 150
         '
-        'adtMarketCache
+        'Price
         '
-        Me.adtMarketCache.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtMarketCache.AllowDrop = True
-        Me.adtMarketCache.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.adtMarketCache.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtMarketCache.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtMarketCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtMarketCache.Columns.Add(Me.colRegionName)
-        Me.adtMarketCache.Columns.Add(Me.colFileDate)
-        Me.adtMarketCache.Columns.Add(Me.colCacheDate)
-        Me.adtMarketCache.ExpandWidth = 0
-        Me.adtMarketCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtMarketCache.Location = New System.Drawing.Point(3, 123)
-        Me.adtMarketCache.Name = "adtMarketCache"
-        Me.adtMarketCache.NodesConnector = Me.NodeConnector6
-        Me.adtMarketCache.NodeStyle = Me.ElementStyle5
-        Me.adtMarketCache.PathSeparator = ";"
-        Me.adtMarketCache.Size = New System.Drawing.Size(594, 349)
-        Me.adtMarketCache.Styles.Add(Me.ElementStyle5)
-        Me.adtMarketCache.TabIndex = 9
-        Me.adtMarketCache.Text = "AdvTree1"
-        '
-        'colRegionName
-        '
-        Me.colRegionName.Name = "colRegionName"
-        Me.colRegionName.SortingEnabled = False
-        Me.colRegionName.Text = "EveGalaticRegion Name"
-        Me.colRegionName.Width.Absolute = 300
-        '
-        'colFileDate
-        '
-        Me.colFileDate.Name = "colFileDate"
-        Me.colFileDate.SortingEnabled = False
-        Me.colFileDate.Text = "File Date"
-        Me.colFileDate.Width.Absolute = 125
-        '
-        'colCacheDate
-        '
-        Me.colCacheDate.Name = "colCacheDate"
-        Me.colCacheDate.SortingEnabled = False
-        Me.colCacheDate.Text = "Cache Expires"
-        Me.colCacheDate.Width.Absolute = 125
+        Me.Price.Name = "Price"
+        Me.Price.Text = "Price"
+        Me.Price.Width.Absolute = 150
         '
         'NodeConnector6
         '
@@ -686,241 +456,30 @@ Partial Class frmMarketPrices
         Me.ElementStyle5.Name = "ElementStyle5"
         Me.ElementStyle5.TextColor = System.Drawing.SystemColors.ControlText
         '
-        'btnUpdateMarketPrices
+        'Label1
         '
-        Me.btnUpdateMarketPrices.Location = New System.Drawing.Point(176, 58)
-        Me.btnUpdateMarketPrices.Name = "btnUpdateMarketPrices"
-        Me.btnUpdateMarketPrices.Size = New System.Drawing.Size(150, 23)
-        Me.btnUpdateMarketPrices.TabIndex = 8
-        Me.btnUpdateMarketPrices.Text = "Update Market Prices"
-        Me.btnUpdateMarketPrices.UseVisualStyleBackColor = True
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(10, 51)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(75, 13)
+        Me.Label1.TabIndex = 1
+        Me.Label1.Text = "Choose Item :"
         '
-        'gpLogParsing
+        '_itemsList
         '
-        Me.gpLogParsing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.gpLogParsing.BackColor = System.Drawing.Color.Transparent
-        Me.gpLogParsing.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpLogParsing.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpLogParsing.Controls.Add(Me.nudIgnoreBuyOrderLimit)
-        Me.gpLogParsing.Controls.Add(Me.chkIgnoreBuyOrders)
-        Me.gpLogParsing.Controls.Add(Me.nudIgnoreSellOrderLimit)
-        Me.gpLogParsing.Controls.Add(Me.lblIgnoreBuyOrderUnit)
-        Me.gpLogParsing.Controls.Add(Me.lblIgnoreSellOrderUnit)
-        Me.gpLogParsing.Controls.Add(Me.chkIgnoreSellOrders)
-        Me.gpLogParsing.Location = New System.Drawing.Point(7, 592)
-        Me.gpLogParsing.Name = "gpLogParsing"
-        Me.gpLogParsing.Size = New System.Drawing.Size(616, 49)
-        '
-        '
-        '
-        Me.gpLogParsing.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpLogParsing.Style.BackColorGradientAngle = 90
-        Me.gpLogParsing.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpLogParsing.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpLogParsing.Style.BorderBottomWidth = 1
-        Me.gpLogParsing.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpLogParsing.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpLogParsing.Style.BorderLeftWidth = 1
-        Me.gpLogParsing.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpLogParsing.Style.BorderRightWidth = 1
-        Me.gpLogParsing.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpLogParsing.Style.BorderTopWidth = 1
-        Me.gpLogParsing.Style.CornerDiameter = 4
-        Me.gpLogParsing.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpLogParsing.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpLogParsing.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpLogParsing.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpLogParsing.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpLogParsing.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpLogParsing.TabIndex = 22
-        Me.gpLogParsing.Text = "Market Log Parsing Criteria"
-        '
-        'gpMLWOptions
-        '
-        Me.gpMLWOptions.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.gpMLWOptions.BackColor = System.Drawing.Color.Transparent
-        Me.gpMLWOptions.CanvasColor = System.Drawing.SystemColors.Control
-        Me.gpMLWOptions.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
-        Me.gpMLWOptions.Controls.Add(Me.chkEnableLogWatcher)
-        Me.gpMLWOptions.Controls.Add(Me.chkEnableWatcherAtStartup)
-        Me.gpMLWOptions.Controls.Add(Me.chkAutoUpdateCurrentPrice)
-        Me.gpMLWOptions.Controls.Add(Me.chkNotifyTray)
-        Me.gpMLWOptions.Controls.Add(Me.chkNotifyPopup)
-        Me.gpMLWOptions.Controls.Add(Me.chkAutoUpdatePriceData)
-        Me.gpMLWOptions.Location = New System.Drawing.Point(7, 508)
-        Me.gpMLWOptions.Name = "gpMLWOptions"
-        Me.gpMLWOptions.Size = New System.Drawing.Size(616, 78)
-        '
-        '
-        '
-        Me.gpMLWOptions.Style.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.gpMLWOptions.Style.BackColorGradientAngle = 90
-        Me.gpMLWOptions.Style.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.gpMLWOptions.Style.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpMLWOptions.Style.BorderBottomWidth = 1
-        Me.gpMLWOptions.Style.BorderColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.gpMLWOptions.Style.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpMLWOptions.Style.BorderLeftWidth = 1
-        Me.gpMLWOptions.Style.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpMLWOptions.Style.BorderRightWidth = 1
-        Me.gpMLWOptions.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
-        Me.gpMLWOptions.Style.BorderTopWidth = 1
-        Me.gpMLWOptions.Style.CornerDiameter = 4
-        Me.gpMLWOptions.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
-        Me.gpMLWOptions.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
-        Me.gpMLWOptions.Style.TextColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.gpMLWOptions.Style.TextLineAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Near
-        '
-        '
-        '
-        Me.gpMLWOptions.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.gpMLWOptions.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.gpMLWOptions.TabIndex = 0
-        Me.gpMLWOptions.Text = "Market Log Watcher Options"
+        Me._itemsList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me._itemsList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me._itemsList.FormattingEnabled = True
+        Me._itemsList.Location = New System.Drawing.Point(91, 48)
+        Me._itemsList.Name = "_itemsList"
+        Me._itemsList.Size = New System.Drawing.Size(348, 21)
+        Me._itemsList.TabIndex = 0
         '
         'tiPriceSettings
         '
         Me.tiPriceSettings.AttachedControl = Me.TabControlPanel1
         Me.tiPriceSettings.Name = "tiPriceSettings"
         Me.tiPriceSettings.Text = "Market Prices"
-        '
-        'TabControlPanel3
-        '
-        Me.TabControlPanel3.Controls.Add(Me.adtLogs)
-        Me.TabControlPanel3.Controls.Add(Me.panelLogSettings)
-        Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel3.Name = "TabControlPanel3"
-        Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel3.Size = New System.Drawing.Size(882, 736)
-        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel3.Style.GradientAngle = 90
-        Me.TabControlPanel3.TabIndex = 3
-        Me.TabControlPanel3.TabItem = Me.tiMarketLogs
-        '
-        'adtLogs
-        '
-        Me.adtLogs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me.adtLogs.AllowDrop = True
-        Me.adtLogs.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me.adtLogs.BackgroundStyle.Class = "TreeBorderKey"
-        Me.adtLogs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.adtLogs.Columns.Add(Me.colRegion)
-        Me.adtLogs.Columns.Add(Me.colItem)
-        Me.adtLogs.Columns.Add(Me.colDate)
-        Me.adtLogs.Columns.Add(Me.colAge)
-        Me.adtLogs.ContextMenuStrip = Me.ctxMarketExport
-        Me.adtLogs.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.adtLogs.DragDropEnabled = False
-        Me.adtLogs.DragDropNodeCopyEnabled = False
-        Me.adtLogs.ExpandWidth = 0
-        Me.adtLogs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.adtLogs.Location = New System.Drawing.Point(1, 31)
-        Me.adtLogs.MultiSelect = True
-        Me.adtLogs.Name = "adtLogs"
-        Me.adtLogs.NodesConnector = Me.NodeConnector1
-        Me.adtLogs.NodeStyle = Me.Log
-        Me.adtLogs.PathSeparator = ";"
-        Me.adtLogs.Size = New System.Drawing.Size(880, 704)
-        Me.adtLogs.Styles.Add(Me.Log)
-        Me.adtLogs.TabIndex = 2
-        '
-        'colRegion
-        '
-        Me.colRegion.DisplayIndex = 1
-        Me.colRegion.Name = "colRegion"
-        Me.colRegion.SortingEnabled = False
-        Me.colRegion.Text = "EveGalaticRegion"
-        Me.colRegion.Width.Absolute = 200
-        '
-        'colItem
-        '
-        Me.colItem.DisplayIndex = 2
-        Me.colItem.Name = "colItem"
-        Me.colItem.SortingEnabled = False
-        Me.colItem.Text = "Item Name"
-        Me.colItem.Width.Absolute = 400
-        '
-        'colDate
-        '
-        Me.colDate.DisplayIndex = 3
-        Me.colDate.Name = "colDate"
-        Me.colDate.SortingEnabled = False
-        Me.colDate.Text = "Log Date"
-        Me.colDate.Width.Absolute = 120
-        '
-        'colAge
-        '
-        Me.colAge.DisplayIndex = 4
-        Me.colAge.Name = "colAge"
-        Me.colAge.SortingEnabled = False
-        Me.colAge.Text = "Log Age (Hrs)"
-        Me.colAge.Width.Absolute = 120
-        '
-        'NodeConnector1
-        '
-        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'Log
-        '
-        Me.Log.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.Log.Name = "Log"
-        Me.Log.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        'panelLogSettings
-        '
-        Me.panelLogSettings.CanvasColor = System.Drawing.SystemColors.Control
-        Me.panelLogSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.panelLogSettings.Controls.Add(Me.btnRefreshLogs)
-        Me.panelLogSettings.Controls.Add(Me.nudAge)
-        Me.panelLogSettings.Controls.Add(Me.lblHighlightLogsHours)
-        Me.panelLogSettings.Controls.Add(Me.lblHighlightOldLogsText)
-        Me.panelLogSettings.Dock = System.Windows.Forms.DockStyle.Top
-        Me.panelLogSettings.Location = New System.Drawing.Point(1, 1)
-        Me.panelLogSettings.Name = "panelLogSettings"
-        Me.panelLogSettings.Size = New System.Drawing.Size(880, 30)
-        Me.panelLogSettings.Style.Alignment = System.Drawing.StringAlignment.Center
-        Me.panelLogSettings.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-        Me.panelLogSettings.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
-        Me.panelLogSettings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.panelLogSettings.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.panelLogSettings.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
-        Me.panelLogSettings.Style.GradientAngle = 90
-        Me.panelLogSettings.TabIndex = 0
-        '
-        'btnRefreshLogs
-        '
-        Me.btnRefreshLogs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnRefreshLogs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnRefreshLogs.Location = New System.Drawing.Point(266, 4)
-        Me.btnRefreshLogs.Name = "btnRefreshLogs"
-        Me.btnRefreshLogs.Size = New System.Drawing.Size(100, 23)
-        Me.btnRefreshLogs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnRefreshLogs.TabIndex = 5
-        Me.btnRefreshLogs.Text = "Refresh Logs"
-        '
-        'tiMarketLogs
-        '
-        Me.tiMarketLogs.AttachedControl = Me.TabControlPanel3
-        Me.tiMarketLogs.Name = "tiMarketLogs"
-        Me.tiMarketLogs.Text = "Market Log Import"
         '
         'TabControlPanel6
         '
@@ -935,10 +494,10 @@ Partial Class frmMarketPrices
         Me.TabControlPanel6.Name = "TabControlPanel6"
         Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel6.Size = New System.Drawing.Size(882, 736)
-        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel6.Style.GradientAngle = 90
@@ -1460,6 +1019,135 @@ Partial Class frmMarketPrices
         Me.tiPriceGroups.Name = "tiPriceGroups"
         Me.tiPriceGroups.Text = "Price Groups"
         '
+        'TabControlPanel3
+        '
+        Me.TabControlPanel3.Controls.Add(Me.adtLogs)
+        Me.TabControlPanel3.Controls.Add(Me.panelLogSettings)
+        Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel3.Name = "TabControlPanel3"
+        Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel3.Size = New System.Drawing.Size(882, 736)
+        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+        Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+        Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel3.Style.GradientAngle = 90
+        Me.TabControlPanel3.TabIndex = 3
+        Me.TabControlPanel3.TabItem = Me.tiMarketLogs
+        '
+        'adtLogs
+        '
+        Me.adtLogs.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me.adtLogs.AllowDrop = True
+        Me.adtLogs.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me.adtLogs.BackgroundStyle.Class = "TreeBorderKey"
+        Me.adtLogs.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.adtLogs.Columns.Add(Me.colRegion)
+        Me.adtLogs.Columns.Add(Me.colItem)
+        Me.adtLogs.Columns.Add(Me.colDate)
+        Me.adtLogs.Columns.Add(Me.colAge)
+        Me.adtLogs.ContextMenuStrip = Me.ctxMarketExport
+        Me.adtLogs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.adtLogs.DragDropEnabled = False
+        Me.adtLogs.DragDropNodeCopyEnabled = False
+        Me.adtLogs.ExpandWidth = 0
+        Me.adtLogs.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.adtLogs.Location = New System.Drawing.Point(1, 31)
+        Me.adtLogs.MultiSelect = True
+        Me.adtLogs.Name = "adtLogs"
+        Me.adtLogs.NodesConnector = Me.NodeConnector1
+        Me.adtLogs.NodeStyle = Me.Log
+        Me.adtLogs.PathSeparator = ";"
+        Me.adtLogs.Size = New System.Drawing.Size(880, 704)
+        Me.adtLogs.Styles.Add(Me.Log)
+        Me.adtLogs.TabIndex = 2
+        '
+        'colRegion
+        '
+        Me.colRegion.DisplayIndex = 1
+        Me.colRegion.Name = "colRegion"
+        Me.colRegion.SortingEnabled = False
+        Me.colRegion.Text = "EveGalaticRegion"
+        Me.colRegion.Width.Absolute = 200
+        '
+        'colItem
+        '
+        Me.colItem.DisplayIndex = 2
+        Me.colItem.Name = "colItem"
+        Me.colItem.SortingEnabled = False
+        Me.colItem.Text = "Item Name"
+        Me.colItem.Width.Absolute = 400
+        '
+        'colDate
+        '
+        Me.colDate.DisplayIndex = 3
+        Me.colDate.Name = "colDate"
+        Me.colDate.SortingEnabled = False
+        Me.colDate.Text = "Log Date"
+        Me.colDate.Width.Absolute = 120
+        '
+        'colAge
+        '
+        Me.colAge.DisplayIndex = 4
+        Me.colAge.Name = "colAge"
+        Me.colAge.SortingEnabled = False
+        Me.colAge.Text = "Log Age (Hrs)"
+        Me.colAge.Width.Absolute = 120
+        '
+        'NodeConnector1
+        '
+        Me.NodeConnector1.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'Log
+        '
+        Me.Log.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.Log.Name = "Log"
+        Me.Log.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'panelLogSettings
+        '
+        Me.panelLogSettings.CanvasColor = System.Drawing.SystemColors.Control
+        Me.panelLogSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelLogSettings.Controls.Add(Me.btnRefreshLogs)
+        Me.panelLogSettings.Controls.Add(Me.nudAge)
+        Me.panelLogSettings.Controls.Add(Me.lblHighlightLogsHours)
+        Me.panelLogSettings.Controls.Add(Me.lblHighlightOldLogsText)
+        Me.panelLogSettings.Dock = System.Windows.Forms.DockStyle.Top
+        Me.panelLogSettings.Location = New System.Drawing.Point(1, 1)
+        Me.panelLogSettings.Name = "panelLogSettings"
+        Me.panelLogSettings.Size = New System.Drawing.Size(880, 30)
+        Me.panelLogSettings.Style.Alignment = System.Drawing.StringAlignment.Center
+        Me.panelLogSettings.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+        Me.panelLogSettings.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
+        Me.panelLogSettings.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.panelLogSettings.Style.BorderColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+        Me.panelLogSettings.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
+        Me.panelLogSettings.Style.GradientAngle = 90
+        Me.panelLogSettings.TabIndex = 0
+        '
+        'btnRefreshLogs
+        '
+        Me.btnRefreshLogs.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnRefreshLogs.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnRefreshLogs.Location = New System.Drawing.Point(266, 4)
+        Me.btnRefreshLogs.Name = "btnRefreshLogs"
+        Me.btnRefreshLogs.Size = New System.Drawing.Size(100, 23)
+        Me.btnRefreshLogs.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnRefreshLogs.TabIndex = 5
+        Me.btnRefreshLogs.Text = "Refresh Logs"
+        '
+        'tiMarketLogs
+        '
+        Me.tiMarketLogs.AttachedControl = Me.TabControlPanel3
+        Me.tiMarketLogs.Name = "tiMarketLogs"
+        Me.tiMarketLogs.Text = "Market Log Import"
+        '
         'TabControlPanel4
         '
         Me.TabControlPanel4.Controls.Add(Me.adtPrices)
@@ -1473,10 +1161,10 @@ Partial Class frmMarketPrices
         Me.TabControlPanel4.Name = "TabControlPanel4"
         Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel4.Size = New System.Drawing.Size(882, 736)
-        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
         Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
         Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel4.Style.GradientAngle = 90
@@ -1562,6 +1250,90 @@ Partial Class frmMarketPrices
         Me.tiCustomPrices.Name = "tiCustomPrices"
         Me.tiCustomPrices.Text = "Custom Prices"
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(10, 108)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(59, 13)
+        Me.Label2.TabIndex = 5
+        Me.Label2.Text = "Sell Orders"
+        '
+        '_buyOrders
+        '
+        Me._buyOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me._buyOrders.AllowDrop = True
+        Me._buyOrders.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me._buyOrders.BackgroundStyle.Class = "TreeBorderKey"
+        Me._buyOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me._buyOrders.Columns.Add(Me.ColumnHeader1)
+        Me._buyOrders.Columns.Add(Me.ColumnHeader2)
+        Me._buyOrders.Columns.Add(Me.ColumnHeader3)
+        Me._buyOrders.Columns.Add(Me.ColumnHeader4)
+        Me._buyOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me._buyOrders.Location = New System.Drawing.Point(10, 395)
+        Me._buyOrders.Name = "_buyOrders"
+        Me._buyOrders.NodesConnector = Me.NodeConnector7
+        Me._buyOrders.NodeStyle = Me.ElementStyle6
+        Me._buyOrders.PathSeparator = ";"
+        Me._buyOrders.Size = New System.Drawing.Size(585, 169)
+        Me._buyOrders.Styles.Add(Me.ElementStyle6)
+        Me._buyOrders.TabIndex = 6
+        Me._buyOrders.Text = "AdvTree1"
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Name = "ColumnHeader1"
+        Me.ColumnHeader1.Text = "Location"
+        Me.ColumnHeader1.Width.Absolute = 150
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Name = "ColumnHeader2"
+        Me.ColumnHeader2.ShowToolTips = False
+        Me.ColumnHeader2.Text = "Quantity"
+        Me.ColumnHeader2.Width.Absolute = 150
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Name = "ColumnHeader3"
+        Me.ColumnHeader3.Text = "Price"
+        Me.ColumnHeader3.Width.Absolute = 150
+        '
+        'NodeConnector7
+        '
+        Me.NodeConnector7.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle6
+        '
+        Me.ElementStyle6.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle6.Name = "ElementStyle6"
+        Me.ElementStyle6.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(12, 377)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(61, 13)
+        Me.Label4.TabIndex = 8
+        Me.Label4.Text = "Buy Orders"
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Name = "ColumnHeader4"
+        Me.ColumnHeader4.Text = "Expires"
+        Me.ColumnHeader4.Width.Absolute = 150
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Name = "ColumnHeader5"
+        Me.ColumnHeader5.Text = "Expires"
+        Me.ColumnHeader5.Width.Absolute = 150
+        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1574,8 +1346,6 @@ Partial Class frmMarketPrices
         Me.Name = "frmMarketPrices"
         Me.Text = "Market Prices"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
-        CType(Me.nudIgnoreBuyOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudIgnoreSellOrderLimit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxMarketExport.ResumeLayout(False)
         CType(Me.nudAge, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxPrices.ResumeLayout(False)
@@ -1584,15 +1354,7 @@ Partial Class frmMarketPrices
         Me.TabControlPanel1.ResumeLayout(False)
         Me.gpMarketPrices.ResumeLayout(False)
         Me.gpMarketPrices.PerformLayout()
-        CType(Me.adtMarketCache, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gpLogParsing.ResumeLayout(False)
-        Me.gpLogParsing.PerformLayout()
-        Me.gpMLWOptions.ResumeLayout(False)
-        Me.gpMLWOptions.PerformLayout()
-        Me.TabControlPanel3.ResumeLayout(False)
-        CType(Me.adtLogs, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.panelLogSettings.ResumeLayout(False)
-        Me.panelLogSettings.PerformLayout()
+        CType(Me._sellOrders, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel6.ResumeLayout(False)
         Me.TabControlPanel6.PerformLayout()
         Me.gpSelectedPriceGroup.ResumeLayout(False)
@@ -1602,25 +1364,18 @@ Partial Class frmMarketPrices
         Me.GroupPanel1.ResumeLayout(False)
         Me.GroupPanel1.PerformLayout()
         CType(Me.adtPriceGroups, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControlPanel3.ResumeLayout(False)
+        CType(Me.adtLogs, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.panelLogSettings.ResumeLayout(False)
+        Me.panelLogSettings.PerformLayout()
         Me.TabControlPanel4.ResumeLayout(False)
         Me.TabControlPanel4.PerformLayout()
         CType(Me.adtPrices, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me._buyOrders, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents ofd1 As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents chkEnableLogWatcher As System.Windows.Forms.CheckBox
-    Friend WithEvents chkNotifyPopup As System.Windows.Forms.CheckBox
-    Friend WithEvents chkNotifyTray As System.Windows.Forms.CheckBox
-    Friend WithEvents chkAutoUpdatePriceData As System.Windows.Forms.CheckBox
-    Friend WithEvents chkAutoUpdateCurrentPrice As System.Windows.Forms.CheckBox
-    Friend WithEvents chkEnableWatcherAtStartup As System.Windows.Forms.CheckBox
-    Friend WithEvents chkIgnoreBuyOrders As System.Windows.Forms.CheckBox
-    Friend WithEvents nudIgnoreBuyOrderLimit As System.Windows.Forms.NumericUpDown
-    Friend WithEvents nudIgnoreSellOrderLimit As System.Windows.Forms.NumericUpDown
-    Friend WithEvents chkIgnoreSellOrders As System.Windows.Forms.CheckBox
-    Friend WithEvents lblIgnoreBuyOrderUnit As System.Windows.Forms.Label
-    Friend WithEvents lblIgnoreSellOrderUnit As System.Windows.Forms.Label
     Friend WithEvents lblCustomPrices As System.Windows.Forms.Label
     Friend WithEvents btnResetGrid As System.Windows.Forms.Button
     Friend WithEvents txtSearchPrices As System.Windows.Forms.TextBox
@@ -1634,9 +1389,6 @@ Partial Class frmMarketPrices
     Friend WithEvents chkShowOnlyCustom As System.Windows.Forms.CheckBox
     Friend WithEvents ctxMarketExport As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuViewOrders As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblMarketPriceUpdateStatus As System.Windows.Forms.Label
-    Friend WithEvents btnDownloadMarketPrices As System.Windows.Forms.Button
-    Friend WithEvents lblBattleclinicLink As System.Windows.Forms.LinkLabel
     Friend WithEvents lblHighlightOldLogsText As System.Windows.Forms.Label
     Friend WithEvents mnuDeleteLog As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblHighlightLogsHours As System.Windows.Forms.Label
@@ -1649,9 +1401,7 @@ Partial Class frmMarketPrices
     Friend WithEvents tiCustomPrices As DevComponents.DotNetBar.TabItem
     Friend WithEvents TabControlPanel3 As DevComponents.DotNetBar.TabControlPanel
     Friend WithEvents tiMarketLogs As DevComponents.DotNetBar.TabItem
-    Friend WithEvents gpMLWOptions As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents panelLogSettings As DevComponents.DotNetBar.PanelEx
-    Friend WithEvents gpLogParsing As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents adtLogs As DevComponents.AdvTree.AdvTree
     Friend WithEvents colRegion As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colItem As DevComponents.AdvTree.ColumnHeader
@@ -1697,7 +1447,6 @@ Partial Class frmMarketPrices
     Friend WithEvents colPriceItemName As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colPriceRegions As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents btnClearItems As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnUpdateMarketPrices As System.Windows.Forms.Button
     Friend WithEvents adtPrices As DevComponents.AdvTree.AdvTree
     Friend WithEvents colCustomItem As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colCustomBase As DevComponents.AdvTree.ColumnHeader
@@ -1705,16 +1454,25 @@ Partial Class frmMarketPrices
     Friend WithEvents colCustomCustom As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector5 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents ElementStyle4 As DevComponents.DotNetBar.ElementStyle
-    Friend WithEvents lblMarketCacheFiles As System.Windows.Forms.Label
-    Friend WithEvents adtMarketCache As DevComponents.AdvTree.AdvTree
+    Friend WithEvents btnRefreshLogs As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents openMarketSettings As System.Windows.Forms.Button
+    Friend WithEvents _sellOrders As DevComponents.AdvTree.AdvTree
+    Friend WithEvents Location As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents Quantity As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents Price As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector6 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents ElementStyle5 As DevComponents.DotNetBar.ElementStyle
-    Friend WithEvents colRegionName As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colFileDate As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colCacheDate As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents lblEveMarketeerLink As System.Windows.Forms.LinkLabel
-    Friend WithEvents radEveMarketeer As DevComponents.DotNetBar.Controls.CheckBoxX
-    Friend WithEvents radBattleclinic As DevComponents.DotNetBar.Controls.CheckBoxX
-    Friend WithEvents lblMarketSource As System.Windows.Forms.Label
-    Friend WithEvents btnRefreshLogs As DevComponents.DotNetBar.ButtonX
+    Private WithEvents _getMarketOrders As System.Windows.Forms.Button
+    Private WithEvents _itemsList As System.Windows.Forms.ComboBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Private WithEvents _buyOrders As DevComponents.AdvTree.AdvTree
+    Friend WithEvents ColumnHeader1 As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents ColumnHeader2 As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents ColumnHeader3 As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector7 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle6 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents ColumnHeader4 As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents ColumnHeader5 As DevComponents.AdvTree.ColumnHeader
 End Class

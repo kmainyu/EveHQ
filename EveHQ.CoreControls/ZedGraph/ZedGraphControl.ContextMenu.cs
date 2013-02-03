@@ -319,7 +319,7 @@ namespace ZedGraph
 
                 using (Graphics gMeta = Graphics.FromImage(metaFile))
                 {
-                    this._masterPane.Draw( gMeta );
+                    _masterPane.Draw( gMeta );
                 }
 
                 //IntPtr hMeta = metaFile.GetHenhmetafile();
@@ -525,7 +525,7 @@ namespace ZedGraph
                     //gMeta.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     //gMeta.SmoothingMode = SmoothingMode.AntiAlias;
                     //gMeta.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality; 
-                    this._masterPane.Draw(gMeta);
+                    _masterPane.Draw(gMeta);
                     //gMeta.Dispose();
                 }
 

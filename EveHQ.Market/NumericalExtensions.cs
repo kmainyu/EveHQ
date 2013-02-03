@@ -40,5 +40,24 @@ namespace EveHQ.Market
         {
             return number.ToString(CultureInfo.InvariantCulture);
         }
+
+        public static string ToInvariantString(this long number)
+        {
+            return number.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public static string ToInvariantString(this bool value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture).ToLower();
+        }
+
+        public static string ToInvariantString(this double number,int decimalPlaces = 0)
+        {
+            const string Formatter = "F{0}";
+
+            return number.ToString(Formatter.FormatInvariant(decimalPlaces),CultureInfo.InvariantCulture);
+        }
+
+       
     }
 }

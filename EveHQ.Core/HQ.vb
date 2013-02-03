@@ -98,6 +98,8 @@ Public Class HQ
     Public Shared ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
     Private Shared _marketDataProvider As IMarketDataProvider
     Private Shared _regions As SortedList(Of String, EveGalaticRegion)
+    Private Shared _cacheProcessor As New MarketUploader(DateTimeOffset.Now.AddHours(-1)) ' TODO: Get this from config/state on start up.
+
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get
@@ -168,6 +170,15 @@ Public Class HQ
         End Get
         Set(value As EveSettings)
             _eveHQSettings = value
+        End Set
+    End Property
+
+    Public Shared Property CacheProcessor As MarketUploader
+        Get
+            Return _cacheProcessor
+        End Get
+        Set(value As MarketUploader)
+            _cacheProcessor = value
         End Set
     End Property
 

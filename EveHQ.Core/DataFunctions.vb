@@ -842,65 +842,65 @@ Public Class DataFunctions
             Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In itemIDs Where HQ.itemData(itemId).MarketGroup <> 0 Select itemId.ToInt())
 
             If (itemIdNumbersToRequest.Any()) Then
-            'Fetch all the item prices in a single request
-            If HQ.EveHqSettings.MarketUseRegionMarket Then
-                task = HQ.MarketDataProvider.GetRegionBasedOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, 1)
-            Else
-                task = HQ.MarketDataProvider.GetOrderStatsBySystem(itemIdNumbersToRequest, HQ.EveHqSettings.MarketSystem, 1)
-            End If
+                'Fetch all the item prices in a single request
+                If HQ.EveHqSettings.MarketUseRegionMarket Then
+                    task = HQ.MarketDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+                Else
+                    task = HQ.MarketDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+                End If
 
-            ' Still need to do this in a synchronous fashion...unfortunately
-            task.Wait()
+                ' Still need to do this in a synchronous fashion...unfortunately
+                task.Wait()
 
-            ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
+                ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
 
-            Dim result As IEnumerable(Of ItemOrderStats) = Nothing
-            Dim itemResult As ItemOrderStats = Nothing
-            If task.IsCompleted And task.IsFaulted = False And task.Result IsNot Nothing And task.Result.Any() Then
-                result = task.Result
-            End If
+                Dim result As IEnumerable(Of ItemOrderStats) = Nothing
+                Dim itemResult As ItemOrderStats = Nothing
+                If task.IsCompleted And task.IsFaulted = False And task.Result IsNot Nothing And task.Result.Any() Then
+                    result = task.Result
+                End If
 
 
-            For Each itemId As String In itemIDs.Distinct() 'We only need to process the unique id results.
-                Try
-                    If result IsNot Nothing Then
-                        itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
-                    End If
+                For Each itemId As String In itemIDs.Distinct() 'We only need to process the unique id results.
+                    Try
+                        If result IsNot Nothing Then
+                            itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
+                        End If
 
-                    ' If there is a custom price set, use that if not get it from the provider.
-                    If HQ.CustomPriceList.ContainsKey(itemId) = True Then
+                        ' If there is a custom price set, use that if not get it from the provider.
+                        If HQ.CustomPriceList.ContainsKey(itemId) = True Then
                             itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
-                    ElseIf itemResult IsNot Nothing Then
-                        ' if there's a market provider result use that
-                        If metric = MarketMetric.Minimum Then
+                        ElseIf itemResult IsNot Nothing Then
+                            ' if there's a market provider result use that
+                            If metric = MarketMetric.Minimum Then
                                 itemPrices(itemId) = itemResult.Sell.Minimum
-                        ElseIf metric = MarketMetric.Maximum Then
+                            ElseIf metric = MarketMetric.Maximum Then
                                 itemPrices(itemId) = itemResult.Sell.Maximum
 
-                        ElseIf metric = MarketMetric.Average Then
+                            ElseIf metric = MarketMetric.Average Then
                                 itemPrices(itemId) = itemResult.Sell.Average
 
-                        ElseIf metric = MarketMetric.Median Then
+                            ElseIf metric = MarketMetric.Median Then
                                 itemPrices(itemId) = itemResult.Sell.Median
 
-                        ElseIf metric = MarketMetric.Percentile Then
+                            ElseIf metric = MarketMetric.Percentile Then
                                 itemPrices(itemId) = itemResult.Sell.Percentile
-                        End If
-                    Else
-                        ' failing all that, fallback onto the base price.
-                        If HQ.itemData.ContainsKey(itemId) Then
-                                itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                            End If
                         Else
+                            ' failing all that, fallback onto the base price.
+                            If HQ.itemData.ContainsKey(itemId) Then
+                                itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                            Else
                                 itemPrices(itemId) = 0
+                            End If
                         End If
-                    End If
-                Catch e As Exception
-                    If HQ.itemData.ContainsKey(itemId) Then
+                    Catch e As Exception
+                        If HQ.itemData.ContainsKey(itemId) Then
                             itemPrices(itemId) = HQ.itemData(itemId).BasePrice
-                    Else
+                        Else
                             itemPrices(itemId) = 0
-                    End If
-                End Try
+                        End If
+                    End Try
                 Next
             End If
         Else
@@ -909,6 +909,8 @@ Public Class DataFunctions
 
         Return itemPrices
     End Function
+
+
 
 #Region "MSSQL Data Conversion Routines"
 
