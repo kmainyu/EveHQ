@@ -569,7 +569,7 @@ Public Class frmEveHQ
     Public Sub ShutdownRoutine()
 
         Try
-            HQ.CacheProcessor.Stop()
+            HQ.MarketCacheUploader.Stop()
             ' Check we aren't updating
             If HQ.EveHQIsUpdating = True Then
                 MessageBox.Show(

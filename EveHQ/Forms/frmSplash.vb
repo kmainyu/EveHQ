@@ -583,13 +583,13 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("End: Check custom database tables")
 
         ' Check if we need to start the market watcher
-        EveHQ.Core.HQ.WriteLogEvent("Start: Enable Market Watcher")
-        If EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcherAtStartup = True Then
-            Core.HQ.CacheProcessor.Start()
+        EveHQ.Core.HQ.WriteLogEvent("Start: Enable Market Data Uploader")
+        If EveHQ.Core.HQ.EveHqSettings.MarketDataUploadEnabled = True Then
+            Core.HQ.MarketCacheUploader.Start()
         Else
-            EveHQ.Core.HQ.EveHqSettings.EnableMarketLogWatcher = False
+            Core.HQ.MarketCacheUploader.Stop() ' It should be stopped already, but never hurts to set it so again.
         End If
-        EveHQ.Core.HQ.WriteLogEvent("End: Enable Market Watcher")
+        EveHQ.Core.HQ.WriteLogEvent("End: Enable Market Data Uploader")
 
         ' Show the main form
         EveHQ.Core.HQ.WriteLogEvent("Start: Initialise main form")

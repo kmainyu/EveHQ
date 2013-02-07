@@ -95,7 +95,8 @@ namespace EveHQ.Market
         }
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
-        internal EveCentralMarketDataProvider()
+        public EveCentralMarketDataProvider()
+            : this(Environment.CurrentDirectory)
         {
         }
 
@@ -133,7 +134,7 @@ namespace EveHQ.Market
                     {
                         var itemStats = this._regionDataCache.Get<List<ItemOrderStats>>(ItemKeyFormat.FormatInvariant(cacheKey));
                         ItemOrderStats itemData;
-                        if (itemStats != null &&  (itemData = itemStats.FirstOrDefault(i => i.ItemTypeId == typeId)) != null)
+                        if (itemStats != null && (itemData = itemStats.FirstOrDefault(i => i.ItemTypeId == typeId)) != null)
                         {
                             cachedItems.Add(itemData);
                         }
@@ -379,17 +380,17 @@ namespace EveHQ.Market
                    select
                        new MarketOrder
                        {
-                           OrderId = orderId, 
-                           RegionId = regionId, 
-                           StationId = stationId, 
-                           StationName = stationName, 
-                           Security = security, 
-                           OrderRange = range, 
-                           Price = price, 
-                           QuantityRemaining = quantityRemaining, 
-                           MinQuantity = minQuantity, 
-                           Expires = expires, 
-                           Freshness = reported, 
+                           OrderId = orderId,
+                           RegionId = regionId,
+                           StationId = stationId,
+                           StationName = stationName,
+                           Security = security,
+                           OrderRange = range,
+                           Price = price,
+                           QuantityRemaining = quantityRemaining,
+                           MinQuantity = minQuantity,
+                           Expires = expires,
+                           Freshness = reported,
                            IsBuyOrder = isBuyOrder
                        };
 

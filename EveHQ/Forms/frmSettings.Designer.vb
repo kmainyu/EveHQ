@@ -303,6 +303,7 @@ Partial Public Class frmSettings
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.panelSettings = New DevComponents.DotNetBar.PanelEx()
         Me.gbMarket = New System.Windows.Forms.GroupBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me._systemList = New System.Windows.Forms.ListBox()
         Me._regionList = New System.Windows.Forms.ListBox()
@@ -318,7 +319,7 @@ Partial Public Class frmSettings
         Me.Label1 = New System.Windows.Forms.Label()
         Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.enableMarketDataUpload = New System.Windows.Forms.CheckBox()
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -368,8 +369,8 @@ Partial Public Class frmSettings
         Me.dbDashboardConfig.SuspendLayout()
         Me.panelSettings.SuspendLayout()
         Me.gbMarket.SuspendLayout()
-        Me.gpNav.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.gpNav.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -3113,6 +3114,7 @@ Partial Public Class frmSettings
         '
         'gbMarket
         '
+        Me.gbMarket.Controls.Add(Me.enableMarketDataUpload)
         Me.gbMarket.Controls.Add(Me.GroupBox1)
         Me.gbMarket.Controls.Add(Me._usePercentile)
         Me.gbMarket.Controls.Add(Me._useMedianPrice)
@@ -3129,6 +3131,20 @@ Partial Public Class frmSettings
         Me.gbMarket.TabStop = False
         Me.gbMarket.Text = "Market and Price Data"
         Me.gbMarket.Visible = False
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.Label6)
+        Me.GroupBox1.Controls.Add(Me._systemList)
+        Me.GroupBox1.Controls.Add(Me._regionList)
+        Me.GroupBox1.Controls.Add(Me._useSystemPrice)
+        Me.GroupBox1.Controls.Add(Me._useRegionData)
+        Me.GroupBox1.Location = New System.Drawing.Point(23, 111)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(558, 369)
+        Me.GroupBox1.TabIndex = 11
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Data Sample Source"
         '
         'Label6
         '
@@ -3305,19 +3321,15 @@ Partial Public Class frmSettings
         Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
         Me.STT.PositionBelowControl = False
         '
-        'GroupBox1
+        'enableMarketDataUpload
         '
-        Me.GroupBox1.Controls.Add(Me.Label6)
-        Me.GroupBox1.Controls.Add(Me._systemList)
-        Me.GroupBox1.Controls.Add(Me._regionList)
-        Me.GroupBox1.Controls.Add(Me._useSystemPrice)
-        Me.GroupBox1.Controls.Add(Me._useRegionData)
-        Me.GroupBox1.Location = New System.Drawing.Point(23, 111)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(558, 369)
-        Me.GroupBox1.TabIndex = 11
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Data Sample Source"
+        Me.enableMarketDataUpload.AutoSize = True
+        Me.enableMarketDataUpload.Location = New System.Drawing.Point(313, 37)
+        Me.enableMarketDataUpload.Name = "enableMarketDataUpload"
+        Me.enableMarketDataUpload.Size = New System.Drawing.Size(166, 17)
+        Me.enableMarketDataUpload.TabIndex = 13
+        Me.enableMarketDataUpload.Text = "Enable Market Data Uploader"
+        Me.enableMarketDataUpload.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -3409,9 +3421,9 @@ Partial Public Class frmSettings
         Me.panelSettings.ResumeLayout(False)
         Me.gbMarket.ResumeLayout(False)
         Me.gbMarket.PerformLayout()
-        Me.gpNav.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.gpNav.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -3696,4 +3708,5 @@ Partial Public Class frmSettings
     Private WithEvents _marketDataProvider As System.Windows.Forms.ComboBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents enableMarketDataUpload As System.Windows.Forms.CheckBox
 End Class

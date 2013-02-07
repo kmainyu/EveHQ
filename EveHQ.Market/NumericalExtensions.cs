@@ -51,7 +51,7 @@ namespace EveHQ.Market
             return value.ToString(CultureInfo.InvariantCulture).ToLower();
         }
 
-        public static string ToInvariantString(this double number,int decimalPlaces = 0)
+        public static string ToInvariantString(this double number,int decimalPlaces)
         {
             const string Formatter = "F{0}";
 

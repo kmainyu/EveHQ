@@ -2296,6 +2296,10 @@ Public Class frmSettings
         If _regionList.SelectedItems IsNot Nothing And _regionList.SelectedItems.Count > 0 Then
             HQ.EveHqSettings.MarketRegions = (From marketRegion In _regionList.SelectedItems Select HQ.Regions(marketRegion.ToString).Id).ToList()
         End If
+
+        If enableMarketDataUpload.Checked Then
+            HQ.EveHqSettings.MarketDataUploadEnabled = True
+        End If
     End Sub
 #End Region
 
@@ -2421,4 +2425,5 @@ Public Class frmSettings
     End Sub
 
 
+   
 End Class

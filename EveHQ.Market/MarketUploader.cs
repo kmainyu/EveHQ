@@ -52,12 +52,12 @@ namespace EveHQ.Market
         /// <summary>Initializes a new instance of the <see cref="MarketUploader"/> class.</summary>
         /// <param name="lastFileChangeTime">The last file change time.</param>
         /// <param name="eveAppDataPath">The eve app data path.</param>
-        public MarketUploader(DateTimeOffset lastFileChangeTime, string eveAppDataPath = null)
+        public MarketUploader(DateTimeOffset lastFileChangeTime, IEnumerable<IMarketDataReceiver> marketReceivers, string eveAppDataPath)
         {
             _lastFileChangeTime = lastFileChangeTime;
             _customEveAppDataPath = eveAppDataPath;
 
-            _marketReceivers = new IMarketDataReceiver[] { new EveCentralMarketDataProvider(), new EveMarketDataRelayProvider() }; // TODO: Get this from config/state on start up.
+            _marketReceivers = marketReceivers;
         }
 
         /// <summary>
@@ -215,6 +215,31 @@ namespace EveHQ.Market
             // create the UDF appropriate object based on the method name used for the cache file.
             switch (dataKeys[1].ToString())
             {
+                // GetXXXPriceHistory gets the historical data for a given item.
+                case "GetNewPriceHistory":
+                case "GetOldPriceHistory":
+
+                    var historyData = new UnifiedDataFormat<HistoryRowset> { Columns = HistoryRowset.ColumnNames };
+                    var historyRows = new HistoryRowset { GeneratedAt = fileGenerationTime.ToString(Iso8601Format), RegionID = regionId.ToInvariantString(), TypeID = typeId.ToInvariantString() };
+                    historyRows.Rows.AddRange(
+                        values.Cast<Dictionary<object, object>>()
+                              .Select(
+                                  record =>
+                                  new HistoryRow
+                                  {
+                                      Average = record["avgPrice"].ToDouble(),
+                                      Date = DateTimeOffset.FromFileTime(record["historyDate"].ToLong()).ToUniversalTime().ToString(Iso8601Format),
+                                      High = record["highPrice"].ToDouble(),
+                                      Low = record["lowPrice"].ToDouble(),
+                                      Orders = record["orders"].ToInt(),
+                                      Quantity = record["volume"].ToLong(),
+                                  }));
+                    historyData.Rowsets.Add(historyRows);
+                    historyData.ResultType = ResultKind.History;
+
+                    data = historyData;
+                    break;
+
                     // GetOrders is for the current active order list for an item.
                 case "GetOrders":
                     var orderData = new UnifiedDataFormat<OrderRowset> { Columns = OrderRowset.ColumnNames };
@@ -242,31 +267,6 @@ namespace EveHQ.Market
                     orderData.ResultType = ResultKind.Orders;
 
                     data = orderData;
-                    break;
-
-                    // GetXXXPriceHistory gets the historical data for a given item.
-                case "GetNewPriceHistory":
-                case "GetOldPriceHistory":
-
-                    var historyData = new UnifiedDataFormat<HistoryRowset> { Columns = HistoryRowset.ColumnNames };
-                    var historyRows = new HistoryRowset { GeneratedAt = fileGenerationTime.ToString(Iso8601Format), RegionID = regionId.ToInvariantString(), TypeID = typeId.ToInvariantString() };
-                    historyRows.Rows.AddRange(
-                        values.Cast<Dictionary<object, object>>()
-                              .Select(
-                                  record =>
-                                  new HistoryRow
-                                  {
-                                      Average = record["avgPrice"].ToDouble(), 
-                                      Date = DateTimeOffset.FromFileTime(record["historyDate"].ToLong()).ToUniversalTime().ToString(Iso8601Format), 
-                                      High = record["highPrice"].ToDouble(), 
-                                      Low = record["lowPrice"].ToDouble(), 
-                                      Orders = record["orders"].ToInt(), 
-                                      Quantity = record["volume"].ToLong(), 
-                                  }));
-                    historyData.Rowsets.Add(historyRows);
-                    historyData.ResultType = ResultKind.History;
-
-                    data = historyData;
                     break;
 
                     // any other value we encounter means this isn't a file we should be processing.

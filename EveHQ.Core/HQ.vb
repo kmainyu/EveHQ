@@ -98,7 +98,9 @@ Public Class HQ
     Public Shared ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
     Private Shared _marketDataProvider As IMarketDataProvider
     Private Shared _regions As SortedList(Of String, EveGalaticRegion)
-    Private Shared _cacheProcessor As New MarketUploader(DateTimeOffset.Now.AddHours(-1)) ' TODO: Get this from config/state on start up.
+    Private Shared _marketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
+    Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver) = {New EveCentralMarketDataProvider(), New EveMarketDataRelayProvider()}
+    Private Shared _marketCacheUploader As MarketUploader
 
 
     Shared Property StartShutdownEveHQ() As Boolean
@@ -173,12 +175,16 @@ Public Class HQ
         End Set
     End Property
 
-    Public Shared Property CacheProcessor As MarketUploader
+    Public Shared Property MarketCacheUploader As MarketUploader
         Get
-            Return _cacheProcessor
+            If _marketCacheUploader Is Nothing Then
+                _marketCacheUploader = New MarketUploader(_marketCacheProcessorMinTime, _marketDataReceivers, Nothing)
+            End If
+
+            Return _marketCacheUploader
         End Get
         Set(value As MarketUploader)
-            _cacheProcessor = value
+            _marketCacheUploader = value
         End Set
     End Property
 

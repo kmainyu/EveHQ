@@ -57,7 +57,7 @@ namespace EveHQ.Market
         /// <param name="word">The word.</param>
         /// <param name="forcedOffset">The forced offset.</param>
         /// <returns>The <see cref="DateTimeOffset"/>.</returns>
-        public static DateTimeOffset ToDateTimeOffset(this string word, int? forcedOffset = null)
+        public static DateTimeOffset ToDateTimeOffset(this string word, int? forcedOffset)
         {
             DateTimeOffset result;
             DateTime temp;

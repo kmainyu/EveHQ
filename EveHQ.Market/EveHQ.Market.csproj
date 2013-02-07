@@ -40,9 +40,6 @@
     <Reference Include="EVECacheParser">
       <HintPath>..\Ref\EveCacheParser\EVECacheParser.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\ICSharpCode.SharpZipLib.0.86.0.518\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>

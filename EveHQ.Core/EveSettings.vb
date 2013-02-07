@@ -146,8 +146,7 @@ Public Class EveSettings
     Private cIgnoreBuyOrderLimit As Double = 1
     Private cMarketRegionList As New ArrayList
     Private cPriceCriteria(11) As Boolean
-    Private cEnableMarketLogWatcher As Boolean = False
-    Private cEnableMarketLogWatcherAtStartup As Boolean = False
+    
     Private cMarketLogToolTipConfirm As Boolean = False
     Private cMarketLogPopupConfirm As Boolean = False
     Private cMarketLogUpdatePrice As Boolean = False
@@ -199,6 +198,8 @@ Public Class EveSettings
     Private _marketSystem As Integer = 30000142 'Safe Default of Jita
     Private _marketUseRegionMarket As Boolean
     Private _marketDefaultMetric As MarketMetric
+    Private _marketDataUploadEnabled As Boolean = False
+
 
 
     Private cMaxUpdateThreads As Integer = 5
@@ -703,23 +704,7 @@ Public Class EveSettings
         End Set
     End Property
 
-    Public Property EnableMarketLogWatcherAtStartup() As Boolean
-        Get
-            Return cEnableMarketLogWatcherAtStartup
-        End Get
-        Set(ByVal value As Boolean)
-            cEnableMarketLogWatcherAtStartup = value
-        End Set
-    End Property
-
-    Public Property EnableMarketLogWatcher() As Boolean
-        Get
-            Return cEnableMarketLogWatcher
-        End Get
-        Set(ByVal value As Boolean)
-            cEnableMarketLogWatcher = value
-        End Set
-    End Property
+    
 
     Public Property IgnoreBuyOrders() As Boolean
         Get
@@ -1817,6 +1802,15 @@ Public Class EveSettings
         End Get
         Set(value As MarketMetric)
             _marketDefaultMetric = value
+        End Set
+    End Property
+
+    Public Property MarketDataUploadEnabled As Boolean
+        Get
+            Return _marketDataUploadEnabled
+        End Get
+        Set(value As Boolean)
+            _marketDataUploadEnabled = value
         End Set
     End Property
 
