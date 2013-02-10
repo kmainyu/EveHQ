@@ -9,4 +9,25 @@
   <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
     <VersionPreRelease></VersionPreRelease>
   </PropertyGroup>
+
+<!-- Copies output artifacts to central folder for pickup by installer-->
+
+<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PreBuildEvent>IF NOT EXIST "$(SolutionDir)BuildOutput\Release\" mkdir "$(SolutionDir)BuildOutput\Release\"</PreBuildEvent>
+    <PostBuildEvent>copy /Y $(TargetDir)*.* $(SolutionDir)BuildOutput\Release\</PostBuildEvent>
+  </PropertyGroup>
+<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+ <PreBuildEvent>IF NOT EXIST "$(SolutionDir)BuildOutput\Debug\" mkdir "$(SolutionDir)BuildOutput\Debug\"</PreBuildEvent>
+    <PostBuildEvent>copy /Y $(TargetDir)*.* $(SolutionDir)BuildOutput\Debug\</PostBuildEvent>
+  </PropertyGroup>
+
+
+
+
+<Target Name="BuildInstaller">
+
+<Exec Condition="'$(BuildInstaller)' == 'true'" Command="SET EVEHQVERSION=$(VersionTxt)"/>
+</Target>
+
 </Project>
+

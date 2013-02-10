@@ -819,11 +819,18 @@ Public Class DataFunctions
         End Try
     End Function
 
-    Public Shared Function GetPrice(ByVal itemID As String, Optional ByVal metric As MarketMetric = MarketMetric.Default) As Double
+    Public Shared Function GetPrice(ByVal itemID As String) As Double
+        Return GetPrice(itemID, MarketMetric.Default)
+    End Function
+    Public Shared Function GetPrice(ByVal itemID As String, ByVal metric As MarketMetric) As Double
         Return GetMarketPrices(New String() {itemID}, metric).Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
     End Function
 
-    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), Optional ByVal metric As MarketMetric = MarketMetric.Default) As Dictionary(Of String, Double)
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String)) As Dictionary(Of String, Double)
+        Return GetMarketPrices(itemIDs, MarketMetric.Default)
+    End Function
+
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric) As Dictionary(Of String, Double)
         If metric = MarketMetric.Default Then
             metric = HQ.EveHqSettings.MarketDefaultMetric
         End If

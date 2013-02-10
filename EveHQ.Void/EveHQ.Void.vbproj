@@ -182,6 +182,6 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(TargetFileName) ..\..\..\evehq\$(outdir)$(TargetFileName)</PostBuildEvent>
+    <PostBuildEvent>copy /Y $(TargetDir)\*.* ..\..\..\evehq\$(outdir)\</PostBuildEvent>
   </PropertyGroup>
 </Project>

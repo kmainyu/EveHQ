@@ -916,6 +916,7 @@
   <Import Project="..\Version.Targets" />
   <Target Name="BeforeBuild">
     <CallTarget Targets="SetAssemblyVersion" />
+    <CallTarget Targets="BuildInstaller" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->
