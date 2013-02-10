@@ -29,6 +29,7 @@ VIAddVersionKey "CompanyName" "Software Addicts Studios"
 VIAddVersionKey "FileDescription" "Installs EveHQ: The Internet Spaceship Toolki"
 VIAddVersionKey "LegalCopyright" "Copyright 2005-2013, EveHQ Dev Team"
 VIAddVersionKey "ProductName" "EveHQ Setup"
+VIProductVersion 2.0.0.0
 
 
 #Page Declarations
