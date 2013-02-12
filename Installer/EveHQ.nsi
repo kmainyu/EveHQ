@@ -59,6 +59,10 @@ Var StartMenuFolder
 #Finish page
 !define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe
 !define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
+!define MUI_FINISHPAGE_SHOWREADME ""
+!define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION CreateDesktopShortcut
 !insertmacro MUI_PAGE_FINISH
 
 #Uninstall pages
@@ -104,6 +108,13 @@ SectionIn RO
  ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\EveHQ "Install_Dir" "$INSTDIR"
   
+  # start menu
+  !insertmacro MUI_STARTMENU_WRITE_BEGIN EveHQ
+	 SetShellVarContext current
+		 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
+		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
+	!insertmacro MUI_STARTMENU_WRITE_END
+  
   ; Write the uninstall keys for Windows
  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\EveHQ" "DisplayName" "EveHQ"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\EveHQ" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -120,6 +131,8 @@ SectionEnd
 
 Section "un.Uninstall"
   
+  
+  
   ; Remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\EveHQ"
   DeleteRegKey HKLM SOFTWARE\EveHQ
@@ -128,10 +141,15 @@ Section "un.Uninstall"
   Delete $INSTDIR\*.*
 
   ; Remove shortcuts, if any
-  Delete "$SMPROGRAMS\EveHQ\*.*"
+  !insertmacro MUI_STARTMENU_GETFOLDER EveHQ $StartMenuFolder
+  Delete "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk"
+  RMDir "$SMPROGRAMS\$StartMenuFolder\"
+  
+  #delete the desktop shortcut
+  delete "$desktop\EveHQ.lnk"
 
   ; Remove directories used
-  RMDir "$SMPROGRAMS\EveHQ"
+  RMDir "$R0\EveHQ"
   RMDir "$INSTDIR"
 
 SectionEnd
@@ -145,13 +163,9 @@ Function .onInit
 
 #uninstall the msi version.
 push $R0
-  StrCpy $R0 {0613D880-939E-4C9D-AD7C-A10DF7D7D5E9
+  StrCpy $R0 {0613D880-939E-4C9D-AD7C-A10DF7D7D5E9}
   Call UninstallMSI
 pop $R0
-
-!insertmacro REMOVE_FAKE_MSICOMPONENTS "0613D880939E4C9DAD7CA10DF7D7D5E9" "5EBB032870C24A58A4AC-225419B25E51"
-# sets a silly high version that should block old eveHQ msi installers from isntalling old and busted versions.
-!insertmacro WRITE_FAKE_MSICOMPONENTS "0613D880939E4C9DAD7CA10DF7D7D5E9" "5EBB032870C24A58A4AC-225419B25E51" 9 9 9 9
 
 #Uninstalls previous installations of EveHQ via NSIS
 ReadRegStr $R0 HKLM \
@@ -184,7 +198,9 @@ done:
 FunctionEnd
 
 
-
+Function CreateDesktopShortcut
+CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe"
+FunctionEnd
 
 
 #Ensure it isn't running

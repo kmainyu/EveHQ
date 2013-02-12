@@ -17,29 +17,3 @@ UninstallMSI_nomsi:
   pop $R1
 FunctionEnd
 
-
-# Adds an entry to the registry so that old MSI installers will see that there is an upgrade in place
-!macro BUILD_MSICOMPATIBLE_VERNUM MAJOR MINOR RELEASE BUILD RESULT
-  StrCpy ${RESULT} "0"
- 
-  IntOp $R0 ${MAJOR} * 0x1000000
-  IntOp $R1 ${MINOR} * 0x10000
-  IntOp $R2 ${RELEASE} * 0x100
- 
-  IntOp ${RESULT} ${RESULT} + $R0
-  IntOp ${RESULT} ${RESULT} + $R1
-  IntOp ${RESULT} ${RESULT} + $R2
-  IntOp ${RESULT} ${RESULT} + ${BUILD}
-!macroend
- 
-!macro WRITE_FAKE_MSICOMPONENTS TURNPCODE TURNUCODE MAJ MIN REL BUILD
-  !insertmacro BUILD_MSICOMPATIBLE_VERNUM ${MAJ} ${MIN} ${REL} ${BUILD} $0
-  WriteRegDword HKEY_LOCAL_MACHINE "Software\Classes\Installer\Products\${TURNPCODE}" "Version" $0
-  WriteRegDword HKEY_LOCAL_MACHINE "Software\Classes\Installer\Products\${TURNPCODE}" "Assignment" 0x1
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Classes\Installer\UpgradeCodes\${TURNUCODE}" "${TURNPCODE}" ""
-!macroend
-
-!macro REMOVE_FAKE_MSICOMPONENTS TURNPCODE TURNUCODE
-  DeleteRegKey HKEY_LOCAL_MACHINE "Software\Classes\Installer\Products\${TURNPCODE}"
-  DeleteRegKey HKEY_LOCAL_MACHINE "Software\Classes\Installer\UpgradeCodes\${TURNUCODE}"
-!macroend
