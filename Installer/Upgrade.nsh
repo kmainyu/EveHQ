@@ -12,6 +12,8 @@ Function UninstallMSI
       Abort
 UninstallMSI_yesmsi:
     ExecWait '"msiexec.exe" /x $R0'
+    # making sure the entry is gone and that a crappy MSI doesn't leave "residue"
+    DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$R0"
     MessageBox MB_OK|MB_ICONINFORMATION "Click OK to continue upgrading your version of EveHQ."
 UninstallMSI_nomsi: 
   pop $R1

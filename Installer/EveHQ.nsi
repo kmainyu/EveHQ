@@ -102,8 +102,10 @@ SectionIn RO
   File "..\BuildOutput\Release\GammaJul.lglcd.dll"
   File "..\BuildOutput\Release\Newtonsoft.json.dll"
   File "..\BuildOutput\Release\System.Threading.dll"
-  File "..\EveHQ.Data\EveHQ.sdf"
   File "..\EveHQ\License.txt"
+  
+  SetOutPath $APPDATA\EveHQ
+  File "..\EveHQ.Data\EveHQ.sdf"
 
  ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\EveHQ "Install_Dir" "$INSTDIR"
@@ -161,9 +163,53 @@ SectionEnd
 
 Function .onInit
 
-#uninstall the msi version.
+#uninstall the msi versions.
+#2.11.6
 push $R0
   StrCpy $R0 {0613D880-939E-4C9D-AD7C-A10DF7D7D5E9}
+  Call UninstallMSI
+pop $R0
+
+#2.11.2
+push $R0
+  StrCpy $R0 {DED16EBB-EA17-4DD5-894A-E17EDBCD0A48}
+  Call UninstallMSI
+pop $R0
+
+
+#2.11.1
+push $R0
+  StrCpy $R0 {6566D84A-B0C0-49E7-A289-C862B579899A}
+  Call UninstallMSI
+pop $R0
+
+#2.11.0
+push $R0
+  StrCpy $R0 {95ACBF5B-C866-4A6D-BD56-63CF1C404C00}
+  Call UninstallMSI
+pop $R0
+
+#2.8.0
+push $R0
+  StrCpy $R0 {8927BFA3-3347-4203-A8C7-2FA79B7614A0}
+  Call UninstallMSI
+pop $R0
+
+#2.7.0
+push $R0
+  StrCpy $R0 {4E452D37-9B20-471D-B2AF-F6B0683A2D48}
+  Call UninstallMSI
+pop $R0
+
+#2.6.0
+push $R0
+  StrCpy $R0 {8A081720-BCB6-4EC8-8602-48309AFE4AA1}
+  Call UninstallMSI
+pop $R0
+
+#2.5.0
+push $R0
+  StrCpy $R0 {628381D5-AE8D-4C99-A236-7B10B23BA420}
   Call UninstallMSI
 pop $R0
 
