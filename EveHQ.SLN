@@ -34,8 +34,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.DataUpgrader", "EveHQ
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{4542534A-44CB-42CA-803E-716936314F21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YamlDataLoader", "Utilities\YamlDataLoader\YamlDataLoader.csproj", "{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -258,20 +256,6 @@ Global
 		{1485CB95-9EC8-4C00-8E8C-3E706F3D1363}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1485CB95-9EC8-4C00-8E8C-3E706F3D1363}.Release|Win32.ActiveCfg = Release|Any CPU
 		{1485CB95-9EC8-4C00-8E8C-3E706F3D1363}.Release|x86.ActiveCfg = Release|Any CPU
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|.NET.ActiveCfg = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|Win32.ActiveCfg = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|x86.ActiveCfg = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Debug|x86.Build.0 = Debug|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|.NET.ActiveCfg = Release|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|Any CPU.ActiveCfg = Release|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|Win32.ActiveCfg = Release|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|x86.ActiveCfg = Release|x86
-		{F8DA2E87-3369-4E19-87DF-A597CEA08CF9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
