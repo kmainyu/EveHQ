@@ -714,14 +714,16 @@ Public Class PlugInData
                         End If
 
                         ' Do attribute (unit) modifiers
-                        Select Case CInt(shipRow.Item("attributeID"))
-                            Case 55, 1034, 479
+                        Select Case shipRow.Item("attributeID").ToString
+                            Case Attributes.Ship_CapRechargeTime, Attributes.Ship_CloakReactivationDelay, Attributes.Ship_ShieldRechargeTime
                                 attValue = attValue / 1000
-                            Case 113, 111, 109, 110, 267, 268, 269, 270, 271, 272, 273, 274
+                            Case Attributes.Ship_HullEMResistance, Attributes.Ship_HullExpResistance, Attributes.Ship_HullKinResistance, Attributes.Ship_HullThermResistance,
+                                Attributes.Ship_ArmorEMResistance, Attributes.Ship_ArmorExpResistance, Attributes.Ship_ArmorKinResistance, Attributes.Ship_ArmorThermResistance,
+                                Attributes.Ship_ShieldEMResistance, Attributes.Ship_ShieldExpResistance, Attributes.Ship_ShieldKinResistance, Attributes.Ship_ShieldThermResistance
                                 attValue = (1 - attValue) * 100
-                            Case 1281
+                            Case Attributes.Ship_WarpSpeed
                                 attValue = attValue * 3
-                            Case 1154 ' Reset this field to be used as Calibration_Used
+                            Case Attributes.Ship_UpgradeHardpoints ' Reset this field to be used as Calibration_Used
                                 attValue = 0
                         End Select
 
@@ -729,35 +731,35 @@ Public Class PlugInData
                         newShip.Attributes.Add(shipRow.Item("attributeID").ToString, attValue)
 
                         ' Map only the skill attributes
-                        Select Case CInt(shipRow.Item("attributeID"))
-                            Case 182
+                        Select Case shipRow.Item("attributeID").ToString
+                            Case Attributes.Ship_ReqSkill1
                                 Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = pSkill.ID
                                 nSkill.Name = pSkill.Name
                                 pSkillName = pSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
-                            Case 183
+                            Case Attributes.Ship_ReqSkill2
                                 Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = sSkill.ID
                                 nSkill.Name = sSkill.Name
                                 sSkillName = sSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
-                            Case 184
+                            Case Attributes.Ship_ReqSkill3
                                 Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = tSkill.ID
                                 nSkill.Name = tSkill.Name
                                 tSkillName = tSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
-                            Case 277
+                            Case Attributes.Ship_ReqSkill1Level
                                 Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(pSkillName), ItemSkills)
                                 cSkill.Level = CInt(attValue)
-                            Case 278
+                            Case Attributes.Ship_ReqSkill2Level
                                 Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(sSkillName), ItemSkills)
                                 cSkill.Level = CInt(attValue)
-                            Case 279
+                            Case Attributes.Ship_ReqSkill3Level
                                 Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(tSkillName), ItemSkills)
                                 cSkill.Level = CInt(attValue)
                         End Select
@@ -918,8 +920,8 @@ Public Class PlugInData
                 newModule.BasePrice = CDbl(row.Item("baseprice"))
                 newModule.Volume = CDbl(row.Item("volume"))
                 newModule.Capacity = CDbl(row.Item("capacity"))
-                newModule.Attributes.Add("10004", CDbl(row.Item("capacity")))
-                newModule.Attributes.Add("10002", CDbl(row.Item("mass")))
+                newModule.Attributes.Add(Attributes.Module_Capacity, CDbl(row.Item("capacity")))
+                newModule.Attributes.Add(Attributes.Module_Mass, CDbl(row.Item("mass")))
                 If IsDBNull(row.Item("raceID")) = False Then
                     newModule.RaceID = CInt(row.Item("raceID"))
                 Else
@@ -941,16 +943,16 @@ Public Class PlugInData
                 ModuleLists.moduleListName.Add(newModule.Name, newModule.ID)
 
                 ' Determine whether implant, drone, charge etc
-                Select Case CInt(row.Item("categoryID"))
-                    Case 2 ' Container
+                Select Case row.Item("categoryID").ToString
+                    Case ShipModule.Category_Celestials ' Container
                         newModule.IsContainer = True
-                    Case 8 ' Charge
+                    Case ShipModule.Category_Charges
                         newModule.IsCharge = True
-                    Case 18 ' Drone
+                    Case ShipModule.Category_Drones
                         newModule.IsDrone = True
-                    Case 20 ' Implant
-                        If CInt(row.Item("groupID")) <> 304 Then
-                            If CInt(row.Item("groupID")) = 303 Then
+                    Case ShipModule.Category_Implants
+                        If row.Item("groupID").ToString <> ShipModule.Group_DNAMutators Then
+                            If row.Item("groupID").ToString = ShipModule.Group_Boosters Then
                                 newModule.IsBooster = True
                             Else
                                 newModule.IsImplant = True
@@ -1010,55 +1012,55 @@ Public Class PlugInData
             For Each modRow As DataRow In PlugInData.moduleEffectData.Tables(0).Rows
                 Dim effMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
                 If effMod IsNot Nothing Then
-                    Select Case CInt(modRow.Item("effectID"))
-                        Case 11 ' Low slot
+                    Select Case modRow.Item("effectID").ToString
+                        Case Attributes.Effect_LowSlot
                             effMod.SlotType = SlotTypes.Low
-                        Case 12 ' High slot
+                        Case Attributes.Effect_HighSlot
                             effMod.SlotType = SlotTypes.High
-                        Case 13 ' Mid slot
+                        Case Attributes.Effect_MidSlot
                             effMod.SlotType = SlotTypes.Mid
-                        Case 2663 ' Rig slot
+                        Case Attributes.Effect_RigSlot
                             effMod.SlotType = SlotTypes.Rig
-                        Case 3772 ' Sub slot
+                        Case Attributes.Effect_SubsystemSlot
                             effMod.SlotType = SlotTypes.Subsystem
-                        Case 40
-                            If effMod.DatabaseGroup <> "481" Then
+                        Case Attributes.Effect_LauncherFitted
+                            If effMod.DatabaseGroup <> ShipModule.Group_ProbeLaunchers Then
                                 effMod.IsLauncher = True
                             End If
-                        Case 10, 34, 42
+                        Case Attributes.Effect_TargetAttack, Attributes.Effect_ProjectileFired, Attributes.Effect_TurretFitted
                             effMod.IsTurret = True
                     End Select
                     ' Add custom attributes
-                    If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Or effMod.DatabaseGroup = "862" Then
-                        If effMod.Attributes.ContainsKey("10017") = False Then
-                            effMod.Attributes.Add("10017", 0)
-                            effMod.Attributes.Add("10018", 0)
-                            effMod.Attributes.Add("10019", 0)
-                            effMod.Attributes.Add("10030", 0)
-                            effMod.Attributes.Add("10051", 0)
-                            effMod.Attributes.Add("10052", 0)
-                            effMod.Attributes.Add("10053", 0)
-                            effMod.Attributes.Add("10054", 0)
+                    If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = ShipModule.Group_Smartbombs Or effMod.DatabaseGroup = ShipModule.Group_BombLaunchers Then
+                        If effMod.Attributes.ContainsKey(Attributes.Module_BaseDamage) = False Then
+                            effMod.Attributes.Add(Attributes.Module_BaseDamage, 0)
+                            effMod.Attributes.Add(Attributes.Module_VolleyDamage, 0)
+                            effMod.Attributes.Add(Attributes.Module_DPS, 0)
+                            effMod.Attributes.Add(Attributes.Module_LoadedCharge, 0)
+                            effMod.Attributes.Add(Attributes.Module_EMDamage, 0)
+                            effMod.Attributes.Add(Attributes.Module_ExpDamage, 0)
+                            effMod.Attributes.Add(Attributes.Module_KinDamage, 0)
+                            effMod.Attributes.Add(Attributes.Module_ThermDamage, 0)
                         End If
                     End If
-                    Select Case CInt(effMod.MarketGroup)
-                        Case 1038 ' Ice Miners
-                            If effMod.Attributes.ContainsKey("10041") = False Then
-                                effMod.Attributes.Add("10041", 0)
+                    Select Case effMod.MarketGroup
+                        Case ShipModule.Marketgroup_IceHarvesters
+                            If effMod.Attributes.ContainsKey(Attributes.Module_TurretIceMiningRate) = False Then
+                                effMod.Attributes.Add(Attributes.Module_TurretIceMiningRate, 0)
                             End If
-                        Case 1039, 1040 ' Ore Miners
-                            If effMod.Attributes.ContainsKey("10039") = False Then
-                                effMod.Attributes.Add("10039", 0)
+                        Case ShipModule.Marketgroup_MiningLasers, ShipModule.Marketgroup_StripMiners
+                            If effMod.Attributes.ContainsKey(Attributes.Module_TurretOreMiningRate) = False Then
+                                effMod.Attributes.Add(Attributes.Module_TurretOreMiningRate, 0)
                             End If
-                        Case 158 ' Mining Drones
-                            If effMod.Attributes.ContainsKey("10040") = False Then
-                                effMod.Attributes.Add("10040", 0)
+                        Case ShipModule.Marketgroup_MiningDrones
+                            If effMod.Attributes.ContainsKey(Attributes.Module_DroneOreMiningRate) = False Then
+                                effMod.Attributes.Add(Attributes.Module_DroneOreMiningRate, 0)
                             End If
                     End Select
-                    Select Case CInt(effMod.DatabaseGroup)
-                        Case 76
-                            If effMod.Attributes.ContainsKey("6") = False Then
-                                effMod.Attributes.Add("6", 0)
+                    Select Case effMod.DatabaseGroup
+                        Case ShipModule.Group_CapBoosters
+                            If effMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = False Then
+                                effMod.Attributes.Add(Attributes.Module_CapacitorNeed, 0)
                             End If
                     End Select
                 End If
@@ -1093,75 +1095,61 @@ Public Class PlugInData
                 End If
 
                 Select Case modRow.Item("unitID").ToString
-                    Case "108"
+                    Case Attributes.Unit_InverseAbsolutePercent
                         attValue = Math.Round(100 - (attValue * 100), 2)
-                    Case "109"
+                    Case Attributes.Unit_ModifierPercent
                         attValue = Math.Round((attValue * 100) - 100, 2)
-                    Case "111"
+                    Case Attributes.Unit_InverseModifierPercent
                         attValue = Math.Round((attValue - 1) * 100, 2)
-                    Case "101"      ' If unit is "ms"
+                    Case Attributes.Unit_Milliseconds
                         If attValue > 1000 Then
                             attValue = Math.Round(attValue / 1000, 2)
                         End If
                 End Select
 
                 ' Modify the attribute value if we using damage controls - this is to stack up later on
-                If CInt(attMod.DatabaseGroup) = 60 Then
-                    Select Case CInt(modRow.Item("attributeID"))
-                        Case 267, 268, 269, 270, 271, 272, 273, 274, 974, 975, 976, 977
+                If attMod.DatabaseGroup = ShipModule.Group_DamageControls Then
+                    Select Case modRow.Item("attributeID").ToString
+                        Case Attributes.Module_ArmorEMResistance, Attributes.Module_ArmorExpResistance, Attributes.Module_ArmorKinResistance, Attributes.Module_ArmorThermResistance,
+                            Attributes.Module_ShieldEMResistance, Attributes.Module_ShieldExpResistance, Attributes.Module_ShieldKinResistance, Attributes.Module_ShieldThermResistance,
+                            Attributes.Module_HullEMResistance, Attributes.Module_HullExpResistance, Attributes.Module_HullKinResistance, Attributes.Module_HullThermResistance
                             attValue = -attValue
                     End Select
                 End If
 
                 ' Do custom attribute changes here!
                 Select Case modRow.Item("attributeID").ToString
-                    Case "204"
+                    Case Attributes.Module_ROFBonus
                         If attValue = -100 Then Exit Select
                         attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
-                    Case "51" ' ROF
+                    Case Attributes.Module_ROF
                         If attValue = -100 Then Exit Select
                         Select Case attMod.DatabaseGroup
-                            Case "53" ' Energy Turret 
-                                attMod.Attributes.Add("10011", attValue)
-                            Case "74" ' Hybrid Turret
-                                attMod.Attributes.Add("10012", attValue)
-                            Case "55" ' Projectile Turret
-                                attMod.Attributes.Add("10013", attValue)
+                            Case ShipModule.Group_EnergyTurrets
+                                attMod.Attributes.Add(Attributes.Module_EnergyROF, attValue)
+                            Case ShipModule.Group_HybridTurrets
+                                attMod.Attributes.Add(Attributes.Module_HybridROF, attValue)
+                            Case ShipModule.Group_ProjectileTurrets
+                                attMod.Attributes.Add(Attributes.Module_ProjectileROF, attValue)
                             Case Else
                                 attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                         End Select
-                    Case "64" ' Damage Modifier
+                    Case Attributes.Module_DamageMod
                         If attValue = 0 Then Exit Select
                         Select Case attMod.DatabaseGroup
-                            Case "53" ' Energy Turret 
-                                attMod.Attributes.Add("10014", attValue)
-                            Case "74" ' Hybrid Turret
-                                attMod.Attributes.Add("10015", attValue)
-                            Case "55" ' Projectile Turret
-                                attMod.Attributes.Add("10016", attValue)
+                            Case ShipModule.Group_EnergyTurrets
+                                attMod.Attributes.Add(Attributes.Module_EnergyDmgMod, attValue)
+                            Case ShipModule.Group_HybridTurrets
+                                attMod.Attributes.Add(Attributes.Module_HybridDmgMod, attValue)
+                            Case ShipModule.Group_ProjectileTurrets
+                                attMod.Attributes.Add(Attributes.Module_ProjectileDmgMod, attValue)
                             Case Else
                                 attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
                         End Select
-                    Case "306" ' Max Velocity Penalty
-                        Select Case attMod.DatabaseGroup
-                            Case "653", "654", "655", "656", "657", "648" ' T2 Missiles
-                                If attValue = -100 Then
-                                    attValue = 0
-                                End If
-                        End Select
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
-                    Case "144" ' Cap Recharge Rate
-                        Select Case attMod.DatabaseGroup
-                            Case "653", "654", "655", "656", "657", "648" ' T2 Missiles
-                                If attValue = -100 Then
-                                    attValue = 0
-                                End If
-                        End Select
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
-                    Case "267", "268", "269", "270" ' Armor resistances
+                    Case Attributes.Module_ArmorEMResistance, Attributes.Module_ArmorExpResistance, Attributes.Module_ArmorKinResistance, Attributes.Module_ArmorThermResistance
                         ' Invert Armor Resistance Shift Hardener values
                         Select Case attMod.DatabaseGroup
-                            Case "1150"
+                            Case ShipModule.Group_ArmorResistShiftHardener
                                 attValue = -attValue
                         End Select
                         attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
@@ -1170,40 +1158,40 @@ Public Class PlugInData
                 End Select
 
 
-                Select Case CInt(modRow.Item("attributeID"))
-                    Case 30
+                Select Case modRow.Item("attributeID").ToString
+                    Case Attributes.Module_PowergridUsage
                         attMod.PG = attValue
-                    Case 50
+                    Case Attributes.Module_CpuUsage
                         attMod.CPU = attValue
-                    Case 6
+                    Case Attributes.Module_CapacitorNeed
                         attMod.CapUsage = attValue
-                    Case 51
-                        If attMod.Attributes.ContainsKey("6") = True Then
+                    Case Attributes.Module_ROF
+                        If attMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Then
                             attMod.CapUsageRate = attMod.CapUsage / attValue
-                            attMod.Attributes.Add("10032", attMod.CapUsageRate)
+                            attMod.Attributes.Add(Attributes.Module_CapUsageRate, attMod.CapUsageRate)
                         End If
-                    Case 73
+                    Case Attributes.Module_ActivationTime
                         attMod.ActivationTime = attValue
                         attMod.CapUsageRate = attMod.CapUsage / attMod.ActivationTime
-                        attMod.Attributes.Add("10032", attMod.CapUsageRate)
-                    Case 77
-                        Select Case CInt(attMod.MarketGroup)
-                            Case 1038 ' Ice Mining
-                                attMod.Attributes("10041") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
-                            Case 1039, 1040 ' Ore Mining
-                                attMod.Attributes("10039") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
-                            Case 158 ' Mining Drone
-                                attMod.Attributes("10040") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                        attMod.Attributes.Add(Attributes.Module_CapUsageRate, attMod.CapUsageRate)
+                    Case Attributes.Module_MiningAmount
+                        Select Case attMod.MarketGroup
+                            Case ShipModule.Marketgroup_IceHarvesters
+                                attMod.Attributes(Attributes.Module_TurretIceMiningRate) = CDbl(attMod.Attributes(Attributes.Module_MiningAmount)) / CDbl(attMod.Attributes(Attributes.Module_ActivationTime))
+                            Case ShipModule.Marketgroup_MiningLasers, ShipModule.Marketgroup_StripMiners
+                                attMod.Attributes(Attributes.Module_TurretOreMiningRate) = CDbl(attMod.Attributes(Attributes.Module_MiningAmount)) / CDbl(attMod.Attributes(Attributes.Module_ActivationTime))
+                            Case ShipModule.Marketgroup_MiningDrones
+                                attMod.Attributes(Attributes.Module_DroneOreMiningRate) = CDbl(attMod.Attributes(Attributes.Module_MiningAmount)) / CDbl(attMod.Attributes(Attributes.Module_ActivationTime))
                         End Select
-                    Case 128
+                    Case Attributes.Module_ChargeSize
                         attMod.ChargeSize = CInt(attValue)
-                    Case 1153
+                    Case Attributes.Module_CalibrationCost
                         attMod.Calibration = CInt(attValue)
-                    Case 331 ' Slot Type for Implants
+                    Case Attributes.Module_ImplantSlot
                         attMod.ImplantSlot = CInt(attValue)
-                    Case 1087 ' Slot Type For Boosters
+                    Case Attributes.Module_BoosterSlot
                         attMod.BoosterSlot = CInt(attValue)
-                    Case 182
+                    Case Attributes.Module_ReqSkill1
                         If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
                             Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                             Dim nSkill As New ItemSkills
@@ -1212,7 +1200,7 @@ Public Class PlugInData
                             pSkillName = pSkill.Name
                             attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                         End If
-                    Case 183
+                    Case Attributes.Module_ReqSkill2
                         If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
                             Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                             Dim nSkill As New ItemSkills
@@ -1221,7 +1209,7 @@ Public Class PlugInData
                             sSkillName = sSkill.Name
                             attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                         End If
-                    Case 184
+                    Case Attributes.Module_ReqSkill3
                         If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
                             Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
                             Dim nSkill As New ItemSkills
@@ -1230,24 +1218,24 @@ Public Class PlugInData
                             tSkillName = tSkill.Name
                             attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                         End If
-                    Case 277
+                    Case Attributes.Module_ReqSkill1Level
                         Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(pSkillName), ItemSkills)
                         If cSkill IsNot Nothing Then
                             cSkill.Level = CInt(attValue)
                         End If
-                    Case 278
+                    Case Attributes.Module_ReqSkill2Level
                         Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(sSkillName), ItemSkills)
                         If cSkill IsNot Nothing Then
                             cSkill.Level = CInt(attValue)
                         End If
-                    Case 279
+                    Case Attributes.Module_ReqSkill3Level
                         Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(tSkillName), ItemSkills)
                         If cSkill IsNot Nothing Then
                             cSkill.Level = CInt(attValue)
                         End If
-                    Case 604, 605, 606, 609, 610
+                    Case Attributes.Module_ChargeGroup1, Attributes.Module_ChargeGroup2, Attributes.Module_ChargeGroup3, Attributes.Module_ChargeGroup4, Attributes.Module_ChargeGroup5
                         attMod.Charges.Add(CStr(attValue))
-                    Case 633 ' MetaLevel
+                    Case Attributes.Module_MetaLevel
                         attMod.MetaLevel = CInt(attValue)
                     Case Else
                 End Select
@@ -1262,8 +1250,8 @@ Public Class PlugInData
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                 If ModuleLists.moduleMetaGroups.Contains(cMod.ID) = True Then
                     If CStr(ModuleLists.moduleMetaGroups(cMod.ID)) = "0" Then
-                        If cMod.Attributes.ContainsKey("422") = True Then
-                            Select Case CInt(cMod.Attributes("422"))
+                        If cMod.Attributes.ContainsKey(Attributes.Module_TechLevel) = True Then
+                            Select Case CInt(cMod.Attributes(Attributes.Module_TechLevel))
                                 Case 1
                                     cMod.MetaType = CInt(2 ^ 0)
                                 Case 2
@@ -1293,8 +1281,8 @@ Public Class PlugInData
             Next
             ' Check for drone missiles
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                If cMod.IsDrone = True And cMod.Attributes.ContainsKey("507") = True Then
-                    Dim chg As ShipModule = CType(ModuleLists.moduleList(CStr(cMod.Attributes("507"))), ShipModule)
+                If cMod.IsDrone = True And cMod.Attributes.ContainsKey(Attributes.Module_MissileTypeID) = True Then
+                    Dim chg As ShipModule = CType(ModuleLists.moduleList(cMod.Attributes(Attributes.Module_MissileTypeID).ToString), ShipModule)
                     cMod.LoadedCharge = chg
                 End If
             Next

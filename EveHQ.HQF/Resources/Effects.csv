@@ -82,8 +82,7 @@
 317,1,24572,6,4,910,0,1,0,0,Capital Energy Emission Systems
 317,1,24571,6,4,600,0,1,0,0,Capital Shield Emission Systems
 851,1,21802,6,4,778,0,1,0,0,Capital Shield Operation
-958,1,12365,984,2,295,0,1,0,0,EM Shield Compensation - Passive
-988,1,12365,994,2,77,0,1,5,0,EM Shield Compensation - Active
+958,1,12365,984,2,295,0,1,0,0,EM Shield Compensation
 317,1,3423,6,4,689,0,1,0,0,Energy Emission Systems - Small Energy Neut
 317,1,3423,6,4,690,0,1,0,0,Energy Emission Systems - Medium Energy Neut
 317,1,3423,6,4,691,0,1,0,0,Energy Emission Systems - Large Energy Neut
@@ -95,10 +94,8 @@
 314,1,3417,55,3,6,0,1,0,0,Energy Systems Operation
 313,1,3413,11,3,6,0,1,0,0,Engineering - Ship
 313,1,3413,549,2,339,0,1,0,0,Engineering - MAPC
-958,1,12367,985,2,295,0,1,0,0,Explosive Shield Compensation - Passive
-988,1,12367,995,2,77,0,1,5,0,Explosive Shield Compensation - Active
-958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation - Passive
-988,1,12366,996,2,77,0,1,5,0,Kinetic Shield Compensation - Active
+958,1,12367,985,2,295,0,1,0,0,Explosive Shield Compensation
+958,1,12366,986,2,295,0,1,0,0,Kinetic Shield Compensation
 851,1,21059,6,4,609;610;611;612,0,1,0,0,Shield Compensation
 317,1,3422,6,2,41,0,1,0,0,Shield Emission Systems
 337,1,3419,263,3,6,0,1,0,0,Shield Management - Shields
@@ -106,8 +103,7 @@
 338,1,3416,479,3,6,0,1,0,0,Shield Operation
 323,1,3425,30,5,3425,0,1,0,0,Shield Upgrades
 336,1,3420,484,3,6,0,1,0,0,Tactical Shield Manipulation
-958,1,11566,987,2,295,0,1,0,0,Thermic Shield Compensation - Passive
-988,1,11566,997,2,77,0,1,5,0,Thermic Shield Compensation - Active
+958,1,11566,987,2,295,0,1,0,0,Thermic Shield Compensation
 # GUNNERY,,,,,,,,,,
 323,1,11207,30,2,53,0,1,0,0,Advanced Weapon Upgrades - Energy
 323,1,11207,30,2,74,0,1,0,0,Advanced Weapon Upgrades - Hybrid
@@ -236,6 +232,7 @@
 850,1,3354,1323,2,316,0,1,0,0,Warfare Link Specialist
 #,1,11574,,,,0,1,0,0,Wing Command
 # MECHANIC,,,,,,,,,,
+1856,1,33078,796,2,329,0,1,0,0,Armor Honeycombing
 317,1,32797,6,2,1150,0,1,0,0,Armor Resistance Phasing - Cap Usage
 66,1,32797,73,2,1150,0,1,0,0,Armor Resistance Phasing - Duration
 1139,1,26253,1138,2,773,0,1,0,0,Armor Rigging
@@ -245,17 +242,14 @@
 312,1,21803,73,4,1052,0,1,0,0,Capital Repair Systems
 1139,1,26255,1138,2,778,0,1,0,0,Drones Rigging
 1139,1,26256,1138,2,786,0,1,0,0,Electronic Superiority Rigging
-958,1,22806,984,2,98;326,0,1,0,0,EM Armor Compensation - Passive
-988,1,22806,994,2,328,0,1,5,0,EM Armor Compensation - Active
+958,1,22806,984,2,98;326,0,1,0,0,EM Armor Compensation
 1139,1,26258,1138,2,775,0,1,0,0,Energy Weapon Rigging
-958,1,22807,985,2,98;326,0,1,0,0,Explosive Armor Compensation - Passive
-988,1,22807,995,2,328,0,1,5,0,Explosive Armor Compensation - Active
+958,1,22807,985,2,98;326,0,1,0,0,Explosive Armor Compensation
 335,1,3394,265,3,6,0,1,0,0,Hull Upgrades - Armor HP
 335,1,3394,1159,2,329,0,1,0,0,Hull Upgrades - Armor Plate HP
 1139,1,26259,1138,2,776,0,1,0,0,Hybrid Weapon Rigging
 #,1,26252,,,,0,1,0,0,Jury Rigging
-958,1,22808,986,2,98;326,0,1,0,0,Kinetic Armor Compensation - Passive
-988,1,22808,996,2,328,0,1,5,0,Kinetic Armor Compensation - Active
+958,1,22808,986,2,98;326,0,1,0,0,Kinetic Armor Compensation
 1139,1,26260,1138,2,779,0,1,0,0,Launcher Rigging
 327,1,3392,9,3,6,0,1,0,0,Mechanic
 #,1,28880,,,,0,1,0,0,Nanite Interfacing
@@ -271,8 +265,7 @@
 1772,1,25863,902,1,25861;30836,0,1,11,0,Salvaging
 1139,1,26261,1138,2,774,0,1,0,0,Shield Rigging
 885,1,27906,714,1,27951,0,1,8,0,Tactical Logistics Reconfiguration
-958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation - Passive
-988,1,22809,997,2,328,0,1,5,0,Thermic Armor Compensation - Active
+958,1,22809,987,2,98;326,0,1,0,0,Thermic Armor Compensation
 # MISSILE LAUNCHER OPERATION,,,,,,,,,,
 293,1,28073,669,2,862,0,1,0,0,Bomb Deployment
 292,1,32435,114,2,1019,0,1,0,0,Citadel Cruise Missiles - EM
@@ -586,6 +579,8 @@
 1206,2,325,73,6,0,0,0,0,8,Remote Armor Rep Duration
 1230,2,62,84,6,0,0,0,0,8,Armor Rep Amount Bonus
 1206,2,62,73,6,0,0,0,0,8,Armor Rep Duration
+1230,2,1199,84,6,0,0,0,0,8,Ancillary Armor Rep Amount Bonus
+1206,2,1199,73,6,0,0,0,0,8,Ancillary Armor Rep Duration
 1206,2,76,73,6,0,0,0,0,8,Cap Booster Duration
 1226,2,202,1027,6,0,0,0,0,8,ECCM Strength Bonus - Grav
 1226,2,202,1028,6,0,0,0,0,8,ECCM Strength Bonus - Ladar
@@ -642,19 +637,6 @@
 120,2,83,54,6,0,0,0,0,15,Projectile Ammo - Optimal Range
 317,2,83,6,6,0,0,0,0,15,Projectile Ammo - Activation Cost
 244,2,83,160,6,0,0,0,5,15,Projectile Ammo - Tracking Bonus
-# T2 MISSILES,,,,,,,,,,
-#554,2,654,552,3,6,0,0,0,15,Assault - Signature Radius Penalty
-#306,2,654,37,3,6,0,0,0,15,Assault - Max Velocity Penalty
-#554,2,656,552,3,6,0,0,0,15,Cruise - Signature Radius Penalty
-#306,2,656,37,3,6,0,0,0,15,Cruise - Max Velocity Penalty
-#554,2,655,552,3,6,0,0,0,15,Heavy - Signature Radius Penalty
-#306,2,655,37,3,6,0,0,0,15,Heavy - Max Velocity Penalty
-#554,2,653,552,3,6,0,0,0,15,Light - Signature Radius Penalty
-#306,2,653,37,3,6,0,0,0,15,Light - Max Velocity Penalty
-#554,2,648,552,3,6,0,0,0,15,Rocket - Signature Radius Penalty
-#306,2,648,37,3,6,0,0,0,15,Rocket - Max Velocity Penalty
-#554,2,657,552,3,6,0,0,0,15,Torpedo - Signature Radius Penalty
-#306,2,657,37,3,6,0,0,0,15,Torpedo - Max Velocity Penalty
 # T2 Frequency Crystals,,,,,,,,,,
 120,2,374,54,6,0,0,0,0,15,T2 Beam - Optimal Range
 317,2,374,6,6,0,0,0,0,15,T2 Beam - Activation Cost
@@ -847,11 +829,9 @@
 # Reactor Control Units,,,,,,,,,,
 145,2,769,11,3,6,0,0,0,14,Reactor Control - PG
 # HULL & ARMOR,,,,,,,,,,
+# Ancillary Armor Repairers,,,,,,,,,,
+1886,2,1199,84,2,1199,0,0,5,14,AAR Charged Repair Amount Bonus
 # Armor Hardeners,,,,,,,,,,
-994,2,328,267,3,6,1,0,2,2,Armor Hardeners - Passive EM Resist
-995,2,328,268,3,6,1,0,2,2,Armor Hardeners - Passive Exp Resist
-996,2,328,269,3,6,1,0,2,2,Armor Hardeners - Passive Kin Resist
-997,2,328,270,3,6,1,0,2,2,Armor Hardeners - Passive Therm Resist
 984,2,328,267,3,6,1,0,2,12,Armor Hardeners - Active EM Resist
 985,2,328,268,3,6,1,0,2,12,Armor Hardeners - Active Exp Resist
 986,2,328,269,3,6,1,0,2,12,Armor Hardeners - Active Kin Resist
@@ -930,10 +910,6 @@
 146,2,770,263,3,6,0,0,0,14,Shield Flux Coil - Shield HP
 134,2,770,479,3,6,0,0,0,14,Shield Flux Coil - Shield Recharge Rate
 # Shield Hardeners,,,,,,,,,,
-994,2,77,271,3,6,1,0,2,2,Shield Hardeners - Passive EM Resist
-995,2,77,272,3,6,1,0,2,2,Shield Hardeners - Passive Exp Resist
-996,2,77,273,3,6,1,0,2,2,Shield Hardeners - Passive Kin Resist
-997,2,77,274,3,6,1,0,2,2,Shield Hardeners - Passive Therm Resist
 984,2,77,271,3,6,1,0,2,12,Shield Hardeners - Active EM Resist
 985,2,77,272,3,6,1,0,2,12,Shield Hardeners - Active Exp Resist
 986,2,77,273,3,6,1,0,2,12,Shield Hardeners - Active Kin Resist
@@ -978,12 +954,12 @@
 292,1,20280,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
 292,1,20280,10014,2,53,0,0,0,4,Damage Bonus - Lasers
 292,1,20280,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
-548,1,20280,68,2,40,1,0,0,4,Shield Boost Bonus
+548,1,20280,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 565,1,20280,564,3,6,0,0,0,4,Scan Resolution Penalty
 847,1,20280,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,4,Missile Explosion Velocity
-895,1,20280,84,2,62,0,0,0,4,Armor Repair Amount
-896,1,20280,73,2,62,0,0,0,4,Armor Repair Duration
-897,1,20280,73,2,40,0,0,0,4,Shield Booster Duration
+895,1,20280,84,2,62;1199,0,0,0,4,Armor Repair Amount
+896,1,20280,73,2,62;1199,0,0,0,4,Armor Repair Duration
+897,1,20280,73,2,40;1156,0,0,0,4,Shield Booster Duration
 20,1,4292,37,3,6,0,0,0,4,Max Velocity Bonus
 292,1,4292,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - EM Missiles
 292,1,4292,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Explosive Missiles
@@ -992,19 +968,19 @@
 292,1,4292,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
 292,1,4292,10014,2,53,0,0,0,4,Damage Bonus - Lasers
 292,1,4292,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
-548,1,4292,68,2,40,1,0,0,4,Shield Boost Bonus
+548,1,4292,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 565,1,4292,564,3,6,0,0,0,4,Scan Resolution Penalty
 847,1,4292,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,4,Missile Explosion Velocity
-895,1,4292,84,2,62,0,0,0,4,Armor Repair Amount
-896,1,4292,73,2,62,0,0,0,4,Armor Repair Duration
-897,1,4292,73,2,40,0,0,0,4,Shield Booster Duration
+895,1,4292,84,2,62;1199,0,0,0,4,Armor Repair Amount
+896,1,4292,73,2,62;1199,0,0,0,4,Armor Repair Duration
+897,1,4292,73,2,40;1156,0,0,0,4,Shield Booster Duration
 # Triage Modules,,,,,,,,,,
 20,1,27951,37,3,6,0,0,0,4,Max Velocity Bonus
-548,1,27951,68,2,40,1,0,0,4,Shield Boost Bonus
+548,1,27951,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 565,1,27951,564,3,6,0,0,0,4,Scan Resolution Bonus
-895,1,27951,84,2,62,0,0,0,4,Armor Repair Amount
-896,1,27951,73,2,62,0,0,0,4,Armor Repair Duration
-897,1,27951,73,2,40,0,0,0,4,Shield Booster Duration
+895,1,27951,84,2,62;1199,0,0,0,4,Armor Repair Amount
+896,1,27951,73,2,62;1199,0,0,0,4,Armor Repair Duration
+897,1,27951,73,2,40;1156,0,0,0,4,Shield Booster Duration
 1186,1,27951,84,2,325,0,0,0,4,Remote Armor Repair Bonus
 1187,1,27951,73,2,325,0,0,0,4,Remote Armor Repair Duration Bonus
 1188,1,27951,73,2,41,0,0,0,4,Shield Transporter Duration Bonus
@@ -1016,11 +992,11 @@
 1203,1,27951,90,2,67,0,0,0,4,Energy Transfer Bonus
 1204,1,27951,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
 20,1,4294,37,3,6,0,0,0,4,Max Velocity Bonus
-548,1,4294,68,2,40,1,0,0,4,Shield Boost Bonus
+548,1,4294,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 565,1,4294,564,3,6,0,0,0,4,Scan Resolution Bonus
-895,1,4294,84,2,62,0,0,0,4,Armor Repair Amount
-896,1,4294,73,2,62,0,0,0,4,Armor Repair Duration
-897,1,4294,73,2,40,0,0,0,4,Shield Booster Duration
+895,1,4294,84,2,62;1199,0,0,0,4,Armor Repair Amount
+896,1,4294,73,2,62;1199,0,0,0,4,Armor Repair Duration
+897,1,4294,73,2,40;1156,0,0,0,4,Shield Booster Duration
 1186,1,4294,84,2,325,0,0,0,4,Remote Armor Repair Bonus
 1187,1,4294,73,2,325,0,0,0,4,Remote Armor Repair Duration Bonus
 1188,1,4294,73,2,41,0,0,0,4,Shield Transporter Duration Bonus
@@ -1149,7 +1125,60 @@
 263,1,-1,263,3,6,0,0,0,16,Gang Shield HP
 552,1,-1,552,3,6,0,0,0,16,Gang Signature Radius
 # RIGS - ARMOR,,,,,,,,,,
-1138,2,773,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25736,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25888,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25890,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25892,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25894,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25900,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,25902,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26286,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26288,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26290,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26292,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26298,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26300,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,26302,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,27068,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,30987,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,30997,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,30999,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31003,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31005,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31009,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31011,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31015,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31017,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31021,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31023,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31027,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31029,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31033,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31035,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31039,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31041,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31055,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31057,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31059,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31073,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31077,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31079,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31083,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31085,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31089,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31091,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
+1138,1,31045,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31047,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,25896,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31051,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31053,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,26294,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31063,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31065,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,25898,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31069,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,31071,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
+1138,1,26296,30,4,1049;1050;1051,0,0,0,15,Armor Rig Drawback - PG Penalty
 984,2,773,267,3,6,1,0,2,15,Anti-EM Pump
 985,2,773,268,3,6,1,0,2,15,Anti-Explosive Pump
 986,2,773,269,3,6,1,0,2,15,Anti-Kinetic Pump
@@ -1408,8 +1437,8 @@
 1493,2,920,117,2,387,0,0,5,15,Wolf Rayet Missile Damage - Rocket - Kinetic
 1493,2,920,118,2,387,0,0,5,15,Wolf Rayet Missile Damage - Rocket - Thermal
 1494,2,920,64,4,562;565;568;572;575;578,0,0,5,15,Medium Weapon Damage Multiplier
-1495,2,920,84,2,62,0,0,5,15,Repair Amount Multiplier
-1496,2,920,68,2,40,0,0,5,15,Shield Repair Amount Multiplier
+1495,2,920,84,2,62;1199,0,0,5,15,Repair Amount Multiplier
+1496,2,920,68,2,40;1156,0,0,5,15,Shield Repair Amount Multiplier
 1497,2,920,68,2,41,0,0,5,15,Shield Transfer Amount Multiplier
 1498,2,920,84,2,325,0,0,5,15,Remote Repair Amount Multiplier
 1499,2,920,482,3,6,0,0,5,15,Capacitor Capacity Multiplier
@@ -1430,34 +1459,34 @@
 1686,2,920,117,3,18,0,0,0,15,Incursion Damage Reduction - Kinetic Drone
 1686,2,920,118,3,18,0,0,0,15,Incursion Damage Reduction - Thermal Drone
 # BOOSTERS,,,,,,,,,,
-548,1,10155,68,2,40,0,0,0,15,Improved Blue Pill - Shield Boost Bonus
+548,1,10155,68,2,40;1156,0,0,0,15,Improved Blue Pill - Shield Boost Bonus
 848,1,10151,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Improved Crash - Explosion Radius Bonus
 767,1,15477,160,2,55;53;74,0,0,0,15,Improved Drop - Tracking Speed Bonus
-895,1,15480,84,2,62,0,0,0,15,Improved Exile - Armor Repair Bonus
+895,1,15480,84,2,62;1199,0,0,0,15,Improved Exile - Armor Repair Bonus
 294,1,15461,54,2,55;53;74,0,0,0,15,Improved Frentix - Turret Optimal Range Bonus
 1079,1,15464,482,3,6,0,0,0,15,Improved Mindflood - Capacitor Bonus
 349,1,10165,158,2,55;53;74,0,0,0,15,Improved Soothsayer - Turret Falloff Bonus
 554,1,15458,552,3,6,0,0,0,15,Improved Xinstict - Sig Radius Bonus
-548,1,9950,68,2,40,0,0,0,15,Standard Blue Pill - Shield Boost Bonus
+548,1,9950,68,2,40;1156,0,0,0,15,Standard Blue Pill - Shield Boost Bonus
 848,1,9947,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Standard Crash - Explosion Radius Bonus
 767,1,15466,160,2,55;53;74,0,0,0,15,Standard Drop - Tracking Speed Bonus
-895,1,15479,84,2,62,0,0,0,15,Standard Exile - Armor Repair Bonus
+895,1,15479,84,2,62;1199,0,0,0,15,Standard Exile - Armor Repair Bonus
 294,1,15460,54,2,55;53;74,0,0,0,15,Standard Frentix - Turret Optimal Range Bonus
 1079,1,15463,482,3,6,0,0,0,15,Standard Mindflood - Capacitor Bonus
 349,1,10164,158,2,55;53;74,0,0,0,15,Standard Soothsayer - Turret Falloff Bonus
 554,1,15457,552,3,6,0,0,0,15,Standard Xinstict - Sig Radius Bonus
-548,1,10156,68,2,40,0,0,0,15,Strong Blue Pill - Shield Boost Bonus
+548,1,10156,68,2,40;1156,0,0,0,15,Strong Blue Pill - Shield Boost Bonus
 848,1,10152,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Strong Crash - Explosion Radius Bonus
 767,1,15478,160,2,55;53;74,0,0,0,15,Strong Drop - Tracking Speed Bonus
-895,1,25349,84,2,62,0,0,0,15,Strong Exile - Armor Repair Bonus
+895,1,25349,84,2,62;1199,0,0,0,15,Strong Exile - Armor Repair Bonus
 294,1,15462,54,2,55;53;74,0,0,0,15,Strong Frentix - Turret Optimal Range Bonus
 1079,1,15465,482,3,6,0,0,0,15,Strong Mindflood - Capacitor Bonus
 349,1,10166,158,2,55;53;74,0,0,0,15,Strong Soothsayer - Turret Falloff Bonus
 554,1,15459,552,3,6,0,0,0,15,Strong Xinstict - Sig Radius Bonus
-548,1,28670,68,2,40,0,0,0,15,Synth Blue Pill - Shield Boost Bonus
+548,1,28670,68,2,40;1156,0,0,0,15,Synth Blue Pill - Shield Boost Bonus
 848,1,28672,654,2,654;656;655;653;648;657;772;476;1019;386;396;395;394;385;384;387;89,0,0,0,15,Synth Crash - Explosion Radius Bonus
 767,1,28674,160,2,55;53;74,0,0,0,15,Synth Drop - Tracking Speed Bonus
-895,1,28676,84,2,62,0,0,0,15,Synth Exile - Armor Repair Bonus
+895,1,28676,84,2,62;1199,0,0,0,15,Synth Exile - Armor Repair Bonus
 294,1,28678,54,2,55;53;74,0,0,0,15,Synth Frentix - Turret Optimal Range Bonus
 1079,1,28680,482,3,6,0,0,0,15,Synth Mindflood - Capacitor Bonus
 349,1,28684,158,2,55;53;74,0,0,0,15,Synth Soothsayer - Turret Falloff Bonus

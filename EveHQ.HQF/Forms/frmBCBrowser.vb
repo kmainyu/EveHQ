@@ -579,15 +579,15 @@ Public Class frmBCBrowser
         Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
         Dim sModule As New ShipModule
         Select Case CInt(slotInfo(0))
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 sModule = currentFitting.FittedShip.RigSlot(CInt(slotInfo(1)))
-            Case 2 ' Low
+            Case SlotTypes.Low
                 sModule = currentFitting.FittedShip.LowSlot(CInt(slotInfo(1)))
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 sModule = currentFitting.FittedShip.MidSlot(CInt(slotInfo(1)))
-            Case 8 ' High
+            Case SlotTypes.High
                 sModule = currentFitting.FittedShip.HiSlot(CInt(slotInfo(1)))
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 sModule = currentFitting.FittedShip.SubSlot(CInt(slotInfo(1)))
         End Select
         Dim showInfo As New frmShowInfo

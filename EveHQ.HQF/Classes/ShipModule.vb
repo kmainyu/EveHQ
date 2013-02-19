@@ -26,25 +26,61 @@ Imports System.Runtime.Serialization
 #Region "Constants"
     ' itemIDs (see invTypes)
     Public Const Item_CommandProcessorI As String = "11014"
+    Public Const Item_LegionCovertReconfiguration As String = "30120"
+    Public Const Item_LegionWarfareProcessor As String = "29967"
+    Public Const Item_LokiCovertReconfiguration As String = "30135"
+    Public Const Item_LokiWarfareProcessor As String = "29977"
+    Public Const Item_NaniteRepairPaste As String = "28668"
+    Public Const Item_ProteusCovertReconfiguration As String = "30130"
+    Public Const Item_ProteusWarfareProcessor As String = "29982"
     Public Const Item_SiegeModuleI As String = "20280"
     Public Const Item_SiegeModuleII As String = "4292"
+    Public Const Item_TenguCovertReconfiguration As String = "30125"
+    Public Const Item_TenguWarfareProcessor As String = "29972"
     Public Const Item_TriageModuleI As String = "27951"
     Public Const Item_TriageModuleII As String = "4294"
 
     ' categoryIDs (see invCategories)
+    Public Const Category_Celestials As String = "2"
+    Public Const Category_Charges As String = "8"
+    Public Const Category_Drones As String = "18"
+    Public Const Category_Implants As String = "20"
     Public Const Category_Subsystems As String = "32"
 
     ' groupIDs (see invGroups)
+    Public Const Group_ArmorRepairers As String = "62"
+    Public Const Group_ArmorResistShiftHardener As String = "1150"
     Public Const Group_BombLaunchers As String = "862"
+    Public Const Group_Boosters As String = "303"
+    Public Const Group_CapBoosters As String = "76"
+    Public Const Group_CloakingDevices As String = "330"
+    Public Const Group_CynosuralFields As String = "658"
+    Public Const Group_DamageControls As String = "60"
+    Public Const Group_DNAMutators As String = "304"
+    Public Const Group_EnergyNeutralizers As String = "71"
+    Public Const Group_EnergyNeutralizerDrones As String = "544"
+    Public Const Group_EnergyTransfers As String = "67"
     Public Const Group_EnergyTurrets As String = "53"
+    Public Const Group_EnergyVampires As String = "68"
+    Public Const Group_FueledArmorRepairers As String = "1199"
+    Public Const Group_FueledShieldBoosters As String = "1156"
     Public Const Group_GangLinks As String = "316"
+    Public Const Group_HullRepairers As String = "63"
     Public Const Group_HybridTurrets As String = "74"
+    Public Const Group_LogisticDrones As String = "640"
     Public Const Group_MiningDrones As String = "101"
+    Public Const Group_ProbeLaunchers As String = "481"
     Public Const Group_ProjectileTurrets As String = "55"
+    Public Const Group_RemoteArmorRepairers As String = "325"
+    Public Const Group_RemoteHullRepairers As String = "585"
+    Public Const Group_ShieldBoosters As String = "40"
+    Public Const Group_ShieldTransporters As String = "41"
     Public Const Group_Smartbombs As String = "72"
+    Public Const Group_StrategicCruisers As String = "963"
 
     ' marketGroupIDs (see invMarketGroups)
     Public Const Marketgroup_IceHarvesters As String = "1038"
+    Public Const Marketgroup_MiningDrones As String = "158"
     Public Const Marketgroup_MiningLasers As String = "1039"
     Public Const Marketgroup_OrbitalEnergyAmmo As String = "1599"
     Public Const Marketgroup_OrbitalHybridAmmo As String = "1600"
@@ -485,59 +521,60 @@ Imports System.Runtime.Serialization
 #Region "Map Attributes to Properties"
     Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
         Dim attValue As Double = 0
+        Dim attributes As New Attributes
         ' Amend for remote effects capacitor use
         If (newModule.ModuleState And 16) = 16 Then
             Select Case newModule.DatabaseGroup
-                Case "67" ' Energy Transfer Array
-                    newModule.Attributes("6") = CDbl(newModule.Attributes("90")) * -1
-                Case "68" ' Energy Vampire
-                    newModule.Attributes("6") = CDbl(newModule.Attributes("90"))
-                Case "71" ' Energy Neutraliser
-                    newModule.Attributes("6") = CDbl(newModule.Attributes("97"))
-                Case "544" ' Energy Neutraliser Drones
-                    newModule.Attributes("6") = CDbl(newModule.Attributes("97"))
+                Case ShipModule.Group_EnergyTransfers
+                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_PowerTransferAmount)) * -1
+                Case ShipModule.Group_EnergyVampires
+                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_PowerTransferAmount))
+                Case ShipModule.Group_EnergyNeutralizers
+                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_EnergyNeutAmount))
+                Case ShipModule.Group_EnergyNeutralizerDrones
+                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_EnergyNeutAmount))
                 Case Else
-                    newModule.Attributes("6") = 0
+                    newModule.Attributes(attributes.Module_CapacitorNeed) = 0
             End Select
         End If
         ' Parse values
         For Each att As String In newModule.Attributes.Keys
             attValue = CDbl(newModule.Attributes(att))
-            Select Case CInt(att)
-                Case 6
+            Select Case att
+                Case attributes.Module_CapacitorNeed
                     newModule.CapUsage = attValue
-                Case 30
+                Case attributes.Module_PowergridUsage
                     newModule.PG = attValue
-                Case 50
+                Case attributes.Module_CpuUsage
                     newModule.CPU = attValue
-                Case 73
+                Case attributes.Module_ActivationTime
                     newModule.ActivationTime = attValue
-                Case 1153
+                Case attributes.Module_CalibrationCost
                     newModule.Calibration = CInt(attValue)
             End Select
         Next
-        If newModule.Attributes.ContainsKey("10032") = True Then
-            If newModule.Attributes.ContainsKey("51") = True Then
-                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("51"))
-            ElseIf newModule.Attributes.ContainsKey("10011") = True Then
-                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10011"))
-            ElseIf newModule.Attributes.ContainsKey("10012") = True Then
-                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10012"))
-            ElseIf newModule.Attributes.ContainsKey("10013") = True Then
-                newModule.Attributes("10032") = newModule.CapUsage / CDbl(newModule.Attributes("10013"))
+        If newModule.Attributes.ContainsKey(attributes.Module_CapUsageRate) = True Then
+            If newModule.Attributes.ContainsKey(attributes.Module_ROF) = True Then
+                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_ROF))
+            ElseIf newModule.Attributes.ContainsKey(attributes.Module_EnergyROF) = True Then
+                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_EnergyROF))
+            ElseIf newModule.Attributes.ContainsKey(attributes.Module_HybridROF) = True Then
+                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_HybridROF))
+            ElseIf newModule.Attributes.ContainsKey(attributes.Module_ProjectileROF) = True Then
+                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_ProjectileROF))
             Else
-                newModule.Attributes("10032") = newModule.CapUsage / newModule.ActivationTime
+                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / newModule.ActivationTime
             End If
-            newModule.CapUsageRate = CDbl(newModule.Attributes("10032"))
+            newModule.CapUsageRate = CDbl(newModule.Attributes(attributes.Module_CapUsageRate))
         End If
-        If newModule.Attributes.ContainsKey("77") = True Then
-            Select Case CInt(newModule.MarketGroup)
-                Case 1038 ' Ice Mining
-                    newModule.Attributes("10041") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
-                Case 1039, 1040 ' Ore Mining
-                    newModule.Attributes("10039") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
-                Case 158 ' Mining Drone
-                    newModule.Attributes("10040") = CDbl(newModule.Attributes("77")) / CDbl(newModule.Attributes("73"))
+        If newModule.Attributes.ContainsKey(attributes.Module_MiningAmount) = True Then
+            Select Case newModule.MarketGroup
+                Case ShipModule.Marketgroup_IceHarvesters
+                    newModule.Attributes(attributes.Module_TurretIceMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
+                Case ShipModule.Marketgroup_MiningLasers, ShipModule.Marketgroup_StripMiners
+                    newModule.Attributes(attributes.Module_TurretOreMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
+                Case ShipModule.Marketgroup_MiningDrones
+                    newModule.Attributes(attributes.Module_DroneOreMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
             End Select
         End If
     End Sub

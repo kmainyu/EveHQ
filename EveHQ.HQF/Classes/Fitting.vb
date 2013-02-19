@@ -1077,6 +1077,15 @@ Imports EveHQ.Core
                                     processData = True
                                 End If
                         End Select
+                        ' Check for Ancillary Armor Repairer charge because Nanite Repair Paste has no effect-mappable attribute
+                        Dim cause As String = ""
+                        If aModule.DatabaseGroup = ShipModule.Group_FueledArmorRepairers And att = Attributes.Module_ArmorBoostedRepairMultiplier Then
+                            If aModule.LoadedCharge Is Nothing Then
+                                processData = False
+                            Else
+                                cause = aModule.LoadedCharge.Name
+                            End If
+                        End If
                         If processData = True And (aModule.ModuleState And chkEffect.Status) = aModule.ModuleState Then
                             fEffect = New FinalEffect
                             fEffect.AffectedAtt = chkEffect.AffectedAtt
@@ -1088,7 +1097,7 @@ Imports EveHQ.Core
                             End If
                             fEffect.AffectedValue = aModule.Attributes(att)
                             fEffect.StackNerf = chkEffect.StackNerf
-                            fEffect.Cause = aModule.Name
+                            fEffect.Cause = If(cause = "", aModule.Name, cause)
                             fEffect.CalcType = chkEffect.CalcType
                             If ModuleEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                 fEffectList = New List(Of FinalEffect)
@@ -1319,7 +1328,7 @@ Imports EveHQ.Core
             End If
         Next
         ' Reset max gang links status
-        newShip.Attributes("10063") = 1
+        newShip.Attributes(Attributes.Ship_MaxGangLinks) = 1
         'If newShip.Attributes.ContainsKey("435") = True Then
         '    newShip.Attributes("10063") = newShip.Attributes("10063") + Me.BaseShip.Attributes("435")
         'End If
@@ -1906,40 +1915,40 @@ Imports EveHQ.Core
         Dim sRP, sRA, aR, hR As Double
         For Each cModule As ShipModule In newShip.SlotCollection
             ' Calculate shield boosting
-            If (cModule.DatabaseGroup = "40" Or cModule.DatabaseGroup = "1156") And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                sRA = sRA + cModule.Attributes("68") / cModule.Attributes("73")
+            If (cModule.DatabaseGroup = ShipModule.Group_ShieldBoosters Or cModule.DatabaseGroup = ShipModule.Group_FueledShieldBoosters) And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                sRA = sRA + cModule.Attributes(Attributes.Module_ShieldHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
             End If
             ' Calculate remote shield boosting
-            If cModule.DatabaseGroup = "41" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                sRA = sRA + cModule.Attributes("68") / cModule.Attributes("73")
+            If cModule.DatabaseGroup = ShipModule.Group_ShieldTransporters And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                sRA = sRA + cModule.Attributes(Attributes.Module_ShieldHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
             End If
             ' Calculate shield maintenance drones
-            If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                If cModule.Attributes.ContainsKey("68") Then
-                    sRA = sRA + cModule.Attributes("68") / cModule.Attributes("73")
+            If cModule.DatabaseGroup = ShipModule.Group_LogisticDrones And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                If cModule.Attributes.ContainsKey(Attributes.Module_ShieldHPRepaired) Then
+                    sRA = sRA + cModule.Attributes(Attributes.Module_ShieldHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
                 End If
             End If
             ' Calculate armor repairing
-            If cModule.DatabaseGroup = "62" And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                aR = aR + cModule.Attributes("84") / cModule.Attributes("73")
+            If (cModule.DatabaseGroup = ShipModule.Group_ArmorRepairers Or cModule.DatabaseGroup = ShipModule.Group_FueledArmorRepairers) And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                aR = aR + cModule.Attributes(Attributes.Module_ArmorHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
             End If
             ' Calculate remote armor repairing
-            If cModule.DatabaseGroup = "325" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                aR = aR + cModule.Attributes("84") / cModule.Attributes("73")
+            If cModule.DatabaseGroup = ShipModule.Group_RemoteArmorRepairers And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                aR = aR + cModule.Attributes(Attributes.Module_ArmorHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
             End If
             ' Calculate armor maintenance drones
-            If cModule.DatabaseGroup = "640" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                If cModule.Attributes.ContainsKey("84") Then
-                    aR = aR + cModule.Attributes("84") / cModule.Attributes("73")
+            If cModule.DatabaseGroup = ShipModule.Group_LogisticDrones And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                If cModule.Attributes.ContainsKey(Attributes.Module_ArmorHPRepaired) Then
+                    aR = aR + cModule.Attributes(Attributes.Module_ArmorHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
                 End If
             End If
             ' Calculate hull repairing
-            If cModule.DatabaseGroup = "63" And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                hR = hR + cModule.Attributes("83") / cModule.Attributes("73")
+            If cModule.DatabaseGroup = ShipModule.Group_HullRepairers And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                hR = hR + cModule.Attributes(Attributes.Module_HullHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
             End If
             ' Calculate remote hull repairing
-            If cModule.DatabaseGroup = "585" And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                hR = hR + cModule.Attributes("83") / cModule.Attributes("73")
+            If cModule.DatabaseGroup = ShipModule.Group_RemoteHullRepairers And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                hR = hR + cModule.Attributes(Attributes.Module_HullHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
             End If
         Next
         sRP = (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
@@ -1948,15 +1957,15 @@ Imports EveHQ.Core
         Dim sTP As Double = sRP / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
         Dim aT As Double = aR / ((newShip.DamageProfileEM * (1 - newShip.ArmorEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ArmorExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ArmorKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ArmorThResist / 100)))
         Dim hT As Double = hR / ((newShip.DamageProfileEM * (1 - newShip.StructureEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.StructureExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.StructureKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.StructureThResist / 100)))
-        newShip.Attributes("10059") = sTA
-        newShip.Attributes("10060") = aT
-        newShip.Attributes("10061") = hT
-        newShip.Attributes("10062") = Math.Max(sTA + sTP, sTA + aT + hT)
-        newShip.Attributes("10069") = sTP
-        newShip.Attributes("10065") = sRA + sRP
-        newShip.Attributes("10066") = aR
-        newShip.Attributes("10067") = hR
-        newShip.Attributes("10068") = sRA + sRP + aR + hR
+        newShip.Attributes(Attributes.Ship_ShieldTankActive) = sTA
+        newShip.Attributes(Attributes.Ship_ArmorTank) = aT
+        newShip.Attributes(Attributes.Ship_HullTank) = hT
+        newShip.Attributes(Attributes.Ship_TankMax) = Math.Max(sTA + sTP, sTA + aT + hT)
+        newShip.Attributes(Attributes.Ship_ShieldTankPassive) = sTP
+        newShip.Attributes(Attributes.Ship_ShieldRepair) = sRA + sRP
+        newShip.Attributes(Attributes.Ship_ArmorRepair) = aR
+        newShip.Attributes(Attributes.Ship_HullRepair) = hR
+        newShip.Attributes(Attributes.Ship_RepairTotal) = sRA + sRP + aR + hR
     End Sub
 #End Region
 
@@ -2397,15 +2406,15 @@ Imports EveHQ.Core
         If slotNo <> 0 Then
             Dim LoadedModule As New ShipModule
             Select Case shipMod.SlotType
-                Case SlotTypes.Rig  ' Rig
+                Case SlotTypes.Rig
                     LoadedModule = BaseShip.RigSlot(slotNo)
-                Case SlotTypes.Low  ' Low
+                Case SlotTypes.Low
                     LoadedModule = BaseShip.LowSlot(slotNo)
-                Case SlotTypes.Mid  ' Mid
+                Case SlotTypes.Mid
                     LoadedModule = BaseShip.MidSlot(slotNo)
-                Case SlotTypes.High  ' High
+                Case SlotTypes.High
                     LoadedModule = BaseShip.HiSlot(slotNo)
-                Case SlotTypes.Subsystem  ' Subsystem
+                Case SlotTypes.Subsystem
                     LoadedModule = BaseShip.SubSlot(slotNo)
             End Select
             If LoadedModule IsNot Nothing Then
@@ -2696,7 +2705,7 @@ Imports EveHQ.Core
         End If
 
         ' Check for Rig restrictions
-        If shipMod.SlotType = 1 Then
+        If shipMod.SlotType = SlotTypes.Rig Then
             If shipMod.Attributes.ContainsKey(Attributes.Module_RigSize) Then
                 If CInt(shipMod.Attributes(Attributes.Module_RigSize)) <> CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize)) Then
                     Dim requiredSize As String = ""
@@ -2723,32 +2732,74 @@ Imports EveHQ.Core
 
         ' Check for ship group restrictions
         Dim ShipGroups As New ArrayList
-        For att As Integer = 1298 To 1301
-            If shipMod.Attributes.ContainsKey(att.ToString) = True Then
-                ShipGroups.Add(CStr(shipMod.Attributes(att.ToString)))
+        Dim shipGroupAttributes() As String = {Attributes.Module_CanFitShipGroup1, Attributes.Module_CanFitShipGroup2, Attributes.Module_CanFitShipGroup3, Attributes.Module_CanFitShipGroup4, Attributes.Module_CanFitShipGroup5, Attributes.Module_CanFitShipGroup6, Attributes.Module_CanFitShipGroup7, Attributes.Module_CanFitShipGroup8}
+        For Each att As String In shipGroupAttributes
+            If shipMod.Attributes.ContainsKey(att) = True Then
+                ShipGroups.Add(CStr(shipMod.Attributes(att)))
             End If
         Next
-        If ShipGroups.Count > 0 And ShipGroups.Contains(Me.BaseShip.DatabaseGroup) = False Then
-            If search = False Then
-                MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
-            Return False
-        End If
-        ShipGroups.Clear()
-
         ' Check for ship type restrictions
         Dim ShipTypes As New ArrayList
-        For att As Integer = 1302 To 1305
-            If shipMod.Attributes.ContainsKey(att.ToString) = True Then
-                ShipTypes.Add(CStr(shipMod.Attributes(att.ToString)))
+        Dim shipTypeAttributes() As String = {Attributes.Module_CanFitShipType1, Attributes.Module_CanFitShipType2, Attributes.Module_CanFitShipType3, Attributes.Module_CanFitShipType4}
+        For Each att As String In shipTypeAttributes
+            If shipMod.Attributes.ContainsKey(att) = True Then
+                ShipTypes.Add(CStr(shipMod.Attributes(att)))
             End If
         Next
-        If ShipTypes.Count > 0 And ShipTypes.Contains(Me.BaseShip.ID) = False Then
+        ' Apply ship group and type restrictions
+        If ShipGroups.Count > 0 Then
+            If ShipGroups.Contains(Me.BaseShip.DatabaseGroup) = False Then
+                If ShipTypes.Contains(Me.BaseShip.ID) = False Then
+                    If search = False Then
+                        MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                    Return False
+                End If
+            ElseIf Me.BaseShip.DatabaseGroup = ShipModule.Group_StrategicCruisers Then
+                ' Check for correct subsystems
+                Dim allowed As Boolean = False
+                Dim subID As String = ""
+                If shipMod.DatabaseGroup = ShipModule.Group_GangLinks Then
+                    For slotNo As Integer = 1 To 5
+                        If Me.BaseShip.SubSlot(slotNo) IsNot Nothing Then
+                            subID = Me.BaseShip.SubSlot(slotNo).ID
+                            If subID = ShipModule.Item_LegionWarfareProcessor Or subID = ShipModule.Item_LokiWarfareProcessor Or subID = ShipModule.Item_ProteusWarfareProcessor Or subID = ShipModule.Item_TenguWarfareProcessor Then
+                                allowed = True
+                                Exit For
+                            End If
+                        End If
+                    Next
+                    If allowed = False Then
+                        If search = False Then
+                            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & " without Warfare Processor subsystem.", "Subsystem Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                        Return False
+                    End If
+                ElseIf shipMod.DatabaseGroup = ShipModule.Group_CloakingDevices Or shipMod.DatabaseGroup = ShipModule.Group_CynosuralFields Then
+                    For slotNo As Integer = 1 To 5
+                        If Me.BaseShip.SubSlot(slotNo) IsNot Nothing Then
+                            subID = Me.BaseShip.SubSlot(slotNo).ID
+                            If subID = ShipModule.Item_LegionCovertReconfiguration Or subID = ShipModule.Item_LokiCovertReconfiguration Or subID = ShipModule.Item_ProteusCovertReconfiguration Or subID = ShipModule.Item_TenguCovertReconfiguration Then
+                                allowed = True
+                                Exit For
+                            End If
+                        End If
+                    Next
+                    If allowed = False Then
+                        If search = False Then
+                            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & " without Covert Reconfiguration subsystem.", "Subsystem Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                        Return False
+                    End If
+                End If
+            End If
+        ElseIf ShipTypes.Count > 0 And ShipTypes.Contains(Me.BaseShip.ID) = False Then
             If search = False Then
                 MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             Return False
         End If
+        ShipGroups.Clear()
 
         ' Check for maxGroupFitted flag
         If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupFitted) = True Then
