@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.IO
+Imports System.Windows.Forms
 
 <Serializable()> Public Class DefenceProfile
     Public Name As String
@@ -78,10 +79,19 @@ End Class
     Public Shared Sub LoadProfiles()
         ' Check for the profiles file so we can load it
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            DefenceProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
-            s.Close()
+            Dim s As FileStream
+            Try
+                s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                DefenceProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
+            Catch ex As Exception
+                MessageBox.Show("There was a problem reading the DefenceProfiles data file. It appears to be corrupt. A new file will be created, however any customizations to the current one are lost.")
+                ' Need to create the profiles file and the standard custom profile (omni-damage)
+                Call DamageProfiles.ResetDamageProfiles()
+            Finally
+                s.Close()
+            End Try
+
         Else
             ' Need to create the profiles file and the standard custom profile (omni-damage)
             Call DamageProfiles.ResetDamageProfiles()

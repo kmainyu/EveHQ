@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Windows.Forms
 
 ''' <summary>
 ''' Class used to serialize fittings onto storage
@@ -36,10 +37,20 @@ Imports System.Runtime.Serialization.Formatters.Binary
         ' Load the fittings from the binary file
         Fittings.FittingList.Clear()
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            SavedFittingList = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
-            s.Close()
+            Dim s As FileStream
+            Try
+                s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                SavedFittingList = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
+
+
+            Catch ex As Exception
+                MessageBox.Show("There was an error loading the Fittings file. The file appears corrupt, so it cannot be loaded at this time.")
+            Finally
+
+                s.Close()
+            End Try
+            
         End If
         ' Copy the saved fittings ready for use
         Call CopySavedFittings()

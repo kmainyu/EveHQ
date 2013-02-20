@@ -2205,6 +2205,9 @@ Public Class DataFunctions
 
                 If UseCoreCache = True Then
 
+                    Try
+                        ' Try to load from cache... in the event of a corrupt cache file, drop & rebuild
+                    
                     ' Get files from dump
                     Dim s As FileStream
                     Dim f As BinaryFormatter
@@ -2304,7 +2307,11 @@ Public Class DataFunctions
                     EveHQ.Core.DataFunctions.LoadCustomPricesFromDB()
 
                     Return True
+                    Catch ex As Exception
+                        ' todo log
+                        Return False
 
+                    End Try
                 Else
                     Return False
                 End If

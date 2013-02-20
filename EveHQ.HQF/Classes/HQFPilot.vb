@@ -199,10 +199,18 @@ End Class
 
     Public Shared Sub LoadHQFPilotData()
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
+            Dim s As FileStream
+            Try
+            s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter
-            HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
-            s.Close()
+                HQFPilotCollection.HQFPilots = CType(f.Deserialize(s), SortedList)
+            Catch ex As Exception
+                MessageBox.Show("There was an loading the pilot settings file. It appears to be corrupted. A new file will be created however the old data is lost.")
+                HQFPilots = New SortedList
+            Finally
+                s.Close()
+            End Try
+
         End If
     End Sub
 
