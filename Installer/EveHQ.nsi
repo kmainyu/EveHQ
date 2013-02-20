@@ -164,6 +164,14 @@ SectionEnd
 Function .onInit
 
 #uninstall the msi versions.
+
+#2.11.7
+push $R0
+  StrCpy $R0 {8A5A8461-7E46-4467-9C52-AF89D713A255}
+  Call UninstallMSI
+pop $R0
+
+
 #2.11.6
 push $R0
   StrCpy $R0 {0613D880-939E-4C9D-AD7C-A10DF7D7D5E9}

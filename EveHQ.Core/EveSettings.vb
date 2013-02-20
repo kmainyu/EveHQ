@@ -194,9 +194,9 @@ Public Class EveSettings
     Private cMarketDataSource As MarketSite = MarketSite.EveMarketeer
 
     Private _marketDataProvider As String
-    Private _marketRegions As List(Of Int32)
+    Private _marketRegions As New List(Of Int32)
     Private _marketSystem As Integer = 30000142 'Safe Default of Jita
-    Private _marketUseRegionMarket As Boolean
+    Private _marketUseRegionMarket As Boolean = False
     Private _marketDefaultMetric As MarketMetric
     Private _marketDataUploadEnabled As Boolean = False
 
