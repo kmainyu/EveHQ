@@ -4785,7 +4785,11 @@ Public Class frmPrism
             Dim TransItem As Node = adtTransactions.SelectedNodes(0)
             Dim ItemName As String = TransItem.Cells(1).Text
             mnuTransactionModifyPrice.Text = "Modify Custom Price of " & ItemName
-            mnuTransactionModifyPrice.Tag = EveHQ.Core.HQ.itemList(ItemName)
+            If EveHQ.Core.HQ.itemList.ContainsKey(ItemName) Then
+                mnuTransactionModifyPrice.Tag = EveHQ.Core.HQ.itemList(ItemName)
+            Else
+                MessageBox.Show("There was a mismatch of expected data. '" & ItemName & "' was not found in the collection of items.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         End If
     End Sub
 
