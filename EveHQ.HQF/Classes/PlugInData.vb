@@ -755,20 +755,27 @@ Public Class PlugInData
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case Attributes.Ship_ReqSkill1Level
                                 Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(pSkillName), ItemSkills)
-                                cSkill.Level = CInt(attValue)
+                                If cSkill IsNot Nothing Then
+                                    cSkill.Level = CInt(attValue)
+                                End If
+
                             Case Attributes.Ship_ReqSkill2Level
                                 Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(sSkillName), ItemSkills)
-                                cSkill.Level = CInt(attValue)
+                                If cSkill IsNot Nothing Then
+                                    cSkill.Level = CInt(attValue)
+                                End If
                             Case Attributes.Ship_ReqSkill3Level
                                 Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(tSkillName), ItemSkills)
-                                cSkill.Level = CInt(attValue)
+                                If cSkill IsNot Nothing Then
+                                    cSkill.Level = CInt(attValue)
+                                End If
                         End Select
                         lastShipName = shipRow.Item("typeName").ToString
                     Next
                     ' Add the custom attributes to the list
                     Call newShip.AddCustomShipAttributes()
                     ' Map the remaining attributes for the last ship type
-                    Ship.MapShipAttributes(newShip)              
+                    Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
                     ShipLists.shipList.Add(newShip.Name, newShip)
                     Return True
@@ -959,51 +966,51 @@ Public Class PlugInData
                             End If
                         End If
                 End Select
-			Next
+            Next
 
             ' Fill in the blank market groups now the list is complete
-			Dim modName As String = ""
-			Dim modID As String = ""
-			Dim parentID As String = ""
-			Dim nModule As New ShipModule
-			Dim eModule As New ShipModule
-			For setNo As Integer = 0 To 1
-				For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
-					If IsDBNull(row.Item("marketGroupID")) = True Then
-						modID = row.Item("typeID").ToString
-						nModule = CType(ModuleLists.moduleList(modID), ShipModule)
-						If ModuleLists.moduleMetaTypes.Contains(modID) = True Then
-							parentID = ModuleLists.moduleMetaTypes(modID).ToString
-							eModule = CType(ModuleLists.moduleList(parentID), ShipModule)
-							nModule.MarketGroup = eModule.MarketGroup
-						End If
-					End If
-				Next
-			Next
+            Dim modName As String = ""
+            Dim modID As String = ""
+            Dim parentID As String = ""
+            Dim nModule As New ShipModule
+            Dim eModule As New ShipModule
+            For setNo As Integer = 0 To 1
+                For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
+                    If IsDBNull(row.Item("marketGroupID")) = True Then
+                        modID = row.Item("typeID").ToString
+                        nModule = CType(ModuleLists.moduleList(modID), ShipModule)
+                        If ModuleLists.moduleMetaTypes.Contains(modID) = True Then
+                            parentID = ModuleLists.moduleMetaTypes(modID).ToString
+                            eModule = CType(ModuleLists.moduleList(parentID), ShipModule)
+                            nModule.MarketGroup = eModule.MarketGroup
+                        End If
+                    End If
+                Next
+            Next
 
-			' Search for changes/additions to the market groups from resources
-			Dim marketChanges As String = My.Resources.newItemMarketGroup.ToString
-			Dim changeLines As String() = marketChanges.Split(ControlChars.CrLf.ToCharArray)
-			For Each marketChange As String In changeLines
-				If marketChange.Trim <> "" Then
-					Dim changeData() As String = marketChange.Split(",".ToCharArray)
-					Dim typeID As String = changeData(0)
-					Dim marketGroupID As String = changeData(1)
-					Dim metaTypeID As Integer = CInt(changeData(2))
-					If ModuleLists.moduleList.ContainsKey(typeID) = True Then
-						Dim mModule As ShipModule = CType(ModuleLists.moduleList(typeID), ShipModule)
-						mModule.MarketGroup = marketGroupID
-						If metaTypeID <> 0 Then
-							mModule.MetaType = metaTypeID
-						End If
-					End If
-				End If
-			Next
-			Return BuildModuleEffectData()
-		Catch e As Exception
-			MessageBox.Show("Error building Module Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-			Return False
-		End Try
+            ' Search for changes/additions to the market groups from resources
+            Dim marketChanges As String = My.Resources.newItemMarketGroup.ToString
+            Dim changeLines As String() = marketChanges.Split(ControlChars.CrLf.ToCharArray)
+            For Each marketChange As String In changeLines
+                If marketChange.Trim <> "" Then
+                    Dim changeData() As String = marketChange.Split(",".ToCharArray)
+                    Dim typeID As String = changeData(0)
+                    Dim marketGroupID As String = changeData(1)
+                    Dim metaTypeID As Integer = CInt(changeData(2))
+                    If ModuleLists.moduleList.ContainsKey(typeID) = True Then
+                        Dim mModule As ShipModule = CType(ModuleLists.moduleList(typeID), ShipModule)
+                        mModule.MarketGroup = marketGroupID
+                        If metaTypeID <> 0 Then
+                            mModule.MetaType = metaTypeID
+                        End If
+                    End If
+                End If
+            Next
+            Return BuildModuleEffectData()
+        Catch e As Exception
+            MessageBox.Show("Error building Module Data: " & e.Message, "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End Try
     End Function
     Private Function BuildModuleEffectData() As Boolean
         Try
@@ -2028,7 +2035,7 @@ Public Class PlugInData
         ' Remove any query string to analyse later
         Dim parts() As String = DNA.Split("?".ToCharArray)
         Dim mods() As String = parts(0).Split(":".ToCharArray)
-       
+
         ShipDNA.ShipID = mods(0)
         For modNo As Integer = 1 To mods.Length - 1
             Dim modData() As String = mods(modNo).Split("*".ToCharArray)
