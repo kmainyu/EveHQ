@@ -9,7 +9,7 @@ SetCompressor /solid lzma
 !include SQLCE40.nsh
 !include Upgrade.nsh
 
-
+ 
 Name "EveHQ"
 OutFile "EveHQ-Setup.exe"
 
