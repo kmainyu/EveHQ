@@ -481,7 +481,7 @@
 #317,1,27213,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX1000
 #317,1,27215,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX2000
 #317,1,27214,6,4,600,0,0,0,Shield,Hardwiring - Zainou 'Sprite' KXX500
-806,1,32254,84,2,62,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
+806,1,32254,84,4,1049;1050;1051,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
 1083,1,32254,265,3,6,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
 1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
 309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink

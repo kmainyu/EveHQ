@@ -307,7 +307,7 @@ Public Class frmMetaVariations
                 End If
 
                 Select Case cBaseModule.SlotType
-                    Case SlotTypes.Rig  ' Rig
+                    Case SlotTypes.Rig
                         For slot As Integer = 1 To cActiveFitting.BaseShip.RigSlots
                             If cActiveFitting.BaseShip.RigSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.RigSlot(slot).Name = cBaseModule.Name Then
@@ -316,7 +316,7 @@ Public Class frmMetaVariations
                                 End If
                             End If
                         Next
-                    Case SlotTypes.Low  ' Low
+                    Case SlotTypes.Low
                         For slot As Integer = 1 To cActiveFitting.BaseShip.LowSlots
                             If cActiveFitting.BaseShip.LowSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.LowSlot(slot).Name = cBaseModule.Name Then
@@ -325,7 +325,7 @@ Public Class frmMetaVariations
                                 End If
                             End If
                         Next
-                    Case SlotTypes.Mid  ' Mid
+                    Case SlotTypes.Mid
                         For slot As Integer = 1 To cActiveFitting.BaseShip.MidSlots
                             If cActiveFitting.BaseShip.MidSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.MidSlot(slot).Name = cBaseModule.Name Then
@@ -334,7 +334,7 @@ Public Class frmMetaVariations
                                 End If
                             End If
                         Next
-                    Case SlotTypes.High  ' High
+                    Case SlotTypes.High
                         For slot As Integer = 1 To cActiveFitting.BaseShip.HiSlots
                             If cActiveFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.HiSlot(slot).Name = cBaseModule.Name Then
@@ -343,7 +343,7 @@ Public Class frmMetaVariations
                                 End If
                             End If
                         Next
-                    Case SlotTypes.Subsystem    ' Subsystem
+                    Case SlotTypes.Subsystem
                         For slot As Integer = 1 To cActiveFitting.BaseShip.SubSlots
                             If cActiveFitting.BaseShip.SubSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.SubSlot(slot).Name = cBaseModule.Name Then
@@ -355,7 +355,7 @@ Public Class frmMetaVariations
                 End Select
                 cActiveFitting.ShipSlotCtrl.UpdateHistory()
 
-                If CDbl(cBaseModule.DatabaseCategory) = 32 Then
+                If cBaseModule.DatabaseCategory = ShipModule.Category_Subsystems Then
                     cActiveFitting.BaseShip = cActiveFitting.BuildSubSystemEffects(cActiveFitting.BaseShip)
                     If cActiveFitting.ShipSlotCtrl IsNot Nothing Then
                         Call cActiveFitting.ShipSlotCtrl.UpdateShipSlotLayout()

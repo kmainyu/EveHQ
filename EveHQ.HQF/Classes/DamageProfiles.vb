@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.IO
+Imports System.Windows.Forms
 
 <Serializable()> Public Class DamageProfile
     Public Name As String
@@ -65,9 +66,15 @@ End Class
         ' Check for the profiles file so we can load it
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
             Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            DamageProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
-            s.Close()
+            Try
+                Dim f As BinaryFormatter = New BinaryFormatter
+                DamageProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
+            Catch ex As Exception
+                MessageBox.Show("The Damage Profiles file appears to be corrupt. A new file will be created, however any customizations will be lost.")
+                Call ResetDamageProfiles()
+            Finally
+                s.Close()
+            End Try
         Else
             ' Need to create the profiles file and the standard custom profile (omni-damage)
             Call DamageProfiles.ResetDamageProfiles()

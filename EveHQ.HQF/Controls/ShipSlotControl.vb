@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.ComponentModel
+Imports System.Windows.Forms
 Imports System.Drawing
 Imports EveHQ.Core
 Imports DevComponents.AdvTree
@@ -1327,15 +1328,15 @@ Public Class ShipSlotControl
                 Dim slotNo As Integer = CInt(slot.Name.Substring(sep + 1, 1))
                 Dim selMod As New ShipModule
                 Select Case slotType
-                    Case 1 ' Rig
+                    Case SlotTypes.Rig
                         selMod = ParentFitting.BaseShip.RigSlot(slotNo)
-                    Case 2 ' Low
+                    Case SlotTypes.Low
                         selMod = ParentFitting.BaseShip.LowSlot(slotNo)
-                    Case 4 ' Mid
+                    Case SlotTypes.Mid
                         selMod = ParentFitting.BaseShip.MidSlot(slotNo)
-                    Case 8 ' High
+                    Case SlotTypes.High
                         selMod = ParentFitting.BaseShip.HiSlot(slotNo)
-                    Case 16 ' Subsystem
+                    Case SlotTypes.Subsystem
                         selMod = ParentFitting.BaseShip.SubSlot(slotNo)
                 End Select
                 If selMod.LoadedCharge IsNot Nothing Then
@@ -1346,15 +1347,15 @@ Public Class ShipSlotControl
                                                    slotNo, "", ""))
                 End If
                 Select Case slotType
-                    Case 1 ' Rig
+                    Case SlotTypes.Rig
                         ParentFitting.BaseShip.RigSlot(slotNo) = Nothing
-                    Case 2 ' Low
+                    Case SlotTypes.Low
                         ParentFitting.BaseShip.LowSlot(slotNo) = Nothing
-                    Case 4 ' Mid
+                    Case SlotTypes.Mid
                         ParentFitting.BaseShip.MidSlot(slotNo) = Nothing
-                    Case 8 ' High
+                    Case SlotTypes.High
                         ParentFitting.BaseShip.HiSlot(slotNo) = Nothing
-                    Case 16 ' Subsystem
+                    Case SlotTypes.Subsystem
                         ParentFitting.BaseShip.SubSlot(slotNo) = Nothing
                         removedSubsystems = True
                 End Select
@@ -1387,21 +1388,21 @@ Public Class ShipSlotControl
             Dim slotNo As Integer = CInt(slot.Name.Substring(sep + 1, 1))
             Dim selMod As New ShipModule
             Select Case slotType
-                Case 1 ' Rig
+                Case SlotTypes.Rig
                     selMod = ParentFitting.BaseShip.RigSlot(slotNo)
-                Case 2 ' Low
+                Case SlotTypes.Low
                     selMod = ParentFitting.BaseShip.LowSlot(slotNo)
-                Case 4 ' Mid
+                Case SlotTypes.Mid
                     selMod = ParentFitting.BaseShip.MidSlot(slotNo)
-                Case 8 ' High
+                Case SlotTypes.High
                     selMod = ParentFitting.BaseShip.HiSlot(slotNo)
-                Case 16 ' Subsystem
+                Case SlotTypes.Subsystem
                     selMod = ParentFitting.BaseShip.SubSlot(slotNo)
             End Select
             ' Check for command processor usage
             If selMod IsNot Nothing Then
-                If selMod.ID = "11014" Then
-                    ParentFitting.BaseShip.Attributes("10063") -= 1
+                If selMod.ID = ShipModule.Item_CommandProcessorI Then
+                    ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) -= 1
 
                     ' Check if we need to deactivate a highslot ganglink
                     Dim ActiveGanglinks As New List(Of Integer)
@@ -1432,15 +1433,15 @@ Public Class ShipSlotControl
                     Me.UpdateHistory()
                 End If
                 Select Case slotType
-                    Case 1 ' Rig
+                    Case SlotTypes.Rig
                         ParentFitting.BaseShip.RigSlot(slotNo) = Nothing
-                    Case 2 ' Low
+                    Case SlotTypes.Low
                         ParentFitting.BaseShip.LowSlot(slotNo) = Nothing
-                    Case 4 ' Mid
+                    Case SlotTypes.Mid
                         ParentFitting.BaseShip.MidSlot(slotNo) = Nothing
-                    Case 8 ' High
+                    Case SlotTypes.High
                         ParentFitting.BaseShip.HiSlot(slotNo) = Nothing
-                    Case 16 ' Subsystem
+                    Case SlotTypes.Subsystem
                         ParentFitting.BaseShip.SubSlot(slotNo) = Nothing
                 End Select
                 adtSlots.BeginUpdate()
@@ -1484,15 +1485,15 @@ Public Class ShipSlotControl
                         Dim slotType As Integer = CInt(adtSlots.SelectedNodes(0).Name.Substring(0, sep))
                         Dim slotNo As Integer = CInt(adtSlots.SelectedNodes(0).Name.Substring(sep + 1, 1))
                         Select Case slotType
-                            Case 1 ' Rig
+                            Case SlotTypes.Rig
                                 currentMod = ParentFitting.BaseShip.RigSlot(slotNo)
-                            Case 2 ' Low
+                            Case SlotTypes.Low
                                 currentMod = ParentFitting.BaseShip.LowSlot(slotNo)
-                            Case 4 ' Mid
+                            Case SlotTypes.Mid
                                 currentMod = ParentFitting.BaseShip.MidSlot(slotNo)
-                            Case 8 ' High
+                            Case SlotTypes.High
                                 currentMod = ParentFitting.BaseShip.HiSlot(slotNo)
-                            Case 16 ' Subsystem
+                            Case SlotTypes.Subsystem
                                 currentMod = ParentFitting.BaseShip.SubSlot(slotNo)
                         End Select
                         If currentMod Is Nothing Then
@@ -1711,7 +1712,7 @@ Public Class ShipSlotControl
                             AddHandler RemoveModuleMenuItem.Click, AddressOf Me.RemoveModules
                             ctxSlots.Items.Add(RemoveModuleMenuItem)
                             ' Add the Status menu item
-                            If slotType <> 1 And slotType <> 16 Then
+                            If slotType <> SlotTypes.Rig And slotType <> SlotTypes.Subsystem Then
                                 Dim canDeactivate As Boolean = False
                                 Dim canOverload As Boolean = False
                                 ctxSlots.Items.Add("-")
@@ -1719,13 +1720,11 @@ Public Class ShipSlotControl
                                 statusMenuItem.Name = adtSlots.SelectedNodes(0).Name
                                 statusMenuItem.Text = "Set Module Status"
                                 ' Check for activation cost
-                                If _
-                                    currentMod.Attributes.ContainsKey("6") = True Or
-                                    currentMod.Attributes.ContainsKey("669") Or currentMod.IsTurret Or
-                                    currentMod.IsLauncher Or currentMod.Attributes.ContainsKey("713") Then
+                                If currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
+                                   
                                     canDeactivate = True
                                 End If
-                                If currentMod.Attributes.ContainsKey("1211") = True Then
+                                If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
                                     canOverload = True
                                 End If
                                 Dim offlineStatusMenu As New ToolStripMenuItem
@@ -1780,15 +1779,15 @@ Public Class ShipSlotControl
                                 Dim slotType As Integer = CInt(slot.Name.Substring(0, sep))
                                 Dim slotNo As Integer = CInt(slot.Name.Substring(sep + 1, 1))
                                 Select Case slotType
-                                    Case 1 ' Rig
+                                    Case SlotTypes.Rig
                                         currentMod = ParentFitting.BaseShip.RigSlot(slotNo)
-                                    Case 2 ' Low
+                                    Case SlotTypes.Low
                                         currentMod = ParentFitting.BaseShip.LowSlot(slotNo)
-                                    Case 4 ' Mid
+                                    Case SlotTypes.Mid
                                         currentMod = ParentFitting.BaseShip.MidSlot(slotNo)
-                                    Case 8 ' High
+                                    Case SlotTypes.High
                                         currentMod = ParentFitting.BaseShip.HiSlot(slotNo)
-                                    Case 16 ' High
+                                    Case SlotTypes.Subsystem
                                         currentMod = ParentFitting.BaseShip.SubSlot(slotNo)
                                 End Select
                                 If currentMod.LoadedCharge IsNot Nothing Then
@@ -1853,11 +1852,9 @@ Public Class ShipSlotControl
                                 If chargeGroups.Contains(groupName) = False Then
                                     chargeGroups.Add(groupName)
                                 End If
-                                If currentMod.IsTurret Or currentMod.DatabaseGroup = "1156" Then _
+                                If currentMod.IsTurret Or currentMod.DatabaseGroup = ShipModule.Group_FueledShieldBoosters Then
                                     ' Checks for turret or fueled shield boosters
-                                    If _
-                                        currentMod.ChargeSize = CInt(chargeGroupData(3)) And
-                                        chargeItems.ContainsKey(chargeGroupData(2)) = False Then
+                                    
                                         chargeItems.Add(chargeGroupData(2), groupName)
                                     End If
                                 ElseIf chargeItems.ContainsKey(chargeGroupData(2)) = False Then
@@ -2506,15 +2503,15 @@ Public Class ShipSlotControl
         Dim slotNo As Integer = CInt(selItem.Name.Substring(sep + 1, 1))
         Dim LoadedModule As New ShipModule
         Select Case slotType
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 LoadedModule = ParentFitting.BaseShip.RigSlot(slotNo)
-            Case 2 ' Low
+            Case SlotTypes.Low
                 LoadedModule = ParentFitting.BaseShip.LowSlot(slotNo)
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 LoadedModule = ParentFitting.BaseShip.MidSlot(slotNo)
-            Case 8 ' High
+            Case SlotTypes.High
                 LoadedModule = ParentFitting.BaseShip.HiSlot(slotNo)
-            Case 16 ' Subsystem
+            Case SlotTypes.Subsystem
                 LoadedModule = ParentFitting.BaseShip.SubSlot(slotNo)
         End Select
         If SuppressUndo = False Then
@@ -2544,15 +2541,15 @@ Public Class ShipSlotControl
             Dim slotNo As Integer = CInt(selItem.Name.Substring(sep + 1, 1))
             Dim LoadedModule As New ShipModule
             Select Case slotType
-                Case 1 ' Rig
+                Case SlotTypes.Rig
                     LoadedModule = ParentFitting.BaseShip.RigSlot(slotNo)
-                Case 2 ' Low
+                Case SlotTypes.Low
                     LoadedModule = ParentFitting.BaseShip.LowSlot(slotNo)
-                Case 4 ' Mid
+                Case SlotTypes.Mid
                     LoadedModule = ParentFitting.BaseShip.MidSlot(slotNo)
-                Case 8 ' High
+                Case SlotTypes.High
                     LoadedModule = ParentFitting.BaseShip.HiSlot(slotNo)
-                Case 16 ' Subsystem
+                Case SlotTypes.Subsystem
                     LoadedModule = ParentFitting.BaseShip.SubSlot(slotNo)
             End Select
             Dim OldChargeName As String = ""
@@ -3257,19 +3254,19 @@ Public Class ShipSlotControl
                     ofMod = Nothing
                 Else
                     Select Case oSlotType
-                        Case 1 ' Rig
+                        Case SlotTypes.Rig
                             ocMod = ParentFitting.BaseShip.RigSlot(oslotNo).Clone
                             ofMod = ParentFitting.FittedShip.RigSlot(oslotNo).Clone
-                        Case 2 ' Low
+                        Case SlotTypes.Low
                             ocMod = ParentFitting.BaseShip.LowSlot(oslotNo).Clone
                             ofMod = ParentFitting.FittedShip.LowSlot(oslotNo).Clone
-                        Case 4 ' Mid
+                        Case SlotTypes.Mid
                             ocMod = ParentFitting.BaseShip.MidSlot(oslotNo).Clone
                             ofMod = ParentFitting.FittedShip.MidSlot(oslotNo).Clone
-                        Case 8 ' High
+                        Case SlotTypes.High
                             ocMod = ParentFitting.BaseShip.HiSlot(oslotNo).Clone
                             ofMod = ParentFitting.FittedShip.HiSlot(oslotNo).Clone
-                        Case 16 ' Subsystem
+                        Case SlotTypes.Subsystem
                             ocMod = ParentFitting.BaseShip.SubSlot(oslotNo).Clone
                             ofMod = ParentFitting.FittedShip.SubSlot(oslotNo).Clone
                     End Select
@@ -3280,19 +3277,19 @@ Public Class ShipSlotControl
                     nfMod = Nothing
                 Else
                     Select Case nSlotType
-                        Case 1 ' Rig
+                        Case SlotTypes.Rig
                             ncMod = ParentFitting.BaseShip.RigSlot(nslotNo).Clone
                             nfMod = ParentFitting.FittedShip.RigSlot(nslotNo).Clone
-                        Case 2 ' Low
+                        Case SlotTypes.Low
                             ncMod = ParentFitting.BaseShip.LowSlot(nslotNo).Clone
                             nfMod = ParentFitting.FittedShip.LowSlot(nslotNo).Clone
-                        Case 4 ' Mid
+                        Case SlotTypes.Mid
                             ncMod = ParentFitting.BaseShip.MidSlot(nslotNo).Clone
                             nfMod = ParentFitting.FittedShip.MidSlot(nslotNo).Clone
-                        Case 8 ' High
+                        Case SlotTypes.High
                             ncMod = ParentFitting.BaseShip.HiSlot(nslotNo).Clone
                             nfMod = ParentFitting.FittedShip.HiSlot(nslotNo).Clone
-                        Case 16 ' Subsystem
+                        Case SlotTypes.Subsystem
                             ncMod = ParentFitting.BaseShip.SubSlot(nslotNo).Clone
                             nfMod = ParentFitting.FittedShip.SubSlot(nslotNo).Clone
                     End Select
@@ -3304,19 +3301,19 @@ Public Class ShipSlotControl
                     Else
                         ocMod.SlotNo = nslotNo
                         Select Case nSlotType
-                            Case 1 ' Rig
+                            Case SlotTypes.Rig
                                 ParentFitting.BaseShip.RigSlot(nslotNo) = ocMod
                                 ParentFitting.FittedShip.RigSlot(nslotNo) = ofMod
-                            Case 2 ' Low
+                            Case SlotTypes.Low
                                 ParentFitting.BaseShip.LowSlot(nslotNo) = ocMod
                                 ParentFitting.FittedShip.LowSlot(nslotNo) = ofMod
-                            Case 4 ' Mid
+                            Case SlotTypes.Mid
                                 ParentFitting.BaseShip.MidSlot(nslotNo) = ocMod
                                 ParentFitting.FittedShip.MidSlot(nslotNo) = ofMod
-                            Case 8 ' High
+                            Case SlotTypes.High
                                 ParentFitting.BaseShip.HiSlot(nslotNo) = ocMod
                                 ParentFitting.FittedShip.HiSlot(nslotNo) = ofMod
-                            Case 16 ' subsystem
+                            Case SlotTypes.Subsystem
                                 ParentFitting.BaseShip.SubSlot(nslotNo) = ocMod
                                 ParentFitting.FittedShip.SubSlot(nslotNo) = ofMod
                         End Select
@@ -3326,19 +3323,19 @@ Public Class ShipSlotControl
                     Else
                         ncMod.SlotNo = oslotNo
                         Select Case oSlotType
-                            Case 1 ' Rig
+                            Case SlotTypes.Rig
                                 ParentFitting.BaseShip.RigSlot(oslotNo) = ncMod
                                 ParentFitting.FittedShip.RigSlot(oslotNo) = nfMod
-                            Case 2 ' Low
+                            Case SlotTypes.Low
                                 ParentFitting.BaseShip.LowSlot(oslotNo) = ncMod
                                 ParentFitting.FittedShip.LowSlot(oslotNo) = nfMod
-                            Case 4 ' Mid
+                            Case SlotTypes.Mid
                                 ParentFitting.BaseShip.MidSlot(oslotNo) = ncMod
                                 ParentFitting.FittedShip.MidSlot(oslotNo) = nfMod
-                            Case 8 ' High
+                            Case SlotTypes.High
                                 ParentFitting.BaseShip.HiSlot(oslotNo) = ncMod
                                 ParentFitting.FittedShip.HiSlot(oslotNo) = nfMod
-                            Case 16 ' Subsystem
+                            Case SlotTypes.Subsystem
                                 ParentFitting.BaseShip.SubSlot(oslotNo) = ncMod
                                 ParentFitting.FittedShip.SubSlot(oslotNo) = nfMod
                         End Select

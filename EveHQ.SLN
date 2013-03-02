@@ -35,7 +35,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{4542534A-44CB-42CA-803E-716936314F21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Market", "EveHQ.Market\EveHQ.Market.csproj", "{99C775D1-F465-40C6-AF18-D1803B976E3D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET

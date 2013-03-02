@@ -1228,15 +1228,15 @@ Public Class frmHQF
                     stt.BodyImage = ImageHandler.IconImage48(shipmod.Icon, shipmod.MetaType)
                     SuperTooltip1.SetSuperTooltip(newModule, stt)
                     Select Case shipmod.SlotType
-                        Case SlotTypes.Subsystem  ' Subsystem
+                        Case SlotTypes.Subsystem
                             newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
-                        Case SlotTypes.High  ' High
+                        Case SlotTypes.High
                             newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-                        Case SlotTypes.Mid  ' Mid
+                        Case SlotTypes.Mid
                             newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-                        Case SlotTypes.Low  ' Low
+                        Case SlotTypes.Low
                             newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-                        Case SlotTypes.Rig  ' Rig
+                        Case SlotTypes.Rig
                             newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
                     End Select
                     Dim chkFilter As CheckBox = CType(Me.panelModFilters.Controls("chkFilter" & shipmod.MetaType), CheckBox)
