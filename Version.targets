@@ -1,4 +1,4 @@
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\VersionNumber.targets" />
   <Import Project="$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets" Condition="Exists('$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets')" />
 <UsingTask TaskName="HgVersionFile" AssemblyFile="$(ProjectDir)..\MSBuildVersioning.dll" />
@@ -7,7 +7,7 @@
     <VersionPreRelease>PreReleaseBuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
     
       <SemanticVersionText>2.11.2</SemanticVersionText>
-    
+     
   </PropertyGroup>
   <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
     <VersionPreRelease></VersionPreRelease>
