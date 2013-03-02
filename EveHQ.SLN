@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ", "EveHQ\EveHQ.vbproj", "{366925AB-54F3-4D36-B05C-E98DBE8DA595}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EveHQSetup", "EveHQSetup\EveHQSetup.vdproj", "{83C70597-C790-4B09-8030-903C1A13B454}"
-EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQPatcher", "EveHQPatcher\EveHQPatcher.vbproj", "{49764CA5-FF2F-4FE5-95BB-C1935C636BD7}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.Core", "EveHQ.Core\EveHQ.Core.vbproj", "{AD4AA9C0-F258-44D8-9D71-07493198B580}"
@@ -35,6 +33,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{4542534A-44CB-42CA-803E-716936314F21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Market", "EveHQ.Market\EveHQ.Market.csproj", "{99C775D1-F465-40C6-AF18-D1803B976E3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -63,26 +62,6 @@ Global
 		{366925AB-54F3-4D36-B05C-E98DBE8DA595}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{366925AB-54F3-4D36-B05C-E98DBE8DA595}.Release|Win32.ActiveCfg = Release|Any CPU
 		{366925AB-54F3-4D36-B05C-E98DBE8DA595}.Release|x86.ActiveCfg = Release|Any CPU
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|.NET.ActiveCfg = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|.NET.Build.0 = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|Any CPU.ActiveCfg = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|Any CPU.Build.0 = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|Mixed Platforms.Build.0 = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|Win32.ActiveCfg = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|Win32.Build.0 = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|x86.ActiveCfg = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Debug|x86.Build.0 = Debug
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|.NET.ActiveCfg = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|.NET.Build.0 = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Any CPU.ActiveCfg = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Any CPU.Build.0 = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Mixed Platforms.ActiveCfg = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Mixed Platforms.Build.0 = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Win32.ActiveCfg = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|Win32.Build.0 = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|x86.ActiveCfg = Release
-		{83C70597-C790-4B09-8030-903C1A13B454}.Release|x86.Build.0 = Release
 		{49764CA5-FF2F-4FE5-95BB-C1935C636BD7}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{49764CA5-FF2F-4FE5-95BB-C1935C636BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49764CA5-FF2F-4FE5-95BB-C1935C636BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
