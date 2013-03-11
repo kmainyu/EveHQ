@@ -2436,7 +2436,7 @@ Imports EveHQ.Core
         If UpdateAll = False Then
             If UpdateShip = True Then
                 ' What sort of update do we need? Check for subsystems enabled
-                If CDbl(shipMod.DatabaseCategory) = 32 Then
+                If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
                     Me.BaseShip = Me.BuildSubSystemEffects(Me.BaseShip)
                     If Me.ShipSlotCtrl IsNot Nothing Then
                         Call Me.ShipSlotCtrl.UpdateShipSlotLayout()
@@ -2448,16 +2448,22 @@ Imports EveHQ.Core
             End If
             ' Update the Undo stack
             If SuppressUndo = False Then
+                Dim chargeName As String = ""
                 If shipMod.LoadedCharge IsNot Nothing Then
-                    Me.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.AddModule, shipMod.SlotType, slotNo, OldModName, OldChargeName, slotNo, shipMod.Name, shipMod.LoadedCharge.Name))
-                Else
-                    Me.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.AddModule, shipMod.SlotType, slotNo, OldModName, OldChargeName, slotNo, shipMod.Name, ""))
+                    chargeName = shipMod.LoadedCharge.Name
                 End If
+                Dim transType As UndoInfo.TransType = UndoInfo.TransType.AddModule
+                If IsSwappingModules = True Then
+                    transType = UndoInfo.TransType.SwapModules
+                ElseIf repMod IsNot Nothing Then
+                    transType = UndoInfo.TransType.ReplacedModule
+                End If
+                Me.ShipSlotCtrl.UndoStack.Push(New UndoInfo(transType, shipMod.SlotType, slotNo, OldModName, OldChargeName, slotNo, shipMod.Name, chargeName))
                 Me.ShipSlotCtrl.UpdateHistory()
             End If
         Else
             ' Need to rebuild the ship in order to account for the new modules as they're being added
-            If CDbl(shipMod.DatabaseCategory) = 32 Then
+            If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
                 Me.BaseShip = Me.BuildSubSystemEffects(Me.BaseShip)
             End If
         End If
@@ -2976,7 +2982,7 @@ Imports EveHQ.Core
                         Return slotNo
                     End If
                 Next
-                MessageBox.Show("There was an error finding the next available high slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There was an error finding the next available subsystem slot.", "Slot Location Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Select
         Return 0
     End Function

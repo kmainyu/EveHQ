@@ -4612,6 +4612,7 @@ Public Class ShipSlotControl
                         Call ParentFitting.AddModule(OldMod, UI.OldSlotNo, False, False, Nothing, True, False)
                     Case UndoInfo.TransType.SwapModules, UndoInfo.TransType.ReplacedModule
                         ' Swap modules back to their original positions
+                        Dim isSwapping As Boolean = If(UI.Transaction = UndoInfo.TransType.SwapModules, True, False)
                         Dim OldMod As ShipModule = Nothing
                         If UI.OldModName <> "" Then
                             Dim OldModID As String = CStr(ModuleLists.moduleListName(UI.OldModName))
@@ -4635,23 +4636,16 @@ Public Class ShipSlotControl
                             End If
                         End If
                         If OldMod IsNot Nothing Then
-                            Call ParentFitting.AddModule(OldMod, UI.OldSlotNo, False, False, Nothing, True, True)
+                            Call ParentFitting.AddModule(OldMod, UI.OldSlotNo, False, False, Nothing, True, isSwapping)
                         Else
                             Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.OldSlotNo), False, True)
                         End If
-                        If newMod IsNot Nothing Then
-                            Call ParentFitting.AddModule(newMod, UI.NewSlotNo, False, False, Nothing, True, True)
-                        Else
-                            Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.NewSlotNo), False, True)
-                        End If
-                        ' Switch the UndoInfo for Replaced Modules
-                        If UI.Transaction = UndoInfo.TransType.ReplacedModule Then
-                            Dim TempMod As String = UI.OldModName
-                            Dim TempChg As String = UI.OldChargeName
-                            UI.OldModName = UI.NewModName
-                            UI.OldChargeName = UI.NewChargeName
-                            UI.NewModName = TempMod
-                            UI.NewChargeName = TempChg
+                        If isSwapping = True Then
+                            If newMod IsNot Nothing Then
+                                Call ParentFitting.AddModule(newMod, UI.NewSlotNo, False, False, Nothing, True, True)
+                            Else
+                                Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.NewSlotNo), False, True)
+                            End If
                         End If
                 End Select
                 ' Put this onto the Redo stack
@@ -4693,6 +4687,7 @@ Public Class ShipSlotControl
                         Call Me.RemoveModule(SlotNode, False, True)
                     Case UndoInfo.TransType.SwapModules, UndoInfo.TransType.ReplacedModule
                         ' Swap modules back to their original positions
+                        Dim isSwapping As Boolean = If(UI.Transaction = UndoInfo.TransType.SwapModules, True, False)
                         Dim OldMod As ShipModule = Nothing
                         If UI.OldModName <> "" Then
                             Dim OldModID As String = CStr(ModuleLists.moduleListName(UI.OldModName))
@@ -4715,24 +4710,17 @@ Public Class ShipSlotControl
                                 newMod.LoadedCharge = Charge
                             End If
                         End If
-                        If OldMod IsNot Nothing Then
-                            Call ParentFitting.AddModule(OldMod, UI.NewSlotNo, False, False, Nothing, True, True)
-                        Else
-                            Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.NewSlotNo), False, True)
+                        If isSwapping = True Then
+                            If OldMod IsNot Nothing Then
+                                Call ParentFitting.AddModule(OldMod, UI.NewSlotNo, False, False, Nothing, True, True)
+                            Else
+                                Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.NewSlotNo), False, True)
+                            End If
                         End If
                         If newMod IsNot Nothing Then
-                            Call ParentFitting.AddModule(newMod, UI.OldSlotNo, False, False, Nothing, True, True)
+                            Call ParentFitting.AddModule(newMod, UI.OldSlotNo, False, False, Nothing, True, isSwapping)
                         Else
                             Call RemoveModule(adtSlots.FindNodeByName(UI.SlotType & "_" & UI.OldSlotNo), False, True)
-                        End If
-                        ' Switch the UndoInfo for Replaced Modules
-                        If UI.Transaction = UndoInfo.TransType.ReplacedModule Then
-                            Dim TempMod As String = UI.OldModName
-                            Dim TempChg As String = UI.OldChargeName
-                            UI.OldModName = UI.NewModName
-                            UI.OldChargeName = UI.NewChargeName
-                            UI.NewModName = TempMod
-                            UI.NewChargeName = TempChg
                         End If
                 End Select
                 ' Put this back onto the undo stack

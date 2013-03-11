@@ -311,8 +311,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.RigSlots
                             If cActiveFitting.BaseShip.RigSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.RigSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.ReplacedModule, SlotTypes.Rig, slot, NewModule.Name, NewChargeName, slot, cBaseModule.Name, OldChargeName))
-                                    cActiveFitting.BaseShip.RigSlot(slot) = NewModule.Clone
+                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -320,8 +319,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.LowSlots
                             If cActiveFitting.BaseShip.LowSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.LowSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.ReplacedModule, SlotTypes.Low, slot, NewModule.Name, NewChargeName, slot, cBaseModule.Name, OldChargeName))
-                                    cActiveFitting.BaseShip.LowSlot(slot) = NewModule.Clone
+                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -329,8 +327,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.MidSlots
                             If cActiveFitting.BaseShip.MidSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.MidSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.ReplacedModule, SlotTypes.Mid, slot, NewModule.Name, NewChargeName, slot, cBaseModule.Name, OldChargeName))
-                                    cActiveFitting.BaseShip.MidSlot(slot) = NewModule.Clone
+                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -338,8 +335,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.HiSlots
                             If cActiveFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.HiSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.ReplacedModule, SlotTypes.High, slot, NewModule.Name, NewChargeName, slot, cBaseModule.Name, OldChargeName))
-                                    cActiveFitting.BaseShip.HiSlot(slot) = NewModule.Clone
+                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -347,13 +343,11 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.SubSlots
                             If cActiveFitting.BaseShip.SubSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.SubSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.ShipSlotCtrl.UndoStack.Push(New UndoInfo(UndoInfo.TransType.ReplacedModule, SlotTypes.Subsystem, slot, NewModule.Name, NewChargeName, slot, cBaseModule.Name, OldChargeName))
-                                    cActiveFitting.BaseShip.SubSlot(slot) = NewModule.Clone
+                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
                 End Select
-                cActiveFitting.ShipSlotCtrl.UpdateHistory()
 
                 If cBaseModule.DatabaseCategory = ShipModule.Category_Subsystems Then
                     cActiveFitting.BaseShip = cActiveFitting.BuildSubSystemEffects(cActiveFitting.BaseShip)
