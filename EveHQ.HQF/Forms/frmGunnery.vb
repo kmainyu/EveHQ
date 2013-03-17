@@ -62,13 +62,13 @@ Public Class frmGunnery
         Dim slotType As Integer = CInt(mCurrentSlot.Substring(0, 1))
         Dim slotNo As Integer = CInt(mCurrentSlot.Substring(2, 1))
         Select Case slotType
-            Case 1 ' Rig
+            Case SlotTypes.Rig
                 mCurrentModule = mCurrentFit.BaseShip.RigSlot(slotNo)
-            Case 2 ' Low
+            Case SlotTypes.Low
                 mCurrentModule = mCurrentFit.BaseShip.LowSlot(slotNo)
-            Case 4 ' Mid
+            Case SlotTypes.Mid
                 mCurrentModule = mCurrentFit.BaseShip.MidSlot(slotNo)
-            Case 8 ' High
+            Case SlotTypes.High
                 mCurrentModule = mCurrentFit.BaseShip.HiSlot(slotNo)
         End Select
         ' Set the GroupBox for the weapon type
@@ -99,9 +99,9 @@ Public Class frmGunnery
         ' Override the fitting rules
         CurrentFit.BaseShip.OverrideFittingRules = True
         ' Set the new fitting limits
-        CurrentFit.BaseShip.Attributes("14") = AmmoList.Count
+        CurrentFit.BaseShip.Attributes(Attributes.Ship_HighSlots) = AmmoList.Count
         CurrentFit.BaseShip.HiSlots = AmmoList.Count
-        CurrentFit.BaseShip.Attributes("102") = AmmoList.Count
+        CurrentFit.BaseShip.Attributes(Attributes.Ship_TurretHardpoints) = AmmoList.Count
         CurrentFit.BaseShip.TurretSlots = AmmoList.Count
         Dim slotCount As Integer = 0
         ' Load up the modules and charges
@@ -124,23 +124,23 @@ Public Class frmGunnery
             newAmmo = New ListViewItem
             newAmmo.Text = newMod.LoadedCharge.Name
             newAmmo.SubItems.Add(newMod.CapUsage.ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes("54").ToString("N2"))
-            If newMod.Attributes.ContainsKey("158") Then
-                newAmmo.SubItems.Add(newMod.Attributes("158").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_OptimalRange).ToString("N2"))
+            If newMod.Attributes.ContainsKey(Attributes.Module_Falloff) Then
+                newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_Falloff).ToString("N2"))
             Else
                 newAmmo.SubItems.Add("0")
             End If
-            If newMod.Attributes.ContainsKey("160") Then
-                newAmmo.SubItems.Add(newMod.Attributes("160").ToString("N2"))
+            If newMod.Attributes.ContainsKey(Attributes.Module_TrackingSpeed) Then
+                newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_TrackingSpeed).ToString("N2"))
             Else
                 newAmmo.SubItems.Add("0.00000")
             End If
-            newAmmo.SubItems.Add(newMod.Attributes("10051").ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes("10052").ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes("10053").ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes("10054").ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes("10018").ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes("10019").ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_EMDamage).ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_ExpDamage).ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_KinDamage).ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_ThermDamage).ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_VolleyDamage).ToString("N2"))
+            newAmmo.SubItems.Add(newMod.Attributes(Attributes.Module_DPS).ToString("N2"))
             lvGuns.Items.Add(newAmmo)
         Next
         lvGuns.EndUpdate()
@@ -150,15 +150,15 @@ Public Class frmGunnery
         Dim Dmg As Double = 0
         Dim ROF As Double = 0
         Select Case ammoShip.HiSlot(1).DatabaseGroup
-            Case "53" ' Energy Turret 
-                dmg = ammoShip.HiSlot(1).Attributes("10014")
-                ROF = ammoShip.HiSlot(1).Attributes("10011")
-            Case "74" ' Hybrid Turret
-                dmg = ammoShip.HiSlot(1).Attributes("10015")
-                ROF = ammoShip.HiSlot(1).Attributes("10012")
-            Case "55" ' Projectile Turret
-                dmg = ammoShip.HiSlot(1).Attributes("10016")
-                ROF = ammoShip.HiSlot(1).Attributes("10013")
+            Case ShipModule.Group_EnergyTurrets
+                Dmg = ammoShip.HiSlot(1).Attributes(Attributes.Module_EnergyDmgMod)
+                ROF = ammoShip.HiSlot(1).Attributes(Attributes.Module_EnergyROF)
+            Case ShipModule.Group_HybridTurrets
+                Dmg = ammoShip.HiSlot(1).Attributes(Attributes.Module_HybridDmgMod)
+                ROF = ammoShip.HiSlot(1).Attributes(Attributes.Module_HybridROF)
+            Case ShipModule.Group_ProjectileTurrets
+                Dmg = ammoShip.HiSlot(1).Attributes(Attributes.Module_ProjectileDmgMod)
+                ROF = ammoShip.HiSlot(1).Attributes(Attributes.Module_ProjectileROF)
         End Select
         lblDmgMod.Text = "Damage Mod: " & Dmg.ToString("N2") & "x"
         lblROF.Text = "ROF: " & ROF.ToString("N2") & "s"

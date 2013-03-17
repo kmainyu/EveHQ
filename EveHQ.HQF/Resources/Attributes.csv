@@ -84,3 +84,11 @@
 10071,ExplosiveDPS,Explosive DPS,0,HP,0
 10072,KineticDPS,Kinetic DPS,0,HP,0
 10073,ThermalDPS,Thermal DPS,0,HP,0
+# Logistics Values
+10074,TransferRate,Transfer Rate,0,HP/s,0
+10075,ModuleTransferAmount,Module Transfer Amount,0,HP,0
+10076,DroneTransferAmount,Drone Transfer Amount,0,HP,0
+10077,ModuleTransferRate,Module Transfer Rate,0,HP/s,0
+10078,DroneTransferRate,Drone Transfer Rate,0,HP/s,0
+10079,totalTransferAmount,Total Transfer Amount,0,HP,0
+10080,totalTransferRate,Total Transfer Rate,0,HP/s,0

@@ -51,11 +51,11 @@ Public Class Capacitor
         For Each slotMod As ShipModule In baseShip.SlotCollection
             If slotMod.CapUsage <> 0 Then
                 Dim totalTime As Double = slotMod.ActivationTime
-                If slotMod.Attributes.ContainsKey("10011") Then
-                    totalTime += slotMod.Attributes("10011")
+                If slotMod.Attributes.ContainsKey(Attributes.Module_EnergyROF) Then
+                    totalTime += slotMod.Attributes(Attributes.Module_EnergyROF)
                 End If
-                If slotMod.Attributes.ContainsKey("10012") Then
-                    totalTime += slotMod.Attributes("10012")
+                If slotMod.Attributes.ContainsKey(Attributes.Module_HybridROF) Then
+                    totalTime += slotMod.Attributes(Attributes.Module_HybridROF)
                 End If
                 If (slotMod.ModuleState Or 28) = 28 Then
                     ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, True))
