@@ -283,18 +283,18 @@ Public Class ShipInfoControl
         ttt &= "Radar Strength: " & ParentFitting.FittedShip.RadarSensorStrenth.ToString("N2") & ControlChars.CrLf
         ToolTip1.SetToolTip(lblSensorStrength, ttt)
         lblSigRadius.Text = ParentFitting.FittedShip.SigRadius.ToString("N0") & " m"
-        Dim ProbeableIndicator As Double = SensorStrength / ParentFitting.FittedShip.SigRadius
+        Dim ProbeableIndicator As Double = ParentFitting.FittedShip.SigRadius / SensorStrength
         lblProbeable.Text = ProbeableIndicator.ToString("N2")
         Select Case ProbeableIndicator
-            Case Is >= 1.08
+            Case Is <= 1.2
                 lblProbeable.ForeColor = Drawing.Color.LimeGreen
-                ToolTip1.SetToolTip(lblProbeable, "Ship is unprobeable (>1.08)")
-            Case Is < 1
+                ToolTip1.SetToolTip(lblProbeable, "Ship is very hard to probe (<1.2)")
+            Case Is > 2
                 lblProbeable.ForeColor = Drawing.Color.Red
-                ToolTip1.SetToolTip(lblProbeable, "Ship can be probed (<1.08)")
+                ToolTip1.SetToolTip(lblProbeable, "Ship can be probed easily (>2.0)")
             Case Else
-                lblProbeable.ForeColor = Drawing.Color.OrangeRed
-                ToolTip1.SetToolTip(lblProbeable, "Ship may be unprobeable (1.00-1.08)")
+                lblProbeable.ForeColor = Drawing.Color.Yellow
+                ToolTip1.SetToolTip(lblProbeable, "Ship is difficult to probe (1.2-2.0)")
         End Select
         epTargeting.TitleText = "Targeting (Range: " & ParentFitting.FittedShip.MaxTargetRange.ToString("N0") & "m)"
 
