@@ -46,6 +46,7 @@ Public Class ProductionJob
     Public HasInventionJob As Boolean
     Public InventionJob As New InventionJob
     Public SubJobMEs As New SortedList(Of String, Integer)
+    Public ProduceSubJob As Boolean = False
 
 
     Public Function Clone() As ProductionJob
@@ -152,6 +153,7 @@ Public Class ProductionJob
                     subPJ.ProdImplant = Me.ProdImplant
                     subPJ.AssemblyArray = Me.AssemblyArray
                     subPJ.StartTime = Now
+                    subPJ.ProduceSubJob = True
                     ' Set SubJob ME
                     If Me.SubJobMEs.ContainsKey(resource.TypeID.ToString) = False Then
                         Me.SubJobMEs.Add(resource.TypeID.ToString, subBPS.MELevel)
@@ -308,6 +310,7 @@ Public Class ProductionJob
             subPJ.ProdImplant = Me.ProdImplant
             subPJ.AssemblyArray = Me.AssemblyArray
             subPJ.StartTime = Now
+            subPJ.ProduceSubJob = True
 
             ' Do the iteration on the component BP
             subPJ.CalculateResourceRequirements(False, Me.BPOwner)

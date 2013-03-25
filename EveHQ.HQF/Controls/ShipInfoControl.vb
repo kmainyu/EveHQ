@@ -283,18 +283,18 @@ Public Class ShipInfoControl
         ttt &= "Radar Strength: " & ParentFitting.FittedShip.RadarSensorStrenth.ToString("N2") & ControlChars.CrLf
         ToolTip1.SetToolTip(lblSensorStrength, ttt)
         lblSigRadius.Text = ParentFitting.FittedShip.SigRadius.ToString("N0") & " m"
-        Dim ProbeableIndicator As Double = SensorStrength / ParentFitting.FittedShip.SigRadius
+        Dim ProbeableIndicator As Double = ParentFitting.FittedShip.SigRadius / SensorStrength
         lblProbeable.Text = ProbeableIndicator.ToString("N2")
         Select Case ProbeableIndicator
-            Case Is >= 1.08
+            Case Is <= 1.2
                 lblProbeable.ForeColor = Drawing.Color.LimeGreen
-                ToolTip1.SetToolTip(lblProbeable, "Ship is unprobeable (>1.08)")
-            Case Is < 1
+                ToolTip1.SetToolTip(lblProbeable, "Ship is very hard to probe (<1.2)")
+            Case Is > 2
                 lblProbeable.ForeColor = Drawing.Color.Red
-                ToolTip1.SetToolTip(lblProbeable, "Ship can be probed (<1.08)")
+                ToolTip1.SetToolTip(lblProbeable, "Ship can be probed easily (>2.0)")
             Case Else
-                lblProbeable.ForeColor = Drawing.Color.OrangeRed
-                ToolTip1.SetToolTip(lblProbeable, "Ship may be unprobeable (1.00-1.08)")
+                lblProbeable.ForeColor = Drawing.Color.Yellow
+                ToolTip1.SetToolTip(lblProbeable, "Ship is difficult to probe (1.2-2.0)")
         End Select
         epTargeting.TitleText = "Targeting (Range: " & ParentFitting.FittedShip.MaxTargetRange.ToString("N0") & "m)"
 
@@ -302,7 +302,7 @@ Public Class ShipInfoControl
         lblCargoBay.Text = ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3"
         lblDroneBay.Text = ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3"
         Select Case ParentFitting.FittedShip.DatabaseGroup
-            Case "28", "380", "463", "513", "543", "902", "941"
+            Case ShipModule.Group_Industrials, ShipModule.Group_DeepSpaceTransports, ShipModule.Group_MiningBarges, ShipModule.Group_Freighters, ShipModule.Group_Exhumers, ShipModule.Group_JumpFreighters, ShipModule.Group_IndustrialCommandShips, ShipModule.Group_BlockadeRunners
                 epCargo.TitleText = "Storage (Cargo: " & ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3)"
             Case Else
                 epCargo.TitleText = "Storage (Drone: " & ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3)"
@@ -310,65 +310,79 @@ Public Class ShipInfoControl
 
         UpdateDroneUsage()
 
-        ' Damage & Mining
-        If ParentFitting.FittedShip.OreTotalAmount > 0 Or ParentFitting.FittedShip.IceTotalAmount > 0 Then
-            ' Only show mining information here
-            pbDamage.Image = My.Resources.imgMining
-            cboDefenceProfiles.Enabled = False
-            btnEditDefenceProfiles.Enabled = False
-            lblDamage.Text = (ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount).ToString("N2") & " m3 / " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & " m3/s"
-            epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & ")"
-            If ParentFitting.FittedShip.OreTotalAmount > 0 Or ParentFitting.FittedShip.IceTotalAmount > 0 Then
-                ttt = ""
-                If ParentFitting.FittedShip.OreTurretAmount > 0 Then
-                    ttt &= "Mining Turret Yield: " & ParentFitting.FittedShip.OreTurretAmount.ToString("N2")
-                    ttt &= " (m3/s: " & ParentFitting.FittedShip.OreTurretRate.ToString("N2") & ")" & ControlChars.CrLf
-                End If
-                If ParentFitting.FittedShip.OreDroneAmount > 0 Then
-                    ttt &= "Mining Drone Yield: " & ParentFitting.FittedShip.OreDroneAmount.ToString("N2")
-                    ttt &= " (m3/s: " & ParentFitting.FittedShip.OreDroneRate.ToString("N2") & ")" & ControlChars.CrLf
-                End If
-                If ParentFitting.FittedShip.IceTurretAmount > 0 Then
-                    ttt &= "Ice Turret Yield: " & ParentFitting.FittedShip.IceTurretAmount.ToString("N2")
-                    ttt &= " (m3/s: " & ParentFitting.FittedShip.IceTurretRate.ToString("N2") & ")" & ControlChars.CrLf
-                End If
-                If ParentFitting.FittedShip.IceDroneAmount > 0 Then
-                    ttt &= "Ice Drone Yield: " & ParentFitting.FittedShip.IceDroneAmount.ToString("N2")
-                    ttt &= " (m3/s: " & ParentFitting.FittedShip.IceDroneRate.ToString("N2") & ")" & ControlChars.CrLf
-                End If
-                ToolTip1.SetToolTip(lblDamage, ttt)
+        ' Damage, Mining & Logistics
+        If ParentFitting.FittedShip.TotalVolley >= ParentFitting.FittedShip.TransferAmount Then
+            If ParentFitting.FittedShip.TotalVolley >= ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount Then
+                epDamage.TitleText = "Damage (DPS: " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & ")"
+            Else
+                epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & ")"
             End If
+        ElseIf ParentFitting.FittedShip.TransferAmount > ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount Then
+            epDamage.TitleText = "Logistics (Rate: " & ParentFitting.FittedShip.TransferRate.ToString("N2") & ")"
         Else
-            ' Show damage information
-            pbDamage.Image = My.Resources.imgTurretSlots
-            cboDefenceProfiles.Enabled = True
-            btnEditDefenceProfiles.Enabled = True
-            lblDamage.Text = ParentFitting.FittedShip.TotalVolley.ToString("N2") & " / " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & " DPS"
-            epDamage.TitleText = "Damage (DPS: " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & ")"
-            If ParentFitting.FittedShip.TotalVolley > 0 Then
-                ttt = ""
-                If ParentFitting.FittedShip.TurretVolley > 0 Then
-                    ttt &= "Turret Volley: " & ParentFitting.FittedShip.TurretVolley.ToString("N2")
-                    ttt &= " (DPS: " & ParentFitting.FittedShip.TurretDPS.ToString("N2") & ")" & ControlChars.CrLf
-                    turretShip = True
-                End If
-                If ParentFitting.FittedShip.MissileVolley > 0 Then
-                    ttt &= "Missile Volley: " & ParentFitting.FittedShip.MissileVolley.ToString("N2")
-                    ttt &= " (DPS: " & ParentFitting.FittedShip.MissileDPS.ToString("N2") & ")" & ControlChars.CrLf
-                    missileShip = True
-                End If
-                If ParentFitting.FittedShip.SBVolley > 0 Then
-                    ttt &= "Smartbomb Volley: " & ParentFitting.FittedShip.SBVolley.ToString("N2")
-                    ttt &= " (DPS: " & ParentFitting.FittedShip.SBDPS.ToString("N2") & ")" & ControlChars.CrLf
-                End If
-                If ParentFitting.FittedShip.DroneVolley > 0 Then
-                    ttt &= "Drone Volley: " & ParentFitting.FittedShip.DroneVolley.ToString("N2")
-                    ttt &= " (DPS: " & ParentFitting.FittedShip.DroneDPS.ToString("N2") & ")" & ControlChars.CrLf
-                End If
-                ToolTip1.SetToolTip(lblDamage, ttt)
-                Dim dpr As DefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
-                lblDPR.Text = dpr.ShieldDPS.ToString("N2") & " / " & dpr.ArmorDPS.ToString("N2") & " / " & dpr.HullDPS.ToString("N2")
+            epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & ")"
+        End If
+        ' Damage info
+        lblDamage.Text = ParentFitting.FittedShip.TotalVolley.ToString("N2") & " / " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & " DPS"
+        If ParentFitting.FittedShip.TotalVolley > 0 Then
+            ttt = ""
+            If ParentFitting.FittedShip.TurretVolley > 0 Then
+                ttt &= "Turret Volley: " & ParentFitting.FittedShip.TurretVolley.ToString("N2")
+                ttt &= " (DPS: " & ParentFitting.FittedShip.TurretDPS.ToString("N2") & ")" & ControlChars.CrLf
+                turretShip = True
             End If
+            If ParentFitting.FittedShip.MissileVolley > 0 Then
+                ttt &= "Missile Volley: " & ParentFitting.FittedShip.MissileVolley.ToString("N2")
+                ttt &= " (DPS: " & ParentFitting.FittedShip.MissileDPS.ToString("N2") & ")" & ControlChars.CrLf
+                missileShip = True
+            End If
+            If ParentFitting.FittedShip.SBVolley > 0 Then
+                ttt &= "Smartbomb Volley: " & ParentFitting.FittedShip.SBVolley.ToString("N2")
+                ttt &= " (DPS: " & ParentFitting.FittedShip.SBDPS.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            If ParentFitting.FittedShip.DroneVolley > 0 Then
+                ttt &= "Drone Volley: " & ParentFitting.FittedShip.DroneVolley.ToString("N2")
+                ttt &= " (DPS: " & ParentFitting.FittedShip.DroneDPS.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            ToolTip1.SetToolTip(lblDamage, ttt)
+            Dim dpr As DefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
+            lblDPR.Text = dpr.ShieldDPS.ToString("N2") & " / " & dpr.ArmorDPS.ToString("N2") & " / " & dpr.HullDPS.ToString("N2")
+        End If
+        ' Mining info
+        lblMining.Text = (ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount).ToString("N2") & " m3 / " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & " m3/s"
+        If ParentFitting.FittedShip.OreTotalAmount > 0 Or ParentFitting.FittedShip.IceTotalAmount > 0 Then
+            ttt = ""
+            If ParentFitting.FittedShip.OreTurretAmount > 0 Then
+                ttt &= "Mining Turret Yield: " & ParentFitting.FittedShip.OreTurretAmount.ToString("N2")
+                ttt &= " (m3/s: " & ParentFitting.FittedShip.OreTurretRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            If ParentFitting.FittedShip.OreDroneAmount > 0 Then
+                ttt &= "Mining Drone Yield: " & ParentFitting.FittedShip.OreDroneAmount.ToString("N2")
+                ttt &= " (m3/s: " & ParentFitting.FittedShip.OreDroneRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            If ParentFitting.FittedShip.IceTurretAmount > 0 Then
+                ttt &= "Ice Turret Yield: " & ParentFitting.FittedShip.IceTurretAmount.ToString("N2")
+                ttt &= " (m3/s: " & ParentFitting.FittedShip.IceTurretRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            If ParentFitting.FittedShip.IceDroneAmount > 0 Then
+                ttt &= "Ice Drone Yield: " & ParentFitting.FittedShip.IceDroneAmount.ToString("N2")
+                ttt &= " (m3/s: " & ParentFitting.FittedShip.IceDroneRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            ToolTip1.SetToolTip(lblMining, ttt)
+        End If
+        ' Logistics info
+        lblLogistics.Text = ParentFitting.FittedShip.TransferAmount.ToString("N2") & " HP / " & ParentFitting.FittedShip.TransferRate.ToString("N2") & " HP/s"
+        If ParentFitting.FittedShip.TransferAmount > 0 Then
+            ttt = ""
+            If ParentFitting.FittedShip.ModuleTransferAmount > 0 Then
+                ttt &= "Module Transfer: " & ParentFitting.FittedShip.ModuleTransferAmount.ToString("N2")
+                ttt &= " (HP/s: " & ParentFitting.FittedShip.ModuleTransferRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            If ParentFitting.FittedShip.DroneTransferAmount > 0 Then
+                ttt &= "Drone Transfer: " & ParentFitting.FittedShip.DroneTransferAmount.ToString("N2")
+                ttt &= " (HP/s: " & ParentFitting.FittedShip.DroneTransferRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            ToolTip1.SetToolTip(lblLogistics, ttt)
         End If
 
         ' Collect List of Needed Skills

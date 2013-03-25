@@ -1069,6 +1069,10 @@ Public Class PlugInData
                             If effMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = False Then
                                 effMod.Attributes.Add(Attributes.Module_CapacitorNeed, 0)
                             End If
+                        Case ShipModule.Group_ShieldTransporters, ShipModule.Group_RemoteArmorRepairers, ShipModule.Group_RemoteHullRepairers, ShipModule.Group_LogisticDrones
+                            If effMod.Attributes.ContainsKey(Attributes.Module_TransferRate) = False Then
+                                effMod.Attributes.Add(Attributes.Module_TransferRate, 0)
+                            End If
                     End Select
                 End If
             Next

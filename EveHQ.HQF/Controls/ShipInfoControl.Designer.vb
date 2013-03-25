@@ -51,7 +51,11 @@ Partial Class ShipInfoControl
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.PictureBox4 = New System.Windows.Forms.PictureBox()
         Me.lblDamage = New System.Windows.Forms.Label()
+        Me.lblMining = New System.Windows.Forms.Label()
+        Me.lblLogistics = New System.Windows.Forms.Label()
         Me.pbDamage = New System.Windows.Forms.PictureBox()
+        Me.pbMining = New System.Windows.Forms.PictureBox()
+        Me.pbLogistics = New System.Windows.Forms.PictureBox()
         Me.line2 = New System.Windows.Forms.Label()
         Me.btnLog = New System.Windows.Forms.Button()
         Me.btnSkills = New System.Windows.Forms.Button()
@@ -139,6 +143,8 @@ Partial Class ShipInfoControl
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDamage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbMining, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.pbLogistics, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneControl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneBandwidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbDroneBay, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -484,8 +490,30 @@ Partial Class ShipInfoControl
         Me.lblDamage.Name = "lblDamage"
         Me.lblDamage.Size = New System.Drawing.Size(53, 13)
         Me.lblDamage.TabIndex = 10
-        Me.lblDamage.Text = "000 / 000"
+        Me.lblDamage.Text = "0.00 / 0.00 DPS"
         Me.ToolTip1.SetToolTip(Me.lblDamage, "Damage (Volley / DPS)")
+        '
+        'lblMining
+        '
+        Me.lblMining.AutoSize = True
+        Me.lblMining.BackColor = System.Drawing.Color.Transparent
+        Me.lblMining.Location = New System.Drawing.Point(29, 45)
+        Me.lblMining.Name = "lblMining"
+        Me.lblMining.Size = New System.Drawing.Size(53, 13)
+        Me.lblMining.TabIndex = 10
+        Me.lblMining.Text = "0.00 m3 / 0.00 m3/s"
+        Me.ToolTip1.SetToolTip(Me.lblMining, "Mining (Amount / Rate)")
+        '
+        'lblLogistics
+        '
+        Me.lblLogistics.AutoSize = True
+        Me.lblLogistics.BackColor = System.Drawing.Color.Transparent
+        Me.lblLogistics.Location = New System.Drawing.Point(29, 63)
+        Me.lblLogistics.Name = "lblLogistics"
+        Me.lblLogistics.Size = New System.Drawing.Size(53, 13)
+        Me.lblLogistics.TabIndex = 10
+        Me.lblLogistics.Text = "0.00 HP / 0.00 HP/s"
+        Me.ToolTip1.SetToolTip(Me.lblLogistics, "Logistics (Amount / Rate)")
         '
         'pbDamage
         '
@@ -498,6 +526,30 @@ Partial Class ShipInfoControl
         Me.pbDamage.TabIndex = 0
         Me.pbDamage.TabStop = False
         Me.ToolTip1.SetToolTip(Me.pbDamage, "Damage (Volley / DPS)")
+        '
+        'pbMining
+        '
+        Me.pbMining.BackColor = System.Drawing.Color.Transparent
+        Me.pbMining.Image = Global.EveHQ.HQF.My.Resources.Resources.imgMining
+        Me.pbMining.Location = New System.Drawing.Point(5, 40)
+        Me.pbMining.Name = "pbMining"
+        Me.pbMining.Size = New System.Drawing.Size(24, 24)
+        Me.pbMining.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbMining.TabIndex = 0
+        Me.pbMining.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbMining, "Mining (Amount / Rate)")
+        '
+        'pbLogistics
+        '
+        Me.pbLogistics.BackColor = System.Drawing.Color.Transparent
+        Me.pbLogistics.Image = Global.EveHQ.HQF.My.Resources.Resources._01_16
+        Me.pbLogistics.Location = New System.Drawing.Point(5, 58)
+        Me.pbLogistics.Name = "pbLogistics"
+        Me.pbLogistics.Size = New System.Drawing.Size(24, 24)
+        Me.pbLogistics.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.pbLogistics.TabIndex = 0
+        Me.pbLogistics.TabStop = False
+        Me.ToolTip1.SetToolTip(Me.pbLogistics, "Logistics (Amount / Rate)")
         '
         'line2
         '
@@ -1083,7 +1135,7 @@ Partial Class ShipInfoControl
         '
         Me.lblDPR.AutoSize = True
         Me.lblDPR.BackColor = System.Drawing.Color.Transparent
-        Me.lblDPR.Location = New System.Drawing.Point(5, 73)
+        Me.lblDPR.Location = New System.Drawing.Point(5, 108)
         Me.lblDPR.Name = "lblDPR"
         Me.lblDPR.Size = New System.Drawing.Size(81, 13)
         Me.lblDPR.TabIndex = 34
@@ -1198,7 +1250,7 @@ Partial Class ShipInfoControl
         Me.cboDefenceProfiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cboDefenceProfiles.FormattingEnabled = True
         Me.cboDefenceProfiles.ItemHeight = 15
-        Me.cboDefenceProfiles.Location = New System.Drawing.Point(5, 49)
+        Me.cboDefenceProfiles.Location = New System.Drawing.Point(5, 84)
         Me.cboDefenceProfiles.Name = "cboDefenceProfiles"
         Me.cboDefenceProfiles.Size = New System.Drawing.Size(186, 21)
         Me.cboDefenceProfiles.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1208,7 +1260,7 @@ Partial Class ShipInfoControl
         '
         Me.btnEditDefenceProfiles.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnEditDefenceProfiles.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnEditDefenceProfiles.Location = New System.Drawing.Point(197, 49)
+        Me.btnEditDefenceProfiles.Location = New System.Drawing.Point(197, 84)
         Me.btnEditDefenceProfiles.Name = "btnEditDefenceProfiles"
         Me.btnEditDefenceProfiles.Size = New System.Drawing.Size(36, 21)
         Me.btnEditDefenceProfiles.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1349,7 +1401,7 @@ Partial Class ShipInfoControl
         Me.epDefence.Controls.Add(Me.btnEditProfiles)
         Me.epDefence.Location = New System.Drawing.Point(3, 183)
         Me.epDefence.Name = "epDefence"
-        Me.epDefence.Size = New System.Drawing.Size(240, 168)
+        Me.epDefence.Size = New System.Drawing.Size(240, 163)
         Me.epDefence.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.epDefence.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.epDefence.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -1384,7 +1436,7 @@ Partial Class ShipInfoControl
         Me.epCapacitor.Controls.Add(Me.lblCapPeak)
         Me.epCapacitor.Controls.Add(Me.pbCapBal)
         Me.epCapacitor.Controls.Add(Me.pbCapRecharge)
-        Me.epCapacitor.Location = New System.Drawing.Point(3, 354)
+        Me.epCapacitor.Location = New System.Drawing.Point(3, 349)
         Me.epCapacitor.Name = "epCapacitor"
         Me.epCapacitor.Size = New System.Drawing.Size(240, 71)
         Me.epCapacitor.Style.Alignment = System.Drawing.StringAlignment.Center
@@ -1413,12 +1465,16 @@ Partial Class ShipInfoControl
         Me.epDamage.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.epDamage.Controls.Add(Me.lblDPR)
         Me.epDamage.Controls.Add(Me.pbDamage)
+        Me.epDamage.Controls.Add(Me.pbMining)
+        Me.epDamage.Controls.Add(Me.pbLogistics)
         Me.epDamage.Controls.Add(Me.cboDefenceProfiles)
         Me.epDamage.Controls.Add(Me.lblDamage)
+        Me.epDamage.Controls.Add(Me.lblMining)
+        Me.epDamage.Controls.Add(Me.lblLogistics)
         Me.epDamage.Controls.Add(Me.btnEditDefenceProfiles)
-        Me.epDamage.Location = New System.Drawing.Point(3, 428)
+        Me.epDamage.Location = New System.Drawing.Point(3, 423)
         Me.epDamage.Name = "epDamage"
-        Me.epDamage.Size = New System.Drawing.Size(240, 92)
+        Me.epDamage.Size = New System.Drawing.Size(240, 122)
         Me.epDamage.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.epDamage.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.epDamage.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -1455,7 +1511,7 @@ Partial Class ShipInfoControl
         Me.epTargeting.Controls.Add(Me.lblTargetRange)
         Me.epTargeting.Controls.Add(Me.pbScanResolution)
         Me.epTargeting.Controls.Add(Me.lblSigRadius)
-        Me.epTargeting.Location = New System.Drawing.Point(3, 523)
+        Me.epTargeting.Location = New System.Drawing.Point(3, 548)
         Me.epTargeting.Name = "epTargeting"
         Me.epTargeting.Size = New System.Drawing.Size(240, 71)
         Me.epTargeting.Style.Alignment = System.Drawing.StringAlignment.Center
@@ -1490,7 +1546,7 @@ Partial Class ShipInfoControl
         Me.epPropulsion.Controls.Add(Me.lblSpeed)
         Me.epPropulsion.Controls.Add(Me.pbWarpSpeed)
         Me.epPropulsion.Controls.Add(Me.lblInertia)
-        Me.epPropulsion.Location = New System.Drawing.Point(3, 597)
+        Me.epPropulsion.Location = New System.Drawing.Point(3, 622)
         Me.epPropulsion.Name = "epPropulsion"
         Me.epPropulsion.Size = New System.Drawing.Size(240, 71)
         Me.epPropulsion.Style.Alignment = System.Drawing.StringAlignment.Center
@@ -1525,9 +1581,9 @@ Partial Class ShipInfoControl
         Me.epCargo.Controls.Add(Me.lblCargoBay)
         Me.epCargo.Controls.Add(Me.pbDroneBay)
         Me.epCargo.Controls.Add(Me.lblDroneBandwidth)
-        Me.epCargo.Location = New System.Drawing.Point(3, 671)
+        Me.epCargo.Location = New System.Drawing.Point(3, 696)
         Me.epCargo.Name = "epCargo"
-        Me.epCargo.Size = New System.Drawing.Size(240, 71)
+        Me.epCargo.Size = New System.Drawing.Size(240, 66)
         Me.epCargo.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.epCargo.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.epCargo.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -1710,7 +1766,11 @@ Partial Class ShipInfoControl
     Friend WithEvents btnLog As System.Windows.Forms.Button
     Friend WithEvents line2 As System.Windows.Forms.Label
     Friend WithEvents lblDamage As System.Windows.Forms.Label
+    Friend WithEvents lblMining As System.Windows.Forms.Label
+    Friend WithEvents lblLogistics As System.Windows.Forms.Label
     Friend WithEvents pbDamage As System.Windows.Forms.PictureBox
+    Friend WithEvents pbMining As System.Windows.Forms.PictureBox
+    Friend WithEvents pbLogistics As System.Windows.Forms.PictureBox
     Friend WithEvents lblSigRadius As System.Windows.Forms.Label
     Friend WithEvents pbSigRadius As System.Windows.Forms.PictureBox
     Friend WithEvents lblDroneControl As System.Windows.Forms.Label

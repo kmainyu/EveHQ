@@ -204,6 +204,14 @@ Imports System.ComponentModel
     Private cIceDroneRate As Double
     Private cIceTotalRate As Double
 
+    ' Logistics
+    Private cModuleTransferAmount As Double
+    Private cModuleTransferRate As Double
+    Private cDroneTransferAmount As Double
+    Private cDroneTransferRate As Double
+    Private cTransferAmount As Double
+    Private cTransferRate As Double
+
     ' Audit Log
     Private cAuditLog As New ArrayList
 
@@ -1893,6 +1901,70 @@ Imports System.ComponentModel
 
 #End Region
 
+#Region "Logistics Properties"
+
+    <Browsable(False)> _
+    <Description("The combined logistics module transfer amount for the ship")> <Category("Logistics")> Public Property ModuleTransferAmount() As Double
+        Get
+            Return cModuleTransferAmount
+        End Get
+        Set(ByVal value As Double)
+            cModuleTransferAmount = value
+        End Set
+    End Property
+
+    <Browsable(False)> _
+    <Description("The combined logistics module transfer rate for the ship")> <Category("Logistics")> Public Property ModuleTransferRate() As Double
+        Get
+            Return cModuleTransferRate
+        End Get
+        Set(ByVal value As Double)
+            cModuleTransferRate = value
+        End Set
+    End Property
+
+    <Browsable(False)> _
+    <Description("The combined logistics drone transfer amount for the ship")> <Category("Logistics")> Public Property DroneTransferAmount() As Double
+        Get
+            Return cDroneTransferAmount
+        End Get
+        Set(ByVal value As Double)
+            cDroneTransferAmount = value
+        End Set
+    End Property
+
+    <Browsable(False)> _
+    <Description("The combined logistics drone transfer rate for the ship")> <Category("Logistics")> Public Property DroneTransferRate() As Double
+        Get
+            Return cDroneTransferRate
+        End Get
+        Set(ByVal value As Double)
+            cDroneTransferRate = value
+        End Set
+    End Property
+
+    <Browsable(False)> _
+    <Description("The total logistics transfer amount for the ship")> <Category("Logistics")> Public Property TransferAmount() As Double
+        Get
+            Return cTransferAmount
+        End Get
+        Set(ByVal value As Double)
+            cTransferAmount = value
+        End Set
+    End Property
+
+    <Browsable(False)> _
+    <Description("The total logistics transfer rate for the ship")> <Category("Logistics")> Public Property TransferRate() As Double
+        Get
+            Return cTransferRate
+        End Get
+        Set(ByVal value As Double)
+            cTransferRate = value
+        End Set
+    End Property
+
+#End Region
+
 #Region "Audit Log Properties"
 
     <Browsable(False)> _
@@ -2108,6 +2180,12 @@ Imports System.ComponentModel
         Me.Attributes.Add("10071", 0)
         Me.Attributes.Add("10072", 0)
         Me.Attributes.Add("10073", 0)
+        Me.Attributes.Add("10075", 0)
+        Me.Attributes.Add("10076", 0)
+        Me.Attributes.Add("10077", 0)
+        Me.Attributes.Add("10078", 0)
+        Me.Attributes.Add("10079", 0)
+        Me.Attributes.Add("10080", 0)
         ' Check for slot attributes (missing for T3)
         If Me.Attributes.ContainsKey("12") = False Then
             Me.Attributes.Add("12", 0)
@@ -2288,6 +2366,18 @@ Imports System.ComponentModel
                     newShip.OreTotalRate = attValue
                 Case 10048
                     newShip.IceTotalRate = attValue
+                Case 10075
+                    newShip.ModuleTransferAmount = attValue
+                Case 10076
+                    newShip.DroneTransferAmount = attValue
+                Case 10077
+                    newShip.ModuleTransferRate = attValue
+                Case 10078
+                    newShip.DroneTransferRate = attValue
+                Case 10079
+                    newShip.TransferAmount = attValue
+                Case 10080
+                    newShip.TransferRate = attValue
             End Select
         Next
     End Sub
@@ -2372,6 +2462,12 @@ Imports System.ComponentModel
         Me.Attributes("10046") = Me.IceDroneRate
         Me.Attributes("10047") = Me.OreTotalRate
         Me.Attributes("10048") = Me.IceTotalRate
+        Me.Attributes("10075") = Me.ModuleTransferAmount
+        Me.Attributes("10076") = Me.DroneTransferAmount
+        Me.Attributes("10077") = Me.ModuleTransferRate
+        Me.Attributes("10078") = Me.DroneTransferRate
+        Me.Attributes("10079") = Me.TransferAmount
+        Me.Attributes("10080") = Me.TransferRate
     End Sub
 #End Region
 

@@ -262,8 +262,10 @@ Public Class frmShowInfo
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
-                Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
+                If subSkillID <> newSkill.ID Then
+                    subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
+                    Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
+                End If
             Next
         End If
     End Sub

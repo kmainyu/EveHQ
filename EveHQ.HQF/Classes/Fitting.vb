@@ -1630,80 +1630,90 @@ Imports EveHQ.Core
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             If DBI.IsActive = True Then
                 cModule = DBI.DroneType
-                If cModule.DatabaseGroup <> ShipModule.Group_MiningDrones Then
-                    ' Not mining drone
-                    If cModule.Attributes.ContainsKey(Attributes.Module_ROF) = True Then
-                        ROF = cModule.Attributes(Attributes.Module_ROF)
-                        dmgMod = cModule.Attributes(Attributes.Module_DamageMod)
-                    Else
-                        If cModule.Attributes.ContainsKey(Attributes.Module_MissileROF) = True Then
-                            ROF = cModule.Attributes(Attributes.Module_MissileROF)
-                            dmgMod = cModule.Attributes(Attributes.Module_MissileDamageMod)
+                newShip.Attributes(Attributes.Ship_FighterControl) += DBI.Quantity
+                Select Case cModule.DatabaseGroup
+                    Case ShipModule.Group_MiningDrones
+                        cModule.Attributes(Attributes.Module_DroneOreMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
+                        newShip.Attributes(Attributes.Ship_OreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_DroneOreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_DroneOreMiningRate) += cModule.Attributes(Attributes.Module_DroneOreMiningRate) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_OreMiningRate) += cModule.Attributes(Attributes.Module_DroneOreMiningRate) * DBI.Quantity
+                    Case ShipModule.Group_LogisticDrones
+                        Dim repAmount As Double = 0
+                        If cModule.Attributes.ContainsKey(Attributes.Module_ShieldHPRepaired) = True Then
+                            repAmount = cModule.Attributes(Attributes.Module_ShieldHPRepaired)
                         Else
-                            dmgMod = 0
-                            ROF = 1
+                            repAmount = cModule.Attributes(Attributes.Module_ArmorHPRepaired)
                         End If
-                    End If
-                    If cModule.LoadedCharge IsNot Nothing Then
-                        cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
-                        cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
-                        cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
-                        cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
-                        cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
-                        newShip.Attributes(Attributes.Ship_FighterControl) += DBI.Quantity
-                        cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                        cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                    Else
-                        cModule.Attributes(Attributes.Module_BaseDamage) = 0
-                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) Then
-                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseEMDamage)
-                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
+                        cModule.Attributes(Attributes.Module_TransferRate) = repAmount / cModule.Attributes(Attributes.Module_ActivationTime)
+                        newShip.Attributes(Attributes.Ship_DroneTransferRate) += cModule.Attributes(Attributes.Module_TransferRate) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_TransferRate) += cModule.Attributes(Attributes.Module_TransferRate) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_DroneTransferAmount) += repAmount * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_TransferAmount) += repAmount * DBI.Quantity
+                    Case Else
+                        ' Not mining or logistic drone
+                        If cModule.Attributes.ContainsKey(Attributes.Module_ROF) = True Then
+                            ROF = cModule.Attributes(Attributes.Module_ROF)
+                            dmgMod = cModule.Attributes(Attributes.Module_DamageMod)
                         Else
-                            cModule.Attributes(Attributes.Module_EMDamage) = 0
+                            If cModule.Attributes.ContainsKey(Attributes.Module_MissileROF) = True Then
+                                ROF = cModule.Attributes(Attributes.Module_MissileROF)
+                                dmgMod = cModule.Attributes(Attributes.Module_MissileDamageMod)
+                            Else
+                                dmgMod = 0
+                                ROF = 1
+                            End If
                         End If
-                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) Then
-                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseExpDamage)
-                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
+                        If cModule.LoadedCharge IsNot Nothing Then
+                            cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
+                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
+                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
+                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
+                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
+                            cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
+                            cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
                         Else
-                            cModule.Attributes(Attributes.Module_ExpDamage) = 0
+                            cModule.Attributes(Attributes.Module_BaseDamage) = 0
+                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) Then
+                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseEMDamage)
+                                cModule.Attributes(Attributes.Module_EMDamage) = cModule.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
+                            Else
+                                cModule.Attributes(Attributes.Module_EMDamage) = 0
+                            End If
+                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) Then
+                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseExpDamage)
+                                cModule.Attributes(Attributes.Module_ExpDamage) = cModule.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
+                            Else
+                                cModule.Attributes(Attributes.Module_ExpDamage) = 0
+                            End If
+                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) Then
+                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseKinDamage)
+                                cModule.Attributes(Attributes.Module_KinDamage) = cModule.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
+                            Else
+                                cModule.Attributes(Attributes.Module_KinDamage) = 0
+                            End If
+                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
+                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseThermDamage)
+                                cModule.Attributes(Attributes.Module_ThermDamage) = cModule.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
+                            Else
+                                cModule.Attributes(Attributes.Module_ThermDamage) = 0
+                            End If
+                            cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
+                            cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
                         End If
-                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) Then
-                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseKinDamage)
-                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
-                        Else
-                            cModule.Attributes(Attributes.Module_KinDamage) = 0
-                        End If
-                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
-                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseThermDamage)
-                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
-                        Else
-                            cModule.Attributes(Attributes.Module_ThermDamage) = 0
-                        End If
-                        newShip.Attributes(Attributes.Ship_FighterControl) += DBI.Quantity
-                        cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                        cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                    End If
-                    newShip.Attributes(Attributes.Ship_DroneVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_DroneDPS) += cModule.Attributes(Attributes.Module_DPS) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF) * DBI.Quantity
-                Else
-                    ' Mining drone
-                    newShip.Attributes(Attributes.Ship_FighterControl) += DBI.Quantity
-                    cModule.Attributes(Attributes.Module_DroneOreMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
-                    newShip.Attributes(Attributes.Ship_OreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_DroneOreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_DroneOreMiningRate) += cModule.Attributes(Attributes.Module_DroneOreMiningRate) * DBI.Quantity
-                    newShip.Attributes(Attributes.Ship_OreMiningRate) += cModule.Attributes(Attributes.Module_DroneOreMiningRate) * DBI.Quantity
-                End If
+                        newShip.Attributes(Attributes.Ship_DroneVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_DroneDPS) += cModule.Attributes(Attributes.Module_DPS) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF) * DBI.Quantity
+                End Select
             End If
         Next
         For slot As Integer = 1 To newShip.HiSlots
@@ -1798,72 +1808,41 @@ Imports EveHQ.Core
                                     newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
                                 End If
                             Else
-                                If cModule.DatabaseGroup = ShipModule.Group_Smartbombs Then
-                                    ' Do smartbomb code
-                                    ROF = cModule.Attributes(Attributes.Module_ActivationTime)
-                                    cModule.Attributes(Attributes.Module_BaseDamage) = 0
-                                    If cModule.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) Then
-                                        cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseEMDamage)
-                                        cModule.Attributes(Attributes.Module_EMDamage) = cModule.Attributes(Attributes.Module_BaseEMDamage)
-                                    Else
-                                        cModule.Attributes(Attributes.Module_EMDamage) = 0
-                                    End If
-                                    If cModule.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) Then
-                                        cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseExpDamage)
-                                        cModule.Attributes(Attributes.Module_ExpDamage) = cModule.Attributes(Attributes.Module_BaseExpDamage)
-                                    Else
-                                        cModule.Attributes(Attributes.Module_ExpDamage) = 0
-                                    End If
-                                    If cModule.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) Then
-                                        cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseKinDamage)
-                                        cModule.Attributes(Attributes.Module_KinDamage) = cModule.Attributes(Attributes.Module_BaseKinDamage)
-                                    Else
-                                        cModule.Attributes(Attributes.Module_KinDamage) = 0
-                                    End If
-                                    If cModule.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
-                                        cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseThermDamage)
-                                        cModule.Attributes(Attributes.Module_ThermDamage) = cModule.Attributes(Attributes.Module_BaseThermDamage)
-                                    Else
-                                        cModule.Attributes(Attributes.Module_ThermDamage) = 0
-                                    End If
-                                    cModule.Attributes(Attributes.Module_VolleyDamage) = cModule.Attributes(Attributes.Module_BaseDamage)
-                                    cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                                    newShip.Attributes(Attributes.Ship_SmartbombVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                    newShip.Attributes(Attributes.Ship_SmartbombDPS) += cModule.Attributes(Attributes.Module_DPS)
-                                    newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                    newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
-                                    newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage)
-                                    newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage)
-                                    newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage)
-                                    newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage)
-                                    newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF)
-                                    newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF)
-                                    newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF)
-                                    newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
-                                ElseIf cModule.DatabaseGroup = ShipModule.Group_BombLaunchers Then
-                                    ' Do Bomb Launcher Code
-                                    If cModule.LoadedCharge IsNot Nothing Then
-                                        ' Adjust for reload time if required
-                                        Dim reloadEffect As Double = 0
-                                        If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
-                                            reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                Select Case cModule.DatabaseGroup
+                                    Case ShipModule.Group_Smartbombs
+                                        ' Do smartbomb code
+                                        ROF = cModule.Attributes(Attributes.Module_ActivationTime)
+                                        cModule.Attributes(Attributes.Module_BaseDamage) = 0
+                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) Then
+                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseEMDamage)
+                                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.Attributes(Attributes.Module_BaseEMDamage)
+                                        Else
+                                            cModule.Attributes(Attributes.Module_EMDamage) = 0
                                         End If
-                                        dmgMod = 1
-                                        ROF = cModule.Attributes(Attributes.Module_ROF)
-                                        cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
-                                        cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
+                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) Then
+                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseExpDamage)
+                                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.Attributes(Attributes.Module_BaseExpDamage)
+                                        Else
+                                            cModule.Attributes(Attributes.Module_ExpDamage) = 0
+                                        End If
+                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) Then
+                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseKinDamage)
+                                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.Attributes(Attributes.Module_BaseKinDamage)
+                                        Else
+                                            cModule.Attributes(Attributes.Module_KinDamage) = 0
+                                        End If
+                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
+                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseThermDamage)
+                                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.Attributes(Attributes.Module_BaseThermDamage)
+                                        Else
+                                            cModule.Attributes(Attributes.Module_ThermDamage) = 0
+                                        End If
+                                        cModule.Attributes(Attributes.Module_VolleyDamage) = cModule.Attributes(Attributes.Module_BaseDamage)
                                         cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                                        newShip.Attributes(Attributes.Ship_MissileVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_MissileDPS) += cModule.Attributes(Attributes.Module_DPS)
+                                        newShip.Attributes(Attributes.Ship_SmartbombVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
+                                        newShip.Attributes(Attributes.Ship_SmartbombDPS) += cModule.Attributes(Attributes.Module_DPS)
                                         newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
                                         newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
-                                        If cModule.LoadedCharge IsNot Nothing Then
-                                            cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
-                                        End If
-                                        cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
-                                        cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
-                                        cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
-                                        cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
                                         newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage)
                                         newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage)
                                         newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage)
@@ -1872,8 +1851,54 @@ Imports EveHQ.Core
                                         newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF)
                                         newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF)
                                         newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
-                                    End If
-                                End If
+                                    Case ShipModule.Group_BombLaunchers
+                                        ' Do Bomb Launcher Code
+                                        If cModule.LoadedCharge IsNot Nothing Then
+                                            ' Adjust for reload time if required
+                                            Dim reloadEffect As Double = 0
+                                            If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
+                                                reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
+                                            End If
+                                            dmgMod = 1
+                                            ROF = cModule.Attributes(Attributes.Module_ROF)
+                                            cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
+                                            cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
+                                            cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
+                                            newShip.Attributes(Attributes.Ship_MissileVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
+                                            newShip.Attributes(Attributes.Ship_MissileDPS) += cModule.Attributes(Attributes.Module_DPS)
+                                            newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
+                                            newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
+                                            If cModule.LoadedCharge IsNot Nothing Then
+                                                cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                            End If
+                                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
+                                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
+                                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
+                                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
+                                            newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage)
+                                            newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage)
+                                            newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage)
+                                            newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage)
+                                            newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF)
+                                            newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF)
+                                            newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF)
+                                            newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
+                                        End If
+                                    Case ShipModule.Group_ShieldTransporters, ShipModule.Group_RemoteArmorRepairers, ShipModule.Group_RemoteHullRepairers
+                                        Dim repAmount As Double = 0
+                                        If cModule.Attributes.ContainsKey(Attributes.Module_ShieldHPRepaired) = True Then
+                                            repAmount = cModule.Attributes(Attributes.Module_ShieldHPRepaired)
+                                        ElseIf cModule.Attributes.ContainsKey(Attributes.Module_ArmorHPRepaired) = True Then
+                                            repAmount = cModule.Attributes(Attributes.Module_ArmorHPRepaired)
+                                        Else
+                                            repAmount = cModule.Attributes(Attributes.Module_HullHPRepaired)
+                                        End If
+                                        cModule.Attributes(Attributes.Module_TransferRate) = repAmount / cModule.Attributes(Attributes.Module_ActivationTime)
+                                        newShip.Attributes(Attributes.Ship_ModuleTransferRate) += cModule.Attributes(Attributes.Module_TransferRate)
+                                        newShip.Attributes(Attributes.Ship_TransferRate) += cModule.Attributes(Attributes.Module_TransferRate)
+                                        newShip.Attributes(Attributes.Ship_ModuleTransferAmount) += repAmount
+                                        newShip.Attributes(Attributes.Ship_TransferAmount) += repAmount
+                                End Select
                             End If
                     End Select
                 End If
