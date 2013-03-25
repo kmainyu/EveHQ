@@ -254,7 +254,8 @@ Public Class PrismResources
                         newRes.Cells.Add(New Cell(subJob.CurrentBP.MELevel.ToString))
                         Dim BPME As New BPMEControl
                         BPME.nudME.Value = subJob.CurrentBP.MELevel
-                        BPME.nudME.LockUpdateChecked = Me.chkUseStandardCosting.Checked
+                        BPME.nudME.LockUpdateChecked = subJob.ProduceSubJob
+
                         BPME.nudME.ButtonCustom.Enabled = True
                         BPME.nudME.ButtonCustom.Enabled = False
                         BPME.AssignedTypeID = subJob.TypeID.ToString
