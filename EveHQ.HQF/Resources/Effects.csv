@@ -721,13 +721,13 @@
 244,2,646,160,3,18,2,0,5,15,Omni Tracking Link - Tracking Speed
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
-517,2,639,158,2,55;53;74,0,0,0,16,TD Drone - Falloff
-243,2,639,54,2,55;53;74,1,0,0,16,TD Drone - Optimal Range
-244,2,639,160,2,55;53;74,1,0,0,16,TD Drone - Tracking Speed
+517,2,639,158,2,55;53;74,1,0,5,16,TD Drone - Falloff
+243,2,639,54,2,55;53;74,1,0,5,16,TD Drone - Optimal Range
+244,2,639,160,2,55;53;74,1,0,5,16,TD Drone - Tracking Speed
 554,2,639,552,3,6,1,0,0,16,TP Drone - Signature Radius
 237,2,639,76,3,6,1,0,0,16,SD Drone - Max Targeting Range
 565,2,639,564,3,6,1,0,0,16,SD Drone - Scan Resolution
-20,2,641,37,3,6,0,0,0,16,SW Drone - Max Velocity
+20,2,641,37,3,6,1,0,0,16,SW Drone - Max Velocity
 # ELECTRONIC WARFARE,,,,,,,,,,
 # ECCM,,,,,,,,,,
 1027,2,202,211,3,6,1,0,0,12,Grav Strength
@@ -770,7 +770,7 @@
 # Target Painters,,,,,,,,,,
 554,2,379,552,3,6,1,0,0,16,Signature Radius Penalty
 # Tracking Disruptors,,,,,,,,,,
-349,2,291,158,2,55;53;74,0,0,0,16,Falloff
+349,2,291,158,2,55;53;74,1,0,0,16,Falloff
 351,2,291,54,2,55;53;74,1,0,0,16,Optimal Range
 767,2,291,160,2,55;53;74,1,0,0,16,Tracking Speed
 # Warp Disruption Field Generators,,,,,,,,,,

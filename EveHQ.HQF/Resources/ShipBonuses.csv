@@ -558,7 +558,7 @@
 12034,1,3329,37,2,89;657,0,1,0,20,15,Torpedo Velocity
 12034,1,12093,116,2,89;657,0,1,0,15,15,Explosive Torpedo Damage
 12034,1,12093,116,2,90,0,1,0,5,15,Explosive Bomb Damage
-12034,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
+12034,0,0,30,2,508,0,0,0,-99.65,15,Torpedo Launcher PG Need
 12034,0,0,50,2,330,0,0,0,-50,15,Cloaking Device CPU
 12034,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Huginn,,,,,,,,,,,
@@ -750,7 +750,7 @@
 12032,1,3330,37,2,89;657,0,1,0,20,15,Torpedo Velocity
 12032,1,12093,117,2,89;657,0,1,0,15,15,Kinetic Torpedo Damage
 12032,1,12093,117,2,90,0,1,0,5,15,Kinetic Bomb Damage
-12032,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
+12032,0,0,30,2,508,0,0,0,-99.65,15,Torpedo Launcher PG Need
 12032,0,0,50,2,330,0,0,0,-50,15,Cloaking Device CPU
 12032,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Mastodon,,,,,,,,,,,
@@ -817,7 +817,7 @@
 11377,1,3328,37,2,89;657,0,1,0,20,15,Torpedo Velocity
 11377,1,12093,118,2,89;657,0,1,0,15,15,Thermal Torpedo Damage
 11377,1,12093,118,2,90,0,1,0,5,15,Thermal Bomb Damage
-11377,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
+11377,0,0,30,2,508,0,0,0,-99.65,15,Torpedo Launcher PG Need
 11377,0,0,50,2,330,0,0,0,-50,15,Cloaking Device CPU
 11377,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Nidhoggur,,,,,,,,,,,
@@ -1001,7 +1001,7 @@
 12038,1,3331,37,2,89;657,0,1,0,20,15,Torpedo Velocity
 12038,1,12093,114,2,89;657,0,1,0,15,15,EM Torpedo Damage
 12038,1,12093,114,2,90,0,1,0,5,15,EM Bomb Damage
-12038,0,0,30,2,508,0,0,0,-99.65,15,Siege Missile PG Need
+12038,0,0,30,2,508,0,0,0,-99.65,15,Torpedo Launcher PG Need
 12038,0,0,50,2,330,0,0,0,-50,15,Cloaking Device CPU
 12038,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Ragnarok,,,,,,,,,,,
@@ -1032,13 +1032,13 @@
 17918,1,3336,9,3,18,0,1,0,10,15,Drone Hull HP
 17918,1,3336,64,3,18,0,1,0,10,15,Drone Damage
 # Raven,,,,,,,,,,,
-638,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
+638,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 638,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Raven Navy Issue,,,,,,,,,,,
-17636,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
+17636,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 17636,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Raven State Issue,,,,,,,,,,,
-26840,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
+26840,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 26840,1,3338,37,2,656;657;386;89,0,1,0,10,15,Cruise & Torpedo Velocity
 # Reaper,,,,,,,,,,,
 588,0,0,37,1,588,0,0,0,10,15,Max Velocity
@@ -1160,7 +1160,7 @@
 640,1,3338,241,2,80,0,1,0,15,15,ECM Burst Strength Radar
 640,1,3338,142,2,80,0,1,0,25,15,ECM Burst Radius
 # Scorpion Navy Issue,,,,,,,,,,,
-32309,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
+32309,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 32309,1,3338,271,1,32309,0,1,2,-5,15,Shield EM Resistance
 32309,1,3338,272,1,32309,0,1,2,-5,15,Shield Explosive Resistance
 32309,1,3338,273,1,32309,0,1,2,-5,15,Shield Kinetic Resistance
@@ -1289,10 +1289,10 @@
 593,1,3328,9,3,18,0,1,0,10,15,Drone Hull HP
 # Typhoon,,,,,,,,,,,
 644,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
-644,1,3337,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
+644,1,3337,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 # Typhoon Fleet Issue,,,,,,,,,,,
 32311,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
-32311,1,3337,51,2,506;508,0,1,0,-5,15,Cruise & Siege ROF
+32311,1,3337,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 # Vagabond,,,,,,,,,,,
 11999,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 11999,1,3333,37,1,11999,0,1,0,5,15,Max Velocity
