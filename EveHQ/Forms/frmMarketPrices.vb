@@ -451,12 +451,12 @@ Public Class frmMarketPrices
         marketOrders.ShowDialog()
     End Sub
 
-    Private Sub adtLogs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtLogs.ColumnHeaderMouseDown
+    Private Sub adtLogs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 
-    Private Sub adtLogs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtLogs.NodeDoubleClick
+    Private Sub adtLogs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
         Dim marketOrders As New frmMarketOrders
         If adtLogs.SelectedNodes.Count > 0 Then
             marketOrders.OrdersFile = adtLogs.SelectedNodes(0).Tag.ToString
@@ -496,11 +496,11 @@ Public Class frmMarketPrices
         Next
     End Sub
 
-    Private Sub nudAge_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAge.LostFocus
+    Private Sub nudAge_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs)
         Me.HighlightAllLogs()
     End Sub
 
-    Private Sub nudAge_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudAge.ValueChanged
+    Private Sub nudAge_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.HighlightAllLogs()
     End Sub
 
@@ -517,7 +517,7 @@ Public Class frmMarketPrices
         End Select
     End Sub
 
-    Private Sub btnRefreshLogs_Click(sender As System.Object, e As System.EventArgs) Handles btnRefreshLogs.Click
+    Private Sub btnRefreshLogs_Click(sender As System.Object, e As System.EventArgs)
         Call Me.ImportLogDetails()
     End Sub
 
@@ -709,7 +709,7 @@ Public Class frmMarketPrices
         adtPriceGroupItems.EndUpdate()
     End Sub
 
-    Private Sub btnAddPriceGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddPriceGroup.Click
+    Private Sub btnAddPriceGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ' Create a new instance of the ModifyPriceGroup form
         Dim NewPriceGroup As New frmModifyPriceGroup
         NewPriceGroup.ShowDialog()
@@ -720,7 +720,7 @@ Public Class frmMarketPrices
         NewPriceGroup.Dispose()
     End Sub
 
-    Private Sub btnEditPriceGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditPriceGroup.Click
+    Private Sub btnEditPriceGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If adtPriceGroups.SelectedNodes.Count = 1 Then
             If adtPriceGroups.SelectedNodes(0).Text <> "<Global>" Then
                 Dim PriceGroupName As String = adtPriceGroups.SelectedNodes(0).Text
@@ -745,7 +745,7 @@ Public Class frmMarketPrices
 
     End Sub
 
-    Private Sub btnDeletePriceGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeletePriceGroup.Click
+    Private Sub btnDeletePriceGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If adtPriceGroups.SelectedNodes.Count = 1 Then
             If adtPriceGroups.SelectedNodes(0).Text <> "<Global>" Then
                 Dim reply As DialogResult = MessageBox.Show("Are you sure you want to delete the selected Price Group?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -766,7 +766,7 @@ Public Class frmMarketPrices
         End If
     End Sub
 
-    Private Sub adtPriceGroups_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtPriceGroups.SelectionChanged
+    Private Sub adtPriceGroups_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         If adtPriceGroups.SelectedNodes.Count = 0 Then
             ' Set the buttons
             btnAddPriceGroup.Enabled = True
@@ -787,16 +787,16 @@ Public Class frmMarketPrices
     Private Sub PriceGroupFlagCheckBoxHandler(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _
      chkPGMinAll.CheckedChanged,
      chkPGMinBuy.CheckedChanged,
-     chkPGMinSell.CheckedChanged,
-     chkPGMaxAll.CheckedChanged,
-     chkPGMaxBuy.CheckedChanged,
-     chkPGMaxSell.CheckedChanged,
-     chkPGAvgAll.CheckedChanged,
-     chkPGAvgBuy.CheckedChanged,
-     chkPGAvgSell.CheckedChanged,
-     chkPGMedAll.CheckedChanged,
-     chkPGMedBuy.CheckedChanged,
-     chkPGMedSell.CheckedChanged
+
+        chkPGMaxAll.CheckedChanged,
+        chkPGMaxBuy.CheckedChanged,
+        chkPGMaxSell.CheckedChanged,
+        chkPGAvgAll.CheckedChanged,
+        chkPGAvgBuy.CheckedChanged,
+        chkPGAvgSell.CheckedChanged,
+        chkPGMedAll.CheckedChanged,
+        chkPGMedBuy.CheckedChanged,
+        chkPGMedSell.CheckedChanged
 
         If Me.UpdatePriceGroup = False Then
 
@@ -814,7 +814,7 @@ Public Class frmMarketPrices
 
     End Sub
 
-    Private Sub adtPriceGroupItems_SelectionChanged(sender As Object, e As System.EventArgs) Handles adtPriceGroupItems.SelectionChanged
+    Private Sub adtPriceGroupItems_SelectionChanged(sender As Object, e As System.EventArgs)
         If adtPriceGroupItems.SelectedNodes.Count > 0 Then
             btnDeleteItem.Enabled = True
         Else
@@ -822,7 +822,7 @@ Public Class frmMarketPrices
         End If
     End Sub
 
-    Private Sub btnAddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddItem.Click
+    Private Sub btnAddItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ' Add a new item
         If CurrentPriceGroup.Name <> "<Global>" Then
             Dim NewPrice As New frmModifyPriceGroupItem(AdtItems, EveHQ.Core.HQ.ItemMarketGroups)
@@ -851,7 +851,7 @@ Public Class frmMarketPrices
         End If
     End Sub
 
-    Private Sub btnDeleteItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteItem.Click
+    Private Sub btnDeleteItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If adtPriceGroupItems.SelectedNodes.Count = 0 Then
             MessageBox.Show("You must select at least one item before trying to delete it!", "Price Group Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -863,7 +863,7 @@ Public Class frmMarketPrices
         End If
     End Sub
 
-    Private Sub btnClearItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearItems.Click
+    Private Sub btnClearItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ' Confirm the clearing of the current items
         Dim reply As DialogResult = MessageBox.Show("Are you sure you want to clear all items in this Price Group?", "Confirm Clear Items", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.Yes Then
@@ -874,7 +874,7 @@ Public Class frmMarketPrices
         End If
     End Sub
 
-    Private Sub adtPriceGroupRegions_AfterCheck(ByVal sender As Object, ByVal e As DevComponents.AdvTree.AdvTreeCellEventArgs) Handles adtPriceGroupRegions.AfterCheck
+    Private Sub adtPriceGroupRegions_AfterCheck(ByVal sender As Object, ByVal e As DevComponents.AdvTree.AdvTreeCellEventArgs)
 
         ' Only perform this if not updating the Price Group
         If UpdatePriceGroup = False Then
