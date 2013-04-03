@@ -7,13 +7,13 @@
 292,1,12487,64,5,12487,0,1,0,0,Caldari Drone Specialization
 292,1,24241,64,4,837,0,1,0,0,Combat Drone Operation - Light
 292,1,24241,64,4,838,0,1,0,0,Combat Drone Operation - Medium
-327,1,23618,9,3,18,0,1,0,0,Drone Durability - Hull
-335,1,23618,265,3,18,0,1,0,0,Drone Durability - Armor
-337,1,23618,263,3,18,0,1,0,0,Drone Durability - Shield
-292,1,3442,64,2,100,0,1,0,0,Drone Interfacing - Damage
+327,1,23618,9,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Durability - Hull
+335,1,23618,265,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Durability - Armor
+337,1,23618,263,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Durability - Shield
+292,1,3442,64,2,100;101;1159,0,1,0,0,Drone Interfacing - Damage
 434,1,3442,77,2,101,0,1,0,0,Drone Interfacing - Mining
-591,1,12305,37,3,18,0,1,0,0,Drone Navigation
-294,1,23606,54,3,18,0,1,0,0,Drone Sharpshooting
+591,1,12305,37,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Navigation
+294,1,23606,54,2,100;101;544;639;640;641;1159,0,1,0,0,Drone Sharpshooting
 353,1,3436,10005,3,6,0,1,1,0,Drones
 459,1,23566,10007,3,6,0,1,1,0,Electronic Warfare Drone Interfacing
 292,1,23069,64,2,549,0,1,0,0,Fighters
@@ -714,11 +714,11 @@
 # DRONES,,,,,,,,,,
 # DRONE UPGRADES,,,,,,,,,,
 353,2,407,10005,3,6,0,0,1,4,Drone Control Unit - Drone Bonus
-1255,2,645,64,3,18,1,0,0,15,Drone Damage Amplifier
+1255,2,645,64,2,100;101;1159,1,0,0,15,Drone Damage Amplifier
 459,2,647,10007,3,6,0,0,1,15,Drone Link Augmenter - Drone Control Range Bonus
-567,2,644,37,3,18,3,0,0,15,Drone Navigation Computer - Drone Velocity
-243,2,646,54,3,18,2,0,5,15,Omni Tracking Link - Optimal Range
-244,2,646,160,3,18,2,0,5,15,Omni Tracking Link - Tracking Speed
+567,2,644,37,2,100;101;544;639;640;641;1159,3,0,0,15,Drone Navigation Computer - Drone Velocity
+243,2,646,54,2,100;101;544;639;640;641;1159,2,0,5,15,Omni Tracking Link - Optimal Range
+244,2,646,160,2,100,2,0,5,15,Omni Tracking Link - Tracking Speed
 # REMOTE DRONES,,,,,,,,,,
 90,2,544,6,6,0,0,0,8,16,Energy Vampire Drone
 517,2,639,158,2,55;53;74,1,0,5,16,TD Drone - Falloff
@@ -1202,17 +1202,16 @@
 # RIGS - DRONE,,,,,,,,,,
 1138,2,778,48,3,6,0,0,0,15,Drone Rig Drawback - CPU Output
 459,2,778,10007,3,6,0,0,1,15,Drone Control Range Augmentor
-327,2,778,263,3,18,0,0,0,15,Drone Durability Enhancer - Shield
-327,2,778,265,3,18,0,0,0,15,Drone Durability Enhancer - Armor
-327,2,778,9,3,18,0,0,0,15,Drone Durability Enhancer - Hull
-434,2,778,77,3,18,0,0,0,15,Drone Mining Augmentor
-39,2,778,68,3,18,0,0,0,15,Drone Repair Augmentor - Shield
-39,2,778,84,3,18,0,0,0,15,Drone Repair Augmentor - Armor
-294,2,778,54,3,18,0,0,0,15,Drone Scope Chip
-591,2,778,37,3,18,3,0,0,15,Drone Speed Augmentor
-459,2,778,10007,2,639,0,0,1,15,EW Drone Range Augmentor
+327,2,778,263,2,100;101;544;639;640;641;1159,0,0,0,15,Drone Durability Enhancer - Shield
+327,2,778,265,2,100;101;544;639;640;641;1159,0,0,0,15,Drone Durability Enhancer - Armor
+327,2,778,9,2,100;101;544;639;640;641;1159,0,0,0,15,Drone Durability Enhancer - Hull
+434,2,778,77,2,101,0,0,0,15,Drone Mining Augmentor
+39,2,778,68,2,640,0,0,0,15,Drone Repair Augmentor - Shield
+39,2,778,84,2,640,0,0,0,15,Drone Repair Augmentor - Armor
+294,2,778,54,2,100;101;544;639;640;641;1159,0,0,0,15,Drone Scope Chip
+591,2,778,37,2,100;101;544;639;640;641;1159,3,0,0,15,Drone Speed Augmentor
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
-1619,2,778,20,3,18,1,0,0,15,Stasis Drone Augmentor
+1619,2,778,20,2,641,1,0,0,15,Stasis Drone Augmentor
 # RIGS - ELECTRONIC,,,,,,,,,,
 134,2,780,479,3,6,0,0,0,15,Electronic Rig Drawback - Shield Recharge Rate
 1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener
