@@ -237,6 +237,12 @@
     <Compile Include="Controls\DBControls\DBCWSystem.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\MarketItemMetrics.Designer.vb">
+      <DependentUpon>MarketItemMetrics.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MarketItemMetrics.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\RSSTwitterItem.Designer.vb">
       <DependentUpon>RSSTwitterItem.vb</DependentUpon>
     </Compile>
@@ -367,12 +373,6 @@
       <DependentUpon>frmMail.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMail.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMarketOrders.Designer.vb">
-      <DependentUpon>frmMarketOrders.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmMarketOrders.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmMarketPrices.Designer.vb">
@@ -552,6 +552,9 @@
     <EmbeddedResource Include="Controls\DBControls\DBCWSystem.resx">
       <DependentUpon>DBCWSystem.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MarketItemMetrics.resx">
+      <DependentUpon>MarketItemMetrics.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RSSTwitterItem.resx">
       <DependentUpon>RSSTwitterItem.vb</DependentUpon>
     </EmbeddedResource>
@@ -629,9 +632,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMail.resx">
       <DependentUpon>frmMail.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMarketOrders.resx">
-      <DependentUpon>frmMarketOrders.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMarketPrices.resx">
       <DependentUpon>frmMarketPrices.vb</DependentUpon>

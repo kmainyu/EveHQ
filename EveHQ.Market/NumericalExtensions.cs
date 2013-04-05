@@ -38,12 +38,32 @@ namespace EveHQ.Market
         /// </returns>
         public static string ToInvariantString(this int number)
         {
-            return number.ToString(CultureInfo.InvariantCulture);
+            return number.ToInvariantString(null);
+        }
+
+        public static string ToInvariantString(this int number, string formatter)
+        {
+            return number.ToString(formatter,CultureInfo.InvariantCulture);
         }
 
         public static string ToInvariantString(this long number)
         {
-            return number.ToString(CultureInfo.InvariantCulture);
+            return number.ToInvariantString(null);
+        }
+
+        public static string ToInvariantString(this long number, string formatter)
+        {
+            return number.ToString(formatter,CultureInfo.InvariantCulture);
+        }
+
+        public static string ToCurrentCultureString(this long number)
+        {
+            return number.ToCurrentCultureString("N0");
+        }
+
+        public static string ToCurrentCultureString(this long number, string formatter)
+        {
+            return number.ToString(formatter, CultureInfo.InvariantCulture);
         }
 
         public static string ToInvariantString(this bool value)
@@ -56,6 +76,12 @@ namespace EveHQ.Market
             const string Formatter = "F{0}";
 
             return number.ToString(Formatter.FormatInvariant(decimalPlaces),CultureInfo.InvariantCulture);
+        }
+
+
+        public static string ToCurrentCultureString(this double number, string formatter)
+        {
+            return number.ToString(formatter, CultureInfo.CurrentCulture);
         }
 
        
