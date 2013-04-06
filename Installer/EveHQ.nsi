@@ -167,7 +167,7 @@ Function .onInit
 
 #2.11.7
 push $R0
-  StrCpy $R0 {8A5A8461-7E46-4467-9C52-AF89D713A255}
+  StrCpy $R0 {674EC3E3-3B20-48A8-A997-AB9500300B3E}
   Call UninstallMSI
 pop $R0
 

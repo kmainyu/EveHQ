@@ -87,7 +87,7 @@ Public Class HQ
     Public Shared EveHQLogTimer As New Stopwatch
     Public Shared EveHQLogFile As StreamWriter
     Public Shared Stations As New SortedList(Of String, Station)
-    Private Shared _solarSystemsById As New SortedList(Of String, SolarSystem)
+    Private Shared _solarSystemsById As SortedList(Of String, SolarSystem)
     Private Shared _solarSystemsByName As SortedList(Of String, SolarSystem)
     Public Shared APIUpdateInProgress As Boolean = False
     Public Shared EveHQServerMessage As EveHQMessage
@@ -146,6 +146,10 @@ Public Class HQ
 
     Public Shared Property SolarSystemsById As SortedList(Of String, SolarSystem)
         Get
+            If (_solarSystemsById Is Nothing) Then
+                _solarSystemsById = New SortedList(Of String, SolarSystem)
+                DataFunctions.LoadSolarSystems()
+            End If
             Return _solarSystemsById
         End Get
         Set(value As SortedList(Of String, SolarSystem))
@@ -157,7 +161,7 @@ Public Class HQ
         Get
             If _solarSystemsByName Is Nothing Then
                 _solarSystemsByName = New SortedList(Of String, SolarSystem)
-                For Each solSystem As SolarSystem In _solarSystemsById.Values
+                For Each solSystem As SolarSystem In SolarSystemsById.Values
                     _solarSystemsByName.Add(solSystem.Name, solSystem)
                 Next
             End If

@@ -8,7 +8,7 @@ Function UninstallMSI
   push $R1
   ReadRegStr $R1 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$R0" "UninstallString"
   StrCmp $R1 "" UninstallMSI_nomsi
-    MessageBox MB_YESNOCANCEL|MB_ICONQUESTION  "A previous version of EveHQ was found. It is recommended that you uninstall it first.$\n$\n\Do you want to do that now?" IDNO UninstallMSI_nomsi IDYES UninstallMSI_yesmsi
+    MessageBox MB_YESNOCANCEL|MB_ICONQUESTION  "A previous version of EveHQ was found. It is recommended that you uninstall it first.$\n$\nDo you want to do that now?" IDNO UninstallMSI_nomsi IDYES UninstallMSI_yesmsi
       Abort
 UninstallMSI_yesmsi:
     ExecWait '"msiexec.exe" /x $R0'

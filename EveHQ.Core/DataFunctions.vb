@@ -36,7 +36,7 @@ Public Class DataFunctions
     Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Shared SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
     Shared culture As CultureInfo = New CultureInfo("en-GB")
-    Shared LastCacheRefresh As String = "2.11.6.0"
+    Shared LastCacheRefresh As String = "2.12.0.0"
 
     Public Shared Function CreateEveHQDataDB() As Boolean
         Select Case HQ.EveHqSettings.DBFormat
