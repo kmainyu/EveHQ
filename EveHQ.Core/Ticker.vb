@@ -75,7 +75,7 @@ Public Class Ticker
             Else
                 cScrollNumberOfImages = value
             End If
-            '  SetupImages()
+            SetupImages()
         End Set
     End Property
 
@@ -90,8 +90,8 @@ Public Class Ticker
         scrollTimer.Enabled = False
         Me.DoubleBuffered = True
         r = New Random(Now.Millisecond)
-        lastItem = EveHQ.Core.HQ.itemData.Count
-        ' Call SetupImages()
+        lastItem = EveHQ.Core.HQ.TickerItemList.Count
+        Call SetupImages()
     End Sub
 
     Private Sub SetupImages()
@@ -113,9 +113,9 @@ Public Class Ticker
         Dim g As Graphics = Graphics.FromImage(img)
         g.SmoothingMode = SmoothingMode.HighQuality
         Dim strWidth As Integer
-        If EveHQ.Core.HQ.itemList.Count > 0 Then
+        If EveHQ.Core.HQ.TickerItemList.Count > 0 Then
             Do
-                itemID = "34"
+                itemID = EveHQ.Core.HQ.TickerItemList(r.Next(0, lastItem))
                 itemName = EveHQ.Core.HQ.itemData(itemID).Name
                 itemPrice = EveHQ.Core.DataFunctions.GetPrice(itemID)
             Loop Until itemPrice > 0 And EveHQ.Core.HQ.itemData(itemID).Published = True
@@ -179,6 +179,10 @@ Public Class Ticker
     End Sub
 
     Private Sub Ticker_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
+        If (scrollImages Is Nothing Or scrollImages.Count = 0) Then
+            Return ' No data to scroll.
+        End If
+
         Dim startPosition As Integer = CType(scrollImages.Peek, ScrollImage).imgX - cScrollDistance
         Dim si As ScrollImage
         For Each si In scrollImages

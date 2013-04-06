@@ -101,7 +101,7 @@ Public Class HQ
     Private Shared _marketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
     Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver) = {New EveCentralMarketDataProvider(), New EveMarketDataRelayProvider()}
     Private Shared _marketCacheUploader As MarketUploader
-
+    Private Shared _tickerItemList As New List(Of String)
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get
@@ -189,6 +189,26 @@ Public Class HQ
         End Get
         Set(value As MarketUploader)
             _marketCacheUploader = value
+        End Set
+    End Property
+
+    Public Shared Property TickerItemList As List(Of String)
+        Get
+            If (_tickerItemList.Count = 0) Then
+                'Add place holder mineral types only
+                _tickerItemList.Add("34")
+                _tickerItemList.Add("35")
+                _tickerItemList.Add("36")
+                _tickerItemList.Add("37")
+                _tickerItemList.Add("38")
+                _tickerItemList.Add("39")
+                _tickerItemList.Add("40")
+                _tickerItemList.Add("11399")
+            End If
+            Return _tickerItemList
+        End Get
+        Set(value As List(Of String))
+            _tickerItemList = value
         End Set
     End Property
 
