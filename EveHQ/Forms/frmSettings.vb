@@ -2173,8 +2173,10 @@ Public Class frmSettings
 
     Private Sub UpdateMarketSettings()
         UpdateMarketProviderList()
-        UpdatePriceMetric()
+        UpdateDefaultMetrics()
         UpdateDataSourceList()
+        UpdateItemOverrideControls()
+
     End Sub
 
     Private Sub UpdateMarketProviderList()
@@ -2184,9 +2186,22 @@ Public Class frmSettings
 
         ' Set selected to the current setting.
         _marketDataProvider.SelectedItem = HQ.EveHqSettings.MarketDataProvider
+
+        enableMarketDataUpload.Checked = HQ.EveHqSettings.MarketDataUploadEnabled
     End Sub
 
-    Private Sub UpdatePriceMetric()
+    Private Sub UpdateDefaultMetrics()
+
+        Select Case HQ.EveHqSettings.MarketDefaultTransactionType
+            Case MarketTransactionKind.All
+                _defaultAll.Checked = True
+            Case MarketTransactionKind.Buy
+                _defaultBuy.Checked = True
+            Case Else
+                _defaultSell.Checked = True
+        End Select
+
+
         Dim metric As String = HQ.EveHqSettings.MarketDefaultMetric.ToString()
         If _useMiniumPrice.Text = metric Then
             _useMiniumPrice.Checked = True
@@ -2283,6 +2298,15 @@ Public Class frmSettings
             HQ.EveHqSettings.MarketDefaultMetric = MarketMetric.Percentile
         End If
 
+        If (_defaultAll.Checked) Then
+            HQ.EveHqSettings.MarketDefaultTransactionType = MarketTransactionKind.All
+        ElseIf _defaultBuy.Checked Then
+            HQ.EveHqSettings.MarketDefaultTransactionType = MarketTransactionKind.Buy
+        Else
+            HQ.EveHqSettings.MarketDefaultTransactionType = MarketTransactionKind.Sell
+
+        End If
+
         If _useSystemPrice.Checked Then
             HQ.EveHqSettings.MarketUseRegionMarket = False
         Else
@@ -2297,10 +2321,166 @@ Public Class frmSettings
             HQ.EveHqSettings.MarketRegions = (From marketRegion In _regionList.SelectedItems Select HQ.Regions(marketRegion.ToString).Id).ToList()
         End If
 
-        If enableMarketDataUpload.Checked Then
-            HQ.EveHqSettings.MarketDataUploadEnabled = True
+        HQ.EveHqSettings.MarketDataUploadEnabled = enableMarketDataUpload.Checked
+
+        If EveHQ.Core.HQ.EveHqSettings.MarketDataUploadEnabled = True Then
+            Core.HQ.MarketCacheUploader.Start()
+        Else
+            Core.HQ.MarketCacheUploader.Stop() ' It should be stopped already, but never hurts to set it so again.
         End If
     End Sub
+
+
+    Private Sub UpdateItemOverrideControls()
+        If (_itemOverrideItemList.Items.Count = 0) Then
+            _itemOverrideItemList.Items.AddRange((From item In Core.HQ.itemData.Values Where item.MarketGroup <> 0 Select item.Name).ToArray())
+        End If
+
+        'set radio buttons to defaults
+        SetOverrideMetricRadioButton(HQ.EveHqSettings.MarketDefaultMetric)
+
+        SetOverrideTransactionTypeRadioButton(HQ.EveHqSettings.MarketDefaultTransactionType)
+
+        UpdateActiveOverrides()
+    End Sub
+
+    Private Sub SetOverrideMetricRadioButton(metric As MarketMetric)
+        Select Case metric
+            Case MarketMetric.Average
+                _itemOverrideAvgPrice.Checked = True
+            Case MarketMetric.Maximum
+                _itemOverrideMaxPrice.Checked = True
+            Case MarketMetric.Median
+                _itemOverrideMedianPrice.Checked = True
+            Case MarketMetric.Minimum
+                _itemOverrideMinPrice.Checked = True
+            Case MarketMetric.Percentile
+                _itemOverridePercentPrice.Checked = True
+            Case MarketMetric.Default
+                _itemOverrideMinPrice.Checked = True
+
+        End Select
+    End Sub
+
+    Private Sub SetOverrideTransactionTypeRadioButton(type As MarketTransactionKind)
+        Select Case type
+            Case MarketTransactionKind.All
+                _itemOverrideAllOrders.Checked = True
+            Case MarketTransactionKind.Buy
+                _itemOverrideBuyOrders.Checked = True
+            Case MarketTransactionKind.Sell
+                _itemOverrideSellOrders.Checked = True
+            Case MarketTransactionKind.Default
+                _itemOverrideSellOrders.Checked = True
+        End Select
+    End Sub
+
+    Private Sub OnOverrideItemListIndexChanged(sender As System.Object, e As System.EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
+
+        Dim item As String
+        Dim itemId As Integer
+        Dim activeStat As MarketMetric = HQ.EveHqSettings.MarketDefaultMetric
+        Dim activeTransactionType As MarketTransactionKind = HQ.EveHqSettings.MarketDefaultTransactionType
+        If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item)) And Integer.TryParse(item, itemId) Then
+
+            ' see if the item is in the override list, otherwise set values to default
+            Dim itemOverride As ItemMarketOverride
+            If HQ.EveHqSettings.MarketStatOverrides.Count > 0 And HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemId, itemOverride) Then
+                If (itemOverride IsNot Nothing) Then
+                    activeStat = itemOverride.MarketStat
+                    activeTransactionType = itemOverride.TransactionType
+                End If
+            End If
+
+        End If
+
+        SetOverrideMetricRadioButton(activeStat)
+       
+        SetOverrideTransactionTypeRadioButton(activeTransactionType)
+     
+
+
+    End Sub
+
+
+    Private Sub OnAddUpdateItemOverrideClick(sender As System.Object, e As System.EventArgs) Handles _itemOverrideAddOverride.Click
+        Dim item As String
+        Dim itemID As Integer
+        If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item) = False) Or (Integer.TryParse(item, itemID) = False) Then
+            Return 'not a real item
+        End If
+
+        Dim override As New ItemMarketOverride()
+        override.ItemId = itemID
+
+
+        If (_itemOverrideAllOrders.Checked) Then
+            override.TransactionType = MarketTransactionKind.All
+        ElseIf _itemOverrideBuyOrders.Checked Then
+            override.TransactionType = MarketTransactionKind.Buy
+        Else
+            override.TransactionType = MarketTransactionKind.Sell
+        End If
+
+        If (_itemOverrideAvgPrice.Checked) Then
+            override.MarketStat = MarketMetric.Average
+        ElseIf _itemOverrideMaxPrice.Checked Then
+            override.MarketStat = MarketMetric.Maximum
+        ElseIf _itemOverrideMedianPrice.Checked Then
+            override.MarketStat = MarketMetric.Median
+        ElseIf _itemOverridePercentPrice.Checked Then
+            override.MarketStat = MarketMetric.Percentile
+        Else
+            override.MarketStat = MarketMetric.Minimum
+        End If
+
+        Dim existing As ItemMarketOverride
+        If HQ.EveHqSettings.MarketStatOverrides.TryGetValue(override.ItemId, existing) Then
+            HQ.EveHqSettings.MarketStatOverrides(override.ItemId) = override
+        Else
+            HQ.EveHqSettings.MarketStatOverrides.Add(override.ItemId, override)
+        End If
+
+        UpdateActiveOverrides()
+    End Sub
+
+    Private Sub OnOverrideGridNodeClick(sender As System.Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
+        
+
+        If (e.Node IsNot Nothing) Then
+            _itemOverrideItemList.SelectedItem = e.Node.Text
+        End If
+    End Sub
+
+    Private Sub UpdateActiveOverrides()
+        _itemOverridesActiveGrid.Nodes.Clear()
+
+        For Each override As ItemMarketOverride In HQ.EveHqSettings.MarketStatOverrides.Values
+            Dim node As New Node()
+            node.Text = HQ.itemData(override.ItemId.ToInvariantString).Name
+            node.Cells.Add(New Cell(override.ItemId.ToInvariantString))
+            node.Cells.Add(New Cell(override.TransactionType.ToString))
+            node.Cells.Add(New Cell(override.MarketStat.ToString))
+
+            _itemOverridesActiveGrid.Nodes.Add(node)
+        Next
+
+    End Sub
+
+
+
+    Private Sub OnRemoveOverrideClick(sender As System.Object, e As System.EventArgs) Handles _itemOverrideRemoveOverride.Click
+        Dim item As String
+        Dim itemID As Integer
+        If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item) = False) Or (Integer.TryParse(item, itemID) = False) Then
+            Return 'not a real item
+        End If
+
+        HQ.EveHqSettings.MarketStatOverrides.Remove(itemID)
+        UpdateActiveOverrides()
+
+    End Sub
+
 #End Region
 
 
@@ -2425,5 +2605,5 @@ Public Class frmSettings
     End Sub
 
 
-   
+  
 End Class

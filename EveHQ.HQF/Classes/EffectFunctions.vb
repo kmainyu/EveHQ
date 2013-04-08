@@ -221,7 +221,7 @@ Public Class EffectFunctions
                             Desc.Append(" of nothing")
                         End If
                     Case Else
-                        Desc.Append(" of something that Vessper has yet to add code for")
+                        Desc.Append(" of something that EveHQ has yet to add code for")
                 End Select
 
                 ' Check if this is per level, ignore for a role bonus

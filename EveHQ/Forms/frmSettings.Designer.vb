@@ -36,7 +36,8 @@ Partial Public Class frmSettings
         Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
         Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Item Overrides")
+        Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode17})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox()
         Me.chkDisableTrainingBar = New System.Windows.Forms.CheckBox()
@@ -302,7 +303,31 @@ Partial Public Class frmSettings
         Me.chkShowPriceTicker = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.panelSettings = New DevComponents.DotNetBar.PanelEx()
+        Me.gbItemOverrides = New System.Windows.Forms.GroupBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me._itemOverridesActiveGrid = New DevComponents.AdvTree.AdvTree()
+        Me._itemOverridesActiveGridNameColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me._itemOverridesActiveGridItemIdColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me._itemOverridesActiveGridOrderTypeColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me._itemOverridesActiveGridMetricColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me._itemOverrideRemoveOverride = New System.Windows.Forms.Button()
+        Me._itemOverrideAddOverride = New System.Windows.Forms.Button()
+        Me._itemOverrideItemList = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me._itemOverrideAllOrders = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideBuyOrders = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideSellOrders = New System.Windows.Forms.RadioButton()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me._itemOverridePercentPrice = New System.Windows.Forms.RadioButton()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me._itemOverrideMedianPrice = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideMinPrice = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideAvgPrice = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideMaxPrice = New System.Windows.Forms.RadioButton()
         Me.gbMarket = New System.Windows.Forms.GroupBox()
+        Me.enableMarketDataUpload = New System.Windows.Forms.CheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me._systemList = New System.Windows.Forms.ListBox()
@@ -319,7 +344,12 @@ Partial Public Class frmSettings
         Me.Label1 = New System.Windows.Forms.Label()
         Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.enableMarketDataUpload = New System.Windows.Forms.CheckBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me._defaultSell = New System.Windows.Forms.RadioButton()
+        Me._defaultBuy = New System.Windows.Forms.RadioButton()
+        Me._defaultAll = New System.Windows.Forms.RadioButton()
         Me.gbGeneral.SuspendLayout()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -368,9 +398,13 @@ Partial Public Class frmSettings
         Me.gbDashboard.SuspendLayout()
         Me.dbDashboardConfig.SuspendLayout()
         Me.panelSettings.SuspendLayout()
+        Me.gbItemOverrides.SuspendLayout()
+        CType(Me._itemOverridesActiveGrid, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbMarket.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.gpNav.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'gbGeneral
@@ -2772,9 +2806,11 @@ Partial Public Class frmSettings
         TreeNode15.Text = "Taskbar Icon"
         TreeNode16.Name = "nodeTrainingQueue"
         TreeNode16.Text = "Training Queue"
-        TreeNode17.Name = "nodeMarket"
-        TreeNode17.Text = "Market & Price Data"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode17})
+        TreeNode17.Name = "nodeItemOverrides"
+        TreeNode17.Text = "Item Overrides"
+        TreeNode18.Name = "nodeMarket"
+        TreeNode18.Text = "Market & Price Data"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode18})
         Me.tvwSettings.Size = New System.Drawing.Size(180, 463)
         Me.tvwSettings.TabIndex = 27
         '
@@ -3080,6 +3116,7 @@ Partial Public Class frmSettings
         '
         Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelSettings.Controls.Add(Me.gbItemOverrides)
         Me.panelSettings.Controls.Add(Me.gbMarket)
         Me.panelSettings.Controls.Add(Me.gbEveServer)
         Me.panelSettings.Controls.Add(Me.gbEveAccounts)
@@ -3112,8 +3149,248 @@ Partial Public Class frmSettings
         Me.panelSettings.Style.GradientAngle = 90
         Me.panelSettings.TabIndex = 34
         '
+        'gbItemOverrides
+        '
+        Me.gbItemOverrides.Controls.Add(Me.Panel1)
+        Me.gbItemOverrides.Controls.Add(Me.Label10)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverridesActiveGrid)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideRemoveOverride)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideAddOverride)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideItemList)
+        Me.gbItemOverrides.Controls.Add(Me.Label9)
+        Me.gbItemOverrides.Controls.Add(Me.Label8)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverridePercentPrice)
+        Me.gbItemOverrides.Controls.Add(Me.Label7)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideMedianPrice)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideMinPrice)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideAvgPrice)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideMaxPrice)
+        Me.gbItemOverrides.Location = New System.Drawing.Point(239, 335)
+        Me.gbItemOverrides.Name = "gbItemOverrides"
+        Me.gbItemOverrides.Size = New System.Drawing.Size(665, 184)
+        Me.gbItemOverrides.TabIndex = 36
+        Me.gbItemOverrides.TabStop = False
+        Me.gbItemOverrides.Text = "Item Market Data Overrides"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Tahoma", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(286, 197)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(139, 17)
+        Me.Label10.TabIndex = 29
+        Me.Label10.Text = "Active Item Overrides"
+        '
+        '_itemOverridesActiveGrid
+        '
+        Me._itemOverridesActiveGrid.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me._itemOverridesActiveGrid.AllowDrop = True
+        Me._itemOverridesActiveGrid.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me._itemOverridesActiveGrid.BackgroundStyle.Class = "TreeBorderKey"
+        Me._itemOverridesActiveGrid.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridNameColumn)
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridItemIdColumn)
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridOrderTypeColumn)
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridMetricColumn)
+        Me._itemOverridesActiveGrid.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me._itemOverridesActiveGrid.Location = New System.Drawing.Point(24, 220)
+        Me._itemOverridesActiveGrid.Name = "_itemOverridesActiveGrid"
+        Me._itemOverridesActiveGrid.NodesConnector = Me.NodeConnector2
+        Me._itemOverridesActiveGrid.NodeStyle = Me.ElementStyle2
+        Me._itemOverridesActiveGrid.PathSeparator = ";"
+        Me._itemOverridesActiveGrid.Size = New System.Drawing.Size(660, 253)
+        Me._itemOverridesActiveGrid.Styles.Add(Me.ElementStyle2)
+        Me._itemOverridesActiveGrid.TabIndex = 28
+        Me._itemOverridesActiveGrid.Text = "AdvTree1"
+        '
+        '_itemOverridesActiveGridNameColumn
+        '
+        Me._itemOverridesActiveGridNameColumn.Name = "_itemOverridesActiveGridNameColumn"
+        Me._itemOverridesActiveGridNameColumn.StretchToFill = True
+        Me._itemOverridesActiveGridNameColumn.Text = "Item Name"
+        Me._itemOverridesActiveGridNameColumn.Width.Absolute = 150
+        '
+        '_itemOverridesActiveGridItemIdColumn
+        '
+        Me._itemOverridesActiveGridItemIdColumn.Name = "_itemOverridesActiveGridItemIdColumn"
+        Me._itemOverridesActiveGridItemIdColumn.Text = "ItemId"
+        Me._itemOverridesActiveGridItemIdColumn.Visible = False
+        Me._itemOverridesActiveGridItemIdColumn.Width.Absolute = 150
+        '
+        '_itemOverridesActiveGridOrderTypeColumn
+        '
+        Me._itemOverridesActiveGridOrderTypeColumn.Name = "_itemOverridesActiveGridOrderTypeColumn"
+        Me._itemOverridesActiveGridOrderTypeColumn.Text = "Source Order Type"
+        Me._itemOverridesActiveGridOrderTypeColumn.Width.Absolute = 150
+        '
+        '_itemOverridesActiveGridMetricColumn
+        '
+        Me._itemOverridesActiveGridMetricColumn.Name = "_itemOverridesActiveGridMetricColumn"
+        Me._itemOverridesActiveGridMetricColumn.Text = "Price Metric"
+        Me._itemOverridesActiveGridMetricColumn.Width.Absolute = 150
+        '
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        '_itemOverrideRemoveOverride
+        '
+        Me._itemOverrideRemoveOverride.Location = New System.Drawing.Point(362, 150)
+        Me._itemOverrideRemoveOverride.Name = "_itemOverrideRemoveOverride"
+        Me._itemOverrideRemoveOverride.Size = New System.Drawing.Size(87, 26)
+        Me._itemOverrideRemoveOverride.TabIndex = 27
+        Me._itemOverrideRemoveOverride.Text = "Remove"
+        Me._itemOverrideRemoveOverride.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideAddOverride
+        '
+        Me._itemOverrideAddOverride.Location = New System.Drawing.Point(259, 150)
+        Me._itemOverrideAddOverride.Name = "_itemOverrideAddOverride"
+        Me._itemOverrideAddOverride.Size = New System.Drawing.Size(87, 26)
+        Me._itemOverrideAddOverride.TabIndex = 26
+        Me._itemOverrideAddOverride.Text = "Add / Update"
+        Me._itemOverrideAddOverride.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideItemList
+        '
+        Me._itemOverrideItemList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me._itemOverrideItemList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me._itemOverrideItemList.FormattingEnabled = True
+        Me._itemOverrideItemList.Location = New System.Drawing.Point(275, 31)
+        Me._itemOverrideItemList.Name = "_itemOverrideItemList"
+        Me._itemOverrideItemList.Size = New System.Drawing.Size(203, 21)
+        Me._itemOverrideItemList.TabIndex = 25
+        Me._itemOverrideItemList.Text = "Select/Search an Item"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(231, 34)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(33, 13)
+        Me.Label9.TabIndex = 24
+        Me.Label9.Text = "Item:"
+        '
+        '_itemOverrideAllOrders
+        '
+        Me._itemOverrideAllOrders.AutoSize = True
+        Me._itemOverrideAllOrders.Location = New System.Drawing.Point(142, 8)
+        Me._itemOverrideAllOrders.Name = "_itemOverrideAllOrders"
+        Me._itemOverrideAllOrders.Size = New System.Drawing.Size(36, 17)
+        Me._itemOverrideAllOrders.TabIndex = 23
+        Me._itemOverrideAllOrders.TabStop = True
+        Me._itemOverrideAllOrders.Text = "All"
+        Me._itemOverrideAllOrders.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideBuyOrders
+        '
+        Me._itemOverrideBuyOrders.AutoSize = True
+        Me._itemOverrideBuyOrders.Location = New System.Drawing.Point(74, 8)
+        Me._itemOverrideBuyOrders.Name = "_itemOverrideBuyOrders"
+        Me._itemOverrideBuyOrders.Size = New System.Drawing.Size(43, 17)
+        Me._itemOverrideBuyOrders.TabIndex = 22
+        Me._itemOverrideBuyOrders.TabStop = True
+        Me._itemOverrideBuyOrders.Text = "Buy"
+        Me._itemOverrideBuyOrders.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideSellOrders
+        '
+        Me._itemOverrideSellOrders.AutoSize = True
+        Me._itemOverrideSellOrders.Location = New System.Drawing.Point(4, 8)
+        Me._itemOverrideSellOrders.Name = "_itemOverrideSellOrders"
+        Me._itemOverrideSellOrders.Size = New System.Drawing.Size(41, 17)
+        Me._itemOverrideSellOrders.TabIndex = 21
+        Me._itemOverrideSellOrders.TabStop = True
+        Me._itemOverrideSellOrders.Text = "Sell"
+        Me._itemOverrideSellOrders.UseVisualStyleBackColor = True
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(127, 75)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(66, 13)
+        Me.Label8.TabIndex = 20
+        Me.Label8.Text = "Order Type:"
+        '
+        '_itemOverridePercentPrice
+        '
+        Me._itemOverridePercentPrice.AutoSize = True
+        Me._itemOverridePercentPrice.Location = New System.Drawing.Point(481, 101)
+        Me._itemOverridePercentPrice.Name = "_itemOverridePercentPrice"
+        Me._itemOverridePercentPrice.Size = New System.Drawing.Size(100, 17)
+        Me._itemOverridePercentPrice.TabIndex = 19
+        Me._itemOverridePercentPrice.TabStop = True
+        Me._itemOverridePercentPrice.Text = "Percentile (5%)"
+        Me._itemOverridePercentPrice.UseVisualStyleBackColor = True
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(127, 103)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(69, 13)
+        Me.Label7.TabIndex = 14
+        Me.Label7.Text = "Price Metric: "
+        '
+        '_itemOverrideMedianPrice
+        '
+        Me._itemOverrideMedianPrice.AutoSize = True
+        Me._itemOverrideMedianPrice.Location = New System.Drawing.Point(416, 101)
+        Me._itemOverrideMedianPrice.Name = "_itemOverrideMedianPrice"
+        Me._itemOverrideMedianPrice.Size = New System.Drawing.Size(59, 17)
+        Me._itemOverrideMedianPrice.TabIndex = 18
+        Me._itemOverrideMedianPrice.TabStop = True
+        Me._itemOverrideMedianPrice.Text = "Median"
+        Me._itemOverrideMedianPrice.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideMinPrice
+        '
+        Me._itemOverrideMinPrice.AutoSize = True
+        Me._itemOverrideMinPrice.Location = New System.Drawing.Point(212, 101)
+        Me._itemOverrideMinPrice.Name = "_itemOverrideMinPrice"
+        Me._itemOverrideMinPrice.Size = New System.Drawing.Size(65, 17)
+        Me._itemOverrideMinPrice.TabIndex = 15
+        Me._itemOverrideMinPrice.TabStop = True
+        Me._itemOverrideMinPrice.Text = "Minimum"
+        Me._itemOverrideMinPrice.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideAvgPrice
+        '
+        Me._itemOverrideAvgPrice.AutoSize = True
+        Me._itemOverrideAvgPrice.Location = New System.Drawing.Point(350, 101)
+        Me._itemOverrideAvgPrice.Name = "_itemOverrideAvgPrice"
+        Me._itemOverrideAvgPrice.Size = New System.Drawing.Size(60, 17)
+        Me._itemOverrideAvgPrice.TabIndex = 17
+        Me._itemOverrideAvgPrice.TabStop = True
+        Me._itemOverrideAvgPrice.Text = "Averge"
+        Me._itemOverrideAvgPrice.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideMaxPrice
+        '
+        Me._itemOverrideMaxPrice.AutoSize = True
+        Me._itemOverrideMaxPrice.Location = New System.Drawing.Point(283, 101)
+        Me._itemOverrideMaxPrice.Name = "_itemOverrideMaxPrice"
+        Me._itemOverrideMaxPrice.Size = New System.Drawing.Size(61, 17)
+        Me._itemOverrideMaxPrice.TabIndex = 16
+        Me._itemOverrideMaxPrice.TabStop = True
+        Me._itemOverrideMaxPrice.Text = "Maxium"
+        Me._itemOverrideMaxPrice.UseVisualStyleBackColor = True
+        '
         'gbMarket
         '
+        Me.gbMarket.Controls.Add(Me.Label11)
+        Me.gbMarket.Controls.Add(Me.Panel2)
         Me.gbMarket.Controls.Add(Me.enableMarketDataUpload)
         Me.gbMarket.Controls.Add(Me.GroupBox1)
         Me.gbMarket.Controls.Add(Me._usePercentile)
@@ -3124,13 +3401,23 @@ Partial Public Class frmSettings
         Me.gbMarket.Controls.Add(Me.Label5)
         Me.gbMarket.Controls.Add(Me._marketDataProvider)
         Me.gbMarket.Controls.Add(Me.Label1)
-        Me.gbMarket.Location = New System.Drawing.Point(192, 5)
+        Me.gbMarket.Location = New System.Drawing.Point(309, 206)
         Me.gbMarket.Name = "gbMarket"
-        Me.gbMarket.Size = New System.Drawing.Size(709, 514)
+        Me.gbMarket.Size = New System.Drawing.Size(483, 290)
         Me.gbMarket.TabIndex = 35
         Me.gbMarket.TabStop = False
         Me.gbMarket.Text = "Market and Price Data"
         Me.gbMarket.Visible = False
+        '
+        'enableMarketDataUpload
+        '
+        Me.enableMarketDataUpload.AutoSize = True
+        Me.enableMarketDataUpload.Location = New System.Drawing.Point(313, 37)
+        Me.enableMarketDataUpload.Name = "enableMarketDataUpload"
+        Me.enableMarketDataUpload.Size = New System.Drawing.Size(166, 17)
+        Me.enableMarketDataUpload.TabIndex = 13
+        Me.enableMarketDataUpload.Text = "Enable Market Data Uploader"
+        Me.enableMarketDataUpload.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -3197,7 +3484,7 @@ Partial Public Class frmSettings
         '_usePercentile
         '
         Me._usePercentile.AutoSize = True
-        Me._usePercentile.Location = New System.Drawing.Point(374, 80)
+        Me._usePercentile.Location = New System.Drawing.Point(435, 87)
         Me._usePercentile.Name = "_usePercentile"
         Me._usePercentile.Size = New System.Drawing.Size(100, 17)
         Me._usePercentile.TabIndex = 7
@@ -3208,7 +3495,7 @@ Partial Public Class frmSettings
         '_useMedianPrice
         '
         Me._useMedianPrice.AutoSize = True
-        Me._useMedianPrice.Location = New System.Drawing.Point(309, 80)
+        Me._useMedianPrice.Location = New System.Drawing.Point(370, 87)
         Me._useMedianPrice.Name = "_useMedianPrice"
         Me._useMedianPrice.Size = New System.Drawing.Size(59, 17)
         Me._useMedianPrice.TabIndex = 6
@@ -3219,7 +3506,7 @@ Partial Public Class frmSettings
         '_useAveragePrice
         '
         Me._useAveragePrice.AutoSize = True
-        Me._useAveragePrice.Location = New System.Drawing.Point(243, 80)
+        Me._useAveragePrice.Location = New System.Drawing.Point(304, 87)
         Me._useAveragePrice.Name = "_useAveragePrice"
         Me._useAveragePrice.Size = New System.Drawing.Size(60, 17)
         Me._useAveragePrice.TabIndex = 5
@@ -3230,7 +3517,7 @@ Partial Public Class frmSettings
         '_useMaximumPrice
         '
         Me._useMaximumPrice.AutoSize = True
-        Me._useMaximumPrice.Location = New System.Drawing.Point(176, 80)
+        Me._useMaximumPrice.Location = New System.Drawing.Point(237, 87)
         Me._useMaximumPrice.Name = "_useMaximumPrice"
         Me._useMaximumPrice.Size = New System.Drawing.Size(61, 17)
         Me._useMaximumPrice.TabIndex = 4
@@ -3241,7 +3528,7 @@ Partial Public Class frmSettings
         '_useMiniumPrice
         '
         Me._useMiniumPrice.AutoSize = True
-        Me._useMiniumPrice.Location = New System.Drawing.Point(105, 80)
+        Me._useMiniumPrice.Location = New System.Drawing.Point(166, 87)
         Me._useMiniumPrice.Name = "_useMiniumPrice"
         Me._useMiniumPrice.Size = New System.Drawing.Size(65, 17)
         Me._useMiniumPrice.TabIndex = 3
@@ -3252,11 +3539,11 @@ Partial Public Class frmSettings
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(20, 82)
+        Me.Label5.Location = New System.Drawing.Point(44, 89)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(81, 13)
+        Me.Label5.Size = New System.Drawing.Size(107, 13)
         Me.Label5.TabIndex = 2
-        Me.Label5.Text = "Default Metric: "
+        Me.Label5.Text = "Default Price Metric: "
         '
         '_marketDataProvider
         '
@@ -3321,15 +3608,67 @@ Partial Public Class frmSettings
         Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
         Me.STT.PositionBelowControl = False
         '
-        'enableMarketDataUpload
+        'Panel1
         '
-        Me.enableMarketDataUpload.AutoSize = True
-        Me.enableMarketDataUpload.Location = New System.Drawing.Point(313, 37)
-        Me.enableMarketDataUpload.Name = "enableMarketDataUpload"
-        Me.enableMarketDataUpload.Size = New System.Drawing.Size(166, 17)
-        Me.enableMarketDataUpload.TabIndex = 13
-        Me.enableMarketDataUpload.Text = "Enable Market Data Uploader"
-        Me.enableMarketDataUpload.UseVisualStyleBackColor = True
+        Me.Panel1.Controls.Add(Me._itemOverrideSellOrders)
+        Me.Panel1.Controls.Add(Me._itemOverrideBuyOrders)
+        Me.Panel1.Controls.Add(Me._itemOverrideAllOrders)
+        Me.Panel1.Location = New System.Drawing.Point(208, 66)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(230, 28)
+        Me.Panel1.TabIndex = 30
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me._defaultAll)
+        Me.Panel2.Controls.Add(Me._defaultBuy)
+        Me.Panel2.Controls.Add(Me._defaultSell)
+        Me.Panel2.Location = New System.Drawing.Point(163, 62)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(328, 25)
+        Me.Panel2.TabIndex = 14
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(16, 68)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(135, 13)
+        Me.Label11.TabIndex = 15
+        Me.Label11.Text = "Default Transaction Type: "
+        '
+        '_defaultSell
+        '
+        Me._defaultSell.AutoSize = True
+        Me._defaultSell.Location = New System.Drawing.Point(3, 4)
+        Me._defaultSell.Name = "_defaultSell"
+        Me._defaultSell.Size = New System.Drawing.Size(41, 17)
+        Me._defaultSell.TabIndex = 16
+        Me._defaultSell.TabStop = True
+        Me._defaultSell.Text = "Sell"
+        Me._defaultSell.UseVisualStyleBackColor = True
+        '
+        '_defaultBuy
+        '
+        Me._defaultBuy.AutoSize = True
+        Me._defaultBuy.Location = New System.Drawing.Point(73, 4)
+        Me._defaultBuy.Name = "_defaultBuy"
+        Me._defaultBuy.Size = New System.Drawing.Size(43, 17)
+        Me._defaultBuy.TabIndex = 17
+        Me._defaultBuy.TabStop = True
+        Me._defaultBuy.Text = "Buy"
+        Me._defaultBuy.UseVisualStyleBackColor = True
+        '
+        '_defaultAll
+        '
+        Me._defaultAll.AutoSize = True
+        Me._defaultAll.Location = New System.Drawing.Point(141, 4)
+        Me._defaultAll.Name = "_defaultAll"
+        Me._defaultAll.Size = New System.Drawing.Size(36, 17)
+        Me._defaultAll.TabIndex = 18
+        Me._defaultAll.TabStop = True
+        Me._defaultAll.Text = "All"
+        Me._defaultAll.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -3419,11 +3758,18 @@ Partial Public Class frmSettings
         Me.dbDashboardConfig.ResumeLayout(False)
         Me.dbDashboardConfig.PerformLayout()
         Me.panelSettings.ResumeLayout(False)
+        Me.gbItemOverrides.ResumeLayout(False)
+        Me.gbItemOverrides.PerformLayout()
+        CType(Me._itemOverridesActiveGrid, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbMarket.ResumeLayout(False)
         Me.gbMarket.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.gpNav.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3709,4 +4055,33 @@ Partial Public Class frmSettings
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents enableMarketDataUpload As System.Windows.Forms.CheckBox
+    Friend WithEvents gbItemOverrides As System.Windows.Forms.GroupBox
+    Friend WithEvents _itemOverridePercentPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents _itemOverrideMedianPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideMinPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideAvgPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideMaxPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideBuyOrders As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideSellOrders As System.Windows.Forms.RadioButton
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents _itemOverrideAllOrders As System.Windows.Forms.RadioButton
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents _itemOverridesActiveGrid As DevComponents.AdvTree.AdvTree
+    Private WithEvents _itemOverridesActiveGridNameColumn As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents _itemOverridesActiveGridItemIdColumn As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents _itemOverridesActiveGridOrderTypeColumn As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents _itemOverridesActiveGridMetricColumn As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents _itemOverrideRemoveOverride As System.Windows.Forms.Button
+    Friend WithEvents _itemOverrideAddOverride As System.Windows.Forms.Button
+    Friend WithEvents _itemOverrideItemList As System.Windows.Forms.ComboBox
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents _defaultAll As System.Windows.Forms.RadioButton
+    Friend WithEvents _defaultBuy As System.Windows.Forms.RadioButton
+    Friend WithEvents _defaultSell As System.Windows.Forms.RadioButton
 End Class

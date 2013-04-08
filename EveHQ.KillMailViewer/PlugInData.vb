@@ -37,7 +37,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Killmail Viewer"
         EveHQPlugIn.Description = "Views killmails for a specified character"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "Killmail Viewer"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False

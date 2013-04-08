@@ -469,7 +469,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Fitter"
         EveHQPlugIn.Description = "Allows theoretical ship setup and simulation"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "EveHQ Fitter"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False

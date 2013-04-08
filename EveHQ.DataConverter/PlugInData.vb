@@ -33,7 +33,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Data Converter"
         EveHQPlugIn.Description = "Converts the Eve Data Export files to various formats and groups of tables"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "Data Converter"
         EveHQPlugIn.RunAtStartup = False
         EveHQPlugIn.RunInIGB = False

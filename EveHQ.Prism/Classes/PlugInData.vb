@@ -43,7 +43,7 @@ Public Class PlugInData
     Public Shared CorpList As New SortedList
     Public Shared CategoryNames As New SortedList(Of String, String)
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
-    Public Shared PrismOwners As New SortedList(Of String, PrismOwner) ' Key = OwnerName i.e. Vessper, Indicium Technologies etc...
+    Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -74,7 +74,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Prism"
         EveHQPlugIn.Description = "EveHQ Production, Research, Industry and Science Module"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "EveHQ Prism"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False

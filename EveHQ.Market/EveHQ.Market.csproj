@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="IMarketDataReceiver.cs" />
     <Compile Include="MarketServices\EveMarketDataRelayProvider.cs" />
+    <Compile Include="MarketTransactionKind.cs" />
     <Compile Include="ObjectConversions.cs" />
     <Compile Include="UnifiedMarketDataFormat\HistoryRow.cs" />
     <Compile Include="UnifiedMarketDataFormat\HistoryRowConverter.cs" />

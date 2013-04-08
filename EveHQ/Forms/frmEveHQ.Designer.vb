@@ -212,17 +212,14 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rpPlugins.Style.Class = ""
         Me.rpPlugins.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rpPlugins.StyleMouseDown.Class = ""
         Me.rpPlugins.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rpPlugins.StyleMouseOver.Class = ""
         Me.rpPlugins.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpPlugins.TabIndex = 2
         Me.ToolTip.SetToolTip(Me.rpPlugins, "Shows all available Plug-ins")
@@ -235,12 +232,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbPlugins.BackgroundMouseOverStyle.Class = ""
         Me.rbPlugins.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbPlugins.BackgroundStyle.Class = ""
         Me.rbPlugins.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbPlugins.ContainerControlProcessDialogKey = True
         Me.rbPlugins.Dock = System.Windows.Forms.DockStyle.Left
@@ -255,12 +250,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbPlugins.TitleStyle.Class = ""
         Me.rbPlugins.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbPlugins.TitleStyleMouseOver.Class = ""
         Me.rbPlugins.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'tmrEve
@@ -379,7 +372,6 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.RibbonControl1.BackgroundStyle.Class = ""
         Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonControl1.CaptionVisible = True
         Me.RibbonControl1.Controls.Add(Me.rpCore)
@@ -433,17 +425,14 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rpCore.Style.Class = ""
         Me.rpCore.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rpCore.StyleMouseDown.Class = ""
         Me.rpCore.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rpCore.StyleMouseOver.Class = ""
         Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpCore.TabIndex = 1
         '
@@ -453,12 +442,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbHelp.BackgroundMouseOverStyle.Class = ""
         Me.rbHelp.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbHelp.BackgroundStyle.Class = ""
         Me.rbHelp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbHelp.ContainerControlProcessDialogKey = True
         Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
@@ -473,12 +460,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbHelp.TitleStyle.Class = ""
         Me.rbHelp.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbHelp.TitleStyleMouseOver.Class = ""
         Me.rbHelp.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnInfoHelp
@@ -496,12 +481,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbSQLTools.BackgroundMouseOverStyle.Class = ""
         Me.rbSQLTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbSQLTools.BackgroundStyle.Class = ""
         Me.rbSQLTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbSQLTools.ContainerControlProcessDialogKey = True
         Me.rbSQLTools.Dock = System.Windows.Forms.DockStyle.Left
@@ -516,12 +499,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbSQLTools.TitleStyle.Class = ""
         Me.rbSQLTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbSQLTools.TitleStyleMouseOver.Class = ""
         Me.rbSQLTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'ItemContainer3
@@ -529,11 +510,14 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.ItemContainer3.BackgroundStyle.Class = ""
         Me.ItemContainer3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer3.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer3.Name = "ItemContainer3"
         Me.ItemContainer3.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSQLQueryTool})
+        '
+        '
+        '
+        Me.ItemContainer3.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer3.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
         'btnSQLQueryTool
@@ -548,12 +532,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbCache.BackgroundMouseOverStyle.Class = ""
         Me.rbCache.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbCache.BackgroundStyle.Class = ""
         Me.rbCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbCache.ContainerControlProcessDialogKey = True
         Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
@@ -568,12 +550,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbCache.TitleStyle.Class = ""
         Me.rbCache.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbCache.TitleStyleMouseOver.Class = ""
         Me.rbCache.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnCreateCoreCache
@@ -612,12 +592,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbAPITools.BackgroundMouseOverStyle.Class = ""
         Me.rbAPITools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAPITools.BackgroundStyle.Class = ""
         Me.rbAPITools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbAPITools.ContainerControlProcessDialogKey = True
         Me.rbAPITools.Dock = System.Windows.Forms.DockStyle.Left
@@ -632,12 +610,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbAPITools.TitleStyle.Class = ""
         Me.rbAPITools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAPITools.TitleStyleMouseOver.Class = ""
         Me.rbAPITools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'ItemContainer2
@@ -645,11 +621,14 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.ItemContainer2.BackgroundStyle.Class = ""
         Me.ItemContainer2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer2.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer2.Name = "ItemContainer2"
         Me.ItemContainer2.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnAPIChecker, Me.btnOpenCacheFolder, Me.btnClearCache})
+        '
+        '
+        '
+        Me.ItemContainer2.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer2.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
         'btnAPIChecker
@@ -692,12 +671,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbBackup.BackgroundMouseOverStyle.Class = ""
         Me.rbBackup.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbBackup.BackgroundStyle.Class = ""
         Me.rbBackup.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbBackup.ContainerControlProcessDialogKey = True
         Me.rbBackup.Dock = System.Windows.Forms.DockStyle.Left
@@ -712,12 +689,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbBackup.TitleStyle.Class = ""
         Me.rbBackup.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbBackup.TitleStyleMouseOver.Class = ""
         Me.rbBackup.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'ItemContainer5
@@ -725,11 +700,14 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.ItemContainer5.BackgroundStyle.Class = ""
         Me.ItemContainer5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer5.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer5.Name = "ItemContainer5"
         Me.ItemContainer5.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnBackupEveHQ, Me.btnBackupEve})
+        '
+        '
+        '
+        Me.ItemContainer5.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer5.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
         'btnBackupEveHQ
@@ -757,12 +735,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbIGB.BackgroundMouseOverStyle.Class = ""
         Me.rbIGB.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbIGB.BackgroundStyle.Class = ""
         Me.rbIGB.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbIGB.ContainerControlProcessDialogKey = True
         Me.rbIGB.Dock = System.Windows.Forms.DockStyle.Left
@@ -777,12 +753,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbIGB.TitleStyle.Class = ""
         Me.rbIGB.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbIGB.TitleStyleMouseOver.Class = ""
         Me.rbIGB.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnIGB
@@ -810,12 +784,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbEveMail.BackgroundMouseOverStyle.Class = ""
         Me.rbEveMail.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbEveMail.BackgroundStyle.Class = ""
         Me.rbEveMail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbEveMail.ContainerControlProcessDialogKey = True
         Me.rbEveMail.Dock = System.Windows.Forms.DockStyle.Left
@@ -830,12 +802,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbEveMail.TitleStyle.Class = ""
         Me.rbEveMail.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbEveMail.TitleStyleMouseOver.Class = ""
         Me.rbEveMail.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnEveMail
@@ -868,12 +838,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbView.BackgroundMouseOverStyle.Class = ""
         Me.rbView.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbView.BackgroundStyle.Class = ""
         Me.rbView.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbView.ContainerControlProcessDialogKey = True
         Me.rbView.Dock = System.Windows.Forms.DockStyle.Left
@@ -888,12 +856,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbView.TitleStyle.Class = ""
         Me.rbView.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbView.TitleStyleMouseOver.Class = ""
         Me.rbView.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnViewPilotInfo
@@ -924,7 +890,7 @@ Partial Public Class frmEveHQ
         Me.btnViewPrices.SubItemsExpandWidth = 14
         Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPrices, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Prices System", "The prices system allows you to download market and faction prices from third par" & _
             "ty sites, as well as providing your own custom prices.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Market32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewPrices.Text = "Prices System"
+        Me.btnViewPrices.Text = "Market Prices"
         '
         'btnViewDashboard
         '
@@ -953,12 +919,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbAPI.BackgroundMouseOverStyle.Class = ""
         Me.rbAPI.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAPI.BackgroundStyle.Class = ""
         Me.rbAPI.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbAPI.ContainerControlProcessDialogKey = True
         Me.rbAPI.Dock = System.Windows.Forms.DockStyle.Left
@@ -973,12 +937,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbAPI.TitleStyle.Class = ""
         Me.rbAPI.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbAPI.TitleStyleMouseOver.Class = ""
         Me.rbAPI.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnManageAPI
@@ -1019,17 +981,14 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rpReports.Style.Class = ""
         Me.rpReports.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rpReports.StyleMouseDown.Class = ""
         Me.rpReports.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rpReports.StyleMouseOver.Class = ""
         Me.rpReports.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpReports.TabIndex = 3
         Me.rpReports.Visible = False
@@ -1040,12 +999,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbCharts.BackgroundMouseOverStyle.Class = ""
         Me.rbCharts.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbCharts.BackgroundStyle.Class = ""
         Me.rbCharts.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbCharts.ContainerControlProcessDialogKey = True
         Me.rbCharts.Dock = System.Windows.Forms.DockStyle.Left
@@ -1060,12 +1017,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbCharts.TitleStyle.Class = ""
         Me.rbCharts.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbCharts.TitleStyleMouseOver.Class = ""
         Me.rbCharts.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbCharts.Visible = False
         '
@@ -1095,12 +1050,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbPHPBB.BackgroundMouseOverStyle.Class = ""
         Me.rbPHPBB.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbPHPBB.BackgroundStyle.Class = ""
         Me.rbPHPBB.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbPHPBB.ContainerControlProcessDialogKey = True
         Me.rbPHPBB.Dock = System.Windows.Forms.DockStyle.Left
@@ -1115,12 +1068,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbPHPBB.TitleStyle.Class = ""
         Me.rbPHPBB.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbPHPBB.TitleStyleMouseOver.Class = ""
         Me.rbPHPBB.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbPHPBB.Visible = False
         '
@@ -1141,12 +1092,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbXML.BackgroundMouseOverStyle.Class = ""
         Me.rbXML.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbXML.BackgroundStyle.Class = ""
         Me.rbXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbXML.ContainerControlProcessDialogKey = True
         Me.rbXML.Dock = System.Windows.Forms.DockStyle.Left
@@ -1161,12 +1110,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbXML.TitleStyle.Class = ""
         Me.rbXML.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbXML.TitleStyleMouseOver.Class = ""
         Me.rbXML.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbXML.Visible = False
         '
@@ -1240,12 +1187,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbText.BackgroundMouseOverStyle.Class = ""
         Me.rbText.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbText.BackgroundStyle.Class = ""
         Me.rbText.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbText.ContainerControlProcessDialogKey = True
         Me.rbText.Dock = System.Windows.Forms.DockStyle.Left
@@ -1260,12 +1205,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbText.TitleStyle.Class = ""
         Me.rbText.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbText.TitleStyleMouseOver.Class = ""
         Me.rbText.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbText.Visible = False
         '
@@ -1386,12 +1329,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbHTML.BackgroundMouseOverStyle.Class = ""
         Me.rbHTML.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbHTML.BackgroundStyle.Class = ""
         Me.rbHTML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbHTML.ContainerControlProcessDialogKey = True
         Me.rbHTML.Dock = System.Windows.Forms.DockStyle.Left
@@ -1406,12 +1347,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbHTML.TitleStyle.Class = ""
         Me.rbHTML.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbHTML.TitleStyleMouseOver.Class = ""
         Me.rbHTML.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbHTML.Visible = False
         '
@@ -1532,12 +1471,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbStandard.BackgroundMouseOverStyle.Class = ""
         Me.rbStandard.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbStandard.BackgroundStyle.Class = ""
         Me.rbStandard.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbStandard.ContainerControlProcessDialogKey = True
         Me.rbStandard.Dock = System.Windows.Forms.DockStyle.Left
@@ -1552,12 +1489,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbStandard.TitleStyle.Class = ""
         Me.rbStandard.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbStandard.TitleStyleMouseOver.Class = ""
         Me.rbStandard.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnStdCharSummary
@@ -1620,12 +1555,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbReportOptions.BackgroundMouseOverStyle.Class = ""
         Me.rbReportOptions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbReportOptions.BackgroundStyle.Class = ""
         Me.rbReportOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbReportOptions.ContainerControlProcessDialogKey = True
         Me.rbReportOptions.Dock = System.Windows.Forms.DockStyle.Left
@@ -1640,12 +1573,10 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.rbReportOptions.TitleStyle.Class = ""
         Me.rbReportOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbReportOptions.TitleStyleMouseOver.Class = ""
         Me.rbReportOptions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'icReportOptions
@@ -1653,21 +1584,27 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.icReportOptions.BackgroundStyle.Class = ""
         Me.icReportOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.icReportOptions.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.icReportOptions.Name = "icReportOptions"
         Me.icReportOptions.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.icReportPilot, Me.icReportFormat, Me.btnOpenReportFolder})
+        '
+        '
+        '
+        Me.icReportOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'icReportPilot
         '
         '
         '
         '
-        Me.icReportPilot.BackgroundStyle.Class = ""
         Me.icReportPilot.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.icReportPilot.Name = "icReportPilot"
         Me.icReportPilot.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.lblReportPilot, Me.cboReportPilot})
+        '
+        '
+        '
+        Me.icReportPilot.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'lblReportPilot
         '
@@ -1691,10 +1628,13 @@ Partial Public Class frmEveHQ
         '
         '
         '
-        Me.icReportFormat.BackgroundStyle.Class = ""
         Me.icReportFormat.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.icReportFormat.Name = "icReportFormat"
         Me.icReportFormat.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.lblReportFormat, Me.cboReportFormat})
+        '
+        '
+        '
+        Me.icReportFormat.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'lblReportFormat
         '
@@ -1880,6 +1820,10 @@ Partial Public Class frmEveHQ
         Me.ItemContainer1.Name = "ItemContainer1"
         Me.ItemContainer1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnFileSettings, Me.btnHelp, Me.btnFileExit})
         '
+        '
+        '
+        Me.ItemContainer1.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
         'btnFileSettings
         '
         Me.btnFileSettings.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
@@ -1970,7 +1914,7 @@ Partial Public Class frmEveHQ
         Me.DockSite4.Controls.Add(Me.Bar1)
         Me.DockSite4.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.DockSite4.DocumentDockContainer = New DevComponents.DotNetBar.DocumentDockContainer(New DevComponents.DotNetBar.DocumentBaseContainer() {CType(New DevComponents.DotNetBar.DocumentBarContainer(Me.Bar1, 1231, 99), DevComponents.DotNetBar.DocumentBaseContainer)}, DevComponents.DotNetBar.eOrientation.Vertical)
-        Me.DockSite4.Location = New System.Drawing.Point(5, 652)
+        Me.DockSite4.Location = New System.Drawing.Point(5, 651)
         Me.DockSite4.Name = "DockSite4"
         Me.DockSite4.Size = New System.Drawing.Size(1231, 102)
         Me.DockSite4.TabIndex = 29
@@ -2026,7 +1970,7 @@ Partial Public Class frmEveHQ
         Me.DockSite1.DocumentDockContainer = New DevComponents.DotNetBar.DocumentDockContainer()
         Me.DockSite1.Location = New System.Drawing.Point(5, 155)
         Me.DockSite1.Name = "DockSite1"
-        Me.DockSite1.Size = New System.Drawing.Size(0, 497)
+        Me.DockSite1.Size = New System.Drawing.Size(0, 496)
         Me.DockSite1.TabIndex = 26
         Me.DockSite1.TabStop = False
         '
@@ -2037,7 +1981,7 @@ Partial Public Class frmEveHQ
         Me.DockSite2.DocumentDockContainer = New DevComponents.DotNetBar.DocumentDockContainer()
         Me.DockSite2.Location = New System.Drawing.Point(1236, 155)
         Me.DockSite2.Name = "DockSite2"
-        Me.DockSite2.Size = New System.Drawing.Size(0, 497)
+        Me.DockSite2.Size = New System.Drawing.Size(0, 496)
         Me.DockSite2.TabIndex = 27
         Me.DockSite2.TabStop = False
         '
@@ -2045,7 +1989,7 @@ Partial Public Class frmEveHQ
         '
         Me.DockSite8.AccessibleRole = System.Windows.Forms.AccessibleRole.Window
         Me.DockSite8.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.DockSite8.Location = New System.Drawing.Point(5, 754)
+        Me.DockSite8.Location = New System.Drawing.Point(5, 753)
         Me.DockSite8.Name = "DockSite8"
         Me.DockSite8.Size = New System.Drawing.Size(1231, 0)
         Me.DockSite8.TabIndex = 33
@@ -2057,7 +2001,7 @@ Partial Public Class frmEveHQ
         Me.DockSite5.Dock = System.Windows.Forms.DockStyle.Left
         Me.DockSite5.Location = New System.Drawing.Point(5, 155)
         Me.DockSite5.Name = "DockSite5"
-        Me.DockSite5.Size = New System.Drawing.Size(0, 599)
+        Me.DockSite5.Size = New System.Drawing.Size(0, 598)
         Me.DockSite5.TabIndex = 30
         Me.DockSite5.TabStop = False
         '
@@ -2067,7 +2011,7 @@ Partial Public Class frmEveHQ
         Me.DockSite6.Dock = System.Windows.Forms.DockStyle.Right
         Me.DockSite6.Location = New System.Drawing.Point(1236, 155)
         Me.DockSite6.Name = "DockSite6"
-        Me.DockSite6.Size = New System.Drawing.Size(0, 599)
+        Me.DockSite6.Size = New System.Drawing.Size(0, 598)
         Me.DockSite6.TabIndex = 31
         Me.DockSite6.TabStop = False
         '
@@ -2100,7 +2044,7 @@ Partial Public Class frmEveHQ
         Me.tabEveHQMDI.CloseButtonOnTabsVisible = True
         Me.tabEveHQMDI.CloseButtonVisible = True
         Me.tabEveHQMDI.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.tabEveHQMDI.Location = New System.Drawing.Point(5, 629)
+        Me.tabEveHQMDI.Location = New System.Drawing.Point(5, 628)
         Me.tabEveHQMDI.MdiForm = Me
         Me.tabEveHQMDI.MdiTabbedDocuments = True
         Me.tabEveHQMDI.Name = "tabEveHQMDI"
@@ -2132,9 +2076,9 @@ Partial Public Class frmEveHQ
         Me.barStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.barStatus.GrabHandleStyle = DevComponents.DotNetBar.eGrabHandleStyle.ResizeHandle
         Me.barStatus.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.lblTQStatus, Me.lblAPIStatus, Me.lblMailAPITime, Me.lblCharAPITime, Me.lblEveTime})
-        Me.barStatus.Location = New System.Drawing.Point(5, 754)
+        Me.barStatus.Location = New System.Drawing.Point(5, 753)
         Me.barStatus.Name = "barStatus"
-        Me.barStatus.Size = New System.Drawing.Size(1231, 21)
+        Me.barStatus.Size = New System.Drawing.Size(1231, 22)
         Me.barStatus.Stretch = True
         Me.barStatus.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.barStatus.TabIndex = 37

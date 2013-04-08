@@ -36,7 +36,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Void"
         EveHQPlugIn.Description = "Wormhole and W-Space Information Tool"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "Void"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = True

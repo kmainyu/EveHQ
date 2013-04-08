@@ -820,19 +820,23 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function GetPrice(ByVal itemID As String) As Double
-        Return GetPrice(itemID, MarketMetric.Default)
+        Return GetPrice(itemID, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
-    Public Shared Function GetPrice(ByVal itemID As String, ByVal metric As MarketMetric) As Double
-        Return GetMarketPrices(New String() {itemID}, metric).Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
+    Public Shared Function GetPrice(ByVal itemID As String, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Double
+        Return GetMarketPrices(New String() {itemID}, metric, transType).Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
     End Function
 
     Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String)) As Dictionary(Of String, Double)
-        Return GetMarketPrices(itemIDs, MarketMetric.Default)
+        Return GetMarketPrices(itemIDs, MarketMetric.Default, MarketTransactionKind.Default
+                               )
     End Function
 
-    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric) As Dictionary(Of String, Double)
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Dictionary(Of String, Double)
         If metric = MarketMetric.Default Then
             metric = HQ.EveHqSettings.MarketDefaultMetric
+        End If
+        If transType = MarketTransactionKind.Default Then
+            transType = HQ.EveHqSettings.MarketDefaultTransactionType
         End If
 
         Dim itemPrices As New Dictionary(Of String, Double)
@@ -879,28 +883,48 @@ Public Class DataFunctions
                             itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
                         ElseIf itemResult IsNot Nothing Then
                             ' if there's a market provider result use that
-                            If metric = MarketMetric.Minimum Then
-                                itemPrices(itemId) = itemResult.Sell.Minimum
-                            ElseIf metric = MarketMetric.Maximum Then
-                                itemPrices(itemId) = itemResult.Sell.Maximum
 
-                            ElseIf metric = MarketMetric.Average Then
-                                itemPrices(itemId) = itemResult.Sell.Average
-
-                            ElseIf metric = MarketMetric.Median Then
-                                itemPrices(itemId) = itemResult.Sell.Median
-
-                            ElseIf metric = MarketMetric.Percentile Then
-                                itemPrices(itemId) = itemResult.Sell.Percentile
+                            Dim itemMetric As MarketMetric = metric
+                            Dim itemTransKind As MarketTransactionKind = transType
+                            ' check to see if the item has a configured overrided for metric and trans type
+                            Dim override As ItemMarketOverride
+                            If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
+                                itemMetric = override.MarketStat
+                                itemTransKind = override.TransactionType
                             End If
-                        Else
-                            ' failing all that, fallback onto the base price.
-                            If HQ.itemData.ContainsKey(itemId) Then
-                                itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+
+
+                            Dim orderStat As OrderStats
+                            ' get the right transaction type
+                            Select Case itemTransKind
+                                Case MarketTransactionKind.All
+                                    orderStat = itemResult.All
+                                Case MarketTransactionKind.Buy
+                                    orderStat = itemResult.Buy
+                                Case Else
+                                    orderStat = itemResult.Sell
+                            End Select
+
+                            Select Case itemMetric
+                                Case MarketMetric.Average
+                                    itemPrices(itemId) = orderStat.Average
+                                Case MarketMetric.Maximum
+                                    itemPrices(itemId) = orderStat.Maximum
+                                Case MarketMetric.Median
+                                    itemPrices(itemId) = orderStat.Median
+                                Case MarketMetric.Percentile
+                                    itemPrices(itemId) = orderStat.Percentile
+                                Case Else
+                                    itemPrices(itemId) = orderStat.Minimum
+                            End Select
                             Else
-                                itemPrices(itemId) = 0
+                                ' failing all that, fallback onto the base price.
+                                If HQ.itemData.ContainsKey(itemId) Then
+                                    itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                                Else
+                                    itemPrices(itemId) = 0
+                                End If
                             End If
-                        End If
                     Catch e As Exception
                         If HQ.itemData.ContainsKey(itemId) Then
                             itemPrices(itemId) = HQ.itemData(itemId).BasePrice

@@ -198,7 +198,11 @@ Public Class EveSettings
     Private _marketSystem As Integer = 30000142 'Safe Default of Jita
     Private _marketUseRegionMarket As Boolean = False
     Private _marketDefaultMetric As MarketMetric
+    Private _marketDefaultTransactionType As MarketTransactionKind
     Private _marketDataUploadEnabled As Boolean = False
+
+    Private _marketStatOverrides As New Dictionary(Of Integer, ItemMarketOverride)
+
 
 
 
@@ -1811,6 +1815,28 @@ Public Class EveSettings
         End Get
         Set(value As Boolean)
             _marketDataUploadEnabled = value
+        End Set
+    End Property
+
+    Public Property MarketStatOverrides As Dictionary(Of Integer, ItemMarketOverride)
+        Get
+            If (_marketStatOverrides Is Nothing) Then
+                _marketStatOverrides = New Dictionary(Of Integer, ItemMarketOverride)
+            End If
+
+            Return _marketStatOverrides
+        End Get
+        Set(value As Dictionary(Of Integer, ItemMarketOverride))
+            _marketStatOverrides = value
+        End Set
+    End Property
+
+    Public Property MarketDefaultTransactionType As MarketTransactionKind
+        Get
+            Return _marketDefaultTransactionType
+        End Get
+        Set(value As MarketTransactionKind)
+            _marketDefaultTransactionType = value
         End Set
     End Property
 

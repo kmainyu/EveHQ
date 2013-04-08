@@ -68,7 +68,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Item Browser"
         EveHQPlugIn.Description = "Shows Data on all Eve ingame items"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "Item Browser"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False

@@ -173,6 +173,7 @@
     <Compile Include="IEveHQPlugIn.vb" />
     <Compile Include="IGB.vb" />
     <Compile Include="ImageHandler.vb" />
+    <Compile Include="ItemMarketOverride.vb" />
     <Compile Include="Market.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
