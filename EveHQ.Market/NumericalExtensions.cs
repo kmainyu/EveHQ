@@ -56,15 +56,7 @@ namespace EveHQ.Market
             return number.ToString(formatter,CultureInfo.InvariantCulture);
         }
 
-        public static string ToCurrentCultureString(this long number)
-        {
-            return number.ToCurrentCultureString("N0");
-        }
-
-        public static string ToCurrentCultureString(this long number, string formatter)
-        {
-            return number.ToString(formatter, CultureInfo.InvariantCulture);
-        }
+      
 
         public static string ToInvariantString(this bool value)
         {
@@ -79,10 +71,13 @@ namespace EveHQ.Market
         }
 
 
-        public static string ToCurrentCultureString(this double number, string formatter)
+        public static string ToInvariantString(this double number, string formatter)
         {
-            return number.ToString(formatter, CultureInfo.CurrentCulture);
+            return number.ToString(formatter, CultureInfo.InvariantCulture);
         }
+
+
+       
 
        
     }

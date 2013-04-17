@@ -20,12 +20,14 @@
 Imports System.Reflection
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Globalization
 Imports ICSharpCode.SharpZipLib.Zip
 Imports System.Xml
 Imports System.Net
 Imports System.Text
 Imports System.Runtime.InteropServices
 Imports System.Data.OleDb
+Imports System.Threading
 
 Public Class frmSplash
 
@@ -62,6 +64,11 @@ Public Class frmSplash
 
     Private Sub frmSplash_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
+        '' force primary thread into UK english
+        Application.CurrentCulture = CultureInfo.GetCultureInfo("en-GB")
+        Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-GB")
+        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-GB")
+        
         'Create a custom font collection from resources
         Dim MyFonts As New Drawing.Text.PrivateFontCollection
         Dim FontBuffer As IntPtr

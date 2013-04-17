@@ -61,7 +61,7 @@ namespace EveHQ.Market
         {
             DateTimeOffset result;
             DateTime temp;
-            if (forcedOffset.HasValue && DateTime.TryParse(word, out temp))
+            if (forcedOffset.HasValue && DateTime.TryParse(word,CultureInfo.InvariantCulture, DateTimeStyles.None, out temp))
             {
                 result = new DateTimeOffset(temp, TimeSpan.FromHours(forcedOffset.Value));
             }
@@ -79,7 +79,7 @@ namespace EveHQ.Market
         public static int ToInt(this string word)
         {
             int result;
-            int.TryParse(word, out result);
+            int.TryParse(word, NumberStyles.Any,CultureInfo.InvariantCulture, out result);
             return result;
         }
 
@@ -91,7 +91,7 @@ namespace EveHQ.Market
         public static double ToDouble(this string word)
         {
             double result;
-            double.TryParse(word, out result);
+            double.TryParse(word, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
             return result;
         }
 

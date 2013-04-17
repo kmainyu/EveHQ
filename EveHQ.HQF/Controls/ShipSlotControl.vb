@@ -25,6 +25,8 @@ Imports DevComponents.AdvTree
 
 Imports DevComponents.DotNetBar
 Imports System.Text
+Imports EveHQ.Market
+Imports System.Threading.Tasks
 
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False
@@ -253,32 +255,40 @@ Public Class ShipSlotControl
         itemIds.AddRange(
             From cbi As Object In ParentFitting.FittedShip.CargoBayItems.Values
                             Select CType(cbi, CargoBayItem).ItemType.ID)
-
         ' Calculate the fitted prices
-        Dim prices As Dictionary(Of String, Double) = DataFunctions.GetMarketPrices(itemIds)
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(itemIds)
+   
 
-        ' update the values
-        ' base ship price
-        ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
-        ' the sum of all the modules except the ship item.
-        ParentFitting.BaseShip.FittingMarketPrice =
-            Aggregate item In prices Where item.Key <> ParentFitting.BaseShip.ID Into total = Sum(item.Value)
+        priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
+
+                                   Dim prices As Dictionary(Of String, Double) = currentTask.Result
+
+                                   ' call back to main thread to update UI
+                                   Invoke(Sub()
+                                              ' update the values
+                                              ' base ship price
+                                              ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
+                                              ' the sum of all the modules except the ship item.
+                                              ParentFitting.BaseShip.FittingMarketPrice =
+                                                  Aggregate item In prices Where item.Key <> ParentFitting.BaseShip.ID Into total = Sum(item.Value)
 
 
-        lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToString("N2")
-        lblFittingMarketPrice.Text = "Total Price: " &
-                                     (ParentFitting.BaseShip.MarketPrice + ParentFitting.BaseShip.FittingMarketPrice).
-                                         ToString("N2")
+                                              lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToInvariantString("N2")
+                                              lblFittingMarketPrice.Text = "Total Price: " &
+                                                                           (ParentFitting.BaseShip.MarketPrice + ParentFitting.BaseShip.FittingMarketPrice).
+                                                                               ToInvariantString("N2")
 
-        ' update the fitting slots with their respective price value
-        For Each itemId As String In prices.Keys
-            Dim priceCells As List(Of Cell)
-            If _fittingPriceCells.TryGetValue(itemId, priceCells) Then
-                For Each priceCell As Cell In priceCells
-                    priceCell.Text = prices(itemId).ToString("N2")
-                Next
-            End If
-        Next
+                                              ' update the fitting slots with their respective price value
+                                              For Each itemId As String In prices.Keys
+                                                  Dim priceCells As List(Of Cell)
+                                                  If _fittingPriceCells.TryGetValue(itemId, priceCells) Then
+                                                      For Each priceCell As Cell In priceCells
+                                                          priceCell.Text = prices(itemId).ToInvariantString("N2")
+                                                      Next
+                                                  End If
+                                              Next
+                                          End Sub)
+                               End Sub)
 
     End Sub
 
@@ -1721,7 +1731,7 @@ Public Class ShipSlotControl
                                 statusMenuItem.Text = "Set Module Status"
                                 ' Check for activation cost
                                 If currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
-                                   
+
                                     canDeactivate = True
                                 End If
                                 If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
@@ -4000,7 +4010,7 @@ Public Class ShipSlotControl
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
-                          
+
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
@@ -4028,7 +4038,7 @@ Public Class ShipSlotControl
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
-                          
+
                             FleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
@@ -4163,7 +4173,7 @@ Public Class ShipSlotControl
                     pilotLevel =
                         CType(
                             CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).
-                                SkillSet(relSkill),
+                                SkillSet(relSkill), 
                             HQFSkill).Level
                 Else
                     MessageBox.Show(
@@ -4190,7 +4200,7 @@ Public Class ShipSlotControl
                     defaultLevel =
                         CType(
                             CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), Pilot).
-                                PilotSkills(relSkill),
+                                PilotSkills(relSkill), 
                             PilotSkill).Level
                 End If
                 Dim newRelSkillDefault As New ToolStripMenuItem
@@ -4220,7 +4230,7 @@ Public Class ShipSlotControl
                     pilotLevel =
                         CType(
                             CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).
-                                SkillSet(shipskill),
+                                SkillSet(shipskill), 
                             HQFSkill).Level
                 Else
                     MessageBox.Show(
@@ -4247,7 +4257,7 @@ Public Class ShipSlotControl
                     defaultLevel =
                         CType(
                             CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), Pilot).
-                                PilotSkills(shipskill),
+                                PilotSkills(shipskill), 
                             PilotSkill).Level
                 End If
                 Dim newRelSkillDefault As New ToolStripMenuItem
@@ -4300,7 +4310,7 @@ Public Class ShipSlotControl
             ' Set the WH Class combo if it's not activated
             If cboWHEffect.SelectedIndex > 0 Then
                 ParentFitting.WHEffect = cboWHEffect.SelectedItem.ToString
-                If cboWHClass.SelectedIndex = - 1 Then
+                If cboWHClass.SelectedIndex = -1 Then
                     cboWHClass.SelectedIndex = 0
                     Exit Sub
                 Else
@@ -4385,7 +4395,7 @@ Public Class ShipSlotControl
         UpdateBoosters = True
         For Each Booster As ShipModule In ParentFitting.BaseShip.BoosterSlotCollection
             Dim slot As Integer = CInt(Booster.Attributes("1087"))
-            Dim cb As ComboBox = CType(Me.tcStorage.Controls("tcpBoosters").Controls("cboBoosterSlot" & slot.ToString),
+            Dim cb As ComboBox = CType(Me.tcStorage.Controls("tcpBoosters").Controls("cboBoosterSlot" & slot.ToString), 
                                        ComboBox)
             If cb.Items.Contains(Booster.Name) = True Then
                 cb.SelectedItem = Booster.Name
@@ -4415,7 +4425,7 @@ Public Class ShipSlotControl
             Dim bModule As ShipModule = CType(ModuleLists.moduleList(boosterID), ShipModule).Clone
             cb.Tag = bModule
             ToolTip1.SetToolTip(cb, SquishText(bModule.Description))
-            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID),
+            Dim effects As SortedList(Of String, BoosterEffect) = CType(Boosters.BoosterEffects(boosterID), 
                                                                         SortedList(Of String, BoosterEffect))
             Dim effectList As String = "Penalties: "
             Dim count As Integer = 0
@@ -4825,8 +4835,8 @@ Public Class ShipSlotControl
                             SkillSet.Contains(relSkill) Then
                         pilotLevel =
                             CType(
-                                CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
-                                      HQFPilot).SkillSet(relSkill),
+                                CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
+                                      HQFPilot).SkillSet(relSkill), 
                                 HQFSkill).Level
                     Else
                         MessageBox.Show(
@@ -4834,7 +4844,7 @@ Public Class ShipSlotControl
                             ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,
                             MessageBoxIcon.Information)
                     End If
-                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString),
+                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
                                               Image)
                     For skillLevel As Integer = 0 To 5
                         Dim newRelSkillLevel As New ButtonItem
@@ -4853,7 +4863,7 @@ Public Class ShipSlotControl
                         defaultLevel =
                             CType(
                                 CType(HQ.EveHqSettings.Pilots(currentInfo.cboPilots.SelectedItem.ToString), Pilot).
-                                    PilotSkills(relSkill),
+                                    PilotSkills(relSkill), 
                                 PilotSkill).Level
                     Else
                     End If
@@ -4893,7 +4903,7 @@ Public Class ShipSlotControl
 
     Private Sub RemoveBooster(ByVal cb As ComboBox, ByVal ParentButton As ButtonX, ByVal ButtonIdx As Integer)
         If cb IsNot Nothing Then
-            cb.SelectedIndex = - 1
+            cb.SelectedIndex = -1
             cb.Tag = Nothing
             ToolTip1.SetToolTip(cb, "")
             Dim cbidx As Integer = CInt(cb.Name.Substring(cb.Name.Length - 1, 1))
@@ -4904,9 +4914,9 @@ Public Class ShipSlotControl
 
     Private Sub SetPilotBoosterSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
         Dim mnuPilotLevel As ButtonItem = CType(sender, ButtonItem)
-        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString),
+        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
                                        HQFPilot)
-        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)),
+        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), 
                                            HQFSkill)
         Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
         If level <> pilotSkill.Level Then

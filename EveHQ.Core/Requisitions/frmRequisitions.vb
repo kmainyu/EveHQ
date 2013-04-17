@@ -20,6 +20,9 @@
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Text
+Imports System.Threading.Tasks
+Imports DevComponents.AdvTree
+Imports EveHQ.Market
 
 Public Class frmRequisitions
 
@@ -289,14 +292,14 @@ Public Class frmRequisitions
         NumberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
         adtOrders.BeginUpdate()
         adtOrders.Nodes.Clear()
-        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From o In Req.Orders.Values Select o.ItemID)
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From o In Req.Orders.Values Select o.ItemID)
         For Each order As RequisitionOrder In Req.Orders.Values
             Dim OrderOwned As Long = 0
             Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(order.ItemID)
             Dim UnitCost As Double = 0
             Dim orderNode As New DevComponents.AdvTree.Node
             orderNode.Text = order.ItemName
-            orderNode.Name = order.ItemName
+            orderNode.Name = order.ItemID
             orderNode.Image = EveHQ.Core.ImageHandler.GetImage(item.ID.ToString, 20)
             ' Add Quantity cell
             Dim qCell As New DevComponents.AdvTree.Cell(order.ItemQuantity.ToString("N0"))
@@ -311,12 +314,14 @@ Public Class frmRequisitions
             vCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(vCell)
             ' Add Unit Cost cell
-            UnitCost = prices(order.ItemID)
-            Dim ucCell As New DevComponents.AdvTree.Cell(UnitCost.ToString("N2"))
+            ' UnitCost = prices(order.ItemID)
+            Dim ucCell As New DevComponents.AdvTree.Cell("Processing...")
+            ucCell.TextDisplayFormat = "N2"
             ucCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(ucCell)
             ' Add Total Cost cell
-            Dim tcCell As New DevComponents.AdvTree.Cell((UnitCost * order.ItemQuantity).ToString("N2"))
+            Dim tcCell As New DevComponents.AdvTree.Cell("Processing...")
+            tcCell.TextDisplayFormat = "N2"
             tcCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(tcCell)
             ' Add Owned cell
@@ -350,16 +355,48 @@ Public Class frmRequisitions
             TotalItemsReqd += Math.Max(order.ItemQuantity - OrderOwned, 0)
             TotalVolume += item.Volume * order.ItemQuantity
             TotalVolumeReqd += (item.Volume * (Math.Max(order.ItemQuantity - OrderOwned, 0)))
-            TotalCost += (UnitCost * order.ItemQuantity)
-            TotalCostReqd += (UnitCost * (Math.Max(order.ItemQuantity - OrderOwned, 0)))
+          
         Next
         adtOrders.EndUpdate()
         ' Update summary information
         lblSummary.Text = "Summary - " & Req.Name
         lblUniqueItems.Text = Req.Orders.Count.ToString("N0")
-        lblTotalItems.Text = TotalItems.ToString("N0") & " (" & TotalItemsReqd.ToString("N0") & ")"
-        lblTotalCost.Text = "Total: " & TotalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & TotalCostReqd.ToString("N2") & " ISK"
-        lblTotalVolume.Text = "Total: " & TotalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & TotalVolumeReqd.ToString("N2") & " m³"
+
+        ' Update Pricing from task
+        priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
+                                   Dim priceData As Dictionary(Of String, Double) = currentTask.Result
+                                   ' cut over to main thread
+                                   Invoke(Sub()
+                                              For Each row As Node In adtOrders.Nodes
+                                                  Dim price As Double
+                                                  Dim quantity As Long
+                                                  If (priceData.TryGetValue(row.Name, price)) Then
+                                                      row.Cells(3).Text = price.ToInvariantString("F2")
+                                                      Long.TryParse(row.Cells(0).Text, quantity)
+                                                      row.Cells(4).Text = (price * quantity).ToInvariantString("F2")
+
+                                                  End If
+                                                  Dim asset As RequisitionAsset
+                                                  Dim owned As Long = 0
+                                                  If (ownedAssets.TryGetValue(row.Text, asset)) Then
+                                                      owned = asset.TotalQuantity
+                                                  End If
+
+                                                  TotalCost += (price * quantity)
+                                                  TotalCostReqd += (price * (Math.Max(quantity - owned, 0)))
+                                              Next
+
+                                              lblTotalItems.Text = TotalItems.ToString("N0") & " (" & TotalItemsReqd.ToString("N0") & ")"
+                                              lblTotalCost.Text = "Total: " & TotalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & TotalCostReqd.ToString("N2") & " ISK"
+                                              lblTotalVolume.Text = "Total: " & TotalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & TotalVolumeReqd.ToString("N2") & " m³"
+
+                                          End Sub)
+
+
+                               End Sub)
+
+
+        
     End Sub
 
     Private Sub btnDeleteReq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteReq.Click

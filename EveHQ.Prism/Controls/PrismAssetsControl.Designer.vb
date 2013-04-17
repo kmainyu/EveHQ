@@ -34,7 +34,6 @@ Partial Class PrismAssetsControl
         Me.btiVolumeG = New DevComponents.DotNetBar.ButtonItem()
         Me.btnFilters = New DevComponents.DotNetBar.ButtonX()
         Me.btnRefreshAssets = New DevComponents.DotNetBar.ButtonX()
-        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.lblTotalSelectedAssetValue = New System.Windows.Forms.Label()
         Me.lblTotalAssetsLabel = New System.Windows.Forms.Label()
         Me.adtAssets = New DevComponents.AdvTree.AdvTree()
@@ -97,6 +96,7 @@ Partial Class PrismAssetsControl
         Me.RemoveFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.splitterAssets = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
+        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.panelPrismAssets.SuspendLayout()
         CType(Me.adtAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxAssets.SuspendLayout()
@@ -228,16 +228,6 @@ Partial Class PrismAssetsControl
         Me.btnRefreshAssets.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnRefreshAssets.TabIndex = 53
         Me.btnRefreshAssets.Text = "Refresh"
-        '
-        'PSCAssetOwners
-        '
-        Me.PSCAssetOwners.AllowMultipleSelections = True
-        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
-        Me.PSCAssetOwners.Name = "PSCAssetOwners"
-        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCAssetOwners.TabIndex = 52
         '
         'lblTotalSelectedAssetValue
         '
@@ -519,7 +509,6 @@ Partial Class PrismAssetsControl
         '
         Me.Asset.BackColorGradientAngle = 90
         Me.Asset.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.Asset.Class = ""
         Me.Asset.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Asset.Name = "Asset"
         Me.Asset.TextColor = System.Drawing.SystemColors.ControlText
@@ -530,7 +519,6 @@ Partial Class PrismAssetsControl
         Me.SelAsset.BackColor2 = System.Drawing.Color.LightGreen
         Me.SelAsset.BackColorGradientAngle = 90
         Me.SelAsset.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.SelAsset.Class = ""
         Me.SelAsset.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.SelAsset.Name = "SelAsset"
         Me.SelAsset.WordWrap = True
@@ -539,7 +527,6 @@ Partial Class PrismAssetsControl
         '
         Me.AssetRight.BackColorGradientAngle = 90
         Me.AssetRight.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.AssetRight.Class = ""
         Me.AssetRight.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.AssetRight.Name = "AssetRight"
         Me.AssetRight.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
@@ -549,7 +536,6 @@ Partial Class PrismAssetsControl
         '
         Me.AssetCentre.BackColorGradientAngle = 90
         Me.AssetCentre.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.AssetCentre.Class = ""
         Me.AssetCentre.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.AssetCentre.Name = "AssetCentre"
         Me.AssetCentre.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -808,6 +794,16 @@ Partial Class PrismAssetsControl
         'STT
         '
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        '
+        'PSCAssetOwners
+        '
+        Me.PSCAssetOwners.AllowMultipleSelections = True
+        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
+        Me.PSCAssetOwners.Name = "PSCAssetOwners"
+        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCAssetOwners.TabIndex = 52
         '
         'PrismAssetsControl
         '

@@ -823,15 +823,19 @@ Public Class DataFunctions
         Return GetPrice(itemID, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
     Public Shared Function GetPrice(ByVal itemID As String, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Double
-        Return GetMarketPrices(New String() {itemID}, metric, transType).Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
+        Dim task As Task(Of Dictionary(Of String, Double)) = GetMarketPrices(New String() {itemID}, metric, transType)
+        task.Wait()
+        Return task.Result.Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
     End Function
 
-    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String)) As Dictionary(Of String, Double)
-        Return GetMarketPrices(itemIDs, MarketMetric.Default, MarketTransactionKind.Default
-                               )
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String)) As Task(Of Dictionary(Of String, Double))
+        Return GetMarketPrices(itemIDs, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
 
-    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Dictionary(Of String, Double)
+
+
+
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Dictionary(Of String, Double))
         If metric = MarketMetric.Default Then
             metric = HQ.EveHqSettings.MarketDefaultMetric
         End If
@@ -839,15 +843,13 @@ Public Class DataFunctions
             transType = HQ.EveHqSettings.MarketDefaultTransactionType
         End If
 
-        Dim itemPrices As New Dictionary(Of String, Double)
-        Dim task As Task(Of IEnumerable(Of ItemOrderStats))
 
-        If itemIDs IsNot Nothing Then
+        Dim dataTask As Task(Of IEnumerable(Of ItemOrderStats))
+        Dim resultTask As Task(Of Dictionary(Of String, Double))
 
-            ' TODO: ItemIds are integers but through out the existing code they are inconsistently treated as strings (or longs...)... must fix that.
+        If itemIDs IsNot Nothing And itemIDs.Any() Then
 
-            ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
-            itemPrices = itemIDs.Distinct().ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
+
 
             ' Go through the list of id's provided and only get the items that have a valid market group.
             Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In itemIDs Where HQ.itemData(itemId).MarketGroup <> 0 Select itemId.ToInt())
@@ -855,88 +857,113 @@ Public Class DataFunctions
             If (itemIdNumbersToRequest.Any()) Then
                 'Fetch all the item prices in a single request
                 If HQ.EveHqSettings.MarketUseRegionMarket Then
-                    task = HQ.MarketDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+                    dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, Nothing, 1)
                 Else
-                    task = HQ.MarketDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+                    dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.EveHqSettings.MarketSystem, 1)
                 End If
 
                 ' Still need to do this in a synchronous fashion...unfortunately
-                task.Wait()
+                resultTask = dataTask.ContinueWith(Function(markettask As Task(Of IEnumerable(Of ItemOrderStats))) As Dictionary(Of String, Double)
+                                                       Return ProcessPriceTaskData(markettask, itemIDs, metric, transType)
+                                                   End Function)
+            Else
+                resultTask = Task.Factory.StartNew(Function() As Dictionary(Of String, Double)
 
-                ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
-
-                Dim result As IEnumerable(Of ItemOrderStats) = Nothing
-                Dim itemResult As ItemOrderStats = Nothing
-                If task.IsCompleted And task.IsFaulted = False And task.Result IsNot Nothing And task.Result.Any() Then
-                    result = task.Result
-                End If
-
-
-                For Each itemId As String In itemIDs.Distinct() 'We only need to process the unique id results.
-                    Try
-                        If result IsNot Nothing Then
-                            itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
-                        End If
-
-                        ' If there is a custom price set, use that if not get it from the provider.
-                        If HQ.CustomPriceList.ContainsKey(itemId) = True Then
-                            itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
-                        ElseIf itemResult IsNot Nothing Then
-                            ' if there's a market provider result use that
-
-                            Dim itemMetric As MarketMetric = metric
-                            Dim itemTransKind As MarketTransactionKind = transType
-                            ' check to see if the item has a configured overrided for metric and trans type
-                            Dim override As ItemMarketOverride
-                            If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
-                                itemMetric = override.MarketStat
-                                itemTransKind = override.TransactionType
-                            End If
-
-
-                            Dim orderStat As OrderStats
-                            ' get the right transaction type
-                            Select Case itemTransKind
-                                Case MarketTransactionKind.All
-                                    orderStat = itemResult.All
-                                Case MarketTransactionKind.Buy
-                                    orderStat = itemResult.Buy
-                                Case Else
-                                    orderStat = itemResult.Sell
-                            End Select
-
-                            Select Case itemMetric
-                                Case MarketMetric.Average
-                                    itemPrices(itemId) = orderStat.Average
-                                Case MarketMetric.Maximum
-                                    itemPrices(itemId) = orderStat.Maximum
-                                Case MarketMetric.Median
-                                    itemPrices(itemId) = orderStat.Median
-                                Case MarketMetric.Percentile
-                                    itemPrices(itemId) = orderStat.Percentile
-                                Case Else
-                                    itemPrices(itemId) = orderStat.Minimum
-                            End Select
-                            Else
-                                ' failing all that, fallback onto the base price.
-                                If HQ.itemData.ContainsKey(itemId) Then
-                                    itemPrices(itemId) = HQ.itemData(itemId).BasePrice
-                                Else
-                                    itemPrices(itemId) = 0
-                                End If
-                            End If
-                    Catch e As Exception
-                        If HQ.itemData.ContainsKey(itemId) Then
-                            itemPrices(itemId) = HQ.itemData(itemId).BasePrice
-                        Else
-                            itemPrices(itemId) = 0
-                        End If
-                    End Try
-                Next
+                                                       Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
+                                                   End Function)
             End If
         Else
-            itemPrices.Add(Nothing, 0)
+            resultTask = Task.Factory.StartNew(Function() As Dictionary(Of String, Double)
+
+                                                   Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
+                                               End Function)
         End If
+
+        Return resultTask
+    End Function
+
+    Private Shared Function ProcessPriceTaskData(markettask As Task(Of IEnumerable(Of ItemOrderStats)), itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Dictionary(Of String, Double)
+
+        ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
+
+        ' TODO: ItemIds are integers but through out the existing code they are inconsistently treated as strings (or longs...)... must fix that.
+        ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
+        Dim itemPrices As New Dictionary(Of String, Double)
+
+        Dim distinctItems As IEnumerable(Of String) = itemIDs.Distinct()
+
+
+        itemPrices = distinctItems.ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
+
+
+        Dim result As IEnumerable(Of ItemOrderStats) = Nothing
+        Dim itemResult As ItemOrderStats = Nothing
+        If markettask.IsCompleted And markettask.IsFaulted = False And markettask.Result IsNot Nothing And markettask.Result.Any() Then
+            result = markettask.Result
+        End If
+
+
+        For Each itemId As String In distinctItems 'We only need to process the unique id results.
+            Try
+                If result IsNot Nothing Then
+                    itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
+                End If
+
+                ' If there is a custom price set, use that if not get it from the provider.
+                If HQ.CustomPriceList.ContainsKey(itemId) = True Then
+                    itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
+                ElseIf itemResult IsNot Nothing Then
+                    ' if there's a market provider result use that
+
+                    Dim itemMetric As MarketMetric = metric
+                    Dim itemTransKind As MarketTransactionKind = transType
+                    ' check to see if the item has a configured overrided for metric and trans type
+                    Dim override As ItemMarketOverride
+                    If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
+                        itemMetric = override.MarketStat
+                        itemTransKind = override.TransactionType
+                    End If
+
+
+                    Dim orderStat As OrderStats
+                    ' get the right transaction type
+                    Select Case itemTransKind
+                        Case MarketTransactionKind.All
+                            orderStat = itemResult.All
+                        Case MarketTransactionKind.Buy
+                            orderStat = itemResult.Buy
+                        Case Else
+                            orderStat = itemResult.Sell
+                    End Select
+
+                    Select Case itemMetric
+                        Case MarketMetric.Average
+                            itemPrices(itemId) = orderStat.Average
+                        Case MarketMetric.Maximum
+                            itemPrices(itemId) = orderStat.Maximum
+                        Case MarketMetric.Median
+                            itemPrices(itemId) = orderStat.Median
+                        Case MarketMetric.Percentile
+                            itemPrices(itemId) = orderStat.Percentile
+                        Case Else
+                            itemPrices(itemId) = orderStat.Minimum
+                    End Select
+                Else
+                    ' failing all that, fallback onto the base price.
+                    If HQ.itemData.ContainsKey(itemId) Then
+                        itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                    Else
+                        itemPrices(itemId) = 0
+                    End If
+                End If
+            Catch e As Exception
+                If HQ.itemData.ContainsKey(itemId) Then
+                    itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                Else
+                    itemPrices(itemId) = 0
+                End If
+            End Try
+        Next
 
         Return itemPrices
     End Function
@@ -2532,106 +2559,106 @@ Public Class DataFunctions
 
                     Try
                         ' Try to load from cache... in the event of a corrupt cache file, drop & rebuild
-                    
-                    ' Get files from dump
-                    Dim s As FileStream
-                    Dim f As BinaryFormatter
 
-                    ' Item Data
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.itemData = CType(f.Deserialize(s), SortedList(Of String, EveItem))
-                    s.Close()
+                        ' Get files from dump
+                        Dim s As FileStream
+                        Dim f As BinaryFormatter
 
-                    ' Item Market Groups
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.ItemMarketGroups = CType(f.Deserialize(s), SortedList(Of String, String))
-                    s.Close()
+                        ' Item Data
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.itemData = CType(f.Deserialize(s), SortedList(Of String, EveItem))
+                        s.Close()
 
-                    ' Item List
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.itemList = CType(f.Deserialize(s), SortedList(Of String, String))
-                    s.Close()
+                        ' Item Market Groups
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.ItemMarketGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                        s.Close()
 
-                    ' Item Groups
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of String, String))
-                    s.Close()
+                        ' Item List
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.itemList = CType(f.Deserialize(s), SortedList(Of String, String))
+                        s.Close()
 
-                    ' Items Cats
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.itemCats = CType(f.Deserialize(s), SortedList(Of String, String))
-                    s.Close()
+                        ' Item Groups
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                        s.Close()
 
-                    ' Group Cats
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.groupCats = CType(f.Deserialize(s), SortedList(Of String, String))
-                    s.Close()
+                        ' Items Cats
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.itemCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                        s.Close()
 
-                    ' Cert Categories
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.CertificateCategories = CType(f.Deserialize(s), SortedList(Of String, CertificateCategory))
-                    s.Close()
+                        ' Group Cats
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.groupCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                        s.Close()
 
-                    ' Cert Classes
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.CertificateClasses = CType(f.Deserialize(s), SortedList(Of String, CertificateClass))
-                    s.Close()
+                        ' Cert Categories
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.CertificateCategories = CType(f.Deserialize(s), SortedList(Of String, CertificateCategory))
+                        s.Close()
 
-                    ' Certs
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.Certificates = CType(f.Deserialize(s), SortedList(Of String, Certificate))
-                    s.Close()
+                        ' Cert Classes
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.CertificateClasses = CType(f.Deserialize(s), SortedList(Of String, CertificateClass))
+                        s.Close()
 
-                    ' Unlocks
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.ItemUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                    s.Close()
+                        ' Certs
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.Certificates = CType(f.Deserialize(s), SortedList(Of String, Certificate))
+                        s.Close()
 
-                    ' SkillUnlocks
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.SkillUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                    s.Close()
+                        ' Unlocks
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.ItemUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                        s.Close()
 
-                    ' CertCerts
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.CertUnlockCerts = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                    s.Close()
+                        ' SkillUnlocks
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.SkillUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                        s.Close()
 
-                    ' CertSkills
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.CertUnlockSkills = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                    s.Close()
+                        ' CertCerts
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.CertUnlockCerts = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                        s.Close()
 
-                    ' SolarSystemsById
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.SolarSystemsById = CType(f.Deserialize(s), SortedList(Of String, SolarSystem))
-                    s.Close()
+                        ' CertSkills
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.CertUnlockSkills = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
+                        s.Close()
 
-                    ' Stations
-                    s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Open)
-                    f = New BinaryFormatter
-                    HQ.Stations = CType(f.Deserialize(s), SortedList(Of String, Station))
-                    s.Close()
+                        ' SolarSystemsById
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.SolarSystemsById = CType(f.Deserialize(s), SortedList(Of String, SolarSystem))
+                        s.Close()
 
-                    ' Load price data
-                    LoadMarketPricesFromDB()
-                    LoadCustomPricesFromDB()
+                        ' Stations
+                        s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Open)
+                        f = New BinaryFormatter
+                        HQ.Stations = CType(f.Deserialize(s), SortedList(Of String, Station))
+                        s.Close()
 
-                    Return True
+                        ' Load price data
+                        LoadMarketPricesFromDB()
+                        LoadCustomPricesFromDB()
+
+                        Return True
                     Catch ex As Exception
                         ' todo log
                         Return False

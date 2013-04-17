@@ -3391,12 +3391,28 @@ Public Class frmEveHQ
         Call DataFunctions.CreateCoreCache()
     End Sub
 
+    Private Sub DeleteCacheFolders()
+        If My.Computer.FileSystem.DirectoryExists(HQ.coreCacheFolder) = True Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.DeleteDirectory(HQ.coreCacheFolder, DeleteDirectoryOption.DeleteAllContents)
+        End If
+
+        If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) = True Then
+            ' Create the cache folder if it doesn't exist
+            My.Computer.FileSystem.DeleteDirectory(HQ.cacheFolder, DeleteDirectoryOption.DeleteAllContents)
+        End If
+
+        'Delete core plugin cache files too. TODO: extend plugin interface to support dropping cache.
+        Dim fitterCache As String = Path.Combine(HQ.AppDataFolder, "HQF", "Cache")
+        If (Directory.Exists(fitterCache)) Then
+            Directory.Delete(fitterCache, True)
+        End If
+
+    End Sub
+
     Private Sub btnDeleteCoreCache_Click(sender As Object, e As EventArgs) Handles btnDeleteCoreCache.Click
         Try
-            If My.Computer.FileSystem.DirectoryExists(HQ.coreCacheFolder) = True Then
-                ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.DeleteDirectory(HQ.coreCacheFolder, DeleteDirectoryOption.DeleteAllContents)
-            End If
+            DeleteCacheFolders()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
@@ -3404,10 +3420,7 @@ Public Class frmEveHQ
 
     Private Sub btnRebuildCoreCache_Click(sender As Object, e As EventArgs) Handles btnRebuildCoreCache.Click
         Try
-            If My.Computer.FileSystem.DirectoryExists(HQ.coreCacheFolder) = True Then
-                ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.DeleteDirectory(HQ.coreCacheFolder, DeleteDirectoryOption.DeleteAllContents)
-            End If
+            DeleteCacheFolders()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try

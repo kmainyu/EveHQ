@@ -23,6 +23,7 @@ Imports EveHQ.EveAPI
 Imports System.IO
 Imports System.Linq
 Imports EveHQ.Market
+Imports EveHQ.Market.MarketServices
 
 Public Class HQ
     Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr,
@@ -96,7 +97,8 @@ Public Class HQ
     Public Shared EveHQAPIServerInfo As New APIServerInfo
     Public Shared EveHQIsUpdating As Boolean = False
     Public Shared ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
-    Private Shared _marketDataProvider As IMarketDataProvider
+    Private Shared _marketStatDataProvider As IMarketStatDataProvider
+    Private Shared _marketOrderDataProvider As IMarketOrderDataProvider = New EveCentralMarketDataProvider(Path.Combine(HQ.AppDataFolder, "MarketCache\EveCentral"))
     Private Shared _regions As SortedList(Of String, EveGalaticRegion)
     Private Shared _marketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
     Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver) = {New EveCentralMarketDataProvider(), New EveMarketDataRelayProvider()}
@@ -122,15 +124,20 @@ Public Class HQ
         End Set
     End Property
 
-    Public Shared Property MarketDataProvider As IMarketDataProvider
+    Public Shared Property MarketStatDataProvider As IMarketStatDataProvider
         Get
-            If _marketDataProvider Is Nothing Then
-                _marketDataProvider = New EveCentralMarketDataProvider(Path.Combine(HQ.AppDataFolder, "Market\EveCentral"))
+            If _marketStatDataProvider Is Nothing Then
+                ' Initialize based on settings
+                'If (EveHqSettings.MarketDataProvider = "Element43") Then
+                '    _marketStatDataProvider = New Element43MarketStatDataProvider(Path.Combine(HQ.AppDataFolder, "Market\Element43"))
+                'Else
+                _marketStatDataProvider = New EveCentralMarketDataProvider(Path.Combine(HQ.AppDataFolder, "MarketCache\EveCentral"))
+                'End If
             End If
-            Return _marketDataProvider
+            Return _marketStatDataProvider
         End Get
-        Set(value As IMarketDataProvider)
-            _marketDataProvider = value
+        Set(value As IMarketStatDataProvider)
+            _marketStatDataProvider = value
         End Set
     End Property
 
@@ -209,6 +216,15 @@ Public Class HQ
         End Get
         Set(value As List(Of String))
             _tickerItemList = value
+        End Set
+    End Property
+
+    Public Shared Property MarketOrderDataProvider As IMarketOrderDataProvider
+        Get
+            Return _marketOrderDataProvider
+        End Get
+        Set(value As IMarketOrderDataProvider)
+            _marketOrderDataProvider = value
         End Set
     End Property
 

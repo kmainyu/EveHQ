@@ -2277,7 +2277,9 @@ Public Class frmSettings
     End Sub
 
     Private Sub SaveMarketSettings()
+
         HQ.EveHqSettings.MarketDataProvider = _marketDataProvider.SelectedItem.ToString()
+        HQ.MarketStatDataProvider = Nothing 'this will cause an update on next use.
         If _useMiniumPrice.Checked Then
             HQ.EveHqSettings.MarketDefaultMetric = MarketMetric.Minimum
         End If

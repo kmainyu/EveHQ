@@ -1,4 +1,6 @@
-﻿<Serializable()>
+﻿Imports System.Threading.Tasks
+
+<Serializable()>
 Public Class InventionJob
     ' Invention specific items
     Private _inventedBpid As Integer
@@ -202,25 +204,28 @@ Public Class InventionJob
         End If
 
         ' Total the item costs
-        Dim itemCost As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+
+        Dim prices As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+        prices.Wait()
+        Dim itemCost As Dictionary(Of String, Double) = prices.Result
 
         invCost.DatacoreCost =
             itemCost.Keys.Where(
                 Function(key) baseBp.Resources.Values.Any(Function(resource) resource.TypeID.ToString = key)).Sum(
-                    Function(key) itemCost(key)*quantityTable(key))
+                    Function(key) itemCost(key) * quantityTable(key))
         If _decryptorUsed IsNot Nothing Then
             invCost.DecryptorCost =
                 itemCost.Keys.Where(Function(key) key = _decryptorUsed.ID).Select(
-                    Function(key) itemCost(key)*quantityTable(key)).Sum()
+                    Function(key) itemCost(key) * quantityTable(key)).Sum()
         End If
 
         invCost.MetaItemCost =
             itemCost.Keys.Where(Function(key) key = _metaItemId.ToString).Select(
-                Function(key) itemCost(key)*quantityTable(key)).Sum()
+                Function(key) itemCost(key) * quantityTable(key)).Sum()
 
         ' Calculate lab cost
         invCost.LabCost = Settings.PrismSettings.LabInstallCost
-        invCost.LabCost += Math.Round(Settings.PrismSettings.LabRunningCost*(baseBp.ResearchTechTime/3600), 2,
+        invCost.LabCost += Math.Round(Settings.PrismSettings.LabRunningCost * (baseBp.ResearchTechTime / 3600), 2,
                                       MidpointRounding.AwayFromZero)
 
         ' Calculate BPC cost
@@ -240,8 +245,8 @@ Public Class InventionJob
         Dim ibp As BlueprintSelection =
                 BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(_inventedBpid.ToString))
 
-        Dim ime As Integer = - 4
-        Dim ipe As Integer = - 4
+        Dim ime As Integer = -4
+        Dim ipe As Integer = -4
         Dim irc As Integer
         Dim runMod As Integer = 0
 
@@ -253,7 +258,7 @@ Public Class InventionJob
                 runMod = useDecryptor.RunMod
             End If
         End If
-        irc = Math.Min(Math.Max(CInt(Math.Truncate((_bpcRuns/baseBp.MaxProdLimit)*(ibp.MaxProdLimit/10))), 1) + runMod,
+        irc = Math.Min(Math.Max(CInt(Math.Truncate((_bpcRuns / baseBp.MaxProdLimit) * (ibp.MaxProdLimit / 10))), 1) + runMod,
                        ibp.MaxProdLimit)
 
         ibp.MELevel = ime
@@ -274,7 +279,7 @@ Public Class InventionJob
                 bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
             Else
                 bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost +
-                           Math.Round((pricerange/runrange)*(_bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
+                           Math.Round((pricerange / runrange) * (_bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
             End If
         End If
         Return bpcCost

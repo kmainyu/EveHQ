@@ -22,22 +22,20 @@ namespace EveHQ.Market
     /// <summary>
     /// Defines the functional contract for an object that wishes to provide Eve Market Data for items.
     /// </summary>
-    public interface IMarketDataProvider
+    public interface IMarketStatDataProvider
     {
+
+        bool LimitedSystemSelection { get; }
+        IEnumerable<int> SupportedSystems { get; }
+
+        bool LimitedRegionSelection { get; }
+        IEnumerable<int> SupportedRegions { get; }
+        
         /// <summary>Get order data by regions.</summary>
         /// <param name="typeIds">The type ids.</param>
         /// <param name="includeRegions">The include regions.</param>
         /// <param name="minQuantity">The min quantity.</param>
         /// <returns>The <see cref="IAsyncResult"/>.</returns>
         Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity);
-
-
-        /// <summary>The get market orders for item type.</summary>
-        /// <param name="itemTypeId">The item type id.</param>
-        /// <param name="includedRegions">The included regions.</param>
-        /// <param name="systemId">The system id.</param>
-        /// <param name="minQuantity">The min quantity.</param>
-        /// <returns>The <see cref="Task"/>.</returns>
-        Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity);
     }
 }

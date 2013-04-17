@@ -256,11 +256,11 @@ Public Class frmMarketPrices
         Dim statItems As New List(Of Integer)
         statItems.Add(itemId)
         If (HQ.EveHqSettings.MarketUseRegionMarket) = True Then
-            orderTask = HQ.MarketDataProvider.GetMarketOrdersForItemType(itemId, HQ.EveHqSettings.MarketRegions, Nothing, 1)
-            statstask = HQ.MarketDataProvider.GetOrderStats(statItems, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+            orderTask = HQ.MarketOrderDataProvider.GetMarketOrdersForItemType(itemId, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+            statstask = HQ.MarketStatDataProvider.GetOrderStats(statItems, HQ.EveHqSettings.MarketRegions, Nothing, 1)
         Else
-            orderTask = HQ.MarketDataProvider.GetMarketOrdersForItemType(itemId, Nothing, HQ.EveHqSettings.MarketSystem, 1)
-            statstask = HQ.MarketDataProvider.GetOrderStats(statItems, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+            orderTask = HQ.MarketOrderDataProvider.GetMarketOrdersForItemType(itemId, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+            statstask = HQ.MarketStatDataProvider.GetOrderStats(statItems, Nothing, HQ.EveHqSettings.MarketSystem, 1)
         End If
 
         Dim orderContinuation As Action(Of Task(Of ItemMarketOrders)) = Sub(dataTask As Task(Of ItemMarketOrders))
@@ -296,15 +296,15 @@ Public Class frmMarketPrices
 
             'quantity
             Dim quantityCell As New Cell()
-            quantityCell.Text = order.QuantityRemaining.ToInvariantString()
+            quantityCell.Text = order.QuantityRemaining.ToInvariantString("F0")
             quantityCell.TextDisplayFormat = "N0"
             row.Cells.Add(quantityCell)
 
 
             'Price 
             Dim priceCell As New Cell()
+            priceCell.Text = order.Price.ToInvariantString("F2")
             priceCell.TextDisplayFormat = "N2"
-            priceCell.Text = order.Price.ToInvariantString(2)
             row.Cells.Add(priceCell)
 
             'format expiry to countdown timespan
@@ -327,15 +327,16 @@ Public Class frmMarketPrices
 
             'quantity
             Dim quantityCell As New Cell()
-            quantityCell.Text = order.QuantityRemaining.ToInvariantString()
+            quantityCell.Text = order.QuantityRemaining.ToInvariantString("F0")
             quantityCell.TextDisplayFormat = "N0"
             row.Cells.Add(quantityCell)
 
 
             'Price 
             Dim priceCell As New Cell()
+
+            priceCell.Text = order.Price.ToInvariantString("F2")
             priceCell.TextDisplayFormat = "N2"
-            priceCell.Text = order.Price.ToInvariantString(2)
             row.Cells.Add(priceCell)
 
             'format expiry to countdown timespace
@@ -364,23 +365,23 @@ Public Class frmMarketPrices
         ' update the UI controls
 
         ' Sell Orders
-        _sellOrderMetrics.Maximum = itemStat.Sell.Maximum.ToCurrentCultureString("N2")
-        _sellOrderMetrics.Minimum = itemStat.Sell.Minimum.ToCurrentCultureString("N2")
-        _sellOrderMetrics.Average = itemStat.Sell.Average.ToCurrentCultureString("N2")
-        _sellOrderMetrics.Median = itemStat.Sell.Median.ToCurrentCultureString("N2")
-        _sellOrderMetrics.StdDeviation = itemStat.Sell.StdDeviation.ToCurrentCultureString("N2")
-        _sellOrderMetrics.Percentile = itemStat.Sell.Percentile.ToCurrentCultureString("N2")
-        _sellOrderMetrics.Volume = itemStat.Sell.Volume.ToCurrentCultureString()
+        _sellOrderMetrics.Maximum = itemStat.Sell.Maximum.ToInvariantString("N2")
+        _sellOrderMetrics.Minimum = itemStat.Sell.Minimum.ToInvariantString("N2")
+        _sellOrderMetrics.Average = itemStat.Sell.Average.ToInvariantString("N2")
+        _sellOrderMetrics.Median = itemStat.Sell.Median.ToInvariantString("N2")
+        _sellOrderMetrics.StdDeviation = itemStat.Sell.StdDeviation.ToInvariantString("N2")
+        _sellOrderMetrics.Percentile = itemStat.Sell.Percentile.ToInvariantString("N2")
+        _sellOrderMetrics.Volume = itemStat.Sell.Volume.ToInvariantString()
 
 
         ' Buy Orders
-        _buyOrderMetrics.Maximum = itemStat.Buy.Maximum.ToCurrentCultureString("N2")
-        _buyOrderMetrics.Minimum = itemStat.Buy.Minimum.ToCurrentCultureString("N2")
-        _buyOrderMetrics.Average = itemStat.Buy.Average.ToCurrentCultureString("N2")
-        _buyOrderMetrics.Median = itemStat.Buy.Median.ToCurrentCultureString("N2")
-        _buyOrderMetrics.StdDeviation = itemStat.Buy.StdDeviation.ToCurrentCultureString("N2")
-        _buyOrderMetrics.Percentile = itemStat.Buy.Percentile.ToCurrentCultureString("N2")
-        _buyOrderMetrics.Volume = itemStat.Buy.Volume.ToCurrentCultureString()
+        _buyOrderMetrics.Maximum = itemStat.Buy.Maximum.ToInvariantString("N2")
+        _buyOrderMetrics.Minimum = itemStat.Buy.Minimum.ToInvariantString("N2")
+        _buyOrderMetrics.Average = itemStat.Buy.Average.ToInvariantString("N2")
+        _buyOrderMetrics.Median = itemStat.Buy.Median.ToInvariantString("N2")
+        _buyOrderMetrics.StdDeviation = itemStat.Buy.StdDeviation.ToInvariantString("N2")
+        _buyOrderMetrics.Percentile = itemStat.Buy.Percentile.ToInvariantString("N2")
+        _buyOrderMetrics.Volume = itemStat.Buy.Volume.ToInvariantString()
 
     End Sub
 

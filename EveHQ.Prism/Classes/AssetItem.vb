@@ -36,5 +36,6 @@ Public Class AssetItem
     Public Quantity As Long
     Public Price As Double
     Public RawQuantity As Integer
+    Public IsInHanger As Boolean = False
 End Class
 

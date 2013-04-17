@@ -25,10 +25,13 @@ namespace EveHQ.Market
     using System.Web;
     using System.Xml.Linq;
 
+    using EveHQ.Caching;
+    using EveHQ.Caching.Raven;
+
     /// <summary>
     ///     Market data provider, sourcing data from Eve-Central.com
     /// </summary>
-    public class EveCentralMarketDataProvider : IMarketDataProvider, IMarketDataReceiver
+    public class EveCentralMarketDataProvider : IMarketStatDataProvider, IMarketDataReceiver, IMarketOrderDataProvider
     {
         /// <summary>The region.</summary>
         private const string Region = "Region";
@@ -37,7 +40,7 @@ namespace EveHQ.Market
         private const string System = "System";
 
         /// <summary>The item key format.</summary>
-        private const string ItemKeyFormat = "{0}";
+        private const string ItemKeyFormat = "{0}-{1}";
 
         /// <summary>The eve central base url.</summary>
         private const string EveCentralBaseUrl = "http://api.eve-central.com/api/";
@@ -72,10 +75,12 @@ namespace EveHQ.Market
         private const int JitaSystemId = 30000142;
 
         /// <summary>The _market order cache.</summary>
-        private readonly SimpleTextFileCache _marketOrderCache;
+        private readonly ICacheProvider _marketOrderCache;
 
         /// <summary>The _region data cache.</summary>
-        private readonly SimpleTextFileCache _regionDataCache;
+        private readonly ICacheProvider _regionDataCache;
+
+        private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(1);
 
         /// <summary>The _upload key.</summary>
         private readonly UploadKey _uploadKey = new UploadKey { Key = "0", Name = "Eve-Central" };
@@ -90,14 +95,46 @@ namespace EveHQ.Market
         /// <param name="cacheRootFolder">The cache root folder.</param>
         public EveCentralMarketDataProvider(string cacheRootFolder)
         {
-            _regionDataCache = new SimpleTextFileCache(Path.Combine(cacheRootFolder, Region));
-            _marketOrderCache = new SimpleTextFileCache(Path.Combine(cacheRootFolder, "MarketOrders"));
+            _regionDataCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, Region));
+            _marketOrderCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
         }
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
         public EveCentralMarketDataProvider()
             : this(Environment.CurrentDirectory)
         {
+        }
+
+        public bool LimitedSystemSelection
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<int> SupportedSystems
+        {
+            get
+            {
+                return new int[0];
+            }
+        }
+
+        public bool LimitedRegionSelection
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<int> SupportedRegions
+        {
+            get
+            {
+                return new int[0];
+            }
         }
 
         /// <summary>The get region based order stats.</summary>
@@ -116,31 +153,37 @@ namespace EveHQ.Market
                     var cachedItems = new List<ItemOrderStats>();
                     var typesToRequest = new List<int>();
                     string cacheKey;
-
+                    var dirtyCache = new Dictionary<int, ItemOrderStats>();
                     if (systemId.HasValue)
                     {
-                        cacheKey = this.CalcCacheKey(new[] { systemId.Value });
+                        cacheKey = CalcCacheKey(new[] { systemId.Value });
                     }
                     else if (includeRegions != null && includeRegions.Any())
                     {
-                        cacheKey = this.CalcCacheKey(includeRegions);
+                        cacheKey = CalcCacheKey(includeRegions);
                     }
                     else
                     {
-                        cacheKey = this.CalcCacheKey(new[] { JitaSystemId });
+                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
                     }
 
                     foreach (int typeId in typeIds.Distinct())
                     {
-                        var itemStats = this._regionDataCache.Get<List<ItemOrderStats>>(ItemKeyFormat.FormatInvariant(cacheKey));
-                        ItemOrderStats itemData;
-                        if (itemStats != null && (itemData = itemStats.FirstOrDefault(i => i.ItemTypeId == typeId)) != null)
+                        var itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
+                        if (itemStats != null && itemStats.Data != null && !itemStats.IsDirty)
                         {
-                            cachedItems.Add(itemData);
+                            cachedItems.Add(itemStats.Data);
                         }
                         else
                         {
+                            // queue for refresh
                             typesToRequest.Add(typeId);
+
+                            // add to dirty cache incase of no data/error
+                            if (itemStats != null && itemStats.IsDirty)
+                            {
+                                dirtyCache.Add(typeId, itemStats.Data);
+                            }
                         }
                     }
 
@@ -159,23 +202,14 @@ namespace EveHQ.Market
                                 try
                                 {
                                     // process result
-                                    List<ItemOrderStats> retrievedItems = this.GetOrderStatsFromXml(stream);
+                                    IEnumerable<ItemOrderStats> retrievedItems = GetOrderStatsFromXml(stream);
 
                                     // cache it.
-                                    var existingData = _regionDataCache.Get<List<ItemOrderStats>>(cacheKey);
-                                    if (existingData != null)
+                                    foreach (ItemOrderStats item in retrievedItems)
                                     {
-                                        existingData.AddRange(retrievedItems);
+                                        _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
+                                        cachedItems.Add(item);
                                     }
-                                    else
-                                    {
-                                        existingData = retrievedItems;
-                                    }
-
-                                    _regionDataCache.Add(cacheKey, existingData, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
-
-                                    // add them to the cached item collection for return
-                                    cachedItems.AddRange(retrievedItems);
                                 }
                                 catch (Exception ex)
                                 {
@@ -184,9 +218,12 @@ namespace EveHQ.Market
                                 }
                             }
                         }
-                        else
+                        //TODO: log warning/error when task doesn't complete properly.
+
+                        // add in "dirty/expired" items as filler for items that didn't get downloaded or to smooth over loss of connection issues
+                        foreach (var itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
                         {
-                            throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
+                            cachedItems.Add(dirtyCache[itemKey]);
                         }
                     }
 
@@ -208,19 +245,20 @@ namespace EveHQ.Market
                     string cacheKey;
                     if (systemId.HasValue)
                     {
-                        cacheKey = this.CalcCacheKey(new[] { systemId.Value });
+                        cacheKey = CalcCacheKey(new[] { systemId.Value });
                     }
                     else if (includedRegions != null && includedRegions.Any())
                     {
-                        cacheKey = this.CalcCacheKey(includedRegions);
+                        cacheKey = CalcCacheKey(includedRegions);
                     }
                     else
                     {
-                        cacheKey = this.CalcCacheKey(new[] { JitaSystemId });
+                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
                     }
 
-                    var resultData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
-                    if (resultData == null)
+                    var cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
+                    ItemMarketOrders itemData = null;
+                    if (cachedData == null || cachedData.IsDirty)
                     {
                         // make the request for the types we don't have valid caches for
                         NameValueCollection requestParameters = this.CreateMarketRequestParameters(new[] { itemTypeId }, includedRegions, systemId ?? 0, minQuantity);
@@ -238,7 +276,8 @@ namespace EveHQ.Market
 
                                     _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
 
-                                    resultData = data;
+
+                                    itemData = data;
                                 }
                                 catch (Exception ex)
                                 {
@@ -253,7 +292,7 @@ namespace EveHQ.Market
                         }
                     }
 
-                    return resultData;
+                    return itemData ?? (cachedData != null ? cachedData.Data : null);
                 });
         }
 
@@ -400,9 +439,9 @@ namespace EveHQ.Market
         /// <summary>The get order stats from xml.</summary>
         /// <param name="stream">The stream.</param>
         /// <returns>The collection of item order stats.</returns>
-        private List<ItemOrderStats> GetOrderStatsFromXml(Stream stream)
+        private IEnumerable<ItemOrderStats> GetOrderStatsFromXml(Stream stream)
         {
-            List<ItemOrderStats> orderStats = null;
+            IEnumerable<ItemOrderStats> orderStats = null;
             using (TextReader reader = new StreamReader(stream))
             {
                 // ReSharper disable PossibleNullReferenceException
@@ -415,7 +454,7 @@ namespace EveHQ.Market
                                   let buyData = this.GetOrderData(type.Element("buy"))
                                   let sellData = this.GetOrderData(type.Element("sell"))
                                   let allData = this.GetOrderData(type.Element("all"))
-                                  select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData }).ToList();
+                                  select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData });
                 }
 
                 // ReSharper restore PossibleNullReferenceException

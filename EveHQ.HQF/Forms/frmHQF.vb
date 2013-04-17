@@ -23,11 +23,13 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.Xml
+Imports EveHQ.Market
 Imports Microsoft.Win32
 Imports DevComponents.AdvTree
 Imports System.Text
 Imports DevComponents.DotNetBar
 Imports System.Linq
+Imports System.Threading.Tasks
 
 Public Class frmHQF
 
@@ -1196,9 +1198,7 @@ Public Class frmHQF
         tvwModules.BeginUpdate()
         tvwModules.Nodes.Clear()
 
-        'query for the prices of each of the modules. This iterates the collection more than once, but it is more efficient than potientially making a dozen or more web requests
-        Dim costTable As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From modules In LastModuleResults.Values Let mods = CType(modules, ShipModule) Select mods.ID)
-
+      
         For Each shipmod As ShipModule In LastModuleResults.Values
             If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
                 If (shipmod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
@@ -1208,7 +1208,8 @@ Public Class frmHQF
                     newModule.Cells.Add(New Cell(shipmod.MetaLevel.ToString))
                     newModule.Cells.Add(New Cell(shipmod.CPU.ToString))
                     newModule.Cells.Add(New Cell(shipmod.PG.ToString))
-                    newModule.Cells.Add(New Cell(CStr(costTable(shipmod.ID))))
+                    ' newModule.Cells.Add(New Cell(CStr(costTable(shipmod.ID))))
+                    newModule.Cells.Add(New Cell("Processing...")) 'Place holder for the price data that will update afterward.
                     newModule.Cells(4).TextDisplayFormat = "N2"
                     newModule.Style = New DevComponents.DotNetBar.ElementStyle
                     newModule.Style.Font = Me.Font
@@ -1252,6 +1253,27 @@ Public Class frmHQF
                 End If
             End If
         Next
+
+        'Update pricing data
+        'query for the prices of each of the modules. This iterates the collection more than once, but it is more efficient than potientially making a dozen or more web requests
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From modules In LastModuleResults.Values Let mods = CType(modules, ShipModule) Select mods.ID)
+
+        'Update UI when pricing data is acquired
+        priceTask.ContinueWith(Sub(task As Task(Of Dictionary(Of String, Double)))
+                                   Dim prices As Dictionary(Of String, Double) = task.Result
+
+                                   ' Switch to UI thread
+                                   Invoke(Sub()
+                                              For Each moduleNode As Node In tvwModules.Nodes
+                                                  Dim price As Double
+                                                  If prices.TryGetValue(moduleNode.Name, price) Then
+                                                      moduleNode.Cells(4).Text = price.ToInvariantString("N2")
+                                                  End If
+                                              Next
+
+                                          End Sub)
+                               End Sub)
+
         If tvwModules.Nodes.Count = 0 Then
             tvwModules.Nodes.Add(New Node("<Empty - Please check filters>"))
             tvwModules.Enabled = False

@@ -24,6 +24,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports System.Xml
 Imports DevComponents.DotNetBar
+Imports System.Threading.Tasks
 
 Public Class PrismResources
 
@@ -111,7 +112,10 @@ Public Class PrismResources
     Public Sub DisplayInventionResources()
         adtInventionResources.BeginUpdate()
         adtInventionResources.Nodes.Clear()
-        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r As BlueprintResource In CurrentBP.Resources.Values Where r.Activity = 8 Select CStr(r.TypeID))
+        Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r As BlueprintResource In CurrentBP.Resources.Values Where r.Activity = 8 Select CStr(r.TypeID))
+        priceData.Wait()
+        Dim prices As Dictionary(Of String, Double) = priceData.Result
+
         For Each Resource As BlueprintResource In CurrentBP.Resources.Values
             If Resource.Activity = 8 Then
                 ' Add the resource to the list
@@ -172,10 +176,13 @@ Public Class PrismResources
         Dim UnitWaste As Double = 0
 
         If CurrentJob IsNot Nothing Then
+            Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
+            Dim jobCostTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
+            Task.WaitAll(priceData, jobCostTask)
             ' resource costs
-            Dim resourceCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
+            Dim resourceCosts As Dictionary(Of String, Double) = priceData.Result
             ' production job costs
-            Dim jobCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
+            Dim jobCosts As Dictionary(Of String, Double) = jobCostTask.Result
             For Each resource As Object In CurrentJob.RequiredResources.Values
                 If TypeOf (resource) Is RequiredResource Then
                     ' This is a resource so add it
@@ -319,10 +326,13 @@ Public Class PrismResources
     End Sub
 
     Private Sub DisplayJob(ByVal parentJob As ProductionJob, ByVal BaseRuns As Integer, ByVal parentRes As Node, ByRef maxProducableUnits As Long)
+        Dim resourceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
+        Dim jobTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
+        Task.WaitAll(resourceTask, jobTask)
         ' resource costs
-        Dim resourceCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
+        Dim resourceCosts As Dictionary(Of String, Double) = resourceTask.Result
         ' production job costs
-        Dim jobCosts As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
+        Dim jobCosts As Dictionary(Of String, Double) = jobTask.Result
         For Each resource As Object In parentJob.RequiredResources.Values
             If TypeOf (resource) Is RequiredResource Then
                 ' This is a resource so add it
@@ -831,7 +841,9 @@ Public Class PrismResources
         adtBatchResources.BeginUpdate()
         adtBatchResources.Nodes.Clear()
         ' batch price request ... yes it goes through the collection more than once, but 1 possible web request is better than dozens.
-        Dim costs As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From items In GroupResources.Keys)
+        Dim costTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From items In GroupResources.Keys)
+        costTask.Wait()
+        Dim costs As Dictionary(Of String, Double) = costTask.Result
         For Each itemID As String In GroupResources.Keys
             reqd = GroupResources(itemID)
             If reqd > 0 Then
@@ -863,7 +875,9 @@ Public Class PrismResources
         Dim ItemData As EveHQ.Core.EveItem
         adtProductionList.BeginUpdate()
         adtProductionList.Nodes.Clear()
-        Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From pi In ProductionList.Values Select pi.ItemID)
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From pi In ProductionList.Values Select pi.ItemID)
+        priceTask.Wait()
+        Dim prices As Dictionary(Of String, Double) = priceTask.Result
         For Each PI As ProductionItem In ProductionList.Values
             If PI.IsBuild = True Then
                 ItemData = EveHQ.Core.HQ.itemData(PI.ItemID)

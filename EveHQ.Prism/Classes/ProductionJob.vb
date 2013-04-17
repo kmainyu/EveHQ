@@ -20,6 +20,7 @@
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
+Imports System.Threading.Tasks
 
 <Serializable()>
 Public Class ProductionJob
@@ -188,7 +189,9 @@ Public Class ProductionJob
         Dim subJobs As IEnumerable(Of ProductionJob) = Me.RequiredResources.Values.Where(Function(value) value.GetType.Name = GetType(ProductionJob).Name).Select(Function(v) CType(v, ProductionJob))
 
         'Get the prices for the resource
-        Dim resourceCost As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(resources.Select(Function(r) r.TypeID.ToString))
+        Dim prices As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(resources.Select(Function(r) r.TypeID.ToString))
+        prices.Wait()
+        Dim resourceCost As Dictionary(Of String, Double) = prices.Result
         cost += resources.Select(Function(r) ((r.PerfectUnits + r.WasteUnits) * resourceCost(r.TypeID.ToString())) * Me.Runs).Sum()
 
         ' Add in the costs for the sub jobs

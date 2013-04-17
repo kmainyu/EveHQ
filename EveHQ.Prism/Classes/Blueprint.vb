@@ -20,6 +20,7 @@
 
 Imports System.Windows.Forms
 Imports EveHQ.Market
+Imports System.Threading.Tasks
 
 <Serializable()> Public Class Blueprint
     Public ID As Integer
@@ -413,7 +414,9 @@ End Class
         End If
 
         ' Total the item costs
-        Dim itemCost As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+        Dim prices As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+        prices.Wait()
+        Dim itemCost As Dictionary(Of String, Double) = prices.Result
         Dim invCost As Double = itemCost.Keys.Sum(Function(key) itemCost(key) * quantityTable(key))
 
 

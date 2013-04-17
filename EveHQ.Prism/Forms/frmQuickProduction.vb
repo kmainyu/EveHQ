@@ -20,6 +20,7 @@
 
 Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports System.Threading.Tasks
 
 Public Class frmQuickProduction
 
@@ -82,7 +83,9 @@ Public Class frmQuickProduction
         Dim UnitMaterial As Double = 0
         Dim UnitWaste As Double = 0
         If CurrentJob IsNot Nothing Then
-            Dim prices As Dictionary(Of String, Double) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
+            priceTask.Wait()
+            Dim prices As Dictionary(Of String, Double) = priceTask.Result
             For Each resource As Object In CurrentJob.RequiredResources.Values
                 If TypeOf (resource) Is RequiredResource Then
                     ' This is a resource so add it
@@ -100,7 +103,7 @@ Public Class frmQuickProduction
                             ' Calculate costs
                             UnitMaterial += value
                             UnitWaste += waste * price
-                         
+
                             Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
                             newRes.Cells.Add(New Cell(TotalTotal.ToString))
                             newRes.Cells(1).TextDisplayFormat = "N0"
