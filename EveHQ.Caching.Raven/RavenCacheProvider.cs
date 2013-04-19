@@ -26,7 +26,7 @@ namespace EveHQ.Caching.Raven
     using global::Raven.Client.Embedded;
 
     /// <summary>The raven cache provider.</summary>
-    public class RavenCacheProvider : ICacheProvider
+    public sealed class RavenCacheProvider : ICacheProvider, IDisposable
     {
         /// <summary>The _db.</summary>
         private readonly EmbeddableDocumentStore _db;
@@ -37,6 +37,7 @@ namespace EveHQ.Caching.Raven
         {
             _db = new EmbeddableDocumentStore { DataDirectory = dataFolder, Conventions = { AllowMultipuleAsyncOperations = true } };
             _db.Initialize();
+
         }
 
         /// <summary>Adds an item to the document cache</summary>
@@ -71,6 +72,12 @@ namespace EveHQ.Caching.Raven
                 }
             }
             return data;
+        }
+
+        public void Dispose()
+        {
+            _db.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -98,10 +98,10 @@ Public Class HQ
     Public Shared EveHQIsUpdating As Boolean = False
     Public Shared ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
     Private Shared _marketStatDataProvider As IMarketStatDataProvider
-    Private Shared _marketOrderDataProvider As IMarketOrderDataProvider = New EveCentralMarketDataProvider(Path.Combine(HQ.AppDataFolder, "MarketCache\EveCentral"))
+    Private Shared _marketOrderDataProvider As IMarketOrderDataProvider
     Private Shared _regions As SortedList(Of String, EveGalaticRegion)
     Private Shared _marketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
-    Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver) = {New EveCentralMarketDataProvider(), New EveMarketDataRelayProvider()}
+    Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
     Private Shared _marketCacheUploader As MarketUploader
     Private Shared _tickerItemList As New List(Of String)
 
@@ -131,7 +131,7 @@ Public Class HQ
                 'If (EveHqSettings.MarketDataProvider = "Element43") Then
                 '    _marketStatDataProvider = New Element43MarketStatDataProvider(Path.Combine(HQ.AppDataFolder, "Market\Element43"))
                 'Else
-                _marketStatDataProvider = New EveCentralMarketDataProvider(Path.Combine(HQ.AppDataFolder, "MarketCache\EveCentral"))
+                _marketStatDataProvider = GetEveCentralMarketInstance(HQ.AppDataFolder)
                 'End If
             End If
             Return _marketStatDataProvider
@@ -189,6 +189,7 @@ Public Class HQ
     Public Shared Property MarketCacheUploader As MarketUploader
         Get
             If _marketCacheUploader Is Nothing Then
+                _marketDataReceivers = {CType(_marketOrderDataProvider, IMarketDataReceiver), New EveMarketDataRelayProvider()}
                 _marketCacheUploader = New MarketUploader(_marketCacheProcessorMinTime, _marketDataReceivers, Nothing)
             End If
 
@@ -221,6 +222,9 @@ Public Class HQ
 
     Public Shared Property MarketOrderDataProvider As IMarketOrderDataProvider
         Get
+            If _marketOrderDataProvider Is Nothing Then
+                _marketOrderDataProvider = GetEveCentralMarketInstance(HQ.AppDataFolder)
+            End If
             Return _marketOrderDataProvider
         End Get
         Set(value As IMarketOrderDataProvider)
@@ -284,6 +288,14 @@ Public Class HQ
             Next
         End If
     End Sub
+
+    Private Shared EveCentralProvider As EveCentralMarketDataProvider
+    Private Shared Function GetEveCentralMarketInstance(appDataFolder As String) As EveCentralMarketDataProvider
+        If EveCentralProvider Is Nothing Then
+            EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"))
+        End If
+        Return EveCentralProvider
+    End Function
 End Class
 
 Class ListViewItemComparerA

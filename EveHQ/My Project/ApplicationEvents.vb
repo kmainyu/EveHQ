@@ -128,8 +128,15 @@ Namespace My
                 msg.AppendLine("")
                 msg.AppendLine("Error Form Stacktrace: " & ex.StackTrace)
                 msg.AppendLine("")
+                Dim inner As Exception = ex.InnerException
+                Dim count As Integer = 1
+                While inner IsNot Nothing
+                    msg.AppendLine("Error Form Inner Exception" & count & ": " & inner.Message)
+                    inner = inner.InnerException
+                    count += 1
+                End While
                 If ex.InnerException IsNot Nothing Then
-                    msg.AppendLine("Error Form Inner Exception: " & ex.InnerException.Message)
+
                 End If
                 Try
                     Clipboard.SetText(msg.ToString)

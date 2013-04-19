@@ -99,12 +99,6 @@ namespace EveHQ.Market
             _marketOrderCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
         }
 
-        /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
-        public EveCentralMarketDataProvider()
-            : this(Environment.CurrentDirectory)
-        {
-        }
-
         public bool LimitedSystemSelection
         {
             get
