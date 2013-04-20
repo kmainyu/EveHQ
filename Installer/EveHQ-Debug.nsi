@@ -138,6 +138,9 @@ SectionIn RO
   
   SetOutPath $APPDATA\EveHQ
   File "..\EveHQ.Data\EveHQ.sdf"
+    # delete cache files
+  Delete $APPDATA\EveHQ\HQF\Cache\*.*
+  Delete $APPDATA\EveHQ\CoreCache\*.*
 
  ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\EveHQ "Install_Dir" "$INSTDIR"
