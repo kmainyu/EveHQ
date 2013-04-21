@@ -8,6 +8,7 @@ SetCompressor /solid lzma
 !include x64.nsh
 !include SQLCE40.nsh
 !include Upgrade.nsh
+!include DirClean.nsh
 
  
 Name "EveHQ"
@@ -125,6 +126,9 @@ SectionIn RO
   # delete cache files
   Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
+  !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
+  
+  
 
  ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\EveHQ "Install_Dir" "$INSTDIR"
@@ -181,6 +185,9 @@ SectionEnd
 #--------------------------------------------
 
 Function .onInit
+
+# make sure it isn't running
+call EveHQNotRunning
 
 #uninstall the msi versions.
 
@@ -270,6 +277,11 @@ done:
 
 FunctionEnd
 
+Function un.onInit
+
+call un.EveHQNotRunning
+FunctionEnd
+
 
 Function CreateDesktopShortcut
 CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe"
@@ -278,5 +290,69 @@ FunctionEnd
 
 #Ensure it isn't running
 
+Function EveHQNotRunning
+	IfFileExists "$INSTDIR\EveHQ.exe" 0 success
+	IntOp $1 0 + 0
+	
+	tryToContinue:
+	ClearErrors
+	FileOpen $0 "$INSTDIR\EveHQ.exe" a
+	IfErrors isRunning
+	FileClose $0
+	goto success
+
+	isRunning:
+	IfSilent waitForClose
+	MessageBox MB_RETRYCANCEL|MB_DEFBUTTON1|MB_ICONEXCLAMATION \
+			"Please close the EveHQ process before continuing. Note: It may be running minimized." /SD IDCANCEL IDRETRY tryToContinue IDCANCEL abort
+	goto tryToContinue
+
+	waitForClose:
+	IntOp $1 $1 + 1
+	IntCmp $1 60 0 0 attemptTimedOut
+	Sleep 1000
+	goto tryToContinue
+
+	attemptTimedOut:
+	Abort "EveHQ failed to close in an acceptable amount of time.."
+
+	abort:
+	Abort "Execution cancelled by user."
+ 
+	success:
+FunctionEnd
+
+
+Function un.EveHQNotRunning
+	IfFileExists "$INSTDIR\EveHQ.exe" 0 success
+	IntOp $1 0 + 0
+	
+	tryToContinue:
+	ClearErrors
+	FileOpen $0 "$INSTDIR\EveHQ.exe" a
+	IfErrors isRunning
+	FileClose $0
+	goto success
+
+	isRunning:
+	IfSilent waitForClose
+	MessageBox MB_RETRYCANCEL|MB_DEFBUTTON1|MB_ICONEXCLAMATION \
+			"Please close the EveHQ process before continuing. Note: It may be running minimized." /SD IDCANCEL IDRETRY tryToContinue IDCANCEL abort
+	goto tryToContinue
+
+	waitForClose:
+	IntOp $1 $1 + 1
+	IntCmp $1 60 0 0 attemptTimedOut
+	Sleep 1000
+	goto tryToContinue
+
+	attemptTimedOut:
+	Abort "EveHQ failed to close in an acceptable amount of time.."
+
+	abort:
+	Abort "Execution cancelled by user."
+ 
+	success:
+FunctionEnd
 
 
