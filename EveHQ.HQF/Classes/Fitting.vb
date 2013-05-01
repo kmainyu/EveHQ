@@ -2420,7 +2420,7 @@ Imports EveHQ.Core
 
         ' Check fitting constraints
         If IsSwappingModules = False Then
-            If IsModulePermitted(shipMod) = False Then
+            If IsModulePermitted(shipMod, False, repMod) = False Then
                 Exit Sub
             End If
         End If
@@ -2712,7 +2712,7 @@ Imports EveHQ.Core
 
         Return True
     End Function
-    Public Function IsModulePermitted(ByRef shipMod As ShipModule, Optional ByVal search As Boolean = False) As Boolean
+    Public Function IsModulePermitted(ByRef shipMod As ShipModule, ByVal search As Boolean, Optional ByVal repMod As ShipModule = Nothing) As Boolean
         ' Check for subsystem restrictions
         If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
             ' Check for subsystem type restriction
@@ -2723,16 +2723,24 @@ Imports EveHQ.Core
                 Return False
             End If
             ' Check for subsystem group restriction
-            For s As Integer = 1 To Me.BaseShip.SubSlots
-                If Me.BaseShip.SubSlot(s) IsNot Nothing Then
-                    If CStr(shipMod.Attributes(Attributes.Module_SubsystemSlot)) = CStr(Me.BaseShip.SubSlot(s).Attributes(Attributes.Module_SubsystemSlot)) Then
-                        If search = False Then
-                            MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        End If
-                        Return False
-                    End If
+            Dim subReplace As Boolean = False
+            If repMod IsNot Nothing Then
+                If repMod.Attributes(Attributes.Module_SubsystemSlot) = shipMod.Attributes(Attributes.Module_SubsystemSlot) Then
+                    subReplace = True
                 End If
-            Next
+            End If
+            If subReplace = False Then
+                For s As Integer = 1 To Me.BaseShip.SubSlots
+                    If Me.BaseShip.SubSlot(s) IsNot Nothing Then
+                        If CStr(shipMod.Attributes(Attributes.Module_SubsystemSlot)) = CStr(Me.BaseShip.SubSlot(s).Attributes(Attributes.Module_SubsystemSlot)) Then
+                            If search = False Then
+                                MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            End If
+                            Return False
+                        End If
+                    End If
+                Next
+            End If
         End If
 
         ' Check for Rig restrictions
