@@ -830,7 +830,7 @@ Public Class DataFunctions
 
 
     Public Shared Function GetPriceAsync(ByVal itemID As String) As Task(Of Double)
-        Return GetPrice(itemID, MarketMetric.Default, MarketTransactionKind.Default)
+        Return GetPriceAsync(itemID, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
 
     Public Shared Function GetPriceAsync(ByVal itemID As String, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Double)
