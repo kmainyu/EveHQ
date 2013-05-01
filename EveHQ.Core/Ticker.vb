@@ -20,6 +20,7 @@
 Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.Threading.Tasks
 
 Public Class Ticker
     Dim WithEvents scrollTimer As New Timer
@@ -102,27 +103,45 @@ Public Class Ticker
     End Sub
 
     Private Sub SetupImage()
+        If EveHQ.Core.HQ.TickerItemList.Count > 0 Then
+            Dim itemID As String = EveHQ.Core.HQ.TickerItemList(r.Next(0, lastItem))
+            Dim items As New List(Of String)
+            items.Add(itemID)
+
+            Dim task As Task(Of Dictionary(Of String, Double)) = EveHQ.Core.DataFunctions.GetMarketPrices(items)
+            task.ContinueWith(Sub(priceTask As Task(Of Dictionary(Of String, Double)))
+                                  If priceTask.IsCompleted And priceTask.IsFaulted = False Then
+                                      Dim price As Double = priceTask.Result(itemID)
+                                      If (price > 0) Then
+                                          Invoke(Sub()
+                                                     SetupImage(itemID, price)
+                                                 End Sub)
+                                      End If
+                                  End If
+                              End Sub)
+
+        End If
+    End Sub
+
+
+    Private Sub SetupImage(itemID As String, itemPrice As Double)
+
         Dim MainFont As New Font("Tahoma", 10, FontStyle.Regular)
         Dim SmallFont As New Font("Tahoma", 7, FontStyle.Regular)
-        Dim itemID As String = ""
+
         Dim itemName As String = ""
         Dim imgText As String = ""
-        Dim itemPrice As Double
+
 
         img = New Bitmap(600, 30, Imaging.PixelFormat.Format32bppArgb)
         Dim g As Graphics = Graphics.FromImage(img)
         g.SmoothingMode = SmoothingMode.HighQuality
         Dim strWidth As Integer
-        If EveHQ.Core.HQ.TickerItemList.Count > 0 Then
-            Do
-                itemID = EveHQ.Core.HQ.TickerItemList(r.Next(0, lastItem))
-                itemName = EveHQ.Core.HQ.itemData(itemID).Name
-                itemPrice = EveHQ.Core.DataFunctions.GetPrice(itemID)
-            Loop Until itemPrice > 0 And EveHQ.Core.HQ.itemData(itemID).Published = True
-            imgText = itemName & " - " & itemPrice.ToString("N2")
-        Else
-            imgText = "Placeholder"
-        End If
+
+        itemName = EveHQ.Core.HQ.itemData(itemID).Name
+
+        imgText = itemName & " - " & itemPrice.ToString("N2")
+        
         strWidth = CInt(g.MeasureString(imgText, MainFont).Width)
         g.FillRectangle(New SolidBrush(Color.Black), New Rectangle(0, 0, 300, 40))
         g.DrawString(imgText, MainFont, New SolidBrush(Color.White), 0, 2)

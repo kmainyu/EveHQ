@@ -292,7 +292,11 @@ Public Class HQ
     Private Shared EveCentralProvider As EveCentralMarketDataProvider
     Private Shared Function GetEveCentralMarketInstance(appDataFolder As String) As EveCentralMarketDataProvider
         If EveCentralProvider Is Nothing Then
-            EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"))
+            If (EveHqSettings.ProxyRequired) Then
+                EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), New UriBuilder(EveHqSettings.ProxyServer).Uri, EveHqSettings.ProxyUseDefault, EveHqSettings.ProxyUsername, EveHqSettings.ProxyPassword, EveHqSettings.ProxyUseBasic)
+            Else
+                EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"))
+            End If
         End If
         Return EveCentralProvider
     End Function

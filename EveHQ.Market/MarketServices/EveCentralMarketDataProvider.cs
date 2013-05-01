@@ -91,12 +91,33 @@ namespace EveHQ.Market
         /// <summary>The _upload service online.</summary>
         private bool _uploadServiceOnline;
 
-        /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
-        /// <param name="cacheRootFolder">The cache root folder.</param>
+        private Uri _proxyServerAddress;
+
+        private bool _useDefaultCredential;
+
+        private string _proxyUserName;
+
+        private string _proxyPassword;
+
+        private bool _useBasicAuth;
+
         public EveCentralMarketDataProvider(string cacheRootFolder)
         {
             _regionDataCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, Region));
             _marketOrderCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
+
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
+        /// <param name="cacheRootFolder">The cache root folder.</param>
+        public EveCentralMarketDataProvider(string cacheRootFolder, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+            : this(cacheRootFolder)
+        {
+            _proxyServerAddress = proxyServerAddress;
+            _useDefaultCredential = useDefaultCredential;
+            _proxyUserName = proxyUserName;
+            _proxyPassword = proxyPassword;
+            _useBasicAuth = useBasicAuth;
         }
 
         public bool LimitedSystemSelection
@@ -186,7 +207,7 @@ namespace EveHQ.Market
                         // make the request for the types we don't have valid caches for
                         NameValueCollection requestParameters = this.CreateMarketRequestParameters(typesToRequest, includeRegions, systemId ?? 0, minQuantity);
 
-                        Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters);
+                        Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
                         requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
                         if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
@@ -256,7 +277,7 @@ namespace EveHQ.Market
                     {
                         // make the request for the types we don't have valid caches for
                         NameValueCollection requestParameters = this.CreateMarketRequestParameters(new[] { itemTypeId }, includedRegions, systemId ?? 0, minQuantity);
-                        Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters);
+                        Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
                         requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
                         if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
@@ -327,7 +348,7 @@ namespace EveHQ.Market
             var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketDataJson) } };
 
             // send the request and return the task handle after checking the return of the web request
-            return WebRequestHelper.PostAsync(requestUri, paramData).ContinueWith(
+            return WebRequestHelper.PostAsync(requestUri, paramData, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth).ContinueWith(
                 task =>
                 {
                     HttpWebResponse httpResponse;

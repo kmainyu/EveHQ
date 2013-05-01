@@ -828,12 +828,28 @@ Public Class DataFunctions
         Return task.Result.Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
     End Function
 
+
+    Public Shared Function GetPriceAsync(ByVal itemID As String) As Task(Of Double)
+        Return GetPrice(itemID, MarketMetric.Default, MarketTransactionKind.Default)
+    End Function
+
+    Public Shared Function GetPriceAsync(ByVal itemID As String, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Double)
+        Dim task As Task(Of Dictionary(Of String, Double)) = GetMarketPrices(New String() {itemID}, metric, transType)
+
+        Dim task2 As Task(Of Double) = task.ContinueWith(Function(priceTask As Task(Of Dictionary(Of String, Double))) As Double
+                                                             If priceTask.IsCompleted And priceTask.IsFaulted = False Then
+                                                                 Return priceTask.Result(itemID)
+                                                             End If
+                                                             Return 0
+
+                                                         End Function)
+
+        Return task2
+    End Function
+
     Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String)) As Task(Of Dictionary(Of String, Double))
         Return GetMarketPrices(itemIDs, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
-
-
-
 
     Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Dictionary(Of String, Double))
         If metric = MarketMetric.Default Then
@@ -868,13 +884,13 @@ Public Class DataFunctions
                                                    End Function)
             Else
                 resultTask = Task.Factory.StartNew(Function() As Dictionary(Of String, Double)
-
+                                                       'Empty Result
                                                        Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
                                                    End Function)
             End If
         Else
             resultTask = Task.Factory.StartNew(Function() As Dictionary(Of String, Double)
-
+                                                   'Empty Result
                                                    Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
                                                End Function)
         End If
@@ -887,12 +903,12 @@ Public Class DataFunctions
         ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
 
         ' TODO: ItemIds are integers but through out the existing code they are inconsistently treated as strings (or longs...)... must fix that.
-        ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
+
         Dim itemPrices As New Dictionary(Of String, Double)
 
         Dim distinctItems As IEnumerable(Of String) = itemIDs.Distinct()
 
-
+        ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
         itemPrices = distinctItems.ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
 
 

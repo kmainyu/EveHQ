@@ -737,8 +737,16 @@ Public Class ShipSlotControl
                         slotNode.Cells(idx).Text = shipMod.Calibration.ToString("N2")
                         idx += 1
                     Case "Price"
-                        shipMod.MarketPrice = DataFunctions.GetPrice(shipMod.ID)
-                        slotNode.Cells(idx).Text = shipMod.MarketPrice.ToString("N2")
+                        Dim task As Task(Of Double) = DataFunctions.GetPriceAsync(shipMod.ID)
+                        task.ContinueWith(Sub(price As Task(Of Double))
+                                              If (price.IsCompleted And price.IsFaulted = False) Then
+                                                  Invoke(Sub()
+                                                             shipMod.MarketPrice = price.Result
+                                                             slotNode.Cells(idx).Text = shipMod.MarketPrice.ToString("N2")
+                                                         End Sub)
+                                              End If
+                                          End Sub)
+
                         idx += 1
                     Case "ActCost"
                         If shipMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) Then

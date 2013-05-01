@@ -36,18 +36,19 @@ namespace EveHQ.Market
         /// </summary>
         private static readonly string userAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
-        /// <param name="target">The target URL.</param>
-        /// <returns>The asynchronouse task instance</returns>
-        public static Task<WebResponse> GetAsync(Uri target)
-        {
-            var request = WebRequest.Create(target) as HttpWebRequest;
-            request.UserAgent = userAgent;
-            // ReSharper disable PossibleNullReferenceException
-            return Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, null);
+        ///// <summary>Executes an HTTP GET Request to the provided URL.</summary>
+        ///// <param name="target">The target URL.</param>
+        ///// <returns>The asynchronouse task instance</returns>
+        //public static Task<WebResponse> GetAsync(Uri target)
+        //{
+        //    var request = WebRequest.Create(target) as HttpWebRequest;
+        //    request.UserAgent = userAgent;
+        //    // ReSharper disable PossibleNullReferenceException
+        //    return Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, null);
 
-            // ReSharper restore PossibleNullReferenceException
-        }
+        //    // ReSharper restore PossibleNullReferenceException
+        //}
+
 
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
         /// <param name="target">The target URL.</param>
@@ -55,10 +56,36 @@ namespace EveHQ.Market
         /// <returns>The asynchronouse task instance</returns>
         public static Task<WebResponse> PostAsync(Uri target, string postContent)
         {
-            var request = WebRequest.Create(target) as HttpWebRequest;
+            return PostAsync(target, postContent, null, false, null, null, false);
+        }
 
+        /// <summary>Executes an HTTP POST request to the provided url.</summary>
+        /// <param name="target">The target URL.</param>
+        /// <param name="postContent">The string content to send as the payload.</param>
+        /// <returns>The asynchronouse task instance</returns>
+        public static Task<WebResponse> PostAsync(Uri target, string postContent, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        {
+            var request = WebRequest.Create(target) as HttpWebRequest;
             // This is never null
             // ReSharper disable PossibleNullReferenceException
+            if (proxyServerAddress != null)
+            {
+                // set proxy if required.
+                var proxy = new WebProxy(proxyServerAddress);
+                if (useDefaultCredential)
+                {
+                    proxy.UseDefaultCredentials = true;
+                }
+                else
+                {
+                    var credential = new NetworkCredential(proxyUserName, proxyPassword);
+                    proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                }
+
+                request.Proxy = proxy;
+            }
+
+           
             request.Method = "POST";
             request.UserAgent = userAgent;
 
@@ -97,7 +124,7 @@ namespace EveHQ.Market
         /// <param name="target">The target URL.</param>
         /// <param name="postData">A name/value collection to send as the form data.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<WebResponse> PostAsync(Uri target, NameValueCollection postData)
+        public static Task<WebResponse> PostAsync(Uri target, NameValueCollection postData, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
         {
             var data = new List<string>();
             foreach (string key in postData.AllKeys)
@@ -107,7 +134,7 @@ namespace EveHQ.Market
 
             string paramData = string.Join("&", data.ToArray());
 
-            return PostAsync(target, paramData);
+            return PostAsync(target, paramData, proxyServerAddress, useDefaultCredential, proxyUserName, proxyPassword, useBasicAuth);
         }
     }
 }
