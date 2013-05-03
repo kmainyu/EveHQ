@@ -113,9 +113,15 @@ Public Class Ticker
                                   If priceTask.IsCompleted And priceTask.IsFaulted = False Then
                                       Dim price As Double = priceTask.Result(itemID)
                                       If (price > 0) Then
-                                          Invoke(Sub()
-                                                     SetupImage(itemID, price)
-                                                 End Sub)
+                                          Try
+
+
+                                              Invoke(Sub()
+                                                         SetupImage(itemID, price)
+                                                     End Sub)
+                                          Catch ex As Exception
+                                              ' cannot check handle in background thread...
+                                          End Try
                                       End If
                                   End If
                               End Sub)
@@ -141,7 +147,7 @@ Public Class Ticker
         itemName = EveHQ.Core.HQ.itemData(itemID).Name
 
         imgText = itemName & " - " & itemPrice.ToString("N2")
-        
+
         strWidth = CInt(g.MeasureString(imgText, MainFont).Width)
         g.FillRectangle(New SolidBrush(Color.Black), New Rectangle(0, 0, 300, 40))
         g.DrawString(imgText, MainFont, New SolidBrush(Color.White), 0, 2)

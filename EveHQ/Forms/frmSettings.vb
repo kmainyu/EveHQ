@@ -2159,12 +2159,19 @@ Public Class frmSettings
     Private Sub cboTickerLocation_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles cboTickerLocation.SelectedIndexChanged
         HQ.EveHqSettings.DBTickerLocation = cboTickerLocation.SelectedItem.ToString
-        Select Case HQ.EveHqSettings.DBTickerLocation
-            Case "Top"
-                frmDashboard.Ticker1.Dock = DockStyle.Top
-            Case "Bottom"
-                frmDashboard.Ticker1.Dock = DockStyle.Bottom
-        End Select
+        If frmDashboard IsNot Nothing Then
+            Try
+                Select Case HQ.EveHqSettings.DBTickerLocation
+                    Case "Top"
+                        frmDashboard.Ticker1.Dock = DockStyle.Top
+                    Case "Bottom"
+                        frmDashboard.Ticker1.Dock = DockStyle.Bottom
+                End Select
+
+            Catch ex As Exception
+                ' just supressing any errors for now... 
+            End Try
+        End If
     End Sub
 
 #End Region
@@ -2277,8 +2284,11 @@ Public Class frmSettings
     End Sub
 
     Private Sub SaveMarketSettings()
-
-        HQ.EveHqSettings.MarketDataProvider = _marketDataProvider.SelectedItem.ToString()
+        If _marketDataProvider.SelectedItem Is Nothing Then
+            HQ.EveHqSettings.MarketDataProvider = MarketProviders.EveCentral.ToString()
+        Else
+            HQ.EveHqSettings.MarketDataProvider = _marketDataProvider.SelectedItem.ToString()
+        End If
         HQ.MarketStatDataProvider = Nothing 'this will cause an update on next use.
         If _useMiniumPrice.Checked Then
             HQ.EveHqSettings.MarketDefaultMetric = MarketMetric.Minimum
@@ -2397,9 +2407,9 @@ Public Class frmSettings
         End If
 
         SetOverrideMetricRadioButton(activeStat)
-       
+
         SetOverrideTransactionTypeRadioButton(activeTransactionType)
-     
+
 
 
     End Sub
@@ -2447,7 +2457,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub OnOverrideGridNodeClick(sender As System.Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
-        
+
 
         If (e.Node IsNot Nothing) Then
             _itemOverrideItemList.SelectedItem = e.Node.Text
@@ -2607,5 +2617,5 @@ Public Class frmSettings
     End Sub
 
 
-  
+
 End Class
