@@ -391,6 +391,11 @@
 12011,1,3334,274,1,12011,0,1,2,-5,15,Shield Thermal Resistance
 12011,1,16591,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
 12011,1,16591,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+# Echo,,,,,,,,,,,
+617,0,0,10016,4,574;577,0,0,0,50,15,Small Projectile Turret Damage
+617,0,0,160,4,574;577,0,0,0,22.5,15,Small Projectile Turret Tracking
+617,0,0,158,4,574;577,0,0,0,22.5,15,Small Projectile Turret Falloff
+617,0,0,54,4,574;577,0,0,0,22.5,15,Small Projectile Turret Optimal Range
 # Enyo,,,,,,,,,,,
 12044,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
 12044,1,12095,54,4,564;561,0,1,0,10,15,Small Hybrid Turret Optimal Range
@@ -476,6 +481,19 @@
 17715,1,3332,265,3,18,0,1,0,10,15,Drone Armor HP
 17715,1,3332,9,3,18,0,1,0,10,15,Drone Hull HP
 17715,1,3332,64,3,18,0,1,0,10,15,Drone Damage
+# Gnosis,,,,,,,,,,,
+3756,0,0,10014,4,568;572,0,0,0,25,15,Medium Energy Turret Damage
+3756,0,0,10015,4,562;565,0,0,0,25,15,Medium Hybrid Turret Damage
+3756,0,0,10016,4,575;578,0,0,0,25,15,Medium Projectile Turret Damage
+3756,0,0,114,2,385;655;772;654;395,0,0,0,25,15,EM Heavy & HAM Damage
+3756,0,0,116,2,385;655;772;654;395,0,0,0,25,15,Explosive Heavy & HAM Damage
+3756,0,0,117,2,385;655;772;654;395,0,0,0,25,15,Kinetic Heavy & HAM Damage
+3756,0,0,118,2,385;655;772;654;395,0,0,0,25,15,Thermal Heavy & HAM Damage
+3756,0,0,263,3,18,0,0,0,50,15,Drone Shield HP
+3756,0,0,265,3,18,0,0,0,50,15,Drone Armor HP
+3756,0,0,9,3,18,0,0,0,50,15,Drone Hull HP
+3756,0,0,64,3,18,0,0,0,50,15,Drone Damage
+3756,0,0,1371,2,479,0,0,0,37.5,15,Probe Scan Strength Bonus
 # Gold Magnate,,,,,,,,,,,
 11940,1,3331,6,4,567;570,0,1,0,-5,15,Small Energy Turret Capacitor
 11940,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
@@ -538,6 +556,12 @@
 11172,1,3328,118,4,837,0,1,0,10,15,Scout Drone Thermal Damage
 11172,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11172,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
+# Hematos,,,,,,,,,,,
+33079,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
+33079,0,0,6,4,567;570,0,0,0,-30,15,Small Energy Turret Cap Use
+33079,0,0,90,2,68,0,0,0,45,15,Nos Drain Amount
+33079,0,0,97,2,71,0,0,0,45,15,Neut Drain Amount
+33079,0,0,20,2,65,0,0,0,30,15,Stasis Web Strength
 # Heretic,,,,,,,,,,,
 22452,1,12097,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
 22452,1,12097,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
@@ -599,8 +623,13 @@
 # Imicus,,,,,,,,,,,
 607,1,3328,1371,2,479,0,1,0,7.5,15,Probe Scan Strength Bonus
 607,1,3328,73,1,22175;22177;30832;30834;25861;30836,0,1,0,-5,15,"Codebreaker, Analyzer & Salvager Cycle Time"
+# Immolator,,,,,,,,,,,
+615,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
+615,0,0,160,4,567;570,0,0,0,22.5,15,Small Energy Turret Tracking
+615,0,0,54,4,567;570,0,0,0,30,15,Small Energy Turret Optimal Range
+615,0,0,68,2,40;1156,0,0,0,22.5,15,Shield Booster Boost
 # Impairor,,,,,,,,,,,
-596,0,0,6,4,567;570,0,0,0,-20,15,Small Energy Turret Capacitor
+596,0,0,6,4,567;570,0,0,0,-20,15,Small Energy Turret Cap Use
 596,0,0,10014,4,567;570,0,0,0,10,15,Small Energy Turret Damage
 596,0,0,351,2,291,0,0,0,15,15,Tracking Disruptor Effect Optimal Range
 596,0,0,767,2,291,0,0,0,15,15,Tracking Disruptor Effect Tracking
@@ -807,6 +836,7 @@
 # Naglfar,,,,,,,,,,,
 19722,1,20532,10013,4,775;776,0,1,0,-5,15,Capital Projectile Turret ROF
 19722,1,20532,10016,4,775;776,0,1,0,5,15,Capital Projectile Turret Damage
+19722,0,0,10016,4,775;776,0,0,0,50,15,Capital Projectile Turret Damage
 # Navitas,,,,,,,,,,,
 592,0,0,54,2,325,0,0,0,500,15,Remote Armor Repair Range Bonus
 592,1,3328,84,2,325,0,1,0,10,15,Remote Armor Repair Bonus
@@ -1234,6 +1264,18 @@
 17924,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
 17924,1,3331,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
 17924,1,3330,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
+# Taipan,,,,,,,,,,,
+33081,0,0,37,2,387;648;384;653;394,0,0,0,50,15,Rocket & Light Missile Velocity
+33081,0,0,271,1,33081,0,0,2,-15,15,Shield EM Resistance
+33081,0,0,272,1,33081,0,0,2,-15,15,Shield Explosive Resistance
+33081,0,0,273,1,33081,0,0,2,-15,15,Shield Kinetic Resistance
+33081,0,0,274,1,33081,0,0,2,-15,15,Shield Thermal Resistance
+33081,0,0,263,3,18,0,0,0,30,15,Drone Shield HP
+33081,0,0,265,3,18,0,0,0,30,15,Drone Armor HP
+33081,0,0,9,3,18,0,0,0,30,15,Drone Hull HP
+33081,0,0,64,3,18,0,0,0,30,15,Drone Damage
+33081,0,0,77,3,18,0,0,0,30,15,Drone Mining Yield
+33081,0,0,37,3,18,0,0,0,25,15,Drone MWD Speed
 # Talos,,,,,,,,,,,
 4308,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 4308,1,12099,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking Speed
@@ -1362,6 +1404,11 @@
 17740,0,0,10015,4,563;566,0,0,0,37.5,15,Large Hybrid Turret Damage
 17740,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 17740,1,3337,20,2,65,0,1,0,10,15,Stasis Web Strength
+# Violator,,,,,,,,,,,
+33083,0,0,10015,4,564;561,0,0,0,75,15,Small Hybrid Turret Damage
+33083,0,0,160,4,564;561,0,0,0,22.5,15,Small Hybrid Turret Tracking
+33083,0,0,158,4,564;561,0,0,0,30,15,Small Hybrid Turret Falloff
+33083,0,0,20,2,65,0,0,0,30,15,Stasis Web Strength
 # Vulture,,,,,,,,,,,
 22446,1,12099,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
 22446,1,12099,271,1,22446,0,1,2,-5,15,Shield EM Resistance
