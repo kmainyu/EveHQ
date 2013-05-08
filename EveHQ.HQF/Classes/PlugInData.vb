@@ -1476,6 +1476,10 @@ Public Class PlugInData
                                     If newEffect.AffectedID.Contains(cShip.MarketGroup) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
+                                Case EffectType.Skill
+                                    If cShip.RequiredSkills.ContainsKey(EveHQ.Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
+                                        cShip.Affects.Add(AffectingName)
+                                    End If
                                 Case EffectType.Attribute
                                     If cShip.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                         cShip.Affects.Add(AffectingName)
