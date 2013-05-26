@@ -719,12 +719,12 @@ Public Class frmBPCalculator
         cboInventions.Sorted = True
         cboInventions.EndUpdate()
 
-        Dim InventionSkills As New SortedList(Of String, Integer)
+        Dim InventionSkills As New LinkedList(Of DictionaryEntry)
 
         ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
         Dim DecryptorGroupID As String = ""
         For Each Resource As BlueprintResource In CurrentInventionBP.Resources.Values
-            If Resource.Activity = 8 = True Then
+            If Resource.Activity = BPActivity.Invention Then
                 ' Add the resource to the list
                 Dim IRPrice As Double = EveHQ.Core.DataFunctions.GetPrice(Resource.TypeID.ToString)
                 If Resource.TypeName.EndsWith("Interface") = True Then
@@ -736,7 +736,7 @@ Public Class frmBPCalculator
                             If BPPilot.PilotSkills.Contains("Amarr Encryption Methods") = True Then
                                 SkillLevel = CType(BPPilot.PilotSkills("Amarr Encryption Methods"), EveHQ.Core.PilotSkill).Level
                             End If
-                            InventionSkills.Add("Amarr Encryption Methods", SkillLevel)
+                            InventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", SkillLevel))
                         Case "C"
                             ' Minmatar
                             DecryptorGroupID = "729"
@@ -744,7 +744,7 @@ Public Class frmBPCalculator
                             If BPPilot.PilotSkills.Contains("Minmatar Encryption Methods") = True Then
                                 SkillLevel = CType(BPPilot.PilotSkills("Minmatar Encryption Methods"), EveHQ.Core.PilotSkill).Level
                             End If
-                            InventionSkills.Add("Minmatar Encryption Methods", SkillLevel)
+                            InventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", SkillLevel))
                         Case "I"
                             ' Gallente
                             DecryptorGroupID = "730"
@@ -752,7 +752,7 @@ Public Class frmBPCalculator
                             If BPPilot.PilotSkills.Contains("Gallente Encryption Methods") = True Then
                                 SkillLevel = CType(BPPilot.PilotSkills("Gallente Encryption Methods"), EveHQ.Core.PilotSkill).Level
                             End If
-                            InventionSkills.Add("Gallente Encryption Methods", SkillLevel)
+                            InventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", SkillLevel))
                         Case "E"
                             ' Caldari
                             DecryptorGroupID = "731"
@@ -760,7 +760,7 @@ Public Class frmBPCalculator
                             If BPPilot.PilotSkills.Contains("Caldari Encryption Methods") = True Then
                                 SkillLevel = CType(BPPilot.PilotSkills("Caldari Encryption Methods"), EveHQ.Core.PilotSkill).Level
                             End If
-                            InventionSkills.Add("Caldari Encryption Methods", SkillLevel)
+                            InventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", SkillLevel))
                     End Select
                     ' Terminate early once we know
                 ElseIf Resource.TypeName.StartsWith("Datacore") = True Then
@@ -769,7 +769,7 @@ Public Class frmBPCalculator
                     If BPPilot.PilotSkills.Contains(SkillName) = True Then
                         SkillLevel = CType(BPPilot.PilotSkills(SkillName), EveHQ.Core.PilotSkill).Level
                     End If
-                    InventionSkills.Add(SkillName, SkillLevel)
+                    InventionSkills.AddLast(New DictionaryEntry(SkillName, SkillLevel))
                 End If
             End If
         Next
@@ -790,18 +790,18 @@ Public Class frmBPCalculator
 
         ' Display the skills - hopefully should be 3 :)
         If InventionSkills.Count = 3 Then
-            lblInvSkill1.Text = "Skill 1: " & InventionSkills.Keys(0)
-            lblInvSkill1.Tag = InventionSkills.Keys(0)
-            nudInventionSkill1.Value = InventionSkills.Values(0)
-            InventionSkill1 = InventionSkills.Values(0)
-            lblInvSkill2.Text = "Skill 2: " & InventionSkills.Keys(1)
-            lblInvSkill2.Tag = InventionSkills.Keys(1)
-            nudInventionSkill2.Value = InventionSkills.Values(1)
-            InventionSkill2 = InventionSkills.Values(1)
-            lblInvSkill3.Text = "Skill 3: " & InventionSkills.Keys(2)
-            lblInvSkill3.Tag = InventionSkills.Keys(2)
-            nudInventionSkill3.Value = InventionSkills.Values(2)
-            InventionSkill3 = InventionSkills.Values(2)
+            lblInvSkill1.Text = "Skill 1: " & CStr(InventionSkills(0).Key)
+            lblInvSkill1.Tag = CStr(InventionSkills(0).Key)
+            nudInventionSkill1.Value = CInt(InventionSkills(0).Value)
+            InventionSkill1 = CInt(InventionSkills(0).Value)
+            lblInvSkill2.Text = "Skill 2: " & CStr(InventionSkills(1).Key)
+            lblInvSkill2.Tag = CStr(InventionSkills(1).Key)
+            nudInventionSkill2.Value = CInt(InventionSkills(1).Value)
+            InventionSkill2 = CInt(InventionSkills(1).Value)
+            lblInvSkill3.Text = "Skill 3: " & CStr(InventionSkills(2).Key)
+            lblInvSkill3.Tag = CStr(InventionSkills(2).Key)
+            nudInventionSkill3.Value = CInt(InventionSkills(2).Value)
+            InventionSkill3 = CInt(InventionSkills(2).Value)
         Else
             MessageBox.Show("Ooops! Seems to be more invention skills here than what we can use in the calculation!", "Invention Skills Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
