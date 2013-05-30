@@ -81,7 +81,12 @@ Public Class PilotParseFunctions
                     newPilot.Account = oldPilot.Account
                     newPilot.AccountPosition = oldPilot.AccountPosition
                 End If
-                EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(oldPilot.Name)
+
+                'Bug EVEHQ-56 ... check that the pilot is in the collection before attempting to remove.
+                If HQ.EveHQSettings.Pilots.Contains(oldPilot.Name) Then
+                    EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(oldPilot.Name)
+                End If
+
             End If
         Next
         For Each newPilot In EveHQ.Core.HQ.TPilots.Values
