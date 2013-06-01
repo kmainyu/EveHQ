@@ -3503,5 +3503,7 @@ Public Class frmEveHQ
         Call DataFunctions.LoadStations()
         Call DataFunctions.CreateCoreCache()
     End Sub
+
+   
 End Class
 
