@@ -670,22 +670,23 @@ Public Class frmPilotManager
                 tvwImplantsM.Nodes("Slot " & slot.ToString).Nodes.Add("No Implant")
             Next
             For Each cImplant As ShipModule In Implants.implantList.Values
-                If cboImplantFilterM.SelectedItem.ToString = "<All Groups>" Then
-                    tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
-                    ' Check if this is the selected one!
-                    If tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
-                        tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
-                    End If
-                Else
-                    If cImplant.ImplantGroups.Contains(cboImplantFilterM.SelectedItem.ToString) = True Then
+                If cImplant.ImplantSlot <= 10 Then
+                    If cboImplantFilterM.SelectedItem.ToString = "<All Groups>" Then
                         tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
                         ' Check if this is the selected one!
                         If tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
                             tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
                         End If
+                    Else
+                        If cImplant.ImplantGroups.Contains(cboImplantFilterM.SelectedItem.ToString) = True Then
+                            tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes.Add(cImplant.Name, cImplant.Name)
+                            ' Check if this is the selected one!
+                            If tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).Text = tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Text Then
+                                tvwImplantsM.Nodes("Slot " & cImplant.ImplantSlot.ToString).Nodes(cImplant.Name).ForeColor = Drawing.Color.LimeGreen
+                            End If
+                        End If
                     End If
                 End If
-
             Next
             tvwImplantsM.EndUpdate()
         End If
