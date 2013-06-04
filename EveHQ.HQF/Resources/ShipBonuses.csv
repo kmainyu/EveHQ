@@ -2,33 +2,39 @@
 #Ship ID,Affecting Type,Affecting ID,Affected Attribute,Affected Type,Affected ID,Stack Nerf,Per Level,Calc Type,Value,Status,Description
 # Abaddon,,,,,,,,,,,
 24692,1,3339,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
-24692,1,3339,267,1,24692,0,1,2,-5,15,Armor EM Resistance
-24692,1,3339,268,1,24692,0,1,2,-5,15,Armor Explosive Resistance
-24692,1,3339,269,1,24692,0,1,2,-5,15,Armor Kinetic Resistance
-24692,1,3339,270,1,24692,0,1,2,-5,15,Armor Thermal Resistance
+24692,1,3339,267,1,24692,0,1,2,-4,15,Armor EM Resistance
+24692,1,3339,268,1,24692,0,1,2,-4,15,Armor Explosive Resistance
+24692,1,3339,269,1,24692,0,1,2,-4,15,Armor Kinetic Resistance
+24692,1,3339,270,1,24692,0,1,2,-4,15,Armor Thermal Resistance
 # Absolution,,,,,,,,,,,
-22448,1,12099,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-22448,1,12099,267,1,22448,0,1,2,-5,15,Armor EM Resistance
-22448,1,12099,268,1,22448,0,1,2,-5,15,Armor Explosive Resistance
-22448,1,12099,269,1,22448,0,1,2,-5,15,Armor Kinetic Resistance
-22448,1,12099,270,1,22448,0,1,2,-5,15,Armor Thermal Resistance
+22448,1,33095,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
+22448,1,33095,267,1,22448,0,1,2,-4,15,Armor EM Resistance
+22448,1,33095,268,1,22448,0,1,2,-4,15,Armor Explosive Resistance
+22448,1,33095,269,1,22448,0,1,2,-4,15,Armor Kinetic Resistance
+22448,1,33095,270,1,22448,0,1,2,-4,15,Armor Thermal Resistance
 22448,1,23950,10014,4,568;572,0,1,0,5,15,Medium Energy Turret Damage
 22448,1,23950,10011,4,568;572,0,1,0,-5,15,Medium Energy Turret ROF
+# Adrestia,,,,,,,,,,,
+2836,0,0,37,1,2836,0,0,0,25,15,Max Velocity
+2836,0,0,158,4,562;565,0,0,0,50,15,Medium Hybrid Turret Falloff
+2836,0,0,160,4,562;565,0,0,0,50,15,Medium Hybrid Turret Tracking
+2836,1,3332,10015,4,562;565,0,1,0,20,15,Medium Hybrid Turret Damage
+2836,1,3332,54,2,52,0,1,0,20,15,Warp Scrambler Range
 # Aeon,,,,,,,,,,,
 23919,1,24311,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
 23919,1,24311,54,4,1056,0,1,0,50,15,Capital Armor Transfer Range
-23919,1,24311,267,1,23919,0,1,2,-5,15,Armor EM Resistance
-23919,1,24311,268,1,23919,0,1,2,-5,15,Armor Explosive Resistance
-23919,1,24311,269,1,23919,0,1,2,-5,15,Armor Kinetic Resistance
-23919,1,24311,270,1,23919,0,1,2,-5,15,Armor Thermal Resistance
+23919,1,24311,267,1,23919,0,1,2,-4,15,Armor EM Resistance
+23919,1,24311,268,1,23919,0,1,2,-4,15,Armor Explosive Resistance
+23919,1,24311,269,1,23919,0,1,2,-4,15,Armor Kinetic Resistance
+23919,1,24311,270,1,23919,0,1,2,-4,15,Armor Thermal Resistance
 23919,1,24311,10005,1,23919,0,1,1,3,15,Fighter Control Bonus
 23919,1,24311,10063,1,23919,0,1,1,1,15,Warfare Link Bonus
 # Algos,,,,,,,,,,,
-32872,1,12097,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
-32872,1,12097,64,3,18,0,1,0,10,15,Drone Damage
-32872,1,12097,263,3,18,0,1,0,10,15,Drone Shield HP
-32872,1,12097,265,3,18,0,1,0,10,15,Drone Armor HP
-32872,1,12097,9,3,18,0,1,0,10,15,Drone Hull HP
+32872,1,33093,160,4,561;564,0,1,0,7.5,15,Small Hybrid Turret Tracking
+32872,1,33093,64,3,18,0,1,0,10,15,Drone Damage
+32872,1,33093,263,3,18,0,1,0,10,15,Drone Shield HP
+32872,1,33093,265,3,18,0,1,0,10,15,Drone Armor HP
+32872,1,33093,9,3,18,0,1,0,10,15,Drone Hull HP
 32872,0,0,37,3,18,0,0,0,25,15,Drone MWD Speed
 # Anathema,,,,,,,,,,,
 11188,1,3331,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
@@ -38,6 +44,7 @@
 11188,1,3331,55,1,11188,0,1,0,-5,15,Capacitor Recharge Rate
 11188,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11188,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
+11188,0,0,1910,4,1718,0,0,1,10,15,Data & Relic Analyzer Virus Strength
 # Anshar,,,,,,,,,,,
 28848,1,20527,10004,1,28848,0,1,0,5,15,Cargo Capacity
 28848,1,20527,70,1,28848,0,1,0,-5,15,Agility
@@ -47,13 +54,13 @@
 28848,1,29029,868,1,28848,0,1,0,-10,15,Jump Fuel Need
 28848,1,20342,70,1,28848,0,1,0,-5,15,Agility
 # Apocalypse,,,,,,,,,,,
-642,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
+642,1,3339,160,4,569;573,0,1,0,7.5,15,Large Energy Turret Tracking
 642,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
 # Apocalypse Imperial Issue,,,,,,,,,,,
 11936,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
-11936,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
+11936,1,3339,482,1,11936,0,1,0,5,15,Capacitor Capacity
 # Apocalypse Navy Issue,,,,,,,,,,,
-17726,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
+17726,1,3339,160,4,569;573,0,1,0,7.5,15,Large Energy Turret Tracking
 17726,1,3339,54,4,569;573,0,1,0,7.5,15,Large Energy Turret Optimal Range
 # Arazu,,,,,,,,,,,
 11969,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
@@ -75,14 +82,14 @@
 # Archon,,,,,,,,,,,
 23757,1,24311,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
 23757,1,24311,54,4,1056,0,1,0,50,15,Capital Armor Transfer Range
-23757,1,24311,267,1,23757,0,1,2,-5,15,Armor EM Resistance
-23757,1,24311,268,1,23757,0,1,2,-5,15,Armor Explosive Resistance
-23757,1,24311,269,1,23757,0,1,2,-5,15,Armor Kinetic Resistance
-23757,1,24311,270,1,23757,0,1,2,-5,15,Armor Thermal Resistance
+23757,1,24311,267,1,23757,0,1,2,-4,15,Armor EM Resistance
+23757,1,24311,268,1,23757,0,1,2,-4,15,Armor Explosive Resistance
+23757,1,24311,269,1,23757,0,1,2,-4,15,Armor Kinetic Resistance
+23757,1,24311,270,1,23757,0,1,2,-4,15,Armor Thermal Resistance
 23757,1,24311,10005,1,23757,0,1,1,1,15,Fighter Control Bonus
 # Ares,,,,,,,,,,,
-11202,1,3328,10015,4,561;564,0,1,0,5,15,Small Hybrid Damage
-11202,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Tracking Speed
+11202,1,3328,10015,4,561;564,0,1,0,5,15,Small Hybrid Turret Damage
+11202,1,3328,160,4,561;564,0,1,0,7.5,15,Small Hybrid Turret Tracking
 11202,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
 11202,1,12092,54,2,52,0,1,0,5,15,Warp Scrambler Range
 11202,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
@@ -95,8 +102,12 @@
 28850,1,29029,868,1,28850,0,1,0,-10,15,Jump Fuel Need
 28850,1,20342,70,1,28850,0,1,0,-5,15,Agility
 # Armageddon,,,,,,,,,,,
-643,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
-643,1,3339,10011,4,569;573,0,1,0,-5,15,Large Energy Turret ROF
+643,1,3339,263,3,18,0,1,0,10,15,Drone Shield HP
+643,1,3339,265,3,18,0,1,0,10,15,Drone Armor HP
+643,1,3339,9,3,18,0,1,0,10,15,Drone Hull HP
+643,1,3339,64,3,18,0,1,0,10,15,Drone Damage
+643,1,3339,91,2,68,0,1,0,10,15,Nos Drain Range
+643,1,3339,98,2,71,0,1,0,10,15,Neut Drain Range
 # Armageddon Imperial Issue,,,,,,,,,,,
 11938,1,3339,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
 11938,1,3339,10011,4,569;573,0,1,0,-5,15,Large Energy Turret ROF
@@ -109,8 +120,8 @@
 17922,1,3335,97,2,71,0,1,0,15,15,Neut Drain Amount
 17922,1,3333,20,2,65,0,1,0,10,15,Stasis Web Strength
 # Astarte,,,,,,,,,,,
-22466,1,12099,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-22466,1,12099,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
+22466,1,33097,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+22466,1,33097,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
 22466,1,23950,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 22466,1,23950,158,4,562;565,0,1,0,5,15,Medium Hybrid Turret Falloff
 # Atron,,,,,,,,,,,
@@ -124,8 +135,9 @@
 625,0,0,91,2,67,0,0,0,1000,15,Energy Transfer Range
 625,0,0,90,2,67,0,0,0,200,15,Energy Transfer Amount
 # Augoror Navy Issue,,,,,,,,,,,
-29337,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-29337,1,3335,265,1,17709,0,1,0,10,15,Armor HP
+29337,1,3335,10014,4,568;572,0,1,0,25,15,Medium Energy Turret Damage
+29337,1,3335,265,1,29337,0,1,0,10,15,Armor HP
+29337,1,3335,1159,2,329,0,1,0,10,15,Armor HP - Plates
 # Avatar,,,,,,,,,,,
 11567,1,3347,10014,4,773;774,0,1,0,100,15,Capital Energy Turret Damage
 11567,1,3347,55,3,6,0,1,0,-7.5,16,Gang Capacitor Recharge
@@ -174,15 +186,18 @@
 598,1,3329,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
 # Broadsword,,,,,,,,,,,
 12013,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-12013,1,3333,271,1,12013,0,1,2,-5,15,EM Shield Resist
-12013,1,3333,272,1,12013,0,1,2,-5,15,Exp Shield Resist
-12013,1,3333,273,1,12013,0,1,2,-5,15,Kin Shield Resist
-12013,1,3333,274,1,12013,0,1,2,-5,15,Therm Shield Resist
+12013,1,3333,271,1,12013,0,1,2,-4,15,Shield EM Resistance
+12013,1,3333,272,1,12013,0,1,2,-4,15,Shield Explosive Resistance
+12013,1,3333,273,1,12013,0,1,2,-4,15,Shield Kinetic Resistance
+12013,1,3333,274,1,12013,0,1,2,-4,15,Shield Thermal Resistance
 12013,1,28609,158,4,575;578,0,1,0,10,15,Medium Projectile Turret Falloff
 12013,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Brutix,,,,,,,,,,,
-16229,1,12099,10015,4,562;565,0,1,0,10,15,Medium Hybrid Turret Damage
-16229,1,12099,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
+16229,1,33097,10015,4,562;565,0,1,0,10,15,Medium Hybrid Turret Damage
+16229,1,33097,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
+# Brutix Navy Issue,,,,,,,,,,,
+33151,1,33097,10015,4,562;565,0,1,0,10,15,Medium Hybrid Turret Damage
+33151,1,33097,160,4,562;565,0,1,0,7.5,15,Medium Hybrid Turret Tracking
 # Burst,,,,,,,,,,,
 599,1,3329,68,2,41,0,1,0,10,15,Shield Transporter Rep Amount
 599,1,3329,6,2,41,0,1,0,-10,15,Shield Transporter Cap Use
@@ -198,6 +213,7 @@
 11192,1,3330,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile ROF
 11192,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11192,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
+11192,0,0,1910,4,1718,0,0,1,10,15,Data & Relic Analyzer Virus Strength
 # Caldari Navy Hookbill,,,,,,,,,,,
 17619,1,3330,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Missile Velocity
 17619,1,3330,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Missile EM Damage
@@ -205,10 +221,10 @@
 17619,1,3330,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,20,15,Missile Kinetic Damage
 17619,1,3330,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Missile Thermal Damage
 # Cambion,,,,,,,,,,,
-32788,1,3330,271,1,11381,0,1,2,-5,15,EM Shield Resist
-32788,1,3330,272,1,11381,0,1,2,-5,15,Exp Shield Resist
-32788,1,3330,273,1,11381,0,1,2,-5,15,Kin Shield Resist
-32788,1,3330,274,1,11381,0,1,2,-5,15,Therm Shield Resist
+32788,1,3330,271,1,11381,0,1,2,-4,15,Shield EM Resistance
+32788,1,3330,272,1,11381,0,1,2,-4,15,Shield Explosive Resistance
+32788,1,3330,273,1,11381,0,1,2,-4,15,Shield Kinetic Resistance
+32788,1,3330,274,1,11381,0,1,2,-4,15,Shield Thermal Resistance
 32788,1,12095,51,2,507;509,0,1,0,-5,15,Rocket & Light Missile Launcher ROF
 32788,0,0,117,2,384;387;648;653;394,0,0,0,115,15,Rocket & Light Missile Kinetic Damage
 32788,0,0,1211,7,1211,0,0,0,-50,15,Heat Damage Reduction
@@ -216,11 +232,11 @@
 621,1,3334,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
 621,1,3334,37,2,654;655;653;772;385;384;394;395,0,1,0,10,15,"Light, Heavy & HAM Velocity"
 # Caracal Navy Issue,,,,,,,,,,,
-17634,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Missile Kinetic Damage
-17634,1,3334,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Missile Velocity
+17634,1,3334,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
+17634,1,3334,654,2,385;655;772;654;395,0,1,0,5,15,Heavy & HAM Explosion Radius
 # Catalyst,,,,,,,,,,,
-16240,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
-16240,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
+16240,1,33093,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
+16240,1,33093,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
 16240,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Celestis,,,,,,,,,,,
 633,1,3332,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
@@ -240,13 +256,14 @@
 11182,1,3329,54,4,574;577,0,1,0,10,15,Small Projectile Turret Optimal Range
 11182,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11182,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
+11182,0,0,1910,4,1718,0,0,1,10,15,Data & Relic Analyzer Virus Strength
 # Chimera,,,,,,,,,,,
 23915,1,24312,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
 23915,1,24312,87,4,600,0,1,0,50,15,Capital Shield Transfer Range
-23915,1,24312,271,1,23915,0,1,2,-5,15,Shield EM Resistance
-23915,1,24312,272,1,23915,0,1,2,-5,15,Shield Explosive Resistance
-23915,1,24312,273,1,23915,0,1,2,-5,15,Shield Kinetic Resistance
-23915,1,24312,274,1,23915,0,1,2,-5,15,Shield Thermal Resistance
+23915,1,24312,271,1,23915,0,1,2,-4,15,Shield EM Resistance
+23915,1,24312,272,1,23915,0,1,2,-4,15,Shield Explosive Resistance
+23915,1,24312,273,1,23915,0,1,2,-4,15,Shield Kinetic Resistance
+23915,1,24312,274,1,23915,0,1,2,-4,15,Shield Thermal Resistance
 23915,1,24312,10005,1,23915,0,1,1,1,15,Fighter Control Bonus
 # Claw,,,,,,,,,,,
 11196,1,3329,10016,4,574;577,0,1,0,10,15,Small Projectile Turret Damage
@@ -254,14 +271,14 @@
 11196,1,12092,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 11196,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Claymore,,,,,,,,,,,
-22468,1,12099,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-22468,1,12099,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
+22468,1,33098,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
+22468,1,33098,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
 22468,1,23950,160,4,575;578,0,1,0,7.5,15,Medium Projectile Turret Tracking
-22468,1,23950,833,1,20070;11017;20408;4286;4288;4290,0,1,0,3,15,Skirmish Warfare Link Bonus
+22468,1,23950,833,4,1637,0,1,0,3,15,Skirmish Warfare Link Bonus
 22468,0,0,10063,1,22468,0,0,1,2,15,Warfare Link Use
 # Coercer,,,,,,,,,,,
-16236,1,12097,160,4,567;570,0,1,0,10,15,Small Energy Turret Tracking
-16236,1,12097,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+16236,1,33091,160,4,567;570,0,1,0,10,15,Small Energy Turret Tracking
+16236,1,33091,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
 16236,0,0,54,4,567;570,0,0,0,50,15,Small Energy Turret Optimal Range
 # Condor,,,,,,,,,,,
 583,1,3330,117,2,387;648,0,1,0,10,15,Rocket Damage - Kin
@@ -269,11 +286,11 @@
 583,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Corax,,,,,,,,,,,
 32876,0,0,37,2,387;648;384;653;394,0,0,0,50,15,Rocket & Light Missile Velocity
-32876,1,12097,117,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Kinetic Damage
-32876,1,12097,653,2,387;648;384;653;394,0,1,0,10,15,Rocket & Light Missile Explosion Velocity
+32876,1,33092,117,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Kinetic Damage
+32876,1,33092,653,2,387;648;384;653;394,0,1,0,10,15,Rocket & Light Missile Explosion Velocity
 # Cormorant,,,,,,,,,,,
-16238,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
-16238,1,12097,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
+16238,1,33092,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
+16238,1,33092,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
 16238,0,0,54,4,561;564,0,0,0,50,15,Small Hybrid Turret Optimal Range
 # Covetor,,,,,,,,,,,
 17476,1,17940,77,4,1040,0,1,0,4,15,Strip Miner Mining Yield
@@ -317,21 +334,21 @@
 20125,1,22761,91,2,68,0,1,0,40,15,Nos Drain Range
 20125,1,22761,98,2,71,0,1,0,40,15,Neut Drain Range
 # Cyclone,,,,,,,,,,,
-16231,1,12099,51,2,510;771,0,1,0,-5,15,Heavy & HAM Launcher ROF
-16231,1,12099,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
+16231,1,33098,51,2,510;771,0,1,0,-5,15,Heavy & HAM Launcher ROF
+16231,1,33098,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
 # Cynabal,,,,,,,,,,,
 17720,0,0,10013,4,575;578,0,0,0,-25,15,Medium Projectile Turret ROF
 17720,1,3333,10016,4,575;578,0,1,0,10,15,Medium Projectile Turret Damage
 17720,1,3332,158,4,575;578,0,1,0,10,15,Medium Projectile Turret Falloff
 # Damnation,,,,,,,,,,,
-22474,1,12099,37,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Velocity
-22474,1,12099,267,1,22474,0,1,2,-5,15,Armor EM Resistance
-22474,1,12099,268,1,22474,0,1,2,-5,15,Armor Explosive Resistance
-22474,1,12099,269,1,22474,0,1,2,-5,15,Armor Kinetic Resistance
-22474,1,12099,270,1,22474,0,1,2,-5,15,Armor Thermal Resistance
+22474,1,33095,37,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Velocity
+22474,1,33095,267,1,22474,0,1,2,-4,15,Armor EM Resistance
+22474,1,33095,268,1,22474,0,1,2,-4,15,Armor Explosive Resistance
+22474,1,33095,269,1,22474,0,1,2,-4,15,Armor Kinetic Resistance
+22474,1,33095,270,1,22474,0,1,2,-4,15,Armor Thermal Resistance
 22474,1,23950,265,1,22474,0,1,0,10,15,Armor HP
 22474,1,23950,1159,2,329,0,1,0,10,15,Armor HP - Plates
-22474,1,23950,833,1,20069;20409;22227;4262;4264;4266,0,1,0,3,15,Armored Warfare Link Bonus
+22474,1,23950,833,4,1634,0,1,0,3,15,Armored Warfare Link Bonus
 22474,0,0,10063,1,22474,0,0,1,2,15,Warfare Link Use
 # Daredevil,,,,,,,,,,,
 17928,0,0,10015,4,561;564,0,0,0,200,15,Small Hybrid Turret Damage
@@ -344,18 +361,19 @@
 12023,1,16591,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 # Devoter,,,,,,,,,,,
 12017,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-12017,1,3335,267,1,12017,0,1,2,-5,15,Armor EM Resistance
-12017,1,3335,268,1,12017,0,1,2,-5,15,Armor Explosive Resistance
-12017,1,3335,269,1,12017,0,1,2,-5,15,Armor Kinetic Resistance
-12017,1,3335,270,1,12017,0,1,2,-5,15,Armor Thermal Resistance
+12017,1,3335,267,1,12017,0,1,2,-4,15,Armor EM Resistance
+12017,1,3335,268,1,12017,0,1,2,-4,15,Armor Explosive Resistance
+12017,1,3335,269,1,12017,0,1,2,-4,15,Armor Kinetic Resistance
+12017,1,3335,270,1,12017,0,1,2,-4,15,Armor Thermal Resistance
 12017,1,28609,10011,4,568;572,0,1,0,-5,15,Medium Energy Turret ROF
 12017,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Dominix,,,,,,,,,,,
-645,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 645,1,3336,263,3,18,0,1,0,10,15,Drone Shield HP
 645,1,3336,265,3,18,0,1,0,10,15,Drone Armor HP
 645,1,3336,9,3,18,0,1,0,10,15,Drone Hull HP
 645,1,3336,64,3,18,0,1,0,10,15,Drone Damage
+645,1,3336,54,3,18,0,1,0,10,15,Drone Optimal Range
+645,1,3336,160,3,18,0,1,0,10,15,Drone Tracking
 # Dominix Navy Issue,,,,,,,,,,,
 32307,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 32307,1,3336,263,3,18,0,1,0,10,15,Drone Shield HP
@@ -363,29 +381,32 @@
 32307,1,3336,9,3,18,0,1,0,10,15,Drone Hull HP
 32307,1,3336,64,3,18,0,1,0,10,15,Drone Damage
 # Dragoon,,,,,,,,,,,
-32874,1,12097,64,3,18,0,1,0,10,15,Drone Damage
-32874,1,12097,263,3,18,0,1,0,10,15,Drone Shield HP
-32874,1,12097,265,3,18,0,1,0,10,15,Drone Armor HP
-32874,1,12097,9,3,18,0,1,0,10,15,Drone Hull HP
-32874,1,12097,91,2,68,0,1,0,20,15,Nos Drain Range
-32874,1,12097,98,2,71,0,1,0,20,15,Neut Drain Range
+32874,1,33091,64,3,18,0,1,0,10,15,Drone Damage
+32874,1,33091,263,3,18,0,1,0,10,15,Drone Shield HP
+32874,1,33091,265,3,18,0,1,0,10,15,Drone Armor HP
+32874,1,33091,9,3,18,0,1,0,10,15,Drone Hull HP
+32874,1,33091,91,2,68,0,1,0,20,15,Nos Drain Range
+32874,1,33091,98,2,71,0,1,0,20,15,Neut Drain Range
 32874,0,0,37,3,18,0,0,0,25,15,Drone MWD Speed
 # Drake,,,,,,,,,,,
-24698,1,12099,117,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Kinetic Damage
-24698,1,12099,271,1,24698,0,1,2,-5,15,Shield EM Resistance
-24698,1,12099,272,1,24698,0,1,2,-5,15,Shield Explosive Resistance
-24698,1,12099,273,1,24698,0,1,2,-5,15,Shield Kinetic Resistance
-24698,1,12099,274,1,24698,0,1,2,-5,15,Shield Thermal Resistance
+24698,1,33096,117,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Kinetic Damage
+24698,1,33096,271,1,24698,0,1,2,-4,15,Shield EM Resistance
+24698,1,33096,272,1,24698,0,1,2,-4,15,Shield Explosive Resistance
+24698,1,33096,273,1,24698,0,1,2,-4,15,Shield Kinetic Resistance
+24698,1,33096,274,1,24698,0,1,2,-4,15,Shield Thermal Resistance
+# Drake Navy Issue,,,,,,,,,,,
+33153,1,33096,37,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Velocity
+33153,1,33096,654,2,385;655;772;654;395,0,1,0,5,15,Heavy & HAM Explosion Radius
 # Dramiel,,,,,,,,,,,
 17932,0,0,10016,4,574;577,0,0,0,100,15,Small Projectile Turret Damage
 17932,1,3329,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
 17932,1,3328,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 # Eagle,,,,,,,,,,,
 12011,1,3334,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
-12011,1,3334,271,1,12011,0,1,2,-5,15,Shield EM Resistance
-12011,1,3334,272,1,12011,0,1,2,-5,15,Shield Explosive Resistance
-12011,1,3334,273,1,12011,0,1,2,-5,15,Shield Kinetic Resistance
-12011,1,3334,274,1,12011,0,1,2,-5,15,Shield Thermal Resistance
+12011,1,3334,271,1,12011,0,1,2,-4,15,Shield EM Resistance
+12011,1,3334,272,1,12011,0,1,2,-4,15,Shield Explosive Resistance
+12011,1,3334,273,1,12011,0,1,2,-4,15,Shield Kinetic Resistance
+12011,1,3334,274,1,12011,0,1,2,-4,15,Shield Thermal Resistance
 12011,1,16591,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
 12011,1,16591,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 # Echo,,,,,,,,,,,
@@ -399,23 +420,23 @@
 12044,1,12095,160,4,564;561,0,1,0,7.5,15,Small Hybrid Turret Tracking
 12044,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Eos,,,,,,,,,,,
-22442,1,12099,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-22442,1,12099,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
+22442,1,33097,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+22442,1,33097,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
 22442,1,23950,283,1,22442,0,1,1,15,15,Drone Bay Capacity
-22442,1,23950,833,1,20405;11052;4270;4272,0,1,0,3,15,Information Warfare Link Bonus
-22442,1,23950,1310,1,20406;4268,0,1,0,3,15,Information Warfare Link Bonus
-22442,1,23950,1320,1,20406;4268,0,1,0,3,15,Information Warfare Link Bonus
-22442,1,23950,1321,1,20406;4268,0,1,0,3,15,Information Warfare Link Bonus
-22442,1,23950,1322,1,20406;4268,0,1,0,3,15,Information Warfare Link Bonus
-22442,1,23950,1323,1,20406;4268,0,1,0,3,15,Information Warfare Link Bonus
+22442,1,23950,833,4,1635,0,1,0,3,15,Information Warfare Link Bonus
+22442,1,23950,1310,4,1635,0,1,0,3,15,Information Warfare Link Bonus
+22442,1,23950,1320,4,1635,0,1,0,3,15,Information Warfare Link Bonus
+22442,1,23950,1321,4,1635,0,1,0,3,15,Information Warfare Link Bonus
+22442,1,23950,1322,4,1635,0,1,0,3,15,Information Warfare Link Bonus
+22442,1,23950,1323,4,1635,0,1,0,3,15,Information Warfare Link Bonus
 22442,0,0,10063,1,22442,0,0,1,2,15,Warfare Link Use
 # Erebus,,,,,,,,,,,
 671,1,3344,10015,4,771;772,0,1,0,100,15,Capital Hybrid Turret Damage
 671,1,3344,265,3,6,0,1,0,7.5,16,Gang Armor Amount
 671,1,3344,10063,1,671,0,1,1,1,15,Warfare Link Bonus
 # Eris,,,,,,,,,,,
-22460,1,12097,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
-22460,1,12097,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
+22460,1,33093,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
+22460,1,33093,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
 22460,1,12098,118,2,387;648,0,1,0,5,15,Rocket Thermal Damage
 22460,1,12098,118,2,384;653;394,0,1,0,5,15,Light Missile Thermal Damage
 22460,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
@@ -430,7 +451,7 @@
 32790,0,0,1211,7,1211,0,0,0,-40,15,Heat Damage Reduction
 # Executioner,,,,,,,,,,,
 589,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
-589,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+589,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
 589,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Exequror,,,,,,,,,,,
 634,1,3332,6,2,325,0,1,0,-5,15,Remote Armor Repairer Cap Use
@@ -442,7 +463,7 @@
 29344,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 29344,1,3332,10012,4,562;565,0,1,0,-5,15,Medium Hybrid Turret ROF
 # Falcon,,,,,,,,,,,
-11957,1,3334,6,2,201,0,1,0,-10,15,ECM Capacitor Use
+11957,1,3334,6,2,201,0,1,0,-10,15,ECM Cap Use
 11957,1,3334,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 11957,1,22761,238,2,201,0,1,0,30,15,ECM Jam Strength Grav
 11957,1,22761,239,2,201,0,1,0,30,15,ECM Jam Strength Ladar
@@ -458,22 +479,28 @@
 20189,1,20528,10004,1,20189,0,1,0,5,15,Cargo Capacity
 20189,1,20528,37,1,20189,0,1,0,5,15,Max Velocity
 # Ferox,,,,,,,,,,,
-16227,1,12099,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
-16227,1,12099,271,1,16227,0,1,2,-5,15,Shield EM Resistance
-16227,1,12099,272,1,16227,0,1,2,-5,15,Shield Explosive Resistance
-16227,1,12099,273,1,16227,0,1,2,-5,15,Shield Kinetic Resistance
-16227,1,12099,274,1,16227,0,1,2,-5,15,Shield Thermal Resistance
+16227,1,33096,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
+16227,1,33096,271,1,16227,0,1,2,-4,15,Shield EM Resistance
+16227,1,33096,272,1,16227,0,1,2,-4,15,Shield Explosive Resistance
+16227,1,33096,273,1,16227,0,1,2,-4,15,Shield Kinetic Resistance
+16227,1,33096,274,1,16227,0,1,2,-4,15,Shield Thermal Resistance
 # Flycatcher,,,,,,,,,,,
-22464,1,12097,37,2,384;387;648;653;394,0,1,0,10,15,Rocket & Light Missile Velocity
-22464,1,12097,1353,2,384;653;394,0,1,0,-3,15,Light Missile Damage Reduction Factor
+22464,1,33092,37,2,384;387;648;653;394,0,1,0,10,15,Rocket & Light Missile Velocity
+22464,1,33092,1353,2,384;653;394,0,1,0,-3,15,Light Missile Damage Reduction Factor
 22464,1,12098,117,2,384;387;648;653;394,0,1,0,5,15,Rocket & Light Missile Kinetic Damage
 22464,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
+# Freki,,,,,,,,,,,
+32207,0,0,158,4,574;577,0,0,0,50,15,Small Projectile Turret Falloff
+32207,0,0,54,4,574;577,0,0,0,50,15,Small Projectile Turret Optimal Range
+32207,0,0,6,2,46,0,0,0,-75,15,AB & MWD Cap Use
+32207,1,3329,10016,4,574;577,0,1,0,12.5,15,Small Projectile Turret Damage
+32207,1,3329,54,2,65,0,1,0,30,15,Stasis Web Range
 # Gila,,,,,,,,,,,
 17715,0,0,37,2,653;384;655;385;654;772;394;395,0,0,0,50,15,"Light, Heavy & HAM Velocity"
-17715,1,3334,271,1,17715,0,1,2,-5,15,Shield EM Resistance
-17715,1,3334,272,1,17715,0,1,2,-5,15,Shield Explosive Resistance
-17715,1,3334,273,1,17715,0,1,2,-5,15,Shield Kinetic Resistance
-17715,1,3334,274,1,17715,0,1,2,-5,15,Shield Thermal Resistance
+17715,1,3334,271,1,17715,0,1,2,-4,15,Shield EM Resistance
+17715,1,3334,272,1,17715,0,1,2,-4,15,Shield Explosive Resistance
+17715,1,3334,273,1,17715,0,1,2,-4,15,Shield Kinetic Resistance
+17715,1,3334,274,1,17715,0,1,2,-4,15,Shield Thermal Resistance
 17715,1,3332,263,3,18,0,1,0,10,15,Drone Shield HP
 17715,1,3332,265,3,18,0,1,0,10,15,Drone Armor HP
 17715,1,3332,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -492,7 +519,7 @@
 3756,0,0,64,3,18,0,0,0,50,15,Drone Damage
 3756,0,0,1371,2,479,0,0,0,37.5,15,Probe Scan Strength Bonus
 # Gold Magnate,,,,,,,,,,,
-11940,1,3331,6,4,567;570,0,1,0,-5,15,Small Energy Turret Capacitor
+11940,1,3331,6,4,567;570,0,1,0,-5,15,Small Energy Turret Cap Use
 11940,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Golem,,,,,,,,,,,
 28710,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
@@ -510,7 +537,7 @@
 584,1,3330,239,2,201,0,1,0,15,15,ECM Jam Strength Ladar
 584,1,3330,240,2,201,0,1,0,15,15,ECM Jam Strength Mag
 584,1,3330,241,2,201,0,1,0,15,15,ECM Jam Strength Radar
-584,1,3330,6,2,201,0,1,0,-10,15,ECM Capacitor Need
+584,1,3330,6,2,201,0,1,0,-10,15,ECM Cap Use
 # Guardian,,,,,,,,,,,
 11987,1,3335,54,2,325,0,1,0,150,15,Remote Armor Repairer Range
 11987,1,3335,91,2,67,0,1,0,150,15,Energy Transfer Range
@@ -523,14 +550,17 @@
 11011,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 11011,1,3332,10005,1,11011,0,1,1,1,15,Drone Control Bonus
 # Harbinger,,,,,,,,,,,
-24696,1,12099,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-24696,1,12099,10014,4,568;572,0,1,0,10,15,Medium Energy Turret Damage
+24696,1,33095,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
+24696,1,33095,10014,4,568;572,0,1,0,10,15,Medium Energy Turret Damage
+# Harbinger Navy Issue,,,,,,,,,,,
+33155,1,33095,10014,4,568;572,0,1,0,10,15,Medium Energy Turret Damage
+33155,1,33095,160,4,568;572,0,1,0,7.5,15,Medium Energy Turret Tracking
 # Harpy,,,,,,,,,,,
 11381,1,3330,54,4,561;564,0,1,0,10,15,Small Hybrid Turret Optimal Range
-11381,1,3330,271,1,11381,0,1,2,-5,15,EM Shield Resist
-11381,1,3330,272,1,11381,0,1,2,-5,15,Exp Shield Resist
-11381,1,3330,273,1,11381,0,1,2,-5,15,Kin Shield Resist
-11381,1,3330,274,1,11381,0,1,2,-5,15,Therm Shield Resist
+11381,1,3330,271,1,11381,0,1,2,-4,15,Shield EM Resistance
+11381,1,3330,272,1,11381,0,1,2,-4,15,Shield Explosive Resistance
+11381,1,3330,273,1,11381,0,1,2,-4,15,Shield Kinetic Resistance
+11381,1,3330,274,1,11381,0,1,2,-4,15,Shield Thermal Resistance
 11381,1,12095,54,4,564;561,0,1,0,10,15,Small Hybrid Turret Optimal Range
 11381,1,12095,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
 11381,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
@@ -552,6 +582,7 @@
 11172,1,3328,118,4,837,0,1,0,10,15,Scout Drone Thermal Damage
 11172,1,12093,50,2,330,0,1,0,-20,15,Cloaking Device CPU
 11172,1,12093,1371,2,479,0,1,0,10,15,Probe Scan Strength Bonus
+11172,0,0,1910,4,1718,0,0,1,10,15,Data & Relic Analyzer Virus Strength
 # Hematos,,,,,,,,,,,
 33079,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
 33079,0,0,6,4,567;570,0,0,0,-30,15,Small Energy Turret Cap Use
@@ -559,16 +590,17 @@
 33079,0,0,97,2,71,0,0,0,45,15,Neut Drain Amount
 33079,0,0,20,2,65,0,0,0,30,15,Stasis Web Strength
 # Heretic,,,,,,,,,,,
-22452,1,12097,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
-22452,1,12097,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
-22452,1,12097,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
-22452,1,12097,118,2,387;648,0,1,0,5,15,Rocket Damage - Therm
-22452,1,12097,653,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Explosion Velocity
+22452,1,33091,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
+22452,1,33091,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
+22452,1,33091,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
+22452,1,33091,118,2,387;648,0,1,0,5,15,Rocket Damage - Therm
+22452,1,33091,653,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Explosion Velocity
 22452,1,12098,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Missile Velocity
 22452,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
 # Heron,,,,,,,,,,,
 605,1,3330,1371,2,479,0,1,0,7.5,15,Probe Scan Strength Bonus
-605,1,3330,73,1,22175;22177;30832;30834;25861;30836,0,1,0,-5,15,"Codebreaker, Analyzer & Salvager Cycle Time"
+605,1,3330,73,4,1715,0,1,0,-5,15,Salvager Cycle Time
+605,0,0,1910,4,1718,0,0,1,5,15,Data & Relic Analyzer Virus Strength
 # Hoarder,,,,,,,,,,,
 651,1,3341,10004,1,651,0,1,0,5,15,Cargo Capacity
 651,1,3341,37,1,651,0,1,0,5,15,Max Velocity
@@ -588,22 +620,25 @@
 11961,1,22761,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
 # Hulk,,,,,,,,,,,
 22544,1,17940,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
-22544,1,17940,271,1,22544,0,1,2,-5,15,Shield EM Resistance
-22544,1,17940,272,1,22544,0,1,2,-5,15,Shield Explosive Resistance
-22544,1,17940,273,1,22544,0,1,2,-5,15,Shield Kinetic Resistance
-22544,1,17940,274,1,22544,0,1,2,-5,15,Shield Thermal Resistance
+22544,1,17940,271,1,22544,0,1,2,-4,15,Shield EM Resistance
+22544,1,17940,272,1,22544,0,1,2,-4,15,Shield Explosive Resistance
+22544,1,17940,273,1,22544,0,1,2,-4,15,Shield Kinetic Resistance
+22544,1,17940,274,1,22544,0,1,2,-4,15,Shield Thermal Resistance
 22544,1,22551,77,4,1040,0,1,0,3,15,Strip Miner Mining Yield
 22544,1,22551,73,4,1038,0,1,0,-4,15,Ice Harvester Duration
 # Hurricane,,,,,,,,,,,
-24702,1,12099,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-24702,1,12099,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
+24702,1,33098,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
+24702,1,33098,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
+# Hurricane Fleet Issue,,,,,,,,,,,
+33157,1,33098,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
+33157,1,33098,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
 # Hyena,,,,,,,,,,,
 11387,1,3329,147,4,131,0,1,1,5,15,MWD Capacitor Penalty Bonus
 11387,1,3329,554,2,379,0,1,0,10,15,Target Painter Effect Sig Radius
 11387,1,28615,552,1,11387,0,1,0,-3,15,Signature Radius
 11387,1,28615,54,2,65,0,1,0,20,15,Stasis Web Range
 # Hyperion,,,,,,,,,,,
-24690,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+24690,1,3336,10015,4,563;566,0,1,0,10,15,Large Hybrid Turret Damage
 24690,1,3336,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
 # Ibis,,,,,,,,,,,
 601,0,0,54,4,564;561,0,0,0,20,15,Small Hybrid Turret Optimal Range
@@ -612,13 +647,14 @@
 601,0,0,239,2,201,0,0,0,30,15,ECM Jam Strength Ladar
 601,0,0,240,2,201,0,0,0,30,15,ECM Jam Strength Mag
 601,0,0,241,2,201,0,0,0,30,15,ECM Jam Strength Radar
-601,0,0,271,1,601,0,0,2,-10,15,Shield EM Resistance
-601,0,0,272,1,601,0,0,2,-10,15,Shield Explosive Resistance
-601,0,0,273,1,601,0,0,2,-10,15,Shield Kinetic Resistance
-601,0,0,274,1,601,0,0,2,-10,15,Shield Thermal Resistance
+601,0,0,271,1,601,0,0,2,-8,15,Shield EM Resistance
+601,0,0,272,1,601,0,0,2,-8,15,Shield Explosive Resistance
+601,0,0,273,1,601,0,0,2,-8,15,Shield Kinetic Resistance
+601,0,0,274,1,601,0,0,2,-8,15,Shield Thermal Resistance
 # Imicus,,,,,,,,,,,
 607,1,3328,1371,2,479,0,1,0,7.5,15,Probe Scan Strength Bonus
-607,1,3328,73,1,22175;22177;30832;30834;25861;30836,0,1,0,-5,15,"Codebreaker, Analyzer & Salvager Cycle Time"
+607,1,3328,73,4,1715,0,1,0,-5,15,Salvager Cycle Time
+607,0,0,1910,4,1718,0,0,1,5,15,Data & Relic Analyzer Virus Strength
 # Immolator,,,,,,,,,,,
 615,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
 615,0,0,160,4,567;570,0,0,0,22.5,15,Small Energy Turret Tracking
@@ -630,14 +666,15 @@
 596,0,0,351,2,291,0,0,0,15,15,Tracking Disruptor Effect Optimal Range
 596,0,0,767,2,291,0,0,0,15,15,Tracking Disruptor Effect Tracking
 596,0,0,349,2,291,0,0,0,15,15,Tracking Disruptor Effect Falloff
-596,0,0,267,1,596,0,0,2,-10,15,Armor EM Resistance
-596,0,0,268,1,596,0,0,2,-10,15,Armor Explosive Resistance
-596,0,0,269,1,596,0,0,2,-10,15,Armor Kinetic Resistance
-596,0,0,270,1,596,0,0,2,-10,15,Armor Thermal Resistance
+596,0,0,267,1,596,0,0,2,-8,15,Armor EM Resistance
+596,0,0,268,1,596,0,0,2,-8,15,Armor Explosive Resistance
+596,0,0,269,1,596,0,0,2,-8,15,Armor Kinetic Resistance
+596,0,0,270,1,596,0,0,2,-8,15,Armor Thermal Resistance
 # Impel,,,,,,,,,,,
 12753,1,3343,10004,1,12753,0,1,0,5,15,Cargo Capacity
 12753,1,3343,37,1,12753,0,1,0,5,15,Max Velocity
 12753,1,19719,265,1,12753,0,1,0,5,15,Armor HP
+12753,1,19719,1159,2,329,0,1,0,5,15,Armor HP - Plates
 12753,1,19719,84,2,62;1199,0,1,0,5,15,Armor Repair Amount
 # Imperial Navy Slicer,,,,,,,,,,,
 17703,1,3331,54,4,567;570,0,1,0,10,15,Small Energy Turret Optimal Range
@@ -689,7 +726,7 @@
 # Keres,,,,,,,,,,,
 11174,1,3328,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
 11174,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
-11174,1,3328,6,2,208,0,1,0,-10,15,Remote Sensor Capacitor Use
+11174,1,3328,6,2,208,0,1,0,-10,15,Remote Sensor Damp Cap Use
 11174,1,28615,54,2,52,0,1,0,10,15,Warp Disruptor Range
 11174,1,28615,6,2,52,0,1,0,-10,15,Warp Disruptor Cap Use
 # Kestrel,,,,,,,,,,,
@@ -703,7 +740,7 @@
 11194,1,3330,239,2,201,0,1,0,20,15,ECM Jam Strength Ladar
 11194,1,3330,240,2,201,0,1,0,20,15,ECM Jam Strength Mag
 11194,1,3330,241,2,201,0,1,0,20,15,ECM Jam Strength Radar
-11194,1,3330,6,2,201,0,1,0,-10,15,ECM Capacitor Use
+11194,1,3330,6,2,201,0,1,0,-10,15,ECM Cap Use
 11194,1,28615,54,2,201,0,1,0,12.5,15,ECM Optimal Range
 11194,1,28615,482,1,11194,0,1,0,5,15,Capacitor Capacity
 # Kronos,,,,,,,,,,,
@@ -734,10 +771,10 @@
 17738,1,3336,158,4,576;579,0,1,0,10,15,Large Projectile Turret Falloff
 # Mackinaw,,,,,,,,,,,
 22548,1,17940,1556,1,22548,0,1,0,5,15,Ore Hold Capacity Bonus
-22548,1,17940,271,1,22548,0,1,2,-5,15,Shield EM Resistance
-22548,1,17940,272,1,22548,0,1,2,-5,15,Shield Explosive Resistance
-22548,1,17940,273,1,22548,0,1,2,-5,15,Shield Kinetic Resistance
-22548,1,17940,274,1,22548,0,1,2,-5,15,Shield Thermal Resistance
+22548,1,17940,271,1,22548,0,1,2,-4,15,Shield EM Resistance
+22548,1,17940,272,1,22548,0,1,2,-4,15,Shield Explosive Resistance
+22548,1,17940,273,1,22548,0,1,2,-4,15,Shield Kinetic Resistance
+22548,1,17940,274,1,22548,0,1,2,-4,15,Shield Thermal Resistance
 22548,1,22551,77,4,1040,0,1,0,1,15,Strip Miner Mining Yield
 22548,1,22551,73,4,1038,0,1,0,-1,15,Ice Harvester Duration
 22548,0,0,77,4,1040,0,0,0,50,15,Strip Miner Mining Yield
@@ -747,25 +784,37 @@
 24694,1,3337,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
 # Magnate,,,,,,,,,,,
 29248,1,3331,1371,2,479,0,1,0,7.5,15,Probe Scan Strength Bonus
-29248,1,3331,73,1,22175;22177;30832;30834;25861;30836,0,1,0,-5,15,"Codebreaker, Analyzer & Salvager Cycle Time"
+29248,1,3331,73,4,1715,0,1,0,-5,15,Salvager Cycle Time
+29248,0,0,1910,4,1718,0,0,1,5,15,Data & Relic Analyzer Virus Strength
 # Malediction,,,,,,,,,,,
 11186,1,3331,114,2,387;648,0,1,0,5,15,Rocket Damage - EM
 11186,1,3331,116,2,387;648,0,1,0,5,15,Rocket Damage - Exp
 11186,1,3331,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
 11186,1,3331,118,2,387;648,0,1,0,5,15,Rocket Damage - Therm
-11186,1,3331,267,1,11186,0,1,2,-5,15,Armor EM Resistance
-11186,1,3331,268,1,11186,0,1,2,-5,15,Armor Explosive Resistance
-11186,1,3331,269,1,11186,0,1,2,-5,15,Armor Kinetic Resistance
-11186,1,3331,270,1,11186,0,1,2,-5,15,Armor Thermal Resistance
+11186,1,3331,267,1,11186,0,1,2,-4,15,Armor EM Resistance
+11186,1,3331,268,1,11186,0,1,2,-4,15,Armor Explosive Resistance
+11186,1,3331,269,1,11186,0,1,2,-4,15,Armor Kinetic Resistance
+11186,1,3331,270,1,11186,0,1,2,-4,15,Armor Thermal Resistance
 11186,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
 11186,1,12092,54,2,52,0,1,0,5,15,Warp Scrambler Range
 11186,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
+# Malice,,,,,,,,,,,
+3516,1,3331,267,1,3516,0,1,2,-4,15,Armor EM Resistance
+3516,1,3331,268,1,3516,0,1,2,-4,15,Armor Explosive Resistance
+3516,1,3331,269,1,3516,0,1,2,-4,15,Armor Kinetic Resistance
+3516,1,3331,270,1,3516,0,1,2,-4,15,Armor Thermal Resistance
+3516,1,3331,90,2,68,0,1,0,20,15,Nos Drain Amount
+3516,1,3331,97,2,71,0,1,0,20,15,Neut Drain Amount
+3516,1,3331,91,2,68,0,1,0,20,15,Nos Drain Range
+3516,1,3331,98,2,71,0,1,0,20,15,Neut Drain Range
+3516,0,0,10014,4,567;570,0,0,0,100,15,Small Energy Turret Damage
+3516,0,0,54,4,567;570,0,0,0,50,15,Small Energy Turret Optimal Range
 # Maller,,,,,,,,,,,
 624,1,3335,10014,4,568;572,0,1,0,5,15,Medium Energy Turret Damage
-624,1,3335,267,1,624,0,1,2,-5,15,Armor EM Resistance
-624,1,3335,268,1,624,0,1,2,-5,15,Armor Explosive Resistance
-624,1,3335,269,1,624,0,1,2,-5,15,Armor Kinetic Resistance
-624,1,3335,270,1,624,0,1,2,-5,15,Armor Thermal Resistance
+624,1,3335,267,1,624,0,1,2,-4,15,Armor EM Resistance
+624,1,3335,268,1,624,0,1,2,-4,15,Armor Explosive Resistance
+624,1,3335,269,1,624,0,1,2,-4,15,Armor Kinetic Resistance
+624,1,3335,270,1,624,0,1,2,-4,15,Armor Thermal Resistance
 # Mammoth,,,,,,,,,,,
 652,1,3341,10004,1,652,0,1,0,5,15,Cargo Capacity
 652,1,3341,37,1,652,0,1,0,5,15,Max Velocity
@@ -789,43 +838,52 @@
 609,1,3328,309,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Range
 609,1,3328,566,2,208,0,1,0,7.5,15,Remote Sensor Damp Effect Res
 # Megathron,,,,,,,,,,,
-641,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+641,1,3336,10012,4,563;566,0,1,0,-5,15,Large Hybrid Turret ROF
 641,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Megathron Federate Issue,,,,,,,,,,,
 13202,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
 13202,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Megathron Navy Issue,,,,,,,,,,,
-17728,1,3336,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+17728,1,3336,10012,4,563;566,0,1,0,-5,15,Large Hybrid Turret ROF
 17728,1,3336,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 # Merlin,,,,,,,,,,,
 603,1,3330,10015,4,564;561,0,1,0,5,15,Small Hybrid Turret Damage
-603,1,3330,271,1,603,0,1,2,-5,15,Shield EM Resistance
-603,1,3330,272,1,603,0,1,2,-5,15,Shield Explosive Resistance
-603,1,3330,273,1,603,0,1,2,-5,15,Shield Kinetic Resistance
-603,1,3330,274,1,603,0,1,2,-5,15,Shield Thermal Resistance
+603,1,3330,271,1,603,0,1,2,-4,15,Shield EM Resistance
+603,1,3330,272,1,603,0,1,2,-4,15,Shield Explosive Resistance
+603,1,3330,273,1,603,0,1,2,-4,15,Shield Kinetic Resistance
+603,1,3330,274,1,603,0,1,2,-4,15,Shield Thermal Resistance
+# Mimir,,,,,,,,,,,
+32209,0,0,37,1,2836,0,0,0,25,15,Max Velocity
+32209,0,0,158,4,575;578,0,0,0,50,15,Medium Projectile Turret Falloff
+32209,0,0,54,4,575;578,0,0,0,50,15,Medium Projectile Turret Optimal Range
+32209,1,3333,10016,4,575;578,0,1,0,20,15,Medium Projectile Turret Damage
+32209,1,3333,267,1,32209,0,1,2,-4,15,Armor EM Resistance
+32209,1,3333,268,1,32209,0,1,2,-4,15,Armor Explosive Resistance
+32209,1,3333,269,1,32209,0,1,2,-4,15,Armor Kinetic Resistance
+32209,1,3333,270,1,32209,0,1,2,-4,15,Armor Thermal Resistance
 # Moa,,,,,,,,,,,
 623,1,3334,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-623,1,3334,271,1,623,0,1,2,-5,15,Shield EM Resistance
-623,1,3334,272,1,623,0,1,2,-5,15,Shield Explosive Resistance
-623,1,3334,273,1,623,0,1,2,-5,15,Shield Kinetic Resistance
-623,1,3334,274,1,623,0,1,2,-5,15,Shield Thermal Resistance
+623,1,3334,271,1,623,0,1,2,-4,15,Shield EM Resistance
+623,1,3334,272,1,623,0,1,2,-4,15,Shield Explosive Resistance
+623,1,3334,273,1,623,0,1,2,-4,15,Shield Kinetic Resistance
+623,1,3334,274,1,623,0,1,2,-4,15,Shield Thermal Resistance
 # Moros,,,,,,,,,,,
 19724,1,20531,10015,4,771;772,0,1,0,5,15,Capital Hybrid Turret Damage
 19724,1,20531,10012,4,771;772,0,1,0,-5,15,Capital Hybrid Turret ROF
 # Muninn,,,,,,,,,,,
 12015,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 12015,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
-12015,1,16591,54,4,575;578,0,1,0,10,15,Medium Projectile Optimal Range
+12015,1,16591,54,4,575;578,0,1,0,10,15,Medium Projectile Turret Optimal Range
 12015,1,16591,160,4,575;578,0,1,0,7.5,15,Medium Projectile Turret Tracking
 # Myrmidon,,,,,,,,,,,
-24700,1,12099,263,3,18,0,1,0,10,15,Drone Shield HP
-24700,1,12099,265,3,18,0,1,0,10,15,Drone Armor HP
-24700,1,12099,9,3,18,0,1,0,10,15,Drone Hull HP
-24700,1,12099,64,3,18,0,1,0,10,15,Drone Damage
-24700,1,12099,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
+24700,1,33097,263,3,18,0,1,0,10,15,Drone Shield HP
+24700,1,33097,265,3,18,0,1,0,10,15,Drone Armor HP
+24700,1,33097,9,3,18,0,1,0,10,15,Drone Hull HP
+24700,1,33097,64,3,18,0,1,0,10,15,Drone Damage
+24700,1,33097,84,2,62;1199,0,1,0,7.5,15,Armor Repair Amount
 # Naga,,,,,,,,,,,
-4306,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
-4306,1,12099,54,4,563;566,0,1,0,10,15,Large Hybrid Turret Optimal Range
+4306,1,33096,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+4306,1,33096,54,4,563;566,0,1,0,10,15,Large Hybrid Turret Optimal Range
 4306,0,0,30,4,563;566,0,0,0,-95,15,Large Hybrid Turret PG Usage
 4306,0,0,50,4,563;566,0,0,0,-50,15,Large Hybrid Turret CPU Need
 4306,0,0,6,4,563;566,0,0,0,-50,15,Large Hybrid Turret Cap Use
@@ -854,11 +912,11 @@
 24483,1,24314,10005,1,24483,0,1,1,1,15,Fighter Control Bonus
 24483,1,24314,10063,1,24483,0,1,1,1,15,Warfare Link Bonus
 # Nighthawk,,,,,,,,,,,
-22470,1,12099,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
-22470,1,12099,271,1,22470,0,1,2,-5,15,Shield EM Resistance
-22470,1,12099,272,1,22470,0,1,2,-5,15,Shield Explosive Resistance
-22470,1,12099,273,1,22470,0,1,2,-5,15,Shield Kinetic Resistance
-22470,1,12099,274,1,22470,0,1,2,-5,15,Shield Thermal Resistance
+22470,1,33096,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
+22470,1,33096,271,1,22470,0,1,2,-4,15,Shield EM Resistance
+22470,1,33096,272,1,22470,0,1,2,-4,15,Shield Explosive Resistance
+22470,1,33096,273,1,22470,0,1,2,-4,15,Shield Kinetic Resistance
+22470,1,33096,274,1,22470,0,1,2,-4,15,Shield Thermal Resistance
 22470,1,23950,117,2,385;655;395,0,1,0,5,15,Heavy Missile Kinetic Damage
 22470,1,23950,653,2,385;655;395,0,1,0,5,15,Heavy Missile Explosion Velocity
 22470,1,23950,117,2,772;654,0,1,0,5,15,Heavy Assault Missile Kinetic Damage
@@ -868,7 +926,7 @@
 17736,1,3338,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
 # Noctis,,,,,,,,,,,
 2998,1,3184,73,2,650,0,1,0,-5,15,Tractor Beam Cycle Time
-2998,1,3184,73,1,25861;26983;30836,0,1,0,-5,15,Salvager Beam Cycle Time
+2998,1,3184,73,4,1715,0,1,0,-5,15,Salvager Cycle Time
 2998,1,3184,54,2,650,0,1,0,60,15,Tractor Beam Range
 2998,1,3184,1045,2,650,0,1,0,60,15,Tractor Beam Velocity
 # Nomad,,,,,,,,,,,
@@ -894,32 +952,33 @@
 12745,1,3340,37,1,12745,0,1,0,5,15,Max Velocity
 12745,1,19719,84,2,62;1199,0,1,0,5,15,Armor Repair Amount
 12745,1,19719,265,1,12745,0,1,0,5,15,Armor HP
+12745,1,19719,1159,2,329,0,1,0,5,15,Armor HP - Plates
 # Omen,,,,,,,,,,,
 2006,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
 2006,1,3335,10011,4,568;572,0,1,0,-5,15,Medium Energy Turret ROF
 # Omen Navy Issue,,,,,,,,,,,
-17709,1,3335,6,4,568;572,0,1,0,-10,15,Medium Energy Turret Cap Use
-17709,1,3335,10011,4,568;572,0,1,0,-7.5,15,Medium Energy Turret ROF
+17709,1,3335,10014,4,568;572,0,1,0,10,15,Medium Energy Turret Damage
+17709,1,3335,54,4,568;572,0,1,0,10,15,Medium Energy Turret Optimal Range
 # Oneiros,,,,,,,,,,,
 11989,1,3332,54,2,325,0,1,0,150,15,Remote Armor Repairer Range
-11989,1,3332,54,2,209,0,1,0,150,15,Tracking Link Range
+11989,1,3332,54,2,209,0,1,0,150,15,Tracking Link Optimal Range
 11989,1,3332,84,4,842,0,1,0,20,15,Armor Maintenance Bot Transfer
 11989,1,12096,6,2,325,0,1,0,-15,15,Remote Armor Repairer Cap Use
-11989,1,12096,351,2,209,0,1,0,10,15,Tracking Link Optimal Range Bonus
-11989,1,12096,767,2,209,0,1,0,10,15,Tracking Link Tracking Speed Bonus
-11989,1,12096,349,2,209,0,1,0,10,15,Tracking Link Falloff Bonus
+11989,1,12096,351,2,209,0,1,0,10,15,Tracking Link Effect Optimal Range
+11989,1,12096,767,2,209,0,1,0,10,15,Tracking Link Effect Tracking
+11989,1,12096,349,2,209,0,1,0,10,15,Tracking Link Effect Falloff
 11989,0,0,30,2,325,0,0,0,-65,15,Remote Armor Repairer Power Need
 # Onyx,,,,,,,,,,,
 11995,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Kinetic Missile Damage
-11995,1,3334,271,1,11995,0,1,2,-5,15,EM Shield Resist
-11995,1,3334,272,1,11995,0,1,2,-5,15,Exp Shield Resist
-11995,1,3334,273,1,11995,0,1,2,-5,15,Kin Shield Resist
-11995,1,3334,274,1,11995,0,1,2,-5,15,Therm Shield Resist
+11995,1,3334,271,1,11995,0,1,2,-4,15,Shield EM Resistance
+11995,1,3334,272,1,11995,0,1,2,-4,15,Shield Explosive Resistance
+11995,1,3334,273,1,11995,0,1,2,-4,15,Shield Kinetic Resistance
+11995,1,3334,274,1,11995,0,1,2,-4,15,Shield Thermal Resistance
 11995,1,28609,37,2,385;655;772;654,0,1,0,10,15,Heavy & HAM Velocity
 11995,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Oracle,,,,,,,,,,,
-4302,1,12099,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
-4302,1,12099,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
+4302,1,33095,10014,4,569;573,0,1,0,5,15,Large Energy Turret Damage
+4302,1,33095,6,4,569;573,0,1,0,-10,15,Large Energy Turret Cap Use
 4302,0,0,30,4,569;573,0,0,0,-95,15,Large Energy Turret PG Usage
 4302,0,0,50,4,569;573,0,0,0,-50,15,Large Energy Turret CPU Need
 4302,0,0,6,4,569;573,0,0,0,-50,15,Large Energy Turret Cap Use
@@ -929,7 +988,7 @@
 28606,0,0,197,2,49,0,0,0,500,15,Survey Scanner Range
 28606,0,0,10063,1,28606,0,0,1,2,15,Warfare Link Use
 28606,1,29637,10004,1,28606,0,1,0,5,15,Cargo Capacity
-28606,1,29637,833,1,22553;22555;22557;4274;4276;4278,0,1,0,3,15,Warfare Link Bonus
+28606,1,29637,833,4,1638,0,1,0,3,15,Warfare Link Bonus
 # Osprey,,,,,,,,,,,
 620,1,3334,6,2,41,0,1,0,-5,15,Shield Transporter Cap Use
 620,1,3334,68,2,41,0,1,0,12.5,15,Shield Transporter Rep Amount
@@ -937,8 +996,11 @@
 620,0,0,91,2,67,0,0,0,1000,15,Energy Transfer Range
 620,0,0,90,2,67,0,0,0,200,15,Energy Transfer Amount
 # Osprey Navy Issue,,,,,,,,,,,
-29340,1,3334,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
-29340,1,3334,37,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Velocity
+29340,1,3334,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Missile EM Damage
+29340,1,3334,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Missile Explosive Damage
+29340,1,3334,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Missile Kinetic Damage
+29340,1,3334,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,5,15,Missile Thermal Damage
+29340,1,3334,37,2,654;655;653;772;385;384;394;395,0,1,0,10,15,"Light, Heavy & HAM Velocity"
 # Paladin,,,,,,,,,,,
 28659,1,3339,482,1,28659,0,1,0,5,15,Capacitor Capacity
 28659,1,3339,20,2,65,0,1,0,10,15,Stasis Web Velocity Factor
@@ -959,10 +1021,10 @@
 17718,1,3334,10014,4,568;572,0,1,0,5,15,Medium Energy Turret Damage
 # Phobos,,,,,,,,,,,
 12021,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
-12021,1,3332,267,1,12021,0,1,2,-5,15,Armor EM Resistance
-12021,1,3332,268,1,12021,0,1,2,-5,15,Armor Explosive Resistance
-12021,1,3332,269,1,12021,0,1,2,-5,15,Armor Kinetic Resistance
-12021,1,3332,270,1,12021,0,1,2,-5,15,Armor Thermal Resistance
+12021,1,3332,267,1,12021,0,1,2,-4,15,Armor EM Resistance
+12021,1,3332,268,1,12021,0,1,2,-4,15,Armor Explosive Resistance
+12021,1,3332,269,1,12021,0,1,2,-4,15,Armor Kinetic Resistance
+12021,1,3332,270,1,12021,0,1,2,-4,15,Armor Thermal Resistance
 12021,1,28609,158,4,562;565,0,1,0,10,15,Medium Hybrid Turret Falloff
 12021,1,28609,103,2,899,0,1,0,5,15,Warp Disruption Field Range
 # Phoenix,,,,,,,,,,,
@@ -983,21 +1045,22 @@
 11965,0,0,73,2,658,0,0,0,-50,15,Cyno Field Duration
 # Probe,,,,,,,,,,,
 586,1,3329,1371,2,479,0,1,0,7.5,15,Probe Scan Strength Bonus
-586,1,3329,73,1,22175;22177;30832;30834;25861;30836,0,1,0,-5,15,"Codebreaker, Analyzer & Salvager Cycle Time"
+586,1,3329,73,4,1715,0,1,0,-5,15,Salvager Cycle Time
+586,0,0,1910,4,1718,0,0,1,5,15,Data & Relic Analyzer Virus Strength
 # Procurer,,,,,,,,,,,
 17480,1,17940,263,1,17480,0,1,0,5,15,Shield HP
 17480,1,17940,72,2,38,0,1,0,5,15,Shield HP (Extenders)
 17480,0,0,77,4,1040,0,0,0,200,15,Strip Miner Mining Yield
 17480,0,0,73,4,1038,0,0,0,-66.66666667,15,Ice Harvester Duration
 # Prophecy,,,,,,,,,,,
-16233,1,12099,267,1,16233,0,1,2,-5,15,Armor EM Resistance
-16233,1,12099,268,1,16233,0,1,2,-5,15,Armor Explosive Resistance
-16233,1,12099,269,1,16233,0,1,2,-5,15,Armor Kinetic Resistance
-16233,1,12099,270,1,16233,0,1,2,-5,15,Armor Thermal Resistance
-16233,1,12099,263,3,18,0,1,0,10,15,Drone Shield HP
-16233,1,12099,265,3,18,0,1,0,10,15,Drone Armor HP
-16233,1,12099,9,3,18,0,1,0,10,15,Drone Hull HP
-16233,1,12099,64,3,18,0,1,0,10,15,Drone Damage
+16233,1,33095,267,1,16233,0,1,2,-4,15,Armor EM Resistance
+16233,1,33095,268,1,16233,0,1,2,-4,15,Armor Explosive Resistance
+16233,1,33095,269,1,16233,0,1,2,-4,15,Armor Kinetic Resistance
+16233,1,33095,270,1,16233,0,1,2,-4,15,Armor Thermal Resistance
+16233,1,33095,263,3,18,0,1,0,10,15,Drone Shield HP
+16233,1,33095,265,3,18,0,1,0,10,15,Drone Armor HP
+16233,1,33095,9,3,18,0,1,0,10,15,Drone Hull HP
+16233,1,33095,64,3,18,0,1,0,10,15,Drone Damage
 # Prorator,,,,,,,,,,,
 12733,1,3343,10004,1,12733,0,1,0,5,15,Cargo Capacity
 12733,1,3343,37,1,12733,0,1,0,5,15,Max Velocity
@@ -1015,10 +1078,10 @@
 12735,1,19719,68,2,40;1156,0,1,0,5,15,Shield Booster Boost
 # Punisher,,,,,,,,,,,
 597,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
-597,1,3331,267,1,597,0,1,2,-5,15,Armor EM Resistance
-597,1,3331,268,1,597,0,1,2,-5,15,Armor Explosive Resistance
-597,1,3331,269,1,597,0,1,2,-5,15,Armor Kinetic Resistance
-597,1,3331,270,1,597,0,1,2,-5,15,Armor Thermal Resistance
+597,1,3331,267,1,597,0,1,2,-4,15,Armor EM Resistance
+597,1,3331,268,1,597,0,1,2,-4,15,Armor Explosive Resistance
+597,1,3331,269,1,597,0,1,2,-4,15,Armor Kinetic Resistance
+597,1,3331,270,1,597,0,1,2,-4,15,Armor Thermal Resistance
 # Purifier,,,,,,,,,,,
 12038,1,3331,653,2,89;657,0,1,0,10,15,Torpedo Explosion Velocity
 12038,1,3331,281,2,89;657,0,1,0,10,15,Torpedo Flight Time
@@ -1047,10 +1110,10 @@
 11178,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Rattlesnake,,,,,,,,,,,
 17918,0,0,37,2,656;657;386;89;396,0,0,0,50,15,Cruise & Torpedo Velocity
-17918,1,3338,271,1,17918,0,1,2,-5,15,Shield EM Resistance
-17918,1,3338,272,1,17918,0,1,2,-5,15,Shield Explosive Resistance
-17918,1,3338,273,1,17918,0,1,2,-5,15,Shield Kinetic Resistance
-17918,1,3338,274,1,17918,0,1,2,-5,15,Shield Thermal Resistance
+17918,1,3338,271,1,17918,0,1,2,-4,15,Shield EM Resistance
+17918,1,3338,272,1,17918,0,1,2,-4,15,Shield Explosive Resistance
+17918,1,3338,273,1,17918,0,1,2,-4,15,Shield Kinetic Resistance
+17918,1,3338,274,1,17918,0,1,2,-4,15,Shield Thermal Resistance
 17918,1,3336,263,3,18,0,1,0,10,15,Drone Shield HP
 17918,1,3336,265,3,18,0,1,0,10,15,Drone Armor HP
 17918,1,3336,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -1059,14 +1122,14 @@
 638,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 638,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Raven Navy Issue,,,,,,,,,,,
-17636,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
+17636,1,3338,654,2,656;657;386;89;396,0,1,0,5,15,Cruise & Torpedo Explosion Radius
 17636,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Raven State Issue,,,,,,,,,,,
 26840,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
-26840,1,3338,37,2,656;657;386;89,0,1,0,10,15,Cruise & Torpedo Velocity
+26840,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Reaper,,,,,,,,,,,
 588,0,0,37,1,588,0,0,0,10,15,Max Velocity
-588,0,0,37,4,574;577,0,0,0,10,15,Small Projectile Turret Damage
+588,0,0,10016,4,574;577,0,0,0,10,15,Small Projectile Turret Damage
 588,0,0,554,2,379,0,0,0,15,15,Target Painter Effect Sig Radius
 588,0,0,68,2,40;1156,0,0,0,15,15,Shield Booster Boost
 # Redeemer,,,,,,,,,,,
@@ -1076,8 +1139,8 @@
 22428,1,28656,306,2,330,0,1,9,125,8,Cloaked Velocity Bonus
 22428,0,0,560,2,330,0,0,0,-100,15,Sensor Recalibration Time Bonus
 # Republic Fleet Firetail,,,,,,,,,,,
-17812,1,3329,10016,4,574;577,0,1,0,20,15,Small Projectile Turret Tracking
-17812,1,3329,37,4,574;577,0,1,0,7.5,15,Small Projectile Turret Damage
+17812,1,3329,10016,4,574;577,0,1,0,25,15,Small Projectile Turret Damage
+17812,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 # Retribution,,,,,,,,,,,
 11393,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
 11393,1,3331,160,4,567;570,0,1,0,7.5,15,Small Energy Turret Tracking
@@ -1089,7 +1152,7 @@
 17478,0,0,77,4,1040,0,0,0,50,15,Strip Miner Mining Yield
 17478,0,0,73,4,1038,0,0,0,-33.33333333,15,Ice Harvester Duration
 # Revelation,,,,,,,,,,,
-19720,1,20525,6,4,773;774,0,1,0,-10,15,Capital Energy Turret Cap
+19720,1,20525,6,4,773;774,0,1,0,-10,15,Capital Energy Turret Cap Use
 19720,1,20525,10011,4,773;774,0,1,0,-5,15,Capital Energy Turret ROF
 # Revenant,,,,,,,,,,,
 3514,1,24311,37,2,549,0,1,0,10,15,Fighter Max Velocity
@@ -1119,12 +1182,12 @@
 587,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 # Rokh,,,,,,,,,,,
 24688,1,3338,54,4,563;566,0,1,0,10,15,Large Hybrid Turret Optimal Range
-24688,1,3338,271,1,24688,0,1,2,-5,15,Shield EM Resistance
-24688,1,3338,272,1,24688,0,1,2,-5,15,Shield Explosive Resistance
-24688,1,3338,273,1,24688,0,1,2,-5,15,Shield Kinetic Resistance
-24688,1,3338,274,1,24688,0,1,2,-5,15,Shield Thermal Resistance
+24688,1,3338,271,1,24688,0,1,2,-4,15,Shield EM Resistance
+24688,1,3338,272,1,24688,0,1,2,-4,15,Shield Explosive Resistance
+24688,1,3338,273,1,24688,0,1,2,-4,15,Shield Kinetic Resistance
+24688,1,3338,274,1,24688,0,1,2,-4,15,Shield Thermal Resistance
 # Rook,,,,,,,,,,,
-11959,1,3334,6,2,201,0,1,0,-10,15,ECM Capacitor Use
+11959,1,3334,6,2,201,0,1,0,-10,15,ECM Cap Use
 11959,1,3334,51,2,510;771,0,1,0,-5,15,Heavy & Heavy Assault Launcher ROF
 11959,1,22761,238,2,201,0,1,0,30,15,ECM Jam Strength Grav
 11959,1,22761,239,2,201,0,1,0,30,15,ECM Jam Strength Ladar
@@ -1146,8 +1209,8 @@
 629,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 629,1,3333,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
 # Sabre,,,,,,,,,,,
-22456,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
-22456,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
+22456,1,33094,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
+22456,1,33094,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
 22456,1,12098,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
 22456,1,12098,51,1,22782,0,1,0,-10,15,Sphere Launcher ROF
 # Sacrilege,,,,,,,,,,,
@@ -1155,20 +1218,20 @@
 12019,1,3335,116,2,772;654,0,1,0,5,15,Explosive Assault Missile Damage
 12019,1,3335,117,2,772;654,0,1,0,5,15,Kinetic Assault Missile Damage
 12019,1,3335,118,2,772;654,0,1,0,5,15,Thermal Assault Missile Damage
-12019,1,3335,267,1,12019,0,1,2,-5,15,Armor EM Resistance
-12019,1,3335,268,1,12019,0,1,2,-5,15,Armor Explosive Resistance
-12019,1,3335,269,1,12019,0,1,2,-5,15,Armor Kinetic Resistance
-12019,1,3335,270,1,12019,0,1,2,-5,15,Armor Thermal Resistance
+12019,1,3335,267,1,12019,0,1,2,-4,15,Armor EM Resistance
+12019,1,3335,268,1,12019,0,1,2,-4,15,Armor Explosive Resistance
+12019,1,3335,269,1,12019,0,1,2,-4,15,Armor Kinetic Resistance
+12019,1,3335,270,1,12019,0,1,2,-4,15,Armor Thermal Resistance
 12019,1,16591,482,1,12019,0,1,0,5,15,Capacitor Capacity
 12019,1,16591,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile ROF
 # Scimitar,,,,,,,,,,,
 11978,1,3333,87,2,41,0,1,0,150,15,Shield Transporter Range
-11978,1,3333,54,2,209,0,1,0,150,15,Tracking Link Range
+11978,1,3333,54,2,209,0,1,0,150,15,Tracking Link Optimal Range
 11978,1,3333,68,4,842,0,1,0,20,15,Shield Maintenance Bot Transfer
 11978,1,12096,6,2,41,0,1,0,-15,15,Shield Transporter Cap Use
-11978,1,12096,351,2,209,0,1,0,10,15,Tracking Link Optimal Range Bonus
-11978,1,12096,767,2,209,0,1,0,10,15,Tracking Link Tracking Speed Bonus
-11978,1,12096,349,2,209,0,1,0,10,15,Tracking Link Falloff Bonus
+11978,1,12096,351,2,209,0,1,0,10,15,Tracking Link Effect Optimal Range
+11978,1,12096,767,2,209,0,1,0,10,15,Tracking Link Effect Tracking
+11978,1,12096,349,2,209,0,1,0,10,15,Tracking Link Effect Falloff
 11978,0,0,50,2,41,0,0,0,-50,15,Shield Transporter CPU
 # Scorpion,,,,,,,,,,,
 640,1,3338,54,2,201,0,1,0,25,15,ECM Optimal Range
@@ -1184,10 +1247,10 @@
 640,1,3338,142,2,80,0,1,0,25,15,ECM Burst Radius
 # Scorpion Navy Issue,,,,,,,,,,,
 32309,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
-32309,1,3338,271,1,32309,0,1,2,-5,15,Shield EM Resistance
-32309,1,3338,272,1,32309,0,1,2,-5,15,Shield Explosive Resistance
-32309,1,3338,273,1,32309,0,1,2,-5,15,Shield Kinetic Resistance
-32309,1,3338,274,1,32309,0,1,2,-5,15,Shield Thermal Resistance
+32309,1,3338,271,1,32309,0,1,2,-4,15,Shield EM Resistance
+32309,1,3338,272,1,32309,0,1,2,-4,15,Shield Explosive Resistance
+32309,1,3338,273,1,32309,0,1,2,-4,15,Shield Kinetic Resistance
+32309,1,3338,274,1,32309,0,1,2,-4,15,Shield Thermal Resistance
 # Scythe,,,,,,,,,,,
 631,1,3333,6,2,41,0,1,0,-5,15,Shield Transporter Cap Use
 631,1,3333,68,2,41,0,1,0,12.5,15,Shield Transporter Rep Amount
@@ -1195,8 +1258,11 @@
 631,0,0,68,4,842,0,0,0,100,15,Shield Maintenance Bot Transfer
 631,0,0,84,4,842,0,0,0,100,15,Armor Maintenance Bot Transfer
 # Scythe Fleet Issue,,,,,,,,,,,
-29336,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-29336,1,3333,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
+29336,1,3333,10013,4,575;578,0,1,0,-10,15,Medium Projectile Turret ROF
+29336,1,3333,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,EM Missile Damage
+29336,1,3333,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Exp Missile Damage
+29336,1,3333,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Kin Missile Damage
+29336,1,3333,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,1,0,10,15,Therm Missile Damage
 # Sentinel,,,,,,,,,,,
 11190,1,3331,351,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Optimal Range
 11190,1,3331,767,2,291,0,1,0,7.5,15,Tracking Disruptor Effect Tracking
@@ -1224,10 +1290,10 @@
 # Skiff,,,,,,,,,,,
 22546,1,17940,263,1,22546,0,1,0,5,15,Shield HP
 22546,1,17940,72,2,38,0,1,0,5,15,Shield HP (Extenders)
-22546,1,17940,271,1,22546,0,1,2,-5,15,Shield EM Resistance
-22546,1,17940,272,1,22546,0,1,2,-5,15,Shield Explosive Resistance
-22546,1,17940,273,1,22546,0,1,2,-5,15,Shield Kinetic Resistance
-22546,1,17940,274,1,22546,0,1,2,-5,15,Shield Thermal Resistance
+22546,1,17940,271,1,22546,0,1,2,-4,15,Shield EM Resistance
+22546,1,17940,272,1,22546,0,1,2,-4,15,Shield Explosive Resistance
+22546,1,17940,273,1,22546,0,1,2,-4,15,Shield Kinetic Resistance
+22546,1,17940,274,1,22546,0,1,2,-4,15,Shield Thermal Resistance
 22546,1,22551,77,4,1040,0,1,0,1,15,Strip Miner Mining Yield
 22546,1,22551,73,4,1038,0,1,0,-1,15,Ice Harvester Duration
 22546,0,0,77,4,1040,0,0,0,200,15,Strip Miner Mining Yield
@@ -1237,13 +1303,13 @@
 585,1,3329,160,4,574;577,0,1,0,7.5,15,Small Projectile Turret Tracking
 585,0,0,6,2,52;65,0,0,0,-80,15,Propulsion Jamming Cap Use
 # Sleipnir,,,,,,,,,,,
-22444,1,12099,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-22444,1,12099,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
+22444,1,33098,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
+22444,1,33098,68,2,40;1156,0,1,0,7.5,15,Shield Booster Boost
 22444,1,23950,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
 22444,1,23950,158,4,575;578,0,1,0,10,15,Medium Projectile Turret Falloff
 # Stabber,,,,,,,,,,,
 622,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
-622,1,3333,158,4,575;578,0,1,0,7.5,15,Medium Projectile Turret Falloff
+622,1,3333,158,4,575;578,0,1,0,10,15,Medium Projectile Turret Falloff
 # Stabber Fleet Issue,,,,,,,,,,,
 17713,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 17713,1,3333,160,4,575;578,0,1,0,10,15,Medium Projectile Turret Tracking
@@ -1259,10 +1325,10 @@
 17924,1,3330,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Taipan,,,,,,,,,,,
 33081,0,0,37,2,387;648;384;653;394,0,0,0,50,15,Rocket & Light Missile Velocity
-33081,0,0,271,1,33081,0,0,2,-15,15,Shield EM Resistance
-33081,0,0,272,1,33081,0,0,2,-15,15,Shield Explosive Resistance
-33081,0,0,273,1,33081,0,0,2,-15,15,Shield Kinetic Resistance
-33081,0,0,274,1,33081,0,0,2,-15,15,Shield Thermal Resistance
+33081,0,0,271,1,33081,0,0,2,-12,15,Shield EM Resistance
+33081,0,0,272,1,33081,0,0,2,-12,15,Shield Explosive Resistance
+33081,0,0,273,1,33081,0,0,2,-12,15,Shield Kinetic Resistance
+33081,0,0,274,1,33081,0,0,2,-12,15,Shield Thermal Resistance
 33081,0,0,263,3,18,0,0,0,30,15,Drone Shield HP
 33081,0,0,265,3,18,0,0,0,30,15,Drone Armor HP
 33081,0,0,9,3,18,0,0,0,30,15,Drone Hull HP
@@ -1270,15 +1336,15 @@
 33081,0,0,77,3,18,0,0,0,30,15,Drone Mining Yield
 33081,0,0,37,3,18,0,0,0,25,15,Drone MWD Speed
 # Talos,,,,,,,,,,,
-4308,1,12099,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
-4308,1,12099,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking Speed
+4308,1,33097,10015,4,563;566,0,1,0,5,15,Large Hybrid Turret Damage
+4308,1,33097,160,4,563;566,0,1,0,7.5,15,Large Hybrid Turret Tracking
 4308,0,0,30,4,563;566,0,0,0,-95,15,Large Hybrid Turret PG Usage
 4308,0,0,50,4,563;566,0,0,0,-50,15,Large Hybrid Turret CPU Need
 4308,0,0,6,4,563;566,0,0,0,-50,15,Large Hybrid Turret Cap Use
 # Talwar,,,,,,,,,,,
 32878,0,0,37,2,387;648;384;653;394,0,0,0,50,15,Rocket & Light Missile Velocity
-32878,1,12097,116,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Explosive Damage
-32878,1,12097,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
+32878,1,33094,116,2,387;648;384;653;394,0,1,0,5,15,Rocket & Light Missile Explosive Damage
+32878,1,33094,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
 # Taranis,,,,,,,,,,,
 11200,1,3328,10015,4,564;561,0,1,0,10,15,Small Hybrid Turret Damage
 11200,1,12092,554,2,46,0,1,0,-15,15,MWD Signature Radius Penalty
@@ -1304,15 +1370,15 @@
 627,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
 627,1,3332,160,4,562;565,0,1,0,7.5,15,Medium Hybrid Turret Tracking
 # Thrasher,,,,,,,,,,,
-16242,1,12097,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
-16242,1,12097,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
+16242,1,33094,160,4,574;577,0,1,0,10,15,Small Projectile Turret Tracking
+16242,1,33094,10016,4,574;577,0,1,0,5,15,Small Projectile Turret Damage
 16242,0,0,54,4,574;577,0,0,0,50,15,Small Projectile Turret Optimal Range
 # Tormentor,,,,,,,,,,,
-591,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Capacitor
+591,1,3331,6,4,567;570,0,1,0,-10,15,Small Energy Turret Cap Use
 591,1,3331,10014,4,567;570,0,1,0,5,15,Small Energy Turret Damage
 # Tornado,,,,,,,,,,,
-4310,1,12099,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
-4310,1,12099,158,4,576;579,0,1,0,5,15,Large Projectile Turret Falloff
+4310,1,33098,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
+4310,1,33098,158,4,576;579,0,1,0,5,15,Large Projectile Turret Falloff
 4310,0,0,30,4,576;579,0,0,0,-95,15,Large Projectile Turret PG Usage
 4310,0,0,50,4,576;579,0,0,0,-50,15,Large Projectile Turret CPU Need
 # Tristan,,,,,,,,,,,
@@ -1322,16 +1388,36 @@
 593,1,3328,265,3,18,0,1,0,10,15,Drone Armor HP
 593,1,3328,9,3,18,0,1,0,10,15,Drone Hull HP
 # Typhoon,,,,,,,,,,,
-644,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
+644,1,3337,653,2,656;657;386;89;396,0,1,0,5,15,Cruise & Torpedo Explosion Velocity
 644,1,3337,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 # Typhoon Fleet Issue,,,,,,,,,,,
-32311,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
-32311,1,3337,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
+32311,1,3337,10013,4,576;579,0,1,0,-7.5,15,Large Projectile Turret ROF
+32311,1,3337,114,2,656;657;386;89;396,0,1,0,7.5,15,EM Cruise & Torpedo Damage
+32311,1,3337,116,2,656;657;386;89;396,0,1,0,7.5,15,Explosive Cruise & Torpedo Damage
+32311,1,3337,117,2,656;657;386;89;396,0,1,0,7.5,15,Kinetic Cruise & Torpedo Damage
+32311,1,3337,118,2,656;657;386;89;396,0,1,0,7.5,15,Thermal Cruise & Torpedo Damage
+# Utu,,,,,,,,,,,
+2834,1,3328,64,3,18,0,1,0,10,15,Drone Damage
+2834,1,3328,54,2,52,0,1,0,10,15,Warp Scrambler Range
+2834,0,0,54,4,564;561,0,0,0,50,15,Small Hybrid Turret Optimal Range
+2834,0,0,160,4,564;561,0,0,0,50,15,Small Hybrid Turret Tracking
+2834,0,0,1211,7,1211,0,0,0,-50,15,Heat Damage Reduction
 # Vagabond,,,,,,,,,,,
 11999,1,3333,10013,4,575;578,0,1,0,-5,15,Medium Projectile Turret ROF
 11999,1,3333,37,1,11999,0,1,0,5,15,Max Velocity
 11999,1,16591,158,4,575;578,0,1,0,10,15,Medium Projectile Turret Falloff
 11999,1,16591,10016,4,575;578,0,1,0,5,15,Medium Projectile Turret Damage
+# Vangel,,,,,,,,,,,
+3518,1,3335,267,1,3518,0,1,2,-4,15,Armor EM Resistance
+3518,1,3335,268,1,3518,0,1,2,-4,15,Armor Explosive Resistance
+3518,1,3335,269,1,3518,0,1,2,-4,15,Armor Kinetic Resistance
+3518,1,3335,270,1,3518,0,1,2,-4,15,Armor Thermal Resistance
+3518,1,3335,90,2,68,0,1,0,20,15,Nos Drain Amount
+3518,1,3335,97,2,71,0,1,0,20,15,Neut Drain Amount
+3518,1,3335,91,2,68,0,1,0,20,15,Nos Drain Range
+3518,1,3335,98,2,71,0,1,0,20,15,Neut Drain Range
+3518,0,0,84,2,62;1199,0,0,0,50,15,Armor Repair Amount
+3518,0,0,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,-50,15,Missile Launcher ROF
 # Vargur,,,,,,,,,,,
 28665,1,3337,10013,4,576;579,0,1,0,-5,15,Large Projectile Turret ROF
 28665,1,3337,158,4,576;579,0,1,0,10,15,Large Projectile Turret Falloff
@@ -1356,10 +1442,10 @@
 11365,1,3331,117,2,387;648,0,1,0,5,15,Rocket Damage - Kin
 11365,1,3331,118,2,387;648,0,1,0,5,15,Rocket Damage - Therm
 11365,1,3331,51,2,511;862;524;506;510;771;507;508;501;509,0,1,0,-5,15,Missile Launcher ROF
-11365,1,12095,267,1,11365,0,1,2,-5,15,Armor EM Resistance
-11365,1,12095,268,1,11365,0,1,2,-5,15,Armor Explosive Resistance
-11365,1,12095,269,1,11365,0,1,2,-5,15,Armor Kinetic Resistance
-11365,1,12095,270,1,11365,0,1,2,-5,15,Armor Thermal Resistance
+11365,1,12095,267,1,11365,0,1,2,-4,15,Armor EM Resistance
+11365,1,12095,268,1,11365,0,1,2,-4,15,Armor Explosive Resistance
+11365,1,12095,269,1,11365,0,1,2,-4,15,Armor Kinetic Resistance
+11365,1,12095,270,1,11365,0,1,2,-4,15,Armor Thermal Resistance
 11365,1,12095,55,1,11365,0,1,0,-5,15,Capacitor Recharge Rate
 11365,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Venture,,,,,,,,,,,
@@ -1374,7 +1460,8 @@
 626,1,3332,64,3,18,0,1,0,10,15,Drone Damage
 626,1,3332,77,3,18,0,1,0,10,15,Drone Mining Yield
 # Vexor Navy Issue,,,,,,,,,,,
-17843,1,3332,10015,4,562;565,0,1,0,5,15,Medium Hybrid Turret Damage
+17843,1,3332,37,3,18,0,1,0,5,15,Drone MWD Speed
+17843,1,3332,160,3,18,0,1,0,5,15,Drone Tracking
 17843,1,3332,263,3,18,0,1,0,10,15,Drone Shield HP
 17843,1,3332,265,3,18,0,1,0,10,15,Drone Armor HP
 17843,1,3332,9,3,18,0,1,0,10,15,Drone Hull HP
@@ -1402,13 +1489,13 @@
 33083,0,0,158,4,564;561,0,0,0,30,15,Small Hybrid Turret Falloff
 33083,0,0,20,2,65,0,0,0,30,15,Stasis Web Strength
 # Vulture,,,,,,,,,,,
-22446,1,12099,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
-22446,1,12099,271,1,22446,0,1,2,-5,15,Shield EM Resistance
-22446,1,12099,272,1,22446,0,1,2,-5,15,Shield Explosive Resistance
-22446,1,12099,273,1,22446,0,1,2,-5,15,Shield Kinetic Resistance
-22446,1,12099,274,1,22446,0,1,2,-5,15,Shield Thermal Resistance
+22446,1,33096,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
+22446,1,33096,271,1,22446,0,1,2,-4,15,Shield EM Resistance
+22446,1,33096,272,1,22446,0,1,2,-4,15,Shield Explosive Resistance
+22446,1,33096,273,1,22446,0,1,2,-4,15,Shield Kinetic Resistance
+22446,1,33096,274,1,22446,0,1,2,-4,15,Shield Thermal Resistance
 22446,1,23950,54,4,562;565,0,1,0,10,15,Medium Hybrid Turret Optimal Range
-22446,1,23950,833,1,20124;22228;20514;4280;4282;4284,0,1,0,3,15,Siege Warfare Link Bonus
+22446,1,23950,833,4,1636,0,1,0,3,15,Siege Warfare Link Bonus
 22446,0,0,10063,1,22446,0,0,1,2,15,Warfare Link Use
 # Widow,,,,,,,,,,,
 22436,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
@@ -1427,10 +1514,10 @@
 11371,0,0,554,2,46,0,0,0,-50,15,MWD Signature Radius Penalty
 # Worm,,,,,,,,,,,
 17930,0,0,37,2,387;648;384;653;394,0,0,0,50,15,Rocket & Light Missile Velocity
-17930,1,3330,271,1,17930,0,1,2,-5,15,Shield EM Resistance
-17930,1,3330,272,1,17930,0,1,2,-5,15,Shield Explosive Resistance
-17930,1,3330,273,1,17930,0,1,2,-5,15,Shield Kinetic Resistance
-17930,1,3330,274,1,17930,0,1,2,-5,15,Shield Thermal Resistance
+17930,1,3330,271,1,17930,0,1,2,-4,15,Shield EM Resistance
+17930,1,3330,272,1,17930,0,1,2,-4,15,Shield Explosive Resistance
+17930,1,3330,273,1,17930,0,1,2,-4,15,Shield Kinetic Resistance
+17930,1,3330,274,1,17930,0,1,2,-4,15,Shield Thermal Resistance
 17930,1,3328,283,1,17930,0,1,1,5,15,Drone Bay Capacity
 # Wreathe,,,,,,,,,,,
 653,1,3341,10004,1,653,0,1,0,5,15,Cargo Capacity
@@ -1438,10 +1525,10 @@
 # Wyvern,,,,,,,,,,,
 23917,1,24312,91,4,910,0,1,0,50,15,Capital Energy Transfer Range
 23917,1,24312,87,4,600,0,1,0,50,15,Capital Shield Transfer Range
-23917,1,24312,271,1,23917,0,1,2,-5,15,Shield EM Resistance
-23917,1,24312,272,1,23917,0,1,2,-5,15,Shield Explosive Resistance
-23917,1,24312,273,1,23917,0,1,2,-5,15,Shield Kinetic Resistance
-23917,1,24312,274,1,23917,0,1,2,-5,15,Shield Thermal Resistance
+23917,1,24312,271,1,23917,0,1,2,-4,15,Shield EM Resistance
+23917,1,24312,272,1,23917,0,1,2,-4,15,Shield Explosive Resistance
+23917,1,24312,273,1,23917,0,1,2,-4,15,Shield Kinetic Resistance
+23917,1,24312,274,1,23917,0,1,2,-4,15,Shield Thermal Resistance
 23917,1,24312,10005,1,23917,0,1,1,3,15,Fighter Control Bonus
 23917,1,24312,10063,1,23917,0,1,1,1,15,Warfare Link Bonus
 # Zealot,,,,,,,,,,,

@@ -3,7 +3,7 @@
 1083,1,21606,265,3,6,0,0,0,Armor,Inherent Implants 'Noble' Hull Upgrades HG-1008
 1083,1,21606,1159,2,329,0,0,0,Armor,Inherent Implants 'Noble' Hull Upgrades HG-1008
 1083,1,13209,265,3,6,0,0,1,Armor,Armored Warfare Mindlink
-884,1,13209,833,1,20069;20409;22227;4262;4264;4266,0,0,0,Gang,Armored Warfare Mindlink
+884,1,13209,833,4,1634,0,0,0,Gang,Armored Warfare Mindlink
 548,1,20121,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Alpha
 548,1,20157,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Beta
 548,1,20159,68,4,609;610;611;612;760,0,0,0,Shield;Learning,Crystal Delta
@@ -250,8 +250,10 @@
 846,1,27188,1371,2,479,0,0,0,Science,Poteque 'Prospector' Astrometric Rangefinding AR-806
 846,1,27194,1371,2,479,0,0,0,Science,Poteque 'Prospector' Astrometric Rangefinding AR-810
 1160,1,27196,902,1,22177;30832,0,0,0,Science,Poteque 'Prospector' Archaeology AC-905
-1160,1,27197,902,1,22175;30834,0,0,0,Science,Poteque 'Prospector' Hacking HC-905
-902,1,27198,902,1,25861;30836,0,0,0,Science,Poteque 'Prospector' Salvaging SV-905
+1915,1,27196,1909,1,22177;30832,1,0,0,Science,Poteque 'Prospector' Archaeology AC-905
+1160,1,27197,902,1,22175;30834;3581,0,0,0,Science,Poteque 'Prospector' Hacking HC-905
+1915,1,27197,1909,1,22175;30834;3581,1,0,0,Science,Poteque 'Prospector' Hacking HC-905
+902,1,27198,902,4,1715,0,0,0,Science,Poteque 'Prospector' Salvaging SV-905
 66,1,27260,73,2,538,0,0,0,Science,Poteque 'Prospector' Environmental Analysis EY-1005
 #,1,27170,,,,,0,0,Industry,Zainou 'Beancounter' Industry BX-801
 #,1,27167,,,,,0,0,Industry,Zainou 'Beancounter' Industry BX-802
@@ -436,12 +438,12 @@
 547,1,3156,37,2,88;1158,0,0,0,Missiles,Zainou 'Snapshot' Defender Missiles DM-806
 547,1,27244,37,2,88;1158,0,0,0,Missiles,Zainou 'Snapshot' Defender Missiles DM-801
 547,1,3152,37,2,88;1158,0,0,0,Missiles,Zainou 'Snapshot' Defender Missiles DM-802
-292,1,27109,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Assault Missiles AM-703
-292,1,3158,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Assault Missiles AM-704
-292,1,27245,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Assault Missiles AM-705
-292,1,3159,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Assault Missiles AM-706
-292,1,27246,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Assault Missiles AM-701
-292,1,3157,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Assault Missiles AM-702
+292,1,27109,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Heavy Assault Missiles AM-703
+292,1,3158,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Heavy Assault Missiles AM-704
+292,1,27245,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Heavy Assault Missiles AM-705
+292,1,3159,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Heavy Assault Missiles AM-706
+292,1,27246,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Heavy Assault Missiles AM-701
+292,1,3157,114;116;117;118,2,654;772,0,0,0,Missiles,Zainou 'Snapshot' Heavy Assault Missiles AM-702
 848,1,13228,654,2,394;395;396,0,0,0,Missiles,Zainou 'Snapshot' FOF Explosion Radius FR-1003
 848,1,3161,654,2,394;395;396,0,0,0,Missiles,Zainou 'Snapshot' FOF Explosion Radius FR-1004
 848,1,27247,654,2,394;395;396,0,0,0,Missiles,Zainou 'Snapshot' FOF Explosion Radius FR-1005
@@ -485,12 +487,12 @@
 1083,1,32254,265,3,6,0,0,0,Armor,Imperial Navy Modified 'Noble' Implant
 1083,1,22760,265,3,6,0,0,0,Armor,Imperial Special Ops Field Enhancer - Standard
 309,1,21889,76,3,6,0,0,1,Electronics,Information Warfare Mindlink
-884,1,21889,833,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1310,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1320,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1321,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1322,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
-884,1,21889,1323,1,20406;20405;11052;4268;4270;4272,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,833,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1310,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1320,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1321,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1322,4,1635,0,0,0,Gang,Information Warfare Mindlink
+884,1,21889,1323,4,1635,0,0,0,Gang,Information Warfare Mindlink
 1028,1,31974,209,3,6,0,0,0,Electronics;Learning,Jackal Alpha
 1028,1,31975,209,3,6,0,0,0,Electronics;Learning,Jackal Beta
 1028,1,31976,209,3,6,0,0,0,Electronics;Learning,Jackal Delta
@@ -598,7 +600,7 @@
 #,1,,,,,,0,0,Learning,#Memory Augmentation - Standard
 434,1,20700,77,4,1039;464;1040,0,0,0,Industry,Michi's Excavation Augmentor
 434,1,22559,77,2,54;464;483,0,0,1,Industry,Mining Foreman Mindlink
-884,1,22559,833,1,22553;22555;22557;4274;4276;4278,0,0,0,Gang,Mining Foreman Mindlink
+884,1,22559,833,4,1638,0,0,0,Gang,Mining Foreman Mindlink
 #,1,,,,,,0,0,Learning,#Neural Boost - Advanced
 #,1,,,,,,0,0,Learning,#Neural Boost - Basic
 #,1,,,,,,0,0,Learning,#Neural Boost - Elite
@@ -619,9 +621,9 @@
 338,1,32255,479,3,6,0,0,0,Shield,Sansha Modified 'Gnome' Implant
 1076,1,24669,37,3,6,0,0,0,Navigation,Shaqil's Speed Enhancer
 337,1,21888,263,3,6,0,0,1,Shield,Siege Warfare Mindlink
-884,1,21888,833,1,20124;22228;20514;4280;4282;4284,0,0,0,Gang,Siege Warfare Mindlink
+884,1,21888,833,4,1636,0,0,0,Gang,Siege Warfare Mindlink
 151,1,21890,70,3,6,0,0,1,Navigation,Skirmish Warfare Mindlink
-884,1,21890,833,1,20070;11017;20408;4286;4288;4290,0,0,0,Gang,Skirmish Warfare Mindlink
+884,1,21890,833,4,1637,0,0,0,Gang,Skirmish Warfare Mindlink
 335,1,20499,265,3,6,0,0,0,Armor;Learning,Slave Alpha
 335,1,20499,1159,2,329,0,0,0,Armor;Learning,Slave Alpha
 335,1,20501,265,3,6,0,0,0,Armor;Learning,Slave Beta
