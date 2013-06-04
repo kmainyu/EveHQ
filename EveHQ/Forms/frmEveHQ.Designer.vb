@@ -374,9 +374,9 @@ Partial Public Class frmEveHQ
         '
         Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonControl1.CaptionVisible = True
+        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Controls.Add(Me.rpCore)
         Me.RibbonControl1.Controls.Add(Me.rpPlugins)
-        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
         Me.RibbonControl1.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.rtiCore, Me.rtiPlugins, Me.rtiReports, Me.btnTheme})
         Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
@@ -435,6 +435,7 @@ Partial Public Class frmEveHQ
         '
         Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpCore.TabIndex = 1
+        Me.rpCore.Visible = False
         '
         'rbHelp
         '
@@ -991,7 +992,6 @@ Partial Public Class frmEveHQ
         '
         Me.rpReports.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpReports.TabIndex = 3
-        Me.rpReports.Visible = False
         '
         'rbCharts
         '
@@ -1686,7 +1686,6 @@ Partial Public Class frmEveHQ
         '
         'rtiCore
         '
-        Me.rtiCore.Checked = True
         Me.rtiCore.Name = "rtiCore"
         Me.rtiCore.Panel = Me.rpCore
         Me.rtiCore.Text = "Core"
@@ -1699,6 +1698,7 @@ Partial Public Class frmEveHQ
         '
         'rtiReports
         '
+        Me.rtiReports.Checked = True
         Me.rtiReports.Name = "rtiReports"
         Me.rtiReports.Panel = Me.rpReports
         Me.rtiReports.Text = "Reports"
