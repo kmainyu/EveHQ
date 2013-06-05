@@ -31,6 +31,9 @@ Partial Class frmQuickInventionChance
         Me.ComboItem31 = New DevComponents.Editors.ComboItem
         Me.ComboItem32 = New DevComponents.Editors.ComboItem
         Me.ComboItem33 = New DevComponents.Editors.ComboItem
+        Me.ComboItem34 = New DevComponents.Editors.ComboItem
+        Me.ComboItem36 = New DevComponents.Editors.ComboItem
+        Me.ComboItem37 = New DevComponents.Editors.ComboItem
         Me.lblInventionChance = New DevComponents.DotNetBar.LabelX
         Me.lblDecryptor = New DevComponents.DotNetBar.LabelX
         Me.cboDecryptor = New DevComponents.DotNetBar.Controls.ComboBoxEx
@@ -198,7 +201,7 @@ Partial Class frmQuickInventionChance
         Me.cboDecryptor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
         Me.cboDecryptor.FormattingEnabled = True
         Me.cboDecryptor.ItemHeight = 15
-        Me.cboDecryptor.Items.AddRange(New Object() {Me.ComboItem23, Me.ComboItem24, Me.ComboItem25, Me.ComboItem26, Me.ComboItem27, Me.ComboItem28})
+        Me.cboDecryptor.Items.AddRange(New Object() {Me.ComboItem23, Me.ComboItem24, Me.ComboItem37, Me.ComboItem25, Me.ComboItem26, Me.ComboItem27, Me.ComboItem34, Me.ComboItem28, Me.ComboItem36})
         Me.cboDecryptor.Location = New System.Drawing.Point(109, 147)
         Me.cboDecryptor.Name = "cboDecryptor"
         Me.cboDecryptor.Size = New System.Drawing.Size(173, 21)
@@ -228,6 +231,18 @@ Partial Class frmQuickInventionChance
         'ComboItem28
         '
         Me.ComboItem28.Text = "1.8x (+4r -5ME -2PE)"
+        '
+        'ComboItem34
+        '
+        Me.ComboItem34.Text = "1.5x (+3r +1ME -1PE)"
+        '
+        'ComboItem36
+        '
+        Me.ComboItem36.Text = "1.9x (+2r +1ME -1PE)"
+        '
+        'ComboItem37
+        '
+        Me.ComboItem37.Text = "0.9x (+7r +2ME +0PE)"
         '
         'LabelX3
         '
@@ -627,4 +642,7 @@ Partial Class frmQuickInventionChance
     Friend WithEvents lblSuccess As DevComponents.DotNetBar.LabelX
     Friend WithEvents lblAttempts As DevComponents.DotNetBar.LabelX
     Friend WithEvents lblProbability As DevComponents.DotNetBar.LabelX
+    Friend WithEvents ComboItem34 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem36 As DevComponents.Editors.ComboItem
+    Friend WithEvents ComboItem37 As DevComponents.Editors.ComboItem
 End Class

@@ -790,12 +790,22 @@ Public Class frmEveHQ
 
     Private Sub CheckNotifications()
 
+        'Mitigation for EVEHQ-92 ... null check the pilots collection before trying to use it.
+        If HQ.EveHQSettings.Pilots Is Nothing Then
+            Return
+        End If
+
         ' Only do this if at least one notification is enabled
         If _
             HQ.EveHqSettings.NotifyToolTip = True Or HQ.EveHqSettings.NotifyDialog = True Or
             HQ.EveHqSettings.NotifyEMail = True Or HQ.EveHqSettings.NotifySound = True Then
             Dim notifyText As String = ""
-            For Each cPilot As Pilot In HQ.EveHqSettings.Pilots
+
+            If HQ.EveHQSettings.Pilots.Count = 0 Then
+                Return ' no pilots not reason to continue.
+            End If
+
+ For Each cPilot As Pilot In HQ.EveHQSettings.Pilots
                 If cPilot.Active = True And cPilot.Training = True Then
                     notifyText = ""
                     Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
@@ -3429,5 +3439,7 @@ Public Class frmEveHQ
         Call DataFunctions.LoadStations()
         Call DataFunctions.CreateCoreCache()
     End Sub
+
+   
 End Class
 

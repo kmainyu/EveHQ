@@ -513,3 +513,12 @@ Public Enum BPType As Integer
     BPC = 2
     User = 3
 End Enum
+
+Public Enum BPActivity As Integer
+    Manufacturing = 1
+    TimeResearch = 3
+    MaterialResearch = 4
+    Copying = 5
+    ReverseEngineering = 7
+    Invention = 8
+End Enum

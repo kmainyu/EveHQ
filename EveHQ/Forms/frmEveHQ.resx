@@ -190,6 +190,9 @@
   <metadata name="tmrMemory.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>157, 56</value>
   </metadata>
+  <metadata name="SuperTooltip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>560, 17</value>
+  </metadata>
   <data name="btnInfoHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -217,9 +220,6 @@
         k7fSqD/9+Q8jk/0N3Wf3dr8PADEAAAAASUVORK5CYII=
 </value>
   </data>
-  <metadata name="SuperTooltip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>560, 17</value>
-  </metadata>
   <metadata name="AppCommandTheme.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>820, 17</value>
   </metadata>
@@ -294,6 +294,12 @@
         AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=
 </value>
   </data>
+  <metadata name="SuperTooltip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>560, 17</value>
+  </metadata>
+  <metadata name="StyleManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>438, 56</value>
+  </metadata>
   <metadata name="EveStatusIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>308, 17</value>
   </metadata>
@@ -362,7 +368,4 @@
         AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAA=
 </value>
   </data>
-  <metadata name="StyleManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>438, 56</value>
-  </metadata>
 </root>

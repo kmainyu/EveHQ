@@ -185,8 +185,8 @@ Partial Public Class frmEveHQ
         Me.lblCharAPITime = New DevComponents.DotNetBar.LabelItem()
         Me.lblEveTime = New DevComponents.DotNetBar.LabelItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
-        Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
         Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
+        Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
         Me.rpPlugins.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
@@ -374,9 +374,9 @@ Partial Public Class frmEveHQ
         '
         Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonControl1.CaptionVisible = True
+        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Controls.Add(Me.rpCore)
         Me.RibbonControl1.Controls.Add(Me.rpPlugins)
-        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
         Me.RibbonControl1.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.rtiCore, Me.rtiPlugins, Me.rtiReports, Me.btnTheme})
         Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
@@ -435,6 +435,7 @@ Partial Public Class frmEveHQ
         '
         Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpCore.TabIndex = 1
+        Me.rpCore.Visible = False
         '
         'rbHelp
         '
@@ -991,7 +992,6 @@ Partial Public Class frmEveHQ
         '
         Me.rpReports.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rpReports.TabIndex = 3
-        Me.rpReports.Visible = False
         '
         'rbCharts
         '
@@ -1686,7 +1686,6 @@ Partial Public Class frmEveHQ
         '
         'rtiCore
         '
-        Me.rtiCore.Checked = True
         Me.rtiCore.Name = "rtiCore"
         Me.rtiCore.Panel = Me.rpCore
         Me.rtiCore.Text = "Core"
@@ -1699,6 +1698,7 @@ Partial Public Class frmEveHQ
         '
         'rtiReports
         '
+        Me.rtiReports.Checked = True
         Me.rtiReports.Name = "rtiReports"
         Me.rtiReports.Panel = Me.rpReports
         Me.rtiReports.Text = "Reports"
@@ -2153,6 +2153,11 @@ Partial Public Class frmEveHQ
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.SuperTooltip1.PositionBelowControl = False
         '
+        'StyleManager1
+        '
+        Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
+        Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
+        '
         'EveStatusIcon
         '
         Me.EveStatusIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.None
@@ -2161,11 +2166,6 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.ContextMenuStrip = Me.EveIconMenu
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
-        '
-        'StyleManager1
-        '
-        Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
-        Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
         '
         'frmEveHQ
         '

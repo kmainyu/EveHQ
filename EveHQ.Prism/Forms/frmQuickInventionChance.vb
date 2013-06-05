@@ -108,13 +108,19 @@ Public Class frmQuickInventionChance
             Case 1
                 DecryptorModifier = 0.6
             Case 2
-                DecryptorModifier = 1
+                DecryptorModifier = 0.9
             Case 3
-                DecryptorModifier = 1.1
+                DecryptorModifier = 1
             Case 4
-                DecryptorModifier = 1.2
+                DecryptorModifier = 1.1
             Case 5
+                DecryptorModifier = 1.2
+            Case 6
+                DecryptorModifier = 1.5
+            Case 7
                 DecryptorModifier = 1.8
+            Case 8
+                DecryptorModifier = 1.9
         End Select
 
         InventionChance = Invention.CalculateInventionChance(BaseChance, EncSkillLevel, DC1SkillLevel, DC2SkillLevel, MetaLevel, DecryptorModifier)
