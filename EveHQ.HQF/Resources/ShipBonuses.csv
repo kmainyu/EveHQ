@@ -233,7 +233,7 @@
 621,1,3334,37,2,654;655;653;772;385;384;394;395,0,1,0,10,15,"Light, Heavy & HAM Velocity"
 # Caracal Navy Issue,,,,,,,,,,,
 17634,1,3334,51,2,511;510;771,0,1,0,-5,15,"Rapid Light, Heavy & HAM Launcher ROF"
-17634,1,3334,654,2,385;655;772;654;395,0,1,0,5,15,Heavy & HAM Explosion Radius
+17634,1,3334,654,2,385;655;772;654;395,0,1,0,-5,15,Heavy & HAM Explosion Radius
 # Catalyst,,,,,,,,,,,
 16240,1,33093,160,4,561;564,0,1,0,10,15,Small Hybrid Turret Tracking
 16240,1,33093,158,4,561;564,0,1,0,10,15,Small Hybrid Turret Falloff
@@ -396,7 +396,7 @@
 24698,1,33096,274,1,24698,0,1,2,-4,15,Shield Thermal Resistance
 # Drake Navy Issue,,,,,,,,,,,
 33153,1,33096,37,2,385;655;772;654;395,0,1,0,10,15,Heavy & HAM Velocity
-33153,1,33096,654,2,385;655;772;654;395,0,1,0,5,15,Heavy & HAM Explosion Radius
+33153,1,33096,654,2,385;655;772;654;395,0,1,0,-5,15,Heavy & HAM Explosion Radius
 # Dramiel,,,,,,,,,,,
 17932,0,0,10016,4,574;577,0,0,0,100,15,Small Projectile Turret Damage
 17932,1,3329,158,4,574;577,0,1,0,10,15,Small Projectile Turret Falloff
@@ -1122,7 +1122,7 @@
 638,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
 638,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Raven Navy Issue,,,,,,,,,,,
-17636,1,3338,654,2,656;657;386;89;396,0,1,0,5,15,Cruise & Torpedo Explosion Radius
+17636,1,3338,654,2,656;657;386;89;396,0,1,0,-5,15,Cruise & Torpedo Explosion Radius
 17636,1,3338,37,2,656;657;386;89;396,0,1,0,10,15,Cruise & Torpedo Velocity
 # Raven State Issue,,,,,,,,,,,
 26840,1,3338,51,2,506;508,0,1,0,-5,15,Cruise & Torpedo Launcher ROF
