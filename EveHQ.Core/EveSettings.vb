@@ -124,7 +124,7 @@ Public Class EveSettings
     Private cAPIRSAddress As String = ""
     Private cUseAPIRS As Boolean = False
     Private cUseCCPAPIBackup As Boolean = False
-    Private cUpdateURL As String = "http://evehq.net/updatev2/"
+    Private cUpdateURL As String = "http://evehq.net/betaupdate/"
     Private cOmitCurrentSkill As Boolean = False
     Private cUseAppDirectoryForDB As Boolean = False
     Private cAPIFileExtension As String = "aspx"
@@ -2193,8 +2193,8 @@ Public Class EveHQSettingsFunctions
         If ShowRawData = False Then
 
             ' Reset the update URL to a temp location
-            If HQ.EveHqSettings.UpdateURL <> "http://evehq.net/updatev2/" Then
-                HQ.EveHqSettings.UpdateURL = "http://evehq.net/updatev2/"
+            If HQ.EveHqSettings.UpdateURL <> "http://evehq.net/betaupdate/" Then
+                HQ.EveHqSettings.UpdateURL = "http://evehq.net/betaupdate/"
             End If
 
             ' Check if we were using a v1 database and see if we can automatically set it to v2
