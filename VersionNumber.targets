@@ -3,7 +3,7 @@
     <IsReleaseBuild>true</IsReleaseBuild>
   </PropertyGroup>
   <PropertyGroup>
-    <VersionPreRelease>Debug$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
+    <VersionPreRelease>Beta$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
     <SemanticVersionText>2.12.0</SemanticVersionText>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
