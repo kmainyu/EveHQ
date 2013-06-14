@@ -115,7 +115,7 @@ Partial Class ShipWidget
         '
         'pbGangLinks
         '
-        Me.pbGangLinks.Image = Global.EveHQ.HQF.My.Resources.Resources._53_16
+        Me.pbGangLinks.Image = Global.EveHQ.HQF.My.Resources.Resources.imgGanglink
         Me.pbGangLinks.Location = New System.Drawing.Point(140, 2)
         Me.pbGangLinks.Name = "pbGangLinks"
         Me.pbGangLinks.Size = New System.Drawing.Size(32, 32)

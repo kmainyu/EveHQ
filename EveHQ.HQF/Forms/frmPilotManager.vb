@@ -512,7 +512,7 @@ Public Class frmPilotManager
                         End If
                     End If
                 End If
-            End If     
+            End If
         Next
         tvwImplants.EndUpdate()
     End Sub

@@ -1207,7 +1207,12 @@ Public Class frmHQF
                     newModule.Cells(4).TextDisplayFormat = "N2"
                     newModule.Style = New DevComponents.DotNetBar.ElementStyle
                     newModule.Style.Font = Me.Font
-                    newModule.Image = ImageHandler.IconImage24(shipmod.Icon, shipmod.MetaType)
+                    ' Create drone icons individually because drones have no iconID
+                    If shipmod.IsDrone = True Then
+                        newModule.Image = ImageHandler.CreateIcon(shipmod.ID, shipmod.MetaType.ToString, 24, True)
+                    Else
+                        newModule.Image = ImageHandler.IconImage24(shipmod.Icon, shipmod.MetaType)
+                    End If
                     Dim stt As New DevComponents.DotNetBar.SuperTooltipInfo
                     stt.HeaderText = shipmod.Name
                     stt.BodyText = ""
@@ -1220,7 +1225,12 @@ Public Class frmHQF
                     stt.BodyText &= shipmod.Description
                     stt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
                     'stt.FooterImage = CType(My.Resources.imgInfo1, Image)
-                    stt.BodyImage = ImageHandler.IconImage48(shipmod.Icon, shipmod.MetaType)
+                    ' Create drone icons individually because drones have no iconID
+                    If shipmod.IsDrone = True Then
+                        stt.BodyImage = ImageHandler.CreateIcon(shipmod.ID, shipmod.MetaType.ToString, 48, True)
+                    Else
+                        stt.BodyImage = ImageHandler.IconImage48(shipmod.Icon, shipmod.MetaType)
+                    End If
                     SuperTooltip1.SetSuperTooltip(newModule, stt)
                     Select Case shipmod.SlotType
                         Case SlotTypes.Subsystem

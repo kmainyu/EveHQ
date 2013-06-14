@@ -542,7 +542,7 @@ Partial Class ShipInfoControl
         'pbLogistics
         '
         Me.pbLogistics.BackColor = System.Drawing.Color.Transparent
-        Me.pbLogistics.Image = Global.EveHQ.HQF.My.Resources.Resources._01_16
+        Me.pbLogistics.Image = Global.EveHQ.HQF.My.Resources.Resources.imgLogistics
         Me.pbLogistics.Location = New System.Drawing.Point(5, 58)
         Me.pbLogistics.Name = "pbLogistics"
         Me.pbLogistics.Size = New System.Drawing.Size(24, 24)

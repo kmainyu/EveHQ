@@ -322,11 +322,13 @@ Public Class PlugInData
         ImageHandler.BaseIcons.Clear()
         Dim IconList As New List(Of String)
         For Each sMod As ShipModule In ModuleLists.moduleList.Values
-            If sMod.Icon <> "" Then
-                If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                    Dim OI As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Drawing.Bitmap)
-                    If OI IsNot Nothing Then
-                        ImageHandler.BaseIcons.Add(sMod.Icon, OI)
+            If sMod.MetaType = MetaTypes.Tech1 Or sMod.MetaType = MetaTypes.Tech3 Then
+                If sMod.Icon <> "" Then
+                    If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
+                        Dim OI As Drawing.Bitmap = CType(EveHQ.Core.ImageHandler.GetImage(sMod.ID, 64, sMod.Icon), Drawing.Bitmap)
+                        If OI IsNot Nothing Then
+                            ImageHandler.BaseIcons.Add(sMod.Icon, OI)
+                        End If
                     End If
                 End If
             End If
@@ -935,7 +937,7 @@ Public Class PlugInData
                     newModule.RaceID = 0
                 End If
                 newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
-                newModule.Icon = row.Item("iconFile").ToString
+                newModule.Icon = row.Item("iconFile").ToString.Replace("res:/UI/Texture/Icons/", "").Replace(".png", "")
                 If IsDBNull(row.Item("marketGroupID")) = False Then
                     newModule.MarketGroup = row.Item("marketGroupID").ToString
                 Else
@@ -1264,22 +1266,22 @@ Public Class PlugInData
                         If cMod.Attributes.ContainsKey(Attributes.Module_TechLevel) = True Then
                             Select Case CInt(cMod.Attributes(Attributes.Module_TechLevel))
                                 Case 1
-                                    cMod.MetaType = CInt(2 ^ 0)
+                                    cMod.MetaType = MetaTypes.Tech1
                                 Case 2
-                                    cMod.MetaType = CInt(2 ^ 1)
+                                    cMod.MetaType = MetaTypes.Tech2
                                 Case 3
-                                    cMod.MetaType = CInt(2 ^ 13)
+                                    cMod.MetaType = MetaTypes.Tech3
                                 Case Else
-                                    cMod.MetaType = CInt(2 ^ 0)
+                                    cMod.MetaType = MetaTypes.Tech1
                             End Select
                         Else
-                            cMod.MetaType = 1
+                            cMod.MetaType = MetaTypes.Tech1
                         End If
                     Else
                         cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.moduleMetaGroups(cMod.ID)) - 1))
                     End If
                 Else
-                    cMod.MetaType = 1
+                    cMod.MetaType = MetaTypes.Tech1
                 End If
             Next
             ' Build charge data

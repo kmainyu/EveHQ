@@ -38,7 +38,7 @@ Public Class ImageHandler
             Return Path.Combine(EveHQ.Core.HQ.imageCacheFolder, TypeID & ".png")
         Else
             ' Calculate the remote URL
-            Dim remoteURL As String = "http://image.eveonline.com/Type/" & TypeID & "_64.png"
+            Dim remoteURL As String = GetRawImageLocation(TypeID)
             ' Download the image
             Threading.ThreadPool.QueueUserWorkItem(AddressOf DownloadImage, New Object() {remoteURL, TypeID})
             ' Return the image location
@@ -47,17 +47,20 @@ Public Class ImageHandler
 
     End Function
 
-    Public Shared Function GetImage(ByVal TypeID As String, Optional ByVal ImageSize As Integer = 64) As Image
+    Public Shared Function GetImage(ByVal TypeID As String, Optional ByVal ImageSize As Integer = 64, Optional ByVal FileName As String = "") As Image
         Try
+            If FileName = "" Then
+                FileName = TypeID
+            End If
             ' Check EveHQ image cache folder for the image
-            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, TypeID & ".png")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, FileName & ".png")) = True Then
                 ' Return the cached image location
-                Return CType(New Bitmap(Image.FromFile(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, TypeID & ".png")), ImageSize, ImageSize), Image)
+                Return CType(New Bitmap(Image.FromFile(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, FileName & ".png")), ImageSize, ImageSize), Image)
             Else
                 ' Calculate the remote URL
-                Dim remoteURL As String = "http://image.eveonline.com/Type/" & TypeID & "_64.png"
+                Dim remoteURL As String = GetRawImageLocation(TypeID)
                 ' Download the image
-                Dim dlImage As Image = DownloadImage(New Object() {remoteURL, TypeID})
+                Dim dlImage As Image = DownloadImage(New Object() {remoteURL, FileName})
                 If dlImage IsNot Nothing Then
                     Return CType(New Bitmap(dlImage, ImageSize, ImageSize), Image)
                 Else

@@ -590,6 +590,16 @@ Imports System.Runtime.Serialization
 
 End Class
 
+Public Enum MetaTypes As Integer
+    Tech1 = 1
+    Tech2 = 2
+    Storyline = 4
+    Faction = 8
+    Officer = 16
+    Deadspace = 32
+    Tech3 = 8192
+End Enum
+
 <Serializable()> Public Class ModuleLists
     Public Shared moduleMetaTypes As New SortedList
     Public Shared moduleMetaGroups As New SortedList
