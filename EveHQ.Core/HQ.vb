@@ -128,11 +128,11 @@ Public Class HQ
         Get
             If _marketStatDataProvider Is Nothing Then
                 ' Initialize based on settings
-                'If (EveHqSettings.MarketDataProvider = "Element43") Then
-                '    _marketStatDataProvider = New Element43MarketStatDataProvider(Path.Combine(HQ.AppDataFolder, "Market\Element43"))
-                'Else
-                _marketStatDataProvider = GetEveCentralMarketInstance(HQ.AppDataFolder)
-                'End If
+                If (EveHqSettings.MarketDataProvider = EveCentralMarketDataProvider.Name) Then
+                    _marketStatDataProvider = GetEveCentralMarketInstance(HQ.AppDataFolder)
+                Else
+                    _marketStatDataProvider = GetEveHqMarketInstance(HQ.AppDataFolder)
+                End If
             End If
             Return _marketStatDataProvider
         End Get
@@ -290,7 +290,7 @@ Public Class HQ
     End Sub
 
     Private Shared EveCentralProvider As EveCentralMarketDataProvider
-    Private Shared Function GetEveCentralMarketInstance(appDataFolder As String) As EveCentralMarketDataProvider
+    Public Shared Function GetEveCentralMarketInstance(appDataFolder As String) As EveCentralMarketDataProvider
         If EveCentralProvider Is Nothing Then
             If (EveHqSettings.ProxyRequired) Then
                 EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), New UriBuilder(EveHqSettings.ProxyServer).Uri, EveHqSettings.ProxyUseDefault, EveHqSettings.ProxyUsername, EveHqSettings.ProxyPassword, EveHqSettings.ProxyUseBasic)
@@ -300,6 +300,19 @@ Public Class HQ
         End If
         Return EveCentralProvider
     End Function
+
+    Private Shared EveHqProvider As EveHqMarketDataProvider
+    Public Shared Function GetEveHqMarketInstance(appDataFolder As String) As EveHqMarketDataProvider
+        If EveHqProvider Is Nothing Then
+            If (EveHqSettings.ProxyRequired) Then
+                EveHqProvider = New EveHqMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveHq"), New UriBuilder(EveHqSettings.ProxyServer).Uri, EveHqSettings.ProxyUseDefault, EveHqSettings.ProxyUsername, EveHqSettings.ProxyPassword, EveHqSettings.ProxyUseBasic)
+            Else
+                EveHqProvider = New EveHqMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveHq"))
+            End If
+        End If
+        Return EveHqProvider
+    End Function
+
 End Class
 
 Class ListViewItemComparerA

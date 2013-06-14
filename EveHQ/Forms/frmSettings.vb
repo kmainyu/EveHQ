@@ -23,6 +23,7 @@ Imports DevComponents.AdvTree
 Imports System.Net.Mail
 Imports System.IO
 Imports EveHQ.Market
+Imports EveHQ.Market.MarketServices
 Imports Microsoft.Win32
 Imports System.Windows.Forms.VisualStyles
 Imports System.Net
@@ -2187,12 +2188,13 @@ Public Class frmSettings
     End Sub
 
     Private Sub UpdateMarketProviderList()
-        For Each provider As String In [Enum].GetNames(GetType(EveHQ.Market.MarketProviders))
-            _marketDataProvider.Items.Add(provider)
-        Next
+
+        _marketDataProvider.Items.Add(EveHqMarketDataProvider.Name)
+        _marketDataProvider.Items.Add(EveCentralMarketDataProvider.Name)
+
 
         ' Set selected to the current setting.
-        _marketDataProvider.SelectedItem = HQ.EveHqSettings.MarketDataProvider
+        _marketDataProvider.SelectedItem = HQ.MarketStatDataProvider.ProviderName
 
         enableMarketDataUpload.Checked = HQ.EveHqSettings.MarketDataUploadEnabled
     End Sub
@@ -2234,14 +2236,35 @@ Public Class frmSettings
     Private Sub UpdateDataSourceList()
 
         _regionList.Items.Clear()
-        For Each region As EveGalaticRegion In HQ.Regions.Values
-            _regionList.Items.Add(region.Name)
-        Next
+
+        If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
+            For Each region As EveGalaticRegion In HQ.Regions.Values
+                _regionList.Items.Add(region.Name)
+            Next
+
+        Else
+            For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
+                Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region).FirstOrDefault()
+                If (temp isnot Nothing) Then
+                    _regionList.Items.Add(temp.Name)
+                End If
+            Next
+        End If
 
         _systemList.Items.Clear()
-        For Each system As SolarSystem In HQ.SolarSystemsByName.Values
-            _systemList.Items.Add(system.Name)
-        Next
+        If (HQ.MarketStatDataProvider.LimitedSystemSelection = False) Then
+            For Each system As SolarSystem In HQ.SolarSystemsByName.Values
+                _systemList.Items.Add(system.Name)
+            Next
+
+        Else
+            For Each systemId As Integer In HQ.MarketStatDataProvider.SupportedSystems
+                Dim temp As SolarSystem
+                If (HQ.SolarSystemsById.TryGetValue(systemId.ToInvariantString(), temp)) Then
+                    _systemList.Items.Add(temp.Name)
+                End If
+            Next
+        End If
 
         If HQ.EveHqSettings.MarketUseRegionMarket = True Then
             _useRegionData.Checked = True
@@ -2491,6 +2514,21 @@ Public Class frmSettings
         HQ.EveHqSettings.MarketStatOverrides.Remove(itemID)
         UpdateActiveOverrides()
 
+    End Sub
+
+
+
+    Private Sub OnMarketProviderChanged(sender As System.Object, e As System.EventArgs) Handles _marketDataProvider.SelectedIndexChanged
+        ChangeMarketProvider(_marketDataProvider.SelectedItem.ToString())
+        UpdateDataSourceList()
+    End Sub
+
+    Private Sub ChangeMarketProvider(providerName As String)
+        If (providerName = EveHqMarketDataProvider.Name) Then
+            HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance(HQ.AppDataFolder)
+        ElseIf providerName = EveCentralMarketDataProvider.Name Then
+            HQ.MarketStatDataProvider = HQ.GetEveCentralMarketInstance(HQ.AppDataFolder)
+        End If
     End Sub
 
 #End Region

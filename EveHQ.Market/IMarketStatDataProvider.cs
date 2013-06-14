@@ -24,6 +24,7 @@ namespace EveHQ.Market
     /// </summary>
     public interface IMarketStatDataProvider
     {
+        string ProviderName { get; }
 
         bool LimitedSystemSelection { get; }
         IEnumerable<int> SupportedSystems { get; }

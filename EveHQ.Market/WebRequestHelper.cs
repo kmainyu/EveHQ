@@ -22,6 +22,7 @@ namespace EveHQ.Market
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
@@ -36,18 +37,51 @@ namespace EveHQ.Market
         /// </summary>
         private static readonly string userAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        ///// <summary>Executes an HTTP GET Request to the provided URL.</summary>
-        ///// <param name="target">The target URL.</param>
-        ///// <returns>The asynchronouse task instance</returns>
-        //public static Task<WebResponse> GetAsync(Uri target)
-        //{
-        //    var request = WebRequest.Create(target) as HttpWebRequest;
-        //    request.UserAgent = userAgent;
-        //    // ReSharper disable PossibleNullReferenceException
-        //    return Task<WebResponse>.Factory.FromAsync(request.BeginGetResponse, request.EndGetResponse, null);
+        /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
+        /// <param name="target">The target URL.</param>
+        /// <returns>The asynchronouse task instance</returns>
+        public static Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        {
 
-        //    // ReSharper restore PossibleNullReferenceException
-        //}
+
+
+
+            var handler = new HttpClientHandler();
+
+            //var request = WebRequest.Create(target) as HttpWebRequest;
+           // request.UserAgent = userAgent;
+            // ReSharper disable PossibleNullReferenceException
+            if (proxyServerAddress != null)
+            {
+                // set proxy if required.
+                var proxy = new WebProxy(proxyServerAddress);
+                if (useDefaultCredential)
+                {
+                    proxy.UseDefaultCredentials = true;
+                }
+                else
+                {
+                    var credential = new NetworkCredential(proxyUserName, proxyPassword);
+                    proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                }
+
+                handler.Proxy = proxy;
+                handler.UseProxy = true;
+            }
+            handler.AutomaticDecompression = DecompressionMethods.GZip;
+            handler.AllowAutoRedirect = true;
+            
+
+            var request = new HttpClient(handler);
+
+            request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //request.UserAgent = userAgent;
+
+            return request.GetAsync(target.ToString());
+
+
+            // ReSharper restore PossibleNullReferenceException
+        }
 
 
         /// <summary>Executes an HTTP POST request to the provided url.</summary>

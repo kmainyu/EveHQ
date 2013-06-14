@@ -189,6 +189,7 @@ Public Class ShipSlotControl
             Me.RedrawShipBay()
             Me.UpdateBoosterSlots()
             Me.UpdateWHUI()
+            Call UpdatePrices()
         Else
             MessageBox.Show("The fitting for " & Me.ParentFitting.KeyName & " failed to produce a calculated setup.",
                             "Error Calculating Fitting", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -246,18 +247,26 @@ Public Class ShipSlotControl
             End If
         Next
 
+        'Subsystems
+        For slot As Integer = 1 To ParentFitting.FittedShip.SubSlots
+            If ParentFitting.FittedShip.SubSlot(slot) IsNot Nothing Then
+                itemIds.Add(ParentFitting.FittedShip.SubSlot(slot).ID)
+            End If
+        Next
+
         'Drone bay
         itemIds.AddRange(
             From dbi As Object In ParentFitting.FittedShip.DroneBayItems.Values
                             Select CType(dbi, DroneBayItem).DroneType.ID)
 
         'Cargo bay
-        itemIds.AddRange(
-            From cbi As Object In ParentFitting.FittedShip.CargoBayItems.Values
-                            Select CType(cbi, CargoBayItem).ItemType.ID)
+        For Each item As Object In ParentFitting.FittedShip.CargoBayItems.Values
+            itemIds.Add(CType(item, CargoBayItem).ItemType.ID)
+        Next
+      
         ' Calculate the fitted prices
         Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(itemIds)
-   
+
 
         priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
 
@@ -737,13 +746,18 @@ Public Class ShipSlotControl
                         slotNode.Cells(idx).Text = shipMod.Calibration.ToString("N2")
                         idx += 1
                     Case "Price"
+                        Dim currentIndex As Integer = idx
                         Dim task As Task(Of Double) = DataFunctions.GetPriceAsync(shipMod.ID)
                         task.ContinueWith(Sub(price As Task(Of Double))
                                               If (price.IsCompleted And price.IsFaulted = False) Then
-                                                  Invoke(Sub()
-                                                             shipMod.MarketPrice = price.Result
-                                                             slotNode.Cells(idx).Text = shipMod.MarketPrice.ToString("N2")
-                                                         End Sub)
+                                                  Try
+                                                      Invoke(Sub()
+                                                                 shipMod.MarketPrice = price.Result
+                                                                 slotNode.Cells(currentIndex).Text = shipMod.MarketPrice.ToString("N2")
+                                                             End Sub)
+                                                  Catch ex As Exception
+                                                      'supression incase the window handle doesn't exist (ie: it was closed)
+                                                  End Try
                                               End If
                                           End Sub)
 

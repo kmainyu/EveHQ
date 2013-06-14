@@ -120,6 +120,22 @@ namespace EveHQ.Market
             _useBasicAuth = useBasicAuth;
         }
 
+        public string ProviderName
+        {
+            get
+            {
+                return Name;
+            }
+        }
+
+        static public string Name
+        {
+            get
+            {
+                return "Eve-Central (Live Queries)";
+            }
+        }
+
         public bool LimitedSystemSelection
         {
             get
