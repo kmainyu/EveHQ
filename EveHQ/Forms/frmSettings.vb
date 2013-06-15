@@ -1260,6 +1260,7 @@ Public Class frmSettings
         lblNotifyOffset.Text = "Early Notification Offset: " & offset
         Me.nudShutdownNotifyPeriod.Value = EveHQ.Core.HQ.EveHQSettings.ShutdownNotifyPeriod
         Me.chkIgnoreLastMessage.Checked = EveHQ.Core.HQ.EveHQSettings.IgnoreLastMessage
+        Me.chkNotifyInsuffClone.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone
         Me.chkNotifyAccountTime.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime
         Me.nudAccountTimeLimit.Enabled = EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime
         Me.nudAccountTimeLimit.Value = EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit
@@ -1483,6 +1484,10 @@ Public Class frmSettings
 
     Private Sub chkIgnoreLastMessage_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIgnoreLastMessage.CheckedChanged
         EveHQ.Core.HQ.EveHQSettings.IgnoreLastMessage = chkIgnoreLastMessage.Checked
+    End Sub
+
+    Private Sub chkNotifyInsuffClone_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyInsuffClone.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone = chkNotifyInsuffClone.Checked
     End Sub
 
     Private Sub chkNotifyAccountTime_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyAccountTime.CheckedChanged

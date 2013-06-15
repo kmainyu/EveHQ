@@ -89,7 +89,7 @@ Public Class CharacterTrainingBlock
             STT.SetSuperTooltip(pbPilot, STTI)
 
             ' Check for overlay
-            Call Me.OverlayAccountTime()
+            Call Me.ApplyOverlays()
 
             ' Add labels
             lblSkill.Text = dPilot.Name & " - " & dPilot.TrainingSkillName
@@ -136,7 +136,7 @@ Public Class CharacterTrainingBlock
             Else
                 lblQueue.LinkColor = Color.Black
             End If
-            Call Me.OverlayAccountTime()
+            Call Me.ApplyOverlays()
         End If
     End Sub
 
@@ -151,14 +151,19 @@ Public Class CharacterTrainingBlock
         End If
     End Sub
 
+    Private Sub ApplyOverlays()
+        Call Me.OverlayAccountTime()
+        Call Me.OverlayInsuffClone()
+    End Sub
+
     Private Sub OverlayAccountTime()
         If pbPilot.InitialImage IsNot Nothing Then
-			If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
-				If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(displayPilotName) Then
-					Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(displayPilotName), Core.Pilot)
-					If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(dPilot.Account) Then
-						Dim AccountTime As Date = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(dPilot.Account), EveHQ.Core.EveAccount).PaidUntil
-						If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit Then
+            If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
+                If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(displayPilotName) Then
+                    Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(displayPilotName), Core.Pilot)
+                    If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(dPilot.Account) Then
+                        Dim AccountTime As Date = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(dPilot.Account), EveHQ.Core.EveAccount).PaidUntil
+                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit Then
                             ' Check exactly how much time is left (i.e. less than an hour?)
                             Dim OverlayText As String = ""
                             Dim TimeRemaining As Double = (AccountTime - Now).TotalHours
@@ -174,26 +179,51 @@ Public Class CharacterTrainingBlock
                                     OverlayText = " < 1h"
                             End Select
                             Dim OverlayFont As Font = New Font(Me.Font.FontFamily, 7)
-							Dim OverlayBrush As New SolidBrush(Drawing.Color.FromArgb(192, 255, 0, 0))
-							' Define a new image
-							Dim OLImage As Bitmap = New Bitmap(pbPilot.InitialImage, pbPilot.Width, pbPilot.Height)
-							Dim MyGraphics As Graphics = Graphics.FromImage(OLImage)
-							' Draw a rectangle for the text background
-							MyGraphics.FillRectangle(OverlayBrush, 0, pbPilot.Height - 10, pbPilot.Width, 10)
-							' Add the text to the new bitmap.
-							MyGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
-							Dim ts As Size = Size.Round(MyGraphics.MeasureString(OverlayText, OverlayFont, 40))
-							MyGraphics.DrawString(OverlayText, OverlayFont, New SolidBrush(Color.White), CInt((40 - ts.Width) / 2), 30)
-							pbPilot.Image = OLImage
-						Else
-							pbPilot.Image = pbPilot.InitialImage
-						End If
-					End If
-				End If
-			Else
-				pbPilot.Image = pbPilot.InitialImage
-			End If
-		End If
+                            Dim OverlayBrush As New SolidBrush(Drawing.Color.FromArgb(192, 255, 0, 0))
+                            ' Define a new image
+                            Dim OLImage As Bitmap = New Bitmap(pbPilot.InitialImage, pbPilot.Width, pbPilot.Height)
+                            Dim MyGraphics As Graphics = Graphics.FromImage(OLImage)
+                            ' Draw a rectangle for the text background
+                            MyGraphics.FillRectangle(OverlayBrush, 0, pbPilot.Height - 10, pbPilot.Width, 10)
+                            ' Add the text to the new bitmap.
+                            MyGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
+                            Dim ts As Size = Size.Round(MyGraphics.MeasureString(OverlayText, OverlayFont, 40))
+                            MyGraphics.DrawString(OverlayText, OverlayFont, New SolidBrush(Color.White), CInt((40 - ts.Width) / 2), pbPilot.Height - 10)
+                            pbPilot.Image = OLImage
+                        Else
+                            pbPilot.Image = pbPilot.InitialImage
+                        End If
+                    End If
+                End If
+            Else
+                pbPilot.Image = pbPilot.InitialImage
+            End If
+        End If
+    End Sub
+
+    Private Sub OverlayInsuffClone()
+        If pbPilot.Image IsNot Nothing Then
+            If EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone = True Then
+                If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(displayPilotName) Then
+                    Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(displayPilotName), Core.Pilot)
+                    If (dPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(dPilot)) > CLng(dPilot.CloneSP) Then
+                        Const OverlayText As String = "Clone"
+                        Dim OverlayFont As Font = New Font(Me.Font.FontFamily, 7)
+                        Dim OverlayBrush As New SolidBrush(Drawing.Color.Coral)
+                        ' Define a new image
+                        Dim OLImage As Bitmap = New Bitmap(pbPilot.Image, pbPilot.Width, pbPilot.Height)
+                        Dim MyGraphics As Graphics = Graphics.FromImage(OLImage)
+                        ' Draw a rectangle for the text background
+                        MyGraphics.FillRectangle(OverlayBrush, 0, pbPilot.Height - 20, pbPilot.Width, 10)
+                        ' Add the text to the new bitmap.
+                        MyGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
+                        Dim ts As Size = Size.Round(MyGraphics.MeasureString(OverlayText, OverlayFont, 40))
+                        MyGraphics.DrawString(OverlayText, OverlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
+                        pbPilot.Image = OLImage
+                    End If
+                End If
+            End If
+        End If
     End Sub
 
 #Region "Portrait Related Routines"
@@ -249,6 +279,6 @@ Public Class CharacterTrainingBlock
 
     Private Sub pbPilot_LoadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs) Handles pbPilot.LoadCompleted
         pbPilot.InitialImage = pbPilot.Image
-        Call OverlayAccountTime()
+        Call ApplyOverlays()
     End Sub
 End Class

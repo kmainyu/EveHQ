@@ -229,6 +229,7 @@ Partial Public Class frmSettings
         Me.nudAccountTimeLimit = New System.Windows.Forms.NumericUpDown()
         Me.lblAccountTimeLimit = New System.Windows.Forms.Label()
         Me.chkNotifyAccountTime = New System.Windows.Forms.CheckBox()
+        Me.chkNotifyInsuffClone = New System.Windows.Forms.CheckBox()
         Me.sldNotifyOffset = New DevComponents.DotNetBar.Controls.Slider()
         Me.chkIgnoreLastMessage = New System.Windows.Forms.CheckBox()
         Me.chkNotifyNotification = New System.Windows.Forms.CheckBox()
@@ -2316,6 +2317,7 @@ Partial Public Class frmSettings
         Me.gbNotifications.Controls.Add(Me.nudAccountTimeLimit)
         Me.gbNotifications.Controls.Add(Me.lblAccountTimeLimit)
         Me.gbNotifications.Controls.Add(Me.chkNotifyAccountTime)
+        Me.gbNotifications.Controls.Add(Me.chkNotifyInsuffClone)
         Me.gbNotifications.Controls.Add(Me.sldNotifyOffset)
         Me.gbNotifications.Controls.Add(Me.chkIgnoreLastMessage)
         Me.gbNotifications.Controls.Add(Me.chkNotifyNotification)
@@ -2344,7 +2346,7 @@ Partial Public Class frmSettings
         '
         'nudAccountTimeLimit
         '
-        Me.nudAccountTimeLimit.Location = New System.Drawing.Point(219, 335)
+        Me.nudAccountTimeLimit.Location = New System.Drawing.Point(219, 360)
         Me.nudAccountTimeLimit.Maximum = New Decimal(New Integer() {32940, 0, 0, 0})
         Me.nudAccountTimeLimit.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.nudAccountTimeLimit.Name = "nudAccountTimeLimit"
@@ -2355,7 +2357,7 @@ Partial Public Class frmSettings
         'lblAccountTimeLimit
         '
         Me.lblAccountTimeLimit.AutoSize = True
-        Me.lblAccountTimeLimit.Location = New System.Drawing.Point(71, 337)
+        Me.lblAccountTimeLimit.Location = New System.Drawing.Point(71, 362)
         Me.lblAccountTimeLimit.Name = "lblAccountTimeLimit"
         Me.lblAccountTimeLimit.Size = New System.Drawing.Size(136, 13)
         Me.lblAccountTimeLimit.TabIndex = 26
@@ -2364,12 +2366,22 @@ Partial Public Class frmSettings
         'chkNotifyAccountTime
         '
         Me.chkNotifyAccountTime.AutoSize = True
-        Me.chkNotifyAccountTime.Location = New System.Drawing.Point(21, 311)
+        Me.chkNotifyAccountTime.Location = New System.Drawing.Point(21, 336)
         Me.chkNotifyAccountTime.Name = "chkNotifyAccountTime"
         Me.chkNotifyAccountTime.Size = New System.Drawing.Size(236, 17)
         Me.chkNotifyAccountTime.TabIndex = 25
         Me.chkNotifyAccountTime.Text = "Show account time remaining in Training Bar"
         Me.chkNotifyAccountTime.UseVisualStyleBackColor = True
+        '
+        'chkNotifyInsuffClone
+        '
+        Me.chkNotifyInsuffClone.AutoSize = True
+        Me.chkNotifyInsuffClone.Location = New System.Drawing.Point(21, 311)
+        Me.chkNotifyInsuffClone.Name = "chkNotifyInsuffClone"
+        Me.chkNotifyInsuffClone.Size = New System.Drawing.Size(236, 17)
+        Me.chkNotifyInsuffClone.TabIndex = 25
+        Me.chkNotifyInsuffClone.Text = "Show insufficient clone warning in Training Bar"
+        Me.chkNotifyInsuffClone.UseVisualStyleBackColor = True
         '
         'sldNotifyOffset
         '
@@ -3490,6 +3502,7 @@ Partial Public Class frmSettings
     Friend WithEvents nudAccountTimeLimit As System.Windows.Forms.NumericUpDown
     Friend WithEvents lblAccountTimeLimit As System.Windows.Forms.Label
     Friend WithEvents chkNotifyAccountTime As System.Windows.Forms.CheckBox
+    Friend WithEvents chkNotifyInsuffClone As System.Windows.Forms.CheckBox
     Friend WithEvents btnDisableAccount As System.Windows.Forms.Button
     Friend WithEvents STT As DevComponents.DotNetBar.SuperTooltip
     Friend WithEvents adtAccounts As DevComponents.AdvTree.AdvTree
