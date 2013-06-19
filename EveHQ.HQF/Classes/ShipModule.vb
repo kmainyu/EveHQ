@@ -126,6 +126,7 @@ Imports System.Runtime.Serialization
     Private cCapUsage As Double
     Private cCapUsageRate As Double
     Private cActivationTime As Double
+    Private cReactivationDelay As Double
     Private cIsLauncher As Boolean
     Private cIsTurret As Boolean
     Private cIsDrone As Boolean
@@ -360,6 +361,14 @@ Imports System.Runtime.Serialization
             cActivationTime = value
         End Set
     End Property
+    Public Property ReactivationDelay() As Double
+        Get
+            Return cReactivationDelay
+        End Get
+        Set(ByVal value As Double)
+            cReactivationDelay = value
+        End Set
+    End Property
     Public Property IsLauncher() As Boolean
         Get
             Return cIsLauncher
@@ -557,6 +566,8 @@ Imports System.Runtime.Serialization
                     newModule.CPU = attValue
                 Case attributes.Module_ActivationTime
                     newModule.ActivationTime = attValue
+                Case attributes.Module_ReactivationDelay
+                    newModule.ReactivationDelay = attValue
                 Case attributes.Module_CalibrationCost
                     newModule.Calibration = CInt(attValue)
             End Select
@@ -571,7 +582,7 @@ Imports System.Runtime.Serialization
             ElseIf newModule.Attributes.ContainsKey(attributes.Module_ProjectileROF) = True Then
                 newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_ProjectileROF))
             Else
-                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / newModule.ActivationTime
+                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / (newModule.ActivationTime + newModule.ReactivationDelay)
             End If
             newModule.CapUsageRate = CDbl(newModule.Attributes(attributes.Module_CapUsageRate))
         End If
