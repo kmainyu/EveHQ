@@ -45,6 +45,8 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The data not initialized.</summary>
         private const string DataNotInitialized = "The pricing data cache has not been initialized, or was recently wiped. In order to complete requests for pricing data, a new set of price values must be download. This is a few megabytes of data, so it may take a few moments to complete. Until then pricing queries will return inaccurate values. \n\n Do you wish to download a new set of market data now?";
 
+        private const string NewMarketData = "New market data has been downloaded. Please reload any views containing pricing data to see the latest values.";
+
         /// <summary>The last download ts.</summary>
         private const string LastDownloadTs = "LastDownloadTime";
 
@@ -252,7 +254,7 @@ namespace EveHQ.Market.MarketServices
                 lock (lockObj)
                 {
                     var lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
-                    if (lastDownload.IsDirty)
+                    if ( lastDownload == null || lastDownload.IsDirty)
                     {
                         // get the latest system data
                         foreach (int system in SupportedSystems)
@@ -274,6 +276,9 @@ namespace EveHQ.Market.MarketServices
                         }
 
                         _priceCache.Add(LastDownloadTs, DateTimeOffset.Now, DateTimeOffset.Now.Add(_cacheTtl));
+
+                        MessageBox.Show(NewMarketData, string.Empty, MessageBoxButtons.OK);
+
                     }
 
 
