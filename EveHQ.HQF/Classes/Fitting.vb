@@ -1737,13 +1737,13 @@ Imports EveHQ.Core
                             If cModule.IsTurret Or cModule.IsLauncher Then
                                 If cModule.LoadedCharge IsNot Nothing Then
                                     cModule.Attributes(Attributes.Module_LoadedCharge) = CDbl(cModule.LoadedCharge.ID)
-                                    ' If LoadedCharge is orbital bombardment ammo set damage to 0
-                                    Dim orbitalAmmo As Boolean = False
-                                    If cModule.LoadedCharge.MarketGroup = ShipModule.Marketgroup_OrbitalProjectileAmmo Or cModule.LoadedCharge.MarketGroup = ShipModule.Marketgroup_OrbitalEnergyAmmo Or cModule.LoadedCharge.MarketGroup = ShipModule.Marketgroup_OrbitalHybridAmmo Then
-                                        orbitalAmmo = True
-                                        cModule.Attributes(Attributes.Module_BaseDamage) = 0
-                                    Else
+                                    ' If LoadedCharge doesn't have damage attributes set damage to 0 (required for orbital bombardment and festival ammo)
+                                    Dim noDamageAmmo As Boolean = False
+                                    If cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) And cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) And cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) And cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
                                         cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
+                                    Else
+                                        noDamageAmmo = True
+                                        cModule.Attributes(Attributes.Module_BaseDamage) = 0
                                     End If
                                     If cModule.IsTurret = True Then
                                         ' Adjust for reload time if required
@@ -1792,7 +1792,7 @@ Imports EveHQ.Core
                                             cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
                                         End If
                                     End If
-                                    If orbitalAmmo = False Then
+                                    If noDamageAmmo = False Then
                                         cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
                                         cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
                                         cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod

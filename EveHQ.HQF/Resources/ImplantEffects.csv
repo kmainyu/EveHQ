@@ -318,24 +318,24 @@
 20,1,3133,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-702
 20,1,3134,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-704
 20,1,3135,37,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Missile Projection MP-706
-293,1,27096,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1001
-293,1,13249,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1003
-293,1,24638,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1005
-293,1,3136,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1002
-293,1,3137,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1004
-293,1,3140,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1006
+293,1,27096,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1001
+293,1,13249,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1003
+293,1,24638,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1005
+293,1,3136,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1002
+293,1,3137,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1004
+293,1,3140,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Deadeye' Rapid Launch RL-1006
 847,1,27095,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-901
 847,1,13250,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-903
 847,1,24639,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-905
 847,1,3141,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-902
 847,1,3142,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-904
 847,1,3143,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,Missiles,Zainou 'Deadeye' Target Navigation Prediction TN-906
-310,1,27091,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-601
-310,1,24641,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-603
-310,1,24642,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-605
-310,1,3144,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-602
-310,1,3145,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-604
-310,1,3148,50,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-606
+310,1,27091,50,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-601
+310,1,24641,50,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-603
+310,1,24642,50,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-605
+310,1,3144,50,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-602
+310,1,3145,50,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-604
+310,1,3148,50,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Zainou 'Gnome' Launcher CPU Efficiency LE-606
 323,1,13253,30,5,3425,0,0,0,Shield,Zainou 'Gnome' Shield Upgrades SU-603
 323,1,3078,30,5,3425,0,0,0,Shield,Zainou 'Gnome' Shield Upgrades SU-604
 323,1,16245,30,5,3425,0,0,0,Shield,Zainou 'Gnome' Shield Upgrades SU-605
@@ -661,6 +661,6 @@
 1027,1,31964,211,3,6,0,0,0,Electronics;Learning,Talon Delta
 1027,1,31965,211,3,6,0,0,0,Electronics;Learning,Talon Epsilon
 1027,1,31966,211,3,6,0,0,0,Electronics;Learning,Talon Gamma
-293,1,20371,51,2,511;862;524;506;510;771;507;508;501;509,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
+293,1,20371,51,2,511;524;506;510;771;507;508;509,0,0,0,Missiles,Whelan Machorin's Ballistic Smartlink
 318,1,24663,20,2,46,0,0,0,Navigation,Zor's Custom Navigation Hyper-Link
 66,1,19500,73,4,542,0,0,0,Navigation,Zor's Custom Navigation Link

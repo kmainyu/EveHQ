@@ -1186,8 +1186,14 @@ Public Class PlugInData
                         End If
                     Case Attributes.Module_ActivationTime
                         attMod.ActivationTime = attValue
+                        attMod.CapUsageRate = attMod.CapUsage / (attMod.ActivationTime + attMod.ReactivationDelay)
+                        attMod.Attributes.Add(Attributes.Module_CapUsageRate, attMod.CapUsageRate)
                     Case Attributes.Module_ReactivationDelay
                         attMod.ReactivationDelay = attValue
+                        If attMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Then
+                            attMod.CapUsageRate = attMod.CapUsage / (attMod.ActivationTime + attMod.ReactivationDelay)
+                            attMod.Attributes(Attributes.Module_CapUsageRate) = attMod.CapUsageRate
+                        End If
                     Case Attributes.Module_MiningAmount
                         Select Case attMod.MarketGroup
                             Case ShipModule.Marketgroup_IceHarvesters
@@ -1253,10 +1259,6 @@ Public Class PlugInData
                         attMod.MetaLevel = CInt(attValue)
                     Case Else
                 End Select
-                If attMod.ActivationTime + attMod.ReactivationDelay > 0 Then
-                    attMod.CapUsageRate = attMod.CapUsage / (attMod.ActivationTime + attMod.ReactivationDelay)
-                    attMod.Attributes.Add(Attributes.Module_CapUsageRate, attMod.CapUsageRate)
-                End If
                 lastModName = modRow.Item("typeName").ToString
                 ' Add to the ChargeGroups if it doesn't exist and chargesize <> 0
                 'If attMod.IsCharge = True And Charges.ChargeGroups.Contains(attMod.MarketGroup & "_" & attMod.DatabaseGroup & "_" & attMod.Name & "_" & attMod.ChargeSize) = False Then
