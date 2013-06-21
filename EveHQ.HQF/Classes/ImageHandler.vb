@@ -61,28 +61,7 @@ Public Class ImageHandler
 
         For Each BaseIcon As String In BaseIcons.Keys
             For Each MetaIcon As String In MetaIcons.Keys
-
-                If MetaIcon = "1" Then
-                    Dim OI As Bitmap = ImageHandler.BaseIcons(BaseIcon)
-
-                    ' Resize the image
-                    Dim II As New Bitmap(OI, IconSize, IconSize)
-
-                    ItemIcons24.Add(BaseIcon & "_" & MetaIcon, II)
-                Else
-                    Dim OI As Bitmap = ImageHandler.BaseIcons(BaseIcon)
-                    Dim IO As Bitmap = ImageHandler.MetaIcons(MetaIcon)
-
-                    ' Resize the image
-                    Dim II As New Bitmap(OI, IconSize, IconSize)
-
-                    ' Apply the overlay
-                    Dim g As Graphics = Graphics.FromImage(II)
-                    g.DrawImage(IO, 0, 0)
-                    ItemIcons24.Add(BaseIcon & "_" & MetaIcon, II)
-
-                End If
-
+                ItemIcons24.Add(BaseIcon & "_" & MetaIcon, CreateIcon(BaseIcon, MetaIcon, IconSize))
             Next
         Next
 
@@ -96,31 +75,39 @@ Public Class ImageHandler
 
         For Each BaseIcon As String In BaseIcons.Keys
             For Each MetaIcon As String In MetaIcons.Keys
-
-                If MetaIcon = "1" Then
-                    Dim OI As Bitmap = ImageHandler.BaseIcons(BaseIcon)
-
-                    ' Resize the image
-                    Dim II As New Bitmap(OI, IconSize, IconSize)
-
-                    ItemIcons48.Add(BaseIcon & "_" & MetaIcon, II)
-                Else
-                    Dim OI As Bitmap = ImageHandler.BaseIcons(BaseIcon)
-                    Dim IO As Bitmap = ImageHandler.MetaIcons(MetaIcon)
-
-                    ' Resize the image
-                    Dim II As New Bitmap(OI, IconSize, IconSize)
-
-                    ' Apply the overlay
-                    Dim g As Graphics = Graphics.FromImage(II)
-                    g.DrawImage(IO, 0, 0)
-                    ItemIcons48.Add(BaseIcon & "_" & MetaIcon, II)
-                End If
-
+                ItemIcons48.Add(BaseIcon & "_" & MetaIcon, CreateIcon(BaseIcon, MetaIcon, IconSize))
             Next
         Next
 
         Return True
+
+    End Function
+
+    Public Shared Function CreateIcon(ByVal BaseIcon As String, ByVal MetaIcon As String, ByVal IconSize As Integer, Optional ByVal IsTypeID As Boolean = False) As Bitmap
+        Dim OI As Image
+
+        If IsTypeID = True Then
+            OI = EveHQ.Core.ImageHandler.GetImage(BaseIcon)
+        Else
+            OI = ImageHandler.BaseIcons(BaseIcon)
+        End If
+
+        If OI Is Nothing Then
+            Return Nothing
+        End If
+
+        ' Resize the image
+        Dim icon As Bitmap = New Bitmap(OI, IconSize, IconSize)
+
+        If MetaIcon <> "1" Then
+            Dim IO As Bitmap = ImageHandler.MetaIcons(MetaIcon)
+
+            ' Apply the overlay
+            Dim g As Graphics = Graphics.FromImage(icon)
+            g.DrawImage(IO, 0, 0)
+        End If
+
+        Return icon
 
     End Function
 

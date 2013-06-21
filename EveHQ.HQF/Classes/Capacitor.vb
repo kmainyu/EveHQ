@@ -50,7 +50,7 @@ Public Class Capacitor
 
         For Each slotMod As ShipModule In baseShip.SlotCollection
             If slotMod.CapUsage <> 0 Then
-                Dim totalTime As Double = slotMod.ActivationTime
+                Dim totalTime As Double = slotMod.ActivationTime + slotMod.ReactivationDelay
                 If slotMod.Attributes.ContainsKey(Attributes.Module_EnergyROF) Then
                     totalTime += slotMod.Attributes(Attributes.Module_EnergyROF)
                 End If

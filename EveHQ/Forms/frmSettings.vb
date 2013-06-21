@@ -1400,6 +1400,7 @@ Public Class frmSettings
         Me.nudShutdownNotifyPeriod.Value = HQ.EveHqSettings.ShutdownNotifyPeriod
         Me.chkIgnoreLastMessage.Checked = HQ.EveHqSettings.IgnoreLastMessage
         Me.chkNotifyAccountTime.Checked = HQ.EveHqSettings.NotifyAccountTime
+        Me.chkNotifyInsuffClone.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone
         Me.nudAccountTimeLimit.Enabled = HQ.EveHqSettings.NotifyAccountTime
         Me.nudAccountTimeLimit.Value = HQ.EveHqSettings.AccountTimeLimit
     End Sub
@@ -1669,6 +1670,10 @@ Public Class frmSettings
     Private Sub chkIgnoreLastMessage_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles chkIgnoreLastMessage.CheckedChanged
         HQ.EveHqSettings.IgnoreLastMessage = chkIgnoreLastMessage.Checked
+    End Sub
+
+    Private Sub chkNotifyInsuffClone_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyInsuffClone.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone = chkNotifyInsuffClone.Checked
     End Sub
 
     Private Sub chkNotifyAccountTime_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _

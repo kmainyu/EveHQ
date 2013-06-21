@@ -186,6 +186,7 @@ Public Class EveSettings
     Private cLastMessageDate As Date = CDate("01/01/1999")
     Private cIgnoreLastMessage As Boolean = False
     Private cStartWithPrimaryQueue As Boolean = False
+    Private cNotifyInsuffClone As Boolean = False
     Private cNotifyAccountTime As Boolean = False
     Private cAccountTimeLimit As Integer = 168
     Private cSkillQueuePanelWidth As Integer = 440
@@ -292,6 +293,14 @@ Public Class EveSettings
         End Get
         Set(ByVal value As Boolean)
             cNotifyAccountTime = value
+        End Set
+    End Property
+    Public Property NotifyInsuffClone() As Boolean
+        Get
+            Return cNotifyInsuffClone
+        End Get
+        Set(ByVal value As Boolean)
+            cNotifyInsuffClone = value
         End Set
     End Property
 
