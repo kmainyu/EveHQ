@@ -1860,7 +1860,7 @@ Imports EveHQ.Core
                                                 reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
                                             End If
                                             dmgMod = 1
-                                            ROF = cModule.Attributes(Attributes.Module_ROF)
+                                            ROF = cModule.Attributes(Attributes.Module_ROF) + cModule.Attributes(Attributes.Module_ReactivationDelay) + reloadEffect
                                             cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
                                             cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
                                             cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
@@ -1868,9 +1868,7 @@ Imports EveHQ.Core
                                             newShip.Attributes(Attributes.Ship_MissileDPS) += cModule.Attributes(Attributes.Module_DPS)
                                             newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
                                             newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
-                                            If cModule.LoadedCharge IsNot Nothing Then
-                                                cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
-                                            End If
+                                            cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
                                             cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
                                             cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
                                             cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
