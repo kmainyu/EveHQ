@@ -1867,7 +1867,7 @@ Public Class ShipSlotControl
                         Dim chargeGroups As New ArrayList
                         Dim chargeGroupData() As String
                         Dim chargeItems As New SortedList
-                        Dim groupName As String = ""
+                        Dim groupName As String = "Charge"
                         For Each chargeGroup As String In Charges.ChargeGroups
                             chargeGroupData = chargeGroup.Split("_".ToCharArray)
                             If currentMod.Charges.Contains(chargeGroupData(1)) = True Then
