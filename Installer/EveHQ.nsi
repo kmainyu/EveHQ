@@ -191,6 +191,12 @@ call EveHQNotRunning
 
 #uninstall the msi versions.
 
+#2.11.8
+push $R0
+  StrCpy $R0 {7E13F3C3-7B43-44E1-8D4D-6060243674D2}
+  Call UninstallMSI
+pop $R0
+
 #2.11.7
 push $R0
   StrCpy $R0 {674EC3E3-3B20-48A8-A997-AB9500300B3E}
@@ -251,7 +257,7 @@ pop $R0
 ReadRegStr $R0 HKLM \
   "Software\Microsoft\Windows\CurrentVersion\Uninstall\EveHQ" \
   "UninstallString"
-  StrCmp $R0 "" done
+  StrCmp $R0 "" FinalCheck
  
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
   "EveHQ is already installed. $\n$\nClick `OK` to remove the \
@@ -259,7 +265,7 @@ ReadRegStr $R0 HKLM \
   IDOK uninst
   Abort
  
-;Run the uninstaller
+#Run the uninstaller
 uninst:
   ClearErrors
   ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
@@ -271,6 +277,18 @@ uninst:
     ;components page, make sure all sections are uninstalled.
   no_remove_uninstaller:
  
+FinalCheck:
+#Check that the EveHQ.exe file is no longer present... will be the safety check that it has been uninstalled
+IfFileExists $INSTDIR\EveHQ.exe EveHQPresent done
+
+EveHQPresent:
+MessageBox MB_OK \
+"A possible old version of EveHQ appears to be currently installed in the folder $INSTDIR. Automatic attempts to detect the method to uninstall it have failed. \
+Please manually uninstall the existing installation and then re-run this installer." \
+
+abort
+
+
 
 done:
 
