@@ -77,7 +77,11 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _use default credential.</summary>
         private readonly bool _useDefaultCredential;
 
-        private static object lockObj = new object();
+        private static object initLockObj = new object();
+
+        private static object downloadLock = new object();
+
+        private static bool downloadInProgres;
 
         private static ConcurrentDictionary<string, CacheItem<MarketLocationData>> LocationCache = new ConcurrentDictionary<string, CacheItem<MarketLocationData>>();
 
@@ -183,13 +187,15 @@ namespace EveHQ.Market.MarketServices
                 // no downloaded data OR someone wiped the cache.
                 // we need to alert the user there is no data and that downloading a seed set
                 // will take some time. 
-                lock (lockObj)
+                lock (initLockObj)
                 {
                     lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
-                    if (lastDownload == null)
+                    if (lastDownload == null && !downloadInProgres)
                     {
+                        downloadInProgres = true;
                         InitializeDataCache();
                         lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
+                        downloadInProgres = false;
                     }
                 }
             }
@@ -251,7 +257,7 @@ namespace EveHQ.Market.MarketServices
         {
             try
             {
-                lock (lockObj)
+                lock (downloadLock)
                 {
                     var lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
                     if ( lastDownload == null || lastDownload.IsDirty)
@@ -278,10 +284,7 @@ namespace EveHQ.Market.MarketServices
                         _priceCache.Add(LastDownloadTs, DateTimeOffset.Now, DateTimeOffset.Now.Add(_cacheTtl));
 
                         MessageBox.Show(NewMarketData, string.Empty, MessageBoxButtons.OK);
-
                     }
-
-
                 }
             }
             catch (Exception e)
