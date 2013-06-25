@@ -1308,11 +1308,11 @@ Imports EveHQ.Core
             If newShip.MidSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.MidSlot(slot))
                 ' Recalculate Cap Booster calcs if reload time is included
-                If HQF.Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = "76" Then
+                If HQF.Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = ShipModule.Group_CapBoosters Then
                     Dim cModule As ShipModule = newShip.MidSlot(slot)
                     If cModule.LoadedCharge IsNot Nothing Then
                         Dim reloadEffect As Double = 10 / (CInt(Int(cModule.Capacity / cModule.LoadedCharge.Volume)))
-                        cModule.Attributes("73") += reloadEffect
+                        cModule.Attributes(Attributes.Module_ActivationTime) += reloadEffect
                     End If
                 End If
             End If
@@ -1854,13 +1854,9 @@ Imports EveHQ.Core
                                     Case ShipModule.Group_BombLaunchers
                                         ' Do Bomb Launcher Code
                                         If cModule.LoadedCharge IsNot Nothing Then
-                                            ' Adjust for reload time if required
-                                            Dim reloadEffect As Double = 0
-                                            If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
-                                                reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
-                                            End If
                                             dmgMod = 1
-                                            ROF = cModule.Attributes(Attributes.Module_ROF) + cModule.Attributes(Attributes.Module_ReactivationDelay) + reloadEffect
+                                            ' No ROF adjustment for reload time because reload happens during reactivation delay
+                                            ROF = cModule.Attributes(Attributes.Module_ROF) + cModule.Attributes(Attributes.Module_ReactivationDelay)
                                             cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
                                             cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
                                             cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
@@ -2450,9 +2446,9 @@ Imports EveHQ.Core
 
         ' Add Module to the next slot
         If slotNo = 0 Then
-            slotNo = AddModuleInNextSlot(CType(shipMod.Clone, ShipModule))
+            slotNo = AddModuleInNextSlot(shipMod.Clone)
         Else
-            AddModuleInSpecifiedSlot(CType(shipMod.Clone, ShipModule), slotNo)
+            AddModuleInSpecifiedSlot(shipMod.Clone, slotNo)
         End If
 
         ' Check if we need to update
@@ -2536,7 +2532,7 @@ Imports EveHQ.Core
                 Me.BaseShip.DroneBay_Used += vol * Qty
             End If
         Else
-            MessageBox.Show("There is not enough space in the Drone Bay to hold " & Qty & " unit(s) of " & Drone.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("There is not enough space in the Drone Bay to hold " & Qty & " unit(s) of " & Drone.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
@@ -2579,7 +2575,7 @@ Imports EveHQ.Core
                     Me.BaseShip.CargoBay_Used += vol * Qty
                 End If
             Else
-                MessageBox.Show("There is not enough space in the Cargo Bay to hold " & Qty & " unit(s) of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There is not enough space in the Cargo Bay to hold " & Qty & " unit(s) of " & Item.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
@@ -2623,7 +2619,7 @@ Imports EveHQ.Core
                     Me.BaseShip.ShipBay_Used += vol * Qty
                 End If
             Else
-                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold " & Qty & " unit(s) of " & Item.Name & ".", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold " & Qty & " unit(s) of " & Item.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
     End Sub
@@ -2667,27 +2663,27 @@ Imports EveHQ.Core
         Select Case shipMod.SlotType
             Case SlotTypes.Rig
                 If cRig = Me.BaseShip.RigSlots Then
-                    MessageBox.Show("There are no available rig slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("There are no available rig slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case SlotTypes.Low
                 If cLow = Me.BaseShip.LowSlots Then
-                    MessageBox.Show("There are no available low slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("There are no available low slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case SlotTypes.Mid
                 If cMid = Me.BaseShip.MidSlots Then
-                    MessageBox.Show("There are no available mid slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("There are no available mid slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case SlotTypes.High
                 If cHi = Me.BaseShip.HiSlots Then
-                    MessageBox.Show("There are no available high slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("There are no available high slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
             Case SlotTypes.Subsystem
                 If cSub = Me.BaseShip.SubSlots Then
-                    MessageBox.Show("There are no available subsystem slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("There are no available subsystem slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Return False
                 End If
         End Select
@@ -2695,7 +2691,7 @@ Imports EveHQ.Core
         ' Now check launcher slots
         If shipMod.IsLauncher Then
             If cLauncher = Me.BaseShip.LauncherSlots Then
-                MessageBox.Show("There are no available launcher slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There are no available launcher slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
         End If
@@ -2703,7 +2699,7 @@ Imports EveHQ.Core
         ' Now check turret slots
         If shipMod.IsTurret Then
             If cTurret = Me.BaseShip.TurretSlots Then
-                MessageBox.Show("There are no available turret slots remaining.", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("There are no available turret slots remaining on '" & FittingName & "' (" & ShipName & ").", "Slot Allocation Issue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return False
             End If
         End If
@@ -2716,7 +2712,7 @@ Imports EveHQ.Core
             ' Check for subsystem type restriction
             If CStr(shipMod.Attributes(Attributes.Module_FitsToShipType)) <> CStr(Me.BaseShip.ID) Then
                 If search = False Then
-                    MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes(Attributes.Module_FitsToShipType))).Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes(Attributes.Module_FitsToShipType))).Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return False
             End If
@@ -2732,7 +2728,7 @@ Imports EveHQ.Core
                     If Me.BaseShip.SubSlot(s) IsNot Nothing Then
                         If CStr(shipMod.Attributes(Attributes.Module_SubsystemSlot)) = CStr(Me.BaseShip.SubSlot(s).Attributes(Attributes.Module_SubsystemSlot)) Then
                             If search = False Then
-                                MessageBox.Show("You already have a subsystem of this type fitted to your ship.", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                MessageBox.Show("You already have a subsystem of this group fitted to your " & ShipName & " ('" & FittingName & "').", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
                             Return False
                         End If
@@ -2758,7 +2754,7 @@ Imports EveHQ.Core
                     End Select
                     Dim baseModName As String = requiredSize & shipMod.Name.Remove(0, shipMod.Name.IndexOf(" "))
                     If search = False Then
-                        MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & ShipName & ". HQF has therefore substituted the " & requiredSize & " variant instead.", "Rig Size Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         shipMod = CType(ModuleLists.moduleList(ModuleLists.moduleListName(baseModName)), ShipModule)
                     Else
                         Return False
@@ -2788,7 +2784,7 @@ Imports EveHQ.Core
             If ShipGroups.Contains(Me.BaseShip.DatabaseGroup) = False Then
                 If ShipTypes.Contains(Me.BaseShip.ID) = False Then
                     If search = False Then
-                        MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
                     Return False
                 End If
@@ -2808,7 +2804,7 @@ Imports EveHQ.Core
                     Next
                     If allowed = False Then
                         If search = False Then
-                            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & " without Warfare Processor subsystem.", "Subsystem Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & ShipName & " ('" & FittingName & "') without Warfare Processor subsystem.", "Subsystem Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         Return False
                     End If
@@ -2824,7 +2820,7 @@ Imports EveHQ.Core
                     Next
                     If allowed = False Then
                         If search = False Then
-                            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & " without Covert Reconfiguration subsystem.", "Subsystem Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & ShipName & " ('" & FittingName & "') without Covert Reconfiguration subsystem.", "Subsystem Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                         Return False
                     End If
@@ -2832,7 +2828,7 @@ Imports EveHQ.Core
             End If
         ElseIf ShipTypes.Count > 0 And ShipTypes.Contains(Me.BaseShip.ID) = False Then
             If search = False Then
-                MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & Me.BaseShip.Name & ".", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("You cannot fit a " & shipMod.Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             Return False
         End If
@@ -2842,7 +2838,7 @@ Imports EveHQ.Core
         If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupFitted) = True Then
             If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupFitted) = True Then
                 If search = False Then
-                    MessageBox.Show("You cannot fit more than " & shipMod.Attributes(Attributes.Module_MaxGroupFitted) & " module(s) of this group to a ship.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot fit more than " & shipMod.Attributes(Attributes.Module_MaxGroupFitted) & " module(s) of this group to a ship ('" & FittingName & "', " & ShipName & ").", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return False
             End If
@@ -3292,7 +3288,7 @@ End Class
     ''' Gets or sets the the Ship Name used for the fitting
     ''' </summary>
     ''' <value></value>
-    ''' <returns>The name of the ship used for the fitting</returns>
+    ''' <returns>The name of the ship type used for the fitting</returns>
     ''' <remarks></remarks>
     Public Property ShipName() As String
         Get
