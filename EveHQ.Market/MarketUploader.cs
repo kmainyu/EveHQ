@@ -26,6 +26,8 @@ namespace EveHQ.Market
 
     using EveCacheParser;
 
+    using EveHQ.Common.Extensions;
+
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
@@ -80,7 +82,7 @@ namespace EveHQ.Market
             }
 
             _running = true;
-            Task.Factory.StartNew(this.StartUploader);
+            Task.Factory.TryRun(this.StartUploader);
         }
 
         /// <summary>The stop.</summary>

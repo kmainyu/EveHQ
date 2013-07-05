@@ -19,6 +19,8 @@ namespace EveHQ.Market
     using System.Net;
     using System.Threading.Tasks;
 
+    using EveHQ.Common;
+
     /// <summary>
     /// Eve Market Data Relay uploader.
     /// </summary>

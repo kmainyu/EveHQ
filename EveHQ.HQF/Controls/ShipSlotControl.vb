@@ -27,6 +27,7 @@ Imports DevComponents.DotNetBar
 Imports System.Text
 Imports EveHQ.Market
 Imports System.Threading.Tasks
+Imports EveHQ.Common.Extensions
 
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False
@@ -278,13 +279,13 @@ Public Class ShipSlotControl
                                               ' base ship price
                                               ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
                                               ' the sum of all the modules except the ship item.
-                                              ParentFitting.BaseShip.FittingMarketPrice =
-                                                  Aggregate item In prices Where item.Key <> ParentFitting.BaseShip.ID Into total = Sum(item.Value)
+                                              Dim total As Double = prices.Sum(Function(itemPrice) itemPrice.Value * (From id In itemIds Where id = itemPrice.Key).Count())
 
+                                              ParentFitting.BaseShip.FittingMarketPrice = total
 
                                               lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToInvariantString("N2")
                                               lblFittingMarketPrice.Text = "Total Price: " &
-                                                                           (ParentFitting.BaseShip.MarketPrice + ParentFitting.BaseShip.FittingMarketPrice).
+                                                                           (ParentFitting.BaseShip.FittingMarketPrice).
                                                                                ToInvariantString("N2")
 
                                               ' update the fitting slots with their respective price value

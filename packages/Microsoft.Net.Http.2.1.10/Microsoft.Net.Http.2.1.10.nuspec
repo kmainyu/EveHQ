@@ -28,11 +28,5 @@ This package is not supported in Visual Studio 2010, and is only required for pr
       <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Net.Http.WebRequest" targetFramework=".NETFramework4.5" />
     </frameworkAssemblies>
-    <references>
-      <reference file="System.Net.Http.dll" />
-      <reference file="System.Net.Http.Extensions.dll" />
-      <reference file="System.Net.Http.Primitives.dll" />
-      <reference file="System.Net.Http.WebRequest.dll" />
-    </references>
   </metadata>
 </package>

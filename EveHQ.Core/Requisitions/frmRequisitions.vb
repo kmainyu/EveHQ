@@ -23,6 +23,7 @@ Imports System.Text
 Imports System.Threading.Tasks
 Imports DevComponents.AdvTree
 Imports EveHQ.Market
+Imports EveHQ.Common.Extensions
 
 Public Class frmRequisitions
 

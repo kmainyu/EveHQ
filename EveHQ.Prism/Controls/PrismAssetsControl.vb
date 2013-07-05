@@ -26,6 +26,7 @@ Imports System.Text
 Imports System.IO
 Imports EveHQ.Market
 Imports System.Threading.Tasks
+Imports EveHQ.Common.Extensions
 
 Public Class PrismAssetsControl
 
@@ -378,7 +379,7 @@ Public Class PrismAssetsControl
         lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant("Calculating...", "Calculating...")
 
         ' tree structure updated... start processing pricing data in background
-        Task.Factory.StartNew(Sub() FetchPricingData())
+        Task.Factory.TryRun(Sub() FetchPricingData())
 
 
 

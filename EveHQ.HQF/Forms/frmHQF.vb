@@ -24,6 +24,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.Xml
 Imports EveHQ.Market
+Imports EveHQ.Common.Extensions
 Imports Microsoft.Win32
 Imports DevComponents.AdvTree
 Imports System.Text

@@ -29,6 +29,7 @@ Imports System.IO.Compression
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 Imports System.ComponentModel
+Imports EveHQ.Common.Extensions
 
 Public Class frmUpdater
 
@@ -53,6 +54,8 @@ Public Class frmUpdater
     Dim UpdateQueue As New List(Of String)
     Dim UpdateAborted As Boolean = False
     Dim FailedFileCount As Integer = 0
+
+    Private _installerUrl As String
 
 #Region " Form Opening and Closing Routines"
 
@@ -121,6 +124,7 @@ Public Class frmUpdater
             UpdateXML.LoadXml(webdata)
             Return UpdateXML
         Catch e As Exception
+            Trace.TraceError(e.FormatException())
             Dim msg As String = e.Message & ControlChars.CrLf & ControlChars.CrLf
             MessageBox.Show(msg, "Error Obtaining Update File", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return Nothing
@@ -814,6 +818,14 @@ Public Class frmUpdater
         Call Me.ShowUpdates()
     End Sub
 
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
 End Class
 
 Public Class EveHQComponent

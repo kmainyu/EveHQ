@@ -27,8 +27,10 @@ Imports System.Text
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports EveHQ.EveAPI
 Imports EveHQ.Market
+Imports EveHQ.Common.Extensions
 Imports Microsoft.VisualBasic.FileIO
 Imports System.Threading.Tasks
+
 
 Public Class DataFunctions
     Shared customSQLCEConnection As New SqlCeConnection
@@ -883,16 +885,16 @@ Public Class DataFunctions
                                                        Return ProcessPriceTaskData(markettask, itemIDs, metric, transType)
                                                    End Function)
             Else
-                resultTask = Task.Factory.StartNew(Function() As Dictionary(Of String, Double)
-                                                       'Empty Result
-                                                       Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
-                                                   End Function)
+                resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
+                                                                                       'Empty Result
+                                                                                       Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
+                                                                                   End Function)
             End If
         Else
-            resultTask = Task.Factory.StartNew(Function() As Dictionary(Of String, Double)
-                                                   'Empty Result
-                                                   Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
-                                               End Function)
+            resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
+                                                                                   'Empty Result
+                                                                                   Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
+                                                                               End Function)
         End If
 
         Return resultTask

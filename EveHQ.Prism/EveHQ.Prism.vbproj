@@ -334,6 +334,10 @@
     <None Include="Resources\icon33_02.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
+      <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
+      <Name>EveHQ.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>

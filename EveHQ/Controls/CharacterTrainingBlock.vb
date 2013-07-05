@@ -143,11 +143,11 @@ Public Class CharacterTrainingBlock
     Private Sub lblQueue_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblQueue.LinkClicked
         If UsingAccount <> "" Then
             ' Start a link to the DSS GTC site
-            Try
-                Process.Start("https://shop.battleclinic.com/product_info.php?ref=33&products_id=47")
-            Catch ex As Exception
-                MessageBox.Show("Unable to browse to the selected website", "Account Expiry Link Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Try
+            'Try
+
+            'Catch ex As Exception
+            '    MessageBox.Show("Unable to browse to the selected website", "Account Expiry Link Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            'End Try
         End If
     End Sub
 

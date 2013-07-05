@@ -17,6 +17,8 @@ namespace EveHQ.Market
 {
     using System;
 
+    using EveHQ.Common.Extensions;
+
     using Newtonsoft.Json;
 
     /// <summary>

@@ -18,15 +18,21 @@ namespace EveHQ.Market.MarketServices
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
     using EveHQ.Caching;
     using EveHQ.Caching.Raven;
+    using EveHQ.Common;
+    using EveHQ.Common.Extensions;
+
+    using Ionic.Zip;
 
     using Newtonsoft.Json;
 
@@ -48,7 +54,7 @@ namespace EveHQ.Market.MarketServices
         private const string NewMarketData = "New market data has been downloaded. Please reload any views containing pricing data to see the latest values.";
 
         /// <summary>The last download ts.</summary>
-        private const string LastDownloadTs = "LastDownloadTime";
+        private const string LastDownloadTs = "LastDownloadTime- {0}";
 
         /// <summary>The item key format.</summary>
         private const string ItemKeyFormat = "{0}";
@@ -169,7 +175,7 @@ namespace EveHQ.Market.MarketServices
         /// <returns>The <see cref="Task"/>.</returns>
         public Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity)
         {
-            return Task<IEnumerable<ItemOrderStats>>.Factory.StartNew(() => this.RetrievePriceData(typeIds, includeRegions, systemId, minQuantity));
+            return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(() => this.RetrievePriceData(typeIds, includeRegions, systemId, minQuantity));
         }
 
         /// <summary>The retrieve price data.</summary>
@@ -181,7 +187,9 @@ namespace EveHQ.Market.MarketServices
         private IEnumerable<ItemOrderStats> RetrievePriceData(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity)
         {
             // check that we've had some download of data in the cache
-            CacheItem<DateTimeOffset> lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
+            int marketLocation = systemId.HasValue ? systemId.Value : includeRegions != null ? includeRegions.FirstOrDefault() : 0;
+            string lastDownloadKey = LastDownloadTs.FormatInvariant(marketLocation);
+            CacheItem<DateTimeOffset> lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
             if (lastDownload == null)
             {
                 // no downloaded data OR someone wiped the cache.
@@ -189,12 +197,12 @@ namespace EveHQ.Market.MarketServices
                 // will take some time. 
                 lock (initLockObj)
                 {
-                    lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
+                    lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
                     if (lastDownload == null && !downloadInProgres)
                     {
                         downloadInProgres = true;
-                        InitializeDataCache();
-                        lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
+                        InitializeDataCache(marketLocation);
+                        lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
                         downloadInProgres = false;
                     }
                 }
@@ -231,65 +239,46 @@ namespace EveHQ.Market.MarketServices
                 cachedResults.AddRange(typeIds.Select(type => marketData.Data.Items.FirstOrDefault(t => t.ItemTypeId == type)).Where(stats => stats != null));
             }
 
-
             // if the lastDownload result is dirty, it's time to queue up a background download of the data.
             if (lastDownload.IsDirty)
             {
-                Task.Factory.StartNew(DownloadLatestData);
+                Task.Factory.TryRun(()=>DownloadLatestData(marketLocation));
             }
 
             return cachedResults;
         }
 
         /// <summary>The initialize data cache.</summary>
-        private void InitializeDataCache()
+        private void InitializeDataCache(int marketLocation)
         {
             // TODO: In EveHQ 3, this must be done by a messaging provider, so we can message the user on the UI from the backside code.
             // For EveHQ 2.x ... we'll ignore SoC to get it working.
             if (MessageBox.Show(DataNotInitialized, "No Market Data!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                DownloadLatestData();
+                DownloadLatestData(marketLocation);
             }
         }
 
         /// <summary>The download latest data.</summary>
-        private void DownloadLatestData()
+        private void DownloadLatestData(int marketLocation)
         {
+
             try
             {
                 lock (downloadLock)
                 {
-                    var lastDownload = _priceCache.Get<DateTimeOffset>(LastDownloadTs);
-                    if ( lastDownload == null || lastDownload.IsDirty)
-                    {
-                        // get the latest system data
-                        foreach (int system in SupportedSystems)
-                        {
-                            var locationData = DownloadData(system);
+                    var locationData = DownloadData(marketLocation);
 
-                            _priceCache.Add(ItemKeyFormat.FormatInvariant(system), locationData, DateTimeOffset.Now.Add(_cacheTtl));
+                    _priceCache.Add(ItemKeyFormat.FormatInvariant(marketLocation), locationData, DateTimeOffset.Now.Add(_cacheTtl));
 
-                        }
+                    MessageBox.Show(NewMarketData, string.Empty, MessageBoxButtons.OK);
 
-                        // get the latest region data
-                        // get the latest system data
-                        foreach (int region in SupportedRegions)
-                        {
-                            var locationData = DownloadData(region);
-
-                            _priceCache.Add(ItemKeyFormat.FormatInvariant(region), locationData, DateTimeOffset.Now.Add(_cacheTtl));
-
-                        }
-
-                        _priceCache.Add(LastDownloadTs, DateTimeOffset.Now, DateTimeOffset.Now.Add(_cacheTtl));
-
-                        MessageBox.Show(NewMarketData, string.Empty, MessageBoxButtons.OK);
-                    }
                 }
             }
             catch (Exception e)
             {
                 // log it.
+                Trace.TraceError(e.FormatException());
                 throw e;
             }
         }
@@ -310,17 +299,23 @@ namespace EveHQ.Market.MarketServices
 
                 try
                 {
-                    var readTask = requestTask.Result.Content.ReadAsStringAsync();
+                    var readTask = requestTask.Result.Content.ReadAsStreamAsync();
                     readTask.Wait();
 
                     // process result
-                    var retrievedData = JsonConvert.DeserializeObject<MarketLocationData>(readTask.Result);
-
-                    results = retrievedData;
+                    using(var buffer = new MemoryStream())
+                    using (ZipFile compressedData = ZipFile.Read(readTask.Result))
+                    {
+                        ZipEntry marketData = compressedData["{0}.txt".FormatInvariant(entityId)];
+                        marketData.Extract(buffer);
+                        
+                        var jsonData = Encoding.UTF8.GetString(buffer.ToArray());
+                        results = JsonConvert.DeserializeObject<MarketLocationData>(jsonData);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // todo: log deserialize error.
+                    Trace.TraceError(ex.FormatException());
                     throw ex;
                 }
 

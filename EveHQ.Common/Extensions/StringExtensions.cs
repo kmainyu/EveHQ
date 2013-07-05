@@ -18,7 +18,7 @@
 //  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 // =========================================================================
 
-namespace EveHQ.Market
+namespace EveHQ.Common.Extensions
 {
     using System;
     using System.Globalization;

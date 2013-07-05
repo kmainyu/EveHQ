@@ -18,22 +18,26 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.ComponentModel
-Imports System.Data
 Imports System.Net.Cache
-Imports DevComponents.AdvTree
+Imports System.Data
 Imports EveHQ.EveAPI
+Imports EveHQ.Common
+Imports DevComponents.AdvTree
 Imports EveHQ.Core
 Imports DevComponents.DotNetBar
-Imports System.IO
 Imports System.Xml
 Imports System.Globalization
 Imports System.Net
 Imports System.Threading
+Imports System.IO
 Imports System.Net.Mail
 Imports System.Reflection
 Imports System.Text
+Imports System.Net.Http
+Imports EveHQ.Common.Extensions
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.FileIO
+Imports System.Threading.Tasks
 
 Public Class frmEveHQ
     Dim WithEvents eveTQWorker As BackgroundWorker = New BackgroundWorker
@@ -310,22 +314,31 @@ Public Class frmEveHQ
                 End If
             Else
                 ' Close and flush the timer file
-                Try
-                    HQ.EveHQLogFile.Flush()
-                    HQ.EveHQLogFile.Close()
-                Catch ex As Exception
-                    ' Do nothing?
-                End Try
+                Trace.Flush()
+                Trace.Listeners.Remove(HQ.EveHqTracer)
             End If
         Catch ex As Exception
             MessageBox.Show("An error occured while closing EveHQ: " & ex.Message & "- " & ex.StackTrace,
                             "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
+        Finally
+            If (HQ.LoggingStream.CanWrite) Then
+
+
+                HQ.LoggingStream.Flush()
+                HQ.LoggingStream.Close()
+                HQ.LoggingStream.Dispose()
+            End If
         End Try
     End Sub
 
     Private Sub frmEveHQ_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
         Me.Hide()
+
+        ' error handlers for any unhandled error forground or background
+        AddHandler Application.ThreadException, AddressOf frmEveHQ.CatchUIThreadException
+        AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf frmEveHQ.CatchAppDomainUnhandledException
 
         ' Set global AdvTree settings
         AdvTreeSettings.SelectedScrollIntoViewHorizontal = False
@@ -597,7 +610,7 @@ Public Class frmEveHQ
                 Dim strCharNotify As String = ""
                 For Each cPilot As Pilot In HQ.EveHqSettings.Pilots
                     If cPilot.Training = True Then
-                        Dim timeLimit As Date = Now.AddSeconds(HQ.EveHqSettings.ShutdownNotifyPeriod * 3600)
+                        Dim timeLimit As Date = Now.AddSeconds(HQ.EveHqSettings.ShutdownNotifyPeriod*3600)
                         If cPilot.TrainingEndTime < timeLimit Then
                             If cPilot.QueuedSkillTime > 0 Then
                                 If cPilot.TrainingEndTime.AddSeconds(cPilot.QueuedSkillTime) < timeLimit Then
@@ -656,7 +669,7 @@ Public Class frmEveHQ
             ' Close all the open tabs first
             Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
             If mainTab.Tabs.Count > 0 Then
-                For tab As Integer = mainTab.Tabs.Count - 1 To 0 Step -1
+                For tab As Integer = mainTab.Tabs.Count - 1 To 0 Step - 1
                     HQ.WriteLogEvent("Shutdown: Closing tab: " & mainTab.Tabs(tab).Text)
                     CType(mainTab.Tabs(tab).AttachedControl, Form).Close()
                 Next
@@ -720,11 +733,9 @@ Public Class frmEveHQ
 
             HQ.WriteLogEvent("Shutdown: Shutdown complete")
             ' Close log files
-            Try
-                HQ.EveHQLogFile.Flush()
-                HQ.EveHQLogFile.Close()
-            Catch ex As Exception
-            End Try
+
+            Trace.Flush()
+            Trace.Listeners.Remove(HQ.EveHqTracer)
 
             'End
 
@@ -733,6 +744,13 @@ Public Class frmEveHQ
                 "An error occurred calling the shutdown routine for EveHQ: " & e.Message & " - " & e.StackTrace,
                 "Error Closing EveHQ", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
+        Finally
+            If (HQ.LoggingStream.CanWrite) Then
+
+
+                HQ.LoggingStream.Flush()
+                HQ.LoggingStream.Close()
+            End If
         End Try
     End Sub
 
@@ -805,7 +823,7 @@ Public Class frmEveHQ
                 Return ' no pilots not reason to continue.
             End If
 
- For Each cPilot As Pilot In HQ.EveHQSettings.Pilots
+            For Each cPilot As Pilot In HQ.EveHQSettings.Pilots
                 If cPilot.Active = True And cPilot.Training = True Then
                     notifyText = ""
                     Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
@@ -1226,7 +1244,7 @@ Public Class frmEveHQ
             PilotTrainingTimes.Sort(myClassSorter)
 
             ' Clear old event handlers
-            For c As Integer = pdc1.Controls.Count - 1 To 0 Step -1
+            For c As Integer = pdc1.Controls.Count - 1 To 0 Step - 1
                 Dim cb As CharacterTrainingBlock = CType(pdc1.Controls(c), CharacterTrainingBlock)
                 RemoveHandler cb.lblSkill.Click, AddressOf Me.TrainingStatusLabelClick
                 RemoveHandler cb.lblTime.Click, AddressOf Me.TrainingStatusLabelClick
@@ -1408,12 +1426,12 @@ Public Class frmEveHQ
     Private Sub BackupWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) _
         Handles BackupWorker.RunWorkerCompleted
 
-        If HQ.EveHqSettings.BackupLastResult = -1 Then
+        If HQ.EveHqSettings.BackupLastResult = - 1 Then
             frmBackup.lblLastBackup.Text = HQ.EveHqSettings.BackupLast.ToString
         End If
         Call frmBackup.CalcNextBackup()
         Call frmBackup.ScanBackups()
-        If HQ.EveHqSettings.BackupLastResult = -1 Then
+        If HQ.EveHqSettings.BackupLastResult = - 1 Then
             lblAPIStatus.Text = "Eve Settings Backup Successful: " & HQ.EveHqSettings.BackupLast.ToString
         Else
             lblAPIStatus.Text = "Eve Settings Backup Aborted - No Source Folders"
@@ -1431,7 +1449,7 @@ Public Class frmEveHQ
         If frmBackupEveHQ.IsHandleCreated = True Then
             Call frmBackupEveHQ.ScanBackups()
         End If
-        If HQ.EveHqSettings.EveHQBackupLastResult = -1 Then
+        If HQ.EveHqSettings.EveHQBackupLastResult = - 1 Then
             lblAPIStatus.Text = "EveHQ Settings Backup Successful: " & HQ.EveHqSettings.EveHQBackupLast.ToString
         Else
             lblAPIStatus.Text = "EveHQ Settings Backup Failed!"
@@ -2033,9 +2051,12 @@ Public Class frmEveHQ
 #Region "Update Check & Menu"
 
     Private Sub CheckForUpdates(ByVal state As Object)
+        Trace.TraceInformation("Checking For Updates")
         Dim DatabaseUpgradeAvailable As Boolean = False
         Dim CurrentComponents As New SortedList
         Dim UpdateXML As XmlDocument = FetchUpdateXML()
+
+        Dim currentVersion As Version
         If UpdateXML Is Nothing Then
             Exit Sub
         Else
@@ -2043,94 +2064,50 @@ Public Class frmEveHQ
             ' Get a current list of components
             CurrentComponents.Clear()
             Dim msg As String = ""
-            For Each myAssembly As AssemblyName In Assembly.GetExecutingAssembly().GetReferencedAssemblies()
-                If CurrentComponents.Contains(myAssembly.Name & ".dll") = False Then
-                    If myAssembly.Name.StartsWith("EveHQ") Then
-                        CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
-                        CurrentComponents.Add(myAssembly.Name & ".pdb", myAssembly.Version.ToString)
-                    ElseIf myAssembly.Name.StartsWith("DevComponents") Then
-                        CurrentComponents.Add(myAssembly.Name & ".dll", myAssembly.Version.ToString)
-                    End If
-                End If
-            Next
-            ' Add to that a list of the plug-ins used
-            For Each myPlugIn As PlugIn In HQ.EveHqSettings.Plugins.Values
-                If myPlugIn.ShortFileName IsNot Nothing Then
-                    If CurrentComponents.Contains(myPlugIn.ShortFileName) = False Then
-                        CurrentComponents.Add(myPlugIn.ShortFileName, myPlugIn.Version)
-                        CurrentComponents.Add(Path.GetFileNameWithoutExtension(myPlugIn.FileName) & ".pdb",
-                                              myPlugIn.Version)
-                    End If
-                End If
-            Next
-            ' Add the current executable!
-            CurrentComponents.Add("EveHQ.exe", My.Application.Info.Version.ToString)
-            CurrentComponents.Add("EveHQ.pdb", My.Application.Info.Version.ToString)
-            ' Add the LgLcd.dll - unique as not a .Net assembly
-            If My.Computer.FileSystem.FileExists(Path.Combine(Application.StartupPath, "LgLcd.dll")) = True Then
-                CurrentComponents.Add("LgLcd.dll", "Any")
-            Else
-                CurrentComponents.Add("LgLcd.dll", "Not Present")
-            End If
-            ' Try and add the database version (if using Access)
-            If HQ.EveHqSettings.DBFormat = 0 Then
-                Dim databaseData As DataSet = DataFunctions.GetData("SELECT * FROM EveHQVersion;")
-                If databaseData IsNot Nothing Then
-                    If databaseData.Tables(0).Rows.Count > 0 Then
-                        CurrentComponents.Add("EveHQ.sdf.zip", databaseData.Tables(0).Rows(0).Item("Version").ToString)
-                    Else
-                        CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
-                    End If
-                Else
-                    CurrentComponents.Add("EveHQ.sdf.zip", "1.0.0.0")
-                End If
-            End If
+            currentVersion = My.Application.Info.Version
 
             ' Try parsing the update file 
             Try
                 Dim updateDetails As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/lastUpdated")
                 Dim lastUpdate As String = updateDetails(0).InnerText
-                Dim requiredFiles As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/files/file")
-                For Each updateFile As XmlNode In requiredFiles
-                    ' Check if the plug-in is available
-                    If CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)) IsNot Nothing Then
-                        ' Check which is the later version
-                        If _
-                            IsUpdateAvailable(CStr(CurrentComponents.Item(updateFile.ChildNodes(0).InnerText)),
-                                              updateFile.ChildNodes(2).InnerText) = True Then
-                            UpdateRequired = True
-                        End If
-                    Else
-                        If _
-                            updateFile.ChildNodes(0).InnerText <> "EveHQ.sdf.zip" Or
-                            (updateFile.ChildNodes(0).InnerText = "EveHQ.sdf.zip" And HQ.EveHqSettings.DBFormat = 0) _
-                            Then
-                            UpdateRequired = True
-                        End If
-                    End If
-                Next
-                If UpdateRequired = True Then
+
+                Dim updateVersion As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/version")
+
+                Dim installerLocation As XmlNodeList = UpdateXML.SelectNodes("/eveHQUpdate/location")
+
+                If (IsUpdateAvailable(currentVersion.ToString, updateVersion(0).InnerText)) Then
+                    Trace.TraceInformation("Update Available")
                     btnUpdateEveHQ.Enabled = True
                     Dim reply As Integer =
-                            MessageBox.Show("There are updates available. Would you like to update EveHQ now?",
-                                            "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                            MessageBox.Show(
+                                "There is an update for EveHQ. Would you like to download the latest version?",
+                                "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.No Then
                         Exit Sub
                     Else
-                        Me.Invoke(New MethodInvoker(AddressOf Me.ShowUpdateForm))
+                        Me.Invoke(Sub()
+                                      ShowUpdateForm(installerLocation(0).InnerText)
+                                  End Sub)
                     End If
+                Else
+                    Trace.TraceInformation("No Update Available")
                 End If
             Catch ex As Exception
             End Try
         End If
     End Sub
 
-    Private Sub ShowUpdateForm()
-        Dim myUpdater As New frmUpdater
+    Private Sub ShowUpdateForm(installerUrl As String)
+        Dim myUpdater As New newUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), HQ.RemoteProxy.ProxyServer,
+                                                                                        HQ.RemoteProxy.
+                                                                                           UseDefaultCredentials,
+                                                                                        HQ.RemoteProxy.ProxyUsername,
+                                                                                        HQ.RemoteProxy.ProxyPassword,
+                                                                                        HQ.RemoteProxy.UseBasicAuthentication)
         myUpdater.Show()
     End Sub
 
-    Private Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
+    Private Shared Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
         If localVer = "Not Used" Then
             Return False
         Else
@@ -2157,33 +2134,44 @@ Public Class frmEveHQ
     End Function
 
     Private Function FetchUpdateXML() As XmlDocument
+
         ' Set a default policy level for the "http:" and "https" schemes.
-        Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
         Dim UpdateServer As String = HQ.EveHqSettings.UpdateURL
-        Dim remoteURL As String = UpdateServer & "_updates.xml"
-        Dim webdata As String = ""
+        Dim remoteURL As String = UpdateServer & "_evehqupdate.xml"
         Dim UpdateXML As New XmlDocument
+        Trace.TraceInformation("Fetching Update XML document from {0}".FormatInvariant(remoteURL))
         Try
             ' Create the requester
-            ServicePointManager.DefaultConnectionLimit = 10
-            ServicePointManager.Expect100Continue = False
-            Dim servicePoint As ServicePoint = ServicePointManager.FindServicePoint(New Uri(remoteURL))
-            Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
-            request.UserAgent = "EveHQ Updater " & My.Application.Info.Version.ToString
-            request.CachePolicy = policy
-            ' Setup proxy server (if required)
-            Call ProxyServerFunctions.SetupWebProxy(request)
-            ' Prepare for a response from the server
-            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-            ' Get the stream associated with the response.
-            Dim receiveStream As Stream = response.GetResponseStream()
-            ' Pipes the stream to a higher level stream reader with the required encoding format. 
-            Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-            webdata = readStream.ReadToEnd()
+            Dim temp As Uri
+            If Uri.TryCreate(remoteURL, UriKind.Absolute, temp) = False Then
+                Return Nothing
+            End If
+
+            Dim tempProxy As Uri = Nothing
+            If (Uri.TryCreate(HQ.RemoteProxy.ProxyServer, UriKind.Absolute, tempProxy)) = False Then
+                tempProxy = Nothing
+            End If
+
+            Dim requestTask As Task(Of HttpResponseMessage) = WebRequestHelper.GetAsync(temp,
+                                                                                        tempProxy,
+                                                                                        HQ.RemoteProxy.
+                                                                                           UseDefaultCredentials,
+                                                                                        HQ.RemoteProxy.ProxyUsername,
+                                                                                        HQ.RemoteProxy.ProxyPassword,
+                                                                                        HQ.RemoteProxy.
+                                                                                           UseBasicAuthentication)
+
+            requestTask.Wait()
+            If (requestTask.IsFaulted Or requestTask.Exception IsNot Nothing) Then
+                Return Nothing
+            End If
+            Dim readTask As Task(Of String) = requestTask.Result.Content.ReadAsStringAsync()
+            readTask.Wait()
             ' Check response string for any error codes?
-            UpdateXML.LoadXml(webdata)
+            UpdateXML.LoadXml(readTask.Result)
             Return UpdateXML
         Catch e As Exception
+            Trace.TraceError(e.FormatException())
             Return Nothing
         End Try
     End Function
@@ -2264,7 +2252,7 @@ Public Class frmEveHQ
                             read = responseStream.Read(buffer, 0, buffer.Length)
                             fs.Write(buffer, 0, read)
                             totalBytes += read
-                            percent = CInt(totalBytes / filesize * 100)
+                            percent = CInt(totalBytes/filesize*100)
                         Loop Until read = 0
                         'see Note(1)
                         responseStream.Close()
@@ -2379,7 +2367,20 @@ Public Class frmEveHQ
 
 #End Region
 
+    Public Shared Sub CatchUIThreadException(ByVal sender As Object, ByVal t As ThreadExceptionEventArgs)
+        Trace.TraceWarning("Unhandled Exception was caught from AppDomain.")
+        CatchGeneralException(t.Exception)
+    End Sub
+
+    Public Shared Sub CatchAppDomainUnhandledException(sender As Object, args As UnhandledExceptionEventArgs)
+        Trace.TraceWarning("Unhandled Exception was caught from AppDomain.")
+        CatchGeneralException(CType(args.ExceptionObject, Exception))
+    End Sub
+
     Public Shared Sub CatchGeneralException(ByRef e As Exception)
+
+        Diagnostics.Trace.TraceError(e.FormatException())
+
         Dim myException As New frmException
         myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
         myException.lblError.Text = e.Message
@@ -2667,7 +2668,7 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub btnCheckForUpdates_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckForUpdates.Click
-        Call Me.ShowUpdateForm()
+        Call CheckForUpdates(Nothing)
     End Sub
 
     Private Sub btnUpdateEveHQ_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpdateEveHQ.Click
@@ -3417,7 +3418,6 @@ Public Class frmEveHQ
         If (Directory.Exists(fitterCache)) Then
             Directory.Delete(fitterCache, True)
         End If
-
     End Sub
 
     Private Sub btnDeleteCoreCache_Click(sender As Object, e As EventArgs) Handles btnDeleteCoreCache.Click
@@ -3439,7 +3439,5 @@ Public Class frmEveHQ
         Call DataFunctions.LoadStations()
         Call DataFunctions.CreateCoreCache()
     End Sub
-
-   
 End Class
 

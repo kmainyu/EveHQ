@@ -27,6 +27,8 @@ namespace EveHQ.Market
 
     using EveHQ.Caching;
     using EveHQ.Caching.Raven;
+    using EveHQ.Common;
+    using EveHQ.Common.Extensions;
 
     /// <summary>
     ///     Market data provider, sourcing data from Eve-Central.com
@@ -178,7 +180,7 @@ namespace EveHQ.Market
         /// <exception cref="InvalidOperationException">Thrown when there was a problem with the web request.</exception>
         public Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity)
         {
-            return Task<IEnumerable<ItemOrderStats>>.Factory.StartNew(
+            return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(
                 () =>
                 {
                     var cachedItems = new List<ItemOrderStats>();
@@ -226,7 +228,7 @@ namespace EveHQ.Market
                         Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
                         requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
-                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+                        if (requestTask.IsCompleted && requestTask.Result !=null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
                         {
                             using (Stream stream = requestTask.Result.GetResponseStream())
                             {
@@ -270,7 +272,7 @@ namespace EveHQ.Market
         /// <returns>Returns a reference to the async task.</returns>
         public Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity)
         {
-            return Task<ItemMarketOrders>.Factory.StartNew(
+            return Task<ItemMarketOrders>.Factory.TryRun(
                 () =>
                 {
                     string cacheKey;
@@ -402,11 +404,11 @@ namespace EveHQ.Market
 
                 if (dataElement != null)
                 {
-                    orderData.ItemTypeId = dataElement.Element("item").Value.ToInt();
+                    orderData.ItemTypeId = StringExtensions.ToInt(dataElement.Element("item").Value);
                     orderData.ItemName = dataElement.Element("itemname").Value;
-                    orderData.Regions = new HashSet<int>(dataElement.Element("regions").Value.Split(',').Select(region => region.ToInt()).Where(region => region > 0));
-                    orderData.Hours = dataElement.Element("hours").Value.ToInt();
-                    orderData.MinQuantity = dataElement.Element("minqty").Value.ToInt();
+                    orderData.Regions = new HashSet<int>(dataElement.Element("regions").Value.Split(',').Select(region => StringExtensions.ToInt(region)).Where(region => region > 0));
+                    orderData.Hours = StringExtensions.ToInt(dataElement.Element("hours").Value);
+                    orderData.MinQuantity = StringExtensions.ToInt(dataElement.Element("minqty").Value);
 
                     // sell orders
                     XElement orderElement;
@@ -436,15 +438,15 @@ namespace EveHQ.Market
             // ReSharper disable PossibleNullReferenceException
             // The format schema is strict and any exception is caught upstream.
             return from order in orderElement.Elements("order")
-                   let orderId = order.Attribute("id").Value.ToLong()
-                   let regionId = order.Element("region").Value.ToInt()
-                   let stationId = order.Element("station").Value.ToInt()
+                   let orderId = StringExtensions.ToLong(order.Attribute("id").Value)
+                   let regionId = StringExtensions.ToInt(order.Element("region").Value)
+                   let stationId = StringExtensions.ToInt(order.Element("station").Value)
                    let stationName = order.Element("station_name").Value
-                   let security = order.Element("security").Value.ToDouble()
-                   let range = order.Element("range").Value.ToInt()
-                   let price = order.Element("price").Value.ToDouble()
-                   let quantityRemaining = order.Element("vol_remain").Value.ToInt()
-                   let minQuantity = order.Element("min_volume").Value.ToInt()
+                   let security = StringExtensions.ToDouble(order.Element("security").Value)
+                   let range = StringExtensions.ToInt(order.Element("range").Value)
+                   let price = StringExtensions.ToDouble(order.Element("price").Value)
+                   let quantityRemaining = StringExtensions.ToInt(order.Element("vol_remain").Value)
+                   let minQuantity = StringExtensions.ToInt(order.Element("min_volume").Value)
                    let expires = order.Element("expires").Value.ToDateTimeOffset(0)
                    let reported = order.Element("reported_time").Value.ToDateTimeOffset(0)
                    select
@@ -481,7 +483,7 @@ namespace EveHQ.Market
                 {
                     orderStats = (from stats in xml.Root.Elements("marketstat")
                                   from type in stats.Elements("type")
-                                  let typeId = type.Attribute("id").Value.ToInt()
+                                  let typeId = StringExtensions.ToInt(type.Attribute("id").Value)
                                   let buyData = this.GetOrderData(type.Element("buy"))
                                   let sellData = this.GetOrderData(type.Element("sell"))
                                   let allData = this.GetOrderData(type.Element("all"))
@@ -501,14 +503,14 @@ namespace EveHQ.Market
         {
             // ReSharper disable PossibleNullReferenceException
             // null exceptions are caught further up the call stack.
-            long volume = element.Element("volume").Value.ToLong();
+            long volume = StringExtensions.ToLong(element.Element("volume").Value);
 
-            double avg = element.Element("avg").Value.ToDouble();
-            double max = element.Element("max").Value.ToDouble();
-            double min = element.Element("min").Value.ToDouble();
-            double stddev = element.Element("stddev").Value.ToDouble();
-            double median = element.Element("median").Value.ToDouble();
-            double percentile = element.Element("percentile").Value.ToDouble();
+            double avg = StringExtensions.ToDouble(element.Element("avg").Value);
+            double max = StringExtensions.ToDouble(element.Element("max").Value);
+            double min = StringExtensions.ToDouble(element.Element("min").Value);
+            double stddev = StringExtensions.ToDouble(element.Element("stddev").Value);
+            double median = StringExtensions.ToDouble(element.Element("median").Value);
+            double percentile = StringExtensions.ToDouble(element.Element("percentile").Value);
 
             return new OrderStats { Volume = volume, Average = avg, Maximum = max, Minimum = min, StdDeviation = stddev, Median = median, Percentile = percentile };
 

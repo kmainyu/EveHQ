@@ -94,8 +94,6 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.Core.pdb"
   File "..\BuildOutput\Debug\EveHQ.CoreControls.dll"
   File "..\BuildOutput\Debug\EveHQ.CoreControls.pdb"
-  File "..\BuildOutput\Debug\EveHQ.DataConverter.dll"
-  File "..\BuildOutput\Debug\EveHQ.DataConverter.pdb"
   File "..\BuildOutput\Debug\EveHQ.DataUpgrader.exe"
   File "..\BuildOutput\Debug\EveHQ.DataUpgrader.pdb"
   File "..\BuildOutput\Debug\EveHQ.DataUpgrader.exe.config"

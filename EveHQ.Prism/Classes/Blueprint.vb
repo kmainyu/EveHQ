@@ -21,6 +21,7 @@
 Imports System.Windows.Forms
 Imports EveHQ.Market
 Imports System.Threading.Tasks
+Imports EveHQ.Common.Extensions
 
 <Serializable()> Public Class Blueprint
     Public ID As Integer

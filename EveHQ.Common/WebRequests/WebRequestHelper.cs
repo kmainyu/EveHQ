@@ -13,7 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 // =========================================================================
-namespace EveHQ.Market
+namespace EveHQ.Common
 {
     using System;
     using System.Collections.Generic;
@@ -27,10 +27,12 @@ namespace EveHQ.Market
     using System.Text;
     using System.Threading.Tasks;
 
+    using EveHQ.Common.Extensions;
+
     /// <summary>
     /// Helper class for making Async Web requests with .net 3.5
     /// </summary>
-    internal static class WebRequestHelper
+    public static class WebRequestHelper
     {
         /// <summary>
         /// user agent value to send along on requests for provider collection.
@@ -40,12 +42,8 @@ namespace EveHQ.Market
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        public static Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, HttpCompletionOption completionOption= HttpCompletionOption.ResponseContentRead)
         {
-
-
-
-
             var handler = new HttpClientHandler();
 
             //var request = WebRequest.Create(target) as HttpWebRequest;
@@ -73,11 +71,12 @@ namespace EveHQ.Market
             
 
             var request = new HttpClient(handler);
+            
 
-            request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             //request.UserAgent = userAgent;
 
-            return request.GetAsync(target.ToString());
+            return request.GetAsync(target.ToString(),completionOption);
 
 
             // ReSharper restore PossibleNullReferenceException

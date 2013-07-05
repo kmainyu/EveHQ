@@ -24,6 +24,7 @@ Imports System.Net.Mail
 Imports System.IO
 Imports EveHQ.Market
 Imports EveHQ.Market.MarketServices
+Imports EveHQ.Common.Extensions
 Imports Microsoft.Win32
 Imports System.Windows.Forms.VisualStyles
 Imports System.Net
@@ -1400,7 +1401,7 @@ Public Class frmSettings
         Me.nudShutdownNotifyPeriod.Value = HQ.EveHqSettings.ShutdownNotifyPeriod
         Me.chkIgnoreLastMessage.Checked = HQ.EveHqSettings.IgnoreLastMessage
         Me.chkNotifyAccountTime.Checked = HQ.EveHqSettings.NotifyAccountTime
-        Me.chkNotifyInsuffClone.Checked = EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone
+        Me.chkNotifyInsuffClone.Checked = EveHQ.Core.HQ.EveHqSettings.NotifyInsuffClone
         Me.nudAccountTimeLimit.Enabled = HQ.EveHqSettings.NotifyAccountTime
         Me.nudAccountTimeLimit.Value = HQ.EveHqSettings.AccountTimeLimit
     End Sub
@@ -1673,7 +1674,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkNotifyInsuffClone_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyInsuffClone.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone = chkNotifyInsuffClone.Checked
+        EveHQ.Core.HQ.EveHqSettings.NotifyInsuffClone = chkNotifyInsuffClone.Checked
     End Sub
 
     Private Sub chkNotifyAccountTime_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -2239,64 +2240,75 @@ Public Class frmSettings
     End Sub
 
     Private Sub UpdateDataSourceList()
+        If _regionList IsNot Nothing Then
+            If _regionList.Items IsNot Nothing Then
+                _regionList.Items.Clear()
+            End If
 
-        _regionList.Items.Clear()
 
-        If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
-            For Each region As EveGalaticRegion In HQ.Regions.Values
-                _regionList.Items.Add(region.Name)
-            Next
+            If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
+                For Each region As EveGalaticRegion In HQ.Regions.Values
+                    _regionList.Items.Add(region.Name)
+                Next
 
-        Else
-            For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
-                Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region).FirstOrDefault()
-                If (temp isnot Nothing) Then
-                    _regionList.Items.Add(temp.Name)
-                End If
-            Next
+            Else
+                For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
+                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region).FirstOrDefault()
+                    If (temp IsNot Nothing) Then
+                        _regionList.Items.Add(temp.Name)
+                    End If
+                Next
+            End If
         End If
 
-        _systemList.Items.Clear()
-        If (HQ.MarketStatDataProvider.LimitedSystemSelection = False) Then
-            For Each system As SolarSystem In HQ.SolarSystemsByName.Values
-                _systemList.Items.Add(system.Name)
-            Next
+        If _systemList IsNot Nothing Then
+            If _systemList.Items IsNot Nothing Then
+                _systemList.Items.Clear()
+            End If
 
-        Else
-            For Each systemId As Integer In HQ.MarketStatDataProvider.SupportedSystems
-                Dim temp As SolarSystem
-                If (HQ.SolarSystemsById.TryGetValue(systemId.ToInvariantString(), temp)) Then
-                    _systemList.Items.Add(temp.Name)
-                End If
-            Next
+            If (HQ.MarketStatDataProvider.LimitedSystemSelection = False) Then
+                For Each system As SolarSystem In HQ.SolarSystemsByName.Values
+                    _systemList.Items.Add(system.Name)
+                Next
+
+            Else
+                For Each systemId As Integer In HQ.MarketStatDataProvider.SupportedSystems
+                    Dim temp As SolarSystem
+                    If (HQ.SolarSystemsById.TryGetValue(systemId.ToInvariantString(), temp)) Then
+                        _systemList.Items.Add(temp.Name)
+                    End If
+                Next
+            End If
         End If
 
-        If HQ.EveHqSettings.MarketUseRegionMarket = True Then
-            _useRegionData.Checked = True
-            _useSystemPrice.Checked = False
-            _regionList.Enabled = True
-            _systemList.Enabled = False
+        If (_systemList IsNot Nothing And _regionList IsNot Nothing) Then
+            If HQ.EveHqSettings.MarketUseRegionMarket = True Then
+                _useRegionData.Checked = True
+                _useSystemPrice.Checked = False
+                _regionList.Enabled = True
+                _systemList.Enabled = False
 
-            'Get the selected regions from settings and find them in the collection
-            For Each regionID As Integer In Core.HQ.EveHqSettings.MarketRegions
-                Dim marketRegion As EveGalaticRegion = (From galRegion In Core.HQ.Regions _
-                                                         Where galRegion.Value.Id = regionID
-                                                         Select galRegion.Value).FirstOrDefault()
-                If marketRegion IsNot Nothing Then
-                    _regionList.SelectedItems.Add(marketRegion.Name)
+                'Get the selected regions from settings and find them in the collection
+                For Each regionID As Integer In Core.HQ.EveHqSettings.MarketRegions
+                    Dim marketRegion As EveGalaticRegion = (From galRegion In Core.HQ.Regions _
+                                                             Where galRegion.Value.Id = regionID
+                                                             Select galRegion.Value).FirstOrDefault()
+                    If marketRegion IsNot Nothing Then
+                        _regionList.SelectedItems.Add(marketRegion.Name)
+                    End If
+                Next
+
+            Else
+                _useSystemPrice.Checked = True
+                _useRegionData.Checked = False
+                _regionList.Enabled = False
+                _systemList.Enabled = True
+
+                'Find the select system based on id
+                Dim marketSystem As SolarSystem = (From system In Core.HQ.SolarSystemsById Where system.Value.Id = Core.HQ.EveHqSettings.MarketSystem Select system.Value).FirstOrDefault()
+                If marketSystem IsNot Nothing Then
+                    _systemList.SelectedItem = marketSystem.Name
                 End If
-            Next
-
-        Else
-            _useSystemPrice.Checked = True
-            _useRegionData.Checked = False
-            _regionList.Enabled = False
-            _systemList.Enabled = True
-
-            'Find the select system based on id
-            Dim marketSystem As SolarSystem = (From system In Core.HQ.SolarSystemsById Where system.Value.Id = Core.HQ.EveHqSettings.MarketSystem Select system.Value).FirstOrDefault()
-            If marketSystem IsNot Nothing Then
-                _systemList.SelectedItem = marketSystem.Name
             End If
         End If
     End Sub

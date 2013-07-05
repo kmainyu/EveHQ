@@ -28,6 +28,7 @@ Imports System.Net
 Imports System.Text
 Imports EveHQ.Market
 Imports System.Threading.Tasks
+Imports EveHQ.Common.Extensions
 
 Public Class frmMarketPrices
     Dim Regions As New SortedList(Of String, Long) ' RegionName, RegionID

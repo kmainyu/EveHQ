@@ -28,6 +28,7 @@ Imports System.Text
 Imports System.Runtime.InteropServices
 Imports System.Data.OleDb
 Imports System.Threading
+Imports EveHQ.Common.Logging
 
 Public Class frmSplash
 
@@ -40,6 +41,8 @@ Public Class frmSplash
     Dim WidgetsLoaded As Boolean = False
     Dim ItemsLoaded As Boolean = False
     Dim MessageLoaded As Boolean = False
+
+
 
     Private is64BitProcess As Boolean = (IntPtr.Size = 8)
     Private is64BitOperatingSystem As Boolean = (is64BitProcess Or InternalCheckIsWow64())
@@ -68,6 +71,8 @@ Public Class frmSplash
         Application.CurrentCulture = CultureInfo.GetCultureInfo("en-GB")
         Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-GB")
         Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-GB")
+
+        ' configure trace listener
         
         'Create a custom font collection from resources
         Dim MyFonts As New Drawing.Text.PrivateFontCollection
@@ -125,9 +130,6 @@ Public Class frmSplash
             EveHQ.Core.HQ.AppDataFolder = EveHQ.Core.HQ.appFolder
         End If
 
-        ' Create log file
-        EveHQ.Core.HQ.EveHQLogFile = New IO.StreamWriter(Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQLog.log"), False)
-        EveHQ.Core.HQ.EveHQLogTimer.Start()
         EveHQ.Core.HQ.WriteLogEvent("Start of EveHQ Event Log: " & Now.ToString)
 
         If Stopwatch.IsHighResolution Then

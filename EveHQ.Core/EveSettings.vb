@@ -28,6 +28,7 @@ Imports System.Xml
 Imports System.Web
 Imports System.Globalization
 Imports System.Text
+Imports EveHQ.Common.Extensions
 
 <Serializable()>
 Public Class EveSettings
@@ -2176,19 +2177,20 @@ Public Class EveHQSettingsFunctions
                 SaveEveHQSettings()
 
             Catch ex As Exception
+                Trace.TraceError(ex.FormatException())
                 Dim msg As String =
                         "There was an error trying to load the settings file and it appears that this file is corrupt." &
                         ControlChars.CrLf & ControlChars.CrLf
                 msg &= "The error was: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf
                 msg &= "Stacktrace: " & ex.StackTrace & ControlChars.CrLf & ControlChars.CrLf
                 msg &=
-                    "EveHQ will delete this file and re-initialise the settings. This means you will need to re-enter your API information but your skill queues and fittings should be intact and available once the API data has been downloaded." &
+                    "EveHQ will copy this file to 'EveHQSettings.bad' and delete the original file and re-initialise the settings. This means you will need to re-enter your API information but your skill queues and fittings should be intact and available once the API data has been downloaded. You can attempt to reload the old settings by renaming the 'EveHQSettings.bad' file to 'EveHQSettings.bin', however if the issue continues the bad file will be useful to the EveHQ team for debugging purposes" &
                     ControlChars.CrLf & ControlChars.CrLf
                 msg &= "Press OK to reset the settings." & ControlChars.CrLf
                 MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Try
                     s.Close()
-                    My.Computer.FileSystem.DeleteFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"))
+                    My.Computer.FileSystem.CopyFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), Path.Combine(HQ.AppDataFolder, "EveHQSettings.bad"), True)
                 Catch e As Exception
                     MessageBox.Show(
                         "Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding",

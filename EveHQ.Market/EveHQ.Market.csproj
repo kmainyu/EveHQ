@@ -41,23 +41,24 @@
     <Reference Include="EVECacheParser">
       <HintPath>..\Ref\EveCacheParser\EVECacheParser.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net35\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Extensions">
+    <Reference Include="System.Net.Http.Extensions, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net40\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives">
+    <Reference Include="System.Net.Http.Primitives, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net40\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest, Version=2.1.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime">
@@ -92,7 +93,6 @@
     <Compile Include="ItemOrderStats.cs" />
     <Compile Include="MarketMetric.cs" />
     <Compile Include="MarketProvider.cs" />
-    <Compile Include="NumericalExtensions.cs" />
     <Compile Include="UnifiedMarketDataFormat\OrderRow.cs" />
     <Compile Include="UnifiedMarketDataFormat\OrderRowConverter.cs" />
     <Compile Include="UnifiedMarketDataFormat\OrderRowset.cs" />
@@ -104,12 +104,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UnifiedMarketDataFormat\ResultType.cs" />
-    <Compile Include="StringExtensions.cs" />
     <Compile Include="UnifiedMarketDataFormat\UnifiedDataFormat.cs" />
     <Compile Include="UnifiedMarketDataFormat\UnifiedDataRowset.cs" />
     <Compile Include="UnifiedMarketDataFormat\UploadGenerator.cs" />
     <Compile Include="UnifiedMarketDataFormat\UploadKey.cs" />
-    <Compile Include="WebRequestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -129,13 +127,16 @@
       <Project>{530AFD36-A0F1-4C7F-81AF-ADA01F69E123}</Project>
       <Name>EveHQ.Caching</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
+      <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
+      <Name>EveHQ.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\Version.Csharp.Targets" />
   <Target Name="BeforeBuild">
     <CallTarget Targets="SetAssemblyVersion" />
   </Target>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.7\tools\Microsoft.Bcl.Build.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
  

@@ -24,6 +24,7 @@ Imports System.IO
 Imports System.Linq
 Imports EveHQ.Market
 Imports EveHQ.Market.MarketServices
+Imports EveHQ.Common.Logging
 
 Public Class HQ
     Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr,
@@ -85,8 +86,6 @@ Public Class HQ
     Public Shared Event ShutDownEveHQ()
     Public Shared UpdateShutDownRequest As Boolean = False
     Public Shared RemoteProxy As New RemoteProxyServer
-    Public Shared EveHQLogTimer As New Stopwatch
-    Public Shared EveHQLogFile As StreamWriter
     Public Shared Stations As New SortedList(Of String, Station)
     Private Shared _solarSystemsById As SortedList(Of String, SolarSystem)
     Private Shared _solarSystemsByName As SortedList(Of String, SolarSystem)
@@ -104,6 +103,15 @@ Public Class HQ
     Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
     Private Shared _marketCacheUploader As MarketUploader
     Private Shared _tickerItemList As New List(Of String)
+    Private Shared _loggingStream As Stream
+    Private Shared _eveHqTracer As EveHqTraceLogger
+
+
+    Shared Sub New()
+        LoggingStream = New FileStream(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ", "EveHQ.log"), FileMode.Create, FileAccess.Write, FileShare.Read)
+        EveHqTracer = New EveHqTraceLogger(LoggingStream)
+        Trace.Listeners.Add(EveHqTracer)
+    End Sub
 
     Shared Property StartShutdownEveHQ() As Boolean
         Get
@@ -232,6 +240,24 @@ Public Class HQ
         End Set
     End Property
 
+    Public Shared Property LoggingStream As Stream
+        Get
+            Return _loggingStream
+        End Get
+        Set(value As Stream)
+            _loggingStream = value
+        End Set
+    End Property
+
+    Public Shared Property EveHqTracer As EveHqTraceLogger
+        Get
+            Return _eveHqTracer
+        End Get
+        Set(value As EveHqTraceLogger)
+            _eveHqTracer = value
+        End Set
+    End Property
+
     Public Enum DBFormat As Integer
         SQLCE = 0
         MSSQL = 1
@@ -250,13 +276,8 @@ Public Class HQ
     End Sub
 
     Public Shared Sub WriteLogEvent(ByVal EventText As String)
-        Dim ts As TimeSpan = EveHQLogTimer.Elapsed
-        ' Format and display the TimeSpan value.
-        Dim elapsedTime As String = String.Format("{0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds,
-                                                  ts.Milliseconds)
         Try
-            EveHQLogFile.WriteLine("[" & elapsedTime & "]" & " " & EventText)
-            EveHQLogFile.Flush()
+            Trace.WriteLine(EventText, "Information")
         Catch e As Exception
             ' Don't bother reporting this
         End Try
