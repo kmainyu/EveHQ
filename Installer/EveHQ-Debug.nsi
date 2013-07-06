@@ -135,6 +135,12 @@ SectionIn RO
   File "..\BuildOutput\Debug\Raven.Client.Lightweight.dll"
   File "..\BuildOutput\Debug\Raven.Database.dll"
   File "..\BuildOutput\Debug\Spatial4n.Core.NTS.dll"
+  File "..\BuildOutput\Debug\System.Net.Http.dll"
+  File "..\BuildOutput\Debug\System.Net.Http.Extensions.dll"
+  File "..\BuildOutput\Debug\System.Net.Http.Primitives.dll"
+  File "..\BuildOutput\Debug\System.Net.Http.WebRequest.dll"
+  File "..\BuildOutput\Debug\System.Runtime.dll"
+  File "..\BuildOutput\Debug\System.Threading.Tasks.dll"
   File "..\EveHQ\License.txt"
   
   SetOutPath $APPDATA\EveHQ
