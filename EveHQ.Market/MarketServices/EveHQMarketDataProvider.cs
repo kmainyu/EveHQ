@@ -44,6 +44,7 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The eve hq base location.</summary>
         private const string EveHqBaseLocation = "http://market.evehq.net/api/digest/";
 
+        private const string EveHqMarketDataDumpsLocation = "http://market.evehq.net/dumps/{0}.zip";
 
         /// <summary>The cache folder.</summary>
         private const string CacheFolder = "PriceCache";
@@ -89,7 +90,7 @@ namespace EveHQ.Market.MarketServices
 
         private static bool downloadInProgres;
 
-        private static ConcurrentDictionary<string, CacheItem<MarketLocationData>> LocationCache = new ConcurrentDictionary<string, CacheItem<MarketLocationData>>();
+        private static ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache = new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
 
         /// <summary>Initializes a new instance of the <see cref="EveHqMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
@@ -224,11 +225,11 @@ namespace EveHQ.Market.MarketServices
 
             //check memory cache first, then check disk cache
 
-            CacheItem<MarketLocationData> marketData;
+            CacheItem<IEnumerable<ItemOrderStats>> marketData;
 
             if (!LocationCache.TryGetValue(cacheKey, out marketData))
             {
-                marketData = this._priceCache.Get<MarketLocationData>(ItemKeyFormat.FormatInvariant(cacheKey));
+                marketData = this._priceCache.Get<IEnumerable<ItemOrderStats>>(ItemKeyFormat.FormatInvariant(cacheKey));
                 LocationCache.TryAdd(cacheKey, marketData);
             }
 
@@ -236,7 +237,7 @@ namespace EveHQ.Market.MarketServices
             List<ItemOrderStats> cachedResults = new List<ItemOrderStats>();
             if (marketData != null && marketData.Data != null)
             {
-                cachedResults.AddRange(typeIds.Select(type => marketData.Data.Items.FirstOrDefault(t => t.ItemTypeId == type)).Where(stats => stats != null));
+                cachedResults.AddRange(typeIds.Select(type => marketData.Data.FirstOrDefault(t => t.ItemTypeId == type)).Where(stats => stats != null));
             }
 
             // if the lastDownload result is dirty, it's time to queue up a background download of the data.
@@ -267,11 +268,22 @@ namespace EveHQ.Market.MarketServices
             {
                 lock (downloadLock)
                 {
-                    var locationData = DownloadData(marketLocation);
+                    string lastDownloadKey = LastDownloadTs.FormatInvariant(marketLocation);
+                    CacheItem<DateTimeOffset> lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
 
-                    _priceCache.Add(ItemKeyFormat.FormatInvariant(marketLocation), locationData, DateTimeOffset.Now.Add(_cacheTtl));
+                    // check to see if there is newer data available.
+                    var marketDataInfo = LastMarketUpdate(marketLocation);
 
-                    MessageBox.Show(NewMarketData, string.Empty, MessageBoxButtons.OK);
+                    if (lastDownload == null || (lastDownload.IsDirty && lastDownload.Data < marketDataInfo.Freshness))
+                    {
+                        var locationData = DownloadData(marketLocation);
+
+                        _priceCache.Add(ItemKeyFormat.FormatInvariant(marketLocation), locationData, DateTimeOffset.Now.Add(_cacheTtl));
+
+                        MessageBox.Show(NewMarketData, string.Empty, MessageBoxButtons.OK);
+
+                        _priceCache.Add(lastDownloadKey, DateTimeOffset.Now, DateTimeOffset.Now.Add(_cacheTtl));
+                    }
 
                 }
             }
@@ -283,15 +295,35 @@ namespace EveHQ.Market.MarketServices
             }
         }
 
+
+        private MarketLocationData LastMarketUpdate(int marketLocationId)
+        {
+            Task<HttpResponseMessage> requestTask = WebRequestHelper.GetAsync(
+               new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth,"application/json");
+            requestTask.Wait();
+            MarketLocationData results = null;
+            if (requestTask.IsCompleted && requestTask.Result !=null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+            {
+
+                var readTask = requestTask.Result.Content.ReadAsStringAsync();
+                readTask.Wait();
+
+                results = JsonConvert.DeserializeObject<MarketLocationData>(readTask.Result);
+            }
+
+            return results;
+        }
+        
+
         /// <summary>The download data.</summary>
         /// <param name="entityId">The entity id.</param>
         /// <returns>The <see cref="IEnumerable"/>.</returns>
         /// <exception cref="Exception"></exception>
-        private MarketLocationData DownloadData(int entityId)
+        private IEnumerable<ItemOrderStats> DownloadData(int entityId)
         {
-            MarketLocationData results = null;
+            IEnumerable<ItemOrderStats> results = null;
             Task<HttpResponseMessage> requestTask = WebRequestHelper.GetAsync(
-                new Uri(EveHqBaseLocation + entityId.ToInvariantString()), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
+                new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
             if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
@@ -310,15 +342,13 @@ namespace EveHQ.Market.MarketServices
                         marketData.Extract(buffer);
                         
                         var jsonData = Encoding.UTF8.GetString(buffer.ToArray());
-                        results = JsonConvert.DeserializeObject<MarketLocationData>(jsonData);
+                        results = JsonConvert.DeserializeObject<IEnumerable<ItemOrderStats>>(jsonData);
                     }
                 }
                 catch (Exception ex)
                 {
                     Trace.TraceError(ex.FormatException());
-                    throw ex;
                 }
-
             }
 
             return results;

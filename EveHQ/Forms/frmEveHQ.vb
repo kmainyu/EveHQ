@@ -2385,7 +2385,7 @@ Public Class frmEveHQ
         myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
         myException.lblError.Text = e.Message
         Dim trace As New StringBuilder
-        trace.AppendLine(e.StackTrace.ToString)
+        trace.AppendLine(e.FormatException)
         trace.AppendLine("")
         trace.AppendLine("========== Plug-ins ==========")
         trace.AppendLine("")

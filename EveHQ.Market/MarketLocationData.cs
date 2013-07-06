@@ -14,6 +14,7 @@ namespace EveHQ.Market
     public class MarketLocationData
     {
         public int LocationId { get; set; }
-        public IEnumerable<ItemOrderStats> Items { get; set; }
+        public DateTimeOffset Freshness { get; set; }
+        public string PathFromRoot { get; set; }
     }
 }

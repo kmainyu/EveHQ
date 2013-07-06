@@ -42,7 +42,7 @@ namespace EveHQ.Common
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, HttpCompletionOption completionOption= HttpCompletionOption.ResponseContentRead)
+        public static Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth,string acceptContentType=null, HttpCompletionOption completionOption= HttpCompletionOption.ResponseContentRead)
         {
             var handler = new HttpClientHandler();
 
@@ -71,9 +71,11 @@ namespace EveHQ.Common
             
 
             var request = new HttpClient(handler);
-            
 
-            //request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            if (!acceptContentType.IsNullOrWhiteSpace())
+            {
+                request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(acceptContentType));
+            }
             //request.UserAgent = userAgent;
 
             return request.GetAsync(target.ToString(),completionOption);

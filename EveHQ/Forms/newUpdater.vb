@@ -48,7 +48,7 @@ Public Class newUpdater
 
             Dim localStorage As String = _storageFodler
 
-            Dim task As Task(Of HttpResponseMessage) = WebRequestHelper.GetAsync(New Uri(_updateLocation), proxyUri, _useDefaultCred, _proxUsername, _proxyPassword, _useBasicAuth, HttpCompletionOption.ResponseHeadersRead)
+            Dim task As Task(Of HttpResponseMessage) = WebRequestHelper.GetAsync(New Uri(_updateLocation), proxyUri, _useDefaultCred, _proxUsername, _proxyPassword, _useBasicAuth, Nothing, HttpCompletionOption.ResponseHeadersRead)
 
             task.ContinueWith(Sub(dlTask As Task(Of HttpResponseMessage))
                                   If (dlTask.Exception IsNot Nothing) Then
@@ -152,7 +152,7 @@ Public Class newUpdater
 
     End Function
 
-   
+
     Private Sub newUpdater_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown
         DownloadUpdate()
     End Sub
@@ -167,7 +167,7 @@ Public Class newUpdater
         'exit evehq so the installer will run
         Dim formsToClose As New List(Of String)
         For Each openForm As Form In Application.OpenForms
-            
+
             formsToClose.Add(openForm.Name)
         Next
 
