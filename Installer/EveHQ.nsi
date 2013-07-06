@@ -88,6 +88,7 @@ SectionIn RO
   File "..\BuildOutput\Release\EveCacheParser.dll"
   File "..\BuildOutput\Release\EveHQ.Caching.dll"
   File "..\BuildOutput\Release\EveHQ.Caching.Raven.dll"
+  File "..\BuildOutput\Release\EveHQ.Common.dll"
   File "..\BuildOutput\Release\EveHQ.Core.dll"
   File "..\BuildOutput\Release\EveHQ.CoreControls.dll"
   File "..\BuildOutput\Release\EveHQ.DataUpgrader.exe"
