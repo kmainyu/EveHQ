@@ -107,6 +107,7 @@ SectionIn RO
   File "..\BuildOutput\Release\GeoAPI.dll"
   File "..\BuildOutput\Release\ICSharpCode.NRefactory.CSharp.dll"
   File "..\BuildOutput\Release\ICSharpCode.NRefactory.dll"
+  File "..\BuildOutput\Release\Ionic.Zip.dll"
   File "..\BuildOutput\Release\Jint.Raven.dll"
   File "..\BuildOutput\Release\Lucene.Net.Contrib.Spatial.NTS.dll"
   File "..\BuildOutput\Release\Lucene.Net.dll"

@@ -219,7 +219,7 @@ namespace EveHQ.Market
                             }
                         }
                     }
-
+                   
                     if (typesToRequest.Any())
                     {
                         // make the request for the types we don't have valid caches for
