@@ -264,10 +264,7 @@ Public Class MarketFunctions
             If PriceCount > 0 Then
                 MarketPrice = Math.Round(MarketPrice / PriceCount, 2)
 
-                ' Set the price
-                If WriteToDB = True Then
-                    EveHQ.Core.DataFunctions.SetMarketPrice(CLng(ItemID), MarketPrice, True)
-                End If
+             
             End If
 
             ' Add the price to the used list

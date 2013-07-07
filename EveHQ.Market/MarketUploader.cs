@@ -171,8 +171,14 @@ namespace EveHQ.Market
 
             UnifiedDataFormat data;
 
-            // the key of the KVP is actually a hashed set of data types
-            var hashedObjects = result.Key as HashSet<object>;
+            // the key of the KVP is actually a set of data types
+            var objectTuple = result.Key as Tuple<object>;
+            if (objectTuple == null)
+            {
+                return null;
+            }
+
+            var hashedObjects = objectTuple.Item1 as List<object>;
             if (hashedObjects == null || hashedObjects.Count < 4)
             {
                 return null;

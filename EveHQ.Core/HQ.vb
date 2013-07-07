@@ -73,7 +73,6 @@ Public Class HQ
     Public Shared IsG15LCDActive As Boolean = False
     Public Shared lcdPilot As String = ""
     Public Shared lcdCharMode As Integer = 0
-    Public Shared MarketPriceList As New SortedList(Of String, Double) ' TypeID, Price
     Public Shared CustomPriceList As New SortedList(Of String, Double) ' TypeID, Price
     Public Shared APIUpdateAvailable As Boolean = False
     Public Shared AppUpdateAvailable As Boolean = False
@@ -197,7 +196,7 @@ Public Class HQ
     Public Shared Property MarketCacheUploader As MarketUploader
         Get
             If _marketCacheUploader Is Nothing Then
-                _marketDataReceivers = {CType(_marketOrderDataProvider, IMarketDataReceiver), New EveMarketDataRelayProvider()}
+                _marketDataReceivers = {CType(GetEveCentralMarketInstance(HQ.AppDataFolder), IMarketDataReceiver), New EveMarketDataRelayProvider()}
                 _marketCacheUploader = New MarketUploader(_marketCacheProcessorMinTime, _marketDataReceivers, Nothing)
             End If
 

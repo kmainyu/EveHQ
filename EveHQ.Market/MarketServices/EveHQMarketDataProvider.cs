@@ -54,6 +54,8 @@ namespace EveHQ.Market.MarketServices
 
         private const string NewMarketData = "New market data has been downloaded. Please reload any views containing pricing data to see the latest values.";
 
+        private const string ErroDownloadingData = "There was an error downloading the new market data. Details can be found in the EveHQ log file. Would you like to try downloading the data again?";
+
         /// <summary>The last download ts.</summary>
         private const string LastDownloadTs = "LastDownloadTime- {0}";
 
@@ -243,7 +245,7 @@ namespace EveHQ.Market.MarketServices
             // if the lastDownload result is dirty, it's time to queue up a background download of the data.
             if (lastDownload.IsDirty)
             {
-                Task.Factory.TryRun(()=>DownloadLatestData(marketLocation));
+                Task.Factory.TryRun(() => DownloadLatestData(marketLocation));
             }
 
             return cachedResults;
@@ -263,10 +265,10 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The download latest data.</summary>
         private void DownloadLatestData(int marketLocation)
         {
-
-            try
+            bool retry = false;
+            lock (downloadLock)
             {
-                lock (downloadLock)
+                try
                 {
                     string lastDownloadKey = LastDownloadTs.FormatInvariant(marketLocation);
                     CacheItem<DateTimeOffset> lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
@@ -284,25 +286,38 @@ namespace EveHQ.Market.MarketServices
 
                         _priceCache.Add(lastDownloadKey, DateTimeOffset.Now, DateTimeOffset.Now.Add(_cacheTtl));
                     }
-
                 }
+                catch (Exception e)
+                {
+                    // log it.
+                    Trace.TraceError(e.FormatException());
+                    if (MessageBox.Show(ErroDownloadingData, "Error!", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                    {
+                        retry = true;
+                    }
+                    else
+                    {
+                        string lastDownloadKey = LastDownloadTs.FormatInvariant(marketLocation);
+                        _priceCache.Add(lastDownloadKey, DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(30));
+                    }
+                }
+
             }
-            catch (Exception e)
+            if (retry)
             {
-                // log it.
-                Trace.TraceError(e.FormatException());
-                throw e;
+                DownloadLatestData(marketLocation);
             }
+
         }
 
 
         private MarketLocationData LastMarketUpdate(int marketLocationId)
         {
             Task<HttpResponseMessage> requestTask = WebRequestHelper.GetAsync(
-               new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth,"application/json");
+               new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth, "application/json");
             requestTask.Wait();
             MarketLocationData results = null;
-            if (requestTask.IsCompleted && requestTask.Result !=null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+            if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
             {
 
                 var readTask = requestTask.Result.Content.ReadAsStringAsync();
@@ -313,7 +328,7 @@ namespace EveHQ.Market.MarketServices
 
             return results;
         }
-        
+
 
         /// <summary>The download data.</summary>
         /// <param name="entityId">The entity id.</param>
@@ -329,26 +344,21 @@ namespace EveHQ.Market.MarketServices
             if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
             {
 
-                try
-                {
-                    var readTask = requestTask.Result.Content.ReadAsStreamAsync();
-                    readTask.Wait();
 
-                    // process result
-                    using(var buffer = new MemoryStream())
-                    using (ZipFile compressedData = ZipFile.Read(readTask.Result))
-                    {
-                        ZipEntry marketData = compressedData["{0}.txt".FormatInvariant(entityId)];
-                        marketData.Extract(buffer);
-                        
-                        var jsonData = Encoding.UTF8.GetString(buffer.ToArray());
-                        results = JsonConvert.DeserializeObject<IEnumerable<ItemOrderStats>>(jsonData);
-                    }
-                }
-                catch (Exception ex)
+                var readTask = requestTask.Result.Content.ReadAsStreamAsync();
+                readTask.Wait();
+
+                // process result
+                using (var buffer = new MemoryStream())
+                using (ZipFile compressedData = ZipFile.Read(readTask.Result))
                 {
-                    Trace.TraceError(ex.FormatException());
+                    ZipEntry marketData = compressedData["{0}.txt".FormatInvariant(entityId)];
+                    marketData.Extract(buffer);
+
+                    var jsonData = Encoding.UTF8.GetString(buffer.ToArray());
+                    results = JsonConvert.DeserializeObject<IEnumerable<ItemOrderStats>>(jsonData);
                 }
+
             }
 
             return results;

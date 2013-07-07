@@ -123,23 +123,22 @@ Public Class frmMarketPrices
                         lvItem.Text = itemData.Name
                         lvItem.Name = itemID
                         lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
-                        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
-                            price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
-                            lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                        Else
-                            lvItem.Cells.Add(New Cell(""))
-                        End If
-                        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                            price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
-                            lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                        Else
-                            lvItem.Cells.Add(New Cell(""))
-                        End If
-                        adtPrices.Nodes.Add(lvItem)
+
+                        price = DataFunctions.GetPrice(itemID)
+                        lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
+                    
+                    If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+                        price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                            lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
+                    Else
+                        lvItem.Cells.Add(New Cell(""))
                     End If
+                    adtPrices.Nodes.Add(lvItem)
+                End If
                 End If
             Next
         Else
+            Dim itemCells As New Dictionary(Of String, Cell)
             For Each item As String In EveHQ.Core.HQ.itemList.Keys
                 If item.ToLower.Contains(search) = True Then
                     itemID = EveHQ.Core.HQ.itemList(item)
@@ -149,23 +148,34 @@ Public Class frmMarketPrices
                             lvItem.Text = itemData.Name
                             lvItem.Name = CStr(itemData.ID)
                             lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
-                            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
-                                price = CDbl(EveHQ.Core.HQ.MarketPriceList(itemID))
-                                lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                            Else
-                                lvItem.Cells.Add(New Cell(""))
-                            End If
-                            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                                price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
-                                lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                            Else
-                                lvItem.Cells.Add(New Cell(""))
-                            End If
-                            adtPrices.Nodes.Add(lvItem)
+
+                            itemCells.Add(itemID, New Cell())
+                            lvItem.Cells.Add(itemCells(itemID))
+                        
+                        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+                            price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                            lvItem.Cells.Add(New Cell(price.ToString("N2")))
+                        Else
+                            lvItem.Cells.Add(New Cell(""))
                         End If
+                        adtPrices.Nodes.Add(lvItem)
+                    End If
                     End If
                 End If
             Next
+
+            ' get the prices for the items
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices((From item As String In itemCells.Keys Select item), MarketMetric.Default, MarketTransactionKind.Sell)
+
+            priceTask.ContinueWith(Sub(finishedTask As Task(Of Dictionary(Of String, Double)))
+                                       Invoke(Sub()
+                                                  For Each item As String In From item1 In finishedTask.Result.Keys Where itemCells.ContainsKey(item1)
+                                                      itemCells(item).Text = finishedTask.Result(item).ToInvariantString("N2")
+                                                  Next
+                                              End Sub)
+                                   End Sub)
+
+
         End If
         EveHQ.Core.AdvTreeSorter.Sort(adtPrices, 1, False, True)
         adtPrices.EndUpdate()
@@ -274,7 +284,7 @@ Public Class frmMarketPrices
                                                                         End Sub
 
         Dim statsContinuation As Action(Of Task(Of IEnumerable(Of ItemOrderStats))) = Sub(dataTask As Task(Of IEnumerable(Of ItemOrderStats)))
-                                                                                          If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing Then
+                                                                                          If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
                                                                                               Me.Invoke(Sub() UpdateItemOrderMetrics(dataTask.Result))
                                                                                               'TODO: this is where display of an error message should go.
                                                                                           End If

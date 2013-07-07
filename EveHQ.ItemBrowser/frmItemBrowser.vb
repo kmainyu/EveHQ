@@ -236,11 +236,9 @@ Public Class frmItemBrowser
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = "0"
             End If
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I1"), 0) = EveData.Tables(0).Rows(row).Item("basePrice").ToString
-            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(item) = True Then
-                CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = EveHQ.Core.HQ.MarketPriceList.Item(item)
-            Else
-                CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = 0
-            End If
+            
+            CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = DataFunctions.GetPrice(item)
+
             If EveHQ.Core.HQ.CustomPriceList.ContainsKey(item) = True Then
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I3"), 0) = EveHQ.Core.HQ.CustomPriceList.Item(item)
             Else
@@ -671,11 +669,9 @@ Public Class frmItemBrowser
         attNo += 1
         attributes(attNo, 1) = "I2"
         attributes(attNo, 2) = "Market Price"
-        If EveHQ.Core.HQ.MarketPriceList.ContainsKey(CStr(itemTypeID)) = True Then
-            attributes(attNo, 3) = Math.Round(CDbl(EveHQ.Core.HQ.MarketPriceList.Item(CStr(itemTypeID))), 2, MidpointRounding.AwayFromZero)
-        Else
-            attributes(attNo, 3) = 0
-        End If
+
+        attributes(attNo, 3) = Math.Round(CDbl(DataFunctions.GetPrice(CStr(itemTypeID))), 2, MidpointRounding.AwayFromZero)
+
         attributes(attNo, 4) = ""
         attributes(attNo, 5) = "0"
         ' Insert Custom Price

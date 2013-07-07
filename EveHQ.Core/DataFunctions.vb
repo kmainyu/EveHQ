@@ -668,7 +668,6 @@ Public Class DataFunctions
                 Return False
             End If
             ' Load price data
-            LoadMarketPricesFromDB()
             LoadCustomPricesFromDB()
 
             If eveData IsNot Nothing Then
@@ -1025,30 +1024,7 @@ Public Class DataFunctions
 
 #End Region ' Converts the Base CCP Data Export into something EveHQ can use
 
-    Public Shared Function LoadMarketPricesFromDB() As Boolean
-        Dim eveData As New DataSet
-        Try
-            eveData = GetCustomData("SELECT * FROM marketPrices ORDER BY typeID;")
-            If eveData IsNot Nothing Then
-                HQ.MarketPriceList.Clear()
-                For Each priceRow As DataRow In eveData.Tables(0).Rows
-                    HQ.MarketPriceList.Add(CStr(priceRow.Item("typeID")), CDbl(priceRow.Item("price")))
-                Next
-            Else
-                ' Doesn't look like the table is there so try creating it
-                Call CreateMarketPricesTable()
-            End If
-        Catch ex As Exception
-            MessageBox.Show(
-                "There was an error fetching the Market Price data. The error was: " & ControlChars.CrLf &
-                ControlChars.CrLf & HQ.dataError, "Error Creating Market Stats Database", MessageBoxButtons.OK,
-                MessageBoxIcon.Exclamation)
-        Finally
-            If eveData IsNot Nothing Then
-                eveData.Dispose()
-            End If
-        End Try
-    End Function
+    
 
     Public Shared Function LoadCustomPricesFromDB() As Boolean
         Dim eveData As New DataSet
@@ -1280,100 +1256,7 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Function SetMarketPrice(ByVal typeID As Long, ByVal UserPrice As Double, ByVal DBOpen As Boolean) _
-        As Boolean
-        ' Store the user's price in the database
-        If HQ.MarketPriceList.ContainsKey(typeID.ToString) = False Then
-            ' Add the data
-            If AddMarketPrice(typeID.ToString, UserPrice, DBOpen) = True Then
-                Return True
-            Else
-                Return False
-            End If
-        Else
-            ' Edit the data
-            If EditMarketPrice(typeID.ToString, UserPrice, DBOpen) = True Then
-                Return True
-            Else
-                Return False
-            End If
-        End If
-    End Function
-
-    Public Shared Function AddMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) _
-        As Boolean
-        HQ.MarketPriceList(itemID) = price
-        Dim priceSQL As String = "INSERT INTO marketPrices (typeID, price, priceDate) VALUES (" & itemID & ", " &
-                                 price.ToString(culture) & ", '" & Now.ToString(SQLTimeFormat, culture) & "');"
-        If DBOpen = False Then
-            If SetData(priceSQL) = -2 Then
-                MessageBox.Show(
-                    "There was an error writing data to the Market Prices database table. The error was: " &
-                    ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf &
-                    "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                Return True
-            End If
-        Else
-            If SetDataOnly(priceSQL) = -2 Then
-                MessageBox.Show(
-                    "There was an error writing data to the Market Prices database table. The error was: " &
-                    ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf &
-                    "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                Return True
-            End If
-        End If
-    End Function
-
-    Public Shared Function EditMarketPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) _
-        As Boolean
-        HQ.MarketPriceList(itemID) = price
-        Dim priceSQL As String = "UPDATE marketPrices SET price=" & price.ToString(culture) & ", priceDate = '" &
-                                 Now.ToString(SQLTimeFormat, culture) & "' WHERE typeID=" & itemID & ";"
-        If DBOpen = False Then
-            If SetData(priceSQL) = -2 Then
-                MessageBox.Show(
-                    "There was an error writing data to the Market Prices database table. The error was: " &
-                    ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf &
-                    "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                Return True
-            End If
-        Else
-            If SetDataOnly(priceSQL) = -2 Then
-                MessageBox.Show(
-                    "There was an error writing data to the Market Prices database table. The error was: " &
-                    ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf &
-                    "Data: " & priceSQL, "Error Writing Price Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                Return False
-            Else
-                Return True
-            End If
-        End If
-    End Function
-
-    Public Shared Function DeleteMarketPrice(ByVal itemID As String) As Boolean
-        ' Double check it exists and delete it
-        If HQ.MarketPriceList.ContainsKey(itemID) = True Then
-            HQ.MarketPriceList.Remove(itemID)
-        End If
-        Dim priceSQL As String = "DELETE FROM marketPrices WHERE typeID=" & itemID & ";"
-        If SetData(priceSQL) = -2 Then
-            MessageBox.Show(
-                "There was an error deleting data from the Market Prices database table. The error was: " &
-                ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " &
-                priceSQL, "Error Writing Price Date", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            Return True
-        End If
-    End Function
-
-    Public Shared Function ProcessMarketExportFile(ByVal orderFile As String, WriteToDB As Boolean) As ArrayList
+  Public Shared Function ProcessMarketExportFile(ByVal orderFile As String, WriteToDB As Boolean) As ArrayList
 
         Dim orderFI As New FileInfo(orderFile)
         Dim orderdate As Date = Now
@@ -2673,7 +2556,6 @@ Public Class DataFunctions
                         s.Close()
 
                         ' Load price data
-                        LoadMarketPricesFromDB()
                         LoadCustomPricesFromDB()
 
                         Return True
