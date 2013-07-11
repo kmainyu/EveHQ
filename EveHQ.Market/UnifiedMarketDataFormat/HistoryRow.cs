@@ -27,7 +27,7 @@ namespace EveHQ.Market
         public string Date { get; set; }
 
         /// <summary>Gets or sets the number of orders.</summary>
-        public int Orders { get; set; }
+        public long Orders { get; set; }
 
         /// <summary>Gets or sets the lowest value.</summary>
         public double Low { get; set; }

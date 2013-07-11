@@ -27,19 +27,19 @@ namespace EveHQ.Market
         public double Price { get; set; }
 
         /// <summary>Gets or sets the number of remaining items.</summary>
-        public int VolRemaining { get; set; }
+        public long VolRemaining { get; set; }
 
         /// <summary>Gets or sets the range.</summary>
-        public int Range { get; set; }
+        public long Range { get; set; }
 
         /// <summary>Gets or sets the order id.</summary>
         public long OrderId { get; set; }
 
         /// <summary>Gets or sets the original number of items to be sold.</summary>
-        public int VolEntered { get; set; }
+        public long VolEntered { get; set; }
 
         /// <summary>Gets or sets the min volume.</summary>
-        public int MinVolume { get; set; }
+        public long MinVolume { get; set; }
 
         /// <summary>Gets or sets a value indicating whether bid.</summary>
         public bool Bid { get; set; }
@@ -48,12 +48,12 @@ namespace EveHQ.Market
         public string IssueDate { get; set; }
 
         /// <summary>Gets or sets the duration.</summary>
-        public int Duration { get; set; }
+        public long Duration { get; set; }
 
         /// <summary>Gets or sets the station id.</summary>
-        public int StationId { get; set; }
+        public long StationId { get; set; }
 
         /// <summary>Gets or sets the solar system id.</summary>
-        public int SolarSystemId { get; set; }
+        public long SolarSystemId { get; set; }
     }
 }

@@ -194,8 +194,8 @@ namespace EveHQ.Market
             }
 
             // these offsets are assumed to be fixed
-            int regionId = dataKeys[2].ToInt();
-            int typeId = dataKeys[3].ToInt();
+            long regionId = dataKeys[2].ToLong();
+            long typeId = dataKeys[3].ToLong();
 
             // the value half of the KVP is a dictionary of various data types.
             var valueBag = result.Value as Dictionary<object, object>;
@@ -239,7 +239,7 @@ namespace EveHQ.Market
                                       Date = DateTimeOffset.FromFileTime(record["historyDate"].ToLong()).ToUniversalTime().ToString(Iso8601Format),
                                       High = record["highPrice"].ToDouble(),
                                       Low = record["lowPrice"].ToDouble(),
-                                      Orders = record["orders"].ToInt(),
+                                      Orders = record["orders"].ToLong(),
                                       Quantity = record["volume"].ToLong(),
                                   }));
                     historyData.Rowsets.Add(historyRows);
@@ -260,16 +260,16 @@ namespace EveHQ.Market
                                   new OrderRow
                                   {
                                       Bid = order["bid"].ToBoolean(), 
-                                      Duration = order["duration"].ToInt(), 
+                                      Duration = order["duration"].ToLong(), 
                                       IssueDate = DateTimeOffset.FromFileTime(order["issueDate"].ToLong()).ToUniversalTime().ToString(Iso8601Format), 
-                                      MinVolume = order["minVolume"].ToInt(), 
+                                      MinVolume = order["minVolume"].ToLong(), 
                                       OrderId = order["orderID"].ToLong(), 
                                       Price = order["price"].ToDouble(), 
-                                      Range = order["range"].ToInt(), 
-                                      SolarSystemId = order["solarSystemID"].ToInt(), 
-                                      StationId = order["stationID"].ToInt(), 
-                                      VolEntered = order["volEntered"].ToInt(), 
-                                      VolRemaining = order["volRemaining"].ToInt()
+                                      Range = order["range"].ToLong(), 
+                                      SolarSystemId = order["solarSystemID"].ToLong(), 
+                                      StationId = order["stationID"].ToLong(), 
+                                      VolEntered = order["volEntered"].ToLong(), 
+                                      VolRemaining = order["volRemaining"].ToLong()
                                   }));
                     orderData.Rowsets.Add(orderRowset);
                     orderData.ResultType = ResultKind.Orders;
