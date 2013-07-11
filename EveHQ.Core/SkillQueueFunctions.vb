@@ -59,7 +59,7 @@ Public Class SkillQueueFunctions
             ' Check the training queue for missing prereqs
             If QuickBuild = False Then Call CheckSkillFlow(qPilot, bQueue)
             ' Check if all the pre-reqs are present and add them if not
-            Call CheckPreReqs(qPilot, bQueue)
+            Call CheckQueuePreReqs(qPilot, bQueue)
             ' Check the order of the pre-requisites
             Call CheckReqOrder(qPilot, bQueue)
             ' Check the skill order of the existing skills
@@ -613,30 +613,41 @@ Public Class SkillQueueFunctions
         End If
     End Sub
 
-    Private Shared Sub CheckPreReqs(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
-        ' Sub to ensure we have all the prerequisite skills we require
+    Private Shared Sub CheckQueuePreReqs(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
+        ' Sub to ensure we have all the prerequisite skills we require for the queue
         ' Skills are added if required
 
-        Dim curSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        Dim curSkill As EveHQ.Core.SkillQueueItem
         For Each curSkill In bQueue.Queue
             ' Work out if Skill pre-requisites are needed and add them to the queue
-            If EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name) <> "" Then
-                Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(curSkill.Name))
-                Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
-                Dim preReq As String
-                For Each preReq In preReqs
-                    If preReq.Length <> 0 Then
-                        Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
-                        Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
-                        Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
-                        If pilotLevel <> "Y" Then
-                            ' Skill is not trained, check training queue
-                            bQueue = AddPreReqSkillToQueue(qPilot, bQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel), curSkill.Notes)
-                        End If
-                    End If
-                Next
+            ' If skill is already injected no pre-reqs are needed
+            If qPilot.PilotSkills.Contains(curSkill.Name) = False Then
+                CheckSkillPreReqs(qPilot, curSkill.Name, bQueue, curSkill.Notes)
             End If
         Next
+    End Sub
+
+    Private Shared Sub CheckSkillPreReqs(ByVal qPilot As EveHQ.Core.Pilot, ByVal skillName As String, ByVal bQueue As EveHQ.Core.SkillQueue, ByVal notes As String)
+        ' Sub to ensure we have all the prerequisite skills we require for a single skill
+        ' Skills are added if required
+
+        Dim skillID As String = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+        If skillID <> "" Then
+            Dim myPreReqs As String = GetSkillReqs(qPilot, skillID)
+            Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
+            Dim preReq As String
+            For Each preReq In preReqs
+                If preReq.Length <> 0 Then
+                    Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
+                    Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
+                    Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
+                    If pilotLevel <> "Y" Then
+                        ' Skill is not trained, check training queue
+                        bQueue = AddPreReqSkillToQueue(qPilot, bQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel), notes)
+                    End If
+                End If
+            Next
+        End If
     End Sub
 
     Private Shared Sub CheckSkillOrder(ByVal qPilot As EveHQ.Core.Pilot, ByVal bQueue As EveHQ.Core.SkillQueue)
@@ -764,7 +775,6 @@ Public Class SkillQueueFunctions
                 MessageBox.Show(msg, "Pilot Data Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             Return qQueue
-            Exit Function
         End If
 
         Dim nQueue As EveHQ.Core.SkillQueue = qQueue
@@ -778,33 +788,18 @@ Public Class SkillQueueFunctions
                     MessageBox.Show("You already have " & newSkill.Text & " trained to Level 5", "Skill Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return qQueue
-                Exit Function
             Else
                 If mySkill.Name = qPilot.TrainingSkillName Then
                     myLevel = qPilot.TrainingSkillLevel
                 End If
                 If myLevel >= planLevel And exitIfTrained = True Then
                     Return qQueue
-                    Exit Function
                 End If
             End If
         Else
             ' Work out if Skill pre-requisites are needed and add them to the queue
             If planLevel = 0 Then
-                Dim myPreReqs As String = GetSkillReqs(qPilot, EveHQ.Core.SkillFunctions.SkillNameToID(newSkill.Text))
-                Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
-                Dim preReq As String
-                For Each preReq In preReqs
-                    If preReq.Length <> 0 Then
-                        Dim pilotLevel As String = preReq.Substring(preReq.Length - 1, 1)
-                        Dim reqLevel As String = preReq.Substring(preReq.Length - 2, 1)
-                        Dim reqSkill As String = preReq.Substring(0, preReq.Length - 2)
-                        If pilotLevel <> "Y" Then
-                            ' Skill is not trained, check training queue
-                            nQueue = AddPreReqSkillToQueue(qPilot, nQueue, reqSkill, CInt(pilotLevel), CInt(reqLevel), Note)
-                        End If
-                    End If
-                Next
+                CheckSkillPreReqs(qPilot, newSkill.Text, nQueue, Note)
             End If
         End If
 
@@ -822,13 +817,12 @@ Public Class SkillQueueFunctions
             toLevel = Math.Min(fromLevel + 1, 5)
         Else
             planLevel = Math.Min(Math.Max(fromLevel + 1, planLevel), 5)
-            toLevel = Math.Min(planLevel, 5)
+            toLevel = planLevel
         End If
-        Dim keyName As String = myNewSkill.Name & fromLevel & toLevel
 
         ' Check through all the items in the queue and see if we have any that exist
         Dim maxLevel As Integer = 0
-        Dim checkSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
+        Dim checkSkill As EveHQ.Core.SkillQueueItem
         If newSkill.Text = qPilot.TrainingSkillName Then
             maxLevel = Math.Max(maxLevel, CInt(qPilot.TrainingSkillLevel))
         End If
@@ -843,7 +837,6 @@ Public Class SkillQueueFunctions
             If planLevel <= maxLevel Then
                 ' Exit if we have already planned to our limit
                 Return qQueue
-                Exit Function
             Else
                 fromLevel = Math.Max(maxLevel, fromLevel)
                 toLevel = planLevel
@@ -854,7 +847,6 @@ Public Class SkillQueueFunctions
                     MessageBox.Show(newSkill.Text & " is already queued to Level 5", "Skill Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return qQueue
-                Exit Function
             Else
                 fromLevel = Math.Max(maxLevel, fromLevel)           ' Need to compare it to current skill also
                 toLevel = fromLevel + 1
@@ -875,8 +867,7 @@ Public Class SkillQueueFunctions
         newTSkill.FromLevel = fromLevel
         newTSkill.ToLevel = toLevel
         newTSkill.Pos = di
-        keyName = newTSkill.Name & newTSkill.FromLevel & newTSkill.ToLevel
-        newTSkill.Key = keyName
+        newTSkill.Key = newTSkill.Name & newTSkill.FromLevel & newTSkill.ToLevel
         newTSkill.Notes = Note
         nQueue.Queue.Add(newTSkill, newTSkill.Key)
         Return nQueue
@@ -884,7 +875,6 @@ Public Class SkillQueueFunctions
 
     Public Shared Function AddPreReqSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal skillName As String, ByVal fromLevel As Integer, ByVal toLevel As Integer, ByVal Note As String) As EveHQ.Core.SkillQueue
         Dim nQueue As EveHQ.Core.SkillQueue = qQueue
-        Dim keyName As String = skillName & fromLevel & toLevel
         Dim myNewSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
 
         ' Check through all the items in the queue and see if we have any that exist
@@ -902,7 +892,6 @@ Public Class SkillQueueFunctions
         ' See if we have reached our maximum training capability (i.e. to lvl5)
         If maxLevel >= 5 Then
             Return qQueue
-            Exit Function
         Else
             fromLevel = Math.Max(maxLevel, fromLevel)           ' Need to compare it to current skill also
             toLevel = Math.Max(fromLevel, toLevel)
@@ -911,7 +900,6 @@ Public Class SkillQueueFunctions
         ' Check if the level we want has already been trained
         If fromLevel = toLevel Then
             Return qQueue
-            Exit Function
         Else
             ' Add skill to the pilot training queue
             Dim newTSkill As EveHQ.Core.SkillQueueItem = New EveHQ.Core.SkillQueueItem
@@ -919,8 +907,7 @@ Public Class SkillQueueFunctions
             newTSkill.FromLevel = fromLevel
             newTSkill.ToLevel = toLevel
             newTSkill.Pos = qQueue.Queue.Count + 1
-            keyName = newTSkill.Name & newTSkill.FromLevel & newTSkill.ToLevel
-            newTSkill.Key = keyName
+            newTSkill.Key = newTSkill.Name & newTSkill.FromLevel & newTSkill.ToLevel
             newTSkill.Notes = Note
             nQueue.Queue.Add(newTSkill, newTSkill.Key)
         End If
