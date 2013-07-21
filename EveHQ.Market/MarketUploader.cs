@@ -147,10 +147,17 @@ namespace EveHQ.Market
             {
                 // upload each json data item to the market receivers.
                 string marketData = jsonData; // avoid foreach access in linq closure
-                Task.WaitAll(
-                    _marketReceivers.Where(receiver => receiver.IsEnabled || (!receiver.IsEnabled && receiver.NextAttempt < DateTimeOffset.Now))
-                                    .Select(uploadService => uploadService.UploadMarketData(marketData))
-                                    .ToArray());
+                try
+                {
+                    Task.WaitAll(
+                        _marketReceivers.Where(receiver => receiver.IsEnabled || (!receiver.IsEnabled && receiver.NextAttempt < DateTimeOffset.Now))
+                                        .Select(uploadService => uploadService.UploadMarketData(marketData))
+                                        .ToArray());
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceWarning("There was an error uploading EMDR data to one or more endpoints. Error information is as follows:\r\n{0}".FormatInvariant(e.FormatException()));
+                }
             }
 
             // set the last change time to the most recent file in the set.

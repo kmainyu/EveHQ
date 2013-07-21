@@ -819,7 +819,7 @@ Public Class frmEveHQ
             HQ.EveHqSettings.NotifyEMail = True Or HQ.EveHqSettings.NotifySound = True Then
             Dim notifyText As String = ""
 
-            If HQ.EveHQSettings.Pilots.Count = 0 Then
+            If HQ.EveHqSettings.Pilots Is Nothing Or HQ.EveHqSettings.Pilots.Count = 0 Then
                 Return ' no pilots not reason to continue.
             End If
 

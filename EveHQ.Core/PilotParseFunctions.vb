@@ -308,6 +308,10 @@ Public Class PilotParseFunctions
 
     Public Shared Sub GetCharactersInAccount(ByVal caccount As EveAccount)
 
+        If caccount Is Nothing Then
+            Return
+        End If
+
         ' Check the API key status
         caccount.CheckAPIKey()
         ' Check Account Status
@@ -362,7 +366,13 @@ Public Class PilotParseFunctions
                     ' Check if we have any old pilots that the account does not have anymore
                     Dim oldPilots As String = ""
                     Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+                    If HQ.EveHqSettings.Pilots Is Nothing Then
+                        Return
+                    End If
                     For Each oldPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+                        If (oldPilot Is Nothing) Then
+                            Continue For
+                        End If
                         If oldPilot.Account = caccount.userID Then
                             Dim validPilot As Boolean = False
                             For Each toon In charlist
