@@ -144,6 +144,12 @@
     <Compile Include="Controls\PrismSelectionHostControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Forms\frmSelectLocation.Designer.vb">
+      <DependentUpon>frmSelectLocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmSelectLocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\frmQuickProduction.Designer.vb">
       <DependentUpon>frmQuickProduction.vb</DependentUpon>
     </Compile>
@@ -267,6 +273,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PrismSelectionHostControl.resx">
       <DependentUpon>PrismSelectionHostControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSelectLocation.resx">
+      <DependentUpon>frmSelectLocation.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmQuickProduction.resx">
       <DependentUpon>frmQuickProduction.vb</DependentUpon>
