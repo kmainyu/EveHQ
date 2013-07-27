@@ -5774,12 +5774,12 @@ Public Class frmPrism
 
                 Case "Transaction Sales Report"
                     Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateSalesReportBodyHTML(Reports.GenerateTransactionSalesAnalysis(ReportData))
+                    Dim Result As ReportResult = Reports.GenerateSalesReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Transaction Purchases Report"
                     Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GeneratePurchasesReportBodyHTML(Reports.GenerateTransactionPurchasesAnalysis(ReportData))
+                    Dim Result As ReportResult = Reports.GeneratePurchasesReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Transaction Trading Report"
