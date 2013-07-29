@@ -2188,6 +2188,8 @@ Imports System.ComponentModel
         Me.Attributes.Add("10078", 0)
         Me.Attributes.Add("10079", 0)
         Me.Attributes.Add("10080", 0)
+        ' Add unused attribute for calibration used
+        Me.Attributes.Add("1152", 0)
         ' Check for slot attributes (missing for T3)
         If Me.Attributes.ContainsKey("12") = False Then
             Me.Attributes.Add("12", 0)
@@ -2224,7 +2226,7 @@ Imports System.ComponentModel
                     newShip.PG_Used = attValue
                 Case 1132
                     newShip.Calibration = CInt(attValue)
-                Case 1154 ' This is a changed attribute as it duplicates 1132 in the database!!
+                Case 1152
                     newShip.Calibration_Used = CInt(attValue)
                 Case 11
                     newShip.PG = attValue
@@ -2394,7 +2396,7 @@ Imports System.ComponentModel
         Me.Attributes("1367") = Me.SubSlots
         Me.Attributes("15") = Me.PG_Used
         Me.Attributes("1132") = Me.Calibration
-        Me.Attributes("1154") = Me.Calibration_Used
+        Me.Attributes("1152") = Me.Calibration_Used
         Me.Attributes("11") = Me.PG
         Me.Attributes("48") = Me.CPU
         Me.Attributes("49") = Me.CPU_Used
