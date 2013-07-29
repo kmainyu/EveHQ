@@ -218,7 +218,11 @@ Public Class frmKMV
                     End If
                 End If
             Else
-                MessageBox.Show("A null XML document was returned. Check the API Server and internet connection.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                If (String.IsNullOrEmpty(lastKillID)) Then
+                    MessageBox.Show("A null XML document was returned. Check the API Server and internet connection.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    Exit Do 'Work around for bug EVEHQ-165: KillLog API only returns up to the last month of data now.
+                End If
             End If
         Loop Until allKMsDownloaded = True
 
