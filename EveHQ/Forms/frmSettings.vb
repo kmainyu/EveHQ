@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
 Imports Microsoft.Win32
 Imports System.Data
 Imports System.Xml
@@ -1926,12 +1927,19 @@ Public Class frmSettings
 
     Private Sub cboTickerLocation_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTickerLocation.SelectedIndexChanged
         EveHQ.Core.HQ.EveHQSettings.DBTickerLocation = cboTickerLocation.SelectedItem.ToString
-        Select Case EveHQ.Core.HQ.EveHQSettings.DBTickerLocation
-            Case "Top"
-                frmDashboard.Ticker1.Dock = DockStyle.Top
-            Case "Bottom"
-                frmDashboard.Ticker1.Dock = DockStyle.Bottom
-        End Select
+        If frmDashboard IsNot Nothing Then
+            Try
+                Select Case HQ.EveHqSettings.DBTickerLocation
+                    Case "Top"
+                        frmDashboard.Ticker1.Dock = DockStyle.Top
+                    Case "Bottom"
+                        frmDashboard.Ticker1.Dock = DockStyle.Bottom
+                End Select
+
+            Catch ex As Exception
+                ' just supressing any errors for now... 
+            End Try
+        End If
     End Sub
 
 #End Region
