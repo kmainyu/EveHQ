@@ -1064,6 +1064,10 @@ Public Class PlugInData
                             If effMod.Attributes.ContainsKey(Attributes.Module_DroneOreMiningRate) = False Then
                                 effMod.Attributes.Add(Attributes.Module_DroneOreMiningRate, 0)
                             End If
+                        Case ShipModule.Marketgroup_GasHarvesters
+                            If effMod.Attributes.ContainsKey(Attributes.Module_TurretGasMiningRate) = False Then
+                                effMod.Attributes.Add(Attributes.Module_TurretGasMiningRate, 0)
+                            End If
                     End Select
                     Select Case effMod.DatabaseGroup
                         Case ShipModule.Group_CapBoosters

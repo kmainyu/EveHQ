@@ -92,3 +92,7 @@
 10078,DroneTransferRate,Drone Transfer Rate,0,HP/s,0
 10079,totalTransferAmount,Total Transfer Amount,0,HP,0
 10080,totalTransferRate,Total Transfer Rate,0,HP/s,0
+# Gas Mining Values
+10081,totalGasMiningAmount,Gas Mining Amount,0,m3,0
+10082,turretGasMiningRate,Turret Gas Mining Rate,0,m3/s,0
+10083,totalGasMiningRate,Total Gas Mining Rate,0,m3/s,0

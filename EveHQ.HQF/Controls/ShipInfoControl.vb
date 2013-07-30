@@ -114,7 +114,7 @@ Public Class ShipInfoControl
         sTime = Now
 
         ' Update the display with the information about the (fitted) ship
-        Dim ttt As String = "" ' Fot tool tip text!
+        Dim ttt As String = "" ' For tool tip text!
         Dim turretShip As Boolean = False
         Dim missileShip As Boolean = False
 
@@ -312,15 +312,15 @@ Public Class ShipInfoControl
 
         ' Damage, Mining & Logistics
         If ParentFitting.FittedShip.TotalVolley >= ParentFitting.FittedShip.TransferAmount Then
-            If ParentFitting.FittedShip.TotalVolley >= ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount Then
+            If ParentFitting.FittedShip.TotalVolley >= ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount + ParentFitting.FittedShip.GasTotalAmount Then
                 epDamage.TitleText = "Damage (DPS: " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & ")"
             Else
-                epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & ")"
+                epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate + ParentFitting.FittedShip.GasTotalRate).ToString("N2") & ")"
             End If
-        ElseIf ParentFitting.FittedShip.TransferAmount > ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount Then
+        ElseIf ParentFitting.FittedShip.TransferAmount > ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount + ParentFitting.FittedShip.GasTotalAmount Then
             epDamage.TitleText = "Logistics (Rate: " & ParentFitting.FittedShip.TransferRate.ToString("N2") & ")"
         Else
-            epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & ")"
+            epDamage.TitleText = "Mining (Rate: " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate + ParentFitting.FittedShip.GasTotalRate).ToString("N2") & ")"
         End If
         ' Damage info
         lblDamage.Text = ParentFitting.FittedShip.TotalVolley.ToString("N2") & " / " & ParentFitting.FittedShip.TotalDPS.ToString("N2") & " DPS"
@@ -349,8 +349,8 @@ Public Class ShipInfoControl
             lblDPR.Text = dpr.ShieldDPS.ToString("N2") & " / " & dpr.ArmorDPS.ToString("N2") & " / " & dpr.HullDPS.ToString("N2")
         End If
         ' Mining info
-        lblMining.Text = (ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount).ToString("N2") & " m3 / " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate).ToString("N2") & " m3/s"
-        If ParentFitting.FittedShip.OreTotalAmount > 0 Or ParentFitting.FittedShip.IceTotalAmount > 0 Then
+        lblMining.Text = (ParentFitting.FittedShip.OreTotalAmount + ParentFitting.FittedShip.IceTotalAmount + ParentFitting.FittedShip.GasTotalAmount).ToString("N2") & " m3 / " & (ParentFitting.FittedShip.OreTotalRate + ParentFitting.FittedShip.IceTotalRate + ParentFitting.FittedShip.GasTotalRate).ToString("N2") & " m3/s"
+        If ParentFitting.FittedShip.OreTotalAmount > 0 Or ParentFitting.FittedShip.IceTotalAmount > 0 Or ParentFitting.FittedShip.GasTotalAmount > 0 Then
             ttt = ""
             If ParentFitting.FittedShip.OreTurretAmount > 0 Then
                 ttt &= "Mining Turret Yield: " & ParentFitting.FittedShip.OreTurretAmount.ToString("N2")
@@ -367,6 +367,10 @@ Public Class ShipInfoControl
             If ParentFitting.FittedShip.IceDroneAmount > 0 Then
                 ttt &= "Ice Drone Yield: " & ParentFitting.FittedShip.IceDroneAmount.ToString("N2")
                 ttt &= " (m3/s: " & ParentFitting.FittedShip.IceDroneRate.ToString("N2") & ")" & ControlChars.CrLf
+            End If
+            If ParentFitting.FittedShip.GasTotalAmount > 0 Then
+                ttt &= "Gas Harvester Yield: " & ParentFitting.FittedShip.GasTotalAmount.ToString("N2")
+                ttt &= " (m3/s: " & ParentFitting.FittedShip.GasTotalRate.ToString("N2") & ")" & ControlChars.CrLf
             End If
             ToolTip1.SetToolTip(lblMining, ttt)
         End If
