@@ -167,6 +167,7 @@ Partial Class frmPrism
         Me.btnResetBPSearch = New System.Windows.Forms.Button()
         Me.txtBPSearch = New System.Windows.Forms.TextBox()
         Me.lblBPSearch = New System.Windows.Forms.Label()
+        Me.btnGetBPClipboardInfo = New System.Windows.Forms.Button()
         Me.btnGetBPJobInfo = New System.Windows.Forms.Button()
         Me.btnUpdateBPsFromAssets = New System.Windows.Forms.Button()
         Me.btnBPCalc = New System.Windows.Forms.Button()
@@ -1993,7 +1994,7 @@ Partial Class frmPrism
         'btnAddCustomBP
         '
         Me.btnAddCustomBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnAddCustomBP.Location = New System.Drawing.Point(1192, 165)
+        Me.btnAddCustomBP.Location = New System.Drawing.Point(1192, 211)
         Me.btnAddCustomBP.Name = "btnAddCustomBP"
         Me.btnAddCustomBP.Size = New System.Drawing.Size(80, 40)
         Me.btnAddCustomBP.TabIndex = 45
@@ -2082,6 +2083,17 @@ Partial Class frmPrism
         Me.lblBPSearch.TabIndex = 32
         Me.lblBPSearch.Text = "Search:"
         '
+        'btnGetBPClipboardInfo
+        '
+        Me.btnGetBPClipboardInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnGetBPClipboardInfo.Location = New System.Drawing.Point(1192, 165)
+        Me.btnGetBPClipboardInfo.Name = "btnGetBPClipboardInfo"
+        Me.btnGetBPClipboardInfo.Size = New System.Drawing.Size(80, 40)
+        Me.btnGetBPClipboardInfo.TabIndex = 32
+        Me.btnGetBPClipboardInfo.Text = "Get BP Info fr. Clipboard"
+        Me.ToolTip1.SetToolTip(Me.btnGetBPClipboardInfo, "Imports Blueprint details from the clipboard" & vbCrLf & "(Before clicking this button select an Owner" & vbCrLf & "here and doubleclick on a location in the" & vbCrLf & "Blueprints tab of Science & Industry in your" & vbCrLf & "Eve client. Select blueprints in the opening" & vbCrLf & "window and press Ctrl-C.)")
+        Me.btnGetBPClipboardInfo.UseVisualStyleBackColor = True
+        '
         'btnGetBPJobInfo
         '
         Me.btnGetBPJobInfo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2089,8 +2101,8 @@ Partial Class frmPrism
         Me.btnGetBPJobInfo.Name = "btnGetBPJobInfo"
         Me.btnGetBPJobInfo.Size = New System.Drawing.Size(80, 40)
         Me.btnGetBPJobInfo.TabIndex = 31
-        Me.btnGetBPJobInfo.Text = "Get BP Info From Jobs"
-        Me.ToolTip1.SetToolTip(Me.btnGetBPJobInfo, "Imports Blueprint details from the Assets API")
+        Me.btnGetBPJobInfo.Text = "Get BP Info from Jobs"
+        Me.ToolTip1.SetToolTip(Me.btnGetBPJobInfo, "Imports Blueprint details from the Jobs API")
         Me.btnGetBPJobInfo.UseVisualStyleBackColor = True
         '
         'btnUpdateBPsFromAssets
@@ -2100,7 +2112,7 @@ Partial Class frmPrism
         Me.btnUpdateBPsFromAssets.Name = "btnUpdateBPsFromAssets"
         Me.btnUpdateBPsFromAssets.Size = New System.Drawing.Size(80, 40)
         Me.btnUpdateBPsFromAssets.TabIndex = 30
-        Me.btnUpdateBPsFromAssets.Text = "Update BPs From Assets"
+        Me.btnUpdateBPsFromAssets.Text = "Update BPs from Assets"
         Me.ToolTip1.SetToolTip(Me.btnUpdateBPsFromAssets, "Imports Blueprint details from the Assets API")
         Me.btnUpdateBPsFromAssets.UseVisualStyleBackColor = True
         '
@@ -2229,7 +2241,7 @@ Partial Class frmPrism
         'btnCopyListToClipboard
         '
         Me.btnCopyListToClipboard.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCopyListToClipboard.Location = New System.Drawing.Point(1192, 211)
+        Me.btnCopyListToClipboard.Location = New System.Drawing.Point(1192, 257)
         Me.btnCopyListToClipboard.Name = "btnCopyListToClipboard"
         Me.btnCopyListToClipboard.Size = New System.Drawing.Size(80, 40)
         Me.btnCopyListToClipboard.TabIndex = 58
@@ -6261,6 +6273,7 @@ Partial Class frmPrism
         Me.TabControlPanel9.Controls.Add(Me.btnUpdateBPsFromAssets)
         Me.TabControlPanel9.Controls.Add(Me.lblMissing)
         Me.TabControlPanel9.Controls.Add(Me.btnGetBPJobInfo)
+        Me.TabControlPanel9.Controls.Add(Me.btnGetBPClipboardInfo)
         Me.TabControlPanel9.Controls.Add(Me.lblBPC)
         Me.TabControlPanel9.Controls.Add(Me.lblBPSearch)
         Me.TabControlPanel9.Controls.Add(Me.lblBPO)
@@ -6734,6 +6747,7 @@ Partial Class frmPrism
     Friend WithEvents btnUpdateBPsFromAssets As System.Windows.Forms.Button
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
     Friend WithEvents btnGetBPJobInfo As System.Windows.Forms.Button
+    Friend WithEvents btnGetBPClipboardInfo As System.Windows.Forms.Button
     Friend WithEvents ctxBPManager As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents mnuSendToBPCalc As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem4 As System.Windows.Forms.ToolStripSeparator

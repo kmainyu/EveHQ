@@ -52,6 +52,7 @@ Public Class frmPrism
     Dim MaxAPIJournals As Integer = 2000
 
     Dim BPManagerUpdate As Boolean = False
+    Dim BPLocations As List(Of String) = New List(Of String)()
 
     ' Investment variables
     Dim InvestmentID As String
@@ -345,7 +346,7 @@ Public Class frmPrism
     ''' Checks existing XML files for display on Prism startup
     ''' </summary>
     ''' <remarks></remarks>
-    Private Sub CheckXMLs(Owner As PrismOwner)
+    Private Sub CheckXMLs(ByVal Owner As PrismOwner)
         Select Case Owner.IsCorp
             Case True
                 Call CheckCorpXMLs(Owner)
@@ -354,7 +355,7 @@ Public Class frmPrism
         End Select
     End Sub
 
-    Private Sub CheckCharXMLs(Owner As PrismOwner)
+    Private Sub CheckCharXMLs(ByVal Owner As PrismOwner)
 
         If Owner.IsCorp = False Then
             If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(Owner.Name) = True Then
@@ -413,7 +414,7 @@ Public Class frmPrism
         End If
     End Sub
 
-    Private Sub CheckCorpXMLs(Owner As PrismOwner)
+    Private Sub CheckCorpXMLs(ByVal Owner As PrismOwner)
 
         If Owner.IsCorp = True Then
 
@@ -468,7 +469,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub btnRefreshAPI_Click(sender As System.Object, e As System.EventArgs) Handles btnRefreshAPI.Click
+    Private Sub btnRefreshAPI_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefreshAPI.Click
         startup = True
         Call Me.ScanForExistingXMLs()
         startup = False
@@ -534,7 +535,7 @@ Public Class frmPrism
         Threading.ThreadPool.QueueUserWorkItem(AddressOf UpdateNullCorpSheet2)
 
     End Sub
-    Private Sub CheckXML(apiXML As XmlDocument, Owner As PrismOwner, APIType As CorpRepType)
+    Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal Owner As PrismOwner, ByVal APIType As CorpRepType)
 
         ' Get the listviewitem of the relevant Owner
         Dim APIOwner As ListViewItem = lvwCurrentAPIs.Items(Owner.ID)
@@ -2055,12 +2056,12 @@ Public Class frmPrism
         End Select
     End Function
 
-    Private Sub adtBuyOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs)
+    Private Sub adtBuyOrders_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
 
-    Private Sub adtSellOrders_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs)
+    Private Sub adtSellOrders_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs)
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
@@ -2607,7 +2608,7 @@ Public Class frmPrism
         CheckJournals.Dispose()
     End Sub
 
-    Private Sub btnExportEntries_Click(sender As System.Object, e As System.EventArgs) Handles btnExportEntries.Click
+    Private Sub btnExportEntries_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportEntries.Click
 
         ' Check for multiple owners - can't do this!
 
@@ -2804,7 +2805,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub adtJournal_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtJournal.ColumnHeaderMouseUp
+    Private Sub adtJournal_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtJournal.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
@@ -3036,7 +3037,7 @@ Public Class frmPrism
         Call Me.UpdateWalletTransactionDivisions()
     End Sub
 
-    Private Sub btnGetTransactions_Click(sender As System.Object, e As System.EventArgs) Handles btnGetTransactions.Click
+    Private Sub btnGetTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetTransactions.Click
         Call Me.DisplayWalletTransactions()
     End Sub
 
@@ -3056,7 +3057,7 @@ Public Class frmPrism
         dtiTransEndDate.Value = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now)
     End Sub
 
-    Private Sub adtTransactions_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseUp
+    Private Sub adtTransactions_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
@@ -3230,7 +3231,7 @@ Public Class frmPrism
 
 #Region "Contracts Routines"
 
-    Private Sub cboContractOwner_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboContractOwner.SelectedIndexChanged
+    Private Sub cboContractOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboContractOwner.SelectedIndexChanged
         Call Me.DisplayContracts()
     End Sub
 
@@ -3346,7 +3347,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub adtContracts_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtContracts.ColumnHeaderMouseUp
+    Private Sub adtContracts_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtContracts.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
@@ -3716,7 +3717,7 @@ Public Class frmPrism
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 
-    Private Sub adtRecycle_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles adtRecycle.KeyDown
+    Private Sub adtRecycle_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles adtRecycle.KeyDown
         If e.Control = True And e.KeyCode = Keys.A Then
             adtRecycle.SelectedNodes.Clear()
             For Each rNode As Node In adtRecycle.Nodes
@@ -3979,7 +3980,7 @@ Public Class frmPrism
         End Try
     End Sub
 
-    Private Sub ctxRecycleItem_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ctxRecycleItem.Opening
+    Private Sub ctxRecycleItem_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxRecycleItem.Opening
         If adtRecycle.SelectedNodes.Count > 0 Then
             If adtRecycle.SelectedNodes(0).Level = 0 Then
                 mnuAlterRecycleQuantity.Enabled = True
@@ -3993,7 +3994,7 @@ Public Class frmPrism
         End If
     End Sub
 
-    Private Sub mnuAddRecycleItem_Click_1(sender As System.Object, e As System.EventArgs) Handles mnuAddRecycleItem.Click
+    Private Sub mnuAddRecycleItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddRecycleItem.Click
         Dim newI As New frmSelectItem
         newI.ShowDialog()
         Dim itemName As String = newI.Item
@@ -4176,12 +4177,18 @@ Public Class frmPrism
                 Dim BPData As New Blueprint
                 Dim LocationName As String = ""
                 Dim matchCat As Boolean = False
+                BPLocations.Clear()
                 For Each BP As BlueprintAsset In ownerBPs.Values
                     If BP.LocationDetails Is Nothing Then BP.LocationDetails = "" ' Resets details
                     If BP.LocationID Is Nothing Then BP.LocationID = "0" ' Resets details
                     If PlugInData.Blueprints.ContainsKey(BP.TypeID) Then
                         BPData = PlugInData.Blueprints(BP.TypeID)
                         LocationName = Locations.GetLocationNameFromID(BP.LocationID)
+                        If LocationName <> "" Then
+                            If BPLocations.Contains(LocationName) = False Then
+                                BPLocations.Add(LocationName)
+                            End If
+                        End If
                         If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
                             If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
                                 matchCat = False
@@ -4493,7 +4500,7 @@ Public Class frmPrism
                         ' Fetch the current BP Data
                         Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
                         Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
-                            Case 1 ' Manufacturing
+                            Case BPActivity.Manufacturing
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
@@ -4516,7 +4523,7 @@ Public Class frmPrism
                                 Else
                                     cBPInfo.BPType = BPType.BPO
                                 End If
-                            Case 3 ' PE Research
+                            Case BPActivity.TimeResearch
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
@@ -4539,7 +4546,7 @@ Public Class frmPrism
                                 Else
                                     cBPInfo.BPType = BPType.BPO
                                 End If
-                            Case 4 ' ME Research
+                            Case BPActivity.MaterialResearch
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs > cBPInfo.MELevel Then
@@ -4562,7 +4569,7 @@ Public Class frmPrism
                                 Else
                                     cBPInfo.BPType = BPType.BPO
                                 End If
-                            Case 5 ' Copying
+                            Case BPActivity.Copying
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
@@ -4593,6 +4600,163 @@ Public Class frmPrism
             MessageBox.Show("Make sure you have retrieved your Blueprint details before attempting to update them.", "Blueprints Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
+
+        ' Update the owner list if the option requires it
+        If chkShowOwnedBPs.Checked = True Then
+            Call Me.UpdateOwnerBPList()
+        End If
+    End Sub
+
+    Private Sub btnGetBPClipboardInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetBPClipboardInfo.Click
+        ' Get BPs of selected owner
+        Dim owner As String
+        If cboBPOwner.SelectedItem IsNot Nothing Then
+            owner = cboBPOwner.SelectedItem.ToString()
+        Else
+            MessageBox.Show("There is no blueprint owner selected.", "Empty Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+        Dim ownerBPAssets As SortedList(Of String, BlueprintAsset)
+        If PlugInData.BlueprintAssets.ContainsKey(owner) Then
+            ownerBPAssets = PlugInData.BlueprintAssets(owner)
+        Else
+            MessageBox.Show("There were no blueprint assets found for the selected owner.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        ' Get data from clipboard and split it into separate blueprints
+        Dim clipboardBPs() As String = Clipboard.GetText().Split(vbCrLf.ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+        If clipboardBPs.Length = 0 Then
+            MessageBox.Show("There was no blueprint data found in the clipboard.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        ' Check each imported blueprint for valid data
+        Dim importedBPOAssets As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
+        Dim importedBPCAssets As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
+        Dim currentBPInfo() As String
+        Dim tempMELevel As Integer
+        Dim tempPELevel As Integer
+        Dim tempRuns As Integer
+        For Each clipboardBP As String In clipboardBPs
+            currentBPInfo = clipboardBP.Split(vbTab.ToCharArray())
+            If currentBPInfo.Length <> 8 Then
+                MessageBox.Show("There was a data row with invalid length.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            Dim currentBP As BlueprintAsset = New BlueprintAsset()
+
+            If EveHQ.Core.HQ.itemList.ContainsKey(currentBPInfo(0)) = True Then
+                currentBP.TypeID = EveHQ.Core.HQ.itemList(currentBPInfo(0))
+            Else
+                MessageBox.Show("There was a data row with invalid 'Name' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            Select Case currentBPInfo(4)
+                Case "Yes"
+                    currentBP.BPType = BPType.BPC
+                Case "No"
+                    currentBP.BPType = BPType.BPO
+                Case Else
+                    MessageBox.Show("There was a data row with invalid 'Copy' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Exit Sub
+            End Select
+            If Integer.TryParse(currentBPInfo(5).Replace(",", ""), tempMELevel) = True Then
+                currentBP.MELevel = tempMELevel
+            Else
+                MessageBox.Show("There was a data row with invalid 'ME' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            If Integer.TryParse(currentBPInfo(6).Replace(",", ""), tempPELevel) = True Then
+                currentBP.PELevel = tempPELevel
+            Else
+                MessageBox.Show("There was a data row with invalid 'PE' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+            If Integer.TryParse(currentBPInfo(7).Replace(",", ""), tempRuns) = True Then
+                currentBP.Runs = tempRuns
+            ElseIf currentBP.BPType <> BPType.BPO Then
+                MessageBox.Show("There was a data row with invalid 'Runs' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Exit Sub
+            End If
+
+            ' Store valid imported BPs separately by type
+            If currentBP.BPType = BPType.BPO Then
+                importedBPOAssets.Add(currentBP)
+            ElseIf currentBP.BPType = BPType.BPC Then
+                importedBPCAssets.Add(currentBP)
+            End If
+        Next
+
+        ' Get location of imported BPs from user
+        Dim selectLoc As New frmSelectLocation
+        selectLoc.BPLocations = BPLocations
+        selectLoc.ShowDialog()
+        Dim bpLoc As String = selectLoc.BPLocation
+        If bpLoc Is Nothing Then
+            Exit Sub
+        End If
+        Dim includeBPOs As Boolean = selectLoc.IncludeBPOs
+        selectLoc.Dispose()
+
+        ' Match owned BPs at selected location to imported BPs and update their data
+        Dim unknownBPs As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
+        For Each ownedBP As BlueprintAsset In ownerBPAssets.Values
+            If Locations.GetLocationNameFromID(ownedBP.LocationID) = bpLoc Then
+                Select Case ownedBP.BPType
+                    Case BPType.BPO
+                        If includeBPOs = True Then
+                            For Each impBP As BlueprintAsset In importedBPOAssets
+                                If ownedBP.TypeID = impBP.TypeID Then
+                                    ownedBP.MELevel = impBP.MELevel
+                                    ownedBP.PELevel = impBP.PELevel
+                                    importedBPOAssets.Remove(impBP)
+                                    Exit For
+                                End If
+                            Next
+                        End If
+                    Case BPType.BPC
+                        For Each impBP As BlueprintAsset In importedBPCAssets
+                            If ownedBP.TypeID = impBP.TypeID Then
+                                ownedBP.MELevel = impBP.MELevel
+                                ownedBP.PELevel = impBP.PELevel
+                                ownedBP.Runs = impBP.Runs
+                                importedBPCAssets.Remove(impBP)
+                                Exit For
+                            End If
+                        Next
+                    Case BPType.Unknown
+                        unknownBPs.Add(ownedBP)
+                End Select
+            End If
+        Next
+
+        ' Match and update remaining BPs of unknown BP type
+        For Each ownedBP As BlueprintAsset In unknownBPs
+            ' Check imported BPCs
+            For Each impBP As BlueprintAsset In importedBPCAssets
+                If ownedBP.TypeID = impBP.TypeID Then
+                    ownedBP.BPType = impBP.BPType
+                    ownedBP.MELevel = impBP.MELevel
+                    ownedBP.PELevel = impBP.PELevel
+                    ownedBP.Runs = impBP.Runs
+                    importedBPCAssets.Remove(impBP)
+                    Exit For
+                End If
+            Next
+            ' Check imported BPOs if no match was found in BPCs
+            If ownedBP.BPType = BPType.Unknown And includeBPOs = True Then
+                For Each impBP As BlueprintAsset In importedBPOAssets
+                    If ownedBP.TypeID = impBP.TypeID Then
+                        ownedBP.BPType = impBP.BPType
+                        ownedBP.MELevel = impBP.MELevel
+                        ownedBP.PELevel = impBP.PELevel
+                        importedBPOAssets.Remove(impBP)
+                        Exit For
+                    End If
+                Next
+            End If
+        Next
 
         ' Update the owner list if the option requires it
         If chkShowOwnedBPs.Checked = True Then
@@ -4777,7 +4941,7 @@ Public Class frmPrism
         End If
     End Sub
 
-    Private Sub btnCopyListToClipboard_Click(sender As System.Object, e As System.EventArgs) Handles btnCopyListToClipboard.Click
+    Private Sub btnCopyListToClipboard_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyListToClipboard.Click
         ' Exports the list to Clipboard in TSV format for pasting to Excel etc
         If cboBPOwner.SelectedItem IsNot Nothing Then
             Call Me.ExportToClipboard("Blueprint List for " & cboBPOwner.SelectedItem.ToString, adtBlueprints, ControlChars.Tab)
@@ -4816,7 +4980,7 @@ Public Class frmPrism
 
 #Region "Ribbon and Tab UI Functions"
 
-    Private Sub tabPrism_SelectedTabChanging(sender As Object, e As DevComponents.DotNetBar.TabStripTabChangingEventArgs) Handles tabPrism.SelectedTabChanging
+    Private Sub tabPrism_SelectedTabChanging(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.TabStripTabChangingEventArgs) Handles tabPrism.SelectedTabChanging
         SelectedTab = e.NewTab
     End Sub
 
@@ -4906,7 +5070,7 @@ Public Class frmPrism
         tabPrism.SelectedTab = tiJobs
     End Sub
 
-    Private Sub btnContracts_Click(sender As System.Object, e As System.EventArgs) Handles btnContracts.Click
+    Private Sub btnContracts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContracts.Click
         tiContracts.Visible = True
         tabPrism.SelectedTab = tiContracts
     End Sub
@@ -4938,23 +5102,23 @@ Public Class frmPrism
         tiProductionManager.Visible = True
     End Sub
 
-    Private Sub btnInventionManager_Click(sender As System.Object, e As System.EventArgs) Handles btnInventionManager.Click
+    Private Sub btnInventionManager_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInventionManager.Click
         tabPrism.SelectedTab = tiInventionManager
         tiInventionManager.Visible = True
     End Sub
 
-    Private Sub btnQuickProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnQuickProduction.Click
+    Private Sub btnQuickProduction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnQuickProduction.Click
         Dim QP As New frmQuickProduction
         QP.ShowDialog()
         QP.Dispose()
     End Sub
 
-    Private Sub btnRigBuilder_Click(sender As System.Object, e As System.EventArgs) Handles btnRigBuilder.Click
+    Private Sub btnRigBuilder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRigBuilder.Click
         tabPrism.SelectedTab = tiRigBuilder
         tiRigBuilder.Visible = True
     End Sub
 
-    Private Sub btnInventionResults_Click(sender As System.Object, e As System.EventArgs) Handles btnInventionResults.Click
+    Private Sub btnInventionResults_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInventionResults.Click
         tabPrism.SelectedTab = tiInventionResults
         tiInventionResults.Visible = True
     End Sub
@@ -5008,7 +5172,7 @@ Public Class frmPrism
         End If
     End Sub
 
-    Private Sub btnLinkBPCalc_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkBPCalc.Click
+    Private Sub btnLinkBPCalc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLinkBPCalc.Click
         Dim KeyName As String = adtSearch.SelectedNodes(0).Name
         Select Case adtSearch.SelectedNodes(0).TagString
             Case "Item"
@@ -5025,7 +5189,7 @@ Public Class frmPrism
         End Select
     End Sub
 
-    Private Sub btnLinkRequisition_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkRequisition.Click
+    Private Sub btnLinkRequisition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLinkRequisition.Click
         Dim KeyName As String = adtSearch.SelectedNodes(0).Name
         Select Case adtSearch.SelectedNodes(0).TagString
             Case "Item"
@@ -5066,13 +5230,13 @@ Public Class frmPrism
         End Select
     End Sub
 
-    Private Sub btnLinkProduction_Click(sender As System.Object, e As System.EventArgs) Handles btnLinkProduction.Click
+    Private Sub btnLinkProduction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLinkProduction.Click
         Dim QP As New frmQuickProduction(lblSelectedBP.Tag.ToString)
         QP.ShowDialog()
         QP.Dispose()
     End Sub
 
-    Private Sub CreateRequisitionFromJob(Orders As SortedList(Of String, Integer), CurrentJob As ProductionJob)
+    Private Sub CreateRequisitionFromJob(ByVal Orders As SortedList(Of String, Integer), ByVal CurrentJob As ProductionJob)
 
         Dim maxProducableUnits As Long = -1
         Dim UnitMaterial As Double = 0
@@ -5177,7 +5341,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub adtSearch_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSearch.NodeDoubleClick
+    Private Sub adtSearch_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSearch.NodeDoubleClick
         Dim KeyName As String = e.Node.Name
         Select Case e.Node.TagString
             Case "Item"
@@ -5305,7 +5469,7 @@ Public Class frmPrism
         BPCalc.Show()
     End Sub
 
-    Private Sub adtProdJobs_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtProdJobs.ColumnHeaderMouseUp
+    Private Sub adtProdJobs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtProdJobs.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
@@ -5470,7 +5634,7 @@ Public Class frmPrism
         End If
     End Sub
 
-    Private Sub adtInventionJobs_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseUp
+    Private Sub adtInventionJobs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
@@ -5559,7 +5723,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub btnGenerateReport_Click(sender As System.Object, e As System.EventArgs) Handles btnGenerateReport.Click
+    Private Sub btnGenerateReport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateReport.Click
 
         If CType(cboReportOwners.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems.Count > 0 Then
             Call Me.GenerateReport()
@@ -5627,12 +5791,12 @@ Public Class frmPrism
 
                 Case "Transaction Sales Report"
                     Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateSalesReportBodyHTML(Reports.GenerateTransactionSalesAnalysis(ReportData))
+                    Dim Result As ReportResult = Reports.GenerateSalesReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Transaction Purchases Report"
                     Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GeneratePurchasesReportBodyHTML(Reports.GenerateTransactionPurchasesAnalysis(ReportData))
+                    Dim Result As ReportResult = Reports.GeneratePurchasesReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Transaction Trading Report"
@@ -5681,7 +5845,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub btnGenerateChart_Click(sender As System.Object, e As System.EventArgs) Handles btnGenerateChart.Click
+    Private Sub btnGenerateChart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateChart.Click
 
         Call Me.GenerateChart()
 
@@ -5804,7 +5968,7 @@ Public Class frmPrism
                 End If
 
             Catch ex As Exception
-               
+
             End Try
         Next
     End Sub
@@ -5926,12 +6090,12 @@ Public Class frmPrism
         EveHQ.Core.AdvTreeSorter.Sort(adtRigs, 1, True, True)
         adtRigs.EndUpdate()
     End Sub
-    Private Sub adtRigs_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
+    Private Sub adtRigs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
         Call AddRigToBuildList(e.Node)
         Call Me.GetBuildList()
         Call Me.CalculateRigBuildInfo()
     End Sub
-    Private Sub adtRigBuildList_NodeDoubleClick(sender As Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
+    Private Sub adtRigBuildList_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
         Call RemoveRigFromBuildList(e.Node)
         Call Me.GetBuildList()
         Call Me.CalculateRigBuildInfo()
@@ -5994,7 +6158,7 @@ Public Class frmPrism
         lblTotalRigProfit.Text = "Total Rig Profit: " & totalRP.ToString("N2")
         lblTotalRigMargin.Text = "Margin: " & (totalRP / totalRSP * 100).ToString("N2") & "%"
     End Sub
-    Private Sub btnAutoRig_Click(sender As System.Object, e As System.EventArgs) Handles btnAutoRig.Click
+    Private Sub btnAutoRig_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAutoRig.Click
         ' Get the rig and salvage info
         Call Me.PrepareRigData()
         ' Get the list of available rigs
@@ -6007,7 +6171,7 @@ Public Class frmPrism
         EveHQ.Core.AdvTreeSorter.Sort(adtRigBuildList, New EveHQ.Core.AdvTreeSortResult(CInt(btnAutoRig.Tag), Core.AdvTreeSortOrder.Descending), False)
         Call Me.CalculateRigBuildInfo()
     End Sub
-    Private Sub btnBuildRigs_Click(sender As System.Object, e As System.EventArgs) Handles btnBuildRigs.Click
+    Private Sub btnBuildRigs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuildRigs.Click
 
         ' Get the rig and salvage info
         Call Me.PrepareRigData()
@@ -6021,11 +6185,11 @@ Public Class frmPrism
     Private Sub btnExportRigBuildList_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportRigBuildList.Click
         Call Me.GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
     End Sub
-    Private Sub adtRigs_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtRigs.ColumnHeaderMouseUp
+    Private Sub adtRigs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtRigs.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
-    Private Sub adtRigBuildList_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseUp
+    Private Sub adtRigBuildList_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
@@ -6110,7 +6274,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub DisplayInventionStats(JobList As SortedList(Of Long, InventionAPIJob))
+    Private Sub DisplayInventionStats(ByVal JobList As SortedList(Of Long, InventionAPIJob))
 
         adtInventionStats.BeginUpdate()
         adtInventionStats.Nodes.Clear()
@@ -6228,7 +6392,7 @@ Public Class frmPrism
 
     End Sub
 
-    Private Sub btnGetResults_Click(sender As System.Object, e As System.EventArgs) Handles btnGetResults.Click
+    Private Sub btnGetResults_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetResults.Click
         Call Me.DisplayInventionResults()
     End Sub
 
@@ -6248,12 +6412,12 @@ Public Class frmPrism
         dtiInventionEndDate.Value = Now
     End Sub
 
-    Private Sub adtInventionResults_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseUp
+    Private Sub adtInventionResults_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub
 
-    Private Sub adtInventionStats_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseUp
+    Private Sub adtInventionStats_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, False, False)
     End Sub

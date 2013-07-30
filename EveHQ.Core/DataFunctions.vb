@@ -1894,12 +1894,11 @@ Public Class DataFunctions
                                                         APIReturnMethods.ReturnStandard)
             ' Parse this XML
             Dim IDList As XmlNodeList
-            Dim IDNode As XmlNode
             Dim eveID As Long = 0
             Dim eveName As String = ""
-            IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-            If IDList.Count > 0 Then
-                For Each IDNode In IDList
+            If IDXML IsNot Nothing Then
+                IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
+                For Each IDNode As XmlNode In IDList
                     eveID = CLng(IDNode.Attributes.GetNamedItem("listID").Value)
                     eveName = IDNode.Attributes.GetNamedItem("displayName").Value
                     If FinalIDs.ContainsKey(eveID) = False Then

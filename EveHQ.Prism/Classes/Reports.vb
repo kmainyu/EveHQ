@@ -626,32 +626,38 @@ Public Class Reports
 
     End Function
 
-    Public Shared Function GenerateSalesReportBodyHTML(TransList As List(Of TransactionReportItem)) As ReportResult
+    Public Shared Function GenerateSalesReportBodyHTML(ByVal TransList As SortedList(Of String, TransactionProfitItem)) As ReportResult
 
         Dim HTML As New StringBuilder
 
         HTML.AppendLine("<table width=800px border=0 align=center>")
-        HTML.AppendLine("<tr><td width=50>&nbsp;</td><td width=50></td><td width=500></td><td width=200></td></tr>")
-        HTML.AppendLine("<tr><td width=50></td><td colspan=3><b>TRANSACTION SALES</b></td></tr>")
+        HTML.AppendLine("<tr><td width=50>&nbsp;</td><td width=50></td><td width=300></td><td width=100></td><td width=150></td><td width=150></td></tr>")
+        HTML.AppendLine("<tr><td width=50></td><td colspan=5><b>TRANSACTION SALES</b></td></tr>")
+        HTML.AppendLine("<tr><td width=50></td><td width=50></td><td width=300></td><td align=right><i><u>Amount Sold</u></i></td><td align=right><i><u>Average Unit Price</u></i></td><td align=right><i><u>Total Price</u></i></td></tr>")
 
         Dim Total As Double = 0
 
-        For Each TRI As TransactionReportItem In TransList
-            HTML.AppendLine("<tr>")
-            HTML.AppendLine("<td colspan=2></td>")
-            HTML.AppendLine("<td>" & TRI.ItemName & "</td>")
-            HTML.AppendLine("<td align='right'> " & (TRI.Price * TRI.Quantity).ToString("N2") & "</td>")
-            HTML.AppendLine("</tr>")
-            Total += (TRI.Price * TRI.Quantity)
+        For Each TPI As TransactionProfitItem In TransList.Values
+            If TPI.QtySold > 0 Then
+                HTML.AppendLine("<tr>")
+                HTML.AppendLine("<td colspan=2></td>")
+                HTML.AppendLine("<td>" & TPI.ItemName & "</td>")
+                HTML.AppendLine("<td align='right'>" & TPI.QtySold.ToString("N0") & "</td>")
+                HTML.AppendLine("<td align='right'>" & (TPI.ValueSold / TPI.QtySold).ToString("N2") & "</td>")
+                HTML.AppendLine("<td align='right'>" & TPI.ValueSold.ToString("N2") & "</td>")
+                HTML.AppendLine("</tr>")
+                Total += TPI.ValueSold
+            End If
         Next
 
         HTML.AppendLine("<tr></tr>")
         HTML.AppendLine("<tr>")
-        HTML.AppendLine("<td colspan=2></td>")
-        HTML.AppendLine("<td>TRANSACTION SALES TOTAL</td>")
+        HTML.AppendLine("<td colspan=4></td>")
+        HTML.AppendLine("<td align='center'><b>Transaction Sales Total:</b></td>")
         HTML.AppendLine("<td align='right'> " & Total.ToString("N2") & "</td>")
         HTML.AppendLine("</tr>")
 
+        HTML.AppendLine("<tr></tr>")
         HTML.AppendLine("</table>")
 
         ' Return the result
@@ -662,32 +668,38 @@ Public Class Reports
 
     End Function
 
-    Public Shared Function GeneratePurchasesReportBodyHTML(TransList As List(Of TransactionReportItem)) As ReportResult
+    Public Shared Function GeneratePurchasesReportBodyHTML(ByVal TransList As SortedList(Of String, TransactionProfitItem)) As ReportResult
 
         Dim HTML As New StringBuilder
 
         HTML.AppendLine("<table width=800px border=0 align=center>")
-        HTML.AppendLine("<tr><td width=50>&nbsp;</td><td width=50></td><td width=500></td><td width=200></td></tr>")
-        HTML.AppendLine("<tr><td width=50></td><td colspan=3><b>TRANSACTION PURCHASES</b></td></tr>")
+        HTML.AppendLine("<tr><td width=50>&nbsp;</td><td width=50></td><td width=300></td><td width=100></td><td width=150></td><td width=150></td></tr>")
+        HTML.AppendLine("<tr><td width=50></td><td colspan=5><b>TRANSACTION PURCHASES</b></td></tr>")
+        HTML.AppendLine("<tr><td width=50></td><td width=50></td><td width=300></td><td align=right><i><u>Amount Bought</u></i></td><td align=right><i><u>Average Unit Price</u></i></td><td align=right><i><u>Total Price</u></i></td></tr>")
 
         Dim Total As Double = 0
 
-        For Each TRI As TransactionReportItem In TransList
-            HTML.AppendLine("<tr>")
-            HTML.AppendLine("<td colspan=2></td>")
-            HTML.AppendLine("<td>" & TRI.ItemName & "</td>")
-            HTML.AppendLine("<td align='right'> " & (TRI.Price * TRI.Quantity).ToString("N2") & "</td>")
-            HTML.AppendLine("</tr>")
-            Total += (TRI.Price * TRI.Quantity)
+        For Each TPI As TransactionProfitItem In TransList.Values
+            If TPI.QtyBought > 0 Then
+                HTML.AppendLine("<tr>")
+                HTML.AppendLine("<td colspan=2></td>")
+                HTML.AppendLine("<td>" & TPI.ItemName & "</td>")
+                HTML.AppendLine("<td align='right'>" & TPI.QtyBought.ToString("N0") & "</td>")
+                HTML.AppendLine("<td align='right'>" & (TPI.ValueBought / TPI.QtyBought).ToString("N2") & "</td>")
+                HTML.AppendLine("<td align='right'>" & TPI.ValueBought.ToString("N2") & "</td>")
+                HTML.AppendLine("</tr>")
+                Total += TPI.ValueBought
+            End If
         Next
 
         HTML.AppendLine("<tr></tr>")
         HTML.AppendLine("<tr>")
-        HTML.AppendLine("<td colspan=2></td>")
-        HTML.AppendLine("<td>TRANSACTION PURCHASES TOTAL</td>")
+        HTML.AppendLine("<td colspan=4></td>")
+        HTML.AppendLine("<td align='center'><b>Transaction Purchases Total:</b></td>")
         HTML.AppendLine("<td align='right'> " & Total.ToString("N2") & "</td>")
         HTML.AppendLine("</tr>")
 
+        HTML.AppendLine("<tr></tr>")
         HTML.AppendLine("</table>")
 
         ' Return the result
@@ -698,7 +710,7 @@ Public Class Reports
 
     End Function
 
-    Public Shared Function GenerateTradingProfitReportBodyHTML(TransList As SortedList(Of String, TransactionProfitItem)) As ReportResult
+    Public Shared Function GenerateTradingProfitReportBodyHTML(ByVal TransList As SortedList(Of String, TransactionProfitItem)) As ReportResult
 
         Dim HTML As New StringBuilder
 
@@ -710,10 +722,10 @@ Public Class Reports
 
         Dim totalProfitAllItems As Double = 0
 
-        For Each TRI As TransactionProfitItem In TransList.Values
-            If TRI.QtyBought <> 0 And TRI.QtySold <> 0 Then
-                Dim amount As Long = If(TRI.QtySold > TRI.QtyBought, TRI.QtyBought, TRI.QtySold)
-                Dim avgProfit As Double = (TRI.ValueSold / TRI.QtySold) - (TRI.ValueBought / TRI.QtyBought)
+        For Each TPI As TransactionProfitItem In TransList.Values
+            If TPI.QtyBought <> 0 And TPI.QtySold <> 0 Then
+                Dim amount As Long = If(TPI.QtySold > TPI.QtyBought, TPI.QtyBought, TPI.QtySold)
+                Dim avgProfit As Double = (TPI.ValueSold / TPI.QtySold) - (TPI.ValueBought / TPI.QtyBought)
                 Dim totalProfit As Double = Math.Round(amount * avgProfit, 2, MidpointRounding.AwayFromZero)
                 If avgProfit >= 0 Then
                     HTML.AppendLine("<tr class='pos'>")
@@ -721,7 +733,7 @@ Public Class Reports
                     HTML.AppendLine("<tr class='neg'>")
                 End If
                 HTML.AppendLine("<td colspan=2></td>")
-                HTML.AppendLine("<td>" & TRI.ItemName & "</td>")
+                HTML.AppendLine("<td>" & TPI.ItemName & "</td>")
                 HTML.AppendLine("<td align='right'>" & amount.ToString("N0") & "</td>")
                 HTML.AppendLine("<td align='right'>" & avgProfit.ToString("N2") & "</td>")
                 HTML.AppendLine("<td align='right'>" & totalProfit.ToString("N2") & "</td>")
@@ -737,7 +749,7 @@ Public Class Reports
             HTML.AppendLine("<tr class='neg'>")
         End If
         HTML.AppendLine("<td colspan=4></td>")
-        HTML.AppendLine("<td align='center' style='color: #ffffff'><b>Transaction Trading Total:</b></td>")
+        HTML.AppendLine("<td align='center' style='color: #FFFFFF'><b>Transaction Trading Total:</b></td>")
         HTML.AppendLine("<td align='right'>" & totalProfitAllItems.ToString("N2") & "</td>")
         HTML.AppendLine("</tr>")
 

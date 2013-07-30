@@ -375,6 +375,7 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonControl1.CaptionVisible = True
         Me.RibbonControl1.Controls.Add(Me.rpCore)
+        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Controls.Add(Me.rpPlugins)
         Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
@@ -2196,6 +2197,7 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.ResumeLayout(False)
         Me.RibbonControl1.PerformLayout()
         Me.rpReports.ResumeLayout(False)
+        Me.rpCore.ResumeLayout(False)
         Me.rpCore.ResumeLayout(False)
         Me.DockSite4.ResumeLayout(False)
         CType(Me.Bar1, System.ComponentModel.ISupportInitialize).EndInit()

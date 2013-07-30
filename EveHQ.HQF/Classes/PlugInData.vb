@@ -725,8 +725,6 @@ Public Class PlugInData
                                 attValue = (1 - attValue) * 100
                             Case Attributes.Ship_WarpSpeed
                                 attValue = attValue * 3
-                            Case Attributes.Ship_UpgradeHardpoints ' Reset this field to be used as Calibration_Used
-                                attValue = 0
                         End Select
 
                         ' Add the attribute to the ship.attributes list
