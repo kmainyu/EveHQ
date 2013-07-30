@@ -2739,7 +2739,7 @@ Imports EveHQ.Core
 
         ' Check for Rig restrictions
         If shipMod.SlotType = SlotTypes.Rig Then
-            If shipMod.Attributes.ContainsKey(Attributes.Module_RigSize) Then
+            If shipMod.Attributes.ContainsKey(Attributes.Module_RigSize) And Me.BaseShip.Attributes.ContainsKey(Attributes.Ship_RigSize) Then
                 If CInt(shipMod.Attributes(Attributes.Module_RigSize)) <> CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize)) Then
                     Dim requiredSize As String = ""
                     Select Case CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize))

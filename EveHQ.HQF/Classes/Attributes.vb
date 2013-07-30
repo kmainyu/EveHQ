@@ -51,7 +51,6 @@
     Public Const Ship_ShieldRechargeTime As String = "479"
     Public Const Ship_ShieldThermResistance As String = "274"
     Public Const Ship_TurretHardpoints As String = "102"
-    Public Const Ship_UpgradeHardpoints As String = "1154"
     Public Const Ship_WarpSpeed As String = "1281"
     ' module attributes
     Public Const Module_ActivationTime As String = "73"
