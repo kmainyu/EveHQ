@@ -719,7 +719,7 @@ Public Class EveAPIRequest
                         ' Fetch the XML from the EveAPI
                         APIXML = FetchXMLFromWeb(remoteURL, postData)
                         ' Check for null document (can happen if APIRS) isn't active and no backup is used
-                        If APIXML.InnerXml = "" Then
+                        If APIXML.InnerXml = "" And (cAPILastResult = APIResults.ReturnedNew Or cAPILastResult = APIResults.ReturnedCached Or cAPILastResult = APIResults.ReturnedActual) Then
                             ' Do not save and return nothing
                             cAPILastResult = APIResults.APIServerDownReturnedNull
                             Return Nothing
@@ -843,6 +843,13 @@ Public Class EveAPIRequest
             Else
                 ' Result will be given in the calling sub
             End If
+        Catch webEx As WebException
+            'Quantix: The EveAPI now uses HTTP status messages for errors instead of 200 OK plus error details in xml.
+            ' however there is no documentation at the moment about what error codes are used for which scenarios.
+            cAPILastResult = APIResults.CCPError
+            Dim errorDetails As HttpWebResponse = CType(webEx.Response, HttpWebResponse)
+            cAPILastError = CInt(errorDetails.StatusCode)
+            cAPILastErrorText = CStr(errorDetails.StatusCode)
         Catch e As Exception
             If e.Message.Contains("timed out") = True Then
                 cAPILastResult = APIResults.TimedOut
