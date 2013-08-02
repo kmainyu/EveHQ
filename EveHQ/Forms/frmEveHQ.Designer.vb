@@ -136,6 +136,8 @@ Partial Public Class frmEveHQ
         Me.btnViewPrices = New DevComponents.DotNetBar.ButtonItem()
         Me.btnViewDashboard = New DevComponents.DotNetBar.ButtonItem()
         Me.btnViewReqs = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnSave = New DevComponents.DotNetBar.ButtonItem()
         Me.rbAPI = New DevComponents.DotNetBar.RibbonBar()
         Me.btnManageAPI = New DevComponents.DotNetBar.ButtonItem()
         Me.btnQueryAPI = New DevComponents.DotNetBar.ButtonItem()
@@ -1138,6 +1140,7 @@ Partial Public Class frmEveHQ
         Me.rpCore.Controls.Add(Me.rbEveMail)
         Me.rpCore.Controls.Add(Me.rbView)
         Me.rpCore.Controls.Add(Me.rbAPI)
+        Me.rpCore.Controls.Add(Me.rbOptions)
         Me.rpCore.Dock = System.Windows.Forms.DockStyle.Fill
         Me.rpCore.Location = New System.Drawing.Point(0, 56)
         Me.rpCore.Name = "rpCore"
@@ -1176,7 +1179,7 @@ Partial Public Class frmEveHQ
         Me.rbHelp.Name = "rbHelp"
         Me.rbHelp.Size = New System.Drawing.Size(73, 93)
         Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbHelp.TabIndex = 8
+        Me.rbHelp.TabIndex = 9
         Me.rbHelp.Text = "Info and Help"
         '
         '
@@ -1215,7 +1218,7 @@ Partial Public Class frmEveHQ
         Me.rbSQLTools.Name = "rbSQLTools"
         Me.rbSQLTools.Size = New System.Drawing.Size(92, 93)
         Me.rbSQLTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbSQLTools.TabIndex = 7
+        Me.rbSQLTools.TabIndex = 8
         Me.rbSQLTools.Text = "SQL Tools"
         '
         '
@@ -1266,7 +1269,7 @@ Partial Public Class frmEveHQ
         Me.rbCache.Name = "rbCache"
         Me.rbCache.Size = New System.Drawing.Size(135, 93)
         Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbCache.TabIndex = 9
+        Me.rbCache.TabIndex = 7
         Me.rbCache.Text = "Core Cache"
         '
         '
@@ -1326,7 +1329,7 @@ Partial Public Class frmEveHQ
         Me.rbAPITools.Name = "rbAPITools"
         Me.rbAPITools.Size = New System.Drawing.Size(120, 93)
         Me.rbAPITools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbAPITools.TabIndex = 5
+        Me.rbAPITools.TabIndex = 6
         Me.rbAPITools.Text = "API Tools"
         '
         '
@@ -1405,7 +1408,7 @@ Partial Public Class frmEveHQ
         Me.rbBackup.Name = "rbBackup"
         Me.rbBackup.Size = New System.Drawing.Size(114, 93)
         Me.rbBackup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbBackup.TabIndex = 4
+        Me.rbBackup.TabIndex = 5
         Me.rbBackup.Text = "Backup Tools"
         '
         '
@@ -1469,7 +1472,7 @@ Partial Public Class frmEveHQ
         Me.rbIGB.Name = "rbIGB"
         Me.rbIGB.Size = New System.Drawing.Size(133, 93)
         Me.rbIGB.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbIGB.TabIndex = 3
+        Me.rbIGB.TabIndex = 4
         Me.rbIGB.Text = "IGB Server"
         '
         '
@@ -1518,7 +1521,7 @@ Partial Public Class frmEveHQ
         Me.rbEveMail.Name = "rbEveMail"
         Me.rbEveMail.Size = New System.Drawing.Size(130, 93)
         Me.rbEveMail.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbEveMail.TabIndex = 2
+        Me.rbEveMail.TabIndex = 3
         Me.rbEveMail.Text = "EveMail"
         '
         '
@@ -1572,7 +1575,7 @@ Partial Public Class frmEveHQ
         Me.rbView.Name = "rbView"
         Me.rbView.Size = New System.Drawing.Size(269, 93)
         Me.rbView.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbView.TabIndex = 1
+        Me.rbView.TabIndex = 2
         Me.rbView.Text = "View"
         '
         '
@@ -1649,11 +1652,11 @@ Partial Public Class frmEveHQ
         Me.rbAPI.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbAPI.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnManageAPI, Me.btnQueryAPI})
         Me.rbAPI.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbAPI.Location = New System.Drawing.Point(3, 0)
+        Me.rbAPI.Location = New System.Drawing.Point(47, 0)
         Me.rbAPI.Name = "rbAPI"
         Me.rbAPI.Size = New System.Drawing.Size(94, 93)
         Me.rbAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbAPI.TabIndex = 0
+        Me.rbAPI.TabIndex = 1
         Me.rbAPI.Text = "API Functions"
         '
         '
@@ -1683,6 +1686,45 @@ Partial Public Class frmEveHQ
             " and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If the full API has been entered, the account status and d" & _
             "etails will also be retrieved.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.QueryAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnQueryAPI.Text = "Update API"
+        '
+        'rbOptions
+        '
+        Me.rbOptions.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbOptions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbOptions.ContainerControlProcessDialogKey = True
+        Me.rbOptions.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbOptions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSave})
+        Me.rbOptions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbOptions.Location = New System.Drawing.Point(3, 0)
+        Me.rbOptions.Name = "rbOptions"
+        Me.rbOptions.Size = New System.Drawing.Size(94, 93)
+        Me.rbOptions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbOptions.TabIndex = 0
+        Me.rbOptions.Text = "Options"
+        '
+        '
+        '
+        Me.rbOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbOptions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnSave
+        '
+        Me.btnSave.Image = Global.EveHQ.My.Resources.Resources.AssetsSafe32
+        Me.btnSave.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnSave, New DevComponents.DotNetBar.SuperTooltipInfo("", "Save Data", "Saves settings and data of EveHQ Core and open plug-ins." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.AssetsSafe32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnSave.Text = "Save Data"
         '
         'rtiCore
         '
@@ -2252,6 +2294,8 @@ Partial Public Class frmEveHQ
     Friend WithEvents btnBackupEveHQ As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents ItemContainer5 As DevComponents.DotNetBar.ItemContainer
     Friend WithEvents btnBackupEve As DevComponents.DotNetBar.ButtonItem
+    Friend WithEvents rbOptions As DevComponents.DotNetBar.RibbonBar
+    Friend WithEvents btnSave As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents rbAPI As DevComponents.DotNetBar.RibbonBar
     Friend WithEvents btnManageAPI As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnQueryAPI As DevComponents.DotNetBar.ButtonItem

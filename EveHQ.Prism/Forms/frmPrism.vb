@@ -479,7 +479,15 @@ Public Class frmPrism
 #Region "Form Closing Routines"
 
     Private Sub frmPrism_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Save data and settings
+        Call Me.SaveAll()
 
+        ' Remove events
+        RemoveHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
+        RemoveHandler PrismEvents.UpdateBatchJobs, AddressOf UpdateBatchList
+    End Sub
+
+    Public Sub SaveAll()
         ' Save the current blueprints
         Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
@@ -492,13 +500,8 @@ Public Class frmPrism
         ' Save the Batch Jobs
         Call BatchJobs.SaveBatchJobs()
 
-        ' Remove events
-        RemoveHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
-        RemoveHandler PrismEvents.UpdateBatchJobs, AddressOf UpdateBatchList
-
         ' Save the settings
         Call Settings.PrismSettings.SavePrismSettings()
-
     End Sub
 
 #End Region

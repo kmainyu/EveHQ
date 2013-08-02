@@ -53,6 +53,11 @@ Public Class PlugInData
         Return New frmVoid
     End Function
 
+    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+        ' No data or settings to save
+        Return False
+    End Function
+
     Private Function LoadVoidData() As Boolean
         If Me.LoadWormholeData = False Then
             Return False

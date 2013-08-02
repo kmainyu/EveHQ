@@ -32,6 +32,7 @@ Public Class PlugInData
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
     Public Shared ModuleChanges As New SortedList(Of String, String)
+    Private activeForm As frmHQF
     Shared LastCacheRefresh As String = "2.11.9"
 
 #Region "Plug-in Interface Properties and Functions"
@@ -485,8 +486,18 @@ Public Class PlugInData
     End Function
 
     Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
-        Return New frmHQF
+        activeForm = New frmHQF()
+        Return activeForm
     End Function
+
+    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+        If activeForm IsNot Nothing Then
+            activeForm.SaveAll()
+            Return True
+        End If
+        Return False
+    End Function
+
 #End Region
 
 #Region "Plug-In Initialisation (Data Loading/Building) Routines"

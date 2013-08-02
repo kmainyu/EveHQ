@@ -44,6 +44,7 @@ Public Class PlugInData
     Public Shared CategoryNames As New SortedList(Of String, String)
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner) ' Key = OwnerName i.e. Vessper, Indicium Technologies etc...
+    Private activeForm As frmPrism
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -88,8 +89,18 @@ Public Class PlugInData
     End Function
 
     Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
-        Return New frmPrism
+        activeForm = New frmPrism()
+        Return activeForm
     End Function
+
+    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+        If activeForm IsNot Nothing Then
+            activeForm.SaveAll()
+            Return True
+        End If
+        Return False
+    End Function
+
 #End Region
 
 #Region "Plug-in Startup Routines"
