@@ -430,7 +430,7 @@ Public Class PrismAssetsControl
 
             Dim updatedAssets As IEnumerable(Of AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = itemTypeID Select ownedAsset.Value).Select(Function(a As AssetItem)
                                                                                                                                                                            a.Price = prices(itemTypeID)
-                                                                                                                                                                           totalAssetValue += a.Price * a.Quantity
+                                                                                                                                                                           'totalAssetValue += a.Price * a.Quantity
                                                                                                                                                                            totalAssetCount += a.Quantity
                                                                                                                                                                            Return a
                                                                                                                                                                        End Function)
@@ -490,6 +490,17 @@ Public Class PrismAssetsControl
 
                    Next
                    ' Update totals
+
+                   ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
+                   ' aggregated into their values.
+                   totalAssetValue = 0
+                   Dim assetGroupTotal As Double = 0
+                   For Each assetGroup As Node In adtAssets.Nodes
+                       If (Double.TryParse(assetGroup.Cells(AssetColumn("AssetValue")).Text, assetGroupTotal)) Then
+                           totalAssetValue += assetGroupTotal
+                       End If
+                   Next
+
                    lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
                End Sub)
 
