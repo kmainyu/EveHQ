@@ -2458,6 +2458,17 @@ Public Class frmSettings
     Private Sub OnAddUpdateItemOverrideClick(sender As System.Object, e As System.EventArgs) Handles _itemOverrideAddOverride.Click
         Dim item As String
         Dim itemID As Integer
+
+
+        If _itemOverrideItemList Is Nothing Then
+            Return
+        End If
+
+        If _itemOverrideItemList.SelectedItem Is Nothing Then
+            Return
+        End If
+
+
         If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item) = False) Or (Integer.TryParse(item, itemID) = False) Then
             Return 'not a real item
         End If
@@ -2524,6 +2535,15 @@ Public Class frmSettings
     Private Sub OnRemoveOverrideClick(sender As System.Object, e As System.EventArgs) Handles _itemOverrideRemoveOverride.Click
         Dim item As String
         Dim itemID As Integer
+
+        If _itemOverrideItemList Is Nothing Then
+            Return
+        End If
+
+        If _itemOverrideItemList.SelectedItem Is Nothing Then
+            Return
+        End If
+
         If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item) = False) Or (Integer.TryParse(item, itemID) = False) Then
             Return 'not a real item
         End If
