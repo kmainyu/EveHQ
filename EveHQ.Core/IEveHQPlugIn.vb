@@ -24,5 +24,6 @@ Public Interface IEveHQPlugIn
     Function IGBService(ByVal context As Net.HttpListenerContext) As String
     Function RunEveHQPlugIn() As Windows.Forms.Form
     Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object
+    Function SaveAll() As Boolean
 
 End Interface

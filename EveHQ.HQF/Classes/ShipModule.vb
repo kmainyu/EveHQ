@@ -87,6 +87,7 @@ Imports System.Runtime.Serialization
     Public Const Group_StrategicCruisers As String = "963"
 
     ' marketGroupIDs (see invMarketGroups)
+    Public Const Marketgroup_GasHarvesters As String = "1037"
     Public Const Marketgroup_IceHarvesters As String = "1038"
     Public Const Marketgroup_MiningDrones As String = "158"
     Public Const Marketgroup_MiningLasers As String = "1039"

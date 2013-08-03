@@ -119,27 +119,8 @@ Public Class frmHQF
             If myPilotManager.IsHandleCreated Then myPilotManager.Close()
             If myBCBrowser.IsHandleCreated Then myBCBrowser.Close()
 
-            ' Save the panel widths
-            Settings.HQFSettings.ShipPanelWidth = panelShips.Width
-            Settings.HQFSettings.ModPanelWidth = panelModules.Width
-            Settings.HQFSettings.ShipSplitterWidth = panelFittings.Height
-            Settings.HQFSettings.ModSplitterWidth = panelModFilters.Height
-
-            ' Save fittings
-            'MessageBox.Show("HQF is about to enter the routine to save the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Call Me.SaveFittings()
-
-            ' Save pilots
-            Call HQFPilotCollection.SaveHQFPilotData()
-
-            ' Save the open fittings
-            HQF.Settings.HQFSettings.OpenFittingList.Clear()
-            For Each fitting As String In ShipLists.fittedShipList.Keys
-                HQF.Settings.HQFSettings.OpenFittingList.Add(fitting)
-            Next
-
-            ' Save the Settings
-            Call Settings.HQFSettings.SaveHQFSettings()
+            ' Save data and settings
+            Call Me.SaveAll()
 
             shutdownComplete = True
         End If
@@ -228,6 +209,31 @@ Public Class frmHQF
     Private Sub SaveFittings()
         Call SavedFittings.SaveFittings()
     End Sub
+
+    Public Sub SaveAll()
+        ' Save the panel widths
+        Settings.HQFSettings.ShipPanelWidth = panelShips.Width
+        Settings.HQFSettings.ModPanelWidth = panelModules.Width
+        Settings.HQFSettings.ShipSplitterWidth = panelFittings.Height
+        Settings.HQFSettings.ModSplitterWidth = panelModFilters.Height
+
+        ' Save fittings
+        'MessageBox.Show("HQF is about to enter the routine to save the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Call Me.SaveFittings()
+
+        ' Save pilots
+        Call HQFPilotCollection.SaveHQFPilotData()
+
+        ' Save the open fittings
+        HQF.Settings.HQFSettings.OpenFittingList.Clear()
+        For Each fitting As String In ShipLists.fittedShipList.Keys
+            HQF.Settings.HQFSettings.OpenFittingList.Add(fitting)
+        Next
+
+        ' Save the Settings
+        Call Settings.HQFSettings.SaveHQFSettings()
+    End Sub
+
     Private Sub ShowShipGroups()
         Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd

@@ -1655,14 +1655,12 @@ Imports EveHQ.Core
                         If cModule.Attributes.ContainsKey(Attributes.Module_ROF) = True Then
                             ROF = cModule.Attributes(Attributes.Module_ROF)
                             dmgMod = cModule.Attributes(Attributes.Module_DamageMod)
+                        ElseIf cModule.Attributes.ContainsKey(Attributes.Module_MissileROF) = True Then
+                            ROF = cModule.Attributes(Attributes.Module_MissileROF)
+                            dmgMod = cModule.Attributes(Attributes.Module_MissileDamageMod)
                         Else
-                            If cModule.Attributes.ContainsKey(Attributes.Module_MissileROF) = True Then
-                                ROF = cModule.Attributes(Attributes.Module_MissileROF)
-                                dmgMod = cModule.Attributes(Attributes.Module_MissileDamageMod)
-                            Else
-                                dmgMod = 0
-                                ROF = 1
-                            End If
+                            dmgMod = 0
+                            ROF = 1
                         End If
                         If cModule.LoadedCharge IsNot Nothing Then
                             cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
@@ -1733,6 +1731,10 @@ Imports EveHQ.Core
                             cModule.Attributes(Attributes.Module_TurretIceMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
                             newShip.Attributes(Attributes.Ship_TurretIceMiningRate) += cModule.Attributes(Attributes.Module_TurretIceMiningRate)
                             newShip.Attributes(Attributes.Ship_IceMiningRate) += cModule.Attributes(Attributes.Module_TurretIceMiningRate)
+                        Case ShipModule.Marketgroup_GasHarvesters
+                            newShip.Attributes(Attributes.Ship_GasMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount)
+                            cModule.Attributes(Attributes.Module_TurretGasMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
+                            newShip.Attributes(Attributes.Ship_GasMiningRate) += cModule.Attributes(Attributes.Module_TurretGasMiningRate)
                         Case Else
                             If cModule.IsTurret Or cModule.IsLauncher Then
                                 If cModule.LoadedCharge IsNot Nothing Then

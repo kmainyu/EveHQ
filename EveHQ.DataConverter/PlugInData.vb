@@ -50,5 +50,9 @@ Public Class PlugInData
         Return New frmDataConvert
     End Function
 
+    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+        ' No data or settings to save
+        Return False
+    End Function
 
 End Class

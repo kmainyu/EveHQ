@@ -203,6 +203,8 @@ Imports System.ComponentModel
     Private cIceTurretRate As Double
     Private cIceDroneRate As Double
     Private cIceTotalRate As Double
+    Private cGasTotalAmount As Double
+    Private cGasTotalRate As Double
 
     ' Logistics
     Private cModuleTransferAmount As Double
@@ -1901,6 +1903,30 @@ Imports System.ComponentModel
 
 #End Region
 
+#Region "Gas Mining Properties"
+
+    <Browsable(False)> _
+    <Description("The total gas mining amount for the ship")> <Category("Gas Mining")> Public Property GasTotalAmount() As Double
+        Get
+            Return cGasTotalAmount
+        End Get
+        Set(ByVal value As Double)
+            cGasTotalAmount = value
+        End Set
+    End Property
+
+    <Browsable(False)> _
+    <Description("The total gas mining rate for the ship")> <Category("Gas Mining")> Public Property GasTotalRate() As Double
+        Get
+            Return cGasTotalRate
+        End Get
+        Set(ByVal value As Double)
+            cGasTotalRate = value
+        End Set
+    End Property
+
+#End Region
+
 #Region "Logistics Properties"
 
     <Browsable(False)> _
@@ -2186,6 +2212,8 @@ Imports System.ComponentModel
         Me.Attributes.Add("10078", 0)
         Me.Attributes.Add("10079", 0)
         Me.Attributes.Add("10080", 0)
+        Me.Attributes.Add("10081", 0)
+        Me.Attributes.Add("10083", 0)
         ' Add unused attribute for calibration used
         Me.Attributes.Add("1152", 0)
         ' Check for slot attributes (missing for T3)
@@ -2380,6 +2408,10 @@ Imports System.ComponentModel
                     newShip.TransferAmount = attValue
                 Case 10080
                     newShip.TransferRate = attValue
+                Case 10081
+                    newShip.GasTotalAmount = attValue
+                Case 10083
+                    newShip.GasTotalRate = attValue
             End Select
         Next
     End Sub
@@ -2470,6 +2502,8 @@ Imports System.ComponentModel
         Me.Attributes("10078") = Me.DroneTransferRate
         Me.Attributes("10079") = Me.TransferAmount
         Me.Attributes("10080") = Me.TransferRate
+        Me.Attributes("10081") = Me.GasTotalAmount
+        Me.Attributes("10083") = Me.GasTotalRate
     End Sub
 #End Region
 

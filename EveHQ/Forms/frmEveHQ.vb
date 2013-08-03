@@ -754,6 +754,37 @@ Public Class frmEveHQ
         End Try
     End Sub
 
+    Private Sub SaveEverything(ByVal silent As Boolean)
+        Dim savesDone As List(Of String) = New List(Of String)()
+        ' Save Core data and settings
+        HQ.EveHQSettings.QATLayout = RibbonControl1.QatLayout
+        Call EveHQSettingsFunctions.SaveSettings()
+        savesDone.Add("EveHQ Core")
+
+        ' Save Plug-in data and settings
+        For Each myPlugIn As EveHQ.Core.PlugIn In HQ.EveHQSettings.Plugins.Values
+            If myPlugIn.Status = PlugIn.PlugInStatus.Active Then
+                Dim dataSaved As Boolean = myPlugIn.Instance.SaveAll()
+                If dataSaved = True Then
+                    savesDone.Add(myPlugIn.Name)
+                End If
+            End If
+        Next
+
+        ' Report result to user
+        If silent = False Then
+            If savesDone.Count > 0 Then
+                Dim msg As String = "Data and settings of the following modules have been saved:"
+                For Each moduleName As String In savesDone
+                    msg &= vbCrLf & " " & Chr(149) & " " & moduleName
+                Next
+                MessageBox.Show(msg, "Data Saving Finished", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Else
+                MessageBox.Show("No data and settings have been saved.", "Data Saving Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        End If
+    End Sub
+
 #End Region
 
 #Region "Skill Display Updater & Notification Routines"
@@ -2411,6 +2442,10 @@ Public Class frmEveHQ
     End Sub
 
 #Region "Ribbon Button Routines"
+
+    Private Sub btnSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSave.Click
+        Call Me.SaveEverything(False)
+    End Sub
 
     Private Sub btnManageAPI_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnManageAPI.Click
         Dim EveHQSettings As New frmSettings

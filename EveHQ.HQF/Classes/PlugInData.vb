@@ -32,6 +32,7 @@ Public Class PlugInData
     Shared moduleAttributeData As DataSet
     Shared UseSerializableData As Boolean = False
     Public Shared ModuleChanges As New SortedList(Of String, String)
+    Private activeForm As frmHQF
     Shared LastCacheRefresh As String = "2.12.0"
 
 #Region "Plug-in Interface Properties and Functions"
@@ -485,8 +486,18 @@ Public Class PlugInData
     End Function
 
     Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
-        Return New frmHQF
+        activeForm = New frmHQF()
+        Return activeForm
     End Function
+
+    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+        If activeForm IsNot Nothing Then
+            activeForm.SaveAll()
+            Return True
+        End If
+        Return False
+    End Function
+
 #End Region
 
 #Region "Plug-In Initialisation (Data Loading/Building) Routines"
@@ -1063,6 +1074,10 @@ Public Class PlugInData
                         Case ShipModule.Marketgroup_MiningDrones
                             If effMod.Attributes.ContainsKey(Attributes.Module_DroneOreMiningRate) = False Then
                                 effMod.Attributes.Add(Attributes.Module_DroneOreMiningRate, 0)
+                            End If
+                        Case ShipModule.Marketgroup_GasHarvesters
+                            If effMod.Attributes.ContainsKey(Attributes.Module_TurretGasMiningRate) = False Then
+                                effMod.Attributes.Add(Attributes.Module_TurretGasMiningRate, 0)
                             End If
                     End Select
                     Select Case effMod.DatabaseGroup

@@ -480,7 +480,15 @@ Public Class frmPrism
 #Region "Form Closing Routines"
 
     Private Sub frmPrism_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+        ' Save data and settings
+        Call Me.SaveAll()
 
+        ' Remove events
+        RemoveHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
+        RemoveHandler PrismEvents.UpdateBatchJobs, AddressOf UpdateBatchList
+    End Sub
+
+    Public Sub SaveAll()
         ' Save the current blueprints
         Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
@@ -493,13 +501,8 @@ Public Class frmPrism
         ' Save the Batch Jobs
         Call BatchJobs.SaveBatchJobs()
 
-        ' Remove events
-        RemoveHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
-        RemoveHandler PrismEvents.UpdateBatchJobs, AddressOf UpdateBatchList
-
         ' Save the settings
         Call Settings.PrismSettings.SavePrismSettings()
-
     End Sub
 
 #End Region
@@ -5415,17 +5418,33 @@ Public Class frmPrism
     Private Sub UpdateBatchList()
         adtBatches.BeginUpdate()
         adtBatches.Nodes.Clear()
+        Dim obsoleteBatches As List(Of String) = New List(Of String)()
         For Each cBatch As BatchJob In BatchJobs.Jobs.Values
             Dim NewBatch As New Node
             NewBatch.Name = cBatch.BatchName
             NewBatch.Text = cBatch.BatchName
+            Dim obsoleteJobs As List(Of String) = New List(Of String)()
             For Each JobName As String In cBatch.ProductionJobs
-                Dim NewJob As New Node
-                NewJob.Name = JobName
-                NewJob.Text = JobName
-                NewBatch.Nodes.Add(NewJob)
+                If ProductionJobs.Jobs.ContainsKey(JobName) Then
+                    Dim NewJob As New Node
+                    NewJob.Name = JobName
+                    NewJob.Text = JobName
+                    NewBatch.Nodes.Add(NewJob)
+                Else
+                    obsoleteJobs.Add(JobName)
+                End If
             Next
-            adtBatches.Nodes.Add(NewBatch)
+            For Each jobName As String In obsoleteJobs
+                cBatch.ProductionJobs.Remove(jobName)
+            Next
+            If NewBatch.Nodes.Count > 0 Then
+                adtBatches.Nodes.Add(NewBatch)
+            Else
+                obsoleteBatches.Add(cBatch.BatchName)
+            End If
+        Next
+        For Each batchName As String In obsoleteBatches
+            BatchJobs.Jobs.Remove(batchName)
         Next
         adtBatches.EndUpdate()
     End Sub
@@ -5483,6 +5502,7 @@ Public Class frmPrism
                 ProductionJobs.Jobs.Remove(DelNode.Name)
             Next
             Call Me.UpdateProductionJobList()
+            Call Me.UpdateBatchList()
         End If
     End Sub
 
@@ -5493,6 +5513,7 @@ Public Class frmPrism
         Else
             ProductionJobs.Jobs.Clear()
             Call Me.UpdateProductionJobList()
+            Call Me.UpdateBatchList()
         End If
     End Sub
 
@@ -5530,11 +5551,13 @@ Public Class frmPrism
             Dim BatchName As String = e.Node.Name
             Dim ExistingBatch As BatchJob = BatchJobs.Jobs(BatchName)
             PRPM.BatchJob = ExistingBatch
+            PRPM.tcResources.SelectedTab = PRPM.tiBatchResources
         Else
             ' This is a job name
             Dim JobName As String = e.Node.Name
             Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
             PRPM.ProductionJob = ExistingJob
+            PRPM.tcResources.SelectedTab = PRPM.tiProductionResources
         End If
     End Sub
 
