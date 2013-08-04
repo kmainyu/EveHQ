@@ -33,7 +33,7 @@ Public Class PlugInData
     Shared UseSerializableData As Boolean = False
     Public Shared ModuleChanges As New SortedList(Of String, String)
     Private activeForm As frmHQF
-    Shared LastCacheRefresh As String = "2.11.9"
+    Shared LastCacheRefresh As String = "2.11.10"
 
 #Region "Plug-in Interface Properties and Functions"
 
