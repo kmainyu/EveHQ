@@ -95,6 +95,8 @@ Public Class frmPrism
     Delegate Sub CheckXMLDelegate(ByVal apiXML As XmlDocument, ByVal Owner As PrismOwner, ByVal APIType As CorpRepType)
     Private XMLDelegate As CheckXMLDelegate
 
+    Friend Shared LockObj As New Object()
+
 #End Region
 
 #Region "Form Initialisation Routines"
@@ -489,12 +491,21 @@ Public Class frmPrism
     End Sub
 
     Public Sub SaveAll()
-        ' Save the current blueprints
-        Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, PlugInData.BlueprintAssets)
-        s.Flush()
-        s.Close()
+        ' Save the current 
+        SyncLock LockObj
+            Dim bpFile As String = Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")
+            Dim tempFile As String = Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin.temp")
+            Using s As New FileStream(tempFile, FileMode.Create)
+                Dim f As New BinaryFormatter
+                f.Serialize(s, PlugInData.BlueprintAssets)
+                s.Flush()
+            End Using
+
+            If File.Exists(bpFile) Then
+                File.Delete(bpFile)
+            End If
+            File.Move(tempFile, bpFile)
+        End SyncLock
 
         ' Save the Production Jobs
         Call ProductionJobs.SaveProductionJobs()

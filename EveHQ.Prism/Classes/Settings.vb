@@ -171,40 +171,52 @@ Imports System.Windows.Forms
         End Set
     End Property
 
+    Private Shared LockObj As New Object()
+    Private Const SettingsFileName As String = "PrismSettings.bin"
     Public Sub SavePrismSettings()
+        SyncLock LockObj
+            Dim settingsFile As String = Path.Combine(Settings.PrismFolder, SettingsFileName)
+            Dim tempFile As String = Path.Combine(Settings.PrismFolder, SettingsFileName & ".temp")
 
-        ' Write a serial version of the settings
-        Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "PrismSettings.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, Settings.PrismSettings)
-        s.Flush()
-        s.Close()
+            ' Write a serial version of the settings
+            Using s As New FileStream(tempFile, FileMode.Create)
+                Dim f As New BinaryFormatter
+                f.Serialize(s, Settings.PrismSettings)
+                s.Flush()
+            End Using
+            If (File.Exists(settingsFile)) Then
+                File.Delete(settingsFile)
+            End If
+            File.Move(tempFile, settingsFile)
+        End SyncLock
 
     End Sub
 
     Public Function LoadPrismSettings() As Boolean
+        SyncLock LockObj
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "PrismSettings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "PrismSettings.bin"), FileMode.Open)
-            Try
-                Dim f As BinaryFormatter = New BinaryFormatter
-                Settings.PrismSettings = CType(f.Deserialize(s), Settings)
-                s.Close()
-            Catch ex As Exception
-                Dim msg As String = "There was an error trying to load the Prism settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Prism will delete this file and re-initialise the settings." & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Press OK to reset the settings." & ControlChars.CrLf
-                MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            If File.Exists(Path.Combine(Settings.PrismFolder, SettingsFileName)) = True Then
+
                 Try
-                    s.Close()
-                    My.Computer.FileSystem.DeleteFile(Path.Combine(Settings.PrismFolder, "PrismSettings.bin"))
-                Catch e As Exception
-                    MessageBox.Show("Unable to delete the PrismSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Return False
+                    Using s As New FileStream(Path.Combine(Settings.PrismFolder, SettingsFileName), FileMode.Open)
+                        Dim f As BinaryFormatter = New BinaryFormatter
+                        Settings.PrismSettings = CType(f.Deserialize(s), Settings)
+                    End Using
+                Catch ex As Exception
+                    Dim msg As String = "There was an error trying to load the Prism settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Prism will delete this file and re-initialise the settings." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Press OK to reset the settings." & ControlChars.CrLf
+                    MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Try
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(Settings.PrismFolder, SettingsFileName))
+                    Catch e As Exception
+                        MessageBox.Show("Unable to delete the PrismSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Return False
+                    End Try
                 End Try
-            End Try
-        End If
-
+            End If
+        End SyncLock
         ' Initialise the standard slot columns
         Call Me.InitialiseSlotColumns()
 
