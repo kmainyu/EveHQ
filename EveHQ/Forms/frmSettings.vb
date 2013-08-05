@@ -123,6 +123,9 @@ Public Class frmSettings
         chkMinimiseOnExit.Checked = EveHQ.Core.HQ.EveHQSettings.MinimiseExit
         chkDisableAutoConnections.Checked = EveHQ.Core.HQ.EveHQSettings.DisableAutoWebConnections
         chkDisableTrainingBar.Checked = EveHQ.Core.HQ.EveHQSettings.DisableTrainingBar
+        chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
+        nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
+        nudAutomaticSaveTime.Value = EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime
         If cboStartupView.Items.Contains(EveHQ.Core.HQ.EveHQSettings.StartupView) = True Then
             cboStartupView.SelectedItem = EveHQ.Core.HQ.EveHQSettings.StartupView
         Else
@@ -203,6 +206,31 @@ Public Class frmSettings
             ' Clear items - just to make sure
             frmEveHQ.pdc1.Controls.Clear()
         End If
+    End Sub
+
+    Private Sub chkEnableAutomaticSave_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableAutomaticSave.CheckedChanged
+        EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
+        nudAutomaticSaveTime.Enabled = chkEnableAutomaticSave.Checked
+        If chkEnableAutomaticSave.Checked = True Then
+            frmEveHQ.tmrSave.Start()
+        Else
+            frmEveHQ.tmrSave.Stop()
+        End If
+    End Sub
+
+    Private Sub nudAutomaticSaveTime_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.Click
+        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
+    End Sub
+
+    Private Sub nudAutomaticSaveTime_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.HandleDestroyed
+        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
+    End Sub
+
+    Private Sub nudAutomaticSaveTime_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles nudAutomaticSaveTime.KeyUp
+        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
     Private Sub cboStartupView_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStartupView.SelectedIndexChanged
@@ -1167,12 +1195,12 @@ Public Class frmSettings
             frmEveHQ.lblTQStatus.Text = "Tranquility Status: Unknown"
             EveHQ.Core.HQ.EveHQSettings.EnableEveStatus = True
             frmEveHQ.tmrEve.Interval = 100
-            frmEveHQ.tmrEve.Enabled = True
+            frmEveHQ.tmrEve.Start()
         Else
             EveHQ.Core.HQ.EveHQSettings.EnableEveStatus = False
             frmEveHQ.EveStatusIcon.Icon = My.Resources.EveHQ
             frmEveHQ.EveStatusIcon.Text = "EveHQ"
-            frmEveHQ.tmrEve.Enabled = False
+            frmEveHQ.tmrEve.Stop()
             frmEveHQ.lblTQStatus.Text = "Tranquility Status: Updates Disabled"
         End If
     End Sub

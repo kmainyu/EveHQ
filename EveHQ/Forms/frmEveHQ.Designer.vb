@@ -39,6 +39,7 @@ Partial Public Class frmEveHQ
         Me.ctxAbout = New System.Windows.Forms.ToolStripMenuItem()
         Me.ctxExit = New System.Windows.Forms.ToolStripMenuItem()
         Me.tmrSkillUpdate = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrSave = New System.Windows.Forms.Timer(Me.components)
         Me.tmrBackup = New System.Windows.Forms.Timer(Me.components)
         Me.tmrModules = New System.Windows.Forms.Timer(Me.components)
         Me.ctxTabbedMDI = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -338,6 +339,10 @@ Partial Public Class frmEveHQ
         'tmrSkillUpdate
         '
         Me.tmrSkillUpdate.Interval = 1
+        '
+        'tmrSave
+        '
+        Me.tmrSave.Interval = 3600000
         '
         'tmrBackup
         '
@@ -2261,6 +2266,7 @@ Partial Public Class frmEveHQ
     Friend WithEvents ctxmnuLaunchEve2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxmnuLaunchEve3 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ctxmnuLaunchEve4 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents tmrSave As System.Windows.Forms.Timer
     Friend WithEvents tmrBackup As System.Windows.Forms.Timer
     Friend WithEvents tmrModules As System.Windows.Forms.Timer
     Friend WithEvents ctxTabbedMDI As System.Windows.Forms.ContextMenuStrip

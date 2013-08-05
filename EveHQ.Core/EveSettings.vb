@@ -186,6 +186,8 @@ Imports System.Data.OleDb
     Private cThemeSetByUser As Boolean = False
     Private cRibbonMinimised As Boolean = False
     Private cDisableTrainingBar As Boolean = False
+    Private cEnableAutomaticSave As Boolean = False
+    Private cAutomaticSaveTime As Integer = 60
     Private cLastMessageDate As Date = CDate("01/01/1999")
     Private cIgnoreLastMessage As Boolean = False
     Private cStartWithPrimaryQueue As Boolean = False
@@ -303,6 +305,23 @@ Imports System.Data.OleDb
         End Get
         Set(ByVal value As Boolean)
             cDisableTrainingBar = value
+        End Set
+    End Property
+    Public Property EnableAutomaticSave() As Boolean
+        Get
+            Return cEnableAutomaticSave
+        End Get
+        Set(ByVal value As Boolean)
+            cEnableAutomaticSave = value
+        End Set
+    End Property
+    Public Property AutomaticSaveTime() As Integer
+        Get
+            If cAutomaticSaveTime = 0 Then cAutomaticSaveTime = 60
+            Return cAutomaticSaveTime
+        End Get
+        Set(ByVal value As Integer)
+            cAutomaticSaveTime = value
         End Set
     End Property
     Public Property RibbonMinimised() As Boolean

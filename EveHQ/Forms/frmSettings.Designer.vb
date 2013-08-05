@@ -39,6 +39,9 @@ Partial Public Class frmSettings
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox()
         Me.chkDisableTrainingBar = New System.Windows.Forms.CheckBox()
+        Me.chkEnableAutomaticSave = New System.Windows.Forms.CheckBox()
+        Me.nudAutomaticSaveTime = New System.Windows.Forms.NumericUpDown()
+        Me.lblAutomaticSaveTime = New System.Windows.Forms.Label()
         Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox()
         Me.lblMDITabPosition = New System.Windows.Forms.Label()
         Me.cboMDITabPosition = New System.Windows.Forms.ComboBox()
@@ -305,6 +308,7 @@ Partial Public Class frmSettings
         Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
         Me.gbGeneral.SuspendLayout()
+        CType(Me.nudAutomaticSaveTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbPilotScreenColours.SuspendLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbPilotSkillText, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -357,6 +361,9 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.lblAutomaticSaveTime)
+        Me.gbGeneral.Controls.Add(Me.nudAutomaticSaveTime)
+        Me.gbGeneral.Controls.Add(Me.chkEnableAutomaticSave)
         Me.gbGeneral.Controls.Add(Me.chkDisableTrainingBar)
         Me.gbGeneral.Controls.Add(Me.chkDisableAutoConnections)
         Me.gbGeneral.Controls.Add(Me.lblMDITabPosition)
@@ -383,6 +390,35 @@ Partial Public Class frmSettings
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
         Me.gbGeneral.Visible = False
+        '
+        'lblAutomaticSaveTime
+        '
+        Me.lblAutomaticSaveTime.AutoSize = True
+        Me.lblAutomaticSaveTime.Location = New System.Drawing.Point(265, 174)
+        Me.lblAutomaticSaveTime.Name = "lblAutomaticSaveTime"
+        Me.lblAutomaticSaveTime.Size = New System.Drawing.Size(40, 13)
+        Me.lblAutomaticSaveTime.TabIndex = 55
+        Me.lblAutomaticSaveTime.Text = "minutes"
+        '
+        'nudAutomaticSaveTime
+        '
+        Me.nudAutomaticSaveTime.Location = New System.Drawing.Point(200, 170)
+        Me.nudAutomaticSaveTime.Maximum = New Decimal(New Integer() {10080, 0, 0, 0})
+        Me.nudAutomaticSaveTime.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudAutomaticSaveTime.Name = "nudAutomaticSaveTime"
+        Me.nudAutomaticSaveTime.Size = New System.Drawing.Size(63, 21)
+        Me.nudAutomaticSaveTime.TabIndex = 54
+        Me.nudAutomaticSaveTime.Value = New Decimal(New Integer() {60, 0, 0, 0})
+        '
+        'chkEnableAutomaticSave
+        '
+        Me.chkEnableAutomaticSave.AutoSize = True
+        Me.chkEnableAutomaticSave.Location = New System.Drawing.Point(24, 172)
+        Me.chkEnableAutomaticSave.Name = "chkEnableAutomaticSave"
+        Me.chkEnableAutomaticSave.Size = New System.Drawing.Size(170, 17)
+        Me.chkEnableAutomaticSave.TabIndex = 53
+        Me.chkEnableAutomaticSave.Text = "Enable Automatic Saving every"
+        Me.chkEnableAutomaticSave.UseVisualStyleBackColor = True
         '
         'chkDisableTrainingBar
         '
@@ -3173,6 +3209,7 @@ Partial Public Class frmSettings
         Me.Text = "EveHQ Settings"
         Me.gbGeneral.ResumeLayout(False)
         Me.gbGeneral.PerformLayout()
+        CType(Me.nudAutomaticSaveTime, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbPilotScreenColours.ResumeLayout(False)
         Me.gbPilotScreenColours.PerformLayout()
         CType(Me.pbPilotSkillHighlight, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3490,6 +3527,9 @@ Partial Public Class frmSettings
     Friend WithEvents chkUseSSL As System.Windows.Forms.CheckBox
     Friend WithEvents chkProxyUseBasic As System.Windows.Forms.CheckBox
     Friend WithEvents chkDisableTrainingBar As System.Windows.Forms.CheckBox
+    Friend WithEvents chkEnableAutomaticSave As System.Windows.Forms.CheckBox
+    Friend WithEvents nudAutomaticSaveTime As System.Windows.Forms.NumericUpDown
+    Friend WithEvents lblAutomaticSaveTime As System.Windows.Forms.Label
     Friend WithEvents rb_IGBCfgAccessMode As System.Windows.Forms.RadioButton
     Friend WithEvents rb_IGBFullAccessMode As System.Windows.Forms.RadioButton
     Friend WithEvents clb_IGBAllowedDisplay As System.Windows.Forms.CheckedListBox
