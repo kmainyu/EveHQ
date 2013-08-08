@@ -701,7 +701,7 @@ Partial Class ShipInfoControl
         Me.pbCargoBay.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
         Me.pbCargoBay.TabIndex = 0
         Me.pbCargoBay.TabStop = False
-        Me.ToolTip1.SetToolTip(Me.pbCargoBay, "Cargo Bay")
+        Me.ToolTip1.SetToolTip(Me.pbCargoBay, "Primary Bay Capacity")
         '
         'lblAlignTime
         '
