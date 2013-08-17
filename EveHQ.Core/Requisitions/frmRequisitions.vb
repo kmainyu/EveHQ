@@ -365,33 +365,36 @@ Public Class frmRequisitions
 
         ' Update Pricing from task
         priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
-                                   Dim priceData As Dictionary(Of String, Double) = currentTask.Result
-                                   ' cut over to main thread
-                                   Invoke(Sub()
-                                              For Each row As Node In adtOrders.Nodes
-                                                  Dim price As Double
-                                                  Dim quantity As Long
-                                                  If (priceData.TryGetValue(row.Name, price)) Then
-                                                      row.Cells(3).Text = price.ToInvariantString("F2")
-                                                      Long.TryParse(row.Cells(0).Text, quantity)
-                                                      row.Cells(4).Text = (price * quantity).ToInvariantString("F2")
+                                   'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                   If IsHandleCreated Then
+                                       Dim priceData As Dictionary(Of String, Double) = currentTask.Result
+                                       ' cut over to main thread
+                                       Invoke(Sub()
+                                                  For Each row As Node In adtOrders.Nodes
+                                                      Dim price As Double
+                                                      Dim quantity As Long
+                                                      If (priceData.TryGetValue(row.Name, price)) Then
+                                                          row.Cells(3).Text = price.ToInvariantString("F2")
+                                                          Long.TryParse(row.Cells(0).Text, quantity)
+                                                          row.Cells(4).Text = (price * quantity).ToInvariantString("F2")
 
-                                                  End If
-                                                  Dim asset As RequisitionAsset
-                                                  Dim owned As Long = 0
-                                                  If (ownedAssets.TryGetValue(row.Text, asset)) Then
-                                                      owned = asset.TotalQuantity
-                                                  End If
+                                                      End If
+                                                      Dim asset As RequisitionAsset
+                                                      Dim owned As Long = 0
+                                                      If (ownedAssets.TryGetValue(row.Text, asset)) Then
+                                                          owned = asset.TotalQuantity
+                                                      End If
 
-                                                  TotalCost += (price * quantity)
-                                                  TotalCostReqd += (price * (Math.Max(quantity - owned, 0)))
-                                              Next
+                                                      TotalCost += (price * quantity)
+                                                      TotalCostReqd += (price * (Math.Max(quantity - owned, 0)))
+                                                  Next
 
-                                              lblTotalItems.Text = TotalItems.ToString("N0") & " (" & TotalItemsReqd.ToString("N0") & ")"
-                                              lblTotalCost.Text = "Total: " & TotalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & TotalCostReqd.ToString("N2") & " ISK"
-                                              lblTotalVolume.Text = "Total: " & TotalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & TotalVolumeReqd.ToString("N2") & " m³"
+                                                  lblTotalItems.Text = TotalItems.ToString("N0") & " (" & TotalItemsReqd.ToString("N0") & ")"
+                                                  lblTotalCost.Text = "Total: " & TotalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & TotalCostReqd.ToString("N2") & " ISK"
+                                                  lblTotalVolume.Text = "Total: " & TotalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & TotalVolumeReqd.ToString("N2") & " m³"
 
-                                          End Sub)
+                                              End Sub)
+                                   End If
 
 
                                End Sub)

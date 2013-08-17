@@ -1278,17 +1278,19 @@ Public Class frmHQF
         'Update UI when pricing data is acquired
         priceTask.ContinueWith(Sub(task As Task(Of Dictionary(Of String, Double)))
                                    Dim prices As Dictionary(Of String, Double) = task.Result
+                                   'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                   If IsHandleCreated Then
+                                       ' Switch to UI thread
+                                       Invoke(Sub()
+                                                  For Each moduleNode As Node In tvwModules.Nodes
+                                                      Dim price As Double
+                                                      If prices.TryGetValue(moduleNode.Name, price) Then
+                                                          moduleNode.Cells(4).Text = price.ToInvariantString("N2")
+                                                      End If
+                                                  Next
 
-                                   ' Switch to UI thread
-                                   Invoke(Sub()
-                                              For Each moduleNode As Node In tvwModules.Nodes
-                                                  Dim price As Double
-                                                  If prices.TryGetValue(moduleNode.Name, price) Then
-                                                      moduleNode.Cells(4).Text = price.ToInvariantString("N2")
-                                                  End If
-                                              Next
-
-                                          End Sub)
+                                              End Sub)
+                                   End If
                                End Sub)
 
         If tvwModules.Nodes.Count = 0 Then

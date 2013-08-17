@@ -168,11 +168,14 @@ Public Class frmMarketPrices
             Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices((From item As String In itemCells.Keys Select item), MarketMetric.Default, MarketTransactionKind.Sell)
 
             priceTask.ContinueWith(Sub(finishedTask As Task(Of Dictionary(Of String, Double)))
-                                       Invoke(Sub()
-                                                  For Each item As String In From item1 In finishedTask.Result.Keys Where itemCells.ContainsKey(item1)
-                                                      itemCells(item).Text = finishedTask.Result(item).ToInvariantString("N2")
-                                                  Next
-                                              End Sub)
+                                       'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                       If IsHandleCreated Then
+                                           Invoke(Sub()
+                                                      For Each item As String In From item1 In finishedTask.Result.Keys Where itemCells.ContainsKey(item1)
+                                                          itemCells(item).Text = finishedTask.Result(item).ToInvariantString("N2")
+                                                      Next
+                                                  End Sub)
+                                       End If
                                    End Sub)
 
 
@@ -275,18 +278,23 @@ Public Class frmMarketPrices
         End If
 
         Dim orderContinuation As Action(Of Task(Of ItemMarketOrders)) = Sub(dataTask As Task(Of ItemMarketOrders))
-
-                                                                            If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing Then
-                                                                                Me.Invoke(Sub() UpdateMarketDisplayWithNewData(dataTask.Result))
-                                                                                'TODO: this is where display of an error message should go.
+                                                                            'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                                                            If IsHandleCreated Then
+                                                                                If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing Then
+                                                                                    Me.Invoke(Sub() UpdateMarketDisplayWithNewData(dataTask.Result))
+                                                                                    'TODO: this is where display of an error message should go.
+                                                                                End If
+                                                                                'Return result
                                                                             End If
-                                                                            'Return result
                                                                         End Sub
 
         Dim statsContinuation As Action(Of Task(Of IEnumerable(Of ItemOrderStats))) = Sub(dataTask As Task(Of IEnumerable(Of ItemOrderStats)))
-                                                                                          If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
-                                                                                              Me.Invoke(Sub() UpdateItemOrderMetrics(dataTask.Result))
-                                                                                              'TODO: this is where display of an error message should go.
+                                                                                          'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                                                                          If IsHandleCreated Then
+                                                                                              If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
+                                                                                                  Me.Invoke(Sub() UpdateItemOrderMetrics(dataTask.Result))
+                                                                                                  'TODO: this is where display of an error message should go.
+                                                                                              End If
                                                                                           End If
                                                                                       End Sub
 

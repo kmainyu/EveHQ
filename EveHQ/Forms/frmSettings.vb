@@ -138,7 +138,9 @@ Public Class frmSettings
         chkDisableTrainingBar.Checked = HQ.EveHqSettings.DisableTrainingBar
         chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
         nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
-        nudAutomaticSaveTime.Value = EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime
+        nudAutomaticSaveTime.Value = EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime
+        If cboStartupView.Items.Contains(HQ.EveHqSettings.StartupView) = True Then
+            cboStartupView.SelectedItem = HQ.EveHqSettings.StartupView
         Else
             cboStartupView.SelectedIndex = 0
         End If
@@ -252,7 +254,6 @@ Public Class frmSettings
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
-    End Sub
 
     Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles cboStartupPilot.SelectedIndexChanged

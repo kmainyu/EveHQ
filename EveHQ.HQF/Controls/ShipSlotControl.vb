@@ -271,33 +271,39 @@ Public Class ShipSlotControl
 
         priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
 
-                                   Dim prices As Dictionary(Of String, Double) = currentTask.Result
+                                   'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                   If IsHandleCreated Then
 
-                                   ' call back to main thread to update UI
-                                   Invoke(Sub()
-                                              ' update the values
-                                              ' base ship price
-                                              ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
-                                              ' the sum of all the modules except the ship item.
-                                              Dim total As Double = prices.Sum(Function(itemPrice) itemPrice.Value * (From id In itemIds Where id = itemPrice.Key).Count())
 
-                                              ParentFitting.BaseShip.FittingMarketPrice = total
+                                       Dim prices As Dictionary(Of String, Double) = currentTask.Result
 
-                                              lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToInvariantString("N2")
-                                              lblFittingMarketPrice.Text = "Total Price: " &
-                                                                           (ParentFitting.BaseShip.FittingMarketPrice).
-                                                                               ToInvariantString("N2")
+                                       ' call back to main thread to update UI
+                                       Invoke(Sub()
+                                                  ' update the values
+                                                  ' base ship price
+                                                  ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
+                                                  ' the sum of all the modules except the ship item.
+                                                  Dim total As Double = prices.Sum(Function(itemPrice) itemPrice.Value * (From id In itemIds Where id = itemPrice.Key).Count())
 
-                                              ' update the fitting slots with their respective price value
-                                              For Each itemId As String In prices.Keys
-                                                  Dim priceCells As List(Of Cell)
-                                                  If _fittingPriceCells.TryGetValue(itemId, priceCells) Then
-                                                      For Each priceCell As Cell In priceCells
-                                                          priceCell.Text = prices(itemId).ToInvariantString("N2")
-                                                      Next
-                                                  End If
-                                              Next
-                                          End Sub)
+                                                  ParentFitting.BaseShip.FittingMarketPrice = total
+
+                                                  lblShipMarketPrice.Text = "Ship Price: " & ParentFitting.BaseShip.MarketPrice.ToInvariantString("N2")
+                                                  lblFittingMarketPrice.Text = "Total Price: " &
+                                                                               (ParentFitting.BaseShip.FittingMarketPrice).
+                                                                                   ToInvariantString("N2")
+
+                                                  ' update the fitting slots with their respective price value
+                                                  For Each itemId As String In prices.Keys
+                                                      Dim priceCells As List(Of Cell)
+                                                      If _fittingPriceCells.TryGetValue(itemId, priceCells) Then
+                                                          For Each priceCell As Cell In priceCells
+                                                              priceCell.Text = prices(itemId).ToInvariantString("N2")
+                                                          Next
+                                                      End If
+                                                  Next
+                                              End Sub)
+                                   End If
+
                                End Sub)
 
     End Sub
@@ -751,14 +757,13 @@ Public Class ShipSlotControl
                         Dim task As Task(Of Double) = DataFunctions.GetPriceAsync(shipMod.ID)
                         task.ContinueWith(Sub(price As Task(Of Double))
                                               If (price.IsCompleted And price.IsFaulted = False) Then
-                                                  Try
+                                                  'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                                  If IsHandleCreated Then
                                                       Invoke(Sub()
                                                                  shipMod.MarketPrice = price.Result
                                                                  slotNode.Cells(currentIndex).Text = shipMod.MarketPrice.ToString("N2")
                                                              End Sub)
-                                                  Catch ex As Exception
-                                                      'supression incase the window handle doesn't exist (ie: it was closed)
-                                                  End Try
+                                                  End If
                                               End If
                                           End Sub)
 

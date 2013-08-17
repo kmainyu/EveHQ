@@ -114,11 +114,13 @@ Public Class Ticker
                                       Dim price As Double = priceTask.Result(itemID)
                                       If (price > 0) Then
                                           Try
+                                              'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                              If IsHandleCreated Then
 
-
-                                              Invoke(Sub()
-                                                         SetupImage(itemID, price)
-                                                     End Sub)
+                                                  Invoke(Sub()
+                                                             SetupImage(itemID, price)
+                                                         End Sub)
+                                              End If
                                           Catch ex As Exception
                                               ' cannot check handle in background thread...
                                           End Try

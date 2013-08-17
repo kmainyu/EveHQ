@@ -450,60 +450,61 @@ Public Class PrismAssetsControl
 
 
 
+        'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+        If IsHandleCreated Then
+            'cut to the ui thread for update
+            Invoke(Sub()
+                       For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
 
-        'cut to the ui thread for update
-        Invoke(Sub()
-                   For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
-
-                       'node value adjustment incase child nodes have updated the current value
-                       Dim nodeValue As Double = 0
-                       If (Double.TryParse(updateSet.Item1.Cells(AssetColumn("AssetValue")).Text, nodeValue)) Then
-                           updateSet.Item2.Price += nodeValue
-                       End If
-
-
-                       UpdateAssetColumnData(updateSet.Item2, updateSet.Item1)
-                       'updateSet.Item1.Cells(AssetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
-
-                       'updateSet.Item1.Cells(AssetColumn("AssetValue")).Text = (value).ToInvariantString("N2")
-                       ' update the parent and up the chain of nodes
-                       Dim value As Double = 0
-                       If (updateSet.Item2.RawQuantity > -2) Then
-                           value = (updateSet.Item2.Price * updateSet.Item2.Quantity)
-                       End If
-
-
-                       Dim parentNode As Node = updateSet.Item1.Parent
-                       Dim parentValue As Double = 0
-
-                       While parentNode IsNot Nothing
-                           If (Double.TryParse(parentNode.Cells(AssetColumn("AssetValue")).Text, parentValue)) Then
-                               parentValue += value
-                           Else
-                               parentValue = value
+                           'node value adjustment incase child nodes have updated the current value
+                           Dim nodeValue As Double = 0
+                           If (Double.TryParse(updateSet.Item1.Cells(AssetColumn("AssetValue")).Text, nodeValue)) Then
+                               updateSet.Item2.Price += nodeValue
                            End If
-                           parentNode.Cells(AssetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
-                           parentNode = parentNode.Parent
-
-                       End While
 
 
-                   Next
-                   ' Update totals
+                           UpdateAssetColumnData(updateSet.Item2, updateSet.Item1)
+                           'updateSet.Item1.Cells(AssetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
 
-                   ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
-                   ' aggregated into their values.
-                   totalAssetValue = 0
-                   Dim assetGroupTotal As Double = 0
-                   For Each assetGroup As Node In adtAssets.Nodes
-                       If (Double.TryParse(assetGroup.Cells(AssetColumn("AssetValue")).Text, assetGroupTotal)) Then
-                           totalAssetValue += assetGroupTotal
-                       End If
-                   Next
+                           'updateSet.Item1.Cells(AssetColumn("AssetValue")).Text = (value).ToInvariantString("N2")
+                           ' update the parent and up the chain of nodes
+                           Dim value As Double = 0
+                           If (updateSet.Item2.RawQuantity > -2) Then
+                               value = (updateSet.Item2.Price * updateSet.Item2.Quantity)
+                           End If
 
-                   lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
-               End Sub)
 
+                           Dim parentNode As Node = updateSet.Item1.Parent
+                           Dim parentValue As Double = 0
+
+                           While parentNode IsNot Nothing
+                               If (Double.TryParse(parentNode.Cells(AssetColumn("AssetValue")).Text, parentValue)) Then
+                                   parentValue += value
+                               Else
+                                   parentValue = value
+                               End If
+                               parentNode.Cells(AssetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
+                               parentNode = parentNode.Parent
+
+                           End While
+
+
+                       Next
+                       ' Update totals
+
+                       ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
+                       ' aggregated into their values.
+                       totalAssetValue = 0
+                       Dim assetGroupTotal As Double = 0
+                       For Each assetGroup As Node In adtAssets.Nodes
+                           If (Double.TryParse(assetGroup.Cells(AssetColumn("AssetValue")).Text, assetGroupTotal)) Then
+                               totalAssetValue += assetGroupTotal
+                           End If
+                       Next
+
+                       lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
+                   End Sub)
+        End If
     End Sub
 
 
