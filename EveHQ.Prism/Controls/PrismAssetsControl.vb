@@ -416,9 +416,11 @@ Public Class PrismAssetsControl
 
             Dim batchTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(batch)
             batchTask.Wait() ' purposely serializing these requests to be a good citizen with eve-central.
-            If batchTask.IsCompleted And batchTask.IsFaulted = False And batchTask.Result IsNot Nothing Then
+            If batchTask.IsCompleted And batchTask.IsFaulted = False And batchTask.Exception Is Nothing And batchTask.Result IsNot Nothing Then
                 UpdateAssetPricing(batchTask.Result)
                 ' else record an error somewhere.
+            ElseIf batchTask.Exception IsNot Nothing Then
+                Throw batchTask.Exception
             End If
         Next
 
