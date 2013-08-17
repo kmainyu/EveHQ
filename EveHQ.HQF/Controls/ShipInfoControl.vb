@@ -299,15 +299,52 @@ Public Class ShipInfoControl
         epTargeting.TitleText = "Targeting (Range: " & ParentFitting.FittedShip.MaxTargetRange.ToString("N0") & "m)"
 
         ' Cargo and Drones
-        lblCargoBay.Text = ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3"
+        Dim mainBaySize As Double = ParentFitting.FittedShip.CargoBay
+        ttt = "Cargo Bay Capacity: " & ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3"
+        ' Check for specialty bays
+        Dim bays As Dictionary(Of String, Double) = New Dictionary(Of String, Double)()
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_FuelBay) Then
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_FuelBay), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_FuelBay))
+        End If
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_FleetHangar) Then
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_FleetHangar), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_FleetHangar))
+        End If
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_OreHold) Then
+            If ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold) > mainBaySize Then
+                If ParentFitting.FittedShip.MarketGroup <> ShipModule.Marketgroup_ORECapitalIndustrials Then
+                    mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold)
+                End If
+            End If
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_OreHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold))
+        End If
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_PICommoditiesHold) Then
+            If ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold)
+            End If
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_PICommoditiesHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold))
+        End If
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_CommandCenterHold) Then
+            If ParentFitting.FittedShip.Attributes(Attributes.Ship_CommandCenterHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_CommandCenterHold)
+            End If
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_CommandCenterHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_CommandCenterHold))
+        End If
+        If ParentFitting.FittedShip.ShipBay > 0 Then
+            bays.Add("Ship Maintenance Bay Capacity", ParentFitting.FittedShip.ShipBay)
+        End If
+        For Each bay As KeyValuePair(Of String, Double) In bays
+            ttt &= ControlChars.CrLf & bay.Key & ": " & bay.Value.ToString("N0") & " m3"
+        Next
+        lblCargoBay.Text = mainBaySize.ToString("N0") & " m3"
+        ToolTip1.SetToolTip(lblCargoBay, ttt)
+        ' Drones
         lblDroneBay.Text = ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3"
         Select Case ParentFitting.FittedShip.DatabaseGroup
             Case ShipModule.Group_Industrials, ShipModule.Group_DeepSpaceTransports, ShipModule.Group_MiningBarges, ShipModule.Group_Freighters, ShipModule.Group_Exhumers, ShipModule.Group_JumpFreighters, ShipModule.Group_IndustrialCommandShips, ShipModule.Group_BlockadeRunners
-                epCargo.TitleText = "Storage (Cargo: " & ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3)"
+                epCargo.TitleText = "Storage (Cargo: " & mainBaySize.ToString("N0") & " m3)"
             Case Else
                 epCargo.TitleText = "Storage (Drone: " & ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3)"
         End Select
-
         UpdateDroneUsage()
 
         ' Damage, Mining & Logistics

@@ -94,6 +94,7 @@ Imports System.Runtime.Serialization
     Public Const Marketgroup_OrbitalEnergyAmmo As String = "1599"
     Public Const Marketgroup_OrbitalHybridAmmo As String = "1600"
     Public Const Marketgroup_OrbitalProjectileAmmo As String = "1598"
+    Public Const Marketgroup_ORECapitalIndustrials As String = "1048"
     Public Const Marketgroup_StripMiners As String = "1040"
 
 #End Region

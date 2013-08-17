@@ -427,16 +427,20 @@ Public Class frmEveHQ
 
         ' Start the timers
         If HQ.EveHqSettings.EnableEveStatus = True Then
-            tmrEve.Enabled = True
+            tmrEve.Start()
             lblTQStatus.Text = "Tranquility Status: Not Updated"
         Else
             lblTQStatus.Text = "Tranquility Status: Updates Disabled"
         End If
-        tmrSkillUpdate.Enabled = True
-        tmrModules.Enabled = True
+        tmrSkillUpdate.Start()
+        tmrModules.Start()
+        If HQ.EveHQSettings.EnableAutomaticSave = True Then
+            tmrSave.Interval = HQ.EveHQSettings.AutomaticSaveTime * 60000
+            tmrSave.Start()
+        End If
 
         Call HQ.ReduceMemory()
-        tmrMemory.Enabled = True
+        tmrMemory.Start()
 
         ' Update the EveMailNotice button
         Call Me.UpdateEveMailButton()
@@ -594,13 +598,12 @@ Public Class frmEveHQ
             ' Disable timers
             HQ.WriteLogEvent("Shutdown: Disabling timers...")
             Me.tmrMemory.Stop()
-            Me.tmrMemory.Enabled = False
             Me.tmrEve.Stop()
-            Me.tmrEve.Enabled = False
             HQ.WriteLogEvent("Shutdown: Disabled TQ Status timer")
             Me.tmrSkillUpdate.Stop()
-            Me.tmrSkillUpdate.Enabled = False
             HQ.WriteLogEvent("Shutdown: Disabled Skill Update timer")
+            Me.tmrSave.Stop()
+            HQ.WriteLogEvent("Shutdown: Disabled Automatic Save timer")
 
             ' Check if Shutdown Notification is active (only if not shutting down on request on the updater
             If HQ.EveHqSettings.ShutdownNotify = True And HQ.UpdateShutDownRequest = False Then
@@ -1497,7 +1500,7 @@ Public Class frmEveHQ
 
     Private Sub tmrModules_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrModules.Tick
         CheckForIllegalCrossThreadCalls = False
-        tmrModules.Enabled = False
+        tmrModules.Stop()
         For Each PlugInInfo As PlugIn In HQ.EveHqSettings.Plugins.Values
             ' Override settings if the remote server says so
             Dim ServerOverride As Boolean = False
@@ -2004,7 +2007,7 @@ Public Class frmEveHQ
 
     Public Function CacheErrorHandler() As Boolean
         ' Stop the timer from reporting multiple errors
-        tmrSkillUpdate.Enabled = False
+        tmrSkillUpdate.Stop()
         Dim msg As New StringBuilder
         msg.Append("EveHQ has detected that there is an error in the character cache files. ")
         msg.AppendLine(
@@ -2018,7 +2021,7 @@ Public Class frmEveHQ
                                                MessageBoxIcon.Question)
         If reply = DialogResult.No Then
             ' Don't do anything with the cache but restart the timer
-            tmrSkillUpdate.Enabled = True
+            tmrSkillUpdate.Start()
             Return False
         Else
             ' Close all open forms
@@ -2058,7 +2061,7 @@ Public Class frmEveHQ
             Call Me.UpdatePilotInfo(True)
 
             ' Restart the timer
-            tmrSkillUpdate.Enabled = True
+            tmrSkillUpdate.Start()
 
             ' Call the API
             Call Me.QueryMyEveServer()
@@ -2077,6 +2080,10 @@ Public Class frmEveHQ
 
     Private Sub tmrMemory_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrMemory.Tick
         Call HQ.ReduceMemory()
+    End Sub
+
+    Private Sub tmrSave_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrSave.Tick
+        Call Me.SaveEverything(True)
     End Sub
 
 #Region "Update Check & Menu"
@@ -2596,7 +2603,7 @@ Public Class frmEveHQ
                 Call Me.UpdatePilotInfo(True)
 
                 ' Restart the timer
-                tmrSkillUpdate.Enabled = True
+                tmrSkillUpdate.Start()
 
                 ' Call the API
                 Call Me.QueryMyEveServer()
@@ -2688,7 +2695,7 @@ Public Class frmEveHQ
                 Call Me.UpdatePilotInfo(True)
 
                 ' Restart the timer
-                tmrSkillUpdate.Enabled = True
+                tmrSkillUpdate.Start()
 
                 ' Call the API
                 Call Me.QueryMyEveServer()
