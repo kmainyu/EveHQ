@@ -342,6 +342,8 @@ Public Class PrismAssetsControl
 
 #Region "Assets XML Parsing"
     Private Sub PopulateAssets()
+        _updateInProgress.Visible = True
+        Me.Enabled = False
         _assetList.Clear()
         _assetNodes.Clear()
         adtAssets.BeginUpdate()
@@ -419,6 +421,14 @@ Public Class PrismAssetsControl
                 ' else record an error somewhere.
             End If
         Next
+
+        If (IsHandleCreated) Then
+            Invoke(Sub()
+                       _updateInProgress.Visible = False
+                       Me.Enabled = True
+                   End Sub)
+        End If
+
     End Sub
 
 

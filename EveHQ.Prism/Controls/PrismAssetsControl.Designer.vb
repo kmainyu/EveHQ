@@ -23,6 +23,7 @@ Partial Class PrismAssetsControl
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim SuperTooltipInfo1 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
         Me.panelPrismAssets = New DevComponents.DotNetBar.PanelEx()
         Me.btnExport = New DevComponents.DotNetBar.ButtonX()
         Me.chkExcludeContracts = New System.Windows.Forms.CheckBox()
@@ -34,6 +35,7 @@ Partial Class PrismAssetsControl
         Me.btiVolumeG = New DevComponents.DotNetBar.ButtonItem()
         Me.btnFilters = New DevComponents.DotNetBar.ButtonX()
         Me.btnRefreshAssets = New DevComponents.DotNetBar.ButtonX()
+        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
         Me.lblTotalSelectedAssetValue = New System.Windows.Forms.Label()
         Me.lblTotalAssetsLabel = New System.Windows.Forms.Label()
         Me.adtAssets = New DevComponents.AdvTree.AdvTree()
@@ -96,13 +98,16 @@ Partial Class PrismAssetsControl
         Me.RemoveFilterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.splitterAssets = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.PSCAssetOwners = New EveHQ.Prism.PrismSelectionHostControl()
+        Me._updateInProgress = New System.Windows.Forms.Panel()
+        Me._updateProgressLabel = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.panelPrismAssets.SuspendLayout()
         CType(Me.adtAssets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxAssets.SuspendLayout()
         Me.panelAssetFilters.SuspendLayout()
         Me.ctxFilter.SuspendLayout()
         Me.ctxFilterList.SuspendLayout()
+        Me._updateInProgress.SuspendLayout()
         Me.SuspendLayout()
         '
         'panelPrismAssets
@@ -178,7 +183,11 @@ Partial Class PrismAssetsControl
         Me.btnExportGrouped.SplitButton = True
         Me.btnExportGrouped.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnExportGrouped.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btiItemNameG, Me.btiQuantityG, Me.btiPriceG, Me.btiValueG, Me.btiVolumeG})
-        Me.STT.SetSuperTooltip(Me.btnExportGrouped, New DevComponents.DotNetBar.SuperTooltipInfo("", "Export Assets", "Exports the current asset view to a CSV or TSV file. ", Nothing, Global.EveHQ.Prism.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        SuperTooltipInfo1.BodyText = "Exports the current asset view to a CSV or TSV file. "
+        SuperTooltipInfo1.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+        SuperTooltipInfo1.FooterImage = Global.EveHQ.Prism.My.Resources.Resources.Info32
+        SuperTooltipInfo1.FooterText = "Export Assets"
+        Me.STT.SetSuperTooltip(Me.btnExportGrouped, SuperTooltipInfo1)
         Me.btnExportGrouped.TabIndex = 55
         Me.btnExportGrouped.Text = "Export Assets (Grouped)"
         '
@@ -228,6 +237,16 @@ Partial Class PrismAssetsControl
         Me.btnRefreshAssets.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnRefreshAssets.TabIndex = 53
         Me.btnRefreshAssets.Text = "Refresh"
+        '
+        'PSCAssetOwners
+        '
+        Me.PSCAssetOwners.AllowMultipleSelections = True
+        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
+        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
+        Me.PSCAssetOwners.Name = "PSCAssetOwners"
+        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
+        Me.PSCAssetOwners.TabIndex = 52
         '
         'lblTotalSelectedAssetValue
         '
@@ -758,31 +777,31 @@ Partial Class PrismAssetsControl
         '
         'splitterAssets
         '
-        Me.splitterAssets.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterAssets.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterAssets.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.splitterAssets.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.splitterAssets.ExpandableControl = Me.panelAssetFilters
         Me.splitterAssets.ExpandActionDoubleClick = True
         Me.splitterAssets.Expanded = False
-        Me.splitterAssets.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterAssets.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterAssets.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.splitterAssets.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.splitterAssets.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
         Me.splitterAssets.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.splitterAssets.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.splitterAssets.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.splitterAssets.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.splitterAssets.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.splitterAssets.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.splitterAssets.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
         Me.splitterAssets.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
         Me.splitterAssets.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-        Me.splitterAssets.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterAssets.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterAssets.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
         Me.splitterAssets.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.splitterAssets.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-        Me.splitterAssets.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+        Me.splitterAssets.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
         Me.splitterAssets.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-        Me.splitterAssets.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+        Me.splitterAssets.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.splitterAssets.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
         Me.splitterAssets.Location = New System.Drawing.Point(0, 0)
         Me.splitterAssets.Name = "splitterAssets"
@@ -795,20 +814,41 @@ Partial Class PrismAssetsControl
         '
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         '
-        'PSCAssetOwners
+        '_updateInProgress
         '
-        Me.PSCAssetOwners.AllowMultipleSelections = True
-        Me.PSCAssetOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PSCAssetOwners.ListType = EveHQ.Prism.PrismSelectionType.AllOwners
-        Me.PSCAssetOwners.Location = New System.Drawing.Point(6, 6)
-        Me.PSCAssetOwners.Name = "PSCAssetOwners"
-        Me.PSCAssetOwners.Size = New System.Drawing.Size(278, 21)
-        Me.PSCAssetOwners.TabIndex = 52
+        Me._updateInProgress.Controls.Add(Me.Label1)
+        Me._updateInProgress.Controls.Add(Me._updateProgressLabel)
+        Me._updateInProgress.Location = New System.Drawing.Point(380, 242)
+        Me._updateInProgress.Name = "_updateInProgress"
+        Me._updateInProgress.Size = New System.Drawing.Size(517, 186)
+        Me._updateInProgress.TabIndex = 4
+        Me._updateInProgress.Visible = False
+        '
+        '_updateProgressLabel
+        '
+        Me._updateProgressLabel.AutoSize = True
+        Me._updateProgressLabel.Font = New System.Drawing.Font("Tahoma", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me._updateProgressLabel.Location = New System.Drawing.Point(147, 50)
+        Me._updateProgressLabel.Name = "_updateProgressLabel"
+        Me._updateProgressLabel.Size = New System.Drawing.Size(223, 23)
+        Me._updateProgressLabel.TabIndex = 0
+        Me._updateProgressLabel.Text = "Asset update in progress."
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Tahoma", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(39, 107)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(439, 23)
+        Me.Label1.TabIndex = 1
+        Me.Label1.Text = "Please wait while price data and filtering is applied."
         '
         'PrismAssetsControl
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me._updateInProgress)
         Me.Controls.Add(Me.panelPrismAssets)
         Me.Controls.Add(Me.splitterAssets)
         Me.Controls.Add(Me.panelAssetFilters)
@@ -823,23 +863,13 @@ Partial Class PrismAssetsControl
         Me.panelAssetFilters.PerformLayout()
         Me.ctxFilter.ResumeLayout(False)
         Me.ctxFilterList.ResumeLayout(False)
+        Me._updateInProgress.ResumeLayout(False)
+        Me._updateInProgress.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents panelPrismAssets As DevComponents.DotNetBar.PanelEx
     Friend WithEvents lblTotalSelectedAssetValue As System.Windows.Forms.Label
     Friend WithEvents lblTotalAssetsLabel As System.Windows.Forms.Label
-    Friend WithEvents adtAssets As DevComponents.AdvTree.AdvTree
-    Friend WithEvents colAssetName As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetOwner As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetGroup As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetCategory As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetLocation As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetMeta As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetVolume As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetQty As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetPrice As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAssetValue As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector6 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents Asset As DevComponents.DotNetBar.ElementStyle
     Friend WithEvents SelAsset As DevComponents.DotNetBar.ElementStyle
@@ -872,8 +902,6 @@ Partial Class PrismAssetsControl
     Friend WithEvents mnuAddItemToFilter As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuAddGroupToFilter As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuAddCategoryToFilter As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents panelAssetFilters As DevComponents.DotNetBar.PanelEx
-    Friend WithEvents splitterAssets As DevComponents.DotNetBar.ExpandableSplitter
     Friend WithEvents tvwFilter As System.Windows.Forms.TreeView
     Friend WithEvents lblGroupFilter As System.Windows.Forms.Label
     Friend WithEvents lblSelectedFilters As System.Windows.Forms.Label
@@ -887,18 +915,35 @@ Partial Class PrismAssetsControl
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents mnuConfigureColumns As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents mnuViewAssetID As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnExportGrouped As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btiItemNameG As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiQuantityG As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiValueG As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btiVolumeG As DevComponents.DotNetBar.ButtonItem
-    Friend WithEvents btnFilters As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnRefreshAssets As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents STT As DevComponents.DotNetBar.SuperTooltip
-    Friend WithEvents btiPriceG As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents chkExcludeContracts As System.Windows.Forms.CheckBox
-    Friend WithEvents btnExport As DevComponents.DotNetBar.ButtonX
     Friend WithEvents AssetRight As DevComponents.DotNetBar.ElementStyle
     Friend WithEvents AssetCentre As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents _updateInProgress As System.Windows.Forms.Panel
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents _updateProgressLabel As System.Windows.Forms.Label
+    Private WithEvents panelPrismAssets As DevComponents.DotNetBar.PanelEx
+    Private WithEvents adtAssets As DevComponents.AdvTree.AdvTree
+    Private WithEvents colAssetName As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetOwner As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetGroup As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetCategory As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetLocation As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetMeta As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetVolume As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetQty As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetPrice As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAssetValue As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents panelAssetFilters As DevComponents.DotNetBar.PanelEx
+    Private WithEvents splitterAssets As DevComponents.DotNetBar.ExpandableSplitter
+    Private WithEvents btnExportGrouped As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btiItemNameG As DevComponents.DotNetBar.ButtonItem
+    Private WithEvents btiQuantityG As DevComponents.DotNetBar.ButtonItem
+    Private WithEvents btiValueG As DevComponents.DotNetBar.ButtonItem
+    Private WithEvents btiVolumeG As DevComponents.DotNetBar.ButtonItem
+    Private WithEvents btnFilters As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnRefreshAssets As DevComponents.DotNetBar.ButtonX
+    Private WithEvents STT As DevComponents.DotNetBar.SuperTooltip
+    Private WithEvents btiPriceG As DevComponents.DotNetBar.ButtonItem
+    Private WithEvents btnExport As DevComponents.DotNetBar.ButtonX
 
 End Class
