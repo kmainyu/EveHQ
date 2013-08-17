@@ -358,9 +358,9 @@ Public Class PrismAssetsControl
                 Call Me.FilterTree()
             End If
             ' Check for minimum system value
-            If chkMinSystemValue.Checked = True Then
-                Call Me.FilterSystemValue()
-            End If
+            'If chkMinSystemValue.Checked = True Then
+            '    Call Me.FilterSystemValue()
+            'End If
         End If
         If chkExcludeCash.Checked = False And txtSearch.Text = "" Then
             Call Me.DisplayISKAssets()
@@ -448,12 +448,14 @@ Public Class PrismAssetsControl
 
         Next
 
-
-
         'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
         If IsHandleCreated Then
             'cut to the ui thread for update
             Invoke(Sub()
+                       'Check to see if system value filtering is enabled
+                       Dim minSysValue As Double
+                       Dim filteringEnabled As Boolean = chkMinSystemValue.Checked And Double.TryParse(txtMinSystemValue.Text, minSysValue)
+
                        For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
 
                            'node value adjustment incase child nodes have updated the current value
@@ -484,8 +486,16 @@ Public Class PrismAssetsControl
                                    parentValue = value
                                End If
                                parentNode.Cells(AssetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
-                               parentNode = parentNode.Parent
 
+                               If (parentNode.Parent Is Nothing) And filteringEnabled = True Then
+                                   If parentValue >= minSysValue Then
+                                       parentNode.Visible = True
+                                   Else
+                                       parentNode.Visible = False
+                                   End If
+                               End If
+
+                               parentNode = parentNode.Parent
                            End While
 
 
