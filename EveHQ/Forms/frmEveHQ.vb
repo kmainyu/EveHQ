@@ -1115,7 +1115,10 @@ Public Class frmEveHQ
             HQ.APIUpdateInProgress = True
             btnQueryAPI.Enabled = False
             frmSettings.btnGetData.Enabled = False
-            ThreadPool.QueueUserWorkItem(AddressOf StartCharacterAPIThread)
+            Dim charThread As New Thread(AddressOf StartCharacterAPIThread)
+            charThread.SetApartmentState(ApartmentState.STA) 'Bug EveHQ-118 .. character thread needs to be set to STA
+            charThread.IsBackground = True
+            charThread.Start()
         Else
             ' Do we want to add a user message here?
             ' Maybe some form of logging to see why this would be happening?
@@ -1179,18 +1182,24 @@ Public Class frmEveHQ
                 End If
             End If
 
-            ' Save the settings
-            Me.Invoke(New MethodInvoker(AddressOf EveHQSettingsFunctions.SaveSettings))
+            If IsHandleCreated Then
+                ' Save the settings
+                Me.Invoke(New MethodInvoker(AddressOf EveHQSettingsFunctions.SaveSettings))
 
-            ' Enable the option again
-            btnQueryAPI.Enabled = True
-            Me.Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
+                ' Enable the option again
+                btnQueryAPI.Enabled = True
+                Me.Invoke(New MethodInvoker(AddressOf ResetSettingsButton))
 
-            ' Update data
-            Me.Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
-
+                ' Update data
+                Me.Invoke(New MethodInvoker(AddressOf UpdatePilotInfo))
+            End If
         Catch e As Exception
-            Call CatchGeneralException(e)
+            If IsHandleCreated Then
+                Me.Invoke(Sub()
+                              CatchGeneralException(e)
+                          End Sub)
+            End If
+
         End Try
         ' We've finished our update routine so we can now release the flag
         HQ.APIUpdateInProgress = False
@@ -2419,33 +2428,39 @@ Public Class frmEveHQ
 
         Diagnostics.Trace.TraceError(e.FormatException())
 
-        Dim myException As New frmException
-        myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
-        myException.lblError.Text = e.Message
-        Dim trace As New StringBuilder
-        trace.AppendLine(e.FormatException)
-        trace.AppendLine("")
-        trace.AppendLine("========== Plug-ins ==========")
-        trace.AppendLine("")
-        For Each myPlugIn As PlugIn In HQ.EveHqSettings.Plugins.Values
-            If myPlugIn.ShortFileName IsNot Nothing Then
-                trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
-            End If
+        Dim handle As Form
+        For Each window As Form In Application.OpenForms
+            handle = window
+            Exit For
         Next
-        trace.AppendLine("")
-        trace.AppendLine("")
-        trace.AppendLine("========= System Info =========")
-        trace.AppendLine("")
-        trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
-        trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
-        trace.AppendLine("EveHQ Location: " & HQ.appFolder)
-        trace.AppendLine("EveHQ Cache Locations: " & HQ.AppDataFolder)
-        myException.txtStackTrace.Text = trace.ToString
-        Dim result As Integer = myException.ShowDialog()
-        If result = DialogResult.Ignore Then
-        Else
-            Call frmEveHQ.ShutdownRoutine()
-        End If
+
+            Dim myException As New frmException
+            myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+            myException.lblError.Text = e.Message
+            Dim trace As New StringBuilder
+            trace.AppendLine(e.FormatException)
+            trace.AppendLine("")
+            trace.AppendLine("========== Plug-ins ==========")
+            trace.AppendLine("")
+            For Each myPlugIn As PlugIn In HQ.EveHqSettings.Plugins.Values
+                If myPlugIn.ShortFileName IsNot Nothing Then
+                    trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+                End If
+            Next
+            trace.AppendLine("")
+            trace.AppendLine("")
+            trace.AppendLine("========= System Info =========")
+            trace.AppendLine("")
+            trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
+            trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
+            trace.AppendLine("EveHQ Location: " & HQ.appFolder)
+            trace.AppendLine("EveHQ Cache Locations: " & HQ.AppDataFolder)
+            myException.txtStackTrace.Text = trace.ToString
+            Dim result As Integer = myException.ShowDialog()
+            If result = DialogResult.Ignore Then
+            Else
+                Call frmEveHQ.ShutdownRoutine()
+            End If
     End Sub
 
 #Region "Ribbon Button Routines"
