@@ -374,9 +374,9 @@ Public Class frmRequisitions
                                                       Dim price As Double
                                                       Dim quantity As Long
                                                       If (priceData.TryGetValue(row.Name, price)) Then
-                                                          row.Cells(3).Text = price.ToInvariantString("F2")
-                                                          Long.TryParse(row.Cells(0).Text, quantity)
-                                                          row.Cells(4).Text = (price * quantity).ToInvariantString("F2")
+                                                          row.Cells(4).Text = price.ToInvariantString("F2")
+                                                          Long.TryParse(row.Cells(1).Text, quantity)
+                                                          row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
 
                                                       End If
                                                       Dim asset As RequisitionAsset
