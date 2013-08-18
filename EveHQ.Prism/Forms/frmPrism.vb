@@ -2462,12 +2462,18 @@ Public Class frmPrism
                     Else
                         If IsDBNull(JE.Item("typeID")) = False Then
                             ' Put some market data here
-                            Dim Item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(JE.Item("typeID").ToString)
-                            TransItem.Cells.Add(New Cell("[t] " & BuildJournalDescription(CInt(refType), JE.Item("ownerName1").ToString, JE.Item("ownerName2").ToString, JE.Item("argID1").ToString, JE.Item("argName1").ToString)))
-                            Dim transReason As New Node
-                            transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell)
-                            transReason.Cells.Add(New Cell(Item.Name & " (" & CDbl(JE.Item("quantity")).ToString("N0") & " @ " & CDbl(JE.Item("price")).ToString("N2") & " isk p/u)"))
-                            TransItem.Nodes.Add(transReason)
+                            Dim typeId As String = JE.Item("typeID").ToString()
+                            If (Core.HQ.itemData.ContainsKey(typeId)) Then
+                                Dim Item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeId)
+                                TransItem.Cells.Add(New Cell("[t] " & BuildJournalDescription(CInt(refType), JE.Item("ownerName1").ToString, JE.Item("ownerName2").ToString, JE.Item("argID1").ToString, JE.Item("argName1").ToString)))
+                                Dim transReason As New Node
+                                transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell)
+                                transReason.Cells.Add(New Cell(Item.Name & " (" & CDbl(JE.Item("quantity")).ToString("N0") & " @ " & CDbl(JE.Item("price")).ToString("N2") & " isk p/u)"))
+                                TransItem.Nodes.Add(transReason)
+                            Else
+                                Trace.TraceWarning("Display Wallet Journal tried to find information on an unknown item type id: " & typeId)
+                            End If
+
                         Else
                             TransItem.Cells.Add(New Cell(BuildJournalDescription(CInt(refType), JE.Item("ownerName1").ToString, JE.Item("ownerName2").ToString, JE.Item("argID1").ToString, JE.Item("argName1").ToString)))
                         End If
