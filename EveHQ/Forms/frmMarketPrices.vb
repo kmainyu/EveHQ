@@ -164,8 +164,28 @@ Public Class frmMarketPrices
                 End If
             Next
 
-            ' get the prices for the items
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices((From item As String In itemCells.Keys Select item), MarketMetric.Default, MarketTransactionKind.Sell)
+            '' get the prices for the items
+            'Task.Factory.StartNew(Sub()
+            '                          GetItemPrices(itemCells)
+            '                      End Sub)
+           
+
+        End If
+        EveHQ.Core.AdvTreeSorter.Sort(adtPrices, 1, False, True)
+        adtPrices.EndUpdate()
+    End Sub
+
+    Private Sub GetItemPrices(itemCells As Dictionary(Of String, Cell))
+        Dim items As List(Of String) = (From item As String In itemCells.Keys Select item).Where(Function(item As String) As Boolean
+                                                                                                     Return HQ.itemData(item).MarketGroup <> 0
+                                                                                                 End Function).ToList()
+        Dim counter As Integer = 0
+        Dim max As Integer = items.Count
+        Dim subSetSize As Integer = 50
+        While (counter < max)
+            Dim subitems As IEnumerable(Of String) = items.Skip(counter).Take(subSetSize)
+
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(subitems, MarketMetric.Default, MarketTransactionKind.Sell)
 
             priceTask.ContinueWith(Sub(finishedTask As Task(Of Dictionary(Of String, Double)))
                                        'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
@@ -178,11 +198,15 @@ Public Class frmMarketPrices
                                        End If
                                    End Sub)
 
+            counter += subSetSize
 
-        End If
-        EveHQ.Core.AdvTreeSorter.Sort(adtPrices, 1, False, True)
-        adtPrices.EndUpdate()
+            priceTask.Wait()  ' waiting... this is particularly nice to ad-hoc webservices like eve-central so we don't spam them.
+
+        End While
+
     End Sub
+
+
     Private Sub ctxPrices_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPrices.Opening
         Select Case adtPrices.SelectedNodes.Count
             Case 0
