@@ -796,7 +796,12 @@ Public Class frmItemBrowser
         For att As Integer = 1 To attNo
             If attributes(att, 4) = " typeID" Then
                 attributes(att, 4) &= attributes(att, 3)
-                SourceItem = EveHQ.Core.HQ.itemData(attributes(att, 3))
+                ' Check required because unpublished items can have unknown skills as prereqs
+                If EveHQ.Core.HQ.itemData.ContainsKey(attributes(att, 3)) Then
+                    SourceItem = EveHQ.Core.HQ.itemData(attributes(att, 3))
+                Else
+                    Continue For
+                End If
 
                 Select Case attributes(att, 1)
                     Case "182"
