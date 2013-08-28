@@ -52,7 +52,6 @@ namespace EveHQ.Common.Extensions
             {
                 Trace.TraceError(task.Exception.FormatException());
                 Trace.Flush();
-                throw task.Exception;
             }
 
             return task;
@@ -68,7 +67,6 @@ namespace EveHQ.Common.Extensions
             {
                 Trace.TraceError(task.Exception.FormatException());
                 Trace.Flush();
-                throw task.Exception;
                 return default(T);
             }
 

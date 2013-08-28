@@ -304,7 +304,7 @@ Public Class frmMarketPrices
         Dim orderContinuation As Action(Of Task(Of ItemMarketOrders)) = Sub(dataTask As Task(Of ItemMarketOrders))
                                                                             'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
                                                                             If IsHandleCreated Then
-                                                                                If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing Then
+                                                                                If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Exception Is Nothing And dataTask.Result IsNot Nothing Then
                                                                                     Me.Invoke(Sub() UpdateMarketDisplayWithNewData(dataTask.Result))
                                                                                     'TODO: this is where display of an error message should go.
                                                                                 End If
@@ -315,7 +315,7 @@ Public Class frmMarketPrices
         Dim statsContinuation As Action(Of Task(Of IEnumerable(Of ItemOrderStats))) = Sub(dataTask As Task(Of IEnumerable(Of ItemOrderStats)))
                                                                                           'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
                                                                                           If IsHandleCreated Then
-                                                                                              If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
+                                                                                              If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Exception Is Nothing And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
                                                                                                   Me.Invoke(Sub() UpdateItemOrderMetrics(dataTask.Result))
                                                                                                   'TODO: this is where display of an error message should go.
                                                                                               End If

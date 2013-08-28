@@ -298,7 +298,7 @@ namespace EveHQ.Market
                         Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
                         requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
-                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
                         {
                             using (Stream stream = requestTask.Result.GetResponseStream())
                             {
