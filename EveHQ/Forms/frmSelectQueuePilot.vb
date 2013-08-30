@@ -27,14 +27,14 @@ Public Class frmSelectQueuePilot
         End Get
         Set(ByVal value As String)
             cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
         End Set
     End Property
 
     Private Sub frmSelectQueuePilot_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Populate the combo box
         cboPilots.Items.Clear()
-        For Each nPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each nPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If nPilot.Active = True Then
                 If nPilot.Name <> displayPilot.Name Then
                     cboPilots.Items.Add(nPilot.Name)
@@ -54,7 +54,7 @@ Public Class frmSelectQueuePilot
             Exit Sub
         End If
         Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
-        Dim newPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        Dim newPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
         Dim newQueue As New EveHQ.Core.SkillQueue
         Dim reply As Integer = 0
         If newPilot.TrainingQueues.Contains(cboPilots.Tag.ToString) Then

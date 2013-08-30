@@ -17,7 +17,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -71,6 +71,9 @@
     <Reference Include="GammaJul.LgLcd">
       <HintPath>ExternalLibs\GammaJul.LgLcd.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -102,6 +105,7 @@
   <ItemGroup>
     <Compile Include="AdvTreeSorter.vb" />
     <Compile Include="Corporation.vb" />
+    <Compile Include="Entities\EveGalaticRegion.vb" />
     <Compile Include="frmModifyPrices.Designer.vb">
       <DependentUpon>frmModifyPrices.vb</DependentUpon>
     </Compile>
@@ -166,6 +170,7 @@
     <Compile Include="IEveHQPlugIn.vb" />
     <Compile Include="IGB.vb" />
     <Compile Include="ImageHandler.vb" />
+    <Compile Include="ItemMarketOverride.vb" />
     <Compile Include="Market.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -246,7 +251,7 @@
     <Compile Include="SkillQueueControl\SkillQueueTimeControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SolarSystem.vb" />
+    <Compile Include="Entities\SolarSystem.vb" />
     <Compile Include="SortedQueueItem.vb" />
     <Compile Include="Standings.vb" />
     <Compile Include="Station.vb" />
@@ -339,6 +344,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\refresh.png" />
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +377,10 @@
     <None Include="Resources\EveHQ_IGBLogo.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
+      <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
+      <Name>EveHQ.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
@@ -378,6 +388,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
+      <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
+      <Name>EveHQ.Market</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -144,7 +144,7 @@ Public Class frmAddDamageProfile
 
         cboPilotName.BeginUpdate()
         cboPilotName.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             cboPilotName.Items.Add(cPilot.Name)
         Next
         cboPilotName.EndUpdate()

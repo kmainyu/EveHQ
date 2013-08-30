@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms
+Imports EveHQ.Common.Extensions
 
 Public Class frmModifyPrice
 
@@ -46,16 +47,14 @@ Public Class frmModifyPrice
         End If
 
         ' Set the prices
-        Me.lblBasePrice.Text = EveHQ.Core.HQ.itemData(Me.ItemID).BasePrice.ToString("N2")
-		If EveHQ.Core.HQ.MarketPriceList.ContainsKey(Me.ItemID) = True Then
-			Me.lblMarketPrice.Text = EveHQ.Core.HQ.MarketPriceList(Me.ItemID).ToString("N2")
-		Else
-			Me.lblMarketPrice.Text = CInt("0").ToString("N2")
-		End If
+        Me.lblBasePrice.Text = EveHQ.Core.HQ.itemData(Me.ItemID).BasePrice.ToInvariantString("N2")
+		
+            Me.lblMarketPrice.Text = EveHQ.Core.DataFunctions.GetPrice(ItemID).ToInvariantString("N2")
+
 		If EveHQ.Core.HQ.CustomPriceList.ContainsKey(Me.ItemID) = True Then
-			Me.lblCustomPrice.Text = EveHQ.Core.HQ.CustomPriceList(Me.ItemID).ToString("N2")
+            Me.lblCustomPrice.Text = EveHQ.Core.HQ.CustomPriceList(Me.ItemID).ToInvariantString("N2")
 		Else
-			Me.lblCustomPrice.Text = CInt("0").ToString("N2")
+            Me.lblCustomPrice.Text = CInt("0").ToInvariantString("N2")
 		End If
 
 		If Me.EditingPrice = False Then
@@ -66,7 +65,7 @@ Public Class frmModifyPrice
 
 		' Set the default price if not zero
 		If DefaultValue = 0 Then
-			txtNewPrice.Text = EveHQ.Core.DataFunctions.GetPrice(ItemID).ToString
+            txtNewPrice.Text = EveHQ.Core.DataFunctions.GetPrice(ItemID).ToString()
 		Else
 			txtNewPrice.Text = DefaultValue.ToString
 		End If

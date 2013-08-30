@@ -1355,7 +1355,7 @@ namespace ZedGraph
 
 				double x1, x2, xx1, xx2;
 				double[] y1, y2, yy1, yy2;
-				PointF startPoint = ( (Control)sender ).PointToClient( new Point( Convert.ToInt32( this._dragPane.Rect.X ), Convert.ToInt32( this._dragPane.Rect.Y ) ) );
+				PointF startPoint = ( (Control)sender ).PointToClient( new Point( Convert.ToInt32( _dragPane.Rect.X ), Convert.ToInt32( _dragPane.Rect.Y ) ) );
 
 				_dragPane.ReverseTransform( _dragStartPt, out x1, out xx1, out y1, out yy1 );
 				_dragPane.ReverseTransform( mousePtF, out x2, out xx2, out y2, out yy2 );
@@ -1396,7 +1396,7 @@ namespace ZedGraph
 				//				this.Select( objects );
 
 				//Graphics g = this.CreateGraphics();
-				//this._dragPane.AxisChange( g );
+				//_dragPane.AxisChange( g );
 				//g.Dispose();
 
 				#endregion

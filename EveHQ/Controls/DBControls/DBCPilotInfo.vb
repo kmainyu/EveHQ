@@ -31,7 +31,7 @@ Public Class DBCPilotInfo
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
         cboPilot.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If pilot.Active = True Then
                 cboPilot.Items.Add(pilot.Name)
             End If
@@ -61,8 +61,8 @@ Public Class DBCPilotInfo
         End Get
         Set(ByVal value As String)
             cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(DefaultPilotName), Core.Pilot)
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(DefaultPilotName) Then
+                cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(DefaultPilotName), Core.Pilot)
             End If
             If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
             If ReadConfig = False Then
@@ -80,8 +80,8 @@ Public Class DBCPilotInfo
 
 #Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            cPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
+            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
             Call Me.UpdatePilotInfo()
             ' Start the skill timer
             tmrSkill.Enabled = True
@@ -93,7 +93,7 @@ Public Class DBCPilotInfo
     End Sub
 
     Private Sub UpdatePilotInfo()
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
             ' Update the info
             pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot.ID)
             lblCorp.Text = "Member of " & cPilot.Corp

@@ -60,19 +60,19 @@ Public Class EveMail
         EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim Mails As New SortedList(Of String, EveHQ.Core.EveMailMessage)
         Dim MailingListIDs As New SortedList(Of Long, String)
-        For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             ' Stage 1: Download the latest EveMail API using the standard API method
             If mPilot.Active = True Then
                 Dim accountName As String = mPilot.Account
-                If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                    Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(accountName) = True Then
+                    Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts.Item(accountName), Core.EveAccount)
                     ' Add in the data for mailing lists
                     RaiseEvent MailProgress("Processing Mailing Lists for " & mPilot.Name & "...")
                     MailingListIDs = EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
                     ' Make a call to the EveHQ.Core.API to fetch the EveMail
                     RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
                     Dim mailXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     mailXML = APIReq.GetAPIXML(EveAPI.APITypes.MailMessages, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
                     If mailXML IsNot Nothing Then
                         ' Stage 2: Populate the class with our EveMails
@@ -113,7 +113,7 @@ Public Class EveMail
 									strID.Remove(0, 1)
 									Dim IDList As String = strID.ToString
 									Dim bodyXML As New XmlDocument
-                                    Dim BodyReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                                    Dim BodyReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 									bodyXML = BodyReq.GetAPIXML(EveAPI.APITypes.MailBodies, mAccount.ToAPIAccount, mPilot.ID, IDList, EveAPI.APIReturnMethods.ReturnActual)
 									If bodyXML IsNot Nothing Then
 										If bodyXML.SelectNodes("/eveapi/error").Count = 0 Then
@@ -230,7 +230,7 @@ Public Class EveMail
 		Next
 
 		' Send E-mail notification of new mails if required
-		If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And NewMails.Count > 0 Then
+		If EveHQ.Core.HQ.EveHqSettings.NotifyEveMail = True And NewMails.Count > 0 Then
 			RaiseEvent MailProgress("Sending notification of new mails...")
 			Call SendEmailForNewEveMails(NewMails, IDs)
 		End If
@@ -251,16 +251,16 @@ Public Class EveMail
         ' Add to the auto timer
         EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
         Dim Notices As New SortedList(Of String, EveHQ.Core.EveNotification)
-        For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each mPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             ' Stage 1: Download the latest EveMail API using the standard API method
             If mPilot.Active = True Then
                 Dim accountName As String = mPilot.Account
-                If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                    Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+                If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(accountName) = True Then
+                    Dim mAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts.Item(accountName), Core.EveAccount)
                     ' Make a call to the EveHQ.Core.API to fetch the EveMail
                     RaiseEvent MailProgress("Fetching Eve Notifications for " & mPilot.Name & "...")
                     Dim mailXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     mailXML = APIReq.GetAPIXML(EveAPI.APITypes.Notifications, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
                     If mailXML IsNot Nothing Then
                         If mailXML.SelectNodes("/eveapi/error").Count = 0 Then
@@ -294,7 +294,7 @@ Public Class EveMail
                                     strID.Remove(0, 1)
                                     Dim IDList As String = strID.ToString
                                     Dim bodyXML As New XmlDocument
-                                    Dim BodyReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                                    Dim BodyReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                                     bodyXML = BodyReq.GetAPIXML(EveAPI.APITypes.NotificationTexts, mAccount.ToAPIAccount, mPilot.ID, IDList, EveAPI.APIReturnMethods.ReturnActual)
                                     If bodyXML IsNot Nothing Then
                                         If bodyXML.SelectNodes("/eveapi/error").Count = 0 Then
@@ -393,7 +393,7 @@ Public Class EveMail
         Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
 
         ' Send E-mail notification of new mails if required
-        If EveHQ.Core.HQ.EveHQSettings.NotifyEveMail = True And newNotifys.Count > 0 Then
+        If EveHQ.Core.HQ.EveHqSettings.NotifyEveMail = True And newNotifys.Count > 0 Then
             RaiseEvent MailProgress("Sending notification of new notices...")
             Call SendEmailForNewEveNotifications(newNotifys, IDs)
         End If
@@ -500,17 +500,17 @@ Public Class EveMail
     Private Sub SendEveHQMail(ByVal mailSubject As String, ByVal mailText As String)
         Dim eveHQMail As New System.Net.Mail.SmtpClient
         Try
-            eveHQMail.Host = EveHQ.Core.HQ.EveHQSettings.EMailServer
-            eveHQMail.Port = EveHQ.Core.HQ.EveHQSettings.EMailPort
-            eveHQMail.EnableSsl = EveHQ.Core.HQ.EveHQSettings.UseSSL
-            If EveHQ.Core.HQ.EveHQSettings.UseSMTPAuth = True Then
+            eveHQMail.Host = EveHQ.Core.HQ.EveHqSettings.EMailServer
+            eveHQMail.Port = EveHQ.Core.HQ.EveHqSettings.EMailPort
+            eveHQMail.EnableSsl = EveHQ.Core.HQ.EveHqSettings.UseSSL
+            If EveHQ.Core.HQ.EveHqSettings.UseSMTPAuth = True Then
                 Dim newCredentials As New System.Net.NetworkCredential
-                newCredentials.UserName = EveHQ.Core.HQ.EveHQSettings.EMailUsername
-                newCredentials.Password = EveHQ.Core.HQ.EveHQSettings.EMailPassword
+                newCredentials.UserName = EveHQ.Core.HQ.EveHqSettings.EMailUsername
+                newCredentials.Password = EveHQ.Core.HQ.EveHqSettings.EMailPassword
                 eveHQMail.Credentials = newCredentials
             End If
-            Dim recList As String = EveHQ.Core.HQ.EveHQSettings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
-            Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHQSettings.EmailSenderAddress, recList)
+            Dim recList As String = EveHQ.Core.HQ.EveHqSettings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
+            Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.EveHqSettings.EmailSenderAddress, recList)
             eveHQMsg.Subject = mailSubject
             eveHQMsg.Body = mailText
             eveHQMail.Send(eveHQMsg)

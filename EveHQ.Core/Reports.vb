@@ -1750,7 +1750,7 @@ Public Class Reports
         strHTML &= "<td class=thead width=150px align=right>Current Training</td>"
         strHTML &= "<tr>"
         Dim sortedPilots As New SortedList
-        For Each rPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each rPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If rPilot.Active = True Then
                 sortedPilots.Add(rPilot.Name, rPilot)
             End If
@@ -3432,10 +3432,10 @@ Public Class Reports
         Dim fbd1 As New FolderBrowserDialog
         With fbd1
             .ShowNewFolderButton = False
-            If EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation <> "" Then
-                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation) = True Then
-                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
-                    .SelectedPath = EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation
+            If EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation <> "" Then
+                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation) = True Then
+                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation
+                    .SelectedPath = EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation
                 Else
                     .Description = "Please select the folder where the ECM XML files are located..."
                     .RootFolder = Environment.SpecialFolder.Desktop
@@ -3458,7 +3458,7 @@ Public Class Reports
             ' Copy these to the selected folder
             My.Computer.FileSystem.CopyFile(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - Old (" & rpilot.Name & ").xml"), Path.Combine(ECMLocation, rpilot.ID.ToString & ".xml"), True)
             My.Computer.FileSystem.CopyFile(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML - Old (" & rpilot.Name & ").xml"), Path.Combine(ECMLocation, rpilot.ID.ToString & ".training.xml"), True)
-            EveHQ.Core.HQ.EveHQSettings.ECMDefaultLocation = ECMLocation
+            EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation = ECMLocation
             MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
 

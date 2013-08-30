@@ -28,7 +28,7 @@ Public Class CharacterBlock
         ' Add any initialization after the InitializeComponent() call.
 
         ' Get pilot
-        Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(pilotName), Core.Pilot)
+        Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotName), Core.Pilot)
 
         ' Draw image
         pbPilot.SizeMode = PictureBoxSizeMode.StretchImage

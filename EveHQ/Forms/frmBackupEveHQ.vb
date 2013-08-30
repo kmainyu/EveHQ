@@ -23,7 +23,7 @@ Public Class frmBackupEveHQ
 
     Private Sub btnBackup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBackup.Click
         If EveHQ.Core.EveHQBackup.BackupEveHQSettings() = True Then
-            lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.ToString
+            lblLastBackup.Text = EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast.ToString
         End If
         Call CalcNextBackup()
         Call ScanBackups()
@@ -54,7 +54,7 @@ Public Class frmBackupEveHQ
 
     Private Sub frmBackupEveHQ_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         nudDays.Tag = CInt(1) : dtpStart.Tag = CInt(1)
-        Select Case EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode
+        Select Case EveHQ.Core.HQ.EveHqSettings.EveHQBackupMode
             Case 0
                 radManualBackup.Checked = True
             Case 1
@@ -62,26 +62,26 @@ Public Class frmBackupEveHQ
             Case 2
                 RadAutoBackup.Checked = True
         End Select
-        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq < 1 Then
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq = 1
+        If EveHQ.Core.HQ.EveHqSettings.EveHQBackupWarnFreq < 1 Then
+            EveHQ.Core.HQ.EveHqSettings.EveHQBackupWarnFreq = 1
         End If
-        nudBackupWarning.Value = EveHQ.Core.HQ.EveHQSettings.EveHQBackupWarnFreq
-        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq < 1 Then
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq = 1
+        nudBackupWarning.Value = EveHQ.Core.HQ.EveHqSettings.EveHQBackupWarnFreq
+        If EveHQ.Core.HQ.EveHqSettings.EveHQBackupFreq < 1 Then
+            EveHQ.Core.HQ.EveHqSettings.EveHQBackupFreq = 1
         End If
-        nudDays.Value = EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq
-        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupStart < dtpStart.MinDate Then
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupStart = Now
+        nudDays.Value = EveHQ.Core.HQ.EveHqSettings.EveHQBackupFreq
+        If EveHQ.Core.HQ.EveHqSettings.EveHQBackupStart < dtpStart.MinDate Then
+            EveHQ.Core.HQ.EveHqSettings.EveHQBackupStart = Now
         End If
-        dtpStart.Value = EveHQ.Core.HQ.EveHQSettings.EveHQBackupStart
+        dtpStart.Value = EveHQ.Core.HQ.EveHqSettings.EveHQBackupStart
         nudDays.Tag = 0 : dtpStart.Tag = 0
         Call CalcNextBackup()
-        If EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.Year < 2000 Then
+        If EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast.Year < 2000 Then
             lblLastBackup.Text = "<not backed up>"
         Else
-            lblLastBackup.Text = EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast.ToString
+            lblLastBackup.Text = EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast.ToString
         End If
-        chkBackupBeforeUpdate.Checked = EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate
+        chkBackupBeforeUpdate.Checked = EveHQ.Core.HQ.EveHqSettings.BackupBeforeUpdate
         Call ScanBackups()
     End Sub
 
@@ -89,7 +89,7 @@ Public Class frmBackupEveHQ
         If MessageBox.Show("Are you sure you wish to reset the last backup time?", "Confirm Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        EveHQ.Core.HQ.EveHQSettings.EveHQBackupLast = CDate("01/01/1999")
+        EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast = CDate("01/01/1999")
         lblLastBackup.Text = "<not backed up>"
         Call CalcNextBackup()
     End Sub
@@ -97,7 +97,7 @@ Public Class frmBackupEveHQ
     Private Sub nudDays_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudDays.ValueChanged
         If nudDays.Tag IsNot Nothing Then
             If nudDays.Tag.ToString = "0" Then
-                EveHQ.Core.HQ.EveHQSettings.EveHQBackupFreq = CInt(nudDays.Value)
+                EveHQ.Core.HQ.EveHqSettings.EveHQBackupFreq = CInt(nudDays.Value)
             End If
         End If
         Call CalcNextBackup()
@@ -106,7 +106,7 @@ Public Class frmBackupEveHQ
     Private Sub dtpStart_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dtpStart.ValueChanged
         If dtpStart.Tag IsNot Nothing Then
             If dtpStart.Tag.ToString = "0" Then
-                EveHQ.Core.HQ.EveHQSettings.EveHQBackupStart = dtpStart.Value
+                EveHQ.Core.HQ.EveHqSettings.EveHQBackupStart = dtpStart.Value
             End If
         End If
         Call CalcNextBackup()
@@ -114,7 +114,7 @@ Public Class frmBackupEveHQ
 
     Private Sub radManualBackup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radManualBackup.CheckedChanged
         If radManualBackup.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 0
+            EveHQ.Core.HQ.EveHqSettings.EveHQBackupMode = 0
             Me.lblBackupWarning.Enabled = False
             Me.lblBackupWarningDays.Enabled = False
             Me.nudBackupWarning.Enabled = False
@@ -131,7 +131,7 @@ Public Class frmBackupEveHQ
 
     Private Sub radPromptBackup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radPromptBackup.CheckedChanged
         If radPromptBackup.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 1
+            EveHQ.Core.HQ.EveHqSettings.EveHQBackupMode = 1
             Me.lblBackupWarning.Enabled = True
             Me.lblBackupWarningDays.Enabled = True
             Me.nudBackupWarning.Enabled = True
@@ -148,7 +148,7 @@ Public Class frmBackupEveHQ
 
     Private Sub RadAutoBackup_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadAutoBackup.CheckedChanged
         If RadAutoBackup.Checked = True Then
-            EveHQ.Core.HQ.EveHQSettings.EveHQBackupMode = 2
+            EveHQ.Core.HQ.EveHqSettings.EveHQBackupMode = 2
             Me.lblBackupWarning.Enabled = False
             Me.lblBackupWarningDays.Enabled = False
             Me.nudBackupWarning.Enabled = False
@@ -164,7 +164,7 @@ Public Class frmBackupEveHQ
     End Sub
 
     Private Sub chkBackupBeforeUpdate_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkBackupBeforeUpdate.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.BackupBeforeUpdate = chkBackupBeforeUpdate.Checked
+        EveHQ.Core.HQ.EveHqSettings.BackupBeforeUpdate = chkBackupBeforeUpdate.Checked
     End Sub
 
     Private Sub btnRestore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRestore.Click

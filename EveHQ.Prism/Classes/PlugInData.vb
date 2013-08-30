@@ -43,7 +43,7 @@ Public Class PlugInData
     Public Shared CorpList As New SortedList
     Public Shared CategoryNames As New SortedList(Of String, String)
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
-    Public Shared PrismOwners As New SortedList(Of String, PrismOwner) ' Key = OwnerName i.e. Vessper, Indicium Technologies etc...
+    Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
     Private activeForm As frmPrism
 
 #Region "Plug-in Interface Properties and Functions"
@@ -75,7 +75,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Prism"
         EveHQPlugIn.Description = "EveHQ Production, Research, Industry and Science Module"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "EveHQ Prism"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False
@@ -110,7 +110,7 @@ Public Class PlugInData
         Else
             ' Setup the Prism Folder
             If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                Settings.PrismFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "Prism")
+                Settings.PrismFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "Prism")
             Else
                 Settings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
             End If
@@ -336,7 +336,7 @@ Public Class PlugInData
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             Dim refXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.RefTypes, EveAPI.APIReturnMethods.ReturnStandard)
             If refXML Is Nothing Then
                 ' Problem with the API server so let's use our resources to populate it
@@ -375,7 +375,7 @@ Public Class PlugInData
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
         Dim stationXML As New XmlDocument
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         stationXML = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard)
         If stationXML IsNot Nothing Then
             Call ParseConquerableXML(stationXML)
@@ -449,12 +449,16 @@ Public Class PlugInData
         End If
     End Sub
     Private Sub LoadOwnerBlueprints()
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
-            s.Close()
-        End If
+        SyncLock frmPrism.LockObj
+            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")) = True Then
+                Using s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
+                    If s.Length > 0 Then
+                        Dim f As BinaryFormatter = New BinaryFormatter
+                        PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
+                    End If
+                End Using
+            End If
+        End SyncLock
     End Sub
 #End Region
 

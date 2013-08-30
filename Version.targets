@@ -3,21 +3,13 @@
   <Import Project="$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets" Condition="Exists('$(ProjectDir)..\Tools\MSBuild\MSBuild.Community.Tasks.Targets')" />
 <UsingTask TaskName="HgVersionFile" AssemblyFile="$(ProjectDir)..\MSBuildVersioning.dll" />
 
-  <!--<PropertyGroup>
-    <VersionPreRelease>PreReleaseBuild$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
-    
-      <SemanticVersionText>2.11.2</SemanticVersionText>
-     
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
-    <VersionPreRelease></VersionPreRelease>
-  </PropertyGroup>-->
 
  
   <Target Name="SetAssemblyVersion">
     <Message Text="Building Package" Importance="high" />
     <PropertyGroup Condition="$(VersionPreRelease)==''">
-      <VersionTxt>$(SemanticVersionText)</VersionTxt>
+      <VersionTxt>$(SemanticVersionText).$REVNUM$</VersionTxt>
+      <SemanticVersionText>$(VersionTxt)</SemanticVersionText>
     </PropertyGroup>
     <PropertyGroup Condition="$(VersionPreRelease)!=''">
       <VersionTxt>$(SemanticVersionText).$REVNUM$-$(VersionPreRelease)</VersionTxt>

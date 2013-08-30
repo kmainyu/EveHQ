@@ -43,7 +43,7 @@ Public Class frmFittingBrowser
         ' Add the current list of pilots to the combobox
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If

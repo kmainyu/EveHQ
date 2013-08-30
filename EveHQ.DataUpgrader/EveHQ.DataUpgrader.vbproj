@@ -13,10 +13,11 @@
     <AssemblyName>EveHQ.DataUpgrader</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <AssemblyInfoTitle>EveHQ.DataUpgrader</AssemblyInfoTitle>
     <AssemblyInfoDescription>Eve Online game tool</AssemblyInfoDescription>
     <AssemblyInfoGUID>73dbe256-f27d-4f35-819f-ad46487fffb3</AssemblyInfoGUID>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

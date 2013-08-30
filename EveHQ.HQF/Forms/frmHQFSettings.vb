@@ -108,13 +108,13 @@ Public Class frmHQFSettings
     Private Sub UpdateGeneralOptions()
         cboStartupPilot.Items.Clear()
         Dim myPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each myPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each myPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If myPilot.Active = True Then
                 cboStartupPilot.Items.Add(myPilot.Name)
             End If
         Next
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(Settings.HQFSettings.DefaultPilot) = False Then
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(Settings.HQFSettings.DefaultPilot) = False Then
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 Then
                 cboStartupPilot.SelectedIndex = 0
             End If
         Else

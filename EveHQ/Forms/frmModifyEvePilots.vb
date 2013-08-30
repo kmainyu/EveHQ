@@ -42,7 +42,7 @@ Public Class frmModifyEvePilots
         End If
         ' Add the pilot to the pilot collection
         ' First check if the pilot already exists
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(txtPilotName.Text) Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(txtPilotName.Text) Then
             Dim reply As Integer = MessageBox.Show("Pilot name " & txtPilotName.Text & " already exists in EveHQ! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.Retry Then
                 Exit Sub
@@ -56,7 +56,7 @@ Public Class frmModifyEvePilots
         newPilot.ID = txtPilotID.Text
         newPilot.Account = ""
         newPilot.AccountPosition = "0"
-        EveHQ.Core.HQ.EveHQSettings.Pilots.Add(newPilot, newPilot.Name)
+        EveHQ.Core.HQ.EveHqSettings.Pilots.Add(newPilot, newPilot.Name)
         Me.Close()
     End Sub
 

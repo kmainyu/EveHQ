@@ -3,7 +3,7 @@
   <!-- $Id$ -->
 
   <PropertyGroup>
-    <MSBuildCommunityTasksPath>$(ProjectDir)..\tools\msbuild</MSBuildCommunityTasksPath>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\tools\msbuild</MSBuildCommunityTasksPath>
     <MSBuildCommunityTasksLib>$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.dll</MSBuildCommunityTasksLib>
   </PropertyGroup>
 

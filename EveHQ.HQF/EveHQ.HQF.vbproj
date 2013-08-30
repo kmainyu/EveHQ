@@ -16,7 +16,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -502,6 +502,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
+      <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
+      <Name>EveHQ.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
@@ -509,6 +513,10 @@
     <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
       <Name>EveHQ.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
+      <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
+      <Name>EveHQ.Market</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -674,7 +682,7 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)*.*" ..\..\..\evehq\$(outdir)
-</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetDir)\*.*" ..\..\..\evehq\$(outdir)\
+copy /Y $(TargetDir)*.* $(SolutionDir)BuildOutput\$(ConfigurationName)\</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -57,7 +57,7 @@ Public Class frmToolTrayIconPopup
 
     Private Sub ConfigureForm()
         Dim count As Integer = 0
-        For Each dPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each dPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If dPilot.Training = True And dPilot.Active = True Then
                 count += 1
                 Dim newCharBlock As New CharacterBlock(dPilot.Name)
@@ -69,7 +69,7 @@ Public Class frmToolTrayIconPopup
     End Sub
 
     Public Sub UpdateSkillTimes()
-        For Each currentPilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each currentPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If AGP1.Controls.ContainsKey(currentPilot.Name) Then
                 currentLabel = CType(AGP1.Controls(currentPilot.Name), CharacterBlock).lblTime
                 currentDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(currentPilot.TrainingEndTime)

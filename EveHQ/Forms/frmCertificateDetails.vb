@@ -30,7 +30,7 @@ Public Class frmCertificateDetails
         End Get
         Set(ByVal value As String)
             cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(value), Core.Pilot)
+            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
         End Set
     End Property
 
@@ -105,7 +105,7 @@ Public Class frmCertificateDetails
             Dim skillTrained As Boolean = False
             Dim myLevel As Integer = 0
             skillTrained = False
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
                 If displayPilot.PilotSkills.Contains(cSkill.Name) Then
                     Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
                     mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
@@ -164,7 +164,7 @@ Public Class frmCertificateDetails
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
             If displayPilot.PilotSkills.Contains(newSkill.Name) Then

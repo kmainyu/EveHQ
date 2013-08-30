@@ -98,8 +98,8 @@ Partial Class frmDashboard
         Me.Ticker1.Location = New System.Drawing.Point(0, 556)
         Me.Ticker1.Name = "Ticker1"
         Me.Ticker1.ScrollDistance = 1
-        Me.Ticker1.ScrollNumberOfImages = 10
-        Me.Ticker1.ScrollSpeed = 5
+        Me.Ticker1.ScrollNumberOfImages = 15
+        Me.Ticker1.ScrollSpeed = 6
         Me.Ticker1.Size = New System.Drawing.Size(717, 24)
         Me.Ticker1.TabIndex = 0
         '

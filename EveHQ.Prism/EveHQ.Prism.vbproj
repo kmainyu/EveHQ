@@ -11,7 +11,7 @@
     <AssemblyName>EveHQ.Prism</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>On</OptionStrict>
@@ -343,6 +343,10 @@
     <None Include="Resources\icon33_02.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
+      <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
+      <Name>EveHQ.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
@@ -354,6 +358,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
+      <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
+      <Name>EveHQ.Market</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -413,6 +421,7 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(TargetFileName) ..\..\..\evehq\$(outdir)$(TargetFileName)</PostBuildEvent>
+    <PostBuildEvent>copy /Y $(TargetDir)\*.* ..\..\..\evehq\$(outdir)\
+copy /Y $(TargetDir)*.* $(SolutionDir)BuildOutput\$(ConfigurationName)\</PostBuildEvent>
   </PropertyGroup>
 </Project>

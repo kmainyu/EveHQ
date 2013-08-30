@@ -42,7 +42,7 @@ Public Class DBCLastTransactions
         'populate Pilot ComboBox
         cboPilotList.BeginUpdate()
         cboPilotList.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If pilot.Active = True Then
                 cboPilotList.Items.Add(pilot.Name)
             End If
@@ -105,13 +105,13 @@ Public Class DBCLastTransactions
             'Get transactions XML
             Dim numTransactionsDisplay As Integer = CType(nudEntries.Value, Integer) ' how much transactions to display in listview/
             Dim transactionsXML As XmlDocument
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilotList.SelectedItem.ToString), Core.Pilot)
-            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cPilot.Account), Core.EveAccount)
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilotList.SelectedItem.ToString), Core.Pilot)
+            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(cPilot.Account), Core.EveAccount)
             Dim cCharID As String = cPilot.ID
             Dim accountKey As Integer = 1000
             Dim beforeRefID As String = ""
 
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             transactionsXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, accountKey, beforeRefID, EveAPI.APIReturnMethods.ReturnStandard)
 
             'Parse the XML document

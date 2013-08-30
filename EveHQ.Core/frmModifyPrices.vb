@@ -69,9 +69,9 @@ Public Class frmModifyPrices
             itemNode.Image = EveHQ.Core.ImageHandler.GetImage(item.ID.ToString, 24)
             ' Add Market Price cell
             Dim MarketPrice As Double = 0
-            If EveHQ.Core.HQ.MarketPriceList.ContainsKey(itemID) Then
-                MarketPrice = EveHQ.Core.HQ.MarketPriceList(itemID)
-            End If
+
+            MarketPrice = DataFunctions.GetPrice(itemID)
+
             Dim qCell As New DevComponents.AdvTree.Cell(MarketPrice.ToString("N2"))
             qCell.StyleNormal = NumberStyle
             itemNode.Cells.Add(qCell)
@@ -173,16 +173,11 @@ Public Class frmModifyPrices
         ' Add the prices
         For Each PriceNode As Node In adtPrices.Nodes
             Dim itemID As Long = CLng(PriceNode.Name)
-            Dim MarketPrice As Double = CDbl(PriceNode.Cells(1).Text)
+
             Dim CustomPrice As Double = CDbl(PriceNode.Cells(2).Text)
 
             ' Set the market price
-            If MarketPrice > 0 Then
-                Call EveHQ.Core.DataFunctions.SetMarketPrice(itemID, MarketPrice, False)
-            ElseIf MarketPrice = 0 Then
-                Call EveHQ.Core.DataFunctions.DeleteMarketPrice(itemID.ToString)
-            End If
-
+           
             ' Set the custom price
             If CustomPrice > 0 Then
                 Call EveHQ.Core.DataFunctions.SetCustomPrice(itemID, CustomPrice, False)

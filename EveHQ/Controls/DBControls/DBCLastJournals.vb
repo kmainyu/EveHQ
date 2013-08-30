@@ -45,7 +45,7 @@ Public Class DBCLastJournals
         'Populate Pilot ComboBox
         cboPilotList.BeginUpdate()
         cboPilotList.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If pilot.Active = True Then
                 cboPilotList.Items.Add(pilot.Name)
             End If
@@ -109,15 +109,15 @@ Public Class DBCLastJournals
             Dim numTransactionsDisplay As Integer = CType(nudEntries.Value, Integer) ' how much transactions to display in listview
 
             Dim transactionsXML As XmlDocument
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboPilotList.SelectedItem.ToString), Core.Pilot)
-            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cPilot.Account), Core.EveAccount)
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilotList.SelectedItem.ToString), Core.Pilot)
+            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(cPilot.Account), Core.EveAccount)
             Dim cCharID As String = cPilot.ID
             Dim accountKey As Integer = 1000
             Dim beforeRefID As String = ""
             Dim transA As Double = 0
             Dim transB As Double = 0
 
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             transactionsXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletJournalChar, cAccount.ToAPIAccount, cCharID, accountKey, 0, 256, EveAPI.APIReturnMethods.ReturnStandard)
 
             'Parse the XML document
@@ -177,7 +177,7 @@ Public Class DBCLastJournals
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             Dim refXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.RefTypes, EveAPI.APIReturnMethods.ReturnStandard)
             If refXML Is Nothing Then
                 ' Problem with the API server so let's use our resources to populate it

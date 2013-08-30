@@ -24,11 +24,14 @@ Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Text
 Imports System.IO
+Imports EveHQ.Market
+Imports System.Threading.Tasks
+Imports EveHQ.Common.Extensions
 
 Public Class PrismAssetsControl
 
     Dim HQFShip As New ArrayList
-    Dim assetList As New SortedList(Of String, AssetItem)
+    Private _assetList As New SortedList(Of String, AssetItem)
     Dim tempAssetList As New ArrayList
     Dim totalAssetValue As Double = 0
     Dim totalAssetCount As Long = 0
@@ -49,7 +52,8 @@ Public Class PrismAssetsControl
     Dim cRecyclingAssetLocation As New Node
     Dim NumberOfActiveColumns As Integer = 0
     Dim AssetColumn As New SortedList(Of String, Integer)
-
+    Private _assetNodes As New Dictionary(Of String, Node)
+    Private Const TotalValueText As String = "Total Displayed Asset Value: {0} ISK  ({1} total quantity)"
     Public ReadOnly Property RecyclingAssetList As SortedList
         Get
             Return cRecyclingAssetList
@@ -71,7 +75,7 @@ Public Class PrismAssetsControl
         Call Me.LoadFilterGroups()
 
         ' Set the value of the min system value text box
-        txtMinSystemValue.Text = CDbl(0).ToString("N2")
+        txtMinSystemValue.Text = CDbl(0).ToInvariantString("N2")
 
     End Sub
 
@@ -188,27 +192,27 @@ Public Class PrismAssetsControl
     Private Sub UpdateAssetColumnData(ByVal AssetData As AssetItem, ByVal AssetNode As Node)
 
         ' Check for custom name
-        AssetNode.Cells(AssetColumn("AssetOwner")).Tag = AssetData.typeName
+        AssetNode.Cells(AssetColumn("AssetOwner")).Tag = AssetData.TypeName
 
         ' Add subitems based on the user selected columns
         Dim colName As String = ""
         ' Add in the module name
-        If PlugInData.AssetItemNames.ContainsKey(AssetData.itemID) = True Then
-            AssetNode.Text = PlugInData.AssetItemNames(AssetData.itemID)
+        If PlugInData.AssetItemNames.ContainsKey(AssetData.ItemID) = True Then
+            AssetNode.Text = PlugInData.AssetItemNames(AssetData.ItemID)
         Else
-            AssetNode.Text = AssetData.typeName
+            AssetNode.Text = AssetData.TypeName
         End If
 
         ' Establish price & fix references to Blueprint if applicable
-        If AssetData.category = "Blueprint" Then
+        If AssetData.Category = "Blueprint" Then
             If AssetNode.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
-                AssetData.price = 0
+                AssetData.Price = 0
             Else
                 ' Check with BP Manager if this is a BPO
                 Dim IsBPO As Boolean = True
-                If PlugInData.BlueprintAssets.ContainsKey(AssetData.owner) = True Then
-                    If PlugInData.BlueprintAssets(AssetData.owner).ContainsKey(AssetData.itemID) = True Then
-                        Dim chkBPO As BlueprintAsset = PlugInData.BlueprintAssets(AssetData.owner).Item(AssetData.itemID)
+                If PlugInData.BlueprintAssets.ContainsKey(AssetData.Owner) = True Then
+                    If PlugInData.BlueprintAssets(AssetData.Owner).ContainsKey(AssetData.ItemID) = True Then
+                        Dim chkBPO As BlueprintAsset = PlugInData.BlueprintAssets(AssetData.Owner).Item(AssetData.ItemID)
                         If chkBPO.Runs > -1 Or chkBPO.BPType = BPType.Unknown Then
                             IsBPO = False
                             If chkBPO.BPType <> BPType.Unknown Then
@@ -218,60 +222,57 @@ Public Class PrismAssetsControl
                             AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                         End If
                     Else
-                        If AssetData.rawquantity = -2 Then
+                        If AssetData.RawQuantity = -2 Then
                             IsBPO = False
                         Else
                             IsBPO = True
                         End If
                     End If
                 Else
-                    If AssetData.rawquantity = -2 Then
+                    If AssetData.RawQuantity = -2 Then
                         IsBPO = False
                     Else
                         IsBPO = True
                     End If
                 End If
                 If IsBPO = True Then
-                    AssetData.Price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.TypeID), 2, MidpointRounding.AwayFromZero)
                     AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                 Else
-                    AssetData.price = 0
+                    AssetData.Price = 0
                     AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Copy)")
                 End If
             End If
-        Else
-            AssetData.Price = Math.Round(EveHQ.Core.DataFunctions.GetPrice(AssetData.TypeID), 2, MidpointRounding.AwayFromZero)
         End If
 
         ' Add the additional columns
         For Each UserCol As UserSlotColumn In Settings.PrismSettings.UserSlotColumns
             Select Case UserCol.Name
                 Case "AssetOwner"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.owner
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Owner
                 Case "AssetGroup"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.group
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Group
                 Case "AssetCategory"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.category
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Category
                 Case "AssetSystem"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.system
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.System
                 Case "AssetConstellation"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.constellation
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Constellation
                 Case "AssetRegion"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.region
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Region
                 Case "AssetSystemSec"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.systemsec
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.SystemSec
                 Case "AssetLocation"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.location
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Location
                 Case "AssetMeta"
                     AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Meta
                 Case "AssetVolume"
                     AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Volume
                 Case "AssetQuantity"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Quantity.ToString("N0")
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Quantity.ToInvariantString()
                 Case "AssetPrice"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Price.ToString("N2")
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = AssetData.Price.ToInvariantString("N2")
                 Case "AssetValue"
-                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = (AssetData.Price * AssetData.Quantity).ToString("N2")
+                    AssetNode.Cells(AssetColumn(UserCol.Name)).Text = (AssetData.Price * AssetData.Quantity).ToInvariantString("N2")
             End Select
         Next
     End Sub
@@ -341,7 +342,10 @@ Public Class PrismAssetsControl
 
 #Region "Assets XML Parsing"
     Private Sub PopulateAssets()
-        assetList.Clear()
+        _updateInProgress.Visible = True
+        Me.Enabled = False
+        _assetList.Clear()
+        _assetNodes.Clear()
         adtAssets.BeginUpdate()
         adtAssets.Nodes.Clear()
         totalAssetValue = 0
@@ -356,9 +360,9 @@ Public Class PrismAssetsControl
                 Call Me.FilterTree()
             End If
             ' Check for minimum system value
-            If chkMinSystemValue.Checked = True Then
-                Call Me.FilterSystemValue()
-            End If
+            'If chkMinSystemValue.Checked = True Then
+            '    Call Me.FilterSystemValue()
+            'End If
         End If
         If chkExcludeCash.Checked = False And txtSearch.Text = "" Then
             Call Me.DisplayISKAssets()
@@ -372,7 +376,14 @@ Public Class PrismAssetsControl
         If chkExcludeContracts.Checked = False Then
             Call Me.DisplayContracts()
         End If
-        lblTotalAssetsLabel.Text = "Total Displayed Asset Value: " & totalAssetValue.ToString("N2") & " ISK  (" & totalAssetCount.ToString("N0") & " total quantity)"
+
+
+        lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant("Calculating...", "Calculating...")
+
+        ' tree structure updated... start processing pricing data in background
+        Task.Factory.TryRun(Sub() FetchPricingData())
+
+
 
         If adtAssets.Nodes.Count = 0 Then
             adtAssets.Nodes.Add(New Node("No assets to display - check API and filters."))
@@ -384,6 +395,141 @@ Public Class PrismAssetsControl
         EveHQ.Core.AdvTreeSorter.Sort(adtAssets, 1, True, True)
         adtAssets.EndUpdate()
     End Sub
+
+    Private Sub FetchPricingData()
+        Dim distinctItemTypes As List(Of String) = (From ownedAssets As AssetItem In _assetList.Values Select ownedAssets.TypeID Distinct).ToList()
+        ' limit request batches to 50
+        Dim requestBatches As New List(Of IEnumerable(Of String))
+        If distinctItemTypes.Count > 50 Then
+            Dim x As Integer = 0
+            While x + 50 < distinctItemTypes.Count
+                requestBatches.Add(distinctItemTypes.Skip(x).Take(50))
+                x = x + 50
+            End While
+            requestBatches.Add(distinctItemTypes.Skip(x).Take(distinctItemTypes.Count - x))
+
+        Else
+            requestBatches.Add(distinctItemTypes)
+        End If
+
+        For Each batch As IEnumerable(Of String) In requestBatches
+
+            Dim batchTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(batch)
+            batchTask.Wait() ' purposely serializing these requests to be a good citizen with eve-central.
+            If batchTask.IsCompleted And batchTask.IsFaulted = False And batchTask.Exception Is Nothing And batchTask.Result IsNot Nothing Then
+                UpdateAssetPricing(batchTask.Result)
+                ' else record an error somewhere.
+            ElseIf batchTask.Exception IsNot Nothing Then
+                Throw batchTask.Exception
+            End If
+        Next
+
+        If (IsHandleCreated) Then
+            Invoke(Sub()
+                       _updateInProgress.Visible = False
+                       Me.Enabled = True
+                   End Sub)
+        End If
+
+    End Sub
+
+
+    Private Sub UpdateAssetPricing(prices As Dictionary(Of String, Double))
+
+        ' find the assests that need updating in this batch
+        Dim assetsUpdated As New List(Of AssetItem)
+        For Each itemTypeID As String In prices.Keys
+
+            Dim updatedAssets As IEnumerable(Of AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = itemTypeID Select ownedAsset.Value).Select(Function(a As AssetItem)
+                                                                                                                                                                           a.Price = prices(itemTypeID)
+                                                                                                                                                                           'totalAssetValue += a.Price * a.Quantity
+                                                                                                                                                                           totalAssetCount += a.Quantity
+                                                                                                                                                                           Return a
+                                                                                                                                                                       End Function)
+            assetsUpdated.AddRange(updatedAssets)
+
+        Next
+
+        Dim assetNodesToUpdate As New List(Of Tuple(Of Node, AssetItem))
+        ' next get a list of the nodes to update
+        For Each updatedAsset As AssetItem In assetsUpdated
+            Dim updateTarget As Node = (From assetNode In _assetNodes Where assetNode.Key = updatedAsset.ItemID Select assetNode.Value).Single
+
+
+            assetNodesToUpdate.Add(New Tuple(Of Node, AssetItem)(updateTarget, updatedAsset))
+
+        Next
+
+        'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+        If IsHandleCreated Then
+            'cut to the ui thread for update
+            Invoke(Sub()
+                       'Check to see if system value filtering is enabled
+                       Dim minSysValue As Double
+                       Dim filteringEnabled As Boolean = chkMinSystemValue.Checked And Double.TryParse(txtMinSystemValue.Text, minSysValue)
+
+                       For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
+
+                           'node value adjustment incase child nodes have updated the current value
+                           Dim nodeValue As Double = 0
+                           If (Double.TryParse(updateSet.Item1.Cells(AssetColumn("AssetValue")).Text, nodeValue)) Then
+                               updateSet.Item2.Price += nodeValue
+                           End If
+
+
+                           UpdateAssetColumnData(updateSet.Item2, updateSet.Item1)
+                           'updateSet.Item1.Cells(AssetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
+
+                           'updateSet.Item1.Cells(AssetColumn("AssetValue")).Text = (value).ToInvariantString("N2")
+                           ' update the parent and up the chain of nodes
+                           Dim value As Double = 0
+                           If (updateSet.Item2.RawQuantity > -2) Then
+                               value = (updateSet.Item2.Price * updateSet.Item2.Quantity)
+                           End If
+
+
+                           Dim parentNode As Node = updateSet.Item1.Parent
+                           Dim parentValue As Double = 0
+
+                           While parentNode IsNot Nothing
+                               If (Double.TryParse(parentNode.Cells(AssetColumn("AssetValue")).Text, parentValue)) Then
+                                   parentValue += value
+                               Else
+                                   parentValue = value
+                               End If
+                               parentNode.Cells(AssetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
+
+                               If (parentNode.Parent Is Nothing) And filteringEnabled = True Then
+                                   If parentValue >= minSysValue Then
+                                       parentNode.Visible = True
+                                   Else
+                                       parentNode.Visible = False
+                                   End If
+                               End If
+
+                               parentNode = parentNode.Parent
+                           End While
+
+
+                       Next
+                       ' Update totals
+
+                       ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
+                       ' aggregated into their values.
+                       totalAssetValue = 0
+                       Dim assetGroupTotal As Double = 0
+                       For Each assetGroup As Node In adtAssets.Nodes
+                           If (Double.TryParse(assetGroup.Cells(AssetColumn("AssetValue")).Text, assetGroupTotal)) Then
+                               totalAssetValue += assetGroupTotal
+                           End If
+                       Next
+
+                       lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
+                   End Sub)
+        End If
+    End Sub
+
+
     Private Sub ParseCorpSheets()
         ' Reset the lists of divisions and wallets
         divisions.Clear()
@@ -401,7 +547,7 @@ Public Class PrismAssetsControl
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -455,7 +601,7 @@ Public Class PrismAssetsControl
                 If OwnerAccount IsNot Nothing Then
 
                     Dim AssetXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     If Owner.IsCorp = True Then
                         assetCorpMode = chkCorpHangarMode.Checked
                         AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
@@ -470,6 +616,11 @@ Public Class PrismAssetsControl
                         Dim EveLocation As New SolarSystem
                         locList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
                         If locList.Count > 0 Then
+
+                            ' batch query the contents of the location for their prices
+                            '  Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From node In locList Let n = CType(node, XmlNode) Select n.Attributes.GetNamedItem("typeID").Value)
+                            ' priceData.Wait()
+                            'Dim prices As Dictionary(Of String, Double) = priceData.Result
                             'Dim linePrice As Double = 0
                             Dim containerPrice As Double = 0
                             Dim AssetIsInHanger As Boolean = False
@@ -558,7 +709,7 @@ Public Class PrismAssetsControl
                                         locNode.Cells(AssetColumn("AssetSystem")).Text = EveLocation.Name
                                         locNode.Cells(AssetColumn("AssetConstellation")).Text = EveLocation.Constellation
                                         locNode.Cells(AssetColumn("AssetRegion")).Text = EveLocation.Region
-                                        locNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToString("N2")
+                                        locNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToInvariantString("N2")
                                     Else
                                         locNode.Cells(AssetColumn("AssetSystem")).Text = "Unknown"
                                         locNode.Cells(AssetColumn("AssetConstellation")).Text = "Unknown"
@@ -590,12 +741,12 @@ Public Class PrismAssetsControl
                                     metaLevel = EveHQ.Core.HQ.itemData(itemID).MetaLevel.ToString
                                     If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
-                                            volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToString("N2")
+                                            volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                                         Else
-                                            volume = (EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToString("N2")
+                                            volume = (EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                                         End If
                                     Else
-                                        volume = (EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToString("N2")
+                                        volume = (EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                                     End If
                                 Else
                                     ' Can't find the item in the database
@@ -625,7 +776,7 @@ Public Class PrismAssetsControl
                                                 CreateNodeCells(hangar)
                                                 hangar.Text = CStr(divisions.Item(Owner.ID & "_" & (1000 + div).ToString))
                                                 locNode.Nodes.Add(hangar)
-                                                hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
+                                                hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToInvariantString("N2")
                                             Next
                                         End If
                                     End If
@@ -664,39 +815,52 @@ Public Class PrismAssetsControl
                                 newAssetList.ItemID = newAsset.Tag.ToString
                                 newAssetList.CorpHangar = CorpHangarName
                                 newAssetList.Station = StationLocation
-                                newAssetList.system = locNode.Text
-                                newAssetList.typeID = itemID
-                                newAssetList.typeName = itemName
-                                newAssetList.owner = Owner.Name
-                                newAssetList.group = groupName
-                                newAssetList.category = catName
+                                newAssetList.System = locNode.Text
+                                newAssetList.TypeID = itemID
+                                newAssetList.TypeName = itemName
+                                newAssetList.IsInHanger = AssetIsInHanger
+                                newAssetList.Owner = Owner.Name
+                                newAssetList.Group = groupName
+                                newAssetList.Category = catName
+                                newAssetList.IsInHanger = AssetIsInHanger
+                                ' newAssetList.Price = Math.Round(prices(newAssetList.TypeID), 2, MidpointRounding.AwayFromZero)
                                 If EveLocation IsNot Nothing Then
-                                    newAssetList.system = EveLocation.Name
-                                    newAssetList.constellation = EveLocation.Constellation
-                                    newAssetList.region = EveLocation.Region
-                                    newAssetList.systemsec = EveLocation.Security.ToString("N2")
+                                    newAssetList.System = EveLocation.Name
+                                    newAssetList.Constellation = EveLocation.Constellation
+                                    newAssetList.Region = EveLocation.Region
+                                    newAssetList.SystemSec = EveLocation.Security.ToInvariantString("N2")
                                 Else
-                                    newAssetList.system = "Unknown"
-                                    newAssetList.constellation = "Unknown"
-                                    newAssetList.region = "Unknown"
-                                    newAssetList.systemsec = "Unknown"
+                                    newAssetList.System = "Unknown"
+                                    newAssetList.Constellation = "Unknown"
+                                    newAssetList.Region = "Unknown"
+                                    newAssetList.SystemSec = "Unknown"
                                 End If
-                                newAssetList.location = flagName
-                                newAssetList.meta = metaLevel
-                                newAssetList.volume = volume
-                                newAssetList.quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
+                                newAssetList.Location = flagName
+                                newAssetList.Meta = metaLevel
+                                newAssetList.Volume = volume
+                                newAssetList.Quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
                                 If loc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
-                                    newAssetList.rawquantity = CInt(loc.Attributes.GetNamedItem("rawQuantity").Value)
+                                    newAssetList.RawQuantity = CInt(loc.Attributes.GetNamedItem("rawQuantity").Value)
                                 Else
-                                    newAssetList.rawquantity = 0
+                                    newAssetList.RawQuantity = 0
                                 End If
-                                newAssetList.price = 0
-                                totalAssetCount += newAssetList.quantity
-                                If assetList.ContainsKey(newAssetList.itemID) = False Then
-                                    assetList.Add(newAssetList.itemID, newAssetList)
+                                totalAssetCount += newAssetList.Quantity
+                                If _assetList.ContainsKey(newAssetList.ItemID) = False Then
+                                    _assetList.Add(newAssetList.ItemID, newAssetList)
                                 End If
 
                                 Call Me.UpdateAssetColumnData(newAssetList, newAsset)
+
+                                ' add a reference to the asset and the node for async price update later on.
+                                If _assetList.ContainsKey(newAssetList.ItemID) = False Then
+                                    _assetList.Add(newAssetList.ItemID, newAssetList)
+                                End If
+
+                                If _assetNodes.ContainsKey(newAssetList.ItemID) = False Then
+                                    _assetNodes.Add(newAssetList.ItemID, newAsset)
+                                End If
+
+
 
                                 ' Check if this row has child nodes and repeat
                                 If loc.HasChildNodes = True Then
@@ -706,10 +870,12 @@ Public Class PrismAssetsControl
                                 ' Update hangar price if applicable
                                 If AssetIsInHanger = True Then
                                     hangarPrice = CDbl(newAsset.Parent.Cells(AssetColumn("AssetValue")).Text)
-                                    newAsset.Parent.Cells(AssetColumn("AssetValue")).Text = (hangarPrice + CDbl(newAsset.Cells(AssetColumn("AssetValue")).Text)).ToString("N2")
+                                    newAsset.Parent.Cells(AssetColumn("AssetValue")).Text = (hangarPrice + CDbl(newAsset.Cells(AssetColumn("AssetValue")).Text)).ToInvariantString(2)
                                 End If
 
                             Next
+
+
                         End If
                     End If
 
@@ -740,8 +906,8 @@ Public Class PrismAssetsControl
                     End If
                 Next
                 totalAssetValue += locationPrice
-                cLoc.Cells(AssetColumn("AssetValue")).Text = locationPrice.ToString("N2")
-                cLoc.Cells(AssetColumn("AssetVolume")).Text = locationVolume.ToString("N2")
+                cLoc.Cells(AssetColumn("AssetValue")).Text = locationPrice.ToInvariantString("N2")
+                cLoc.Cells(AssetColumn("AssetVolume")).Text = locationVolume.ToInvariantString("N2")
                 ' Delete if no child nodes at the locations
                 If cLoc.Nodes.Count = 0 Then
                     adtAssets.Nodes.Remove(cLoc)
@@ -764,8 +930,14 @@ Public Class PrismAssetsControl
             containerPrice = CDbl(parentAsset.Cells(AssetColumn("AssetPrice")).Text)
         Else
             containerPrice = 0
-            parentAsset.Cells(AssetColumn("AssetPrice")).Text = CDbl(0).ToString("N2")
+            parentAsset.Cells(AssetColumn("AssetPrice")).Text = CDbl(0).ToInvariantString("N2")
         End If
+        ' batch query the contents of the location for their prices
+        '  Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From node In subLocList Let n = CType(node, XmlNode) Select n.Attributes.GetNamedItem("typeID").Value)
+        '  priceData.Wait()
+        ' Dim prices As Dictionary(Of String, Double) = priceData.Result
+
+
         For Each subLoc In subLocList
             Try
                 Dim ItemID As String = subLoc.Attributes.GetNamedItem("typeID").Value
@@ -787,12 +959,12 @@ Public Class PrismAssetsControl
                     metaLevel = EveHQ.Core.HQ.itemData(ItemID).MetaLevel.ToString
                     If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
-                            volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToString("N2")
+                            volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                         Else
-                            volume = (EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToString("N2")
+                            volume = (EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                         End If
                     Else
-                        volume = (EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToString("N2")
+                        volume = (EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                     End If
                 Else
                     ' Can't find the item in the database
@@ -822,7 +994,7 @@ Public Class PrismAssetsControl
                                 CreateNodeCells(hangar)
                                 hangar.Text = CStr(divisions.Item(Owner.ID & "_" & (1000 + div).ToString))
                                 parentAsset.Nodes.Add(hangar)
-                                hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
+                                hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToInvariantString("N2")
                             Next
                         End If
                         CorpHangarName = subFlagName
@@ -836,7 +1008,7 @@ Public Class PrismAssetsControl
                                 CreateNodeCells(hangar)
                                 hangar.Text = "Corp Division " & div.ToString
                                 parentAsset.Nodes.Add(hangar)
-                                hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToString("N2")
+                                hangar.Cells(AssetColumn("AssetValue")).Text = CDbl(0).ToInvariantString("N2")
                             Next
                         End If
                         CorpHangarName = subFlagName
@@ -854,11 +1026,12 @@ Public Class PrismAssetsControl
                 newAssetList.Owner = assetOwner
                 newAssetList.Group = groupName
                 newAssetList.Category = catName
+                ' newAssetList.Price = Math.Round(prices(newAssetList.TypeID), 2, MidpointRounding.AwayFromZero)
                 If EveLocation IsNot Nothing Then
                     newAssetList.System = EveLocation.Name
                     newAssetList.Constellation = EveLocation.Constellation
                     newAssetList.Region = EveLocation.Region
-                    newAssetList.SystemSec = EveLocation.Security.ToString("N2")
+                    newAssetList.SystemSec = EveLocation.Security.ToInvariantString("N2")
                 Else
                     newAssetList.System = "Unknown"
                     newAssetList.Constellation = "Unknown"
@@ -874,11 +1047,11 @@ Public Class PrismAssetsControl
                 Else
                     newAssetList.RawQuantity = 0
                 End If
-                newAssetList.Price = 0
+
                 totalAssetCount += newAssetList.Quantity
 
-                If assetList.ContainsKey(newAssetList.ItemID) = False Then
-                    assetList.Add(newAssetList.ItemID, newAssetList)
+                If _assetList.ContainsKey(newAssetList.ItemID) = False Then
+                    _assetList.Add(newAssetList.ItemID, newAssetList)
 
                     If assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
                         parentAsset.Nodes(accountID - 1000).Nodes.Add(subAsset)
@@ -890,11 +1063,21 @@ Public Class PrismAssetsControl
 
                     Call Me.UpdateAssetColumnData(newAssetList, subAsset)
 
+                    newAssetList.IsInHanger = AssetIsInHanger
+                    ' add a reference to the asset and the node for async price update later on.
+                    If _assetList.ContainsKey(newAssetList.ItemID) = False Then
+                        _assetList.Add(newAssetList.ItemID, newAssetList)
+                    End If
+
+                    If _assetNodes.ContainsKey(newAssetList.ItemID) = False Then
+                        _assetNodes.Add(newAssetList.ItemID, subAsset)
+                    End If
+
                     ' Update hangar price if applicable
                     containerPrice += (newAssetList.Price * newAssetList.Quantity)
                     If AssetIsInHanger = True Then
                         hangarPrice = CDbl(subAsset.Parent.Cells(AssetColumn("AssetValue")).Text)
-                        subAsset.Parent.Cells(AssetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToString("N2")
+                        subAsset.Parent.Cells(AssetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToInvariantString("N2")
                     End If
 
                     If subLoc.HasChildNodes = True Then
@@ -912,7 +1095,7 @@ Public Class PrismAssetsControl
                 MessageBox.Show(msg, "Error Parsing Assets File For " & assetOwner, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End Try
         Next
-        parentAsset.Cells(AssetColumn("AssetValue")).Text = containerPrice.ToString("N2")
+        parentAsset.Cells(AssetColumn("AssetValue")).Text = containerPrice.ToInvariantString("N2")
         Return containerPrice
     End Function
     Private Function SetNodeValue(ByVal PNode As Node) As Double
@@ -927,7 +1110,7 @@ Public Class PrismAssetsControl
                 NodeValue += SetNodeValue(CNode)
             Next
         End If
-        PNode.Cells(AssetColumn("AssetValue")).Text = NodeValue.ToString("N2")
+        PNode.Cells(AssetColumn("AssetValue")).Text = NodeValue.ToInvariantString("N2")
         Return NodeValue
     End Function
     Private Function SetNodeVolume(ByVal PNode As Node) As Double
@@ -942,7 +1125,7 @@ Public Class PrismAssetsControl
                 NodeVolume += SetNodeVolume(CNode)
             Next
         End If
-        PNode.Cells(AssetColumn("AssetVolume")).Text = NodeVolume.ToString("N2")
+        PNode.Cells(AssetColumn("AssetVolume")).Text = NodeVolume.ToInvariantString("N2")
         Return NodeVolume
     End Function
     Private Sub DisplayISKAssets()
@@ -956,7 +1139,7 @@ Public Class PrismAssetsControl
 
             If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
 
-                owner = PlugInData.PrismOwners(cOwner.Text)
+                Owner = PlugInData.PrismOwners(cOwner.Text)
                 Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Balances)
 
@@ -964,7 +1147,7 @@ Public Class PrismAssetsControl
 
                     If Owner.IsCorp = True Then
                         ' Check for corp wallets
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -994,7 +1177,7 @@ Public Class PrismAssetsControl
                         End If
                     Else
                         ' Check for character wallets
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -1037,10 +1220,10 @@ Public Class PrismAssetsControl
                 iskNode.Tag = pilot
                 iskNode.Text = pilot
                 personalNode.Nodes.Add(iskNode)
-                iskNode.Cells(AssetColumn("AssetValue")).Text = charWallets(pilot).ToString("N2")
+                iskNode.Cells(AssetColumn("AssetValue")).Text = charWallets(pilot).ToInvariantString("N2")
                 personalCash += CDbl(charWallets(pilot))
             Next
-            personalNode.Cells(AssetColumn("AssetValue")).Text = personalCash.ToString("N2")
+            personalNode.Cells(AssetColumn("AssetValue")).Text = personalCash.ToInvariantString("N2")
             totalCash += personalCash
         End If
         ' Add the corporate balances
@@ -1071,16 +1254,16 @@ Public Class PrismAssetsControl
                         iskNode.Text = "Wallet Division " & key.ToString
                     End If
                     corpNode.Nodes.Add(iskNode)
-                    iskNode.Cells(AssetColumn("AssetValue")).Text = corpWalletDivisions(idx).ToString("N2")
+                    iskNode.Cells(AssetColumn("AssetValue")).Text = corpWalletDivisions(idx).ToInvariantString("N2")
                     divisionCash += CDbl(corpWalletDivisions(idx))
                 Next
                 corporateCash += divisionCash
-                corpNode.Cells(AssetColumn("AssetValue")).Text = divisionCash.ToString("N2")
+                corpNode.Cells(AssetColumn("AssetValue")).Text = divisionCash.ToInvariantString("N2")
             Next
-            corporateNode.Cells(AssetColumn("AssetValue")).Text = corporateCash.ToString("N2")
+            corporateNode.Cells(AssetColumn("AssetValue")).Text = corporateCash.ToInvariantString("N2")
             totalCash += corporateCash
         End If
-        node.Cells(AssetColumn("AssetValue")).Text = totalCash.ToString("N2")
+        node.Cells(AssetColumn("AssetValue")).Text = totalCash.ToInvariantString("N2")
         totalAssetValue += totalCash
         If totalCash > 0 Then
             adtAssets.Nodes.Add(node)
@@ -1156,7 +1339,7 @@ Public Class PrismAssetsControl
                             orderNode.Cells(AssetColumn("AssetSystem")).Text = EveLocation.Name
                             orderNode.Cells(AssetColumn("AssetConstellation")).Text = EveLocation.Constellation
                             orderNode.Cells(AssetColumn("AssetRegion")).Text = EveLocation.Region
-                            orderNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToString("N2")
+                            orderNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToInvariantString("N2")
                         Else
                             orderNode.Cells(AssetColumn("AssetSystem")).Text = "Unknown"
                             orderNode.Cells(AssetColumn("AssetConstellation")).Text = "Unknown"
@@ -1164,22 +1347,22 @@ Public Class PrismAssetsControl
                             orderNode.Cells(AssetColumn("AssetSystemSec")).Text = "Unknown"
                         End If
                         orderNode.Cells(AssetColumn("AssetMeta")).Text = meta
-                        orderNode.Cells(AssetColumn("AssetVolume")).Text = CDbl(vol).ToString("N2")
-                        orderNode.Cells(AssetColumn("AssetQuantity")).Text = ownerOrder.VolRemaining.ToString("N0")
+                        orderNode.Cells(AssetColumn("AssetVolume")).Text = CDbl(vol).ToInvariantString("N2")
+                        orderNode.Cells(AssetColumn("AssetQuantity")).Text = ownerOrder.VolRemaining.ToInvariantString("N0")
                         If ownerOrder.Bid = 0 Then
-                            orderNode.Cells(AssetColumn("AssetPrice")).Text = ownerOrder.Price.ToString("N2")
-                            orderNode.Cells(AssetColumn("AssetValue")).Text = (ownerOrder.Price * ownerOrder.VolRemaining).ToString("N2")
+                            orderNode.Cells(AssetColumn("AssetPrice")).Text = ownerOrder.Price.ToInvariantString("N2")
+                            orderNode.Cells(AssetColumn("AssetValue")).Text = (ownerOrder.Price * ownerOrder.VolRemaining).ToInvariantString("N2")
                         Else
-                            orderNode.Cells(AssetColumn("AssetPrice")).Text = ownerOrder.Escrow.ToString("N2")
-                            orderNode.Cells(AssetColumn("AssetValue")).Text = (ownerOrder.Escrow * ownerOrder.VolRemaining).ToString("N2")
+                            orderNode.Cells(AssetColumn("AssetPrice")).Text = ownerOrder.Escrow.ToInvariantString("N2")
+                            orderNode.Cells(AssetColumn("AssetValue")).Text = (ownerOrder.Escrow * ownerOrder.VolRemaining).ToInvariantString("N2")
                         End If
                     End If
                 End If
             Next
         Next
-        buyOrders.Cells(AssetColumn("AssetValue")).Text = buyValue.ToString("N2")
-        sellOrders.Cells(AssetColumn("AssetValue")).Text = sellValue.ToString("N2")
-        ordersNode.Cells(AssetColumn("AssetValue")).Text = (buyValue + sellValue).ToString("N2")
+        buyOrders.Cells(AssetColumn("AssetValue")).Text = buyValue.ToInvariantString("N2")
+        sellOrders.Cells(AssetColumn("AssetValue")).Text = sellValue.ToInvariantString("N2")
+        ordersNode.Cells(AssetColumn("AssetValue")).Text = (buyValue + sellValue).ToInvariantString("N2")
         totalAssetValue += buyValue + sellValue
         If buyOrders.Nodes.Count > 0 Then
             ordersNode.Nodes.Add(buyOrders)
@@ -1202,7 +1385,7 @@ Public Class PrismAssetsControl
             Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
             Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Orders)
             Dim OrderXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
             If OwnerAccount IsNot Nothing Then
 
@@ -1266,6 +1449,12 @@ Public Class PrismAssetsControl
             If JobList IsNot Nothing Then
                 Dim category, group As String
                 Dim EveLocation As SolarSystem
+
+                ' get the job prices as a batch 
+                '  Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From j As IndustryJob In JobList Where j.ActivityID <> 8 Select CStr(j.InstalledItemTypeID))
+                ' priceData.Wait()
+                ' Dim prices As Dictionary(Of String, Double) = priceData.Result
+
                 For Each Job As IndustryJob In JobList
                     If Job.Completed = 0 Then
                         Dim RNode As New Node
@@ -1293,15 +1482,15 @@ Public Class PrismAssetsControl
                                 RNode.Cells(AssetColumn("AssetSystem")).Text = EveLocation.Name
                                 RNode.Cells(AssetColumn("AssetConstellation")).Text = EveLocation.Constellation
                                 RNode.Cells(AssetColumn("AssetRegion")).Text = EveLocation.Region
-                                RNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToString("N2")
+                                RNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToInvariantString("N2")
                             Else
                                 RNode.Cells(AssetColumn("AssetSystem")).Text = "Unknown"
                                 RNode.Cells(AssetColumn("AssetConstellation")).Text = "Unknown"
                                 RNode.Cells(AssetColumn("AssetRegion")).Text = "Unknown"
                                 RNode.Cells(AssetColumn("AssetSystemSec")).Text = "Unknown"
                             End If
-                            RNode.Cells(AssetColumn("AssetMeta")).Text = ResearchItem.MetaLevel.ToString("N0")
-                            RNode.Cells(AssetColumn("AssetVolume")).Text = ResearchItem.Volume.ToString("N2")
+                            RNode.Cells(AssetColumn("AssetMeta")).Text = ResearchItem.MetaLevel.ToInvariantString("N0")
+                            RNode.Cells(AssetColumn("AssetVolume")).Text = ResearchItem.Volume.ToInvariantString("N2")
                             RNode.Cells(AssetColumn("AssetQuantity")).Text = "1"
                             Dim price As Double = 0
                             If Job.ActivityID = 8 Then
@@ -1316,11 +1505,11 @@ Public Class PrismAssetsControl
                                     End If
                                 End If
                             Else
-                                price = EveHQ.Core.DataFunctions.GetPrice(Job.InstalledItemTypeID.ToString)
+                                ' price = prices(Job.InstalledItemTypeID.ToString)
                             End If
                             ResearchValue += price
-                            RNode.Cells(AssetColumn("AssetPrice")).Text = price.ToString("N2")
-                            RNode.Cells(AssetColumn("AssetValue")).Text = price.ToString("N2")
+                            RNode.Cells(AssetColumn("AssetPrice")).Text = price.ToInvariantString("N2")
+                            RNode.Cells(AssetColumn("AssetValue")).Text = price.ToInvariantString("N2")
                         End If
                         ' Check for manufacturing job and store the output items
                         If Job.ActivityID = 1 Then
@@ -1330,7 +1519,7 @@ Public Class PrismAssetsControl
                 Next
             End If
         Next
-        ResearchNode.Cells(AssetColumn("AssetValue")).Text = ResearchValue.ToString("N2")
+        ResearchNode.Cells(AssetColumn("AssetValue")).Text = ResearchValue.ToInvariantString("N2")
         If ResearchNode.Nodes.Count > 0 Then
             adtAssets.Nodes.Add(ResearchNode)
         End If
@@ -1364,20 +1553,20 @@ Public Class PrismAssetsControl
                 RNode.Cells(AssetColumn("AssetSystem")).Text = EveLocation.Name
                 RNode.Cells(AssetColumn("AssetConstellation")).Text = EveLocation.Constellation
                 RNode.Cells(AssetColumn("AssetRegion")).Text = EveLocation.Region
-                RNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToString("N2")
+                RNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToInvariantString("N2")
             Else
                 RNode.Cells(AssetColumn("AssetSystem")).Text = "Unknown"
                 RNode.Cells(AssetColumn("AssetConstellation")).Text = "Unknown"
                 RNode.Cells(AssetColumn("AssetRegion")).Text = "Unknown"
                 RNode.Cells(AssetColumn("AssetSystemSec")).Text = "Unknown"
             End If
-            RNode.Cells(AssetColumn("AssetMeta")).Text = ResearchItem.MetaLevel.ToString("N0")
-            RNode.Cells(AssetColumn("AssetVolume")).Text = ResearchItem.Volume.ToString("N2")
-            RNode.Cells(AssetColumn("AssetQuantity")).Text = (Job.Runs * ResearchItem.PortionSize).ToString("N0")
+            RNode.Cells(AssetColumn("AssetMeta")).Text = ResearchItem.MetaLevel.ToInvariantString("N0")
+            RNode.Cells(AssetColumn("AssetVolume")).Text = ResearchItem.Volume.ToInvariantString("N2")
+            RNode.Cells(AssetColumn("AssetQuantity")).Text = (Job.Runs * ResearchItem.PortionSize).ToInvariantString("N0")
             Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(Job.OutputTypeID.ToString)
             Dim value As Double = Job.Runs * ResearchItem.PortionSize * price
-            RNode.Cells(AssetColumn("AssetPrice")).Text = price.ToString("N2")
-            RNode.Cells(AssetColumn("AssetValue")).Text = value.ToString("N2")
+            RNode.Cells(AssetColumn("AssetPrice")).Text = price.ToInvariantString("N2")
+            RNode.Cells(AssetColumn("AssetValue")).Text = value.ToInvariantString("N2")
             Return value
         End If
     End Function
@@ -1422,7 +1611,7 @@ Public Class PrismAssetsControl
                             ContractNode.Cells(AssetColumn("AssetSystem")).Text = EveLocation.Name
                             ContractNode.Cells(AssetColumn("AssetConstellation")).Text = EveLocation.Constellation
                             ContractNode.Cells(AssetColumn("AssetRegion")).Text = EveLocation.Region
-                            ContractNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToString("N2")
+                            ContractNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToInvariantString("N2")
                         Else
                             ContractNode.Cells(AssetColumn("AssetSystem")).Text = "Unknown"
                             ContractNode.Cells(AssetColumn("AssetConstellation")).Text = "Unknown"
@@ -1432,6 +1621,10 @@ Public Class PrismAssetsControl
 
                         Dim ContractValue As Double = 0
 
+                        ' batch request price data for the collection
+                        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From item In OwnerContract.Items.Keys Select item)
+                        priceTask.Wait()
+                        Dim prices As Dictionary(Of String, Double) = priceTask.Result
                         For Each typeID As String In OwnerContract.Items.Keys
                             If EveHQ.Core.HQ.itemData.ContainsKey(typeID) = True Then
                                 Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeID)
@@ -1469,7 +1662,7 @@ Public Class PrismAssetsControl
                                     ItemNode.Cells(AssetColumn("AssetSystem")).Text = EveLocation.Name
                                     ItemNode.Cells(AssetColumn("AssetConstellation")).Text = EveLocation.Constellation
                                     ItemNode.Cells(AssetColumn("AssetRegion")).Text = EveLocation.Region
-                                    ItemNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToString("N2")
+                                    ItemNode.Cells(AssetColumn("AssetSystemSec")).Text = EveLocation.Security.ToInvariantString("N2")
                                 Else
                                     ItemNode.Cells(AssetColumn("AssetSystem")).Text = "Unknown"
                                     ItemNode.Cells(AssetColumn("AssetConstellation")).Text = "Unknown"
@@ -1477,21 +1670,21 @@ Public Class PrismAssetsControl
                                     ItemNode.Cells(AssetColumn("AssetSystemSec")).Text = "Unknown"
                                 End If
                                 ItemNode.Cells(AssetColumn("AssetMeta")).Text = meta
-                                ItemNode.Cells(AssetColumn("AssetVolume")).Text = CDbl(vol).ToString("N2")
-                                ItemNode.Cells(AssetColumn("AssetQuantity")).Text = OwnerContract.Items(typeID).ToString("N0")
-                                Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(typeID)
-                                ItemNode.Cells(AssetColumn("AssetPrice")).Text = price.ToString("N2")
-                                ItemNode.Cells(AssetColumn("AssetValue")).Text = (OwnerContract.Items(typeID) * price).ToString("N2")
+                                ItemNode.Cells(AssetColumn("AssetVolume")).Text = CDbl(vol).ToInvariantString("N2")
+                                ItemNode.Cells(AssetColumn("AssetQuantity")).Text = OwnerContract.Items(typeID).ToInvariantString("N0")
+                                Dim price As Double = prices(typeID)
+                                ItemNode.Cells(AssetColumn("AssetPrice")).Text = price.ToInvariantString("N2")
+                                ItemNode.Cells(AssetColumn("AssetValue")).Text = (OwnerContract.Items(typeID) * price).ToInvariantString("N2")
                                 ContractValue += OwnerContract.Items(typeID) * price
                             End If
 
                         Next
-                        ContractNode.Cells(AssetColumn("AssetValue")).Text = ContractValue.ToString("N2")
+                        ContractNode.Cells(AssetColumn("AssetValue")).Text = ContractValue.ToInvariantString("N2")
                     End If
                 Next
             End If
         Next
-        ContractsNode.Cells(AssetColumn("AssetValue")).Text = ContractsValue.ToString("N2")
+        ContractsNode.Cells(AssetColumn("AssetValue")).Text = ContractsValue.ToInvariantString("N2")
         totalAssetValue += ContractsValue
         If ContractsNode.Nodes.Count > 0 Then
             adtAssets.Nodes.Add(ContractsNode)
@@ -1606,7 +1799,7 @@ Public Class PrismAssetsControl
         ' This routine is shit hot!!
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
             Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
             Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
@@ -1718,7 +1911,7 @@ Public Class PrismAssetsControl
                     If OwnerAccount IsNot Nothing Then
 
                         Dim AssetXML As New XmlDocument
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         If Owner.IsCorp = True Then
                             AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         Else
@@ -1862,7 +2055,7 @@ Public Class PrismAssetsControl
                     End If
                 End If
             Next
-            lblTotalSelectedAssetValue.Text = "Total Selected Assets: Volume = " & volume.ToString("N2") & " m³ : Value = " & value.ToString("N2") & " ISK"
+            lblTotalSelectedAssetValue.Text = "Total Selected Assets: Volume = " & volume.ToInvariantString("N2") & " m³ : Value = " & value.ToInvariantString("N2") & " ISK"
         Else
             lblTotalSelectedAssetValue.Text = "Total Selected Assets: n/a"
         End If
@@ -1935,7 +2128,7 @@ Public Class PrismAssetsControl
                 If cLoc.Nodes.Count = 0 Then
                     If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(AssetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(AssetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         adtAssets.Nodes.Remove(cLoc)
-                        assetList.Remove(cLoc.Tag.ToString)
+                        _assetList.Remove(cLoc.Tag.ToString)
                         totalAssetCount -= CLng(cLoc.Cells(AssetColumn("AssetQuantity")).Text)
                         cL -= 1
                     End If
@@ -1976,7 +2169,7 @@ Public Class PrismAssetsControl
                 If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(AssetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(AssetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                     pLoc.Nodes.Remove(cLoc)
                     If cLoc.Tag IsNot Nothing Then
-                        assetList.Remove(cLoc.Tag.ToString)
+                        _assetList.Remove(cLoc.Tag.ToString)
                     End If
                     If IsNumeric(cLoc.Cells(AssetColumn("AssetQuantity")).Text) = True Then
                         totalAssetCount -= CLng(cLoc.Cells(AssetColumn("AssetQuantity")).Text)
@@ -1989,7 +2182,7 @@ Public Class PrismAssetsControl
                     If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(AssetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(AssetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         pLoc.Nodes.Remove(cLoc)
                         If cLoc.Tag IsNot Nothing Then
-                            assetList.Remove(cLoc.Tag.ToString)
+                            _assetList.Remove(cLoc.Tag.ToString)
                         End If
                         If IsNumeric(cLoc.Cells(AssetColumn("AssetQuantity")).Text) = True Then
                             totalAssetCount -= CLng(cLoc.Cells(AssetColumn("AssetQuantity")).Text)
@@ -2005,7 +2198,7 @@ Public Class PrismAssetsControl
                         cLoc.Cells(AssetColumn("AssetQuantity")).Text = ""
                         cLoc.Cells(AssetColumn("AssetPrice")).Text = ""
                         If cLoc.Tag IsNot Nothing Then
-                            assetList.Remove(cLoc.Tag.ToString)
+                            _assetList.Remove(cLoc.Tag.ToString)
                         End If
                     End If
                 End If
@@ -2020,7 +2213,7 @@ Public Class PrismAssetsControl
             ' Calculate cost of all the sub nodes
             If cLoc.Nodes.Count > 0 Then
                 locPrice = Me.CalcNodePrice(cLoc)
-                cLoc.Cells(AssetColumn("AssetValue")).Text = locPrice.ToString("N2")
+                cLoc.Cells(AssetColumn("AssetValue")).Text = locPrice.ToInvariantString("N2")
                 totalAssetValue += locPrice
             End If
         Next
@@ -2039,11 +2232,11 @@ Public Class PrismAssetsControl
                 Else
                     lineValue = 0
                 End If
-                cLoc.Cells(AssetColumn("AssetValue")).Text = lineValue.ToString("N2")
+                cLoc.Cells(AssetColumn("AssetValue")).Text = lineValue.ToInvariantString("N2")
                 contValue += lineValue
             End If
         Next
-        pLoc.Cells(AssetColumn("AssetValue")).Text = contValue.ToString("N2")
+        pLoc.Cells(AssetColumn("AssetValue")).Text = contValue.ToInvariantString("N2")
         Return contValue
     End Function
     Private Sub AddFilter()
@@ -2148,7 +2341,7 @@ Public Class PrismAssetsControl
             cLoc = pLoc.Nodes(cL)
             If cLoc.Nodes.Count = 0 Then
                 pLoc.Nodes.Remove(cLoc)
-                assetList.Remove(cLoc.Tag.ToString)
+                _assetList.Remove(cLoc.Tag.ToString)
                 If IsNumeric(cLoc.Cells(AssetColumn("AssetQuantity")).Text) Then
                     totalAssetCount -= CLng(cLoc.Cells(AssetColumn("AssetQuantity")).Text)
                 End If
@@ -2157,7 +2350,7 @@ Public Class PrismAssetsControl
                 Call FilterSystemNode(cLoc)
                 If cLoc.Nodes.Count = 0 Then
                     pLoc.Nodes.Remove(cLoc)
-                    assetList.Remove(cLoc.Tag.ToString)
+                    _assetList.Remove(cLoc.Tag.ToString)
                     If IsNumeric(cLoc.Cells(AssetColumn("AssetQuantity")).Text) Then
                         totalAssetCount -= CLng(cLoc.Cells(AssetColumn("AssetQuantity")).Text)
                     End If
@@ -2169,7 +2362,7 @@ Public Class PrismAssetsControl
                     ' Remove quantity and price information
                     cLoc.Cells(AssetColumn("AssetQuantity")).Text = ""
                     cLoc.Cells(AssetColumn("AssetPrice")).Text = ""
-                    assetList.Remove(cLoc.Tag.ToString)
+                    _assetList.Remove(cLoc.Tag.ToString)
                 End If
             End If
             cL += 1
@@ -2182,7 +2375,7 @@ Public Class PrismAssetsControl
             ' Calculate cost of all the sub nodes
             If cLoc.Nodes.Count > 0 Then
                 locPrice = Me.RecalcNodePrice(cLoc)
-                cLoc.Cells(AssetColumn("AssetValue")).Text = locPrice.ToString("N2")
+                cLoc.Cells(AssetColumn("AssetValue")).Text = locPrice.ToInvariantString("N2")
                 totalAssetValue += locPrice
             End If
         Next
@@ -2201,14 +2394,14 @@ Public Class PrismAssetsControl
                 Else
                     lineValue = 0
                 End If
-                cLoc.Cells(AssetColumn("AssetValue")).Text = lineValue.ToString("N2")
+                cLoc.Cells(AssetColumn("AssetValue")).Text = lineValue.ToInvariantString("N2")
                 contValue += lineValue
             End If
         Next
         If IsNumeric(pLoc.Cells(AssetColumn("AssetPrice")).Text) = True Then
             contValue += CDbl(pLoc.Cells(AssetColumn("AssetPrice")).Text)
         End If
-        pLoc.Cells(AssetColumn("AssetValue")).Text = contValue.ToString("N2")
+        pLoc.Cells(AssetColumn("AssetValue")).Text = contValue.ToInvariantString("N2")
         Return contValue
     End Function
     Private Sub mnuAddItemToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddItemToFilter.Click
@@ -2416,7 +2609,7 @@ Public Class PrismAssetsControl
         ' Collect all the information
         Dim AssetExport As New SortedList(Of String, AssetExportGroupedResult)
         Dim AER As New AssetExportGroupedResult
-        For Each Asset As AssetItem In assetList.Values
+        For Each Asset As AssetItem In _assetList.Values
             If AssetExport.ContainsKey(Asset.TypeName) = False Then
                 AER = New AssetExportGroupedResult
                 AER.TypeName = Asset.TypeName
@@ -2468,7 +2661,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportGroupedAssets(Assets, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar, sfd.FileName)
+                    Call Me.ExportGroupedAssets(Assets, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
@@ -2529,7 +2722,7 @@ Public Class PrismAssetsControl
 
         ' Collect all the information
         Dim Assets As New ArrayList
-        For Each Asset As AssetItem In assetList.Values
+        For Each Asset As AssetItem In _assetList.Values
             Dim AER As New AssetExportResult
             AER.Category = Asset.Category
             AER.Constellation = Asset.Constellation
@@ -2580,7 +2773,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportAssets(Assets, EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar, sfd.FileName)
+                    Call Me.ExportAssets(Assets, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
@@ -2607,7 +2800,7 @@ Public Class PrismAssetsControl
             sb.Append("Station" & SepChar)
             sb.Append("System" & SepChar)
             sb.Append("Constellation" & SepChar)
-            sb.Append("Region" & SepChar)
+            sb.Append("EveGalaticRegion" & SepChar)
             sb.Append("SystemSec" & SepChar)
             sb.Append("Quantity" & SepChar)
             sb.Append("Price" & SepChar)
@@ -2648,7 +2841,7 @@ Public Class PrismAssetsControl
     End Sub
 
 #End Region
-   
+
 
 #End Region
 

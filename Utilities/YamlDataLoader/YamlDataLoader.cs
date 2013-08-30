@@ -32,9 +32,9 @@ namespace YamlDataLoader
         /// <param name="e">Event Data payload.</param>
         private void OpenFolderDialog(object sender, EventArgs e)
         {
-            this._sourceFolderBrowseDialog.ShowDialog();
+            _sourceFolderBrowseDialog.ShowDialog();
 
-            this._sourceDataFolderPath.Text = this._sourceFolderBrowseDialog.SelectedPath;
+            _sourceDataFolderPath.Text = _sourceFolderBrowseDialog.SelectedPath;
         }
 
 

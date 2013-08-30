@@ -621,7 +621,7 @@ Imports System.ComponentModel
     End Property
 
 #End Region
-    
+
 #Region "Shield Properties"
 
     <Description("The shield hitpoint capacity of the ship")> <Category("Shield")> Public Property ShieldCapacity() As Double
@@ -1217,7 +1217,7 @@ Imports System.ComponentModel
                             cTurretSlots_Used -= 1
                         End If
                         cFittingBasePrice -= cHiSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cHiSlot(index).ID)
+
                     End If
                 Else
                     If cHiSlot(index) IsNot Nothing Then
@@ -1228,7 +1228,7 @@ Imports System.ComponentModel
                             cTurretSlots_Used -= 1
                         End If
                         cFittingBasePrice -= cHiSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cHiSlot(index).ID)
+
                     End If
                     cHiSlots_Used += 1
                     If value.IsLauncher Then
@@ -1237,7 +1237,7 @@ Imports System.ComponentModel
                         cTurretSlots_Used += 1
                     End If
                     cFittingBasePrice += value.BasePrice
-                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
+
                 End If
                 cHiSlot(index) = value
             End If
@@ -1262,17 +1262,17 @@ Imports System.ComponentModel
                     If cMidSlot(index) IsNot Nothing Then
                         cMidSlots_Used -= 1
                         cFittingBasePrice -= cMidSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cMidSlot(index).ID)
+
                     End If
                 Else
                     If cMidSlot(index) IsNot Nothing Then
                         cMidSlots_Used -= 1
                         cFittingBasePrice -= cMidSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cMidSlot(index).ID)
+
                     End If
                     cMidSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
+
                 End If
                 cMidSlot(index) = value
             End If
@@ -1297,17 +1297,17 @@ Imports System.ComponentModel
                     If cLowSlot(index) IsNot Nothing Then
                         cLowSlots_Used -= 1
                         cFittingBasePrice -= cLowSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cLowSlot(index).ID)
+
                     End If
                 Else
                     If cLowSlot(index) IsNot Nothing Then
                         cLowSlots_Used -= 1
                         cFittingBasePrice -= cLowSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cLowSlot(index).ID)
+
                     End If
                     cLowSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
+
                 End If
                 cLowSlot(index) = value
             End If
@@ -1332,17 +1332,15 @@ Imports System.ComponentModel
                     If cRigSlot(index) IsNot Nothing Then
                         cRigSlots_Used -= 1
                         cFittingBasePrice -= cRigSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cRigSlot(index).ID)
                     End If
                 Else
                     If cRigSlot(index) IsNot Nothing Then
                         cRigSlots_Used -= 1
                         cFittingBasePrice -= cRigSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cRigSlot(index).ID)
+
                     End If
                     cRigSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
                 End If
                 cRigSlot(index) = value
             End If
@@ -1367,17 +1365,17 @@ Imports System.ComponentModel
                     If cSubSlot(index) IsNot Nothing Then
                         cSubSlots_Used -= 1
                         cFittingBasePrice -= cSubSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cSubSlot(index).ID)
+
                     End If
                 Else
                     If cSubSlot(index) IsNot Nothing Then
                         cSubSlots_Used -= 1
                         cFittingBasePrice -= cSubSlot(index).BasePrice
-                        cFittingMarketPrice -= EveHQ.Core.DataFunctions.GetPrice(cSubSlot(index).ID)
+
                     End If
                     cSubSlots_Used += 1
                     cFittingBasePrice += value.BasePrice
-                    cFittingMarketPrice += EveHQ.Core.DataFunctions.GetPrice(value.ID)
+
                 End If
                 cSubSlot(index) = value
             End If

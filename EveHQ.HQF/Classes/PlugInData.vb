@@ -33,7 +33,7 @@ Public Class PlugInData
     Shared UseSerializableData As Boolean = False
     Public Shared ModuleChanges As New SortedList(Of String, String)
     Private activeForm As frmHQF
-    Shared LastCacheRefresh As String = "2.11.10"
+    Shared LastCacheRefresh As String = "2.12.0"
 
 #Region "Plug-in Interface Properties and Functions"
 
@@ -56,7 +56,7 @@ Public Class PlugInData
             ' Check for existance of HQF folder & create if not existing
             EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for HQF folder...")
             If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.appDataFolder, "HQF")
+                Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "HQF")
             Else
                 Settings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
             End If
@@ -472,7 +472,7 @@ Public Class PlugInData
         Dim EveHQPlugIn As New EveHQ.Core.PlugIn
         EveHQPlugIn.Name = "EveHQ Fitter"
         EveHQPlugIn.Description = "Allows theoretical ship setup and simulation"
-        EveHQPlugIn.Author = "Vessper"
+        EveHQPlugIn.Author = "EveHQ Team"
         EveHQPlugIn.MainMenuText = "EveHQ Fitter"
         EveHQPlugIn.RunAtStartup = True
         EveHQPlugIn.RunInIGB = False
@@ -707,7 +707,7 @@ Public Class PlugInData
                             newShip.DatabaseCategory = shipRow.Item("categoryID").ToString
                             newShip.MarketGroup = shipRow.Item("marketGroupID").ToString
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
-                            newShip.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newShip.ID)
+                            newShip.MarketPrice = 0 'EveHQ.Core.DataFunctions.GetPrice(newShip.ID)
                             newShip.Mass = CDbl(shipRow.Item("mass"))
                             newShip.Volume = CDbl(shipRow.Item("volume"))
                             newShip.CargoBay = CDbl(shipRow.Item("capacity"))
@@ -945,7 +945,7 @@ Public Class PlugInData
                 Else
                     newModule.RaceID = 0
                 End If
-                newModule.MarketPrice = EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
+                newModule.MarketPrice = 0 ' EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
                 newModule.Icon = row.Item("iconFile").ToString.Replace("res:/UI/Texture/Icons/", "").Replace(".png", "")
                 If IsDBNull(row.Item("marketGroupID")) = False Then
                     newModule.MarketGroup = row.Item("marketGroupID").ToString

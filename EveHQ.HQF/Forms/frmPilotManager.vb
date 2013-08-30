@@ -89,7 +89,7 @@ Public Class frmPilotManager
 
         ' Add the current list of pilots to the combobox
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -142,9 +142,9 @@ Public Class frmPilotManager
     End Sub
     Private Sub DisplayPilotSkills(ByVal ShowOnlyModified As Boolean)
         ' Loads the pilot skills - both defaults and revised
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(currentPilotName) = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(currentPilotName) = True Then
             ' Get Core pilot
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentPilotName), Core.Pilot)
+            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(currentPilotName), Core.Pilot)
             ' Get HQF pilot
             Dim hSkill As HQFSkill
             ' Display the skill groups
@@ -237,7 +237,7 @@ Public Class frmPilotManager
     Private Sub UpdateSkillQueues(ByVal currentPilotName As String)
         cboSkillQueue.BeginUpdate()
         cboSkillQueue.Items.Clear()
-        For Each queueName As String In CType(EveHQ.Core.HQ.EveHQSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).TrainingQueues.Keys
+        For Each queueName As String In CType(EveHQ.Core.HQ.EveHqSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).TrainingQueues.Keys
             cboSkillQueue.Items.Add(queueName)
         Next
         cboSkillQueue.EndUpdate()

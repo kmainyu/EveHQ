@@ -36,6 +36,8 @@ Partial Public Class frmSettings
         Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
         Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
         Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Item Overrides")
+        Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode17})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox()
         Me.chkDisableTrainingBar = New System.Windows.Forms.CheckBox()
@@ -305,6 +307,50 @@ Partial Public Class frmSettings
         Me.chkShowPriceTicker = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.panelSettings = New DevComponents.DotNetBar.PanelEx()
+        Me.gbItemOverrides = New System.Windows.Forms.GroupBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me._itemOverrideSellOrders = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideBuyOrders = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideAllOrders = New System.Windows.Forms.RadioButton()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me._itemOverridesActiveGrid = New DevComponents.AdvTree.AdvTree()
+        Me._itemOverridesActiveGridNameColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me._itemOverridesActiveGridItemIdColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me._itemOverridesActiveGridOrderTypeColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me._itemOverridesActiveGridMetricColumn = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me._itemOverrideRemoveOverride = New System.Windows.Forms.Button()
+        Me._itemOverrideAddOverride = New System.Windows.Forms.Button()
+        Me._itemOverrideItemList = New System.Windows.Forms.ComboBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me._itemOverridePercentPrice = New System.Windows.Forms.RadioButton()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me._itemOverrideMedianPrice = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideMinPrice = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideAvgPrice = New System.Windows.Forms.RadioButton()
+        Me._itemOverrideMaxPrice = New System.Windows.Forms.RadioButton()
+        Me.gbMarket = New System.Windows.Forms.GroupBox()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me._defaultAll = New System.Windows.Forms.RadioButton()
+        Me._defaultBuy = New System.Windows.Forms.RadioButton()
+        Me._defaultSell = New System.Windows.Forms.RadioButton()
+        Me.enableMarketDataUpload = New System.Windows.Forms.CheckBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me._systemList = New System.Windows.Forms.ListBox()
+        Me._regionList = New System.Windows.Forms.ListBox()
+        Me._useSystemPrice = New System.Windows.Forms.RadioButton()
+        Me._useRegionData = New System.Windows.Forms.RadioButton()
+        Me._usePercentile = New System.Windows.Forms.RadioButton()
+        Me._useMedianPrice = New System.Windows.Forms.RadioButton()
+        Me._useAveragePrice = New System.Windows.Forms.RadioButton()
+        Me._useMaximumPrice = New System.Windows.Forms.RadioButton()
+        Me._useMiniumPrice = New System.Windows.Forms.RadioButton()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me._marketDataProvider = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
         Me.gbGeneral.SuspendLayout()
@@ -356,6 +402,12 @@ Partial Public Class frmSettings
         Me.gbDashboard.SuspendLayout()
         Me.dbDashboardConfig.SuspendLayout()
         Me.panelSettings.SuspendLayout()
+        Me.gbItemOverrides.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        CType(Me._itemOverridesActiveGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbMarket.SuspendLayout()
+        Me.Panel2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.gpNav.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -425,7 +477,7 @@ Partial Public Class frmSettings
         Me.chkDisableTrainingBar.AutoSize = True
         Me.chkDisableTrainingBar.Location = New System.Drawing.Point(24, 149)
         Me.chkDisableTrainingBar.Name = "chkDisableTrainingBar"
-        Me.chkDisableTrainingBar.Size = New System.Drawing.Size(121, 17)
+        Me.chkDisableTrainingBar.Size = New System.Drawing.Size(120, 17)
         Me.chkDisableTrainingBar.TabIndex = 52
         Me.chkDisableTrainingBar.Text = "Disable Training Bar"
         Me.chkDisableTrainingBar.UseVisualStyleBackColor = True
@@ -435,7 +487,7 @@ Partial Public Class frmSettings
         Me.chkDisableAutoConnections.AutoSize = True
         Me.chkDisableAutoConnections.Location = New System.Drawing.Point(24, 126)
         Me.chkDisableAutoConnections.Name = "chkDisableAutoConnections"
-        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(199, 17)
+        Me.chkDisableAutoConnections.Size = New System.Drawing.Size(198, 17)
         Me.chkDisableAutoConnections.TabIndex = 51
         Me.chkDisableAutoConnections.Text = "Disable Automatic Web Connections"
         Me.chkDisableAutoConnections.UseVisualStyleBackColor = True
@@ -501,7 +553,7 @@ Partial Public Class frmSettings
         Me.chkErrorReporting.AutoSize = True
         Me.chkErrorReporting.Location = New System.Drawing.Point(24, 268)
         Me.chkErrorReporting.Name = "chkErrorReporting"
-        Me.chkErrorReporting.Size = New System.Drawing.Size(184, 17)
+        Me.chkErrorReporting.Size = New System.Drawing.Size(190, 17)
         Me.chkErrorReporting.TabIndex = 40
         Me.chkErrorReporting.Text = "Enable Integrated Error Reporting"
         Me.chkErrorReporting.UseVisualStyleBackColor = True
@@ -576,7 +628,7 @@ Partial Public Class frmSettings
         Me.chkAutoMinimise.AutoSize = True
         Me.chkAutoMinimise.Location = New System.Drawing.Point(24, 57)
         Me.chkAutoMinimise.Name = "chkAutoMinimise"
-        Me.chkAutoMinimise.Size = New System.Drawing.Size(166, 17)
+        Me.chkAutoMinimise.Size = New System.Drawing.Size(164, 17)
         Me.chkAutoMinimise.TabIndex = 1
         Me.chkAutoMinimise.Text = "Minimise When EveHQ Starts"
         Me.chkAutoMinimise.UseVisualStyleBackColor = True
@@ -586,7 +638,7 @@ Partial Public Class frmSettings
         Me.chkAutoRun.AutoSize = True
         Me.chkAutoRun.Location = New System.Drawing.Point(24, 103)
         Me.chkAutoRun.Name = "chkAutoRun"
-        Me.chkAutoRun.Size = New System.Drawing.Size(183, 17)
+        Me.chkAutoRun.Size = New System.Drawing.Size(181, 17)
         Me.chkAutoRun.TabIndex = 2
         Me.chkAutoRun.Text = "Run EveHQ on Windows Startup"
         Me.chkAutoRun.UseVisualStyleBackColor = True
@@ -596,7 +648,7 @@ Partial Public Class frmSettings
         Me.chkAutoHide.AutoSize = True
         Me.chkAutoHide.Location = New System.Drawing.Point(24, 34)
         Me.chkAutoHide.Name = "chkAutoHide"
-        Me.chkAutoHide.Size = New System.Drawing.Size(249, 17)
+        Me.chkAutoHide.Size = New System.Drawing.Size(247, 17)
         Me.chkAutoHide.TabIndex = 0
         Me.chkAutoHide.Text = "Hide EveHQ from the Taskbar when Minimising"
         Me.chkAutoHide.UseVisualStyleBackColor = True
@@ -877,7 +929,6 @@ Partial Public Class frmSettings
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -1070,7 +1121,7 @@ Partial Public Class frmSettings
         Me.rb_IGBCfgAccessMode.AutoSize = True
         Me.rb_IGBCfgAccessMode.Location = New System.Drawing.Point(185, 65)
         Me.rb_IGBCfgAccessMode.Name = "rb_IGBCfgAccessMode"
-        Me.rb_IGBCfgAccessMode.Size = New System.Drawing.Size(239, 17)
+        Me.rb_IGBCfgAccessMode.Size = New System.Drawing.Size(234, 17)
         Me.rb_IGBCfgAccessMode.TabIndex = 4
         Me.rb_IGBCfgAccessMode.Text = "Run IGB in Public Configurable Access Mode"
         Me.ToolTip1.SetToolTip(Me.rb_IGBCfgAccessMode, "Configurable Access Mode: Only The checked IGB items will be Available!")
@@ -1082,7 +1133,7 @@ Partial Public Class frmSettings
         Me.rb_IGBFullAccessMode.Checked = True
         Me.rb_IGBFullAccessMode.Location = New System.Drawing.Point(26, 65)
         Me.rb_IGBFullAccessMode.Name = "rb_IGBFullAccessMode"
-        Me.rb_IGBFullAccessMode.Size = New System.Drawing.Size(165, 17)
+        Me.rb_IGBFullAccessMode.Size = New System.Drawing.Size(161, 17)
         Me.rb_IGBFullAccessMode.TabIndex = 3
         Me.rb_IGBFullAccessMode.TabStop = True
         Me.rb_IGBFullAccessMode.Text = "Run IGB In Full Access Mode"
@@ -1094,7 +1145,7 @@ Partial Public Class frmSettings
         Me.chkStartIGBonLoad.AutoSize = True
         Me.chkStartIGBonLoad.Location = New System.Drawing.Point(229, 28)
         Me.chkStartIGBonLoad.Name = "chkStartIGBonLoad"
-        Me.chkStartIGBonLoad.Size = New System.Drawing.Size(157, 17)
+        Me.chkStartIGBonLoad.Size = New System.Drawing.Size(155, 17)
         Me.chkStartIGBonLoad.TabIndex = 2
         Me.chkStartIGBonLoad.Text = "Run IGB on EveHQ Startup"
         Me.chkStartIGBonLoad.UseVisualStyleBackColor = True
@@ -1183,7 +1234,7 @@ Partial Public Class frmSettings
         Me.chkLUA4.AutoSize = True
         Me.chkLUA4.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA4.Name = "chkLUA4"
-        Me.chkLUA4.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA4.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA4.TabIndex = 12
         Me.chkLUA4.Text = "/LUA Off?"
         Me.chkLUA4.UseVisualStyleBackColor = True
@@ -1271,7 +1322,7 @@ Partial Public Class frmSettings
         Me.chkLUA3.AutoSize = True
         Me.chkLUA3.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA3.Name = "chkLUA3"
-        Me.chkLUA3.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA3.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA3.TabIndex = 10
         Me.chkLUA3.Text = "/LUA Off?"
         Me.chkLUA3.UseVisualStyleBackColor = True
@@ -1359,7 +1410,7 @@ Partial Public Class frmSettings
         Me.chkLUA2.AutoSize = True
         Me.chkLUA2.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA2.Name = "chkLUA2"
-        Me.chkLUA2.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA2.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA2.TabIndex = 8
         Me.chkLUA2.Text = "/LUA Off?"
         Me.chkLUA2.UseVisualStyleBackColor = True
@@ -1447,7 +1498,7 @@ Partial Public Class frmSettings
         Me.chkLUA1.AutoSize = True
         Me.chkLUA1.Location = New System.Drawing.Point(6, 69)
         Me.chkLUA1.Name = "chkLUA1"
-        Me.chkLUA1.Size = New System.Drawing.Size(75, 17)
+        Me.chkLUA1.Size = New System.Drawing.Size(73, 17)
         Me.chkLUA1.TabIndex = 6
         Me.chkLUA1.Text = "/LUA Off?"
         Me.chkLUA1.UseVisualStyleBackColor = True
@@ -1519,7 +1570,7 @@ Partial Public Class frmSettings
         Me.chkStartWithPrimaryQueue.AutoSize = True
         Me.chkStartWithPrimaryQueue.Location = New System.Drawing.Point(287, 335)
         Me.chkStartWithPrimaryQueue.Name = "chkStartWithPrimaryQueue"
-        Me.chkStartWithPrimaryQueue.Size = New System.Drawing.Size(286, 17)
+        Me.chkStartWithPrimaryQueue.Size = New System.Drawing.Size(290, 17)
         Me.chkStartWithPrimaryQueue.TabIndex = 37
         Me.chkStartWithPrimaryQueue.Text = "Always show Primary Queue when opening skill training"
         Me.chkStartWithPrimaryQueue.UseVisualStyleBackColor = True
@@ -1569,7 +1620,7 @@ Partial Public Class frmSettings
         Me.chkShowCompletedSkills.AutoSize = True
         Me.chkShowCompletedSkills.Location = New System.Drawing.Point(287, 312)
         Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
-        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(194, 17)
+        Me.chkShowCompletedSkills.Size = New System.Drawing.Size(191, 17)
         Me.chkShowCompletedSkills.TabIndex = 33
         Me.chkShowCompletedSkills.Text = "Show completed skills in skill queue"
         Me.chkShowCompletedSkills.UseVisualStyleBackColor = True
@@ -1598,7 +1649,7 @@ Partial Public Class frmSettings
         Me.chkDeleteCompletedSkills.AutoSize = True
         Me.chkDeleteCompletedSkills.Location = New System.Drawing.Point(287, 289)
         Me.chkDeleteCompletedSkills.Name = "chkDeleteCompletedSkills"
-        Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(258, 17)
+        Me.chkDeleteCompletedSkills.Size = New System.Drawing.Size(262, 17)
         Me.chkDeleteCompletedSkills.TabIndex = 30
         Me.chkDeleteCompletedSkills.Text = "Automatically delete completed skills from queues"
         Me.chkDeleteCompletedSkills.UseVisualStyleBackColor = True
@@ -1799,7 +1850,7 @@ Partial Public Class frmSettings
         Me.chkUseAppDirForDB.AutoSize = True
         Me.chkUseAppDirForDB.Location = New System.Drawing.Point(99, 128)
         Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
-        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(247, 17)
+        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(248, 17)
         Me.chkUseAppDirForDB.TabIndex = 7
         Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
         Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
@@ -1914,7 +1965,7 @@ Partial Public Class frmSettings
         Me.radMSSQLDatabase.AutoSize = True
         Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
         Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
-        Me.radMSSQLDatabase.Size = New System.Drawing.Size(46, 17)
+        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
         Me.radMSSQLDatabase.TabIndex = 7
         Me.radMSSQLDatabase.Text = "SQL"
         Me.radMSSQLDatabase.UseVisualStyleBackColor = True
@@ -1924,7 +1975,7 @@ Partial Public Class frmSettings
         Me.radMSSQLWindows.AutoSize = True
         Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
         Me.radMSSQLWindows.Name = "radMSSQLWindows"
-        Me.radMSSQLWindows.Size = New System.Drawing.Size(69, 17)
+        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
         Me.radMSSQLWindows.TabIndex = 6
         Me.radMSSQLWindows.Text = "Windows"
         Me.radMSSQLWindows.UseVisualStyleBackColor = True
@@ -2014,7 +2065,7 @@ Partial Public Class frmSettings
         Me.chkProxyUseBasic.AutoSize = True
         Me.chkProxyUseBasic.Location = New System.Drawing.Point(27, 176)
         Me.chkProxyUseBasic.Name = "chkProxyUseBasic"
-        Me.chkProxyUseBasic.Size = New System.Drawing.Size(145, 17)
+        Me.chkProxyUseBasic.Size = New System.Drawing.Size(144, 17)
         Me.chkProxyUseBasic.TabIndex = 10
         Me.chkProxyUseBasic.Text = "Use Basic Authentication"
         Me.chkProxyUseBasic.UseVisualStyleBackColor = True
@@ -2060,7 +2111,7 @@ Partial Public Class frmSettings
         Me.radUseSpecifiedCreds.AutoSize = True
         Me.radUseSpecifiedCreds.Location = New System.Drawing.Point(27, 93)
         Me.radUseSpecifiedCreds.Name = "radUseSpecifiedCreds"
-        Me.radUseSpecifiedCreds.Size = New System.Drawing.Size(167, 17)
+        Me.radUseSpecifiedCreds.Size = New System.Drawing.Size(170, 17)
         Me.radUseSpecifiedCreds.TabIndex = 5
         Me.radUseSpecifiedCreds.Text = "Use the Following Credentials:"
         Me.radUseSpecifiedCreds.UseVisualStyleBackColor = True
@@ -2087,7 +2138,7 @@ Partial Public Class frmSettings
         Me.radUseDefaultCreds.Checked = True
         Me.radUseDefaultCreds.Location = New System.Drawing.Point(27, 70)
         Me.radUseDefaultCreds.Name = "radUseDefaultCreds"
-        Me.radUseDefaultCreds.Size = New System.Drawing.Size(181, 17)
+        Me.radUseDefaultCreds.Size = New System.Drawing.Size(183, 17)
         Me.radUseDefaultCreds.TabIndex = 0
         Me.radUseDefaultCreds.TabStop = True
         Me.radUseDefaultCreds.Text = "Use Existing Network Credentials"
@@ -2098,7 +2149,7 @@ Partial Public Class frmSettings
         Me.chkUseProxy.AutoSize = True
         Me.chkUseProxy.Location = New System.Drawing.Point(29, 31)
         Me.chkUseProxy.Name = "chkUseProxy"
-        Me.chkUseProxy.Size = New System.Drawing.Size(108, 17)
+        Me.chkUseProxy.Size = New System.Drawing.Size(110, 17)
         Me.chkUseProxy.TabIndex = 0
         Me.chkUseProxy.Text = "Use Proxy Server"
         Me.chkUseProxy.UseVisualStyleBackColor = True
@@ -2112,9 +2163,9 @@ Partial Public Class frmSettings
         Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
         Me.gbEveServer.Controls.Add(Me.lblServerOffset)
         Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-        Me.gbEveServer.Location = New System.Drawing.Point(195, 12)
+        Me.gbEveServer.Location = New System.Drawing.Point(705, 432)
         Me.gbEveServer.Name = "gbEveServer"
-        Me.gbEveServer.Size = New System.Drawing.Size(706, 501)
+        Me.gbEveServer.Size = New System.Drawing.Size(196, 73)
         Me.gbEveServer.TabIndex = 2
         Me.gbEveServer.TabStop = False
         Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2125,7 +2176,6 @@ Partial Public Class frmSettings
         '
         '
         '
-        Me.trackServerOffset.BackgroundStyle.Class = ""
         Me.trackServerOffset.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.trackServerOffset.LabelVisible = False
         Me.trackServerOffset.Location = New System.Drawing.Point(15, 81)
@@ -2142,7 +2192,7 @@ Partial Public Class frmSettings
         Me.chkAutoMailAPI.AutoSize = True
         Me.chkAutoMailAPI.Location = New System.Drawing.Point(18, 420)
         Me.chkAutoMailAPI.Name = "chkAutoMailAPI"
-        Me.chkAutoMailAPI.Size = New System.Drawing.Size(304, 17)
+        Me.chkAutoMailAPI.Size = New System.Drawing.Size(303, 17)
         Me.chkAutoMailAPI.TabIndex = 21
         Me.chkAutoMailAPI.Text = "Automatically Check for Mail and Notification XML Updates"
         Me.chkAutoMailAPI.UseVisualStyleBackColor = True
@@ -2185,7 +2235,7 @@ Partial Public Class frmSettings
         Me.chkUseCCPBackup.AutoSize = True
         Me.chkUseCCPBackup.Location = New System.Drawing.Point(152, 52)
         Me.chkUseCCPBackup.Name = "chkUseCCPBackup"
-        Me.chkUseCCPBackup.Size = New System.Drawing.Size(177, 17)
+        Me.chkUseCCPBackup.Size = New System.Drawing.Size(173, 17)
         Me.chkUseCCPBackup.TabIndex = 26
         Me.chkUseCCPBackup.Text = "Use CCP API Server as Backup"
         Me.chkUseCCPBackup.UseVisualStyleBackColor = True
@@ -2195,7 +2245,7 @@ Partial Public Class frmSettings
         Me.chkUseAPIRSServer.AutoSize = True
         Me.chkUseAPIRSServer.Location = New System.Drawing.Point(12, 52)
         Me.chkUseAPIRSServer.Name = "chkUseAPIRSServer"
-        Me.chkUseAPIRSServer.Size = New System.Drawing.Size(128, 17)
+        Me.chkUseAPIRSServer.Size = New System.Drawing.Size(130, 17)
         Me.chkUseAPIRSServer.TabIndex = 25
         Me.chkUseAPIRSServer.Text = "Use API Proxy Server"
         Me.chkUseAPIRSServer.UseVisualStyleBackColor = True
@@ -2237,7 +2287,7 @@ Partial Public Class frmSettings
         Me.chkEnableEveStatus.AutoSize = True
         Me.chkEnableEveStatus.Location = New System.Drawing.Point(19, 31)
         Me.chkEnableEveStatus.Name = "chkEnableEveStatus"
-        Me.chkEnableEveStatus.Size = New System.Drawing.Size(126, 17)
+        Me.chkEnableEveStatus.Size = New System.Drawing.Size(127, 17)
         Me.chkEnableEveStatus.TabIndex = 13
         Me.chkEnableEveStatus.Text = "Enable Server Status"
         Me.chkEnableEveStatus.UseVisualStyleBackColor = True
@@ -2265,7 +2315,7 @@ Partial Public Class frmSettings
         Me.chkAutoAPI.AutoSize = True
         Me.chkAutoAPI.Location = New System.Drawing.Point(18, 397)
         Me.chkAutoAPI.Name = "chkAutoAPI"
-        Me.chkAutoAPI.Size = New System.Drawing.Size(254, 17)
+        Me.chkAutoAPI.Size = New System.Drawing.Size(255, 17)
         Me.chkAutoAPI.TabIndex = 20
         Me.chkAutoAPI.Text = "Automatically Check for Character XML Updates"
         Me.chkAutoAPI.UseVisualStyleBackColor = True
@@ -2424,7 +2474,6 @@ Partial Public Class frmSettings
         '
         '
         '
-        Me.sldNotifyOffset.BackgroundStyle.Class = ""
         Me.sldNotifyOffset.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.sldNotifyOffset.LabelVisible = False
         Me.sldNotifyOffset.Location = New System.Drawing.Point(21, 200)
@@ -2440,7 +2489,7 @@ Partial Public Class frmSettings
         Me.chkIgnoreLastMessage.AutoSize = True
         Me.chkIgnoreLastMessage.Location = New System.Drawing.Point(21, 443)
         Me.chkIgnoreLastMessage.Name = "chkIgnoreLastMessage"
-        Me.chkIgnoreLastMessage.Size = New System.Drawing.Size(159, 17)
+        Me.chkIgnoreLastMessage.Size = New System.Drawing.Size(161, 17)
         Me.chkIgnoreLastMessage.TabIndex = 23
         Me.chkIgnoreLastMessage.Text = "Ignore Last Server Message"
         Me.chkIgnoreLastMessage.UseVisualStyleBackColor = True
@@ -2450,7 +2499,7 @@ Partial Public Class frmSettings
         Me.chkNotifyNotification.AutoSize = True
         Me.chkNotifyNotification.Location = New System.Drawing.Point(243, 270)
         Me.chkNotifyNotification.Name = "chkNotifyNotification"
-        Me.chkNotifyNotification.Size = New System.Drawing.Size(257, 17)
+        Me.chkNotifyNotification.Size = New System.Drawing.Size(255, 17)
         Me.chkNotifyNotification.TabIndex = 22
         Me.chkNotifyNotification.Text = "Send E-Mail when new Eve Notification received"
         Me.chkNotifyNotification.UseVisualStyleBackColor = True
@@ -2460,7 +2509,7 @@ Partial Public Class frmSettings
         Me.chkNotifyEveMail.AutoSize = True
         Me.chkNotifyEveMail.Location = New System.Drawing.Point(21, 270)
         Me.chkNotifyEveMail.Name = "chkNotifyEveMail"
-        Me.chkNotifyEveMail.Size = New System.Drawing.Size(219, 17)
+        Me.chkNotifyEveMail.Size = New System.Drawing.Size(216, 17)
         Me.chkNotifyEveMail.TabIndex = 21
         Me.chkNotifyEveMail.Text = "Send E-mail when new EveMail received"
         Me.chkNotifyEveMail.UseVisualStyleBackColor = True
@@ -2470,7 +2519,7 @@ Partial Public Class frmSettings
         Me.chkNotifyEarly.AutoSize = True
         Me.chkNotifyEarly.Location = New System.Drawing.Point(236, 153)
         Me.chkNotifyEarly.Name = "chkNotifyEarly"
-        Me.chkNotifyEarly.Size = New System.Drawing.Size(115, 17)
+        Me.chkNotifyEarly.Size = New System.Drawing.Size(116, 17)
         Me.chkNotifyEarly.TabIndex = 20
         Me.chkNotifyEarly.Text = "Before skill finishes"
         Me.chkNotifyEarly.UseVisualStyleBackColor = True
@@ -2480,7 +2529,7 @@ Partial Public Class frmSettings
         Me.chkNotifyNow.AutoSize = True
         Me.chkNotifyNow.Location = New System.Drawing.Point(98, 153)
         Me.chkNotifyNow.Name = "chkNotifyNow"
-        Me.chkNotifyNow.Size = New System.Drawing.Size(113, 17)
+        Me.chkNotifyNow.Size = New System.Drawing.Size(112, 17)
         Me.chkNotifyNow.TabIndex = 19
         Me.chkNotifyNow.Text = "When skill finishes"
         Me.chkNotifyNow.UseVisualStyleBackColor = True
@@ -2546,7 +2595,7 @@ Partial Public Class frmSettings
         Me.chkNotifyEmail.AutoSize = True
         Me.chkNotifyEmail.Location = New System.Drawing.Point(400, 89)
         Me.chkNotifyEmail.Name = "chkNotifyEmail"
-        Me.chkNotifyEmail.Size = New System.Drawing.Size(137, 17)
+        Me.chkNotifyEmail.Size = New System.Drawing.Size(136, 17)
         Me.chkNotifyEmail.TabIndex = 5
         Me.chkNotifyEmail.Text = "Send E-Mail Notifcation"
         Me.chkNotifyEmail.UseVisualStyleBackColor = True
@@ -2556,7 +2605,7 @@ Partial Public Class frmSettings
         Me.chkNotifyDialog.AutoSize = True
         Me.chkNotifyDialog.Location = New System.Drawing.Point(231, 89)
         Me.chkNotifyDialog.Name = "chkNotifyDialog"
-        Me.chkNotifyDialog.Size = New System.Drawing.Size(163, 17)
+        Me.chkNotifyDialog.Size = New System.Drawing.Size(162, 17)
         Me.chkNotifyDialog.TabIndex = 4
         Me.chkNotifyDialog.Text = "Show Dialog Box Notification"
         Me.chkNotifyDialog.UseVisualStyleBackColor = True
@@ -2566,7 +2615,7 @@ Partial Public Class frmSettings
         Me.chkNotifyToolTip.AutoSize = True
         Me.chkNotifyToolTip.Location = New System.Drawing.Point(21, 89)
         Me.chkNotifyToolTip.Name = "chkNotifyToolTip"
-        Me.chkNotifyToolTip.Size = New System.Drawing.Size(204, 17)
+        Me.chkNotifyToolTip.Size = New System.Drawing.Size(205, 17)
         Me.chkNotifyToolTip.TabIndex = 3
         Me.chkNotifyToolTip.Text = "Show System Tray Popup Notification"
         Me.chkNotifyToolTip.UseVisualStyleBackColor = True
@@ -2594,7 +2643,7 @@ Partial Public Class frmSettings
         Me.chkShutdownNotify.AutoSize = True
         Me.chkShutdownNotify.Location = New System.Drawing.Point(21, 30)
         Me.chkShutdownNotify.Name = "chkShutdownNotify"
-        Me.chkShutdownNotify.Size = New System.Drawing.Size(334, 17)
+        Me.chkShutdownNotify.Size = New System.Drawing.Size(339, 17)
         Me.chkShutdownNotify.TabIndex = 0
         Me.chkShutdownNotify.Text = "Notify of imminent completion of skill training on EveHQ shutdown"
         Me.chkShutdownNotify.UseVisualStyleBackColor = True
@@ -2629,7 +2678,7 @@ Partial Public Class frmSettings
         Me.chkUseSSL.AutoSize = True
         Me.chkUseSSL.Location = New System.Drawing.Point(219, 54)
         Me.chkUseSSL.Name = "chkUseSSL"
-        Me.chkUseSSL.Size = New System.Drawing.Size(68, 17)
+        Me.chkUseSSL.Size = New System.Drawing.Size(64, 17)
         Me.chkUseSSL.TabIndex = 14
         Me.chkUseSSL.Text = "Use SSL"
         Me.chkUseSSL.UseVisualStyleBackColor = True
@@ -2717,7 +2766,7 @@ Partial Public Class frmSettings
         Me.chkSMTPAuthentication.AutoSize = True
         Me.chkSMTPAuthentication.Location = New System.Drawing.Point(21, 274)
         Me.chkSMTPAuthentication.Name = "chkSMTPAuthentication"
-        Me.chkSMTPAuthentication.Size = New System.Drawing.Size(149, 17)
+        Me.chkSMTPAuthentication.Size = New System.Drawing.Size(146, 17)
         Me.chkSMTPAuthentication.TabIndex = 4
         Me.chkSMTPAuthentication.Text = "Use SMTP Authentication"
         Me.chkSMTPAuthentication.UseVisualStyleBackColor = True
@@ -2804,7 +2853,11 @@ Partial Public Class frmSettings
         TreeNode15.Text = "Taskbar Icon"
         TreeNode16.Name = "nodeTrainingQueue"
         TreeNode16.Text = "Training Queue"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16})
+        TreeNode17.Name = "nodeItemOverrides"
+        TreeNode17.Text = "Item Overrides"
+        TreeNode18.Name = "nodeMarket"
+        TreeNode18.Text = "Market & Price Data"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode18})
         Me.tvwSettings.Size = New System.Drawing.Size(180, 463)
         Me.tvwSettings.TabIndex = 27
         '
@@ -2845,7 +2898,7 @@ Partial Public Class frmSettings
         Me.chkDisableVisualStyles.AutoSize = True
         Me.chkDisableVisualStyles.Location = New System.Drawing.Point(19, 305)
         Me.chkDisableVisualStyles.Name = "chkDisableVisualStyles"
-        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(123, 17)
+        Me.chkDisableVisualStyles.Size = New System.Drawing.Size(122, 17)
         Me.chkDisableVisualStyles.TabIndex = 38
         Me.chkDisableVisualStyles.Text = "Disable Visual Styles"
         Me.chkDisableVisualStyles.UseVisualStyleBackColor = True
@@ -3101,7 +3154,7 @@ Partial Public Class frmSettings
         Me.chkShowPriceTicker.AutoSize = True
         Me.chkShowPriceTicker.Location = New System.Drawing.Point(13, 471)
         Me.chkShowPriceTicker.Name = "chkShowPriceTicker"
-        Me.chkShowPriceTicker.Size = New System.Drawing.Size(113, 17)
+        Me.chkShowPriceTicker.Size = New System.Drawing.Size(109, 17)
         Me.chkShowPriceTicker.TabIndex = 0
         Me.chkShowPriceTicker.Text = "Show Price Ticker"
         Me.chkShowPriceTicker.UseVisualStyleBackColor = True
@@ -3110,6 +3163,8 @@ Partial Public Class frmSettings
         '
         Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelSettings.Controls.Add(Me.gbItemOverrides)
+        Me.panelSettings.Controls.Add(Me.gbMarket)
         Me.panelSettings.Controls.Add(Me.gbEveServer)
         Me.panelSettings.Controls.Add(Me.gbEveAccounts)
         Me.panelSettings.Controls.Add(Me.gbNotifications)
@@ -3141,6 +3196,470 @@ Partial Public Class frmSettings
         Me.panelSettings.Style.GradientAngle = 90
         Me.panelSettings.TabIndex = 34
         '
+        'gbItemOverrides
+        '
+        Me.gbItemOverrides.Controls.Add(Me.Panel1)
+        Me.gbItemOverrides.Controls.Add(Me.Label10)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverridesActiveGrid)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideRemoveOverride)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideAddOverride)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideItemList)
+        Me.gbItemOverrides.Controls.Add(Me.Label9)
+        Me.gbItemOverrides.Controls.Add(Me.Label8)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverridePercentPrice)
+        Me.gbItemOverrides.Controls.Add(Me.Label7)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideMedianPrice)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideMinPrice)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideAvgPrice)
+        Me.gbItemOverrides.Controls.Add(Me._itemOverrideMaxPrice)
+        Me.gbItemOverrides.Location = New System.Drawing.Point(239, 335)
+        Me.gbItemOverrides.Name = "gbItemOverrides"
+        Me.gbItemOverrides.Size = New System.Drawing.Size(665, 184)
+        Me.gbItemOverrides.TabIndex = 36
+        Me.gbItemOverrides.TabStop = False
+        Me.gbItemOverrides.Text = "Item Market Data Overrides"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me._itemOverrideSellOrders)
+        Me.Panel1.Controls.Add(Me._itemOverrideBuyOrders)
+        Me.Panel1.Controls.Add(Me._itemOverrideAllOrders)
+        Me.Panel1.Location = New System.Drawing.Point(208, 66)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(230, 28)
+        Me.Panel1.TabIndex = 30
+        '
+        '_itemOverrideSellOrders
+        '
+        Me._itemOverrideSellOrders.AutoSize = True
+        Me._itemOverrideSellOrders.Location = New System.Drawing.Point(4, 8)
+        Me._itemOverrideSellOrders.Name = "_itemOverrideSellOrders"
+        Me._itemOverrideSellOrders.Size = New System.Drawing.Size(41, 17)
+        Me._itemOverrideSellOrders.TabIndex = 21
+        Me._itemOverrideSellOrders.TabStop = True
+        Me._itemOverrideSellOrders.Text = "Sell"
+        Me._itemOverrideSellOrders.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideBuyOrders
+        '
+        Me._itemOverrideBuyOrders.AutoSize = True
+        Me._itemOverrideBuyOrders.Location = New System.Drawing.Point(74, 8)
+        Me._itemOverrideBuyOrders.Name = "_itemOverrideBuyOrders"
+        Me._itemOverrideBuyOrders.Size = New System.Drawing.Size(43, 17)
+        Me._itemOverrideBuyOrders.TabIndex = 22
+        Me._itemOverrideBuyOrders.TabStop = True
+        Me._itemOverrideBuyOrders.Text = "Buy"
+        Me._itemOverrideBuyOrders.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideAllOrders
+        '
+        Me._itemOverrideAllOrders.AutoSize = True
+        Me._itemOverrideAllOrders.Location = New System.Drawing.Point(142, 8)
+        Me._itemOverrideAllOrders.Name = "_itemOverrideAllOrders"
+        Me._itemOverrideAllOrders.Size = New System.Drawing.Size(36, 17)
+        Me._itemOverrideAllOrders.TabIndex = 23
+        Me._itemOverrideAllOrders.TabStop = True
+        Me._itemOverrideAllOrders.Text = "All"
+        Me._itemOverrideAllOrders.UseVisualStyleBackColor = True
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Tahoma", 10.0!)
+        Me.Label10.Location = New System.Drawing.Point(286, 197)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(139, 17)
+        Me.Label10.TabIndex = 29
+        Me.Label10.Text = "Active Item Overrides"
+        '
+        '_itemOverridesActiveGrid
+        '
+        Me._itemOverridesActiveGrid.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me._itemOverridesActiveGrid.AllowDrop = True
+        Me._itemOverridesActiveGrid.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me._itemOverridesActiveGrid.BackgroundStyle.Class = "TreeBorderKey"
+        Me._itemOverridesActiveGrid.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridNameColumn)
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridItemIdColumn)
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridOrderTypeColumn)
+        Me._itemOverridesActiveGrid.Columns.Add(Me._itemOverridesActiveGridMetricColumn)
+        Me._itemOverridesActiveGrid.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me._itemOverridesActiveGrid.Location = New System.Drawing.Point(24, 220)
+        Me._itemOverridesActiveGrid.Name = "_itemOverridesActiveGrid"
+        Me._itemOverridesActiveGrid.NodesConnector = Me.NodeConnector2
+        Me._itemOverridesActiveGrid.NodeStyle = Me.ElementStyle2
+        Me._itemOverridesActiveGrid.PathSeparator = ";"
+        Me._itemOverridesActiveGrid.Size = New System.Drawing.Size(660, 253)
+        Me._itemOverridesActiveGrid.Styles.Add(Me.ElementStyle2)
+        Me._itemOverridesActiveGrid.TabIndex = 28
+        Me._itemOverridesActiveGrid.Text = "AdvTree1"
+        '
+        '_itemOverridesActiveGridNameColumn
+        '
+        Me._itemOverridesActiveGridNameColumn.Name = "_itemOverridesActiveGridNameColumn"
+        Me._itemOverridesActiveGridNameColumn.StretchToFill = True
+        Me._itemOverridesActiveGridNameColumn.Text = "Item Name"
+        Me._itemOverridesActiveGridNameColumn.Width.Absolute = 150
+        '
+        '_itemOverridesActiveGridItemIdColumn
+        '
+        Me._itemOverridesActiveGridItemIdColumn.Name = "_itemOverridesActiveGridItemIdColumn"
+        Me._itemOverridesActiveGridItemIdColumn.Text = "ItemId"
+        Me._itemOverridesActiveGridItemIdColumn.Visible = False
+        Me._itemOverridesActiveGridItemIdColumn.Width.Absolute = 150
+        '
+        '_itemOverridesActiveGridOrderTypeColumn
+        '
+        Me._itemOverridesActiveGridOrderTypeColumn.Name = "_itemOverridesActiveGridOrderTypeColumn"
+        Me._itemOverridesActiveGridOrderTypeColumn.Text = "Source Order Type"
+        Me._itemOverridesActiveGridOrderTypeColumn.Width.Absolute = 150
+        '
+        '_itemOverridesActiveGridMetricColumn
+        '
+        Me._itemOverridesActiveGridMetricColumn.Name = "_itemOverridesActiveGridMetricColumn"
+        Me._itemOverridesActiveGridMetricColumn.Text = "Price Metric"
+        Me._itemOverridesActiveGridMetricColumn.Width.Absolute = 150
+        '
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        '_itemOverrideRemoveOverride
+        '
+        Me._itemOverrideRemoveOverride.Location = New System.Drawing.Point(362, 150)
+        Me._itemOverrideRemoveOverride.Name = "_itemOverrideRemoveOverride"
+        Me._itemOverrideRemoveOverride.Size = New System.Drawing.Size(87, 26)
+        Me._itemOverrideRemoveOverride.TabIndex = 27
+        Me._itemOverrideRemoveOverride.Text = "Remove"
+        Me._itemOverrideRemoveOverride.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideAddOverride
+        '
+        Me._itemOverrideAddOverride.Location = New System.Drawing.Point(259, 150)
+        Me._itemOverrideAddOverride.Name = "_itemOverrideAddOverride"
+        Me._itemOverrideAddOverride.Size = New System.Drawing.Size(87, 26)
+        Me._itemOverrideAddOverride.TabIndex = 26
+        Me._itemOverrideAddOverride.Text = "Add / Update"
+        Me._itemOverrideAddOverride.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideItemList
+        '
+        Me._itemOverrideItemList.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+        Me._itemOverrideItemList.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me._itemOverrideItemList.FormattingEnabled = True
+        Me._itemOverrideItemList.Location = New System.Drawing.Point(275, 31)
+        Me._itemOverrideItemList.Name = "_itemOverrideItemList"
+        Me._itemOverrideItemList.Size = New System.Drawing.Size(203, 21)
+        Me._itemOverrideItemList.TabIndex = 25
+        Me._itemOverrideItemList.Text = "Select/Search an Item"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(231, 34)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(33, 13)
+        Me.Label9.TabIndex = 24
+        Me.Label9.Text = "Item:"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(127, 75)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(66, 13)
+        Me.Label8.TabIndex = 20
+        Me.Label8.Text = "Order Type:"
+        '
+        '_itemOverridePercentPrice
+        '
+        Me._itemOverridePercentPrice.AutoSize = True
+        Me._itemOverridePercentPrice.Location = New System.Drawing.Point(481, 101)
+        Me._itemOverridePercentPrice.Name = "_itemOverridePercentPrice"
+        Me._itemOverridePercentPrice.Size = New System.Drawing.Size(100, 17)
+        Me._itemOverridePercentPrice.TabIndex = 19
+        Me._itemOverridePercentPrice.TabStop = True
+        Me._itemOverridePercentPrice.Text = "Percentile (5%)"
+        Me._itemOverridePercentPrice.UseVisualStyleBackColor = True
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(127, 103)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(69, 13)
+        Me.Label7.TabIndex = 14
+        Me.Label7.Text = "Price Metric: "
+        '
+        '_itemOverrideMedianPrice
+        '
+        Me._itemOverrideMedianPrice.AutoSize = True
+        Me._itemOverrideMedianPrice.Location = New System.Drawing.Point(416, 101)
+        Me._itemOverrideMedianPrice.Name = "_itemOverrideMedianPrice"
+        Me._itemOverrideMedianPrice.Size = New System.Drawing.Size(59, 17)
+        Me._itemOverrideMedianPrice.TabIndex = 18
+        Me._itemOverrideMedianPrice.TabStop = True
+        Me._itemOverrideMedianPrice.Text = "Median"
+        Me._itemOverrideMedianPrice.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideMinPrice
+        '
+        Me._itemOverrideMinPrice.AutoSize = True
+        Me._itemOverrideMinPrice.Location = New System.Drawing.Point(212, 101)
+        Me._itemOverrideMinPrice.Name = "_itemOverrideMinPrice"
+        Me._itemOverrideMinPrice.Size = New System.Drawing.Size(65, 17)
+        Me._itemOverrideMinPrice.TabIndex = 15
+        Me._itemOverrideMinPrice.TabStop = True
+        Me._itemOverrideMinPrice.Text = "Minimum"
+        Me._itemOverrideMinPrice.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideAvgPrice
+        '
+        Me._itemOverrideAvgPrice.AutoSize = True
+        Me._itemOverrideAvgPrice.Location = New System.Drawing.Point(350, 101)
+        Me._itemOverrideAvgPrice.Name = "_itemOverrideAvgPrice"
+        Me._itemOverrideAvgPrice.Size = New System.Drawing.Size(60, 17)
+        Me._itemOverrideAvgPrice.TabIndex = 17
+        Me._itemOverrideAvgPrice.TabStop = True
+        Me._itemOverrideAvgPrice.Text = "Averge"
+        Me._itemOverrideAvgPrice.UseVisualStyleBackColor = True
+        '
+        '_itemOverrideMaxPrice
+        '
+        Me._itemOverrideMaxPrice.AutoSize = True
+        Me._itemOverrideMaxPrice.Location = New System.Drawing.Point(283, 101)
+        Me._itemOverrideMaxPrice.Name = "_itemOverrideMaxPrice"
+        Me._itemOverrideMaxPrice.Size = New System.Drawing.Size(61, 17)
+        Me._itemOverrideMaxPrice.TabIndex = 16
+        Me._itemOverrideMaxPrice.TabStop = True
+        Me._itemOverrideMaxPrice.Text = "Maxium"
+        Me._itemOverrideMaxPrice.UseVisualStyleBackColor = True
+        '
+        'gbMarket
+        '
+        Me.gbMarket.Controls.Add(Me.Label11)
+        Me.gbMarket.Controls.Add(Me.Panel2)
+        Me.gbMarket.Controls.Add(Me.enableMarketDataUpload)
+        Me.gbMarket.Controls.Add(Me.GroupBox1)
+        Me.gbMarket.Controls.Add(Me._usePercentile)
+        Me.gbMarket.Controls.Add(Me._useMedianPrice)
+        Me.gbMarket.Controls.Add(Me._useAveragePrice)
+        Me.gbMarket.Controls.Add(Me._useMaximumPrice)
+        Me.gbMarket.Controls.Add(Me._useMiniumPrice)
+        Me.gbMarket.Controls.Add(Me.Label5)
+        Me.gbMarket.Controls.Add(Me._marketDataProvider)
+        Me.gbMarket.Controls.Add(Me.Label1)
+        Me.gbMarket.Location = New System.Drawing.Point(248, 29)
+        Me.gbMarket.Name = "gbMarket"
+        Me.gbMarket.Size = New System.Drawing.Size(483, 290)
+        Me.gbMarket.TabIndex = 35
+        Me.gbMarket.TabStop = False
+        Me.gbMarket.Text = "Market and Price Data"
+        Me.gbMarket.Visible = False
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(16, 68)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(135, 13)
+        Me.Label11.TabIndex = 15
+        Me.Label11.Text = "Default Transaction Type: "
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me._defaultAll)
+        Me.Panel2.Controls.Add(Me._defaultBuy)
+        Me.Panel2.Controls.Add(Me._defaultSell)
+        Me.Panel2.Location = New System.Drawing.Point(163, 62)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(328, 25)
+        Me.Panel2.TabIndex = 14
+        '
+        '_defaultAll
+        '
+        Me._defaultAll.AutoSize = True
+        Me._defaultAll.Location = New System.Drawing.Point(141, 4)
+        Me._defaultAll.Name = "_defaultAll"
+        Me._defaultAll.Size = New System.Drawing.Size(36, 17)
+        Me._defaultAll.TabIndex = 18
+        Me._defaultAll.TabStop = True
+        Me._defaultAll.Text = "All"
+        Me._defaultAll.UseVisualStyleBackColor = True
+        '
+        '_defaultBuy
+        '
+        Me._defaultBuy.AutoSize = True
+        Me._defaultBuy.Location = New System.Drawing.Point(73, 4)
+        Me._defaultBuy.Name = "_defaultBuy"
+        Me._defaultBuy.Size = New System.Drawing.Size(43, 17)
+        Me._defaultBuy.TabIndex = 17
+        Me._defaultBuy.TabStop = True
+        Me._defaultBuy.Text = "Buy"
+        Me._defaultBuy.UseVisualStyleBackColor = True
+        '
+        '_defaultSell
+        '
+        Me._defaultSell.AutoSize = True
+        Me._defaultSell.Location = New System.Drawing.Point(3, 4)
+        Me._defaultSell.Name = "_defaultSell"
+        Me._defaultSell.Size = New System.Drawing.Size(41, 17)
+        Me._defaultSell.TabIndex = 16
+        Me._defaultSell.TabStop = True
+        Me._defaultSell.Text = "Sell"
+        Me._defaultSell.UseVisualStyleBackColor = True
+        '
+        'enableMarketDataUpload
+        '
+        Me.enableMarketDataUpload.AutoSize = True
+        Me.enableMarketDataUpload.Location = New System.Drawing.Point(313, 37)
+        Me.enableMarketDataUpload.Name = "enableMarketDataUpload"
+        Me.enableMarketDataUpload.Size = New System.Drawing.Size(166, 17)
+        Me.enableMarketDataUpload.TabIndex = 13
+        Me.enableMarketDataUpload.Text = "Enable Market Data Uploader"
+        Me.enableMarketDataUpload.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me._systemList)
+        Me.GroupBox1.Controls.Add(Me._regionList)
+        Me.GroupBox1.Controls.Add(Me._useSystemPrice)
+        Me.GroupBox1.Controls.Add(Me._useRegionData)
+        Me.GroupBox1.Location = New System.Drawing.Point(23, 111)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(558, 369)
+        Me.GroupBox1.TabIndex = 11
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Data Sample Source"
+        '
+        '_systemList
+        '
+        Me._systemList.FormattingEnabled = True
+        Me._systemList.Location = New System.Drawing.Point(292, 67)
+        Me._systemList.Name = "_systemList"
+        Me._systemList.Size = New System.Drawing.Size(207, 290)
+        Me._systemList.TabIndex = 3
+        '
+        '_regionList
+        '
+        Me._regionList.FormattingEnabled = True
+        Me._regionList.Location = New System.Drawing.Point(36, 66)
+        Me._regionList.Name = "_regionList"
+        Me._regionList.Size = New System.Drawing.Size(207, 290)
+        Me._regionList.TabIndex = 1
+        '
+        '_useSystemPrice
+        '
+        Me._useSystemPrice.AutoSize = True
+        Me._useSystemPrice.Location = New System.Drawing.Point(331, 18)
+        Me._useSystemPrice.Name = "_useSystemPrice"
+        Me._useSystemPrice.Size = New System.Drawing.Size(120, 17)
+        Me._useSystemPrice.TabIndex = 9
+        Me._useSystemPrice.TabStop = True
+        Me._useSystemPrice.Text = "Use Specific System"
+        Me._useSystemPrice.UseVisualStyleBackColor = True
+        '
+        '_useRegionData
+        '
+        Me._useRegionData.AutoSize = True
+        Me._useRegionData.Location = New System.Drawing.Point(66, 18)
+        Me._useRegionData.Name = "_useRegionData"
+        Me._useRegionData.Size = New System.Drawing.Size(128, 17)
+        Me._useRegionData.TabIndex = 8
+        Me._useRegionData.TabStop = True
+        Me._useRegionData.Text = "Use Selected Regions"
+        Me._useRegionData.UseVisualStyleBackColor = True
+        '
+        '_usePercentile
+        '
+        Me._usePercentile.AutoSize = True
+        Me._usePercentile.Location = New System.Drawing.Point(435, 87)
+        Me._usePercentile.Name = "_usePercentile"
+        Me._usePercentile.Size = New System.Drawing.Size(100, 17)
+        Me._usePercentile.TabIndex = 7
+        Me._usePercentile.TabStop = True
+        Me._usePercentile.Text = "Percentile (5%)"
+        Me._usePercentile.UseVisualStyleBackColor = True
+        '
+        '_useMedianPrice
+        '
+        Me._useMedianPrice.AutoSize = True
+        Me._useMedianPrice.Location = New System.Drawing.Point(370, 87)
+        Me._useMedianPrice.Name = "_useMedianPrice"
+        Me._useMedianPrice.Size = New System.Drawing.Size(59, 17)
+        Me._useMedianPrice.TabIndex = 6
+        Me._useMedianPrice.TabStop = True
+        Me._useMedianPrice.Text = "Median"
+        Me._useMedianPrice.UseVisualStyleBackColor = True
+        '
+        '_useAveragePrice
+        '
+        Me._useAveragePrice.AutoSize = True
+        Me._useAveragePrice.Location = New System.Drawing.Point(304, 87)
+        Me._useAveragePrice.Name = "_useAveragePrice"
+        Me._useAveragePrice.Size = New System.Drawing.Size(60, 17)
+        Me._useAveragePrice.TabIndex = 5
+        Me._useAveragePrice.TabStop = True
+        Me._useAveragePrice.Text = "Averge"
+        Me._useAveragePrice.UseVisualStyleBackColor = True
+        '
+        '_useMaximumPrice
+        '
+        Me._useMaximumPrice.AutoSize = True
+        Me._useMaximumPrice.Location = New System.Drawing.Point(237, 87)
+        Me._useMaximumPrice.Name = "_useMaximumPrice"
+        Me._useMaximumPrice.Size = New System.Drawing.Size(61, 17)
+        Me._useMaximumPrice.TabIndex = 4
+        Me._useMaximumPrice.TabStop = True
+        Me._useMaximumPrice.Text = "Maxium"
+        Me._useMaximumPrice.UseVisualStyleBackColor = True
+        '
+        '_useMiniumPrice
+        '
+        Me._useMiniumPrice.AutoSize = True
+        Me._useMiniumPrice.Location = New System.Drawing.Point(166, 87)
+        Me._useMiniumPrice.Name = "_useMiniumPrice"
+        Me._useMiniumPrice.Size = New System.Drawing.Size(65, 17)
+        Me._useMiniumPrice.TabIndex = 3
+        Me._useMiniumPrice.TabStop = True
+        Me._useMiniumPrice.Text = "Minimum"
+        Me._useMiniumPrice.UseVisualStyleBackColor = True
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(44, 89)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(107, 13)
+        Me.Label5.TabIndex = 2
+        Me.Label5.Text = "Default Price Metric: "
+        '
+        '_marketDataProvider
+        '
+        Me._marketDataProvider.FormattingEnabled = True
+        Me._marketDataProvider.Location = New System.Drawing.Point(105, 35)
+        Me._marketDataProvider.Name = "_marketDataProvider"
+        Me._marketDataProvider.Size = New System.Drawing.Size(165, 21)
+        Me._marketDataProvider.TabIndex = 1
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(22, 38)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(77, 13)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Data Provider:"
+        '
         'gpNav
         '
         Me.gpNav.CanvasColor = System.Drawing.SystemColors.Control
@@ -3164,7 +3683,6 @@ Partial Public Class frmSettings
         Me.gpNav.Style.BorderRightWidth = 1
         Me.gpNav.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpNav.Style.BorderTopWidth = 1
-        Me.gpNav.Style.Class = ""
         Me.gpNav.Style.CornerDiameter = 4
         Me.gpNav.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpNav.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -3173,12 +3691,10 @@ Partial Public Class frmSettings
         '
         '
         '
-        Me.gpNav.StyleMouseDown.Class = ""
         Me.gpNav.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpNav.StyleMouseOver.Class = ""
         Me.gpNav.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpNav.TabIndex = 34
         Me.gpNav.Text = "Settings Navigation"
@@ -3279,6 +3795,17 @@ Partial Public Class frmSettings
         Me.dbDashboardConfig.ResumeLayout(False)
         Me.dbDashboardConfig.PerformLayout()
         Me.panelSettings.ResumeLayout(False)
+        Me.gbItemOverrides.ResumeLayout(False)
+        Me.gbItemOverrides.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        CType(Me._itemOverridesActiveGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbMarket.ResumeLayout(False)
+        Me.gbMarket.PerformLayout()
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.gpNav.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -3295,7 +3822,7 @@ Partial Public Class frmSettings
     Friend WithEvents colAccount As System.Windows.Forms.ColumnHeader
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents colID As System.Windows.Forms.ColumnHeader
-	Friend WithEvents gbGeneral As System.Windows.Forms.GroupBox
+    Friend WithEvents gbGeneral As System.Windows.Forms.GroupBox
     Friend WithEvents chkAutoRun As System.Windows.Forms.CheckBox
     Friend WithEvents chkAutoHide As System.Windows.Forms.CheckBox
     Friend WithEvents chkAutoMinimise As System.Windows.Forms.CheckBox
@@ -3553,4 +4080,48 @@ Partial Public Class frmSettings
     Friend WithEvents colAccountStatus As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents gbMarket As System.Windows.Forms.GroupBox
+    Private WithEvents _systemList As System.Windows.Forms.ListBox
+    Friend WithEvents _useSystemPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _regionList As System.Windows.Forms.ListBox
+    Friend WithEvents _useRegionData As System.Windows.Forms.RadioButton
+    Friend WithEvents _usePercentile As System.Windows.Forms.RadioButton
+    Friend WithEvents _useMedianPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _useAveragePrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _useMaximumPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _useMiniumPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Private WithEvents _marketDataProvider As System.Windows.Forms.ComboBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents enableMarketDataUpload As System.Windows.Forms.CheckBox
+    Friend WithEvents gbItemOverrides As System.Windows.Forms.GroupBox
+    Friend WithEvents _itemOverridePercentPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents _itemOverrideMedianPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideMinPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideAvgPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideMaxPrice As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideBuyOrders As System.Windows.Forms.RadioButton
+    Friend WithEvents _itemOverrideSellOrders As System.Windows.Forms.RadioButton
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents _itemOverrideAllOrders As System.Windows.Forms.RadioButton
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents _itemOverridesActiveGrid As DevComponents.AdvTree.AdvTree
+    Private WithEvents _itemOverridesActiveGridNameColumn As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents _itemOverridesActiveGridItemIdColumn As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents _itemOverridesActiveGridOrderTypeColumn As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents _itemOverridesActiveGridMetricColumn As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
+    Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents _itemOverrideRemoveOverride As System.Windows.Forms.Button
+    Friend WithEvents _itemOverrideAddOverride As System.Windows.Forms.Button
+    Friend WithEvents _itemOverrideItemList As System.Windows.Forms.ComboBox
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label11 As System.Windows.Forms.Label
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents _defaultAll As System.Windows.Forms.RadioButton
+    Friend WithEvents _defaultBuy As System.Windows.Forms.RadioButton
+    Friend WithEvents _defaultSell As System.Windows.Forms.RadioButton
 End Class

@@ -386,7 +386,7 @@ namespace ZedGraph
 							else
 								pixClose = valueAxis.Scale.Transform( curve.IsOverrideOrdinal, i, close );
 
-							if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+							if ( !curve.IsSelected && _gradientFill.IsGradientValueType )
 							{
 								using ( Pen tPen = GetPen( pane, scaleFactor, pt ) )
 									Draw( g, pane, baseAxis is XAxis || baseAxis is X2Axis,

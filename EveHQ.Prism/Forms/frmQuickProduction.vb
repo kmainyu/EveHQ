@@ -20,6 +20,7 @@
 
 Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports System.Threading.Tasks
 
 Public Class frmQuickProduction
 
@@ -79,10 +80,12 @@ Public Class frmQuickProduction
     Private Sub DisplayMaterials(CurrentJob As ProductionJob)
         adtResources.BeginUpdate()
         adtResources.Nodes.Clear()
-        Dim maxProducableUnits As Long = -1
         Dim UnitMaterial As Double = 0
         Dim UnitWaste As Double = 0
         If CurrentJob IsNot Nothing Then
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
+            priceTask.Wait()
+            Dim prices As Dictionary(Of String, Double) = priceTask.Result
             For Each resource As Object In CurrentJob.RequiredResources.Values
                 If TypeOf (resource) Is RequiredResource Then
                     ' This is a resource so add it
@@ -91,7 +94,7 @@ Public Class frmQuickProduction
                         Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
                         Dim waste As Integer = CInt(rResource.WasteUnits)
                         Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(CStr(rResource.TypeID))
+                        Dim price As Double = prices(CStr(rResource.TypeID))
                         Dim value As Double = total * price
                         ' Add a new list view item
                         If total > 0 Then
@@ -100,8 +103,7 @@ Public Class frmQuickProduction
                             ' Calculate costs
                             UnitMaterial += value
                             UnitWaste += waste * price
-                            Dim PerfectTotal As Long = CLng(perfectRaw) * CLng(CurrentJob.Runs)
-                            Dim WasteTotal As Long = CLng(waste) * CLng(CurrentJob.Runs)
+
                             Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
                             newRes.Cells.Add(New Cell(TotalTotal.ToString))
                             newRes.Cells(1).TextDisplayFormat = "N0"

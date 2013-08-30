@@ -57,7 +57,7 @@ Public Class frmAPIChecker
                 ' Update the character list
                 cboAPIOwner.BeginUpdate()
                 cboAPIOwner.Items.Clear()
-                For Each APIPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+                For Each APIPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
                     If APIPilot.Account <> "" Then
                         cboAPIOwner.Items.Add(APIPilot.Name)
                     End If
@@ -76,7 +76,7 @@ Public Class frmAPIChecker
                 ' Update the corporation list
                 cboAPIOwner.BeginUpdate()
                 cboAPIOwner.Items.Clear()
-                For Each APICorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHQSettings.Corporations.Values
+                For Each APICorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHqSettings.Corporations.Values
                     If APICorp.Accounts(0) <> "" Then
                         cboAPIOwner.Items.Add(APICorp.Name)
                     End If
@@ -95,7 +95,7 @@ Public Class frmAPIChecker
                 ' Update the account list
                 cboAPIOwner.BeginUpdate()
                 cboAPIOwner.Items.Clear()
-                For Each APIAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                For Each APIAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
                     cboAPIOwner.Items.Add(APIAccount.FriendlyName)
                 Next
                 cboAPIOwner.EndUpdate()
@@ -240,13 +240,13 @@ Public Class frmAPIChecker
 
         Select Case cboAPICategory.SelectedItem.ToString
             Case "Character"
-                APIAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).Account), EveHQ.Core.EveAccount)
-                OwnerID = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).ID
+                APIAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).Account), EveHQ.Core.EveAccount)
+                OwnerID = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).ID
             Case "Corporation"
-                APIAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(EveHQ.Core.HQ.EveHQSettings.Corporations(cboAPIOwner.SelectedItem.ToString).Accounts(0)), EveHQ.Core.EveAccount)
-                OwnerID = EveHQ.Core.HQ.EveHQSettings.Corporations(cboAPIOwner.SelectedItem.ToString).ID
+                APIAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(EveHQ.Core.HQ.EveHqSettings.Corporations(cboAPIOwner.SelectedItem.ToString).Accounts(0)), EveHQ.Core.EveAccount)
+                OwnerID = EveHQ.Core.HQ.EveHqSettings.Corporations(cboAPIOwner.SelectedItem.ToString).ID
             Case "Account"
-                For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+                For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
                     If CheckAccount.FriendlyName = cboAPIOwner.SelectedItem.ToString Then
                         APIAccount = CheckAccount
                         OwnerID = CheckAccount.userID
@@ -282,7 +282,7 @@ Public Class frmAPIChecker
                 End If
             End If
         End If
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         Try
             Select Case APIStyle
                 Case 1

@@ -384,6 +384,7 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.Controls.Add(Me.rpCore)
         Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Controls.Add(Me.rpPlugins)
+        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
         Me.RibbonControl1.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.rtiCore, Me.rtiPlugins, Me.rtiReports, Me.btnTheme})
         Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
@@ -1619,7 +1620,7 @@ Partial Public Class frmEveHQ
         Me.btnViewPrices.SubItemsExpandWidth = 14
         Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPrices, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Prices System", "The prices system allows you to download market and faction prices from third par" & _
             "ty sites, as well as providing your own custom prices.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Market32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewPrices.Text = "Prices System"
+        Me.btnViewPrices.Text = "Market Prices"
         '
         'btnViewDashboard
         '
@@ -2243,6 +2244,7 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.ResumeLayout(False)
         Me.RibbonControl1.PerformLayout()
         Me.rpReports.ResumeLayout(False)
+        Me.rpCore.ResumeLayout(False)
         Me.rpCore.ResumeLayout(False)
         Me.DockSite4.ResumeLayout(False)
         CType(Me.Bar1, System.ComponentModel.ISupportInitialize).EndInit()

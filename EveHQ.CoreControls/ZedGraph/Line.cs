@@ -483,7 +483,7 @@ namespace ZedGraph
 							if ( pixY < pane.Chart._rect.Top )
 								pixY = pane.Chart._rect.Top;
 
-							if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+							if ( !curve.IsSelected && _gradientFill.IsGradientValueType )
 							{
 								using ( Pen tPen = GetPen( pane, scaleFactor, pt ) )
 									g.DrawLine( tPen, pixX, pixY, pixX, basePix );
@@ -753,7 +753,7 @@ namespace ZedGraph
 														lastX, lastY, tmpX, tmpY );
 									else if ( !isOut )
 									{
-										if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+										if ( !curve.IsSelected && _gradientFill.IsGradientValueType )
 										{
 											using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
 											{
@@ -946,7 +946,7 @@ namespace ZedGraph
 														lastX, lastY, tmpX, tmpY );
 									else if ( !isOut )
 									{
-										if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+										if ( !curve.IsSelected && _gradientFill.IsGradientValueType )
 										{
 											using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
 											{
@@ -1095,7 +1095,7 @@ namespace ZedGraph
 				else 		// non-step
 					g.DrawLine( pen, lastX, lastY, tmpX, tmpY );
 				*/
-				if ( !curve.IsSelected && this._gradientFill.IsGradientValueType )
+				if ( !curve.IsSelected && _gradientFill.IsGradientValueType )
 				{
 					using ( Pen tPen = GetPen( pane, scaleFactor, lastPt ) )
 					{

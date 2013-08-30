@@ -66,7 +66,7 @@ Public Class SkillQueueFunctions
             If QuickBuild = False Then Call CheckSkillOrder(qPilot, bQueue)
             ' Check if we need to covertly delete skills!
             ' Deletes completed skills if appropriate
-            If EveHQ.Core.HQ.EveHQSettings.DeleteSkills = True Then
+            If EveHQ.Core.HQ.EveHqSettings.DeleteSkills = True Then
                 EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, bQueue)
             End If
         Catch ex As Exception

@@ -20,6 +20,10 @@
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Text
+Imports System.Threading.Tasks
+Imports DevComponents.AdvTree
+Imports EveHQ.Market
+Imports EveHQ.Common.Extensions
 
 Public Class frmRequisitions
 
@@ -46,7 +50,7 @@ Public Class frmRequisitions
         cboAssetSelection.BeginUpdate()
         cboAssetSelection.Items.Clear()
         ' Add in pilots
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHQSettings.Pilots
+        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
             If cPilot.Active = True Then
                 If cPilot.Account <> "" Then
                     cboAssetSelection.Items.Add(cPilot.Name)
@@ -54,9 +58,9 @@ Public Class frmRequisitions
             End If
         Next
         ' Add in corps
-        For Each cCorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHQSettings.Corporations.Values
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(cCorp.Accounts(0)) Then
-                Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(cCorp.Accounts(0)), EveAccount)
+        For Each cCorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHqSettings.Corporations.Values
+            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(cCorp.Accounts(0)) Then
+                Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(cCorp.Accounts(0)), EveAccount)
                 If cAccount.CanUseCorporateAPI(EveAPI.CorporateAccessMasks.AssetList) = True Then
                     cboAssetSelection.Items.Add(cCorp.Name)
                 End If
@@ -289,13 +293,14 @@ Public Class frmRequisitions
         NumberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
         adtOrders.BeginUpdate()
         adtOrders.Nodes.Clear()
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From o In Req.Orders.Values Select o.ItemID)
         For Each order As RequisitionOrder In Req.Orders.Values
             Dim OrderOwned As Long = 0
             Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(order.ItemID)
             Dim UnitCost As Double = 0
             Dim orderNode As New DevComponents.AdvTree.Node
             orderNode.Text = order.ItemName
-            orderNode.Name = order.ItemName
+            orderNode.Name = order.ItemID
             orderNode.Image = EveHQ.Core.ImageHandler.GetImage(item.ID.ToString, 20)
             ' Add Quantity cell
             Dim qCell As New DevComponents.AdvTree.Cell(order.ItemQuantity.ToString("N0"))
@@ -310,12 +315,14 @@ Public Class frmRequisitions
             vCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(vCell)
             ' Add Unit Cost cell
-            UnitCost = EveHQ.Core.DataFunctions.GetPrice(order.ItemID)
-            Dim ucCell As New DevComponents.AdvTree.Cell(UnitCost.ToString("N2"))
+            ' UnitCost = prices(order.ItemID)
+            Dim ucCell As New DevComponents.AdvTree.Cell("Processing...")
+            ucCell.TextDisplayFormat = "N2"
             ucCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(ucCell)
             ' Add Total Cost cell
-            Dim tcCell As New DevComponents.AdvTree.Cell((UnitCost * order.ItemQuantity).ToString("N2"))
+            Dim tcCell As New DevComponents.AdvTree.Cell("Processing...")
+            tcCell.TextDisplayFormat = "N2"
             tcCell.StyleNormal = NumberStyle
             orderNode.Cells.Add(tcCell)
             ' Add Owned cell
@@ -349,16 +356,51 @@ Public Class frmRequisitions
             TotalItemsReqd += Math.Max(order.ItemQuantity - OrderOwned, 0)
             TotalVolume += item.Volume * order.ItemQuantity
             TotalVolumeReqd += (item.Volume * (Math.Max(order.ItemQuantity - OrderOwned, 0)))
-            TotalCost += (UnitCost * order.ItemQuantity)
-            TotalCostReqd += (UnitCost * (Math.Max(order.ItemQuantity - OrderOwned, 0)))
+          
         Next
         adtOrders.EndUpdate()
         ' Update summary information
         lblSummary.Text = "Summary - " & Req.Name
         lblUniqueItems.Text = Req.Orders.Count.ToString("N0")
-        lblTotalItems.Text = TotalItems.ToString("N0") & " (" & TotalItemsReqd.ToString("N0") & ")"
-        lblTotalCost.Text = "Total: " & TotalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & TotalCostReqd.ToString("N2") & " ISK"
-        lblTotalVolume.Text = "Total: " & TotalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & TotalVolumeReqd.ToString("N2") & " m³"
+
+        ' Update Pricing from task
+        priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
+                                   'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                   If IsHandleCreated Then
+                                       Dim priceData As Dictionary(Of String, Double) = currentTask.Result
+                                       ' cut over to main thread
+                                       Invoke(Sub()
+                                                  For Each row As Node In adtOrders.Nodes
+                                                      Dim price As Double
+                                                      Dim quantity As Long
+                                                      If (priceData.TryGetValue(row.Name, price)) Then
+                                                          row.Cells(4).Text = price.ToInvariantString("F2")
+                                                          Long.TryParse(row.Cells(1).Text, quantity)
+                                                          row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
+
+                                                      End If
+                                                      Dim asset As RequisitionAsset
+                                                      Dim owned As Long = 0
+                                                      If (ownedAssets.TryGetValue(row.Text, asset)) Then
+                                                          owned = asset.TotalQuantity
+                                                      End If
+
+                                                      TotalCost += (price * quantity)
+                                                      TotalCostReqd += (price * (Math.Max(quantity - owned, 0)))
+                                                  Next
+
+                                                  lblTotalItems.Text = TotalItems.ToString("N0") & " (" & TotalItemsReqd.ToString("N0") & ")"
+                                                  lblTotalCost.Text = "Total: " & TotalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & TotalCostReqd.ToString("N2") & " ISK"
+                                                  lblTotalVolume.Text = "Total: " & TotalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & TotalVolumeReqd.ToString("N2") & " m³"
+
+                                              End Sub)
+                                   End If
+
+
+                               End Sub)
+
+
+        
     End Sub
 
     Private Sub btnDeleteReq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteReq.Click
@@ -470,13 +512,13 @@ Public Class frmRequisitions
             Dim IsCorp As Boolean = False
 
             ' Check whether a pilot or a corp
-            If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(AssetOwner) = True Then
-                AssetAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).Account), EveAccount)
-                OwnerID = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).ID
+            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(AssetOwner) = True Then
+                AssetAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).Account), EveAccount)
+                OwnerID = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(AssetOwner), EveHQ.Core.Pilot).ID
                 IsCorp = False
             Else
-                AssetAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(EveHQ.Core.HQ.EveHQSettings.Corporations(AssetOwner).Accounts(0)), EveAccount)
-                OwnerID = EveHQ.Core.HQ.EveHQSettings.Corporations(AssetOwner).ID
+                AssetAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(EveHQ.Core.HQ.EveHqSettings.Corporations(AssetOwner).Accounts(0)), EveAccount)
+                OwnerID = EveHQ.Core.HQ.EveHqSettings.Corporations(AssetOwner).ID
                 IsCorp = True
             End If
 
@@ -486,7 +528,7 @@ Public Class frmRequisitions
             ' Fetch the resources owned
             ' Parse the Assets XML
             Dim assetXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             If IsCorp = True Then
                 assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
             Else
@@ -560,7 +602,7 @@ Public Class frmRequisitions
     End Sub
 
     Private Sub btnExportCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportCSV.Click
-        Call Me.ExportReq(EveHQ.Core.HQ.EveHQSettings.CSVSeparatorChar)
+        Call Me.ExportReq(EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
     End Sub
 
     Private Sub ExportReq(ByVal sepChar As String)

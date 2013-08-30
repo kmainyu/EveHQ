@@ -46,7 +46,7 @@ Public Class frmModifyEveAccounts
         If Me.Tag.ToString = "Add" Then
             ' Add the account to the accounts collection
             ' First check if the account already exists
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(txtUserIDV2.Text.Trim) Then
+            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(txtUserIDV2.Text.Trim) Then
                 Dim reply As Integer = MessageBox.Show("Key ID '" & txtUserIDV2.Text & "' already exists in EveHQ! Would you like to try another Key ID?", "Error Creating Account", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                 If reply = Windows.Forms.DialogResult.Retry Then
                     Exit Sub
@@ -62,12 +62,12 @@ Public Class frmModifyEveAccounts
             newAccount.APIKeySystem = Core.APIKeySystems.Version2
             newAccount.CheckAPIKey()
             If ExistingCharactersOnAccount(newAccount) = False Then
-                EveHQ.Core.HQ.EveHQSettings.Accounts.Add(newAccount, newAccount.userID)
+                EveHQ.Core.HQ.EveHqSettings.Accounts.Add(newAccount, newAccount.userID)
                 Me.Close()
             End If
         Else
             ' Fetch the account from the collection
-            Dim newAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(txtUserIDV2.Text.Trim), Core.EveAccount)
+            Dim newAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(txtUserIDV2.Text.Trim), Core.EveAccount)
             ' Change the password on the account
             newAccount.APIKey = txtAPIKeyV2.Text.Trim
             newAccount.FriendlyName = txtAccountNameV2.Text.Trim
@@ -81,7 +81,7 @@ Public Class frmModifyEveAccounts
         Dim CharacterList As List(Of String) = NewAccount.GetCharactersOnAccount
 
         ' Check each pilot for any existing characters
-        For Each Account As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHQSettings.Accounts
+        For Each Account As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
             For Each Character As String In Account.Characters
                 Select Case Account.APIKeySystem
                     Case Core.APIKeySystems.Version2

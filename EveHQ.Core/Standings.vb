@@ -23,8 +23,8 @@ Public Class Standings
 
     Public Shared Sub GetStandings(ByVal PilotName As String)
 
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(PilotName) = True Then
-			Dim Pilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(PilotName) = True Then
+			Dim Pilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(PilotName), Core.Pilot)
 
 			' Clear the existing standings
 			Pilot.Standings.Clear()
@@ -34,14 +34,14 @@ Public Class Standings
 
             ' Get Account info for the API
             Dim accountName As String = Pilot.Account
-            If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHQSettings.Accounts.Item(accountName), Core.EveAccount)
+            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(accountName) = True Then
+                Dim pilotAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts.Item(accountName), Core.EveAccount)
 
                 ' Stage 1 - Get the NPC Standings
                 Try
                     Dim StandingsList As XmlNodeList
                     Dim StandingsNode As XmlNode
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     Dim StandingsXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.StandingsChar, pilotAccount.ToAPIAccount, Pilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
                     If StandingsXML IsNot Nothing Then
 
@@ -90,7 +90,7 @@ Public Class Standings
                 ' Stage 2 - Get the player and corp standings
                 Try
                     Dim StandingsList As XmlNodeList
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHQSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     Dim StandingsXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.ContactListChar, pilotAccount.ToAPIAccount, Pilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
                     If StandingsXML IsNot Nothing Then
 
@@ -131,9 +131,9 @@ Public Class Standings
 
     Public Shared Function GetStanding(ByVal PilotName As String, ByVal EntityID As String, ByVal ReturnEffectiveStanding As Boolean) As Double
         ' Try and get the standings data
-        If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(PilotName) = True Then
+        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(PilotName) = True Then
 
-            Dim SPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(PilotName), EveHQ.Core.Pilot)
+            Dim SPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(PilotName), EveHQ.Core.Pilot)
 
             ' Get the Connections and Diplomacy skills
             Dim DiplomacyLevel As Integer = CInt(SPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Diplomacy))

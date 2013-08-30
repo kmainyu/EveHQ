@@ -20,6 +20,7 @@
 Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.Threading.Tasks
 
 Public Class Ticker
     Dim WithEvents scrollTimer As New Timer
@@ -90,7 +91,7 @@ Public Class Ticker
         scrollTimer.Enabled = False
         Me.DoubleBuffered = True
         r = New Random(Now.Millisecond)
-        lastItem = EveHQ.Core.HQ.itemData.Count
+        lastItem = EveHQ.Core.HQ.TickerItemList.Count
         Call SetupImages()
     End Sub
 
@@ -102,27 +103,53 @@ Public Class Ticker
     End Sub
 
     Private Sub SetupImage()
+        If EveHQ.Core.HQ.TickerItemList.Count > 0 Then
+            Dim itemID As String = EveHQ.Core.HQ.TickerItemList(r.Next(0, lastItem))
+            Dim items As New List(Of String)
+            items.Add(itemID)
+
+            Dim task As Task(Of Dictionary(Of String, Double)) = EveHQ.Core.DataFunctions.GetMarketPrices(items)
+            task.ContinueWith(Sub(priceTask As Task(Of Dictionary(Of String, Double)))
+                                  If priceTask.IsCompleted And priceTask.IsFaulted = False Then
+                                      Dim price As Double = priceTask.Result(itemID)
+                                      If (price > 0) Then
+                                          Try
+                                              'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                              If IsHandleCreated Then
+
+                                                  Invoke(Sub()
+                                                             SetupImage(itemID, price)
+                                                         End Sub)
+                                              End If
+                                          Catch ex As Exception
+                                              ' cannot check handle in background thread...
+                                          End Try
+                                      End If
+                                  End If
+                              End Sub)
+
+        End If
+    End Sub
+
+
+    Private Sub SetupImage(itemID As String, itemPrice As Double)
+
         Dim MainFont As New Font("Tahoma", 10, FontStyle.Regular)
         Dim SmallFont As New Font("Tahoma", 7, FontStyle.Regular)
-        Dim itemID As String = ""
+
         Dim itemName As String = ""
         Dim imgText As String = ""
-        Dim itemPrice As Double
+
 
         img = New Bitmap(600, 30, Imaging.PixelFormat.Format32bppArgb)
         Dim g As Graphics = Graphics.FromImage(img)
         g.SmoothingMode = SmoothingMode.HighQuality
         Dim strWidth As Integer
-        If EveHQ.Core.HQ.itemList.Count > 0 Then
-            Do
-                itemID = EveHQ.Core.HQ.itemData.Values(r.Next(1, lastItem)).ID.ToString
-                itemName = EveHQ.Core.HQ.itemData(itemID).Name
-                itemPrice = EveHQ.Core.DataFunctions.GetPrice(itemID)
-            Loop Until itemPrice > 0 And EveHQ.Core.HQ.itemData(itemID).Published = True
-            imgText = itemName & " - " & itemPrice.ToString("N2")
-        Else
-            imgText = "Placeholder"
-        End If
+
+        itemName = EveHQ.Core.HQ.itemData(itemID).Name
+
+        imgText = itemName & " - " & itemPrice.ToString("N2")
+
         strWidth = CInt(g.MeasureString(imgText, MainFont).Width)
         g.FillRectangle(New SolidBrush(Color.Black), New Rectangle(0, 0, 300, 40))
         g.DrawString(imgText, MainFont, New SolidBrush(Color.White), 0, 2)
@@ -157,7 +184,7 @@ Public Class Ticker
     Private Sub LaunchItemBrowser(ByVal itemID As String)
         ' Try to launch the item browser
         Dim PluginName As String = "EveHQ Item Browser"
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHQSettings.Plugins(PluginName), Core.PlugIn)
+        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(PluginName), Core.PlugIn)
         If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
             Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
             Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
@@ -179,6 +206,10 @@ Public Class Ticker
     End Sub
 
     Private Sub Ticker_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
+        If (scrollImages Is Nothing Or scrollImages.Count = 0) Then
+            Return ' No data to scroll.
+        End If
+
         Dim startPosition As Integer = CType(scrollImages.Peek, ScrollImage).imgX - cScrollDistance
         Dim si As ScrollImage
         For Each si In scrollImages

@@ -1,3 +1,6 @@
+Imports System.IO
+Imports EveHQ.Common.Logging
+
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmSplash
     Inherits System.Windows.Forms.Form
@@ -7,6 +10,10 @@ Partial Class frmSplash
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing AndAlso components IsNot Nothing Then
             components.Dispose()
+        End If
+
+        If disposing Then
+    
         End If
         MyBase.Dispose(disposing)
     End Sub
@@ -131,8 +138,20 @@ Partial Class frmSplash
 
     End Sub
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-	Friend WithEvents lblVersion As DevComponents.DotNetBar.Controls.ReflectionLabel
-	Friend WithEvents lblStatus As DevComponents.DotNetBar.Controls.ReflectionLabel
-	Friend WithEvents lblDate As DevComponents.DotNetBar.LabelX
-	Friend WithEvents lblCopyright As DevComponents.DotNetBar.LabelX
+    Friend WithEvents lblVersion As DevComponents.DotNetBar.Controls.ReflectionLabel
+    Friend WithEvents lblStatus As DevComponents.DotNetBar.Controls.ReflectionLabel
+    Friend WithEvents lblDate As DevComponents.DotNetBar.LabelX
+    Friend WithEvents lblCopyright As DevComponents.DotNetBar.LabelX
+
+
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+        
+
+    End Sub
 End Class
