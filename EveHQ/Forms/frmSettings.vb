@@ -2274,8 +2274,8 @@ Public Class frmSettings
                 For Each region As EveGalaticRegion In HQ.Regions.Values
                     _regionList.Items.Add(region.Name)
                 Next
-
             Else
+
                 For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
                     Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region).FirstOrDefault()
                     If (temp IsNot Nothing) Then

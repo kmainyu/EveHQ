@@ -9,6 +9,7 @@
     <Message Text="Building Package" Importance="high" />
     <PropertyGroup Condition="$(VersionPreRelease)==''">
       <VersionTxt>$(SemanticVersionText).$REVNUM$</VersionTxt>
+      <SemanticVersionText>$(VersionTxt)</SemanticVersionText>
     </PropertyGroup>
     <PropertyGroup Condition="$(VersionPreRelease)!=''">
       <VersionTxt>$(SemanticVersionText).$REVNUM$-$(VersionPreRelease)</VersionTxt>

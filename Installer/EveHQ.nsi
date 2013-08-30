@@ -27,10 +27,15 @@ InstallDirRegKey HKLM "Software\EveHQ" "Install_Dir"
 
 #Installer file settings
 VIAddVersionKey "CompanyName" "Software Addicts Studios"
-VIAddVersionKey "FileDescription" "Installs EveHQ: The Internet Spaceship Toolki"
+VIAddVersionKey "FileDescription" "EveHQ: The Internet Spaceship Toolki"
 VIAddVersionKey "LegalCopyright" "Copyright 2005-2013, EveHQ Dev Team"
 VIAddVersionKey "ProductName" "EveHQ Setup"
-VIProductVersion 2.0.0.0
+!ifdef Version
+VIProductVersion ${Version}
+!else
+VIProductVersion 1.0.0.0
+!endif
+
 
 
 #Page Declarations
