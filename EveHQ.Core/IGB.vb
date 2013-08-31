@@ -55,7 +55,7 @@ Public Class IGB
     End Property
     Public Sub RunIGB(ByVal worker As BackgroundWorker, ByVal e As DoWorkEventArgs)
         Dim prefixes(0) As String
-        prefixes(0) = "http://*:" & EveHQ.Core.HQ.EveHqSettings.IGBPort & "/"
+        prefixes(0) = "http://localhost:" & EveHQ.Core.HQ.EveHqSettings.IGBPort & "/"
 
         ' URI prefixes are required,
         If prefixes Is Nothing OrElse prefixes.Length = 0 Then

@@ -3412,7 +3412,7 @@ Public Class frmEveHQ
 
     Private Function IGBCanBeInitialised() As Boolean
         Dim prefixes(0) As String
-        prefixes(0) = "http://*:" & HQ.EveHqSettings.IGBPort & "/"
+        prefixes(0) = "http://localhost:" & HQ.EveHqSettings.IGBPort & "/"
 
         ' URI prefixes are required
         If prefixes Is Nothing OrElse prefixes.Length = 0 Then
