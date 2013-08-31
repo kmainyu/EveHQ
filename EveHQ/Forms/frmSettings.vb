@@ -136,8 +136,8 @@ Public Class frmSettings
         chkMinimiseOnExit.Checked = HQ.EveHqSettings.MinimiseExit
         chkDisableAutoConnections.Checked = HQ.EveHqSettings.DisableAutoWebConnections
         chkDisableTrainingBar.Checked = HQ.EveHqSettings.DisableTrainingBar
-        chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
-        nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
+        chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.EveHqSettings.EnableAutomaticSave
+        nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.EveHqSettings.EnableAutomaticSave
         nudAutomaticSaveTime.Value = EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime
         If cboStartupView.Items.Contains(HQ.EveHqSettings.StartupView) = True Then
             cboStartupView.SelectedItem = HQ.EveHqSettings.StartupView
@@ -230,7 +230,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkEnableAutomaticSave_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableAutomaticSave.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
+        EveHQ.Core.HQ.EveHqSettings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
         nudAutomaticSaveTime.Enabled = chkEnableAutomaticSave.Checked
         If chkEnableAutomaticSave.Checked = True Then
             frmEveHQ.tmrSave.Start()
@@ -240,20 +240,24 @@ Public Class frmSettings
     End Sub
 
     Private Sub nudAutomaticSaveTime_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.Click
-        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
     Private Sub nudAutomaticSaveTime_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.HandleDestroyed
-        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
     Private Sub nudAutomaticSaveTime_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles nudAutomaticSaveTime.KeyUp
-        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
+    Private Sub cboStartupView_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
+        Handles cboStartupView.SelectedIndexChanged
+        HQ.EveHqSettings.StartupView = CStr(cboStartupView.SelectedItem)
+    End Sub
 
     Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles cboStartupPilot.SelectedIndexChanged
@@ -629,12 +633,12 @@ Public Class frmSettings
         Call Me.UpdateAccounts()
     End Sub
 
-    Private Sub adtAccounts_NodeDoubleClick(sender As Object, e As TreeNodeMouseEventArgs) _
+    Private Sub adtAccounts_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) _
         Handles adtAccounts.NodeDoubleClick
         Call EditAccount()
     End Sub
 
-    Private Sub adtAccounts_SelectionChanged(sender As Object, e As EventArgs) Handles adtAccounts.SelectionChanged
+    Private Sub adtAccounts_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtAccounts.SelectionChanged
         If adtAccounts.SelectedNodes.Count = 1 Then
             Dim SI As Node = adtAccounts.SelectedNodes(0)
             Dim UserID As String = SI.Name
@@ -2264,20 +2268,24 @@ Public Class frmSettings
     End Sub
 
     Private Sub UpdateDataSourceList()
+
+        If (HQ.MarketStatDataProvider Is Nothing) Then
+            Return
+        End If
+
         If _regionList IsNot Nothing Then
             If _regionList.Items IsNot Nothing Then
                 _regionList.Items.Clear()
             End If
 
-
             If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
-                For Each region As EveGalaticRegion In HQ.Regions.Values
-                    _regionList.Items.Add(region.Name)
+                For Each galaticRegion As EveGalaticRegion In HQ.Regions.Values
+                    _regionList.Items.Add(galaticRegion.Name)
                 Next
             Else
 
                 For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
-                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region).FirstOrDefault()
+                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region = region).FirstOrDefault()
                     If (temp IsNot Nothing) Then
                         _regionList.Items.Add(temp.Name)
                     End If
@@ -2337,12 +2345,12 @@ Public Class frmSettings
         End If
     End Sub
 
-    Private Sub OnUseSystemPriceChecked(sender As System.Object, e As System.EventArgs) Handles _useSystemPrice.Click
+    Private Sub OnUseSystemPriceChecked(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _useSystemPrice.Click
         _regionList.Enabled = False
         _systemList.Enabled = True
     End Sub
 
-    Private Sub OnUseRegionPriceChecked(sender As System.Object, e As System.EventArgs) Handles _useRegionData.Click
+    Private Sub OnUseRegionPriceChecked(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _useRegionData.Click
         _regionList.Enabled = True
         _systemList.Enabled = False
     End Sub
@@ -2420,7 +2428,7 @@ Public Class frmSettings
         UpdateActiveOverrides()
     End Sub
 
-    Private Sub SetOverrideMetricRadioButton(metric As MarketMetric)
+    Private Sub SetOverrideMetricRadioButton(ByVal metric As MarketMetric)
         Select Case metric
             Case MarketMetric.Average
                 _itemOverrideAvgPrice.Checked = True
@@ -2438,7 +2446,7 @@ Public Class frmSettings
         End Select
     End Sub
 
-    Private Sub SetOverrideTransactionTypeRadioButton(type As MarketTransactionKind)
+    Private Sub SetOverrideTransactionTypeRadioButton(ByVal type As MarketTransactionKind)
         Select Case type
             Case MarketTransactionKind.All
                 _itemOverrideAllOrders.Checked = True
@@ -2451,7 +2459,7 @@ Public Class frmSettings
         End Select
     End Sub
 
-    Private Sub OnOverrideItemListIndexChanged(sender As System.Object, e As System.EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
+    Private Sub OnOverrideItemListIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
 
         Dim item As String
         Dim itemId As Integer
@@ -2479,7 +2487,7 @@ Public Class frmSettings
     End Sub
 
 
-    Private Sub OnAddUpdateItemOverrideClick(sender As System.Object, e As System.EventArgs) Handles _itemOverrideAddOverride.Click
+    Private Sub OnAddUpdateItemOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideAddOverride.Click
         Dim item As String
         Dim itemID As Integer
 
@@ -2531,7 +2539,7 @@ Public Class frmSettings
         UpdateActiveOverrides()
     End Sub
 
-    Private Sub OnOverrideGridNodeClick(sender As System.Object, e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
+    Private Sub OnOverrideGridNodeClick(ByVal sender As System.Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
 
 
         If (e.Node IsNot Nothing) Then
@@ -2556,7 +2564,7 @@ Public Class frmSettings
 
 
 
-    Private Sub OnRemoveOverrideClick(sender As System.Object, e As System.EventArgs) Handles _itemOverrideRemoveOverride.Click
+    Private Sub OnRemoveOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideRemoveOverride.Click
         Dim item As String
         Dim itemID As Integer
 
@@ -2579,16 +2587,16 @@ Public Class frmSettings
 
 
 
-    Private Sub OnMarketProviderChanged(sender As System.Object, e As System.EventArgs) Handles _marketDataProvider.SelectedIndexChanged
+    Private Sub OnMarketProviderChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _marketDataProvider.SelectedIndexChanged
         ChangeMarketProvider(_marketDataProvider.SelectedItem.ToString())
         UpdateDataSourceList()
     End Sub
 
-    Private Sub ChangeMarketProvider(providerName As String)
-        If (providerName = EveHqMarketDataProvider.Name) Then
-            HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance(HQ.AppDataFolder)
-        ElseIf providerName = EveCentralMarketDataProvider.Name Then
+    Private Sub ChangeMarketProvider(ByVal providerName As String)
+        If providerName = EveCentralMarketDataProvider.Name Then
             HQ.MarketStatDataProvider = HQ.GetEveCentralMarketInstance(HQ.AppDataFolder)
+        Else
+            HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance(HQ.AppDataFolder)
         End If
     End Sub
 
