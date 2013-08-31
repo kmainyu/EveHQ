@@ -105,11 +105,8 @@ Public Class HQ
     Private Shared _loggingStream As Stream
     Private Shared _eveHqTracer As EveHqTraceLogger
 
-
     Shared Sub New()
-        LoggingStream = New FileStream(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ", "EveHQ.log"), FileMode.Create, FileAccess.Write, FileShare.Read)
-        EveHqTracer = New EveHqTraceLogger(LoggingStream)
-        Trace.Listeners.Add(EveHqTracer)
+
     End Sub
 
     Shared Property StartShutdownEveHQ() As Boolean

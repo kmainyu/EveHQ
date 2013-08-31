@@ -42,8 +42,6 @@ Public Class frmSplash
     Dim ItemsLoaded As Boolean = False
     Dim MessageLoaded As Boolean = False
 
-
-
     Private is64BitProcess As Boolean = (IntPtr.Size = 8)
     Private is64BitOperatingSystem As Boolean = (is64BitProcess Or InternalCheckIsWow64())
 
@@ -72,8 +70,6 @@ Public Class frmSplash
         Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-GB")
         Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-GB")
 
-        ' configure trace listener
-        
         'Create a custom font collection from resources
         Dim MyFonts As New Drawing.Text.PrivateFontCollection
         Dim FontBuffer As IntPtr
@@ -129,6 +125,11 @@ Public Class frmSplash
         Else
             EveHQ.Core.HQ.AppDataFolder = EveHQ.Core.HQ.appFolder
         End If
+
+        ' Configure trace listener
+        EveHQ.Core.HQ.LoggingStream = New FileStream(Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQ.log"), FileMode.Create, FileAccess.Write, FileShare.Read)
+        EveHQ.Core.HQ.EveHqTracer = New EveHqTraceLogger(EveHQ.Core.HQ.LoggingStream)
+        Trace.Listeners.Add(EveHQ.Core.HQ.EveHqTracer)
 
         EveHQ.Core.HQ.WriteLogEvent("Start of EveHQ Event Log: " & Now.ToString)
 
