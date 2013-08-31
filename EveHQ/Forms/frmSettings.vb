@@ -136,8 +136,8 @@ Public Class frmSettings
         chkMinimiseOnExit.Checked = HQ.EveHqSettings.MinimiseExit
         chkDisableAutoConnections.Checked = HQ.EveHqSettings.DisableAutoWebConnections
         chkDisableTrainingBar.Checked = HQ.EveHqSettings.DisableTrainingBar
-        chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
-        nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave
+        chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.EveHqSettings.EnableAutomaticSave
+        nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.EveHqSettings.EnableAutomaticSave
         nudAutomaticSaveTime.Value = EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime
         If cboStartupView.Items.Contains(HQ.EveHqSettings.StartupView) = True Then
             cboStartupView.SelectedItem = HQ.EveHqSettings.StartupView
@@ -230,7 +230,7 @@ Public Class frmSettings
     End Sub
 
     Private Sub chkEnableAutomaticSave_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableAutomaticSave.CheckedChanged
-        EveHQ.Core.HQ.EveHQSettings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
+        EveHQ.Core.HQ.EveHqSettings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
         nudAutomaticSaveTime.Enabled = chkEnableAutomaticSave.Checked
         If chkEnableAutomaticSave.Checked = True Then
             frmEveHQ.tmrSave.Start()
@@ -240,17 +240,17 @@ Public Class frmSettings
     End Sub
 
     Private Sub nudAutomaticSaveTime_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.Click
-        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
     Private Sub nudAutomaticSaveTime_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.HandleDestroyed
-        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
     Private Sub nudAutomaticSaveTime_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles nudAutomaticSaveTime.KeyUp
-        EveHQ.Core.HQ.EveHQSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        EveHQ.Core.HQ.EveHqSettings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
         frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
     End Sub
 
@@ -2264,20 +2264,24 @@ Public Class frmSettings
     End Sub
 
     Private Sub UpdateDataSourceList()
+
+        If (HQ.MarketStatDataProvider Is Nothing) Then
+            Return
+        End If
+
         If _regionList IsNot Nothing Then
             If _regionList.Items IsNot Nothing Then
                 _regionList.Items.Clear()
             End If
 
-
             If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
-                For Each region As EveGalaticRegion In HQ.Regions.Values
-                    _regionList.Items.Add(region.Name)
+                For Each galaticRegion As EveGalaticRegion In HQ.Regions.Values
+                    _regionList.Items.Add(galaticRegion.Name)
                 Next
             Else
 
                 For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
-                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region).FirstOrDefault()
+                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region = region).FirstOrDefault()
                     If (temp IsNot Nothing) Then
                         _regionList.Items.Add(temp.Name)
                     End If
@@ -2585,10 +2589,10 @@ Public Class frmSettings
     End Sub
 
     Private Sub ChangeMarketProvider(providerName As String)
-        If (providerName = EveHqMarketDataProvider.Name) Then
-            HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance(HQ.AppDataFolder)
-        ElseIf providerName = EveCentralMarketDataProvider.Name Then
+        If providerName = EveCentralMarketDataProvider.Name Then
             HQ.MarketStatDataProvider = HQ.GetEveCentralMarketInstance(HQ.AppDataFolder)
+        Else
+            HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance(HQ.AppDataFolder)
         End If
     End Sub
 
