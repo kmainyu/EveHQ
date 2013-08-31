@@ -2273,6 +2273,10 @@ Public Class frmSettings
             Return
         End If
 
+        If HQ.Regions Is Nothing Then
+            Return
+        End If
+
         If _regionList IsNot Nothing Then
             If _regionList.Items IsNot Nothing Then
                 _regionList.Items.Clear()
