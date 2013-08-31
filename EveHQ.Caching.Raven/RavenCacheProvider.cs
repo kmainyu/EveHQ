@@ -21,6 +21,7 @@
 namespace EveHQ.Caching.Raven
 {
     using System;
+    using System.Collections.Concurrent;
 
     using global::Raven.Client;
     using global::Raven.Client.Embedded;
@@ -30,6 +31,10 @@ namespace EveHQ.Caching.Raven
     {
         /// <summary>The _db.</summary>
         private readonly EmbeddableDocumentStore _db;
+
+        private readonly ConcurrentDictionary<string, object> _memCache = new ConcurrentDictionary<string, object>();
+
+        private readonly object _lockObject = new object();
 
         /// <summary>Initializes a new instance of the <see cref="RavenCacheProvider"/> class.</summary>
         /// <param name="dataFolder">The data folder.</param>
@@ -62,13 +67,29 @@ namespace EveHQ.Caching.Raven
         public CacheItem<T> Get<T>(string key)
         {
             CacheItem<T> data = null;
-            using (IDocumentSession session = _db.OpenSession())
+            object temp;
+            if (_memCache.TryGetValue(key, out temp) && (data = temp as CacheItem<T>) != null)
             {
-                var result = session.Load<CacheItem<T>>(key);
+                return data;
+            }
 
-                if (result != null)
+            lock (_lockObject)
+            {
+                // double check that the memory cache wasn't populated while waiting.
+                if (_memCache.TryGetValue(key, out temp) && (data = temp as CacheItem<T>) != null)
                 {
-                    data = result;
+                    return data;
+                }
+
+                using (IDocumentSession session = _db.OpenSession())
+                {
+                    var result = session.Load<CacheItem<T>>(key);
+
+                    if (result != null)
+                    {
+                        _memCache.TryAdd(key, result);
+                        data = result;
+                    }
                 }
             }
             return data;
