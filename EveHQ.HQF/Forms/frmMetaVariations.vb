@@ -155,7 +155,6 @@ Public Class frmMetaVariations
                 newCol.Width.AutoSize = True
                 newCol.Width.AutoSizeMinHeader = True
                 newCol.EditorType = eCellEditorType.Custom
-                newCol.StyleMouseOver = "Yellow"
                 If newCol.Text <> "" Then
                     ColumnIdx += 1
                     newCol.DisplayIndex = ColumnIdx
