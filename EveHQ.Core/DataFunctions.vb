@@ -881,7 +881,11 @@ Public Class DataFunctions
 
                 ' Still need to do this in a synchronous fashion...unfortunately
                 resultTask = dataTask.ContinueWith(Function(markettask As Task(Of IEnumerable(Of ItemOrderStats))) As Dictionary(Of String, Double)
+
+
                                                        Return ProcessPriceTaskData(markettask, itemIDs, metric, transType)
+
+
                                                    End Function)
             Else
                 resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
@@ -911,75 +915,84 @@ Public Class DataFunctions
         ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
         itemPrices = distinctItems.ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
 
-        Dim result As IEnumerable(Of ItemOrderStats) = Nothing
-        Dim itemResult As ItemOrderStats = Nothing
-        If markettask.IsCompleted And markettask.IsFaulted = False And markettask.Result IsNot Nothing Then
-            If markettask.Result.Any() Then
-                result = markettask.Result
-            End If
-        End If
+        If markettask.Exception Is Nothing Then
 
-        For Each itemId As String In distinctItems 'We only need to process the unique id results.
             Try
-                If result IsNot Nothing Then
-                    itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
-                End If
-
-                ' If there is a custom price set, use that if not get it from the provider.
-                If HQ.CustomPriceList.ContainsKey(itemId) = True Then
-                    itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
-                ElseIf itemResult IsNot Nothing Then
-                    ' if there's a market provider result use that
-
-                    Dim itemMetric As MarketMetric = metric
-                    Dim itemTransKind As MarketTransactionKind = transType
-                    ' check to see if the item has a configured overrided for metric and trans type
-                    Dim override As ItemMarketOverride
-                    If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
-                        itemMetric = override.MarketStat
-                        itemTransKind = override.TransactionType
-                    End If
-
-
-                    Dim orderStat As OrderStats
-                    ' get the right transaction type
-                    Select Case itemTransKind
-                        Case MarketTransactionKind.All
-                            orderStat = itemResult.All
-                        Case MarketTransactionKind.Buy
-                            orderStat = itemResult.Buy
-                        Case Else
-                            orderStat = itemResult.Sell
-                    End Select
-
-                    Select Case itemMetric
-                        Case MarketMetric.Average
-                            itemPrices(itemId) = orderStat.Average
-                        Case MarketMetric.Maximum
-                            itemPrices(itemId) = orderStat.Maximum
-                        Case MarketMetric.Median
-                            itemPrices(itemId) = orderStat.Median
-                        Case MarketMetric.Percentile
-                            itemPrices(itemId) = orderStat.Percentile
-                        Case Else
-                            itemPrices(itemId) = orderStat.Minimum
-                    End Select
-                Else
-                    ' failing all that, fallback onto the base price.
-                    If HQ.itemData.ContainsKey(itemId) Then
-                        itemPrices(itemId) = HQ.itemData(itemId).BasePrice
-                    Else
-                        itemPrices(itemId) = 0
+                Dim result As IEnumerable(Of ItemOrderStats) = Nothing
+                Dim itemResult As ItemOrderStats = Nothing
+                If markettask.IsCompleted And markettask.IsFaulted = False And markettask.Result IsNot Nothing Then
+                    If markettask.Result.Any() Then
+                        result = markettask.Result
                     End If
                 End If
-            Catch e As Exception
-                If HQ.itemData.ContainsKey(itemId) Then
-                    itemPrices(itemId) = HQ.itemData(itemId).BasePrice
-                Else
-                    itemPrices(itemId) = 0
-                End If
+
+                For Each itemId As String In distinctItems 'We only need to process the unique id results.
+                    Try
+                        If result IsNot Nothing Then
+                            itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
+                        End If
+
+                        ' If there is a custom price set, use that if not get it from the provider.
+                        If HQ.CustomPriceList.ContainsKey(itemId) = True Then
+                            itemPrices(itemId) = CDbl(HQ.CustomPriceList(itemId))
+                        ElseIf itemResult IsNot Nothing Then
+                            ' if there's a market provider result use that
+
+                            Dim itemMetric As MarketMetric = metric
+                            Dim itemTransKind As MarketTransactionKind = transType
+                            ' check to see if the item has a configured overrided for metric and trans type
+                            Dim override As ItemMarketOverride
+                            If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
+                                itemMetric = override.MarketStat
+                                itemTransKind = override.TransactionType
+                            End If
+
+
+                            Dim orderStat As OrderStats
+                            ' get the right transaction type
+                            Select Case itemTransKind
+                                Case MarketTransactionKind.All
+                                    orderStat = itemResult.All
+                                Case MarketTransactionKind.Buy
+                                    orderStat = itemResult.Buy
+                                Case Else
+                                    orderStat = itemResult.Sell
+                            End Select
+
+                            Select Case itemMetric
+                                Case MarketMetric.Average
+                                    itemPrices(itemId) = orderStat.Average
+                                Case MarketMetric.Maximum
+                                    itemPrices(itemId) = orderStat.Maximum
+                                Case MarketMetric.Median
+                                    itemPrices(itemId) = orderStat.Median
+                                Case MarketMetric.Percentile
+                                    itemPrices(itemId) = orderStat.Percentile
+                                Case Else
+                                    itemPrices(itemId) = orderStat.Minimum
+                            End Select
+                        Else
+                            ' failing all that, fallback onto the base price.
+                            If HQ.itemData.ContainsKey(itemId) Then
+                                itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                            Else
+                                itemPrices(itemId) = 0
+                            End If
+                        End If
+                    Catch e As Exception
+                        If HQ.itemData.ContainsKey(itemId) Then
+                            itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                        Else
+                            itemPrices(itemId) = 0
+                        End If
+                    End Try
+                Next
+            Catch ex As Exception
+                Trace.TraceError(ex.FormatException())
             End Try
-        Next
+        Else
+            Trace.TraceError(markettask.Exception.FormatException())
+        End If
 
         Return itemPrices
     End Function
