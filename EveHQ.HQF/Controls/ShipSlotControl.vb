@@ -220,8 +220,23 @@ Public Class ShipSlotControl
         ' get a collection of the item Ids used in the fitting
         Dim itemIds As New List(Of String)
 
-        ' add the base Ship
-        itemIds.Add(ParentFitting.BaseShip.ID)
+        ' Get the base ship ID, for custom ships, this will need to be the hull on which the custom ship is based on
+        ' Fixes EVEHQ-178
+        Dim baseShipID As String = ""
+        If EveHQ.Core.HQ.itemData.ContainsKey(ParentFitting.BaseShip.ID) Then
+            baseShipID = ParentFitting.BaseShip.ID
+        Else
+            If CustomHQFClasses.CustomShipIDs.ContainsKey(ParentFitting.BaseShip.ID) Then
+                If EveHQ.Core.HQ.itemList.ContainsKey(CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).BaseShipName) Then
+                    baseShipID = EveHQ.Core.HQ.itemList(CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).BaseShipName)
+                End If
+            End If
+        End If
+
+        ' Add the baseShipID, but only if not blank
+        If baseShipID <> "" Then
+            itemIds.Add(baseShipID)
+        End If
 
         ' add in the HiSlot items
         For slot As Integer = 1 To ParentFitting.FittedShip.HiSlots
@@ -264,7 +279,7 @@ Public Class ShipSlotControl
         For Each item As Object In ParentFitting.FittedShip.CargoBayItems.Values
             itemIds.Add(CType(item, CargoBayItem).ItemType.ID)
         Next
-      
+
         ' Calculate the fitted prices
         Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(itemIds)
 
@@ -281,7 +296,9 @@ Public Class ShipSlotControl
                                        Invoke(Sub()
                                                   ' update the values
                                                   ' base ship price
-                                                  ParentFitting.BaseShip.MarketPrice = prices(ParentFitting.BaseShip.ID)
+                                                  If baseShipID <> "" Then
+                                                      ParentFitting.BaseShip.MarketPrice = prices(baseShipID)
+                                                  End If
                                                   ' the sum of all the modules except the ship item.
                                                   Dim total As Double = prices.Sum(Function(itemPrice) itemPrice.Value * (From id In itemIds Where id = itemPrice.Key).Count())
 
@@ -294,7 +311,7 @@ Public Class ShipSlotControl
 
                                                   ' update the fitting slots with their respective price value
                                                   For Each itemId As String In prices.Keys
-                                                      Dim priceCells As List(Of Cell)
+                                                      Dim priceCells As New List(Of Cell)
                                                       If _fittingPriceCells.TryGetValue(itemId, priceCells) Then
                                                           For Each priceCell As Cell In priceCells
                                                               priceCell.Text = prices(itemId).ToInvariantString("N2")
