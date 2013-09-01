@@ -243,7 +243,7 @@ namespace EveHQ.Market.MarketServices
             }
 
             // if the lastDownload result is dirty, it's time to queue up a background download of the data.
-            if (lastDownload.IsDirty)
+            if (lastDownload != null && lastDownload.IsDirty)
             {
                 Task.Factory.TryRun(() => DownloadLatestData(marketLocation));
             }
