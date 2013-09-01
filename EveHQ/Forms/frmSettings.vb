@@ -2395,20 +2395,21 @@ Public Class frmSettings
 
         End If
 
-        If _useSystemPrice.Checked Then
-            HQ.EveHqSettings.MarketUseRegionMarket = False
-        Else
+        If _useRegionData.Checked Then
             HQ.EveHqSettings.MarketUseRegionMarket = True
+        Else
+            HQ.EveHqSettings.MarketUseRegionMarket = False
         End If
 
         If _systemList.SelectedItem IsNot Nothing Then
             HQ.EveHqSettings.MarketSystem = HQ.SolarSystemsByName(_systemList.SelectedItem.ToString).Id
         End If
 
-        If _regionList.SelectedItems IsNot Nothing And _regionList.SelectedItems.Count > 0 Then
-            HQ.EveHqSettings.MarketRegions = (From marketRegion In _regionList.SelectedItems Select HQ.Regions(marketRegion.ToString).Id).ToList()
+        If _regionList.SelectedItems IsNot Nothing Then
+            If _regionList.SelectedItems.Count > 0 Then
+                HQ.EveHqSettings.MarketRegions = (From marketRegion In _regionList.SelectedItems Select HQ.Regions(marketRegion.ToString).Id).ToList()
+            End If
         End If
-
         HQ.EveHqSettings.MarketDataUploadEnabled = enableMarketDataUpload.Checked
 
         If EveHQ.Core.HQ.EveHqSettings.MarketDataUploadEnabled = True Then

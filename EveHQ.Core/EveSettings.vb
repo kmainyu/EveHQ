@@ -198,7 +198,7 @@ Public Class EveSettings
     Private cMarketDataSource As MarketSite = MarketSite.EveMarketeer
 
     Private _marketDataProvider As String
-    Private _marketRegions As New List(Of Int32)
+    Private _marketRegions As New List(Of Int32) 'Will be initialized to a safe default of The Forge
     Private _marketSystem As Integer = 30000142 'Safe Default of Jita
     Private _marketUseRegionMarket As Boolean = False
     Private _marketDefaultMetric As MarketMetric
@@ -1801,6 +1801,14 @@ Public Class EveSettings
 
     Public Property MarketRegions As List(Of Integer)
         Get
+            If (_marketRegions Is Nothing) Then
+                _marketRegions = New List(Of Integer)
+            End If
+
+            If (_marketRegions.Count = 0) Then
+                _marketRegions.Add(10000002) ' The Forge... safe default.
+            End If
+
             Return _marketRegions
         End Get
         Set(value As List(Of Integer))

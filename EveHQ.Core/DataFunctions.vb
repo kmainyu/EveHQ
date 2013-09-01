@@ -904,7 +904,6 @@ Public Class DataFunctions
         ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
 
         ' TODO: ItemIds are integers but through out the existing code they are inconsistently treated as strings (or longs...)... must fix that.
-
         Dim itemPrices As New Dictionary(Of String, Double)
 
         Dim distinctItems As IEnumerable(Of String) = itemIDs.Distinct()
@@ -912,13 +911,13 @@ Public Class DataFunctions
         ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
         itemPrices = distinctItems.ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
 
-
         Dim result As IEnumerable(Of ItemOrderStats) = Nothing
         Dim itemResult As ItemOrderStats = Nothing
-        If markettask.IsCompleted And markettask.IsFaulted = False And markettask.Result IsNot Nothing And markettask.Result.Any() Then
-            result = markettask.Result
+        If markettask.IsCompleted And markettask.IsFaulted = False And markettask.Result IsNot Nothing Then
+            If markettask.Result.Any() Then
+                result = markettask.Result
+            End If
         End If
-
 
         For Each itemId As String In distinctItems 'We only need to process the unique id results.
             Try
@@ -1024,7 +1023,7 @@ Public Class DataFunctions
 
 #End Region ' Converts the Base CCP Data Export into something EveHQ can use
 
-    
+
 
     Public Shared Function LoadCustomPricesFromDB() As Boolean
         Dim eveData As New DataSet
@@ -1256,7 +1255,7 @@ Public Class DataFunctions
         End If
     End Function
 
-  Public Shared Function ProcessMarketExportFile(ByVal orderFile As String, WriteToDB As Boolean) As ArrayList
+    Public Shared Function ProcessMarketExportFile(ByVal orderFile As String, WriteToDB As Boolean) As ArrayList
 
         Dim orderFI As New FileInfo(orderFile)
         Dim orderdate As Date = Now
