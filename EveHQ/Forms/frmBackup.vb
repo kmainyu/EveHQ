@@ -120,6 +120,7 @@ Public Class frmBackup
     End Sub
 
     Public Sub ScanBackups()
+        lvwBackups.BeginUpdate()
         lvwBackups.Items.Clear()
         Dim backupDirs As System.Collections.ObjectModel.ReadOnlyCollection(Of String)
         backupDirs = My.Computer.FileSystem.GetDirectories(EveHQ.Core.HQ.backupFolder)
@@ -129,14 +130,27 @@ Public Class frmBackup
             If My.Computer.FileSystem.FileExists(backupFile) = True Then
                 Dim sr As StreamReader = New StreamReader(System.IO.Path.Combine(backupDir, "backup.txt"))
                 Dim newLine As ListViewItem = New ListViewItem
-                newLine.Name = backupDir
+                newLine.Tag = backupDir
                 newLine.Text = sr.ReadLine
+                Dim backupDate As DateTime
+                If DateTime.TryParse(newLine.Text, backupDate) = True Then
+                    newLine.Name = backupDate.ToString("yyyyMMddHHmmss")
+                Else
+                    newLine.Name = newLine.Text
+                End If
                 newLine.SubItems.Add(sr.ReadLine)
                 newLine.SubItems.Add(sr.ReadLine)
                 lvwBackups.Items.Add(newLine)
                 sr.Close()
             End If
         Next
+
+        ' Do an initial sort of the first column
+        lvwBackups.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(0, SortOrder.Ascending)
+        lvwBackups.Tag = -1
+        lvwBackups.Sort()
+        lvwBackups.EndUpdate()
+
     End Sub
 
     Private Sub btnRestore_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRestore.Click
@@ -157,6 +171,18 @@ Public Class frmBackup
         EveHQ.Core.HQ.EveHqSettings.BackupLast = CDate("01/01/1999")
         lblLastBackup.Text = "<not backed up>"
         Call CalcNextBackup()
+    End Sub
+
+    Private Sub lvwBackups_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwBackups.ColumnClick
+        If CInt(lvwBackups.Tag) = e.Column Then
+            lvwBackups.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, SortOrder.Ascending)
+            lvwBackups.Tag = -1
+        Else
+            lvwBackups.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Name(e.Column, SortOrder.Descending)
+            lvwBackups.Tag = e.Column
+        End If
+        ' Call the sort method to manually sort.
+        lvwBackups.Sort()
     End Sub
 
     Public Sub CalcNextBackup()
@@ -281,7 +307,7 @@ Public Class frmBackup
         Try
             Dim strLoc As String = backupItem.SubItems(1).Text
             Dim location As String = strLoc.Substring(strLoc.Length - 1, 1)
-            Dim sourceDir As String = backupItem.Name
+            Dim sourceDir As String = backupItem.Tag.ToString
             Dim destDir As String = backupItem.SubItems(2).Text
 
             ' Start the restore procedure
