@@ -2554,6 +2554,18 @@ Public Class frmSettings
     Private Sub UpdateActiveOverrides()
         _itemOverridesActiveGrid.Nodes.Clear()
 
+        If HQ.EveHqSettings.MarketStatOverrides Is Nothing Then
+            Return
+        End If
+
+        If HQ.itemData Is Nothing Then
+            Return
+        End If
+
+        If (HQ.itemData.Count = 0) Then
+            Return
+        End If
+
         For Each override As ItemMarketOverride In HQ.EveHqSettings.MarketStatOverrides.Values
             Dim node As New Node()
             node.Text = HQ.itemData(override.ItemId.ToInvariantString).Name

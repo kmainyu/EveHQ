@@ -40,10 +40,10 @@ Partial Public Class frmSettings
         Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode17})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox()
-        Me.chkDisableTrainingBar = New System.Windows.Forms.CheckBox()
-        Me.chkEnableAutomaticSave = New System.Windows.Forms.CheckBox()
-        Me.nudAutomaticSaveTime = New System.Windows.Forms.NumericUpDown()
         Me.lblAutomaticSaveTime = New System.Windows.Forms.Label()
+        Me.nudAutomaticSaveTime = New System.Windows.Forms.NumericUpDown()
+        Me.chkEnableAutomaticSave = New System.Windows.Forms.CheckBox()
+        Me.chkDisableTrainingBar = New System.Windows.Forms.CheckBox()
         Me.chkDisableAutoConnections = New System.Windows.Forms.CheckBox()
         Me.lblMDITabPosition = New System.Windows.Forms.Label()
         Me.cboMDITabPosition = New System.Windows.Forms.ComboBox()
@@ -448,7 +448,7 @@ Partial Public Class frmSettings
         Me.lblAutomaticSaveTime.AutoSize = True
         Me.lblAutomaticSaveTime.Location = New System.Drawing.Point(265, 174)
         Me.lblAutomaticSaveTime.Name = "lblAutomaticSaveTime"
-        Me.lblAutomaticSaveTime.Size = New System.Drawing.Size(40, 13)
+        Me.lblAutomaticSaveTime.Size = New System.Drawing.Size(44, 13)
         Me.lblAutomaticSaveTime.TabIndex = 55
         Me.lblAutomaticSaveTime.Text = "minutes"
         '
@@ -467,7 +467,7 @@ Partial Public Class frmSettings
         Me.chkEnableAutomaticSave.AutoSize = True
         Me.chkEnableAutomaticSave.Location = New System.Drawing.Point(24, 172)
         Me.chkEnableAutomaticSave.Name = "chkEnableAutomaticSave"
-        Me.chkEnableAutomaticSave.Size = New System.Drawing.Size(170, 17)
+        Me.chkEnableAutomaticSave.Size = New System.Drawing.Size(175, 17)
         Me.chkEnableAutomaticSave.TabIndex = 53
         Me.chkEnableAutomaticSave.Text = "Enable Automatic Saving every"
         Me.chkEnableAutomaticSave.UseVisualStyleBackColor = True
@@ -2464,7 +2464,7 @@ Partial Public Class frmSettings
         Me.chkNotifyInsuffClone.AutoSize = True
         Me.chkNotifyInsuffClone.Location = New System.Drawing.Point(21, 311)
         Me.chkNotifyInsuffClone.Name = "chkNotifyInsuffClone"
-        Me.chkNotifyInsuffClone.Size = New System.Drawing.Size(236, 17)
+        Me.chkNotifyInsuffClone.Size = New System.Drawing.Size(247, 17)
         Me.chkNotifyInsuffClone.TabIndex = 25
         Me.chkNotifyInsuffClone.Text = "Show insufficient clone warning in Training Bar"
         Me.chkNotifyInsuffClone.UseVisualStyleBackColor = True
@@ -3560,6 +3560,7 @@ Partial Public Class frmSettings
         '_useSystemPrice
         '
         Me._useSystemPrice.AutoSize = True
+        Me._useSystemPrice.Checked = True
         Me._useSystemPrice.Location = New System.Drawing.Point(331, 18)
         Me._useSystemPrice.Name = "_useSystemPrice"
         Me._useSystemPrice.Size = New System.Drawing.Size(120, 17)
@@ -3575,7 +3576,6 @@ Partial Public Class frmSettings
         Me._useRegionData.Name = "_useRegionData"
         Me._useRegionData.Size = New System.Drawing.Size(128, 17)
         Me._useRegionData.TabIndex = 8
-        Me._useRegionData.TabStop = True
         Me._useRegionData.Text = "Use Selected Regions"
         Me._useRegionData.UseVisualStyleBackColor = True
         '
