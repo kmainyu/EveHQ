@@ -317,6 +317,18 @@ Public Class ShipInfoControl
             End If
             bays.Add(CType(Attributes.AttributeList(Attributes.Ship_OreHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold))
         End If
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_MineralHold) Then
+            If ParentFitting.FittedShip.Attributes(Attributes.Ship_MineralHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_MineralHold)
+            End If
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_MineralHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_MineralHold))
+        End If
+        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_AmmoHold) Then
+            If ParentFitting.FittedShip.Attributes(Attributes.Ship_AmmoHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_AmmoHold)
+            End If
+            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_AmmoHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_AmmoHold))
+        End If
         If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_PICommoditiesHold) Then
             If ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold) > mainBaySize Then
                 mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold)

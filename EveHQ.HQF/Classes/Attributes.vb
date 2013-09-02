@@ -25,6 +25,7 @@
 #Region "Constants"
     ' DB attributeIDs (see dgmAttributeTypes)
     ' ship attributes
+    Public Const Ship_AmmoHold As String = "1573"
     Public Const Ship_ArmorEMResistance As String = "267"
     Public Const Ship_ArmorExpResistance As String = "268"
     Public Const Ship_ArmorKinResistance As String = "269"
@@ -40,6 +41,7 @@
     Public Const Ship_HullExpResistance As String = "111"
     Public Const Ship_HullKinResistance As String = "109"
     Public Const Ship_HullThermResistance As String = "110"
+    Public Const Ship_MineralHold As String = "1558"
     Public Const Ship_OreHold As String = "1556"
     Public Const Ship_PICommoditiesHold As String = "1653"
     Public Const Ship_PowergridOutput As String = "11"

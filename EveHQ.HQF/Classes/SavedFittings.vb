@@ -130,6 +130,18 @@ Imports System.Windows.Forms
     ''' <returns>An instance of the Fitting class</returns>
     ''' <remarks></remarks>
     Public Shared Function CreateFittingFromSavedFitting(ByVal Fit As SavedFitting) As Fitting
+        Select Case Fit.ShipName
+            Case "Badger Mark II"
+                Fit.ShipName = "Tayra"
+            Case "Iteron"
+                Fit.ShipName = "Nereus"
+            Case "Iteron Mark II"
+                Fit.ShipName = "Kryos"
+            Case "Iteron Mark III"
+                Fit.ShipName = "Epithal"
+            Case "Iteron Mark IV"
+                Fit.ShipName = "Miasmos"
+        End Select
         Dim NewFit As New Fitting(Fit.ShipName, Fit.FittingName, Fit.PilotName)
         'NewFit.ShipName = Fit.ShipName
         'NewFit.FittingName = Fit.FittingName

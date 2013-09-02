@@ -204,24 +204,24 @@
 # LEADERSHIP,,,,,,,,,,
 335,1,-20494,265,3,6,0,0,0,32,Armored Warfare - Ship
 #,1,-20494,1159,2,329,0,0,0,32,Armored Warfare - Plates
-277,1,11569,833,4,1634,0,1,5,0,Armored Warfare Specialist
+850,1,11569,833,4,1634,0,1,0,0,Armored Warfare Specialist
 #,1,24764,,,,0,1,0,0,Fleet Command
 309,1,-20495,76,3,6,0,0,0,32,Information Warfare
-277,1,3352,833,4,1635,0,1,5,0,Information Warfare Specialist
-277,1,3352,1310,4,1635,0,1,5,0,Information Warfare Specialist
-277,1,3352,1320,4,1635,0,1,5,0,Information Warfare Specialist
-277,1,3352,1321,4,1635,0,1,5,0,Information Warfare Specialist
-277,1,3352,1322,4,1635,0,1,5,0,Information Warfare Specialist
-277,1,3352,1323,4,1635,0,1,5,0,Information Warfare Specialist
+850,1,3352,833,4,1635,0,1,0,0,Information Warfare Specialist
+850,1,3352,1310,4,1635,0,1,0,0,Information Warfare Specialist
+850,1,3352,1320,4,1635,0,1,0,0,Information Warfare Specialist
+850,1,3352,1321,4,1635,0,1,0,0,Information Warfare Specialist
+850,1,3352,1322,4,1635,0,1,0,0,Information Warfare Specialist
+850,1,3352,1323,4,1635,0,1,0,0,Information Warfare Specialist
 566,1,-3348,564,3,6,0,0,0,32,Leadership
-277,1,22552,833,4,1638,0,1,5,0,Mining Director
+850,1,22552,833,4,1638,0,1,0,0,Mining Director
 434,1,-22536,77,4,1039,0,0,0,32,Mining Foreman
 434,1,-22536,77,4,1040,0,0,0,32,Mining Foreman
 337,1,-3350,263,3,6,0,0,0,32,Siege Warfare - Ship
 #,1,-3350,72,2,38,0,0,0,32,Siege Warfare - Extenders
-277,1,3351,833,4,1636,0,1,5,0,Siege Warfare Specialist
+850,1,3351,833,4,1636,0,1,0,0,Siege Warfare Specialist
 151,1,-3349,70,3,6,0,0,0,32,Skirmish Warfare
-277,1,11572,833,4,1637,0,1,5,0,Skirmish Warfare Specialist
+850,1,11572,833,4,1637,0,1,0,0,Skirmish Warfare Specialist
 850,1,3354,833,2,316,0,1,0,0,Warfare Link Specialist
 850,1,3354,1310,2,316,0,1,0,0,Warfare Link Specialist
 850,1,3354,1320,2,316,0,1,0,0,Warfare Link Specialist
@@ -1086,10 +1086,12 @@
 833,1,11052,209,3,6,1,0,0,16,IWL - Sensor Integrity (Ladar Strength)
 833,1,11052,210,3,6,1,0,0,16,IWL - Sensor Integrity (Mag Strength)
 833,1,11052,208,3,6,1,0,0,16,IWL - Sensor Integrity (Radar Strength)
+833,1,11052,76,3,6,1,0,0,16,IWL - Sensor Integrity (Max Targeting Range)
 833,1,4272,211,3,6,1,0,0,16,IWL - Sensor Integrity II (Grav Strength)
 833,1,4272,209,3,6,1,0,0,16,IWL - Sensor Integrity II (Ladar Strength)
 833,1,4272,210,3,6,1,0,0,16,IWL - Sensor Integrity II (Mag Strength)
 833,1,4272,208,3,6,1,0,0,16,IWL - Sensor Integrity II (Radar Strength)
+833,1,4272,76,3,6,1,0,0,16,IWL - Sensor Integrity II (Max Targeting Range)
 # Mining Foreman Links,,,,,,,,,,
 833,1,22553,6,4,1037;1038;1039;1040,0,0,0,16,MFL - Harvester Capacitor Efficiency
 833,1,22557,73,4,1037;1038;1039;1040,0,0,0,16,MFL - Laser Optimization
@@ -1235,7 +1237,7 @@
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
 1619,2,778,20,2,641,1,0,0,15,Stasis Drone Augmentor
 # RIGS - ELECTRONIC,,,,,,,,,,
-134,2,780,479,3,6,0,0,0,15,Electronic Rig Drawback - Shield Recharge Rate
+#134,2,780,479,3,6,0,0,0,15,Electronic Rig Drawback - Shield Recharge Rate
 1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
 1160,1,31207,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
 1160,1,31203,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
@@ -1252,9 +1254,9 @@
 1915,1,26342,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
 1915,1,31205,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
 1915,1,31211,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-846,2,780,1371,2,479,1,0,0,15,Gravity Capacitor Upgrade
-780,2,780,73,4,1038,0,0,0,15,Ice Harvester Accelerator
-310,2,780,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+846,2,1233,1371,2,479,1,0,0,15,Gravity Capacitor Upgrade
+780,2,1232,73,4,1038,0,0,0,15,Ice Harvester Accelerator
+310,2,781,50,5,3432,0,0,0,15,Liquid Cooled Electronics
 1160,1,31238,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
 1160,1,31244,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
 1160,1,31240,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
@@ -1271,9 +1273,9 @@
 1915,1,26346,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
 1915,1,31242,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
 1915,1,31248,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-434,2,780,782,2,663,0,0,0,15,Mercoxit Mining Crystal Optimization
-424,2,780,48,3,6,0,0,0,15,Processor Overclocking Unit
-317,2,780,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
+434,2,1232,782,2,663,0,0,0,15,Mercoxit Mining Crystal Optimization
+424,2,781,48,3,6,0,0,0,15,Processor Overclocking Unit
+317,2,786,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 # RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
 1138,2,786,263,3,6,0,0,0,15,Electronic Superiority Rig Drawback - Shield HP
 828,1,26110,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
