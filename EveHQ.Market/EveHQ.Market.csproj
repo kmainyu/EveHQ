@@ -119,10 +119,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EveHQ.Caching.Raven\EveHQ.Caching.Raven.csproj">
-      <Project>{229DA1E3-0AAA-4B2F-96E4-F6C70228140E}</Project>
-      <Name>EveHQ.Caching.Raven</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EveHQ.Caching\EveHQ.Caching.csproj">
       <Project>{530AFD36-A0F1-4C7F-81AF-ADA01F69E123}</Project>
       <Name>EveHQ.Caching</Name>

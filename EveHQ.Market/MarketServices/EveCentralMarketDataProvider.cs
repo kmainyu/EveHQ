@@ -26,7 +26,6 @@ namespace EveHQ.Market
     using System.Xml.Linq;
 
     using EveHQ.Caching;
-    using EveHQ.Caching.Raven;
     using EveHQ.Common;
     using EveHQ.Common.Extensions;
 
@@ -105,9 +104,8 @@ namespace EveHQ.Market
 
         public EveCentralMarketDataProvider(string cacheRootFolder)
         {
-            _regionDataCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, Region));
-            _marketOrderCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
-
+            _regionDataCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, Region));
+            _marketOrderCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
         }
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>

@@ -28,7 +28,6 @@ namespace EveHQ.Market.MarketServices
     using System.Windows.Forms;
 
     using EveHQ.Caching;
-    using EveHQ.Caching.Raven;
     using EveHQ.Common;
     using EveHQ.Common.Extensions;
 
@@ -37,7 +36,7 @@ namespace EveHQ.Market.MarketServices
     using Newtonsoft.Json;
 
     /// <summary>
-    ///     TODO: Update summary.
+    ///  Market data provider, utilizing the EveHQ Market Data Service.
     /// </summary>
     public class EveHqMarketDataProvider : IMarketStatDataProvider
     {
@@ -98,7 +97,7 @@ namespace EveHQ.Market.MarketServices
         /// <param name="cacheRootFolder">The cache root folder.</param>
         public EveHqMarketDataProvider(string cacheRootFolder)
         {
-            _priceCache = new RavenCacheProvider(Path.Combine(cacheRootFolder, CacheFolder));
+            _priceCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, CacheFolder));
         }
 
         /// <summary>Initializes a new instance of the <see cref="EveHqMarketDataProvider"/> class. Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
