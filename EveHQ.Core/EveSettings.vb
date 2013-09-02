@@ -29,6 +29,7 @@ Imports System.Web
 Imports System.Globalization
 Imports System.Text
 Imports EveHQ.Common.Extensions
+Imports Newtonsoft.Json
 
 <Serializable()>
 Public Class EveSettings
@@ -147,7 +148,7 @@ Public Class EveSettings
     Private cIgnoreBuyOrderLimit As Double = 1
     Private cMarketRegionList As New ArrayList
     Private cPriceCriteria(11) As Boolean
-    
+
     Private cMarketLogToolTipConfirm As Boolean = False
     Private cMarketLogPopupConfirm As Boolean = False
     Private cMarketLogUpdatePrice As Boolean = False
@@ -737,7 +738,7 @@ Public Class EveSettings
         End Set
     End Property
 
-    
+
 
     Public Property IgnoreBuyOrders() As Boolean
         Get
@@ -2162,6 +2163,7 @@ Public Class EveHQSettingsFunctions
             f.Serialize(s, HQ.EveHqSettings)
             s.Flush()
             s.Close()
+            s.Dispose()
             HQ.WriteLogEvent("Settings: Saved EveHQ settings to " & Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"))
         Catch e As Exception
             HQ.WriteLogEvent(
@@ -2176,56 +2178,66 @@ Public Class EveHQSettingsFunctions
     End Sub
 
     Public Shared Function LoadEveHQSettings(ShowRawData As Boolean) As Boolean
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
-            Try
-                Dim f As BinaryFormatter = New BinaryFormatter
-                HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
-                Call ResetPilotData()
-                s.Close()
 
-                ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
-                Dim TempAccounts As New List(Of EveAccount)
-                Dim TempPilots As New List(Of Pilot)
-                For Each a As EveAccount In HQ.EveHqSettings.Accounts
-                    TempAccounts.Add(a)
-                Next
-                For Each p As Pilot In HQ.EveHqSettings.Pilots
-                    TempPilots.Add(p)
-                Next
-                HQ.EveHqSettings.Accounts.Clear()
-                HQ.EveHqSettings.Pilots.Clear()
-                For Each a As EveAccount In TempAccounts
-                    HQ.EveHqSettings.Accounts.Add(a, a.userID)
-                Next
-                For Each p As Pilot In TempPilots
-                    HQ.EveHqSettings.Pilots.Add(p, p.Name)
-                Next
-                SaveEveHQSettings()
-
-            Catch ex As Exception
-                Trace.TraceError(ex.FormatException())
-                Dim msg As String =
-                        "There was an error trying to load the settings file and it appears that this file is corrupt." &
-                        ControlChars.CrLf & ControlChars.CrLf
-                msg &= "The error was: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Stacktrace: " & ex.StackTrace & ControlChars.CrLf & ControlChars.CrLf
-                msg &=
-                    "EveHQ will copy this file to 'EveHQSettings.bad' and delete the original file and re-initialise the settings. This means you will need to re-enter your API information but your skill queues and fittings should be intact and available once the API data has been downloaded. You can attempt to reload the old settings by renaming the 'EveHQSettings.bad' file to 'EveHQSettings.bin', however if the issue continues the bad file will be useful to the EveHQ team for debugging purposes" &
-                    ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Press OK to reset the settings." & ControlChars.CrLf
-                MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Dim importFile As String = Path.Combine(HQ.AppDataFolder, "EveHQSettings.exported.json.txt")
+        Dim showImport As Boolean = File.Exists(importFile)
+        Dim importMessage As String = "A exported settings file has been detected. Would you like to import this file?" & ControlChars.CrLf & ControlChars.CrLf & "Warning: All of your current settings will be overwritten! Please make sure you have a backup first."
+        If (showImport = True) Then
+            If (MessageBox.Show(importMessage, "Import Settings?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes) Then
+                ImportOldSettings(importFile)
+            End If
+        Else
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
+                Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
                 Try
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
+                    Call ResetPilotData()
                     s.Close()
-                    My.Computer.FileSystem.CopyFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), Path.Combine(HQ.AppDataFolder, "EveHQSettings.bad"), True)
-                Catch e As Exception
-                    MessageBox.Show(
-                        "Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding",
-                        "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Application.Exit()
+
+                    ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
+                    Dim TempAccounts As New List(Of EveAccount)
+                    Dim TempPilots As New List(Of Pilot)
+                    For Each a As EveAccount In HQ.EveHqSettings.Accounts
+                        TempAccounts.Add(a)
+                    Next
+                    For Each p As Pilot In HQ.EveHqSettings.Pilots
+                        TempPilots.Add(p)
+                    Next
+                    HQ.EveHqSettings.Accounts.Clear()
+                    HQ.EveHqSettings.Pilots.Clear()
+                    For Each a As EveAccount In TempAccounts
+                        HQ.EveHqSettings.Accounts.Add(a, a.userID)
+                    Next
+                    For Each p As Pilot In TempPilots
+                        HQ.EveHqSettings.Pilots.Add(p, p.Name)
+                    Next
+                    SaveEveHQSettings()
+
+                Catch ex As Exception
+                    Trace.TraceError(ex.FormatException())
+                    Dim msg As String =
+                            "There was an error trying to load the settings file and it appears that this file is corrupt." &
+                            ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "The error was: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Stacktrace: " & ex.StackTrace & ControlChars.CrLf & ControlChars.CrLf
+                    msg &=
+                        "EveHQ will copy this file to 'EveHQSettings.bad' and delete the original file and re-initialise the settings. This means you will need to re-enter your API information but your production and fittings data should be intact and available once the API data has been downloaded. You can attempt to reload the old settings by renaming the 'EveHQSettings.bad' file to 'EveHQSettings.bin', however if the issue continues the bad file will be useful to the EveHQ team for debugging purposes" &
+                        ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Press OK to reset the settings." & ControlChars.CrLf
+                    MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Try
+                        s.Close()
+                        My.Computer.FileSystem.CopyFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), Path.Combine(HQ.AppDataFolder, "EveHQSettings.bad"), True)
+                    Catch e As Exception
+                        MessageBox.Show(
+                            "Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding",
+                            "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Application.Exit()
+                    End Try
+                    Return False
                 End Try
-                Return False
-            End Try
+            End If
         End If
 
         If ShowRawData = False Then
@@ -2416,6 +2428,81 @@ Public Class EveHQSettingsFunctions
 
         Return True
     End Function
+
+    Private Shared Sub ImportOldSettings(importFile As String)
+        Try
+            Dim jsonString As String
+            Using fs As FileStream = New FileStream(importFile, FileMode.Open, FileAccess.Read, FileShare.Read)
+                Dim bits(CInt(fs.Length)) As Byte
+                fs.Read(bits, 0, bits.Length)
+                jsonString = Encoding.UTF8.GetString(bits)
+            End Using
+
+            Dim settings As EveSettings = JsonConvert.DeserializeObject(Of EveSettings)(jsonString)
+            If (settings Is Nothing) Then
+                MessageBox.Show("The import of settings failed. The file was read successfully, however the resulting object found was not an EveSettings instance. Please make sure you placed the correct file in the Application data folder.", "Invalid File!", MessageBoxButtons.OK)
+            Else
+                ' Because the Pilots collection is not typed the import of the Json uses a custom anonymous type
+                ' we need to fix that.
+                Dim fixedPilots As New Collection
+                For Each pilotImported As Object In settings.Pilots
+                    Dim temp As String = JsonConvert.SerializeObject(pilotImported)
+                    Dim pilot As Pilot = JsonConvert.DeserializeObject(Of Pilot)(temp)
+                    Dim skills As New Collection
+                    For Each importedSkill As Object In pilot.PilotSkills
+                        temp = JsonConvert.SerializeObject(importedSkill)
+                        skills.Add(JsonConvert.DeserializeObject(Of PilotSkill)(temp))
+                    Next
+                    pilot.PilotSkills = skills
+                    fixedPilots.Add(pilot)
+                Next
+                settings.Pilots = fixedPilots
+
+                ' Accounts are also a non typed collection
+                Dim fixedAccounts As New Collection
+                For Each accountImported As Object In settings.Accounts
+                    Dim temp As String = JsonConvert.SerializeObject(accountImported)
+                    fixedAccounts.Add(JsonConvert.DeserializeObject(Of EveAccount)(temp))
+                Next
+
+                settings.Accounts = fixedAccounts
+
+                ' Plugins
+                Dim fixedPlugins As New SortedList
+                For Each plugin As String In settings.Plugins.Keys
+                    Dim temp As String = JsonConvert.SerializeObject(settings.Plugins(plugin))
+                    fixedPlugins.Add(plugin, JsonConvert.DeserializeObject(Of PlugIn)(temp))
+                Next
+                settings.Plugins = fixedPlugins
+                ' TODO: Make settings more Strongly typed!
+
+                HQ.EveHqSettings = settings
+                ResetPilotData()
+                ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
+                Dim TempAccounts As New List(Of EveAccount)
+                Dim TempPilots As New List(Of Pilot)
+                For Each a As EveAccount In HQ.EveHqSettings.Accounts
+                    TempAccounts.Add(a)
+                Next
+                For Each p As Pilot In HQ.EveHqSettings.Pilots
+                    TempPilots.Add(p)
+                Next
+                HQ.EveHqSettings.Accounts.Clear()
+                HQ.EveHqSettings.Pilots.Clear()
+                For Each a As EveAccount In TempAccounts
+                    HQ.EveHqSettings.Accounts.Add(a, a.userID)
+                Next
+                For Each p As Pilot In TempPilots
+                    HQ.EveHqSettings.Pilots.Add(p, p.Name)
+                Next
+                SaveEveHQSettings()
+                MessageBox.Show("Settings imported and saved successfully! Please delete the {0} file so you are not prompted again".FormatInvariant(importFile), "Done!", MessageBoxButtons.OK)
+            End If
+        Catch ex As Exception
+            Trace.TraceError(ex.FormatException())
+            MessageBox.Show("The import of settings failed. Please check the EveHQ log files for details on the exception.")
+        End Try
+    End Sub
 
     Private Shared Sub ResetPilotData()
         ' Resets certain data added to the pilot class not initialised from the binary deserialisation
