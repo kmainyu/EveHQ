@@ -20,6 +20,7 @@
 Imports System.Drawing
 Imports System.Windows.Forms
 Imports System.Text
+Imports EveHQ.Common.Extensions
 
 Public Class SkillQueueFunctions
 
@@ -70,6 +71,7 @@ Public Class SkillQueueFunctions
                 EveHQ.Core.SkillQueueFunctions.RemoveTrainedSkills(qPilot, bQueue)
             End If
         Catch ex As Exception
+            Trace.TraceError(ex.FormatException())
             MessageBox.Show("Error occurs in Queue Building", "BuildQueue Error")
             Return Nothing
             Exit Function

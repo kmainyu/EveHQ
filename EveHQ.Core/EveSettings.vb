@@ -2451,7 +2451,8 @@ Public Class EveHQSettingsFunctions
                     Dim skills As New Collection
                     For Each importedSkill As Object In pilot.PilotSkills
                         temp = JsonConvert.SerializeObject(importedSkill)
-                        skills.Add(JsonConvert.DeserializeObject(Of PilotSkill)(temp))
+                        Dim skill As PilotSkill = JsonConvert.DeserializeObject(Of PilotSkill)(temp)
+                        skills.Add(skill, skill.Name)
                     Next
                     pilot.PilotSkills = skills
                     fixedPilots.Add(pilot)
@@ -2474,6 +2475,16 @@ Public Class EveHQSettingsFunctions
                     fixedPlugins.Add(plugin, JsonConvert.DeserializeObject(Of PlugIn)(temp))
                 Next
                 settings.Plugins = fixedPlugins
+
+                ' Dashboard Config
+                Dim fixedDashboard As New ArrayList
+                For Each config As Object In settings.DashboardConfiguration
+                    Dim temp As String = JsonConvert.SerializeObject(config)
+                    fixedDashboard.Add(JsonConvert.DeserializeObject(Of SortedList(Of String, Object))(temp))
+                Next
+
+                settings.DashboardConfiguration = fixedDashboard
+
                 ' TODO: Make settings more Strongly typed!
 
                 HQ.EveHqSettings = settings
