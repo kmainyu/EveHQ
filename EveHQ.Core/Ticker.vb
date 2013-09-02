@@ -110,8 +110,13 @@ Public Class Ticker
 
             Dim task As Task(Of Dictionary(Of String, Double)) = EveHQ.Core.DataFunctions.GetMarketPrices(items)
             task.ContinueWith(Sub(priceTask As Task(Of Dictionary(Of String, Double)))
-                                  If priceTask.IsCompleted And priceTask.IsFaulted = False Then
-                                      Dim price As Double = priceTask.Result(itemID)
+                                  If priceTask.IsCompleted And priceTask.IsFaulted = False And priceTask.Exception Is Nothing And priceTask.Result IsNot Nothing Then
+                                      Dim price As Double
+                                      If (priceTask.Result.ContainsKey(itemID)) Then
+                                          price = priceTask.Result(itemID)
+                                      Else
+                                          price = 0
+                                      End If
                                       If (price > 0) Then
                                           Try
                                               'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.

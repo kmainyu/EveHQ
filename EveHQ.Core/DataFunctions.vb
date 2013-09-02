@@ -860,38 +860,48 @@ Public Class DataFunctions
             transType = HQ.EveHqSettings.MarketDefaultTransactionType
         End If
 
-
         Dim dataTask As Task(Of IEnumerable(Of ItemOrderStats))
         Dim resultTask As Task(Of Dictionary(Of String, Double))
 
-        If itemIDs IsNot Nothing And itemIDs.Any() Then
+        If itemIDs IsNot Nothing Then
+            If itemIDs.Any() Then
+                ' Go through the list of id's provided and only get the items that have a valid market group.
+                Dim filteredIdNumbers As IEnumerable(Of String) = (From itemId In itemIDs Where HQ.itemData.ContainsKey(itemId))
 
+                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where HQ.itemData(itemId).MarketGroup <> 0 Select itemId.ToInt())
 
-
-            ' Go through the list of id's provided and only get the items that have a valid market group.
-            Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In itemIDs Where HQ.itemData(itemId).MarketGroup <> 0 Select itemId.ToInt())
-
-            If (itemIdNumbersToRequest.Any()) Then
-                'Fetch all the item prices in a single request
-                If HQ.EveHqSettings.MarketUseRegionMarket Then
-                    dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, Nothing, 1)
-                Else
-                    dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+                If itemIdNumbersToRequest Is Nothing Then
+                    itemIdNumbersToRequest = New List(Of Integer)
                 End If
 
-                ' Still need to do this in a synchronous fashion...unfortunately
-                resultTask = dataTask.ContinueWith(Function(markettask As Task(Of IEnumerable(Of ItemOrderStats))) As Dictionary(Of String, Double)
+                If (itemIdNumbersToRequest.Any()) Then
+                    'Fetch all the item prices in a single request
+                    If HQ.EveHqSettings.MarketUseRegionMarket Then
+                        dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+                    Else
+                        dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+                    End If
+
+                    ' Still need to do this in a synchronous fashion...unfortunately
+                    resultTask = dataTask.ContinueWith(Function(markettask As Task(Of IEnumerable(Of ItemOrderStats))) As Dictionary(Of String, Double)
 
 
-                                                       Return ProcessPriceTaskData(markettask, itemIDs, metric, transType)
+                                                           Return ProcessPriceTaskData(markettask, itemIDs, metric, transType)
 
 
-                                                   End Function)
+                                                       End Function)
+                Else
+                    resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
+                                                                                           'Empty Result
+                                                                                           Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
+                                                                                       End Function)
+                End If
             Else
                 resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
                                                                                        'Empty Result
                                                                                        Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
                                                                                    End Function)
+
             End If
         Else
             resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
