@@ -216,6 +216,18 @@ call EveHQNotRunning
 
 #uninstall the msi versions.
 
+#2.11.10
+push $R0
+  StrCpy $R0 {F0922F53-0905-4830-9755-93E1B0C32B20}
+  Call UninstallMSI
+pop $R0
+
+#2.11.9
+push $R0
+  StrCpy $R0 {5EBB0328-70C2-4A58-A4AC-225419B25E51}
+  Call UninstallMSI
+pop $R0
+
 #2.11.8
 push $R0
   StrCpy $R0 {7E13F3C3-7B43-44E1-8D4D-6060243674D2}
