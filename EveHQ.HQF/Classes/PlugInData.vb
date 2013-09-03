@@ -20,6 +20,7 @@
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports EveHQ.Common.Extensions
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
@@ -441,6 +442,7 @@ Public Class PlugInData
             Return True
         Catch ex As Exception
             MessageBox.Show("There was an error generating the HQF cache data. The error was: " & ex.Message, "Error Generating HQF Cache", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Trace.TraceError(ex.FormatException())
             Return False
         End Try
     End Function

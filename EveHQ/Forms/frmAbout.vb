@@ -34,7 +34,7 @@ Public Class frmAbout
         credits.Append("<tr><td align='left' colspan=2>Lead Developer:</td></tr>")
         credits.Append("<tr><td align='left' colspan=2>Quantix Blackstar</td></tr>")
         credits.Append("<tr><td align='left' colspan=2>Current Contributors:</td></tr>")
-        credits.Append("<tr><td align='left' colspan=2>Arkan5, Quantix Blackstar, Vessper</td></tr>")
+        credits.Append("<tr><td align='left' colspan=2>Rob Crowley (Arkan), Quantix Blackstar, Vessper</td></tr>")
         credits.Append("<tr><td align='left' colspan=2>Former Contributors:</td></tr>")
         credits.Append("<tr><td align='left' colspan=2>Darkwolf, Darmed Khan, Eowarian, farlin, geniusfreak, Mdram, Modescond, MoWe79, MrCue, Nauvus3x7, Saulvin, Taedrin, Thorien</td></tr>")
         credits.Append("<tr><td colspan=2><br /></td></tr>")

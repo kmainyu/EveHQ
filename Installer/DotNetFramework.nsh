@@ -1,7 +1,7 @@
 Section "MS .NET Framework v4"
 	
 SectionIn RO
-	ReadRegStr $0 HKLM "SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" "Version"
+	ReadRegStr $0 HKLM "SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" "TargetVersion"
 	strCmp $0 "" Net40NotFound
 	goto Exit
 	
