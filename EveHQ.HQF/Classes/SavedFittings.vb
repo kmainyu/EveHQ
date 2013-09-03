@@ -94,7 +94,9 @@ Imports System.Windows.Forms
         Fittings.FittingList.Clear()
         For Each fit As SavedFitting In SavedFittingList.Values
             Dim loadedFitting As Fitting = CreateFittingFromSavedFitting(fit)
-            Fittings.FittingList.Add(fit.KeyName, loadedFitting)
+            If loadedFitting IsNot Nothing Then
+                Fittings.FittingList.Add(fit.KeyName, loadedFitting)
+            End If
         Next
     End Sub
 
@@ -143,23 +145,24 @@ Imports System.Windows.Forms
             Case "Iteron Mark IV"
                 Fit.ShipName = "Miasmos"
         End Select
-        Dim NewFit As New Fitting(Fit.ShipName, Fit.FittingName, Fit.PilotName)
-        'NewFit.ShipName = Fit.ShipName
-        'NewFit.FittingName = Fit.FittingName
-        ' NewFit.PilotName = Fit.PilotName
-        NewFit.DamageProfileName = Fit.DamageProfileName
-        NewFit.Modules = Fit.Modules
-        NewFit.Drones = Fit.Drones
-        NewFit.Items = Fit.Items
-        NewFit.Ships = Fit.Ships
-        NewFit.ImplantGroup = Fit.ImplantGroup
-        NewFit.Implants = Fit.Implants
-        NewFit.Boosters = Fit.Boosters
-        NewFit.WHEffect = Fit.WHEffect
-        NewFit.WHLevel = Fit.WHLevel
-        NewFit.FleetEffects = Fit.FleetEffects
-        NewFit.RemoteEffects = Fit.RemoteEffects
-        Return NewFit
+        If ShipLists.shipList.ContainsKey(Fit.ShipName) Then
+            Dim NewFit As New Fitting(Fit.ShipName, Fit.FittingName, Fit.PilotName)
+            NewFit.DamageProfileName = Fit.DamageProfileName
+            NewFit.Modules = Fit.Modules
+            NewFit.Drones = Fit.Drones
+            NewFit.Items = Fit.Items
+            NewFit.Ships = Fit.Ships
+            NewFit.ImplantGroup = Fit.ImplantGroup
+            NewFit.Implants = Fit.Implants
+            NewFit.Boosters = Fit.Boosters
+            NewFit.WHEffect = Fit.WHEffect
+            NewFit.WHLevel = Fit.WHLevel
+            NewFit.FleetEffects = Fit.FleetEffects
+            NewFit.RemoteEffects = Fit.RemoteEffects
+            Return NewFit
+        Else
+            Return Nothing
+        End If
     End Function
 
     ''' <summary>
