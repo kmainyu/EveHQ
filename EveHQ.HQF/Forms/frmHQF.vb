@@ -177,12 +177,13 @@ Public Class frmHQF
                     Dim newfit As Fitting = Fittings.FittingList(FitKey)
                     Call Me.CreateNewFittingTab(newfit)
                     newfit.ShipSlotCtrl.UpdateEverything()
+
+                    If ActiveFitting Is Nothing Then
+                        ActiveFitting = newfit
+                        tabHQF.SelectedTabIndex = 0
+                    End If
                 End If
             Next
-            If HQF.Settings.HQFSettings.OpenFittingList.Count > 0 Then
-                ActiveFitting = Fittings.FittingList(HQF.Settings.HQFSettings.OpenFittingList(0).ToString)
-                tabHQF.SelectedTabIndex = 0
-            End If
         End If
 
         ' Set default widths of module list

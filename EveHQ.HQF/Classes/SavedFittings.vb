@@ -93,7 +93,8 @@ Imports System.Windows.Forms
     Private Shared Sub CopySavedFittings()
         Fittings.FittingList.Clear()
         For Each fit As SavedFitting In SavedFittingList.Values
-            Fittings.FittingList.Add(fit.KeyName, CreateFittingFromSavedFitting(fit))
+            Dim loadedFitting As Fitting = CreateFittingFromSavedFitting(fit)
+            Fittings.FittingList.Add(fit.KeyName, loadedFitting)
         Next
     End Sub
 
