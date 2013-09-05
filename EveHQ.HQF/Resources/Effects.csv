@@ -921,7 +921,7 @@
 986,2,77,273,3,6,1,0,2,12,Shield Hardeners - Active Kin Resist
 987,2,77,274,3,6,1,0,2,12,Shield Hardeners - Active Therm Resist
 # Shield Power Relays,,,,,,,,,,
-134,2,57,479,3,6,0,0,0,14,Shield Power Relay - Shield Recharge Rate
+338,2,57,479,3,6,0,0,0,14,Shield Power Relay - Shield Recharge Rate
 144,2,57,55,3,6,0,0,0,14,Shield Power Relay - Capacitor Recharge Rate
 # Shield Rechargers,,,,,,,,,,
 134,2,39,479,3,6,0,0,0,14,Shield Recharger - Shield Recharge Rate
