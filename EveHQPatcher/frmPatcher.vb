@@ -143,7 +143,7 @@ Public Class frmPatcher
                 End If
             Catch ex As Exception
                 ' Failed extraction
-                Exit Function
+                Return False
             End Try
         End If
 
@@ -197,6 +197,8 @@ Public Class frmPatcher
         Catch ex As Exception
             ' Failed delete - meh, cleanup can occur in the main app if need be
         End Try
+
+        Return True
 
     End Function
 
