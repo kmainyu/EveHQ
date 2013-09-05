@@ -4,7 +4,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <VersionPreRelease>Beta$([System.DateTime]::Now.ToString("yyyyMMddHHmmss"))</VersionPreRelease>
-    <SemanticVersionText>2.12.2</SemanticVersionText>
+    <SemanticVersionText>2.12.3</SemanticVersionText>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IsReleaseBuild)' == 'true' or '$(IsReleaseBuild)' == 'True' or '$(IsReleaseBuild)' == 'TRUE' or '$(IsReleaseBuild)' == '1'">
     <VersionPreRelease></VersionPreRelease>

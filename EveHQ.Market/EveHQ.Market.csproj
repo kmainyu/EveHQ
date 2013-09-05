@@ -38,7 +38,8 @@
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="EVECacheParser">
+    <Reference Include="EVECacheParser, Version=1.0.2.112, Culture=neutral, PublicKeyToken=8bec974490d49248, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Ref\EveCacheParser\EVECacheParser.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
