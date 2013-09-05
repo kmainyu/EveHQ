@@ -592,7 +592,7 @@ Public Class ShipSlotControl
                         Case "Calib"
                             slotNode.Cells.Add(New Cell(shipMod.Calibration.ToString("N2")))
                         Case "Price"
-                            Dim temp As List(Of Cell)
+                            Dim temp As New List(Of Cell)
                             Dim priceCell As New Cell()
                             If _fittingPriceCells.TryGetValue(shipMod.ID, temp) = False Then
                                 temp = New List(Of Cell)

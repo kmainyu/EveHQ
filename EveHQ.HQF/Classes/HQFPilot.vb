@@ -199,7 +199,7 @@ End Class
 
     Public Shared Sub LoadHQFPilotData()
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
-            Dim s As FileStream
+            Dim s As FileStream = Nothing
             Try
             s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
             Dim f As BinaryFormatter = New BinaryFormatter

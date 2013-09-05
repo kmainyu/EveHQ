@@ -1754,7 +1754,7 @@ Public Class frmItemBrowser
                             newNode = New TreeNode
                             newNode.Text = item ' Name
                             newNode.Name = EveHQ.Core.HQ.itemList(item) ' ID
-                            Dim eveItem As EveItem
+                            Dim eveItem As New EveItem
                             If EveHQ.Core.HQ.itemData.TryGetValue(newNode.Name, eveItem) = True And (eveItem IsNot Nothing) = True And e.Name = eveItem.Group.ToString Then
                                 ' Check published flag
                                 If EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = True Then

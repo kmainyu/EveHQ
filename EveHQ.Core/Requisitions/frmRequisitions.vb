@@ -379,7 +379,7 @@ Public Class frmRequisitions
                                                           row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
 
                                                       End If
-                                                      Dim asset As RequisitionAsset
+                                                      Dim asset As New RequisitionAsset
                                                       Dim owned As Long = 0
                                                       If (ownedAssets.TryGetValue(row.Text, asset)) Then
                                                           owned = asset.TotalQuantity

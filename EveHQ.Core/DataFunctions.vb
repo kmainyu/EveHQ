@@ -951,7 +951,7 @@ Public Class DataFunctions
                             Dim itemMetric As MarketMetric = metric
                             Dim itemTransKind As MarketTransactionKind = transType
                             ' check to see if the item has a configured overrided for metric and trans type
-                            Dim override As ItemMarketOverride
+                            Dim override As New ItemMarketOverride
                             If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
                                 itemMetric = override.MarketStat
                                 itemTransKind = override.TransactionType

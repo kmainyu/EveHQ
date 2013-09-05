@@ -2309,7 +2309,7 @@ Public Class frmSettings
 
             Else
                 For Each systemId As Integer In HQ.MarketStatDataProvider.SupportedSystems
-                    Dim temp As SolarSystem
+                    Dim temp As New SolarSystem
                     If (HQ.SolarSystemsById.TryGetValue(systemId.ToInvariantString(), temp)) Then
                         _systemList.Items.Add(temp.Name)
                     End If
@@ -2466,14 +2466,14 @@ Public Class frmSettings
 
     Private Sub OnOverrideItemListIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
 
-        Dim item As String
+        Dim item As String = ""
         Dim itemId As Integer
         Dim activeStat As MarketMetric = HQ.EveHqSettings.MarketDefaultMetric
         Dim activeTransactionType As MarketTransactionKind = HQ.EveHqSettings.MarketDefaultTransactionType
         If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item)) And Integer.TryParse(item, itemId) Then
 
             ' see if the item is in the override list, otherwise set values to default
-            Dim itemOverride As ItemMarketOverride
+            Dim itemOverride As New ItemMarketOverride
             If HQ.EveHqSettings.MarketStatOverrides.Count > 0 And HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemId, itemOverride) Then
                 If (itemOverride IsNot Nothing) Then
                     activeStat = itemOverride.MarketStat
@@ -2493,7 +2493,7 @@ Public Class frmSettings
 
 
     Private Sub OnAddUpdateItemOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideAddOverride.Click
-        Dim item As String
+        Dim item As String = ""
         Dim itemID As Integer
 
 
@@ -2534,7 +2534,7 @@ Public Class frmSettings
             override.MarketStat = MarketMetric.Minimum
         End If
 
-        Dim existing As ItemMarketOverride
+        Dim existing As New ItemMarketOverride
         If HQ.EveHqSettings.MarketStatOverrides.TryGetValue(override.ItemId, existing) Then
             HQ.EveHqSettings.MarketStatOverrides(override.ItemId) = override
         Else
@@ -2582,7 +2582,7 @@ Public Class frmSettings
 
 
     Private Sub OnRemoveOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideRemoveOverride.Click
-        Dim item As String
+        Dim item As String = ""
         Dim itemID As Integer
 
         If _itemOverrideItemList Is Nothing Then

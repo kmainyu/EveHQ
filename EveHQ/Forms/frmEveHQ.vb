@@ -2189,7 +2189,7 @@ Public Class frmEveHQ
         Trace.TraceInformation("Fetching Update XML document from {0}".FormatInvariant(remoteURL))
         Try
             ' Create the requester
-            Dim temp As Uri
+            Dim temp As Uri = Nothing
             If Uri.TryCreate(remoteURL, UriKind.Absolute, temp) = False Then
                 Return Nothing
             End If

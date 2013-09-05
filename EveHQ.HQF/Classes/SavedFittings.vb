@@ -37,7 +37,7 @@ Imports System.Windows.Forms
         ' Load the fittings from the binary file
         Fittings.FittingList.Clear()
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin")) = True Then
-            Dim s As FileStream
+            Dim s As FileStream = Nothing
             Try
                 s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter

@@ -79,7 +79,7 @@ End Class
     Public Shared Sub LoadProfiles()
         ' Check for the profiles file so we can load it
         If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
-            Dim s As FileStream
+            Dim s As FileStream = Nothing
             Try
                 s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
