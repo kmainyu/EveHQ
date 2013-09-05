@@ -41,9 +41,11 @@ Public Class frmAbout
         credits.Append("<tr><td align='left' colspan=2>EveHQ Created By:</td></tr>")
         credits.Append("<tr><td align='left' colspan=2>Vessper</td></tr>")
         credits.Append("<tr><td colspan=2><br /></td></tr>")
+        credits.Append("<tr><td align='left' colspan=2>EVECacheParser Library By:</td></tr>")
+        credits.Append("<tr><td align='left' colspan=2>Desmont McCallock</td></tr>")
+        credits.Append("<tr><td colspan=2><br /></td></tr>")
         credits.Append("<tr><td>Artwork</td><td align='right'><a href='http://foxgguy2001.deviantart.com' target='_blank'>Foxgguy2001</a></td></tr>")
         credits.Append("<tr><td colspan=2><br /></td></tr>")
-        credits.Append("<tr><td colspan=2>Special thanks to <a href='http://www.battleclinic.com' target='_blank'>BattleClinic</a> for the support they have provided EveHQ over the years.<br /><br /></td></tr>")
         credits.Append("<tr><td colspan=2>Isk donations to Quantix Blackstar gratefully accepted! Alternatively, help fund EveHQ development by <a href='http://pledgie.com/campaigns/18228' target='_blank'>donating to cover costs</a>.</td></tr>")
         credits.Append("</table></body></html>")
         wbCredits.DocumentText = credits.ToString
