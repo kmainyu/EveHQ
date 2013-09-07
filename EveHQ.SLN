@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Caching", "EveHQ.Cach
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Common", "EveHQ.Common\EveHQ.Common.csproj", "{7CD9A34B-9635-4D69-B451-1CE93B8280D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.EveData", "EveHQ.EveData\EveHQ.EveData.csproj", "{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -276,6 +278,20 @@ Global
 		{7CD9A34B-9635-4D69-B451-1CE93B8280D8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7CD9A34B-9635-4D69-B451-1CE93B8280D8}.Release|Win32.ActiveCfg = Release|Any CPU
 		{7CD9A34B-9635-4D69-B451-1CE93B8280D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|.NET.ActiveCfg = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Win32.ActiveCfg = Release|Any CPU
+		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
