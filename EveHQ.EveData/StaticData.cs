@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ProtoBuf;
 
 namespace EveHQ.EveData
 {
-    class StaticData
+    public class StaticData
     {
 
         // Data Availability
@@ -60,6 +61,14 @@ namespace EveHQ.EveData
         public SortedList<string, AssemblyArray> AssemblyArrays = new SortedList<string, AssemblyArray>();  // typeName, AssemblyArray
         public SortedList<int, string> NPCCorps = new SortedList<int, string>(); // corpID, corpName
         public SortedList<int, string> ItemFlags = new SortedList<int, string>();  // flagID, flagName
+
+        /// <summary>
+        /// Initialises a set of blank data for use
+        /// </summary>
+        public StaticData()
+        {
+            // Default constructor
+        }
 
         /// <summary>
         /// Initialises a set of EveData from pre-generated cache files.
@@ -326,5 +335,238 @@ namespace EveHQ.EveData
 
         }
 
+        //''' <summary>
+        //''' Returns the type ID of a blueprint given a productID
+        //''' </summary>
+        //''' <param name="productID">The type ID of the product</param>
+        //''' <returns>An integer representing the blueprint type ID</returns>
+        //''' <remarks></remarks>
+        public int GetBPTypeID(int productID)
+        {
+            var itemIDs = (from bt in Blueprints.Values where bt.ProductID == productID select bt.ID).ToList();
+
+            if (itemIDs.Count > 0)
+            {
+                return itemIDs[0];
+            }
+
+            return -1;
+        }
+        
+        /// <summary>
+        /// Returns the type ID of the product made from the blueprint
+        /// </summary>
+        /// <param name="bpTypeID">The type ID of the blueprint</param>
+        /// <returns>An integer representing the typeID of the product</returns>
+        /// <remarks></remarks>
+        public int GetTypeID(int bpTypeID)
+        {
+            if (Blueprints.ContainsKey(bpTypeID))
+            {
+                return Blueprints[bpTypeID].ProductID;
+            }
+           
+            return -1;
+        }
+
+        /// <summary>
+        /// Function to return a list of items in a specific database group
+        /// </summary>
+        /// <param name="groupID">The groupID of the items</param>
+        /// <returns>An IEnumerable(Of EveItem) containing the items in the requested group</returns>
+        /// <remarks></remarks>
+        public IEnumerable<EveType> GetItemsInGroup(int groupID)
+        {
+            return Types.Values.Where(item => item.Group == groupID);
+        }
+
+        /// <summary>
+        /// Function to return a list of groups in a specific category
+        /// </summary>
+        /// <param name="categoryID">The categoryID of the groups</param>
+        /// <returns>An IEnumerable(Of String) containing the IDs of the groups in the requested category</returns>
+        /// <remarks></remarks>
+        public IEnumerable<int> GetGroupsInCategory(int categoryID)
+        {
+            return GroupCats.Keys.Where(groupID => GroupCats[groupID] == categoryID);
+        }
+
+        /// <summary>
+        /// Function to return a sorted list of items with IDs
+        /// </summary>
+        /// <param name="groupID">The groupID of the items</param>
+        /// <returns>A SortedList(Of String, Integer) containing the names and IDs of items in the requested group</returns>
+        /// <remarks></remarks>
+        public SortedList<string, int> GetSortedItemListInGroup(int groupID)
+        {
+            var items = new SortedList<string, int>();
+            foreach (var item in GetItemsInGroup(groupID))
+            {
+                items.Add(item.Name, item.ID);
+            }
+            return items;
+        }
+
+
+        /// <summary>
+        /// Function to return all the attributes of a specific item
+        /// </summary>
+        /// <param name="typeID">The typeID of the item</param>
+        /// <returns>A SortedList(Of Integer, ItemAttributeData) containing the detailed attributes</returns>
+        /// <remarks></remarks>
+        public SortedList<int, ItemAttributeData> GetAttributeDataForItem(int typeID)
+        {
+            
+
+            //' Fetch the attributes for the item
+            var atts = (from ta in TypeAttributes where ta.TypeID == typeID select new ItemAttribute {ID = ta.AttributeID, Value = ta.Value}).ToList();
+            
+            // Prepare the attribute data
+            var attributeList = new SortedList<int, ItemAttributeData>();
+
+            foreach (var att in atts)
+            {
+                attributeList.Add(att.ID, new ItemAttributeData(att.ID, att.Value, AttributeTypes[att.ID].DisplayName, " " + AttributeUnits[AttributeTypes[att.ID].UnitID]));
+            }
+
+            // Process attribute data
+            var attributesToAdd = new SortedList<int, ItemAttributeData>();
+
+            foreach (var att in attributeList.Values)
+            {
+                CorrectAttributeValue(att);
+
+                // Adjust for skills
+                switch (att.ID)
+                {
+                    case 182:
+                    case 183:
+                    case 184:
+                    case 1285:
+                    case 1289:
+                    case 1290:
+                        var skillLevelAttribute = 0;
+                        switch (att.ID)
+                        {
+                            case 182:
+                                skillLevelAttribute = 277;
+                                break;
+                            case 183:
+                                skillLevelAttribute = 278;
+                                break;
+                            case 184:
+                                skillLevelAttribute = 279;
+                                break;
+                            case 1285:
+                                skillLevelAttribute = 1286;
+                                break;
+                            case 1289:
+                                skillLevelAttribute = 1287;
+                                break;
+                            case 1290:
+                                skillLevelAttribute = 1288;
+                                break;
+                        }
+                        // Fix cases where there is no skill level data for the skill in the CCP data
+                        if (attributeList.ContainsKey(skillLevelAttribute) == false)
+                        {
+                            attributesToAdd.Add(skillLevelAttribute, new ItemAttributeData(skillLevelAttribute, 0, "", ""));
+                            att.DisplayValue = Types[Convert.ToString(att.Value)].Name + " (Level " + attributesToAdd[skillLevelAttribute].Value.ToString("N0") + ")";
+                        }
+                        else
+                        {
+                            att.DisplayValue = Types[Convert.ToString(att.Value)].Name + " (Level " + attributeList[skillLevelAttribute].Value.ToString("N0") + ")";
+                        }
+                        break;
+                }
+
+            }
+
+            // Add in new attributes we need for skill levels
+            foreach (var iba in attributesToAdd.Values)
+            {
+                attributeList.Add(iba.ID, iba);
+            }
+
+            return attributeList;
+        }
+
+
+        /// <summary>
+        /// Corrects attribute values and display values
+        /// </summary>
+        /// <param name="att">The instance of the ItemAttributeData class to correct</param>
+        /// <remarks></remarks>
+        public void CorrectAttributeValue(ItemAttributeData att)
+        {
+            // Alter data based on unit ID
+            switch (AttributeTypes[att.ID].UnitID)
+            {
+                case 108:
+                    att.Value = 100 - (att.Value * 100);
+                    att.DisplayValue = Convert.ToString(att.Value);
+                    break;
+                case 109:
+                    att.Value = (att.Value * 100) - 100;
+                    att.DisplayValue = Convert.ToString(att.Value);
+                    break;
+                case 111:
+                    att.Value = (att.Value - 1) * 100;
+                    att.DisplayValue = Convert.ToString(att.Value);
+                    break;
+                case 101:
+                    att.Value = att.Value / 1000;
+                    att.DisplayValue = Convert.ToString(att.Value);
+                    break;
+                case 115:
+                    // groupID
+                    att.DisplayValue = TypeGroups[Convert.ToInt32(att.Value)];
+                    att.Unit = "";
+                    break;
+                case 116:
+                    // typeID
+                    att.DisplayValue = Types[Convert.ToString(att.Value)].Name;
+                    att.Unit = "";
+                    break;
+                case 119:
+                case 140:
+                    att.DisplayValue = Convert.ToString(att.Value);
+                    att.Unit = "";
+                    break;
+                default:
+                    att.DisplayValue = Convert.ToString(att.Value);
+                    break;
+            }
+        }
+        
+        ///<summary>
+        ///Returns a list of meta variations of a specific item
+        ///</summary>
+        ///<param name="typeID">The type ID to get the variations of</param>
+        ///<returns>A List(Of Integer) containing the typeIDs of the variations</returns>
+        ///<remarks></remarks>
+       public List<int> GetVariationsForItem(int typeID)
+        {
+
+            // Fetch the parent item ID for this item
+            var parentTypeID = typeID;
+            if (MetaTypes.ContainsKey(typeID))
+            {
+                parentTypeID = MetaTypes[typeID].ParentID;
+            }
+
+            // Fetch all items with this same parent ID
+            var itemIDs = (from mt in MetaTypes.Values where mt.ParentID == parentTypeID select mt.ID).ToList();
+
+
+            // Add the current item if it is the parent item
+            if (itemIDs.Contains(parentTypeID) == false)
+            {
+                itemIDs.Add(parentTypeID);
+            }
+
+            return itemIDs; 
+        }
+    
     }
 }

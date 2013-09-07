@@ -23,5 +23,13 @@ namespace EveHQ.EveData
         [ProtoMember(15)]public List<int> Inventions { get; set; }
         [ProtoMember(16)]public List<int> InventionMetaItems { get; set; }
         [ProtoMember(17)]public List<int> InventFrom { get; set; }
+
+        public Blueprint()
+        {
+            Resources = new Dictionary<int, Dictionary<int, BlueprintResource>>();
+            Inventions = new List<int>();
+            InventionMetaItems = new List<int>();
+            InventFrom = new List<int>();
+        }
     }
 }

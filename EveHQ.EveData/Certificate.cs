@@ -14,5 +14,11 @@ namespace EveHQ.EveData
         [ProtoMember(6)]public string Description { get; set; }
         [ProtoMember(7)]public SortedList<string, int> RequiredSkills { get; set; }
         [ProtoMember(8)]public SortedList<string, int> RequiredCerts { get; set; }
+
+        public Certificate()
+        {
+            RequiredSkills = new SortedList<string, int>();
+            RequiredCerts = new SortedList<string, int>();
+        }
     }
 }

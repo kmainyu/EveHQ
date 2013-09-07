@@ -20,5 +20,10 @@ namespace EveHQ.EveData
         [ProtoMember(12)]public double X { get; set; }
         [ProtoMember(13)]public double Y { get; set; }
         [ProtoMember(14)]public double Z { get; set; }
+
+        public SolarSystem()
+        {
+            Gates = new List<int>();
+        }
     }
 }
