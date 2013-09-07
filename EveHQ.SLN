@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Common", "EveHQ.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.EveData", "EveHQ.EveData\EveHQ.EveData.csproj", "{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.CacheCreator", "EveHQ.CacheCreator\EveHQ.CacheCreator.vbproj", "{789CDD4C-6D0C-42EA-95CE-FB224130406D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -292,6 +294,20 @@ Global
 		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|Win32.ActiveCfg = Release|Any CPU
 		{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}.Release|x86.ActiveCfg = Release|Any CPU
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|.NET.ActiveCfg = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|Win32.ActiveCfg = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|x86.ActiveCfg = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Debug|x86.Build.0 = Debug|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|.NET.ActiveCfg = Release|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|Any CPU.ActiveCfg = Release|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|Win32.ActiveCfg = Release|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|x86.ActiveCfg = Release|x86
+		{789CDD4C-6D0C-42EA-95CE-FB224130406D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
