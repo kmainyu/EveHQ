@@ -13,7 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 // =========================================================================
-namespace EveHQ.Market
+namespace EveHQ.Market.UnifiedMarketDataFormat
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace EveHQ.Market
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
 
-    /// <summary>TODO: Update summary.</summary>
+    /// <summary>The Unfied data format for a specific kind of row schema.</summary>
     /// <typeparam name="T"></typeparam>
     public class UnifiedDataFormat<T> : UnifiedDataFormat
     {

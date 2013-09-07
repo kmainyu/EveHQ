@@ -18,6 +18,7 @@ namespace EveHQ.Market
     using System;
 
     using EveHQ.Common.Extensions;
+    using EveHQ.Market.UnifiedMarketDataFormat;
 
     using Newtonsoft.Json;
 

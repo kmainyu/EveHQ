@@ -20,6 +20,7 @@ namespace EveHQ.Market
     using System.Threading.Tasks;
 
     using EveHQ.Common;
+    using EveHQ.Market.UnifiedMarketDataFormat;
 
     /// <summary>
     /// Eve Market Data Relay uploader.
@@ -30,11 +31,6 @@ namespace EveHQ.Market
         /// Where we will upload data to.
         /// </summary>
         private const string EmdrUploadUrl = "http://upload.eve-emdr.com/upload/";
-
-        /// <summary>
-        /// name of the http post parameter.
-        /// </summary>
-        private const string DataParameterName = "data";
 
         /// <summary>
         /// upload key.
@@ -50,6 +46,13 @@ namespace EveHQ.Market
         /// Next attempt at uploading if not currently enabled.
         /// </summary>
         private DateTimeOffset _nextAttempt = DateTimeOffset.Now;
+
+        private IHttpRequestProvider _requestProvider;
+
+        public EveMarketDataRelayProvider(IHttpRequestProvider requestProvider)
+        {
+            _requestProvider = requestProvider;
+        }
 
         /// <summary>Gets a value indicating whether this uploader is enabled.</summary>
         public bool IsEnabled
@@ -87,7 +90,7 @@ namespace EveHQ.Market
             var requestUri = new Uri(EmdrUploadUrl);
 
             // send the request and return the task handle after checking the return of the web request
-            return WebRequestHelper.PostAsync(requestUri, marketDataJson).ContinueWith(
+            return _requestProvider.PostAsync(requestUri, marketDataJson).ContinueWith(
                 task =>
                 {
                     HttpWebResponse httpResponse;

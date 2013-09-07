@@ -38,7 +38,7 @@
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="EVECacheParser, Version=1.0.2.112, Culture=neutral, PublicKeyToken=8bec974490d49248, processorArchitecture=MSIL">
+    <Reference Include="EVECacheParser, Version=1.1.0.116, Culture=neutral, PublicKeyToken=8bec974490d49248, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Ref\EveCacheParser\EVECacheParser.dll</HintPath>
     </Reference>
@@ -82,7 +82,6 @@
     <Compile Include="MarketServices\EveHQMarketDataProvider.cs" />
     <Compile Include="MarketServices\EveMarketDataRelayProvider.cs" />
     <Compile Include="MarketTransactionKind.cs" />
-    <Compile Include="ObjectConversions.cs" />
     <Compile Include="UnifiedMarketDataFormat\HistoryRow.cs" />
     <Compile Include="UnifiedMarketDataFormat\HistoryRowConverter.cs" />
     <Compile Include="UnifiedMarketDataFormat\HistoryRowset.cs" />

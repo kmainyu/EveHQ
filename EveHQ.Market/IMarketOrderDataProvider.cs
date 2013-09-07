@@ -19,7 +19,7 @@ namespace EveHQ.Market
     using System.Threading.Tasks;
 
     /// <summary>
-    ///     TODO: Update summary.
+    /// Defines the functional contract for retrieving current market order results.
     /// </summary>
     public interface IMarketOrderDataProvider
     {

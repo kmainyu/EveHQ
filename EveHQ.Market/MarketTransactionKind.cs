@@ -16,7 +16,7 @@
 namespace EveHQ.Market
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///  The type of Transaction
     /// </summary>
     public enum MarketTransactionKind
     {
