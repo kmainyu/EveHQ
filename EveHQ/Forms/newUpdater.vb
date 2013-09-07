@@ -48,7 +48,7 @@ Public Class newUpdater
 
             Dim localStorage As String = _storageFodler
 
-            Dim task As Task(Of HttpResponseMessage) = WebRequestHelper.GetAsync(New Uri(_updateLocation), proxyUri, _useDefaultCred, _proxUsername, _proxyPassword, _useBasicAuth, Nothing, HttpCompletionOption.ResponseHeadersRead)
+            Dim task As Task(Of HttpResponseMessage) = HttpRequestProvider.Default.GetAsync(New Uri(_updateLocation), proxyUri, _useDefaultCred, _proxUsername, _proxyPassword, _useBasicAuth, Nothing, HttpCompletionOption.ResponseHeadersRead)
 
             task.ContinueWith(Sub(dlTask As Task(Of HttpResponseMessage))
                                   If (dlTask.Exception IsNot Nothing) Then

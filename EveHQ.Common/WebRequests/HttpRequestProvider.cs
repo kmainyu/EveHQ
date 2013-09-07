@@ -30,24 +30,49 @@ namespace EveHQ.Common
     using EveHQ.Common.Extensions;
 
     /// <summary>
-    /// Helper class for making Async Web requests with .net 3.5
+    /// Provider class for making Http requests.
     /// </summary>
-    public static class WebRequestHelper
+    public class HttpRequestProvider : IHttpRequestProvider
     {
+        private static readonly HttpRequestProvider DefaultProviderInstance = new HttpRequestProvider(); // type initializer will make this on first use.
+
         /// <summary>
         /// user agent value to send along on requests for provider collection.
         /// </summary>
-        private static readonly string userAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private static readonly string UserAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version;
+
+        private HttpRequestProvider()
+        {
+            // prevents instance creation
+        }
+
+        /// <summary>
+        /// Gets the default http request provider.
+        /// </summary>
+        public static HttpRequestProvider Default
+        {
+            get
+            {
+                return DefaultProviderInstance;
+            }
+        }
 
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
+        /// <param name="proxyServerAddress"></param>
+        /// <param name="useDefaultCredential"></param>
+        /// <param name="proxyUserName"></param>
+        /// <param name="proxyPassword"></param>
+        /// <param name="useBasicAuth"></param>
+        /// <param name="acceptContentType"></param>
+        /// <param name="completionOption"></param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth,string acceptContentType=null, HttpCompletionOption completionOption= HttpCompletionOption.ResponseContentRead)
+        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType = null, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
         {
             var handler = new HttpClientHandler();
 
             //var request = WebRequest.Create(target) as HttpWebRequest;
-           // request.UserAgent = userAgent;
+            // request.UserAgent = userAgent;
             // ReSharper disable PossibleNullReferenceException
             if (proxyServerAddress != null)
             {
@@ -68,7 +93,7 @@ namespace EveHQ.Common
             }
             handler.AutomaticDecompression = DecompressionMethods.GZip;
             handler.AllowAutoRedirect = true;
-            
+
 
             var request = new HttpClient(handler);
 
@@ -78,7 +103,7 @@ namespace EveHQ.Common
             }
             //request.UserAgent = userAgent;
 
-            return request.GetAsync(target.ToString(),completionOption);
+            return request.GetAsync(target.ToString(), completionOption);
 
 
             // ReSharper restore PossibleNullReferenceException
@@ -89,7 +114,7 @@ namespace EveHQ.Common
         /// <param name="target">The target URL.</param>
         /// <param name="postContent">The string content to send as the payload.</param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<WebResponse> PostAsync(Uri target, string postContent)
+        public Task<WebResponse> PostAsync(Uri target, string postContent)
         {
             return PostAsync(target, postContent, null, false, null, null, false);
         }
@@ -97,8 +122,13 @@ namespace EveHQ.Common
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
         /// <param name="target">The target URL.</param>
         /// <param name="postContent">The string content to send as the payload.</param>
+        /// <param name="proxyServerAddress"></param>
+        /// <param name="useDefaultCredential"></param>
+        /// <param name="proxyUserName"></param>
+        /// <param name="proxyPassword"></param>
+        /// <param name="useBasicAuth"></param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<WebResponse> PostAsync(Uri target, string postContent, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        public Task<WebResponse> PostAsync(Uri target, string postContent, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
         {
             var request = WebRequest.Create(target) as HttpWebRequest;
             // This is never null
@@ -120,9 +150,9 @@ namespace EveHQ.Common
                 request.Proxy = proxy;
             }
 
-           
+
             request.Method = "POST";
-            request.UserAgent = userAgent;
+            request.UserAgent = UserAgent;
 
             // ReSharper restore PossibleNullReferenceException
             request.ContentType = "application/x-www-form-urlencoded";
@@ -138,7 +168,7 @@ namespace EveHQ.Common
 
             return Task<WebResponse>.Factory.FromAsync(
                 request.BeginGetResponse,
-                (ticket) =>
+                ticket =>
                 {
                     WebResponse response = null;
                     try
@@ -158,8 +188,13 @@ namespace EveHQ.Common
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
         /// <param name="target">The target URL.</param>
         /// <param name="postData">A name/value collection to send as the form data.</param>
+        /// <param name="proxyServerAddress"></param>
+        /// <param name="useDefaultCredential"></param>
+        /// <param name="proxyUserName"></param>
+        /// <param name="proxyPassword"></param>
+        /// <param name="useBasicAuth"></param>
         /// <returns>The asynchronouse task instance</returns>
-        public static Task<WebResponse> PostAsync(Uri target, NameValueCollection postData, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        public Task<WebResponse> PostAsync(Uri target, NameValueCollection postData, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
         {
             var data = new List<string>();
             foreach (string key in postData.AllKeys)
