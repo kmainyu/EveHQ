@@ -102,6 +102,7 @@
     <Compile Include="Classes\Fitting.vb" />
     <Compile Include="Classes\FittingItems.vb" />
     <Compile Include="Classes\ImageHandler.vb" />
+    <Compile Include="Classes\ResourceHandler.vb" />
     <Compile Include="Classes\SavedFitting.vb" />
     <Compile Include="Classes\FleetManager.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
