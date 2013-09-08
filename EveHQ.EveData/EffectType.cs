@@ -1,11 +1,33 @@
-﻿using System;
-using ProtoBuf;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EffectType.cs" company="EveHQ Development Team">
+//  Copyright © 2005-2012  EveHQ Development Team
+// </copyright>
+// <summary>
+//   Defines an Eve effect type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace EveHQ.EveData
 {
-    [ProtoContract][Serializable]public class EffectType
+    using System;
+    using ProtoBuf;
+
+    /// <summary>
+    /// Defines an Eve effect type.
+    /// </summary>
+    [ProtoContract, Serializable]
+    public class EffectType
     {
-        [ProtoMember(1)]public int EffectID { get; set; }
-        [ProtoMember(2)]public string EffectName { get; set; }
+        /// <summary>
+        /// Gets or sets the effect ID.
+        /// </summary>
+        [ProtoMember(1)]
+        public int EffectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the effect name.
+        /// </summary>
+        [ProtoMember(2)]
+        public string EffectName { get; set; }
     }
 }

@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,24 +49,24 @@
     <Compile Include="AssemblyArray.cs" />
     <Compile Include="AttributeType.cs" />
     <Compile Include="Blueprint.cs" />
-    <Compile Include="BlueprintActivities.cs" />
+    <Compile Include="BlueprintActivity.cs" />
     <Compile Include="BlueprintResource.cs" />
     <Compile Include="Certificate.cs" />
     <Compile Include="CertificateCategory.cs" />
     <Compile Include="CertificateClass.cs" />
-    <Compile Include="CertificateGrades.cs" />
+    <Compile Include="CertificateGrade.cs" />
     <Compile Include="CertificateRecommendation.cs" />
     <Compile Include="EffectType.cs" />
     <Compile Include="EveType.cs" />
-    <Compile Include="ItemAttribute.cs" />
-    <Compile Include="ItemAttributeData.cs" />
+    <Compile Include="ItemAttrib.cs" />
+    <Compile Include="ItemAttribData.cs" />
     <Compile Include="MarketGroup.cs" />
     <Compile Include="MetaType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolarSystem.cs" />
     <Compile Include="StaticData.cs" />
     <Compile Include="Station.cs" />
-    <Compile Include="TypeAttribute.cs" />
+    <Compile Include="TypeAttrib.cs" />
     <Compile Include="TypeEffect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

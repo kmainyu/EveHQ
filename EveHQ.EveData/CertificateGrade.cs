@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MetaType.cs" company="EveHQ Development Team">
+// <copyright file="CertificateGrade.cs" company="EveHQ Development Team">
 //  Copyright © 2005-2012  EveHQ Development Team
 // </copyright>
 // <summary>
-//   Defines an Eve meta type relationship.
+//  Defines which grades a certificate can be.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,27 +13,39 @@ namespace EveHQ.EveData
     using ProtoBuf;
 
     /// <summary>
-    /// Defines an Eve meta type relationship.
+    /// Defines which grades a certificate can be.
     /// </summary>
     [ProtoContract, Serializable]
-    public class MetaType
+    public enum CertificateGrade
     {
         /// <summary>
-        /// Gets or sets the ID.
+        /// The none.
         /// </summary>
-        [ProtoMember(1)]
-        public int Id { get; set; }
+        None = 0,
 
         /// <summary>
-        /// Gets or sets the parent ID.
+        /// The basic.
         /// </summary>
-        [ProtoMember(2)]
-        public int ParentId { get; set; }
+        Basic = 1,
 
         /// <summary>
-        /// Gets or sets the meta group ID.
+        /// The standard.
         /// </summary>
-        [ProtoMember(3)]
-        public int MetaGroupId { get; set; }
+        Standard = 2,
+
+        /// <summary>
+        /// The improved.
+        /// </summary>
+        Improved = 3,
+
+        /// <summary>
+        /// The advanced.
+        /// </summary>
+        Advanced = 4,
+
+        /// <summary>
+        /// The elite.
+        /// </summary>
+        Elite = 5
     }
 }

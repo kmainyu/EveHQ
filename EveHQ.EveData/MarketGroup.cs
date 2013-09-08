@@ -1,12 +1,39 @@
-﻿using System;
-using ProtoBuf;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MarketGroup.cs" company="EveHQ Development Team">
+//  Copyright © 2005-2012  EveHQ Development Team
+// </copyright>
+// <summary>
+//   Defines an Eve market group.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace EveHQ.EveData
 {
-    [ProtoContract][Serializable]public class MarketGroup
+    using System;
+    using ProtoBuf;
+
+    /// <summary>
+    /// Defines an Eve market group.
+    /// </summary>
+    [ProtoContract, Serializable]
+    public class MarketGroup
     {
-        [ProtoMember(1)]public int ID { get; set; }
-        [ProtoMember(2)]public string Name { get; set; }
-        [ProtoMember(3)]public int ParentGroupID { get; set; }
+        /// <summary>
+        /// Gets or sets the ID.
+        /// </summary>
+        [ProtoMember(1)]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        [ProtoMember(2)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent group ID.
+        /// </summary>
+        [ProtoMember(3)]
+        public int ParentGroupId { get; set; }
     }
 }

@@ -1,33 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CertificateClass.cs" company="EveHQ Development Team">
+// <copyright file="ItemAttrib.cs" company="EveHQ Development Team">
 //  Copyright © 2005-2012  EveHQ Development Team
 // </copyright>
 // <summary>
-//  Defines an Eve certificate class.
+//   Defines an Eve item attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace EveHQ.EveData
 {
-    using System;
-    using ProtoBuf;
-
     /// <summary>
-    /// Defines an Eve certificate class.
+    /// Defines an Eve item attribute.
     /// </summary>
-    [ProtoContract, Serializable]
-    public class CertificateClass
+    public class ItemAttrib
     {
         /// <summary>
-        /// Gets or sets the ID.
+        /// Gets or sets the attribute ID.
         /// </summary>
-        [ProtoMember(1)]
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the attribute value.
         /// </summary>
-        [ProtoMember(2)]
-        public string Name { get; set; }
+        public double Value { get; set; }
     }
 }
