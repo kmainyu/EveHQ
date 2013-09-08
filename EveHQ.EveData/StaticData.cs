@@ -23,163 +23,164 @@ namespace EveHQ.EveData
     public class StaticData
     {
         #region "Property Fields"
+
         /// <summary>
-        /// Gets or sets the attribute types.
+        /// The attribute types.
         /// </summary>
         private SortedList<int, AttributeType> attributeTypes = new SortedList<int, AttributeType>(); // attributeID, AttributeType
 
         /// <summary>
-        /// Gets or sets the type attributes.
+        /// The type attributes.
         /// </summary>
         private Collection<TypeAttrib> typeAttributes = new Collection<TypeAttrib>();
 
         /// <summary>
-        /// Gets or sets the attribute units.
+        /// The attribute units.
         /// </summary>
         private SortedList<int, string> attributeUnits = new SortedList<int, string>(); // unitID, DisplayName
 
         /// <summary>
-        /// Gets or sets the effect types.
+        /// The effect types.
         /// </summary>
         private SortedList<int, EffectType> effectTypes = new SortedList<int, EffectType>(); // effectID, EffectType
 
         /// <summary>
-        /// Gets or sets the type effects.
+        /// The type effects.
         /// </summary>
         private Collection<TypeEffect> typeEffects = new Collection<TypeEffect>();
 
         /// <summary>
-        /// Gets or sets the type names.
+        /// The type names.
         /// </summary>
         private SortedList<string, string> typeNames = new SortedList<string, string>(); // typeName, typeID
 
         /// <summary>
-        /// Gets or sets the types.
+        /// The types.
         /// </summary>
         private SortedList<string, EveType> types = new SortedList<string, EveType>(); // typeID, EveType
 
         /// <summary>
-        /// Gets or sets the type groups.
+        /// The type groups.
         /// </summary>
         private SortedList<int, string> typeGroups = new SortedList<int, string>(); // groupID, groupName
 
         /// <summary>
-        /// Gets or sets the type cats.
+        /// The type cats.
         /// </summary>
         private SortedList<int, string> typeCats = new SortedList<int, string>(); // catID, catName
 
         /// <summary>
-        /// Gets or sets the group cats.
+        /// The group cats.
         /// </summary>
         private SortedList<int, int> groupCats = new SortedList<int, int>();  // groupID, catID
 
         /// <summary>
-        /// Gets or sets the market groups.
+        /// The market groups.
         /// </summary>
         private SortedList<int, MarketGroup> marketGroups = new SortedList<int, MarketGroup>(); // typeID, MarketGroup
 
         /// <summary>
-        /// Gets or sets the item market groups.
+        /// The item market groups.
         /// </summary>
         private SortedList<string, string> itemMarketGroups = new SortedList<string, string>();  // typeID, marketGroupID
 
         /// <summary>
-        /// Gets or sets the meta groups.
+        /// The meta groups.
         /// </summary>
         private SortedList<int, string> metaGroups = new SortedList<int, string>(); // metaGroupID, metaGroupName
 
         /// <summary>
-        /// Gets or sets the meta types.
+        /// The meta types.
         /// </summary>
         private SortedList<int, MetaType> metaTypes = new SortedList<int, MetaType>();  // typeID, MetaItem
 
         /// <summary>
-        /// Gets or sets the certificates.
+        /// The certificates.
         /// </summary>
         private SortedList<string, Certificate> certificates = new SortedList<string, Certificate>();
 
         /// <summary>
-        /// Gets or sets the certificate categories.
+        /// The certificate categories.
         /// </summary>
         private SortedList<string, CertificateCategory> certificateCategories = new SortedList<string, CertificateCategory>();
 
         /// <summary>
-        /// Gets or sets the certificate classes.
+        /// The certificate classes.
         /// </summary>
         private SortedList<string, CertificateClass> certificateClasses = new SortedList<string, CertificateClass>();
 
         /// <summary>
-        /// Gets or sets the certificate recommendations.
+        /// The certificate recommendations.
         /// </summary>
         private Collection<CertificateRecommendation> certificateRecommendations = new Collection<CertificateRecommendation>();
 
         /// <summary>
-        /// Gets or sets the skill unlocks.
+        /// The skill unlocks.
         /// </summary>
         private SortedList<string, Collection<string>> skillUnlocks = new SortedList<string, Collection<string>>();
 
         /// <summary>
-        /// Gets or sets the item unlocks.
+        /// The item unlocks.
         /// </summary>
         private SortedList<string, Collection<string>> itemUnlocks = new SortedList<string, Collection<string>>();
 
         /// <summary>
-        /// Gets or sets the cert unlock certs.
+        /// The cert unlock certificates.
         /// </summary>
         private SortedList<string, Collection<string>> certUnlockCertificates = new SortedList<string, Collection<string>>();
 
         /// <summary>
-        /// Gets or sets the cert unlock skills.
+        /// The cert unlock skills.
         /// </summary>
         private SortedList<string, Collection<string>> certUnlockSkills = new SortedList<string, Collection<string>>();
 
         /// <summary>
-        /// Gets or sets the regions.
+        /// The regions.
         /// </summary>
         private Dictionary<int, string> regions = new Dictionary<int, string>();
 
         /// <summary>
-        /// Gets or sets the constellations.
+        /// The constellations.
         /// </summary>
         private Dictionary<int, string> constellations = new Dictionary<int, string>();
 
         /// <summary>
-        /// Gets or sets the solar systems.
+        /// The solar systems.
         /// </summary>
         private Dictionary<int, SolarSystem> solarSystems = new Dictionary<int, SolarSystem>();
 
         /// <summary>
-        /// Gets or sets the stations.
+        /// The stations.
         /// </summary>
         private Dictionary<int, Station> stations = new Dictionary<int, Station>();
 
         /// <summary>
-        /// Gets or sets the agents.
+        /// The agents.
         /// </summary>
         private Dictionary<int, Agent> agents = new Dictionary<int, Agent>();
 
         /// <summary>
-        /// Gets or sets the divisions.
+        /// The divisions.
         /// </summary>
         private Dictionary<int, string> divisions = new Dictionary<int, string>();
 
         /// <summary>
-        /// Gets or sets the blueprints.
+        /// The blueprints.
         /// </summary>
         private SortedList<int, Blueprint> blueprints = new SortedList<int, Blueprint>(); // typeID, BlueprintType
 
         /// <summary>
-        /// Gets or sets the assembly arrays.
+        /// The assembly arrays.
         /// </summary>
         private SortedList<string, AssemblyArray> assemblyArrays = new SortedList<string, AssemblyArray>();  // typeName, AssemblyArray
 
         /// <summary>
-        /// Gets or sets the NPC corps.
+        /// The NPC corps.
         /// </summary>
         private SortedList<int, string> npcCorps = new SortedList<int, string>(); // corpID, corpName
 
         /// <summary>
-        /// Gets or sets the item flags.
+        /// The item markers.
         /// </summary>
         private SortedList<int, string> itemMarkers = new SortedList<int, string>();  // flagID, flagName
 
