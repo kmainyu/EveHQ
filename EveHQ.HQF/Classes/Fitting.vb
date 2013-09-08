@@ -2869,7 +2869,11 @@ Imports EveHQ.Core
 
         ' Check for maxGroupFitted flag
         If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupFitted) = True Then
-            If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupFitted) = True Then
+            Dim groupReplace As Boolean = False
+            If repMod IsNot Nothing AndAlso repMod.DatabaseGroup = shipMod.DatabaseGroup Then
+                groupReplace = True
+            End If
+            If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, Attributes.Module_MaxGroupFitted) = True Then
                 If search = False Then
                     MessageBox.Show("You cannot fit more than " & shipMod.Attributes(Attributes.Module_MaxGroupFitted) & " module(s) of this group to a ship ('" & FittingName & "', " & ShipName & ").", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
@@ -2878,15 +2882,19 @@ Imports EveHQ.Core
         End If
 
         ' Check for maxGroupActive flag
-        If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True And search = False Then
+        If search = False AndAlso shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+            Dim groupReplace As Boolean = False
+            If repMod IsNot Nothing AndAlso repMod.DatabaseGroup = shipMod.DatabaseGroup Then
+                groupReplace = True
+            End If
             If shipMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
-                If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupActive) = True Then
+                If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = ModuleStates.Inactive
                 End If
             Else
                 ' Check active command relay bonus (attID=435) on ship
-                If IsModuleGroupLimitExceeded(shipMod, True, Attributes.Module_MaxGroupActive) = True Then
+                If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, Attributes.Module_MaxGroupActive) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = ModuleStates.Inactive
                 Else
@@ -2900,7 +2908,7 @@ Imports EveHQ.Core
 
         Return True
     End Function
-    Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal excludeTestMod As Boolean, ByVal attribute As String) As Boolean
+    Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal includeTestMod As Boolean, ByVal attribute As String) As Boolean
         Dim count As Integer = 0
         Dim fittedMod As ShipModule = testMod.Clone
         Me.ApplySkillEffectsToModule(fittedMod, True)
@@ -2950,7 +2958,7 @@ Imports EveHQ.Core
                 End If
             End If
         Next
-        If excludeTestMod = True Then
+        If includeTestMod = True Then
             If count >= maxAllowed Then
                 Return True
             Else
