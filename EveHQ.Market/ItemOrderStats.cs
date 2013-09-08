@@ -16,7 +16,7 @@
 namespace EveHQ.Market
 {
     /// <summary>
-    /// Market data object for an item in Eve
+    /// Market stats data object for an item in Eve
     /// </summary>
     public class ItemOrderStats
     {

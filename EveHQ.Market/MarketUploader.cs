@@ -27,9 +27,10 @@ namespace EveHQ.Market
     using EveCacheParser;
 
     using EveHQ.Common.Extensions;
+    using EveHQ.Market.UnifiedMarketDataFormat;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// Processes Eve cache files, formats the output into the UMDF for upload to the various market services.
     /// </summary>
     public class MarketUploader
     {
@@ -37,10 +38,7 @@ namespace EveHQ.Market
         private const string Iso8601Format = "yyyy-MM-ddTHH:mm:sszzz";
 
         /// <summary>The _running.</summary>
-        private static bool _running;
-
-        /// <summary>The _stopping.</summary>
-        private static bool _stopping;
+        private static bool running;
 
         /// <summary>The _custom eve app data path.</summary>
         private readonly string _customEveAppDataPath;
@@ -52,8 +50,9 @@ namespace EveHQ.Market
         private DateTimeOffset _lastFileChangeTime;
 
         /// <summary>Initializes a new instance of the <see cref="MarketUploader"/> class.</summary>
-        /// <param name="lastFileChangeTime">The last file change time.</param>
-        /// <param name="eveAppDataPath">The eve app data path.</param>
+        /// <param name="lastFileChangeTime">The time floor cut off for a cache file's modified timestamp to be included in processing.</param>
+        /// <param name="marketReceivers">A collection of receiving market services that this object will send data to.</param>
+        /// <param name="eveAppDataPath">The path of where the eve application data is.</param>
         public MarketUploader(DateTimeOffset lastFileChangeTime, IEnumerable<IMarketDataReceiver> marketReceivers, string eveAppDataPath)
         {
             _lastFileChangeTime = lastFileChangeTime;
@@ -76,26 +75,25 @@ namespace EveHQ.Market
         /// <summary>The start.</summary>
         public void Start()
         {
-            if (_running)
+            if (running)
             {
                 return;
             }
 
-            _running = true;
-            Task.Factory.TryRun(this.StartUploader);
+            running = true;
+            Task.Factory.TryRun(StartUploader);
         }
 
         /// <summary>The stop.</summary>
         public void Stop()
         {
-            _stopping = true;
         }
 
         /// <summary>The start uploader.</summary>
         private void StartUploader()
         {
             DateTimeOffset nextCycle = DateTimeOffset.Now.AddSeconds(20);
-            while (_running)
+            while (running)
             {
                 if (nextCycle > DateTimeOffset.Now)
                 {
@@ -106,16 +104,15 @@ namespace EveHQ.Market
                 UploadMarketData();
                 nextCycle = DateTimeOffset.Now.AddSeconds(20);
             }
-
-            _stopping = false;
         }
 
         /// <summary>The upload market data.</summary>
         private void UploadMarketData()
         {
             // check to see if there are any changed files (based on write time)
-            IEnumerable<FileInfo> changedFiles = Parser.GetMachoNetCachedFiles(_customEveAppDataPath).Where(fi => fi.LastWriteTimeUtc > _lastFileChangeTime);
+            IEnumerable<FileInfo> changedFileInfo = Parser.GetMachoNetCachedFiles(_customEveAppDataPath).Where(fi => fi.LastWriteTimeUtc > _lastFileChangeTime);
 
+            var changedFiles = changedFileInfo as IList<FileInfo> ?? changedFileInfo.ToList();
             if (!changedFiles.Any())
             {
                 // no changed files this run
@@ -133,11 +130,11 @@ namespace EveHQ.Market
                     }
                     catch (ParserException pex)
                     {
-                        Trace.TraceWarning("A Parser Exception occured on file {0}. The error was : {1}".FormatInvariant(file.Name, pex.Message));
+                        Trace.TraceWarning("A Parser Exception occured on file {0}. The error was : {1}".FormatInvariant(file.Name, pex.FormatException()));
                     }
                     catch (Exception ex)
                     {
-                        Trace.TraceError("An unexpected error occured processing {0}. The error was :{1}\r\nStack Trace:{2}".FormatInvariant(file.Name, ex.Message, ex.StackTrace));
+                        Trace.TraceError("An unexpected error occured processing {0}. The error was :{1}".FormatInvariant(file.Name, ex.FormatException()));
                     }
 
                     return result;

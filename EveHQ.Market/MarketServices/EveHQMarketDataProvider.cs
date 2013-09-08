@@ -85,19 +85,23 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _use default credential.</summary>
         private readonly bool _useDefaultCredential;
 
-        private static object initLockObj = new object();
+        private static readonly object InitLockObj = new object();
 
-        private static object downloadLock = new object();
+        private static readonly object DownloadLock = new object();
 
         private static bool downloadInProgres;
 
-        private static ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache = new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
+        private static readonly ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache = new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
+
+        private readonly IHttpRequestProvider _requestProvider;
+
 
         /// <summary>Initializes a new instance of the <see cref="EveHqMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
-        public EveHqMarketDataProvider(string cacheRootFolder)
+        public EveHqMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider)
         {
             _priceCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, CacheFolder));
+            _requestProvider = requestProvider;
         }
 
         /// <summary>Initializes a new instance of the <see cref="EveHqMarketDataProvider"/> class. Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
@@ -107,8 +111,8 @@ namespace EveHQ.Market.MarketServices
         /// <param name="proxyUserName">The proxy User Name.</param>
         /// <param name="proxyPassword">The proxy Password.</param>
         /// <param name="useBasicAuth">The use Basic Auth.</param>
-        public EveHqMarketDataProvider(string cacheRootFolder, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
-            : this(cacheRootFolder)
+        public EveHqMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+            : this(cacheRootFolder, requestProvider)
         {
             _proxyServerAddress = proxyServerAddress;
             _useDefaultCredential = useDefaultCredential;
@@ -177,7 +181,7 @@ namespace EveHQ.Market.MarketServices
         /// <returns>The <see cref="Task"/>.</returns>
         public Task<IEnumerable<ItemOrderStats>> GetOrderStats(IEnumerable<int> typeIds, IEnumerable<int> includeRegions, int? systemId, int minQuantity)
         {
-            return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(() => this.RetrievePriceData(typeIds, includeRegions, systemId, minQuantity));
+            return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(() => RetrievePriceData(typeIds, includeRegions, systemId, minQuantity));
         }
 
         /// <summary>The retrieve price data.</summary>
@@ -197,7 +201,7 @@ namespace EveHQ.Market.MarketServices
                 // no downloaded data OR someone wiped the cache.
                 // we need to alert the user there is no data and that downloading a seed set
                 // will take some time. 
-                lock (initLockObj)
+                lock (InitLockObj)
                 {
                     lastDownload = _priceCache.Get<DateTimeOffset>(lastDownloadKey);
                     if (lastDownload == null && !downloadInProgres)
@@ -230,7 +234,7 @@ namespace EveHQ.Market.MarketServices
 
             if (!LocationCache.TryGetValue(cacheKey, out marketData))
             {
-                marketData = this._priceCache.Get<IEnumerable<ItemOrderStats>>(ItemKeyFormat.FormatInvariant(cacheKey));
+                marketData = _priceCache.Get<IEnumerable<ItemOrderStats>>(ItemKeyFormat.FormatInvariant(cacheKey));
                 LocationCache.TryAdd(cacheKey, marketData);
             }
 
@@ -265,7 +269,7 @@ namespace EveHQ.Market.MarketServices
         private void DownloadLatestData(int marketLocation)
         {
             bool retry = false;
-            lock (downloadLock)
+            lock (DownloadLock)
             {
                 try
                 {
@@ -312,7 +316,7 @@ namespace EveHQ.Market.MarketServices
 
         private MarketLocationData LastMarketUpdate(int marketLocationId)
         {
-            Task<HttpResponseMessage> requestTask = WebRequestHelper.GetAsync(
+            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(
                new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth, "application/json");
             requestTask.Wait();
             MarketLocationData results = null;
@@ -336,7 +340,7 @@ namespace EveHQ.Market.MarketServices
         private IEnumerable<ItemOrderStats> DownloadData(int entityId)
         {
             IEnumerable<ItemOrderStats> results = null;
-            Task<HttpResponseMessage> requestTask = WebRequestHelper.GetAsync(
+            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(
                 new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())), _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 

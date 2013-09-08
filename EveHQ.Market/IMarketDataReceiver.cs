@@ -18,8 +18,10 @@ namespace EveHQ.Market
     using System;
     using System.Threading.Tasks;
 
+    using EveHQ.Market.UnifiedMarketDataFormat;
+
     /// <summary>
-    /// TODO: Update summary.
+    /// An object implementing this interface provides the functionality to upload data to a given web service.
     /// </summary>
     public interface IMarketDataReceiver
     {

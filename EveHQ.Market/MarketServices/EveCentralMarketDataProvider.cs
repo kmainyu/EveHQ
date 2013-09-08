@@ -13,7 +13,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 // =========================================================================
-namespace EveHQ.Market
+namespace EveHQ.Market.MarketServices
 {
     using System;
     using System.Collections.Generic;
@@ -28,6 +28,7 @@ namespace EveHQ.Market
     using EveHQ.Caching;
     using EveHQ.Common;
     using EveHQ.Common.Extensions;
+    using EveHQ.Market.UnifiedMarketDataFormat;
 
     /// <summary>
     ///     Market data provider, sourcing data from Eve-Central.com
@@ -50,7 +51,7 @@ namespace EveHQ.Market
         private const string MarketStatApi = "marketstat";
 
         /// <summary>
-        /// quicklook (detailed) API
+        ///     quicklook (detailed) API
         /// </summary>
         private const string QuickLookApi = "quicklook";
 
@@ -75,16 +76,32 @@ namespace EveHQ.Market
         /// <summary>The Jita system ID.</summary>
         private const int JitaSystemId = 30000142;
 
+        /// <summary>The _cache ttl.</summary>
+        private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(1);
+
         /// <summary>The _market order cache.</summary>
         private readonly ICacheProvider _marketOrderCache;
+
+        /// <summary>The _proxy password.</summary>
+        private readonly string _proxyPassword;
+
+        /// <summary>The _proxy server address.</summary>
+        private readonly Uri _proxyServerAddress;
+
+        /// <summary>The _proxy user name.</summary>
+        private readonly string _proxyUserName;
 
         /// <summary>The _region data cache.</summary>
         private readonly ICacheProvider _regionDataCache;
 
-        private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(1);
-
         /// <summary>The _upload key.</summary>
         private readonly UploadKey _uploadKey = new UploadKey { Key = "0", Name = "Eve-Central" };
+
+        /// <summary>The _use basic auth.</summary>
+        private readonly bool _useBasicAuth;
+
+        /// <summary>The _use default credential.</summary>
+        private readonly bool _useDefaultCredential;
 
         /// <summary>The _next upload attempt.</summary>
         private DateTimeOffset _nextUploadAttempt;
@@ -92,26 +109,26 @@ namespace EveHQ.Market
         /// <summary>The _upload service online.</summary>
         private bool _uploadServiceOnline;
 
-        private Uri _proxyServerAddress;
+        private IHttpRequestProvider _requestProvider;
 
-        private bool _useDefaultCredential;
-
-        private string _proxyUserName;
-
-        private string _proxyPassword;
-
-        private bool _useBasicAuth;
-
-        public EveCentralMarketDataProvider(string cacheRootFolder)
+        /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
+        /// <param name="cacheRootFolder">The cache root folder.</param>
+        public EveCentralMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider)
         {
             _regionDataCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, Region));
             _marketOrderCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
+            _requestProvider = requestProvider;
         }
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
-        public EveCentralMarketDataProvider(string cacheRootFolder, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
-            : this(cacheRootFolder)
+        /// <param name="proxyServerAddress">The proxy Server Address.</param>
+        /// <param name="useDefaultCredential">The use Default Credential.</param>
+        /// <param name="proxyUserName">The proxy User Name.</param>
+        /// <param name="proxyPassword">The proxy Password.</param>
+        /// <param name="useBasicAuth">The use Basic Auth.</param>
+        public EveCentralMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+            : this(cacheRootFolder, requestProvider)
         {
             _proxyServerAddress = proxyServerAddress;
             _useDefaultCredential = useDefaultCredential;
@@ -120,6 +137,140 @@ namespace EveHQ.Market
             _useBasicAuth = useBasicAuth;
         }
 
+        /// <summary>Gets the name.</summary>
+        public static string Name
+        {
+            get
+            {
+                return "Eve-Central (Live Queries)";
+            }
+        }
+
+        /// <summary>Gets a value indicating whether is enabled.</summary>
+        public bool IsEnabled
+        {
+            get
+            {
+                return _uploadServiceOnline;
+            }
+        }
+
+        /// <summary>Gets the next attempt.</summary>
+        public DateTimeOffset NextAttempt
+        {
+            get
+            {
+                return _nextUploadAttempt;
+            }
+        }
+
+        /// <summary>Gets the unified upload key.</summary>
+        public UploadKey UnifiedUploadKey
+        {
+            get
+            {
+                return _uploadKey;
+            }
+        }
+
+        /// <summary>Attempts to upload the data values to the receiver</summary>
+        /// <param name="marketDataJson">The market data JSON string.</param>
+        /// <returns>A reference to the Async Task.</returns>
+        public Task UploadMarketData(string marketDataJson)
+        {
+            // creat the URL for the request
+            var requestUri = new Uri(EveCentralBaseUrl + UploadApi);
+            var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketDataJson) } };
+
+            // send the request and return the task handle after checking the return of the web request
+            return _requestProvider.PostAsync(requestUri, paramData, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth).ContinueWith(
+                task =>
+                {
+                    HttpWebResponse httpResponse;
+                    if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && (httpResponse = task.Result as HttpWebResponse) != null
+                        && httpResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        // success
+                        _uploadServiceOnline = true;
+                        _nextUploadAttempt = DateTimeOffset.Now;
+                    }
+                    else
+                    {
+                        // there was something wrong... disable this receiver for a while.
+                        _uploadServiceOnline = false;
+                        _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
+                    }
+
+                    return task;
+                });
+        }
+
+        /// <summary>Gets the current market orders for the item, using the region, system and quantity constraints</summary>
+        /// <param name="itemTypeId">The item ID to query</param>
+        /// <param name="includedRegions">Regions to include in the query for data.</param>
+        /// <param name="systemId">Specific system to use to source data (if set will overrride regions)</param>
+        /// <param name="minQuantity">Minimum Quantity for an order to be included/</param>
+        /// <returns>Returns a reference to the async task.</returns>
+        public Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity)
+        {
+            return Task<ItemMarketOrders>.Factory.TryRun(
+                () =>
+                {
+                    string cacheKey;
+                    if (systemId.HasValue)
+                    {
+                        cacheKey = CalcCacheKey(new[] { systemId.Value });
+                    }
+                    else if (includedRegions != null && includedRegions.Any())
+                    {
+                        cacheKey = CalcCacheKey(includedRegions);
+                    }
+                    else
+                    {
+                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
+                    }
+
+                    CacheItem<ItemMarketOrders> cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
+                    ItemMarketOrders itemData = null;
+                    if (cachedData == null || cachedData.IsDirty)
+                    {
+                        // make the request for the types we don't have valid caches for
+                        NameValueCollection requestParameters = CreateMarketRequestParameters(new[] { itemTypeId }, includedRegions, systemId ?? 0, minQuantity);
+                        Task<WebResponse> requestTask = _requestProvider.PostAsync(
+                            new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
+                        requestTask.Wait(); // wait for the completion (we're in a background task anyways)
+
+                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
+                        {
+                            using (Stream stream = requestTask.Result.GetResponseStream())
+                            {
+                                try
+                                {
+                                    // process result
+                                    ItemMarketOrders data = GetMarketOrdersFromXml(stream);
+
+                                    _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
+
+                                    itemData = data;
+                                }
+                                catch (Exception ex)
+                                {
+                                    // todo: log/report XML parsing error.
+                                    throw ex;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
+                        }
+                    }
+
+                    return itemData ?? (cachedData != null ? cachedData.Data : null);
+                });
+        }
+
+        /// <summary>Gets the provider name.</summary>
         public string ProviderName
         {
             get
@@ -128,14 +279,7 @@ namespace EveHQ.Market
             }
         }
 
-        static public string Name
-        {
-            get
-            {
-                return "Eve-Central (Live Queries)";
-            }
-        }
-
+        /// <summary>Gets a value indicating whether limited system selection.</summary>
         public bool LimitedSystemSelection
         {
             get
@@ -144,6 +288,7 @@ namespace EveHQ.Market
             }
         }
 
+        /// <summary>Gets the supported systems.</summary>
         public IEnumerable<int> SupportedSystems
         {
             get
@@ -152,6 +297,7 @@ namespace EveHQ.Market
             }
         }
 
+        /// <summary>Gets a value indicating whether limited region selection.</summary>
         public bool LimitedRegionSelection
         {
             get
@@ -160,6 +306,7 @@ namespace EveHQ.Market
             }
         }
 
+        /// <summary>Gets the supported regions.</summary>
         public IEnumerable<int> SupportedRegions
         {
             get
@@ -200,7 +347,7 @@ namespace EveHQ.Market
 
                     foreach (int typeId in typeIds.Distinct())
                     {
-                        var itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
+                        CacheItem<ItemOrderStats> itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
                         if (itemStats != null && itemStats.Data != null && !itemStats.IsDirty)
                         {
                             cachedItems.Add(itemStats.Data);
@@ -217,16 +364,17 @@ namespace EveHQ.Market
                             }
                         }
                     }
-                   
+
                     if (typesToRequest.Any())
                     {
                         // make the request for the types we don't have valid caches for
-                        NameValueCollection requestParameters = this.CreateMarketRequestParameters(typesToRequest, includeRegions, systemId ?? 0, minQuantity);
+                        NameValueCollection requestParameters = CreateMarketRequestParameters(typesToRequest, includeRegions, systemId ?? 0, minQuantity);
 
-                        Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
+                        Task<WebResponse> requestTask = _requestProvider.PostAsync(
+                            new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
                         requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
-                        if (requestTask.IsCompleted && requestTask.Result !=null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+                        if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
                         {
                             using (Stream stream = requestTask.Result.GetResponseStream())
                             {
@@ -249,140 +397,17 @@ namespace EveHQ.Market
                                 }
                             }
                         }
-                        //TODO: log warning/error when task doesn't complete properly.
+
+                        // TODO: log warning/error when task doesn't complete properly.
 
                         // add in "dirty/expired" items as filler for items that didn't get downloaded or to smooth over loss of connection issues
-                        foreach (var itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
+                        foreach (int itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
                         {
                             cachedItems.Add(dirtyCache[itemKey]);
                         }
                     }
 
                     return cachedItems;
-                });
-        }
-
-        /// <summary>Gets the current market orders for the item, using the region, system and quantity constraints</summary>
-        /// <param name="itemTypeId">The item ID to query</param>
-        /// <param name="includedRegions">Regions to include in the query for data.</param>
-        /// <param name="systemId">Specific system to use to source data (if set will overrride regions)</param>
-        /// <param name="minQuantity">Minimum Quantity for an order to be included/</param>
-        /// <returns>Returns a reference to the async task.</returns>
-        public Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity)
-        {
-            return Task<ItemMarketOrders>.Factory.TryRun(
-                () =>
-                {
-                    string cacheKey;
-                    if (systemId.HasValue)
-                    {
-                        cacheKey = CalcCacheKey(new[] { systemId.Value });
-                    }
-                    else if (includedRegions != null && includedRegions.Any())
-                    {
-                        cacheKey = CalcCacheKey(includedRegions);
-                    }
-                    else
-                    {
-                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
-                    }
-
-                    var cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
-                    ItemMarketOrders itemData = null;
-                    if (cachedData == null || cachedData.IsDirty)
-                    {
-                        // make the request for the types we don't have valid caches for
-                        NameValueCollection requestParameters = this.CreateMarketRequestParameters(new[] { itemTypeId }, includedRegions, systemId ?? 0, minQuantity);
-                        Task<WebResponse> requestTask = WebRequestHelper.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
-                        requestTask.Wait(); // wait for the completion (we're in a background task anyways)
-
-                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
-                        {
-                            using (Stream stream = requestTask.Result.GetResponseStream())
-                            {
-                                try
-                                {
-                                    // process result
-                                    ItemMarketOrders data = this.GetMarketOrdersFromXml(stream);
-
-                                    _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
-
-
-                                    itemData = data;
-                                }
-                                catch (Exception ex)
-                                {
-                                    // todo: log/report XML parsing error.
-                                    throw ex;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
-                        }
-                    }
-
-                    return itemData ?? (cachedData != null ? cachedData.Data : null);
-                });
-        }
-
-        /// <summary>Gets a value indicating whether is enabled.</summary>
-        public bool IsEnabled
-        {
-            get
-            {
-                return _uploadServiceOnline;
-            }
-        }
-
-        /// <summary>Gets the next attempt.</summary>
-        public DateTimeOffset NextAttempt
-        {
-            get
-            {
-                return _nextUploadAttempt;
-            }
-        }
-
-        /// <summary>Gets the unified upload key.</summary>
-        public UploadKey UnifiedUploadKey
-        {
-            get
-            {
-                return _uploadKey;
-            }
-        }
-
-        /// <summary>Attempts to upload the data values to the receiver</summary>
-        /// <param name="marketDataJson">The market data JSON string.</param>
-        /// <returns>A reference to the Async Task.</returns>
-        public Task UploadMarketData(string marketDataJson)
-        {
-            // creat the URL for the request
-            var requestUri = new Uri(EveCentralBaseUrl + UploadApi);
-            var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketDataJson) } };
-
-            // send the request and return the task handle after checking the return of the web request
-            return WebRequestHelper.PostAsync(requestUri, paramData, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth).ContinueWith(
-                task =>
-                {
-                    HttpWebResponse httpResponse;
-                    if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && (httpResponse = task.Result as HttpWebResponse) != null
-                        && httpResponse.StatusCode == HttpStatusCode.OK)
-                    {
-                        // success
-                        _uploadServiceOnline = true;
-                        _nextUploadAttempt = DateTimeOffset.Now;
-                    }
-                    else
-                    {
-                        // there was something wrong... disable this receiver for a while.
-                        _uploadServiceOnline = false;
-                        _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
-                    }
-
-                    return task;
                 });
         }
 
@@ -402,11 +427,11 @@ namespace EveHQ.Market
 
                 if (dataElement != null)
                 {
-                    orderData.ItemTypeId = StringExtensions.ToInt(dataElement.Element("item").Value);
+                    orderData.ItemTypeId = dataElement.Element("item").Value.ToInt();
                     orderData.ItemName = dataElement.Element("itemname").Value;
-                    orderData.Regions = new HashSet<int>(dataElement.Element("regions").Value.Split(',').Select(region => StringExtensions.ToInt(region)).Where(region => region > 0));
-                    orderData.Hours = StringExtensions.ToInt(dataElement.Element("hours").Value);
-                    orderData.MinQuantity = StringExtensions.ToInt(dataElement.Element("minqty").Value);
+                    orderData.Regions = new HashSet<int>(dataElement.Element("regions").Value.Split(',').Select(region => region.ToInt()).Where(region => region > 0));
+                    orderData.Hours = dataElement.Element("hours").Value.ToInt();
+                    orderData.MinQuantity = dataElement.Element("minqty").Value.ToInt();
 
                     // sell orders
                     XElement orderElement;
@@ -436,31 +461,31 @@ namespace EveHQ.Market
             // ReSharper disable PossibleNullReferenceException
             // The format schema is strict and any exception is caught upstream.
             return from order in orderElement.Elements("order")
-                   let orderId = StringExtensions.ToLong(order.Attribute("id").Value)
-                   let regionId = StringExtensions.ToInt(order.Element("region").Value)
-                   let stationId = StringExtensions.ToInt(order.Element("station").Value)
+                   let orderId = order.Attribute("id").Value.ToLong()
+                   let regionId = order.Element("region").Value.ToInt()
+                   let stationId = order.Element("station").Value.ToInt()
                    let stationName = order.Element("station_name").Value
-                   let security = StringExtensions.ToDouble(order.Element("security").Value)
-                   let range = StringExtensions.ToInt(order.Element("range").Value)
-                   let price = StringExtensions.ToDouble(order.Element("price").Value)
-                   let quantityRemaining = StringExtensions.ToInt(order.Element("vol_remain").Value)
-                   let minQuantity = StringExtensions.ToInt(order.Element("min_volume").Value)
+                   let security = order.Element("security").Value.ToDouble()
+                   let range = order.Element("range").Value.ToInt()
+                   let price = order.Element("price").Value.ToDouble()
+                   let quantityRemaining = order.Element("vol_remain").Value.ToInt()
+                   let minQuantity = order.Element("min_volume").Value.ToInt()
                    let expires = order.Element("expires").Value.ToDateTimeOffset(0)
                    let reported = order.Element("reported_time").Value.ToDateTimeOffset(0)
                    select
                        new MarketOrder
                        {
-                           OrderId = orderId,
-                           RegionId = regionId,
-                           StationId = stationId,
-                           StationName = stationName,
-                           Security = security,
-                           OrderRange = range,
-                           Price = price,
-                           QuantityRemaining = quantityRemaining,
-                           MinQuantity = minQuantity,
-                           Expires = expires,
-                           Freshness = reported,
+                           OrderId = orderId, 
+                           RegionId = regionId, 
+                           StationId = stationId, 
+                           StationName = stationName, 
+                           Security = security, 
+                           OrderRange = range, 
+                           Price = price, 
+                           QuantityRemaining = quantityRemaining, 
+                           MinQuantity = minQuantity, 
+                           Expires = expires, 
+                           Freshness = reported, 
                            IsBuyOrder = isBuyOrder
                        };
 
@@ -479,13 +504,13 @@ namespace EveHQ.Market
                 XDocument xml = XDocument.Load(reader);
                 if (xml.Root != null && xml.Root.Element("marketstat") != null)
                 {
-                    orderStats = (from stats in xml.Root.Elements("marketstat")
+                    orderStats = from stats in xml.Root.Elements("marketstat")
                                   from type in stats.Elements("type")
-                                  let typeId = StringExtensions.ToInt(type.Attribute("id").Value)
-                                  let buyData = this.GetOrderData(type.Element("buy"))
-                                  let sellData = this.GetOrderData(type.Element("sell"))
-                                  let allData = this.GetOrderData(type.Element("all"))
-                                  select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData });
+                                  let typeId = type.Attribute("id").Value.ToInt()
+                                  let buyData = GetOrderData(type.Element("buy"))
+                                  let sellData = GetOrderData(type.Element("sell"))
+                                  let allData = GetOrderData(type.Element("all"))
+                                  select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData };
                 }
 
                 // ReSharper restore PossibleNullReferenceException
@@ -501,14 +526,14 @@ namespace EveHQ.Market
         {
             // ReSharper disable PossibleNullReferenceException
             // null exceptions are caught further up the call stack.
-            long volume = StringExtensions.ToLong(element.Element("volume").Value);
+            long volume = element.Element("volume").Value.ToLong();
 
-            double avg = StringExtensions.ToDouble(element.Element("avg").Value);
-            double max = StringExtensions.ToDouble(element.Element("max").Value);
-            double min = StringExtensions.ToDouble(element.Element("min").Value);
-            double stddev = StringExtensions.ToDouble(element.Element("stddev").Value);
-            double median = StringExtensions.ToDouble(element.Element("median").Value);
-            double percentile = StringExtensions.ToDouble(element.Element("percentile").Value);
+            double avg = element.Element("avg").Value.ToDouble();
+            double max = element.Element("max").Value.ToDouble();
+            double min = element.Element("min").Value.ToDouble();
+            double stddev = element.Element("stddev").Value.ToDouble();
+            double median = element.Element("median").Value.ToDouble();
+            double percentile = element.Element("percentile").Value.ToDouble();
 
             return new OrderStats { Volume = volume, Average = avg, Maximum = max, Minimum = min, StdDeviation = stddev, Median = median, Percentile = percentile };
 

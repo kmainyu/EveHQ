@@ -2199,7 +2199,7 @@ Public Class frmEveHQ
                 tempProxy = Nothing
             End If
 
-            Dim requestTask As Task(Of HttpResponseMessage) = WebRequestHelper.GetAsync(temp,
+            Dim requestTask As Task(Of HttpResponseMessage) = HttpRequestProvider.Default.GetAsync(temp,
                                                                                         tempProxy,
                                                                                         HQ.RemoteProxy.
                                                                                            UseDefaultCredentials,

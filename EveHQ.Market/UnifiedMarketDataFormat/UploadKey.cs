@@ -13,10 +13,10 @@
 //  You should have received a copy of the GNU General Public License
 //  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 // =========================================================================
-namespace EveHQ.Market
+namespace EveHQ.Market.UnifiedMarketDataFormat
 {
     /// <summary>
-    /// TODO: Update summary.
+    /// Key data specific to the service being uploaded to.
     /// </summary>
     public class UploadKey
     {

@@ -15,47 +15,44 @@
 // =========================================================================
 namespace EveHQ.Market
 {
-    using Newtonsoft.Json;
-
     /// <summary>
-    /// Used by ItemOrderStats to store data pertaining to buy/sell/ all
+    ///     Used by ItemOrderStats to store data pertaining to buy/sell/ all
     /// </summary>
     public class OrderStats
     {
-        
         /// <summary>
-        /// Gets the number of items in this data.
+        ///     Gets the number of items in this data.
         /// </summary>
         public long Volume { get; set; }
 
         /// <summary>
-        /// Gets the Average value
+        ///     Gets the Average value
         /// </summary>
-        public double Average { get;  set; }
+        public double Average { get; set; }
 
         /// <summary>
-        /// Gets the Maximum value
+        ///     Gets the Maximum value
         /// </summary>
-        public double Maximum { get;  set; }
+        public double Maximum { get; set; }
 
         /// <summary>
-        /// Gets the Minimum value
+        ///     Gets the Minimum value
         /// </summary>
-        public double Minimum { get;  set; }
+        public double Minimum { get; set; }
 
         /// <summary>
-        /// Gets the standard deviation
+        ///     Gets the standard deviation
         /// </summary>
-        public double StdDeviation { get;  set; }
+        public double StdDeviation { get; set; }
 
         /// <summary>
-        /// Gets the Median value.
+        ///     Gets the Median value.
         /// </summary>
-        public double Median { get;  set; }
+        public double Median { get; set; }
 
         /// <summary>
-        /// Gets the percentile value.
+        ///     Gets the percentile value.
         /// </summary>
-        public double Percentile { get;  set; }
+        public double Percentile { get; set; }
     }
 }

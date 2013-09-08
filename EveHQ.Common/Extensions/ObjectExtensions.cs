@@ -1,10 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ObjectConversions.cs" company="">
+// <copyright file="ObjectExtensions.cs" company="">
 // TODO: Update copyright text.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace EveHQ.Market
+namespace EveHQ.Common.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace EveHQ.Market
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public static class ObjectConversions
+    public static class ObjectExtensions
     {
         public static double ToDouble(this object obj)
         {
@@ -36,8 +36,5 @@ namespace EveHQ.Market
         {
             return Convert.ToBoolean(obj, CultureInfo.InvariantCulture);
         }
-
-
-        
     }
 }
