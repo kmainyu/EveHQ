@@ -35,7 +35,6 @@ Public Class HQ
     Public Shared MainForm As Form
     Public Shared TPilots As New SortedList(Of String, Pilot)
     Public Shared TCorps As New SortedList(Of String, Corporation)
-    Private Shared _eveHQSettings As New EveSettings()
     Public Shared myIGB As New IGB
     Public Shared myTQServer As EveServer = New EveServer
     Public Shared SkillListName As New SortedList(Of String, EveSkill)
@@ -110,6 +109,10 @@ Public Class HQ
 
     End Sub
 
+    Public Shared Property Settings As EveHQSettings
+
+    Public Shared Property EveHqSettings As EveSettings
+       
     Shared Property StartShutdownEveHQ() As Boolean
         Get
         End Get
@@ -180,15 +183,6 @@ Public Class HQ
 
             Return _solarSystemsByName
         End Get
-    End Property
-
-    Public Shared Property EveHqSettings As EveSettings
-        Get
-            Return _eveHQSettings
-        End Get
-        Set(value As EveSettings)
-            _eveHQSettings = value
-        End Set
     End Property
 
     Public Shared Property MarketCacheUploader As MarketUploader

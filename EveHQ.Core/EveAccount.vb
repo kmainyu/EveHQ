@@ -154,7 +154,6 @@ Imports System.Xml
             cCharacters = value
         End Set
     End Property
-
     Public Property APIKeyType() As APIKeyTypes
         Get
             Return cAPIKeyType
@@ -163,7 +162,6 @@ Imports System.Xml
             cAPIKeyType = value
         End Set
     End Property
-
     Public Property APIAccountStatus() As APIAccountStatuses
         Get
             Return cAPIAccountStatus
@@ -265,26 +263,3 @@ Imports System.Xml
     End Function
 
 End Class
-
-Public Enum APIKeyTypes As Integer
-    Unknown = 0
-    Limited = 1
-    Full = 2
-    Character = 3
-    Corporation = 4
-    Account = 5
-End Enum
-
-Public Enum APIAccountStatuses As Integer
-    Active = 0
-    Disabled = 1
-    ManualDisabled = 2
-End Enum
-
-Public Enum APIKeySystems As Integer
-    Unknown = 0
-    Version1 = 1
-    Version2 = 2
-End Enum
-
-

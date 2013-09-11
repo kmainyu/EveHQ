@@ -353,6 +353,7 @@ Partial Public Class frmSettings
         Me.Label1 = New System.Windows.Forms.Label()
         Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
+        Me.btnExportSettings = New System.Windows.Forms.Button()
         Me.gbGeneral.SuspendLayout()
         CType(Me.nudAutomaticSaveTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbPilotScreenColours.SuspendLayout()
@@ -413,6 +414,7 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
+        Me.gbGeneral.Controls.Add(Me.btnExportSettings)
         Me.gbGeneral.Controls.Add(Me.lblAutomaticSaveTime)
         Me.gbGeneral.Controls.Add(Me.nudAutomaticSaveTime)
         Me.gbGeneral.Controls.Add(Me.chkEnableAutomaticSave)
@@ -435,9 +437,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(404, 440)
+        Me.gbGeneral.Location = New System.Drawing.Point(195, 12)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(245, 45)
+        Me.gbGeneral.Size = New System.Drawing.Size(679, 476)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -3163,6 +3165,7 @@ Partial Public Class frmSettings
         '
         Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
         Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.panelSettings.Controls.Add(Me.gbGeneral)
         Me.panelSettings.Controls.Add(Me.gbItemOverrides)
         Me.panelSettings.Controls.Add(Me.gbMarket)
         Me.panelSettings.Controls.Add(Me.gbEveServer)
@@ -3172,7 +3175,6 @@ Partial Public Class frmSettings
         Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
         Me.panelSettings.Controls.Add(Me.gbEveFolders)
         Me.panelSettings.Controls.Add(Me.gbIGB)
-        Me.panelSettings.Controls.Add(Me.gbGeneral)
         Me.panelSettings.Controls.Add(Me.gbProxyServer)
         Me.panelSettings.Controls.Add(Me.gbEmail)
         Me.panelSettings.Controls.Add(Me.gbPilots)
@@ -3212,9 +3214,9 @@ Partial Public Class frmSettings
         Me.gbItemOverrides.Controls.Add(Me._itemOverrideMinPrice)
         Me.gbItemOverrides.Controls.Add(Me._itemOverrideAvgPrice)
         Me.gbItemOverrides.Controls.Add(Me._itemOverrideMaxPrice)
-        Me.gbItemOverrides.Location = New System.Drawing.Point(239, 335)
+        Me.gbItemOverrides.Location = New System.Drawing.Point(731, 234)
         Me.gbItemOverrides.Name = "gbItemOverrides"
-        Me.gbItemOverrides.Size = New System.Drawing.Size(665, 184)
+        Me.gbItemOverrides.Size = New System.Drawing.Size(133, 40)
         Me.gbItemOverrides.TabIndex = 36
         Me.gbItemOverrides.TabStop = False
         Me.gbItemOverrides.Text = "Item Market Data Overrides"
@@ -3458,9 +3460,9 @@ Partial Public Class frmSettings
         Me.gbMarket.Controls.Add(Me.Label5)
         Me.gbMarket.Controls.Add(Me._marketDataProvider)
         Me.gbMarket.Controls.Add(Me.Label1)
-        Me.gbMarket.Location = New System.Drawing.Point(248, 29)
+        Me.gbMarket.Location = New System.Drawing.Point(713, 172)
         Me.gbMarket.Name = "gbMarket"
-        Me.gbMarket.Size = New System.Drawing.Size(483, 290)
+        Me.gbMarket.Size = New System.Drawing.Size(148, 32)
         Me.gbMarket.TabIndex = 35
         Me.gbMarket.TabStop = False
         Me.gbMarket.Text = "Market and Price Data"
@@ -3705,6 +3707,15 @@ Partial Public Class frmSettings
         Me.STT.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
         Me.STT.PositionBelowControl = False
+        '
+        'btnExportSettings
+        '
+        Me.btnExportSettings.Location = New System.Drawing.Point(22, 435)
+        Me.btnExportSettings.Name = "btnExportSettings"
+        Me.btnExportSettings.Size = New System.Drawing.Size(100, 23)
+        Me.btnExportSettings.TabIndex = 56
+        Me.btnExportSettings.Text = "Export Settings"
+        Me.btnExportSettings.UseVisualStyleBackColor = True
         '
         'frmSettings
         '
@@ -4124,4 +4135,5 @@ Partial Public Class frmSettings
     Friend WithEvents _defaultAll As System.Windows.Forms.RadioButton
     Friend WithEvents _defaultBuy As System.Windows.Forms.RadioButton
     Friend WithEvents _defaultSell As System.Windows.Forms.RadioButton
+    Friend WithEvents btnExportSettings As System.Windows.Forms.Button
 End Class

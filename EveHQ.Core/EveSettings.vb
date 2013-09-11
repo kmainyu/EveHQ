@@ -2179,6 +2179,7 @@ Public Class EveHQSettingsFunctions
 
     Public Shared Function LoadEveHQSettings(ShowRawData As Boolean) As Boolean
 
+        ' Convert the EveHQ Settings
         Dim importFile As String = Path.Combine(HQ.AppDataFolder, "EveHQSettings.exported.json.txt")
         Dim showImport As Boolean = File.Exists(importFile)
         Dim importMessage As String = "A exported settings file has been detected. Would you like to import this file?" & ControlChars.CrLf & ControlChars.CrLf & "Warning: All of your current settings will be overwritten! Please make sure you have a backup first."
@@ -2188,12 +2189,29 @@ Public Class EveHQSettingsFunctions
             End If
         Else
             If My.Computer.FileSystem.FileExists(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
-                Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
+                'Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
+                ' Temp code for JSON Test
+                'Dim s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
                 Try
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
-                    Call ResetPilotData()
-                    s.Close()
+
+                    Using s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
+                        Dim json As String = s.ReadToEnd
+                        Dim settings As EveHQSettings = JsonConvert.DeserializeObject(Of EveHQSettings)(json)
+                        Call ResetPilotData()
+                    End Using
+
+                    'EveSettings2.LoadJSONSettings()
+
+                    'Dim json As String = s.ReadToEnd
+                    'EveHQ.Core.HQ.EveHqSettings = JsonConvert.DeserializeObject(Of EveSettings)(json)
+                    'Dim json As String = JsonConvert.SerializeObject(EveHQ.Core.HQ.EveHqSettings, Formatting.Indented)
+                    'Account account = JsonConvert.DeserializeObject<Account>(json);
+                    'Dim f As BinaryFormatter = New BinaryFormatter
+                    'HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
+                    's.Close()
+
+
+
 
                     ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
                     Dim TempAccounts As New List(Of EveAccount)
@@ -2227,7 +2245,7 @@ Public Class EveHQSettingsFunctions
                     msg &= "Press OK to reset the settings." & ControlChars.CrLf
                     MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Try
-                        s.Close()
+                        's.Close()
                         My.Computer.FileSystem.CopyFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), Path.Combine(HQ.AppDataFolder, "EveHQSettings.bad"), True)
                     Catch e As Exception
                         MessageBox.Show(

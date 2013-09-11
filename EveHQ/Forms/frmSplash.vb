@@ -155,13 +155,24 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.WriteLogEvent("End: Show Splash Screen")
 
+        ' Convert the settings first!
+        EveHQ.Core.HQ.WriteLogEvent("Start: Checking settings files")
+        Dim esc As New EveHQ.Core.EveHQSettingsConverter
+        esc.ConvertOldSettings(EveHQ.Core.HQ.AppDataFolder)
+        EveHQ.Core.HQ.WriteLogEvent("End: Checking settings files")
+
+        ' Show the settings form only, then quit
         If showSettings = True Then
-            EveHQ.Core.EveHQSettingsFunctions.LoadSettings(True)
-            frmSettings.ShowDialog()
-            ' Remove the icons
-            frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
-            frmEveHQ.EveStatusIcon.Icon = Nothing : frmEveHQ.iconEveHQMLW.Icon = Nothing
-            frmEveHQ.EveStatusIcon.Dispose() : frmEveHQ.iconEveHQMLW.Dispose()
+            Dim tempSettings As EveHQ.Core.EveHQSettings = Core.EveHQSettings.Load(True)
+            If tempSettings IsNot Nothing Then
+                frmSettings.ShowDialog()
+                ' Remove the icons
+                frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
+                frmEveHQ.EveStatusIcon.Icon = Nothing : frmEveHQ.iconEveHQMLW.Icon = Nothing
+                frmEveHQ.EveStatusIcon.Dispose() : frmEveHQ.iconEveHQMLW.Dispose()
+            Else
+                MessageBox.Show("Unable to load and display settings. Check log file for errors.", "Error displaying settings.", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
             End
         End If
 
@@ -289,6 +300,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Loading settings")
         lblStatus.Text = "> Loading settings..."
         lblStatus.Refresh()
+        EveHQ.Core.HQ.Settings = EveHQ.Core.EveHQSettings.Load(False)
         Do While EveHQ.Core.EveHQSettingsFunctions.LoadSettings(False) = False
             ' Ask if we want to check for a database
             Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
@@ -298,11 +310,11 @@ Public Class frmSplash
             If reply = Windows.Forms.DialogResult.No Then
                 End
             End If
-            Dim EveHQSettings As New frmSettings
-            EveHQSettings.DoNotRecalculatePilots = True
-            EveHQSettings.Tag = "nodeDatabaseFormat"
-            EveHQSettings.ShowDialog()
-            EveHQSettings.Dispose()
+            Dim settingsForm As New frmSettings
+            settingsForm.DoNotRecalculatePilots = True
+            settingsForm.Tag = "nodeDatabaseFormat"
+            settingsForm.ShowDialog()
+            settingsForm.Dispose()
         Loop
         EveHQ.Core.HQ.WriteLogEvent("End: Loading settings")
 

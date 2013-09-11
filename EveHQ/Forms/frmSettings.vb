@@ -2740,6 +2740,7 @@ Public Class frmSettings
         End If
     End Sub
 
-
-
+    Private Sub btnExportSettings_Click(sender As System.Object, e As System.EventArgs) Handles btnExportSettings.Click
+        Call EveSettings2.ExportSettingsToJSON()
+    End Sub
 End Class
