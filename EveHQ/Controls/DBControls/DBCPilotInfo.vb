@@ -31,7 +31,7 @@ Public Class DBCPilotInfo
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
         cboPilot.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If pilot.Active = True Then
                 cboPilot.Items.Add(pilot.Name)
             End If
@@ -61,8 +61,8 @@ Public Class DBCPilotInfo
         End Get
         Set(ByVal value As String)
             cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(DefaultPilotName), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                cPilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
             End If
             If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
             If ReadConfig = False Then
@@ -75,13 +75,13 @@ Public Class DBCPilotInfo
 #End Region
 
 #Region "Class Variables"
-    Dim cPilot As EveHQ.Core.Pilot
+    Dim cPilot As EveHQ.Core.EveHQPilot
 #End Region
 
 #Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+            cPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
             Call Me.UpdatePilotInfo()
             ' Start the skill timer
             tmrSkill.Enabled = True
@@ -93,7 +93,7 @@ Public Class DBCPilotInfo
     End Sub
 
     Private Sub UpdatePilotInfo()
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
             ' Update the info
             pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot.ID)
             lblCorp.Text = "Member of " & cPilot.Corp
@@ -136,7 +136,7 @@ Public Class DBCPilotInfo
                         lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
                         lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
                     Else
-                        Dim lastSkill As EveHQ.Core.PilotQueuedSkill = cPilot.QueuedSkills(cPilot.QueuedSkills.Keys(cPilot.QueuedSkills.Count - 1))
+                        Dim lastSkill As EveHQ.Core.EveHQPilotQueuedSkill = cPilot.QueuedSkills(cPilot.QueuedSkills.Keys(cPilot.QueuedSkills.Count - 1))
                         Dim skillDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(lastSkill.EndTime)
                         lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
                         lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(CType(skillDate - Now, TimeSpan).TotalSeconds)

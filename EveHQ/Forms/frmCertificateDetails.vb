@@ -23,14 +23,14 @@ Public Class frmCertificateDetails
 
     Dim CertGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
     Dim cDisplayPilotName As String
-    Dim displayPilot As New EveHQ.Core.Pilot
+    Dim displayPilot As New EveHQ.Core.EveHQPilot
     Public Property DisplayPilotName() As String
         Get
             Return cDisplayPilotName
         End Get
         Set(ByVal value As String)
             cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
+            displayPilot = EveHQ.Core.HQ.Settings.Pilots(value)
         End Set
     End Property
 
@@ -68,7 +68,7 @@ Public Class frmCertificateDetails
             newCert.Text = EveHQ.Core.HQ.CertificateClasses(cRCert.ClassID.ToString).Name
             newCert.Name = cRCert.ID.ToString
             newCert.SubItems.Add(CertGrades(cRCert.Grade))
-            If displayPilot.Certificates.Contains(cRCert.ID.ToString) = True Then
+            If displayPilot.Certificates.Contains(cRCert.ID) = True Then
                 newCert.ForeColor = Color.Green
             Else
                 newCert.ForeColor = Color.Red
@@ -105,10 +105,10 @@ Public Class frmCertificateDetails
             Dim skillTrained As Boolean = False
             Dim myLevel As Integer = 0
             skillTrained = False
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-                If displayPilot.PilotSkills.Contains(cSkill.Name) Then
-                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                    mySkill = CType(displayPilot.PilotSkills(cSkill.Name), Core.PilotSkill)
+            If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                If displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
+                    Dim mySkill As New EveHQ.Core.EveHQPilotSkill
+                    mySkill = displayPilot.PilotSkills(cSkill.Name)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                     If skillTrained = True Then
@@ -164,12 +164,11 @@ Public Class frmCertificateDetails
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
-                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+            If displayPilot.PilotSkills.ContainsKey(newSkill.Name) Then
+                Dim mySkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(newSkill.Name)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -235,7 +234,7 @@ Public Class frmCertificateDetails
                         End If
                     End If
 
-                    If displayPilot.Certificates.Contains(cert.ID.ToString) = True Then
+                    If displayPilot.Certificates.Contains(cert.ID) = True Then
                         newItem.ForeColor = Color.Green
                     Else
                         newItem.ForeColor = Color.Red

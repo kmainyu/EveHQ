@@ -30,7 +30,7 @@ Public Class frmRequiredSkills
 
 #Region "Property Variables"
     Private reqSkills As New ArrayList
-    Private reqPilot As EveHQ.Core.Pilot
+    Private reqPilot As EveHQ.Core.EveHQPilot
     Private reqHPilot As HQFPilot
     Private SkillList As New SortedList(Of String, Integer)
 #End Region
@@ -55,11 +55,11 @@ Public Class frmRequiredSkills
         End Set
     End Property
 
-    Public Property Pilot() As EveHQ.Core.Pilot
+    Public Property Pilot() As EveHQ.Core.EveHQPilot
         Get
             Return reqPilot
         End Get
-        Set(ByVal value As EveHQ.Core.Pilot)
+        Set(ByVal value As EveHQ.Core.EveHQPilot)
             reqPilot = value
             reqHPilot = CType(HQFPilotCollection.HQFPilots(reqPilot.Name), HQFPilot)
             Me.Text = "Required Skills - " & reqPilot.Name
@@ -92,7 +92,7 @@ Public Class frmRequiredSkills
 #Region "Skill Display Routines"
 
     Private Sub DrawSkillsTable()
-        Dim aSkill As EveHQ.Core.PilotSkill
+        Dim aSkill As EveHQ.Core.EveHQPilotSkill
         Dim hSkill As HQFSkill
         Dim aLevel As Integer = 0
 
@@ -118,8 +118,8 @@ Public Class frmRequiredSkills
                     SkillList(rSkill.Name) = rSkill.ReqLevel
                 End If
             End If
-            If reqPilot.PilotSkills.Contains(rSkill.Name) = True Then
-                aSkill = CType(reqPilot.PilotSkills(rSkill.Name), Core.PilotSkill)
+            If reqPilot.PilotSkills.ContainsKey(rSkill.Name) = True Then
+                aSkill = reqPilot.PilotSkills(rSkill.Name)
                 newSkill.Cells.Add(New Cell(aSkill.Level.ToString))
             Else
                 newSkill.Cells.Add(New Cell("0"))
@@ -155,7 +155,7 @@ Public Class frmRequiredSkills
     End Sub
 
     Private Sub DisplaySubSkills(ByVal parentSkill As Node, ByVal pSkillID As String)
-        Dim aSkill As EveHQ.Core.PilotSkill
+        Dim aSkill As EveHQ.Core.EveHQPilotSkill
         Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(pSkillID)
 
         If pSkill.PreReqSkills.Count > 0 Then
@@ -172,8 +172,8 @@ Public Class frmRequiredSkills
                             SkillList(newSkill.Text) = pSkill.PreReqSkills(preReqSkill)
                         End If
                     End If
-                    If reqPilot.PilotSkills.Contains(newSkill.Text) = True Then
-                        aSkill = CType(reqPilot.PilotSkills(newSkill.Text), Core.PilotSkill)
+                    If reqPilot.PilotSkills.ContainsKey(newSkill.Text) = True Then
+                        aSkill = reqPilot.PilotSkills(newSkill.Text)
                         newSkill.Cells.Add(New Cell(aSkill.Level.ToString))
                     Else
                         newSkill.Cells.Add(New Cell("0"))
@@ -201,8 +201,8 @@ Public Class frmRequiredSkills
     End Sub
 
     Private Sub CalculateQueueTime()
-        Dim nPilot As EveHQ.Core.Pilot = reqPilot
-        Dim newQueue As New EveHQ.Core.SkillQueue
+        Dim nPilot As EveHQ.Core.EveHQPilot = reqPilot
+        Dim newQueue As New EveHQ.Core.EveHQSkillQueue
         newQueue.Name = "HQFQueue"
         newQueue.IncCurrentTraining = False
         newQueue.Primary = False

@@ -46,7 +46,7 @@ Public Class frmModifyEveAccounts
         If Me.Tag.ToString = "Add" Then
             ' Add the account to the accounts collection
             ' First check if the account already exists
-            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(txtUserIDV2.Text.Trim) Then
+            If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(txtUserIDV2.Text.Trim) Then
                 Dim reply As Integer = MessageBox.Show("Key ID '" & txtUserIDV2.Text & "' already exists in EveHQ! Would you like to try another Key ID?", "Error Creating Account", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                 If reply = Windows.Forms.DialogResult.Retry Then
                     Exit Sub
@@ -55,19 +55,19 @@ Public Class frmModifyEveAccounts
                     Exit Sub
                 End If
             End If
-            Dim newAccount As EveHQ.Core.EveAccount = New EveHQ.Core.EveAccount
-            newAccount.userID = txtUserIDV2.Text.Trim
+            Dim newAccount As New EveHQ.Core.EveHQAccount
+            newAccount.UserID = txtUserIDV2.Text.Trim
             newAccount.APIKey = txtAPIKeyV2.Text.Trim
             newAccount.FriendlyName = txtAccountNameV2.Text.Trim
-            newAccount.APIKeySystem = Core.APIKeySystems.Version2
+            newAccount.ApiKeySystem = Core.APIKeySystems.Version2
             newAccount.CheckAPIKey()
             If ExistingCharactersOnAccount(newAccount) = False Then
-                EveHQ.Core.HQ.EveHqSettings.Accounts.Add(newAccount, newAccount.userID)
+                EveHQ.Core.HQ.Settings.Accounts.Add(newAccount.UserID, newAccount)
                 Me.Close()
             End If
         Else
             ' Fetch the account from the collection
-            Dim newAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(txtUserIDV2.Text.Trim), Core.EveAccount)
+            Dim newAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts(txtUserIDV2.Text.Trim)
             ' Change the password on the account
             newAccount.APIKey = txtAPIKeyV2.Text.Trim
             newAccount.FriendlyName = txtAccountNameV2.Text.Trim
@@ -76,20 +76,20 @@ Public Class frmModifyEveAccounts
         End If
     End Sub
 
-    Private Function ExistingCharactersOnAccount(NewAccount As EveHQ.Core.EveAccount) As Boolean
+    Private Function ExistingCharactersOnAccount(newAccount As EveHQ.Core.EveHQAccount) As Boolean
 
-        Dim CharacterList As List(Of String) = NewAccount.GetCharactersOnAccount
+        Dim characterList As List(Of String) = newAccount.GetCharactersOnAccount
 
         ' Check each pilot for any existing characters
-        For Each Account As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
-            For Each Character As String In Account.Characters
-                Select Case Account.APIKeySystem
+        For Each account As EveHQ.Core.EveHQAccount In EveHQ.Core.HQ.Settings.Accounts.Values
+            For Each character As String In account.Characters
+                Select Case account.ApiKeySystem
                     Case Core.APIKeySystems.Version2
                         ' Only check "characters"
-                        If CharacterList.Contains(Character) = True Then
+                        If characterList.Contains(character) = True Then
                             ' We have a character already
                             Dim msg As New StringBuilder
-                            msg.AppendLine("The new account contains an entity (" & Character & ") already in use by EveHQ under a new API key. Try deleting the old account first.")
+                            msg.AppendLine("The new account contains an entity (" & character & ") already in use by EveHQ under a new API key. Try deleting the old account first.")
                             MessageBox.Show(msg.ToString, "Duplicate Entity Identified", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Return True
                         End If

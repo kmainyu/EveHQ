@@ -33,7 +33,7 @@ Imports DevComponents.DotNetBar
 Public Class frmPilot
     Dim TrainingSkill As Node
     Dim TrainingGroup As Node
-    Dim displayPilot As New EveHQ.Core.Pilot
+    Dim displayPilot As New EveHQ.Core.EveHQPilot
     Dim cDisplayPilotName As String = ""
 
     Public Property DisplayPilotName() As String
@@ -66,7 +66,7 @@ Public Class frmPilot
         ' Update the pilots combo box
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -85,8 +85,8 @@ Public Class frmPilot
         Else
             If oldPilot = "" Then
                 If cboPilots.Items.Count > 0 Then
-                    If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
-                        cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
+                    If cboPilots.Items.Contains(EveHQ.Core.HQ.Settings.StartupPilot) = True Then
+                        cboPilots.SelectedItem = EveHQ.Core.HQ.Settings.StartupPilot
                     Else
                         cboPilots.SelectedIndex = 0
                     End If
@@ -176,9 +176,9 @@ Public Class frmPilot
             ' Display Skill Training
             Try
                 If displayPilot.Training = True Then
-                    Dim currentSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
-                    If displayPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
-                        currentSkill = CType(displayPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
+                    Dim currentSkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID))
+                    If displayPilot.PilotSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
+                        currentSkill = displayPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID))
                     Else
                         MessageBox.Show("Missing the training skill from the skills!!")
                     End If
@@ -206,14 +206,14 @@ Public Class frmPilot
 
             ' Display Account Info
             lblAccountExpiry.ForeColor = Color.Black
-            If EveHQ.Core.HQ.EveHqSettings.Accounts.Contains(displayPilot.Account) = True Then
-                Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(displayPilot.Account), Core.EveAccount)
+            If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(displayPilot.Account) = True Then
+                Dim dAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts(displayPilot.Account)
                 If (dAccount.APIKeySystem = Core.APIKeySystems.Version2 And dAccount.CanUseCharacterAPI(EveAPI.CharacterAccessMasks.AccountStatus)) Then
                     lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
                     lblAccountLogins.Text = "Login Count: " & dAccount.LogonCount & " (" & EveHQ.Core.SkillFunctions.TimeToString(dAccount.LogonMinutes * 60, False) & ")"
-                    If EveHQ.Core.HQ.EveHqSettings.NotifyAccountTime = True Then
+                    If EveHQ.Core.HQ.Settings.NotifyAccountTime = True Then
                         Dim AccountTime As Date = dAccount.PaidUntil
-                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHqSettings.AccountTimeLimit Then
+                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.Settings.AccountTimeLimit Then
                             lblAccountExpiry.ForeColor = Color.Red
                         End If
                     End If
@@ -297,27 +297,27 @@ Public Class frmPilot
 
         ' Set Styles
         Dim SkillGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-        SkillGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupBackgroundColor))
+        SkillGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupBackgroundColor))
         SkillGroupStyle.BackColor2 = Color.Black
-        SkillGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupTextColor))
+        SkillGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupTextColor))
         Dim NormalSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        NormalSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotStandardSkillColor))
+        NormalSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotStandardSkillColor))
         NormalSkillStyle.BackColor = Color.FromArgb(128, NormalSkillStyle.BackColor2)
-        NormalSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
+        NormalSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
         Dim PartialSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        PartialSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotPartTrainedSkillColor))
+        PartialSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotPartTrainedSkillColor))
         PartialSkillStyle.BackColor = Color.FromArgb(128, PartialSkillStyle.BackColor2)
-        PartialSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
+        PartialSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
         Dim Level5SkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        Level5SkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotLevel5SkillColor))
+        Level5SkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotLevel5SkillColor))
         Level5SkillStyle.BackColor = Color.FromArgb(128, Level5SkillStyle.BackColor2)
-        Level5SkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
+        Level5SkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
         Dim TrainingSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        TrainingSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotCurrentTrainSkillColor))
+        TrainingSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotCurrentTrainSkillColor))
         TrainingSkillStyle.BackColor = Color.FromArgb(128, TrainingSkillStyle.BackColor2)
-        TrainingSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
+        TrainingSkillStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
         Dim SelSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        SelSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillHighlightColor))
+        SelSkillStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillHighlightColor))
         SelSkillStyle.BackColor = Color.FromArgb(32, SelSkillStyle.BackColor2)
 
         ' Set up Groups
@@ -342,19 +342,19 @@ Public Class frmPilot
         End If
 
         ' Parse in-game skill queue
-        Dim EveSkillsQueued As New SortedList(Of String, Integer)
-        For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In displayPilot.QueuedSkills.Values
-            If EveSkillsQueued.ContainsKey(QueuedSkill.SkillID.ToString) = False Then
-                EveSkillsQueued.Add(QueuedSkill.SkillID.ToString, QueuedSkill.Level)
+        Dim eveSkillsQueued As New SortedList(Of String, Integer)
+        For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In displayPilot.QueuedSkills.Values
+            If eveSkillsQueued.ContainsKey(queuedSkill.SkillID.ToString) = False Then
+                eveSkillsQueued.Add(queuedSkill.SkillID.ToString, queuedSkill.Level)
             Else
-                If QueuedSkill.Level > EveSkillsQueued(QueuedSkill.SkillID.ToString) Then
-                    EveSkillsQueued(QueuedSkill.SkillID.ToString) = QueuedSkill.Level
+                If queuedSkill.Level > eveSkillsQueued(queuedSkill.SkillID.ToString) Then
+                    eveSkillsQueued(queuedSkill.SkillID.ToString) = queuedSkill.Level
                 End If
             End If
         Next
 
         ' Set up items
-        For Each cSkill As EveHQ.Core.PilotSkill In displayPilot.PilotSkills
+        For Each cSkill As EveHQ.Core.EveHQPilotSkill In displayPilot.PilotSkills.Values
             Try
                 Dim groupCLV As Node = CType(groupStructure(cSkill.GroupID), Node)
                 Dim newCLVItem As New DevComponents.AdvTree.Node
@@ -371,9 +371,9 @@ Public Class frmPilot
                 newCLVItem.Cells(1).Tag = cSkill.Rank
 
                 newCLVItem.Cells.Add(New Cell)
-                If EveSkillsQueued.ContainsKey(cSkill.ID) Then
-                    If EveSkillsQueued(cSkill.ID) > cSkill.Level Then
-                        newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & EveSkillsQueued(cSkill.ID).ToString & "0"), Image)
+                If eveSkillsQueued.ContainsKey(cSkill.ID) Then
+                    If eveSkillsQueued(cSkill.ID) > cSkill.Level Then
+                        newCLVItem.Cells(2).Images.Image = CType(My.Resources.ResourceManager.GetObject("level_" & cSkill.Level.ToString & eveSkillsQueued(cSkill.ID).ToString & "0"), Image)
                         If groupCLV IsNot Nothing Then
                             If groupCLV.Cells(2).Tag IsNot Nothing Then
                                 groupCLV.Cells(2).Tag = CInt(groupCLV.Cells(2).Tag) + 1
@@ -522,15 +522,15 @@ Public Class frmPilot
 
         ' Set Styles
         Dim CertGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-        CertGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupBackgroundColor))
+        CertGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupBackgroundColor))
         CertGroupStyle.BackColor2 = Color.Black
-        CertGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotGroupTextColor))
+        CertGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupTextColor))
         Dim NormalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        NormalCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotStandardSkillColor))
+        NormalCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotStandardSkillColor))
         NormalCertStyle.BackColor = Color.FromArgb(128, NormalCertStyle.BackColor2)
-        NormalCertStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillTextColor))
+        NormalCertStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
         Dim SelCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        SelCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.EveHqSettings.PilotSkillHighlightColor))
+        SelCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillHighlightColor))
         SelCertStyle.BackColor = Color.FromArgb(32, SelCertStyle.BackColor2)
 
         'Set up Groups
@@ -613,8 +613,8 @@ Public Class frmPilot
         If displayPilot.PilotSkills.Count <> 0 Then
             If displayPilot.Training = True Then
                 lblPilotSP.Text = (displayPilot.SkillPoints + displayPilot.TrainingCurrentSP).ToString("N0")
-                If displayPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
-                    Dim cSkill As EveHQ.Core.PilotSkill = CType(displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)), Core.PilotSkill)
+                If displayPilot.PilotSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
+                    Dim cSkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID))
                     Dim percent As Double = 0
                     If cSkill.Level = 5 Then
                         percent = 100
@@ -662,11 +662,11 @@ Public Class frmPilot
 
             ' Display Account Info
             If grpAccount.Visible = True Then
-                Dim dAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(displayPilot.Account), Core.EveAccount)
+                Dim dAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts(displayPilot.Account)
                 lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & EveHQ.Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
-                If EveHQ.Core.HQ.EveHqSettings.NotifyAccountTime = True Then
+                If EveHQ.Core.HQ.Settings.NotifyAccountTime = True Then
                     Dim AccountTime As Date = dAccount.PaidUntil
-                    If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHqSettings.AccountTimeLimit Then
+                    If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.Settings.AccountTimeLimit Then
                         lblAccountExpiry.ForeColor = Color.Red
                     Else
                         lblAccountExpiry.ForeColor = Color.Black
@@ -769,8 +769,8 @@ Public Class frmPilot
         ' If double-clicked, see if we can get it from the eve portrait folder
         For folder As Integer = 1 To 4
             Dim folderName As String
-            If EveHQ.Core.HQ.EveHqSettings.EveFolderLUA(folder) = False Then
-                Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHqSettings.EveFolder(folder)
+            If EveHQ.Core.HQ.Settings.EveFolderLUA(folder) = False Then
+                Dim eveSettingsFolder As String = EveHQ.Core.HQ.Settings.EveFolder(folder)
                 If eveSettingsFolder IsNot Nothing Then
                     eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
                     Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
@@ -779,7 +779,7 @@ Public Class frmPilot
                     folderName = ""
                 End If
             Else
-                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.EveHqSettings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
+                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.Settings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
             End If
             If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
@@ -836,8 +836,8 @@ Public Class frmPilot
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
             Call UpdatePilotInfo()
         End If
     End Sub
@@ -866,10 +866,10 @@ Public Class frmPilot
                     sw.WriteLine("Standings Export for " & cboPilots.SelectedItem.ToString & " (dated: " & Now.ToString & ")")
                     sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
                     For Each iStanding As Node In adtStandings.Nodes
-                        sw.Write(iStanding.Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
-                        sw.Write(iStanding.Cells(1).Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
-                        sw.Write(iStanding.Cells(2).Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
-                        sw.WriteLine(iStanding.Cells(3).Text & EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar & iStanding.Cells(4).Text)
+                        sw.Write(iStanding.Text & EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+                        sw.Write(iStanding.Cells(1).Text & EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+                        sw.Write(iStanding.Cells(2).Text & EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+                        sw.WriteLine(iStanding.Cells(3).Text & EveHQ.Core.HQ.Settings.CSVSeparatorChar & iStanding.Cells(4).Text)
                     Next
                     sw.Flush()
                     sw.Close()
@@ -892,39 +892,39 @@ Public Class frmPilot
     End Sub
     Private Sub UpdateStandingsList()
 
-        Dim DiplomacyLevel As Integer = 0
-        Dim ConnectionsLevel As Integer = 0
-        Dim RawStanding As Double = 0
-        Dim EffStanding As Double = 0
+        Dim diplomacyLevel As Integer = 0
+        Dim connectionsLevel As Integer = 0
+        Dim rawStanding As Double = 0
+        Dim effStanding As Double = 0
 
         ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
-        For Each cSkill As EveHQ.Core.PilotSkill In displayPilot.PilotSkills
+        For Each cSkill As EveHQ.Core.EveHQPilotSkill In displayPilot.PilotSkills.Values
             If cSkill.Name = "Diplomacy" Then
-                DiplomacyLevel = cSkill.Level
+                diplomacyLevel = cSkill.Level
             End If
             If cSkill.Name = "Connections" Then
-                ConnectionsLevel = cSkill.Level
+                connectionsLevel = cSkill.Level
             End If
         Next
 
         adtStandings.BeginUpdate()
         adtStandings.Nodes.Clear()
 
-        For Each Standing As EveHQ.Core.PilotStanding In displayPilot.Standings.Values
+        For Each standing As EveHQ.Core.PilotStanding In displayPilot.Standings.Values
 
-            If Standing.Standing <> 0 Then
+            If standing.Standing <> 0 Then
 
-                RawStanding = Standing.Standing
+                rawStanding = standing.Standing
 
-                Select Case Standing.Type
+                Select Case standing.Type
                     Case Core.StandingType.Agent, Core.StandingType.Faction, Core.StandingType.NPCCorporation
-                        If RawStanding < 0 Then
-                            EffStanding = RawStanding + ((10 - RawStanding) * (DiplomacyLevel * 4 / 100))
+                        If rawStanding < 0 Then
+                            effStanding = rawStanding + ((10 - rawStanding) * (diplomacyLevel * 4 / 100))
                         Else
-                            EffStanding = RawStanding + ((10 - RawStanding) * (ConnectionsLevel * 4 / 100))
+                            effStanding = rawStanding + ((10 - rawStanding) * (connectionsLevel * 4 / 100))
                         End If
                     Case Core.StandingType.PlayerCorp, Core.StandingType.Unknown
-                        EffStanding = RawStanding
+                        effStanding = rawStanding
                 End Select
 
                 Dim show As Boolean = False
@@ -932,25 +932,25 @@ Public Class frmPilot
                     Case "<All>"
                         show = True
                     Case "Agent"
-                        If Standing.Type = Core.StandingType.Agent Then
+                        If standing.Type = Core.StandingType.Agent Then
                             show = True
                         End If
                     Case "Corporation"
-                        If Standing.Type = Core.StandingType.NPCCorporation Then
+                        If standing.Type = Core.StandingType.NPCCorporation Then
                             show = True
                         End If
                     Case "Faction"
-                        If Standing.Type = Core.StandingType.Faction Then
+                        If standing.Type = Core.StandingType.Faction Then
                             show = True
                         End If
                     Case "Player/Corp"
-                        If Standing.Type = Core.StandingType.PlayerCorp Then
+                        If standing.Type = Core.StandingType.PlayerCorp Then
                             show = True
                         End If
                 End Select
 
                 If show = True Then
-                    Dim newStanding As New Node(Standing.Name)
+                    Dim newStanding As New Node(standing.Name)
                     'Select Case Standing.Type
                     '    Case Core.StandingType.Agent
                     '        newStanding.Image = EveHQ.Core.ImageHandler.GetPortraitImage(Standing.ID.ToString, 32)
@@ -961,12 +961,12 @@ Public Class frmPilot
                     '    Case Core.StandingType.NPCCorporation
                     '        newStanding.Image = EveHQ.Core.ImageHandler.GetCorpImage(Standing.ID.ToString, 32)
                     'End Select
-                    newStanding.Cells.Add(New Cell(Standing.ID.ToString))
-                    newStanding.Cells.Add(New Cell(Standing.Type.ToString))
-                    newStanding.Cells.Add(New Cell(RawStanding.ToString("N2")))
-                    newStanding.Cells.Add(New Cell(EffStanding.ToString("N2")))
-                    newStanding.Cells(2).Tag = RawStanding
-                    newStanding.Cells(3).Tag = EffStanding
+                    newStanding.Cells.Add(New Cell(standing.ID.ToString))
+                    newStanding.Cells.Add(New Cell(standing.Type.ToString))
+                    newStanding.Cells.Add(New Cell(rawStanding.ToString("N2")))
+                    newStanding.Cells.Add(New Cell(effStanding.ToString("N2")))
+                    newStanding.Cells(2).Tag = rawStanding
+                    newStanding.Cells(3).Tag = effStanding
                     adtStandings.Nodes.Add(newStanding)
                 End If
 
@@ -1046,6 +1046,6 @@ Public Class frmPilot
         End If
     End Sub
 
-  
+
 End Class
 

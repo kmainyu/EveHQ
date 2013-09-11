@@ -1899,786 +1899,786 @@ Public Class EveSettings
     End Function
 End Class
 
-Public Class EveHQSettingsFunctions
-    Public Shared Sub SaveSettings()
-        Call SaveEveHQSettings()
-        Call SaveTraining()
-    End Sub                  'SaveSettings
-    Public Shared Function LoadSettings(ShowRawData As Boolean) As Boolean
-        If LoadEveHQSettings(ShowRawData) = False Then
-            Return False
-            Exit Function
-        End If
-        Call LoadTraining()
-        Return True
-    End Function             'LoadSettings
+'Public Class EveHQSettingsFunctions
+'    Public Shared Sub SaveSettings()
+'        Call SaveEveHQSettings()
+'        Call SaveTraining()
+'    End Sub                  'SaveSettings
+'    Public Shared Function LoadSettings(ShowRawData As Boolean) As Boolean
+'        If LoadEveHQSettings(ShowRawData) = False Then
+'            Return False
+'            Exit Function
+'        End If
+'        Call LoadTraining()
+'        Return True
+'    End Function             'LoadSettings
 
-    Public Shared Sub SaveTraining()
-        HQ.WriteLogEvent("Settings: Saving EveHQ training queues")
-        For Each currentPilot As Pilot In HQ.EveHqSettings.Pilots
-            If currentPilot.TrainingQueues IsNot Nothing Then
+'    Public Shared Sub SaveTraining()
+'        HQ.WriteLogEvent("Settings: Saving EveHQ training queues")
+'        For Each currentPilot As EveHQPilot In HQ.Settings.Pilots.Values
+'            If currentPilot.TrainingQueues IsNot Nothing Then
 
-                Dim XMLDoc As New XmlDocument
-                Dim dec As XmlDeclaration = XMLDoc.CreateXmlDeclaration("1.0", Nothing, Nothing)
-                Dim XMLAtt As XmlAttribute
-                ' Write root node
-                XMLDoc.AppendChild(dec)
+'                Dim XMLDoc As New XmlDocument
+'                Dim dec As XmlDeclaration = XMLDoc.CreateXmlDeclaration("1.0", Nothing, Nothing)
+'                Dim XMLAtt As XmlAttribute
+'                ' Write root node
+'                XMLDoc.AppendChild(dec)
 
-                Dim XMLRoot As XmlElement = XMLDoc.CreateElement("training")
-                Dim version As String = My.Application.Info.Version.Major.ToString & "." &
-                                        My.Application.Info.Version.Minor.ToString
-                XMLAtt = XMLDoc.CreateAttribute("version")
-                XMLAtt.Value = version
-                XMLRoot.Attributes.Append(XMLAtt)
-                XMLDoc.AppendChild(XMLRoot)
+'                Dim XMLRoot As XmlElement = XMLDoc.CreateElement("training")
+'                Dim version As String = My.Application.Info.Version.Major.ToString & "." &
+'                                        My.Application.Info.Version.Minor.ToString
+'                XMLAtt = XMLDoc.CreateAttribute("version")
+'                XMLAtt.Value = version
+'                XMLRoot.Attributes.Append(XMLAtt)
+'                XMLDoc.AppendChild(XMLRoot)
 
-                For Each currentQueue As SkillQueue In currentPilot.TrainingQueues.Values
+'                For Each currentQueue As SkillQueue In currentPilot.TrainingQueues.Values
 
-                    Dim QNode As XmlNode = XMLDoc.CreateElement("queue")
-                    XMLAtt = XMLDoc.CreateAttribute("name")
-                    XMLAtt.Value = HttpUtility.HtmlEncode(currentQueue.Name)
-                    QNode.Attributes.Append(XMLAtt)
-                    XMLAtt = XMLDoc.CreateAttribute("ICT")
-                    XMLAtt.Value = currentQueue.IncCurrentTraining.ToString
-                    QNode.Attributes.Append(XMLAtt)
-                    XMLAtt = XMLDoc.CreateAttribute("primary")
-                    XMLAtt.Value = currentQueue.Primary.ToString
-                    QNode.Attributes.Append(XMLAtt)
-                    XMLRoot.AppendChild(QNode)
+'                    Dim QNode As XmlNode = XMLDoc.CreateElement("queue")
+'                    XMLAtt = XMLDoc.CreateAttribute("name")
+'                    XMLAtt.Value = HttpUtility.HtmlEncode(currentQueue.Name)
+'                    QNode.Attributes.Append(XMLAtt)
+'                    XMLAtt = XMLDoc.CreateAttribute("ICT")
+'                    XMLAtt.Value = currentQueue.IncCurrentTraining.ToString
+'                    QNode.Attributes.Append(XMLAtt)
+'                    XMLAtt = XMLDoc.CreateAttribute("primary")
+'                    XMLAtt.Value = currentQueue.Primary.ToString
+'                    QNode.Attributes.Append(XMLAtt)
+'                    XMLRoot.AppendChild(QNode)
 
-                    Dim mySkillQueue As SkillQueueItem
-                    For Each mySkillQueue In currentQueue.Queue
-                        Dim skillNode As XmlNode = XMLDoc.CreateElement("skill")
+'                    Dim mySkillQueue As SkillQueueItem
+'                    For Each mySkillQueue In currentQueue.Queue
+'                        Dim skillNode As XmlNode = XMLDoc.CreateElement("skill")
 
-                        Dim IDNode As XmlNode = XMLDoc.CreateElement("skillID")
-                        IDNode.InnerText = mySkillQueue.Name
-                        skillNode.AppendChild(IDNode)
+'                        Dim IDNode As XmlNode = XMLDoc.CreateElement("skillID")
+'                        IDNode.InnerText = mySkillQueue.Name
+'                        skillNode.AppendChild(IDNode)
 
-                        Dim FromNode As XmlNode = XMLDoc.CreateElement("fromLevel")
-                        FromNode.InnerText = mySkillQueue.FromLevel.ToString
-                        skillNode.AppendChild(FromNode)
+'                        Dim FromNode As XmlNode = XMLDoc.CreateElement("fromLevel")
+'                        FromNode.InnerText = mySkillQueue.FromLevel.ToString
+'                        skillNode.AppendChild(FromNode)
 
-                        Dim ToNode As XmlNode = XMLDoc.CreateElement("toLevel")
-                        ToNode.InnerText = mySkillQueue.ToLevel.ToString
-                        skillNode.AppendChild(ToNode)
+'                        Dim ToNode As XmlNode = XMLDoc.CreateElement("toLevel")
+'                        ToNode.InnerText = mySkillQueue.ToLevel.ToString
+'                        skillNode.AppendChild(ToNode)
 
-                        Dim PosNode As XmlNode = XMLDoc.CreateElement("position")
-                        PosNode.InnerText = mySkillQueue.Pos.ToString
-                        skillNode.AppendChild(PosNode)
+'                        Dim PosNode As XmlNode = XMLDoc.CreateElement("position")
+'                        PosNode.InnerText = mySkillQueue.Pos.ToString
+'                        skillNode.AppendChild(PosNode)
 
-                        Dim NotesNode As XmlNode = XMLDoc.CreateElement("notes")
-                        NotesNode.InnerText = HttpUtility.HtmlEncode(mySkillQueue.Notes)
-                        skillNode.AppendChild(NotesNode)
+'                        Dim NotesNode As XmlNode = XMLDoc.CreateElement("notes")
+'                        NotesNode.InnerText = HttpUtility.HtmlEncode(mySkillQueue.Notes)
+'                        skillNode.AppendChild(NotesNode)
 
-                        QNode.AppendChild(skillNode)
+'                        QNode.AppendChild(skillNode)
 
-                    Next
-                Next
-                Try
-                    Dim tFileName As String = "Q_" & currentPilot.Name & ".xml"
-                    XMLDoc.Save(Path.Combine(HQ.dataFolder, tFileName))
-                Catch e As Exception
-                    MessageBox.Show(e.Message, "Error Saving Training Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End Try
-            End If
-        Next
-    End Sub
+'                    Next
+'                Next
+'                Try
+'                    Dim tFileName As String = "Q_" & currentPilot.Name & ".xml"
+'                    XMLDoc.Save(Path.Combine(HQ.dataFolder, tFileName))
+'                Catch e As Exception
+'                    MessageBox.Show(e.Message, "Error Saving Training Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
+'                    Exit Sub
+'                End Try
+'            End If
+'        Next
+'    End Sub
 
-    Public Shared Sub LoadTraining()
-        Dim currentPilot As Pilot = New Pilot
-        Dim XMLdoc As XmlDocument = New XmlDocument
-        Dim XMLS As String = ""
-        Dim tFileName As String = ""
+'    Public Shared Sub LoadTraining()
+'        Dim currentPilot As Pilot = New Pilot
+'        Dim XMLdoc As XmlDocument = New XmlDocument
+'        Dim XMLS As String = ""
+'        Dim tFileName As String = ""
 
-        Dim trainingList, QueueList As XmlNodeList
-        Dim trainingDetails, Queuedetails As XmlNode
+'        Dim trainingList, QueueList As XmlNodeList
+'        Dim trainingDetails, Queuedetails As XmlNode
 
-        Dim ObsoleteSkills() As String =
-                {"Analytical Mind", "Clarity", "Eidetic Memory", "Empathy", "Focus", "Instant Recall", "Iron Will",
-                 "Learning", "Logic", "Presence", "Spatial Awareness"}
-        Dim ObsoleteList As New List(Of String)(ObsoleteSkills)
+'        Dim ObsoleteSkills() As String =
+'                {"Analytical Mind", "Clarity", "Eidetic Memory", "Empathy", "Focus", "Instant Recall", "Iron Will",
+'                 "Learning", "Logic", "Presence", "Spatial Awareness"}
+'        Dim ObsoleteList As New List(Of String)(ObsoleteSkills)
 
-        For Each currentPilot In HQ.EveHqSettings.Pilots
-            currentPilot.ActiveQueue = New SkillQueue
-            'currentPilot.ActiveQueue.Queue.Clear()
-            currentPilot.TrainingQueues = New SortedList
-            currentPilot.TrainingQueues.Clear()
-            currentPilot.PrimaryQueue = ""
+'        For Each currentPilot In HQ.Settings.Pilots
+'            currentPilot.ActiveQueue = New SkillQueue
+'            'currentPilot.ActiveQueue.Queue.Clear()
+'            currentPilot.TrainingQueues = New SortedList
+'            currentPilot.TrainingQueues.Clear()
+'            currentPilot.PrimaryQueue = ""
 
-            tFileName = "Q_" & currentPilot.Name & ".xml"
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.dataFolder, tFileName)) = True Then
-                Try
-                    XMLdoc.Load(Path.Combine(HQ.dataFolder, tFileName))
+'            tFileName = "Q_" & currentPilot.Name & ".xml"
+'            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.dataFolder, tFileName)) = True Then
+'                Try
+'                    XMLdoc.Load(Path.Combine(HQ.dataFolder, tFileName))
 
-                    ' Get the EveHQ.Core.Pilot details
-                    trainingList = XMLdoc.SelectNodes("/training/skill")
+'                    ' Get the EveHQ.Core.Pilot details
+'                    trainingList = XMLdoc.SelectNodes("/training/skill")
 
-                    If trainingList.Count > 0 Then
-                        ' Using version prior to 1.3
-                        ' Start a new SkillQueue class (using "primary" as the default name)
-                        Dim newQ As New SkillQueue
-                        newQ.Name = "Primary"
-                        newQ.IncCurrentTraining = True
-                        newQ.Primary = True
-                        For Each trainingDetails In trainingList
-                            Dim myskill As SkillQueueItem = New SkillQueueItem
-                            myskill.Name = trainingDetails.ChildNodes(0).InnerText
-                            myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
-                            myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
-                            myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
-                            Dim keyName As String = myskill.Name & myskill.FromLevel & myskill.ToLevel
-                            currentPilot.ActiveQueue.Queue.Add(myskill, keyName)
-                        Next
-                        newQ.Queue = currentPilot.ActiveQueue.Queue
-                        currentPilot.PrimaryQueue = newQ.Name
-                        currentPilot.TrainingQueues.Add(newQ.Name, newQ)
-                    Else
-                        ' Try for the post 1.3 version
-                        ' Get version
-                        Dim rootNode As XmlNode = XMLdoc.SelectSingleNode("/training")
-                        Dim version As Double = 0
-                        Dim culture As CultureInfo = New CultureInfo("en-GB")
-                        If rootNode.Attributes.Count > 0 Then
-                            version = Double.Parse(rootNode.Attributes("version").Value, NumberStyles.Any, culture)
-                        End If
-                        QueueList = XMLdoc.SelectNodes("/training/queue")
-                        If QueueList.Count > 0 Then
-                            For Each Queuedetails In QueueList
-                                Dim newQ As New SkillQueue
-                                newQ.Name = HttpUtility.HtmlDecode(Queuedetails.Attributes("name").Value)
-                                newQ.IncCurrentTraining = CBool(Queuedetails.Attributes("ICT").Value)
-                                newQ.Primary = CBool(Queuedetails.Attributes("primary").Value)
-                                If newQ.Primary = True Then
-                                    If currentPilot.PrimaryQueue <> "" Then
-                                        ' There can be only one!
-                                        newQ.Primary = False
-                                    Else
-                                        currentPilot.PrimaryQueue = newQ.Name
-                                    End If
-                                End If
-                                trainingList = Queuedetails.SelectNodes("training/queue/skill")
-                                If Queuedetails.ChildNodes.Count > 0 Then
-                                    ' Using version prior to 1.3
-                                    ' Start a new SkillQueue class (using "primary" as the default name)
-                                    For Each trainingDetails In Queuedetails.ChildNodes
-                                        If ObsoleteList.Contains(trainingDetails.ChildNodes(0).InnerText) = False Then
-                                            Dim myskill As SkillQueueItem = New SkillQueueItem
-                                            myskill.Name = trainingDetails.ChildNodes(0).InnerText
-                                            ' Adjust for the 1.9 version
-                                            If version < 1.9 Then
-                                                If myskill.Name = "Astrometric Triangulation" Then
-                                                    myskill.Name = "Astrometric Acquisition"
-                                                End If
-                                                If myskill.Name = "Signal Acquisition" Then
-                                                    myskill.Name = "Astrometric Triangulation"
-                                                End If
-                                            End If
-                                            Try
-                                                myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
-                                                myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
-                                                myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
-                                                myskill.Notes =
-                                                    HttpUtility.HtmlDecode(trainingDetails.ChildNodes(4).InnerText)
-                                            Catch e As Exception
-                                                ' We don't have the required info
-                                            End Try
-                                            Dim keyName As String = myskill.Name & myskill.FromLevel & myskill.ToLevel
-                                            If newQ.Queue.Contains(keyName) = False Then
-                                                If myskill.ToLevel > myskill.FromLevel Then
-                                                    newQ.Queue.Add(myskill, keyName) _
-                                                    ' Multi queue method
-                                                End If
-                                            End If
-                                        End If
-                                    Next
-                                End If
-                                currentPilot.TrainingQueues.Add(newQ.Name, newQ)
-                            Next
-                        End If
-                    End If
+'                    If trainingList.Count > 0 Then
+'                        ' Using version prior to 1.3
+'                        ' Start a new SkillQueue class (using "primary" as the default name)
+'                        Dim newQ As New SkillQueue
+'                        newQ.Name = "Primary"
+'                        newQ.IncCurrentTraining = True
+'                        newQ.Primary = True
+'                        For Each trainingDetails In trainingList
+'                            Dim myskill As SkillQueueItem = New SkillQueueItem
+'                            myskill.Name = trainingDetails.ChildNodes(0).InnerText
+'                            myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
+'                            myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
+'                            myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
+'                            Dim keyName As String = myskill.Name & myskill.FromLevel & myskill.ToLevel
+'                            currentPilot.ActiveQueue.Queue.Add(myskill, keyName)
+'                        Next
+'                        newQ.Queue = currentPilot.ActiveQueue.Queue
+'                        currentPilot.PrimaryQueue = newQ.Name
+'                        currentPilot.TrainingQueues.Add(newQ.Name, newQ)
+'                    Else
+'                        ' Try for the post 1.3 version
+'                        ' Get version
+'                        Dim rootNode As XmlNode = XMLdoc.SelectSingleNode("/training")
+'                        Dim version As Double = 0
+'                        Dim culture As CultureInfo = New CultureInfo("en-GB")
+'                        If rootNode.Attributes.Count > 0 Then
+'                            version = Double.Parse(rootNode.Attributes("version").Value, NumberStyles.Any, culture)
+'                        End If
+'                        QueueList = XMLdoc.SelectNodes("/training/queue")
+'                        If QueueList.Count > 0 Then
+'                            For Each Queuedetails In QueueList
+'                                Dim newQ As New SkillQueue
+'                                newQ.Name = HttpUtility.HtmlDecode(Queuedetails.Attributes("name").Value)
+'                                newQ.IncCurrentTraining = CBool(Queuedetails.Attributes("ICT").Value)
+'                                newQ.Primary = CBool(Queuedetails.Attributes("primary").Value)
+'                                If newQ.Primary = True Then
+'                                    If currentPilot.PrimaryQueue <> "" Then
+'                                        ' There can be only one!
+'                                        newQ.Primary = False
+'                                    Else
+'                                        currentPilot.PrimaryQueue = newQ.Name
+'                                    End If
+'                                End If
+'                                trainingList = Queuedetails.SelectNodes("training/queue/skill")
+'                                If Queuedetails.ChildNodes.Count > 0 Then
+'                                    ' Using version prior to 1.3
+'                                    ' Start a new SkillQueue class (using "primary" as the default name)
+'                                    For Each trainingDetails In Queuedetails.ChildNodes
+'                                        If ObsoleteList.Contains(trainingDetails.ChildNodes(0).InnerText) = False Then
+'                                            Dim myskill As SkillQueueItem = New SkillQueueItem
+'                                            myskill.Name = trainingDetails.ChildNodes(0).InnerText
+'                                            ' Adjust for the 1.9 version
+'                                            If version < 1.9 Then
+'                                                If myskill.Name = "Astrometric Triangulation" Then
+'                                                    myskill.Name = "Astrometric Acquisition"
+'                                                End If
+'                                                If myskill.Name = "Signal Acquisition" Then
+'                                                    myskill.Name = "Astrometric Triangulation"
+'                                                End If
+'                                            End If
+'                                            Try
+'                                                myskill.FromLevel = CInt(trainingDetails.ChildNodes(1).InnerText)
+'                                                myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
+'                                                myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
+'                                                myskill.Notes =
+'                                                    HttpUtility.HtmlDecode(trainingDetails.ChildNodes(4).InnerText)
+'                                            Catch e As Exception
+'                                                ' We don't have the required info
+'                                            End Try
+'                                            Dim keyName As String = myskill.Name & myskill.FromLevel & myskill.ToLevel
+'                                            If newQ.Queue.Contains(keyName) = False Then
+'                                                If myskill.ToLevel > myskill.FromLevel Then
+'                                                    newQ.Queue.Add(myskill, keyName) _
+'                                                    ' Multi queue method
+'                                                End If
+'                                            End If
+'                                        End If
+'                                    Next
+'                                End If
+'                                currentPilot.TrainingQueues.Add(newQ.Name, newQ)
+'                            Next
+'                        End If
+'                    End If
 
-                    ' Iterate through the relevant nodes
+'                    ' Iterate through the relevant nodes
 
-                Catch e As Exception
-                    MessageBox.Show(
-                        "Error importing Training data for " & currentPilot.Name & "." & ControlChars.CrLf &
-                        "The error reported was " & e.Message, "Training Data Error", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error)
-                End Try
-            End If
-        Next
-    End Sub
+'                Catch e As Exception
+'                    MessageBox.Show(
+'                        "Error importing Training data for " & currentPilot.Name & "." & ControlChars.CrLf &
+'                        "The error reported was " & e.Message, "Training Data Error", MessageBoxButtons.OK,
+'                        MessageBoxIcon.Error)
+'                End Try
+'            End If
+'        Next
+'    End Sub
 
-    Public Shared Sub ResetColumns()
-        HQ.EveHqSettings.QColumns(0, 0) = "Name"
-        HQ.EveHqSettings.QColumns(0, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(1, 0) = "Curr"
-        HQ.EveHqSettings.QColumns(1, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(2, 0) = "From"
-        HQ.EveHqSettings.QColumns(2, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(3, 0) = "Tole"
-        HQ.EveHqSettings.QColumns(3, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(4, 0) = "Perc"
-        HQ.EveHqSettings.QColumns(4, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(5, 0) = "Trai"
-        HQ.EveHqSettings.QColumns(5, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(6, 0) = "Comp"
-        HQ.EveHqSettings.QColumns(6, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(7, 0) = "Date"
-        HQ.EveHqSettings.QColumns(7, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(8, 0) = "Rank"
-        HQ.EveHqSettings.QColumns(8, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(9, 0) = "PAtt"
-        HQ.EveHqSettings.QColumns(9, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(10, 0) = "SAtt"
-        HQ.EveHqSettings.QColumns(10, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(11, 0) = "SPRH"
-        HQ.EveHqSettings.QColumns(11, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(12, 0) = "SPRD"
-        HQ.EveHqSettings.QColumns(12, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(13, 0) = "SPRW"
-        HQ.EveHqSettings.QColumns(13, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(14, 0) = "SPRM"
-        HQ.EveHqSettings.QColumns(14, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(15, 0) = "SPRY"
-        HQ.EveHqSettings.QColumns(15, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(16, 0) = "SPAd"
-        HQ.EveHqSettings.QColumns(16, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(17, 0) = "SPTo"
-        HQ.EveHqSettings.QColumns(17, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(18, 0) = "Note"
-        HQ.EveHqSettings.QColumns(18, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(19, 0) = "Prio"
-        HQ.EveHqSettings.QColumns(19, 1) = CStr(False)
-        HQ.EveHqSettings.QColumnsSet = True
-    End Sub
+'    Public Shared Sub ResetColumns()
+'        HQ.Settings.QColumns(0, 0) = "Name"
+'        HQ.Settings.QColumns(0, 1) = CStr(True)
+'        HQ.Settings.QColumns(1, 0) = "Curr"
+'        HQ.Settings.QColumns(1, 1) = CStr(True)
+'        HQ.Settings.QColumns(2, 0) = "From"
+'        HQ.Settings.QColumns(2, 1) = CStr(True)
+'        HQ.Settings.QColumns(3, 0) = "Tole"
+'        HQ.Settings.QColumns(3, 1) = CStr(True)
+'        HQ.Settings.QColumns(4, 0) = "Perc"
+'        HQ.Settings.QColumns(4, 1) = CStr(True)
+'        HQ.Settings.QColumns(5, 0) = "Trai"
+'        HQ.Settings.QColumns(5, 1) = CStr(True)
+'        HQ.Settings.QColumns(6, 0) = "Comp"
+'        HQ.Settings.QColumns(6, 1) = CStr(True)
+'        HQ.Settings.QColumns(7, 0) = "Date"
+'        HQ.Settings.QColumns(7, 1) = CStr(True)
+'        HQ.Settings.QColumns(8, 0) = "Rank"
+'        HQ.Settings.QColumns(8, 1) = CStr(False)
+'        HQ.Settings.QColumns(9, 0) = "PAtt"
+'        HQ.Settings.QColumns(9, 1) = CStr(False)
+'        HQ.Settings.QColumns(10, 0) = "SAtt"
+'        HQ.Settings.QColumns(10, 1) = CStr(False)
+'        HQ.Settings.QColumns(11, 0) = "SPRH"
+'        HQ.Settings.QColumns(11, 1) = CStr(False)
+'        HQ.Settings.QColumns(12, 0) = "SPRD"
+'        HQ.Settings.QColumns(12, 1) = CStr(False)
+'        HQ.Settings.QColumns(13, 0) = "SPRW"
+'        HQ.Settings.QColumns(13, 1) = CStr(False)
+'        HQ.Settings.QColumns(14, 0) = "SPRM"
+'        HQ.Settings.QColumns(14, 1) = CStr(False)
+'        HQ.Settings.QColumns(15, 0) = "SPRY"
+'        HQ.Settings.QColumns(15, 1) = CStr(False)
+'        HQ.Settings.QColumns(16, 0) = "SPAd"
+'        HQ.Settings.QColumns(16, 1) = CStr(False)
+'        HQ.Settings.QColumns(17, 0) = "SPTo"
+'        HQ.Settings.QColumns(17, 1) = CStr(False)
+'        HQ.Settings.QColumns(18, 0) = "Note"
+'        HQ.Settings.QColumns(18, 1) = CStr(False)
+'        HQ.Settings.QColumns(19, 0) = "Prio"
+'        HQ.Settings.QColumns(19, 1) = CStr(False)
+'        HQ.Settings.QColumnsSet = True
+'    End Sub
 
-    Public Shared Sub SaveEveHQSettings()
-        HQ.WriteLogEvent("Settings: Saving EveHQ settings to " & Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"))
-        ' Write a serial version of the settings
-        Try
-            Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Create)
-            Dim f As New BinaryFormatter
-            f.Serialize(s, HQ.EveHqSettings)
-            s.Flush()
-            s.Close()
-            s.Dispose()
-            HQ.WriteLogEvent("Settings: Saved EveHQ settings to " & Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"))
-        Catch e As Exception
-            HQ.WriteLogEvent(
-                "Settings: Error saving EveHQ settings to " &
-                Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin - " & e.Message))
-        End Try
-        ' Update the Proxy Server settings
-        Call InitialiseRemoteProxyServer()
-        ' Set Global APIServerInfo
-        HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.EveHqSettings.CCPAPIServerAddress, HQ.EveHqSettings.APIRSAddress,
-                                                  HQ.EveHqSettings.UseAPIRS, HQ.EveHqSettings.UseCCPAPIBackup)
-    End Sub
+'    Public Shared Sub SaveEveHQSettings()
+'        HQ.WriteLogEvent("Settings: Saving EveHQ settings to " & Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"))
+'        ' Write a serial version of the settings
+'        Try
+'            Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Create)
+'            Dim f As New BinaryFormatter
+'            f.Serialize(s, HQ.EveHqSettings)
+'            s.Flush()
+'            s.Close()
+'            s.Dispose()
+'            HQ.WriteLogEvent("Settings: Saved EveHQ settings to " & Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"))
+'        Catch e As Exception
+'            HQ.WriteLogEvent(
+'                "Settings: Error saving EveHQ settings to " &
+'                Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin - " & e.Message))
+'        End Try
+'        ' Update the Proxy Server settings
+'        Call InitialiseRemoteProxyServer()
+'        ' Set Global APIServerInfo
+'        HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.Settings.CCPAPIServerAddress, HQ.Settings.APIRSAddress,
+'                                                  HQ.Settings.UseAPIRS, HQ.Settings.UseCCPAPIBackup)
+'    End Sub
 
-    Public Shared Function LoadEveHQSettings(ShowRawData As Boolean) As Boolean
+'    Public Shared Function LoadEveHQSettings(ShowRawData As Boolean) As Boolean
 
-        ' Convert the EveHQ Settings
-        Dim importFile As String = Path.Combine(HQ.AppDataFolder, "EveHQSettings.exported.json.txt")
-        Dim showImport As Boolean = File.Exists(importFile)
-        Dim importMessage As String = "A exported settings file has been detected. Would you like to import this file?" & ControlChars.CrLf & ControlChars.CrLf & "Warning: All of your current settings will be overwritten! Please make sure you have a backup first."
-        If (showImport = True) Then
-            If (MessageBox.Show(importMessage, "Import Settings?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes) Then
-                ImportOldSettings(importFile)
-            End If
-        Else
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
-                'Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
-                ' Temp code for JSON Test
-                'Dim s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
-                Try
+'        ' Convert the EveHQ Settings
+'        Dim importFile As String = Path.Combine(HQ.AppDataFolder, "EveHQSettings.exported.json.txt")
+'        Dim showImport As Boolean = File.Exists(importFile)
+'        Dim importMessage As String = "A exported settings file has been detected. Would you like to import this file?" & ControlChars.CrLf & ControlChars.CrLf & "Warning: All of your current settings will be overwritten! Please make sure you have a backup first."
+'        If (showImport = True) Then
+'            If (MessageBox.Show(importMessage, "Import Settings?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes) Then
+'                ImportOldSettings(importFile)
+'            End If
+'        Else
+'            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
+'                'Dim s As New FileStream(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), FileMode.Open)
+'                ' Temp code for JSON Test
+'                'Dim s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
+'                Try
 
-                    Using s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
-                        Dim json As String = s.ReadToEnd
-                        Dim settings As EveHQSettings = JsonConvert.DeserializeObject(Of EveHQSettings)(json)
-                        Call ResetPilotData()
-                    End Using
+'                    Using s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
+'                        Dim json As String = s.ReadToEnd
+'                        Dim settings As EveHQSettings = JsonConvert.DeserializeObject(Of EveHQSettings)(json)
+'                        Call ResetPilotData()
+'                    End Using
 
-                    'EveSettings2.LoadJSONSettings()
+'                    'EveSettings2.LoadJSONSettings()
 
-                    'Dim json As String = s.ReadToEnd
-                    'EveHQ.Core.HQ.EveHqSettings = JsonConvert.DeserializeObject(Of EveSettings)(json)
-                    'Dim json As String = JsonConvert.SerializeObject(EveHQ.Core.HQ.EveHqSettings, Formatting.Indented)
-                    'Account account = JsonConvert.DeserializeObject<Account>(json);
-                    'Dim f As BinaryFormatter = New BinaryFormatter
-                    'HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
-                    's.Close()
-
-
+'                    'Dim json As String = s.ReadToEnd
+'                    'EveHQ.Core.HQ.EveHqSettings = JsonConvert.DeserializeObject(Of EveSettings)(json)
+'                    'Dim json As String = JsonConvert.SerializeObject(EveHQ.Core.HQ.EveHqSettings, Formatting.Indented)
+'                    'Account account = JsonConvert.DeserializeObject<Account>(json);
+'                    'Dim f As BinaryFormatter = New BinaryFormatter
+'                    'HQ.EveHqSettings = CType(f.Deserialize(s), EveSettings)
+'                    's.Close()
 
 
-                    ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
-                    Dim TempAccounts As New List(Of EveAccount)
-                    Dim TempPilots As New List(Of Pilot)
-                    For Each a As EveAccount In HQ.EveHqSettings.Accounts
-                        TempAccounts.Add(a)
-                    Next
-                    For Each p As Pilot In HQ.EveHqSettings.Pilots
-                        TempPilots.Add(p)
-                    Next
-                    HQ.EveHqSettings.Accounts.Clear()
-                    HQ.EveHqSettings.Pilots.Clear()
-                    For Each a As EveAccount In TempAccounts
-                        HQ.EveHqSettings.Accounts.Add(a, a.userID)
-                    Next
-                    For Each p As Pilot In TempPilots
-                        HQ.EveHqSettings.Pilots.Add(p, p.Name)
-                    Next
-                    SaveEveHQSettings()
 
-                Catch ex As Exception
-                    Trace.TraceError(ex.FormatException())
-                    Dim msg As String =
-                            "There was an error trying to load the settings file and it appears that this file is corrupt." &
-                            ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "The error was: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "Stacktrace: " & ex.StackTrace & ControlChars.CrLf & ControlChars.CrLf
-                    msg &=
-                        "EveHQ will copy this file to 'EveHQSettings.bad' and delete the original file and re-initialise the settings. This means you will need to re-enter your API information but your production and fittings data should be intact and available once the API data has been downloaded. You can attempt to reload the old settings by renaming the 'EveHQSettings.bad' file to 'EveHQSettings.bin', however if the issue continues the bad file will be useful to the EveHQ team for debugging purposes" &
-                        ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "Press OK to reset the settings." & ControlChars.CrLf
-                    MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Try
-                        's.Close()
-                        My.Computer.FileSystem.CopyFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), Path.Combine(HQ.AppDataFolder, "EveHQSettings.bad"), True)
-                    Catch e As Exception
-                        MessageBox.Show(
-                            "Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding",
-                            "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                        Application.Exit()
-                    End Try
-                    Return False
-                End Try
-            End If
-        End If
 
-        If ShowRawData = False Then
+'                    ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
+'                    Dim TempAccounts As New List(Of EveAccount)
+'                    Dim TempPilots As New List(Of Pilot)
+'                    For Each a As EveHQAccount In HQ.Settings.Accounts.Values
+'                        TempAccounts.Add(a)
+'                    Next
+'                    For Each p As EveHQPilot In HQ.Settings.Pilots.Values
+'                        TempPilots.Add(p)
+'                    Next
+'                    HQ.Settings.Accounts.Clear()
+'                    HQ.Settings.Pilots.Clear()
+'                    For Each a As EveAccount In TempAccounts
+'                        HQ.Settings.Accounts.Add(a, a.userID)
+'                    Next
+'                    For Each p As Pilot In TempPilots
+'                        HQ.Settings.Pilots.Add(p, p.Name)
+'                    Next
+'                    SaveEveHQSettings()
 
-            ' Reset the update URL to a temp location
-            If HQ.EveHqSettings.UpdateURL <> "http://evehq.net/update/" Then
-                HQ.EveHqSettings.UpdateURL = "http://evehq.net/update/"
-            End If
+'                Catch ex As Exception
+'                    Trace.TraceError(ex.FormatException())
+'                    Dim msg As String =
+'                            "There was an error trying to load the settings file and it appears that this file is corrupt." &
+'                            ControlChars.CrLf & ControlChars.CrLf
+'                    msg &= "The error was: " & ex.Message & ControlChars.CrLf & ControlChars.CrLf
+'                    msg &= "Stacktrace: " & ex.StackTrace & ControlChars.CrLf & ControlChars.CrLf
+'                    msg &=
+'                        "EveHQ will copy this file to 'EveHQSettings.bad' and delete the original file and re-initialise the settings. This means you will need to re-enter your API information but your production and fittings data should be intact and available once the API data has been downloaded. You can attempt to reload the old settings by renaming the 'EveHQSettings.bad' file to 'EveHQSettings.bin', however if the issue continues the bad file will be useful to the EveHQ team for debugging purposes" &
+'                        ControlChars.CrLf & ControlChars.CrLf
+'                    msg &= "Press OK to reset the settings." & ControlChars.CrLf
+'                    MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+'                    Try
+'                        's.Close()
+'                        My.Computer.FileSystem.CopyFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.bin"), Path.Combine(HQ.AppDataFolder, "EveHQSettings.bad"), True)
+'                    Catch e As Exception
+'                        MessageBox.Show(
+'                            "Unable to delete the EveHQSettings.bin file. Please delete this manually before proceeding",
+'                            "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+'                        Application.Exit()
+'                    End Try
+'                    Return False
+'                End Try
+'            End If
+'        End If
 
-            ' Check if we were using a v1 database and see if we can automatically set it to v2
-            ' Only required for old Access databases
-            'MessageBox.Show("Updating reference to static database...")
-            'MessageBox.Show("Checking DBFormat..." & EveHQ.Core.HQ.EveHQSettings.DBFormat.ToString)
-            If HQ.EveHqSettings.DBFormat = 0 Then
-                'MessageBox.Show("Checking File existence: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                If My.Computer.FileSystem.FileExists(HQ.EveHqSettings.DBFilename) Then
-                    Dim DBFI As New FileInfo(HQ.EveHqSettings.DBFilename)
-                    If DBFI.Extension = ".mdb" Then
-                        'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                        Dim TempFileName As String = "EveHQ.sdf"
-                        ' Check the appdata folder (following an installer setup)
-                        Dim TempFolder As String = HQ.AppDataFolder
-                        If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
-                            ' Set the database to the new folder
-                            HQ.EveHqSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
-                            HQ.EveHqSettings.UseAppDirectoryForDB = False
-                            'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                        Else
-                            ' Check the app folder (following a zip setup)
-                            TempFolder = HQ.appFolder
-                            If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
-                                ' Set the database to the new folder
-                                HQ.EveHqSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
-                                HQ.EveHqSettings.UseAppDirectoryForDB = False
-                                'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                            End If
-                        End If
-                    End If
-                Else
-                    ' Can't find database file - assume it has been overwritten by the v2 installer
-                    'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                    Dim TempFileName As String = "EveHQ.sdf"
-                    ' Check the appdata folder (following an installer setup)
-                    Dim TempFolder As String = HQ.AppDataFolder
-                    If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
-                        ' Set the database to the new folder
-                        HQ.EveHqSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
-                        HQ.EveHqSettings.UseAppDirectoryForDB = False
-                        'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                    Else
-                        ' Check the app folder (following a zip setup)
-                        TempFolder = HQ.appFolder
-                        If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
-                            ' Set the database to the new folder
-                            HQ.EveHqSettings.DBFilename = Path.Combine(TempFolder, TempFileName)
-                            HQ.EveHqSettings.UseAppDirectoryForDB = False
-                            'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.EveHQSettings.DBFilename)
-                        End If
-                    End If
-                End If
-            End If
+'        If ShowRawData = False Then
 
-            ' Set the database connection string
-            ' Determine if a database format has been chosen before and set it if not
-            If HQ.EveHqSettings.DBFormat = -1 Then
-                HQ.EveHqSettings.DBFormat = 0
-                HQ.EveHqSettings.DBFilename = Path.Combine(HQ.AppDataFolder, "EveHQ.sdf")
-                ' Check for this file!
-                Dim fileExists As Boolean = False
-                Do
-                    If My.Computer.FileSystem.FileExists(HQ.EveHqSettings.DBFilename) = False Then
-                        Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
-                        msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf &
-                               ControlChars.CrLf
-                        msg &= "Would you like to select a file now?" & ControlChars.CrLf
-                        Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo,
-                                                               MessageBoxIcon.Question)
-                        If reply = DialogResult.No Then
-                            Return False
-                            Exit Function
-                        End If
-                        Dim ofd1 As New OpenFileDialog
-                        With ofd1
-                            .Title = "Select SQL CE Data file"
-                            .FileName = ""
-                            .InitialDirectory = HQ.appFolder
-                            .Filter = "SQL CE Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
-                            .FilterIndex = 1
-                            .RestoreDirectory = True
-                            If .ShowDialog() = DialogResult.OK Then
-                                HQ.EveHqSettings.DBFilename = .FileName
-                            End If
-                        End With
-                    Else
-                        fileExists = True
-                    End If
-                Loop Until fileExists = True
-                HQ.EveHqSettings.DBUsername = ""
-                HQ.EveHqSettings.DBPassword = ""
-            End If
+'            ' Reset the update URL to a temp location
+'            If HQ.Settings.UpdateURL <> "http://evehq.net/update/" Then
+'                HQ.Settings.UpdateURL = "http://evehq.net/update/"
+'            End If
 
-            ' See if people actually bothered to RTFM and install SQLCEv4!
-            Try
-                If DataFunctions.SetEveHQConnectionString() = False Then
-                    Return False
-                End If
-                If DataFunctions.SetEveHQDataConnectionString() = False Then
-                    Return False
-                End If
-            Catch ex As Exception
-                Dim msg As New StringBuilder
-                msg.AppendLine("Error: " & ex.Message)
-                msg.AppendLine("")
-                msg.AppendLine(
-                    "An error occurred trying to access the database, with the most common cause being that SQL Compact Edition v4 was not installed as instructed.")
-                msg.AppendLine("")
-                msg.AppendLine(
-                    "Click OK to close EveHQ where you will be redirected to the SQL Compact Edition download page at http://www.microsoft.com/download/en/details.aspx?id=17876")
-                MessageBox.Show(msg.ToString, "Error Initialising Database", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-                Try
-                    Process.Start("http://www.microsoft.com/download/en/details.aspx?id=17876")
-                    Application.ExitThread()
-                Catch ex2 As Exception
-                    ' Do nothing - users have the link
-                End Try
-            End Try
+'            ' Check if we were using a v1 database and see if we can automatically set it to v2
+'            ' Only required for old Access databases
+'            'MessageBox.Show("Updating reference to static database...")
+'            'MessageBox.Show("Checking DBFormat..." & EveHQ.Core.HQ.Settings.DBFormat.ToString)
+'            If HQ.Settings.DBFormat = 0 Then
+'                'MessageBox.Show("Checking File existence: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                If My.Computer.FileSystem.FileExists(HQ.Settings.DBFilename) Then
+'                    Dim DBFI As New FileInfo(HQ.Settings.DBFilename)
+'                    If DBFI.Extension = ".mdb" Then
+'                        'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                        Dim TempFileName As String = "EveHQ.sdf"
+'                        ' Check the appdata folder (following an installer setup)
+'                        Dim TempFolder As String = HQ.AppDataFolder
+'                        If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
+'                            ' Set the database to the new folder
+'                            HQ.Settings.DBFilename = Path.Combine(TempFolder, TempFileName)
+'                            HQ.Settings.UseAppDirectoryForDB = False
+'                            'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                        Else
+'                            ' Check the app folder (following a zip setup)
+'                            TempFolder = HQ.appFolder
+'                            If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
+'                                ' Set the database to the new folder
+'                                HQ.Settings.DBFilename = Path.Combine(TempFolder, TempFileName)
+'                                HQ.Settings.UseAppDirectoryForDB = False
+'                                'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                            End If
+'                        End If
+'                    End If
+'                Else
+'                    ' Can't find database file - assume it has been overwritten by the v2 installer
+'                    'MessageBox.Show("Old Filename: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                    Dim TempFileName As String = "EveHQ.sdf"
+'                    ' Check the appdata folder (following an installer setup)
+'                    Dim TempFolder As String = HQ.AppDataFolder
+'                    If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
+'                        ' Set the database to the new folder
+'                        HQ.Settings.DBFilename = Path.Combine(TempFolder, TempFileName)
+'                        HQ.Settings.UseAppDirectoryForDB = False
+'                        'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                    Else
+'                        ' Check the app folder (following a zip setup)
+'                        TempFolder = HQ.appFolder
+'                        If My.Computer.FileSystem.FileExists(Path.Combine(TempFolder, TempFileName)) Then
+'                            ' Set the database to the new folder
+'                            HQ.Settings.DBFilename = Path.Combine(TempFolder, TempFileName)
+'                            HQ.Settings.UseAppDirectoryForDB = False
+'                            'MessageBox.Show("New Filename: " & EveHQ.Core.HQ.Settings.DBFilename)
+'                        End If
+'                    End If
+'                End If
+'            End If
 
-            ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
-            If SkillFunctions.LoadEveSkillData() = False Then
-                Return False
-                Exit Function
-            End If
+'            ' Set the database connection string
+'            ' Determine if a database format has been chosen before and set it if not
+'            If HQ.Settings.DBFormat = -1 Then
+'                HQ.Settings.DBFormat = 0
+'                HQ.Settings.DBFilename = Path.Combine(HQ.AppDataFolder, "EveHQ.sdf")
+'                ' Check for this file!
+'                Dim fileExists As Boolean = False
+'                Do
+'                    If My.Computer.FileSystem.FileExists(HQ.Settings.DBFilename) = False Then
+'                        Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
+'                        msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf &
+'                               ControlChars.CrLf
+'                        msg &= "Would you like to select a file now?" & ControlChars.CrLf
+'                        Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo,
+'                                                               MessageBoxIcon.Question)
+'                        If reply = DialogResult.No Then
+'                            Return False
+'                            Exit Function
+'                        End If
+'                        Dim ofd1 As New OpenFileDialog
+'                        With ofd1
+'                            .Title = "Select SQL CE Data file"
+'                            .FileName = ""
+'                            .InitialDirectory = HQ.appFolder
+'                            .Filter = "SQL CE Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
+'                            .FilterIndex = 1
+'                            .RestoreDirectory = True
+'                            If .ShowDialog() = DialogResult.OK Then
+'                                HQ.Settings.DBFilename = .FileName
+'                            End If
+'                        End With
+'                    Else
+'                        fileExists = True
+'                    End If
+'                Loop Until fileExists = True
+'                HQ.Settings.DBUsername = ""
+'                HQ.Settings.DBPassword = ""
+'            End If
 
-            '  Setup queue columns etc
-            Call InitialiseQueueColumns()
-            Call InitialiseUserColumns()
-            Call InitialiseRemoteProxyServer()
-            If HQ.EveHqSettings.QColumns(0, 0) Is Nothing Then
-                Call ResetColumns()
-            End If
+'            ' See if people actually bothered to RTFM and install SQLCEv4!
+'            Try
+'                If DataFunctions.SetEveHQConnectionString() = False Then
+'                    Return False
+'                End If
+'                If DataFunctions.SetEveHQDataConnectionString() = False Then
+'                    Return False
+'                End If
+'            Catch ex As Exception
+'                Dim msg As New StringBuilder
+'                msg.AppendLine("Error: " & ex.Message)
+'                msg.AppendLine("")
+'                msg.AppendLine(
+'                    "An error occurred trying to access the database, with the most common cause being that SQL Compact Edition v4 was not installed as instructed.")
+'                msg.AppendLine("")
+'                msg.AppendLine(
+'                    "Click OK to close EveHQ where you will be redirected to the SQL Compact Edition download page at http://www.microsoft.com/download/en/details.aspx?id=17876")
+'                MessageBox.Show(msg.ToString, "Error Initialising Database", MessageBoxButtons.OK,
+'                                MessageBoxIcon.Information)
+'                Try
+'                    Process.Start("http://www.microsoft.com/download/en/details.aspx?id=17876")
+'                    Application.ExitThread()
+'                Catch ex2 As Exception
+'                    ' Do nothing - users have the link
+'                End Try
+'            End Try
 
-            ' Set Theme stuff
-            If HQ.EveHqSettings.ThemeSetByUser = False Then
-                HQ.EveHqSettings.ThemeStyle = eStyle.Office2007Black
-                HQ.EveHqSettings.ThemeTint = Color.Empty
-            End If
+'            ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
+'            If SkillFunctions.LoadEveSkillData() = False Then
+'                Return False
+'                Exit Function
+'            End If
 
-            ' Set up a global price list if not present
-            If HQ.EveHqSettings.PriceGroups.ContainsKey("<Global>") = False Then
-                ' Add a new price group
-                Dim NewPG As New PriceGroup
-                NewPG.Name = "<Global>"
-                NewPG.RegionIDs.Add("10000002")
-                NewPG.PriceFlags = PriceGroupFlags.MinSell
-                HQ.EveHqSettings.PriceGroups.Add(NewPG.Name, NewPG)
-            End If
+'            '  Setup queue columns etc
+'            Call InitialiseQueueColumns()
+'            Call InitialiseUserColumns()
+'            Call InitialiseRemoteProxyServer()
+'            If HQ.Settings.QColumns(0, 0) Is Nothing Then
+'                Call ResetColumns()
+'            End If
 
-            ' Set Global APIServerInfo
-            HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.EveHqSettings.CCPAPIServerAddress,
-                                                      HQ.EveHqSettings.APIRSAddress, HQ.EveHqSettings.UseAPIRS,
-                                                      HQ.EveHqSettings.UseCCPAPIBackup)
+'            ' Set Theme stuff
+'            If HQ.Settings.ThemeSetByUser = False Then
+'                HQ.Settings.ThemeStyle = eStyle.Office2007Black
+'                HQ.Settings.ThemeTint = Color.Empty
+'            End If
 
-            ' Check for unknown or V1 accounts and remove them
-            Dim OldAccountList As New List(Of String)
-            For Each CheckAccount As EveAccount In HQ.EveHqSettings.Accounts
-                If _
-                    CheckAccount.APIKeySystem = APIKeySystems.Unknown Or
-                    CheckAccount.APIKeySystem = APIKeySystems.Version1 Then
-                    OldAccountList.Add(CheckAccount.userID)
-                End If
-            Next
-            If OldAccountList.Count > 0 Then
-                For Each AccountID As String In OldAccountList
-                    HQ.EveHqSettings.Accounts.Remove(AccountID)
-                Next
-                Dim msg As New StringBuilder
-                msg.AppendLine(
-                    "EveHQ has detected legacy API keys in the settings file. As these are no longer supported, these have been removed.")
-                msg.AppendLine("")
-                msg.AppendLine(
-                    "You will need to add Customisable API Keys (CAKs) for any characters or corporations removed by this procedure that you wish to continue using.")
-                MessageBox.Show(msg.ToString, "Legacy API Keys Removed", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-            End If
+'            ' Set up a global price list if not present
+'            If HQ.Settings.PriceGroups.ContainsKey("<Global>") = False Then
+'                ' Add a new price group
+'                Dim NewPG As New PriceGroup
+'                NewPG.Name = "<Global>"
+'                NewPG.RegionIDs.Add("10000002")
+'                NewPG.PriceFlags = PriceGroupFlags.MinSell
+'                HQ.Settings.PriceGroups.Add(NewPG.Name, NewPG)
+'            End If
 
-        End If
+'            ' Set Global APIServerInfo
+'            HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.Settings.CCPAPIServerAddress,
+'                                                      HQ.Settings.APIRSAddress, HQ.Settings.UseAPIRS,
+'                                                      HQ.Settings.UseCCPAPIBackup)
 
-        Return True
-    End Function
+'            ' Check for unknown or V1 accounts and remove them
+'            Dim OldAccountList As New List(Of String)
+'            For Each CheckAccount As EveHQAccount In HQ.Settings.Accounts.Values
+'                If _
+'                    CheckAccount.APIKeySystem = APIKeySystems.Unknown Or
+'                    CheckAccount.APIKeySystem = APIKeySystems.Version1 Then
+'                    OldAccountList.Add(CheckAccount.userID)
+'                End If
+'            Next
+'            If OldAccountList.Count > 0 Then
+'                For Each AccountID As String In OldAccountList
+'                    HQ.Settings.Accounts.Remove(AccountID)
+'                Next
+'                Dim msg As New StringBuilder
+'                msg.AppendLine(
+'                    "EveHQ has detected legacy API keys in the settings file. As these are no longer supported, these have been removed.")
+'                msg.AppendLine("")
+'                msg.AppendLine(
+'                    "You will need to add Customisable API Keys (CAKs) for any characters or corporations removed by this procedure that you wish to continue using.")
+'                MessageBox.Show(msg.ToString, "Legacy API Keys Removed", MessageBoxButtons.OK,
+'                                MessageBoxIcon.Information)
+'            End If
 
-    Private Shared Sub ImportOldSettings(importFile As String)
-        Try
-            Dim jsonString As String
-            Using fs As FileStream = New FileStream(importFile, FileMode.Open, FileAccess.Read, FileShare.Read)
-                Dim bits(CInt(fs.Length)) As Byte
-                fs.Read(bits, 0, bits.Length)
-                jsonString = Encoding.UTF8.GetString(bits)
-            End Using
+'        End If
 
-            Dim settings As EveSettings = JsonConvert.DeserializeObject(Of EveSettings)(jsonString)
-            If (settings Is Nothing) Then
-                MessageBox.Show("The import of settings failed. The file was read successfully, however the resulting object found was not an EveSettings instance. Please make sure you placed the correct file in the Application data folder.", "Invalid File!", MessageBoxButtons.OK)
-            Else
-                ' Because the Pilots collection is not typed the import of the Json uses a custom anonymous type
-                ' we need to fix that.
-                Dim fixedPilots As New Collection
-                For Each pilotImported As Object In settings.Pilots
-                    Dim temp As String = JsonConvert.SerializeObject(pilotImported)
-                    Dim pilot As Pilot = JsonConvert.DeserializeObject(Of Pilot)(temp)
-                    Dim skills As New Collection
-                    For Each importedSkill As Object In pilot.PilotSkills
-                        temp = JsonConvert.SerializeObject(importedSkill)
-                        Dim skill As PilotSkill = JsonConvert.DeserializeObject(Of PilotSkill)(temp)
-                        skills.Add(skill, skill.Name)
-                    Next
-                    pilot.PilotSkills = skills
-                    fixedPilots.Add(pilot)
-                Next
-                settings.Pilots = fixedPilots
+'        Return True
+'    End Function
 
-                ' Accounts are also a non typed collection
-                Dim fixedAccounts As New Collection
-                For Each accountImported As Object In settings.Accounts
-                    Dim temp As String = JsonConvert.SerializeObject(accountImported)
-                    fixedAccounts.Add(JsonConvert.DeserializeObject(Of EveAccount)(temp))
-                Next
+'    Private Shared Sub ImportOldSettings(importFile As String)
+'        Try
+'            Dim jsonString As String
+'            Using fs As FileStream = New FileStream(importFile, FileMode.Open, FileAccess.Read, FileShare.Read)
+'                Dim bits(CInt(fs.Length)) As Byte
+'                fs.Read(bits, 0, bits.Length)
+'                jsonString = Encoding.UTF8.GetString(bits)
+'            End Using
 
-                settings.Accounts = fixedAccounts
+'            Dim settings As EveSettings = JsonConvert.DeserializeObject(Of EveSettings)(jsonString)
+'            If (settings Is Nothing) Then
+'                MessageBox.Show("The import of settings failed. The file was read successfully, however the resulting object found was not an EveSettings instance. Please make sure you placed the correct file in the Application data folder.", "Invalid File!", MessageBoxButtons.OK)
+'            Else
+'                ' Because the Pilots collection is not typed the import of the Json uses a custom anonymous type
+'                ' we need to fix that.
+'                Dim fixedPilots As New Collection
+'                For Each pilotImported As Object In settings.Pilots
+'                    Dim temp As String = JsonConvert.SerializeObject(pilotImported)
+'                    Dim pilot As Pilot = JsonConvert.DeserializeObject(Of Pilot)(temp)
+'                    Dim skills As New Collection
+'                    For Each importedSkill As Object In pilot.PilotSkills
+'                        temp = JsonConvert.SerializeObject(importedSkill)
+'                        Dim skill As PilotSkill = JsonConvert.DeserializeObject(Of PilotSkill)(temp)
+'                        skills.Add(skill, skill.Name)
+'                    Next
+'                    pilot.PilotSkills = skills
+'                    fixedPilots.Add(pilot)
+'                Next
+'                settings.Pilots = fixedPilots
 
-                ' Plugins
-                Dim fixedPlugins As New SortedList
-                For Each plugin As String In settings.Plugins.Keys
-                    Dim temp As String = JsonConvert.SerializeObject(settings.Plugins(plugin))
-                    fixedPlugins.Add(plugin, JsonConvert.DeserializeObject(Of PlugIn)(temp))
-                Next
-                settings.Plugins = fixedPlugins
+'                ' Accounts are also a non typed collection
+'                Dim fixedAccounts As New Collection
+'                For Each accountImported As Object In settings.Accounts
+'                    Dim temp As String = JsonConvert.SerializeObject(accountImported)
+'                    fixedAccounts.Add(JsonConvert.DeserializeObject(Of EveAccount)(temp))
+'                Next
 
-                ' Dashboard Config
-                Dim fixedDashboard As New ArrayList
-                For Each config As Object In settings.DashboardConfiguration
-                    Dim temp As String = JsonConvert.SerializeObject(config)
-                    fixedDashboard.Add(JsonConvert.DeserializeObject(Of SortedList(Of String, Object))(temp))
-                Next
+'                settings.Accounts = fixedAccounts
 
-                settings.DashboardConfiguration = fixedDashboard
+'                ' Plugins
+'                Dim fixedPlugins As New SortedList
+'                For Each plugin As String In settings.Plugins.Keys
+'                    Dim temp As String = JsonConvert.SerializeObject(settings.Plugins(plugin))
+'                    fixedPlugins.Add(plugin, JsonConvert.DeserializeObject(Of PlugIn)(temp))
+'                Next
+'                settings.Plugins = fixedPlugins
 
-                ' TODO: Make settings more Strongly typed!
+'                ' Dashboard Config
+'                Dim fixedDashboard As New ArrayList
+'                For Each config As Object In settings.DashboardConfiguration
+'                    Dim temp As String = JsonConvert.SerializeObject(config)
+'                    fixedDashboard.Add(JsonConvert.DeserializeObject(Of SortedList(Of String, Object))(temp))
+'                Next
 
-                HQ.EveHqSettings = settings
-                ResetPilotData()
-                ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
-                Dim TempAccounts As New List(Of EveAccount)
-                Dim TempPilots As New List(Of Pilot)
-                For Each a As EveAccount In HQ.EveHqSettings.Accounts
-                    TempAccounts.Add(a)
-                Next
-                For Each p As Pilot In HQ.EveHqSettings.Pilots
-                    TempPilots.Add(p)
-                Next
-                HQ.EveHqSettings.Accounts.Clear()
-                HQ.EveHqSettings.Pilots.Clear()
-                For Each a As EveAccount In TempAccounts
-                    HQ.EveHqSettings.Accounts.Add(a, a.userID)
-                Next
-                For Each p As Pilot In TempPilots
-                    HQ.EveHqSettings.Pilots.Add(p, p.Name)
-                Next
-                SaveEveHQSettings()
-                MessageBox.Show("Settings imported and saved successfully! Please delete the {0} file so you are not prompted again".FormatInvariant(importFile), "Done!", MessageBoxButtons.OK)
-            End If
-        Catch ex As Exception
-            Trace.TraceError(ex.FormatException())
-            MessageBox.Show("The import of settings failed. Please check the EveHQ log files for details on the exception.")
-        End Try
-    End Sub
+'                settings.DashboardConfiguration = fixedDashboard
 
-    Private Shared Sub ResetPilotData()
-        ' Resets certain data added to the pilot class not initialised from the binary deserialisation
-        For Each Pilot As Pilot In HQ.EveHqSettings.Pilots
-            If Pilot.Standings Is Nothing Then
-                Pilot.Standings = New SortedList(Of Long, PilotStanding)
-            End If
-        Next
-    End Sub
+'                ' TODO: Make settings more Strongly typed!
 
-    Public Shared Sub InitialiseRemoteProxyServer()
-        HQ.RemoteProxy.ProxyRequired = HQ.EveHqSettings.ProxyRequired
-        HQ.RemoteProxy.ProxyServer = HQ.EveHqSettings.ProxyServer
-        HQ.RemoteProxy.ProxyPort = HQ.EveHqSettings.ProxyPort
-        HQ.RemoteProxy.UseDefaultCredentials = HQ.EveHqSettings.ProxyUseDefault
-        HQ.RemoteProxy.ProxyUsername = HQ.EveHqSettings.ProxyUsername
-        HQ.RemoteProxy.ProxyPassword = HQ.EveHqSettings.ProxyPassword
-        HQ.RemoteProxy.UseBasicAuthentication = HQ.EveHqSettings.ProxyUseBasic
-    End Sub
+'                HQ.EveHqSettings = settings
+'                ResetPilotData()
+'                ' Temp holding code till v3 - may fix some incompatibility issues in the binary serialising of .Netv2 and .Netv4
+'                Dim TempAccounts As New List(Of EveAccount)
+'                Dim TempPilots As New List(Of Pilot)
+'                For Each a As EveHQAccount In HQ.Settings.Accounts.Values
+'                    TempAccounts.Add(a)
+'                Next
+'                For Each p As EveHQPilot In HQ.Settings.Pilots.Values
+'                    TempPilots.Add(p)
+'                Next
+'                HQ.Settings.Accounts.Clear()
+'                HQ.Settings.Pilots.Clear()
+'                For Each a As EveAccount In TempAccounts
+'                    HQ.Settings.Accounts.Add(a, a.userID)
+'                Next
+'                For Each p As Pilot In TempPilots
+'                    HQ.Settings.Pilots.Add(p, p.Name)
+'                Next
+'                SaveEveHQSettings()
+'                MessageBox.Show("Settings imported and saved successfully! Please delete the {0} file so you are not prompted again".FormatInvariant(importFile), "Done!", MessageBoxButtons.OK)
+'            End If
+'        Catch ex As Exception
+'            Trace.TraceError(ex.FormatException())
+'            MessageBox.Show("The import of settings failed. Please check the EveHQ log files for details on the exception.")
+'        End Try
+'    End Sub
 
-    Public Shared Sub InitialiseQueueColumns()
-        HQ.EveHqSettings.StandardQueueColumns.Clear()
-        Dim newItem As New ListViewItem
-        'newItem = New ListViewItem
-        'newItem.Name = "Name"
-        'newItem.Text = "Skill Name"
-        'newItem.Checked = True
-        'EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "Current"
-        newItem.Text = "Cur Lvl"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "From"
-        newItem.Text = "From Lvl"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "To"
-        newItem.Text = "To Lvl"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "Percent"
-        newItem.Text = "%"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "TrainTime"
-        newItem.Text = "Training Time"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "TimeToComplete"
-        newItem.Text = "Time To Complete"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "DateEnded"
-        newItem.Text = "Date Completed"
-        newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "Rank"
-        newItem.Text = "Rank"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "PAtt"
-        newItem.Text = "Pri Att"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SAtt"
-        newItem.Text = "Sec Att"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPHour"
-        newItem.Text = "SP /hour"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPDay"
-        newItem.Text = "SP /day"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPWeek"
-        newItem.Text = "SP /week"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPMonth"
-        newItem.Text = "SP /month"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPYear"
-        newItem.Text = "SP /year"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPAdded"
-        newItem.Text = "SP Added"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "SPTotal"
-        newItem.Text = "SP Total"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "Notes"
-        newItem.Text = "Notes"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-        newItem = New ListViewItem
-        newItem.Name = "Priority"
-        newItem.Text = "Priority"
-        newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
-    End Sub
+'    Private Shared Sub ResetPilotData()
+'        ' Resets certain data added to the pilot class not initialised from the binary deserialisation
+'        For Each Pilot As EveHQPilot In HQ.Settings.Pilots.Values
+'            If Pilot.Standings Is Nothing Then
+'                Pilot.Standings = New SortedList(Of Long, PilotStanding)
+'            End If
+'        Next
+'    End Sub
 
-    Public Shared Sub InitialiseUserColumns()
-        If HQ.EveHqSettings.UserQueueColumns.Count = 0 Then
-            ' Add preset items
-            HQ.EveHqSettings.UserQueueColumns.Add("Current1")
-            HQ.EveHqSettings.UserQueueColumns.Add("From1")
-            HQ.EveHqSettings.UserQueueColumns.Add("To1")
-            HQ.EveHqSettings.UserQueueColumns.Add("Percent1")
-            HQ.EveHqSettings.UserQueueColumns.Add("TrainTime1")
-            HQ.EveHqSettings.UserQueueColumns.Add("TimeToComplete1")
-            HQ.EveHqSettings.UserQueueColumns.Add("DateEnded1")
-        End If
-        ' Check if the standard columns have changed and we need to add columns
-        If HQ.EveHqSettings.UserQueueColumns.Count <> HQ.EveHqSettings.StandardQueueColumns.Count Then
-            For Each slotItem As ListViewItem In HQ.EveHqSettings.StandardQueueColumns
-                If _
-                    HQ.EveHqSettings.UserQueueColumns.Contains(slotItem.Name & "0") = False And
-                    HQ.EveHqSettings.UserQueueColumns.Contains(slotItem.Name & "1") = False Then
-                    HQ.EveHqSettings.UserQueueColumns.Add(slotItem.Name & "0")
-                End If
-            Next
-        End If
-    End Sub
-End Class
+'    Public Shared Sub InitialiseRemoteProxyServer()
+'        HQ.RemoteProxy.ProxyRequired = HQ.Settings.ProxyRequired
+'        HQ.RemoteProxy.ProxyServer = HQ.Settings.ProxyServer
+'        HQ.RemoteProxy.ProxyPort = HQ.Settings.ProxyPort
+'        HQ.RemoteProxy.UseDefaultCredentials = HQ.Settings.ProxyUseDefault
+'        HQ.RemoteProxy.ProxyUsername = HQ.Settings.ProxyUsername
+'        HQ.RemoteProxy.ProxyPassword = HQ.Settings.ProxyPassword
+'        HQ.RemoteProxy.UseBasicAuthentication = HQ.Settings.ProxyUseBasic
+'    End Sub
+
+'    Public Shared Sub InitialiseQueueColumns()
+'        HQ.Settings.StandardQueueColumns.Clear()
+'        Dim newItem As New ListViewItem
+'        'newItem = New ListViewItem
+'        'newItem.Name = "Name"
+'        'newItem.Text = "Skill Name"
+'        'newItem.Checked = True
+'        'EveHQ.Core.HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "Current"
+'        newItem.Text = "Cur Lvl"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "From"
+'        newItem.Text = "From Lvl"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "To"
+'        newItem.Text = "To Lvl"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "Percent"
+'        newItem.Text = "%"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "TrainTime"
+'        newItem.Text = "Training Time"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "TimeToComplete"
+'        newItem.Text = "Time To Complete"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "DateEnded"
+'        newItem.Text = "Date Completed"
+'        newItem.Checked = True
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "Rank"
+'        newItem.Text = "Rank"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "PAtt"
+'        newItem.Text = "Pri Att"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SAtt"
+'        newItem.Text = "Sec Att"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPHour"
+'        newItem.Text = "SP /hour"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPDay"
+'        newItem.Text = "SP /day"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPWeek"
+'        newItem.Text = "SP /week"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPMonth"
+'        newItem.Text = "SP /month"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPYear"
+'        newItem.Text = "SP /year"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPAdded"
+'        newItem.Text = "SP Added"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "SPTotal"
+'        newItem.Text = "SP Total"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "Notes"
+'        newItem.Text = "Notes"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'        newItem = New ListViewItem
+'        newItem.Name = "Priority"
+'        newItem.Text = "Priority"
+'        newItem.Checked = False
+'        HQ.Settings.StandardQueueColumns.Add(newItem)
+'    End Sub
+
+'    Public Shared Sub InitialiseUserColumns()
+'        If HQ.Settings.UserQueueColumns.Count = 0 Then
+'            ' Add preset items
+'            HQ.Settings.UserQueueColumns.Add("Current1")
+'            HQ.Settings.UserQueueColumns.Add("From1")
+'            HQ.Settings.UserQueueColumns.Add("To1")
+'            HQ.Settings.UserQueueColumns.Add("Percent1")
+'            HQ.Settings.UserQueueColumns.Add("TrainTime1")
+'            HQ.Settings.UserQueueColumns.Add("TimeToComplete1")
+'            HQ.Settings.UserQueueColumns.Add("DateEnded1")
+'        End If
+'        ' Check if the standard columns have changed and we need to add columns
+'        If HQ.Settings.UserQueueColumns.Count <> HQ.Settings.StandardQueueColumns.Count Then
+'            For Each slotItem As ListViewItem In HQ.Settings.StandardQueueColumns
+'                If _
+'                    HQ.Settings.UserQueueColumns.Contains(slotItem.Name & "0") = False And
+'                    HQ.Settings.UserQueueColumns.Contains(slotItem.Name & "1") = False Then
+'                    HQ.Settings.UserQueueColumns.Add(slotItem.Name & "0")
+'                End If
+'            Next
+'        End If
+'    End Sub
+'End Class
 
 

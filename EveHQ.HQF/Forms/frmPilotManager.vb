@@ -89,7 +89,7 @@ Public Class frmPilotManager
 
         ' Add the current list of pilots to the combobox
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -142,9 +142,9 @@ Public Class frmPilotManager
     End Sub
     Private Sub DisplayPilotSkills(ByVal ShowOnlyModified As Boolean)
         ' Loads the pilot skills - both defaults and revised
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(currentPilotName) = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(currentPilotName) = True Then
             ' Get Core pilot
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(currentPilotName), Core.Pilot)
+            Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(currentPilotName)
             ' Get HQF pilot
             Dim hSkill As HQFSkill
             ' Display the skill groups
@@ -153,7 +153,7 @@ Public Class frmPilotManager
             QueueSkills.Clear()
             Dim newSkillGroup As EveHQ.Core.SkillGroup
             Dim newSkill As EveHQ.Core.EveSkill
-            Dim SkillsModified As Boolean = False
+            Dim skillsModified As Boolean = False
             For Each newSkillGroup In EveHQ.Core.HQ.SkillGroups.Values
                 If newSkillGroup.ID <> "505" Then
                     Dim groupNode As New Node
@@ -170,8 +170,8 @@ Public Class frmPilotManager
                                 skillNode.Tag = newSkill.ID
                                 STT.SetSuperTooltip(skillNode, New SuperTooltipInfo(newSkill.Name, "Skill Description", newSkill.Description, Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow))
                                 hSkill = CType(currentPilot.SkillSet.Item(newSkill.Name), HQFSkill)
-                                If cPilot.PilotSkills.Contains(newSkill.Name) = True Then
-                                    Dim mySkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                                If cPilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
+                                    Dim mySkill As EveHQ.Core.EveHQPilotSkill = cPilot.PilotSkills(newSkill.Name)
                                     skillNode.ImageIndex = mySkill.Level
                                     groupNode.Nodes.Add(skillNode)
                                     skillNode.Cells.Add(New Cell(mySkill.Level.ToString))
@@ -186,12 +186,12 @@ Public Class frmPilotManager
                                 If CInt(skillNode.Cells(1).Text) > CInt(skillNode.Cells(2).Text) Then
                                     ' Default is higher than HQF - red
                                     skillNode.Style = LowerSkillStyle
-                                    SkillsModified = True
+                                    skillsModified = True
                                 Else
                                     If CInt(skillNode.Cells(1).Text) < CInt(skillNode.Cells(2).Text) Then
                                         ' HQF is higher than default - green
                                         skillNode.Style = HigherSkillStyle
-                                        SkillsModified = True
+                                        skillsModified = True
                                         ' add to the queue skills
                                         Dim r As New ReqSkill
                                         r.Name = hSkill.Name
@@ -227,7 +227,7 @@ Public Class frmPilotManager
                 adtSkills.Nodes.Add(New Node("(No Skills Modified)"))
             End If
             adtSkills.EndUpdate()
-            If SkillsModified = True Then
+            If skillsModified = True Then
                 lblSkillsModified.Visible = True
             Else
                 lblSkillsModified.Visible = False
@@ -237,7 +237,7 @@ Public Class frmPilotManager
     Private Sub UpdateSkillQueues(ByVal currentPilotName As String)
         cboSkillQueue.BeginUpdate()
         cboSkillQueue.Items.Clear()
-        For Each queueName As String In CType(EveHQ.Core.HQ.EveHqSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).TrainingQueues.Keys
+        For Each queueName As String In EveHQ.Core.HQ.Settings.Pilots(currentPilotName).TrainingQueues.Keys
             cboSkillQueue.Items.Add(queueName)
         Next
         cboSkillQueue.EndUpdate()

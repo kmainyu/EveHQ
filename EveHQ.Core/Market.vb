@@ -118,7 +118,7 @@ Public Class MarketFunctions
         ' Make a note of which item we have used here so we can apply general prices to everything else
         Dim UsedPriceList As New SortedList(Of String, Double)
 
-        For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.EveHqSettings.PriceGroups.Values
+        For Each MPG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.Settings.PriceGroups.Values
 
             If MPG.Name <> "<Global>" Then
 
@@ -129,9 +129,9 @@ Public Class MarketFunctions
         Next
 
         ' See which items are left and apply prices to them - temporarily add them to the <Global> group
-        If EveHQ.Core.HQ.EveHqSettings.PriceGroups.ContainsKey("<Global>") = True Then
+        If EveHQ.Core.HQ.Settings.PriceGroups.ContainsKey("<Global>") = True Then
 
-            Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.EveHqSettings.PriceGroups("<Global>")
+            Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.Settings.PriceGroups("<Global>")
             For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
                 If UsedPriceList.ContainsKey(ItemID) = False Then
                     MPG.TypeIDs.Add(ItemID)

@@ -33,7 +33,7 @@ Public Class frmBackup
             Me.lblStartFormat.Enabled = False
             Me.nudDays.Enabled = False
             Me.dtpStart.Enabled = False
-            EveHQ.Core.HQ.EveHqSettings.BackupAuto = False
+            EveHQ.Core.HQ.Settings.BackupAuto = False
         Else
             Me.lblBackupDays.Enabled = True
             Me.lblBackupFreq.Enabled = True
@@ -45,21 +45,21 @@ Public Class frmBackup
             Me.lblStartFormat.Enabled = True
             Me.nudDays.Enabled = True
             Me.dtpStart.Enabled = True
-            EveHQ.Core.HQ.EveHqSettings.BackupAuto = True
+            EveHQ.Core.HQ.Settings.BackupAuto = True
         End If
     End Sub
 
     Private Sub frmBackup_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         nudDays.Tag = CInt(1) : dtpStart.Tag = CInt(1)
-        chkAuto.Checked = EveHQ.Core.HQ.EveHqSettings.BackupAuto
-        nudDays.Value = EveHQ.Core.HQ.EveHqSettings.BackupFreq
-        dtpStart.Value = EveHQ.Core.HQ.EveHqSettings.BackupStart
+        chkAuto.Checked = EveHQ.Core.HQ.Settings.BackupAuto
+        nudDays.Value = EveHQ.Core.HQ.Settings.BackupFreq
+        dtpStart.Value = EveHQ.Core.HQ.Settings.BackupStart
         nudDays.Tag = 0 : dtpStart.Tag = 0
         Call CalcNextBackup()
-        If EveHQ.Core.HQ.EveHqSettings.BackupLast.Year < 2000 Then
+        If EveHQ.Core.HQ.Settings.BackupLast.Year < 2000 Then
             lblLastBackup.Text = "<not backed up>"
         Else
-            lblLastBackup.Text = EveHQ.Core.HQ.EveHqSettings.BackupLast.ToString
+            lblLastBackup.Text = EveHQ.Core.HQ.Settings.BackupLast.ToString
         End If
         Call ScanBackups()
     End Sub
@@ -67,7 +67,7 @@ Public Class frmBackup
     Private Sub nudDays_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudDays.ValueChanged
         If nudDays.Tag IsNot Nothing Then
             If nudDays.Tag.ToString = "0" Then
-                EveHQ.Core.HQ.EveHqSettings.BackupFreq = CInt(nudDays.Value)
+                EveHQ.Core.HQ.Settings.BackupFreq = CInt(nudDays.Value)
             End If
         End If
         Call CalcNextBackup()
@@ -76,7 +76,7 @@ Public Class frmBackup
     Private Sub dtpStart_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles dtpStart.ValueChanged
         If dtpStart.Tag IsNot Nothing Then
             If dtpStart.Tag.ToString = "0" Then
-                EveHQ.Core.HQ.EveHqSettings.BackupStart = dtpStart.Value
+                EveHQ.Core.HQ.Settings.BackupStart = dtpStart.Value
             End If
         End If
         Call CalcNextBackup()
@@ -87,7 +87,7 @@ Public Class frmBackup
         ' Check if we have anything to back up!
         Dim noLocations As Boolean = True
         For location As Integer = 1 To 4
-            If EveHQ.Core.HQ.EveHqSettings.EveFolder(location) <> "" Then
+            If EveHQ.Core.HQ.Settings.EveFolder(location) <> "" Then
                 noLocations = False
             End If
         Next
@@ -109,7 +109,7 @@ Public Class frmBackup
         Loop Until noLocations = False
 
         If BackupEveSettings() = True Then
-            lblLastBackup.Text = EveHQ.Core.HQ.EveHqSettings.BackupLast.ToString
+            lblLastBackup.Text = EveHQ.Core.HQ.Settings.BackupLast.ToString
         End If
         Call CalcNextBackup()
         Call ScanBackups()
@@ -168,7 +168,7 @@ Public Class frmBackup
         If MessageBox.Show("Are you sure you wish to reset the last backup time?", "Confirm Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
-        EveHQ.Core.HQ.EveHqSettings.BackupLast = CDate("01/01/1999")
+        EveHQ.Core.HQ.Settings.BackupLast = CDate("01/01/1999")
         lblLastBackup.Text = "<not backed up>"
         Call CalcNextBackup()
     End Sub
@@ -186,11 +186,11 @@ Public Class frmBackup
     End Sub
 
     Public Sub CalcNextBackup()
-        Dim nextBackup As Date = EveHQ.Core.HQ.EveHqSettings.BackupStart
-        If EveHQ.Core.HQ.EveHqSettings.BackupLast > nextBackup Then
-            nextBackup = EveHQ.Core.HQ.EveHqSettings.BackupLast
+        Dim nextBackup As Date = EveHQ.Core.HQ.Settings.BackupStart
+        If EveHQ.Core.HQ.Settings.BackupLast > nextBackup Then
+            nextBackup = EveHQ.Core.HQ.Settings.BackupLast
         End If
-        nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.EveHqSettings.BackupFreq, nextBackup)
+        nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.Settings.BackupFreq, nextBackup)
         lblNextBackup.Text = nextBackup.ToString
     End Sub
 
@@ -201,7 +201,7 @@ Public Class frmBackup
 
         Try
             For location As Integer = 1 To 4
-                If EveHQ.Core.HQ.EveHqSettings.EveFolder(location) <> "" Then
+                If EveHQ.Core.HQ.Settings.EveFolder(location) <> "" Then
                     noFolders = False
                     ' We need to check 3 thing before backup
                     ' 1. There is a cache directory in our location directory
@@ -216,14 +216,14 @@ Public Class frmBackup
                     Dim settingsDir As String = ""
                     Dim browserDir As String = ""
                     Dim eveFolder As String = ""
-                    If EveHQ.Core.HQ.EveHqSettings.EveFolderLUA(location) = True Then
-                        cacheDir = System.IO.Path.Combine(EveHQ.Core.HQ.EveHqSettings.EveFolder(location), "cache")
-                        settingsDir = System.IO.Path.Combine(EveHQ.Core.HQ.EveHqSettings.EveFolder(location), "settings")
+                    If EveHQ.Core.HQ.Settings.EveFolderLUA(location) = True Then
+                        cacheDir = System.IO.Path.Combine(EveHQ.Core.HQ.Settings.EveFolder(location), "cache")
+                        settingsDir = System.IO.Path.Combine(EveHQ.Core.HQ.Settings.EveFolder(location), "settings")
                         prefsFile = System.IO.Path.Combine(cacheDir, "prefs.ini")
                         browserDir = System.IO.Path.Combine(cacheDir, "browser")
                     Else
                         ' Trinity 1.1 introduced (yet) another location :( Try to recreate this from the "location"
-                        Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHqSettings.EveFolder(location)
+                        Dim eveSettingsFolder As String = EveHQ.Core.HQ.Settings.EveFolder(location)
                         eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower
                         eveSettingsFolder &= "_tranquility"
                         eveFolder = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "Eve")
@@ -275,11 +275,11 @@ Public Class frmBackup
                     End If
                 End If
             Next
-            EveHQ.Core.HQ.EveHqSettings.BackupLast = backupTime
+            EveHQ.Core.HQ.Settings.BackupLast = backupTime
             If noFolders = True Then
-                EveHQ.Core.HQ.EveHqSettings.BackupLastResult = 1
+                EveHQ.Core.HQ.Settings.BackupLastResult = 1
             Else
-                EveHQ.Core.HQ.EveHqSettings.BackupLastResult = -1
+                EveHQ.Core.HQ.Settings.BackupLastResult = -1
             End If
             Return True
         Catch e As Exception
@@ -294,7 +294,7 @@ Public Class frmBackup
             msg &= ControlChars.CrLf & e.Message & ControlChars.CrLf
             MessageBox.Show(msg, "Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return False
-            EveHQ.Core.HQ.EveHqSettings.BackupLastResult = 0
+            EveHQ.Core.HQ.Settings.BackupLastResult = 0
             Return False
         End Try
     End Function
@@ -311,7 +311,7 @@ Public Class frmBackup
             Dim destDir As String = backupItem.SubItems(2).Text
 
             ' Start the restore procedure
-            'Dim cacheDir As String = EveHQ.Core.HQ.EveHQSettings.EveFolder(location) & "\cache"
+            'Dim cacheDir As String = EveHQ.Core.HQ.Settings.EveFolder(location) & "\cache"
             Dim prefsFile As String = System.IO.Path.Combine(sourceDir, "prefs.ini")
             Dim settingsDir As String = System.IO.Path.Combine(sourceDir, "settings")
             Dim browserDir As String = System.IO.Path.Combine(sourceDir, "browser")
@@ -319,7 +319,7 @@ Public Class frmBackup
             Dim destPrefs As String = ""
             Dim destSettings As String = ""
             Dim destBrowser As String = ""
-            If EveHQ.Core.HQ.EveHqSettings.EveFolderLUA(CInt(location)) = True Then
+            If EveHQ.Core.HQ.Settings.EveFolderLUA(CInt(location)) = True Then
                 destCache = System.IO.Path.Combine(destDir, "cache")
                 destSettings = System.IO.Path.Combine(destDir, "settings")
                 destPrefs = System.IO.Path.Combine(destCache, "prefs.ini")

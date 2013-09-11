@@ -124,8 +124,8 @@ Public Class frmDataConvert
 
     Private Sub btnCompare_Click(sender As Object, e As EventArgs) Handles btnCompare.Click
 
-        Dim ICS As String = "Server=" & Core.HQ.EveHqSettings.DBServer & "; Database = " & txtInitialDB.Text & "; Integrated Security = SSPI;"
-        Dim RCS As String = "Server=" & Core.HQ.EveHqSettings.DBServer & "; Database = " & txtRevisedDB.Text & "; Integrated Security = SSPI;"
+        Dim ICS As String = "Server=" & Core.HQ.Settings.DBServer & "; Database = " & txtInitialDB.Text & "; Integrated Security = SSPI;"
+        Dim RCS As String = "Server=" & Core.HQ.Settings.DBServer & "; Database = " & txtRevisedDB.Text & "; Integrated Security = SSPI;"
 
         Const strSQL As String = "SELECT typeID, typeName FROM invTypes;"
 
@@ -177,7 +177,7 @@ Public Class frmDataConvert
         Try
             conn.Open()
             Dim da As New SqlDataAdapter(strSQL, conn)
-            da.SelectCommand.CommandTimeout = Core.HQ.EveHqSettings.DBTimeout
+            da.SelectCommand.CommandTimeout = Core.HQ.Settings.DBTimeout
             da.Fill(EveHQData, "EveHQData")
             conn.Close()
             Return EveHQData

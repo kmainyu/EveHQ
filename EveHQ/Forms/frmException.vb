@@ -46,8 +46,8 @@ Public Class frmException
 
     Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
 
-        Dim reportingUser As String = EveHQ.Core.HQ.EveHQSettings.ErrorReportingName
-        Dim reportingEmail As String = EveHQ.Core.HQ.EveHQSettings.ErrorReportingEmail
+        Dim reportingUser As String = EveHQ.Core.HQ.Settings.ErrorReportingName
+        Dim reportingEmail As String = EveHQ.Core.HQ.Settings.ErrorReportingEmail
 
         If (String.IsNullOrEmpty(reportingEmail) Or String.IsNullOrEmpty(reportingUser)) Then
             MessageBox.Show("Your bug report cannot be filed as you have not set an email address and/or name in the Error Reporting settings.", "Submission Unsuccessful", MessageBoxButtons.OK, MessageBoxIcon.Warning)

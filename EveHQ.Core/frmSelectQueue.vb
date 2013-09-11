@@ -22,7 +22,7 @@ Imports System.Windows.Forms
 Public Class frmSelectQueue
 
     Dim skillsNeeded As New List(Of String)
-    Dim displayPilot As New EveHQ.Core.Pilot
+    Dim displayPilot As New EveHQ.Core.EveHQPilot
     Dim QueueReason As String = ""
 
     Public Sub New(ByVal PilotName As String, ByVal QueuedSkills As List(Of String), ByVal Reason As String)
@@ -34,14 +34,14 @@ Public Class frmSelectQueue
         QueueReason = Reason
 
         ' Setup the pilot for this form
-        displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(PilotName), Core.Pilot)
+        displayPilot = EveHQ.Core.HQ.Settings.Pilots(PilotName)
         skillsNeeded = QueuedSkills
         Me.Text = "Add to Skill Queue - " & PilotName
     End Sub
 
     Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
         Dim qName As String = ""
-        Dim qQueue As New EveHQ.Core.SkillQueue
+        Dim qQueue As New EveHQ.Core.EveHQSkillQueue
 
         If radNewQueue.Checked = True Then
             If txtQueueName.Text = "" Then
@@ -49,7 +49,7 @@ Public Class frmSelectQueue
                 Exit Sub
             End If
             qName = txtQueueName.Text
-            If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+            If displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                 Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                 If reply = Windows.Forms.DialogResult.Retry Then
                     Exit Sub
@@ -58,11 +58,11 @@ Public Class frmSelectQueue
                     Exit Sub
                 End If
             End If
-            qQueue = New EveHQ.Core.SkillQueue
+            qQueue = New EveHQ.Core.EveHQSkillQueue
             qQueue.Name = txtQueueName.Text
             qQueue.IncCurrentTraining = True
             qQueue.Primary = False
-            qQueue.Queue = New Collection
+            qQueue.Queue = New Dictionary(Of String, EveHQSkillQueueItem)
             displayPilot.TrainingQueues.Add(qQueue.Name, qQueue)
         Else
             If cboQueueName.SelectedItem Is Nothing Then
@@ -70,7 +70,7 @@ Public Class frmSelectQueue
                 Exit Sub
             End If
             qName = cboQueueName.SelectedItem.ToString
-            qQueue = CType(displayPilot.TrainingQueues(qName), Core.SkillQueue)
+            qQueue = displayPilot.TrainingQueues(qName)
         End If
         If displayPilot.Name <> "" Then
             If skillsNeeded.Count <> 0 Then
@@ -95,7 +95,7 @@ Public Class frmSelectQueue
     Private Sub frmModifyQueues_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Load up existing queues
         cboQueueName.Items.Clear()
-        For Each qName As String In displayPilot.TrainingQueues.GetKeyList
+        For Each qName As String In displayPilot.TrainingQueues.Keys
             cboQueueName.Items.Add(qName)
         Next
 

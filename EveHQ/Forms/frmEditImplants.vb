@@ -20,7 +20,7 @@
 Public Class frmEditImplants
 
     Dim cDisplayPilotName As String
-    Dim DisplayPilot As EveHQ.Core.Pilot
+    Dim DisplayPilot As EveHQ.Core.EveHQPilot
 
     Public Property DisplayPilotName() As String
         Get
@@ -28,7 +28,7 @@ Public Class frmEditImplants
         End Get
         Set(ByVal value As String)
             cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
+            DisplayPilot = EveHQ.Core.HQ.Settings.Pilots(value)
         End Set
     End Property
 

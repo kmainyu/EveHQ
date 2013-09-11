@@ -62,18 +62,18 @@ Public Class SkillQueueControl
         If cPilotName = "" Then
             Exit Sub
         Else
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cPilotName) = False Then
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cPilotName) = False Then
                 Exit Sub
             Else
                 Me.panelSkillQueue.Controls.Clear()
-                Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cPilotName), Pilot)
+                Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cPilotName)
                 Dim newSQT As New EveHQ.Core.SkillQueueTimeControl(cPilot.Name)
                 panelSkillQueue.Controls.Add(newSQT)
                 newSQT.Dock = Windows.Forms.DockStyle.Top
                 newSQT.BringToFront()
-                For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In cPilot.QueuedSkills.Values
-                    If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime) >= Now Then
-                        Dim newSQB As New EveHQ.Core.SkillQueueBlock(cPilot.Name, QueuedSkill)
+                For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In cPilot.QueuedSkills.Values
+                    If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
+                        Dim newSQB As New EveHQ.Core.SkillQueueBlock(cPilot.Name, queuedSkill)
                         panelSkillQueue.Controls.Add(newSQB)
                         newSQB.Dock = Windows.Forms.DockStyle.Top
                         newSQB.BringToFront()
@@ -90,10 +90,10 @@ Public Class SkillQueueControl
 
     Private Function CheckUpdateRequired() As Boolean
         If cPilotName <> "" Then
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cPilotName) = True Then
-                Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cPilotName), Pilot)
-                For Each QueuedSkillNo As Long In cPilot.QueuedSkills.Keys
-                    Dim QueuedSkill As EveHQ.Core.PilotQueuedSkill = cPilot.QueuedSkills(QueuedSkillNo)
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cPilotName) = True Then
+                Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cPilotName)
+                For Each QueuedSkillNo As Integer In cPilot.QueuedSkills.Keys
+                    Dim QueuedSkill As EveHQ.Core.EveHQPilotQueuedSkill = cPilot.QueuedSkills(QueuedSkillNo)
                     If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime) >= Now Then
                         ' This should be our first valid skill
                         If Not (QueuedSkill.SkillID = currentSkill And QueuedSkill.Level = currentLevel) Then

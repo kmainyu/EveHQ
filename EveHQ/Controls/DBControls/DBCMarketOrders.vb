@@ -34,7 +34,7 @@ Public Class DBCMarketOrders
         ' Load the combo box with the owner info
         cboOwner.BeginUpdate()
         cboOwner.Items.Clear()
-        For Each pilot As Pilot In HQ.EveHqSettings.Pilots
+        For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
             If pilot.Active = True Then
                 cboOwner.Items.Add(pilot.Name)
             End If
@@ -62,8 +62,8 @@ Public Class DBCMarketOrders
         End Get
         Set(ByVal value As String)
             cDefaultPilotName = value
-            If HQ.EveHqSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(HQ.EveHqSettings.Pilots(DefaultPilotName), Pilot)
+            If HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                cPilot = HQ.Settings.Pilots(DefaultPilotName)
             End If
             If cboOwner.Items.Contains(DefaultPilotName) = True Then
                 cboOwner.SelectedItem = DefaultPilotName
@@ -80,7 +80,7 @@ Public Class DBCMarketOrders
 
 #Region "Class Variables"
 
-    Dim cPilot As Pilot
+    Dim cPilot As EveHQPilot
     Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Dim culture As CultureInfo = New CultureInfo("en-GB")
 
@@ -96,12 +96,12 @@ Public Class DBCMarketOrders
             Dim sellTotal, buyTotal, TotalEscrow As Double
             Dim TotalOrders As Integer = 0
             Dim OrderXML As New XmlDocument
-            Dim selPilot As Pilot = CType(HQ.EveHqSettings.Pilots(owner), Pilot)
+            Dim selPilot As EveHQPilot = HQ.Settings.Pilots(owner)
             Dim accountName As String = selPilot.Account
-            Dim pilotAccount As EveAccount = CType(HQ.EveHqSettings.Accounts.Item(accountName), EveAccount)
+            Dim pilotAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
             Dim _
                 APIReq As _
-                    New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
+                    New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,
                                       HQ.cacheFolder)
             OrderXML = APIReq.GetAPIXML(APITypes.OrdersChar, pilotAccount.ToAPIAccount, selPilot.ID,
                                         APIReturnMethods.ReturnStandard)
@@ -147,7 +147,7 @@ Public Class DBCMarketOrders
                                 sOrder.SubItems.Add(SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
                             End If
                             sOrder.SubItems(4).Tag = orderExpires
-                            sellTotal = sellTotal + quantity*price
+                            sellTotal = sellTotal + quantity * price
                             TotalOrders = TotalOrders + 1
                         ElseIf Order.Attributes.GetNamedItem("orderState").Value = "2" Then
                             Dim sOrder As New ListViewItem
@@ -208,7 +208,7 @@ Public Class DBCMarketOrders
                                 bOrder.SubItems.Add(SkillFunctions.TimeToString(orderExpires.TotalSeconds, False))
                             End If
                             bOrder.SubItems(4).Tag = orderExpires
-                            buyTotal = buyTotal + quantity*price
+                            buyTotal = buyTotal + quantity * price
                             TotalEscrow = TotalEscrow +
                                           Double.Parse(Order.Attributes.GetNamedItem("escrow").Value, culture)
                             TotalOrders = TotalOrders + 1
@@ -253,13 +253,13 @@ Public Class DBCMarketOrders
                 clvSellOrders.EndUpdate()
             End If
 
-            Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(Pilot.KeySkill.Trade))*4) +
-                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Tycoon))*32) +
-                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Retail))*8) +
-                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Wholesale))*16)
+            Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(Pilot.KeySkill.Trade)) * 4) +
+                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Tycoon)) * 32) +
+                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Retail)) * 8) +
+                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Wholesale)) * 16)
             Dim cover As Double = buyTotal - TotalEscrow
-            Dim TransTax As Double = 1*(1.5 - 0.15*(CInt(selPilot.KeySkills(Pilot.KeySkill.Accounting))))
-            Dim BrokerFee As Double = 1*(1 - 0.05*(CInt(selPilot.KeySkills(Pilot.KeySkill.BrokerRelations))))
+            Dim TransTax As Double = 1 * (1.5 - 0.15 * (CInt(selPilot.KeySkills(Pilot.KeySkill.Accounting))))
+            Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(Pilot.KeySkill.BrokerRelations))))
             lblTotalOrders.Text = maxorders.ToString
             lblOrders.Text = (maxorders - TotalOrders).ToString
             lblSellTotal.Text = sellTotal.ToString("N2") & " isk"

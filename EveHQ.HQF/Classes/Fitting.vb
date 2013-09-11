@@ -3078,7 +3078,7 @@ Imports EveHQ.Core
     Public Function CalculateNeededSkills(ByVal pilotName As String) As NeededSkillsCollection
         Dim allSkills As SortedList = CollectNeededSkills(Me.BaseShip)
         Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
-        Dim truePilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotName), Core.Pilot)
+        Dim truePilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(pilotName)
         Dim shipPilotSkills As New ArrayList
         Dim truePilotSkills As New ArrayList
 
@@ -3092,8 +3092,8 @@ Imports EveHQ.Core
                 shipPilotSkills.Add(rSkill)
             End If
             ' Check for truePilot match
-            If truePilot.PilotSkills.Contains(rSkill.Name) = True Then
-                If CType(truePilot.PilotSkills(rSkill.Name), EveHQ.Core.PilotSkill).Level < rSkill.ReqLevel Then
+            If truePilot.PilotSkills.ContainsKey(rSkill.Name) = True Then
+                If truePilot.PilotSkills(rSkill.Name).Level < rSkill.ReqLevel Then
                     truePilotSkills.Add(rSkill)
                 End If
             Else

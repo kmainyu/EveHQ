@@ -353,7 +353,6 @@ Partial Public Class frmSettings
         Me.Label1 = New System.Windows.Forms.Label()
         Me.gpNav = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.STT = New DevComponents.DotNetBar.SuperTooltip()
-        Me.btnExportSettings = New System.Windows.Forms.Button()
         Me.gbGeneral.SuspendLayout()
         CType(Me.nudAutomaticSaveTime, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbPilotScreenColours.SuspendLayout()
@@ -414,7 +413,6 @@ Partial Public Class frmSettings
         '
         'gbGeneral
         '
-        Me.gbGeneral.Controls.Add(Me.btnExportSettings)
         Me.gbGeneral.Controls.Add(Me.lblAutomaticSaveTime)
         Me.gbGeneral.Controls.Add(Me.nudAutomaticSaveTime)
         Me.gbGeneral.Controls.Add(Me.chkEnableAutomaticSave)
@@ -3708,15 +3706,6 @@ Partial Public Class frmSettings
         Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
         Me.STT.PositionBelowControl = False
         '
-        'btnExportSettings
-        '
-        Me.btnExportSettings.Location = New System.Drawing.Point(22, 435)
-        Me.btnExportSettings.Name = "btnExportSettings"
-        Me.btnExportSettings.Size = New System.Drawing.Size(100, 23)
-        Me.btnExportSettings.TabIndex = 56
-        Me.btnExportSettings.Text = "Export Settings"
-        Me.btnExportSettings.UseVisualStyleBackColor = True
-        '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4135,5 +4124,4 @@ Partial Public Class frmSettings
     Friend WithEvents _defaultAll As System.Windows.Forms.RadioButton
     Friend WithEvents _defaultBuy As System.Windows.Forms.RadioButton
     Friend WithEvents _defaultSell As System.Windows.Forms.RadioButton
-    Friend WithEvents btnExportSettings As System.Windows.Forms.Button
 End Class

@@ -506,7 +506,7 @@ Public Class Reports
 
                         ' Determine if this is a valid item
                         AddTransaction = False
-                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(WalletItem.Item("charName").ToString) = True Then
+                        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(WalletItem.Item("charName").ToString) = True Then
                             If WalletItem.Item("transFor").ToString = "personal" Then
                                 AddTransaction = True
                             End If
@@ -549,7 +549,7 @@ Public Class Reports
 
                         ' Determine if this is a valid item
                         AddTransaction = False
-                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(WalletItem.Item("charName").ToString) = True Then
+                        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(WalletItem.Item("charName").ToString) = True Then
                             If WalletItem.Item("transFor").ToString = "personal" Then
                                 AddTransaction = True
                             End If
@@ -590,7 +590,7 @@ Public Class Reports
 
                     ' Determine if this is a valid item
                     AddTransaction = False
-                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(WalletItem.Item("charName").ToString) = True Then
+                    If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(WalletItem.Item("charName").ToString) = True Then
                         If WalletItem.Item("transFor").ToString = "personal" Then
                             AddTransaction = True
                         End If

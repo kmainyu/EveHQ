@@ -26,10 +26,10 @@ Public Class EveAPIStatusForm
     Dim DefaultColor As Drawing.Color
 
     Private Sub EveAPIStatusForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        If EveHQ.Core.HQ.EveHqSettings.UseAPIRS = True Then
-            Me.Text = "Eve API Status - " & EveHQ.Core.HQ.EveHqSettings.APIRSAddress
+        If EveHQ.Core.HQ.Settings.UseAPIRS = True Then
+            Me.Text = "Eve API Status - " & EveHQ.Core.HQ.Settings.APIRSAddress
         Else
-            Me.Text = "Eve API Status - " & EveHQ.Core.HQ.EveHqSettings.CCPAPIServerAddress
+            Me.Text = "Eve API Status - " & EveHQ.Core.HQ.Settings.CCPAPIServerAddress
         End If
 
         Dim accountName As String = ""
@@ -46,7 +46,7 @@ Public Class EveAPIStatusForm
                     Else
                         ' Create a new one
                         itemResult.Name = results(0) & "_" & results(1)
-                        accountName = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(results(0)), EveHQ.Core.EveAccount).FriendlyName
+                        accountName = EveHQ.Core.HQ.Settings.Accounts(results(0)).FriendlyName
                         If accountName <> "" Then
                             itemResult.Text = accountName
                         Else
@@ -58,7 +58,7 @@ Public Class EveAPIStatusForm
                     End If
                 Else
                     itemResult.Name = results(0)
-                    accountName = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(results(0)), EveHQ.Core.EveAccount).FriendlyName
+                    accountName = EveHQ.Core.HQ.Settings.Accounts(results(0)).FriendlyName
                     If accountName <> "" Then
                         itemResult.Text = accountName
                     Else

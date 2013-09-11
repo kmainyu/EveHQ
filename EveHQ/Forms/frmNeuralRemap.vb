@@ -18,12 +18,12 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Public Class frmNeuralRemap
-    Dim iPilot As New EveHQ.Core.Pilot
-    Dim nPilot As New EveHQ.Core.Pilot
+    Dim iPilot As New EveHQ.Core.EveHQPilot
+    Dim nPilot As New EveHQ.Core.EveHQPilot
     Dim Unused As Integer = 0
     Dim cPilotName As String = ""
     Dim cQueueName As String = ""
-    Dim SkillQueue As New EveHQ.Core.SkillQueue
+    Dim SkillQueue As New EveHQ.Core.EveHQSkillQueue
     Dim UpdateAllBases As Boolean = False
     Dim CMin, IMin, MMin, PMin, WMin As Integer
 
@@ -33,7 +33,7 @@ Public Class frmNeuralRemap
         End Get
         Set(ByVal value As String)
             cPilotName = value
-            iPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cPilotName), Core.Pilot)
+            iPilot = EveHQ.Core.HQ.Settings.Pilots(cPilotName)
             Call Me.InitialiseForm()
         End Set
     End Property
@@ -43,7 +43,7 @@ Public Class frmNeuralRemap
         End Get
         Set(ByVal value As String)
             cQueueName = value
-            SkillQueue = CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue)
+            SkillQueue = iPilot.TrainingQueues(cQueueName)
             nPilot.TrainingQueues.Clear()
             Call Me.DisplayQueueInfo()
         End Set
@@ -231,20 +231,20 @@ Public Class frmNeuralRemap
             lblActiveSkillQueue.Text = "No Queue Selected"
             lblSkillQueuePointsAnalysis.Text = "Skill Queue Points Analysis"
             lblActiveSkillQueue.Text = SkillQueue.Name
-            Dim iQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(iPilot, CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue), False, True)
-            Dim iTime As Long = CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime
-            If CType(iPilot.TrainingQueues(cQueueName), Core.SkillQueue).IncCurrentTraining = True Then
+            Dim iQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(iPilot, iPilot.TrainingQueues(cQueueName), False, True)
+            Dim iTime As Long = iPilot.TrainingQueues(cQueueName).QueueTime
+            If iPilot.TrainingQueues(cQueueName).IncCurrentTraining = True Then
                 iTime += iPilot.TrainingCurrentTime
             End If
             lblActiveQueueTime.Text = "Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(iTime)
             If nPilot.TrainingQueues.ContainsKey(cQueueName) = False Then
-                nPilot.TrainingQueues.Add(cQueueName, SkillQueue.Clone)
+                nPilot.TrainingQueues.Add(cQueueName, CType(SkillQueue.Clone, Core.EveHQSkillQueue))
             End If
             Call Me.SyncTraining()
             ' Add the pilot training info!
-            Dim nQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue), False, True)
-            Dim nTime As Long = CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).QueueTime
-            If CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue).IncCurrentTraining = True Then
+            Dim nQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, nPilot.TrainingQueues(cQueueName), False, True)
+            Dim nTime As Long = nPilot.TrainingQueues(cQueueName).QueueTime
+            If nPilot.TrainingQueues(cQueueName).IncCurrentTraining = True Then
                 If iPilot.CAttT = nPilot.CAttT And iPilot.IAttT = nPilot.IAttT And iPilot.MAttT = nPilot.MAttT And iPilot.PAttT = nPilot.PAttT And iPilot.WAttT = nPilot.WAttT Then
                     nTime += nPilot.TrainingCurrentTime
                 Else
@@ -450,7 +450,7 @@ Public Class frmNeuralRemap
                             nPilot.MAtt = MAtt
                             If IAtt + PAtt + CAtt + WAtt + MAtt = 99 Then
                                 Call RecalcAttributes()
-                                calcTime = EveHQ.Core.SkillQueueFunctions.GetQueueTime(nPilot, CType(nPilot.TrainingQueues(cQueueName), Core.SkillQueue))
+                                calcTime = EveHQ.Core.SkillQueueFunctions.GetQueueTime(nPilot, nPilot.TrainingQueues(cQueueName))
                                 If calcTime <= bestTime Then
                                     bestTime = calcTime
                                     bestI = IAtt

@@ -42,7 +42,7 @@ Public Class DBCLastTransactions
         'populate Pilot ComboBox
         cboPilotList.BeginUpdate()
         cboPilotList.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If pilot.Active = True Then
                 cboPilotList.Items.Add(pilot.Name)
             End If
@@ -105,13 +105,13 @@ Public Class DBCLastTransactions
             'Get transactions XML
             Dim numTransactionsDisplay As Integer = CType(nudEntries.Value, Integer) ' how much transactions to display in listview/
             Dim transactionsXML As XmlDocument
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilotList.SelectedItem.ToString), Core.Pilot)
-            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(cPilot.Account), Core.EveAccount)
+            Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilotList.SelectedItem.ToString)
+            Dim cAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts(cPilot.Account)
             Dim cCharID As String = cPilot.ID
             Dim accountKey As Integer = 1000
             Dim beforeRefID As String = ""
 
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             transactionsXML = APIReq.GetAPIXML(EveAPI.APITypes.WalletTransChar, cAccount.ToAPIAccount, cCharID, accountKey, beforeRefID, EveAPI.APIReturnMethods.ReturnStandard)
 
             'Parse the XML document
@@ -133,10 +133,10 @@ Public Class DBCLastTransactions
                         newTransaction.Cells.Add(New Cell(CLng(transaction.Attributes.GetNamedItem("quantity").Value).ToString("N0")))
                         If transaction.Attributes.GetNamedItem("transactionType").Value = "sell" Then
                             newTransaction.Style = StyleGreen
-							newTransaction.Cells.Add(New Cell(Double.Parse(transaction.Attributes.GetNamedItem("price").Value, culture).ToString("N2"), StyleGreenRight))
+                            newTransaction.Cells.Add(New Cell(Double.Parse(transaction.Attributes.GetNamedItem("price").Value, culture).ToString("N2"), StyleGreenRight))
                         Else
                             newTransaction.Style = StyleRed
-							newTransaction.Cells.Add(New Cell(Double.Parse(transaction.Attributes.GetNamedItem("price").Value, culture).ToString("N2"), StyleRedRight))
+                            newTransaction.Cells.Add(New Cell(Double.Parse(transaction.Attributes.GetNamedItem("price").Value, culture).ToString("N2"), StyleRedRight))
                         End If
                         adtLastTransactions.Nodes.Add(newTransaction)
                     End If

@@ -55,7 +55,7 @@
     Public Property MAttT As Double = 0
     Public Property PAttT As Double = 0
     Public Property WAttT As Double = 0
-    Public Property PilotSkills As New List(Of EveHQPilotSkill)
+    Public Property PilotSkills As New Dictionary(Of String, EveHQPilotSkill)
     Public Property QueuedSkills As New SortedList(Of Integer, EveHQPilotQueuedSkill)
     Public Property QueuedSkillTime As Long
     Public Property Certificates As New List(Of Integer)

@@ -56,7 +56,7 @@ Public Class frmItemBrowser
     Dim compMetas As New SortedList
     Dim CompMatrix(,,) As String
     Dim bEveCentralDataFound As Boolean = False
-    Dim displayPilot As EveHQ.Core.Pilot
+    Dim displayPilot As EveHQ.Core.EveHQPilot
     Dim startup As Boolean = False
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
     Dim ShipCerts As New SortedList(Of String, ArrayList)
@@ -431,7 +431,7 @@ Public Class frmItemBrowser
         Me.lblUsableTime.Text = ""
 
         ' Load the browser
-        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.EveHqSettings.IBShowAllItems
+        chkBrowseNonPublished.Checked = EveHQ.Core.HQ.Settings.IBShowAllItems
         If tvwBrowse.Nodes.Count = 0 Then Call Me.LoadBrowserGroups()
 
         ' Load the Pilots
@@ -507,7 +507,7 @@ Public Class frmItemBrowser
     Public Sub UpdatePilots()
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -515,16 +515,16 @@ Public Class frmItemBrowser
         cboPilots.EndUpdate()
 
         If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(EveHQ.Core.HQ.EveHqSettings.StartupPilot) = True Then
-                cboPilots.SelectedItem = EveHQ.Core.HQ.EveHqSettings.StartupPilot
+            If cboPilots.Items.Contains(EveHQ.Core.HQ.Settings.StartupPilot) = True Then
+                cboPilots.SelectedItem = EveHQ.Core.HQ.Settings.StartupPilot
             Else
                 cboPilots.SelectedIndex = 0
             End If
         End If
     End Sub
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+            displayPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
             If startup = False Then
                 Call LoadItemID(itemTypeID)
             End If
@@ -1320,10 +1320,9 @@ Public Class frmItemBrowser
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
-                        If displayPilot.PilotSkills.Contains(cSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                            mySkill = displayPilot.PilotSkills(cSkill.Name)
+                    If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And displayPilot.Updated = True Then
+                        If displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
+                            Dim mySkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(cSkill.Name)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                             If skillTrained = True Then
@@ -1456,12 +1455,11 @@ Public Class frmItemBrowser
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And displayPilot.Updated = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And displayPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If displayPilot.PilotSkills.Contains(newSkill.Name) Then
-                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(displayPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+            If displayPilot.PilotSkills.ContainsKey(newSkill.Name) Then
+                Dim mySkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(newSkill.Name)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -1757,7 +1755,7 @@ Public Class frmItemBrowser
                             Dim eveItem As New EveItem
                             If EveHQ.Core.HQ.itemData.TryGetValue(newNode.Name, eveItem) = True And (eveItem IsNot Nothing) = True And e.Name = eveItem.Group.ToString Then
                                 ' Check published flag
-                                If EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = True Then
+                                If EveHQ.Core.HQ.Settings.IBShowAllItems = True Then
                                     e.Nodes.Add(newNode)
                                 Else
                                     If EveHQ.Core.HQ.itemData(newNode.Name).Published = True Then
@@ -2099,7 +2097,7 @@ Public Class frmItemBrowser
     End Sub
 
     Private Sub chkBrowseNonPublished_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkBrowseNonPublished.CheckedChanged
-        EveHQ.Core.HQ.EveHqSettings.IBShowAllItems = chkBrowseNonPublished.Checked
+        EveHQ.Core.HQ.Settings.IBShowAllItems = chkBrowseNonPublished.Checked
         Call Me.LoadBrowserGroups()
     End Sub
 

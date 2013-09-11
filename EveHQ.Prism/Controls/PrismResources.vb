@@ -206,7 +206,7 @@ Public Class PrismResources
                                 ' A skill
                                 newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(perfectRaw) & ")"
                                 ' Check for skill of recycler
-                                If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(CurrentJob.Manufacturer), Core.Pilot), rResource.TypeName, perfectRaw) = True Then
+                                If EveHQ.Core.SkillFunctions.IsSkillTrained(EveHQ.Core.HQ.Settings.Pilots(CurrentJob.Manufacturer), rResource.TypeName, perfectRaw) = True Then
                                     ' TODO - add colour and alignment styles
                                     'newRes.BackColor = Drawing.Color.LightGreen
                                 Else
@@ -357,7 +357,7 @@ Public Class PrismResources
                         ' A skill
                         newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(CInt(rResource.PerfectUnits)) & ")"
                         ' Check for skill of recycler
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(parentJob.Manufacturer), Core.Pilot), rResource.TypeName, CInt(rResource.PerfectUnits)) = True Then
+                        If EveHQ.Core.SkillFunctions.IsSkillTrained(EveHQ.Core.HQ.Settings.Pilots(parentJob.Manufacturer), rResource.TypeName, CInt(rResource.PerfectUnits)) = True Then
                             ' TODO - add colour and alignment styles
                             'newRes.BackColor = Drawing.Color.LightGreen
                         Else
@@ -541,7 +541,7 @@ Public Class PrismResources
 
     End Sub
 
-	Private Sub GetResourcesFromJob(ByVal pJob As ProductionJob)
+    Private Sub GetResourcesFromJob(ByVal pJob As ProductionJob)
 
         ' Set Production List
         Dim PI As New ProductionItem(pJob.TypeID.ToString, True, pJob.Runs)
@@ -551,16 +551,16 @@ Public Class PrismResources
             ProductionList(PI.Key).Quantity += PI.Quantity
         End If
 
-		Dim SR As New SwapResource
-		If pJob.TypeID <> pJob.CurrentBP.ID Then
-			If SwapResources.ContainsKey(pJob.TypeID.ToString) = True Then
-				SR = SwapResources(pJob.TypeID.ToString)
-				SR.Quantity += pJob.Runs
-			Else
-				SR.Quantity = pJob.Runs
-				SwapResources.Add(pJob.TypeID.ToString, SR)
-			End If
-		End If
+        Dim SR As New SwapResource
+        If pJob.TypeID <> pJob.CurrentBP.ID Then
+            If SwapResources.ContainsKey(pJob.TypeID.ToString) = True Then
+                SR = SwapResources(pJob.TypeID.ToString)
+                SR.Quantity += pJob.Runs
+            Else
+                SR.Quantity = pJob.Runs
+                SwapResources.Add(pJob.TypeID.ToString, SR)
+            End If
+        End If
 
         For Each resource As Object In pJob.RequiredResources.Values
             If TypeOf (resource) Is RequiredResource Then
@@ -603,7 +603,7 @@ Public Class PrismResources
                 Call Me.GetResourcesFromJob(subJob)
             End If
         Next
-	End Sub
+    End Sub
 
     Private Sub CheckSwapResources()
         ' Loop through swap resources to see what we could potentially save (ignore the main job though!)
@@ -619,7 +619,7 @@ Public Class PrismResources
                     ' Can we make at least some saving of production?
                     Dim saving As Long = Math.Min(reqs, owned)
                     ' Substitute some of the resources
-                    If saving > 0 
+                    If saving > 0 Then
                         For Each SavedResource As String In SR.Resources.Keys
                             If GroupResources.ContainsKey(SavedResource) = True Then
                                 GroupResources(SavedResource) -= SR.Resources(SavedResource) * saving
@@ -643,19 +643,19 @@ Public Class PrismResources
 
     Private Sub GetOwnedResources()
 
-       Dim Owner As New PrismOwner
+        Dim Owner As New PrismOwner
 
         For Each cOwner As ListViewItem In CType(cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
 
             If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                 Owner = PlugInData.PrismOwners(cOwner.Text)
-                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                 If OwnerAccount IsNot Nothing Then
 
                     Dim AssetXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     If Owner.IsCorp = True Then
                         AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                     Else
@@ -723,7 +723,7 @@ Public Class PrismResources
     End Sub
 
     Private Sub btnExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToCSV.Click
-        Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, EveHQ.Core.HQ.Settings.CSVSeparatorChar)
     End Sub
 
     Private Sub btnExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToTSV.Click

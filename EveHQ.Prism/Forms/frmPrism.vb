@@ -250,17 +250,17 @@ Public Class frmPrism
         PlugInData.PrismOwners.Clear()
         PlugInData.CorpList.Clear()
 
-        For Each SelAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
+        For Each SelAccount As EveHQ.Core.EveHQAccount In EveHQ.Core.HQ.Settings.Accounts.Values
             If SelAccount.APIAccountStatus = Core.APIAccountStatuses.Active Then
-                Select Case SelAccount.APIKeySystem
+                Select Case SelAccount.ApiKeySystem
                     Case Core.APIKeySystems.Version2
                         ' Check the type of the key
                         Select Case SelAccount.APIKeyType
                             Case Core.APIKeyTypes.Corporation
                                 ' A corporate API key
                                 For Each Owner As String In SelAccount.Characters
-                                    If EveHQ.Core.HQ.EveHqSettings.Corporations.ContainsKey(Owner) Then
-                                        Dim SelCorp As EveHQ.Core.Corporation = EveHQ.Core.HQ.EveHqSettings.Corporations(Owner)
+                                    If EveHQ.Core.HQ.Settings.Corporations.ContainsKey(Owner) Then
+                                        Dim SelCorp As EveHQ.Core.Corporation = EveHQ.Core.HQ.Settings.Corporations(Owner)
                                         If PlugInData.NPCCorps.Contains(SelCorp.ID) = False Then
                                             If PlugInData.PrismOwners.ContainsKey(Owner) = False Then
                                                 Dim NewOwner As New PrismOwner
@@ -279,8 +279,8 @@ Public Class frmPrism
                             Case Core.APIKeyTypes.Account, Core.APIKeyTypes.Character
                                 ' A character related API key
                                 For Each Owner As String In SelAccount.Characters
-                                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(Owner) Then
-                                        Dim SelPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(Owner), Core.Pilot)
+                                    If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(Owner) Then
+                                        Dim SelPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(Owner)
                                         If PlugInData.PrismOwners.ContainsKey(Owner) = False Then
                                             Dim NewOwner As New PrismOwner
                                             NewOwner.Account = SelAccount
@@ -360,13 +360,13 @@ Public Class frmPrism
     Private Sub CheckCharXMLs(ByVal Owner As PrismOwner)
 
         If Owner.IsCorp = False Then
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(Owner.Name) = True Then
-                Dim SelPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(Owner.Name), Core.Pilot)
-                Dim PilotAccount As EveHQ.Core.EveAccount = Owner.Account
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(Owner.Name) = True Then
+                Dim SelPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(Owner.Name)
+                Dim PilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
 
                 Dim apiXML As New XmlDocument
                 Dim ReturnMethod As EveAPI.APIReturnMethods = EveAPI.APIReturnMethods.ReturnCacheOnly
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                 ' Check for char assets
                 apiXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
@@ -420,11 +420,11 @@ Public Class frmPrism
 
         If Owner.IsCorp = True Then
 
-            Dim CorpAccount As EveHQ.Core.EveAccount = Owner.Account
+            Dim CorpAccount As EveHQ.Core.EveHQAccount = Owner.Account
 
             Dim apiXML As New XmlDocument
             Dim ReturnMethod As EveAPI.APIReturnMethods = EveAPI.APIReturnMethods.ReturnCacheOnly
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             Dim OwnerID As String = ""
 
             ' Check for corp assets
@@ -626,7 +626,7 @@ Public Class frmPrism
         End Select
     End Function
     Private Function CanUseAPIv2(ByVal Owner As PrismOwner, ByVal APIType As CorpRepType) As Boolean
-        Dim Account As EveHQ.Core.EveAccount = Owner.Account
+        Dim Account As EveHQ.Core.EveHQAccount = Owner.Account
         If Account.APIKeySystem = Core.APIKeySystems.Version2 Then
             Select Case Account.APIKeyType
                 Case Core.APIKeyTypes.Corporation
@@ -750,8 +750,8 @@ Public Class frmPrism
                 If Owner.IsCorp = False Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.Assets) = True Then
@@ -791,8 +791,8 @@ Public Class frmPrism
                 If Owner.IsCorp = False Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.Balances) = True Then
@@ -832,8 +832,8 @@ Public Class frmPrism
                 If Owner.IsCorp = False Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.Jobs) = True Then
@@ -879,8 +879,8 @@ Public Class frmPrism
                 If Owner.IsCorp = False Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.WalletJournal) = True Then
@@ -892,7 +892,7 @@ Public Class frmPrism
                         Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
                         Dim LastRefID As Long = 0
                         Dim WalletExhausted As Boolean = False
-                        APIReq = New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        APIReq = New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         Do
                             ' Make a call to the EveHQ.Core.API to fetch the journal
@@ -951,8 +951,8 @@ Public Class frmPrism
                 If Owner.IsCorp = False Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.Orders) = True Then
@@ -996,8 +996,8 @@ Public Class frmPrism
                     Dim transID As String = ""
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.WalletTransactions) = True Then
@@ -1040,8 +1040,8 @@ Public Class frmPrism
                 If Owner.IsCorp = False Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = Owner.Account
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = Owner.Account
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                     ' Check for valid API Usage
                     If CanUseAPI(Owner, CorpRepType.Contracts) = True Then
@@ -1126,10 +1126,10 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(Owner, CorpRepType.Assets) = True Then
@@ -1170,10 +1170,10 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Balances)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(Owner, CorpRepType.Balances) = True Then
@@ -1214,10 +1214,10 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Jobs)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Jobs)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Jobs)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(Owner, CorpRepType.Jobs) = True Then
@@ -1265,8 +1265,8 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.WalletJournal)
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.WalletJournal)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.WalletJournal)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
 
@@ -1282,7 +1282,7 @@ Public Class frmPrism
                                 Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
                                 Dim LastRefID As Long = 0
                                 Dim WalletExhausted As Boolean = False
-                                APIReq = New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                                APIReq = New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                                 Do
                                     ' Make a call to the EveHQ.Core.API to fetch the journal
@@ -1346,10 +1346,10 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Orders)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(Owner, CorpRepType.Orders) = True Then
@@ -1395,10 +1395,10 @@ Public Class frmPrism
                     Dim transID As String = ""
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.WalletTransactions)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.WalletTransactions)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.WalletTransactions)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(Owner, CorpRepType.WalletTransactions) = True Then
@@ -1446,8 +1446,8 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Contracts)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Contracts)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Contracts)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
 
@@ -1511,12 +1511,12 @@ Public Class frmPrism
                 If Owner.IsCorp = True Then
 
                     Dim APIXML As New XmlDocument
-                    Dim pilotAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
+                    Dim pilotAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
 
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.CorpSheet)
                     If pilotAccount IsNot Nothing And OwnerID <> "" Then
 
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                         ' Check for valid API Usage
                         If CanUseAPI(Owner, CorpRepType.CorpSheet) = True Then
@@ -1569,7 +1569,7 @@ Public Class frmPrism
 
         ' Make a call to the EveHQ.Core.API to fetch the assets
         Dim stationXML As New XmlDocument
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         stationXML = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard)
 
         ' Check response string for any error codes?
@@ -1823,10 +1823,10 @@ Public Class frmPrism
         If cboOrdersOwner.SelectedItem IsNot Nothing Then
             If PlugInData.PrismOwners.ContainsKey(cboOrdersOwner.SelectedItem.ToString) Then
                 Owner = PlugInData.PrismOwners(cboOrdersOwner.SelectedItem.ToString)
-                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
+                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Orders)
                 Dim OrderXML As New XmlDocument
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                 If OwnerAccount IsNot Nothing Then
 
@@ -1951,8 +1951,8 @@ Public Class frmPrism
                     End If
 
                     If Owner.IsCorp = False Then
-                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(Owner.Name) = True Then
-                            Dim selPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(Owner.Name), Core.Pilot)
+                        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(Owner.Name) = True Then
+                            Dim selPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(Owner.Name)
                             Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade)) * 4) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon)) * 32) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail)) * 8) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale)) * 16)
                             Dim TransTax As Double = 1 * (1.5 - 0.15 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
                             Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
@@ -2358,13 +2358,13 @@ Public Class frmPrism
                 cboWalletJournalDivision.Items.Clear()
 
                 Owner = PlugInData.PrismOwners(cboJournalOwners.Text)
-                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
+                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.CorpSheet)
 
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
@@ -2911,7 +2911,7 @@ Public Class frmPrism
         Dim IsPersonal As Boolean = False
         Dim IsCorp As Boolean = False
         ' Check for personal
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboTransactionOwner.Text) = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboTransactionOwner.Text) = True Then
             IsPersonal = True
         Else
             ' Check for corp
@@ -3000,13 +3000,13 @@ Public Class frmPrism
                 cboWalletTransDivision.Items.Clear()
 
                 Owner = PlugInData.PrismOwners(cboTransactionOwner.Text)
-                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
+                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.CorpSheet)
 
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
@@ -3430,7 +3430,7 @@ Public Class frmPrism
 
         ' Load the characters into the combobox
         cboRecyclePilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboRecyclePilots.Items.Add(cPilot.Name)
             End If
@@ -3511,7 +3511,7 @@ Public Class frmPrism
         Dim RecycleResults As New SortedList
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
         Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From a In RecyclerAssetList.Keys Select CStr(a))
         priceTask.Wait()
         Dim prices As Dictionary(Of String, Double) = priceTask.Result
@@ -3684,7 +3684,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboRecyclePilots.SelectedIndexChanged
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
@@ -3759,7 +3759,7 @@ Public Class frmPrism
             BaseYield = StationYield
         End If
         If cboRecyclePilots.SelectedItem IsNot Nothing Then
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
             lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
             lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
@@ -3771,7 +3771,7 @@ Public Class frmPrism
         If chkOverrideBaseYield.Checked = True Then
             BaseYield = CDbl(nudBaseYield.Value) / 100
             lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
             lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
             Call Me.RecalcRecycling()
@@ -3812,7 +3812,7 @@ Public Class frmPrism
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
-            Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+            Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
         lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
@@ -3822,7 +3822,7 @@ Public Class frmPrism
 
 #Region "Override Fees functions"
     Private Sub chkOverrideBrokerFee_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideBrokerFee.CheckedChanged
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
         If chkOverrideBrokerFee.Checked = False Then
             RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
         Else
@@ -3833,7 +3833,7 @@ Public Class frmPrism
         Call Me.RecalcRecycling()
     End Sub
     Private Sub chkOverrideTax_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideTax.CheckedChanged
-        Dim rPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+        Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
         If chkOverrideTax.Checked = False Then
             RTransTax = 1 * (1.5 - 0.15 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
         Else
@@ -3874,14 +3874,14 @@ Public Class frmPrism
                 If chkPerfectRefine.Checked = True Then
                     NetYield = 1
                 Else
-                    Dim rPilot As New EveHQ.Core.Pilot
+                    Dim rPilot As New EveHQ.Core.EveHQPilot
                     If cboRecyclePilots.SelectedItem IsNot Nothing Then
-                        rPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+                        rPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
                         NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
                     Else
                         If cboRecyclePilots.Items.Count > 0 Then
                             cboRecyclePilots.SelectedIndex = 0
-                            rPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboRecyclePilots.SelectedItem.ToString), Core.Pilot)
+                            rPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
                             NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
                         Else
                             NetYield = 0
@@ -3960,7 +3960,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.Settings.CSVSeparatorChar)
     End Sub
 
     Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
@@ -3968,7 +3968,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.Settings.CSVSeparatorChar)
     End Sub
 
     Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click
@@ -4060,7 +4060,7 @@ Public Class frmPrism
                 For col As Integer = 0 To .Columns.Count - 1
                     csvText.Append(.Columns(col).Text)
                     If col <> .Columns.Count - 1 Then
-                        csvText.Append(EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+                        csvText.Append(EveHQ.Core.HQ.Settings.CSVSeparatorChar)
                     End If
                 Next
                 csvText.AppendLine("")
@@ -4073,7 +4073,7 @@ Public Class frmPrism
                             csvText.Append("""" & row.Cells(col).Text & """")
                         End If
                         If col <> .Columns.Count - 1 Then
-                            csvText.Append(EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+                            csvText.Append(EveHQ.Core.HQ.Settings.CSVSeparatorChar)
                         End If
                     Next
                     csvText.AppendLine("")
@@ -4296,10 +4296,10 @@ Public Class frmPrism
                     PlugInData.BlueprintAssets.Add(Owner.Name, ownerBPs)
                 End If
 
-                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
                 Dim AssetXML As New XmlDocument
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
                 If Owner.IsCorp = True Then
                     AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
@@ -5938,13 +5938,13 @@ Public Class frmPrism
 
             If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                 Owner = PlugInData.PrismOwners(cOwner.Text)
-                Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                 If OwnerAccount IsNot Nothing Then
 
                     Dim AssetXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
                     If Owner.IsCorp = True Then
                         AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                     Else

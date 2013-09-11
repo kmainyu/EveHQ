@@ -27,7 +27,7 @@ Imports EveHQ.Core
 Public Class frmBPCalculator
 
 #Region "Class Variables"
-    Dim BPPilot As EveHQ.Core.Pilot
+    Dim BPPilot As EveHQ.Core.EveHQPilot
     Dim UpdateBPInfo As Boolean = False
     Dim StartUp As Boolean = False
     Dim InventionStartUp As Boolean = True
@@ -233,7 +233,7 @@ Public Class frmBPCalculator
         'Load the characters into the comboboxes
         cboPilot.BeginUpdate() : cboPilot.Items.Clear()
         cboOwner.BeginUpdate() : cboOwner.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilot.Items.Add(cPilot.Name)
                 cboOwner.Items.Add(cPilot.Name)
@@ -526,8 +526,8 @@ Public Class frmBPCalculator
 
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
         ' Set the pilot
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            BPPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+            BPPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
             ' Update skills and stuff
             currentJob.UpdateManufacturer(BPPilot.Name)
             Call Me.UpdatePilotSkills()
@@ -567,32 +567,32 @@ Public Class frmBPCalculator
         ' Delay updating the BP Info until we have completed the update to the pilot
         UpdateBPInfo = False
         ' Update Research Skill
-        If BPPilot.PilotSkills.Contains("Research") = True Then
-            cboResearchSkill.SelectedIndex = CType(BPPilot.PilotSkills("Research"), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey("Research") = True Then
+            cboResearchSkill.SelectedIndex = BPPilot.PilotSkills("Research").Level
         Else
             cboResearchSkill.SelectedIndex = 0
         End If
         ' Update Metallurgy Skill
-        If BPPilot.PilotSkills.Contains("Metallurgy") = True Then
-            cboMetallurgySkill.SelectedIndex = CType(BPPilot.PilotSkills("Metallurgy"), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey("Metallurgy") = True Then
+            cboMetallurgySkill.SelectedIndex = BPPilot.PilotSkills("Metallurgy").Level
         Else
             cboMetallurgySkill.SelectedIndex = 0
         End If
         ' Update Science Skill
-        If BPPilot.PilotSkills.Contains("Science") = True Then
-            cboScienceSkill.SelectedIndex = CType(BPPilot.PilotSkills("Science"), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey("Science") = True Then
+            cboScienceSkill.SelectedIndex = BPPilot.PilotSkills("Science").Level
         Else
             cboScienceSkill.SelectedIndex = 0
         End If
         ' Update Industry Skill
-        If BPPilot.PilotSkills.Contains("Industry") = True Then
-            cboIndustrySkill.SelectedIndex = CType(BPPilot.PilotSkills("Industry"), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey("Industry") = True Then
+            cboIndustrySkill.SelectedIndex = BPPilot.PilotSkills("Industry").Level
         Else
             cboIndustrySkill.SelectedIndex = 0
         End If
         ' Update PE Skill
-        If BPPilot.PilotSkills.Contains("Production Efficiency") = True Then
-            cboProdEffSkill.SelectedIndex = CType(BPPilot.PilotSkills("Production Efficiency"), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey("Production Efficiency") = True Then
+            cboProdEffSkill.SelectedIndex = BPPilot.PilotSkills("Production Efficiency").Level
         Else
             cboProdEffSkill.SelectedIndex = 0
         End If
@@ -713,64 +713,64 @@ Public Class frmBPCalculator
         ' Update the available inventions
         cboInventions.BeginUpdate()
         cboInventions.Items.Clear()
-        For Each BPID As String In CurrentInventionBP.Inventions
-            cboInventions.Items.Add(EveHQ.Core.HQ.itemData(BPID).Name)
+        For Each bpid As String In CurrentInventionBP.Inventions
+            cboInventions.Items.Add(EveHQ.Core.HQ.itemData(bpid).Name)
         Next
         cboInventions.Sorted = True
         cboInventions.EndUpdate()
 
-        Dim InventionSkills As New LinkedList(Of DictionaryEntry)
+        Dim inventionSkills As New LinkedList(Of DictionaryEntry)
 
 
         ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
-        Dim DecryptorGroupID As String = ""
-        For Each Resource As BlueprintResource In CurrentInventionBP.Resources.Values
-            If Resource.Activity = BPActivity.Invention Then
+        Dim decryptorGroupID As String = ""
+        For Each resource As BlueprintResource In CurrentInventionBP.Resources.Values
+            If resource.Activity = BPActivity.Invention Then
                 ' Add the resource to the list
 
-                If Resource.TypeName.EndsWith("Interface") = True Then
-                    Select Case Resource.TypeName.Substring(0, 1)
+                If resource.TypeName.EndsWith("Interface") = True Then
+                    Select Case resource.TypeName.Substring(0, 1)
                         Case "O"
                             ' Amarr
-                            DecryptorGroupID = "728"
-                            Dim SkillLevel As Integer = 0
-                            If BPPilot.PilotSkills.Contains("Amarr Encryption Methods") = True Then
-                                SkillLevel = CType(BPPilot.PilotSkills("Amarr Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            decryptorGroupID = "728"
+                            Dim skillLevel As Integer = 0
+                            If BPPilot.PilotSkills.ContainsKey("Amarr Encryption Methods") = True Then
+                                skillLevel = BPPilot.PilotSkills("Amarr Encryption Methods").Level
                             End If
-                            InventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", SkillLevel))
+                            inventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", skillLevel))
                         Case "C"
                             ' Minmatar
-                            DecryptorGroupID = "729"
-                            Dim SkillLevel As Integer = 0
-                            If BPPilot.PilotSkills.Contains("Minmatar Encryption Methods") = True Then
-                                SkillLevel = CType(BPPilot.PilotSkills("Minmatar Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            decryptorGroupID = "729"
+                            Dim skillLevel As Integer = 0
+                            If BPPilot.PilotSkills.ContainsKey("Minmatar Encryption Methods") = True Then
+                                skillLevel = BPPilot.PilotSkills("Minmatar Encryption Methods").Level
                             End If
-                            InventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", SkillLevel))
+                            inventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", skillLevel))
                         Case "I"
                             ' Gallente
-                            DecryptorGroupID = "730"
-                            Dim SkillLevel As Integer = 0
-                            If BPPilot.PilotSkills.Contains("Gallente Encryption Methods") = True Then
-                                SkillLevel = CType(BPPilot.PilotSkills("Gallente Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            decryptorGroupID = "730"
+                            Dim skillLevel As Integer = 0
+                            If BPPilot.PilotSkills.ContainsKey("Gallente Encryption Methods") = True Then
+                                skillLevel = BPPilot.PilotSkills("Gallente Encryption Methods").Level
                             End If
-                            InventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", SkillLevel))
+                            inventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", skillLevel))
                         Case "E"
                             ' Caldari
-                            DecryptorGroupID = "731"
-                            Dim SkillLevel As Integer = 0
-                            If BPPilot.PilotSkills.Contains("Caldari Encryption Methods") = True Then
-                                SkillLevel = CType(BPPilot.PilotSkills("Caldari Encryption Methods"), EveHQ.Core.PilotSkill).Level
+                            decryptorGroupID = "731"
+                            Dim skillLevel As Integer = 0
+                            If BPPilot.PilotSkills.ContainsKey("Caldari Encryption Methods") = True Then
+                                skillLevel = BPPilot.PilotSkills("Caldari Encryption Methods").Level
                             End If
-                            InventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", SkillLevel))
+                            inventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", skillLevel))
                     End Select
                     ' Terminate early once we know
-                ElseIf Resource.TypeName.StartsWith("Datacore") = True Then
-                    Dim SkillName As String = Resource.TypeName.TrimStart("Datacore - ".ToCharArray)
-                    Dim SkillLevel As Integer = 0
-                    If BPPilot.PilotSkills.Contains(SkillName) = True Then
-                        SkillLevel = CType(BPPilot.PilotSkills(SkillName), EveHQ.Core.PilotSkill).Level
+                ElseIf resource.TypeName.StartsWith("Datacore") = True Then
+                    Dim skillName As String = resource.TypeName.TrimStart("Datacore - ".ToCharArray)
+                    Dim skillLevel As Integer = 0
+                    If BPPilot.PilotSkills.ContainsKey(skillName) = True Then
+                        skillLevel = BPPilot.PilotSkills(skillName).Level
                     End If
-                    InventionSkills.AddLast(New DictionaryEntry(SkillName, SkillLevel))
+                    inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
                 End If
             End If
         Next
@@ -781,28 +781,28 @@ Public Class frmBPCalculator
         cboDecryptor.BeginUpdate()
         cboDecryptor.Items.Clear()
         cboDecryptor.Items.Add("<None>")
-        For Each Decrypt As Decryptor In PlugInData.Decryptors.Values
-            If Decrypt.GroupID = DecryptorGroupID Then
-                cboDecryptor.Items.Add(Decrypt.Name & " (" & Decrypt.ProbMod.ToString & "x, " & Decrypt.MEMod.ToString & "ME, " & Decrypt.PEMod.ToString & "PE, " & Decrypt.RunMod.ToString & "r)")
+        For Each decrypt As Decryptor In PlugInData.Decryptors.Values
+            If decrypt.GroupID = decryptorGroupID Then
+                cboDecryptor.Items.Add(decrypt.Name & " (" & decrypt.ProbMod.ToString & "x, " & decrypt.MEMod.ToString & "ME, " & decrypt.PEMod.ToString & "PE, " & decrypt.RunMod.ToString & "r)")
             End If
         Next
         cboDecryptor.SelectedIndex = 0
         cboDecryptor.EndUpdate()
 
         ' Display the skills - hopefully should be 3 :)
-        If InventionSkills.Count = 3 Then
-            lblInvSkill1.Text = "Skill 1: " & CStr(InventionSkills(0).Key)
-            lblInvSkill1.Tag = CStr(InventionSkills(0).Key)
-            nudInventionSkill1.Value = CInt(InventionSkills(0).Value)
-            InventionSkill1 = CInt(InventionSkills(0).Value)
-            lblInvSkill2.Text = "Skill 2: " & CStr(InventionSkills(1).Key)
-            lblInvSkill2.Tag = CStr(InventionSkills(1).Key)
-            nudInventionSkill2.Value = CInt(InventionSkills(1).Value)
-            InventionSkill2 = CInt(InventionSkills(1).Value)
-            lblInvSkill3.Text = "Skill 3: " & CStr(InventionSkills(2).Key)
-            lblInvSkill3.Tag = CStr(InventionSkills(2).Key)
-            nudInventionSkill3.Value = CInt(InventionSkills(2).Value)
-            InventionSkill3 = CInt(InventionSkills(2).Value)
+        If inventionSkills.Count = 3 Then
+            lblInvSkill1.Text = "Skill 1: " & CStr(inventionSkills(0).Key)
+            lblInvSkill1.Tag = CStr(inventionSkills(0).Key)
+            nudInventionSkill1.Value = CInt(inventionSkills(0).Value)
+            InventionSkill1 = CInt(inventionSkills(0).Value)
+            lblInvSkill2.Text = "Skill 2: " & CStr(inventionSkills(1).Key)
+            lblInvSkill2.Tag = CStr(inventionSkills(1).Key)
+            nudInventionSkill2.Value = CInt(inventionSkills(1).Value)
+            InventionSkill2 = CInt(inventionSkills(1).Value)
+            lblInvSkill3.Text = "Skill 3: " & CStr(inventionSkills(2).Key)
+            lblInvSkill3.Tag = CStr(inventionSkills(2).Key)
+            nudInventionSkill3.Value = CInt(inventionSkills(2).Value)
+            InventionSkill3 = CInt(inventionSkills(2).Value)
         Else
             MessageBox.Show("Ooops! Seems to be more invention skills here than what we can use in the calculation!", "Invention Skills Issue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
@@ -811,8 +811,8 @@ Public Class frmBPCalculator
         cboMetaItem.BeginUpdate()
         cboMetaItem.Items.Clear()
         cboMetaItem.Items.Add("<None>")
-        For Each MetaItem As String In CurrentInventionBP.InventionMetaItems.Keys
-            cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(MetaItem).MetaLevel & ": " & EveHQ.Core.HQ.itemData(MetaItem).Name)
+        For Each metaItem As String In CurrentInventionBP.InventionMetaItems.Keys
+            cboMetaItem.Items.Add(EveHQ.Core.HQ.itemData(metaItem).MetaLevel & ": " & EveHQ.Core.HQ.itemData(metaItem).Name)
         Next
         cboMetaItem.SelectedIndex = 0
         cboMetaItem.EndUpdate()
@@ -858,7 +858,7 @@ Public Class frmBPCalculator
 
     End Sub
 
-    Private Sub SetBlueprintInformation(ByVal RecalcOnly As Boolean)
+    Private Sub SetBlueprintInformation(ByVal recalcOnly As Boolean)
         ' Recalculate the required resources
         If RecalcOnly = False Then
             Call Me.CalculateProductionResources()
@@ -1392,8 +1392,8 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub nudInventionSkill1_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ButtonCustomClick
-        If BPPilot.PilotSkills.Contains(lblInvSkill1.Tag.ToString) = True Then
-            nudInventionSkill1.Value = CType(BPPilot.PilotSkills(lblInvSkill1.Tag.ToString), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey(lblInvSkill1.Tag.ToString) = True Then
+            nudInventionSkill1.Value = BPPilot.PilotSkills(lblInvSkill1.Tag.ToString).Level
         Else
             nudInventionSkill1.Value = 0
         End If
@@ -1419,8 +1419,8 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub nudInventionSkill2_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ButtonCustomClick
-        If BPPilot.PilotSkills.Contains(lblInvSkill2.Tag.ToString) = True Then
-            nudInventionSkill2.Value = CType(BPPilot.PilotSkills(lblInvSkill2.Tag.ToString), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey(lblInvSkill2.Tag.ToString) = True Then
+            nudInventionSkill2.Value = BPPilot.PilotSkills(lblInvSkill2.Tag.ToString).Level
         Else
             nudInventionSkill2.Value = 0
         End If
@@ -1446,8 +1446,8 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub nudInventionSkill3_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ButtonCustomClick
-        If BPPilot.PilotSkills.Contains(lblInvSkill3.Tag.ToString) = True Then
-            nudInventionSkill3.Value = CType(BPPilot.PilotSkills(lblInvSkill3.Tag.ToString), EveHQ.Core.PilotSkill).Level
+        If BPPilot.PilotSkills.ContainsKey(lblInvSkill3.Tag.ToString) = True Then
+            nudInventionSkill3.Value = BPPilot.PilotSkills(lblInvSkill3.Tag.ToString).Level
         Else
             nudInventionSkill3.Value = 0
         End If

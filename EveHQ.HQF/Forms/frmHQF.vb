@@ -417,7 +417,7 @@ Public Class frmHQF
             Call HQFPilotCollection.LoadHQFPilotData()
             ' Check we have all the available pilots!
             Dim morePilots As Boolean = False
-            For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
                 If HQFPilotCollection.HQFPilots.Contains(pilot.Name) = False Then
                     ' We don't have it, so lets create one!
                     Dim newHQFPilot As New HQFPilot
@@ -457,7 +457,7 @@ Public Class frmHQF
             End If
         Else
             HQFPilotCollection.HQFPilots.Clear()
-            For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
                 Dim newHQFPilot As New HQFPilot
                 newHQFPilot.PilotName = pilot.Name
                 newHQFPilot.SkillSet = New Collection
@@ -474,7 +474,7 @@ Public Class frmHQF
         ' Remove old HQF Pilots
         Dim removePilotList As New ArrayList
         For Each hPilot As String In HQFPilotCollection.HQFPilots.Keys
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(hPilot) = False Then
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(hPilot) = False Then
                 removePilotList.Add(hPilot)
             End If
         Next
@@ -502,7 +502,7 @@ Public Class frmHQF
         cboFlyable.BeginUpdate()
         cboFlyable.Items.Clear()
         cboFlyable.Items.Add("<All Ships>")
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboFlyable.Items.Add(cPilot.Name)
             End If
@@ -574,14 +574,14 @@ Public Class frmHQF
         Dim shipName As String = mnuShipBrowserShipName.Text
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
         Dim showInfo As New frmShowInfo
-        Dim hPilot As EveHQ.Core.Pilot
+        Dim hPilot As EveHQ.Core.EveHQPilot
         If ActiveFitting IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), Core.Pilot)
+            hPilot = EveHQ.Core.HQ.Settings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString)
         Else
-            If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.StartupPilot <> "" Then
+                hPilot = EveHQ.Core.HQ.Settings.Pilots(EveHQ.Core.HQ.Settings.StartupPilot)
             Else
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot)
+                hPilot = EveHQ.Core.HQ.Settings.Pilots.Values(0)
             End If
         End If
         showInfo.ShowItemDetails(selShip, hPilot)
@@ -605,7 +605,7 @@ Public Class frmHQF
     Private Sub CreateNewFitting(ByVal shipName As String)
         ' Check we have some valid characters
         ' Bug 83: Adding a check of the core pilots collection as well, since it may end up in an unstable state due to other actors, and needs to contain pilots before loading the new fitting.
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And HQF.HQFPilotCollection.HQFPilots.Count > 0 Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And HQF.HQFPilotCollection.HQFPilots.Count > 0 Then
             ' Clear the text boxes
             Dim myNewFitting As New frmModifyFittingName
             Dim fittingName As String = ""
@@ -1206,7 +1206,7 @@ Public Class frmHQF
         tvwModules.BeginUpdate()
         tvwModules.Nodes.Clear()
 
-      
+
         For Each shipmod As ShipModule In LastModuleResults.Values
             If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
                 If (shipmod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
@@ -1885,21 +1885,21 @@ Public Class frmHQF
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
         Dim showInfo As New frmShowInfo
-        Dim hPilot As EveHQ.Core.Pilot
+        Dim hPilot As EveHQ.Core.EveHQPilot
         If ActiveFitting IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), Core.Pilot)
+            hPilot = EveHQ.Core.HQ.Settings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString)
         Else
-            If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.StartupPilot <> "" Then
+                hPilot = EveHQ.Core.HQ.Settings.Pilots(EveHQ.Core.HQ.Settings.StartupPilot)
             Else
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot)
+                hPilot = EveHQ.Core.HQ.Settings.Pilots.Values(0)
             End If
         End If
         showInfo.ShowItemDetails(selShip, hPilot)
     End Sub
     Private Sub ShowFitting(ByVal fittingNode As Node)
         ' Check we have some valid characters
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 Then
             ' Get the ship details
             If fittingNode.Parent IsNot Nothing Then
                 Dim ShipName As String = fittingNode.Parent.Text
@@ -2064,22 +2064,22 @@ Public Class frmHQF
         Dim moduleID As String = tvwModules.SelectedNodes(0).Name
         Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
         Dim showInfo As New frmShowInfo
-        Dim hPilot As EveHQ.Core.Pilot
+        Dim hPilot As EveHQ.Core.EveHQPilot
         If ActiveFitting IsNot Nothing Then
             If ActiveFitting.ShipInfoCtrl IsNot Nothing Then
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), Core.Pilot)
+                hPilot = EveHQ.Core.HQ.Settings.Pilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString)
             Else
-                If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
-                    hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot)
+                If EveHQ.Core.HQ.Settings.StartupPilot <> "" Then
+                    hPilot = EveHQ.Core.HQ.Settings.Pilots(EveHQ.Core.HQ.Settings.StartupPilot)
                 Else
-                    hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot)
+                    hPilot = EveHQ.Core.HQ.Settings.Pilots.Values(0)
                 End If
             End If
         Else
-            If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.StartupPilot <> "" Then
+                hPilot = EveHQ.Core.HQ.Settings.Pilots(EveHQ.Core.HQ.Settings.StartupPilot)
             Else
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot)
+                hPilot = EveHQ.Core.HQ.Settings.Pilots.Values(0)
             End If
         End If
         showInfo.ShowItemDetails(cModule, hPilot)
@@ -2283,10 +2283,10 @@ Public Class frmHQF
             If ActiveFitting IsNot Nothing Then
                 myPilotManager.pilotName = ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString
             Else
-                If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
-                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot).Name
+                If EveHQ.Core.HQ.Settings.StartupPilot <> "" Then
+                    myPilotManager.pilotName = EveHQ.Core.HQ.Settings.Pilots(EveHQ.Core.HQ.Settings.StartupPilot).Name
                 Else
-                    myPilotManager.pilotName = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot).Name
+                    myPilotManager.pilotName = EveHQ.Core.HQ.Settings.Pilots.Values(0).Name
                 End If
             End If
             myPilotManager.Show()
@@ -2819,7 +2819,7 @@ Public Class frmHQF
     End Function
 
     Private Sub btnImportEve_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportEve.Click
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count = 0 Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count = 0 Then
             Dim msg As String = "There are no pilots or accounts created in EveHQ." & ControlChars.CrLf
             msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
             MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)

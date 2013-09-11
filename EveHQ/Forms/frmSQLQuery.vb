@@ -82,7 +82,7 @@ Public Class frmSQLQuery
         ' Update Saved SQL Queries 
         lvwQueries.BeginUpdate()
         lvwQueries.Items.Clear()
-        For Each query As String In EveHQ.Core.HQ.EveHqSettings.SQLQueries.Keys
+        For Each query As String In EveHQ.Core.HQ.Settings.SQLQueries.Keys
             lvwQueries.Items.Add(query)
         Next
         lvwQueries.EndUpdate()
@@ -94,7 +94,7 @@ Public Class frmSQLQuery
         ' Set the SQL query text
         QueryIsUpdating = True
         currentQuery = query
-        txtQuery.Text = EveHQ.Core.HQ.EveHqSettings.SQLQueries(query)
+        txtQuery.Text = EveHQ.Core.HQ.Settings.SQLQueries(query)
         lblQueryText.Text = "SQL Query String: " & query
         panelText.Refresh()
         QueryAmended = False
@@ -110,7 +110,7 @@ Public Class frmSQLQuery
             TextForm.lblDescription.Text = "Please enter a name for this SQL query"
             TextForm.ShowDialog()
             If TextForm.DialogResult = Windows.Forms.DialogResult.OK Then
-                EveHQ.Core.HQ.EveHqSettings.SQLQueries.Add(TextForm.TextData, txtQuery.Text)
+                EveHQ.Core.HQ.Settings.SQLQueries.Add(TextForm.TextData, txtQuery.Text)
                 Call Me.UpdateQueries()
                 Call Me.UpdateQuery(TextForm.TextData)
                 QueryAmended = False
@@ -120,7 +120,7 @@ Public Class frmSQLQuery
             TextForm.Dispose()
         Else
             ' Save the query into the list
-            EveHQ.Core.HQ.EveHqSettings.SQLQueries(currentQuery) = txtQuery.Text
+            EveHQ.Core.HQ.Settings.SQLQueries(currentQuery) = txtQuery.Text
             QueryAmended = False
         End If
     End Sub
@@ -134,9 +134,9 @@ Public Class frmSQLQuery
         TextForm.ShowDialog()
         If TextForm.DialogResult = Windows.Forms.DialogResult.OK Then
             ' Remove the old data
-            Dim SQL As String = EveHQ.Core.HQ.EveHqSettings.SQLQueries(OldQuery)
-            EveHQ.Core.HQ.EveHqSettings.SQLQueries.Remove(OldQuery)
-            EveHQ.Core.HQ.EveHqSettings.SQLQueries.Add(TextForm.TextData, SQL)
+            Dim SQL As String = EveHQ.Core.HQ.Settings.SQLQueries(OldQuery)
+            EveHQ.Core.HQ.Settings.SQLQueries.Remove(OldQuery)
+            EveHQ.Core.HQ.Settings.SQLQueries.Add(TextForm.TextData, SQL)
             Call Me.UpdateQueries()
             Call Me.UpdateQuery(TextForm.TextData)
             QueryAmended = False
@@ -192,7 +192,7 @@ Public Class frmSQLQuery
                 Case Windows.Forms.DialogResult.No
                     Exit Sub
                 Case Windows.Forms.DialogResult.Yes
-                    EveHQ.Core.HQ.EveHqSettings.SQLQueries.Remove(query)
+                    EveHQ.Core.HQ.Settings.SQLQueries.Remove(query)
                     Call Me.UpdateQueries()
                     ' Check if we need to reset the current query
                     If currentQuery = query Then
@@ -281,7 +281,7 @@ Public Class frmSQLQuery
             sb = New StringBuilder
             For col As Integer = 0 To dt.Columns.Count - 1
                 If col <> 0 Then
-                    sb.Append(EveHQ.Core.HQ.EveHqSettings.CSVSeparatorChar)
+                    sb.Append(EveHQ.Core.HQ.Settings.CSVSeparatorChar)
                 End If
                 If IsNumeric(row.Item(col)) = True Then
                     sb.Append(row.Item(col).ToString)

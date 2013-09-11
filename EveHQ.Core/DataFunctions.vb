@@ -41,11 +41,11 @@ Public Class DataFunctions
     Shared LastCacheRefresh As String = "2.12.0.0"
 
     Public Shared Function CreateEveHQDataDB() As Boolean
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 ' Get the directory of the existing SQL CE database to write the new one there
                 Dim outputFile As String = ""
-                outputFile = HQ.EveHqSettings.DBDataFilename.Replace("\\", "\")
+                outputFile = HQ.Settings.DBDataFilename.Replace("\\", "\")
                 'MessageBox.Show("Creating database using path: " & outputFile, "Custom Database Location", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ' Try to create a new SQL CE DB
                 Dim strConnection As String = "Data Source = " & ControlChars.Quote & outputFile & ControlChars.Quote &
@@ -53,7 +53,7 @@ Public Class DataFunctions
                 Try
                     Dim SQLCE As New SqlCeEngine(strConnection)
                     SQLCE.CreateDatabase()
-                    HQ.EveHqSettings.DBDataFilename = outputFile
+                    HQ.Settings.DBDataFilename = outputFile
                     HQ.EveHQDataConnectionString = strConnection
                     Return True
                 Catch e As Exception
@@ -65,15 +65,15 @@ Public Class DataFunctions
                 Dim strSQL As String = "CREATE DATABASE EveHQData;"
                 Dim oldStrConn As String = HQ.EveHQDataConnectionString
                 ' Set new database connection string
-                HQ.EveHQDataConnectionString = "Server=" & HQ.EveHqSettings.DBServer
-                If HQ.EveHqSettings.DBSQLSecurity = True Then
-                    HQ.EveHQDataConnectionString += "; User ID=" & HQ.EveHqSettings.DBUsername & "; Password=" &
-                                                    HQ.EveHqSettings.DBPassword & ";"
+                HQ.EveHQDataConnectionString = "Server=" & HQ.Settings.DBServer
+                If HQ.Settings.DBSQLSecurity = True Then
+                    HQ.EveHQDataConnectionString += "; User ID=" & HQ.Settings.DBUsername & "; Password=" &
+                                                    HQ.Settings.DBPassword & ";"
                 Else
                     HQ.EveHQDataConnectionString += "; Integrated Security = SSPI;"
                 End If
                 If SetData(strSQL) <> -2 Then
-                    HQ.EveHqSettings.DBDataName = "EveHQData"
+                    HQ.Settings.DBDataName = "EveHQData"
                     HQ.EveHQDataConnectionString = oldStrConn
                     Return True
                 Else
@@ -85,7 +85,7 @@ Public Class DataFunctions
 
     Public Shared Function GetDatabaseTables() As ArrayList
         Dim DBTables As New ArrayList
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
                 conn.ConnectionString = HQ.EveHQDataConnectionString
@@ -130,15 +130,15 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function SetEveHQConnectionString() As Boolean
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
-                If HQ.EveHqSettings.UseAppDirectoryForDB = False Then
-                    HQ.itemDBConnectionString = "Data Source = " & ControlChars.Quote & HQ.EveHqSettings.DBFilename &
+                If HQ.Settings.UseAppDirectoryForDB = False Then
+                    HQ.itemDBConnectionString = "Data Source = " & ControlChars.Quote & HQ.Settings.DBFilename &
                                                 ControlChars.Quote & ";" &
                                                 "Max Database Size = 512; ; Max Buffer Size = 2048;"
                 Else
                     Try
-                        Dim FI As New FileInfo(HQ.EveHqSettings.DBFilename)
+                        Dim FI As New FileInfo(HQ.Settings.DBFilename)
                         HQ.itemDBConnectionString = "Data Source = " & ControlChars.Quote &
                                                     Path.Combine(HQ.appFolder, FI.Name) & ControlChars.Quote & ";" &
                                                     "Max Database Size = 512; Max Buffer Size = 2048;"
@@ -149,13 +149,13 @@ Public Class DataFunctions
                     End Try
                 End If
             Case 1 ' SQL
-                HQ.itemDBConnectionString = "Server=" & HQ.EveHqSettings.DBServer
-                If HQ.EveHqSettings.DBSQLSecurity = True Then
-                    HQ.itemDBConnectionString += "; Database = " & HQ.EveHqSettings.DBName.ToLower & "; User ID=" &
-                                                 HQ.EveHqSettings.DBUsername & "; Password=" &
-                                                 HQ.EveHqSettings.DBPassword & ";"
+                HQ.itemDBConnectionString = "Server=" & HQ.Settings.DBServer
+                If HQ.Settings.DBSQLSecurity = True Then
+                    HQ.itemDBConnectionString += "; Database = " & HQ.Settings.DBName.ToLower & "; User ID=" &
+                                                 HQ.Settings.DBUsername & "; Password=" &
+                                                 HQ.Settings.DBPassword & ";"
                 Else
-                    HQ.itemDBConnectionString += "; Database = " & HQ.EveHqSettings.DBName.ToLower &
+                    HQ.itemDBConnectionString += "; Database = " & HQ.Settings.DBName.ToLower &
                                                  "; Integrated Security = SSPI;"
                 End If
         End Select
@@ -163,15 +163,15 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function SetEveHQDataConnectionString() As Boolean
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
-                If HQ.EveHqSettings.UseAppDirectoryForDB = False Then
+                If HQ.Settings.UseAppDirectoryForDB = False Then
                     HQ.EveHQDataConnectionString = "Data Source = " & ControlChars.Quote &
-                                                   HQ.EveHqSettings.DBDataFilename & ControlChars.Quote & ";" &
+                                                   HQ.Settings.DBDataFilename & ControlChars.Quote & ";" &
                                                    "Max Database Size = 512; Max Buffer Size = 2048;"
                 Else
                     Try
-                        Dim FI As New FileInfo(HQ.EveHqSettings.DBDataFilename)
+                        Dim FI As New FileInfo(HQ.Settings.DBDataFilename)
                         HQ.EveHQDataConnectionString = "Data Source = " & ControlChars.Quote &
                                                        Path.Combine(HQ.appFolder, FI.Name) & ControlChars.Quote & ";" &
                                                        "Max Database Size = 512; Max Buffer Size = 2048;"
@@ -182,13 +182,13 @@ Public Class DataFunctions
                     End Try
                 End If
             Case 1 ' SQL
-                HQ.EveHQDataConnectionString = "Server=" & HQ.EveHqSettings.DBServer
-                If HQ.EveHqSettings.DBSQLSecurity = True Then
-                    HQ.EveHQDataConnectionString += "; Database = " & HQ.EveHqSettings.DBDataName.ToLower & "; User ID=" &
-                                                    HQ.EveHqSettings.DBUsername & "; Password=" &
-                                                    HQ.EveHqSettings.DBPassword & ";"
+                HQ.EveHQDataConnectionString = "Server=" & HQ.Settings.DBServer
+                If HQ.Settings.DBSQLSecurity = True Then
+                    HQ.EveHQDataConnectionString += "; Database = " & HQ.Settings.DBDataName.ToLower & "; User ID=" &
+                                                    HQ.Settings.DBUsername & "; Password=" &
+                                                    HQ.Settings.DBPassword & ";"
                 Else
-                    HQ.EveHQDataConnectionString += "; Database = " & HQ.EveHqSettings.DBDataName.ToLower &
+                    HQ.EveHQDataConnectionString += "; Database = " & HQ.Settings.DBDataName.ToLower &
                                                     "; Integrated Security = SSPI;"
                 End If
         End Select
@@ -196,7 +196,7 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function OpenCustomDatabase() As Boolean
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 customSQLCEConnection = New SqlCeConnection
                 customSQLCEConnection.ConnectionString = HQ.EveHQDataConnectionString
@@ -224,7 +224,7 @@ Public Class DataFunctions
     End Function
 
     Public Shared Function CloseCustomDatabase() As Boolean
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Try
                     If customSQLCEConnection.State = ConnectionState.Open Then
@@ -255,7 +255,7 @@ Public Class DataFunctions
             strSQL = strSQL.Replace(ControlChars.Quote, "'")
             strSQL = strSQL.Replace("=true", "=1")
         End If
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
                 conn.ConnectionString = HQ.itemDBConnectionString
@@ -278,7 +278,7 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim keyCommand As New SqlCommand(strSQL, conn)
-                    keyCommand.CommandTimeout = HQ.EveHqSettings.DBTimeout
+                    keyCommand.CommandTimeout = HQ.Settings.DBTimeout
                     keyCommand.ExecuteNonQuery()
                     Return True
                 Catch e As Exception
@@ -297,7 +297,7 @@ Public Class DataFunctions
 
     Public Shared Function SetData(ByVal strSQL As String) As Integer
         Dim RecordsAffected As Integer = 0
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
                 conn.ConnectionString = HQ.EveHQDataConnectionString
@@ -322,7 +322,7 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim keyCommand As New SqlCommand(strSQL, conn)
-                    keyCommand.CommandTimeout = HQ.EveHqSettings.DBTimeout
+                    keyCommand.CommandTimeout = HQ.Settings.DBTimeout
                     RecordsAffected = keyCommand.ExecuteNonQuery()
                     Return RecordsAffected
                 Catch e As Exception
@@ -343,7 +343,7 @@ Public Class DataFunctions
 
     Public Shared Function SetDataOnly(ByVal strSQL As String) As Integer
         Dim RecordsAffected As Integer = 0
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Try
                     Dim keyCommand As New SqlCeCommand(strSQL, customSQLCEConnection)
@@ -358,7 +358,7 @@ Public Class DataFunctions
             Case 1 ' MSSQL
                 Try
                     Dim keyCommand As New SqlCommand(strSQL, customSQLConnection)
-                    keyCommand.CommandTimeout = HQ.EveHqSettings.DBTimeout
+                    keyCommand.CommandTimeout = HQ.Settings.DBTimeout
                     RecordsAffected = keyCommand.ExecuteNonQuery()
                     Return RecordsAffected
                 Catch e As Exception
@@ -385,7 +385,7 @@ Public Class DataFunctions
             strSQL = strSQL.Replace("=true", "=1")
         End If
 
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
                 conn.ConnectionString = HQ.itemDBConnectionString
@@ -397,9 +397,9 @@ Public Class DataFunctions
                     Return EveHQData
                 Catch e As Exception
                     Dim msg As New StringBuilder
-                    msg.AppendLine("Database1: " & HQ.EveHqSettings.DBFilename)
-                    msg.AppendLine("Database2: " & HQ.EveHqSettings.DBDataFilename)
-                    msg.AppendLine("Using App: " & HQ.EveHqSettings.UseAppDirectoryForDB.ToString)
+                    msg.AppendLine("Database1: " & HQ.Settings.DBFilename)
+                    msg.AppendLine("Database2: " & HQ.Settings.DBDataFilename)
+                    msg.AppendLine("Using App: " & HQ.Settings.UseAppDirectoryForDB.ToString)
                     msg.AppendLine("Connection String: " & conn.ConnectionString)
                     msg.AppendLine("SQL: " & strSQL)
                     msg.AppendLine("Message: " & e.Message)
@@ -419,7 +419,7 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim da As New SqlDataAdapter(strSQL, conn)
-                    da.SelectCommand.CommandTimeout = HQ.EveHqSettings.DBTimeout
+                    da.SelectCommand.CommandTimeout = HQ.Settings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
@@ -443,7 +443,7 @@ Public Class DataFunctions
         EveHQData.Clear()
         EveHQData.Tables.Clear()
 
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
                 conn.ConnectionString = HQ.EveHQDataConnectionString
@@ -467,7 +467,7 @@ Public Class DataFunctions
                 Try
                     conn.Open()
                     Dim da As New SqlDataAdapter(strSQL, conn)
-                    da.SelectCommand.CommandTimeout = HQ.EveHqSettings.DBTimeout
+                    da.SelectCommand.CommandTimeout = HQ.Settings.DBTimeout
                     da.Fill(EveHQData, "EveHQData")
                     conn.Close()
                     Return EveHQData
@@ -854,10 +854,10 @@ Public Class DataFunctions
 
     Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Dictionary(Of String, Double))
         If metric = MarketMetric.Default Then
-            metric = HQ.EveHqSettings.MarketDefaultMetric
+            metric = HQ.Settings.MarketDefaultMetric
         End If
         If transType = MarketTransactionKind.Default Then
-            transType = HQ.EveHqSettings.MarketDefaultTransactionType
+            transType = HQ.Settings.MarketDefaultTransactionType
         End If
 
         Dim dataTask As Task(Of IEnumerable(Of ItemOrderStats))
@@ -876,10 +876,10 @@ Public Class DataFunctions
 
                 If (itemIdNumbersToRequest.Any()) Then
                     'Fetch all the item prices in a single request
-                    If HQ.EveHqSettings.MarketUseRegionMarket Then
-                        dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+                    If HQ.Settings.MarketUseRegionMarket Then
+                        dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, HQ.Settings.MarketRegions, Nothing, 1)
                     Else
-                        dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+                        dataTask = HQ.MarketStatDataProvider.GetOrderStats(itemIdNumbersToRequest, Nothing, HQ.Settings.MarketSystem, 1)
                     End If
 
                     ' Still need to do this in a synchronous fashion...unfortunately
@@ -952,7 +952,7 @@ Public Class DataFunctions
                             Dim itemTransKind As MarketTransactionKind = transType
                             ' check to see if the item has a configured overrided for metric and trans type
                             Dim override As New ItemMarketOverride
-                            If (HQ.EveHqSettings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
+                            If (HQ.Settings.MarketStatOverrides.TryGetValue(itemResult.ItemTypeId, override)) Then
                                 itemMetric = override.MarketStat
                                 itemTransKind = override.TransactionType
                             End If
@@ -1412,12 +1412,12 @@ Public Class DataFunctions
             ProcessOrder = True
             If oType = 0 Then ' Sell Order
                 If _
-                    HQ.EveHqSettings.IgnoreSellOrders = True And
-                    oPrice > (HQ.EveHqSettings.IgnoreSellOrderLimit * HQ.itemData(oTypeID.ToString).BasePrice) Then
+                    HQ.Settings.IgnoreSellOrders = True And
+                    oPrice > (HQ.Settings.IgnoreSellOrderLimit * HQ.itemData(oTypeID.ToString).BasePrice) Then
                     ProcessOrder = False
                 End If
             Else ' Buy Order
-                If HQ.EveHqSettings.IgnoreBuyOrders = True And oPrice < HQ.EveHqSettings.IgnoreBuyOrderLimit Then
+                If HQ.Settings.IgnoreBuyOrders = True And oPrice < HQ.Settings.IgnoreBuyOrderLimit Then
                     ProcessOrder = False
                 End If
             End If
@@ -1845,7 +1845,7 @@ Public Class DataFunctions
                     HQ.WriteLogEvent("Requesting ID List From the API: " & strID.ToString)
                     Dim _
                         APIReq As _
-                            New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
+                            New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,
                                               HQ.cacheFolder)
                     Dim IDXML As XmlDocument = APIReq.GetAPIXML(APITypes.IDToName, strID.ToString,
                                                                 APIReturnMethods.ReturnActual)
@@ -1902,15 +1902,15 @@ Public Class DataFunctions
         End If
     End Sub
 
-    Public Shared Function WriteMailingListIDsToDatabase(ByVal mPilot As Pilot) As SortedList(Of Long, String)
+    Public Shared Function WriteMailingListIDsToDatabase(ByVal mPilot As EveHQPilot) As SortedList(Of Long, String)
         Dim FinalIDs As New SortedList(Of Long, String)
         Dim accountName As String = mPilot.Account
         If accountName <> "" Then
-            Dim mAccount As EveAccount = CType(HQ.EveHqSettings.Accounts.Item(accountName), EveAccount)
+            Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
             ' Send this to the API
             Dim _
                 APIReq As _
-                    New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
+                    New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,
                                       HQ.cacheFolder)
             Dim IDXML As XmlDocument = APIReq.GetAPIXML(APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID,
                                                         APIReturnMethods.ReturnStandard)
@@ -1946,9 +1946,9 @@ Public Class DataFunctions
 
     Public Shared Function CheckDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
         Dim strConnection As String = ""
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
-                strConnection = "Data Source = " & ControlChars.Quote & HQ.EveHqSettings.DBFilename & ControlChars.Quote &
+                strConnection = "Data Source = " & ControlChars.Quote & HQ.Settings.DBFilename & ControlChars.Quote &
                                 ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Dim connection As New SqlCeConnection(strConnection)
                 Try
@@ -1967,12 +1967,12 @@ Public Class DataFunctions
                     Return False
                 End Try
             Case 1 ' SQL
-                strConnection = "Server=" & HQ.EveHqSettings.DBServer
-                If HQ.EveHqSettings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & HQ.EveHqSettings.DBName & "; User ID=" &
-                                     HQ.EveHqSettings.DBUsername & "; Password=" & HQ.EveHqSettings.DBPassword & ";"
+                strConnection = "Server=" & HQ.Settings.DBServer
+                If HQ.Settings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & HQ.Settings.DBName & "; User ID=" &
+                                     HQ.Settings.DBUsername & "; Password=" & HQ.Settings.DBPassword & ";"
                 Else
-                    strConnection += "; Database = " & HQ.EveHqSettings.DBName & "; Integrated Security = SSPI;"
+                    strConnection += "; Database = " & HQ.Settings.DBName & "; Integrated Security = SSPI;"
                 End If
                 Dim connection As New SqlConnection(strConnection)
                 Try
@@ -1995,9 +1995,9 @@ Public Class DataFunctions
 
     Public Shared Function CheckDataDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
         Dim strConnection As String = ""
-        Select Case HQ.EveHqSettings.DBFormat
+        Select Case HQ.Settings.DBFormat
             Case 0 ' SQL CE
-                strConnection = "Data Source = " & ControlChars.Quote & HQ.EveHqSettings.DBDataFilename &
+                strConnection = "Data Source = " & ControlChars.Quote & HQ.Settings.DBDataFilename &
                                 ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
                 Dim connection As New SqlCeConnection(strConnection)
                 Try
@@ -2016,12 +2016,12 @@ Public Class DataFunctions
                     Return False
                 End Try
             Case 1 ' SQL
-                strConnection = "Server=" & HQ.EveHqSettings.DBServer
-                If HQ.EveHqSettings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & HQ.EveHqSettings.DBDataName & "; User ID=" &
-                                     HQ.EveHqSettings.DBUsername & "; Password=" & HQ.EveHqSettings.DBPassword & ";"
+                strConnection = "Server=" & HQ.Settings.DBServer
+                If HQ.Settings.DBSQLSecurity = True Then
+                    strConnection += "; Database = " & HQ.Settings.DBDataName & "; User ID=" &
+                                     HQ.Settings.DBUsername & "; Password=" & HQ.Settings.DBPassword & ";"
                 Else
-                    strConnection += "; Database = " & HQ.EveHqSettings.DBDataName & "; Integrated Security = SSPI;"
+                    strConnection += "; Database = " & HQ.Settings.DBDataName & "; Integrated Security = SSPI;"
                 End If
                 Dim connection As New SqlConnection(strConnection)
                 Try
@@ -2116,7 +2116,7 @@ Public Class DataFunctions
         Dim stationXML As New XmlDocument
         Dim _
             APIReq As _
-                New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
+                New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension,
                                   HQ.cacheFolder)
         stationXML = APIReq.GetAPIXML(APITypes.Conquerables, APIReturnMethods.ReturnStandard)
         If stationXML IsNot Nothing Then

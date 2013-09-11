@@ -86,9 +86,9 @@ Public Class DBCSkillQueueInfoConfig
     Private Sub UpdateQueueList()
         cboSkillQueue.BeginUpdate()
         cboSkillQueue.Items.Clear()
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilots.SelectedItem.ToString) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
-            For Each sq As EveHQ.Core.SkillQueue In cPilot.TrainingQueues.Values
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+            Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+            For Each sq As EveHQ.Core.EveHQSkillQueue In cPilot.TrainingQueues.Values
                 cboSkillQueue.Items.Add(sq.Name)
             Next
             cboSkillQueue.EndUpdate()

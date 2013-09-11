@@ -51,7 +51,7 @@ Public Class frmBCBrowser
         ' Add the current list of pilots to the combobox
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -591,14 +591,14 @@ Public Class frmBCBrowser
                 sModule = currentFitting.FittedShip.SubSlot(CInt(slotInfo(1)))
         End Select
         Dim showInfo As New frmShowInfo
-        Dim hPilot As EveHQ.Core.Pilot
+        Dim hPilot As EveHQ.Core.EveHQPilot
         If cboPilots.SelectedItem IsNot Nothing Then
-            hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem), Core.Pilot)
+            hPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
         Else
-            If EveHQ.Core.HQ.EveHqSettings.StartupPilot <> "" Then
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(EveHQ.Core.HQ.EveHqSettings.StartupPilot), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.StartupPilot <> "" Then
+                hPilot = EveHQ.Core.HQ.Settings.Pilots(EveHQ.Core.HQ.Settings.StartupPilot)
             Else
-                hPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(1), Core.Pilot)
+                hPilot = EveHQ.Core.HQ.Settings.Pilots.Values(0)
             End If
         End If
         showInfo.ShowItemDetails(sModule, hPilot)

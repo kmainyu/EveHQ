@@ -293,12 +293,12 @@ Public Class frmMarketPrices
         Dim statstask As Task(Of IEnumerable(Of ItemOrderStats))
         Dim statItems As New List(Of Integer)
         statItems.Add(itemId)
-        If (HQ.EveHqSettings.MarketUseRegionMarket) = True Then
-            orderTask = HQ.MarketOrderDataProvider.GetMarketOrdersForItemType(itemId, HQ.EveHqSettings.MarketRegions, Nothing, 1)
-            statstask = HQ.MarketStatDataProvider.GetOrderStats(statItems, HQ.EveHqSettings.MarketRegions, Nothing, 1)
+        If (HQ.Settings.MarketUseRegionMarket) = True Then
+            orderTask = HQ.MarketOrderDataProvider.GetMarketOrdersForItemType(itemId, HQ.Settings.MarketRegions, Nothing, 1)
+            statstask = HQ.MarketStatDataProvider.GetOrderStats(statItems, HQ.Settings.MarketRegions, Nothing, 1)
         Else
-            orderTask = HQ.MarketOrderDataProvider.GetMarketOrdersForItemType(itemId, Nothing, HQ.EveHqSettings.MarketSystem, 1)
-            statstask = HQ.MarketStatDataProvider.GetOrderStats(statItems, Nothing, HQ.EveHqSettings.MarketSystem, 1)
+            orderTask = HQ.MarketOrderDataProvider.GetMarketOrdersForItemType(itemId, Nothing, HQ.Settings.MarketSystem, 1)
+            statstask = HQ.MarketStatDataProvider.GetOrderStats(statItems, Nothing, HQ.Settings.MarketSystem, 1)
         End If
 
         Dim orderContinuation As Action(Of Task(Of ItemMarketOrders)) = Sub(dataTask As Task(Of ItemMarketOrders))

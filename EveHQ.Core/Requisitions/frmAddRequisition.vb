@@ -133,14 +133,14 @@ Public Class frmAddRequisition
 	Private Sub LoadRequestors()
 		cboRequestor.BeginUpdate()
 		cboRequestor.Items.Clear()
-		For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
-			If cPilot.Active = True Then
-				cboRequestor.Items.Add(cPilot.Name)
-				If cboRequestor.Items.Contains(cPilot.Corp) = False Then
-					cboRequestor.Items.Add(cPilot.Corp)
-				End If
-			End If
-		Next
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            If cPilot.Active = True Then
+                cboRequestor.Items.Add(cPilot.Name)
+                If cboRequestor.Items.Contains(cPilot.Corp) = False Then
+                    cboRequestor.Items.Add(cPilot.Corp)
+                End If
+            End If
+        Next
 		cboRequestor.EndUpdate()
 	End Sub
 

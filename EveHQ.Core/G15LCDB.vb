@@ -39,10 +39,10 @@ Public Class G15LCDB
     '            Call EveHQ.Core.HQ.EveHQLCD.SelectNextChar()
     '        Case 2
     '            ' Button 2
-    '            If EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False Then
-    '                EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = True
+    '            If EveHQ.Core.HQ.Settings.CycleG15Pilots = False Then
+    '                EveHQ.Core.HQ.Settings.CycleG15Pilots = True
     '            Else
-    '                EveHQ.Core.HQ.EveHQSettings.CycleG15Pilots = False
+    '                EveHQ.Core.HQ.Settings.CycleG15Pilots = False
     '            End If
     '            Select Case EveHQ.Core.HQ.lcdCharMode
     '                Case 0

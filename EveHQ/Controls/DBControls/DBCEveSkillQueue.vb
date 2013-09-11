@@ -31,7 +31,7 @@ Public Class DBCEveSkillQueue
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
         cboPilot.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If pilot.Active = True Then
                 cboPilot.Items.Add(pilot.Name)
             End If
@@ -61,8 +61,8 @@ Public Class DBCEveSkillQueue
         End Get
         Set(ByVal value As String)
             cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(DefaultPilotName), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                _pilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
             End If
             If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
             If ReadConfig = False Then
@@ -75,13 +75,13 @@ Public Class DBCEveSkillQueue
 #End Region
 
 #Region "Class Variables"
-    Dim cPilot As EveHQ.Core.Pilot
+    Dim _pilot As EveHQ.Core.EveHQPilot
 #End Region
 
 #Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+            _pilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
             Call Me.UpdatePilotInfo()
             ' Start the skill timer
             tmrSkill.Enabled = True
@@ -97,7 +97,7 @@ Public Class DBCEveSkillQueue
     End Sub
 
     Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
-        frmPilot.DisplayPilotName = cPilot.Name
+        frmPilot.DisplayPilotName = _pilot.Name
         frmEveHQ.OpenPilotInfoForm()
     End Sub
 

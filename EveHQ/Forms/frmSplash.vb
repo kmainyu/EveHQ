@@ -301,7 +301,7 @@ Public Class frmSplash
         lblStatus.Text = "> Loading settings..."
         lblStatus.Refresh()
         EveHQ.Core.HQ.Settings = EveHQ.Core.EveHQSettings.Load(False)
-        Do While EveHQ.Core.EveHQSettingsFunctions.LoadSettings(False) = False
+        Do While EveHQ.Core.HQ.Settings IsNot Nothing
             ' Ask if we want to check for a database
             Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
             msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
@@ -315,6 +315,7 @@ Public Class frmSplash
             settingsForm.Tag = "nodeDatabaseFormat"
             settingsForm.ShowDialog()
             settingsForm.Dispose()
+            EveHQ.Core.HQ.Settings = EveHQ.Core.EveHQSettings.Load(False)
         Loop
         EveHQ.Core.HQ.WriteLogEvent("End: Loading settings")
 
@@ -326,7 +327,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("End: Enumerate widgets")
 
         ' Check for server messages (only if auto-web connections enabled)
-        If EveHQ.Core.HQ.EveHqSettings.DisableAutoWebConnections = False Then
+        If EveHQ.Core.HQ.Settings.DisableAutoWebConnections = False Then
             EveHQ.Core.HQ.WriteLogEvent("Start: Server Message Thread")
             lblStatus.Text = "> Fetching messages..."
             lblStatus.Refresh()
@@ -340,7 +341,7 @@ Public Class frmSplash
 
         ' Determine the visual style
         EveHQ.Core.HQ.WriteLogEvent("Start: Process Visual Styles")
-        If EveHQ.Core.HQ.EveHqSettings.DisableVisualStyles = True Then
+        If EveHQ.Core.HQ.Settings.DisableVisualStyles = True Then
             Application.VisualStyleState = VisualStyles.VisualStyleState.NoneEnabled
         Else
             Application.VisualStyleState = VisualStyles.VisualStyleState.ClientAndNonClientAreasEnabled
@@ -349,7 +350,7 @@ Public Class frmSplash
 
         ' Start the G15 if applicable
         EveHQ.Core.HQ.WriteLogEvent("Start: Activate G15")
-        If EveHQ.Core.HQ.EveHqSettings.ActivateG15 = True Then
+        If EveHQ.Core.HQ.Settings.ActivateG15 = True Then
             'Init the LCD
             Try
                 Core.G15LCDv2.InitLCD()
@@ -359,29 +360,29 @@ Public Class frmSplash
                 MessageBox.Show("Unable to start G15 Display. Please ensure you have the keyboard and drivers correctly installed.", "Error Starting G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 ' Check if the LCD will cycle chars
-                If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True Then
-                    Core.G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHqSettings.CycleG15Time)
+                If EveHQ.Core.HQ.Settings.CycleG15Pilots = True Then
+                    Core.G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.Settings.CycleG15Time)
                     Core.G15LCDv2.tmrLCDChar.Enabled = True
                 End If
             End If
         End If
         ' Activate the lcdPilot
-        EveHQ.Core.HQ.lcdPilot = EveHQ.Core.HQ.EveHqSettings.StartupPilot
+        EveHQ.Core.HQ.lcdPilot = EveHQ.Core.HQ.Settings.StartupPilot
         EveHQ.Core.HQ.WriteLogEvent("End: Activate G15")
 
         ' Force DBDataDirectory location if using SQL CE
         EveHQ.Core.HQ.WriteLogEvent("Start: Set data directory")
-        If EveHQ.Core.HQ.EveHqSettings.DBFormat = 0 And EveHQ.Core.HQ.EveHqSettings.DBDataFilename <> Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf") Then
+        If EveHQ.Core.HQ.Settings.DBFormat = 0 And EveHQ.Core.HQ.Settings.DBDataFilename <> Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf") Then
 
-            If EveHQ.Core.HQ.EveHqSettings.DBDataFilename = "" Then
-                EveHQ.Core.HQ.EveHqSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf")
+            If EveHQ.Core.HQ.Settings.DBDataFilename = "" Then
+                EveHQ.Core.HQ.Settings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf")
             End If
 
             ' ***** Check if we need to upgrade the database from v1 (MDB) to v2 (SQLCE)
 
             Dim UpgradeDB As Boolean = False
-            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHqSettings.DBDataFilename) Then
-                Dim DBFI As New FileInfo(EveHQ.Core.HQ.EveHqSettings.DBDataFilename)
+            If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.Settings.DBDataFilename) Then
+                Dim DBFI As New FileInfo(EveHQ.Core.HQ.Settings.DBDataFilename)
                 If DBFI.Extension = ".mdb" Then
                     ' Just check this is a valid MDB that requires a conversion
                     ' ***** Doesn't work on 64-bit windows with 64-bit processes, need to check for this and run the custom upgrade app
@@ -402,7 +403,7 @@ Public Class frmSplash
                         ' Check for MDB file on Win32 OS
                         Dim ValidMDB As Boolean = True
                         Dim MDBConnection As OleDbConnection = New OleDbConnection
-                        MDBConnection.ConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.EveHqSettings.DBDataFilename
+                        MDBConnection.ConnectionString = "PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source = " & EveHQ.Core.HQ.Settings.DBDataFilename
                         Try
                             MDBConnection.Open()
                         Catch ex As Exception
@@ -421,7 +422,7 @@ Public Class frmSplash
 
             ' We don't need to relocate the DB if we've upgraded
 
-            Dim oldLocation As String = EveHQ.Core.HQ.EveHqSettings.DBDataFilename
+            Dim oldLocation As String = EveHQ.Core.HQ.Settings.DBDataFilename
             Dim newLocation As String = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf")
             If UpgradeDB = False Then
                 If My.Computer.FileSystem.FileExists(oldLocation) = True And oldLocation <> newLocation Then
@@ -451,7 +452,7 @@ Public Class frmSplash
                 End Try
             End If
         End If
-        EveHQ.Core.HQ.EveHqSettings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf")
+        EveHQ.Core.HQ.Settings.DBDataFilename = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQData.sdf")
         Call EveHQ.Core.DataFunctions.SetEveHQDataConnectionString()
         EveHQ.Core.HQ.WriteLogEvent("End: Set data directory")
 
@@ -459,9 +460,9 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Check custom database")
         lblStatus.Text = "> Checking custom data..."
         lblStatus.Refresh()
-        Select Case EveHQ.Core.HQ.EveHqSettings.DBFormat
+        Select Case EveHQ.Core.HQ.Settings.DBFormat
             Case EveHQ.Core.DatabaseFormat.SQLCE
-                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.EveHqSettings.DBDataFilename) = False Then
+                If My.Computer.FileSystem.FileExists(EveHQ.Core.HQ.Settings.DBDataFilename) = False Then
                     ' Looks like it hasn't been set so let's create it - but inform the user
                     Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
                     msg &= "This database will be used to store EveHQ specific data such as market prices and financial data." & ControlChars.CrLf
@@ -488,9 +489,9 @@ Public Class frmSplash
                     End If
                 End If
             Case EveHQ.Core.DatabaseFormat.SQL
-                If EveHQ.Core.HQ.EveHqSettings.DBDataName <> "EveHQData" Then
+                If EveHQ.Core.HQ.Settings.DBDataName <> "EveHQData" Then
                     ' Setting is blank but let's just check for the DB anyway in case it's already there.
-                    EveHQ.Core.HQ.EveHqSettings.DBDataName = "EveHQData"
+                    EveHQ.Core.HQ.Settings.DBDataName = "EveHQData"
                     If EveHQ.Core.DataFunctions.CheckDataDatabaseConnection(True) = False Then
                         ' Looks like it hasn't been set so let's create it - but inform the user
                         Dim msg As String = "EveHQ has detected that the new storage database is not initialised." & ControlChars.CrLf
@@ -532,7 +533,7 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Customise database")
         lblStatus.Text = "> Checking database..."
         lblStatus.Refresh()
-        If EveHQ.Core.HQ.EveHqSettings.DBFormat = 1 Or EveHQ.Core.HQ.EveHqSettings.DBFormat = 2 Then
+        If EveHQ.Core.HQ.Settings.DBFormat = 1 Or EveHQ.Core.HQ.Settings.DBFormat = 2 Then
             Dim strSQL As String = "SELECT attributeGroup FROM dgmAttributeTypes"
             Dim testData As Data.DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
             If testData Is Nothing Then
@@ -571,8 +572,8 @@ Public Class frmSplash
         If EveHQ.Core.PilotParseFunctions.LoadKeySkills() = False Then
             Dim msg As String = "There was an error parsing your character skill data. This will be reset. Please connect to the API to download the latest data."
             MessageBox.Show(msg, "Error Parsing Pilot Skills", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            For Each rPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
-                rPilot.PilotSkills = New Collection
+            For Each rPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+                rPilot.PilotSkills = New Dictionary(Of String, Core.EveHQPilotSkill)
                 rPilot.SkillPoints = 0
             Next
         End If
@@ -606,7 +607,7 @@ Public Class frmSplash
 
         ' Check if we need to start the market watcher
         EveHQ.Core.HQ.WriteLogEvent("Start: Enable Market Data Uploader")
-        If EveHQ.Core.HQ.EveHqSettings.MarketDataUploadEnabled = True Then
+        If EveHQ.Core.HQ.Settings.MarketDataUploadEnabled = True Then
             Core.HQ.MarketCacheUploader.Start()
         Else
             Core.HQ.MarketCacheUploader.Stop() ' It should be stopped already, but never hurts to set it so again.
@@ -674,11 +675,11 @@ Public Class frmSplash
                                 EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
                                 EveHQPlugIn.Instance = myPlugIn
                                 ' Get status of plug-ins from settings (should already exist!)
-                                If EveHQ.Core.HQ.EveHqSettings.Plugins.Contains(EveHQPlugIn.Name) = True Then
-                                    Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.EveHqSettings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
+                                If EveHQ.Core.HQ.Settings.Plugins.Contains(EveHQPlugIn.Name) = True Then
+                                    Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.Settings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
                                     EveHQPlugIn.Disabled = oldPlugIn.Disabled
                                     EveHQPlugIn.Available = True
-                                    EveHQ.Core.HQ.EveHqSettings.Plugins.Remove(EveHQPlugIn.Name)
+                                    EveHQ.Core.HQ.Settings.Plugins.Remove(EveHQPlugIn.Name)
                                 Else
                                     ' If not listed, it must be new
                                     EveHQPlugIn.Disabled = False
@@ -689,7 +690,7 @@ Public Class frmSplash
                                     EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
                                 End If
                                 EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
-                                EveHQ.Core.HQ.EveHqSettings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
+                                EveHQ.Core.HQ.Settings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
                             End If
                         End If
                     Next
@@ -755,7 +756,7 @@ Public Class frmSplash
     Private Function FetchMessageXML() As XmlDocument
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As Cache.HttpRequestCachePolicy = New Cache.HttpRequestCachePolicy(Cache.HttpRequestCacheLevel.NoCacheNoStore)
-        Dim UpdateServer As String = EveHQ.Core.HQ.EveHqSettings.UpdateURL
+        Dim UpdateServer As String = EveHQ.Core.HQ.Settings.UpdateURL
         Dim remoteURL As String = UpdateServer & "_message.xml"
         Dim webdata As String = ""
         Dim UpdateXML As New XmlDocument

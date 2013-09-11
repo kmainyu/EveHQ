@@ -31,14 +31,14 @@ Public Class Reports
 
     Shared eveData As DataSet
 
-    Public Shared Function HTMLCharacterDetails(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function HTMLCharacterDetails(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
 
         Dim strHTML As String = ""
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = "0"
         Dim currentTime As String = "0"
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rpilot))
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rpilot))
         End If
@@ -132,14 +132,14 @@ Public Class Reports
 
     End Function
 
-    Public Shared Function TextCharacterDetails(ByVal reportTitle As String, ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextCharacterDetails(ByVal reportTitle As String, ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
         Dim tmpText As String = ""
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = "0"
         Dim currentTime As String = "0"
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rpilot))
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rpilot))
         End If
@@ -168,14 +168,14 @@ Public Class Reports
         Return strText.ToString
     End Function
 
-    Public Shared Function PHPBBCharacterDetails(ByVal reportTitle As String, ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function PHPBBCharacterDetails(ByVal reportTitle As String, ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
         Dim tmpText As String = ""
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = "0"
         Dim currentTime As String = "0"
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rpilot))
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rpilot))
         End If
@@ -205,7 +205,7 @@ Public Class Reports
     End Function
 
 
-    Public Shared Function XMLImplantDetails(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function XMLImplantDetails(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strXML As String = ""
         Dim tabs(10) As String
         For tab As Integer = 1 To 10
@@ -260,7 +260,7 @@ Public Class Reports
 
 #Region "Character Sheet Report"
 
-    Public Shared Sub GenerateCharSheet(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateCharSheet(ByVal rpilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Character Sheet - " & rpilot.Name)
@@ -279,14 +279,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function CharacterSheet(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function CharacterSheet(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -294,7 +294,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
             groupCount += 1
@@ -302,8 +302,8 @@ Public Class Reports
             Dim skillCount As Long = 0
             Dim SPCount As Long = 0
             ' Collect skills
-            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
-            For Each cSkill In rpilot.PilotSkills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.EveHQPilotSkill)
+            For Each cSkill In rpilot.PilotSkills.Values
                 repSkills.Add(cSkill.Name, cSkill)
             Next
             For Each cSkill In repSkills.Values
@@ -368,7 +368,7 @@ Public Class Reports
 #End Region
 
 #Region "Skill Levels Report"
-    Public Shared Sub GenerateSkillLevels(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateSkillLevels(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Skill Levels - " & rPilot.Name)
@@ -387,23 +387,22 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function SkillLevels(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function SkillLevels(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As String
-        Dim curSkill As EveHQ.Core.PilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill As EveHQPilotSkill In rpilot.PilotSkills.Values
             sortSkill(count, 0) = curSkill.ID
             sortSkill(count, 1) = curSkill.Name
             count += 1
@@ -438,10 +437,10 @@ Public Class Reports
             Dim TotalTime As Double = 0
             Dim i As Integer
             For i = 0 To tagArray.Length - 1
-                Dim cskill As EveHQ.Core.PilotSkill
+                Dim cskill As EveHQ.Core.EveHQPilotSkill
                 Dim askill As EveHQ.Core.EveSkill
                 askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                cskill = rpilot.PilotSkills(askill.Name)
                 If cskill.Level >= CDbl(repGroup(groupCount, 1)) And cskill.Level <= CDbl(repGroup(groupCount, 2)) Then
                     skillCount += 1
                     SPCount += cskill.SP
@@ -509,7 +508,7 @@ Public Class Reports
 #End Region
 
 #Region "Training Time Report"
-    Public Shared Sub GenerateTrainingTime(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTrainingTime(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Training Times - " & rPilot.Name)
@@ -528,23 +527,22 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TrainingTime(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TrainingTime(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.PilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill As EveHQPilotSkill In rpilot.PilotSkills.Values
             ' Determine if the skill is being trained
             If rpilot.Training = True Then
                 If curSkill.ID = rpilot.TrainingSkillID Then
@@ -599,10 +597,10 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim cskill As EveHQ.Core.PilotSkill
+                    Dim cskill As EveHQ.Core.EveHQPilotSkill
                     Dim askill As EveHQ.Core.EveSkill
                     askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                    cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                    cskill = rpilot.PilotSkills(askill.Name)
                     skillCount += 1
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0)
                     SPCount += cskill.SP
@@ -672,7 +670,7 @@ Public Class Reports
 #End Region
 
 #Region "Skills Not Trained Report"
-    Public Shared Sub GenerateSkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateSkillsNotTrained(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Skills Not Trained - " & rPilot.Name)
@@ -689,14 +687,14 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function SkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot) As String
+    Public Shared Function SkillsNotTrained(ByVal rPilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rPilot.Training = True Then
-            currentSkill = CType(rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID))
             currentSP = CStr(rPilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rPilot.TrainingCurrentTime)
         End If
@@ -707,7 +705,7 @@ Public Class Reports
         Dim redTime As Long = 0
         For Each curSkill In EveHQ.Core.HQ.SkillListID.Values
             If curSkill.Published = True Then
-                If rPilot.PilotSkills.Contains(curSkill.Name) = False Then
+                If rPilot.PilotSkills.ContainsKey(curSkill.Name) = False Then
                     ' Determine if the skill is being trained
                     sortSkill(count, 1) = CLng(EveHQ.Core.SkillFunctions.TimeBeforeCanTrain(rPilot, curSkill.ID))
                     sortSkill(count, 0) = CLng(curSkill.ID)
@@ -820,7 +818,7 @@ Public Class Reports
 #End Region
 
 #Region "Time to Level 5 Report"
-    Public Shared Sub GenerateTimeToLevel5(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTimeToLevel5(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Time To Level 5 - " & rPilot.Name)
@@ -839,23 +837,22 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TimeToLevel5(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TimeToLevel5(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.PilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill As EveHQPilotSkill In rpilot.PilotSkills.Values
             ' Determine if the skill is being trained
             If rpilot.Training = True Then
                 sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(curSkill.Name), 5) - redTime, 0))
@@ -906,10 +903,10 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim cskill As EveHQ.Core.PilotSkill
+                    Dim cskill As EveHQ.Core.EveHQPilotSkill
                     Dim askill As EveHQ.Core.EveSkill
                     askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                    cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                    cskill = rpilot.PilotSkills(askill.Name)
                     skillCount += 1
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 5)
                     SPCount += cskill.SP
@@ -972,13 +969,13 @@ Public Class Reports
 
 #Region "Pilot XML Reports"
 
-    Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateCharXML(ByVal rPilot As EveHQ.Core.EveHQPilot)
         Dim cXML As New XmlDocument
         cXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
         cXML.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
     End Sub
 
-    Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTrainXML(ByVal rPilot As EveHQ.Core.EveHQPilot)
         Dim tXML As New XmlDocument
         tXML.Load(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & rPilot.Account & "_" & rPilot.ID & ".xml"))
         tXML.Save(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
@@ -988,7 +985,7 @@ Public Class Reports
 
 #Region "Training Queue Report"
 
-    Public Shared Sub GenerateTrainQueue(ByVal rPilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue)
+    Public Shared Sub GenerateTrainQueue(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
@@ -1007,14 +1004,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TrainQueue(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
+    Public Shared Function TrainQueue(ByVal rpilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue) As String
         Dim strHTML As String = ""
         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -1059,7 +1056,7 @@ Public Class Reports
 #End Region
 
 #Region "Shopping List Reports"
-    Public Shared Sub GenerateShoppingList(ByVal rPilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue)
+    Public Shared Sub GenerateShoppingList(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
@@ -1078,14 +1075,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function ShoppingList(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
+    Public Shared Function ShoppingList(ByVal rpilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue) As String
         Dim strHTML As String = ""
         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -1100,7 +1097,7 @@ Public Class Reports
         For skill As Integer = 0 To arrQueue.Count - 1
             Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), SortedQueueItem)
             Dim skillName As String = qItem.Name
-            If rpilot.PilotSkills.Contains(skillName) = False Then
+            If rpilot.PilotSkills.ContainsKey(skillName) = False Then
                 If skillPriceList.Contains(skillName) = False Then
                     skillPriceList.Add(skillName)
                 End If
@@ -1127,7 +1124,7 @@ Public Class Reports
 
 #Region "Skills Available Report"
 
-    Public Shared Sub GenerateSkillsAvailable(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateSkillsAvailable(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Skills Available To Train - " & rPilot.Name)
@@ -1146,13 +1143,13 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function SkillsAvailable(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function SkillsAvailable(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -1167,13 +1164,13 @@ Public Class Reports
         Dim trainable As Boolean = False
         For Each skill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListName.Values
             trainable = False
-            If rpilot.PilotSkills.Contains(skill.Name) = False And skill.Published = True Then
+            If rpilot.PilotSkills.ContainsKey(skill.Name) = False And skill.Published = True Then
                 trainable = True
                 For Each preReq As String In skill.PreReqSkills.Keys
                     If skill.PreReqSkills(preReq) <> 0 Then
                         Dim ps As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(preReq)
-                        If rpilot.PilotSkills.Contains(ps.Name) = True Then
-                            Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
+                        If rpilot.PilotSkills.ContainsKey(ps.Name) = True Then
+                            Dim psp As EveHQ.Core.EveHQPilotSkill = rpilot.PilotSkills(ps.Name)
                             If psp.Level < skill.PreReqSkills(preReq) Then
                                 trainable = False
                                 Exit For
@@ -1734,12 +1731,10 @@ Public Class Reports
     End Sub
     Public Shared Function CharSummary() As String
         Dim strHTML As String = ""
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-        Dim currentSP As String = "0"
+       Dim currentSP As String = "0"
         Dim currentTime As String = "n/a"
         Dim totalIsk As Double = 0
 
-        Dim rPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
         strHTML &= "<table width=800px align=center cellspacing=0 cellpadding=0>"
         strHTML &= "</tr>"
         strHTML &= "<td class=thead width=70px></td>"
@@ -1750,12 +1745,12 @@ Public Class Reports
         strHTML &= "<td class=thead width=150px align=right>Current Training</td>"
         strHTML &= "<tr>"
         Dim sortedPilots As New SortedList
-        For Each rPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each rPilot As EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If rPilot.Active = True Then
                 sortedPilots.Add(rPilot.Name, rPilot)
             End If
         Next
-        For Each rPilot In sortedPilots.Values
+        For Each rPilot As EveHQPilot In sortedPilots.Values
             If rPilot.Active = True Then
                 strHTML &= "<tr height=75px>"
                 strHTML &= "<td width=70px><img src='http://image.eveonline.com/Character/" & rPilot.ID & "_256.jpg' style='border:0px;width:64px;height:64px;' alt='" & rPilot.Name & "'></td>"
@@ -1768,7 +1763,7 @@ Public Class Reports
                     currentSP = CStr(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(rPilot))
                     currentTime = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(rPilot))
                     strHTML &= "<td width=125px align=right>" & (rPilot.SkillPoints + rPilot.TrainingCurrentSP).ToString("N0") & "</td>"
-					strHTML &= "<td width=200px align=right>" & skillname & " " & EveHQ.Core.SkillFunctions.Roman(rPilot.TrainingSkillLevel) & "<br>" & currentTime & "</td>"
+                    strHTML &= "<td width=200px align=right>" & skillname & " " & EveHQ.Core.SkillFunctions.Roman(rPilot.TrainingSkillLevel) & "<br>" & currentTime & "</td>"
                 Else
                     strHTML &= "<td width=125px align=right>" & rPilot.SkillPoints.ToString("N0") & "</td>"
                     strHTML &= "<td width=200px align=right>n/a</td>"
@@ -1829,7 +1824,7 @@ Public Class Reports
 
 #Region "Current Pilot XML Report (Old Style)"
 
-    Public Shared Sub GenerateCurrentPilotXML_Old(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateCurrentPilotXML_Old(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strXML As String = ""
         strXML &= CurrentPilotXML_Old(rPilot)
@@ -1843,7 +1838,7 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function CurrentPilotXML_Old(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function CurrentPilotXML_Old(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim tabs(10) As String
         For tab As Integer = 1 To 10
             For tab2 As Integer = 1 To tab
@@ -1874,7 +1869,7 @@ Public Class Reports
         For Each skillGroup As EveHQ.Core.SkillGroup In EveHQ.Core.HQ.SkillGroups.Values
             If skillGroup.ID <> "505" Then
                 strXML &= tabs(4) & "<skillGroup groupName=""" & skillGroup.Name & """ groupID=""" & skillGroup.ID & """>" & vbCrLf
-                For Each skillItem As EveHQ.Core.PilotSkill In rpilot.PilotSkills
+                For Each skillItem As EveHQ.Core.EveHQPilotSkill In rpilot.PilotSkills.Values
                     If skillItem.GroupID = skillGroup.ID Then
                         strXML &= tabs(5) & "<skill typeName=""" & skillItem.Name & """ typeID=""" & skillItem.ID & """>" & vbCrLf
                         strXML &= tabs(6) & "<groupID>" & skillGroup.ID & "</groupID>" & vbCrLf
@@ -1918,7 +1913,7 @@ Public Class Reports
         Return strXML
     End Function
 
-    Public Shared Sub GenerateCurrentTrainingXML_Old(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateCurrentTrainingXML_Old(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strXML As String = ""
         strXML &= CurrentTrainingXML_Old(rPilot)
@@ -1932,7 +1927,7 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function CurrentTrainingXML_Old(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function CurrentTrainingXML_Old(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim tabs(10) As String
         For tab As Integer = 1 To 10
             For tab2 As Integer = 1 To tab
@@ -1977,7 +1972,7 @@ Public Class Reports
 
 #Region "Current Pilot XML Report (New Style)"
 
-    Public Shared Sub GenerateCurrentPilotXML_New(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateCurrentPilotXML_New(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strXML As String = ""
         strXML &= CurrentPilotXML_New(rPilot)
@@ -1991,7 +1986,7 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function CurrentPilotXML_New(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function CurrentPilotXML_New(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim tabs(10) As String
         For tab As Integer = 1 To 10
             For tab2 As Integer = 1 To tab
@@ -2026,7 +2021,7 @@ Public Class Reports
         strXML &= tabs(2) & "</attributes>" & vbCrLf
         strXML &= tabs(2) & "<rowset name=""skills"" key=""typeID"" columns=""typeID,skillpoints,level,unpublished"">" & vbCrLf
 
-        For Each skillItem As EveHQ.Core.PilotSkill In rpilot.PilotSkills
+        For Each skillItem As EveHQ.Core.EveHQPilotSkill In rpilot.PilotSkills.Values
             If rpilot.TrainingSkillID = skillItem.ID Then
                 strXML &= tabs(3) & "<row typeID=""" & skillItem.ID & """ skillpoints=""" & skillItem.SP + rpilot.TrainingCurrentSP & """"
                 If rpilot.TrainingCurrentTime <= 0 And rpilot.TrainingSkillLevel <> skillItem.Level Then
@@ -2050,7 +2045,7 @@ Public Class Reports
         Return strXML
     End Function
 
-    Public Shared Function CurrentTrainingXML_New(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function CurrentTrainingXML_New(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim tabs(10) As String
         For tab As Integer = 1 To 10
             For tab2 As Integer = 1 To tab
@@ -2086,15 +2081,15 @@ Public Class Reports
 #End Region
 
 #Region "Skill Group Chart"
-    Public Shared Function SkillGroupChart(ByVal rpilot As EveHQ.Core.Pilot) As ZedGraph.ZedGraphControl
+    Public Shared Function SkillGroupChart(ByVal rpilot As EveHQ.Core.EveHQPilot) As ZedGraph.ZedGraphControl
         Dim zgc As New ZedGraph.ZedGraphControl
         Dim myPane As ZedGraph.GraphPane = zgc.GraphPane
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -2104,7 +2099,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         Dim totalSPCount As Long = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
@@ -2112,7 +2107,7 @@ Public Class Reports
             repGroup(groupCount, 1) = cGroup.Name
             Dim skillCount As Long = 0
             Dim SPCount As Long = 0
-            For Each cSkill In rpilot.PilotSkills
+            For Each cSkill In rpilot.PilotSkills.Values
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
@@ -2203,15 +2198,15 @@ Public Class Reports
 #End Region
 
 #Region "Skill Cost Chart"
-    Public Shared Function SkillCostChart(ByVal rpilot As EveHQ.Core.Pilot) As ZedGraph.ZedGraphControl
+    Public Shared Function SkillCostChart(ByVal rpilot As EveHQ.Core.EveHQPilot) As ZedGraph.ZedGraphControl
         Dim zgc As New ZedGraph.ZedGraphControl
         Dim myPane As ZedGraph.GraphPane = zgc.GraphPane
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -2221,7 +2216,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         Dim totalSkillCost As Long = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
@@ -2229,7 +2224,7 @@ Public Class Reports
             repGroup(groupCount, 1) = cGroup.Name
             Dim skillCount As Long = 0
             Dim TotalCost As Long = 0
-            For Each cSkill In rpilot.PilotSkills
+            For Each cSkill In rpilot.PilotSkills.Values
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     repSkill(groupCount, CInt(skillCount), 0) = cSkill.ID
@@ -2303,7 +2298,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Character Sheet Report"
-    Public Shared Sub GenerateTextCharSheet(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextCharSheet(ByVal rpilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Character Sheet", rpilot)
@@ -2319,14 +2314,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextCharacterSheet(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextCharacterSheet(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -2334,7 +2329,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
             groupCount += 1
@@ -2342,8 +2337,8 @@ Public Class Reports
             Dim skillCount As Long = 0
             Dim SPCount As Long = 0
             ' Collect skills
-            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
-            For Each cSkill In rpilot.PilotSkills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.EveHQPilotSkill)
+            For Each cSkill In rpilot.PilotSkills.Values
                 repSkills.Add(cSkill.Name, cSkill)
             Next
             For Each cSkill In repSkills.Values
@@ -2392,7 +2387,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Training Times Report"
-    Public Shared Sub GenerateTextTrainingTime(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextTrainingTime(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Training Times", rPilot)
@@ -2408,23 +2403,22 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextTrainingTime(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextTrainingTime(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.PilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill As EveHQPilotSkill In rpilot.PilotSkills.Values
             ' Determine if the skill is being trained
             If rpilot.Training = True Then
                 If curSkill.ID = rpilot.TrainingSkillID Then
@@ -2479,10 +2473,10 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim cskill As EveHQ.Core.PilotSkill
+                    Dim cskill As EveHQ.Core.EveHQPilotSkill
                     Dim askill As EveHQ.Core.EveSkill
                     askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                    cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                    cskill = rpilot.PilotSkills(askill.Name)
                     skillCount += 1
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0)
                     SPCount += cskill.SP
@@ -2533,7 +2527,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Time to Level 5 Report"
-    Public Shared Sub GenerateTextTimeToLevel5(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextTimeToLevel5(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Time To Level 5", rPilot)
@@ -2549,23 +2543,22 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextTimeToLevel5(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextTimeToLevel5(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.PilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill As EveHQPilotSkill In rpilot.PilotSkills.Values
             ' Determine if the skill is being trained
             If rpilot.Training = True Then
                 sortSkill(count, 1) = CLng(Math.Max(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(curSkill.Name), 5) - redTime, 0))
@@ -2616,10 +2609,10 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim cskill As EveHQ.Core.PilotSkill
+                    Dim cskill As EveHQ.Core.EveHQPilotSkill
                     Dim askill As EveHQ.Core.EveSkill
                     askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                    cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                    cskill = rpilot.PilotSkills(askill.Name)
                     skillCount += 1
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 5)
                     SPCount += cskill.SP
@@ -2664,7 +2657,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Skill Levels Report"
-    Public Shared Sub GenerateTextSkillLevels(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextSkillLevels(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= TextCharacterDetails("Skill Levels", rPilot)
@@ -2680,23 +2673,22 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextSkillLevels(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextSkillLevels(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As String
-        Dim curSkill As EveHQ.Core.PilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill As EveHQPilotSkill In rpilot.PilotSkills.Values
             sortSkill(count, 0) = curSkill.ID
             sortSkill(count, 1) = curSkill.Name
             count += 1
@@ -2731,10 +2723,10 @@ Public Class Reports
             Dim TotalTime As Double = 0
             Dim i As Integer
             For i = 0 To tagArray.Length - 1
-                Dim cskill As EveHQ.Core.PilotSkill
+                Dim cskill As EveHQ.Core.EveHQPilotSkill
                 Dim askill As EveHQ.Core.EveSkill
                 askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                cskill = rpilot.PilotSkills(askill.Name)
                 If cskill.Level >= CDbl(repGroup(groupCount, 1)) And cskill.Level <= CDbl(repGroup(groupCount, 2)) Then
                     skillCount += 1
                     SPCount += cskill.SP
@@ -2786,7 +2778,7 @@ Public Class Reports
 
 #Region "Skills Available Report"
 
-    Public Shared Sub GenerateTextSkillsAvailable(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextSkillsAvailable(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Skills Available To Train", rPilot)
@@ -2802,13 +2794,13 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextSkillsAvailable(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextSkillsAvailable(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -2819,13 +2811,13 @@ Public Class Reports
         Dim trainable As Boolean = False
         For Each skill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListName.Values
             trainable = False
-            If rpilot.PilotSkills.Contains(skill.Name) = False And skill.Published = True Then
+            If rpilot.PilotSkills.ContainsKey(skill.Name) = False And skill.Published = True Then
                 trainable = True
                 For Each preReq As String In skill.PreReqSkills.Keys
                     If skill.PreReqSkills(preReq) <> 0 Then
                         Dim ps As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(preReq)
-                        If rpilot.PilotSkills.Contains(ps.Name) = True Then
-                            Dim psp As EveHQ.Core.PilotSkill = CType(rpilot.PilotSkills(ps.Name), EveHQ.Core.PilotSkill)
+                        If rpilot.PilotSkills.ContainsKey(ps.Name) = True Then
+                            Dim psp As EveHQ.Core.EveHQPilotSkill = rpilot.PilotSkills(ps.Name)
                             If psp.Level < skill.PreReqSkills(preReq) Then
                                 trainable = False
                                 Exit For
@@ -2849,7 +2841,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Skills Not Trained Report"
-    Public Shared Sub GenerateTextSkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextSkillsNotTrained(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Skills Not Trained", rPilot)
@@ -2864,14 +2856,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextSkillsNotTrained(ByVal rPilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextSkillsNotTrained(ByVal rPilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rPilot.Training = True Then
-            currentSkill = CType(rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rPilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rPilot.TrainingSkillID))
             currentSP = CStr(rPilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rPilot.TrainingCurrentTime)
         End If
@@ -2882,7 +2874,7 @@ Public Class Reports
         Dim redTime As Long = 0
         For Each curSkill In EveHQ.Core.HQ.SkillListID.Values
             If curSkill.Published = True Then
-                If rPilot.PilotSkills.Contains(curSkill.Name) = False Then
+                If rPilot.PilotSkills.ContainsKey(curSkill.Name) = False Then
                     ' Determine if the skill is being trained
                     sortSkill(count, 1) = CLng(EveHQ.Core.SkillFunctions.TimeBeforeCanTrain(rPilot, curSkill.ID))
                     sortSkill(count, 0) = CLng(curSkill.ID)
@@ -2972,7 +2964,7 @@ Public Class Reports
 
 #Region "Text Training Queue Report"
 
-    Public Shared Sub GenerateTextTrainQueue(ByVal rPilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue)
+    Public Shared Sub GenerateTextTrainQueue(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails(rQueue.Name & " Training Queue", rPilot)
@@ -2988,14 +2980,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextTrainQueue(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
+    Public Shared Function TextTrainQueue(ByVal rpilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue) As String
         Dim strText As New StringBuilder
         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -3040,7 +3032,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Shopping List Reports"
-    Public Shared Sub GenerateTextShoppingList(ByVal rPilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue)
+    Public Shared Sub GenerateTextShoppingList(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails(rQueue.Name & " Training Queue", rPilot)
@@ -3056,14 +3048,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextShoppingList(ByVal rpilot As EveHQ.Core.Pilot, ByVal rQueue As EveHQ.Core.SkillQueue) As String
+    Public Shared Function TextShoppingList(ByVal rpilot As EveHQ.Core.EveHQPilot, ByVal rQueue As EveHQ.Core.EveHQSkillQueue) As String
         Dim strText As New StringBuilder
         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(rpilot, rQueue, False, True)
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -3081,7 +3073,7 @@ Public Class Reports
         For skill As Integer = 0 To arrQueue.Count - 1
             Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), SortedQueueItem)
             Dim skillName As String = qItem.Name
-            If rpilot.PilotSkills.Contains(skillName) = False Then
+            If rpilot.PilotSkills.ContainsKey(skillName) = False Then
                 If skillPriceList.Contains(skillName) = False Then
                     skillPriceList.Add(skillName)
                 End If
@@ -3107,7 +3099,7 @@ Public Class Reports
 #End Region
 
 #Region "Partial Skills Report"
-    Public Shared Sub GeneratePartialSkills(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GeneratePartialSkills(ByVal rpilot As EveHQ.Core.EveHQPilot)
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Partially Trained Skills - " & rpilot.Name)
         strHTML &= HTMLTitle("Partially Trained Skills - " & rpilot.Name)
@@ -3124,23 +3116,23 @@ Public Class Reports
         GC.Collect()
     End Sub
 
-    Public Shared Function PartialSkills(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function PartialSkills(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.PilotSkill
+        Dim curSkill As EveHQ.Core.EveHQPilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill In rpilot.PilotSkills.Values
             Dim partTrained As Boolean = True
             For level As Integer = 0 To 5
                 If curSkill.SP = curSkill.LevelUp(level) Or curSkill.SP = curSkill.LevelUp(level) + 1 Or curSkill.Level = 5 Then
@@ -3204,10 +3196,10 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim cskill As EveHQ.Core.PilotSkill
+                    Dim cskill As EveHQ.Core.EveHQPilotSkill
                     Dim askill As EveHQ.Core.EveSkill
                     askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                    cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                    cskill = rpilot.PilotSkills(askill.Name)
                     skillCount += 1
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0)
                     SPCount += cskill.SP
@@ -3276,7 +3268,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Partial Skills Report"
-    Public Shared Sub GenerateTextPartialSkills(ByVal rPilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextPartialSkills(ByVal rPilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Partially Trained Skills", rPilot)
@@ -3292,23 +3284,23 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextPartialSkills(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextPartialSkills(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
         Dim sortSkill(rpilot.PilotSkills.Count, 1) As Long
-        Dim curSkill As EveHQ.Core.PilotSkill
+        Dim curSkill As EveHQ.Core.EveHQPilotSkill
         Dim count As Integer
         Dim redTime As Long = 0
-        For Each curSkill In rpilot.PilotSkills
+        For Each curSkill In rpilot.PilotSkills.Values
             Dim partTrained As Boolean = True
             For level As Integer = 0 To 5
                 If curSkill.SP = curSkill.LevelUp(level) Or curSkill.SP = curSkill.LevelUp(level) + 1 Or curSkill.Level = 5 Then
@@ -3372,10 +3364,10 @@ Public Class Reports
             For i = 0 To tagArray.Length - 1
                 skillTimeLeft = sortSkill(tagArray(i), 1)
                 If skillTimeLeft >= CDbl(repGroup(groupCount, 1)) And skillTimeLeft <= CDbl(repGroup(groupCount, 2)) Then
-                    Dim cskill As EveHQ.Core.PilotSkill
+                    Dim cskill As EveHQ.Core.EveHQPilotSkill
                     Dim askill As EveHQ.Core.EveSkill
                     askill = EveHQ.Core.HQ.SkillListID(CStr(sortSkill(tagArray(i), 0)))
-                    cskill = CType(rpilot.PilotSkills(askill.Name), EveHQ.Core.PilotSkill)
+                    cskill = rpilot.PilotSkills(askill.Name)
                     skillCount += 1
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0)
                     SPCount += cskill.SP
@@ -3426,16 +3418,16 @@ Public Class Reports
 #End Region
 
 #Region "ECM Export"
-    Public Shared Sub GenerateECMExportReports(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateECMExportReports(ByVal rpilot As EveHQ.Core.EveHQPilot)
         Dim ECMLocation As String = ""
         Dim result As Integer = 0
         Dim fbd1 As New FolderBrowserDialog
         With fbd1
             .ShowNewFolderButton = False
-            If EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation <> "" Then
-                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation) = True Then
-                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation
-                    .SelectedPath = EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation
+            If EveHQ.Core.HQ.Settings.EcmDefaultLocation <> "" Then
+                If My.Computer.FileSystem.DirectoryExists(EveHQ.Core.HQ.Settings.EcmDefaultLocation) = True Then
+                    .Description = "Please select the folder where the ECM XML files are located..." & ControlChars.CrLf & "Default is: " & EveHQ.Core.HQ.Settings.EcmDefaultLocation
+                    .SelectedPath = EveHQ.Core.HQ.Settings.EcmDefaultLocation
                 Else
                     .Description = "Please select the folder where the ECM XML files are located..."
                     .RootFolder = Environment.SpecialFolder.Desktop
@@ -3458,7 +3450,7 @@ Public Class Reports
             ' Copy these to the selected folder
             My.Computer.FileSystem.CopyFile(Path.Combine(EveHQ.Core.HQ.reportFolder, "CurrentXML - Old (" & rpilot.Name & ").xml"), Path.Combine(ECMLocation, rpilot.ID.ToString & ".xml"), True)
             My.Computer.FileSystem.CopyFile(Path.Combine(EveHQ.Core.HQ.reportFolder, "TrainingXML - Old (" & rpilot.Name & ").xml"), Path.Combine(ECMLocation, rpilot.ID.ToString & ".training.xml"), True)
-            EveHQ.Core.HQ.EveHqSettings.ECMDefaultLocation = ECMLocation
+            EveHQ.Core.HQ.Settings.EcmDefaultLocation = ECMLocation
             MessageBox.Show("Export of ECM-compatible files completed!", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
         Else
 
@@ -3469,7 +3461,7 @@ Public Class Reports
 #End Region
 
 #Region "Skills Cost Report"
-    Public Shared Sub GenerateSkillsCost(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateSkillsCost(ByVal rpilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= HTMLHeader("Skills Cost - " & rpilot.Name)
@@ -3488,14 +3480,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function SkillsCost(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function SkillsCost(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strHTML As String = ""
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -3503,7 +3495,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 4) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
             groupCount += 1
@@ -3512,8 +3504,8 @@ Public Class Reports
             Dim groupCost As Long = 0
             Dim SPCount As Long = 0
             ' Collect skills
-            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
-            For Each cSkill In rpilot.PilotSkills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.EveHQPilotSkill)
+            For Each cSkill In rpilot.PilotSkills.Values
                 repSkills.Add(cSkill.Name, cSkill)
             Next
             For Each cSkill In repSkills.Values
@@ -3580,7 +3572,7 @@ Public Class Reports
 #End Region
 
 #Region "Text Skills Cost Report"
-    Public Shared Sub GenerateTextSkillsCost(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GenerateTextSkillsCost(ByVal rpilot As EveHQ.Core.EveHQPilot)
 
         Dim strText As String = ""
         strText &= TextCharacterDetails("Character Sheet", rpilot)
@@ -3596,14 +3588,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function TextSkillsCost(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function TextSkillsCost(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -3611,7 +3603,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 4) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
             groupCount += 1
@@ -3620,8 +3612,8 @@ Public Class Reports
             Dim groupCost As Long = 0
             Dim SPCount As Long = 0
             ' Collect skills
-            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
-            For Each cSkill In rpilot.PilotSkills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.EveHQPilotSkill)
+            For Each cSkill In rpilot.PilotSkills.Values
                 repSkills.Add(cSkill.Name, cSkill)
             Next
             For Each cSkill In repSkills.Values
@@ -3679,7 +3671,7 @@ Public Class Reports
 
 #Region "PHPBB Character Sheet Report"
 
-    Public Shared Sub GeneratePHPBBCharSheet(ByVal rpilot As EveHQ.Core.Pilot)
+    Public Shared Sub GeneratePHPBBCharSheet(ByVal rpilot As EveHQ.Core.EveHQPilot)
 
         Dim strHTML As String = ""
         strHTML &= PHPBBCharacterDetails("Character Sheet", rpilot)
@@ -3695,14 +3687,14 @@ Public Class Reports
 
     End Sub
 
-    Public Shared Function PHPBBCharacterSheet(ByVal rpilot As EveHQ.Core.Pilot) As String
+    Public Shared Function PHPBBCharacterSheet(ByVal rpilot As EveHQ.Core.EveHQPilot) As String
         Dim strText As New StringBuilder
 
-        Dim currentSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
         If rpilot.Training = True Then
-            currentSkill = CType(rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID)), EveHQ.Core.PilotSkill)
+            currentSkill = rpilot.PilotSkills.Item(EveHQ.Core.SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
             currentSP = CStr(rpilot.TrainingCurrentSP)
             currentTime = EveHQ.Core.SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
@@ -3710,7 +3702,7 @@ Public Class Reports
         Dim repGroup(EveHQ.Core.HQ.SkillGroups.Count, 3) As String
         Dim repSkill(EveHQ.Core.HQ.SkillGroups.Count, EveHQ.Core.HQ.SkillListID.Count, 5) As String
         Dim cGroup As EveHQ.Core.SkillGroup = New EveHQ.Core.SkillGroup
-        Dim cSkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+        Dim cSkill As New EveHQ.Core.EveHQPilotSkill
         Dim groupCount As Integer = 0
         For Each cGroup In EveHQ.Core.HQ.SkillGroups.Values
             groupCount += 1
@@ -3718,8 +3710,8 @@ Public Class Reports
             Dim skillCount As Long = 0
             Dim SPCount As Long = 0
             ' Collect skills
-            Dim repSkills As New SortedList(Of String, EveHQ.Core.PilotSkill)
-            For Each cSkill In rpilot.PilotSkills
+            Dim repSkills As New SortedList(Of String, EveHQ.Core.EveHQPilotSkill)
+            For Each cSkill In rpilot.PilotSkills.Values
                 repSkills.Add(cSkill.Name, cSkill)
             Next
             For Each cSkill In repSkills.Values

@@ -29,7 +29,7 @@ Public Class DBCLasttransactionConfig
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
 
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If pilot.Active = True Then
                 cboPilots.Items.Add(pilot.Name)
             End If

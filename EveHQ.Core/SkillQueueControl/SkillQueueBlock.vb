@@ -21,10 +21,10 @@ Imports System.Drawing
 
 Public Class SkillQueueBlock
 
-    Dim currentPilot As New EveHQ.Core.Pilot
+    Dim currentPilot As New EveHQ.Core.EveHQPilot
     Dim CurrentPilotName As String = ""
-    Dim CurrentQueuedSkill As New EveHQ.Core.PilotQueuedSkill
-    Dim currentSkill As New EveHQ.Core.PilotSkill
+    Dim CurrentQueuedSkill As New EveHQ.Core.EveHQPilotQueuedSkill
+    Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
     Dim TrainedLevel As Integer = 0
     Dim Percent As Double = 0
 
@@ -87,7 +87,7 @@ Public Class SkillQueueBlock
     ''' <param name="PilotName"></param>
     ''' <param name="QueuedSkill"></param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal PilotName As String, ByVal QueuedSkill As EveHQ.Core.PilotQueuedSkill)
+    Public Sub New(ByVal PilotName As String, ByVal QueuedSkill As EveHQ.Core.EveHQPilotQueuedSkill)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -97,10 +97,10 @@ Public Class SkillQueueBlock
         CurrentQueuedSkill = QueuedSkill
 
         ' Establish current skill & calculate level and percentage
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(CurrentPilotName) = True Then
-            currentPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(CurrentPilotName), EveHQ.Core.Pilot)
-            If currentPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID))) = True Then
-                currentSkill = CType(currentPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID))), EveHQ.Core.PilotSkill)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(CurrentPilotName) = True Then
+            currentPilot = EveHQ.Core.HQ.Settings.Pilots(CurrentPilotName)
+            If currentPilot.PilotSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID))) = True Then
+                currentSkill = currentPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID)))
                 lblSkillName.Text = currentSkill.Name & " (" & currentSkill.Rank.ToString & "x)"
                 lblSkillLevel.Text = "Level " & QueuedSkill.Level.ToString
                 TrainedLevel = currentSkill.Level
@@ -120,10 +120,10 @@ Public Class SkillQueueBlock
                 TrainedLevel = 0
                 Percent = 0
             End If
-            Else
-                TrainedLevel = 0
-                Percent = 0
-            End If
+        Else
+            TrainedLevel = 0
+            Percent = 0
+        End If
 
         ' Start the timer
         tmrUpdate.Enabled = True
@@ -141,7 +141,7 @@ Public Class SkillQueueBlock
         InitializeComponent()
 
         ' Set the current pilot and queued skill
-        CurrentQueuedSkill = New EveHQ.Core.PilotQueuedSkill
+        CurrentQueuedSkill = New EveHQ.Core.EveHQPilotQueuedSkill
         TrainedLevel = 0
         Percent = 0
     End Sub

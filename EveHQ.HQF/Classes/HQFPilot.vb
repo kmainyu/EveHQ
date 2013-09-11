@@ -80,16 +80,16 @@ End Class
     Public Shared HQFPilots As New SortedList
 
     Public Shared Sub CheckForMissingSkills(ByVal hPilot As HQFPilot)
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(hPilot.PilotName) = True Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(hPilot.PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(hPilot.PilotName)
             For Each newSkill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListID.Values
                 If hPilot.SkillSet.Contains(newSkill.Name) = False Then
                     ' Ooo, a new skill!
                     Dim MyHQFSkill As New HQFSkill
                     MyHQFSkill.ID = newSkill.ID
                     MyHQFSkill.Name = newSkill.Name
-                    If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                        Dim mySkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                    If cpilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
+                        Dim mySkill As EveHQ.Core.EveHQPilotSkill = cpilot.PilotSkills(newSkill.Name)
                         MyHQFSkill.Level = mySkill.Level
                     Else
                         MyHQFSkill.Level = 0
@@ -103,8 +103,8 @@ End Class
     'Bug 40: HQF skills are never checked for invalid/renamed skills so if a pilot's data persists though a database change they can have skills that were changed, and that results in a doubling
     ' or otherwise inaccurate calculation for bonuses and effects.
     Public Shared Sub CheckForInvalidSkills(ByVal hPilot As HQFPilot)
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(hPilot.PilotName) = True Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(hPilot.PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(hPilot.PilotName)
             ' validate that all the skills in the HQF pilot record exist in the core skill list
             For Each skill As HQFSkill In hPilot.SkillSet
                 If EveHQ.Core.HQ.SkillListName.Keys.Contains(skill.Name) = False Then
@@ -118,14 +118,14 @@ End Class
     End Sub
 
     Public Shared Sub ResetSkillsToDefault(ByVal hPilot As HQFPilot)
-        Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(hPilot.PilotName), Core.Pilot)
+        Dim cpilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(hPilot.PilotName)
         hPilot.SkillSet.Clear()
         For Each newSkill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListID.Values
             Dim MyHQFSkill As New HQFSkill
             MyHQFSkill.ID = newSkill.ID
             MyHQFSkill.Name = newSkill.Name
-            If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+            If cpilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
+                Dim mySkill As EveHQ.Core.EveHQPilotSkill = cpilot.PilotSkills(newSkill.Name)
                 MyHQFSkill.Level = mySkill.Level
             Else
                 MyHQFSkill.Level = 0
@@ -142,13 +142,13 @@ End Class
 
     Public Shared Sub UpdateHQFSkillsToActual(ByVal hPilot As HQFPilot)
         ' If the HQF skill < Actual, this routine makes HQF = Actual
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(hPilot.PilotName) = True Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(hPilot.PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(hPilot.PilotName)
             For Each newSkill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListID.Values
                 If hPilot.SkillSet.Contains(newSkill.Name) = True Then
                     Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(newSkill.Name), HQFSkill)
-                    If cpilot.PilotSkills.Contains(newSkill.Name) = True Then
-                        Dim mySkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+                    If cpilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
+                        Dim mySkill As EveHQ.Core.EveHQPilotSkill = cpilot.PilotSkills(newSkill.Name)
                         If MyHQFSkill.Level < mySkill.Level Then
                             MyHQFSkill.Level = mySkill.Level
                         End If
@@ -159,10 +159,10 @@ End Class
     End Sub
 
     Public Shared Sub SetSkillsToSkillQueue(ByVal hPilot As HQFPilot, ByVal queueName As String)
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(hPilot.PilotName) = True Then
-            Dim cpilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(hPilot.PilotName), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(hPilot.PilotName) = True Then
+            Dim cpilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(hPilot.PilotName)
             If cpilot.TrainingQueues.ContainsKey(queueName) = True Then
-                For Each sqi As EveHQ.Core.SkillQueueItem In CType(cpilot.TrainingQueues(queueName), EveHQ.Core.SkillQueue).Queue
+                For Each sqi As EveHQ.Core.EveHQSkillQueueItem In cpilot.TrainingQueues(queueName).Queue.Values
                     If hPilot.SkillSet.Contains(sqi.Name) = True Then
                         Dim MyHQFSkill As HQFSkill = CType(hPilot.SkillSet(sqi.Name), HQFSkill)
                         If MyHQFSkill.Level < sqi.ToLevel Then
@@ -180,14 +180,13 @@ End Class
                 CType(hPilot.SkillSet(SkillName), HQFSkill).Level = SkillList(SkillName)
             Else
                 Dim MyHQFSkill As New HQFSkill
-                MyHQFSkill.ID = CType(EveHQ.Core.HQ.SkillListName(SkillName), EveHQ.Core.EveSkill).ID
+                MyHQFSkill.ID = EveHQ.Core.HQ.SkillListName(SkillName).ID
                 MyHQFSkill.Name = SkillName
                 MyHQFSkill.Level = SkillList(SkillName)
                 hPilot.SkillSet.Add(MyHQFSkill, MyHQFSkill.Name)
             End If
         Next
     End Sub
-
 
     Public Shared Sub SaveHQFPilotData()
         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)

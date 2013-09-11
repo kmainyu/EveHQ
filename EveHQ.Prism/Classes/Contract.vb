@@ -65,10 +65,10 @@ Public Class Contracts
         If PlugInData.PrismOwners.ContainsKey(OrderOwner) = True Then
 
             Owner = PlugInData.PrismOwners(OrderOwner)
-            Dim OwnerAccount As EveHQ.Core.EveAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Contracts)
+            Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Contracts)
             Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Contracts)
             Dim ContractXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
             If OwnerAccount IsNot Nothing Then
 

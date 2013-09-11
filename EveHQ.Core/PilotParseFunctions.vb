@@ -46,7 +46,7 @@ Public Class PilotParseFunctions
         End Set
     End Property
 
-    Public Shared Sub BuildAttributeData(ByRef cpilot As EveHQ.Core.Pilot)
+    Public Shared Sub BuildAttributeData(ByRef cpilot As EveHQ.Core.EveHQPilot)
         cpilot.WAttT = cpilot.WAtt + cpilot.WImplant
         cpilot.CAttT = cpilot.CAtt + cpilot.CImplant
         cpilot.IAttT = cpilot.IAtt + cpilot.IImplant
@@ -56,14 +56,11 @@ Public Class PilotParseFunctions
 
     Public Shared Sub CopyTempPilotsToMain()
 
-        ' Save pilot specific data first!!
-        Call EveHQ.Core.EveHQSettingsFunctions.SaveTraining()
-
         ' Copy new pilot data
-        Dim oldPilot, newPilot As EveHQ.Core.Pilot
+        Dim oldPilot, newPilot As EveHQ.Core.EveHQPilot
         For Each newPilot In EveHQ.Core.HQ.TPilots.Values
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(newPilot.Name) Then
-                oldPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(newPilot.Name), Pilot)
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(newPilot.Name) Then
+                oldPilot = EveHQ.Core.HQ.Settings.Pilots(newPilot.Name)
                 ' Transfer old information first (stuff that isn't picked up in the XML download)!!
                 newPilot.UseManualImplants = oldPilot.UseManualImplants
                 newPilot.CImplantM = oldPilot.CImplantM
@@ -72,19 +69,20 @@ Public Class PilotParseFunctions
                 newPilot.PImplantM = oldPilot.PImplantM
                 newPilot.WImplantM = oldPilot.WImplantM
                 newPilot.ActiveQueueName = oldPilot.ActiveQueueName
-                newPilot.ActiveQueue = CType(oldPilot.ActiveQueue.Clone, SkillQueue)
+                newPilot.ActiveQueue = CType(oldPilot.ActiveQueue.Clone, EveHQSkillQueue)
                 newPilot.Active = oldPilot.Active
                 newPilot.PrimaryQueue = oldPilot.PrimaryQueue
-				newPilot.Standings = oldPilot.Standings
-				' Check if the old pilot has an account if using manual mode!!
+                newPilot.Standings = oldPilot.Standings
+                newPilot.TrainingQueues = oldPilot.TrainingQueues
+                ' Check if the old pilot has an account if using manual mode!!
                 If oldPilot.Account <> "" And newPilot.Account = "" Then
                     newPilot.Account = oldPilot.Account
                     newPilot.AccountPosition = oldPilot.AccountPosition
                 End If
 
                 'Bug EVEHQ-56 ... check that the pilot is in the collection before attempting to remove.
-                If HQ.EveHQSettings.Pilots.Contains(oldPilot.Name) Then
-                    EveHQ.Core.HQ.EveHQSettings.Pilots.Remove(oldPilot.Name)
+                If HQ.Settings.Pilots.ContainsKey(oldPilot.Name) Then
+                    EveHQ.Core.HQ.Settings.Pilots.Remove(oldPilot.Name)
                 End If
 
             End If
@@ -96,13 +94,11 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 newPilot.LastUpdate = Now.ToString
             End If
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(newPilot.Name) = False Then
-                EveHQ.Core.HQ.EveHqSettings.Pilots.Add(newPilot, newPilot.Name)
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(newPilot.Name) = False Then
+                EveHQ.Core.HQ.Settings.Pilots.Add(newPilot.Name, newPilot)
             End If
         Next
 
-        ' Reload pilot specific data!!
-        Call EveHQ.Core.EveHQSettingsFunctions.LoadTraining()
         ' Reload pilot key skills
         Call LoadKeySkills()
 
@@ -112,24 +108,23 @@ Public Class PilotParseFunctions
 
         ' Remove corps that will be replaced
         For Each NewCorp As Corporation In EveHQ.Core.HQ.TCorps.Values
-            If EveHQ.Core.HQ.EveHqSettings.Corporations.ContainsKey(NewCorp.Name) Then
-                EveHQ.Core.HQ.EveHqSettings.Corporations.Remove(NewCorp.Name)
+            If EveHQ.Core.HQ.Settings.Corporations.ContainsKey(NewCorp.Name) Then
+                EveHQ.Core.HQ.Settings.Corporations.Remove(NewCorp.Name)
             End If
         Next
 
         ' Copy new corp data
         For Each NewCorp As Corporation In EveHQ.Core.HQ.TCorps.Values
             ' Add the update info first to indicate it has been updated
-            If EveHQ.Core.HQ.EveHqSettings.Corporations.ContainsKey(NewCorp.Name) = False Then
-                EveHQ.Core.HQ.EveHqSettings.Corporations.Add(NewCorp.Name, NewCorp)
+            If EveHQ.Core.HQ.Settings.Corporations.ContainsKey(NewCorp.Name) = False Then
+                EveHQ.Core.HQ.Settings.Corporations.Add(NewCorp.Name, NewCorp)
             End If
         Next
 
     End Sub
 
     Private Shared Sub GetPilotCachedInfo()
-        Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-        For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
+        For Each currentPilot As EveHQPilot In EveHQ.Core.HQ.TPilots.Values
             ' Check if the 2 files exist in the cache
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
@@ -168,125 +163,123 @@ Public Class PilotParseFunctions
     End Sub            'GetPilotCachedInfo
     Public Shared Function LoadKeySkills() As Boolean
         Call ResetKeySkills()
-        Dim curPilot As EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each curPilot As EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If LoadKeySkillsForPilot(curPilot) = False Then
                 Return False
             End If
         Next
         Return True
     End Function
-    Public Shared Function LoadKeySkillsForPilot(ByVal curPilot As EveHQ.Core.Pilot) As Boolean
+    Public Shared Function LoadKeySkillsForPilot(ByVal curPilot As EveHQ.Core.EveHQPilot) As Boolean
         Try
-            Dim curSkill As EveHQ.Core.PilotSkill
-            For Each curSkill In curPilot.PilotSkills
+            For Each curSkill As EveHQPilotSkill In curPilot.PilotSkills.Values
                 Select Case curSkill.Name
                     Case "Mining"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Mining) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Mining) = curSkill.Level
                     Case "Mining Upgrades"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningUpgrades) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningUpgrades) = curSkill.Level
                     Case "Astrogeology"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Astrogeology) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Astrogeology) = curSkill.Level
                     Case "Mining Barge"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningBarge) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningBarge) = curSkill.Level
                     Case "Mining Drone Operation"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDrone) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDrone) = curSkill.Level
                     Case "Exhumers"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Exhumers) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Exhumers) = curSkill.Level
                     Case "Refining"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining) = curSkill.Level
                     Case "Refinery Efficiency"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency) = curSkill.Level
                     Case "Metallurgy"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Metallurgy) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Metallurgy) = curSkill.Level
                     Case "Research"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Research) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Research) = curSkill.Level
                     Case "Science"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Science) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Science) = curSkill.Level
                     Case "Industry"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Industry) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Industry) = curSkill.Level
                     Case "Production Efficiency"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency) = curSkill.Level
                     Case "Arkonor Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc) = curSkill.Level
                     Case "Bistot Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc) = curSkill.Level
                     Case "Crokite Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc) = curSkill.Level
                     Case "Dark Ochre Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc) = curSkill.Level
                     Case "Gneiss Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc) = curSkill.Level
                     Case "Hedbergite Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc) = curSkill.Level
                     Case "Hemorphite Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc) = curSkill.Level
                     Case "Jaspet Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc) = curSkill.Level
                     Case "Kernite Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc) = curSkill.Level
                     Case "Mercoxit Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc) = curSkill.Level
                     Case "Omber Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc) = curSkill.Level
                     Case "Plagioclase Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc) = curSkill.Level
                     Case "Pyroxeres Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc) = curSkill.Level
                     Case "Scordite Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc) = curSkill.Level
                     Case "Spodumain Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc) = curSkill.Level
                     Case "Veldspar Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc) = curSkill.Level
                     Case "Ice Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc) = curSkill.Level
                     Case "Ice Harvesting"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceHarvesting) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceHarvesting) = curSkill.Level
                     Case "Deep Core Mining"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DeepCoreMining) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DeepCoreMining) = curSkill.Level
                     Case "Mining Foreman"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningForeman) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningForeman) = curSkill.Level
                     Case "Mining Director"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDirector) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MiningDirector) = curSkill.Level
                     Case "Learning"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Learning) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Learning) = curSkill.Level
                     Case "Jump Drive Operation"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveOperation) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveOperation) = curSkill.Level
                     Case "Jump Drive Calibration"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpDriveCalibration) = curSkill.Level
                     Case "Jump Fuel Conservation"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFuelConservation) = curSkill.Level
                     Case "Jump Freighters"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JumpFreighters) = curSkill.Level
                     Case "Scrapmetal Processing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc) = curSkill.Level
                     Case "Accounting"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting) = curSkill.Level
                     Case "Broker Relations"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations) = curSkill.Level
                     Case "Daytrading"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading) = curSkill.Level
                     Case "Margin Trading"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MarginTrading) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MarginTrading) = curSkill.Level
                     Case "Marketing"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing) = curSkill.Level
                     Case "Procurement"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement) = curSkill.Level
                     Case "Retail"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail) = curSkill.Level
                     Case "Trade"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade) = curSkill.Level
                     Case "Tycoon"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon) = curSkill.Level
                     Case "Visibility"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility) = curSkill.Level
                     Case "Wholesale"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale) = curSkill.Level
                     Case "Diploamcy"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Diplomacy) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Diplomacy) = curSkill.Level
                     Case "Connections"
-                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Connections) = CStr(curSkill.Level)
+                        curPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Connections) = curSkill.Level
                 End Select
             Next
             Return True
@@ -295,18 +288,17 @@ Public Class PilotParseFunctions
         End Try
     End Function
     Private Shared Sub ResetKeySkills()
-        Dim curPilot As EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each curPilot As EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             ReDim curPilot.KeySkills([Enum].GetValues(GetType(EveHQ.Core.Pilot.KeySkill)).Length)
             For keyskill As Integer = 0 To curPilot.KeySkills.GetUpperBound(0)
-                curPilot.KeySkills(keyskill) = "0"
+                curPilot.KeySkills(keyskill) = 0
             Next
         Next
     End Sub
 
 #Region "Eve API Retrieval Methods"
 
-    Public Shared Sub GetCharactersInAccount(ByVal caccount As EveAccount)
+    Public Shared Sub GetCharactersInAccount(ByVal caccount As EveHQAccount)
 
         If caccount Is Nothing Then
             Return
@@ -318,7 +310,7 @@ Public Class PilotParseFunctions
         Call GetAccountStatus(caccount)
 
         ' Fetch the characters on account XML file
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, caccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
         If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
             EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -APIReq.LastAPIError)
@@ -339,19 +331,19 @@ Public Class PilotParseFunctions
                     ' Get the list of characters and the character IDs
                     charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
                     ' Clear the current characters on the account
-                    caccount.Characters = New ArrayList
+                    caccount.Characters = New List(Of String)
                     For Each toon In charlist
                         curr_toon += 1
                         ' Add the pilot details into the collection
-                        Dim newPilot As New EveHQ.Core.Pilot
+                        Dim newPilot As New EveHQ.Core.EveHQPilot
                         newPilot.Name = toon.Attributes.GetNamedItem("name").Value
                         newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
                         newPilot.AccountPosition = CStr(curr_toon)
                         newPilot.Account = caccount.userID
                         ' Copy notification data if available - we reset this after checking the API request if not cached
-                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(newPilot.Name) = True Then
-                            newPilot.TrainingNotifiedEarly = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(newPilot.Name), EveHQ.Core.Pilot).TrainingNotifiedEarly
-                            newPilot.TrainingNotifiedNow = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(newPilot.Name), EveHQ.Core.Pilot).TrainingNotifiedNow
+                        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(newPilot.Name) = True Then
+                            newPilot.TrainingNotifiedEarly = EveHQ.Core.HQ.Settings.Pilots(newPilot.Name).TrainingNotifiedEarly
+                            newPilot.TrainingNotifiedNow = EveHQ.Core.HQ.Settings.Pilots(newPilot.Name).TrainingNotifiedNow
                         Else
                             ' New character - let's download the image for them automatically :)
                             EveHQ.Core.ImageHandler.DownloadPortrait(newPilot.ID)
@@ -365,11 +357,10 @@ Public Class PilotParseFunctions
 
                     ' Check if we have any old pilots that the account does not have anymore
                     Dim oldPilots As String = ""
-                    Dim oldPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-                    If HQ.EveHqSettings.Pilots Is Nothing Then
+                    If HQ.Settings.Pilots Is Nothing Then
                         Return
                     End If
-                    For Each oldPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+                    For Each oldPilot As EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
                         If (oldPilot Is Nothing) Then
                             Continue For
                         End If
@@ -410,7 +401,7 @@ Public Class PilotParseFunctions
             ' Get the list of characters and the character IDs
             CorpList = accountXML.SelectNodes("/eveapi/result/rowset/row")
             ' Clear the current characters on the account
-            caccount.Characters = New ArrayList
+            caccount.Characters = New List(Of String)
             If CorpList.Count > 0 Then
                 Corp = CorpList(0)
                 Dim NewCorp As New EveHQ.Core.Corporation
@@ -435,9 +426,9 @@ Public Class PilotParseFunctions
             End If
         End If
     End Sub
-    Private Shared Sub GetAccountStatus(ByRef cAccount As EveAccount)
+    Private Shared Sub GetAccountStatus(ByRef cAccount As EveHQAccount)
         ' Attempts to get the AccountStatus API for additional information and for checking API key status
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
         Select Case cAccount.APIKeySystem
             Case APIKeySystems.Version2
@@ -471,12 +462,12 @@ Public Class PilotParseFunctions
                     Case Else
                         ' Ignore
                 End Select
-        End Select     
+        End Select
     End Sub
-    Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
+    Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveHQAccount, ByVal cPilot As EveHQ.Core.EveHQPilot)
 
         ' Set up an API Request for this character
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
         ' Get the Character Sheet
         Dim cXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
@@ -522,7 +513,7 @@ Public Class PilotParseFunctions
         End If
 
     End Sub
-    Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal CXMLDoc As XmlDocument)
+    Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQ.Core.EveHQPilot, ByVal CXMLDoc As XmlDocument)
 
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
@@ -617,7 +608,7 @@ Public Class PilotParseFunctions
         End If
 
     End Sub                'ParsePilotXML
-    Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQ.Core.Pilot, ByVal TXMLDoc As XmlDocument)
+    Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQ.Core.EveHQPilot, ByVal TXMLDoc As XmlDocument)
         ' Get the training details
         If TXMLDoc IsNot Nothing Then
             Dim TrainingDetails As XmlNodeList
@@ -634,10 +625,10 @@ Public Class PilotParseFunctions
                         .TrainingSkillName = EveHQ.Core.SkillFunctions.SkillIDToName(.TrainingSkillID)
                         Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
                         .TrainingStartTimeActual = dt
-                        .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
+                        .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.HQ.Settings.ServerOffset)
                         dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
                         .TrainingEndTimeActual = dt
-                        .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
+                        .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.Settings.ServerOffset)
                         .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
                         .TrainingEndSP = CInt(trainingNode.Attributes("endSP").Value)
                         .TrainingSkillLevel = CInt(trainingNode.Attributes("level").Value)
@@ -654,16 +645,16 @@ Public Class PilotParseFunctions
                     For queuedSkillNo As Integer = 0 To TrainingDetails.Count - 1
                         trainingNode = TrainingDetails(queuedSkillNo)
                         If trainingNode.Attributes("startTime").Value <> "" And trainingNode.Attributes("endTime").Value <> "" Then
-                            Dim QueuedSkill As New PilotQueuedSkill
-                            QueuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
-                            QueuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
-                            QueuedSkill.StartTime = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
-                            QueuedSkill.EndTime = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
-                            QueuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
-                            QueuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
-                            QueuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
-                            cPilot.QueuedSkills.Add(QueuedSkill.Position, QueuedSkill)
-                            cPilot.QueuedSkillTime = CLng((QueuedSkill.EndTime - cPilot.TrainingEndTime).TotalSeconds)
+                            Dim queuedSkill As New EveHQPilotQueuedSkill
+                            queuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
+                            queuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
+                            queuedSkill.StartTime = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.Settings.ServerOffset)
+                            queuedSkill.EndTime = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None).AddSeconds(EveHQ.Core.HQ.Settings.ServerOffset)
+                            queuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
+                            queuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
+                            queuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
+                            cPilot.QueuedSkills.Add(queuedSkill.Position, queuedSkill)
+                            cPilot.QueuedSkillTime = CLng((queuedSkill.EndTime - cPilot.TrainingEndTime).TotalSeconds)
                         End If
                     Next
                 End If
@@ -682,7 +673,7 @@ Public Class PilotParseFunctions
             cPilot.Training = False
         End If
     End Sub
-    Private Shared Sub ParsePilotSkills(ByRef cPilot As EveHQ.Core.Pilot, ByVal XMLDoc As XmlDocument)
+    Private Shared Sub ParsePilotSkills(ByRef cPilot As EveHQ.Core.EveHQPilot, ByVal XMLDoc As XmlDocument)
         Dim CharDetails As XmlNodeList
         Dim toon As XmlNode
         Dim sp As Integer = 0
@@ -698,7 +689,7 @@ Public Class PilotParseFunctions
                     sp = 0
                     ' Get list of skills within the groups!
                     For a As Integer = 0 To toon.ChildNodes.Count - 1
-                        Dim newSkill As New EveHQ.Core.PilotSkill
+                        Dim newSkill As New EveHQ.Core.EveHQPilotSkill
                         ' Check if the skill exists in the database we have
 
                         newSkill.ID = toon.ChildNodes.Item(a).Attributes.GetNamedItem("typeID").Value
@@ -728,8 +719,8 @@ Public Class PilotParseFunctions
                             newSkill.LevelUp(3) = thisSkill.LevelUp(3)
                             newSkill.LevelUp(4) = thisSkill.LevelUp(4)
                             newSkill.LevelUp(5) = thisSkill.LevelUp(5)
-                            If cPilot.PilotSkills.Contains(newSkill.Name) = False Then
-                                cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                            If cPilot.PilotSkills.ContainsKey(newSkill.Name) = False Then
+                                cPilot.PilotSkills.Add(newSkill.Name, newSkill)
                             End If
                             ' Check if a pilot skill is missing from the global skill list
                         Else
@@ -755,8 +746,8 @@ Public Class PilotParseFunctions
                             EveHQ.Core.HQ.SkillListName.Add(missingSkill.Name, missingSkill)
                             EveHQ.Core.HQ.SkillListID.Add(missingSkill.ID, missingSkill)
                             missingSkills &= newSkill.Name & ControlChars.CrLf
-                            If cPilot.PilotSkills.Contains(newSkill.Name) = False Then
-                                cPilot.PilotSkills.Add(newSkill, newSkill.Name)
+                            If cPilot.PilotSkills.ContainsKey(newSkill.Name) = False Then
+                                cPilot.PilotSkills.Add(newSkill.Name, newSkill)
                             End If
                         End If
                         ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
@@ -772,7 +763,7 @@ Public Class PilotParseFunctions
                 Case "certificates"
                     toon = CharDetails(section)
                     For Each certNode As XmlNode In toon.ChildNodes
-                        cPilot.Certificates.Add(certNode.Attributes.GetNamedItem("certificateID").Value)
+                        cPilot.Certificates.Add(CInt(certNode.Attributes.GetNamedItem("certificateID").Value))
                     Next
                 Case "corporationRoles"
                     For Each roleNode As XmlNode In CharDetails(section).ChildNodes
@@ -794,9 +785,8 @@ Public Class PilotParseFunctions
         End If
     End Sub             'ParsePilotSkills
     Public Shared Sub CheckMissingTrainingSkills()
-        Dim curPilot As EveHQ.Core.Pilot
-        For Each curPilot In EveHQ.Core.HQ.EveHqSettings.Pilots
-            For Each cSkill As EveHQ.Core.PilotSkill In curPilot.PilotSkills
+        For Each curPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            For Each cSkill As EveHQ.Core.EveHQPilotSkill In curPilot.PilotSkills.Values
                 If EveHQ.Core.HQ.SkillListID.ContainsKey(cSkill.ID) = False Then
                     Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
                     Exit Sub
@@ -804,13 +794,13 @@ Public Class PilotParseFunctions
             Next
         Next
     End Sub
-    Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.Pilot)
-        Dim pilotSkill As New EveHQ.Core.PilotSkill
+    Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQ.Core.EveHQPilot)
+        Dim pilotSkill As New EveHQ.Core.EveHQPilotSkill
         ' Check if the main skill list has the skill we are checking for
         If EveHQ.Core.HQ.SkillListID.ContainsKey(cPilot.TrainingSkillID) = False Then
             Call EveHQ.Core.SkillFunctions.LoadEveSkillDataFromAPI()
         End If
-        If cPilot.PilotSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)) = False Then
+        If cPilot.PilotSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)) = False Then
             ' The pilot doesn't have this skill so let's add it manually
             Dim baseSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(cPilot.TrainingSkillID)
             pilotSkill.ID = baseSkill.ID
@@ -823,9 +813,9 @@ Public Class PilotParseFunctions
                 pilotSkill.LevelUp(l) = baseSkill.LevelUp(l)
             Next
             pilotSkill.SP = cPilot.TrainingStartSP
-            cPilot.PilotSkills.Add(pilotSkill, pilotSkill.Name)
+            cPilot.PilotSkills.Add(pilotSkill.Name, pilotSkill)
         Else
-            Dim sq As Core.PilotSkill = CType(cPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID)), Core.PilotSkill)
+            Dim sq As Core.EveHQPilotSkill = cPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(cPilot.TrainingSkillID))
             sq.Level = cPilot.TrainingSkillLevel - 1
         End If
 
@@ -859,7 +849,7 @@ Public Class PilotParseFunctions
                     End If
                 Next
 
-                Dim newPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+                Dim newPilot As New EveHQ.Core.EveHQPilot
                 newPilot.Name = pilotName
                 newPilot.ID = pilotID
                 newPilot.Account = ""
@@ -872,8 +862,7 @@ Public Class PilotParseFunctions
                     pilotTXML.Save(Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 End If
 
-                Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
-                For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
+                For Each currentPilot As EveHQPilot In EveHQ.Core.HQ.TPilots.Values
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParseTrainingXML(currentPilot, pilotTXML)
@@ -938,7 +927,7 @@ Public Class PilotParseFunctions
                         pilotID = CharDetails(toonNo).ChildNodes(0).InnerText
                         pilotName = CharDetails(toonNo).ChildNodes(1).InnerText
                         ' Check if this pilot already exists
-                        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(pilotName) = True Then
+                        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
                             reply = MessageBox.Show("This pilot already exists, would you like to update the pilot?", "Update Pilot?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                             If reply = Windows.Forms.DialogResult.No Then
                                 Exit Sub
@@ -954,7 +943,7 @@ Public Class PilotParseFunctions
                     End If
                 Next
 
-                Dim newPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+                Dim newPilot As New EveHQ.Core.EveHQPilot
                 newPilot.Name = pilotName
                 newPilot.ID = pilotID
                 newPilot.Account = ""
@@ -968,7 +957,7 @@ Public Class PilotParseFunctions
                     End If
                 End If
 
-                Dim currentPilot As EveHQ.Core.Pilot = New EveHQ.Core.Pilot
+                Dim currentPilot As New EveHQ.Core.EveHQPilot
                 For Each currentPilot In EveHQ.Core.HQ.TPilots.Values
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotSkills(currentPilot, pilotXML)
                     Call EveHQ.Core.PilotParseFunctions.ParsePilotXML(currentPilot, pilotXML)
@@ -1055,7 +1044,7 @@ Public Class PilotParseFunctions
         Loop Until Retry = False
         Return pilotXML
     End Function
-    Public Shared Sub SwitchImplants(ByVal iPilot As EveHQ.Core.Pilot)
+    Public Shared Sub SwitchImplants(ByVal iPilot As EveHQ.Core.EveHQPilot)
         ' Decide whether to use Auto or Manual Implants
         If iPilot.UseManualImplants = True Then
             iPilot.CImplant = iPilot.CImplantM

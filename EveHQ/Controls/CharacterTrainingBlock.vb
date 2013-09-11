@@ -31,7 +31,7 @@ Public Class CharacterTrainingBlock
         ' Add any initialization after the InitializeComponent() call.
 
         If IsAccount = True Then
-            Dim cAccount As EveHQ.Core.EveAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(objectName), Core.EveAccount)
+            Dim cAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts(objectName)
             UsingAccount = cAccount.userID
             If cAccount.APIAccountStatus = Core.APIAccountStatuses.Disabled Then
                 ' Prepare block for a blank account
@@ -68,7 +68,7 @@ Public Class CharacterTrainingBlock
             ' Prepare block for a training character
             displayPilotName = objectName
             UsingAccount = ""
-            Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(displayPilotName), Core.Pilot)
+            Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
 
             ' Update skill info before displaying
             dPilot.TrainingCurrentSP = CInt(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(dPilot))
@@ -124,8 +124,8 @@ Public Class CharacterTrainingBlock
     End Sub
 
     Private Sub tmrUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrUpdate.Tick
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(displayPilotName) = True Then
-            Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(displayPilotName), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(displayPilotName) = True Then
+            Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
             lblSkill.Text = dPilot.Name & " - " & dPilot.TrainingSkillName
             Dim currentDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
             lblTime.Text = "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime)
@@ -158,12 +158,12 @@ Public Class CharacterTrainingBlock
 
     Private Sub OverlayAccountTime()
         If pbPilot.InitialImage IsNot Nothing Then
-            If EveHQ.Core.HQ.EveHQSettings.NotifyAccountTime = True Then
-                If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(displayPilotName) Then
-                    Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(displayPilotName), Core.Pilot)
-                    If EveHQ.Core.HQ.EveHQSettings.Accounts.Contains(dPilot.Account) Then
-                        Dim AccountTime As Date = CType(EveHQ.Core.HQ.EveHQSettings.Accounts(dPilot.Account), EveHQ.Core.EveAccount).PaidUntil
-                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.EveHQSettings.AccountTimeLimit Then
+            If EveHQ.Core.HQ.Settings.NotifyAccountTime = True Then
+                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(displayPilotName) Then
+                    Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
+                    If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(dPilot.Account) Then
+                        Dim AccountTime As Date = EveHQ.Core.HQ.Settings.Accounts(dPilot.Account).PaidUntil
+                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.Settings.AccountTimeLimit Then
                             ' Check exactly how much time is left (i.e. less than an hour?)
                             Dim OverlayText As String = ""
                             Dim TimeRemaining As Double = (AccountTime - Now).TotalHours
@@ -203,9 +203,9 @@ Public Class CharacterTrainingBlock
 
     Private Sub OverlayInsuffClone()
         If pbPilot.Image IsNot Nothing Then
-            If EveHQ.Core.HQ.EveHQSettings.NotifyInsuffClone = True Then
-                If EveHQ.Core.HQ.EveHQSettings.Pilots.Contains(displayPilotName) Then
-                    Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHQSettings.Pilots(displayPilotName), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.NotifyInsuffClone = True Then
+                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(displayPilotName) Then
+                    Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
                     If (dPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(dPilot)) > CLng(dPilot.CloneSP) Then
                         Const OverlayText As String = "Clone"
                         Dim OverlayFont As Font = New Font(Me.Font.FontFamily, 7)
@@ -229,16 +229,16 @@ Public Class CharacterTrainingBlock
 #Region "Portrait Related Routines"
 
     Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
-        Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(displayPilotName), Core.Pilot)
+        Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
         pbPilot.ImageLocation = "http://image.eveonline.com/Character/" & dPilot.ID & "_256.jpg"
     End Sub
     Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
         ' If double-clicked, see if we can get it from the eve portrait folder
-        Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(displayPilotName), Core.Pilot)
+        Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
         For folder As Integer = 1 To 4
             Dim folderName As String
-            If EveHQ.Core.HQ.EveHqSettings.EveFolderLUA(folder) = False Then
-                Dim eveSettingsFolder As String = EveHQ.Core.HQ.EveHqSettings.EveFolder(folder)
+            If EveHQ.Core.HQ.Settings.EveFolderLUA(folder) = False Then
+                Dim eveSettingsFolder As String = EveHQ.Core.HQ.Settings.EveFolder(folder)
                 If eveSettingsFolder IsNot Nothing Then
                     eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
                     Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
@@ -247,7 +247,7 @@ Public Class CharacterTrainingBlock
                     folderName = ""
                 End If
             Else
-                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.EveHqSettings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
+                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.Settings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
             End If
             If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
                 For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
@@ -266,7 +266,7 @@ Public Class CharacterTrainingBlock
         MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
     Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSavePortrait.Click
-        Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(displayPilotName), Core.Pilot)
+        Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
         Dim imgFilename As String = dPilot.ID & ".png"
         imgFilename = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imgFilename)
         ' Save the file

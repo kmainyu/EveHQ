@@ -164,7 +164,7 @@ Public Class frmCharCreate
     Private Sub btnAddPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddPilot.Click
 
         ' Create a new pilot
-        Dim nPilot As New EveHQ.Core.Pilot
+        Dim nPilot As New EveHQ.Core.EveHQPilot
         nPilot.ID = Me.lblCharID.Text
         ' Check name isn't blank
         If Me.txtCharName.Text.Trim = "" Then
@@ -174,7 +174,7 @@ Public Class frmCharCreate
             nPilot.Name = Me.txtCharName.Text
         End If
         ' Check if name exists
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(nPilot.Name) = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(nPilot.Name) = True Then
             MessageBox.Show("Pilot name already exists. Please choose an alternative name.", "Pilot Already Exists", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
@@ -193,12 +193,12 @@ Public Class frmCharCreate
         nPilot.CloneName = "Clone Grade Alpha"
         nPilot.CloneSP = "900000"
         For Each skillItem As ListViewItem In lvwSkills.Items
-            Dim pilotSkill As New EveHQ.Core.PilotSkill
+            Dim pilotSkill As New EveHQ.Core.EveHQPilotSkill
             pilotSkill.ID = skillItem.Name
             pilotSkill.Name = skillItem.Text
             pilotSkill.Level = CInt(skillItem.SubItems(1).Text)
             pilotSkill.SP = CInt(skillItem.SubItems(2).Text)
-            nPilot.PilotSkills.Add(pilotSkill, pilotSkill.Name)
+            nPilot.PilotSkills.Add(pilotSkill.Name, pilotSkill)
         Next
         nPilot.Updated = True
 

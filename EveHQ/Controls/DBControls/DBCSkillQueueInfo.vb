@@ -31,7 +31,7 @@ Public Class DBCSkillQueueInfo
         ' Load the combo box with the pilot info
         cboPilot.BeginUpdate()
         cboPilot.Items.Clear()
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If pilot.Active = True Then
                 cboPilot.Items.Add(pilot.Name)
             End If
@@ -58,8 +58,8 @@ Public Class DBCSkillQueueInfo
         End Get
         Set(ByVal value As String)
             cDefaultPilotName = value
-            If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(DefaultPilotName) Then
-                cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(DefaultPilotName), Core.Pilot)
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                cPilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
             End If
             If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
             If ReadConfig = False Then
@@ -122,13 +122,13 @@ Public Class DBCSkillQueueInfo
 #End Region
 
 #Region "Class Variables"
-    Dim cPilot As EveHQ.Core.Pilot
+    Dim cPilot As EveHQ.Core.EveHQPilot
 #End Region
 
 #Region "Private Methods"
     Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(cboPilot.SelectedItem.ToString) Then
-            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilot.SelectedItem.ToString), Core.Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+            cPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
             ' Update the list of EveHQ Skill Queues
             Call Me.UpdateQueueList()
             ' Update the details
@@ -139,7 +139,7 @@ Public Class DBCSkillQueueInfo
     Private Sub UpdateQueueList()
         cboSkillQueue.BeginUpdate()
         cboSkillQueue.Items.Clear()
-        For Each sq As EveHQ.Core.SkillQueue In cPilot.TrainingQueues.Values
+        For Each sq As EveHQ.Core.EveHQSkillQueue In cPilot.TrainingQueues.Values
             cboSkillQueue.Items.Add(sq.Name)
         Next
         cboSkillQueue.EndUpdate()
@@ -173,12 +173,12 @@ Public Class DBCSkillQueueInfo
                 lvwSkills.BeginUpdate()
                 lvwSkills.Items.Clear()
                 If cPilot.QueuedSkills IsNot Nothing Then
-                    For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In cPilot.QueuedSkills.Values
+                    For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In cPilot.QueuedSkills.Values
                         Dim newitem As New ListViewItem
-                        newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(QueuedSkill.SkillID.ToString) & " (Lvl " & EveHQ.Core.SkillFunctions.Roman(QueuedSkill.Level) & ")"
-                        Dim enddate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime)
+                        newitem.Text = EveHQ.Core.SkillFunctions.SkillIDToName(queuedSkill.SkillID.ToString) & " (Lvl " & EveHQ.Core.SkillFunctions.Roman(queuedSkill.Level) & ")"
+                        Dim enddate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime)
                         newitem.ToolTipText = "Skill ends: " & Format(enddate, "ddd") & " " & enddate
-                        newitem.Name = QueuedSkill.SkillID.ToString
+                        newitem.Name = queuedSkill.SkillID.ToString
                         lvwSkills.Items.Add(newitem)
                         'newitem.SubItems.Add(QueuedSkill.Level.ToString)
                     Next
@@ -190,7 +190,7 @@ Public Class DBCSkillQueueInfo
                 lvwSkills.Items.Clear()
                 If cboSkillQueue.SelectedItem IsNot Nothing Then
                     If cPilot.TrainingQueues.ContainsKey(cboSkillQueue.SelectedItem.ToString) = True Then
-                        Dim cQueue As EveHQ.Core.SkillQueue = CType(cPilot.TrainingQueues(cboSkillQueue.SelectedItem.ToString), Core.SkillQueue)
+                        Dim cQueue As EveHQ.Core.EveHQSkillQueue = cPilot.TrainingQueues(cboSkillQueue.SelectedItem.ToString)
                         Dim arrQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(cPilot, cQueue, False, True)
                         For skill As Integer = 0 To arrQueue.Count - 1
                             Dim qItem As EveHQ.Core.SortedQueueItem = CType(arrQueue(skill), EveHQ.Core.SortedQueueItem)

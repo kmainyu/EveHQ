@@ -28,11 +28,11 @@ Public Class frmShowInfo
     Dim oldNodeIndex As Integer = -1
     Dim itemType As Object
     Dim itemName As String = ""
-    Dim hPilot As EveHQ.Core.Pilot
+    Dim hPilot As EveHQ.Core.EveHQPilot
     Dim SkillsNeeded As New List(Of String)
     Dim ItemUsable As Boolean = True
 
-    Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As EveHQ.Core.Pilot)
+    Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As EveHQ.Core.EveHQPilot)
 
         hPilot = iPilot
 
@@ -104,10 +104,9 @@ Public Class frmShowInfo
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And hPilot.Updated = True Then
-                        If hPilot.PilotSkills.Contains(cSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                            mySkill = hPilot.PilotSkills(cSkill.Name)
+                    If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And hPilot.Updated = True Then
+                        If hPilot.PilotSkills.ContainsKey(cSkill.Name) Then
+                            Dim mySkill As EveHQ.Core.EveHQPilotSkill = hPilot.PilotSkills(cSkill.Name)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                             If skillTrained = True Then
@@ -226,12 +225,11 @@ Public Class frmShowInfo
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And hPilot.Updated = True Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And hPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
-            If hPilot.PilotSkills.Contains(newSkill.Name) Then
-                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(hPilot.PilotSkills(newSkill.Name), Core.PilotSkill)
+            If hPilot.PilotSkills.ContainsKey(newSkill.Name) Then
+                Dim mySkill As EveHQ.Core.EveHQPilotSkill = hPilot.PilotSkills(newSkill.Name)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If

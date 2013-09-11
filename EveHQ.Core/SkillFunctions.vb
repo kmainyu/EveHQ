@@ -65,14 +65,14 @@ Public Class SkillFunctions
             Loop Until dec < intVal(intLoopCounter)
         Next intLoopCounter
     End Function
-    Public Shared Function CalculateSPLevel(ByVal Rank As Integer, ByVal Level As Integer) As Double
+    Public Shared Function CalculateSPLevel(ByVal rank As Integer, ByVal level As Integer) As Double
         Dim SP As Double = 0
         If Level > 0 Then
-            SP = 250 * Rank * (2 ^ (2.5 * (Level - 1)))
+            SP = 250 * rank * (2 ^ (2.5 * (Level - 1)))
         End If
         Return SP
     End Function         'CalculateSPLevel
-    Public Shared Function CalculateSkillSPLevel(ByVal skillID As String, ByVal Level As Integer) As Double
+    Public Shared Function CalculateSkillSPLevel(ByVal skillID As String, ByVal level As Integer) As Double
         Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
         Return CalculateSPLevel(cSkill.Rank, Level)
     End Function
@@ -194,15 +194,15 @@ Public Class SkillFunctions
         Return strTime.Trim(" ".ToCharArray)
 
     End Function             'TimeToString
-    Public Shared Function ConvertEveTimeToLocal(ByVal EveTime As Date) As Date
+    Public Shared Function ConvertEveTimeToLocal(ByVal eveTime As Date) As Date
         ' Calculate the local time and UTC offset.
         Return TimeZone.CurrentTimeZone.ToLocalTime(EveTime)
     End Function    'ConvertEveTimeToLocal
-    Public Shared Function ConvertLocalTimeToEve(ByVal LocalTime As Date) As Date
+    Public Shared Function ConvertLocalTimeToEve(ByVal localTime As Date) As Date
         ' Calculate the local time and UTC offset.
         Return TimeZone.CurrentTimeZone.ToUniversalTime(LocalTime)
     End Function
-    Public Shared Function CalcCurrentSkillTime(ByRef myPilot As EveHQ.Core.Pilot) As Long
+    Public Shared Function CalcCurrentSkillTime(ByRef myPilot As EveHQ.Core.EveHQPilot) As Long
         If myPilot.Training = True Then
             eTimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime) - Now
             myPilot.TrainingCurrentTime = CLng(Math.Max(eTimeSpan.TotalSeconds, 0))
@@ -211,7 +211,7 @@ Public Class SkillFunctions
             Return 0
         End If
     End Function     'CalcCurrentSkillTime
-    Public Shared Function CalcCurrentSkillPoints(ByRef myPilot As EveHQ.Core.Pilot) As Long
+    Public Shared Function CalcCurrentSkillPoints(ByRef myPilot As EveHQ.Core.EveHQPilot) As Long
         If myPilot.Training = True Then
             tTimeSpan = myPilot.TrainingEndTime - myPilot.TrainingStartTime
             If DateTime.Compare(Now, EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(myPilot.TrainingEndTime)) < 0 Then
@@ -225,46 +225,46 @@ Public Class SkillFunctions
             Return 0
         End If
     End Function   'CalcCurrentSkillPoints
-    Public Shared Function CalcProductionTime(ByRef myPilot As EveHQ.Core.Pilot, ByVal time As Double) As Double
+    Public Shared Function CalcProductionTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.04 * CDbl(myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Industry))))
+            newTime = time * (1 - (0.04 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Industry))))
         Catch ex As Exception
             newTime = 0
         End Try
         Return newTime
     End Function
-    Public Shared Function CalcResearchProdTime(ByRef myPilot As EveHQ.Core.Pilot, ByVal time As Double) As Double
+    Public Shared Function CalcResearchProdTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Research))))
+            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Research))))
         Catch ex As Exception
             newTime = 0
         End Try
         Return newTime
     End Function
-    Public Shared Function CalcResearchMatTime(ByRef myPilot As EveHQ.Core.Pilot, ByVal time As Double) As Double
+    Public Shared Function CalcResearchMatTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Metallurgy))))
+            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Metallurgy))))
         Catch ex As Exception
             newTime = 0
         End Try
         Return newTime
     End Function
-    Public Shared Function CalcResearchCopyTime(ByRef myPilot As EveHQ.Core.Pilot, ByVal time As Double) As Double
+    Public Shared Function CalcResearchCopyTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Science))))
+            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Science))))
         Catch ex As Exception
             newTime = 0
         End Try
         Return newTime
     End Function
-    Public Shared Function CalcWasteFactor(ByRef myPilot As EveHQ.Core.Pilot, ByVal wf As Double) As Double
+    Public Shared Function CalcWasteFactor(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal wf As Double) As Double
         Dim newWF As Double = 0
         Try
-            newWF = ((1 + wf) * (1.25 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency))))) - 1
+            newWF = ((1 + wf) * (1.25 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.ProductionEfficiency))))) - 1
         Catch ex As Exception
             newWF = wf
         End Try
@@ -422,7 +422,7 @@ Public Class SkillFunctions
     Public Shared Sub LoadEveSkillDataFromAPI()
         Try
             ' Get the XML data from the API
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             Dim skillXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillTree, EveAPI.APIReturnMethods.BypassCache)
             ' Load the skills!
             If skillXML IsNot Nothing Then
@@ -482,7 +482,7 @@ Public Class SkillFunctions
             Exit Sub
         End Try
     End Sub
-    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill) As Integer
+    Public Shared Function CalculateSPRate(ByVal cPilot As EveHQ.Core.EveHQPilot, ByVal cSkill As EveHQ.Core.EveSkill) As Integer
         Dim PA, SA As Double
         Dim Rate As Integer
 
@@ -518,7 +518,7 @@ Public Class SkillFunctions
         Return Rate
 
     End Function          'CalculateSPRate
-    Public Shared Function CalculateSP(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Long
+    Public Shared Function CalculateSP(ByVal cPilot As EveHQ.Core.EveHQPilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Long
 
         Dim Rank, StartSP, EndSP As Double
         Dim SP As Long
@@ -529,8 +529,8 @@ Public Class SkillFunctions
         ' Get starting skillpoints & level
         Dim startLevel As Integer = 0
         If fromLevel = -1 Then
-            If cPilot.PilotSkills.Contains(cSkill.Name) = True Then
-                Dim sSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
+            If cPilot.PilotSkills.ContainsKey(cSkill.Name) = True Then
+                Dim sSkill As EveHQ.Core.EveHQPilotSkill = cPilot.PilotSkills(cSkill.Name)
                 startLevel = sSkill.Level
                 StartSP = sSkill.SP
                 If cPilot.Training = True And cPilot.TrainingSkillName = cSkill.Name Then
@@ -553,7 +553,7 @@ Public Class SkillFunctions
         Return SP
 
     End Function              'CalculateSP
-    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Double
+    Public Shared Function CalcTimeToLevel(ByVal cPilot As EveHQ.Core.EveHQPilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal toLevel As Integer, Optional ByVal fromLevel As Integer = -1) As Double
 
         'NB Level = 0 indicates to train to the next available level
 
@@ -567,8 +567,8 @@ Public Class SkillFunctions
         ' Get starting skillpoints & level
         Dim startLevel As Integer = 0
         If fromLevel = -1 Then
-            If cPilot.PilotSkills.Contains(cSkill.Name) = True Then
-                Dim sSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
+            If cPilot.PilotSkills.ContainsKey(cSkill.Name) = True Then
+                Dim sSkill As EveHQ.Core.EveHQPilotSkill = cPilot.PilotSkills(cSkill.Name)
                 startLevel = sSkill.Level
                 StartSP = sSkill.SP
                 If cPilot.Training = True And cPilot.TrainingSkillName = cSkill.Name Then
@@ -639,7 +639,7 @@ Public Class SkillFunctions
         Return sTime
 
     End Function          'CalcTimeToLevel
-    Public Shared Function SkillNameToID(ByVal Name As String) As String
+    Public Shared Function SkillNameToID(ByVal name As String) As String
         Dim ID As String = ""
         If EveHQ.Core.HQ.SkillListName.ContainsKey(Name) = True Then
             Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(Name)
@@ -649,7 +649,7 @@ Public Class SkillFunctions
         End If
         Return ID
     End Function            'SkillNameToID
-    Public Shared Function SkillIDToName(ByVal ID As String) As String
+    Public Shared Function SkillIDToName(ByVal id As String) As String
         Dim Name As String = ""
         If EveHQ.Core.HQ.SkillListID.ContainsKey(ID) = True Then
             Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(ID)
@@ -659,13 +659,13 @@ Public Class SkillFunctions
         End If
         Return Name
     End Function            'SkillIDToName  
-    Public Shared Function CalcNextLevel(ByVal cPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill) As Integer
+    Public Shared Function CalcNextLevel(ByVal cPilot As EveHQ.Core.EveHQPilot, ByVal cSkill As EveHQ.Core.EveSkill) As Integer
 
         Dim cLevel As Integer = 0
 
         ' Get current skill level
-        If cPilot.PilotSkills.Contains(cSkill.Name) = True Then
-            Dim sSkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
+        If cPilot.PilotSkills.ContainsKey(cSkill.Name) = True Then
+            Dim sSkill As EveHQ.Core.EveHQPilotSkill = cPilot.PilotSkills(cSkill.Name)
             cLevel = sSkill.Level + 1
             If cLevel = 6 Then cLevel = 0
         Else
@@ -675,12 +675,12 @@ Public Class SkillFunctions
         Return cLevel
 
     End Function            'CalcTimeToLevel
-    Public Shared Function CalcCurrentLevel(ByVal cpilot As EveHQ.Core.Pilot, ByVal cskill As EveHQ.Core.EveSkill) As Integer
+    Public Shared Function CalcCurrentLevel(ByVal cpilot As EveHQ.Core.EveHQPilot, ByVal cskill As EveHQ.Core.EveSkill) As Integer
         Dim cLevel As Integer = 0
 
         ' Get current skill level
-        If cpilot.PilotSkills.Contains(cskill.Name) = True Then
-            Dim sSkill As EveHQ.Core.PilotSkill = CType(cpilot.PilotSkills(cskill.Name), EveHQ.Core.PilotSkill)
+        If cpilot.PilotSkills.ContainsKey(cskill.Name) = True Then
+            Dim sSkill As EveHQ.Core.EveHQPilotSkill = cpilot.PilotSkills(cskill.Name)
             cLevel = sSkill.Level
         Else
             cLevel = 0
@@ -698,7 +698,7 @@ Public Class SkillFunctions
         Next
         Return curLevel
     End Function
-    Public Shared Function HavePreReqs(ByVal qpilot As EveHQ.Core.Pilot, ByVal skillID As String) As Boolean
+    Public Shared Function HavePreReqs(ByVal qpilot As EveHQ.Core.EveHQPilot, ByVal skillID As String) As Boolean
         ' Sub to ensure we have all the prerequisite skills we require
         ' Skills are added if required
 
@@ -719,15 +719,15 @@ Public Class SkillFunctions
         Next
         Return True
     End Function
-    Public Shared Function ForceSkillTraining(ByVal skillPilot As EveHQ.Core.Pilot, ByVal skillID As String, ByVal Silent As Boolean) As Boolean
-        Dim Trainable As Boolean = EveHQ.Core.SkillFunctions.HavePreReqs(skillPilot, skillID)
+    Public Shared Function ForceSkillTraining(ByVal skillPilot As EveHQ.Core.EveHQPilot, ByVal skillID As String, ByVal silent As Boolean) As Boolean
+        Dim trainable As Boolean = EveHQ.Core.SkillFunctions.HavePreReqs(skillPilot, skillID)
         Dim strMsg As String = ""
         Dim nextLevel As Integer = 0
         Dim setupSkill As Boolean = False
-        If Trainable = True Then
+        If trainable = True Then
             Dim skillName As String = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
-            If skillPilot.PilotSkills.Contains(skillName) = True Then
-                Dim mySkill As EveHQ.Core.PilotSkill = CType(skillPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
+            If skillPilot.PilotSkills.ContainsKey(skillName) = True Then
+                Dim mySkill As EveHQ.Core.EveHQPilotSkill = skillPilot.PilotSkills(skillName)
                 ' Check if we are already have it to Level 5
                 Dim maxxedOut As Boolean = False
                 Dim timedOut As Boolean = False
@@ -774,7 +774,7 @@ Public Class SkillFunctions
             End If
 
             Dim confirmforce As Integer = Windows.Forms.DialogResult.Yes
-            If Silent = False Then
+            If silent = False Then
                 confirmforce = MessageBox.Show(strMsg, "Force Skill Training?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             End If
             If confirmforce = Windows.Forms.DialogResult.No Then
@@ -783,7 +783,7 @@ Public Class SkillFunctions
                 Dim newSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
                 ' Set the skill up if it's not already trained
                 If setupSkill = True Then
-                    Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
+                    Dim mySkill As New EveHQ.Core.EveHQPilotSkill
                     mySkill.ID = newSkill.ID
                     mySkill.GroupID = newSkill.GroupID
                     mySkill.Name = newSkill.Name
@@ -797,11 +797,11 @@ Public Class SkillFunctions
                     mySkill.LevelUp(3) = newSkill.LevelUp(3)
                     mySkill.LevelUp(4) = newSkill.LevelUp(4)
                     mySkill.LevelUp(5) = newSkill.LevelUp(5)
-                    skillPilot.PilotSkills.Add(mySkill, mySkill.Name)
+                    skillPilot.PilotSkills.Add(mySkill.Name, mySkill)
                 End If
                 ' Finish off training of the old skill
                 If skillPilot.Training = True Then
-                    Dim oldSkill As EveHQ.Core.PilotSkill = CType(skillPilot.PilotSkills(skillPilot.TrainingSkillName), EveHQ.Core.PilotSkill)
+                    Dim oldSkill As EveHQ.Core.EveHQPilotSkill = skillPilot.PilotSkills(skillPilot.TrainingSkillName)
                     oldSkill.Flag = 7
                     oldSkill.SP += skillPilot.TrainingCurrentSP
                     If skillPilot.TrainingCurrentTime <= 0 And oldSkill.Level <> skillPilot.TrainingSkillLevel Then
@@ -811,7 +811,7 @@ Public Class SkillFunctions
                     End If
                 End If
                 ' Start training of the new skill
-                Dim trainSkill As EveHQ.Core.PilotSkill = CType(skillPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
+                Dim trainSkill As EveHQ.Core.EveHQPilotSkill = skillPilot.PilotSkills(skillName)
                 trainSkill.Flag = 61
                 With skillPilot
                     .Training = True
@@ -821,10 +821,10 @@ Public Class SkillFunctions
                     .TrainingStartSP = trainSkill.SP
                     .TrainingCurrentSP = 0
                     .TrainingEndSP = CInt(EveHQ.Core.SkillFunctions.CalculateSPLevel(newSkill.Rank, nextLevel))
-                    .TrainingStartTimeActual = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now).AddSeconds(-EveHQ.Core.HQ.EveHqSettings.ServerOffset)
-                    .TrainingStartTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
+                    .TrainingStartTimeActual = EveHQ.Core.SkillFunctions.ConvertLocalTimeToEve(Now).AddSeconds(-EveHQ.Core.HQ.Settings.ServerOffset)
+                    .TrainingStartTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.Settings.ServerOffset)
                     .TrainingEndTimeActual = .TrainingStartTimeActual.AddSeconds(EveHQ.Core.SkillFunctions.CalcTimeToLevel(skillPilot, newSkill, nextLevel))
-                    .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.EveHqSettings.ServerOffset)
+                    .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(EveHQ.Core.HQ.Settings.ServerOffset)
                     .TrainingCurrentTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(skillPilot)
                 End With
                 ' Write the new XML Files
@@ -850,16 +850,16 @@ Public Class SkillFunctions
                 Return True
             End If
         Else
-            If Silent = False Then
+            If silent = False Then
                 strMsg = "You do not have the required pre-requisites to start training this skill!" & ControlChars.CrLf & ControlChars.CrLf & "Please ensure you have the pre-requisite skills trained before trying to force skill training."
                 MessageBox.Show(strMsg, "Force Skill Training", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
             Return False
         End If
     End Function
-    Public Shared Function IsSkillTrained(ByVal cPilot As EveHQ.Core.Pilot, ByVal skillName As String, Optional ByVal toLevel As Integer = 0) As Boolean
-        If cPilot.PilotSkills.Contains(skillName) Then
-            Dim mySkill As EveHQ.Core.PilotSkill = CType(cPilot.PilotSkills(skillName), EveHQ.Core.PilotSkill)
+    Public Shared Function IsSkillTrained(ByVal cPilot As EveHQ.Core.EveHQPilot, ByVal skillName As String, Optional ByVal toLevel As Integer = 0) As Boolean
+        If cPilot.PilotSkills.ContainsKey(skillName) Then
+            Dim mySkill As EveHQ.Core.EveHQPilotSkill = cPilot.PilotSkills(skillName)
             Dim myLevel As Integer = CInt(mySkill.Level)
             If myLevel >= toLevel Then
                 Return True
@@ -872,19 +872,19 @@ Public Class SkillFunctions
 
     End Function
 
-    Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal parentSkillID As String, ToSkillLevel As Integer) As Double
+    Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal parentSkillID As String, ToSkillLevel As Integer) As Double
         Dim UsableTime As Double = 0
         Dim FromSkillLevel As Integer = -1
-        If rPilot.PilotSkills.Contains(parentSkillID) = False Then
+        If rPilot.PilotSkills.ContainsKey(parentSkillID) = False Then
             UsableTime = TimeBeforeCanTrain(rPilot, parentSkillID)
         Else
-            FromSkillLevel = CType(rPilot.PilotSkills(parentSkillID), EveHQ.Core.EveSkill).Level
+            FromSkillLevel = rPilot.PilotSkills(parentSkillID).Level
         End If
         UsableTime += CalcTimeToLevel(rPilot, EveHQ.Core.HQ.SkillListID(parentSkillID), ToSkillLevel, FromSkillLevel)
         Return UsableTime
     End Function
 
-    Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal parentSkillID As String) As Double
+    Public Shared Function TimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal parentSkillID As String) As Double
 
         Dim parentSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(parentSkillID)
         Dim itemSkillLevel As Integer = 0
@@ -939,15 +939,15 @@ Public Class SkillFunctions
         End If
 
     End Function
-    Private Shared Sub PreReqTimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.Pilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByRef skillsNeeded As ArrayList, ByVal rootSkill As Boolean)
+    Private Shared Sub PreReqTimeBeforeCanTrain(ByVal rPilot As EveHQ.Core.EveHQPilot, ByVal cSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByRef skillsNeeded As ArrayList, ByVal rootSkill As Boolean)
         ' Write the skill we are querying as the first (parent) node
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
         skillTrained = False
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 And rPilot.Updated = True Then
-            If rPilot.PilotSkills.Contains(cSkill.Name) = True Then
-                Dim mySkill As EveHQ.Core.PilotSkill = New EveHQ.Core.PilotSkill
-                mySkill = CType(rPilot.PilotSkills(cSkill.Name), EveHQ.Core.PilotSkill)
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And rPilot.Updated = True Then
+            If rPilot.PilotSkills.ContainsKey(cSkill.Name) = True Then
+                Dim mySkill As New EveHQ.Core.EveHQPilotSkill
+                mySkill = rPilot.PilotSkills(cSkill.Name)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
                 If skillTrained = False Then

@@ -71,7 +71,7 @@ Public Class frmModifyPriceGroup
 
         ' Check if the name already exists
         Dim TestPriceGroupName As String = txtPriceGroup.Text
-        If EveHQ.Core.HQ.EveHqSettings.PriceGroups.ContainsKey(TestPriceGroupName) Then
+        If EveHQ.Core.HQ.Settings.PriceGroups.ContainsKey(TestPriceGroupName) Then
             Dim reply As Integer = MessageBox.Show("Price Group Name already exists! Would you like to try again?", "Name Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.Retry Then
                 Exit Sub
@@ -87,19 +87,19 @@ Public Class frmModifyPriceGroup
             ' Create a new price group
             Dim NewPriceGroup As New EveHQ.Core.PriceGroup
             NewPriceGroup.Name = TestPriceGroupName
-            EveHQ.Core.HQ.EveHqSettings.PriceGroups.Add(NewPriceGroup.Name, NewPriceGroup)
+            EveHQ.Core.HQ.Settings.PriceGroups.Add(NewPriceGroup.Name, NewPriceGroup)
         Else
             Dim OldGroup As New EveHQ.Core.PriceGroup
             ' Get the data from the old price group and place into a new key
-            If EveHQ.Core.HQ.EveHqSettings.PriceGroups.ContainsKey(OldPriceGroupName) = True Then
-                OldGroup = EveHQ.Core.HQ.EveHqSettings.PriceGroups(OldPriceGroupName)
-                EveHQ.Core.HQ.EveHqSettings.PriceGroups.Remove(OldPriceGroupName)
+            If EveHQ.Core.HQ.Settings.PriceGroups.ContainsKey(OldPriceGroupName) = True Then
+                OldGroup = EveHQ.Core.HQ.Settings.PriceGroups(OldPriceGroupName)
+                EveHQ.Core.HQ.Settings.PriceGroups.Remove(OldPriceGroupName)
             Else
                 MessageBox.Show("Ooops! EveHQ cannot find the original Price Group but will create a new one anyway.", "Old Price Group Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
             ' Create the new group
             OldGroup.Name = TestPriceGroupName
-            EveHQ.Core.HQ.EveHqSettings.PriceGroups.Add(OldGroup.Name, OldGroup)
+            EveHQ.Core.HQ.Settings.PriceGroups.Add(OldGroup.Name, OldGroup)
         End If
         Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.cNewPriceGroupName = TestPriceGroupName

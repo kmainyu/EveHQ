@@ -35,13 +35,13 @@ Public Class SkillQueueTimeControl
 
         ' Add any initialization after the InitializeComponent() call.
         CurrentPilotName = PilotName
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(currentPilotName) = True Then
-            QueuedSkills = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(currentPilotName), EveHQ.Core.Pilot).QueuedSkills
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(currentPilotName) = True Then
+            QueuedSkills = EveHQ.Core.HQ.Settings.Pilots(currentPilotName).QueuedSkills
         End If
 
     End Sub
 
-    Dim QueuedSkills As New SortedList(Of Long, EveHQ.Core.PilotQueuedSkill)
+    Dim QueuedSkills As New SortedList(Of Integer, EveHQ.Core.EveHQPilotQueuedSkill)
     Dim currentPilotName As String = ""
     Dim lastTime As Date
 
@@ -50,21 +50,21 @@ Public Class SkillQueueTimeControl
         Dim sx As Integer = 2
         Dim sy As Integer = 16
         ' Calculate number of seconds from now till start
-        For Each QueuedSkill As EveHQ.Core.PilotQueuedSkill In QueuedSkills.Values
-            If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime) >= Now Then
-                Dim startSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.StartTime) - Now
+        For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In QueuedSkills.Values
+            If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
+                Dim startSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) - Now
                 Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
-                Dim endSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime) - Now
+                Dim endSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) - Now
                 Dim endSec As Double = Math.Min(endSpan.TotalSeconds, 86400)
                 Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQT.Width - 4)), 0)
                 Dim endMark As Integer = CInt(endSec / 86400 * (panelSQT.Width - 4))
-                If Math.IEEERemainder(QueuedSkill.Position, 2) = 0 Then
+                If Math.IEEERemainder(queuedSkill.Position, 2) = 0 Then
                     g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
                 Else
                     g.FillRectangle(Brushes.SkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
                 End If
             End If
-            lastTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime)
+            lastTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime)
         Next
         lblQueueEnds.Text = "Finishes: " & lastTime.ToString
         lblQueueRemaining.Text = EveHQ.Core.SkillFunctions.TimeToString((lastTime - Now).TotalSeconds)

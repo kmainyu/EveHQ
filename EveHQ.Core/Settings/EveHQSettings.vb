@@ -645,51 +645,51 @@ Public Class EveHQSettings
     End Function
 
    Public Shared Sub ResetColumns()
-        HQ.EveHqSettings.QColumns(0, 0) = "Name"
-        HQ.EveHqSettings.QColumns(0, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(1, 0) = "Curr"
-        HQ.EveHqSettings.QColumns(1, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(2, 0) = "From"
-        HQ.EveHqSettings.QColumns(2, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(3, 0) = "Tole"
-        HQ.EveHqSettings.QColumns(3, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(4, 0) = "Perc"
-        HQ.EveHqSettings.QColumns(4, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(5, 0) = "Trai"
-        HQ.EveHqSettings.QColumns(5, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(6, 0) = "Comp"
-        HQ.EveHqSettings.QColumns(6, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(7, 0) = "Date"
-        HQ.EveHqSettings.QColumns(7, 1) = CStr(True)
-        HQ.EveHqSettings.QColumns(8, 0) = "Rank"
-        HQ.EveHqSettings.QColumns(8, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(9, 0) = "PAtt"
-        HQ.EveHqSettings.QColumns(9, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(10, 0) = "SAtt"
-        HQ.EveHqSettings.QColumns(10, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(11, 0) = "SPRH"
-        HQ.EveHqSettings.QColumns(11, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(12, 0) = "SPRD"
-        HQ.EveHqSettings.QColumns(12, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(13, 0) = "SPRW"
-        HQ.EveHqSettings.QColumns(13, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(14, 0) = "SPRM"
-        HQ.EveHqSettings.QColumns(14, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(15, 0) = "SPRY"
-        HQ.EveHqSettings.QColumns(15, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(16, 0) = "SPAd"
-        HQ.EveHqSettings.QColumns(16, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(17, 0) = "SPTo"
-        HQ.EveHqSettings.QColumns(17, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(18, 0) = "Note"
-        HQ.EveHqSettings.QColumns(18, 1) = CStr(False)
-        HQ.EveHqSettings.QColumns(19, 0) = "Prio"
-        HQ.EveHqSettings.QColumns(19, 1) = CStr(False)
-        HQ.EveHqSettings.QColumnsSet = True
+        HQ.Settings.QColumns(0, 0) = "Name"
+        HQ.Settings.QColumns(0, 1) = CStr(True)
+        HQ.Settings.QColumns(1, 0) = "Curr"
+        HQ.Settings.QColumns(1, 1) = CStr(True)
+        HQ.Settings.QColumns(2, 0) = "From"
+        HQ.Settings.QColumns(2, 1) = CStr(True)
+        HQ.Settings.QColumns(3, 0) = "Tole"
+        HQ.Settings.QColumns(3, 1) = CStr(True)
+        HQ.Settings.QColumns(4, 0) = "Perc"
+        HQ.Settings.QColumns(4, 1) = CStr(True)
+        HQ.Settings.QColumns(5, 0) = "Trai"
+        HQ.Settings.QColumns(5, 1) = CStr(True)
+        HQ.Settings.QColumns(6, 0) = "Comp"
+        HQ.Settings.QColumns(6, 1) = CStr(True)
+        HQ.Settings.QColumns(7, 0) = "Date"
+        HQ.Settings.QColumns(7, 1) = CStr(True)
+        HQ.Settings.QColumns(8, 0) = "Rank"
+        HQ.Settings.QColumns(8, 1) = CStr(False)
+        HQ.Settings.QColumns(9, 0) = "PAtt"
+        HQ.Settings.QColumns(9, 1) = CStr(False)
+        HQ.Settings.QColumns(10, 0) = "SAtt"
+        HQ.Settings.QColumns(10, 1) = CStr(False)
+        HQ.Settings.QColumns(11, 0) = "SPRH"
+        HQ.Settings.QColumns(11, 1) = CStr(False)
+        HQ.Settings.QColumns(12, 0) = "SPRD"
+        HQ.Settings.QColumns(12, 1) = CStr(False)
+        HQ.Settings.QColumns(13, 0) = "SPRW"
+        HQ.Settings.QColumns(13, 1) = CStr(False)
+        HQ.Settings.QColumns(14, 0) = "SPRM"
+        HQ.Settings.QColumns(14, 1) = CStr(False)
+        HQ.Settings.QColumns(15, 0) = "SPRY"
+        HQ.Settings.QColumns(15, 1) = CStr(False)
+        HQ.Settings.QColumns(16, 0) = "SPAd"
+        HQ.Settings.QColumns(16, 1) = CStr(False)
+        HQ.Settings.QColumns(17, 0) = "SPTo"
+        HQ.Settings.QColumns(17, 1) = CStr(False)
+        HQ.Settings.QColumns(18, 0) = "Note"
+        HQ.Settings.QColumns(18, 1) = CStr(False)
+        HQ.Settings.QColumns(19, 0) = "Prio"
+        HQ.Settings.QColumns(19, 1) = CStr(False)
+        HQ.Settings.QColumnsSet = True
     End Sub
 
     Public Sub Save()
-       
+
         Dim fileName As String = Path.Combine(HQ.AppDataFolder, "EveHQSettings.json")
         HQ.WriteLogEvent("Settings: Saving EveHQ settings to " & fileName)
 
@@ -710,8 +710,8 @@ Public Class EveHQSettings
         Call InitialiseRemoteProxyServer()
 
         ' Set Global APIServerInfo
-        HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.EveHqSettings.CCPAPIServerAddress, HQ.EveHqSettings.APIRSAddress,
-                                                  HQ.EveHqSettings.UseAPIRS, HQ.EveHqSettings.UseCCPAPIBackup)
+        HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.Settings.CCPAPIServerAddress, HQ.Settings.APIRSAddress,
+                                                  HQ.Settings.UseAPIRS, HQ.Settings.UseCCPAPIBackup)
 
     End Sub
 
@@ -855,139 +855,139 @@ Public Class EveHQSettings
 
     End Function
 
-  Public Shared Sub InitialiseRemoteProxyServer()
-        HQ.RemoteProxy.ProxyRequired = HQ.EveHqSettings.ProxyRequired
-        HQ.RemoteProxy.ProxyServer = HQ.EveHqSettings.ProxyServer
-        HQ.RemoteProxy.ProxyPort = HQ.EveHqSettings.ProxyPort
-        HQ.RemoteProxy.UseDefaultCredentials = HQ.EveHqSettings.ProxyUseDefault
-        HQ.RemoteProxy.ProxyUsername = HQ.EveHqSettings.ProxyUsername
-        HQ.RemoteProxy.ProxyPassword = HQ.EveHqSettings.ProxyPassword
-        HQ.RemoteProxy.UseBasicAuthentication = HQ.EveHqSettings.ProxyUseBasic
+    Public Shared Sub InitialiseRemoteProxyServer()
+        HQ.RemoteProxy.ProxyRequired = HQ.Settings.ProxyRequired
+        HQ.RemoteProxy.ProxyServer = HQ.Settings.ProxyServer
+        HQ.RemoteProxy.ProxyPort = HQ.Settings.ProxyPort
+        HQ.RemoteProxy.UseDefaultCredentials = HQ.Settings.ProxyUseDefault
+        HQ.RemoteProxy.ProxyUsername = HQ.Settings.ProxyUsername
+        HQ.RemoteProxy.ProxyPassword = HQ.Settings.ProxyPassword
+        HQ.RemoteProxy.UseBasicAuthentication = HQ.Settings.ProxyUseBasic
     End Sub
 
     Public Shared Sub InitialiseQueueColumns()
-        HQ.EveHqSettings.StandardQueueColumns.Clear()
+        HQ.Settings.StandardQueueColumns.Clear()
         Dim newItem As ListViewItem
         'newItem = New ListViewItem
         'newItem.Name = "Name"
         'newItem.Text = "Skill Name"
         'newItem.Checked = True
-        'EveHQ.Core.HQ.EveHQSettings.StandardQueueColumns.Add(newItem)
+        'EveHQ.Core.HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Current"
         newItem.Text = "Cur Lvl"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "From"
         newItem.Text = "From Lvl"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "To"
         newItem.Text = "To Lvl"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Percent"
         newItem.Text = "%"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "TrainTime"
         newItem.Text = "Training Time"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "TimeToComplete"
         newItem.Text = "Time To Complete"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "DateEnded"
         newItem.Text = "Date Completed"
         newItem.Checked = True
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Rank"
         newItem.Text = "Rank"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "PAtt"
         newItem.Text = "Pri Att"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SAtt"
         newItem.Text = "Sec Att"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPHour"
         newItem.Text = "SP /hour"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPDay"
         newItem.Text = "SP /day"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPWeek"
         newItem.Text = "SP /week"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPMonth"
         newItem.Text = "SP /month"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPYear"
         newItem.Text = "SP /year"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPAdded"
         newItem.Text = "SP Added"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "SPTotal"
         newItem.Text = "SP Total"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Notes"
         newItem.Text = "Notes"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
         newItem = New ListViewItem
         newItem.Name = "Priority"
         newItem.Text = "Priority"
         newItem.Checked = False
-        HQ.EveHqSettings.StandardQueueColumns.Add(newItem)
+        HQ.Settings.StandardQueueColumns.Add(newItem)
     End Sub
 
     Public Shared Sub InitialiseUserColumns()
-        If HQ.EveHqSettings.UserQueueColumns.Count = 0 Then
+        If HQ.Settings.UserQueueColumns.Count = 0 Then
             ' Add preset items
-            HQ.EveHqSettings.UserQueueColumns.Add("Current1")
-            HQ.EveHqSettings.UserQueueColumns.Add("From1")
-            HQ.EveHqSettings.UserQueueColumns.Add("To1")
-            HQ.EveHqSettings.UserQueueColumns.Add("Percent1")
-            HQ.EveHqSettings.UserQueueColumns.Add("TrainTime1")
-            HQ.EveHqSettings.UserQueueColumns.Add("TimeToComplete1")
-            HQ.EveHqSettings.UserQueueColumns.Add("DateEnded1")
+            HQ.Settings.UserQueueColumns.Add("Current1")
+            HQ.Settings.UserQueueColumns.Add("From1")
+            HQ.Settings.UserQueueColumns.Add("To1")
+            HQ.Settings.UserQueueColumns.Add("Percent1")
+            HQ.Settings.UserQueueColumns.Add("TrainTime1")
+            HQ.Settings.UserQueueColumns.Add("TimeToComplete1")
+            HQ.Settings.UserQueueColumns.Add("DateEnded1")
         End If
         ' Check if the standard columns have changed and we need to add columns
-        If HQ.EveHqSettings.UserQueueColumns.Count <> HQ.EveHqSettings.StandardQueueColumns.Count Then
-            For Each slotItem As ListViewItem In HQ.EveHqSettings.StandardQueueColumns
+        If HQ.Settings.UserQueueColumns.Count <> HQ.Settings.StandardQueueColumns.Count Then
+            For Each slotItem As ListViewItem In HQ.Settings.StandardQueueColumns
                 If _
-                    HQ.EveHqSettings.UserQueueColumns.Contains(slotItem.Name & "0") = False And
-                    HQ.EveHqSettings.UserQueueColumns.Contains(slotItem.Name & "1") = False Then
-                    HQ.EveHqSettings.UserQueueColumns.Add(slotItem.Name & "0")
+                    HQ.Settings.UserQueueColumns.Contains(slotItem.Name & "0") = False And
+                    HQ.Settings.UserQueueColumns.Contains(slotItem.Name & "1") = False Then
+                    HQ.Settings.UserQueueColumns.Add(slotItem.Name & "0")
                 End If
             Next
         End If

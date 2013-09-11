@@ -336,7 +336,7 @@ Public Class PlugInData
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             Dim refXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.RefTypes, EveAPI.APIReturnMethods.ReturnStandard)
             If refXML Is Nothing Then
                 ' Problem with the API server so let's use our resources to populate it
@@ -375,7 +375,7 @@ Public Class PlugInData
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
         Dim stationXML As New XmlDocument
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         stationXML = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard)
         If stationXML IsNot Nothing Then
             Call ParseConquerableXML(stationXML)
@@ -464,7 +464,7 @@ Public Class PlugInData
 
 #Region "API Helper Routines"
 
-    Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.EveAccount
+    Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.EveHQAccount
         If Owner.IsCorp = True Then
             Select Case Owner.APIVersion
                 Case Core.APIKeySystems.Version2

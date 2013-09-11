@@ -57,7 +57,7 @@ Public Class frmAPIChecker
                 ' Update the character list
                 cboAPIOwner.BeginUpdate()
                 cboAPIOwner.Items.Clear()
-                For Each APIPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+                For Each APIPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
                     If APIPilot.Account <> "" Then
                         cboAPIOwner.Items.Add(APIPilot.Name)
                     End If
@@ -76,7 +76,7 @@ Public Class frmAPIChecker
                 ' Update the corporation list
                 cboAPIOwner.BeginUpdate()
                 cboAPIOwner.Items.Clear()
-                For Each APICorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.EveHqSettings.Corporations.Values
+                For Each APICorp As EveHQ.Core.Corporation In EveHQ.Core.HQ.Settings.Corporations.Values
                     If APICorp.Accounts(0) <> "" Then
                         cboAPIOwner.Items.Add(APICorp.Name)
                     End If
@@ -95,7 +95,7 @@ Public Class frmAPIChecker
                 ' Update the account list
                 cboAPIOwner.BeginUpdate()
                 cboAPIOwner.Items.Clear()
-                For Each APIAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
+                For Each APIAccount As EveHQ.Core.EveHQAccount In EveHQ.Core.HQ.Settings.Accounts.Values
                     cboAPIOwner.Items.Add(APIAccount.FriendlyName)
                 Next
                 cboAPIOwner.EndUpdate()
@@ -235,21 +235,21 @@ Public Class frmAPIChecker
         End If
 
         ' Establish which API Account we need to use - if any
-        Dim APIAccount As New EveHQ.Core.EveAccount
+        Dim APIAccount As New EveHQ.Core.EveHQAccount
         Dim OwnerID As String = ""
 
         Select Case cboAPICategory.SelectedItem.ToString
             Case "Character"
-                APIAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).Account), EveHQ.Core.EveAccount)
-                OwnerID = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboAPIOwner.SelectedItem.ToString), EveHQ.Core.Pilot).ID
+                APIAccount = EveHQ.Core.HQ.Settings.Accounts(EveHQ.Core.HQ.Settings.Pilots(cboAPIOwner.SelectedItem.ToString).Account)
+                OwnerID = EveHQ.Core.HQ.Settings.Pilots(cboAPIOwner.SelectedItem.ToString).ID
             Case "Corporation"
-                APIAccount = CType(EveHQ.Core.HQ.EveHqSettings.Accounts(EveHQ.Core.HQ.EveHqSettings.Corporations(cboAPIOwner.SelectedItem.ToString).Accounts(0)), EveHQ.Core.EveAccount)
-                OwnerID = EveHQ.Core.HQ.EveHqSettings.Corporations(cboAPIOwner.SelectedItem.ToString).ID
+                APIAccount = EveHQ.Core.HQ.Settings.Accounts(EveHQ.Core.HQ.Settings.Corporations(cboAPIOwner.SelectedItem.ToString).Accounts(0))
+                OwnerID = EveHQ.Core.HQ.Settings.Corporations(cboAPIOwner.SelectedItem.ToString).ID
             Case "Account"
-                For Each CheckAccount As EveHQ.Core.EveAccount In EveHQ.Core.HQ.EveHqSettings.Accounts
+                For Each CheckAccount As EveHQ.Core.EveHQAccount In EveHQ.Core.HQ.Settings.Accounts.Values
                     If CheckAccount.FriendlyName = cboAPIOwner.SelectedItem.ToString Then
                         APIAccount = CheckAccount
-                        OwnerID = CheckAccount.userID
+                        OwnerID = CheckAccount.UserID
                         Exit For
                     End If
                 Next
@@ -282,7 +282,7 @@ Public Class frmAPIChecker
                 End If
             End If
         End If
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         Try
             Select Case APIStyle
                 Case 1

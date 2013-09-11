@@ -343,18 +343,18 @@ Public Class Widget
     Private Sub RemoveWidgetToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles RemoveWidgetToolStripMenuItem.Click
         ' Go through the widgets and see if we can match the widget from the control config info
         Dim RemoveIndex As Integer = -1
-        For Each CheckConfig As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHqSettings.DashboardConfiguration
+        For Each CheckConfig As SortedList(Of String, Object) In EveHQ.Core.HQ.Settings.DashboardConfiguration
             Dim CCInfo As String = CStr(CheckConfig("ControlConfigInfo"))
             If CCInfo = Me.cControlConfigInfo And CStr(CheckConfig("ControlName")) = Me.ControlName Then
                 If Me.Location = CType(CheckConfig("ControlLocation"), System.Drawing.Point) Then
                     ' This matches our type, config and location, so must be the one!
-                    RemoveIndex = EveHQ.Core.HQ.EveHqSettings.DashboardConfiguration.IndexOf(CheckConfig)
+                    RemoveIndex = EveHQ.Core.HQ.Settings.DashboardConfiguration.IndexOf(CheckConfig)
                     Exit For
                 End If
             End If
         Next
         If RemoveIndex > -1 Then
-            EveHQ.Core.HQ.EveHqSettings.DashboardConfiguration.RemoveAt(RemoveIndex)
+            EveHQ.Core.HQ.Settings.DashboardConfiguration.RemoveAt(RemoveIndex)
             ' Update the dashboard
             frmDashboard.UpdateWidgets()
         End If

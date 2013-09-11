@@ -20,21 +20,21 @@
 Public Class frmSelectQueuePilot
 
     Dim cDisplayPilotName As String
-    Dim displayPilot As New EveHQ.Core.Pilot
+    Dim displayPilot As New EveHQ.Core.EveHQPilot
     Public Property DisplayPilotName() As String
         Get
             Return cDisplayPilotName
         End Get
         Set(ByVal value As String)
             cDisplayPilotName = value
-            DisplayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(value), Core.Pilot)
+            displayPilot = EveHQ.Core.HQ.Settings.Pilots(value)
         End Set
     End Property
 
     Private Sub frmSelectQueuePilot_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ' Populate the combo box
         cboPilots.Items.Clear()
-        For Each nPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
+        For Each nPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If nPilot.Active = True Then
                 If nPilot.Name <> displayPilot.Name Then
                     cboPilots.Items.Add(nPilot.Name)
@@ -53,24 +53,24 @@ Public Class frmSelectQueuePilot
             MessageBox.Show("Please select a pilot to continue.", "Copy Queue to Pilot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim oldQueue As EveHQ.Core.SkillQueue = CType(displayPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
-        Dim newPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(cboPilots.SelectedItem.ToString), Core.Pilot)
-        Dim newQueue As New EveHQ.Core.SkillQueue
+        Dim oldQueue As EveHQ.Core.EveHQSkillQueue = displayPilot.TrainingQueues(cboPilots.Tag.ToString)
+        Dim newPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+        Dim newQueue As New EveHQ.Core.EveHQSkillQueue
         Dim reply As Integer = 0
-        If newPilot.TrainingQueues.Contains(cboPilots.Tag.ToString) Then
+        If newPilot.TrainingQueues.ContainsKey(cboPilots.Tag.ToString) Then
             reply = MessageBox.Show("Queue name '" & cboPilots.Tag.ToString & "' already exists for this pilot!" & ControlChars.CrLf & "Would you like to replace this Queue?", "Overwrite Existing Queue?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.No Then
                 Me.Close()
                 Exit Sub
             Else
-                newQueue = CType(newPilot.TrainingQueues(cboPilots.Tag.ToString), EveHQ.Core.SkillQueue)
+                newQueue = newPilot.TrainingQueues(cboPilots.Tag.ToString)
             End If
         End If
         newQueue.Name = cboPilots.Tag.ToString
         newQueue.IncCurrentTraining = CBool(oldQueue.IncCurrentTraining)
 
         If newPilot.TrainingQueues.Count <> 0 Then
-            If newPilot.TrainingQueues.Contains(newQueue.Name) = True Then
+            If newPilot.TrainingQueues.ContainsKey(newQueue.Name) = True Then
                 If newPilot.PrimaryQueue = newQueue.Name Then
                     newQueue.Primary = True
                     newPilot.PrimaryQueue = newQueue.Name
@@ -84,17 +84,15 @@ Public Class frmSelectQueuePilot
             newQueue.Primary = True
             newPilot.PrimaryQueue = newQueue.Name
         End If
-
-
-        Dim newQ As New Collection
-        For Each qItem As EveHQ.Core.SkillQueueItem In oldQueue.Queue
-            Dim nItem As New EveHQ.Core.SkillQueueItem
+        
+        Dim newQ As New Dictionary(Of String, Core.EveHQSkillQueueItem)
+        For Each qItem As EveHQ.Core.EveHQSkillQueueItem In oldQueue.Queue.Values
+            Dim nItem As New EveHQ.Core.EveHQSkillQueueItem
             nItem.ToLevel = qItem.ToLevel
             nItem.FromLevel = qItem.FromLevel
             nItem.Name = qItem.Name
-            nItem.Key = nItem.Name & nItem.FromLevel & nItem.ToLevel
             nItem.Pos = qItem.Pos
-            newQ.Add(nItem, nItem.Key)
+            newQ.Add(nItem.Key, nItem)
         Next
         newQueue.Queue = newQ
         ' Add the new queue

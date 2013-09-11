@@ -198,7 +198,7 @@ Public Class frmUpdatePricesDB
 
     Private Function WriteOldPricesToNewTable(ByVal PriceListID As Long, ByVal PriceListData As DataSet) As Boolean
 
-        Select Case EveHQ.Core.HQ.EveHqSettings.DBFormat
+        Select Case EveHQ.Core.HQ.Settings.DBFormat
             Case 0 ' SQL CE
                 Dim conn As New SqlCeConnection
                 conn.ConnectionString = EveHQ.Core.HQ.EveHQDataConnectionString

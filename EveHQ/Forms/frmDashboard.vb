@@ -39,8 +39,8 @@ Public Class frmDashboard
     Private Sub frmDashboard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Set the options
-        Me.Ticker1.Visible = EveHQ.Core.HQ.EveHqSettings.DBTicker
-        Select Case EveHQ.Core.HQ.EveHqSettings.DBTickerLocation
+        Me.Ticker1.Visible = EveHQ.Core.HQ.Settings.DBTicker
+        Select Case EveHQ.Core.HQ.Settings.DBTickerLocation
             Case "Top"
                 Me.Ticker1.Dock = DockStyle.Top
             Case "Bottom"
@@ -78,7 +78,7 @@ Public Class frmDashboard
 
         ' Clear Controls
         panelDB.Controls.Clear()
-        For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.EveHqSettings.DashboardConfiguration
+        For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.Settings.DashboardConfiguration
             Call AddWidget(config)
         Next
 
@@ -341,7 +341,7 @@ Public Class frmDashboard
     Private Sub mnuClearDashboard_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearDashboard.Click
         Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to clear the dashboard of all configured widgets?", "Confirm Dashboard Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.Yes Then
-            EveHQ.Core.HQ.EveHqSettings.DashboardConfiguration.Clear()
+            EveHQ.Core.HQ.Settings.DashboardConfiguration.Clear()
             Call Me.UpdateWidgets()
         End If
     End Sub

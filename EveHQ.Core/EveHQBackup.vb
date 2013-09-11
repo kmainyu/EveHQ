@@ -32,11 +32,11 @@ Public Class EveHQBackup
     ''' <returns>A date indicating the time of the next backup</returns>
     ''' <remarks></remarks>
     Public Shared Function CalcNextBackup() As Date
-        Dim nextBackup As Date = EveHQ.Core.HQ.EveHqSettings.EveHQBackupStart
-        If EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast > nextBackup Then
-            nextBackup = EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast
+        Dim nextBackup As Date = EveHQ.Core.HQ.Settings.EveHQBackupStart
+        If EveHQ.Core.HQ.Settings.EveHQBackupLast > nextBackup Then
+            nextBackup = EveHQ.Core.HQ.Settings.EveHQBackupLast
         End If
-        nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.EveHqSettings.EveHQBackupFreq, nextBackup)
+        nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.Settings.EveHQBackupFreq, nextBackup)
         Return nextBackup
     End Function
 
@@ -50,15 +50,15 @@ Public Class EveHQBackup
         Dim timeStamp As String = Format(backupTime, "yyyy-MM-dd-HH-mm-ss")
         Dim zipFolder As String = System.IO.Path.Combine(EveHQ.Core.HQ.EveHQBackupFolder, "EveHQBackup " & timeStamp)
         Dim zipFileName As String = System.IO.Path.Combine(zipFolder, "EveHQBackup " & timeStamp & ".zip")
-        Dim oldTime As Date = EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast
-        Dim oldResult As Integer = EveHQ.Core.HQ.EveHqSettings.EveHQBackupLastResult
+        Dim oldTime As Date = EveHQ.Core.HQ.Settings.EveHQBackupLast
+        Dim oldResult As Integer = EveHQ.Core.HQ.Settings.EveHQBackupLastResult
         Try
             ' Save the settings file
             EveHQ.Core.HQ.WriteLogEvent("Backup: Request to save EveHQ Settings before backup")
-            Call EveHQ.Core.EveHQSettingsFunctions.SaveSettings()
+            Call EveHQ.Core.HQ.Settings.Save()
 
             ' Backup the SQL Data file if applicable
-            If EveHQ.Core.HQ.EveHqSettings.DBFormat = 1 Then
+            If EveHQ.Core.HQ.Settings.DBFormat = 1 Then
                 EveHQ.Core.HQ.WriteLogEvent("Backup: Backup SQL database")
                 Call EveHQBackup.BackupSQLDB()
             End If
@@ -76,8 +76,8 @@ Public Class EveHQBackup
 
             ' Update backup details
             EveHQ.Core.HQ.WriteLogEvent("Backup: Store EveHQ backup results")
-            EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast = backupTime
-            EveHQ.Core.HQ.EveHqSettings.EveHQBackupLastResult = -1
+            EveHQ.Core.HQ.Settings.EveHQBackupLast = backupTime
+            EveHQ.Core.HQ.Settings.EveHQBackupLastResult = -1
 
             zipSettings = Nothing
 
@@ -90,8 +90,8 @@ Public Class EveHQBackup
                 msg &= "Inner Exception: " & e.InnerException.Message & ControlChars.CrLf
             End If
             MessageBox.Show(msg, "EveHQ Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            EveHQ.Core.HQ.EveHqSettings.EveHQBackupLastResult = 0
-            EveHQ.Core.HQ.EveHqSettings.EveHQBackupLast = oldTime
+            EveHQ.Core.HQ.Settings.EveHQBackupLastResult = 0
+            EveHQ.Core.HQ.Settings.EveHQBackupLast = oldTime
             ' Try and delete the zip folder
             Try
                 If My.Computer.FileSystem.DirectoryExists(zipFolder) = True Then
@@ -125,7 +125,7 @@ Public Class EveHQBackup
             ZipSettings.ExtractZip(BackupFile, EveHQ.Core.HQ.AppDataFolder, "")
 
             ' Restore the SQL Data file if applicable
-            If EveHQ.Core.HQ.EveHqSettings.DBFormat = 1 Then
+            If EveHQ.Core.HQ.Settings.DBFormat = 1 Then
                 Call EveHQBackup.RestoreSQLDB()
             End If
 

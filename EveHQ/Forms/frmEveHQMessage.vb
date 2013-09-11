@@ -20,7 +20,7 @@
 Public Class frmEveHQMessage
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        EveHQ.Core.HQ.EveHqSettings.IgnoreLastMessage = chkIgnore.Checked
+        EveHQ.Core.HQ.Settings.IgnoreLastMessage = chkIgnore.Checked
         Me.Close()
         Me.Dispose()
     End Sub

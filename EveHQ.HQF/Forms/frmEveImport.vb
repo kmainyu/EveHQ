@@ -42,11 +42,11 @@ Public Class frmEveImport
 		' Add the current list of pilots to the combobox
 		cboPilots.BeginUpdate()
 		cboPilots.Items.Clear()
-		For Each cPilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
-			If cPilot.Active = True Then
-				cboPilots.Items.Add(cPilot.Name)
-			End If
-		Next
+        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            If cPilot.Active = True Then
+                cboPilots.Items.Add(cPilot.Name)
+            End If
+        Next
 		cboPilots.EndUpdate()
 		' Look at the settings for default pilot
 		If cboPilots.Items.Count > 0 Then

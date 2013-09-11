@@ -21,7 +21,7 @@
 Public Class PrismOwner
     Public Name As String
     Public ID As String
-    Public Account As New EveHQ.Core.EveAccount
+    Public Account As New EveHQ.Core.EveHQAccount
     Public IsCorp As Boolean
     Public APIVersion As EveHQ.Core.APIKeySystems
 End Class

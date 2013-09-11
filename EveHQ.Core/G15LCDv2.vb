@@ -160,13 +160,13 @@ Public Class G15LCDv2
         End If
         If ((e.SoftButtons And LcdSoftButtons.Button1) = LcdSoftButtons.Button1) Then
             ' Toggle cycle pilots
-            If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = False Then
-                EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True
-                G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHqSettings.CycleG15Time)
+            If EveHQ.Core.HQ.Settings.CycleG15Pilots = False Then
+                EveHQ.Core.HQ.Settings.CycleG15Pilots = True
+                G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.Settings.CycleG15Time)
                 G15LCDv2.tmrLCDChar.Enabled = True
                 G15LCDv2.tmrLCDChar.Start()
             Else
-                EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = False
+                EveHQ.Core.HQ.Settings.CycleG15Pilots = False
                 G15LCDv2.tmrLCDChar.Stop()
             End If
         End If
@@ -232,8 +232,8 @@ Public Class G15LCDv2
     End Function
 
     Public Shared Function DrawSkillTrainingInfo(ByVal lcdPilot As String) As Image
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(lcdPilot) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots.Item(lcdPilot), Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(lcdPilot) = True Then
+            Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots.Item(lcdPilot)
             Dim lcdFont As Font = New Font("Tahoma", 9, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim img As New System.Drawing.Bitmap(160, 43)
             'Declare a Graphics object to use as the 'tool' for drawing on the bitmap
@@ -253,7 +253,7 @@ Public Class G15LCDv2
             strLCD &= (Format(localdate, "ddd") & " " & localdate) & ControlChars.CrLf
             strLCD &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime)
             screen.DrawString(strLCD, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
-            If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True Then
+            If EveHQ.Core.HQ.Settings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
             If EveHQ.Core.HQ.APIUpdateAvailable = True Then
@@ -271,8 +271,8 @@ Public Class G15LCDv2
     End Function
 
     Public Shared Function DrawCharacterInfo(ByVal lcdPilot As String) As Image
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(lcdPilot) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots.Item(lcdPilot), Pilot)
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(lcdPilot) = True Then
+            Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots.Item(lcdPilot)
             'Dim lcdFont As Font = New Font("Microsoft Sans Serif", 13.5F, FontStyle.Regular, GraphicsUnit.Point)
             Dim lcdFont As Font = New Font("Tahoma", 9, FontStyle.Regular, GraphicsUnit.Pixel)
             Dim img As New System.Drawing.Bitmap(160, 43)
@@ -291,7 +291,7 @@ Public Class G15LCDv2
             strLCD &= "SP: " & SP & ControlChars.CrLf
             strLCD &= "ISK: " & cPilot.Isk.ToString("N2")
             screen.DrawString(strLCD, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
-            If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True Then
+            If EveHQ.Core.HQ.Settings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
             If EveHQ.Core.HQ.APIUpdateAvailable = True Then
@@ -309,7 +309,7 @@ Public Class G15LCDv2
     End Function
 
     Private Shared Sub tmrLCDChar_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tmrLCDChar.Tick
-        If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True And EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 Then
+        If EveHQ.Core.HQ.Settings.CycleG15Pilots = True And EveHQ.Core.HQ.Settings.Pilots.Count > 0 Then
             Call SelectNextChar()
         End If
     End Sub
@@ -318,12 +318,12 @@ Public Class G15LCDv2
         ' Check for the next character
         Dim startSearch As Boolean = False
         Dim startSearchIndex As Integer = 0
-        Dim searchChar As Integer = 0
-        Dim cPilot As New EveHQ.Core.Pilot
+        Dim searchChar As Integer = -1
+        Dim cPilot As New EveHQ.Core.EveHQPilot
         Do
             searchChar += 1
-            If searchChar = EveHQ.Core.HQ.EveHqSettings.Pilots.Count + 1 Then searchChar = 1
-            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots.Item(searchChar), Pilot)
+            If searchChar = EveHQ.Core.HQ.Settings.Pilots.Count Then searchChar = 0
+            cPilot = EveHQ.Core.HQ.Settings.Pilots.Values(searchChar)
             If startSearch = True And cPilot.Training = True Then
                 Exit Do
             End If

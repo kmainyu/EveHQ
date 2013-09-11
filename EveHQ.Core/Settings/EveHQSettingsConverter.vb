@@ -507,7 +507,7 @@ Public Class EveHQSettingsConverter
             For index As Integer = 0 To 5
                 newSkill.LevelUp(index) = oldskill.LevelUp(index)
             Next
-            newPilot.PilotSkills.Add(newSkill)
+            newPilot.PilotSkills.Add(newSkill.Name, newSkill)
         Next
     End Sub
 

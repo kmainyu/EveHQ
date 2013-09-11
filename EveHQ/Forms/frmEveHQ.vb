@@ -64,25 +64,25 @@ Public Class frmEveHQ
              (Not TypeOf e Is MouseEventArgs OrElse (TryCast(e, MouseEventArgs).Button = MouseButtons.Right))) Then
             MyBase.Visible = True
             saveTrainingBarSize = False
-            Select Case HQ.EveHqSettings.MainFormPosition(4)
+            Select Case HQ.Settings.MainFormPosition(4)
                 Case FormWindowState.Maximized
                     Me.WindowState = FormWindowState.Maximized
                 Case FormWindowState.Normal
-                    Me.Left = HQ.EveHqSettings.MainFormPosition(0)
-                    Me.Top = HQ.EveHqSettings.MainFormPosition(1)
-                    Me.Width = HQ.EveHqSettings.MainFormPosition(2)
-                    Me.Height = HQ.EveHqSettings.MainFormPosition(3)
+                    Me.Left = HQ.Settings.MainFormPosition(0)
+                    Me.Top = HQ.Settings.MainFormPosition(1)
+                    Me.Width = HQ.Settings.MainFormPosition(2)
+                    Me.Height = HQ.Settings.MainFormPosition(3)
                     Me.WindowState = FormWindowState.Normal
             End Select
             saveTrainingBarSize = True
             ' Set the training bar position, after checking for null!
-            If HQ.EveHqSettings.TrainingBarDockPosition = eDockSide.None Then
-                HQ.EveHqSettings.TrainingBarDockPosition = eDockSide.Bottom
+            If HQ.Settings.TrainingBarDockPosition = eDockSide.None Then
+                HQ.Settings.TrainingBarDockPosition = eDockSide.Bottom
             End If
-            If HQ.EveHqSettings.DisableTrainingBar = False Then
-                Me.Bar1.DockSide = CType(HQ.EveHqSettings.TrainingBarDockPosition, eDockSide)
-                DockContainerItem1.Height = HQ.EveHqSettings.TrainingBarHeight
-                DockContainerItem1.Width = HQ.EveHqSettings.TrainingBarWidth
+            If HQ.Settings.DisableTrainingBar = False Then
+                Me.Bar1.DockSide = CType(HQ.Settings.TrainingBarDockPosition, eDockSide)
+                DockContainerItem1.Height = HQ.Settings.TrainingBarHeight
+                DockContainerItem1.Width = HQ.Settings.TrainingBarWidth
             End If
             MyBase.ShowInTaskbar = True
             MyBase.Activate()
@@ -95,7 +95,7 @@ Public Class frmEveHQ
 
     Private Sub EveHQIcon1_MouseHover(ByVal sender As Object, ByVal e As EventArgs) Handles EveStatusIcon.MouseHover
         ' Only display the pop up window if the context menu isn't showing
-        If Not Me.EveIconMenu.Visible And HQ.EveHqSettings.TaskbarIconMode = 1 Then
+        If Not Me.EveIconMenu.Visible And HQ.Settings.TaskbarIconMode = 1 Then
             EveHQTrayForm = New frmToolTrayIconPopup
             EveHQTrayForm.Show()
         End If
@@ -123,11 +123,11 @@ Public Class frmEveHQ
         If HideWhenMinimisedToolStripMenuItem.Checked = True Then
             HideWhenMinimisedToolStripMenuItem.Checked = False
             frmSettings.chkAutoHide.Checked = False
-            HQ.EveHqSettings.AutoHide = False
+            HQ.Settings.AutoHide = False
         Else
             HideWhenMinimisedToolStripMenuItem.Checked = True
             frmSettings.chkAutoHide.Checked = True
-            HQ.EveHqSettings.AutoHide = True
+            HQ.Settings.AutoHide = True
         End If
     End Sub
 
@@ -146,14 +146,14 @@ Public Class frmEveHQ
         Handles RestoreWindowToolStripMenuItem.Click
         ' Restores the window
         Me.Show()
-        Select Case HQ.EveHqSettings.MainFormPosition(4)
+        Select Case HQ.Settings.MainFormPosition(4)
             Case FormWindowState.Maximized
                 Me.WindowState = FormWindowState.Maximized
             Case FormWindowState.Normal
-                Me.Left = HQ.EveHqSettings.MainFormPosition(0)
-                Me.Top = HQ.EveHqSettings.MainFormPosition(1)
-                Me.Width = HQ.EveHqSettings.MainFormPosition(2)
-                Me.Height = HQ.EveHqSettings.MainFormPosition(3)
+                Me.Left = HQ.Settings.MainFormPosition(0)
+                Me.Top = HQ.Settings.MainFormPosition(1)
+                Me.Width = HQ.Settings.MainFormPosition(2)
+                Me.Height = HQ.Settings.MainFormPosition(3)
                 Me.WindowState = FormWindowState.Normal
         End Select
     End Sub
@@ -285,7 +285,7 @@ Public Class frmEveHQ
             If HQ.RestoredSettings = False Then
                 ' Check if we should minimise rather than exit?
                 If e.CloseReason <> CloseReason.TaskManagerClosing And e.CloseReason <> CloseReason.WindowsShutDown Then
-                    If HQ.EveHqSettings.MinimiseExit = True And IconShutdown = False Then
+                    If HQ.Settings.MinimiseExit = True And IconShutdown = False Then
                         Me.WindowState = FormWindowState.Minimized
                         HQ.WriteLogEvent("Shutdown: EveHQ Form Closure aborted due to 'Minimise on Exit' setting")
                         e.Cancel = True
@@ -349,8 +349,8 @@ Public Class frmEveHQ
         Me.EveStatusIcon.Visible = True
 
         ' Set Theme Stuff
-        UpdateTheme(HQ.EveHqSettings.ThemeStyle, HQ.EveHqSettings.ThemeTint)
-        Dim ThemeBtn As ButtonItem = CType(btnTheme.SubItems("btn" & HQ.EveHqSettings.ThemeStyle.ToString), ButtonItem)
+        UpdateTheme(HQ.Settings.ThemeStyle, HQ.Settings.ThemeTint)
+        Dim ThemeBtn As ButtonItem = CType(btnTheme.SubItems("btn" & HQ.Settings.ThemeStyle.ToString), ButtonItem)
         ThemeBtn.Checked = True
 
         ' Add the pilot refresh handler
@@ -360,19 +360,19 @@ Public Class frmEveHQ
         AddHandler EveMailEvents.MailUpdateNumbers, AddressOf Me.UpdateEveMailButton
 
         ' Check if "Hide When Minimised" is active
-        HideWhenMinimisedToolStripMenuItem.Checked = HQ.EveHqSettings.AutoHide
+        HideWhenMinimisedToolStripMenuItem.Checked = HQ.Settings.AutoHide
 
         'Setup the Modules menu if applicable
         Call Me.SetupModuleMenu()
 
         ' Update the QAT config if applicable
-        If HQ.EveHqSettings.QATLayout <> "" Then
-            RibbonControl1.QatLayout = HQ.EveHqSettings.QATLayout
+        If HQ.Settings.QATLayout <> "" Then
+            RibbonControl1.QatLayout = HQ.Settings.QATLayout
         End If
 
         ' Check if the IGB should be started here
         If IGBCanBeInitialised() = True Then
-            If HQ.EveHqSettings.IGBAutoStart = True Then
+            If HQ.Settings.IGBAutoStart = True Then
                 If Not HttpListener.IsSupported Then
                     btnIGB.Enabled = False
                     btnIGB.Checked = False
@@ -386,7 +386,7 @@ Public Class frmEveHQ
         End If
 
         ' Set the tab position
-        Select Case HQ.EveHqSettings.MDITabPosition
+        Select Case HQ.Settings.MDITabPosition
             Case "Top"
                 Me.tabEveHQMDI.Dock = DockStyle.Top
                 Me.tabEveHQMDI.TabAlignment = eTabStripAlignment.Top
@@ -396,23 +396,23 @@ Public Class frmEveHQ
         End Select
 
         ' Check for ribbon status
-        RibbonControl1.Expanded = Not HQ.EveHqSettings.RibbonMinimised
+        RibbonControl1.Expanded = Not HQ.Settings.RibbonMinimised
 
         ' Close the splash screen
         frmSplash.Close()
 
         ' Check if the form needs to be minimised on startup
-        If HQ.EveHqSettings.AutoMinimise = True Then
+        If HQ.Settings.AutoMinimise = True Then
             Me.WindowState = FormWindowState.Minimized
             'Me.Show()
         Else
-            Select Case HQ.EveHqSettings.MainFormPosition(4)
+            Select Case HQ.Settings.MainFormPosition(4)
                 Case FormWindowState.Normal
                     Me.Show()
-                    Me.Left = HQ.EveHqSettings.MainFormPosition(0)
-                    Me.Top = HQ.EveHqSettings.MainFormPosition(1)
-                    Me.Width = HQ.EveHqSettings.MainFormPosition(2)
-                    Me.Height = HQ.EveHqSettings.MainFormPosition(3)
+                    Me.Left = HQ.Settings.MainFormPosition(0)
+                    Me.Top = HQ.Settings.MainFormPosition(1)
+                    Me.Width = HQ.Settings.MainFormPosition(2)
+                    Me.Height = HQ.Settings.MainFormPosition(3)
                     Me.WindowState = FormWindowState.Normal
                 Case FormWindowState.Maximized
                     Me.WindowState = FormWindowState.Maximized
@@ -426,7 +426,7 @@ Public Class frmEveHQ
         End If
 
         ' Start the timers
-        If HQ.EveHqSettings.EnableEveStatus = True Then
+        If HQ.Settings.EnableEveStatus = True Then
             tmrEve.Start()
             lblTQStatus.Text = "Tranquility Status: Not Updated"
         Else
@@ -434,8 +434,8 @@ Public Class frmEveHQ
         End If
         tmrSkillUpdate.Start()
         tmrModules.Start()
-        If HQ.EveHQSettings.EnableAutomaticSave = True Then
-            tmrSave.Interval = HQ.EveHQSettings.AutomaticSaveTime * 60000
+        If HQ.Settings.EnableAutomaticSave = True Then
+            tmrSave.Interval = HQ.Settings.AutomaticSaveTime * 60000
             tmrSave.Start()
         End If
 
@@ -449,13 +449,13 @@ Public Class frmEveHQ
         Call Me.UpdateReportPilots()
 
         ' Set the training bar position, after checking for null!
-        If HQ.EveHqSettings.DisableTrainingBar = False Then
-            If HQ.EveHqSettings.TrainingBarDockPosition = eDockSide.None Then
-                HQ.EveHqSettings.TrainingBarDockPosition = eDockSide.Bottom
+        If HQ.Settings.DisableTrainingBar = False Then
+            If HQ.Settings.TrainingBarDockPosition = eDockSide.None Then
+                HQ.Settings.TrainingBarDockPosition = eDockSide.Bottom
             End If
-            Me.Bar1.DockSide = CType(HQ.EveHqSettings.TrainingBarDockPosition, eDockSide)
-            DockContainerItem1.Height = HQ.EveHqSettings.TrainingBarHeight
-            DockContainerItem1.Width = HQ.EveHqSettings.TrainingBarWidth
+            Me.Bar1.DockSide = CType(HQ.Settings.TrainingBarDockPosition, eDockSide)
+            DockContainerItem1.Height = HQ.Settings.TrainingBarHeight
+            DockContainerItem1.Width = HQ.Settings.TrainingBarWidth
         Else
             Me.Bar1.Visible = False
         End If
@@ -465,13 +465,13 @@ Public Class frmEveHQ
         ' Display server message if applicable
         If HQ.EveHQServerMessage IsNot Nothing Then
             If _
-                HQ.EveHQServerMessage.MessageDate > HQ.EveHqSettings.LastMessageDate Or
-                (HQ.EveHQServerMessage.MessageDate = HQ.EveHqSettings.LastMessageDate And
-                 HQ.EveHqSettings.IgnoreLastMessage = False) Then
+                HQ.EveHQServerMessage.MessageDate > HQ.Settings.LastMessageDate Or
+                (HQ.EveHQServerMessage.MessageDate = HQ.Settings.LastMessageDate And
+                 HQ.Settings.IgnoreLastMessage = False) Then
                 Dim NewMsg As New frmEveHQMessage
                 NewMsg.lblMessage.Text = HQ.EveHQServerMessage.Message
                 NewMsg.lblTitle.Text = HQ.EveHQServerMessage.MessageTitle
-                HQ.EveHqSettings.LastMessageDate = HQ.EveHQServerMessage.MessageDate
+                HQ.Settings.LastMessageDate = HQ.EveHQServerMessage.MessageDate
                 If HQ.EveHQServerMessage.AllowIgnore = False Then
                     NewMsg.chkIgnore.Checked = False
                     NewMsg.chkIgnore.Enabled = False
@@ -484,7 +484,7 @@ Public Class frmEveHQ
         End If
 
         ' Check for existing pilots and accounts
-        If HQ.EveHqSettings.Accounts.Count = 0 And HQ.EveHqSettings.Pilots.Count = 0 Then
+        If HQ.Settings.Accounts.Count = 0 And HQ.Settings.Pilots.Count = 0 Then
             Dim wMsg As String = "EveHQ has detected that you have not yet setup any API accounts." & ControlChars.CrLf &
                                  ControlChars.CrLf
             wMsg &= "Would you like to do this now?"
@@ -503,7 +503,7 @@ Public Class frmEveHQ
         End If
 
         ' Start the update check on a new thread
-        If HQ.EveHqSettings.DisableAutoWebConnections = False Then
+        If HQ.Settings.DisableAutoWebConnections = False Then
             ThreadPool.QueueUserWorkItem(AddressOf Me.CheckForUpdates)
         End If
     End Sub
@@ -518,15 +518,15 @@ Public Class frmEveHQ
 
     Private Sub frmEveHQ_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
         ' Determine which view to display!
-        If HQ.EveHqSettings.StartupView = "" Then
-            HQ.EveHqSettings.StartupView = "EveHQ Dashboard"
+        If HQ.Settings.StartupView = "" Then
+            HQ.Settings.StartupView = "EveHQ Dashboard"
         End If
-        Select Case HQ.EveHqSettings.StartupView
+        Select Case HQ.Settings.StartupView
             Case "EveHQ Dashboard"
                 ' Open the dashboard
                 Call Me.OpenDashboard()
             Case "Pilot Information"
-                If HQ.EveHqSettings.StartupPilot <> "" Then
+                If HQ.Settings.StartupPilot <> "" Then
                     ' Open the pilot info form
                     Call OpenPilotInfoForm()
                 End If
@@ -537,7 +537,7 @@ Public Class frmEveHQ
                 newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PilotSummary.html"))
                 Call DisplayReport(newReport, "Pilot Summary")
             Case "Skill Training"
-                If HQ.EveHqSettings.StartupPilot <> "" Then
+                If HQ.Settings.StartupPilot <> "" Then
                     ' Open the skill training form
                     Call OpenSkillTrainingForm()
                 End If
@@ -560,26 +560,26 @@ Public Class frmEveHQ
 
         Select Case Me.WindowState
             Case FormWindowState.Normal
-                HQ.EveHqSettings.MainFormPosition(0) = Me.Left
-                HQ.EveHqSettings.MainFormPosition(1) = Me.Top
-                HQ.EveHqSettings.MainFormPosition(2) = Me.Width
-                HQ.EveHqSettings.MainFormPosition(3) = Me.Height
-                HQ.EveHqSettings.MainFormPosition(4) = FormWindowState.Normal
+                HQ.Settings.MainFormPosition(0) = Me.Left
+                HQ.Settings.MainFormPosition(1) = Me.Top
+                HQ.Settings.MainFormPosition(2) = Me.Width
+                HQ.Settings.MainFormPosition(3) = Me.Height
+                HQ.Settings.MainFormPosition(4) = FormWindowState.Normal
             Case FormWindowState.Maximized
-                HQ.EveHqSettings.MainFormPosition(4) = FormWindowState.Maximized
+                HQ.Settings.MainFormPosition(4) = FormWindowState.Maximized
         End Select
     End Sub
 
     Private Sub frmEveHQ_Move(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Move
         Select Case Me.WindowState
             Case FormWindowState.Normal
-                HQ.EveHqSettings.MainFormPosition(0) = Me.Left
-                HQ.EveHqSettings.MainFormPosition(1) = Me.Top
-                HQ.EveHqSettings.MainFormPosition(2) = Me.Width
-                HQ.EveHqSettings.MainFormPosition(3) = Me.Height
-                HQ.EveHqSettings.MainFormPosition(4) = FormWindowState.Normal
+                HQ.Settings.MainFormPosition(0) = Me.Left
+                HQ.Settings.MainFormPosition(1) = Me.Top
+                HQ.Settings.MainFormPosition(2) = Me.Width
+                HQ.Settings.MainFormPosition(3) = Me.Height
+                HQ.Settings.MainFormPosition(4) = FormWindowState.Normal
             Case FormWindowState.Maximized
-                HQ.EveHqSettings.MainFormPosition(4) = FormWindowState.Maximized
+                HQ.Settings.MainFormPosition(4) = FormWindowState.Maximized
         End Select
     End Sub
 
@@ -606,14 +606,14 @@ Public Class frmEveHQ
             HQ.WriteLogEvent("Shutdown: Disabled Automatic Save timer")
 
             ' Check if Shutdown Notification is active (only if not shutting down on request on the updater
-            If HQ.EveHqSettings.ShutdownNotify = True And HQ.UpdateShutDownRequest = False Then
+            If HQ.Settings.ShutdownNotify = True And HQ.UpdateShutDownRequest = False Then
                 HQ.WriteLogEvent("Shutdown: Processing shutdown notifications")
                 Dim accounts As New ArrayList
                 Dim strNotify As String = ""
                 Dim strCharNotify As String = ""
-                For Each cPilot As Pilot In HQ.EveHqSettings.Pilots
+                For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                     If cPilot.Training = True Then
-                        Dim timeLimit As Date = Now.AddSeconds(HQ.EveHqSettings.ShutdownNotifyPeriod*3600)
+                        Dim timeLimit As Date = Now.AddSeconds(HQ.Settings.ShutdownNotifyPeriod * 3600)
                         If cPilot.TrainingEndTime < timeLimit Then
                             If cPilot.QueuedSkillTime > 0 Then
                                 If cPilot.TrainingEndTime.AddSeconds(cPilot.QueuedSkillTime) < timeLimit Then
@@ -639,13 +639,13 @@ Public Class frmEveHQ
                 Next
                 If strCharNotify <> "" Then
                     strCharNotify = "The following pilots have skills due to end within " &
-                                    HQ.EveHqSettings.ShutdownNotifyPeriod & " hours:" & ControlChars.CrLf &
+                                    HQ.Settings.ShutdownNotifyPeriod & " hours:" & ControlChars.CrLf &
                                     ControlChars.CrLf & strCharNotify
                     strNotify &= strCharNotify
                 End If
                 ' Check each account to see if something is training.
                 Dim strAccountNotify As String = ""
-                For Each cAccount As EveAccount In HQ.EveHqSettings.Accounts
+                For Each cAccount As EveHQAccount In HQ.Settings.Accounts.Values
                     If cAccount.APIKeyType <> APIKeyTypes.Corporation Then
                         If accounts.Contains(cAccount.userID) = False Then
                             If cAccount.FriendlyName <> "" Then
@@ -672,7 +672,7 @@ Public Class frmEveHQ
             ' Close all the open tabs first
             Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
             If mainTab.Tabs.Count > 0 Then
-                For tab As Integer = mainTab.Tabs.Count - 1 To 0 Step - 1
+                For tab As Integer = mainTab.Tabs.Count - 1 To 0 Step -1
                     HQ.WriteLogEvent("Shutdown: Closing tab: " & mainTab.Tabs(tab).Text)
                     CType(mainTab.Tabs(tab).AttachedControl, Form).Close()
                 Next
@@ -680,15 +680,15 @@ Public Class frmEveHQ
 
             ' Save the QAT config if applicable
             HQ.WriteLogEvent("Shutdown: Storing ribbon QAT layout")
-            HQ.EveHqSettings.QATLayout = RibbonControl1.QatLayout
+            HQ.Settings.QATLayout = RibbonControl1.QatLayout
 
             ' Check for backup warning expiry
             If HQ.UpdateShutDownRequest = True Then
-                If HQ.EveHqSettings.EveHQBackupMode = 1 Then
+                If HQ.Settings.EveHQBackupMode = 1 Then
                     Dim backupDate As Date =
-                            HQ.EveHqSettings.EveHQBackupLast.AddDays(HQ.EveHqSettings.EveHQBackupWarnFreq)
+                            HQ.Settings.EveHQBackupLast.AddDays(HQ.Settings.EveHQBackupWarnFreq)
                     If backupDate < Now Then
-                        Dim timeElapsed As TimeSpan = Now - HQ.EveHqSettings.EveHQBackupLast
+                        Dim timeElapsed As TimeSpan = Now - HQ.Settings.EveHQBackupLast
                         Dim msg As String = "You haven't backed up your EveHQ Settings for " & timeElapsed.Days &
                                             " days. Would you like to do this now?"
                         Dim reply As Integer = MessageBox.Show(msg, "Backup EveHQ Settings?", MessageBoxButtons.YesNo,
@@ -700,14 +700,14 @@ Public Class frmEveHQ
                     End If
                 End If
                 HQ.WriteLogEvent("Shutdown: Request to save EveHQ Settings before update")
-                Call EveHQSettingsFunctions.SaveSettings()
+                Call HQ.Settings.Save()
             Else
-                If HQ.EveHqSettings.EveHQBackupMode = 1 Then
+                If HQ.Settings.EveHQBackupMode = 1 Then
                     HQ.WriteLogEvent("Shutdown: Checking EveHQ backup status before exit")
                     Dim backupDate As Date =
-                            HQ.EveHqSettings.EveHQBackupLast.AddDays(HQ.EveHqSettings.EveHQBackupWarnFreq)
+                            HQ.Settings.EveHQBackupLast.AddDays(HQ.Settings.EveHQBackupWarnFreq)
                     If backupDate < Now Then
-                        Dim timeElapsed As TimeSpan = Now - HQ.EveHqSettings.EveHQBackupLast
+                        Dim timeElapsed As TimeSpan = Now - HQ.Settings.EveHQBackupLast
                         Dim msg As String = "You haven't backed up your EveHQ Settings for " & timeElapsed.Days &
                                             " days. Would you like to do this now?"
                         Dim reply As Integer = MessageBox.Show(msg, "Backup EveHQ Settings?", MessageBoxButtons.YesNo,
@@ -723,7 +723,7 @@ Public Class frmEveHQ
                     End If
                 End If
                 HQ.WriteLogEvent("Shutdown: Request to save EveHQ Settings before exit")
-                Call EveHQSettingsFunctions.SaveSettings()
+                Call HQ.Settings.Save()
             End If
 
             ' Remove the icons
@@ -760,12 +760,12 @@ Public Class frmEveHQ
     Private Sub SaveEverything(ByVal silent As Boolean)
         Dim savesDone As List(Of String) = New List(Of String)()
         ' Save Core data and settings
-        HQ.EveHQSettings.QATLayout = RibbonControl1.QatLayout
-        Call EveHQSettingsFunctions.SaveSettings()
+        HQ.Settings.QATLayout = RibbonControl1.QatLayout
+        Call HQ.Settings.Save()
         savesDone.Add("EveHQ Core")
 
         ' Save Plug-in data and settings
-        For Each myPlugIn As EveHQ.Core.PlugIn In HQ.EveHQSettings.Plugins.Values
+        For Each myPlugIn As EveHQ.Core.PlugIn In HQ.Settings.Plugins.Values
             If myPlugIn.Status = PlugIn.PlugInStatus.Active Then
                 Dim dataSaved As Boolean = myPlugIn.Instance.SaveAll()
                 If dataSaved = True Then
@@ -793,7 +793,7 @@ Public Class frmEveHQ
 #Region "Skill Display Updater & Notification Routines"
 
     Private Sub SkillWorker_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles SkillWorker.DoWork
-        For Each tPilot As Pilot In HQ.EveHqSettings.Pilots
+        For Each tPilot As EveHQPilot In HQ.Settings.Pilots.Values
             If tPilot.Active = True Then
                 tPilot.TrainingCurrentSP = CInt(SkillFunctions.CalcCurrentSkillPoints(tPilot))
                 tPilot.TrainingCurrentTime = SkillFunctions.CalcCurrentSkillTime(tPilot)
@@ -819,7 +819,7 @@ Public Class frmEveHQ
         End If
 
         ' Update the G15 LCD if applicable
-        'If EveHQ.Core.HQ.EveHQSettings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
+        'If EveHQ.Core.HQ.Settings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
         '    Select Case EveHQ.Core.HQ.lcdCharMode
         '        Case 0
         '            Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
@@ -843,36 +843,36 @@ Public Class frmEveHQ
     Private Sub CheckNotifications()
 
         'Mitigation for EVEHQ-92 ... null check the pilots collection before trying to use it.
-        If HQ.EveHQSettings.Pilots Is Nothing Then
+        If HQ.Settings.Pilots Is Nothing Then
             Return
         End If
 
         ' Only do this if at least one notification is enabled
         If _
-            HQ.EveHqSettings.NotifyToolTip = True Or HQ.EveHqSettings.NotifyDialog = True Or
-            HQ.EveHqSettings.NotifyEMail = True Or HQ.EveHqSettings.NotifySound = True Then
+            HQ.Settings.NotifyToolTip = True Or HQ.Settings.NotifyDialog = True Or
+            HQ.Settings.NotifyEMail = True Or HQ.Settings.NotifySound = True Then
             Dim notifyText As String = ""
 
-            If HQ.EveHqSettings.Pilots Is Nothing Or HQ.EveHqSettings.Pilots.Count = 0 Then
+            If HQ.Settings.Pilots Is Nothing Or HQ.Settings.Pilots.Count = 0 Then
                 Return ' no pilots not reason to continue.
             End If
 
-            For Each cPilot As Pilot In HQ.EveHQSettings.Pilots
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If cPilot.Active = True And cPilot.Training = True Then
                     notifyText = ""
                     Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
                     ' See if we need to notify about this pilot
-                    If trainingTime <= HQ.EveHqSettings.NotifyOffset Then
+                    If trainingTime <= HQ.Settings.NotifyOffset Then
                         If cPilot.TrainingNotifiedEarly = False Then
                             If cPilot.TrainingCurrentTime <= 0 And cPilot.TrainingNotifiedNow = False Then
-                                If HQ.EveHqSettings.NotifyNow = True Then
+                                If HQ.Settings.NotifyNow = True Then
                                     notifyText &= cPilot.Name & " has completed training of " & cPilot.TrainingSkillName &
                                                   " to Level " & cPilot.TrainingSkillLevel & "." & ControlChars.CrLf
                                     cPilot.TrainingNotifiedEarly = True
                                     cPilot.TrainingNotifiedNow = True
                                 End If
                             Else
-                                If HQ.EveHqSettings.NotifyEarly = True Then
+                                If HQ.Settings.NotifyEarly = True Then
                                     Dim strTime As String = SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
                                     strTime = strTime.Replace("s", " seconds").Replace("m", " minutes")
                                     notifyText &= cPilot.Name & " has approximately " & strTime & " before training of " &
@@ -884,7 +884,7 @@ Public Class frmEveHQ
                             End If
                         Else
                             If cPilot.TrainingCurrentTime <= 0 And cPilot.TrainingNotifiedNow = False Then
-                                If HQ.EveHqSettings.NotifyNow = True Then
+                                If HQ.Settings.NotifyNow = True Then
                                     notifyText &= cPilot.Name & " has completed training of " & cPilot.TrainingSkillName &
                                                   " to Level " & cPilot.TrainingSkillLevel & "." & ControlChars.CrLf
                                     cPilot.TrainingNotifiedEarly = True
@@ -896,23 +896,23 @@ Public Class frmEveHQ
                         ' Show the notifications
                         If notifyText <> "" Then
                             ' If sound is required: Play first as this is automatically put on a separate thread
-                            If HQ.EveHqSettings.NotifySound = True Then
+                            If HQ.Settings.NotifySound = True Then
                                 Try
-                                    My.Computer.Audio.Play(HQ.EveHqSettings.NotifySoundFile, AudioPlayMode.Background)
+                                    My.Computer.Audio.Play(HQ.Settings.NotifySoundFile, AudioPlayMode.Background)
                                 Catch ex As Exception
                                 End Try
                             End If
                             ' If tooltip is required:
-                            If HQ.EveHqSettings.NotifyToolTip = True Then
+                            If HQ.Settings.NotifyToolTip = True Then
                                 EveStatusIcon.ShowBalloonTip(3000, "Training Notification", notifyText, ToolTipIcon.Info)
                             End If
                             ' If dialog box is required:
-                            If HQ.EveHqSettings.NotifyDialog = True Then
+                            If HQ.Settings.NotifyDialog = True Then
                                 MessageBox.Show(notifyText, "Training Notification", MessageBoxButtons.OK,
                                                 MessageBoxIcon.Information)
                             End If
                             ' If email is required:
-                            If HQ.EveHqSettings.NotifyEMail = True Then
+                            If HQ.Settings.NotifyEMail = True Then
                                 ' Expand the details with some additional information
                                 If cPilot.QueuedSkills.Count > 0 Then
                                     notifyText &= ControlChars.CrLf
@@ -929,7 +929,7 @@ Public Class frmEveHQ
                                 If cPilot.TrainingQueues.Count > 0 Then
                                     notifyText &= ControlChars.CrLf
                                     notifyText &= "EveHQ Skill Queue Info: " & ControlChars.CrLf
-                                    For Each sq As SkillQueue In cPilot.TrainingQueues.Values
+                                    For Each sq As EveHQSkillQueue In cPilot.TrainingQueues.Values
                                         Dim nq As ArrayList = SkillQueueFunctions.BuildQueue(cPilot, sq, False, True)
                                         If sq.IncCurrentTraining = True Then
                                             If nq.Count > 1 Then
@@ -977,19 +977,19 @@ Public Class frmEveHQ
         End If
     End Sub
 
-    Private Sub SendEveHQMail(ByVal cpilot As Pilot, ByVal mailText As String)
+    Private Sub SendEveHQMail(ByVal cpilot As EveHQPilot, ByVal mailText As String)
         Dim eveHQMail As New SmtpClient
         Try
-            eveHQMail.Host = HQ.EveHqSettings.EMailServer
-            eveHQMail.Port = HQ.EveHqSettings.EMailPort
-            eveHQMail.EnableSsl = HQ.EveHqSettings.UseSSL
-            If HQ.EveHqSettings.UseSMTPAuth = True Then
+            eveHQMail.Host = HQ.Settings.EMailServer
+            eveHQMail.Port = HQ.Settings.EMailPort
+            eveHQMail.EnableSsl = HQ.Settings.UseSsl
+            If HQ.Settings.UseSmtpAuth = True Then
                 Dim newCredentials As New NetworkCredential
-                newCredentials.UserName = HQ.EveHqSettings.EMailUsername
-                newCredentials.Password = HQ.EveHqSettings.EMailPassword
+                newCredentials.UserName = HQ.Settings.EMailUsername
+                newCredentials.Password = HQ.Settings.EMailPassword
                 eveHQMail.Credentials = newCredentials
             End If
-            Dim eveHQMsg As New MailMessage(HQ.EveHqSettings.EmailSenderAddress, HQ.EveHqSettings.EMailAddress)
+            Dim eveHQMsg As New MailMessage(HQ.Settings.EmailSenderAddress, HQ.Settings.EMailAddress)
             eveHQMsg.Subject = "Eve Training Notification: " & cpilot.Name & " (" & cpilot.TrainingSkillName & " " &
                                SkillFunctions.Roman(cpilot.TrainingSkillLevel) & ")"
             eveHQMsg.Body = mailText
@@ -1003,17 +1003,17 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub UpdateToNextLevel()
-        For Each cPilot As Pilot In HQ.EveHqSettings.Pilots
+        For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
             If cPilot.Training = True Then
-                If cPilot.PilotSkills.Contains(cPilot.TrainingSkillName) = True Then
-                    Dim trainSkill As PilotSkill = CType(cPilot.PilotSkills(cPilot.TrainingSkillName), PilotSkill)
+                If cPilot.PilotSkills.ContainsKey(cPilot.TrainingSkillName) = True Then
+                    Dim trainSkill As EveHQPilotSkill = cPilot.PilotSkills(cPilot.TrainingSkillName)
                     Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
                     ' See if we need to "update" this level
                     If trainingTime <= 0 And cPilot.TrainingSkillLevel <> trainSkill.Level Then
                         Dim strXML As String = ""
 
                         ' Browse the skill queue and pick the next available skill
-                        Dim pq As SkillQueue = CType(cPilot.TrainingQueues(cPilot.PrimaryQueue), SkillQueue)
+                        Dim pq As EveHQSkillQueue = cPilot.TrainingQueues(cPilot.PrimaryQueue)
                         If pq IsNot Nothing Then
                             Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(cPilot, pq, False, True)
                             Dim qItem As New SortedQueueItem
@@ -1038,9 +1038,9 @@ Public Class frmEveHQ
 
     Private Sub CheckForCharAPIUpdate()
         ' Check for an API update if applicable
-        If HQ.EveHqSettings.AutoAPI = True Then
+        If HQ.Settings.AutoAPI = True Then
             Dim updateRequired As Boolean = False
-            For Each cPilot As Pilot In HQ.EveHqSettings.Pilots
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If cPilot.Name <> "" And cPilot.Account <> "" Then
                     Dim cacheCDate As Date = SkillFunctions.ConvertEveTimeToLocal(cPilot.CacheExpirationTime)
                     Dim cacheTDate As Date = SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingExpirationTime)
@@ -1085,7 +1085,7 @@ Public Class frmEveHQ
         ' Check if the mail download is in progress
         If EveMailEvents.MailIsBeingProcessed = False Then
             ' Check for an API update if applicable
-            If HQ.EveHqSettings.AutoMailAPI = True Then
+            If HQ.Settings.AutoMailAPI = True Then
                 If Now > HQ.NextAutoMailAPITime Then
                     ' Invoke the API Caller
                     Call Me.UpdateMailNotifications()
@@ -1131,7 +1131,7 @@ Public Class frmEveHQ
             Dim curSelPilot As String = ""
 
             ' If we have accounts to query then get the data for them
-            If HQ.EveHqSettings.Accounts.Count = 0 Then
+            If HQ.Settings.Accounts.Count = 0 Then
                 lblAPIStatus.Text = "API Status: No accounts entered into settings!! (" & Now.ToString & ")"
                 Exit Sub
             Else
@@ -1142,13 +1142,12 @@ Public Class frmEveHQ
                 HQ.TCorps.Clear()
                 HQ.APIResults.Clear()
                 ' get the details for the account
-                Dim CurrentAccount As New EveAccount
-                For Each CurrentAccount In HQ.EveHqSettings.Accounts
-                    If CurrentAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
-                        lblAPIStatus.Text = "API Status: Updating Account '" & CurrentAccount.FriendlyName & "' (ID=" &
-                                            CurrentAccount.userID & ")..."
+                For Each currentAccount As EveHQAccount In HQ.Settings.Accounts.Values
+                    If currentAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
+                        lblAPIStatus.Text = "API Status: Updating Account '" & currentAccount.FriendlyName & "' (ID=" &
+                                            currentAccount.UserID & ")..."
                         barStatus.Refresh()
-                        Call PilotParseFunctions.GetCharactersInAccount(CurrentAccount)
+                        Call PilotParseFunctions.GetCharactersInAccount(currentAccount)
                     End If
                 Next
                 Call PilotParseFunctions.CopyTempPilotsToMain()
@@ -1184,7 +1183,7 @@ Public Class frmEveHQ
 
             If IsHandleCreated Then
                 ' Save the settings
-                Me.Invoke(New MethodInvoker(AddressOf EveHQSettingsFunctions.SaveSettings))
+                Me.Invoke(New MethodInvoker(AddressOf EveHQ.Core.HQ.Settings.Save))
 
                 ' Enable the option again
                 btnQueryAPI.Enabled = True
@@ -1225,7 +1224,7 @@ Public Class frmEveHQ
             frmSettings.UpdatePilots()
         End If
 
-        If HQ.EveHqSettings.Pilots.Count = 0 Then
+        If HQ.Settings.Pilots.Count = 0 Then
             btnViewPilotInfo.Enabled = False
             btnViewSkillTraining.Enabled = False
             If frmPilot IsNot Nothing Then
@@ -1251,17 +1250,15 @@ Public Class frmEveHQ
 
     Private Sub SetupTrainingStatus()
 
-        If HQ.EveHqSettings.DisableTrainingBar = False Then
+        If HQ.Settings.DisableTrainingBar = False Then
             ' Setup a collection for sorting
             Dim PilotTrainingTimes As New ArrayList
             Dim TrainingAccounts As New ArrayList
             Dim DisabledAccounts As New ArrayList
-            For Each cPilot As Pilot In HQ.EveHqSettings.Pilots
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 ' Check for disabled accounts
-                If HQ.EveHqSettings.Accounts.Contains(cPilot.Account) Then
-                    If _
-                        CType(HQ.EveHqSettings.Accounts(cPilot.Account), EveAccount).APIAccountStatus =
-                        APIAccountStatuses.Disabled Then
+                If HQ.Settings.Accounts.ContainsKey(cPilot.Account) Then
+                    If HQ.Settings.Accounts(cPilot.Account).APIAccountStatus = APIAccountStatuses.Disabled Then
                         DisabledAccounts.Add(cPilot.Account)
                     Else
                         ' Check for training accounts
@@ -1287,7 +1284,7 @@ Public Class frmEveHQ
             PilotTrainingTimes.Sort(myClassSorter)
 
             ' Clear old event handlers
-            For c As Integer = pdc1.Controls.Count - 1 To 0 Step - 1
+            For c As Integer = pdc1.Controls.Count - 1 To 0 Step -1
                 Dim cb As CharacterTrainingBlock = CType(pdc1.Controls(c), CharacterTrainingBlock)
                 RemoveHandler cb.lblSkill.Click, AddressOf Me.TrainingStatusLabelClick
                 RemoveHandler cb.lblTime.Click, AddressOf Me.TrainingStatusLabelClick
@@ -1301,7 +1298,7 @@ Public Class frmEveHQ
             Dim startloc As Integer = 0
 
             ' Add non-training accounts to the training bar
-            For Each cAccount As EveAccount In HQ.EveHqSettings.Accounts
+            For Each cAccount As EveHQAccount In HQ.Settings.Accounts.Values
                 If DisabledAccounts.Contains(cAccount.userID) = True Then
                     ' Build a status panel if the account is not manually disabled
                     If cAccount.APIAccountStatus <> APIAccountStatuses.ManualDisabled Then
@@ -1388,10 +1385,10 @@ Public Class frmEveHQ
             EveHQTrayForm = Nothing
         End If
 
-        If HQ.EveHqSettings.EveFolder(1) IsNot Nothing Then
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.EveHqSettings.EveFolder(1), "Eve.exe")) = True Then
-                If HQ.EveHqSettings.EveFolderLabel(1) <> "" Then
-                    ctxmnuLaunchEve1.Text = "Launch Eve (" & HQ.EveHqSettings.EveFolderLabel(1) & ")"
+        If HQ.Settings.EveFolder(1) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.Settings.EveFolder(1), "Eve.exe")) = True Then
+                If HQ.Settings.EveFolderLabel(1) <> "" Then
+                    ctxmnuLaunchEve1.Text = "Launch Eve (" & HQ.Settings.EveFolderLabel(1) & ")"
                 End If
                 ctxmnuLaunchEve1.Enabled = True
             Else
@@ -1399,10 +1396,10 @@ Public Class frmEveHQ
             End If
         End If
 
-        If HQ.EveHqSettings.EveFolder(2) IsNot Nothing Then
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.EveHqSettings.EveFolder(2), "Eve.exe")) = True Then
-                If HQ.EveHqSettings.EveFolderLabel(2) <> "" Then
-                    ctxmnuLaunchEve2.Text = "Launch Eve (" & HQ.EveHqSettings.EveFolderLabel(2) & ")"
+        If HQ.Settings.EveFolder(2) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.Settings.EveFolder(2), "Eve.exe")) = True Then
+                If HQ.Settings.EveFolderLabel(2) <> "" Then
+                    ctxmnuLaunchEve2.Text = "Launch Eve (" & HQ.Settings.EveFolderLabel(2) & ")"
                 End If
                 ctxmnuLaunchEve2.Enabled = True
             Else
@@ -1410,10 +1407,10 @@ Public Class frmEveHQ
             End If
         End If
 
-        If HQ.EveHqSettings.EveFolder(3) IsNot Nothing Then
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.EveHqSettings.EveFolder(3), "Eve.exe")) = True Then
-                If HQ.EveHqSettings.EveFolderLabel(3) <> "" Then
-                    ctxmnuLaunchEve3.Text = "Launch Eve (" & HQ.EveHqSettings.EveFolderLabel(3) & ")"
+        If HQ.Settings.EveFolder(3) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.Settings.EveFolder(3), "Eve.exe")) = True Then
+                If HQ.Settings.EveFolderLabel(3) <> "" Then
+                    ctxmnuLaunchEve3.Text = "Launch Eve (" & HQ.Settings.EveFolderLabel(3) & ")"
                 End If
                 ctxmnuLaunchEve3.Enabled = True
             Else
@@ -1421,10 +1418,10 @@ Public Class frmEveHQ
             End If
         End If
 
-        If HQ.EveHqSettings.EveFolder(4) IsNot Nothing Then
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.EveHqSettings.EveFolder(4), "Eve.exe")) = True Then
-                If HQ.EveHqSettings.EveFolderLabel(4) <> "" Then
-                    ctxmnuLaunchEve4.Text = "Launch Eve (" & HQ.EveHqSettings.EveFolderLabel(4) & ")"
+        If HQ.Settings.EveFolder(4) IsNot Nothing Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.Settings.EveFolder(4), "Eve.exe")) = True Then
+                If HQ.Settings.EveFolderLabel(4) <> "" Then
+                    ctxmnuLaunchEve4.Text = "Launch Eve (" & HQ.Settings.EveFolderLabel(4) & ")"
                 End If
                 ctxmnuLaunchEve4.Enabled = True
             Else
@@ -1437,24 +1434,24 @@ Public Class frmEveHQ
 
     Private Sub tmrBackup_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrBackup.Tick
         If BackupWorker.IsBusy = False Then
-            If HQ.EveHqSettings.BackupAuto = True Then
-                Dim nextBackup As Date = HQ.EveHqSettings.BackupStart
-                If HQ.EveHqSettings.BackupLast > nextBackup Then
-                    nextBackup = HQ.EveHqSettings.BackupLast
+            If HQ.Settings.BackupAuto = True Then
+                Dim nextBackup As Date = HQ.Settings.BackupStart
+                If HQ.Settings.BackupLast > nextBackup Then
+                    nextBackup = HQ.Settings.BackupLast
                 End If
-                nextBackup = DateAdd(DateInterval.Day, HQ.EveHqSettings.BackupFreq, nextBackup)
+                nextBackup = DateAdd(DateInterval.Day, HQ.Settings.BackupFreq, nextBackup)
                 If Now >= nextBackup Then
                     BackupWorker.RunWorkerAsync()
                 End If
             End If
         End If
         If EveHQBackupWorker.IsBusy = False Then
-            If HQ.EveHqSettings.EveHQBackupMode = 2 Then
-                Dim nextBackup As Date = HQ.EveHqSettings.EveHQBackupStart
-                If HQ.EveHqSettings.EveHQBackupLast > nextBackup Then
-                    nextBackup = HQ.EveHqSettings.EveHQBackupLast
+            If HQ.Settings.EveHQBackupMode = 2 Then
+                Dim nextBackup As Date = HQ.Settings.EveHQBackupStart
+                If HQ.Settings.EveHQBackupLast > nextBackup Then
+                    nextBackup = HQ.Settings.EveHQBackupLast
                 End If
-                nextBackup = DateAdd(DateInterval.Day, HQ.EveHqSettings.EveHQBackupFreq, nextBackup)
+                nextBackup = DateAdd(DateInterval.Day, HQ.Settings.EveHQBackupFreq, nextBackup)
                 If Now >= nextBackup Then
                     EveHQBackupWorker.RunWorkerAsync()
                 End If
@@ -1469,13 +1466,13 @@ Public Class frmEveHQ
     Private Sub BackupWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) _
         Handles BackupWorker.RunWorkerCompleted
 
-        If HQ.EveHqSettings.BackupLastResult = - 1 Then
-            frmBackup.lblLastBackup.Text = HQ.EveHqSettings.BackupLast.ToString
+        If HQ.Settings.BackupLastResult = -1 Then
+            frmBackup.lblLastBackup.Text = HQ.Settings.BackupLast.ToString
         End If
         Call frmBackup.CalcNextBackup()
         Call frmBackup.ScanBackups()
-        If HQ.EveHqSettings.BackupLastResult = - 1 Then
-            lblAPIStatus.Text = "Eve Settings Backup Successful: " & HQ.EveHqSettings.BackupLast.ToString
+        If HQ.Settings.BackupLastResult = -1 Then
+            lblAPIStatus.Text = "Eve Settings Backup Successful: " & HQ.Settings.BackupLast.ToString
         Else
             lblAPIStatus.Text = "Eve Settings Backup Aborted - No Source Folders"
         End If
@@ -1492,8 +1489,8 @@ Public Class frmEveHQ
         If frmBackupEveHQ.IsHandleCreated = True Then
             Call frmBackupEveHQ.ScanBackups()
         End If
-        If HQ.EveHqSettings.EveHQBackupLastResult = - 1 Then
-            lblAPIStatus.Text = "EveHQ Settings Backup Successful: " & HQ.EveHqSettings.EveHQBackupLast.ToString
+        If HQ.Settings.EveHQBackupLastResult = -1 Then
+            lblAPIStatus.Text = "EveHQ Settings Backup Successful: " & HQ.Settings.EveHQBackupLast.ToString
         Else
             lblAPIStatus.Text = "EveHQ Settings Backup Failed!"
         End If
@@ -1510,7 +1507,7 @@ Public Class frmEveHQ
     Private Sub tmrModules_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrModules.Tick
         CheckForIllegalCrossThreadCalls = False
         tmrModules.Stop()
-        For Each PlugInInfo As PlugIn In HQ.EveHqSettings.Plugins.Values
+        For Each PlugInInfo As PlugIn In HQ.Settings.Plugins.Values
             ' Override settings if the remote server says so
             Dim ServerOverride As Boolean = False
             If HQ.EveHQServerMessage IsNot Nothing Then
@@ -1616,11 +1613,11 @@ Public Class frmEveHQ
 #Region "Plug-in Routines"
 
     Private Sub SetupModuleMenu()
-        If HQ.EveHqSettings.Plugins.Count <> 0 Then
+        If HQ.Settings.Plugins.Count <> 0 Then
             ' Clear the Plug-ins ribbon
             rbPlugins.Items.Clear()
             Dim modCount As Integer = 0
-            For Each PlugInInfo As PlugIn In HQ.EveHqSettings.Plugins.Values
+            For Each PlugInInfo As PlugIn In HQ.Settings.Plugins.Values
                 If PlugInInfo.Available = True Then
                     modCount += 1
                     ' Create the plug-in container and orientations
@@ -1744,7 +1741,7 @@ Public Class frmEveHQ
         If tp IsNot Nothing Then
             tabEveHQMDI.SelectedTab = tp
         Else
-            Dim myPlugIn As PlugIn = CType(HQ.EveHqSettings.Plugins(mnu.Name), PlugIn)
+            Dim myPlugIn As PlugIn = CType(HQ.Settings.Plugins(mnu.Name), PlugIn)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             Call DisplayChildForm(plugInForm)
         End If
@@ -1757,7 +1754,7 @@ Public Class frmEveHQ
         If tp IsNot Nothing Then
             tabEveHQMDI.SelectedTab = tp
         Else
-            Dim myPlugIn As PlugIn = CType(HQ.EveHqSettings.Plugins(PlugInName), PlugIn)
+            Dim myPlugIn As PlugIn = CType(HQ.Settings.Plugins(PlugInName), PlugIn)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             Call Me.DisplayChildForm(plugInForm)
         End If
@@ -1766,7 +1763,7 @@ Public Class frmEveHQ
     Private Sub LoadPlugin(ByVal sender As Object, ByVal e As EventArgs)
         Dim PIB As ButtonItem = DirectCast(sender, ButtonItem)
         Dim plugInName As String = PIB.Name.Remove(0, 3)
-        Dim PlugInInfo As PlugIn = CType(HQ.EveHqSettings.Plugins.Item(plugInName), PlugIn)
+        Dim PlugInInfo As PlugIn = CType(HQ.Settings.Plugins.Item(plugInName), PlugIn)
         If PlugInInfo.RunAtStartup = True Then
             ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
         Else
@@ -1788,7 +1785,7 @@ Public Class frmEveHQ
         If tp IsNot Nothing Then
             tabEveHQMDI.SelectedTab = tp
         Else
-            Dim myPlugIn As PlugIn = CType(HQ.EveHqSettings.Plugins(mnu.Name), PlugIn)
+            Dim myPlugIn As PlugIn = CType(HQ.Settings.Plugins(mnu.Name), PlugIn)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             Call DisplayChildForm(plugInForm)
         End If
@@ -1837,7 +1834,7 @@ Public Class frmEveHQ
     Delegate Sub OpenPlugInDelegate(ByVal PlugInName As String)
 
     Private Sub OpenPlugIn(ByVal PlugInName As String)
-        Dim PlugInInfo As PlugIn = CType(HQ.EveHqSettings.Plugins(PlugInName), PlugIn)
+        Dim PlugInInfo As PlugIn = CType(HQ.Settings.Plugins(PlugInName), PlugIn)
         If PlugInInfo.Status = PlugIn.PlugInStatus.Active Then
             Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
             Dim tp As TabItem = HQ.GetMDITab(PlugInName)
@@ -2002,10 +1999,10 @@ Public Class frmEveHQ
     Private Sub LaunchEveInNormalWindow(ByVal folder As Integer)
         Me.WindowState = FormWindowState.Minimized
         Try
-            If HQ.EveHqSettings.EveFolderLUA(folder) = True Then
-                Process.Start(Path.Combine(HQ.EveHqSettings.EveFolder(folder), "Eve.exe"), "/LUA:OFF")
+            If HQ.Settings.EveFolderLUA(folder) = True Then
+                Process.Start(Path.Combine(HQ.Settings.EveFolder(folder), "Eve.exe"), "/LUA:OFF")
             Else
-                Process.Start(Path.Combine(HQ.EveHqSettings.EveFolder(folder), "Eve.exe"))
+                Process.Start(Path.Combine(HQ.Settings.EveFolder(folder), "Eve.exe"))
             End If
         Catch ex As Exception
             MessageBox.Show(
@@ -2059,8 +2056,8 @@ Public Class frmEveHQ
 
             ' Clear the EveHQ Pilot Data
             Try
-                HQ.EveHqSettings.Pilots.Clear()
-                HQ.EveHqSettings.Corporations.Clear()
+                HQ.Settings.Pilots.Clear()
+                HQ.Settings.Corporations.Clear()
                 HQ.TPilots.Clear()
                 HQ.TCorps.Clear()
             Catch ex As Exception
@@ -2183,7 +2180,7 @@ Public Class frmEveHQ
     Private Function FetchUpdateXML() As XmlDocument
 
         ' Set a default policy level for the "http:" and "https" schemes.
-        Dim UpdateServer As String = HQ.EveHqSettings.UpdateURL
+        Dim UpdateServer As String = HQ.Settings.UpdateURL
         Dim remoteURL As String = UpdateServer & "_evehqupdate.xml"
         Dim UpdateXML As New XmlDocument
         Trace.TraceInformation("Fetching Update XML document from {0}".FormatInvariant(remoteURL))
@@ -2252,8 +2249,8 @@ Public Class frmEveHQ
         Else
             args &= " /Local;False"
         End If
-        If HQ.EveHqSettings.DBFormat = 0 Then
-            args &= " /DB;" & ControlChars.Quote & HQ.EveHqSettings.DBFilename & ControlChars.Quote
+        If HQ.Settings.DBFormat = 0 Then
+            args &= " /DB;" & ControlChars.Quote & HQ.Settings.DBFilename & ControlChars.Quote
         Else
             args &= " /DB;None"
         End If
@@ -2271,7 +2268,7 @@ Public Class frmEveHQ
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
 
-        Dim httpURI As String = HQ.EveHqSettings.UpdateURL & FileNeeded
+        Dim httpURI As String = HQ.Settings.UpdateURL & FileNeeded
         Dim localFile As String = Path.Combine(HQ.AppDataFolder, FileNeeded)
 
         ' Create the request to access the server and set credentials
@@ -2299,7 +2296,7 @@ Public Class frmEveHQ
                             read = responseStream.Read(buffer, 0, buffer.Length)
                             fs.Write(buffer, 0, read)
                             totalBytes += read
-                            percent = CInt(totalBytes/filesize*100)
+                            percent = CInt(totalBytes / filesize * 100)
                         Loop Until read = 0
                         'see Note(1)
                         responseStream.Close()
@@ -2375,12 +2372,12 @@ Public Class frmEveHQ
 
         ' Check for the AutoMailAPI flag
         Dim requiresAutoDisable As Boolean = False
-        If HQ.EveHqSettings.AutoMailAPI = True Then
+        If HQ.Settings.AutoMailAPI = True Then
             requiresAutoDisable = True
         End If
         ' Disable the AutoMailAPI flag if required
         If requiresAutoDisable = True Then
-            HQ.EveHqSettings.AutoMailAPI = False
+            HQ.Settings.AutoMailAPI = False
         End If
 
         Me.Invoke(New MethodInvoker(AddressOf Me.UpdateMailAPILabelStart))
@@ -2398,7 +2395,7 @@ Public Class frmEveHQ
 
         ' Set the AutoMailAPI flag if required
         If requiresAutoDisable = True Then
-            HQ.EveHqSettings.AutoMailAPI = True
+            HQ.Settings.AutoMailAPI = True
         End If
 
         EveMailEvents.MailIsBeingProcessed = False
@@ -2434,33 +2431,33 @@ Public Class frmEveHQ
             Exit For
         Next
 
-            Dim myException As New frmException
-            myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
-            myException.lblError.Text = e.Message
-            Dim trace As New StringBuilder
-            trace.AppendLine(e.FormatException)
-            trace.AppendLine("")
-            trace.AppendLine("========== Plug-ins ==========")
-            trace.AppendLine("")
-            For Each myPlugIn As PlugIn In HQ.EveHqSettings.Plugins.Values
-                If myPlugIn.ShortFileName IsNot Nothing Then
-                    trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
-                End If
-            Next
-            trace.AppendLine("")
-            trace.AppendLine("")
-            trace.AppendLine("========= System Info =========")
-            trace.AppendLine("")
-            trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
-            trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
-            trace.AppendLine("EveHQ Location: " & HQ.appFolder)
-            trace.AppendLine("EveHQ Cache Locations: " & HQ.AppDataFolder)
-            myException.txtStackTrace.Text = trace.ToString
-            Dim result As Integer = myException.ShowDialog()
-            If result = DialogResult.Ignore Then
-            Else
-                Call frmEveHQ.ShutdownRoutine()
+        Dim myException As New frmException
+        myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+        myException.lblError.Text = e.Message
+        Dim trace As New StringBuilder
+        trace.AppendLine(e.FormatException)
+        trace.AppendLine("")
+        trace.AppendLine("========== Plug-ins ==========")
+        trace.AppendLine("")
+        For Each myPlugIn As PlugIn In HQ.Settings.Plugins.Values
+            If myPlugIn.ShortFileName IsNot Nothing Then
+                trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
             End If
+        Next
+        trace.AppendLine("")
+        trace.AppendLine("")
+        trace.AppendLine("========= System Info =========")
+        trace.AppendLine("")
+        trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
+        trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
+        trace.AppendLine("EveHQ Location: " & HQ.appFolder)
+        trace.AppendLine("EveHQ Cache Locations: " & HQ.AppDataFolder)
+        myException.txtStackTrace.Text = trace.ToString
+        Dim result As Integer = myException.ShowDialog()
+        If result = DialogResult.Ignore Then
+        Else
+            Call frmEveHQ.ShutdownRoutine()
+        End If
     End Sub
 
 #Region "Ribbon Button Routines"
@@ -2518,14 +2515,14 @@ Public Class frmEveHQ
                     IGBWorker.RunWorkerAsync()
                     HQ.IGBActive = True
                     btnIGB.Checked = True
-                    lblIGB.Text = "Port: " & HQ.EveHqSettings.IGBPort.ToString & ControlChars.CrLf & "Status: On"
+                    lblIGB.Text = "Port: " & HQ.Settings.IGBPort.ToString & ControlChars.CrLf & "Status: On"
                 End If
             End If
         Else
             IGBWorker.CancelAsync()
             HQ.IGBActive = False
             btnIGB.Checked = False
-            lblIGB.Text = "Port: " & HQ.EveHqSettings.IGBPort.ToString & ControlChars.CrLf & "Status: Off"
+            lblIGB.Text = "Port: " & HQ.Settings.IGBPort.ToString & ControlChars.CrLf & "Status: Off"
         End If
     End Sub
 
@@ -2607,8 +2604,8 @@ Public Class frmEveHQ
 
                 ' Clear the EveHQ Pilot Data
                 Try
-                    HQ.EveHqSettings.Pilots.Clear()
-                    HQ.EveHqSettings.Corporations.Clear()
+                    HQ.Settings.Pilots.Clear()
+                    HQ.Settings.Corporations.Clear()
                     HQ.TPilots.Clear()
                     HQ.TCorps.Clear()
                 Catch ex As Exception
@@ -2699,8 +2696,8 @@ Public Class frmEveHQ
 
                 ' Clear the EveHQ Pilot Data
                 Try
-                    HQ.EveHqSettings.Pilots.Clear()
-                    HQ.EveHqSettings.Corporations.Clear()
+                    HQ.Settings.Pilots.Clear()
+                    HQ.Settings.Corporations.Clear()
                     HQ.TPilots.Clear()
                     HQ.TCorps.Clear()
                 Catch ex As Exception
@@ -2761,14 +2758,14 @@ Public Class frmEveHQ
 
     Private Sub UpdateReportPilots()
         cboReportPilot.Items.Clear()
-        For Each rPilot As Pilot In HQ.EveHqSettings.Pilots
+        For Each rPilot As EveHQPilot In HQ.Settings.Pilots.Values
             If rPilot.Active = True Then
                 cboReportPilot.Items.Add(rPilot.Name)
             End If
         Next
         If cboReportPilot.Items.Count > 0 Then
-            If cboReportPilot.Items.Contains(HQ.EveHqSettings.StartupPilot) = True Then
-                cboReportPilot.SelectedItem = HQ.EveHqSettings.StartupPilot
+            If cboReportPilot.Items.Contains(HQ.Settings.StartupPilot) = True Then
+                cboReportPilot.SelectedItem = HQ.Settings.StartupPilot
             Else
                 cboReportPilot.SelectedIndex = 0
             End If
@@ -2829,11 +2826,11 @@ Public Class frmEveHQ
         btnTextQueueShoppingList.SubItems.Clear()
         ' Rebuild the queue and shopping list options based on the pilot
         If cboReportPilot.SelectedItem IsNot Nothing Then
-            If HQ.EveHqSettings.Pilots.Contains(cboReportPilot.SelectedItem.ToString) Then
-                Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+            If HQ.Settings.Pilots.ContainsKey(cboReportPilot.SelectedItem.ToString) Then
+                Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
                 If rPilot IsNot Nothing Then
                     If rPilot.TrainingQueues IsNot Nothing Then
-                        For Each qItem As SkillQueue In rPilot.TrainingQueues.Values
+                        For Each qItem As EveHQSkillQueue In rPilot.TrainingQueues.Values
                             Dim queueBtn As New ButtonItem
                             queueBtn.CanCustomize = False
                             queueBtn.Text = qItem.Name
@@ -2881,29 +2878,26 @@ Public Class frmEveHQ
             Exit Sub
         End If
         ' Setup report details
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
+        Dim rQueue As EveHQSkillQueue = rPilot.TrainingQueues(queueName)
         Select Case reportType
             Case "btnHTMLTrainingQueue"
-                Dim rQueue As SkillQueue = CType(rPilot.TrainingQueues(queueName), SkillQueue)
                 Call Reports.GenerateTrainQueue(rPilot, rQueue)
                 newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
                                                          "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "btnHTMLQueueShoppingList"
-                Dim rQueue As SkillQueue = CType(rPilot.TrainingQueues(queueName), SkillQueue)
                 Call Reports.GenerateShoppingList(rPilot, rQueue)
                 newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
                                                          "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html"))
                 DisplayReport(newReport, "Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "btnTextTrainingQueue"
-                Dim rQueue As SkillQueue = CType(rPilot.TrainingQueues(queueName), SkillQueue)
                 Call Reports.GenerateTextTrainQueue(rPilot, rQueue)
                 newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
                                                          "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
                 DisplayReport(newReport, "Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
             Case "btnTextQueueShoppingList"
-                Dim rQueue As SkillQueue = CType(rPilot.TrainingQueues(queueName), SkillQueue)
                 Call Reports.GenerateTextShoppingList(rPilot, rQueue)
                 newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
                                                          "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
@@ -2961,7 +2955,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateCharSheet(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CharSheet (" & rPilot.Name & ").html"))
@@ -2975,7 +2969,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTrainingTime(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainTime (" & rPilot.Name & ").html"))
@@ -2988,7 +2982,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTimeToLevel5(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").html"))
@@ -3001,7 +2995,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateSkillLevels(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").html"))
@@ -3015,7 +3009,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateSkillsAvailable(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").html"))
@@ -3029,7 +3023,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateSkillsNotTrained(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").html"))
@@ -3043,7 +3037,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GeneratePartialSkills(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").html"))
@@ -3056,7 +3050,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateSkillsCost(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").html"))
@@ -3074,7 +3068,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextCharSheet(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CharSheet (" & rPilot.Name & ").txt"))
@@ -3088,7 +3082,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextTrainingTime(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainTime (" & rPilot.Name & ").txt"))
@@ -3101,7 +3095,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextTimeToLevel5(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").txt"))
@@ -3114,7 +3108,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextSkillLevels(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").txt"))
@@ -3128,7 +3122,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextSkillsAvailable(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").txt"))
@@ -3142,7 +3136,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextSkillsNotTrained(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").txt"))
@@ -3156,7 +3150,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextPartialSkills(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").txt"))
@@ -3169,7 +3163,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTextSkillsCost(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").txt"))
@@ -3186,7 +3180,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateCharXML(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
@@ -3199,7 +3193,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateTrainXML(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
@@ -3213,7 +3207,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateCurrentPilotXML_Old(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CurrentXML - Old (" & rPilot.Name & ").xml"))
@@ -3227,7 +3221,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateCurrentPilotXML_New(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
@@ -3241,7 +3235,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GenerateCurrentTrainingXML_Old(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainingXML - Old (" & rPilot.Name & ").xml"))
@@ -3254,7 +3248,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Call Reports.GenerateECMExportReports(rPilot)
     End Sub
 
@@ -3269,7 +3263,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newReport As New frmReportViewer
         Call Reports.GeneratePHPBBCharSheet(rPilot)
         newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PHPBBCharSheet (" & rPilot.Name & ").txt"))
@@ -3286,7 +3280,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newChartForm As New frmChartViewer
         newChartForm.Controls.Add(Reports.SkillGroupChart(rPilot))
         Call Me.DisplayChartReport(newChartForm, "Skill Group Chart - " & rPilot.Name)
@@ -3298,7 +3292,7 @@ Public Class frmEveHQ
                             MessageBoxIcon.Information)
             Exit Sub
         End If
-        Dim rPilot As Pilot = CType(HQ.EveHqSettings.Pilots(cboReportPilot.SelectedItem.ToString), Pilot)
+        Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
         Dim newChartForm As New frmChartViewer
         newChartForm.Controls.Add(Reports.SkillCostChart(rPilot))
         Call Me.DisplayChartReport(newChartForm, "Skill Cost Chart - " & rPilot.Name)
@@ -3313,7 +3307,7 @@ Public Class frmEveHQ
 #Region "Training Bar Routines"
 
     Private Sub Bar1_BarDock(ByVal sender As Object, ByVal e As EventArgs) Handles Bar1.BarDock
-        HQ.EveHqSettings.TrainingBarDockPosition = Bar1.DockSide
+        HQ.Settings.TrainingBarDockPosition = Bar1.DockSide
         Select Case Bar1.DockSide
             Case eDockSide.Top, eDockSide.Bottom
                 'DockContainerItem1.Height = 75
@@ -3324,14 +3318,14 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub Bar1_BarUndock(ByVal sender As Object, ByVal e As EventArgs) Handles Bar1.BarUndock
-        HQ.EveHqSettings.TrainingBarDockPosition = Bar1.DockSide
+        HQ.Settings.TrainingBarDockPosition = Bar1.DockSide
         Call Me.SetupTrainingStatus()
     End Sub
 
     Private Sub Bar1_SizeChanged(ByVal sender As Object, ByVal e As EventArgs) Handles Bar1.SizeChanged
         If appStartUp = False And saveTrainingBarSize = True Then
-            HQ.EveHqSettings.TrainingBarHeight = DockContainerItem1.Height + 3
-            HQ.EveHqSettings.TrainingBarWidth = DockContainerItem1.Width
+            HQ.Settings.TrainingBarHeight = DockContainerItem1.Height + 3
+            HQ.Settings.TrainingBarWidth = DockContainerItem1.Width
         End If
     End Sub
 
@@ -3378,14 +3372,14 @@ Public Class frmEveHQ
             Dim cs As eStyle = CType([Enum].Parse(GetType(eStyle), source.CommandParameter.ToString()), eStyle)
             ' This is all that is needed to change the color table for all controls on the form
             UpdateTheme(cs, Color.Empty)
-            HQ.EveHqSettings.ThemeStyle = cs
-            HQ.EveHqSettings.ThemeSetByUser = True
+            HQ.Settings.ThemeStyle = cs
+            HQ.Settings.ThemeSetByUser = True
             UpdateTint(Color.Empty)
-            HQ.EveHqSettings.ThemeTint = Color.Empty
+            HQ.Settings.ThemeTint = Color.Empty
         ElseIf TypeOf (source.CommandParameter) Is Color Then
             UpdateTint(CType(source.CommandParameter, Color))
-            HQ.EveHqSettings.ThemeTint = StyleManager.ColorTint
-            HQ.EveHqSettings.ThemeSetByUser = True
+            HQ.Settings.ThemeTint = StyleManager.ColorTint
+            HQ.Settings.ThemeSetByUser = True
         End If
         Me.Invalidate()
     End Sub
@@ -3394,7 +3388,7 @@ Public Class frmEveHQ
 
     Private Sub RibbonControl1_ExpandedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles RibbonControl1.ExpandedChanged
-        HQ.EveHqSettings.RibbonMinimised = Not RibbonControl1.Expanded
+        HQ.Settings.RibbonMinimised = Not RibbonControl1.Expanded
     End Sub
 
     Private Sub DisplayChildForm(ByVal ChildForm As Form)
@@ -3412,7 +3406,7 @@ Public Class frmEveHQ
 
     Private Function IGBCanBeInitialised() As Boolean
         Dim prefixes(0) As String
-        prefixes(0) = "http://localhost:" & HQ.EveHqSettings.IGBPort & "/"
+        prefixes(0) = "http://localhost:" & HQ.Settings.IGBPort & "/"
 
         ' URI prefixes are required
         If prefixes Is Nothing OrElse prefixes.Length = 0 Then
