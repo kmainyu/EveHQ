@@ -764,6 +764,14 @@ Public Class SkillQueueFunctions
     End Sub
 
     Public Shared Function AddSkillToQueue(ByVal qPilot As EveHQ.Core.Pilot, ByVal addSkill As String, ByVal di As Integer, ByVal qQueue As EveHQ.Core.SkillQueue, ByVal planLevel As Integer, ByVal silent As Boolean, ByVal exitIfTrained As Boolean, ByVal Note As String) As EveHQ.Core.SkillQueue
+        ' Check if skill is valid
+        If EveHQ.Core.HQ.SkillListName.ContainsKey(addSkill) = False Then
+            If silent = False Then
+                MessageBox.Show("The skill '" & addSkill & "' is unknown and was not added to the queue '" & qQueue.Name & "'.", "Invalid Skill", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+            Return qQueue
+        End If
+
         ' Check if the skill is already in the list - key names are skill IDs!
         ' NB: include the current training skill!
         Dim newSkill As New ListViewItem
