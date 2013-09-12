@@ -412,67 +412,71 @@ Public Class SkillQueueFunctions
     End Function
 
     Private Shared Sub CheckValidSkills(ByVal qPilot As EveHQ.Core.EveHQPilot, ByVal bQueue As EveHQ.Core.EveHQSkillQueue)
-        For Each curSkill As EveHQ.Core.EveHQSkillQueueItem In bQueue.Queue.Values
-            If EveHQ.Core.HQ.SkillListName.ContainsKey(curSkill.Name) = False Then
-                ' Remove the skill entry
+       ' Create a list of skills to remove
+        Dim removeKeyList As New List(Of String)
+        For Each curSkill As EveHQSkillQueueItem In bQueue.Queue.Values
+            If HQ.SkillListName.ContainsKey(curSkill.Name) = False Then
+                ' Mark the skill entry for removal
                 Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                bQueue.Queue.Remove(oldKey)
+                removeKeyList.Add(oldKey)
             End If
+        Next
+        ' Now remove the skills
+        For Each key As String In removeKeyList
+            bQueue.Queue.Remove(key)
         Next
     End Sub
 
     Private Shared Sub CheckAlreadyTrained(ByVal qPilot As EveHQ.Core.EveHQPilot, ByVal bQueue As EveHQ.Core.EveHQSkillQueue)
-        Dim curSkill As EveHQ.Core.EveHQSkillQueueItem = New EveHQ.Core.EveHQSkillQueueItem
-        For Each curSkill In bQueue.Queue.Values
+       Dim newQueue As New Dictionary(Of String, EveHQSkillQueueItem)
+        For Each curSkill As EveHQSkillQueueItem In bQueue.Queue.Values
             If qPilot.PilotSkills.ContainsKey(curSkill.Name) Then
-                Dim fromLevel As Integer = curSkill.FromLevel
-                Dim toLevel As Integer = curSkill.ToLevel
-                Dim mySkill As EveHQ.Core.EveHQPilotSkill = qPilot.PilotSkills(curSkill.Name)
-                Dim pilotLevel As Integer = mySkill.Level
-                If pilotLevel < toLevel Then
-                    If fromLevel < pilotLevel Then
-                        Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                        curSkill.FromLevel = pilotLevel
+                Dim mySkill As EveHQPilotSkill = qPilot.PilotSkills(curSkill.Name)
+                If mySkill.Level < curSkill.ToLevel Then
+                    If curSkill.FromLevel < mySkill.Level Then
+                        curSkill.FromLevel = mySkill.Level
                         Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                        bQueue.Queue.Remove(oldKey)
-                        bQueue.Queue.Add(keyName, curSkill)
+                        newQueue.Add(keyName, curSkill)
+                    Else
+                        ' Add in as standard
+                        newQueue.Add(curSkill.Key, curSkill)
                     End If
-                    'Else
-                    '    ' Clear the trained skill
-                    '    Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                    '    bQueue.Queue.Remove(keyName)
+                Else
+                    ' Add in as standard
+                    newQueue.Add(curSkill.Key, curSkill)
                 End If
+            Else
+                ' Not in the pilot skills therefore add to the queue as is
+                newQueue.Add(curSkill.Key, curSkill)
             End If
         Next
+        bQueue.Queue = newQueue
     End Sub
 
     Private Shared Sub CheckAlreadyTraining(ByVal qPilot As EveHQ.Core.EveHQPilot, ByVal bQueue As EveHQ.Core.EveHQSkillQueue)
-        If qPilot.Training = True Then
-            Dim trainSkill As EveHQ.Core.EveHQPilotSkill = qPilot.PilotSkills(qPilot.TrainingSkillName)
-            Dim curSkill As EveHQ.Core.EveHQSkillQueueItem = New EveHQ.Core.EveHQSkillQueueItem
-            For Each curSkill In bQueue.Queue.Values
-                If curSkill.Name = trainSkill.Name Then
-                    If qPilot.TrainingSkillLevel < curSkill.ToLevel And qPilot.TrainingSkillLevel - 1 = curSkill.FromLevel Then
-
-                        ' Create a new training queue item that covers the current training
-                        Dim newskill As EveHQ.Core.EveHQSkillQueueItem = New EveHQ.Core.EveHQSkillQueueItem
-                        newskill.Name = curSkill.Name
-                        newskill.FromLevel = curSkill.FromLevel
-                        newskill.ToLevel = newskill.FromLevel + 1
-                        newskill.Notes = curSkill.Notes
-                        newskill.Priority = curSkill.Priority
-                        Dim newKey As String = newskill.Name & newskill.FromLevel & newskill.ToLevel
-                        ' Increase the from level of the existing skill
-                        Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                        curSkill.FromLevel += 1
+       Dim newQueue As New Dictionary(Of String, EveHQSkillQueueItem)
+        For Each curSkill As EveHQSkillQueueItem In bQueue.Queue.Values
+            If qPilot.PilotSkills.ContainsKey(curSkill.Name) Then
+                Dim mySkill As EveHQPilotSkill = qPilot.PilotSkills(curSkill.Name)
+                If mySkill.Level < curSkill.ToLevel Then
+                    If curSkill.FromLevel < mySkill.Level Then
+                        curSkill.FromLevel = mySkill.Level
                         Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                        bQueue.Queue.Remove(oldKey)
-                        bQueue.Queue.Add(keyName, curSkill)
-                        bQueue.Queue.Add(newKey, newskill)
+                        newQueue.Add(keyName, curSkill)
+                    Else
+                        ' Add in as standard
+                        newQueue.Add(curSkill.Key, curSkill)
                     End If
+                Else
+                    ' Add in as standard
+                    newQueue.Add(curSkill.Key, curSkill)
                 End If
-            Next
-        End If
+            Else
+                ' Not in the pilot skills therefore add to the queue as is
+                newQueue.Add(curSkill.Key, curSkill)
+            End If
+        Next
+        bQueue.Queue = newQueue
     End Sub
 
     Private Shared Sub CheckSkillFlow(ByVal qPilot As EveHQ.Core.EveHQPilot, ByVal bQueue As EveHQ.Core.EveHQSkillQueue)
