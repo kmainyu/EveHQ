@@ -58,9 +58,9 @@ Namespace My
                 If param.StartsWith(EveHQ.Core.HQ.FittingProtocol) Then
                     ' Now see if HQF is available
                     Dim PluginName As String = "EveHQ Fitter"
-                    Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.Settings.Plugins(PluginName), Core.PlugIn)
+                    Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(PluginName)
                     myPlugIn.PostStartupData = param
-                    If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
+                    If myPlugIn.Status = EveHQ.Core.EveHQPlugInStatus.Active Then
                         Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
                         Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
                         If tp IsNot Nothing Then
@@ -95,7 +95,7 @@ Namespace My
                 trace.AppendLine("")
                 trace.AppendLine("========== Plug-ins ==========")
                 trace.AppendLine("")
-                For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.Settings.Plugins.Values
+                For Each myPlugIn As EveHQ.Core.EveHQPlugIn In EveHQ.Core.HQ.Plugins.Values
                     If myPlugIn.ShortFileName IsNot Nothing Then
                         trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
                     End If

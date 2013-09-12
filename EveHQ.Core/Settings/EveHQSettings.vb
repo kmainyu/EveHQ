@@ -44,7 +44,7 @@ Public Class EveHQSettings
     Private _marketRegions As List(Of Integer)
     Private _pilots As Dictionary(Of String, EveHQPilot)
     Private _accounts As Dictionary(Of String, EveHQAccount)
-    Private _plugins As Dictionary(Of String, EveHQPlugInStatus)
+    Private _plugins As Dictionary(Of String, EveHQPlugInConfig)
 #End Region
 
 #Region "Constructors"
@@ -353,28 +353,31 @@ Public Class EveHQSettings
     Public Property CycleG15Pilots() As Boolean
     Public Property ActivateG15() As Boolean
     Public Property AutoAPI() As Boolean
-    Public Property MainFormPosition(ByVal index As Integer) As Integer
-        Get
-            If _mainFormPosition Is Nothing Then
-                ReDim _mainFormPosition(4)
-            End If
-            If index < 0 Or index > 4 Then
-                MessageBox.Show("Eve Main Form Position index must be in the range 0 to 4",
-                                "Eve Main Form Position Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Return 0
-            Else
-                Return _mainFormPosition(index)
-            End If
-        End Get
-        Set(ByVal value As Integer)
-            If index < 0 Or index > 4 Then
-                MessageBox.Show("Eve Main Form Position index must be in the range 0 to 4",
-                                "Eve Main Form Position Set Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                _mainFormPosition(index) = value
-            End If
-        End Set
-    End Property
+    Public Property MainFormWindowState As FormWindowState
+    Public Property MainFormLocation As Point
+    Public Property MainFormSize As Size
+    'Public Property MainFormPosition(ByVal index As Integer) As Integer
+    '    Get
+    '        If _mainFormPosition Is Nothing Then
+    '            ReDim _mainFormPosition(4)
+    '        End If
+    '        If index < 0 Or index > 4 Then
+    '            MessageBox.Show("Eve Main Form Position index must be in the range 0 to 4",
+    '                            "Eve Main Form Position Get Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '            Return 0
+    '        Else
+    '            Return _mainFormPosition(index)
+    '        End If
+    '    End Get
+    '    Set(ByVal value As Integer)
+    '        If index < 0 Or index > 4 Then
+    '            MessageBox.Show("Eve Main Form Position index must be in the range 0 to 4",
+    '                            "Eve Main Form Position Set Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    '        Else
+    '            _mainFormPosition(index) = value
+    '        End If
+    '    End Set
+    'End Property
     Public Property DeleteSkills() As Boolean
     Public Property PartialTrainColor() As Long
     Public Property ReadySkillColor() As Long
@@ -419,7 +422,6 @@ Public Class EveHQSettings
         Get
             If _igbAllowedData Is Nothing Then
                 _igbAllowedData = New SortedList(Of String, Boolean)
-                Call IGB.CheckAllIGBAccessRights()
             End If
             Return _igbAllowedData
         End Get
@@ -494,14 +496,14 @@ Public Class EveHQSettings
             _accounts = value
         End Set
     End Property
-    Public Property Plugins() As Dictionary(Of String, EveHQPlugInStatus)
+    Public Property Plugins() As Dictionary(Of String, EveHQPlugInConfig)
         Get
             If _plugins Is Nothing Then
-                _plugins = New Dictionary(Of String, EveHQPlugInStatus)
+                _plugins = New Dictionary(Of String, EveHQPlugInConfig)
             End If
             Return _plugins
         End Get
-        Set(ByVal value As Dictionary(Of String, EveHQPlugInStatus))
+        Set(ByVal value As Dictionary(Of String, EveHQPlugInConfig))
             _plugins = value
         End Set
     End Property
@@ -715,15 +717,13 @@ Public Class EveHQSettings
 
     End Sub
 
-    Public Shared Function Load(showRawData As Boolean) As EveHQSettings
-
-        Dim tempSettings As New EveHQSettings
+    Public Shared Function Load(showRawData As Boolean) As Boolean
 
         If My.Computer.FileSystem.FileExists(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json")) = True Then
             Try
                 Using s As New StreamReader(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"))
                     Dim json As String = s.ReadToEnd
-                    tempSettings = JsonConvert.DeserializeObject(Of EveHQSettings)(json)
+                    HQ.Settings = JsonConvert.DeserializeObject(Of EveHQSettings)(json)
                 End Using
 
             Catch ex As Exception
@@ -740,27 +740,27 @@ Public Class EveHQSettings
                     MessageBox.Show("Unable to delete the EveHQSettings.json file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Application.Exit()
                 End Try
-                Return Nothing
+                Return False
             End Try
         End If
 
         If showRawData = False Then
 
             ' Reset the update URL to a temp location
-            If tempSettings.UpdateUrl <> "http://evehq.net/update/" Then
-                tempSettings.UpdateUrl = "http://evehq.net/update/"
+            If HQ.Settings.UpdateUrl <> "http://evehq.net/update/" Then
+                HQ.Settings.UpdateUrl = "http://evehq.net/update/"
             End If
 
             ' Set the database connection string
             ' Determine if a database format has been chosen before and set it if not
             ' TODO: Delete this block when we rip out the static DB
-            If tempSettings.DBFormat = -1 Then
-                tempSettings.DBFormat = 0
-                tempSettings.DBFilename = Path.Combine(HQ.AppDataFolder, "EveHQ.sdf")
+            If HQ.Settings.DBFormat = -1 Then
+                HQ.Settings.DBFormat = 0
+                HQ.Settings.DBFilename = Path.Combine(HQ.AppDataFolder, "EveHQ.sdf")
                 ' Check for this file!
                 Dim fileExists As Boolean = False
                 Do
-                    If My.Computer.FileSystem.FileExists(tempSettings.DBFilename) = False Then
+                    If My.Computer.FileSystem.FileExists(HQ.Settings.DBFilename) = False Then
                         Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
                         msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf &
                                ControlChars.CrLf
@@ -768,7 +768,7 @@ Public Class EveHQSettings
                         Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo,
                                                                MessageBoxIcon.Question)
                         If reply = DialogResult.No Then
-                            Return Nothing
+                            Return False
                         End If
                         Dim ofd1 As New OpenFileDialog
                         With ofd1
@@ -779,24 +779,24 @@ Public Class EveHQSettings
                             .FilterIndex = 1
                             .RestoreDirectory = True
                             If .ShowDialog() = DialogResult.OK Then
-                                tempSettings.DBFilename = .FileName
+                                HQ.Settings.DBFilename = .FileName
                             End If
                         End With
                     Else
                         fileExists = True
                     End If
                 Loop Until fileExists = True
-                tempSettings.DBUsername = ""
-                tempSettings.DBPassword = ""
+                HQ.Settings.DBUsername = ""
+                HQ.Settings.DBPassword = ""
             End If
 
             ' TODO: Reword this when we rip out SQLCE
             Try
                 If DataFunctions.SetEveHQConnectionString() = False Then
-                    Return Nothing
+                    Return False
                 End If
                 If DataFunctions.SetEveHQDataConnectionString() = False Then
-                    Return Nothing
+                    Return False
                 End If
             Catch ex As Exception
                 Dim msg As New StringBuilder
@@ -819,39 +819,39 @@ Public Class EveHQSettings
             ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
             ' TODO: Why this? Skill data should be loaded via the main startup, not dependant on settings
             If SkillFunctions.LoadEveSkillData() = False Then
-                Return Nothing
+                Return False
             End If
 
             '  Setup queue columns etc
             Call InitialiseQueueColumns()
             Call InitialiseUserColumns()
             Call InitialiseRemoteProxyServer()
-            If tempSettings.QColumns(0, 0) Is Nothing Then
+            If HQ.Settings.QColumns(0, 0) Is Nothing Then
                 Call ResetColumns()
             End If
 
             ' Set Theme stuff
-            If tempSettings.ThemeSetByUser = False Then
-                tempSettings.ThemeStyle = eStyle.Office2007Black
-                tempSettings.ThemeTint = Color.Empty
+            If HQ.Settings.ThemeSetByUser = False Then
+                HQ.Settings.ThemeStyle = eStyle.Office2007Black
+                HQ.Settings.ThemeTint = Color.Empty
             End If
 
             ' Set up a global price list if not present
-            If tempSettings.PriceGroups.ContainsKey("<Global>") = False Then
+            If HQ.Settings.PriceGroups.ContainsKey("<Global>") = False Then
                 ' Add a new price group
                 Dim newPg As New PriceGroup
                 newPg.Name = "<Global>"
                 newPg.RegionIDs.Add("10000002")
                 newPg.PriceFlags = PriceGroupFlags.MinSell
-                tempSettings.PriceGroups.Add(newPg.Name, newPg)
+                HQ.Settings.PriceGroups.Add(newPg.Name, newPg)
             End If
 
             ' Set Global APIServerInfo
-            HQ.EveHQAPIServerInfo = New APIServerInfo(tempSettings.CcpapiServerAddress, tempSettings.ApirsAddress, tempSettings.UseApirs, tempSettings.UseCcpapiBackup)
+            HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.Settings.CcpapiServerAddress, HQ.Settings.ApirsAddress, HQ.Settings.UseApirs, HQ.Settings.UseCcpapiBackup)
 
         End If
 
-        Return tempSettings
+        Return True
 
     End Function
 

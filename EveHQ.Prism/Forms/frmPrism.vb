@@ -1953,13 +1953,13 @@ Public Class frmPrism
                     If Owner.IsCorp = False Then
                         If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(Owner.Name) = True Then
                             Dim selPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(Owner.Name)
-                            Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Trade)) * 4) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Tycoon)) * 32) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Retail)) * 8) + (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Wholesale)) * 16)
-                            Dim TransTax As Double = 1 * (1.5 - 0.15 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
-                            Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
-                            lblAskRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Procurement)))
-                            lblBidRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Marketing)))
-                            lblModRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Daytrading)))
-                            lblRemoteRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Visibility)))
+                            Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Trade)) * 4) + (CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Tycoon)) * 32) + (CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Retail)) * 8) + (CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Wholesale)) * 16)
+                            Dim TransTax As Double = 1 * (1.5 - 0.15 * (CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Accounting))))
+                            Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.BrokerRelations))))
+                            lblAskRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Procurement)))
+                            lblBidRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Marketing)))
+                            lblModRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Daytrading)))
+                            lblRemoteRange.Text = GetOrderRange(CInt(selPilot.KeySkills(EveHQ.Core.KeySkill.Visibility)))
                             lblOrders.Text = (maxorders - TotalOrders).ToString + " / " + maxorders.ToString
                             lblBrokerFee.Text = BrokerFee.ToString("N2") & "%"
                             lblTransTax.Text = TransTax.ToString("N2") & "%"
@@ -3520,42 +3520,42 @@ Public Class frmPrism
             If itemInfo.Category = 25 Then
                 Select Case itemInfo.Group
                     Case 465 ' Ice
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.IceProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.IceProc)))) + BaseYield
                     Case 450 ' Arkonor
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ArkonorProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.ArkonorProc)))) + BaseYield
                     Case 451 ' Bistot
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BistotProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.BistotProc)))) + BaseYield
                     Case 452 ' Crokite
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.CrokiteProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.CrokiteProc)))) + BaseYield
                     Case 453 ' Dark Ochre
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.DarkOchreProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.DarkOchreProc)))) + BaseYield
                     Case 467 ' Gneiss
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.GneissProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.GneissProc)))) + BaseYield
                     Case 454 ' Hedbergite
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HedbergiteProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.HedbergiteProc)))) + BaseYield
                     Case 455 ' Hemorphite
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.HemorphiteProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.HemorphiteProc)))) + BaseYield
                     Case 456 ' Jaspet
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.JaspetProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.JaspetProc)))) + BaseYield
                     Case 457 ' Kernite
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.KerniteProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.KerniteProc)))) + BaseYield
                     Case 468 ' Mercoxit
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.MercoxitProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.MercoxitProc)))) + BaseYield
                     Case 469 ' Omber
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.OmberProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.OmberProc)))) + BaseYield
                     Case 458 ' Plagioclase
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PlagioclaseProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.PlagioclaseProc)))) + BaseYield
                     Case 459 ' Pyroxeres
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.PyroxeresProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.PyroxeresProc)))) + BaseYield
                     Case 460 ' Scordite
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScorditeProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.ScorditeProc)))) + BaseYield
                     Case 461 ' Spodumain
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.SpodumainProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.SpodumainProc)))) + BaseYield
                     Case 462 ' Veldspar
-                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.VeldsparProc)))) + BaseYield
+                        tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.VeldsparProc)))) + BaseYield
                 End Select
             Else
-                tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ScrapMetalProc)))) + BaseYield
+                tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.ScrapMetalProc)))) + BaseYield
             End If
             tempNetYield = Math.Min(tempNetYield, 1)
             matList = CType(itemList(asset), Collections.SortedList)
@@ -3688,7 +3688,7 @@ Public Class frmPrism
         If chkPerfectRefine.Checked = True Then
             NetYield = 1
         Else
-            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
         lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
         lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
@@ -3709,13 +3709,13 @@ Public Class frmPrism
         End If
         ' Update Broker Fee
         If chkOverrideBrokerFee.Checked = False Then
-            RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
+            RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.KeySkill.BrokerRelations))))
         Else
             RBrokerFee = nudBrokerFee.Value
         End If
         ' Update Trans Tax
         If chkOverrideTax.Checked = False Then
-            RTransTax = 1 * (1.5 - 0.15 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
+            RTransTax = 1 * (1.5 - 0.15 * (CInt(rPilot.KeySkills(EveHQ.Core.KeySkill.Accounting))))
         Else
             RTransTax = nudTax.Value
         End If
@@ -3761,7 +3761,7 @@ Public Class frmPrism
         If cboRecyclePilots.SelectedItem IsNot Nothing Then
             Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
             lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
-            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.RefiningEfficiency)) * 0.04)))
             lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
             Call Me.RecalcRecycling()
         End If
@@ -3772,7 +3772,7 @@ Public Class frmPrism
             BaseYield = CDbl(nudBaseYield.Value) / 100
             lblBaseYield.Text = (BaseYield * 100).ToString("N2") & "%"
             Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.RefiningEfficiency)) * 0.04)))
             lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
             Call Me.RecalcRecycling()
         End If
@@ -3813,7 +3813,7 @@ Public Class frmPrism
             NetYield = 1
         Else
             Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.RefiningEfficiency)) * 0.04)))
         End If
         lblNetYield.Text = (NetYield * 100).ToString("N2") & "%"
         Call Me.RecalcRecycling()
@@ -3824,7 +3824,7 @@ Public Class frmPrism
     Private Sub chkOverrideBrokerFee_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideBrokerFee.CheckedChanged
         Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
         If chkOverrideBrokerFee.Checked = False Then
-            RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.BrokerRelations))))
+            RBrokerFee = 1 * (1 - 0.05 * (CInt(rPilot.KeySkills(EveHQ.Core.KeySkill.BrokerRelations))))
         Else
             RBrokerFee = nudBrokerFee.Value
         End If
@@ -3835,7 +3835,7 @@ Public Class frmPrism
     Private Sub chkOverrideTax_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideTax.CheckedChanged
         Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
         If chkOverrideTax.Checked = False Then
-            RTransTax = 1 * (1.5 - 0.15 * (CInt(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Accounting))))
+            RTransTax = 1 * (1.5 - 0.15 * (CInt(rPilot.KeySkills(EveHQ.Core.KeySkill.Accounting))))
         Else
             RTransTax = nudTax.Value
         End If
@@ -3877,12 +3877,12 @@ Public Class frmPrism
                     Dim rPilot As New EveHQ.Core.EveHQPilot
                     If cboRecyclePilots.SelectedItem IsNot Nothing Then
                         rPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-                        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+                        NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.RefiningEfficiency)) * 0.04)))
                     Else
                         If cboRecyclePilots.Items.Count > 0 Then
                             cboRecyclePilots.SelectedIndex = 0
                             rPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-                            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.RefiningEfficiency)) * 0.04)))
+                            NetYield = (BaseYield) + (0.375 * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.Refining)) * 0.02)) * (1 + (CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.RefiningEfficiency)) * 0.04)))
                         Else
                             NetYield = 0
                         End If
@@ -3960,7 +3960,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.Settings.CsvSeparatorChar)
     End Sub
 
     Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
@@ -3968,7 +3968,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.Settings.CsvSeparatorChar)
     End Sub
 
     Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click

@@ -59,7 +59,7 @@ Public Class EveHQSettingsConverter
             ' Rename the old settings file
             My.Computer.FileSystem.RenameFile(Path.Combine(settingsFolder, "EveHQSettings.bin"), "EveHQSettings.oldbin")
 
-            'MessageBox.Show("Conversion and writing complete in " & timeTaken.TotalMilliseconds.ToString("N2") & "ms")
+            MessageBox.Show("Successfully converted settings in " & timeTaken.TotalMilliseconds.ToString("N2") & "ms", "Settings conversion complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         End If
 
@@ -297,7 +297,9 @@ Public Class EveHQSettingsConverter
         _newSettings.ActivateG15 = oldSettings.ActivateG15
         _newSettings.AutoAPI = oldSettings.AutoAPI
         For i As Integer = 0 To 4
-            _newSettings.MainFormPosition(i) = oldSettings.MainFormPosition(i)
+            _newSettings.MainFormWindowState = CType(oldSettings.MainFormPosition(4), FormWindowState)
+            _newSettings.MainFormLocation = New Drawing.Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
+            _newSettings.MainFormSize = New Drawing.Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
         Next
         _newSettings.DeleteSkills = oldSettings.DeleteSkills
         _newSettings.PartialTrainColor = oldSettings.PartialTrainColor
@@ -485,7 +487,7 @@ Public Class EveHQSettingsConverter
             newPilot.LastUpdate = pilot.LastUpdate
             newPilot.Active = pilot.Active
             For index As Integer = 0 To 53
-                newPilot.KeySkills(index) = CInt(pilot.KeySkills(index))
+                newPilot.KeySkills(CType(index, KeySkill)) = CInt(pilot.KeySkills(index))
             Next
             newPilot.Standings = pilot.Standings
             newPilot.CorpRoles = pilot.CorpRoles
@@ -557,7 +559,7 @@ Public Class EveHQSettingsConverter
     Private Sub ConvertPlugins(ByVal oldSettings As EveSettings)
         _newSettings.Plugins.Clear()
         For Each plugin As PlugIn In oldSettings.Plugins.Values
-            Dim newPlugin As New EveHQPlugInStatus
+            Dim newPlugin As New EveHQPlugInConfig
             newPlugin.Name = plugin.Name
             newPlugin.Disabled = plugin.Disabled
             _newSettings.Plugins.Add(newPlugin.Name, newPlugin)

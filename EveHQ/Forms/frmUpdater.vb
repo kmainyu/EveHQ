@@ -187,7 +187,7 @@ Public Class frmUpdater
             Next
 
             ' Add to that a list of the plug-ins used
-            For Each myPlugIn As EveHQ.Core.PlugIn In EveHQ.Core.HQ.Settings.Plugins.Values
+            For Each myPlugIn As EveHQ.Core.EveHQPlugIn In Core.HQ.Plugins.Values
                 If myPlugIn.ShortFileName IsNot Nothing Then
                     If EveHQComponents.ContainsKey(myPlugIn.ShortFileName) = False Then
                         EveHQComponents.Add(myPlugIn.ShortFileName, New EveHQComponent(myPlugIn.ShortFileName, myPlugIn.Version, True))

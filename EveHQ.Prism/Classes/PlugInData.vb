@@ -48,14 +48,14 @@ Public Class PlugInData
 
 #Region "Plug-in Interface Properties and Functions"
 
-    Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Select Case DataType
             Case 0 ' Return a location
                 ' Check the data is Long return the station name
-                If TypeOf (Data) Is Long Then
-                    Return CType(stations(Data.ToString), Station).stationName
+                If TypeOf (data) Is Long Then
+                    Return CType(stations(data.ToString), Station).stationName
                 Else
-                    Return Data
+                    Return data
                 End If
         End Select
         Return Nothing
@@ -70,9 +70,9 @@ Public Class PlugInData
         End Try
     End Function
 
-    Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
+    Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.PlugIn
+        Dim EveHQPlugIn As New EveHQ.Core.EveHQPlugIn
         EveHQPlugIn.Name = "EveHQ Prism"
         EveHQPlugIn.Description = "EveHQ Production, Research, Industry and Science Module"
         EveHQPlugIn.Author = "EveHQ Team"

@@ -627,8 +627,8 @@ Public Class frmKMV
 
             ' Start the HQF plug-in if it's active
             Dim PluginName As String = "EveHQ Fitter"
-            Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.Settings.Plugins(PluginName), Core.PlugIn)
-            If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
+            Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(PluginName)
+            If myPlugIn.Status = EveHQ.Core.EveHQPlugInStatus.Active Then
                 Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
                 Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
                 If tp IsNot Nothing Then

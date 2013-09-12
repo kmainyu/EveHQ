@@ -111,6 +111,18 @@ Public Class HQ
 
     Public Shared Property Settings As EveHQSettings
 
+    Public Shared Property Plugins() As Dictionary(Of String, EveHQPlugIn)
+        Get
+            If _plugins Is Nothing Then
+                _plugins = New Dictionary(Of String, EveHQPlugIn)
+            End If
+            Return _plugins
+        End Get
+        Set(ByVal value As Dictionary(Of String, EveHQPlugIn))
+            _plugins = value
+        End Set
+    End Property
+
     'Public Shared Property EveHqSettings As EveSettings
        
     Shared Property StartShutdownEveHQ() As Boolean
@@ -314,6 +326,8 @@ Public Class HQ
     End Function
 
     Private Shared EveHqProvider As EveHqMarketDataProvider
+    Private Shared _plugins As Dictionary(Of String, EveHQPlugIn)
+
     Public Shared Function GetEveHqMarketInstance(appDataFolder As String) As EveHqMarketDataProvider
         If EveHqProvider Is Nothing Then
             If (EveHQ.Core.HQ.Settings.ProxyRequired) Then

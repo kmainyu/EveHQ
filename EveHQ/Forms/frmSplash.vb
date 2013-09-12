@@ -32,10 +32,10 @@ Imports EveHQ.Common.Logging
 
 Public Class frmSplash
 
-	Dim isLocal As Boolean = False
-	Dim showSplash As Boolean = True
-	Dim showSettings As Boolean = False
-	Dim PlugInLoading As New SortedList(Of String, String)
+    Dim isLocal As Boolean = False
+    Dim showSplash As Boolean = True
+    Dim showSettings As Boolean = False
+    Dim PlugInLoading As New SortedList(Of String, String)
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
     Dim PluginsLoaded As Boolean = False
     Dim WidgetsLoaded As Boolean = False
@@ -163,8 +163,8 @@ Public Class frmSplash
 
         ' Show the settings form only, then quit
         If showSettings = True Then
-            Dim tempSettings As EveHQ.Core.EveHQSettings = Core.EveHQSettings.Load(True)
-            If tempSettings IsNot Nothing Then
+            Dim failedShowSettings As Boolean = Core.EveHQSettings.Load(True)
+            If failedShowSettings = True Then
                 frmSettings.ShowDialog()
                 ' Remove the icons
                 frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
@@ -300,8 +300,8 @@ Public Class frmSplash
         EveHQ.Core.HQ.WriteLogEvent("Start: Loading settings")
         lblStatus.Text = "> Loading settings..."
         lblStatus.Refresh()
-        EveHQ.Core.HQ.Settings = EveHQ.Core.EveHQSettings.Load(False)
-        Do While EveHQ.Core.HQ.Settings IsNot Nothing
+        Dim failedSettings As Boolean = EveHQ.Core.EveHQSettings.Load(False)
+        Do While failedSettings = False
             ' Ask if we want to check for a database
             Dim msg As String = "EveHQ was unable to load data from a Database." & ControlChars.CrLf & ControlChars.CrLf
             msg &= "If you do not select a valid Database, EveHQ will exit." & ControlChars.CrLf & ControlChars.CrLf
@@ -315,7 +315,7 @@ Public Class frmSplash
             settingsForm.Tag = "nodeDatabaseFormat"
             settingsForm.ShowDialog()
             settingsForm.Dispose()
-            EveHQ.Core.HQ.Settings = EveHQ.Core.EveHQSettings.Load(False)
+            failedSettings = EveHQ.Core.EveHQSettings.Load(False)
         Loop
         EveHQ.Core.HQ.WriteLogEvent("End: Loading settings")
 
@@ -667,30 +667,29 @@ Public Class frmSplash
                         If t.IsPublic = True Then
                             If t.GetInterface("EveHQ.Core.IEveHQPlugIn") IsNot Nothing Then
                                 Dim myPlugIn As EveHQ.Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
-                                Dim EveHQPlugIn As EveHQ.Core.PlugIn = myPlugIn.GetEveHQPlugInInfo
-                                EveHQPlugIn.FileName = filename
+                                Dim eveHQPlugIn As EveHQ.Core.EveHQPlugIn = myPlugIn.GetEveHQPlugInInfo
+                                eveHQPlugIn.FileName = filename
                                 Dim fi As New IO.FileInfo(filename)
-                                EveHQPlugIn.ShortFileName = fi.Name
-                                EveHQPlugIn.FileType = t.FullName
-                                EveHQPlugIn.Version = myAssembly.GetName.Version.ToString
-                                EveHQPlugIn.Instance = myPlugIn
+                                eveHQPlugIn.ShortFileName = fi.Name
+                                eveHQPlugIn.FileType = t.FullName
+                                eveHQPlugIn.Version = myAssembly.GetName.Version.ToString
+                                eveHQPlugIn.Instance = myPlugIn
                                 ' Get status of plug-ins from settings (should already exist!)
-                                If EveHQ.Core.HQ.Settings.Plugins.Contains(EveHQPlugIn.Name) = True Then
-                                    Dim oldPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.Settings.Plugins(EveHQPlugIn.Name), Core.PlugIn)
-                                    EveHQPlugIn.Disabled = oldPlugIn.Disabled
-                                    EveHQPlugIn.Available = True
-                                    EveHQ.Core.HQ.Settings.Plugins.Remove(EveHQPlugIn.Name)
+                                If EveHQ.Core.HQ.Settings.Plugins.ContainsKey(eveHQPlugIn.Name) = True Then
+                                    Dim userPlugIn As EveHQ.Core.EveHQPlugInConfig = EveHQ.Core.HQ.Settings.Plugins(eveHQPlugIn.Name)
+                                    eveHQPlugIn.Disabled = userPlugIn.Disabled
+                                    eveHQPlugIn.Available = True
                                 Else
                                     ' If not listed, it must be new
-                                    EveHQPlugIn.Disabled = False
-                                    EveHQPlugIn.Available = True
+                                    eveHQPlugIn.Disabled = False
+                                    eveHQPlugIn.Available = True
                                 End If
                                 ' Check for opening parameters
-                                If PlugInLoading.ContainsKey(EveHQPlugIn.Name) = True Then
-                                    EveHQPlugIn.PostStartupData = PlugInLoading(EveHQPlugIn.Name)
+                                If PlugInLoading.ContainsKey(eveHQPlugIn.Name) = True Then
+                                    eveHQPlugIn.PostStartupData = PlugInLoading(eveHQPlugIn.Name)
                                 End If
-                                EveHQPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Uninitialised
-                                EveHQ.Core.HQ.Settings.Plugins.Add(EveHQPlugIn.Name, EveHQPlugIn)
+                                eveHQPlugIn.Status = EveHQ.Core.EveHQPlugInStatus.Uninitialised
+                                EveHQ.Core.HQ.Plugins.Add(eveHQPlugIn.Name, eveHQPlugIn)
                             End If
                         End If
                     Next
@@ -804,40 +803,40 @@ Public Class frmSplash
         Return requiresUpdate
     End Function
 
-	Private Function IsDotNetAssembly(ByVal fileName As String) As Boolean
-		'private bool IsDotNetAssembly(string fileName)
-		Using fs As New FileStream(fileName, FileMode.Open, FileAccess.Read)
-			Try
-				Using br As New BinaryReader(fs)
-					Try
-						fs.Position = &H3C ' PE Header start offset
-						Dim headerOffset As UInteger = br.ReadUInt32
-						fs.Position = headerOffset + &H18
-						Dim magicNumber As UInt16 = br.ReadUInt16()
-						Dim dictionaryOffset As Integer
-						Select Case magicNumber
-							Case &H10B ' 32 bit
-								dictionaryOffset = &H60
-							Case &H20B ' 64 bit
-								dictionaryOffset = &H70
-							Case Else
-								Throw New Exception("Invalid Image Format")
-						End Select
-						' Position to RVA 15
-						fs.Position = headerOffset + &H18 + dictionaryOffset + &H70
-						' Read the value
-						Dim rva15value As UInt32 = br.ReadUInt32()
-						Return rva15value <> 0
-					Catch ex As Exception
-					Finally
-						br.Close()
-					End Try
-				End Using
-			Catch ex As Exception
-			Finally
-				fs.Close()
-			End Try
-		End Using
-	End Function
+    Private Function IsDotNetAssembly(ByVal fileName As String) As Boolean
+        'private bool IsDotNetAssembly(string fileName)
+        Using fs As New FileStream(fileName, FileMode.Open, FileAccess.Read)
+            Try
+                Using br As New BinaryReader(fs)
+                    Try
+                        fs.Position = &H3C ' PE Header start offset
+                        Dim headerOffset As UInteger = br.ReadUInt32
+                        fs.Position = headerOffset + &H18
+                        Dim magicNumber As UInt16 = br.ReadUInt16()
+                        Dim dictionaryOffset As Integer
+                        Select Case magicNumber
+                            Case &H10B ' 32 bit
+                                dictionaryOffset = &H60
+                            Case &H20B ' 64 bit
+                                dictionaryOffset = &H70
+                            Case Else
+                                Throw New Exception("Invalid Image Format")
+                        End Select
+                        ' Position to RVA 15
+                        fs.Position = headerOffset + &H18 + dictionaryOffset + &H70
+                        ' Read the value
+                        Dim rva15value As UInt32 = br.ReadUInt32()
+                        Return rva15value <> 0
+                    Catch ex As Exception
+                    Finally
+                        br.Close()
+                    End Try
+                End Using
+            Catch ex As Exception
+            Finally
+                fs.Close()
+            End Try
+        End Using
+    End Function
 
 End Class

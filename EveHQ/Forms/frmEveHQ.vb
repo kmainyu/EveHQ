@@ -64,14 +64,12 @@ Public Class frmEveHQ
              (Not TypeOf e Is MouseEventArgs OrElse (TryCast(e, MouseEventArgs).Button = MouseButtons.Right))) Then
             MyBase.Visible = True
             saveTrainingBarSize = False
-            Select Case HQ.Settings.MainFormPosition(4)
+            Select Case HQ.Settings.MainFormWindowState
                 Case FormWindowState.Maximized
                     Me.WindowState = FormWindowState.Maximized
                 Case FormWindowState.Normal
-                    Me.Left = HQ.Settings.MainFormPosition(0)
-                    Me.Top = HQ.Settings.MainFormPosition(1)
-                    Me.Width = HQ.Settings.MainFormPosition(2)
-                    Me.Height = HQ.Settings.MainFormPosition(3)
+                    HQ.Settings.MainFormLocation = Me.Location
+                    HQ.Settings.MainFormSize = Me.Size
                     Me.WindowState = FormWindowState.Normal
             End Select
             saveTrainingBarSize = True
@@ -146,14 +144,12 @@ Public Class frmEveHQ
         Handles RestoreWindowToolStripMenuItem.Click
         ' Restores the window
         Me.Show()
-        Select Case HQ.Settings.MainFormPosition(4)
+        Select Case HQ.Settings.MainFormWindowState
             Case FormWindowState.Maximized
                 Me.WindowState = FormWindowState.Maximized
             Case FormWindowState.Normal
-                Me.Left = HQ.Settings.MainFormPosition(0)
-                Me.Top = HQ.Settings.MainFormPosition(1)
-                Me.Width = HQ.Settings.MainFormPosition(2)
-                Me.Height = HQ.Settings.MainFormPosition(3)
+                Me.Location = HQ.Settings.MainFormLocation
+                Me.Size = HQ.Settings.MainFormSize
                 Me.WindowState = FormWindowState.Normal
         End Select
     End Sub
@@ -406,13 +402,11 @@ Public Class frmEveHQ
             Me.WindowState = FormWindowState.Minimized
             'Me.Show()
         Else
-            Select Case HQ.Settings.MainFormPosition(4)
+            Select Case HQ.Settings.MainFormWindowState
                 Case FormWindowState.Normal
                     Me.Show()
-                    Me.Left = HQ.Settings.MainFormPosition(0)
-                    Me.Top = HQ.Settings.MainFormPosition(1)
-                    Me.Width = HQ.Settings.MainFormPosition(2)
-                    Me.Height = HQ.Settings.MainFormPosition(3)
+                    Me.Location = HQ.Settings.MainFormLocation
+                    Me.Size = HQ.Settings.MainFormSize
                     Me.WindowState = FormWindowState.Normal
                 Case FormWindowState.Maximized
                     Me.WindowState = FormWindowState.Maximized
@@ -558,29 +552,32 @@ Public Class frmEveHQ
             End If
         End If
 
-        Select Case Me.WindowState
-            Case FormWindowState.Normal
-                HQ.Settings.MainFormPosition(0) = Me.Left
-                HQ.Settings.MainFormPosition(1) = Me.Top
-                HQ.Settings.MainFormPosition(2) = Me.Width
-                HQ.Settings.MainFormPosition(3) = Me.Height
-                HQ.Settings.MainFormPosition(4) = FormWindowState.Normal
-            Case FormWindowState.Maximized
-                HQ.Settings.MainFormPosition(4) = FormWindowState.Maximized
-        End Select
+        ' Save the window position if possible
+        If HQ.Settings IsNot Nothing Then
+            Select Case Me.WindowState
+                Case FormWindowState.Normal
+                    HQ.Settings.MainFormLocation = Me.Location
+                    HQ.Settings.MainFormSize = Me.Size
+                    HQ.Settings.MainFormWindowState = Me.WindowState
+                Case FormWindowState.Maximized
+                    HQ.Settings.MainFormWindowState = Me.WindowState
+            End Select
+        End If
+
     End Sub
 
     Private Sub frmEveHQ_Move(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Move
-        Select Case Me.WindowState
-            Case FormWindowState.Normal
-                HQ.Settings.MainFormPosition(0) = Me.Left
-                HQ.Settings.MainFormPosition(1) = Me.Top
-                HQ.Settings.MainFormPosition(2) = Me.Width
-                HQ.Settings.MainFormPosition(3) = Me.Height
-                HQ.Settings.MainFormPosition(4) = FormWindowState.Normal
-            Case FormWindowState.Maximized
-                HQ.Settings.MainFormPosition(4) = FormWindowState.Maximized
-        End Select
+        ' Save the window position if possible
+        If HQ.Settings IsNot Nothing Then
+            Select Case Me.WindowState
+                 Case FormWindowState.Normal
+                    HQ.Settings.MainFormLocation = Me.Location
+                    HQ.Settings.MainFormSize = Me.Size
+                    HQ.Settings.MainFormWindowState = Me.WindowState
+                Case FormWindowState.Maximized
+                    HQ.Settings.MainFormWindowState = Me.WindowState
+            End Select
+        End If
     End Sub
 
     Public Sub ShutdownRoutine()
@@ -765,7 +762,7 @@ Public Class frmEveHQ
         savesDone.Add("EveHQ Core")
 
         ' Save Plug-in data and settings
-        For Each myPlugIn As EveHQ.Core.PlugIn In HQ.Settings.Plugins.Values
+        For Each myPlugIn As EveHQ.Core.EveHQPlugIn In HQ.Plugins.Values
             If myPlugIn.Status = PlugIn.PlugInStatus.Active Then
                 Dim dataSaved As Boolean = myPlugIn.Instance.SaveAll()
                 If dataSaved = True Then
@@ -1507,21 +1504,21 @@ Public Class frmEveHQ
     Private Sub tmrModules_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrModules.Tick
         CheckForIllegalCrossThreadCalls = False
         tmrModules.Stop()
-        For Each PlugInInfo As PlugIn In HQ.Settings.Plugins.Values
+        For Each PlugInInfo As EveHQPlugIn In HQ.Plugins.Values
             ' Override settings if the remote server says so
-            Dim ServerOverride As Boolean = False
+            Dim serverOverride As Boolean = False
             If HQ.EveHQServerMessage IsNot Nothing Then
                 If HQ.EveHQServerMessage.DisabledPlugins.ContainsKey(PlugInInfo.Name) = True Then
                     If PlugInInfo.Version <> "" Then
                         If _
                             CompareVersions(PlugInInfo.Version, HQ.EveHQServerMessage.DisabledPlugins(PlugInInfo.Name)) =
                             True Then
-                            ServerOverride = True
+                            serverOverride = True
                         End If
                     End If
                 End If
             End If
-            If ServerOverride = False Then
+            If serverOverride = False Then
                 If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
                     'If PlugInInfo.Available = True Then
                     If PlugInInfo.RunAtStartup = True Then
@@ -1549,7 +1546,7 @@ Public Class frmEveHQ
     End Sub
 
     Public Sub RunModuleStartUps(ByVal State As Object)
-        Dim plugInInfo As PlugIn = CType(State, PlugIn)
+        Dim plugInInfo As EveHQPlugIn = CType(State, EveHQPlugIn)
         Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
         Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
         plugInInfo.Instance = CType(Activator.CreateInstance(t), IEveHQPlugIn)
@@ -1561,7 +1558,7 @@ Public Class frmEveHQ
         RunPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Loading..."
         LoadPlugInButton.Text = "Loading..."
         RunPlugInButton.Refresh()
-        plugInInfo.Status = PlugIn.PlugInStatus.Loading
+        plugInInfo.Status = EveHQPlugInStatus.Loading
         Try
             Dim PlugInResponse As String = ""
             PlugInResponse = runPlugIn.EveHQStartUp().ToString
@@ -1570,7 +1567,7 @@ Public Class frmEveHQ
                 RunPlugInButton.Enabled = False
                 LoadPlugInButton.Text = "Load Plug-in"
                 RunPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Failed"
-                plugInInfo.Status = PlugIn.PlugInStatus.Failed
+                plugInInfo.Status = EveHQPlugInStatus.Failed
             Else
                 Dim hitError As Boolean = False
                 Do
@@ -1587,7 +1584,7 @@ Public Class frmEveHQ
                 RunPlugInButton.Enabled = True
                 RunPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Ready"
                 LoadPlugInButton.Text = ""
-                plugInInfo.Status = PlugIn.PlugInStatus.Active
+                plugInInfo.Status = EveHQPlugInStatus.Active
             End If
             ' Clean up after loading the plugin
             Call HQ.ReduceMemory()
@@ -1617,7 +1614,7 @@ Public Class frmEveHQ
             ' Clear the Plug-ins ribbon
             rbPlugins.Items.Clear()
             Dim modCount As Integer = 0
-            For Each PlugInInfo As PlugIn In HQ.Settings.Plugins.Values
+            For Each PlugInInfo As EveHQPlugIn In HQ.Plugins.Values
                 If PlugInInfo.Available = True Then
                     modCount += 1
                     ' Create the plug-in container and orientations
@@ -1678,18 +1675,18 @@ Public Class frmEveHQ
                         If PlugInInfo.RunAtStartup = True Then
                             LoadPlugInButton.Enabled = True
                             RunPlugInButton.Enabled = False
-                            PlugInInfo.Status = PlugIn.PlugInStatus.Uninitialised
+                            PlugInInfo.Status = EveHQPlugInStatus.Uninitialised
                         Else
                             If PlugInInfo.Disabled = False Then
                                 RunPlugInButton.Text = PlugInInfo.Name & ControlChars.CrLf & "Status: Ready"
                                 LoadPlugInButton.Enabled = False
                                 LoadPlugInButton.Text = ""
                                 RunPlugInButton.Enabled = True
-                                PlugInInfo.Status = PlugIn.PlugInStatus.Active
+                                PlugInInfo.Status = EveHQPlugInStatus.Active
                             Else
                                 LoadPlugInButton.Enabled = True
                                 RunPlugInButton.Enabled = False
-                                PlugInInfo.Status = PlugIn.PlugInStatus.Uninitialised
+                                PlugInInfo.Status = EveHQPlugInStatus.Uninitialised
                             End If
                         End If
                     Else
@@ -1702,7 +1699,7 @@ Public Class frmEveHQ
                                                    " has been disabled remotely due to critical issues!"
 
                         RunPlugInButton.Enabled = False
-                        PlugInInfo.Status = PlugIn.PlugInStatus.Uninitialised
+                        PlugInInfo.Status = EveHQPlugInStatus.Uninitialised
                     End If
                     rbPlugins.Items.Add(pluginContainer)
                 Else
@@ -1741,7 +1738,7 @@ Public Class frmEveHQ
         If tp IsNot Nothing Then
             tabEveHQMDI.SelectedTab = tp
         Else
-            Dim myPlugIn As PlugIn = CType(HQ.Settings.Plugins(mnu.Name), PlugIn)
+            Dim myPlugIn As EveHQPlugIn = HQ.Plugins(mnu.Name)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             Call DisplayChildForm(plugInForm)
         End If
@@ -1754,7 +1751,7 @@ Public Class frmEveHQ
         If tp IsNot Nothing Then
             tabEveHQMDI.SelectedTab = tp
         Else
-            Dim myPlugIn As PlugIn = CType(HQ.Settings.Plugins(PlugInName), PlugIn)
+            Dim myPlugIn As EveHQPlugIn = HQ.Plugins(PlugInName)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             Call Me.DisplayChildForm(plugInForm)
         End If
@@ -1763,7 +1760,7 @@ Public Class frmEveHQ
     Private Sub LoadPlugin(ByVal sender As Object, ByVal e As EventArgs)
         Dim PIB As ButtonItem = DirectCast(sender, ButtonItem)
         Dim plugInName As String = PIB.Name.Remove(0, 3)
-        Dim PlugInInfo As PlugIn = CType(HQ.Settings.Plugins.Item(plugInName), PlugIn)
+        Dim PlugInInfo As EveHQPlugIn = HQ.Plugins.Item(plugInName)
         If PlugInInfo.RunAtStartup = True Then
             ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
         Else
@@ -1772,7 +1769,7 @@ Public Class frmEveHQ
             Dim RunPlugInButton As ButtonItem = CType(pluginContainer.SubItems("RPI" & PlugInInfo.Name), ButtonItem)
             RunPlugInButton.Text = PlugInInfo.Name & ControlChars.CrLf & "Status: Ready"
             LoadPlugInButton.Text = ""
-            PlugInInfo.Status = PlugIn.PlugInStatus.Active
+            PlugInInfo.Status = EveHQPlugInStatus.Active
             LoadPlugInButton.Enabled = False
             RunPlugInButton.Enabled = True
         End If
@@ -1785,7 +1782,7 @@ Public Class frmEveHQ
         If tp IsNot Nothing Then
             tabEveHQMDI.SelectedTab = tp
         Else
-            Dim myPlugIn As PlugIn = CType(HQ.Settings.Plugins(mnu.Name), PlugIn)
+            Dim myPlugIn As EveHQPlugIn = HQ.Plugins(mnu.Name)
             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
             Call DisplayChildForm(plugInForm)
         End If
@@ -1799,25 +1796,25 @@ Public Class frmEveHQ
         plugInInfo.Instance = CType(Activator.CreateInstance(t), IEveHQPlugIn)
         Dim runPlugIn As IEveHQPlugIn = plugInInfo.Instance
         Dim pluginContainer As ItemContainer = CType(rbPlugins.Items.Item(plugInInfo.Name), ItemContainer)
-        Dim LoadPlugInButton As ButtonItem = CType(pluginContainer.SubItems("LPI" & plugInInfo.Name), ButtonItem)
-        Dim RunPlugInButton As ButtonItem = CType(pluginContainer.SubItems("RPI" & plugInInfo.Name), ButtonItem)
-        LoadPlugInButton.Enabled = False
-        RunPlugInButton.Enabled = False
-        RunPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Loading..."
-        plugInInfo.Status = PlugIn.PlugInStatus.Loading
+        Dim loadPlugInButton As ButtonItem = CType(pluginContainer.SubItems("LPI" & plugInInfo.Name), ButtonItem)
+        Dim runPlugInButton As ButtonItem = CType(pluginContainer.SubItems("RPI" & plugInInfo.Name), ButtonItem)
+        loadPlugInButton.Enabled = False
+        runPlugInButton.Enabled = False
+        runPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Loading..."
+        plugInInfo.Status = EveHQPlugInStatus.Loading
         Try
-            Dim PlugInResponse As String = ""
-            PlugInResponse = runPlugIn.EveHQStartUp().ToString
-            If CBool(PlugInResponse) = False Then
-                LoadPlugInButton.Enabled = True
-                RunPlugInButton.Enabled = False
-                RunPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Failed"
-                plugInInfo.Status = PlugIn.PlugInStatus.Failed
+            Dim plugInResponse As String = ""
+            plugInResponse = runPlugIn.EveHQStartUp().ToString
+            If CBool(plugInResponse) = False Then
+                loadPlugInButton.Enabled = True
+                runPlugInButton.Enabled = False
+                runPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Failed"
+                plugInInfo.Status = EveHQPlugInStatus.Failed
             Else
-                RunPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Ready"
-                plugInInfo.Status = PlugIn.PlugInStatus.Active
-                LoadPlugInButton.Enabled = False
-                RunPlugInButton.Enabled = True
+                runPlugInButton.Text = plugInInfo.Name & ControlChars.CrLf & "Status: Ready"
+                plugInInfo.Status = EveHQPlugInStatus.Active
+                loadPlugInButton.Enabled = False
+                runPlugInButton.Enabled = True
             End If
             ' Clean up after loading the plugin
             Call HQ.ReduceMemory()
@@ -1826,26 +1823,26 @@ Public Class frmEveHQ
             Me.Invoke(myDelegate, New Object() {plugInInfo.Name})
         Catch ex As Exception
             MessageBox.Show("Unable to load plugin: " & plugInInfo.Name & ControlChars.CrLf & ex.Message, "Plugin error")
-            LoadPlugInButton.Enabled = True
-            RunPlugInButton.Enabled = False
+            loadPlugInButton.Enabled = True
+            runPlugInButton.Enabled = False
         End Try
     End Sub
 
-    Delegate Sub OpenPlugInDelegate(ByVal PlugInName As String)
+    Delegate Sub OpenPlugInDelegate(ByVal plugInName As String)
 
-    Private Sub OpenPlugIn(ByVal PlugInName As String)
-        Dim PlugInInfo As PlugIn = CType(HQ.Settings.Plugins(PlugInName), PlugIn)
-        If PlugInInfo.Status = PlugIn.PlugInStatus.Active Then
+    Private Sub OpenPlugIn(ByVal plugInName As String)
+        Dim plugInInfo As EveHQPlugIn = HQ.Plugins(plugInName)
+        If plugInInfo.Status = EveHQPlugInStatus.Active Then
             Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
-            Dim tp As TabItem = HQ.GetMDITab(PlugInName)
+            Dim tp As TabItem = HQ.GetMDITab(plugInName)
             If tp IsNot Nothing Then
                 mainTab.SelectedTab = tp
             Else
-                Dim plugInForm As Form = PlugInInfo.Instance.RunEveHQPlugIn
+                Dim plugInForm As Form = plugInInfo.Instance.RunEveHQPlugIn
                 plugInForm.MdiParent = HQ.MainForm
                 plugInForm.Show()
             End If
-            PlugInInfo.Instance.GetPlugInData(PlugInInfo.PostStartupData, 0)
+            plugInInfo.Instance.GetPlugInData(plugInInfo.PostStartupData, 0)
         End If
     End Sub
 
@@ -2439,7 +2436,7 @@ Public Class frmEveHQ
         trace.AppendLine("")
         trace.AppendLine("========== Plug-ins ==========")
         trace.AppendLine("")
-        For Each myPlugIn As PlugIn In HQ.Settings.Plugins.Values
+        For Each myPlugIn As EveHQPlugIn In HQ.Plugins.Values
             If myPlugIn.ShortFileName IsNot Nothing Then
                 trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
             End If

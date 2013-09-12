@@ -439,17 +439,17 @@ Public Class frmSkillDetails
     End Sub
 
     Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsInIB.Click
-        Dim PluginName As String = "EveHQ Item Browser"
+        Const pluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.PlugIn = CType(EveHQ.Core.HQ.Settings.Plugins(PluginName), Core.PlugIn)
-        Dim PluginFile As String = myPlugIn.FileName
-        Dim PluginType As String = myPlugIn.FileType
+        Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(pluginName)
+        Dim pluginFile As String = myPlugIn.FileName
+        Dim pluginType As String = myPlugIn.FileType
         Dim runPlugIn As EveHQ.Core.IEveHQPlugIn
 
-        Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+        Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(pluginName)
         If tp Is Nothing Then
-            Dim myAssembly As Reflection.Assembly = Reflection.Assembly.LoadFrom(PluginFile)
-            Dim t As Type = myAssembly.GetType(PluginType)
+            Dim myAssembly As Reflection.Assembly = Reflection.Assembly.LoadFrom(pluginFile)
+            Dim t As Type = myAssembly.GetType(pluginType)
             myPlugIn.Instance = CType(Activator.CreateInstance(t), EveHQ.Core.IEveHQPlugIn)
             runPlugIn = myPlugIn.Instance
             Dim plugInForm As Form = runPlugIn.RunEveHQPlugIn
@@ -470,7 +470,7 @@ Public Class frmSkillDetails
                 Dim item As ListViewItem = lvwDepend.SelectedItems(0)
                 itemName = item.Text
                 itemID = item.Name
-                If item.Group.Name = "CatCerts" = True Then
+                If item.Group.Name = "CatCerts" Then
                     mnuViewItemDetails.Visible = False
                     mnuViewCertDetails.Visible = True
                     mnuViewItemDetailsInIB.Visible = False

@@ -38,12 +38,12 @@ Public Class PlugInData
 
 #Region "Plug-in Interface Properties and Functions"
 
-    Public Function GetPlugInData(ByVal Data As Object, ByVal DataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Select Case DataType
             Case 0 ' Fitting Protocol
                 ' Check for fitting protocol
                 Dim fb As New frmFittingBrowser
-                fb.DNAFit = Me.ParseFittingLink(CStr(Data))
+                fb.DNAFit = Me.ParseFittingLink(CStr(data))
                 fb.TopMost = True
                 fb.Show()
                 Return Nothing
@@ -469,9 +469,9 @@ Public Class PlugInData
         End If
     End Function
 
-    Public Function GetEveHQPlugInInfo() As Core.PlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
+    Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.PlugIn
+        Dim EveHQPlugIn As New EveHQ.Core.EveHQPlugIn
         EveHQPlugIn.Name = "EveHQ Fitter"
         EveHQPlugIn.Description = "Allows theoretical ship setup and simulation"
         EveHQPlugIn.Author = "EveHQ Team"

@@ -228,7 +228,7 @@ Public Class SkillFunctions
     Public Shared Function CalcProductionTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.04 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Industry))))
+            newTime = time * (1 - (0.04 * CDbl(myPilot.KeySkills(KeySkill.Industry))))
         Catch ex As Exception
             newTime = 0
         End Try
@@ -237,7 +237,7 @@ Public Class SkillFunctions
     Public Shared Function CalcResearchProdTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Research))))
+            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(KeySkill.Research))))
         Catch ex As Exception
             newTime = 0
         End Try
@@ -246,7 +246,7 @@ Public Class SkillFunctions
     Public Shared Function CalcResearchMatTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Metallurgy))))
+            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(KeySkill.Metallurgy))))
         Catch ex As Exception
             newTime = 0
         End Try
@@ -255,7 +255,7 @@ Public Class SkillFunctions
     Public Shared Function CalcResearchCopyTime(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal time As Double) As Double
         Dim newTime As Double = 0
         Try
-            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.Science))))
+            newTime = time * (1 - (0.05 * CDbl(myPilot.KeySkills(KeySkill.Science))))
         Catch ex As Exception
             newTime = 0
         End Try
@@ -264,7 +264,7 @@ Public Class SkillFunctions
     Public Shared Function CalcWasteFactor(ByRef myPilot As EveHQ.Core.EveHQPilot, ByVal wf As Double) As Double
         Dim newWF As Double = 0
         Try
-            newWF = ((1 + wf) * (1.25 - (0.05 * CDbl(myPilot.KeySkills(EveHQ.Core.EveHQPilot.KeySkill.ProductionEfficiency))))) - 1
+            newWF = ((1 + wf) * (1.25 - (0.05 * CDbl(myPilot.KeySkills(KeySkill.ProductionEfficiency))))) - 1
         Catch ex As Exception
             newWF = wf
         End Try

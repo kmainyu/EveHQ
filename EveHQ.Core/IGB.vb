@@ -207,9 +207,9 @@ Public Class IGB
                                 Else
                                     ' Check if this is a plugin string
                                     Dim IGBPlugin As Boolean = False
-                                    For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.Settings.Plugins.Values
+                                    For Each PlugInInfo As EveHQ.Core.EveHQPlugIn In EveHQ.Core.HQ.Plugins.Values
                                         If PlugInInfo.RunInIGB Then
-                                            If EveHQ.Core.HQ.Settings.IGBFullMode Or EveHQ.Core.HQ.Settings.IGBAllowedData(PlugInInfo.Name) = True Then
+                                            If EveHQ.Core.HQ.Settings.IgbFullMode Or EveHQ.Core.HQ.Settings.IgbAllowedData(PlugInInfo.Name) = True Then
                                                 Dim testName As String = PlugInInfo.Name.Replace(" ", "")
                                                 If context.Request.Url.AbsolutePath.ToUpper.StartsWith("/" & testName.ToUpper) Then
                                                     IGBPlugin = True
@@ -378,9 +378,9 @@ Public Class IGB
 
         strHTML &= " <a href=/headers>IGB Headers</a>"
 
-        For Each PlugInInfo As EveHQ.Core.PlugIn In EveHQ.Core.HQ.Settings.Plugins.Values
+        For Each PlugInInfo As EveHQ.Core.EveHQPlugIn In EveHQ.Core.HQ.Plugins.Values
             If PlugInInfo.RunInIGB = True Then
-                If EveHQ.Core.HQ.Settings.IGBFullMode Or EveHQ.Core.HQ.Settings.IGBAllowedData(PlugInInfo.Name) = True Then
+                If EveHQ.Core.HQ.Settings.IgbFullMode Or EveHQ.Core.HQ.Settings.IgbAllowedData(PlugInInfo.Name) = True Then
                     strHTML &= "  |  <a href=/" & PlugInInfo.Name.Replace(" ", "") & ">" & PlugInInfo.MainMenuText & "</a>"
                 End If
             End If

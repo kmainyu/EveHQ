@@ -1,27 +1,27 @@
 ﻿Public Class EveHQPlugIn
 
-    Public Name As String
-    Public Description As String
-    Public Author As String
-    Public MainMenuText As String
-    Public MenuImage As Drawing.Image
-    Public RunAtStartup As Boolean
-    Public RunInIGB As Boolean
-    Public FileName As String
-    Public ShortFileName As String
-    Public FileType As String
-    Public Version As String
-    Public Disabled As Boolean
-    Public Available As Boolean
-    Public Status As Integer
-    Public Instance As IEveHQPlugIn
-    Public PostStartupData As Object
-
-    Public Enum PlugInStatus
-        Uninitialised = 0
-        Loading = 1
-        Failed = 2
-        Active = 3
-    End Enum
+    Public Property Name As String
+    Public Property Description As String
+    Public Property Author As String
+    Public Property MainMenuText As String
+    Public Property MenuImage As Drawing.Image
+    Public Property RunAtStartup As Boolean
+    Public Property RunInIGB As Boolean
+    Public Property FileName As String
+    Public Property ShortFileName As String
+    Public Property FileType As String
+    Public Property Version As String
+    Public Property Disabled As Boolean
+    Public Property Available As Boolean
+    Public Property Status As EveHQPlugInStatus
+    Public Property Instance As IEveHQPlugIn
+    Public Property PostStartupData As Object
 
 End Class
+
+Public Enum EveHQPlugInStatus
+    Uninitialised = 0
+    Loading = 1
+    Failed = 2
+    Active = 3
+End Enum

@@ -593,7 +593,7 @@ Public Class frmItemBrowser
                 BPWF = EveHQ.Core.DataFunctions.GetBPWF(bpTypeID)
                 BPWFM = ((BPWF / 100) / (1 + nudMELevel.Value))
                 If displayPilot IsNot Nothing Then
-                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                    BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
                 End If
             Else
                 picBP.Visible = False
@@ -724,7 +724,7 @@ Public Class frmItemBrowser
                     If attributes(attNo, 2) = "wasteFactor" Then
                         BPWF = (attributes(attNo, 3))
                         BPWFM = ((BPWF / 100) / (1 + nudMELevel.Value))
-                        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
                     End If
                 Next
             End If
@@ -1261,7 +1261,7 @@ Public Class frmItemBrowser
                                         ' Do we need the BPWF here? I think so!
                                         BPWFC = EveHQ.Core.DataFunctions.GetBPWF(materials(item, 1))
                                         BPWFMC = ((1 / BPWFC) / (1 + nudMELevelC.Value))
-                                        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+                                        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
                                         newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFMC) * CDbl(materials(item, 3)), 0))
                                         newItem.SubItems.Add(Math.Round(CDbl(1 + BPWFPC) * CDbl(materials(item, 3)), 0))
                                     Else
@@ -1681,7 +1681,7 @@ Public Class frmItemBrowser
         Else
             BPWFM = ((1 / BPWF) * (1 - nudMELevel.Value))
         End If
-        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+        BPWFP = BPWFM + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
         Call Me.GetMaterials(itemTypeID, itemTypeName)
     End Sub
 
@@ -1801,7 +1801,7 @@ Public Class frmItemBrowser
         Me.colC1ME.Text = "ME " & nudMELevelC.Value
         ' re-calcualte the new waste factors
         BPWFMC = ((1 / BPWF) / (1 + nudMELevelC.Value))
-        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.ProductionEfficiency)))
+        BPWFPC = BPWFMC + (0.25 - (0.05 * displayPilot.KeySkills(EveHQ.Core.KeySkill.ProductionEfficiency)))
         Call Me.GetComponents(itemTypeID, itemTypeName)
     End Sub
 

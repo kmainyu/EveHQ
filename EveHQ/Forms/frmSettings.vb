@@ -509,7 +509,7 @@ Public Class frmSettings
             Dim selAccount As String = adtAccounts.SelectedNodes(0).Name
             Dim selAccountName As String = adtAccounts.SelectedNodes(0).Text
             ' Get the list of pilots that are affected
-          Dim strPilots As String = ""
+            Dim strPilots As String = ""
             For Each dPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If dPilot.Account = selAccount Then
                     strPilots &= dPilot.Name & ControlChars.CrLf
@@ -659,7 +659,7 @@ Public Class frmSettings
 
     Public Sub UpdatePlugIns()
         lvwPlugins.Items.Clear()
-        For Each newPlugIn As PlugIn In HQ.Settings.Plugins.Values
+        For Each newPlugIn As EveHQPlugIn In HQ.Plugins.Values
             Dim newLine As New ListViewItem
             newLine.Name = newPlugIn.Name
             newLine.Text = newPlugIn.Name & " (v" & newPlugIn.Version & ")"
@@ -667,13 +667,13 @@ Public Class frmSettings
                 newLine.Checked = False
                 Dim status As String = ""
                 Select Case newPlugIn.Status
-                    Case PlugIn.PlugInStatus.Uninitialised
+                    Case EveHQPlugInStatus.Uninitialised
                         status = "Uninitialised"
-                    Case PlugIn.PlugInStatus.Loading
+                    Case EveHQPlugInStatus.Loading
                         status = "Loading"
-                    Case PlugIn.PlugInStatus.Failed
+                    Case EveHQPlugInStatus.Failed
                         status = "Failed"
-                    Case PlugIn.PlugInStatus.Active
+                    Case EveHQPlugInStatus.Active
                         status = "Active"
                 End Select
                 newLine.SubItems.Add("Disabled" & " (" & status & ")")
@@ -681,13 +681,13 @@ Public Class frmSettings
                 newLine.Checked = True
                 Dim status As String = ""
                 Select Case newPlugIn.Status
-                    Case PlugIn.PlugInStatus.Uninitialised
+                    Case EveHQPlugInStatus.Uninitialised
                         status = "Uninitialised"
-                    Case PlugIn.PlugInStatus.Loading
+                    Case EveHQPlugInStatus.Loading
                         status = "Loading"
-                    Case PlugIn.PlugInStatus.Failed
+                    Case EveHQPlugInStatus.Failed
                         status = "Failed"
-                    Case PlugIn.PlugInStatus.Active
+                    Case EveHQPlugInStatus.Active
                         status = "Active"
                 End Select
                 newLine.SubItems.Add("Enabled" & " (" & status & ")")
@@ -701,13 +701,13 @@ Public Class frmSettings
 
     Private Sub btnTidyPlugins_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnTidyPlugins.Click
         Dim removePlugIns As New ArrayList
-        For Each newPlugIn As PlugIn In HQ.Settings.Plugins.Values
+        For Each newPlugIn As EveHQPlugIn In HQ.Plugins.Values
             If newPlugIn.Available = False Then
                 removePlugIns.Add(newPlugIn.Name)
             End If
         Next
-        For Each Plugin As String In removePlugIns
-            HQ.Settings.Plugins.Remove(Plugin)
+        For Each plugin As String In removePlugIns
+            HQ.Settings.Plugins.Remove(plugin)
         Next
         Call Me.UpdatePlugIns()
     End Sub
@@ -716,10 +716,9 @@ Public Class frmSettings
         Call Me.UpdatePlugIns()
     End Sub
 
-    Private Sub lvwPlugins_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) _
-        Handles lvwPlugins.ItemChecked
+    Private Sub lvwPlugins_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwPlugins.ItemChecked
         Dim pluginName As String = e.Item.Name
-        Dim plugin As PlugIn = CType(HQ.Settings.Plugins(pluginName), PlugIn)
+        Dim plugin As EveHQPlugIn = HQ.Plugins(pluginName)
         If e.Item.Checked = True Then
             plugin.Disabled = False
         Else
@@ -853,11 +852,11 @@ Public Class frmSettings
         End If
 
         ' Cycle plug-ins
-        For Each PlugInInfo As PlugIn In HQ.Settings.Plugins.Values
-            If PlugInInfo.RunInIGB = True Then
+        For Each plugInInfo As EveHQPlugIn In HQ.Plugins.Values
+            If plugInInfo.RunInIGB = True Then
                 ' If the Plug-In is not part of the List, then add it, default to enabled
-                If Not HQ.Settings.IGBAllowedData.ContainsKey(PlugInInfo.Name) Then
-                    HQ.Settings.IGBAllowedData.Add(PlugInInfo.Name, True)
+                If Not HQ.Settings.IgbAllowedData.ContainsKey(plugInInfo.Name) Then
+                    HQ.Settings.IgbAllowedData.Add(plugInInfo.Name, True)
                 End If
             End If
         Next

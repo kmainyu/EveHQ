@@ -253,22 +253,22 @@ Public Class DBCMarketOrders
                 clvSellOrders.EndUpdate()
             End If
 
-            Dim maxorders As Integer = 5 + (CInt(selPilot.KeySkills(Pilot.KeySkill.Trade)) * 4) +
-                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Tycoon)) * 32) +
-                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Retail)) * 8) +
-                                       (CInt(selPilot.KeySkills(Pilot.KeySkill.Wholesale)) * 16)
+            Dim maxorders As Integer = 5 + (selPilot.KeySkills(KeySkill.Trade) * 4) +
+                                       (selPilot.KeySkills(KeySkill.Tycoon) * 32) +
+                                       (selPilot.KeySkills(KeySkill.Retail) * 8) +
+                                       (selPilot.KeySkills(KeySkill.Wholesale) * 16)
             Dim cover As Double = buyTotal - TotalEscrow
-            Dim TransTax As Double = 1 * (1.5 - 0.15 * (CInt(selPilot.KeySkills(Pilot.KeySkill.Accounting))))
-            Dim BrokerFee As Double = 1 * (1 - 0.05 * (CInt(selPilot.KeySkills(Pilot.KeySkill.BrokerRelations))))
+            Dim TransTax As Double = 1 * (1.5 - 0.15 * (selPilot.KeySkills(KeySkill.Accounting)))
+            Dim BrokerFee As Double = 1 * (1 - 0.05 * (selPilot.KeySkills(KeySkill.BrokerRelations)))
             lblTotalOrders.Text = maxorders.ToString
             lblOrders.Text = (maxorders - TotalOrders).ToString
             lblSellTotal.Text = sellTotal.ToString("N2") & " isk"
             lblBuyTotal.Text = buyTotal.ToString("N2") & " isk"
             lblEscrow.Text = TotalEscrow.ToString("N2") & " isk (additional " + cover.ToString("N2") & " isk to cover)"
-            lblAskRange.Text = GetOrderRange(CInt(selPilot.KeySkills(Pilot.KeySkill.Procurement)))
-            lblBidRange.Text = GetOrderRange(CInt(selPilot.KeySkills(Pilot.KeySkill.Marketing)))
-            lblModRange.Text = GetOrderRange(CInt(selPilot.KeySkills(Pilot.KeySkill.Daytrading)))
-            lblRemoteRange.Text = GetOrderRange(CInt(selPilot.KeySkills(Pilot.KeySkill.Visibility)))
+            lblAskRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Procurement))
+            lblBidRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Marketing))
+            lblModRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Daytrading))
+            lblRemoteRange.Text = GetOrderRange(selPilot.KeySkills(KeySkill.Visibility))
             lblBrokerFee.Text = BrokerFee.ToString("N2") & "%"
             lblTransTax.Text = TransTax.ToString("N2") & "%"
         Else

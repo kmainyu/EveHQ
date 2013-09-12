@@ -1,8 +1,6 @@
 ﻿<Serializable()> Public Class EveHQPilot
 
-    Private ReadOnly _keySkills(53) As Integer
-
-    Public Property Name As String = ""
+   Public Property Name As String = ""
     Public Property ID As String = ""
     Public Property Account As String = ""
     Public Property AccountPosition As String = ""
@@ -72,67 +70,62 @@
     Public Property Active As Boolean = True
     Public Property Standings As New SortedList(Of Long, PilotStanding)
     Public Property CorpRoles As New List(Of CorporationRoles)
-    Public Property KeySkills(index As Integer) As Integer
-        Get
-            Return _keySkills(index)
-        End Get
-        Set(value As Integer)
-            _keySkills(index) = value
-        End Set
-    End Property
-    Public Enum KeySkill
-        Mining = 1
-        MiningUpgrades = 2
-        Astrogeology = 3
-        MiningBarge = 4
-        MiningDrone = 5
-        Exhumers = 6
-        Refining = 7
-        RefiningEfficiency = 8
-        Metallurgy = 9
-        Research = 10
-        Science = 11
-        Industry = 12
-        ProductionEfficiency = 13
-        ArkonorProc = 14
-        BistotProc = 15
-        CrokiteProc = 16
-        DarkOchreProc = 17
-        GneissProc = 18
-        HedbergiteProc = 19
-        HemorphiteProc = 20
-        JaspetProc = 21
-        KerniteProc = 22
-        MercoxitProc = 23
-        OmberProc = 24
-        PlagioclaseProc = 25
-        PyroxeresProc = 26
-        ScorditeProc = 27
-        SpodumainProc = 28
-        VeldsparProc = 29
-        IceProc = 30
-        IceHarvesting = 31
-        DeepCoreMining = 32
-        MiningForeman = 33
-        MiningDirector = 34
-        Learning = 35
-        JumpDriveOperation = 36
-        JumpDriveCalibration = 37
-        JumpFuelConservation = 38
-        JumpFreighters = 39
-        ScrapMetalProc = 40
-        Accounting = 41
-        BrokerRelations = 42
-        Daytrading = 43
-        MarginTrading = 44
-        Marketing = 45
-        Procurement = 46
-        Retail = 47
-        Trade = 48
-        Tycoon = 49
-        Visibility = 50
-        Wholesale = 51
-        Diplomacy = 52
-        Connections = 53
-    End Enum
+    Public Property KeySkills As New Dictionary(Of KeySkill, Integer)
+
 End Class
+
+Public Enum KeySkill
+    Mining = 1
+    MiningUpgrades = 2
+    Astrogeology = 3
+    MiningBarge = 4
+    MiningDrone = 5
+    Exhumers = 6
+    Refining = 7
+    RefiningEfficiency = 8
+    Metallurgy = 9
+    Research = 10
+    Science = 11
+    Industry = 12
+    ProductionEfficiency = 13
+    ArkonorProc = 14
+    BistotProc = 15
+    CrokiteProc = 16
+    DarkOchreProc = 17
+    GneissProc = 18
+    HedbergiteProc = 19
+    HemorphiteProc = 20
+    JaspetProc = 21
+    KerniteProc = 22
+    MercoxitProc = 23
+    OmberProc = 24
+    PlagioclaseProc = 25
+    PyroxeresProc = 26
+    ScorditeProc = 27
+    SpodumainProc = 28
+    VeldsparProc = 29
+    IceProc = 30
+    IceHarvesting = 31
+    DeepCoreMining = 32
+    MiningForeman = 33
+    MiningDirector = 34
+    Learning = 35
+    JumpDriveOperation = 36
+    JumpDriveCalibration = 37
+    JumpFuelConservation = 38
+    JumpFreighters = 39
+    ScrapMetalProc = 40
+    Accounting = 41
+    BrokerRelations = 42
+    Daytrading = 43
+    MarginTrading = 44
+    Marketing = 45
+    Procurement = 46
+    Retail = 47
+    Trade = 48
+    Tycoon = 49
+    Visibility = 50
+    Wholesale = 51
+    Diplomacy = 52
+    Connections = 53
+End Enum

@@ -136,8 +136,8 @@ Public Class Standings
             Dim sPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(pilotName)
 
             ' Get the Connections and Diplomacy skills
-            Dim diplomacyLevel As Integer = sPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Diplomacy)
-            Dim connectionsLevel As Integer = sPilot.KeySkills(EveHQ.Core.Pilot.KeySkill.Connections)
+            Dim diplomacyLevel As Integer = sPilot.KeySkills(EveHQ.Core.KeySkill.Diplomacy)
+            Dim connectionsLevel As Integer = sPilot.KeySkills(EveHQ.Core.KeySkill.Connections)
 
             If sPilot.Standings.ContainsKey(CLng(entityID)) = True Then
                 If ReturnEffectiveStanding = True Then
