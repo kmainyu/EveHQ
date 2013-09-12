@@ -452,7 +452,7 @@ Public Class Reports
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(curTime)
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                     If rpilot.Training = True Then
                         If currentSkill.ID = cskill.ID Then
@@ -610,7 +610,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                     If rpilot.Training = True Then
                         If currentSkill.ID = cskill.ID Then
@@ -916,7 +916,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 5))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                 End If
             Next
@@ -1894,11 +1894,11 @@ Public Class Reports
                             strXML &= tabs(6) & "<level>" & skillItem.Level & "</level>" & vbCrLf
                         End If
 
-                        strXML &= tabs(6) & "<skilllevel1>" & skillItem.LevelUp(1) & "</skilllevel1>" & vbCrLf
-                        strXML &= tabs(6) & "<skilllevel2>" & skillItem.LevelUp(2) & "</skilllevel2>" & vbCrLf
-                        strXML &= tabs(6) & "<skilllevel3>" & skillItem.LevelUp(3) & "</skilllevel3>" & vbCrLf
-                        strXML &= tabs(6) & "<skilllevel4>" & skillItem.LevelUp(4) & "</skilllevel4>" & vbCrLf
-                        strXML &= tabs(6) & "<skilllevel5>" & skillItem.LevelUp(5) & "</skilllevel5>" & vbCrLf
+                        strXML &= tabs(6) & "<skilllevel1>" & HQ.SkillListName(skillItem.Name).LevelUp(1) & "</skilllevel1>" & vbCrLf
+                        strXML &= tabs(6) & "<skilllevel2>" & HQ.SkillListName(skillItem.Name).LevelUp(2) & "</skilllevel2>" & vbCrLf
+                        strXML &= tabs(6) & "<skilllevel3>" & HQ.SkillListName(skillItem.Name).LevelUp(3) & "</skilllevel3>" & vbCrLf
+                        strXML &= tabs(6) & "<skilllevel4>" & HQ.SkillListName(skillItem.Name).LevelUp(4) & "</skilllevel4>" & vbCrLf
+                        strXML &= tabs(6) & "<skilllevel5>" & HQ.SkillListName(skillItem.Name).LevelUp(5) & "</skilllevel5>" & vbCrLf
                         strXML &= tabs(5) & "</skill>" & vbCrLf
                     End If
                 Next
@@ -2486,7 +2486,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                     If rpilot.Training = True Then
                         If currentSkill.ID = cskill.ID Then
@@ -2622,7 +2622,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 5))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                 End If
             Next
@@ -2738,7 +2738,7 @@ Public Class Reports
                     TotalTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(curTime)
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                     If rpilot.Training = True Then
                         If currentSkill.ID = cskill.ID Then
@@ -3135,7 +3135,7 @@ Public Class Reports
         For Each curSkill In rpilot.PilotSkills.Values
             Dim partTrained As Boolean = True
             For level As Integer = 0 To 5
-                If curSkill.SP = curSkill.LevelUp(level) Or curSkill.SP = curSkill.LevelUp(level) + 1 Or curSkill.Level = 5 Then
+                If curSkill.SP = HQ.SkillListName(curSkill.Name).LevelUp(level) Or curSkill.SP = HQ.SkillListName(curSkill.Name).LevelUp(level) + 1 Or curSkill.Level = 5 Then
                     partTrained = False
                     Exit For
                 End If
@@ -3209,7 +3209,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                     If rpilot.Training = True Then
                         If currentSkill.ID = cskill.ID Then
@@ -3303,7 +3303,7 @@ Public Class Reports
         For Each curSkill In rpilot.PilotSkills.Values
             Dim partTrained As Boolean = True
             For level As Integer = 0 To 5
-                If curSkill.SP = curSkill.LevelUp(level) Or curSkill.SP = curSkill.LevelUp(level) + 1 Or curSkill.Level = 5 Then
+                If curSkill.SP = HQ.SkillListName(curSkill.Name).LevelUp(level) Or curSkill.SP = HQ.SkillListName(curSkill.Name).LevelUp(level) + 1 Or curSkill.Level = 5 Then
                     partTrained = False
                     Exit For
                 End If
@@ -3377,7 +3377,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cskill.SP)
                     repSkill(groupCount, CInt(skillCount), 4) = EveHQ.Core.SkillFunctions.TimeToString(EveHQ.Core.SkillFunctions.CalcTimeToLevel(rpilot, EveHQ.Core.HQ.SkillListName(cskill.Name), 0))
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cskill.Level)
-                    repSkill(groupCount, CInt(skillCount), 6) = CStr(cskill.LevelUp(Math.Min(cskill.Level + 1, 5)))
+                    repSkill(groupCount, CInt(skillCount), 6) = CStr(askill.LevelUp(Math.Min(cskill.Level + 1, 5)))
 
                     If rpilot.Training = True Then
                         If currentSkill.ID = cskill.ID Then

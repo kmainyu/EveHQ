@@ -791,12 +791,6 @@ Public Class SkillFunctions
                     mySkill.Flag = 61
                     mySkill.Level = 0
                     mySkill.SP = 0
-                    mySkill.LevelUp(0) = newSkill.LevelUp(0)
-                    mySkill.LevelUp(1) = newSkill.LevelUp(1)
-                    mySkill.LevelUp(2) = newSkill.LevelUp(2)
-                    mySkill.LevelUp(3) = newSkill.LevelUp(3)
-                    mySkill.LevelUp(4) = newSkill.LevelUp(4)
-                    mySkill.LevelUp(5) = newSkill.LevelUp(5)
                     skillPilot.PilotSkills.Add(mySkill.Name, mySkill)
                 End If
                 ' Finish off training of the old skill

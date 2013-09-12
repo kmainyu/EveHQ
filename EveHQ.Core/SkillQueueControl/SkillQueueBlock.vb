@@ -106,9 +106,9 @@ Public Class SkillQueueBlock
                 TrainedLevel = currentSkill.Level
                 ' Calculatate percentage
                 If CurrentQueuedSkill.SkillID = CDbl(currentPilot.TrainingSkillID) And CurrentQueuedSkill.Level = currentPilot.TrainingSkillLevel Then
-                    Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP + currentPilot.TrainingCurrentSP - currentSkill.LevelUp(TrainedLevel)) / (currentSkill.LevelUp(TrainedLevel + 1) - currentSkill.LevelUp(TrainedLevel)) * 100), 0), 100))
+                    Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP + currentPilot.TrainingCurrentSP - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) / (HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel + 1) - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) * 100), 0), 100))
                 Else
-                    Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP - currentSkill.LevelUp(TrainedLevel)) / (currentSkill.LevelUp(TrainedLevel + 1) - currentSkill.LevelUp(TrainedLevel)) * 100), 0), 100))
+                    Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) / (HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel + 1) - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) * 100), 0), 100))
                 End If
                 If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) < Now And EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) >= Now Then
                     lblTimeToTrain.Text = EveHQ.Core.SkillFunctions.TimeToString((EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now).TotalSeconds)
@@ -150,7 +150,7 @@ Public Class SkillQueueBlock
         If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) < Now And EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) >= Now Then
             lblTimeToTrain.Text = EveHQ.Core.SkillFunctions.TimeToString((EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now).TotalSeconds)
             If CurrentQueuedSkill.SkillID = CDbl(currentPilot.TrainingSkillID) And CurrentQueuedSkill.Level = currentPilot.TrainingSkillLevel Then
-                Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP + currentPilot.TrainingCurrentSP - currentSkill.LevelUp(TrainedLevel)) / (currentSkill.LevelUp(TrainedLevel + 1) - currentSkill.LevelUp(TrainedLevel)) * 100), 0), 100))
+                Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP + currentPilot.TrainingCurrentSP - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) / (HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel + 1) - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) * 100), 0), 100))
             End If
         End If
         Call Me.DrawTimeBar()

@@ -17,15 +17,6 @@
 
     Public Property Level As Integer
 
-    Public Property LevelUp(index As Integer) As Integer
-        Get
-            Return _levelUp(index)
-        End Get
-        Set(value As Integer)
-            _levelUp(index) = value
-        End Set
-    End Property
-
     Public Function Clone() As Object Implements ICloneable.Clone
         Dim r As PilotSkill = CType(MemberwiseClone(), PilotSkill)
         Return r

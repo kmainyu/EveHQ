@@ -95,9 +95,9 @@ Public Class SkillQueueFunctions
 
                     Dim curLevel As Integer = 0
                     Dim percent As Integer = 0
-                    Dim myCurSkill As EveHQ.Core.EveHQPilotSkill = CType(qPilot.PilotSkills(mySkill.Name), EveHQ.Core.EveHQPilotSkill)
+                    Dim myCurSkill As EveHQ.Core.EveHQPilotSkill = qPilot.PilotSkills(mySkill.Name)
                     curLevel = myCurSkill.Level
-                    percent = CInt((myCurSkill.SP + qPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100)
+                    percent = CInt((myCurSkill.SP + qPilot.TrainingCurrentSP - mySkill.LevelUp(clevel - 1)) / (mySkill.LevelUp(clevel) - mySkill.LevelUp(clevel - 1)) * 100)
                     If (percent > 100) Then
                         percent = 100
                     End If
@@ -252,7 +252,7 @@ Public Class SkillQueueFunctions
                                     percent = 100
                                 Case Else
                                     ' Whole skill line percent
-                                    percent = (Math.Min(Math.Max(CDbl((myCurSkill.SP - myCurSkill.LevelUp(fromLevel)) / (myCurSkill.LevelUp(toLevel) - myCurSkill.LevelUp(fromLevel)) * 100), 0), 100))
+                                    percent = (Math.Min(Math.Max(CDbl((myCurSkill.SP - myskill.LevelUp(fromLevel)) / (myskill.LevelUp(toLevel) - myskill.LevelUp(fromLevel)) * 100), 0), 100))
                             End Select
                         End If
                     Else
@@ -486,7 +486,7 @@ Public Class SkillQueueFunctions
                 mainCount += 1
                 'For count As Integer = 1 To bQueue.Queue.Count
                 Dim curSkill As New EveHQ.Core.EveHQSkillQueueItem
-                curSkill = bQueue.Queue.Values(mainCount)
+                curSkill = bQueue.Queue.Values(mainCount - 1)
                 If skillsChecked.Contains(curSkill.Name) = False Then
                     Dim pilotLevel As Integer = 0
                     Dim mySkill As EveHQ.Core.EveHQPilotSkill = New EveHQ.Core.EveHQPilotSkill
@@ -510,7 +510,7 @@ Public Class SkillQueueFunctions
                     Dim counter As Integer = 0
                     For count2 As Integer = mainCount + 1 To bQueue.Queue.Count
                         Dim checkSkill As EveHQ.Core.EveHQSkillQueueItem = New EveHQ.Core.EveHQSkillQueueItem
-                        checkSkill = bQueue.Queue.Values(count2)
+                        checkSkill = bQueue.Queue.Values(count2 - 1)
                         If curSkill.Name = checkSkill.Name Then
                             counter += 1
                             Dim checkKey As String = checkSkill.Name & checkSkill.FromLevel & checkSkill.ToLevel

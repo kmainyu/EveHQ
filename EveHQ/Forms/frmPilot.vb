@@ -355,6 +355,7 @@ Public Class frmPilot
 
         ' Set up items
         For Each cSkill As EveHQ.Core.EveHQPilotSkill In displayPilot.PilotSkills.Values
+            Dim baseSkill As Core.EveSkill = Core.HQ.SkillListName(cSkill.Name)
             Try
                 Dim groupCLV As Node = CType(groupStructure(cSkill.GroupID), Node)
                 Dim newCLVItem As New DevComponents.AdvTree.Node
@@ -395,13 +396,13 @@ Public Class frmPilot
                     percent = 100
                 Else
                     If displayPilot.TrainingSkillID = cSkill.ID Then
-                        percent = CDbl((cSkill.SP + displayPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
-                        If cSkill.SP + displayPilot.TrainingCurrentSP > cSkill.LevelUp(cSkill.Level) + 1 Then
+                        percent = CDbl((cSkill.SP + displayPilot.TrainingCurrentSP - baseSkill.LevelUp(cSkill.Level)) / (baseSkill.LevelUp(cSkill.Level + 1) - baseSkill.LevelUp(cSkill.Level)) * 100)
+                        If cSkill.SP + displayPilot.TrainingCurrentSP > baseSkill.LevelUp(cSkill.Level) + 1 Then
                             partially = True
                         End If
                     Else
-                        percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
-                        If cSkill.SP > cSkill.LevelUp(cSkill.Level) + 1 Then
+                        percent = (Math.Min(Math.Max(CDbl((cSkill.SP - baseSkill.LevelUp(cSkill.Level)) / (baseSkill.LevelUp(cSkill.Level + 1) - baseSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
+                        If cSkill.SP > baseSkill.LevelUp(cSkill.Level) + 1 Then
                             partially = True
                         End If
                     End If
@@ -615,14 +616,15 @@ Public Class frmPilot
                 lblPilotSP.Text = (displayPilot.SkillPoints + displayPilot.TrainingCurrentSP).ToString("N0")
                 If displayPilot.PilotSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID)) = True Then
                     Dim cSkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID))
+                    Dim baseSkill As Core.EveSkill = Core.HQ.SkillListName(cSkill.Name)
                     Dim percent As Double = 0
                     If cSkill.Level = 5 Then
                         percent = 100
                     Else
                         If displayPilot.TrainingSkillID = cSkill.ID Then
-                            percent = CDbl((cSkill.SP + displayPilot.TrainingCurrentSP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100)
+                            percent = CDbl((cSkill.SP + displayPilot.TrainingCurrentSP - baseSkill.LevelUp(cSkill.Level)) / (baseSkill.LevelUp(cSkill.Level + 1) - baseSkill.LevelUp(cSkill.Level)) * 100)
                         Else
-                            percent = (Math.Min(Math.Max(CDbl((cSkill.SP - cSkill.LevelUp(cSkill.Level)) / (cSkill.LevelUp(cSkill.Level + 1) - cSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
+                            percent = (Math.Min(Math.Max(CDbl((cSkill.SP - baseSkill.LevelUp(cSkill.Level)) / (baseSkill.LevelUp(cSkill.Level + 1) - baseSkill.LevelUp(cSkill.Level)) * 100), 0), 100))
                         End If
                     End If
                     If TrainingSkill IsNot Nothing Then

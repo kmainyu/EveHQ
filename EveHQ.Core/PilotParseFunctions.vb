@@ -713,12 +713,6 @@ Public Class PilotParseFunctions
                             newSkill.GroupID = thisSkill.GroupID
                             newSkill.Flag = 0
                             newSkill.Rank = thisSkill.Rank
-                            newSkill.LevelUp(0) = 0
-                            newSkill.LevelUp(1) = thisSkill.LevelUp(1)
-                            newSkill.LevelUp(2) = thisSkill.LevelUp(2)
-                            newSkill.LevelUp(3) = thisSkill.LevelUp(3)
-                            newSkill.LevelUp(4) = thisSkill.LevelUp(4)
-                            newSkill.LevelUp(5) = thisSkill.LevelUp(5)
                             If cPilot.PilotSkills.ContainsKey(newSkill.Name) = False Then
                                 cPilot.PilotSkills.Add(newSkill.Name, newSkill)
                             End If
@@ -732,17 +726,12 @@ Public Class PilotParseFunctions
                             missingSkill.Rank = 20 : newSkill.Rank = 20
                             missingSkill.Level = newSkill.Level
                             missingSkill.PA = "Intelligence" : missingSkill.SA = "Memory"
-                            newSkill.LevelUp(1) = 5000
-                            newSkill.LevelUp(2) = 28284
-                            newSkill.LevelUp(3) = 160000
-                            newSkill.LevelUp(4) = 905097
-                            newSkill.LevelUp(5) = 5120000
-                            missingSkill.LevelUp(0) = newSkill.LevelUp(0)
-                            missingSkill.LevelUp(1) = newSkill.LevelUp(1)
-                            missingSkill.LevelUp(2) = newSkill.LevelUp(2)
-                            missingSkill.LevelUp(3) = newSkill.LevelUp(3)
-                            missingSkill.LevelUp(4) = newSkill.LevelUp(4)
-                            missingSkill.LevelUp(5) = newSkill.LevelUp(5)
+                            missingSkill.LevelUp(0) = 0
+                            missingSkill.LevelUp(1) = 5000
+                            missingSkill.LevelUp(2) = 28284
+                            missingSkill.LevelUp(3) = 160000
+                            missingSkill.LevelUp(4) = 905097
+                            missingSkill.LevelUp(5) = 5120000
                             EveHQ.Core.HQ.SkillListName.Add(missingSkill.Name, missingSkill)
                             EveHQ.Core.HQ.SkillListID.Add(missingSkill.ID, missingSkill)
                             missingSkills &= newSkill.Name & ControlChars.CrLf
@@ -809,9 +798,6 @@ Public Class PilotParseFunctions
             pilotSkill.Rank = baseSkill.Rank
             pilotSkill.GroupID = baseSkill.GroupID
             pilotSkill.Level = cPilot.TrainingSkillLevel - 1
-            For l As Integer = 0 To 5
-                pilotSkill.LevelUp(l) = baseSkill.LevelUp(l)
-            Next
             pilotSkill.SP = cPilot.TrainingStartSP
             cPilot.PilotSkills.Add(pilotSkill.Name, pilotSkill)
         Else

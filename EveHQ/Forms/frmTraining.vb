@@ -825,16 +825,17 @@ Public Class frmTraining
                         Dim skillPct As Double
                         If displayPilot.PilotSkills.ContainsKey(qitem.Name) Then
                             Dim myCurSkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(qitem.Name)
+                            Dim baseSkill As EveHQ.Core.EveSkill = Core.HQ.SkillListName(myCurSkill.Name)
                             Dim clevel As Integer = CInt(qitem.FromLevel)
-                            Dim nextLevelSp As Integer = myCurSkill.LevelUp(clevel + 1) - myCurSkill.LevelUp(clevel)
+                            Dim nextLevelSp As Integer = baseSkill.LevelUp(clevel + 1) - baseSkill.LevelUp(clevel)
 
                             If clevel <> myCurSkill.Level Then
                                 skillPct = 0
                             Else
                                 If qitem.Name = displayPilot.TrainingSkillName Then
-                                    skillPct = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
+                                    skillPct = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - baseSkill.LevelUp(clevel)) / nextLevelSp * 100))
                                 Else
-                                    skillPct = CInt(Int((myCurSkill.SP - myCurSkill.LevelUp(clevel)) / nextLevelSp * 100))
+                                    skillPct = CInt(Int((myCurSkill.SP - baseSkill.LevelUp(clevel)) / nextLevelSp * 100))
                                 End If
                             End If
 
@@ -1061,12 +1062,13 @@ Public Class frmTraining
                                     If cLVW.Items.Count > 0 Then
                                         If EveHQ.Core.HQ.SkillListID.ContainsKey(displayPilot.TrainingSkillID) = True Then
                                             Dim myCurSkill As EveHQ.Core.EveHQPilotSkill = displayPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(displayPilot.TrainingSkillID))
+                                            Dim baseSkill As Core.EveSkill = Core.HQ.SkillListName(myCurSkill.Name)
                                             Dim clevel As Integer = displayPilot.TrainingSkillLevel
                                             Dim cTime As Double = displayPilot.TrainingCurrentTime
                                             Dim strTime As String = EveHQ.Core.SkillFunctions.TimeToString(cTime)
                                             Dim endtime As Date = displayPilot.TrainingEndTime
                                             Dim percent As Integer = 0
-                                            percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - myCurSkill.LevelUp(clevel - 1)) / (myCurSkill.LevelUp(clevel) - myCurSkill.LevelUp(clevel - 1)) * 100))
+                                            percent = CInt(Int((myCurSkill.SP + displayPilot.TrainingCurrentSP - baseSkill.LevelUp(clevel - 1)) / (baseSkill.LevelUp(clevel) - baseSkill.LevelUp(clevel - 1)) * 100))
                                             If (percent > 100) Then
                                                 percent = 100
                                             End If
