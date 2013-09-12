@@ -156,7 +156,7 @@
     <Compile Include="EveItem.vb" />
     <Compile Include="EveMail.vb" />
     <Compile Include="EveServer.vb" />
-    <Compile Include="EveSettings.vb" />
+    <Compile Include="Deprecated\EveSettings.vb" />
     <Compile Include="frmModifyPrice.designer.vb">
       <DependentUpon>frmModifyPrice.vb</DependentUpon>
     </Compile>
@@ -198,9 +198,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Pilot.vb" />
+    <Compile Include="Deprecated\Pilot.vb" />
     <Compile Include="PilotParseFunctions.vb" />
-    <Compile Include="PlugIn.vb" />
+    <Compile Include="Deprecated\PlugIn.vb" />
     <Compile Include="PriceGroup.vb" />
     <Compile Include="ProxyServerFunctions.vb" />
     <Compile Include="Reports.vb" />
@@ -247,7 +247,7 @@
     <Compile Include="Settings\EveHQPilotStanding.vb" />
     <Compile Include="Settings\StandingType.vb" />
     <Compile Include="SkillFunctions.vb" />
-    <Compile Include="SkillQueue.vb" />
+    <Compile Include="Deprecated\SkillQueue.vb" />
     <Compile Include="SkillQueueControl\SkillQueueBlock.Designer.vb">
       <DependentUpon>SkillQueueBlock.vb</DependentUpon>
     </Compile>
@@ -261,7 +261,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SkillQueueFunctions.vb" />
-    <Compile Include="SkillQueueItem.vb" />
+    <Compile Include="Deprecated\SkillQueueItem.vb" />
     <Compile Include="SkillQueueControl\SkillQueueTimeControl.Designer.vb">
       <DependentUpon>SkillQueueTimeControl.vb</DependentUpon>
     </Compile>

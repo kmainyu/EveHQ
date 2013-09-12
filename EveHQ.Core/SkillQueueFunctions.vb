@@ -192,7 +192,7 @@ Public Class SkillQueueFunctions
                 Dim specSkillName As String
                 Dim specSkillID As String
                 Dim priority As Integer
-                Dim notes As String
+                Dim notes As String = ""
                 Try
                     specSkillName = CStr(skillArray(tagArray(i), 0))
                     frLvl = specSkillName.Substring(specSkillName.Length - 2, 1)
