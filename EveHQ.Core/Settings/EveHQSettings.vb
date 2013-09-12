@@ -29,14 +29,13 @@ Public Class EveHQSettings
     Private _emailSenderAddress As String
     Private _userQueueColumns As ArrayList
     Private _standardQueueColumns As ArrayList
-    Private _dashboardConfiguration As ArrayList
+    Private _dashboardConfiguration As New List(Of SortedList(Of String, Object))
     Private _csvSeparatorChar As String
     Private _marketRegionList As ArrayList
     Private _priceCriteria(11) As Boolean
     Private _ccpApiServerAddress As String
     Private _eveFolderLabel(4) As String
     Private _eveFolderLua(4) As Boolean
-    Private _mainFormPosition(4) As Integer
     Private _igbAllowedData As SortedList(Of String, Boolean)
     Private _eveFolder(4) As String
     Private _qColumns(20, 1) As String
@@ -201,14 +200,14 @@ Public Class EveHQSettings
     End Property
     Public Property DBTickerLocation() As String
     Public Property DBTicker() As Boolean
-    Public Property DashboardConfiguration() As ArrayList
+    Public Property DashboardConfiguration() As List(Of SortedList(Of String, Object))
         Get
             If _dashboardConfiguration Is Nothing Then
-                _dashboardConfiguration = New ArrayList
+                _dashboardConfiguration = New List(Of SortedList(Of String, Object))
             End If
             Return _dashboardConfiguration
         End Get
-        Set(ByVal value As ArrayList)
+        Set(ByVal value As List(Of SortedList(Of String, Object)))
             _dashboardConfiguration = value
         End Set
     End Property

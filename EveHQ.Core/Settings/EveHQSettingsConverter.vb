@@ -37,7 +37,7 @@ Public Class EveHQSettingsConverter
             ConvertAccounts(oldSettings)
             ConvertPilots(oldSettings)
             ConvertPlugins(oldSettings)
-            'ConvertDashboard(oldSettings)
+            ConvertDashboard(oldSettings)
 
             Dim startTime, endTime As DateTime
             Dim timeTaken As TimeSpan
@@ -231,7 +231,6 @@ Public Class EveHQSettingsConverter
         _newSettings.StandardQueueColumns = oldSettings.StandardQueueColumns
         _newSettings.DBTickerLocation = oldSettings.DBTickerLocation
         _newSettings.DBTicker = oldSettings.DBTicker
-        _newSettings.DashboardConfiguration = oldSettings.DashboardConfiguration
         _newSettings.CsvSeparatorChar = oldSettings.CSVSeparatorChar
         _newSettings.DisableVisualStyles = oldSettings.DisableVisualStyles
         _newSettings.DisableAutoWebConnections = oldSettings.DisableAutoWebConnections
@@ -296,11 +295,9 @@ Public Class EveHQSettingsConverter
         _newSettings.CycleG15Pilots = oldSettings.CycleG15Pilots
         _newSettings.ActivateG15 = oldSettings.ActivateG15
         _newSettings.AutoAPI = oldSettings.AutoAPI
-        For i As Integer = 0 To 4
-            _newSettings.MainFormWindowState = CType(oldSettings.MainFormPosition(4), FormWindowState)
-            _newSettings.MainFormLocation = New Drawing.Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
-            _newSettings.MainFormSize = New Drawing.Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
-        Next
+        _newSettings.MainFormWindowState = CType(oldSettings.MainFormPosition(4), FormWindowState)
+        _newSettings.MainFormLocation = New Drawing.Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
+        _newSettings.MainFormSize = New Drawing.Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
         _newSettings.DeleteSkills = oldSettings.DeleteSkills
         _newSettings.PartialTrainColor = oldSettings.PartialTrainColor
         _newSettings.ReadySkillColor = oldSettings.ReadySkillColor
@@ -373,6 +370,7 @@ Public Class EveHQSettingsConverter
         '_newSettings.Accounts = oldSettings.Accounts
         '_newSettings.Pilots = oldSettings.Pilots
         '_newSettings.Plugins = oldSettings.Plugins
+        '_newSettings.DashboardConfiguration = oldSettings.DashboardConfiguration
         _newSettings.MarketRegions = oldSettings.MarketRegions
         _newSettings.MarketSystem = oldSettings.MarketSystem
         _newSettings.MarketUseRegionMarket = oldSettings.MarketUseRegionMarket
@@ -563,8 +561,11 @@ Public Class EveHQSettingsConverter
         Next
     End Sub
 
-    'Private Sub ConvertDashboard(ByVal oldSettings As EveSettings)
-
-    'End Sub
+    Private Sub ConvertDashboard(ByVal oldSettings As EveSettings)
+        _newSettings.DashboardConfiguration.Clear()
+        For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+            _newSettings.DashboardConfiguration.Add(config)
+        Next
+    End Sub
 
 End Class
