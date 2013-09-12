@@ -67,7 +67,7 @@ Public Class EveHQSettingsConverter
 
     End Function
 
-    Public Shared Sub LoadTraining(oldSettings As EveSettings, datafolder As String)
+    Public Shared Sub LoadTraining(oldSettings As EveSettings, skillXMLFolder As String)
         Dim currentPilot As Pilot = New Pilot
         Dim XMLdoc As XmlDocument = New XmlDocument
         Dim XMLS As String = ""
@@ -89,9 +89,9 @@ Public Class EveHQSettingsConverter
             currentPilot.PrimaryQueue = ""
 
             tFileName = "Q_" & currentPilot.Name & ".xml"
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.dataFolder, tFileName)) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(skillXMLFolder, tFileName)) = True Then
                 Try
-                    XMLdoc.Load(Path.Combine(HQ.dataFolder, tFileName))
+                    XMLdoc.Load(Path.Combine(skillXMLFolder, tFileName))
 
                     ' Get the pilot details
                     trainingList = XMLdoc.SelectNodes("/training/skill")
