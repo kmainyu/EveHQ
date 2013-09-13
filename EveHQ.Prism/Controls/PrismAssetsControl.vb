@@ -519,8 +519,11 @@ Public Class PrismAssetsControl
                        totalAssetValue = 0
                        Dim assetGroupTotal As Double = 0
                        For Each assetGroup As Node In adtAssets.Nodes
-                           If (Double.TryParse(assetGroup.Cells(AssetColumn("AssetValue")).Text, assetGroupTotal)) Then
-                               totalAssetValue += assetGroupTotal
+                           ' Check for non-existant columns in the case of zero items returned
+                           If AssetColumn("AssetValue") < assetGroup.Cells.Count Then
+                               If (Double.TryParse(assetGroup.Cells(AssetColumn("AssetValue")).Text, assetGroupTotal)) Then
+                                   totalAssetValue += assetGroupTotal
+                               End If
                            End If
                        Next
 
