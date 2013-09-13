@@ -176,11 +176,19 @@ Partial Class frmTraining
         Me.tcpCertPlanning = New DevComponents.DotNetBar.TabControlPanel()
         Me.tiCertPLanning = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tabSkillDetails = New DevComponents.DotNetBar.TabControl()
-        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.lvwDetails = New EveHQ.ListViewNoFlicker()
-        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.tiGeneral = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lvwQueues = New System.Windows.Forms.ListView()
+        Me.ColumnHeader7 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.TabItem5 = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.TabItem3 = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.TabItem2 = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.TabItem1 = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.TabItem4 = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel7 = New DevComponents.DotNetBar.TabControlPanel()
         Me.lvwTimes = New EveHQ.ListViewNoFlicker()
         Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -188,14 +196,11 @@ Partial Class frmTraining
         Me.Current = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.Cumulative = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.TabItem6 = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.TabItem4 = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.TabItem3 = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.TabItem2 = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.TabItem1 = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lvwDetails = New EveHQ.ListViewNoFlicker()
+        Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.tiGeneral = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tabQueues = New DevComponents.DotNetBar.TabControl()
         Me.tcpQueue = New DevComponents.DotNetBar.TabControlPanel()
         Me.lvQueues = New EveHQ.ListViewNoFlicker()
@@ -218,11 +223,6 @@ Partial Class frmTraining
         Me.panelInfo = New DevComponents.DotNetBar.PanelEx()
         Me.cboPilots = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
-        Me.TabItem5 = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
-        Me.lvwQueues = New System.Windows.Forms.ListView()
-        Me.ColumnHeader7 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.ColumnHeader8 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ctxDetails.SuspendLayout()
         Me.ctxQueue.SuspendLayout()
         Me.ctxReqs.SuspendLayout()
@@ -235,18 +235,18 @@ Partial Class frmTraining
         Me.tcpCertPlanning.SuspendLayout()
         CType(Me.tabSkillDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabSkillDetails.SuspendLayout()
-        Me.TabControlPanel1.SuspendLayout()
-        Me.TabControlPanel7.SuspendLayout()
-        Me.TabControlPanel5.SuspendLayout()
+        Me.TabControlPanel6.SuspendLayout()
         Me.TabControlPanel4.SuspendLayout()
         Me.TabControlPanel3.SuspendLayout()
         Me.TabControlPanel2.SuspendLayout()
+        Me.TabControlPanel5.SuspendLayout()
+        Me.TabControlPanel7.SuspendLayout()
+        Me.TabControlPanel1.SuspendLayout()
         CType(Me.tabQueues, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabQueues.SuspendLayout()
         Me.tcpQueue.SuspendLayout()
         Me.ctxQueues.SuspendLayout()
         Me.panelInfo.SuspendLayout()
-        Me.TabControlPanel6.SuspendLayout()
         Me.SuspendLayout()
         '
         'tvwSkillList
@@ -1056,6 +1056,10 @@ Partial Class frmTraining
         Me.ItemContainer1.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer1.Name = "ItemContainer1"
         Me.ItemContainer1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEveMonImport, Me.btnImportEMPFile, Me.btnExportEMPFile})
+        '
+        '
+        '
+        Me.ItemContainer1.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ItemContainer1.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
         '
         'btnEveMonImport
@@ -1518,13 +1522,13 @@ Partial Class frmTraining
         Me.tabSkillDetails.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.tabSkillDetails.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
         Me.tabSkillDetails.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel1)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel6)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel4)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel3)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel2)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel5)
         Me.tabSkillDetails.Controls.Add(Me.TabControlPanel7)
-        Me.tabSkillDetails.Controls.Add(Me.TabControlPanel1)
         Me.tabSkillDetails.Location = New System.Drawing.Point(3, 541)
         Me.tabSkillDetails.Name = "tabSkillDetails"
         Me.tabSkillDetails.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -1542,149 +1546,55 @@ Partial Class frmTraining
         Me.tabSkillDetails.Tabs.Add(Me.TabItem6)
         Me.tabSkillDetails.Text = "TabControl1"
         '
-        'TabControlPanel1
+        'TabControlPanel6
         '
-        Me.TabControlPanel1.Controls.Add(Me.lvwDetails)
-        Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel1.Name = "TabControlPanel1"
-        Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel1.Size = New System.Drawing.Size(431, 258)
-        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+        Me.TabControlPanel6.Controls.Add(Me.lvwQueues)
+        Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel6.Name = "TabControlPanel6"
+        Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel6.Size = New System.Drawing.Size(431, 258)
+        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel1.Style.GradientAngle = 90
-        Me.TabControlPanel1.TabIndex = 1
-        Me.TabControlPanel1.TabItem = Me.tiGeneral
+        Me.TabControlPanel6.Style.GradientAngle = 90
+        Me.TabControlPanel6.TabIndex = 8
+        Me.TabControlPanel6.TabItem = Me.TabItem5
         '
-        'lvwDetails
+        'lvwQueues
         '
-        Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
-        Me.lvwDetails.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwDetails.FullRowSelect = True
-        Me.lvwDetails.GridLines = True
-        ListViewGroup1.Header = "General"
-        ListViewGroup1.Name = "General"
-        ListViewGroup2.Header = "Pilot Specific"
-        ListViewGroup2.Name = "Specific"
-        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-        Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem1.Group = ListViewGroup1
-        ListViewItem2.Group = ListViewGroup1
-        ListViewItem3.Group = ListViewGroup1
-        ListViewItem4.Group = ListViewGroup1
-        ListViewItem5.Group = ListViewGroup1
-        ListViewItem6.Group = ListViewGroup1
-        ListViewItem7.Group = ListViewGroup2
-        ListViewItem8.Group = ListViewGroup2
-        ListViewItem9.Group = ListViewGroup2
-        ListViewItem10.Group = ListViewGroup2
-        Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
-        Me.lvwDetails.Location = New System.Drawing.Point(1, 1)
-        Me.lvwDetails.MultiSelect = False
-        Me.lvwDetails.Name = "lvwDetails"
-        Me.lvwDetails.Size = New System.Drawing.Size(429, 256)
-        Me.lvwDetails.TabIndex = 16
-        Me.lvwDetails.UseCompatibleStateImageBehavior = False
-        Me.lvwDetails.View = System.Windows.Forms.View.Details
+        Me.lvwQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader7, Me.ColumnHeader8})
+        Me.lvwQueues.ContextMenuStrip = Me.ctxDepend
+        Me.lvwQueues.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwQueues.FullRowSelect = True
+        Me.lvwQueues.GridLines = True
+        Me.lvwQueues.Location = New System.Drawing.Point(1, 1)
+        Me.lvwQueues.Name = "lvwQueues"
+        Me.lvwQueues.ShowItemToolTips = True
+        Me.lvwQueues.Size = New System.Drawing.Size(429, 256)
+        Me.lvwQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
+        Me.lvwQueues.TabIndex = 1
+        Me.lvwQueues.UseCompatibleStateImageBehavior = False
+        Me.lvwQueues.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader1
+        'ColumnHeader7
         '
-        Me.ColumnHeader1.Width = 120
+        Me.ColumnHeader7.Text = "Queue Name"
+        Me.ColumnHeader7.Width = 300
         '
-        'ColumnHeader2
+        'ColumnHeader8
         '
-        Me.ColumnHeader2.Width = 200
+        Me.ColumnHeader8.Text = "Queued Level"
+        Me.ColumnHeader8.Width = 100
         '
-        'tiGeneral
+        'TabItem5
         '
-        Me.tiGeneral.AttachedControl = Me.TabControlPanel1
-        Me.tiGeneral.Name = "tiGeneral"
-        Me.tiGeneral.Text = "General"
-        '
-        'TabControlPanel7
-        '
-        Me.TabControlPanel7.Controls.Add(Me.lvwTimes)
-        Me.TabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel7.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel7.Name = "TabControlPanel7"
-        Me.TabControlPanel7.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel7.Size = New System.Drawing.Size(431, 258)
-        Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel7.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel7.Style.GradientAngle = 90
-        Me.TabControlPanel7.TabIndex = 7
-        Me.TabControlPanel7.TabItem = Me.TabItem6
-        '
-        'lvwTimes
-        '
-        Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
-        Me.lvwTimes.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwTimes.FullRowSelect = True
-        Me.lvwTimes.GridLines = True
-        Me.lvwTimes.Location = New System.Drawing.Point(1, 1)
-        Me.lvwTimes.Name = "lvwTimes"
-        Me.lvwTimes.Size = New System.Drawing.Size(429, 256)
-        Me.lvwTimes.TabIndex = 1
-        Me.lvwTimes.UseCompatibleStateImageBehavior = False
-        Me.lvwTimes.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "Lvl"
-        Me.ColumnHeader6.Width = 30
-        '
-        'Standard
-        '
-        Me.Standard.Text = "Time to Level Up"
-        Me.Standard.Width = 105
-        '
-        'Current
-        '
-        Me.Current.Text = "Cumulative From 0 SP"
-        Me.Current.Width = 125
-        '
-        'Cumulative
-        '
-        Me.Cumulative.Text = "Cumulative From Now"
-        Me.Cumulative.Width = 125
-        '
-        'TabItem6
-        '
-        Me.TabItem6.AttachedControl = Me.TabControlPanel7
-        Me.TabItem6.Name = "TabItem6"
-        Me.TabItem6.Text = "Times"
-        '
-        'TabControlPanel5
-        '
-        Me.TabControlPanel5.Controls.Add(Me.lvwSPs)
-        Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel5.Name = "TabControlPanel5"
-        Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel5.Size = New System.Drawing.Size(431, 258)
-        Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel5.Style.GradientAngle = 90
-        Me.TabControlPanel5.TabIndex = 5
-        Me.TabControlPanel5.TabItem = Me.TabItem4
-        '
-        'TabItem4
-        '
-        Me.TabItem4.AttachedControl = Me.TabControlPanel5
-        Me.TabItem4.Name = "TabItem4"
-        Me.TabItem4.Text = "Skill Points"
+        Me.TabItem5.AttachedControl = Me.TabControlPanel6
+        Me.TabItem5.Name = "TabItem5"
+        Me.TabItem5.Text = "Queues"
         '
         'TabControlPanel4
         '
@@ -1757,6 +1667,150 @@ Partial Class frmTraining
         Me.TabItem1.AttachedControl = Me.TabControlPanel2
         Me.TabItem1.Name = "TabItem1"
         Me.TabItem1.Text = "Description"
+        '
+        'TabControlPanel5
+        '
+        Me.TabControlPanel5.Controls.Add(Me.lvwSPs)
+        Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel5.Name = "TabControlPanel5"
+        Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel5.Size = New System.Drawing.Size(431, 258)
+        Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel5.Style.GradientAngle = 90
+        Me.TabControlPanel5.TabIndex = 5
+        Me.TabControlPanel5.TabItem = Me.TabItem4
+        '
+        'TabItem4
+        '
+        Me.TabItem4.AttachedControl = Me.TabControlPanel5
+        Me.TabItem4.Name = "TabItem4"
+        Me.TabItem4.Text = "Skill Points"
+        '
+        'TabControlPanel7
+        '
+        Me.TabControlPanel7.Controls.Add(Me.lvwTimes)
+        Me.TabControlPanel7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel7.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel7.Name = "TabControlPanel7"
+        Me.TabControlPanel7.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel7.Size = New System.Drawing.Size(431, 258)
+        Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel7.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel7.Style.GradientAngle = 90
+        Me.TabControlPanel7.TabIndex = 7
+        Me.TabControlPanel7.TabItem = Me.TabItem6
+        '
+        'lvwTimes
+        '
+        Me.lvwTimes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader6, Me.Standard, Me.Current, Me.Cumulative})
+        Me.lvwTimes.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwTimes.FullRowSelect = True
+        Me.lvwTimes.GridLines = True
+        Me.lvwTimes.Location = New System.Drawing.Point(1, 1)
+        Me.lvwTimes.Name = "lvwTimes"
+        Me.lvwTimes.Size = New System.Drawing.Size(429, 256)
+        Me.lvwTimes.TabIndex = 1
+        Me.lvwTimes.UseCompatibleStateImageBehavior = False
+        Me.lvwTimes.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "Lvl"
+        Me.ColumnHeader6.Width = 30
+        '
+        'Standard
+        '
+        Me.Standard.Text = "Time to Level Up"
+        Me.Standard.Width = 105
+        '
+        'Current
+        '
+        Me.Current.Text = "Cumulative From 0 SP"
+        Me.Current.Width = 125
+        '
+        'Cumulative
+        '
+        Me.Cumulative.Text = "Cumulative From Now"
+        Me.Cumulative.Width = 125
+        '
+        'TabItem6
+        '
+        Me.TabItem6.AttachedControl = Me.TabControlPanel7
+        Me.TabItem6.Name = "TabItem6"
+        Me.TabItem6.Text = "Times"
+        '
+        'TabControlPanel1
+        '
+        Me.TabControlPanel1.Controls.Add(Me.lvwDetails)
+        Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel1.Name = "TabControlPanel1"
+        Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel1.Size = New System.Drawing.Size(431, 258)
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel1.Style.GradientAngle = 90
+        Me.TabControlPanel1.TabIndex = 1
+        Me.TabControlPanel1.TabItem = Me.tiGeneral
+        '
+        'lvwDetails
+        '
+        Me.lvwDetails.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.lvwDetails.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvwDetails.FullRowSelect = True
+        Me.lvwDetails.GridLines = True
+        ListViewGroup1.Header = "General"
+        ListViewGroup1.Name = "General"
+        ListViewGroup2.Header = "Pilot Specific"
+        ListViewGroup2.Name = "Specific"
+        Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        ListViewItem1.Group = ListViewGroup1
+        ListViewItem2.Group = ListViewGroup1
+        ListViewItem3.Group = ListViewGroup1
+        ListViewItem4.Group = ListViewGroup1
+        ListViewItem5.Group = ListViewGroup1
+        ListViewItem6.Group = ListViewGroup1
+        ListViewItem7.Group = ListViewGroup2
+        ListViewItem8.Group = ListViewGroup2
+        ListViewItem9.Group = ListViewGroup2
+        ListViewItem10.Group = ListViewGroup2
+        Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
+        Me.lvwDetails.Location = New System.Drawing.Point(1, 1)
+        Me.lvwDetails.MultiSelect = False
+        Me.lvwDetails.Name = "lvwDetails"
+        Me.lvwDetails.Size = New System.Drawing.Size(429, 256)
+        Me.lvwDetails.TabIndex = 16
+        Me.lvwDetails.UseCompatibleStateImageBehavior = False
+        Me.lvwDetails.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Width = 120
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Width = 200
+        '
+        'tiGeneral
+        '
+        Me.tiGeneral.AttachedControl = Me.TabControlPanel1
+        Me.tiGeneral.Name = "tiGeneral"
+        Me.tiGeneral.Text = "General"
         '
         'tabQueues
         '
@@ -1983,56 +2037,6 @@ Partial Class frmTraining
         Me.ExpandableSplitter1.TabIndex = 52
         Me.ExpandableSplitter1.TabStop = False
         '
-        'TabItem5
-        '
-        Me.TabItem5.AttachedControl = Me.TabControlPanel6
-        Me.TabItem5.Name = "TabItem5"
-        Me.TabItem5.Text = "Queues"
-        '
-        'TabControlPanel6
-        '
-        Me.TabControlPanel6.Controls.Add(Me.lvwQueues)
-        Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel6.Name = "TabControlPanel6"
-        Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel6.Size = New System.Drawing.Size(431, 258)
-        Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel6.Style.GradientAngle = 90
-        Me.TabControlPanel6.TabIndex = 8
-        Me.TabControlPanel6.TabItem = Me.TabItem5
-        '
-        'lvwQueues
-        '
-        Me.lvwQueues.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader7, Me.ColumnHeader8})
-        Me.lvwQueues.ContextMenuStrip = Me.ctxDepend
-        Me.lvwQueues.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvwQueues.FullRowSelect = True
-        Me.lvwQueues.GridLines = True
-        Me.lvwQueues.Location = New System.Drawing.Point(1, 1)
-        Me.lvwQueues.Name = "lvwQueues"
-        Me.lvwQueues.ShowItemToolTips = True
-        Me.lvwQueues.Size = New System.Drawing.Size(429, 256)
-        Me.lvwQueues.Sorting = System.Windows.Forms.SortOrder.Ascending
-        Me.lvwQueues.TabIndex = 1
-        Me.lvwQueues.UseCompatibleStateImageBehavior = False
-        Me.lvwQueues.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader7
-        '
-        Me.ColumnHeader7.Text = "Queue Name"
-        Me.ColumnHeader7.Width = 300
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "Queued Level"
-        Me.ColumnHeader8.Width = 100
-        '
         'frmTraining
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2046,7 +2050,6 @@ Partial Class frmTraining
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmTraining"
         Me.Text = "Skill Training"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ctxDetails.ResumeLayout(False)
         Me.ctxQueue.ResumeLayout(False)
         Me.ctxReqs.ResumeLayout(False)
@@ -2061,12 +2064,13 @@ Partial Class frmTraining
         Me.tcpCertPlanning.PerformLayout()
         CType(Me.tabSkillDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabSkillDetails.ResumeLayout(False)
-        Me.TabControlPanel1.ResumeLayout(False)
-        Me.TabControlPanel7.ResumeLayout(False)
-        Me.TabControlPanel5.ResumeLayout(False)
+        Me.TabControlPanel6.ResumeLayout(False)
         Me.TabControlPanel4.ResumeLayout(False)
         Me.TabControlPanel3.ResumeLayout(False)
         Me.TabControlPanel2.ResumeLayout(False)
+        Me.TabControlPanel5.ResumeLayout(False)
+        Me.TabControlPanel7.ResumeLayout(False)
+        Me.TabControlPanel1.ResumeLayout(False)
         CType(Me.tabQueues, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabQueues.ResumeLayout(False)
         Me.tcpQueue.ResumeLayout(False)
@@ -2074,7 +2078,6 @@ Partial Class frmTraining
         Me.ctxQueues.ResumeLayout(False)
         Me.panelInfo.ResumeLayout(False)
         Me.panelInfo.PerformLayout()
-        Me.TabControlPanel6.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub

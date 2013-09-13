@@ -25,6 +25,7 @@ Partial Class frmHelp
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHelp))
         Me.pnlHelp = New DevComponents.DotNetBar.PanelEx()
+        Me.wbHelp = New System.Windows.Forms.WebBrowser()
         Me.pnlFeedItems = New DevComponents.DotNetBar.PanelEx()
         Me.pnlTwitterFeed = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.pbTwitterUpdate = New System.Windows.Forms.PictureBox()
@@ -36,7 +37,6 @@ Partial Class frmHelp
         Me.lblBlogFeed = New DevComponents.DotNetBar.LabelX()
         Me.tmrUpdate = New System.Windows.Forms.Timer(Me.components)
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
-        Me.wbHelp = New System.Windows.Forms.WebBrowser()
         Me.pnlHelp.SuspendLayout()
         Me.pnlFeedItems.SuspendLayout()
         Me.pnlTwitterFeed.SuspendLayout()
@@ -63,6 +63,15 @@ Partial Class frmHelp
         Me.pnlHelp.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlHelp.Style.GradientAngle = 90
         Me.pnlHelp.TabIndex = 0
+        '
+        'wbHelp
+        '
+        Me.wbHelp.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.wbHelp.Location = New System.Drawing.Point(350, 0)
+        Me.wbHelp.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.wbHelp.Name = "wbHelp"
+        Me.wbHelp.Size = New System.Drawing.Size(723, 760)
+        Me.wbHelp.TabIndex = 1
         '
         'pnlFeedItems
         '
@@ -110,7 +119,6 @@ Partial Class frmHelp
         Me.pnlTwitterFeed.Style.BorderRightWidth = 1
         Me.pnlTwitterFeed.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.pnlTwitterFeed.Style.BorderTopWidth = 1
-        Me.pnlTwitterFeed.Style.Class = ""
         Me.pnlTwitterFeed.Style.CornerDiameter = 4
         Me.pnlTwitterFeed.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.pnlTwitterFeed.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -119,12 +127,10 @@ Partial Class frmHelp
         '
         '
         '
-        Me.pnlTwitterFeed.StyleMouseDown.Class = ""
         Me.pnlTwitterFeed.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.pnlTwitterFeed.StyleMouseOver.Class = ""
         Me.pnlTwitterFeed.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.pnlTwitterFeed.TabIndex = 1
         '
@@ -168,7 +174,6 @@ Partial Class frmHelp
         '
         '
         '
-        Me.lblTwitterFeed.BackgroundStyle.Class = ""
         Me.lblTwitterFeed.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTwitterFeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTwitterFeed.Image = CType(resources.GetObject("lblTwitterFeed.Image"), System.Drawing.Image)
@@ -207,7 +212,6 @@ Partial Class frmHelp
         Me.pnlBlogFeed.Style.BorderRightWidth = 1
         Me.pnlBlogFeed.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.pnlBlogFeed.Style.BorderTopWidth = 1
-        Me.pnlBlogFeed.Style.Class = ""
         Me.pnlBlogFeed.Style.CornerDiameter = 4
         Me.pnlBlogFeed.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.pnlBlogFeed.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -216,12 +220,10 @@ Partial Class frmHelp
         '
         '
         '
-        Me.pnlBlogFeed.StyleMouseDown.Class = ""
         Me.pnlBlogFeed.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.pnlBlogFeed.StyleMouseOver.Class = ""
         Me.pnlBlogFeed.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.pnlBlogFeed.TabIndex = 0
         '
@@ -265,7 +267,6 @@ Partial Class frmHelp
         '
         '
         '
-        Me.lblBlogFeed.BackgroundStyle.Class = ""
         Me.lblBlogFeed.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblBlogFeed.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBlogFeed.Image = CType(resources.GetObject("lblBlogFeed.Image"), System.Drawing.Image)
@@ -285,15 +286,6 @@ Partial Class frmHelp
         '
         Me.SuperTooltip1.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         '
-        'wbHelp
-        '
-        Me.wbHelp.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.wbHelp.Location = New System.Drawing.Point(350, 0)
-        Me.wbHelp.MinimumSize = New System.Drawing.Size(20, 20)
-        Me.wbHelp.Name = "wbHelp"
-        Me.wbHelp.Size = New System.Drawing.Size(723, 760)
-        Me.wbHelp.TabIndex = 1
-        '
         'frmHelp
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -305,7 +297,6 @@ Partial Class frmHelp
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmHelp"
         Me.Text = "EveHQ Help and Infomation"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.pnlHelp.ResumeLayout(False)
         Me.pnlFeedItems.ResumeLayout(False)
         Me.pnlTwitterFeed.ResumeLayout(False)

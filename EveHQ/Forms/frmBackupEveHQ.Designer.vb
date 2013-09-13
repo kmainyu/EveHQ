@@ -366,7 +366,6 @@ Partial Class frmBackupEveHQ
         Me.gpEveHQBackup.Style.BorderRightWidth = 1
         Me.gpEveHQBackup.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpEveHQBackup.Style.BorderTopWidth = 1
-        Me.gpEveHQBackup.Style.Class = ""
         Me.gpEveHQBackup.Style.CornerDiameter = 4
         Me.gpEveHQBackup.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpEveHQBackup.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -375,12 +374,10 @@ Partial Class frmBackupEveHQ
         '
         '
         '
-        Me.gpEveHQBackup.StyleMouseDown.Class = ""
         Me.gpEveHQBackup.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpEveHQBackup.StyleMouseOver.Class = ""
         Me.gpEveHQBackup.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpEveHQBackup.TabIndex = 4
         Me.gpEveHQBackup.Text = "EveHQ Settings Backup"
@@ -424,7 +421,6 @@ Partial Class frmBackupEveHQ
         Me.gpEveHQRestore.Style.BorderRightWidth = 1
         Me.gpEveHQRestore.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpEveHQRestore.Style.BorderTopWidth = 1
-        Me.gpEveHQRestore.Style.Class = ""
         Me.gpEveHQRestore.Style.CornerDiameter = 4
         Me.gpEveHQRestore.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpEveHQRestore.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -433,12 +429,10 @@ Partial Class frmBackupEveHQ
         '
         '
         '
-        Me.gpEveHQRestore.StyleMouseDown.Class = ""
         Me.gpEveHQRestore.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpEveHQRestore.StyleMouseOver.Class = ""
         Me.gpEveHQRestore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpEveHQRestore.TabIndex = 5
         Me.gpEveHQRestore.Text = "EveHQ Settings Restore"
@@ -459,7 +453,6 @@ Partial Class frmBackupEveHQ
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmBackupEveHQ"
         Me.Text = "EveHQ Settings Backup"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.nudBackupWarning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudDays, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gpEveHQBackup.ResumeLayout(False)

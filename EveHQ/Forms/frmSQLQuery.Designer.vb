@@ -103,7 +103,6 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.lblRowCount.BackgroundStyle.Class = ""
         Me.lblRowCount.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblRowCount.Location = New System.Drawing.Point(6, 155)
         Me.lblRowCount.Name = "lblRowCount"
@@ -117,7 +116,6 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.radCustomData.BackgroundStyle.Class = ""
         Me.radCustomData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.radCustomData.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.radCustomData.Location = New System.Drawing.Point(143, 33)
@@ -133,7 +131,6 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.radStaticData.BackgroundStyle.Class = ""
         Me.radStaticData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.radStaticData.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.radStaticData.Checked = True
@@ -153,7 +150,6 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.lblQueryAmended.BackgroundStyle.Class = ""
         Me.lblQueryAmended.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblQueryAmended.ForeColor = System.Drawing.Color.Red
         Me.lblQueryAmended.Location = New System.Drawing.Point(989, 12)
@@ -185,7 +181,6 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.lblQueryText.BackgroundStyle.Class = ""
         Me.lblQueryText.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblQueryText.Location = New System.Drawing.Point(6, 10)
         Me.lblQueryText.Name = "lblQueryText"
@@ -256,17 +251,14 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rmcSQLQuery.Style.Class = ""
         Me.rmcSQLQuery.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rmcSQLQuery.StyleMouseDown.Class = ""
         Me.rmcSQLQuery.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rmcSQLQuery.StyleMouseOver.Class = ""
         Me.rmcSQLQuery.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rmcSQLQuery.TabIndex = 4
         Me.rmcSQLQuery.Visible = False
@@ -277,12 +269,10 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rbData.BackgroundMouseOverStyle.Class = ""
         Me.rbData.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbData.BackgroundStyle.Class = ""
         Me.rbData.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbData.ContainerControlProcessDialogKey = True
         Me.rbData.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExportData, Me.btnCopyData})
@@ -296,12 +286,10 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rbData.TitleStyle.Class = ""
         Me.rbData.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbData.TitleStyleMouseOver.Class = ""
         Me.rbData.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnExportData
@@ -324,12 +312,10 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rbQuery.BackgroundMouseOverStyle.Class = ""
         Me.rbQuery.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQuery.BackgroundStyle.Class = ""
         Me.rbQuery.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQuery.ContainerControlProcessDialogKey = True
         Me.rbQuery.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExecute, Me.btnSave})
@@ -343,12 +329,10 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rbQuery.TitleStyle.Class = ""
         Me.rbQuery.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQuery.TitleStyleMouseOver.Class = ""
         Me.rbQuery.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnExecute
@@ -371,12 +355,10 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rbQueries.BackgroundMouseOverStyle.Class = ""
         Me.rbQueries.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueries.BackgroundStyle.Class = ""
         Me.rbQueries.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbQueries.ContainerControlProcessDialogKey = True
         Me.rbQueries.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnNew, Me.btnRename, Me.btnDelete})
@@ -390,12 +372,10 @@ Partial Class frmSQLQuery
         '
         '
         '
-        Me.rbQueries.TitleStyle.Class = ""
         Me.rbQueries.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.rbQueries.TitleStyleMouseOver.Class = ""
         Me.rbQueries.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnNew
@@ -435,7 +415,6 @@ Partial Class frmSQLQuery
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmSQLQuery"
         Me.Text = "EveHQ Database Query Tool"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.panelText.ResumeLayout(False)
         Me.panelText.PerformLayout()
         CType(Me.dgvQuery, System.ComponentModel.ISupportInitialize).EndInit()

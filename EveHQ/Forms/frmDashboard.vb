@@ -33,18 +33,19 @@ Public Class frmDashboard
     Dim endPoint As Point
     Dim sourceControl As Control
     Dim parentControl As Control
+    Friend ticker1 As New EveHQ.Core.Ticker
 
 #Region "Form Loading Routines"
 
     Private Sub frmDashboard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         ' Set the options
-        Me.Ticker1.Visible = EveHQ.Core.HQ.EveHqSettings.DBTicker
+        Me.ticker1.Visible = EveHQ.Core.HQ.EveHqSettings.DBTicker
         Select Case EveHQ.Core.HQ.EveHqSettings.DBTickerLocation
             Case "Top"
-                Me.Ticker1.Dock = DockStyle.Top
+                Me.ticker1.Dock = DockStyle.Top
             Case "Bottom"
-                Me.Ticker1.Dock = DockStyle.Bottom
+                Me.ticker1.Dock = DockStyle.Bottom
         End Select
 
         ' Add the controls to the panel

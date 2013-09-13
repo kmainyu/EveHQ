@@ -41,16 +41,9 @@ Partial Class frmMarketPrices
         Me.mnuPriceDelete = New System.Windows.Forms.ToolStripMenuItem()
         Me.TabControl1 = New DevComponents.DotNetBar.TabControl()
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+        Me._buyOrderMetrics = New EveHQ.MarketItemMetrics()
+        Me._sellOrderMetrics = New EveHQ.MarketItemMetrics()
         Me.TabControl2 = New DevComponents.DotNetBar.TabControl()
-        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
-        Me._buyOrders = New DevComponents.AdvTree.AdvTree()
-        Me.colBuyLocation = New DevComponents.AdvTree.ColumnHeader()
-        Me.colBuyQty = New DevComponents.AdvTree.ColumnHeader()
-        Me.colBuyPrice = New DevComponents.AdvTree.ColumnHeader()
-        Me.colBuyExpiry = New DevComponents.AdvTree.ColumnHeader()
-        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
-        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
-        Me._buyOrdersTab = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
         Me._sellOrders = New DevComponents.AdvTree.AdvTree()
         Me.colSellLocation = New DevComponents.AdvTree.ColumnHeader()
@@ -60,6 +53,15 @@ Partial Class frmMarketPrices
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
         Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
         Me._sellOrderTab = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
+        Me._buyOrders = New DevComponents.AdvTree.AdvTree()
+        Me.colBuyLocation = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBuyQty = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBuyPrice = New DevComponents.AdvTree.ColumnHeader()
+        Me.colBuyExpiry = New DevComponents.AdvTree.ColumnHeader()
+        Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+        Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+        Me._buyOrdersTab = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.Button2 = New System.Windows.Forms.Button()
         Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         Me._getMarketOrders = New System.Windows.Forms.Button()
@@ -84,8 +86,6 @@ Partial Class frmMarketPrices
         Me._buyQuantity = New DevComponents.AdvTree.ColumnHeader()
         Me._buyLocation = New DevComponents.AdvTree.ColumnHeader()
         Me.ElementStyle6 = New DevComponents.DotNetBar.ElementStyle()
-        Me._buyOrderMetrics = New EveHQ.MarketItemMetrics()
-        Me._sellOrderMetrics = New EveHQ.MarketItemMetrics()
         Me.ctxMarketExport.SuspendLayout()
         Me.ctxPrices.SuspendLayout()
         CType(Me.TabControl1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,10 +93,10 @@ Partial Class frmMarketPrices
         Me.TabControlPanel1.SuspendLayout()
         CType(Me.TabControl2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControl2.SuspendLayout()
-        Me.TabControlPanel3.SuspendLayout()
-        CType(Me._buyOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel2.SuspendLayout()
         CType(Me._sellOrders, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControlPanel3.SuspendLayout()
+        CType(Me._buyOrders, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabControlPanel4.SuspendLayout()
         CType(Me.adtPrices, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -222,9 +222,9 @@ Partial Class frmMarketPrices
         Me.TabControl1.CanReorderTabs = True
         Me.TabControl1.ColorScheme.TabBackground = System.Drawing.Color.Transparent
         Me.TabControl1.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-        Me.TabControl1.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+        Me.TabControl1.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
         Me.TabControl1.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-        Me.TabControl1.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
+        Me.TabControl1.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
         Me.TabControl1.Controls.Add(Me.TabControlPanel1)
         Me.TabControl1.Controls.Add(Me.TabControlPanel4)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -254,15 +254,47 @@ Partial Class frmMarketPrices
         Me.TabControlPanel1.Name = "TabControlPanel1"
         Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel1.Size = New System.Drawing.Size(982, 682)
-        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel1.Style.GradientAngle = 90
         Me.TabControlPanel1.TabIndex = 1
         Me.TabControlPanel1.TabItem = Me.tiPriceSettings
+        '
+        '_buyOrderMetrics
+        '
+        Me._buyOrderMetrics.Average = ""
+        Me._buyOrderMetrics.BackColor = System.Drawing.Color.Transparent
+        Me._buyOrderMetrics.Location = New System.Drawing.Point(502, 57)
+        Me._buyOrderMetrics.Maximum = ""
+        Me._buyOrderMetrics.Median = ""
+        Me._buyOrderMetrics.Minimum = ""
+        Me._buyOrderMetrics.Name = "_buyOrderMetrics"
+        Me._buyOrderMetrics.Percentile = ""
+        Me._buyOrderMetrics.Size = New System.Drawing.Size(358, 128)
+        Me._buyOrderMetrics.StdDeviation = ""
+        Me._buyOrderMetrics.TabIndex = 34
+        Me._buyOrderMetrics.Title = "Buy Orders"
+        Me._buyOrderMetrics.Volume = ""
+        '
+        '_sellOrderMetrics
+        '
+        Me._sellOrderMetrics.Average = ""
+        Me._sellOrderMetrics.BackColor = System.Drawing.Color.Transparent
+        Me._sellOrderMetrics.Location = New System.Drawing.Point(122, 57)
+        Me._sellOrderMetrics.Maximum = ""
+        Me._sellOrderMetrics.Median = ""
+        Me._sellOrderMetrics.Minimum = ""
+        Me._sellOrderMetrics.Name = "_sellOrderMetrics"
+        Me._sellOrderMetrics.Percentile = ""
+        Me._sellOrderMetrics.Size = New System.Drawing.Size(358, 128)
+        Me._sellOrderMetrics.StdDeviation = ""
+        Me._sellOrderMetrics.TabIndex = 33
+        Me._sellOrderMetrics.Title = "Sell Orders"
+        Me._sellOrderMetrics.Volume = ""
         '
         'TabControl2
         '
@@ -281,107 +313,6 @@ Partial Class frmMarketPrices
         Me.TabControl2.Tabs.Add(Me._buyOrdersTab)
         Me.TabControl2.Text = "TabControl2"
         '
-        'TabControlPanel3
-        '
-        Me.TabControlPanel3.Controls.Add(Me._buyOrders)
-        Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
-        Me.TabControlPanel3.Name = "TabControlPanel3"
-        Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel3.Size = New System.Drawing.Size(971, 471)
-        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-        Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-        Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.TabControlPanel3.Style.GradientAngle = 90
-        Me.TabControlPanel3.TabIndex = 2
-        Me.TabControlPanel3.TabItem = Me._buyOrdersTab
-        '
-        '_buyOrders
-        '
-        Me._buyOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-        Me._buyOrders.AllowDrop = True
-        Me._buyOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me._buyOrders.BackColor = System.Drawing.SystemColors.Window
-        '
-        '
-        '
-        Me._buyOrders.BackgroundStyle.Class = "TreeBorderKey"
-        Me._buyOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me._buyOrders.Columns.Add(Me.colBuyLocation)
-        Me._buyOrders.Columns.Add(Me.colBuyQty)
-        Me._buyOrders.Columns.Add(Me.colBuyPrice)
-        Me._buyOrders.Columns.Add(Me.colBuyExpiry)
-        Me._buyOrders.DragDropEnabled = False
-        Me._buyOrders.DragDropNodeCopyEnabled = False
-        Me._buyOrders.ExpandWidth = 0
-        Me._buyOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me._buyOrders.Location = New System.Drawing.Point(4, 4)
-        Me._buyOrders.Name = "_buyOrders"
-        Me._buyOrders.NodesConnector = Me.NodeConnector2
-        Me._buyOrders.NodeStyle = Me.ElementStyle2
-        Me._buyOrders.PathSeparator = ";"
-        Me._buyOrders.Size = New System.Drawing.Size(963, 463)
-        Me._buyOrders.Styles.Add(Me.ElementStyle2)
-        Me._buyOrders.TabIndex = 20
-        Me._buyOrders.Text = "_buyOrders"
-        '
-        'colBuyLocation
-        '
-        Me.colBuyLocation.DisplayIndex = 1
-        Me.colBuyLocation.Editable = False
-        Me.colBuyLocation.Name = "colBuyLocation"
-        Me.colBuyLocation.SortingEnabled = False
-        Me.colBuyLocation.StretchToFill = True
-        Me.colBuyLocation.Text = "Location"
-        Me.colBuyLocation.Width.Absolute = 300
-        '
-        'colBuyQty
-        '
-        Me.colBuyQty.DisplayIndex = 2
-        Me.colBuyQty.Editable = False
-        Me.colBuyQty.Name = "colBuyQty"
-        Me.colBuyQty.Text = "Quantity"
-        Me.colBuyQty.Width.Absolute = 120
-        '
-        'colBuyPrice
-        '
-        Me.colBuyPrice.DisplayIndex = 3
-        Me.colBuyPrice.Editable = False
-        Me.colBuyPrice.Name = "colBuyPrice"
-        Me.colBuyPrice.Text = "Price"
-        Me.colBuyPrice.Width.Absolute = 120
-        '
-        'colBuyExpiry
-        '
-        Me.colBuyExpiry.DisplayIndex = 4
-        Me.colBuyExpiry.Editable = False
-        Me.colBuyExpiry.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
-        Me.colBuyExpiry.Name = "colBuyExpiry"
-        Me.colBuyExpiry.SortingEnabled = False
-        Me.colBuyExpiry.Text = "Expires In"
-        Me.colBuyExpiry.Width.Absolute = 120
-        '
-        'NodeConnector2
-        '
-        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
-        '
-        'ElementStyle2
-        '
-        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ElementStyle2.Name = "ElementStyle2"
-        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
-        '
-        '_buyOrdersTab
-        '
-        Me._buyOrdersTab.AttachedControl = Me.TabControlPanel3
-        Me._buyOrdersTab.Name = "_buyOrdersTab"
-        Me._buyOrdersTab.Text = "Buy Orders"
-        '
         'TabControlPanel2
         '
         Me.TabControlPanel2.Controls.Add(Me._sellOrders)
@@ -390,10 +321,10 @@ Partial Class frmMarketPrices
         Me.TabControlPanel2.Name = "TabControlPanel2"
         Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel2.Size = New System.Drawing.Size(971, 471)
-        Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-        Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+        Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+        Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel2.Style.GradientAngle = 90
@@ -485,6 +416,107 @@ Partial Class frmMarketPrices
         Me._sellOrderTab.Name = "_sellOrderTab"
         Me._sellOrderTab.Text = "Sell Orders"
         '
+        'TabControlPanel3
+        '
+        Me.TabControlPanel3.Controls.Add(Me._buyOrders)
+        Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel3.Name = "TabControlPanel3"
+        Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel3.Size = New System.Drawing.Size(971, 471)
+        Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel3.Style.GradientAngle = 90
+        Me.TabControlPanel3.TabIndex = 2
+        Me.TabControlPanel3.TabItem = Me._buyOrdersTab
+        '
+        '_buyOrders
+        '
+        Me._buyOrders.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+        Me._buyOrders.AllowDrop = True
+        Me._buyOrders.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me._buyOrders.BackColor = System.Drawing.SystemColors.Window
+        '
+        '
+        '
+        Me._buyOrders.BackgroundStyle.Class = "TreeBorderKey"
+        Me._buyOrders.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me._buyOrders.Columns.Add(Me.colBuyLocation)
+        Me._buyOrders.Columns.Add(Me.colBuyQty)
+        Me._buyOrders.Columns.Add(Me.colBuyPrice)
+        Me._buyOrders.Columns.Add(Me.colBuyExpiry)
+        Me._buyOrders.DragDropEnabled = False
+        Me._buyOrders.DragDropNodeCopyEnabled = False
+        Me._buyOrders.ExpandWidth = 0
+        Me._buyOrders.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me._buyOrders.Location = New System.Drawing.Point(4, 4)
+        Me._buyOrders.Name = "_buyOrders"
+        Me._buyOrders.NodesConnector = Me.NodeConnector2
+        Me._buyOrders.NodeStyle = Me.ElementStyle2
+        Me._buyOrders.PathSeparator = ";"
+        Me._buyOrders.Size = New System.Drawing.Size(963, 463)
+        Me._buyOrders.Styles.Add(Me.ElementStyle2)
+        Me._buyOrders.TabIndex = 20
+        Me._buyOrders.Text = "_buyOrders"
+        '
+        'colBuyLocation
+        '
+        Me.colBuyLocation.DisplayIndex = 1
+        Me.colBuyLocation.Editable = False
+        Me.colBuyLocation.Name = "colBuyLocation"
+        Me.colBuyLocation.SortingEnabled = False
+        Me.colBuyLocation.StretchToFill = True
+        Me.colBuyLocation.Text = "Location"
+        Me.colBuyLocation.Width.Absolute = 300
+        '
+        'colBuyQty
+        '
+        Me.colBuyQty.DisplayIndex = 2
+        Me.colBuyQty.Editable = False
+        Me.colBuyQty.Name = "colBuyQty"
+        Me.colBuyQty.Text = "Quantity"
+        Me.colBuyQty.Width.Absolute = 120
+        '
+        'colBuyPrice
+        '
+        Me.colBuyPrice.DisplayIndex = 3
+        Me.colBuyPrice.Editable = False
+        Me.colBuyPrice.Name = "colBuyPrice"
+        Me.colBuyPrice.Text = "Price"
+        Me.colBuyPrice.Width.Absolute = 120
+        '
+        'colBuyExpiry
+        '
+        Me.colBuyExpiry.DisplayIndex = 4
+        Me.colBuyExpiry.Editable = False
+        Me.colBuyExpiry.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
+        Me.colBuyExpiry.Name = "colBuyExpiry"
+        Me.colBuyExpiry.SortingEnabled = False
+        Me.colBuyExpiry.Text = "Expires In"
+        Me.colBuyExpiry.Width.Absolute = 120
+        '
+        'NodeConnector2
+        '
+        Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+        '
+        'ElementStyle2
+        '
+        Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ElementStyle2.Name = "ElementStyle2"
+        Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        '_buyOrdersTab
+        '
+        Me._buyOrdersTab.AttachedControl = Me.TabControlPanel3
+        Me._buyOrdersTab.Name = "_buyOrdersTab"
+        Me._buyOrdersTab.Text = "Buy Orders"
+        '
         'Button2
         '
         Me.Button2.Location = New System.Drawing.Point(832, 27)
@@ -542,10 +574,10 @@ Partial Class frmMarketPrices
         Me.TabControlPanel4.Name = "TabControlPanel4"
         Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
         Me.TabControlPanel4.Size = New System.Drawing.Size(982, 682)
-        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+        Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
             Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
         Me.TabControlPanel4.Style.GradientAngle = 90
@@ -700,38 +732,6 @@ Partial Class frmMarketPrices
         Me.ElementStyle6.Name = "ElementStyle6"
         Me.ElementStyle6.TextColor = System.Drawing.SystemColors.ControlText
         '
-        '_buyOrderMetrics
-        '
-        Me._buyOrderMetrics.Average = ""
-        Me._buyOrderMetrics.BackColor = System.Drawing.Color.Transparent
-        Me._buyOrderMetrics.Location = New System.Drawing.Point(502, 57)
-        Me._buyOrderMetrics.Maximum = ""
-        Me._buyOrderMetrics.Median = ""
-        Me._buyOrderMetrics.Minimum = ""
-        Me._buyOrderMetrics.Name = "_buyOrderMetrics"
-        Me._buyOrderMetrics.Percentile = ""
-        Me._buyOrderMetrics.Size = New System.Drawing.Size(358, 128)
-        Me._buyOrderMetrics.StdDeviation = ""
-        Me._buyOrderMetrics.TabIndex = 34
-        Me._buyOrderMetrics.Title = "Buy Orders"
-        Me._buyOrderMetrics.Volume = ""
-        '
-        '_sellOrderMetrics
-        '
-        Me._sellOrderMetrics.Average = ""
-        Me._sellOrderMetrics.BackColor = System.Drawing.Color.Transparent
-        Me._sellOrderMetrics.Location = New System.Drawing.Point(122, 57)
-        Me._sellOrderMetrics.Maximum = ""
-        Me._sellOrderMetrics.Median = ""
-        Me._sellOrderMetrics.Minimum = ""
-        Me._sellOrderMetrics.Name = "_sellOrderMetrics"
-        Me._sellOrderMetrics.Percentile = ""
-        Me._sellOrderMetrics.Size = New System.Drawing.Size(358, 128)
-        Me._sellOrderMetrics.StdDeviation = ""
-        Me._sellOrderMetrics.TabIndex = 33
-        Me._sellOrderMetrics.Title = "Sell Orders"
-        Me._sellOrderMetrics.Volume = ""
-        '
         'frmMarketPrices
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -743,7 +743,6 @@ Partial Class frmMarketPrices
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMarketPrices"
         Me.Text = "Market Prices"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ctxMarketExport.ResumeLayout(False)
         Me.ctxPrices.ResumeLayout(False)
         CType(Me.TabControl1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -752,10 +751,10 @@ Partial Class frmMarketPrices
         Me.TabControlPanel1.PerformLayout()
         CType(Me.TabControl2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControl2.ResumeLayout(False)
-        Me.TabControlPanel3.ResumeLayout(False)
-        CType(Me._buyOrders, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel2.ResumeLayout(False)
         CType(Me._sellOrders, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControlPanel3.ResumeLayout(False)
+        CType(Me._buyOrders, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabControlPanel4.ResumeLayout(False)
         Me.TabControlPanel4.PerformLayout()
         CType(Me.adtPrices, System.ComponentModel.ISupportInitialize).EndInit()
