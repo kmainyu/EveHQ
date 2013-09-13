@@ -530,9 +530,9 @@ Public Class frmRequisitions
             Dim assetXML As New XmlDocument
             Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
             If IsCorp = True Then
-                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnStandard)
             Else
-                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnStandard)
             End If
             If assetXML IsNot Nothing Then
                 Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
