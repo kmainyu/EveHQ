@@ -237,7 +237,6 @@ Partial Class frmRequisitions
         '
         'ElementStyle2
         '
-        Me.ElementStyle2.Class = ""
         Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle2.Name = "ElementStyle2"
         Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
@@ -272,7 +271,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.chkDroneBay.BackgroundStyle.Class = ""
         Me.chkDroneBay.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkDroneBay.Location = New System.Drawing.Point(386, 41)
         Me.chkDroneBay.Name = "chkDroneBay"
@@ -287,7 +285,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.chkCargoBay.BackgroundStyle.Class = ""
         Me.chkCargoBay.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkCargoBay.Location = New System.Drawing.Point(308, 41)
         Me.chkCargoBay.Name = "chkCargoBay"
@@ -302,7 +299,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.chkFittedModules.BackgroundStyle.Class = ""
         Me.chkFittedModules.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkFittedModules.Location = New System.Drawing.Point(209, 41)
         Me.chkFittedModules.Name = "chkFittedModules"
@@ -317,7 +313,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.chkAssembledShips.BackgroundStyle.Class = ""
         Me.chkAssembledShips.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkAssembledShips.Location = New System.Drawing.Point(99, 41)
         Me.chkAssembledShips.Name = "chkAssembledShips"
@@ -332,7 +327,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblShipExclusions.BackgroundStyle.Class = ""
         Me.lblShipExclusions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblShipExclusions.Location = New System.Drawing.Point(13, 41)
         Me.lblShipExclusions.Name = "lblShipExclusions"
@@ -346,7 +340,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblAssetOwner.BackgroundStyle.Class = ""
         Me.lblAssetOwner.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblAssetOwner.Location = New System.Drawing.Point(13, 13)
         Me.lblAssetOwner.Name = "lblAssetOwner"
@@ -472,7 +465,6 @@ Partial Class frmRequisitions
         Me.grpSummary.Style.BorderRightWidth = 1
         Me.grpSummary.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.grpSummary.Style.BorderTopWidth = 1
-        Me.grpSummary.Style.Class = ""
         Me.grpSummary.Style.CornerDiameter = 4
         Me.grpSummary.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.grpSummary.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -481,12 +473,10 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.grpSummary.StyleMouseDown.Class = ""
         Me.grpSummary.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.grpSummary.StyleMouseOver.Class = ""
         Me.grpSummary.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.grpSummary.TabIndex = 0
         '
@@ -496,7 +486,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblUniqueItems.BackgroundStyle.Class = ""
         Me.lblUniqueItems.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblUniqueItems.Location = New System.Drawing.Point(106, 32)
         Me.lblUniqueItems.Name = "lblUniqueItems"
@@ -510,7 +499,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblTotalItems.BackgroundStyle.Class = ""
         Me.lblTotalItems.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTotalItems.Location = New System.Drawing.Point(106, 54)
         Me.lblTotalItems.Name = "lblTotalItems"
@@ -524,7 +512,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblTotalCost.BackgroundStyle.Class = ""
         Me.lblTotalCost.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTotalCost.Location = New System.Drawing.Point(106, 76)
         Me.lblTotalCost.Name = "lblTotalCost"
@@ -538,7 +525,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblTotalVolume.BackgroundStyle.Class = ""
         Me.lblTotalVolume.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTotalVolume.Location = New System.Drawing.Point(106, 111)
         Me.lblTotalVolume.Name = "lblTotalVolume"
@@ -552,7 +538,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblTotalItemsLbl.BackgroundStyle.Class = ""
         Me.lblTotalItemsLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTotalItemsLbl.Location = New System.Drawing.Point(20, 54)
         Me.lblTotalItemsLbl.Name = "lblTotalItemsLbl"
@@ -566,7 +551,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblTotalCostLbl.BackgroundStyle.Class = ""
         Me.lblTotalCostLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTotalCostLbl.Location = New System.Drawing.Point(20, 82)
         Me.lblTotalCostLbl.Name = "lblTotalCostLbl"
@@ -580,7 +564,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblTotalVolumeLbl.BackgroundStyle.Class = ""
         Me.lblTotalVolumeLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblTotalVolumeLbl.Location = New System.Drawing.Point(20, 117)
         Me.lblTotalVolumeLbl.Name = "lblTotalVolumeLbl"
@@ -594,7 +577,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblUniqueItemsLbl.BackgroundStyle.Class = ""
         Me.lblUniqueItemsLbl.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblUniqueItemsLbl.Location = New System.Drawing.Point(20, 32)
         Me.lblUniqueItemsLbl.Name = "lblUniqueItemsLbl"
@@ -610,7 +592,6 @@ Partial Class frmRequisitions
         '
         '
         '
-        Me.lblSummary.BackgroundStyle.Class = ""
         Me.lblSummary.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblSummary.ForeColor = System.Drawing.Color.White
         Me.lblSummary.Image = Global.EveHQ.Core.My.Resources.Resources.Orders32
@@ -670,7 +651,6 @@ Partial Class frmRequisitions
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -861,10 +841,10 @@ Partial Class frmRequisitions
         '
         'lblItemSearch
         '
+        Me.lblItemSearch.BackColor = System.Drawing.Color.Transparent
         '
         '
         '
-        Me.lblItemSearch.BackgroundStyle.Class = ""
         Me.lblItemSearch.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblItemSearch.Location = New System.Drawing.Point(12, 111)
         Me.lblItemSearch.Name = "lblItemSearch"
@@ -887,10 +867,10 @@ Partial Class frmRequisitions
         '
         'lblSource
         '
+        Me.lblSource.BackColor = System.Drawing.Color.Transparent
         '
         '
         '
-        Me.lblSource.BackgroundStyle.Class = ""
         Me.lblSource.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblSource.Location = New System.Drawing.Point(12, 85)
         Me.lblSource.Name = "lblSource"
@@ -913,10 +893,10 @@ Partial Class frmRequisitions
         '
         'lblRequestor
         '
+        Me.lblRequestor.BackColor = System.Drawing.Color.Transparent
         '
         '
         '
-        Me.lblRequestor.BackgroundStyle.Class = ""
         Me.lblRequestor.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblRequestor.Location = New System.Drawing.Point(12, 59)
         Me.lblRequestor.Name = "lblRequestor"
@@ -939,10 +919,10 @@ Partial Class frmRequisitions
         '
         'lblName
         '
+        Me.lblName.BackColor = System.Drawing.Color.Transparent
         '
         '
         '
-        Me.lblName.BackgroundStyle.Class = ""
         Me.lblName.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblName.Location = New System.Drawing.Point(12, 33)
         Me.lblName.Name = "lblName"

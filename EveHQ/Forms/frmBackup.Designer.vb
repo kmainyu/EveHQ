@@ -20,27 +20,27 @@ Partial Class frmBackup
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBackup))
-        Me.btnRestore = New System.Windows.Forms.Button
-        Me.lvwBackups = New System.Windows.Forms.ListView
-        Me.BackupDate = New System.Windows.Forms.ColumnHeader
-        Me.BackupLoc = New System.Windows.Forms.ColumnHeader
-        Me.Path = New System.Windows.Forms.ColumnHeader
-        Me.btnScan = New System.Windows.Forms.Button
-        Me.gpEveBackup = New DevComponents.DotNetBar.Controls.GroupPanel
-        Me.btnResetBackup = New System.Windows.Forms.Button
-        Me.chkAuto = New System.Windows.Forms.CheckBox
-        Me.btnBackup = New System.Windows.Forms.Button
-        Me.lblBackupFreq = New System.Windows.Forms.Label
-        Me.lblNextBackupLbl = New System.Windows.Forms.Label
-        Me.nudDays = New System.Windows.Forms.NumericUpDown
-        Me.lblLastBackup = New System.Windows.Forms.Label
-        Me.lblBackupDays = New System.Windows.Forms.Label
-        Me.lblNextBackup = New System.Windows.Forms.Label
-        Me.lblBackupStart = New System.Windows.Forms.Label
-        Me.lblLastBackupLbl = New System.Windows.Forms.Label
-        Me.dtpStart = New System.Windows.Forms.DateTimePicker
-        Me.lblStartFormat = New System.Windows.Forms.Label
-        Me.gpEveRestore = New DevComponents.DotNetBar.Controls.GroupPanel
+        Me.btnRestore = New System.Windows.Forms.Button()
+        Me.lvwBackups = New System.Windows.Forms.ListView()
+        Me.BackupDate = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.BackupLoc = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.Path = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.btnScan = New System.Windows.Forms.Button()
+        Me.gpEveBackup = New DevComponents.DotNetBar.Controls.GroupPanel()
+        Me.btnResetBackup = New System.Windows.Forms.Button()
+        Me.chkAuto = New System.Windows.Forms.CheckBox()
+        Me.btnBackup = New System.Windows.Forms.Button()
+        Me.lblBackupFreq = New System.Windows.Forms.Label()
+        Me.lblNextBackupLbl = New System.Windows.Forms.Label()
+        Me.nudDays = New System.Windows.Forms.NumericUpDown()
+        Me.lblLastBackup = New System.Windows.Forms.Label()
+        Me.lblBackupDays = New System.Windows.Forms.Label()
+        Me.lblNextBackup = New System.Windows.Forms.Label()
+        Me.lblBackupStart = New System.Windows.Forms.Label()
+        Me.lblLastBackupLbl = New System.Windows.Forms.Label()
+        Me.dtpStart = New System.Windows.Forms.DateTimePicker()
+        Me.lblStartFormat = New System.Windows.Forms.Label()
+        Me.gpEveRestore = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.gpEveBackup.SuspendLayout()
         CType(Me.nudDays, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpEveRestore.SuspendLayout()
@@ -59,8 +59,8 @@ Partial Class frmBackup
         'lvwBackups
         '
         Me.lvwBackups.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lvwBackups.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.BackupDate, Me.BackupLoc, Me.Path})
         Me.lvwBackups.FullRowSelect = True
         Me.lvwBackups.GridLines = True
@@ -98,7 +98,7 @@ Partial Class frmBackup
         'gpEveBackup
         '
         Me.gpEveBackup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gpEveBackup.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpEveBackup.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.gpEveBackup.Controls.Add(Me.btnResetBackup)
@@ -132,7 +132,6 @@ Partial Class frmBackup
         Me.gpEveBackup.Style.BorderRightWidth = 1
         Me.gpEveBackup.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpEveBackup.Style.BorderTopWidth = 1
-        Me.gpEveBackup.Style.Class = ""
         Me.gpEveBackup.Style.CornerDiameter = 4
         Me.gpEveBackup.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpEveBackup.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -141,12 +140,10 @@ Partial Class frmBackup
         '
         '
         '
-        Me.gpEveBackup.StyleMouseDown.Class = ""
         Me.gpEveBackup.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpEveBackup.StyleMouseOver.Class = ""
         Me.gpEveBackup.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpEveBackup.TabIndex = 2
         Me.gpEveBackup.Text = "Eve Settings Backup"
@@ -296,8 +293,8 @@ Partial Class frmBackup
         'gpEveRestore
         '
         Me.gpEveRestore.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gpEveRestore.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpEveRestore.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
         Me.gpEveRestore.Controls.Add(Me.btnRestore)
@@ -321,7 +318,6 @@ Partial Class frmBackup
         Me.gpEveRestore.Style.BorderRightWidth = 1
         Me.gpEveRestore.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpEveRestore.Style.BorderTopWidth = 1
-        Me.gpEveRestore.Style.Class = ""
         Me.gpEveRestore.Style.CornerDiameter = 4
         Me.gpEveRestore.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpEveRestore.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -330,12 +326,10 @@ Partial Class frmBackup
         '
         '
         '
-        Me.gpEveRestore.StyleMouseDown.Class = ""
         Me.gpEveRestore.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpEveRestore.StyleMouseOver.Class = ""
         Me.gpEveRestore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpEveRestore.TabIndex = 3
         Me.gpEveRestore.Text = "Eve Settings Restore"
@@ -353,7 +347,6 @@ Partial Class frmBackup
         Me.MinimumSize = New System.Drawing.Size(500, 450)
         Me.Name = "frmBackup"
         Me.Text = "Eve Settings Backup"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.gpEveBackup.ResumeLayout(False)
         Me.gpEveBackup.PerformLayout()
         CType(Me.nudDays, System.ComponentModel.ISupportInitialize).EndInit()

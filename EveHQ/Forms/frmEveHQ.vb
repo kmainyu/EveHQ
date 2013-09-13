@@ -3388,12 +3388,10 @@ Public Class frmEveHQ
         HQ.Settings.RibbonMinimised = Not RibbonControl1.Expanded
     End Sub
 
-    Private Sub DisplayChildForm(ByVal ChildForm As Form)
-        Dim max As Boolean = False
-        If Me.ActiveMdiChild IsNot Nothing Then
-            If Me.ActiveMdiChild.WindowState = FormWindowState.Maximized Then
-                Me.ActiveMdiChild.WindowState = FormWindowState.Normal
-                max = True
+    Private Sub DisplayChildForm(ByVal childForm As Form)
+        If ActiveMdiChild IsNot Nothing Then
+            If ActiveMdiChild.WindowState = FormWindowState.Maximized Then
+                ActiveMdiChild.WindowState = FormWindowState.Normal
             End If
         End If
         ChildForm.MdiParent = Me

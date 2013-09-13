@@ -20,7 +20,7 @@ Partial Public Class frmReportViewer
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmReportViewer))
-        Me.wbReport = New System.Windows.Forms.WebBrowser
+        Me.wbReport = New System.Windows.Forms.WebBrowser()
         Me.SuspendLayout()
         '
         'wbReport
@@ -44,7 +44,6 @@ Partial Public Class frmReportViewer
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Report Viewer"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.ResumeLayout(False)
 
     End Sub
