@@ -25,6 +25,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +35,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\EveHQ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility">
@@ -76,6 +86,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs">
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="IMarketDataReceiver.cs" />
     <Compile Include="IMarketOrderDataProvider.cs" />
     <Compile Include="MarketLocationData.cs" />
@@ -103,13 +116,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UnifiedMarketDataFormat\ResultKindConverter.cs" />
     <Compile Include="UnifiedMarketDataFormat\ResultType.cs" />
     <Compile Include="UnifiedMarketDataFormat\UnifiedDataFormat.cs" />
+    <Compile Include="UnifiedMarketDataFormat\UnifiedDataFormatGeneric.cs" />
     <Compile Include="UnifiedMarketDataFormat\UnifiedDataRowset.cs" />
     <Compile Include="UnifiedMarketDataFormat\UploadGenerator.cs" />
     <Compile Include="UnifiedMarketDataFormat\UploadKey.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\EveHQ.snk">
+      <Link>EveHQ.snk</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

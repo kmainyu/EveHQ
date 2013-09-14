@@ -11,7 +11,17 @@
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
         /// <returns>The asynchronouse task instance</returns>
-        Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth,string acceptContentType=null, HttpCompletionOption completionOption= HttpCompletionOption.ResponseContentRead);
+        Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth);
+
+        /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
+        /// <param name="target">The target URL.</param>
+        /// <returns>The asynchronouse task instance</returns>
+        Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType);
+
+        /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
+        /// <param name="target">The target URL.</param>
+        /// <returns>The asynchronouse task instance</returns>
+        Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType, HttpCompletionOption completionOption);
 
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
         /// <param name="target">The target URL.</param>

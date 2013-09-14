@@ -1,71 +1,95 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="EveHQTraceLogger.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-
+﻿// ========================================================================
+//  EveHQ - An Eve-Online™ character assistance application
+//  Copyright © 2005-2012  EveHQ Development Team
+//  This file (EveHQTraceLogger.cs), is part of EveHQ.
+//  EveHQ is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 2 of the License, or
+//  (at your option) any later version.
+//  EveHQ is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//  You should have received a copy of the GNU General Public License
+//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
+// =========================================================================
 namespace EveHQ.Common.Logging
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Linq;
     using System.Text;
 
     using EveHQ.Common.Extensions;
 
     /// <summary>
-    /// TODO: Update summary.
+    ///     ETW listener for EveHQ to log events to file.
     /// </summary>
-    public class EveHqTraceLogger:TraceListener
+    public class EveHQTraceLogger : TraceListener
     {
-        private Stream _outputStream;
-
+        /// <summary>The output line format.</summary>
         private const string OutputLineFormat = "{0}:{1}\r\n";
 
+        /// <summary>The message category format.</summary>
         private const string MessageCategoryFormat = "{0}:{1}";
 
-        public EveHqTraceLogger(Stream loggingStream)
+        /// <summary>The _output stream.</summary>
+        private readonly Stream _outputStream;
+
+        /// <summary>Initializes a new instance of the <see cref="EveHQTraceLogger"/> class.</summary>
+        /// <param name="loggingStream">The logging stream.</param>
+        public EveHQTraceLogger(Stream loggingStream)
         {
             _outputStream = loggingStream;
         }
 
+        /// <summary>The write line.</summary>
+        /// <param name="message">The message.</param>
+        /// <param name="category">The category.</param>
         public override void WriteLine(string message, string category)
         {
             this.WriteLine(MessageCategoryFormat.FormatInvariant(category, message));
         }
 
-
+        /// <summary>The write.</summary>
+        /// <param name="message">The message.</param>
         public override void Write(string message)
         {
             if (_outputStream.CanWrite)
             {
-                var bytes = GetMessageBytes(message);
+                byte[] bytes = GetMessageBytes(message);
                 _outputStream.Write(bytes, 0, bytes.Length);
             }
         }
 
+        /// <summary>The write line.</summary>
+        /// <param name="message">The message.</param>
         public override void WriteLine(string message)
         {
             if (_outputStream.CanWrite)
             {
-                var bytes = GetMessageBytes(OutputLineFormat.FormatInvariant(DateTimeOffset.Now, message));
+                byte[] bytes = GetMessageBytes(OutputLineFormat.FormatInvariant(DateTimeOffset.Now, message));
                 _outputStream.Write(bytes, 0, bytes.Length);
             }
         }
 
+        /// <summary>The flush.</summary>
         public override void Flush()
         {
             _outputStream.Flush();
             base.Flush();
         }
+
+        /// <summary>The get message bytes.</summary>
+        /// <param name="message">The message.</param>
+        /// <returns>The <see cref="byte"/>.</returns>
         private static byte[] GetMessageBytes(string message)
         {
-
-            return UTF8Encoding.UTF8.GetBytes(message);
+            return Encoding.UTF8.GetBytes(message);
         }
 
+        /// <summary>The dispose.</summary>
+        /// <param name="disposing">The disposing.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

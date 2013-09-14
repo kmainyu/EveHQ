@@ -28,6 +28,11 @@ namespace EveHQ.Common.Extensions
         /// <returns>The <see cref="string"/>.</returns>
         public static string FormatException(this Exception exception)
         {
+            if (exception == null)
+            {
+                return string.Empty;
+            }
+
             var output = new StringBuilder();
 
             var aggException = exception as AggregateException;

@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="MarketMetric.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (MarketMetric.cs), is part of EveHQ.
@@ -11,8 +12,9 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market
 {
     /// <summary>The market metric.</summary>
@@ -31,8 +33,9 @@ namespace EveHQ.Market
         Median, 
 
         /// <summary>The percentile.</summary>
-        Percentile,
+        Percentile, 
 
+        /// <summary>The default.</summary>
         Default
     }
 }

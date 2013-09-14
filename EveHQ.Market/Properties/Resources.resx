@@ -112,9 +112,24 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DataNotInitialized" xml:space="preserve">
+    <value>The pricing data cache has not been initialized, or was recently wiped. In order to complete requests for pricing data, a new set of price values must be download. This is a few megabytes of data, so it may take a few moments to complete. Until then pricing queries will return inaccurate values. \n\n Do you wish to download a new set of market data now?</value>
+  </data>
+  <data name="ErrorCaption" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="ErrorDownloadingData" xml:space="preserve">
+    <value>There was an error downloading the new market data. Details can be found in the EveHQ log file. Would you like to try downloading the data again?</value>
+  </data>
+  <data name="NewMarketData" xml:space="preserve">
+    <value>New market data has been downloaded. Please reload any views containing pricing data to see the latest values.</value>
+  </data>
+  <data name="NoMarketDataCaption" xml:space="preserve">
+    <value>No Market Data!</value>
+  </data>
 </root>

@@ -868,7 +868,7 @@ Public Class DataFunctions
                 ' Go through the list of id's provided and only get the items that have a valid market group.
                 Dim filteredIdNumbers As IEnumerable(Of String) = (From itemId In itemIDs Where HQ.itemData.ContainsKey(itemId))
 
-                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where HQ.itemData(itemId).MarketGroup <> 0 Select itemId.ToInt())
+                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where HQ.itemData(itemId).MarketGroup <> 0 Select ToInt=itemId.ToInt32())
 
                 If itemIdNumbersToRequest Is Nothing Then
                     itemIdNumbersToRequest = New List(Of Integer)

@@ -85,7 +85,6 @@
       <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevComponents.Instrumentation, Version=10.8.0.6, Culture=neutral, PublicKeyToken=f90dc37c26666a67, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -111,7 +110,6 @@
       <HintPath>..\packages\Microsoft.Net.Http.2.1.10\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime">
-      
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -954,5 +952,4 @@
   </Target>-->
   <Target Name="AfterBuild">
   </Target>
-  
 </Project>

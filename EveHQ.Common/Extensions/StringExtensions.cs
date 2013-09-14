@@ -31,11 +31,11 @@ namespace EveHQ.Common.Extensions
     {
         /// <summary>Formats the string using the invariant culture</summary>
         /// <param name="format">string to format.</param>
-        /// <param name="formatParams">parameters to format into the string.</param>
+        /// <param name="parameters">parameters to format into the string.</param>
         /// <returns>A new string instance.</returns>
-        public static string FormatInvariant(this string format, params object[] formatParams)
+        public static string FormatInvariant(this string format, params object[] parameters)
         {
-            return string.Format(CultureInfo.InvariantCulture, format, formatParams);
+            return string.Format(CultureInfo.InvariantCulture, format, parameters);
         }
 
         /// <summary>Checks if the string is null, empty or full of whitespace.</summary>
@@ -43,14 +43,18 @@ namespace EveHQ.Common.Extensions
         /// <returns>True or False</returns>
         public static bool IsNullOrWhiteSpace(this string word)
         {
-            return string.IsNullOrEmpty(word) || word.All(char.IsWhiteSpace);
+            return string.IsNullOrWhiteSpace(word);
         }
 
-        public static long ToLong(this string word)
+        public static long ToInt64(this string word)
         {
             long result;
-            long.TryParse(word, out result);
-            return result;
+            if (long.TryParse(word, out result))
+            {
+                return result;
+            }
+
+            return 0;
         }
 
         /// <summary>The to date time offset.</summary>
@@ -61,13 +65,16 @@ namespace EveHQ.Common.Extensions
         {
             DateTimeOffset result;
             DateTime temp;
-            if (forcedOffset.HasValue && DateTime.TryParse(word,CultureInfo.InvariantCulture, DateTimeStyles.None, out temp))
+            if (DateTime.TryParse(word,CultureInfo.InvariantCulture, DateTimeStyles.None, out temp) && forcedOffset.HasValue )
             {
                 result = new DateTimeOffset(temp, TimeSpan.FromHours(forcedOffset.Value));
             }
             else
             {
-                DateTimeOffset.TryParse(word, out result);
+                if (!DateTimeOffset.TryParse(word, out result))
+                {
+                    return default(DateTimeOffset);
+                }
             }
 
             return result;
@@ -76,11 +83,14 @@ namespace EveHQ.Common.Extensions
         /// <summary>Converts the string to a 32bit integer.</summary>
         /// <param name="word">The word.</param>
         /// <returns>The numerical value. Defaults to 0 if not a valid number.</returns>
-        public static int ToInt(this string word)
+        public static int ToInt32(this string word)
         {
             int result;
-            int.TryParse(word, NumberStyles.Any,CultureInfo.InvariantCulture, out result);
-            return result;
+            if (int.TryParse(word, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+            {
+                return result;
+            }
+            return 0;
         }
 
         /// <summary>
@@ -91,11 +101,15 @@ namespace EveHQ.Common.Extensions
         public static double ToDouble(this string word)
         {
             double result;
-            double.TryParse(word, NumberStyles.Any, CultureInfo.InvariantCulture, out result);
-            return result;
+
+            if (double.TryParse(word, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+            {
+                return result;
+            }
+            return 0;
         }
 
-        public static bool ToBool(this string word)
+        public static bool ToBoolean(this string word)
         {
             bool result;
             if (!bool.TryParse(word, out result))

@@ -57,6 +57,33 @@ namespace EveHQ.Common
             }
         }
 
+
+        /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
+        /// <param name="target">The target URL.</param>
+        /// <param name="proxyServerAddress"></param>
+        /// <param name="useDefaultCredential"></param>
+        /// <param name="proxyUserName"></param>
+        /// <param name="proxyPassword"></param>
+        /// <param name="useBasicAuth"></param>        
+        /// <returns>The asynchronouse task instance</returns>
+        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        {
+            return GetAsync(target, proxyServerAddress, useDefaultCredential, proxyUserName, proxyPassword, useBasicAuth, null, HttpCompletionOption.ResponseContentRead);
+        }
+
+        /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
+        /// <param name="target">The target URL.</param>
+        /// <param name="proxyServerAddress"></param>
+        /// <param name="useDefaultCredential"></param>
+        /// <param name="proxyUserName"></param>
+        /// <param name="proxyPassword"></param>
+        /// <param name="useBasicAuth"></param>        
+        /// <returns>The asynchronouse task instance</returns>
+        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType)
+        {
+            return GetAsync(target, proxyServerAddress, useDefaultCredential, proxyUserName, proxyPassword, useBasicAuth, acceptContentType, HttpCompletionOption.ResponseContentRead);
+        }
+
         /// <summary>Executes an HTTP GET Request to the provided URL.</summary>
         /// <param name="target">The target URL.</param>
         /// <param name="proxyServerAddress"></param>
@@ -67,46 +94,46 @@ namespace EveHQ.Common
         /// <param name="acceptContentType"></param>
         /// <param name="completionOption"></param>
         /// <returns>The asynchronouse task instance</returns>
-        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType = null, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Handler is used by the async task, and cannot be disposed early.")]
+        public Task<HttpResponseMessage> GetAsync(Uri target, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth, string acceptContentType, HttpCompletionOption completionOption)
         {
-            var handler = new HttpClientHandler();
 
-            //var request = WebRequest.Create(target) as HttpWebRequest;
-            // request.UserAgent = userAgent;
-            // ReSharper disable PossibleNullReferenceException
-            if (proxyServerAddress != null)
+            if (target != null)
             {
-                // set proxy if required.
-                var proxy = new WebProxy(proxyServerAddress);
-                if (useDefaultCredential)
+
+                var handler = new HttpClientHandler();
+
+                if (proxyServerAddress != null)
                 {
-                    proxy.UseDefaultCredentials = true;
+                    // set proxy if required.
+                    var proxy = new WebProxy(proxyServerAddress);
+                    if (useDefaultCredential)
+                    {
+                        proxy.UseDefaultCredentials = true;
+                    }
+                    else
+                    {
+                        var credential = new NetworkCredential(proxyUserName, proxyPassword);
+                        proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                    }
+
+                    handler.Proxy = proxy;
+                    handler.UseProxy = true;
                 }
-                else
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                handler.AllowAutoRedirect = true;
+
+                var request = new HttpClient(handler);
+
+                if (!acceptContentType.IsNullOrWhiteSpace())
                 {
-                    var credential = new NetworkCredential(proxyUserName, proxyPassword);
-                    proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                    request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(acceptContentType));
                 }
 
-                handler.Proxy = proxy;
-                handler.UseProxy = true;
+                return request.GetAsync(target, completionOption);
             }
-            handler.AutomaticDecompression = DecompressionMethods.GZip;
-            handler.AllowAutoRedirect = true;
 
-
-            var request = new HttpClient(handler);
-
-            if (!acceptContentType.IsNullOrWhiteSpace())
-            {
-                request.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(acceptContentType));
-            }
-            //request.UserAgent = userAgent;
-
-            return request.GetAsync(target.ToString(), completionOption);
-
-
-            // ReSharper restore PossibleNullReferenceException
+            return Task<HttpResponseMessage>.Factory.StartNew(() => null);
         }
 
 
@@ -128,61 +155,66 @@ namespace EveHQ.Common
         /// <param name="proxyPassword"></param>
         /// <param name="useBasicAuth"></param>
         /// <returns>The asynchronouse task instance</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification="validated by extension method."), 
+        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Catching for logging purposes.")]
         public Task<WebResponse> PostAsync(Uri target, string postContent, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
         {
-            var request = WebRequest.Create(target) as HttpWebRequest;
-            // This is never null
-            // ReSharper disable PossibleNullReferenceException
-            if (proxyServerAddress != null)
+            if (target != null && !postContent.IsNullOrWhiteSpace())
             {
-                // set proxy if required.
-                var proxy = new WebProxy(proxyServerAddress);
-                if (useDefaultCredential)
+                // TODO: Update this to use HTTP Client.
+                var request = WebRequest.Create(target) as HttpWebRequest;
+
+                // This is never null
+                if (proxyServerAddress != null)
                 {
-                    proxy.UseDefaultCredentials = true;
-                }
-                else
-                {
-                    var credential = new NetworkCredential(proxyUserName, proxyPassword);
-                    proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                    // set proxy if required.
+                    var proxy = new WebProxy(proxyServerAddress);
+                    if (useDefaultCredential)
+                    {
+                        proxy.UseDefaultCredentials = true;
+                    }
+                    else
+                    {
+                        var credential = new NetworkCredential(proxyUserName, proxyPassword);
+                        proxy.Credentials = useBasicAuth ? credential.GetCredential(proxyServerAddress, "Basic") : credential;
+                    }
+
+                    request.Proxy = proxy;
                 }
 
-                request.Proxy = proxy;
+
+                request.Method = "POST";
+                request.UserAgent = UserAgent;
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                request.ContentLength = postContent.Length;
+                Stream reqStream = request.GetRequestStream();
+
+                byte[] dataBytes = Encoding.UTF8.GetBytes(postContent);
+
+                reqStream.Write(dataBytes, 0, dataBytes.Length);
+                reqStream.Flush();
+                reqStream.Close();
+
+                return Task<WebResponse>.Factory.FromAsync(
+                    request.BeginGetResponse,
+                    ticket =>
+                    {
+                        WebResponse response = null;
+                        try
+                        {
+                            response = request.EndGetResponse(ticket);
+                        }
+                        catch (Exception ex)
+                        {
+                            Trace.TraceError("Error with web request to {0} : {1}".FormatInvariant(target, ex.Message));
+                        }
+
+                        return response;
+                    },
+                    null);
             }
-
-
-            request.Method = "POST";
-            request.UserAgent = UserAgent;
-
-            // ReSharper restore PossibleNullReferenceException
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            request.ContentLength = postContent.Length;
-            Stream reqStream = request.GetRequestStream();
-
-            byte[] dataBytes = Encoding.UTF8.GetBytes(postContent);
-
-            reqStream.Write(dataBytes, 0, dataBytes.Length);
-            reqStream.Flush();
-            reqStream.Close();
-
-            return Task<WebResponse>.Factory.FromAsync(
-                request.BeginGetResponse,
-                ticket =>
-                {
-                    WebResponse response = null;
-                    try
-                    {
-                        response = request.EndGetResponse(ticket);
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.TraceError("Error with web request to {0} : {1}".FormatInvariant(target, ex.Message));
-                    }
-
-                    return response;
-                },
-                null);
+            return Task<WebResponse>.Factory.StartNew(() => null);
         }
 
         /// <summary>Executes an HTTP POST request to the provided url.</summary>
@@ -197,9 +229,13 @@ namespace EveHQ.Common
         public Task<WebResponse> PostAsync(Uri target, NameValueCollection postData, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
         {
             var data = new List<string>();
-            foreach (string key in postData.AllKeys)
+
+            if (postData != null)
             {
-                data.AddRange(postData[key].Split(',').Select(value => key + "=" + value).ToArray());
+                foreach (string key in postData.AllKeys)
+                {
+                    data.AddRange(postData[key].Split(',').Select(value => key + "=" + value).ToArray());
+                }
             }
 
             string paramData = string.Join("&", data.ToArray());

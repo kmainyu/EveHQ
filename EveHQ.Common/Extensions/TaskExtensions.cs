@@ -30,7 +30,12 @@ namespace EveHQ.Common.Extensions
         /// <returns>The <see cref="Task"/>.</returns>
         public static Task TryRun(this TaskFactory factory, Action action)
         {
-            return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            if (factory != null)
+            {
+                return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            }
+
+            return null;
         }
 
         /// <summary>Attempts to run the task, and captures any failures to the trace log</summary>
@@ -40,7 +45,12 @@ namespace EveHQ.Common.Extensions
         /// <returns>The <see cref="Task"/>.</returns>
         public static Task<T> TryRun<T>(this TaskFactory<T> factory, Func<T> action)
         {
-            return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            if (factory != null)
+            {
+                return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            }
+
+            return null;
         }
 
         /// <summary>The verify task completed success fully.</summary>

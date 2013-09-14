@@ -56,11 +56,12 @@ namespace EveHQ.Common.Extensions
             return number.ToString(formatter,CultureInfo.InvariantCulture);
         }
 
-      
 
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification="boolean values should be serialized to lower for use in xml or json.")]
         public static string ToInvariantString(this bool value)
         {
-            return value.ToString(CultureInfo.InvariantCulture).ToLower();
+            return value.ToString().ToLower(CultureInfo.InvariantCulture);
         }
 
         public static string ToInvariantString(this double number,int decimalPlaces)
