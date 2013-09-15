@@ -77,7 +77,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
 
         /// <summary>Gets or sets the result type.</summary>
         [JsonConverter(typeof(ResultKindConverter))]
-        public ResultKind ResultType { get; set; }
+        public ResultType ResultType { get; set; }
 
         /// <summary>Gets or sets the upload keys.</summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "needed for json serialization")]

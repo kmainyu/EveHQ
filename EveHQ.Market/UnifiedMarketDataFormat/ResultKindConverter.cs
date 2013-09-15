@@ -31,7 +31,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
         /// <returns>The <see cref="bool"/>.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(ResultKind);
+            return objectType == typeof(ResultType);
         }
 
         /// <summary>The read json.</summary>
@@ -47,7 +47,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
                 return null;
             }
 
-            return Enum.Parse(typeof(ResultKind), existingValue.ToString());
+            return Enum.Parse(typeof(ResultType), existingValue.ToString());
         }
 
         /// <summary>The write json.</summary>
@@ -62,7 +62,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
                 return;
             }
 
-            var kind = (ResultKind)value;
+            var kind = (ResultType)value;
             writer.WriteValue(kind.ToString().ToLowerInvariant());
         }
 

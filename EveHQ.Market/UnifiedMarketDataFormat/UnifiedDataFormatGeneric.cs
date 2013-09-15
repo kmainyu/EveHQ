@@ -1,5 +1,5 @@
 ﻿// ===========================================================================
-// <copyright file="UnifiedDataFormatBase.cs" company="EveHQ Development Team">
+// <copyright file="UnifiedDataFormatGeneric.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (UnifiedDataFormatBase.cs), is part of EveHQ.

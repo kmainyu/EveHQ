@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="ObjectExtensions.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (ObjectExtensions.cs), is part of EveHQ.
@@ -11,18 +12,29 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Common.Extensions
 {
     using System;
     using System.Globalization;
 
     /// <summary>
-    ///    Conversion methods for objects that are really numbers.
+    ///     Conversion methods for objects that are really numbers.
     /// </summary>
     public static class ObjectExtensions
     {
+        #region Public Methods and Operators
+
+        /// <summary>The to boolean.</summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The <see cref="bool"/>.</returns>
+        public static bool ToBoolean(this object value)
+        {
+            return Convert.ToBoolean(value, CultureInfo.InvariantCulture);
+        }
+
         /// <summary>The to double.</summary>
         /// <param name="value">The value.</param>
         /// <returns>The <see cref="double"/>.</returns>
@@ -47,12 +59,6 @@ namespace EveHQ.Common.Extensions
             return Convert.ToInt64(value, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>The to boolean.</summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The <see cref="bool"/>.</returns>
-        public static bool ToBoolean(this object value)
-        {
-            return Convert.ToBoolean(value, CultureInfo.InvariantCulture);
-        }
+        #endregion
     }
 }

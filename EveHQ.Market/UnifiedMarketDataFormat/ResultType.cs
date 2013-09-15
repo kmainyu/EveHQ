@@ -25,7 +25,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
     ///     The kind of market data in the rowset.
     /// </summary>
     [JsonConverter(typeof(ResultKindConverter))]
-    public enum ResultKind
+    public enum ResultType
     {
         /// <summary>The orders.</summary>
         Orders, 

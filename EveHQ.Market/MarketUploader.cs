@@ -218,7 +218,7 @@ namespace EveHQ.Market
                                         Quantity = record["volume"].ToInt64(), 
                                     }));
                     historyData.Rowsets.Add(historyRows);
-                    historyData.ResultType = ResultKind.History;
+                    historyData.ResultType = ResultType.History;
 
                     data = historyData;
                     break;
@@ -252,7 +252,7 @@ namespace EveHQ.Market
                                         VolRemaining = order["volRemaining"].ToInt64()
                                     }));
                     orderData.Rowsets.Add(orderRowset);
-                    orderData.ResultType = ResultKind.Orders;
+                    orderData.ResultType = ResultType.Orders;
 
                     data = orderData;
                     break;
