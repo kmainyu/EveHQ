@@ -68,18 +68,17 @@ Public Class EveHQSettingsConverter
     End Function
 
     Public Shared Sub LoadTraining(oldSettings As EveSettings, skillXMLFolder As String)
-        Dim currentPilot As Pilot = New Pilot
-        Dim XMLdoc As XmlDocument = New XmlDocument
-        Dim XMLS As String = ""
-        Dim tFileName As String = ""
+        Dim currentPilot As Pilot
+        Dim xmlDoc As New XmlDocument
+        Dim tFileName As String
 
-        Dim trainingList, QueueList As XmlNodeList
-        Dim trainingDetails, Queuedetails As XmlNode
+        Dim trainingList, queueList As XmlNodeList
+        Dim trainingDetails, queueDetails As XmlNode
 
-        Dim ObsoleteSkills() As String =
+        Dim obsoleteSkills() As String =
                 {"Analytical Mind", "Clarity", "Eidetic Memory", "Empathy", "Focus", "Instant Recall", "Iron Will",
                  "Learning", "Logic", "Presence", "Spatial Awareness"}
-        Dim ObsoleteList As New List(Of String)(ObsoleteSkills)
+        Dim obsoleteList As New List(Of String)(obsoleteSkills)
 
         For Each currentPilot In oldSettings.Pilots
             currentPilot.ActiveQueue = New SkillQueue
@@ -91,10 +90,10 @@ Public Class EveHQSettingsConverter
             tFileName = "Q_" & currentPilot.Name & ".xml"
             If My.Computer.FileSystem.FileExists(Path.Combine(skillXMLFolder, tFileName)) = True Then
                 Try
-                    XMLdoc.Load(Path.Combine(skillXMLFolder, tFileName))
+                    xmlDoc.Load(Path.Combine(skillXMLFolder, tFileName))
 
                     ' Get the pilot details
-                    trainingList = XMLdoc.SelectNodes("/training/skill")
+                    trainingList = xmlDoc.SelectNodes("/training/skill")
 
                     If trainingList.Count > 0 Then
                         ' Using version prior to 1.3
@@ -118,19 +117,19 @@ Public Class EveHQSettingsConverter
                     Else
                         ' Try for the post 1.3 version
                         ' Get version
-                        Dim rootNode As XmlNode = XMLdoc.SelectSingleNode("/training")
+                        Dim rootNode As XmlNode = xmlDoc.SelectSingleNode("/training")
                         Dim version As Double = 0
                         Dim culture As CultureInfo = New CultureInfo("en-GB")
                         If rootNode.Attributes.Count > 0 Then
                             version = Double.Parse(rootNode.Attributes("version").Value, NumberStyles.Any, culture)
                         End If
-                        QueueList = XMLdoc.SelectNodes("/training/queue")
-                        If QueueList.Count > 0 Then
-                            For Each Queuedetails In QueueList
+                        queueList = xmlDoc.SelectNodes("/training/queue")
+                        If queueList.Count > 0 Then
+                            For Each queueDetails In queueList
                                 Dim newQ As New SkillQueue
-                                newQ.Name = HttpUtility.HtmlDecode(Queuedetails.Attributes("name").Value)
-                                newQ.IncCurrentTraining = CBool(Queuedetails.Attributes("ICT").Value)
-                                newQ.Primary = CBool(Queuedetails.Attributes("primary").Value)
+                                newQ.Name = HttpUtility.HtmlDecode(queueDetails.Attributes("name").Value)
+                                newQ.IncCurrentTraining = CBool(queueDetails.Attributes("ICT").Value)
+                                newQ.Primary = CBool(queueDetails.Attributes("primary").Value)
                                 If newQ.Primary = True Then
                                     If currentPilot.PrimaryQueue <> "" Then
                                         ' There can be only one!
@@ -139,12 +138,11 @@ Public Class EveHQSettingsConverter
                                         currentPilot.PrimaryQueue = newQ.Name
                                     End If
                                 End If
-                                trainingList = Queuedetails.SelectNodes("training/queue/skill")
-                                If Queuedetails.ChildNodes.Count > 0 Then
+                                If queueDetails.ChildNodes.Count > 0 Then
                                     ' Using version prior to 1.3
                                     ' Start a new SkillQueue class (using "primary" as the default name)
-                                    For Each trainingDetails In Queuedetails.ChildNodes
-                                        If ObsoleteList.Contains(trainingDetails.ChildNodes(0).InnerText) = False Then
+                                    For Each trainingDetails In queueDetails.ChildNodes
+                                        If obsoleteList.Contains(trainingDetails.ChildNodes(0).InnerText) = False Then
                                             Dim myskill As SkillQueueItem = New SkillQueueItem
                                             myskill.Name = trainingDetails.ChildNodes(0).InnerText
                                             ' Adjust for the 1.9 version
