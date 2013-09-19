@@ -233,13 +233,13 @@
 1856,1,33078,796,2,329,0,1,0,0,Armor Honeycombing
 317,1,32797,6,2,1150,0,1,0,0,Armor Resistance Phasing - Cap Usage
 66,1,32797,73,2,1150,0,1,0,0,Armor Resistance Phasing - Duration
-1139,1,26253,1138,2,773,0,1,0,0,Armor Rigging
+1139,1,26253,1138,2,773;1232,0,1,0,0,Armor Rigging
 1139,1,26254,1138,2,782,0,1,0,0,Astronautics Rigging
 317,1,24568,6,4,1056,0,1,0,0,Capital Remote Armor Repair Systems
 317,1,27936,6,4,1063,0,1,0,0,Capital Remote Hull Repair Systems
 312,1,21803,73,4,1052,0,1,0,0,Capital Repair Systems
 1139,1,26255,1138,2,778,0,1,0,0,Drones Rigging
-1139,1,26256,1138,2,786,0,1,0,0,Electronic Superiority Rigging
+1139,1,26256,1138,2,786;1233;1234,0,1,0,0,Electronic Superiority Rigging
 958,1,22806,984,2,98;326,0,1,0,0,EM Armor Compensation
 1139,1,26258,1138,2,775,0,1,0,0,Energy Weapon Rigging
 958,1,22807,985,2,98;326,0,1,0,0,Explosive Armor Compensation
@@ -1137,13 +1137,11 @@
 1138,1,25892,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,25894,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,25900,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,25902,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,26286,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,26288,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,26290,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,26292,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,26298,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,26300,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,26302,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,27068,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,30987,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
@@ -1169,10 +1167,6 @@
 1138,1,31073,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31077,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31079,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,31083,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,31085,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,31089,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,31091,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,30993,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31001,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31007,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
@@ -1185,8 +1179,6 @@
 1138,1,31061,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31075,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31081,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,31087,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
-1138,1,31093,37,3,6,2,0,0,15,Armor Rig Drawback - Max Velocity Penalty
 1138,1,31045,30,4,1049;1050;1051;1052,0,0,0,15,Armor Rig Drawback - PG Penalty
 1138,1,31047,30,4,1049;1050;1051;1052,0,0,0,15,Armor Rig Drawback - PG Penalty
 1138,1,25896,30,4,1049;1050;1051;1052,0,0,0,15,Armor Rig Drawback - PG Penalty
@@ -1210,7 +1202,6 @@
 806,2,773,84,4,1049;1050;1051;1052,1,0,0,15,Auxiliary Nano Pump
 312,2,773,73,4,1049;1050;1051;1052,1,0,0,15,Nanobot Accelerator
 317,2,773,6,2,325,0,0,0,15,Remote Repair Augmentor
-902,2,773,902,4,1715,0,0,1,15,Salvage Tackle
 335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
 1138,2,782,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
@@ -1236,48 +1227,8 @@
 591,2,778,37,2,100;101;544;639;640;641;1159,3,0,0,15,Drone Speed Augmentor
 292,2,778,64,4,911,1,0,0,15,Sentry Damage Augmentor
 1619,2,778,20,2,641,1,0,0,15,Stasis Drone Augmentor
-# RIGS - ELECTRONIC,,,,,,,,,,
-#134,2,780,479,3,6,0,0,0,15,Electronic Rig Drawback - Shield Recharge Rate
-1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,31207,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,31203,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,31209,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,25930,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,26342,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,31205,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1160,1,31211,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
-1915,1,31201,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,31207,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,31203,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,31209,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,25930,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,26342,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,31205,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-1915,1,31211,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
-846,2,1233,1371,2,479,1,0,0,15,Gravity Capacitor Upgrade
-780,2,1232,73,4,1038,0,0,0,15,Ice Harvester Accelerator
-310,2,781,50,5,3432,0,0,0,15,Liquid Cooled Electronics
-1160,1,31238,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,31244,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,31240,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,31246,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,25932,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,26346,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,31242,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1160,1,31248,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
-1915,1,31238,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,31244,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,31240,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,31246,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,25932,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,26346,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,31242,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-1915,1,31248,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
-434,2,1232,782,2,663,0,0,0,15,Mercoxit Mining Crystal Optimization
-424,2,781,48,3,6,0,0,0,15,Processor Overclocking Unit
-317,2,786,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
-# RIGS - ELECTRONIC SUPERIORITY,,,,,,,,,,
-1138,2,786,263,3,6,0,0,0,15,Electronic Superiority Rig Drawback - Shield HP
+# RIGS - ELECTRONICS SUPERIORITY,,,,,,,,,,
+1138,2,786,263,3,6,0,0,0,15,Electronics Superiority Rig Drawback - Shield HP
 828,1,26110,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
 828,1,26110,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
 828,1,26354,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
@@ -1294,7 +1245,6 @@
 828,1,31266,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
 828,1,31272,309,2,208,1,0,0,15,Inverted Signal Field Projector - Max Range
 828,1,31272,566,2,208,1,0,0,15,Inverted Signal Field Projector - Scan Res
-309,2,786,76,3,6,1,0,0,15,Ionic Field Projector
 828,1,26106,238,2,201,1,0,0,15,Particle Dispersion Augmentor - Grav
 828,1,26106,239,2,201,1,0,0,15,Particle Dispersion Augmentor - Ladar
 828,1,26106,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
@@ -1328,8 +1278,7 @@
 828,1,31296,240,2,201,1,0,0,15,Particle Dispersion Augmentor - Mag
 828,1,31296,241,2,201,1,0,0,15,Particle Dispersion Augmentor - Radar
 294,2,786,54,2,201;208;291;379,1,0,0,15,Particle Dispersion Projector
-308,2,786,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
-566,2,786,564,3,6,1,0,0,15,Targeting System Subcontroller
+317,2,786,6,2,201;80,0,0,0,15,Signal Disruption Amplifier
 619,2,786,560,2,330,0,0,0,15,Targeting Systems Stabilizer
 828,1,26112,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
 828,1,26112,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
@@ -1355,12 +1304,6 @@
 828,1,31356,349,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Falloff
 828,1,31356,351,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Optimal Range
 828,1,31356,767,2,291,1,0,0,15,Tracking Diagnostic Subroutines - Tracking Speed
-# RIGS - ENERGY GRID,,,,,,,,,,
-313,2,781,11,3,6,0,0,0,15,Ancillary Current Router
-314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
-317,2,781,6,2,67;71,0,0,0,15,Egress Port Maximizer
-310,2,781,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
-1079,2,781,482,3,6,0,0,0,15,Semiconductor Memory Cell
 # RIGS - ENERGY WEAPON,,,,,,,,,,
 1138,2,775,30,2,53,0,0,0,15,Energy Weapon Rig Drawback - PG Penalty
 310,2,775,50,2,53,0,0,0,15,Algid Energy Administrations Unit
@@ -1370,6 +1313,29 @@
 317,2,775,6,2,53,0,0,0,15,Energy Discharge Elutriation
 351,2,775,54,2,53,1,0,0,15,Energy Locus Coordinator
 767,2,775,160,2,53,1,0,0,15,Energy Metastasis Adjuster
+# RIGS - ENGINEERING,,,,,,,,,,
+134,2,781,479,3,6,0,0,0,15,Engineering Rig Drawback - Shield Recharge Rate
+313,2,781,11,3,6,0,0,0,15,Ancillary Current Router
+314,2,781,55,3,6,0,0,0,15,Capacitor Control Circuit
+317,2,781,6,2,67;71,0,0,0,15,Egress Port Maximizer
+310,1,25934,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,26348,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,31226,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,31228,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,31230,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,31232,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,31234,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,31236,50,5,3432,0,0,0,15,Liquid Cooled Electronics
+310,1,25952,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,26372,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,31394,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,31396,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,31398,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,31400,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,31402,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+310,1,31404,50,2,43;61;766;767;768;769,0,0,0,15,Powergrid Subroutine Maximizer
+424,2,781,48,3,6,0,0,0,15,Processor Overclocking Unit
+1079,2,781,482,3,6,0,0,0,15,Semiconductor Memory Cell
 # RIGS - HYBRID WEAPON,,,,,,,,,,
 1138,2,776,30,2,74,0,0,0,15,Hybrid Weapon Rig Drawback - PG Penalty
 310,2,776,50,2,74,0,0,0,15,Algid Hybrid Administrations Unit
@@ -1395,9 +1361,49 @@
 349,2,777,158,2,55,1,0,0,15,Projectile Ambit Extension
 204,2,777,10013,2,55,1,0,0,15,Projectile Burst Aerator
 64,2,777,10016,2,55,1,0,5,15,Projectile Collision Accelerator
-317,2,777,6,2,55,1,0,0,15,Projectile Discharge Elutriation
 351,2,777,54,2,55,1,0,0,15,Projectile Locus Coordinator
 767,2,777,160,2,55,1,0,0,15,Projectile Metastasis Adjuster
+# RIGS - RESOURCE PROCESSING,,,,,,,,,,
+1138,2,1232,37,3,6,2,0,0,15,Resource Processing Rig Drawback - Max Velocity Penalty
+780,2,1232,73,4,1038,0,0,0,15,Ice Harvester Accelerator
+434,2,1232,782,2,663,0,0,0,15,Mercoxit Mining Crystal Optimization
+902,2,1232,902,4,1715,0,0,1,15,Salvage Tackle
+# RIGS - SCANNING,,,,,,,,,,
+1138,2,1233,263,3,6,0,0,0,15,Scanning Rig Drawback - Shield HP
+1160,1,31201,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,31207,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,31203,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,31209,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,25930,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,26342,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,31205,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1160,1,31211,902,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Access Chance
+1915,1,31201,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,31207,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,31203,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,31209,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,25930,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,26342,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,31205,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+1915,1,31211,1909,1,22177;30832,0,0,1,15,Emission Scope Sharpener - Virus Coherence
+846,2,1233,1371,2,479,1,0,0,15,Gravity Capacitor Upgrade
+1160,1,31238,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,31244,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,31240,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,31246,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,25932,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,26346,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,31242,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1160,1,31248,902,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Access Chance
+1915,1,31238,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,31244,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,31240,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,31246,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,25932,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,26346,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,31242,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+1915,1,31248,1909,1,22175;30834,0,0,1,15,Memetic Algorithm Bank - Virus Coherence
+308,2,1233,73,2,47;48;49,0,0,0,15,Signal Focusing Kit
 # RIGS - SHIELD,,,,,,,,,,
 1138,2,774,552,3,6,1,0,0,15,Shield Rig Drawback - Sig Radius Penalty
 984,2,774,271,3,6,1,0,2,15,Anti-EM Screen Reinforcer
@@ -1409,6 +1415,10 @@
 337,2,774,263,3,6,0,0,0,15,Core Defense Field Extender
 338,2,774,479,3,6,0,0,0,15,Core Defense Field Purger
 312,2,774,73,2,40;1156,0,0,0,15,Core Defense Operational Solidifier
+# RIGS - TARGETING,,,,,,,,,,
+1138,2,1234,263,3,6,0,0,0,15,Targeting Rig Drawback - Shield HP
+309,2,1234,76,3,6,1,0,0,15,Ionic Field Projector
+566,2,1234,564,3,6,1,0,0,15,Targeting System Subcontroller
 # SUBSYSTEMS,,,,,,,,,,
 11,3,32,11,3,6,0,0,1,15,PG Output
 37,3,32,37,3,6,0,0,1,15,Max Velocity
