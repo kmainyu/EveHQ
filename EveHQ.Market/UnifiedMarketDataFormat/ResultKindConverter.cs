@@ -1,8 +1,8 @@
 ﻿// ===========================================================================
-// <copyright file="OrderRowConverter.cs" company="EveHQ Development Team">
+// <copyright file="ResultKindConverter.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
-//  This file (OrderRowConverter.cs), is part of EveHQ.
+//  This file (ResultKindConverter.cs), is part of EveHQ.
 //  EveHQ is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 2 of the License, or
@@ -15,17 +15,14 @@
 //  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
 // </copyright>
 // ============================================================================
-namespace EveHQ.Market
+namespace EveHQ.Market.UnifiedMarketDataFormat
 {
     using System;
 
-    using EveHQ.Common.Extensions;
-    using EveHQ.Market.UnifiedMarketDataFormat;
-
     using Newtonsoft.Json;
 
-    /// <summary>Converts an OrderRow to JSON text.</summary>
-    public class OrderRowConverter : JsonConverter
+    /// <summary>The result kind converter.</summary>
+    public class ResultKindConverter : JsonConverter
     {
         #region Public Methods and Operators
 
@@ -34,7 +31,7 @@ namespace EveHQ.Market
         /// <returns>The <see cref="bool"/>.</returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(OrderRow);
+            return objectType == typeof(ResultType);
         }
 
         /// <summary>The read json.</summary>
@@ -43,16 +40,21 @@ namespace EveHQ.Market
         /// <param name="existingValue">The existing value.</param>
         /// <param name="serializer">The serializer.</param>
         /// <returns>The <see cref="object"/>.</returns>
-        /// <exception cref="NotImplementedException">Not Implemented</exception>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            if (existingValue == null)
+            {
+                return null;
+            }
+
+            return Enum.Parse(typeof(ResultType), existingValue.ToString());
         }
 
         /// <summary>The write json.</summary>
         /// <param name="writer">The writer.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The serializer.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "json and xml normalize to lowercase.")]
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             if (writer == null)
@@ -60,27 +62,8 @@ namespace EveHQ.Market
                 return;
             }
 
-            var row = value as OrderRow;
-            if (row == null)
-            {
-                return;
-            }
-
-            writer.WriteStartArray();
-            writer.WriteRawValue(row.Price.ToInvariantString(2));
-            writer.WriteRawValue(row.VolRemaining.ToInvariantString());
-            writer.WriteRawValue(row.Range.ToInvariantString());
-            writer.WriteRawValue(row.OrderId.ToInvariantString());
-            writer.WriteRawValue(row.VolEntered.ToInvariantString());
-            writer.WriteRawValue(row.MinVolume.ToInvariantString());
-            writer.WriteRawValue(row.Bid.ToInvariantString());
-            writer.WriteValue(row.IssueDate);
-            writer.WriteRawValue(row.Duration.ToInvariantString());
-            writer.WriteRawValue(row.StationId.ToInvariantString());
-            writer.WriteRawValue(row.SolarSystemId.ToInvariantString());
-            writer.WriteEndArray();
-
-            writer.Flush();
+            var kind = (ResultType)value;
+            writer.WriteValue(kind.ToString().ToLowerInvariant());
         }
 
         #endregion

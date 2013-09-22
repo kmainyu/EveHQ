@@ -9,6 +9,9 @@ SetCompressor /solid lzma
 !include SQLCE40.nsh
 !include Upgrade.nsh
 !include DirClean.nsh
+!include "FileFunc.nsh"
+
+
 
  
 Name "EveHQ"
@@ -45,8 +48,6 @@ VIProductVersion 1.0.0.0
 !insertmacro MUI_PAGE_WELCOME
 
 #License
-!define MUI_LICENSEPAGE_CHECKBOX
-!define MUI_LICENSEPAGE_CHECKBOX_TEXT "I accept the terms"
 !insertmacro MUI_PAGE_LICENSE ..\EveHQ\License.txt
 
 #Install directory
@@ -117,8 +118,11 @@ SectionIn RO
   File "..\BuildOutput\Release\System.Runtime.dll"
   File "..\BuildOutput\Release\System.Threading.Tasks.dll"
   File "..\EveHQ\License.txt"
-  
+
+${If} $useLocalFlag == "0" 
   SetOutPath $APPDATA\EveHQ
+${EndIf}
+
   File "..\EveHQ.Data\EveHQ.sdf"
   # delete cache files
   Delete $APPDATA\EveHQ\HQF\Cache\*.*
@@ -134,7 +138,11 @@ SectionIn RO
   !insertmacro MUI_STARTMENU_WRITE_BEGIN EveHQ
 	 SetShellVarContext current
 		 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
+${If} $useLocalFlag == "1"
+		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe /local"
+${Else}
+     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
+${EndIf}
 	!insertmacro MUI_STARTMENU_WRITE_END
   
   ; Write the uninstall keys for Windows
@@ -180,6 +188,7 @@ SectionEnd
   
 #Functions
 #--------------------------------------------
+
 
 Function .onInit
 
@@ -299,9 +308,29 @@ Please manually uninstall the existing installation and then re-run this install
 abort
 
 
-
 done:
 
+var /GLOBAL cmdParams
+
+${GetParameters} $cmdParams
+
+var /GLOBAL useLocalFlag
+StrCpy $useLocalFlag 0
+
+#Check input parameters given to the installer.
+
+    ; /local
+
+    ${GetOptions} $cmdLineParams '/local' $R0
+
+    IfErrors +2 0
+
+    StrCpy $useLocalFlag 1
+    
+    ; /instdir
+    ${GetOptions} $cmdLineParams '/instdir=' $R0
+    IfErrors +2 0
+    StrCpy $INSTDIR $R0
 
 FunctionEnd
 
@@ -312,7 +341,11 @@ FunctionEnd
 
 
 Function CreateDesktopShortcut
+${If} $useLocalFlag == "1"
+CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe /local"
+${Else}
 CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe"
+${EndIf}
 FunctionEnd
 
 

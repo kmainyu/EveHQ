@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="HistoryRowConverter.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (HistoryRowConverter.cs), is part of EveHQ.
@@ -11,8 +12,9 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market.UnifiedMarketDataFormat
 {
     using System;
@@ -22,10 +24,12 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
     using Newtonsoft.Json;
 
     /// <summary>
-    /// Converts a HistoryRow instance into json.
+    ///     Converts a HistoryRow instance into json.
     /// </summary>
     public class HistoryRowConverter : JsonConverter
     {
+        #region Public Methods and Operators
+
         /// <summary>The can convert.</summary>
         /// <param name="objectType">The object type.</param>
         /// <returns>The <see cref="bool"/>.</returns>
@@ -40,7 +44,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
         /// <param name="existingValue">The existing value.</param>
         /// <param name="serializer">The serializer.</param>
         /// <returns>The <see cref="object"/>.</returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="NotImplementedException">Not functional.</exception>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             throw new NotImplementedException();
@@ -52,6 +56,11 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
         /// <param name="serializer">The serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            if (writer == null)
+            {
+                return;
+            }
+
             var row = value as HistoryRow;
 
             if (row == null)
@@ -68,5 +77,7 @@ namespace EveHQ.Market.UnifiedMarketDataFormat
             writer.WriteRawValue(row.Average.ToInvariantString(2));
             writer.WriteEndArray();
         }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="ExceptionExtensions.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (ExceptionExtensions.cs), is part of EveHQ.
@@ -11,23 +12,31 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Common.Extensions
 {
     using System;
     using System.Text;
 
     /// <summary>
-    ///     TODO: Update summary.
+    ///     extension methods for processing exceptions.
     /// </summary>
     public static class ExceptionExtensions
     {
+        #region Public Methods and Operators
+
         /// <summary>Formats an exception into a string containing all of the inner and aggregate exception details.</summary>
-        /// <param name="exception"></param>
+        /// <param name="exception">the exception to format.</param>
         /// <returns>The <see cref="string"/>.</returns>
         public static string FormatException(this Exception exception)
         {
+            if (exception == null)
+            {
+                return string.Empty;
+            }
+
             var output = new StringBuilder();
 
             var aggException = exception as AggregateException;
@@ -64,5 +73,7 @@ namespace EveHQ.Common.Extensions
 
             return output.ToString();
         }
+
+        #endregion
     }
 }

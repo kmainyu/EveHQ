@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="EveCentralMarketDataProvider.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (EveCentralMarketDataProvider.cs), is part of EveHQ.
@@ -11,13 +12,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market.MarketServices
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -35,46 +38,49 @@ namespace EveHQ.Market.MarketServices
     /// </summary>
     public class EveCentralMarketDataProvider : IMarketStatDataProvider, IMarketDataReceiver, IMarketOrderDataProvider
     {
-        /// <summary>The region.</summary>
-        private const string Region = "Region";
-
-        /// <summary>The system.</summary>
-        private const string System = "System";
-
-        /// <summary>The item key format.</summary>
-        private const string ItemKeyFormat = "{0}-{1}";
+        #region Constants
 
         /// <summary>The eve central base url.</summary>
         private const string EveCentralBaseUrl = "http://api.eve-central.com/api/";
 
+        /// <summary>The item key format.</summary>
+        private const string ItemKeyFormat = "{0}-{1}";
+
+        /// <summary>The Jita system ID.</summary>
+        private const int JitaSystemId = 30000142;
+
         /// <summary>The market stat API.</summary>
         private const string MarketStatApi = "marketstat";
+
+        /// <summary>The min quantity.</summary>
+        private const string MinQuantity = "minQ";
 
         /// <summary>
         ///     quicklook (detailed) API
         /// </summary>
         private const string QuickLookApi = "quicklook";
 
-        /// <summary>The upload API.</summary>
-        private const string UploadApi = "upload";
-
-        /// <summary>The name of the parameter to set UDF data to.</summary>
-        private const string UdfPostParameterName = "data";
-
-        /// <summary>The type id.</summary>
-        private const string TypeId = "typeid";
+        /// <summary>The region.</summary>
+        private const string Region = "Region";
 
         /// <summary>The region limit.</summary>
         private const string RegionLimit = "regionlimit";
 
+        /// <summary>The type id.</summary>
+        private const string TypeId = "typeid";
+
+        /// <summary>The name of the parameter to set UDF data to.</summary>
+        private const string UdfPostParameterName = "data";
+
+        /// <summary>The upload API.</summary>
+        private const string UploadApi = "upload";
+
         /// <summary>The use system.</summary>
         private const string UseSystem = "usesystem";
 
-        /// <summary>The min quantity.</summary>
-        private const string MinQuantity = "minQ";
+        #endregion
 
-        /// <summary>The Jita system ID.</summary>
-        private const int JitaSystemId = 30000142;
+        #region Fields
 
         /// <summary>The _cache ttl.</summary>
         private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(1);
@@ -106,13 +112,19 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _next upload attempt.</summary>
         private DateTimeOffset _nextUploadAttempt;
 
+        /// <summary>The _request provider.</summary>
+        private IHttpRequestProvider _requestProvider;
+
         /// <summary>The _upload service online.</summary>
         private bool _uploadServiceOnline;
 
-        private IHttpRequestProvider _requestProvider;
+        #endregion
+
+        #region Constructors and Destructors
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
+        /// <param name="requestProvider">The request Provider.</param>
         public EveCentralMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider)
         {
             _regionDataCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, Region));
@@ -122,12 +134,20 @@ namespace EveHQ.Market.MarketServices
 
         /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
+        /// <param name="requestProvider">The request Provider.</param>
         /// <param name="proxyServerAddress">The proxy Server Address.</param>
         /// <param name="useDefaultCredential">The use Default Credential.</param>
         /// <param name="proxyUserName">The proxy User Name.</param>
         /// <param name="proxyPassword">The proxy Password.</param>
         /// <param name="useBasicAuth">The use Basic Auth.</param>
-        public EveCentralMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
+        public EveCentralMarketDataProvider(
+            string cacheRootFolder, 
+            IHttpRequestProvider requestProvider, 
+            Uri proxyServerAddress, 
+            bool useDefaultCredential, 
+            string proxyUserName, 
+            string proxyPassword, 
+            bool useBasicAuth)
             : this(cacheRootFolder, requestProvider)
         {
             _proxyServerAddress = proxyServerAddress;
@@ -136,6 +156,10 @@ namespace EveHQ.Market.MarketServices
             _proxyPassword = proxyPassword;
             _useBasicAuth = useBasicAuth;
         }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>Gets the name.</summary>
         public static string Name
@@ -155,127 +179,12 @@ namespace EveHQ.Market.MarketServices
             }
         }
 
-        /// <summary>Gets the next attempt.</summary>
-        public DateTimeOffset NextAttempt
+        /// <summary>Gets a value indicating whether limited region selection.</summary>
+        public bool LimitedRegionSelection
         {
             get
             {
-                return _nextUploadAttempt;
-            }
-        }
-
-        /// <summary>Gets the unified upload key.</summary>
-        public UploadKey UnifiedUploadKey
-        {
-            get
-            {
-                return _uploadKey;
-            }
-        }
-
-        /// <summary>Attempts to upload the data values to the receiver</summary>
-        /// <param name="marketDataJson">The market data JSON string.</param>
-        /// <returns>A reference to the Async Task.</returns>
-        public Task UploadMarketData(string marketDataJson)
-        {
-            // creat the URL for the request
-            var requestUri = new Uri(EveCentralBaseUrl + UploadApi);
-            var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketDataJson) } };
-
-            // send the request and return the task handle after checking the return of the web request
-            return _requestProvider.PostAsync(requestUri, paramData, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth).ContinueWith(
-                task =>
-                {
-                    HttpWebResponse httpResponse;
-                    if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && (httpResponse = task.Result as HttpWebResponse) != null
-                        && httpResponse.StatusCode == HttpStatusCode.OK)
-                    {
-                        // success
-                        _uploadServiceOnline = true;
-                        _nextUploadAttempt = DateTimeOffset.Now;
-                    }
-                    else
-                    {
-                        // there was something wrong... disable this receiver for a while.
-                        _uploadServiceOnline = false;
-                        _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
-                    }
-
-                    return task;
-                });
-        }
-
-        /// <summary>Gets the current market orders for the item, using the region, system and quantity constraints</summary>
-        /// <param name="itemTypeId">The item ID to query</param>
-        /// <param name="includedRegions">Regions to include in the query for data.</param>
-        /// <param name="systemId">Specific system to use to source data (if set will overrride regions)</param>
-        /// <param name="minQuantity">Minimum Quantity for an order to be included/</param>
-        /// <returns>Returns a reference to the async task.</returns>
-        public Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity)
-        {
-            return Task<ItemMarketOrders>.Factory.TryRun(
-                () =>
-                {
-                    string cacheKey;
-                    if (systemId.HasValue)
-                    {
-                        cacheKey = CalcCacheKey(new[] { systemId.Value });
-                    }
-                    else if (includedRegions != null && includedRegions.Any())
-                    {
-                        cacheKey = CalcCacheKey(includedRegions);
-                    }
-                    else
-                    {
-                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
-                    }
-
-                    CacheItem<ItemMarketOrders> cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
-                    ItemMarketOrders itemData = null;
-                    if (cachedData == null || cachedData.IsDirty)
-                    {
-                        // make the request for the types we don't have valid caches for
-                        NameValueCollection requestParameters = CreateMarketRequestParameters(new[] { itemTypeId }, includedRegions, systemId ?? 0, minQuantity);
-                        Task<WebResponse> requestTask = _requestProvider.PostAsync(
-                            new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
-                        requestTask.Wait(); // wait for the completion (we're in a background task anyways)
-
-                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
-                        {
-                            using (Stream stream = requestTask.Result.GetResponseStream())
-                            {
-                                try
-                                {
-                                    // process result
-                                    ItemMarketOrders data = GetMarketOrdersFromXml(stream);
-
-                                    _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
-
-                                    itemData = data;
-                                }
-                                catch (Exception ex)
-                                {
-                                    // todo: log/report XML parsing error.
-                                    throw ex;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
-                        }
-                    }
-
-                    return itemData ?? (cachedData != null ? cachedData.Data : null);
-                });
-        }
-
-        /// <summary>Gets the provider name.</summary>
-        public string ProviderName
-        {
-            get
-            {
-                return Name;
+                return false;
             }
         }
 
@@ -288,21 +197,21 @@ namespace EveHQ.Market.MarketServices
             }
         }
 
-        /// <summary>Gets the supported systems.</summary>
-        public IEnumerable<int> SupportedSystems
+        /// <summary>Gets the next attempt.</summary>
+        public DateTimeOffset NextAttempt
         {
             get
             {
-                return new int[0];
+                return _nextUploadAttempt;
             }
         }
 
-        /// <summary>Gets a value indicating whether limited region selection.</summary>
-        public bool LimitedRegionSelection
+        /// <summary>Gets the provider name.</summary>
+        public string ProviderName
         {
             get
             {
-                return false;
+                return Name;
             }
         }
 
@@ -313,6 +222,100 @@ namespace EveHQ.Market.MarketServices
             {
                 return new int[0];
             }
+        }
+
+        /// <summary>Gets the supported systems.</summary>
+        public IEnumerable<int> SupportedSystems
+        {
+            get
+            {
+                return new int[0];
+            }
+        }
+
+        /// <summary>Gets the unified upload key.</summary>
+        public UploadKey UnifiedUploadKey
+        {
+            get
+            {
+                return _uploadKey;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>Gets the current market orders for the item, using the region, system and quantity constraints</summary>
+        /// <param name="itemTypeId">The item ID to query</param>
+        /// <param name="includedRegions">Regions to include in the query for data.</param>
+        /// <param name="systemId">Specific system to use to source data (if set will overrride regions)</param>
+        /// <param name="minQuantity">Minimum Quantity for an order to be included/</param>
+        /// <returns>Returns a reference to the async task.</returns>
+        public Task<ItemMarketOrders> GetMarketOrdersForItemType(int itemTypeId, IEnumerable<int> includedRegions, int? systemId, int minQuantity)
+        {
+            return Task<ItemMarketOrders>.Factory.TryRun(
+                () =>
+                    {
+                        string cacheKey;
+                        IList<int> regionList = includedRegions as IList<int> ?? includedRegions.ToList();
+                        if (systemId.HasValue)
+                        {
+                            cacheKey = CalcCacheKey(new[] { systemId.Value });
+                        }
+                        else if (includedRegions != null && regionList.Any())
+                        {
+                            cacheKey = CalcCacheKey(regionList);
+                        }
+                        else
+                        {
+                            cacheKey = CalcCacheKey(new[] { JitaSystemId });
+                        }
+
+                        CacheItem<ItemMarketOrders> cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
+                        ItemMarketOrders itemData = null;
+                        if (cachedData == null || cachedData.IsDirty)
+                        {
+                            // make the request for the types we don't have valid caches for
+                            NameValueCollection requestParameters = CreateMarketRequestParameters(new[] { itemTypeId }, regionList, systemId ?? 0, minQuantity);
+                            Task<WebResponse> requestTask = _requestProvider.PostAsync(
+                                new Uri(EveCentralBaseUrl + QuickLookApi), 
+                                requestParameters, 
+                                _proxyServerAddress, 
+                                _useDefaultCredential, 
+                                _proxyUserName, 
+                                _proxyPassword, 
+                                _useBasicAuth);
+                            requestTask.Wait(); // wait for the completion (we're in a background task anyways)
+
+                            if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
+                            {
+                                using (Stream stream = requestTask.Result.GetResponseStream())
+                                {
+                                    try
+                                    {
+                                        // process result
+                                        ItemMarketOrders data = GetMarketOrdersFromXml(stream);
+
+                                        _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
+
+                                        itemData = data;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Trace.TraceError(ex.FormatException());
+                                        throw;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
+                            }
+                        }
+
+                        return itemData ?? (cachedData != null ? cachedData.Data : null);
+                    });
         }
 
         /// <summary>The get region based order stats.</summary>
@@ -327,217 +330,104 @@ namespace EveHQ.Market.MarketServices
         {
             return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(
                 () =>
-                {
-                    var cachedItems = new List<ItemOrderStats>();
-                    var typesToRequest = new List<int>();
-                    string cacheKey;
-                    var dirtyCache = new Dictionary<int, ItemOrderStats>();
-                    if (systemId.HasValue)
                     {
-                        cacheKey = CalcCacheKey(new[] { systemId.Value });
-                    }
-                    else if (includeRegions != null && includeRegions.Any())
-                    {
-                        cacheKey = CalcCacheKey(includeRegions);
-                    }
-                    else
-                    {
-                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
-                    }
-
-                    foreach (int typeId in typeIds.Distinct())
-                    {
-                        CacheItem<ItemOrderStats> itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
-                        if (itemStats != null && itemStats.Data != null && !itemStats.IsDirty)
+                        var cachedItems = new List<ItemOrderStats>();
+                        var typesToRequest = new List<int>();
+                        string cacheKey;
+                        var dirtyCache = new Dictionary<int, ItemOrderStats>();
+                        IList<int> regionList = includeRegions as IList<int> ?? includeRegions.ToList();
+                        if (systemId.HasValue)
                         {
-                            cachedItems.Add(itemStats.Data);
+                            cacheKey = CalcCacheKey(new[] { systemId.Value });
+                        }
+                        else if (includeRegions != null && regionList.Any())
+                        {
+                            cacheKey = CalcCacheKey(regionList);
                         }
                         else
                         {
-                            // queue for refresh
-                            typesToRequest.Add(typeId);
-
-                            // add to dirty cache incase of no data/error
-                            if (itemStats != null && itemStats.IsDirty)
-                            {
-                                dirtyCache.Add(typeId, itemStats.Data);
-                            }
+                            cacheKey = CalcCacheKey(new[] { JitaSystemId });
                         }
-                    }
 
-                    if (typesToRequest.Any())
-                    {
-                        // make the request for the types we don't have valid caches for
-                        NameValueCollection requestParameters = CreateMarketRequestParameters(typesToRequest, includeRegions, systemId ?? 0, minQuantity);
-
-                        Task<WebResponse> requestTask = _requestProvider.PostAsync(
-                            new Uri(EveCentralBaseUrl + MarketStatApi), requestParameters, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth);
-                        requestTask.Wait(); // wait for the completion (we're in a background task anyways)
-
-                        if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+                        foreach (int typeId in typeIds.Distinct())
                         {
-                            using (Stream stream = requestTask.Result.GetResponseStream())
+                            CacheItem<ItemOrderStats> itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
+                            if (itemStats != null && itemStats.Data != null && !itemStats.IsDirty)
                             {
-                                try
-                                {
-                                    // process result
-                                    IEnumerable<ItemOrderStats> retrievedItems = GetOrderStatsFromXml(stream);
+                                cachedItems.Add(itemStats.Data);
+                            }
+                            else
+                            {
+                                // queue for refresh
+                                typesToRequest.Add(typeId);
 
-                                    // cache it.
-                                    foreach (ItemOrderStats item in retrievedItems)
-                                    {
-                                        _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
-                                        cachedItems.Add(item);
-                                    }
-                                }
-                                catch (Exception ex)
+                                // add to dirty cache incase of no data/error
+                                if (itemStats != null && itemStats.IsDirty)
                                 {
-                                    // todo: log/report XML parsing error.
-                                    throw ex;
+                                    dirtyCache.Add(typeId, itemStats.Data);
                                 }
                             }
                         }
 
-                        // TODO: log warning/error when task doesn't complete properly.
-
-                        // add in "dirty/expired" items as filler for items that didn't get downloaded or to smooth over loss of connection issues
-                        foreach (int itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
+                        if (typesToRequest.Any())
                         {
-                            cachedItems.Add(dirtyCache[itemKey]);
+                            cachedItems.AddRange(RetrieveItems(typesToRequest, regionList, systemId ?? 0, minQuantity, cacheKey));
+
+                            // add in "dirty/expired" items as filler for items that didn't get downloaded or to smooth over loss of connection issues
+                            foreach (int itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
+                            {
+                                cachedItems.Add(dirtyCache[itemKey]);
+                            }
+
+                            // TODO: log warning/error when task doesn't complete properly.
                         }
-                    }
 
-                    return cachedItems;
-                });
+                        return cachedItems;
+                    });
         }
 
-        /// <summary>The get order stats from xml.</summary>
-        /// <param name="stream">The stream.</param>
-        /// <returns>The market orders object.</returns>
-        private ItemMarketOrders GetMarketOrdersFromXml(Stream stream)
+        /// <summary>Attempts to upload the data values to the receiver</summary>
+        /// <param name="marketData">The market data JSON string.</param>
+        /// <returns>A reference to the Async Task.</returns>
+        public Task UploadMarketData(string marketData)
         {
-            var orderData = new ItemMarketOrders();
+            // creat the URL for the request
+            var requestUri = new Uri(EveCentralBaseUrl + UploadApi);
+            var paramData = new NameValueCollection { { UdfPostParameterName, HttpUtility.UrlEncode(marketData) } };
 
-            using (TextReader reader = new StreamReader(stream))
-            {
-                XDocument xml = XDocument.Load(reader);
-
-                // ReSharper disable PossibleNullReferenceException
-                XElement dataElement = xml.Root.Element("quicklook");
-
-                if (dataElement != null)
-                {
-                    orderData.ItemTypeId = dataElement.Element("item").Value.ToInt();
-                    orderData.ItemName = dataElement.Element("itemname").Value;
-                    orderData.Regions = new HashSet<int>(dataElement.Element("regions").Value.Split(',').Select(region => region.ToInt()).Where(region => region > 0));
-                    orderData.Hours = dataElement.Element("hours").Value.ToInt();
-                    orderData.MinQuantity = dataElement.Element("minqty").Value.ToInt();
-
-                    // sell orders
-                    XElement orderElement;
-                    if ((orderElement = dataElement.Element("sell_orders")) != null)
+            // send the request and return the task handle after checking the return of the web request
+            return _requestProvider.PostAsync(requestUri, paramData, _proxyServerAddress, _useDefaultCredential, _proxyUserName, _proxyPassword, _useBasicAuth).ContinueWith(
+                task =>
                     {
-                        orderData.SellOrders = GetIndivdualOrders(orderElement, false).ToList();
-                    }
+                        HttpWebResponse httpResponse;
+                        if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && (httpResponse = task.Result as HttpWebResponse) != null
+                            && httpResponse.StatusCode == HttpStatusCode.OK)
+                        {
+                            // success
+                            _uploadServiceOnline = true;
+                            _nextUploadAttempt = DateTimeOffset.Now;
+                        }
+                        else
+                        {
+                            // there was something wrong... disable this receiver for a while.
+                            _uploadServiceOnline = false;
+                            _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
+                        }
 
-                    // buy orders
-                    if ((orderElement = dataElement.Element("buy_orders")) != null)
-                    {
-                        orderData.BuyOrders = GetIndivdualOrders(orderElement, true).ToList();
-                    }
-                }
-            }
-
-            // ReSharper restore PossibleNullReferenceException
-            return orderData;
+                        return task;
+                    });
         }
 
-        /// <summary>Processes the order xml into individual order objects</summary>
-        /// <param name="orderElement">The order element.</param>
-        /// <param name="isBuyOrder">The is buy order.</param>
-        /// <returns>The <see cref="IEnumerable"/>.</returns>
-        private static IEnumerable<MarketOrder> GetIndivdualOrders(XElement orderElement, bool isBuyOrder)
+        #endregion
+
+        #region Methods
+
+        /// <summary>Calculates the cache key to use.</summary>
+        /// <param name="ids">The ids.</param>
+        /// <returns>The <see cref="string"/>.</returns>
+        private static string CalcCacheKey(IEnumerable<int> ids)
         {
-            // ReSharper disable PossibleNullReferenceException
-            // The format schema is strict and any exception is caught upstream.
-            return from order in orderElement.Elements("order")
-                   let orderId = order.Attribute("id").Value.ToLong()
-                   let regionId = order.Element("region").Value.ToInt()
-                   let stationId = order.Element("station").Value.ToInt()
-                   let stationName = order.Element("station_name").Value
-                   let security = order.Element("security").Value.ToDouble()
-                   let range = order.Element("range").Value.ToInt()
-                   let price = order.Element("price").Value.ToDouble()
-                   let quantityRemaining = order.Element("vol_remain").Value.ToInt()
-                   let minQuantity = order.Element("min_volume").Value.ToInt()
-                   let expires = order.Element("expires").Value.ToDateTimeOffset(0)
-                   let reported = order.Element("reported_time").Value.ToDateTimeOffset(0)
-                   select
-                       new MarketOrder
-                       {
-                           OrderId = orderId, 
-                           RegionId = regionId, 
-                           StationId = stationId, 
-                           StationName = stationName, 
-                           Security = security, 
-                           OrderRange = range, 
-                           Price = price, 
-                           QuantityRemaining = quantityRemaining, 
-                           MinQuantity = minQuantity, 
-                           Expires = expires, 
-                           Freshness = reported, 
-                           IsBuyOrder = isBuyOrder
-                       };
-
-            // ReSharper restore PossibleNullReferenceException
-        }
-
-        /// <summary>The get order stats from xml.</summary>
-        /// <param name="stream">The stream.</param>
-        /// <returns>The collection of item order stats.</returns>
-        private IEnumerable<ItemOrderStats> GetOrderStatsFromXml(Stream stream)
-        {
-            IEnumerable<ItemOrderStats> orderStats = null;
-            using (TextReader reader = new StreamReader(stream))
-            {
-                // ReSharper disable PossibleNullReferenceException
-                XDocument xml = XDocument.Load(reader);
-                if (xml.Root != null && xml.Root.Element("marketstat") != null)
-                {
-                    orderStats = from stats in xml.Root.Elements("marketstat")
-                                  from type in stats.Elements("type")
-                                  let typeId = type.Attribute("id").Value.ToInt()
-                                  let buyData = GetOrderData(type.Element("buy"))
-                                  let sellData = GetOrderData(type.Element("sell"))
-                                  let allData = GetOrderData(type.Element("all"))
-                                  select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData };
-                }
-
-                // ReSharper restore PossibleNullReferenceException
-            }
-
-            return orderStats;
-        }
-
-        /// <summary>The get order data.</summary>
-        /// <param name="element">The element.</param>
-        /// <returns>The <see cref="OrderStats"/>.</returns>
-        private OrderStats GetOrderData(XElement element)
-        {
-            // ReSharper disable PossibleNullReferenceException
-            // null exceptions are caught further up the call stack.
-            long volume = element.Element("volume").Value.ToLong();
-
-            double avg = element.Element("avg").Value.ToDouble();
-            double max = element.Element("max").Value.ToDouble();
-            double min = element.Element("min").Value.ToDouble();
-            double stddev = element.Element("stddev").Value.ToDouble();
-            double median = element.Element("median").Value.ToDouble();
-            double percentile = element.Element("percentile").Value.ToDouble();
-
-            return new OrderStats { Volume = volume, Average = avg, Maximum = max, Minimum = min, StdDeviation = stddev, Median = median, Percentile = percentile };
-
-            // ReSharper restore PossibleNullReferenceException
+            return string.Join(string.Empty, ids.Select(id => id.ToInvariantString()).ToArray()).GetHashCode().ToInvariantString();
         }
 
         /// <summary>The create market stat request.</summary>
@@ -546,7 +436,7 @@ namespace EveHQ.Market.MarketServices
         /// <param name="systemId">The system id.</param>
         /// <param name="minQuantity">The min quantity.</param>
         /// <returns>The <see cref="Uri"/>.</returns>
-        private NameValueCollection CreateMarketRequestParameters(IEnumerable<int> typesToRequest, IEnumerable<int> regions, int systemId, int minQuantity)
+        private static NameValueCollection CreateMarketRequestParameters(IEnumerable<int> typesToRequest, IEnumerable<int> regions, int systemId, int minQuantity)
         {
             var parameters = new NameValueCollection();
 
@@ -575,12 +465,186 @@ namespace EveHQ.Market.MarketServices
             return parameters;
         }
 
-        /// <summary>Calculates the cache key to use.</summary>
-        /// <param name="ids">The ids.</param>
-        /// <returns>The <see cref="string"/>.</returns>
-        private string CalcCacheKey(IEnumerable<int> ids)
+        /// <summary>Processes the order xml into individual order objects</summary>
+        /// <param name="orderElement">The order element.</param>
+        /// <param name="isBuyOrder">The is buy order.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
+        private static IEnumerable<MarketOrder> GetIndivdualOrders(XElement orderElement, bool isBuyOrder)
         {
-            return string.Join(string.Empty, ids.Select(id => id.ToInvariantString()).ToArray()).GetHashCode().ToInvariantString();
+            // ReSharper disable PossibleNullReferenceException
+            // The format schema is strict and any exception is caught upstream.
+            return from order in orderElement.Elements("order")
+                   let orderId = order.Attribute("id").Value.ToInt64()
+                   let regionId = order.Element("region").Value.ToInt32()
+                   let stationId = order.Element("station").Value.ToInt32()
+                   let stationName = order.Element("station_name").Value
+                   let security = order.Element("security").Value.ToDouble()
+                   let range = order.Element("range").Value.ToInt32()
+                   let price = order.Element("price").Value.ToDouble()
+                   let quantityRemaining = order.Element("vol_remain").Value.ToInt32()
+                   let minQuantity = order.Element("min_volume").Value.ToInt32()
+                   let expires = order.Element("expires").Value.ToDateTimeOffset(0)
+                   let reported = order.Element("reported_time").Value.ToDateTimeOffset(0)
+                   select
+                       new MarketOrder
+                           {
+                               OrderId = orderId, 
+                               RegionId = regionId, 
+                               StationId = stationId, 
+                               StationName = stationName, 
+                               Security = security, 
+                               OrderRange = range, 
+                               Price = price, 
+                               QuantityRemaining = quantityRemaining, 
+                               MinQuantity = minQuantity, 
+                               Expires = expires, 
+                               Freshness = reported, 
+                               IsBuyOrder = isBuyOrder
+                           };
+
+            // ReSharper restore PossibleNullReferenceException
         }
+
+        /// <summary>The get order stats from xml.</summary>
+        /// <param name="stream">The stream.</param>
+        /// <returns>The market orders object.</returns>
+        private static ItemMarketOrders GetMarketOrdersFromXml(Stream stream)
+        {
+            var orderData = new ItemMarketOrders();
+
+            using (TextReader reader = new StreamReader(stream))
+            {
+                XDocument xml = XDocument.Load(reader);
+
+                // ReSharper disable PossibleNullReferenceException
+                XElement dataElement = xml.Root.Element("quicklook");
+
+                if (dataElement != null)
+                {
+                    orderData.ItemTypeId = dataElement.Element("item").Value.ToInt32();
+                    orderData.ItemName = dataElement.Element("itemname").Value;
+                    orderData.Regions = new HashSet<int>(dataElement.Element("regions").Value.Split(',').Select(region => region.ToInt32()).Where(region => region > 0));
+                    orderData.Hours = dataElement.Element("hours").Value.ToInt32();
+                    orderData.MinQuantity = dataElement.Element("minqty").Value.ToInt32();
+
+                    // sell orders
+                    XElement orderElement;
+                    if ((orderElement = dataElement.Element("sell_orders")) != null)
+                    {
+                        orderData.SellOrders = GetIndivdualOrders(orderElement, false).ToList();
+                    }
+
+                    // buy orders
+                    if ((orderElement = dataElement.Element("buy_orders")) != null)
+                    {
+                        orderData.BuyOrders = GetIndivdualOrders(orderElement, true).ToList();
+                    }
+                }
+            }
+
+            // ReSharper restore PossibleNullReferenceException
+            return orderData;
+        }
+
+        /// <summary>The get order data.</summary>
+        /// <param name="element">The element.</param>
+        /// <returns>The <see cref="OrderStats"/>.</returns>
+        private static OrderStats GetOrderData(XElement element)
+        {
+            // ReSharper disable PossibleNullReferenceException
+            // null exceptions are caught further up the call stack.
+            long volume = element.Element("volume").Value.ToInt64();
+
+            double avg = element.Element("avg").Value.ToDouble();
+            double max = element.Element("max").Value.ToDouble();
+            double min = element.Element("min").Value.ToDouble();
+            double stddev = element.Element("stddev").Value.ToDouble();
+            double median = element.Element("median").Value.ToDouble();
+            double percentile = element.Element("percentile").Value.ToDouble();
+
+            return new OrderStats { Volume = volume, Average = avg, Maximum = max, Minimum = min, StdDeviation = stddev, Median = median, Percentile = percentile };
+
+            // ReSharper restore PossibleNullReferenceException
+        }
+
+        /// <summary>The get order stats from xml.</summary>
+        /// <param name="stream">The stream.</param>
+        /// <returns>The collection of item order stats.</returns>
+        private static IEnumerable<ItemOrderStats> GetOrderStatsFromXml(Stream stream)
+        {
+            IEnumerable<ItemOrderStats> orderStats = null;
+            using (TextReader reader = new StreamReader(stream))
+            {
+                // ReSharper disable PossibleNullReferenceException
+                XDocument xml = XDocument.Load(reader);
+                if (xml.Root != null && xml.Root.Element("marketstat") != null)
+                {
+                    orderStats = from stats in xml.Root.Elements("marketstat")
+                                 from type in stats.Elements("type")
+                                 let typeId = type.Attribute("id").Value.ToInt32()
+                                 let buyData = GetOrderData(type.Element("buy"))
+                                 let sellData = GetOrderData(type.Element("sell"))
+                                 let allData = GetOrderData(type.Element("all"))
+                                 select new ItemOrderStats { ItemTypeId = typeId, Buy = buyData, Sell = sellData, All = allData };
+                }
+
+                // ReSharper restore PossibleNullReferenceException
+            }
+
+            return orderStats;
+        }
+
+        /// <summary>The retrieve items.</summary>
+        /// <param name="typesToRequest">The types to request.</param>
+        /// <param name="includeRegions">The include regions.</param>
+        /// <param name="systemId">The system id.</param>
+        /// <param name="minQuantity">The min quantity.</param>
+        /// <param name="cacheKey">The cache key.</param>
+        /// <returns>The <see cref="IEnumerable"/>.</returns>
+        private IEnumerable<ItemOrderStats> RetrieveItems(List<int> typesToRequest, IEnumerable<int> includeRegions, int systemId, int minQuantity, string cacheKey)
+        {
+            var resultItems = new List<ItemOrderStats>();
+
+            // make the request for the types we don't have valid caches for
+            NameValueCollection requestParameters = CreateMarketRequestParameters(typesToRequest, includeRegions, systemId, minQuantity);
+
+            Task<WebResponse> requestTask = _requestProvider.PostAsync(
+                new Uri(EveCentralBaseUrl + MarketStatApi), 
+                requestParameters, 
+                _proxyServerAddress, 
+                _useDefaultCredential, 
+                _proxyUserName, 
+                _proxyPassword, 
+                _useBasicAuth);
+            requestTask.Wait(); // wait for the completion (we're in a background task anyways)
+
+            if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+            {
+                using (Stream stream = requestTask.Result.GetResponseStream())
+                {
+                    try
+                    {
+                        // process result
+                        IEnumerable<ItemOrderStats> retrievedItems = GetOrderStatsFromXml(stream);
+
+                        // cache it.
+                        foreach (ItemOrderStats item in retrievedItems)
+                        {
+                            _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
+                            resultItems.Add(item);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.TraceError(ex.FormatException());
+                        throw;
+                    }
+                }
+            }
+
+            return resultItems;
+        }
+
+        #endregion
     }
 }
