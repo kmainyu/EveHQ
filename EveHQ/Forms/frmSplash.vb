@@ -155,11 +155,15 @@ Public Class frmSplash
         End If
         EveHQ.Core.HQ.WriteLogEvent("End: Show Splash Screen")
 
-        ' Convert the settings first!
-        EveHQ.Core.HQ.WriteLogEvent("Start: Checking settings files")
-        Dim esc As New EveHQ.Core.EveHQSettingsConverter
-        esc.ConvertOldSettings(EveHQ.Core.HQ.AppDataFolder)
-        EveHQ.Core.HQ.WriteLogEvent("End: Checking settings files")
+        ' Convert the settings if relevant
+        Core.HQ.WriteLogEvent("Start: Checking settings files")
+        If My.Computer.FileSystem.FileExists(Path.Combine(Core.HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
+            Core.HQ.WriteLogEvent("Start: Converting settings files")
+            Dim esc As New Core.EveHQSettingsConverter
+            esc.ConvertOldSettings(EveHQ.Core.HQ.AppDataFolder)
+            Core.HQ.WriteLogEvent("End: Converting settings files")
+        End If
+        Core.HQ.WriteLogEvent("End: Checking settings files")
 
         ' Show the settings form only, then quit
         If showSettings = True Then
