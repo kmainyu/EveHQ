@@ -2355,7 +2355,7 @@ Public Class frmSettings
 
     Private Sub SaveMarketSettings()
         If _marketDataProvider.SelectedItem Is Nothing Then
-            HQ.Settings.MarketDataProvider = MarketProviders.EveCentral.ToString()
+            HQ.Settings.MarketDataProvider = MarketProvider.EveCentral.ToString()
         Else
             HQ.Settings.MarketDataProvider = _marketDataProvider.SelectedItem.ToString()
         End If

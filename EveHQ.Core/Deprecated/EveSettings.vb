@@ -217,7 +217,7 @@ Public Class EveSettings
     Public Property MarketDataProvider As String
         Get
             If _marketDataProvider.IsNullOrWhiteSpace() = True Then
-                _marketDataProvider = MarketProviders.EveCentral.ToString()
+                _marketDataProvider = MarketProvider.EveCentral.ToString()
             End If
             Return _marketDataProvider
         End Get
