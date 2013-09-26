@@ -21,7 +21,6 @@
 Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports DevComponents.AdvTree
-Imports System.Drawing
 Imports System.Text
 Imports System.Windows.Forms
 Imports System.Xml

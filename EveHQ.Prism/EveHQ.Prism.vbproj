@@ -94,6 +94,11 @@
     <Compile Include="BPCalc\Job.vb" />
     <Compile Include="BPCalc\JobResource.vb" />
     <Compile Include="BPCalc\OwnedBlueprint.vb" />
+    <Compile Include="BPCalc\SwapResource.vb" />
+    <Compile Include="Classes\BlueprintAsset.vb" />
+    <Compile Include="Classes\BPCCostInfo.vb" />
+    <Compile Include="Classes\BPStatus.vb" />
+    <Compile Include="Classes\BPType.vb" />
     <Compile Include="Deprecated\AssemblyArray.vb" />
     <Compile Include="Classes\AssetItem.vb" />
     <Compile Include="Classes\BatchJob.vb" />

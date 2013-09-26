@@ -4250,13 +4250,13 @@ Public Class frmPrism
                 newBPItem.Cells(6).Text = "Unknown"
                 newBPItem.Cells(6).Tag = BP.Runs
                 newBPItem.Style = BPMStyleUnknown
-            Case BPType.BPO  ' BPO
+            Case BPType.Original  ' BPO
                 newBPItem.Cells(1).Text = LocationName
                 newBPItem.Cells(2).Text = BP.LocationDetails
                 newBPItem.Cells(6).Text = "BPO"
                 newBPItem.Cells(6).Tag = 1000000
                 newBPItem.Style = BPMStyleBPO
-            Case BPType.BPC  ' BPC
+            Case BPType.Copy ' BPC
                 newBPItem.Cells(1).Text = LocationName
                 newBPItem.Cells(2).Text = BP.LocationDetails
                 newBPItem.Cells(6).Text = BP.Runs.ToString("N0")
@@ -4356,10 +4356,10 @@ Public Class frmPrism
                                     End If
                                     If newBP.BPType = BPType.Unknown Then
                                         If BPCFlag = True Then
-                                            newBP.BPType = BPType.BPC
+                                            newBP.BPType = BPType.Copy
                                             newBP.Runs = 1
                                         Else
-                                            newBP.BPType = BPType.BPO
+                                            newBP.BPType = BPType.Original
                                             newBP.Runs = -1
                                         End If
                                     End If
@@ -4401,7 +4401,7 @@ Public Class frmPrism
                                 ' Update the type
                                 ownerBPs(assetID).BPType = Assets(assetID).BPType
                                 ' Update the runs if we have found the asset is a BPC and the runs are still -1
-                                If ownerBPs(assetID).BPType = BPType.BPC And ownerBPs(assetID).Runs = -1 Then
+                                If ownerBPs(assetID).BPType = BPType.Copy And ownerBPs(assetID).Runs = -1 Then
                                     ownerBPs(assetID).Runs = 0
                                 End If
                             Else
@@ -4467,10 +4467,10 @@ Public Class frmPrism
                     End If
                     If newBP.BPType = BPType.Unknown Then
                         If BPCFlag = True Then
-                            newBP.BPType = BPType.BPC
+                            newBP.BPType = BPType.Copy
                             newBP.Runs = 1
                         Else
-                            newBP.BPType = BPType.BPO
+                            newBP.BPType = BPType.Original
                             newBP.Runs = -1
                         End If
                     End If
@@ -4532,7 +4532,7 @@ Public Class frmPrism
                                 ' Check if the Runs remaining are less than what we have
                                 Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
                                 If initialRuns <> -1 Then
-                                    cBPInfo.BPType = BPType.BPC
+                                    cBPInfo.BPType = BPType.Copy
                                     If initialRuns - Runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
                                         cBPInfo.Runs = initialRuns - Runs
                                     End If
@@ -4540,7 +4540,7 @@ Public Class frmPrism
                                         cBPInfo.Status = BPStatus.Exhausted
                                     End If
                                 Else
-                                    cBPInfo.BPType = BPType.BPO
+                                    cBPInfo.BPType = BPType.Original
                                 End If
                             Case EveData.BlueprintActivity.ResearchProductionLevel
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
@@ -4555,7 +4555,7 @@ Public Class frmPrism
                                 ' Check if the Runs remaining are less than what we have
                                 Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
                                 If initialRuns <> -1 Then
-                                    cBPInfo.BPType = BPType.BPC
+                                    cBPInfo.BPType = BPType.Copy
                                     If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
                                         cBPInfo.Runs = initialRuns
                                     End If
@@ -4563,7 +4563,7 @@ Public Class frmPrism
                                         cBPInfo.Status = BPStatus.Exhausted
                                     End If
                                 Else
-                                    cBPInfo.BPType = BPType.BPO
+                                    cBPInfo.BPType = BPType.Original
                                 End If
                             Case EveData.BlueprintActivity.ResearchMaterialLevel
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
@@ -4578,7 +4578,7 @@ Public Class frmPrism
                                 ' Check if the Runs remaining are less than what we have
                                 Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
                                 If initialRuns <> -1 Then
-                                    cBPInfo.BPType = BPType.BPC
+                                    cBPInfo.BPType = BPType.Copy
                                     If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
                                         cBPInfo.Runs = initialRuns
                                     End If
@@ -4586,7 +4586,7 @@ Public Class frmPrism
                                         cBPInfo.Status = BPStatus.Exhausted
                                     End If
                                 Else
-                                    cBPInfo.BPType = BPType.BPO
+                                    cBPInfo.BPType = BPType.Original
                                 End If
                             Case EveData.BlueprintActivity.Copying
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
@@ -4601,7 +4601,7 @@ Public Class frmPrism
                                 ' Check if the Runs remaining are less than what we have
                                 Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
                                 If initialRuns <> -1 Then
-                                    cBPInfo.BPType = BPType.BPC
+                                    cBPInfo.BPType = BPType.Copy
                                     If initialRuns < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
                                         cBPInfo.Runs = initialRuns
                                     End If
@@ -4609,7 +4609,7 @@ Public Class frmPrism
                                         cBPInfo.Status = BPStatus.Exhausted
                                     End If
                                 Else
-                                    cBPInfo.BPType = BPType.BPO
+                                    cBPInfo.BPType = BPType.Original
                                 End If
                         End Select
                     End If
@@ -4673,9 +4673,9 @@ Public Class frmPrism
             End If
             Select Case currentBPInfo(4)
                 Case "Yes"
-                    currentBP.BPType = BPType.BPC
+                    currentBP.BPType = BPType.Copy
                 Case "No"
-                    currentBP.BPType = BPType.BPO
+                    currentBP.BPType = BPType.Original
                 Case Else
                     MessageBox.Show("There was a data row with invalid 'Copy' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                     Exit Sub
@@ -4694,15 +4694,15 @@ Public Class frmPrism
             End If
             If Integer.TryParse(currentBPInfo(7).Replace(",", ""), tempRuns) = True Then
                 currentBP.Runs = tempRuns
-            ElseIf currentBP.BPType <> BPType.BPO Then
+            ElseIf currentBP.BPType <> BPType.Original Then
                 MessageBox.Show("There was a data row with invalid 'Runs' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
             End If
 
             ' Store valid imported BPs separately by type
-            If currentBP.BPType = BPType.BPO Then
+            If currentBP.BPType = BPType.Original Then
                 importedBPOAssets.Add(currentBP)
-            ElseIf currentBP.BPType = BPType.BPC Then
+            ElseIf currentBP.BPType = BPType.Copy Then
                 importedBPCAssets.Add(currentBP)
             End If
         Next
@@ -4723,7 +4723,7 @@ Public Class frmPrism
         For Each ownedBP As BlueprintAsset In ownerBPAssets.Values
             If Locations.GetLocationNameFromID(ownedBP.LocationID) = bpLoc Then
                 Select Case ownedBP.BPType
-                    Case BPType.BPO
+                    Case BPType.Original
                         If includeBPOs = True Then
                             For Each impBP As BlueprintAsset In importedBPOAssets
                                 If ownedBP.TypeID = impBP.TypeID Then
@@ -4734,7 +4734,7 @@ Public Class frmPrism
                                 End If
                             Next
                         End If
-                    Case BPType.BPC
+                    Case BPType.Copy
                         For Each impBP As BlueprintAsset In importedBPCAssets
                             If ownedBP.TypeID = impBP.TypeID Then
                                 ownedBP.MELevel = impBP.MELevel

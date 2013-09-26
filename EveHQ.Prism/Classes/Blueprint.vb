@@ -206,25 +206,6 @@ Imports EveHQ.Common.Extensions
 '    Public WasteUnits As Double
 'End Class
 
-<Serializable()> Public Class SwapResource
-    Public ID As Integer
-    Public Quantity As Long
-    Public Resources As New SortedList(Of String, Long)
-End Class
-
-<Serializable()> Public Class BlueprintAsset
-    Public AssetID As String
-    Public TypeID As String
-    Public LocationID As String
-    Public LocationDetails As String
-    Public MELevel As Integer
-    Public PELevel As Integer
-    Public Runs As Integer
-    Public Status As Integer = 0
-    Public BPType As Integer = 0
-    Public Notes As String
-End Class
-
 '<Serializable()> Public Class BlueprintSelection
 '    Inherits Blueprint
 '    Public MELevel As Integer
@@ -474,28 +455,4 @@ End Class
 '    End Function
 'End Class
 
-<Serializable()> Public Class BPCCostInfo
-    Public ID As String
-    Public MinRunCost As Double
-    Public MaxRunCost As Double
-
-    Public Sub New(ByVal BPCID As String, ByVal BPCMinRunCost As Double, ByVal BPCMaxRunCost As Double)
-        Me.ID = BPCID
-        Me.MinRunCost = BPCMinRunCost
-        Me.MaxRunCost = BPCMaxRunCost
-    End Sub
-End Class
-
-Public Enum BPStatus As Integer
-    Present = 0
-    Missing = 1
-    Exhausted = 2
-End Enum
-
-Public Enum BPType As Integer
-    Unknown = 0
-    BPO = 1
-    BPC = 2
-    User = 3
-End Enum
 

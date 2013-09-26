@@ -118,9 +118,9 @@ Public Class frmEditBPDetails
                 CurrentBP.Runs = CInt(nudRuns.Value)
                 CurrentBP.Status = CInt([Enum].Parse(GetType(BPStatus), cboStatus.SelectedItem.ToString))
                 If CurrentBP.Runs = -1 Then
-                    CurrentBP.BPType = BPType.BPO
+                    CurrentBP.BPType = BPType.Original
                 Else
-                    CurrentBP.BPType = BPType.BPC
+                    CurrentBP.BPType = BPType.Copy
                     If CurrentBP.Runs = 0 Then
                         CurrentBP.Status = BPStatus.Exhausted
                     End If
