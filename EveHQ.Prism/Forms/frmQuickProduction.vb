@@ -59,8 +59,8 @@ Public Class frmQuickProduction
         cboBPs.Items.Clear()
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
-        For Each newBP As Blueprint In StaticData.Blueprints.Values
-            cboBPs.Items.Add(StaticData.Types(newBP.ID.ToString).Name)
+        For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
+            cboBPs.Items.Add(StaticData.Types(newBP.Id.ToString).Name)
         Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()

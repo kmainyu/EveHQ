@@ -449,8 +449,8 @@ Public Class frmBPCalculator
         cboBPs.Items.Clear()
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
-        For Each newBP As Blueprint In StaticData.Blueprints.Values
-            Dim bpName As String = StaticData.Types(newBP.ID.ToString).Name
+        For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
+            Dim bpName As String = StaticData.Types(newBP.Id.ToString).Name
             If chkInventBPOs.Checked = True Then
                 If btnToggleInvention.Value = True Then
                     ' Use T1 data
@@ -725,7 +725,7 @@ Public Class frmBPCalculator
 
         ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
         Dim decryptorGroupID As String = ""
-        For Each resource As BlueprintResource In CurrentInventionBP.Resources(8).Values
+        For Each resource As EveData.BlueprintResource In CurrentInventionBP.Resources(8).Values
             ' Add the resource to the list
             Dim resName As String = StaticData.Types(resource.TypeId.ToString).Name
             If resName.EndsWith("Interface") = True Then

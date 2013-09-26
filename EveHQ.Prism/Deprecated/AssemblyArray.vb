@@ -18,11 +18,11 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-'<Serializable()> Public Class AssemblyArray
-'    Public ID As String
-'    Public Name As String
-'    Public TimeMultiplier As Double
-'    Public MaterialMultiplier As Double
-'    Public AllowableGroups As New ArrayList
-'    Public AllowableCategories As New ArrayList
-'End Class
+<Serializable()> Public Class AssemblyArray
+    Public ID As String
+    Public Name As String
+    Public TimeMultiplier As Double
+    Public MaterialMultiplier As Double
+    Public AllowableGroups As New ArrayList
+    Public AllowableCategories As New ArrayList
+End Class

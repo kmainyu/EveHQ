@@ -655,15 +655,22 @@ Public Class Converter
 
     Private Sub ConvertProductionJobs(prismFolder As String)
 
-        Dim oldJobs As SortedList(Of String, Job)
+        Dim oldJobs As SortedList(Of String, ProductionJob)
 
         If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "ProductionJobs.bin")) = True Then
             Using s As New FileStream(Path.Combine(prismFolder, "ProductionJobs.bin"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
-                oldJobs = CType(f.Deserialize(s), SortedList(Of String, Job))
+                oldJobs = CType(f.Deserialize(s), SortedList(Of String, ProductionJob))
             End Using
 
-            Dim json As String = JsonConvert.SerializeObject(oldJobs, Newtonsoft.Json.Formatting.Indented)
+            ' Convert the old jobs into the new format
+            Dim newJobs As New SortedList(Of String, Job)
+            For Each job As ProductionJob In oldJobs.Values
+                newJobs.Add(job.JobName, ConvertProductionJob(job))
+            Next
+
+            ' Create the JSON string
+            Dim json As String = JsonConvert.SerializeObject(newJobs, Newtonsoft.Json.Formatting.Indented)
 
             ' Write a JSON version of the settings
             Try
@@ -680,6 +687,59 @@ Public Class Converter
         End If
 
     End Sub
+
+    Private Function ConvertProductionJob(oldJob As ProductionJob) As Job
+        Dim newJob As New Job
+        newJob.JobName = oldJob.JobName
+        newJob.BlueprintId = oldJob.BPID
+        newJob.TypeID = oldJob.TypeID
+        newJob.TypeName = oldJob.TypeName
+        newJob.PerfectUnits = oldJob.PerfectUnits
+        newJob.WasteUnits = oldJob.WasteUnits
+        newJob.Runs = oldJob.Runs
+        newJob.Manufacturer = oldJob.Manufacturer
+        newJob.BlueprintOwner = oldJob.BPOwner
+        newJob.PESkill = oldJob.PESkill
+        newJob.IndSkill = oldJob.IndSkill
+        newJob.ProdImplant = oldJob.ProdImplant
+        newJob.OverridingME = oldJob.OverridingME
+        newJob.OverridingPE = oldJob.OverridingPE
+        newJob.StartTime = oldJob.StartTime
+        newJob.RunTime = oldJob.RunTime
+        newJob.Cost = oldJob.Cost
+        newJob.HasInventionJob = oldJob.HasInventionJob
+        newJob.ProduceSubJob = oldJob.ProduceSubJob
+        newJob.InventionJob = oldJob.InventionJob
+        newJob.AssemblyArray = EveData.StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
+        For Each key As String In oldJob.SubJobMEs.Keys
+            newJob.SubJobMEs.Add(CInt(key), oldJob.SubJobMEs(key))
+        Next
+        newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(oldJob.BPID))
+        newJob.CurrentBlueprint.MELevel = oldJob.CurrentBP.MELevel
+        newJob.CurrentBlueprint.PELevel = oldJob.CurrentBP.PELevel
+        newJob.CurrentBlueprint.Runs = oldJob.CurrentBP.Runs
+        For Each resource As Object In oldJob.RequiredResources.Values
+            If TypeOf (resource) Is RequiredResource Then
+                Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                Dim newResource As New JobResource
+                newResource.TypeID = rResource.TypeID
+                newResource.TypeName = rResource.TypeName
+                newResource.TypeGroup = rResource.TypeGroup
+                newResource.TypeCategory = rResource.TypeCategory
+                newResource.PerfectUnits = rResource.PerfectUnits
+                newResource.BaseUnits = rResource.BaseUnits
+                newResource.WasteUnits = rResource.WasteUnits
+                newJob.Resources.Add(newResource.TypeID, newResource)
+            Else
+                ' This is another production job
+                Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                newJob.SubJobs.Add(subJob.TypeID, ConvertProductionJob(subJob))
+            End If
+        Next
+
+        Return newJob
+       
+    End Function
 
     Private Sub ConvertBatchJobs(prismFolder As String)
 
@@ -714,6 +774,8 @@ Public Class Converter
 #Region "HQF Data/Settings Conversion Methods"
 
     Private Sub ConvertHQFSettings(settingsFolder As String)
+
+        Dim hqfFolder As String = Path.Combine(settingsFolder, "HQF")
 
     End Sub
 

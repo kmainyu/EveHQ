@@ -113,11 +113,11 @@ Public Class PrismResources
     Public Sub DisplayInventionResources()
         adtInventionResources.BeginUpdate()
         adtInventionResources.Nodes.Clear()
-        Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r As BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values Select CStr(r.TypeId))
+        Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r As EveData.BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values Select CStr(r.TypeId))
         priceData.Wait()
         Dim prices As Dictionary(Of String, Double) = priceData.Result
 
-        For Each resource As BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values
+        For Each resource As EveData.BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values
             ' Add the resource to the list
             Dim newIr As New Node
             newIr.Text = StaticData.Types(resource.TypeId.ToString).Name

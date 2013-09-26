@@ -103,7 +103,7 @@
     <Compile Include="Classes\AssetItem.vb" />
     <Compile Include="Classes\BatchJob.vb" />
     <Compile Include="Classes\BatchJobs.vb" />
-    <Compile Include="Classes\Blueprint.vb" />
+    <Compile Include="Deprecated\Blueprint.vb" />
     <Compile Include="BPCalc\Jobs.vb" />
     <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />

@@ -4144,7 +4144,7 @@ Public Class frmPrism
             adtBlueprints.BeginUpdate()
             adtBlueprints.Nodes.Clear()
             Dim matchCat As Boolean
-            For Each blueprint As Blueprint In StaticData.Blueprints.Values
+            For Each blueprint As EveData.Blueprint In StaticData.Blueprints.Values
                 Dim bpName As String = StaticData.Types(blueprint.Id.ToString).Name
                 If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = blueprint.TechLevel) Then
                     matchCat = False
@@ -4198,7 +4198,7 @@ Public Class frmPrism
                 If PlugInData.BlueprintAssets.ContainsKey(prismOwner) = True Then
                     ownerBPs = PlugInData.BlueprintAssets(prismOwner)
                 End If
-                Dim bpData As Blueprint
+                Dim bpData As EveData.Blueprint
                 Dim locationName As String
                 Dim matchCat As Boolean
                 For Each blueprint As BlueprintAsset In ownerBPs.Values

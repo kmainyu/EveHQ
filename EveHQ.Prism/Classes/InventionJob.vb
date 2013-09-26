@@ -147,7 +147,7 @@ Public Class InventionJob
     End Property
 
     ' Specific manufacturing info for the invention
-    Public Function GetBaseBP() As Blueprint
+    Public Function GetBaseBP() As EveData.Blueprint
         Return StaticData.Blueprints(StaticData.Blueprints(_inventedBpid).InventFrom(0))
     End Function
 
@@ -166,10 +166,10 @@ Public Class InventionJob
         Dim invCost As New InventionCost
         Dim quantityTable As New Dictionary(Of String, Integer)
         ' Get base item BP for this invention
-        Dim baseBp As Blueprint = GetBaseBP()
+        Dim baseBp As EveData.Blueprint = GetBaseBP()
 
         ' Calculate Datacore costs
-        For Each resource As BlueprintResource In baseBp.Resources(BlueprintActivity.Invention).Values
+        For Each resource As EveData.BlueprintResource In baseBp.Resources(BlueprintActivity.Invention).Values
             ' Only include datacores
             If resource.TypeGroup = 333 Then
                 Dim idKey As String = resource.TypeId.ToString
@@ -240,7 +240,7 @@ Public Class InventionJob
     Public Function CalculateInventedBPC() As OwnedBlueprint
 
         ' Get base item BP for this invention
-        Dim baseBp As Blueprint = GetBaseBP()
+        Dim baseBp As EveData.Blueprint = GetBaseBP()
 
         Dim ibp As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(_inventedBpid))
 
@@ -268,7 +268,7 @@ Public Class InventionJob
 
     Public Function CalculateBPCCost() As Double
         Dim bpcCost As Double = 0
-        Dim baseBp As Blueprint = GetBaseBP()
+        Dim baseBp As EveData.Blueprint = GetBaseBP()
         If Settings.PrismSettings.BPCCosts.ContainsKey(baseBp.ID.ToString) Then
             Dim pricerange As Double = Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MaxRunCost -
                                        Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost

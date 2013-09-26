@@ -255,13 +255,13 @@ Public Class frmPrismSettings
     Private Sub PopulateBPCCostGrid()
         lvwBPCCosts.BeginUpdate()
         lvwBPCCosts.Items.Clear()
-        For Each bp As Blueprint In StaticData.Blueprints.Values
+        For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
             Dim newBP As New ListViewItem
-            newBP.Name = bp.ID.ToString
-            newBP.Text = StaticData.Types(bp.ID.ToString).Name
-            If Settings.PrismSettings.BPCCosts.ContainsKey(bp.ID.ToString) Then
-                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.ID.ToString).MinRunCost.ToString("N2"))
-                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.ID.ToString).MaxRunCost.ToString("N2"))
+            newBP.Name = bp.Id.ToString
+            newBP.Text = StaticData.Types(bp.Id.ToString).Name
+            If Settings.PrismSettings.BPCCosts.ContainsKey(bp.Id.ToString) Then
+                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id.ToString).MinRunCost.ToString("N2"))
+                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id.ToString).MaxRunCost.ToString("N2"))
             Else
                 newBP.SubItems.Add(0.ToString("N2"))
                 newBP.SubItems.Add(0.ToString("N2"))
