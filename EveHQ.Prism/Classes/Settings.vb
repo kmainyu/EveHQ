@@ -194,8 +194,7 @@ Imports System.Windows.Forms
 
     Public Function LoadPrismSettings() As Boolean
         SyncLock LockObj
-
-
+            
             If File.Exists(Path.Combine(Settings.PrismFolder, SettingsFileName)) = True Then
 
                 Try

@@ -26,6 +26,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar.Controls
 Imports DevComponents.DotNetBar
+Imports EveHQ.EveData
 
 Public Class frmPrismSettings
     Dim startUp As Boolean = True
@@ -254,18 +255,18 @@ Public Class frmPrismSettings
     Private Sub PopulateBPCCostGrid()
         lvwBPCCosts.BeginUpdate()
         lvwBPCCosts.Items.Clear()
-        For Each BP As Blueprint In PlugInData.Blueprints.Values
-            Dim NewBP As New ListViewItem
-            NewBP.Name = BP.ID.ToString
-            NewBP.Text = BP.Name
-            If Settings.PrismSettings.BPCCosts.ContainsKey(BP.ID.ToString) Then
-                NewBP.SubItems.Add(Settings.PrismSettings.BPCCosts(BP.ID.ToString).MinRunCost.ToString("N2"))
-                NewBP.SubItems.Add(Settings.PrismSettings.BPCCosts(BP.ID.ToString).MaxRunCost.ToString("N2"))
+        For Each bp As Blueprint In StaticData.Blueprints.Values
+            Dim newBP As New ListViewItem
+            newBP.Name = bp.ID.ToString
+            newBP.Text = StaticData.Types(bp.ID.ToString).Name
+            If Settings.PrismSettings.BPCCosts.ContainsKey(bp.ID.ToString) Then
+                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.ID.ToString).MinRunCost.ToString("N2"))
+                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.ID.ToString).MaxRunCost.ToString("N2"))
             Else
-                NewBP.SubItems.Add(0.ToString("N2"))
-                NewBP.SubItems.Add(0.ToString("N2"))
+                newBP.SubItems.Add(0.ToString("N2"))
+                newBP.SubItems.Add(0.ToString("N2"))
             End If
-            lvwBPCCosts.Items.Add(NewBP)
+            lvwBPCCosts.Items.Add(newBP)
         Next
         lvwBPCCosts.Sorting = SortOrder.Ascending
         lvwBPCCosts.Sort()

@@ -19,6 +19,8 @@
 '=========================================================================
 
 Imports System.Windows.Forms
+Imports EveHQ.EveData
+Imports EveHQ.Prism.BPCalc
 Imports DevComponents.AdvTree
 Imports System.Threading.Tasks
 
@@ -59,37 +61,37 @@ Public Class frmQuickProduction
         cboBPs.Items.Clear()
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
-        For Each newBP As Blueprint In PlugInData.Blueprints.Values
-            cboBPs.Items.Add(newBP.Name)
+        For Each newBP As Blueprint In StaticData.Blueprints.Values
+            cboBPs.Items.Add(StaticData.Types(newBP.ID.ToString).Name)
         Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
 
     Private Sub CalculateMaterials()
-        Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
-        Dim CurrentBP As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
-        CurrentBP.MELevel = nudMELevel.Value
-        CurrentBP.PELevel = nudPELevel.Value
-        CurrentBP.Runs = -1
-        CurrentBP.AssetID = CLng(bpID)
-        Dim CurrentJob As ProductionJob = CurrentBP.CreateProductionJob("", "", 5, 5, 0, CStr(CurrentBP.MELevel), CStr(CurrentBP.PELevel), nudCopyRuns.Value, Nothing, False)
-        Call Me.DisplayMaterials(CurrentJob)
+        Dim bpID As String = StaticData.TypeNames(cboBPs.SelectedItem.ToString.Trim)
+        Dim currentBP As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(CInt(bpID)))
+        currentBP.MELevel = nudMELevel.Value
+        currentBP.PELevel = nudPELevel.Value
+        currentBP.Runs = -1
+        currentBP.AssetID = CLng(bpID)
+        Dim currentJob As Job = currentBP.CreateProductionJob("", "", 5, 5, 0, CStr(currentBP.MELevel), CStr(currentBP.PELevel), nudCopyRuns.Value, Nothing, False)
+        Call DisplayMaterials(currentJob)
     End Sub
 
-    Private Sub DisplayMaterials(CurrentJob As ProductionJob)
+    Private Sub DisplayMaterials(CurrentJob As Job)
         adtResources.BeginUpdate()
         adtResources.Nodes.Clear()
         Dim UnitMaterial As Double = 0
         Dim UnitWaste As Double = 0
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is JobResource Select CStr(CType(r, JobResource).TypeID))
             priceTask.Wait()
             Dim prices As Dictionary(Of String, Double) = priceTask.Result
             For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is RequiredResource Then
+                If TypeOf (resource) Is JobResource Then
                     ' This is a resource so add it
-                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                    Dim rResource As JobResource = CType(resource, JobResource)
                     If rResource.TypeCategory <> 16 Then
                         Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
                         Dim waste As Integer = CInt(rResource.WasteUnits)

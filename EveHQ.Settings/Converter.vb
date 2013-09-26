@@ -1,16 +1,19 @@
 ﻿Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports EveHQ.Prism.BPCalc
 Imports Newtonsoft.Json
 Imports System.Xml
 Imports System.Web
 Imports System.Globalization
+Imports EveHQ.Core
+Imports EveHQ.Prism
 
 ''' <summary>
 ''' Converts the old settings format into the new one
 ''' </summary>
 ''' <remarks></remarks>
-Public Class EveHQSettingsConverter
+Public Class Converter
 
     Private _newSettings As EveHQSettings
 
@@ -18,7 +21,26 @@ Public Class EveHQSettingsConverter
         _newSettings = New EveHQSettings
     End Sub
 
-    Public Function ConvertOldSettings(settingsFolder As String) As EveHQSettings
+#Region "Public Methods"
+
+    Public Sub ConvertEveHQSettings(settingsFolder As String)
+
+        ' Convert the Core settings
+        ConvertCoreSettings(settingsFolder)
+
+        ' Convert the Prism settings
+        ConvertPrismSettings(settingsFolder)
+
+        ' Convert the HQF settings
+        ConvertHQFSettings(settingsFolder)
+
+    End Sub
+
+#End Region
+
+#Region "Core Data/Settings Conversion Methods"
+
+    Private Sub ConvertCoreSettings(settingsFolder As String)
         Dim oldSettings As EveSettings
         _newSettings = New EveHQSettings
 
@@ -49,7 +71,7 @@ Public Class EveHQSettingsConverter
 
             ' Write a JSON version of the settings
             Try
-                Using s As New StreamWriter(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"), False)
+                Using s As New StreamWriter(Path.Combine(settingsFolder, "EveHQSettings.json"), False)
                     s.Write(json)
                     s.Flush()
                 End Using
@@ -57,17 +79,15 @@ Public Class EveHQSettingsConverter
             End Try
 
             ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(settingsFolder, "EveHQSettings.bin"), "EveHQSettings.oldbin")
+            My.Computer.FileSystem.RenameFile(Path.Combine(settingsFolder, "EveHQSettings.bin"), "OldEveHQSettings.bin")
 
             MessageBox.Show("Successfully converted settings in " & timeTaken.TotalMilliseconds.ToString("N2") & "ms", "Settings conversion complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         End If
 
-        Return _newSettings
+    End Sub
 
-    End Function
-
-    Public Shared Sub LoadTraining(oldSettings As EveSettings, skillXMLFolder As String)
+    Private Sub LoadTraining(oldSettings As EveSettings, skillXMLFolder As String)
         Dim currentPilot As Pilot
         Dim xmlDoc As New XmlDocument
         Dim tFileName As String
@@ -365,10 +385,6 @@ Public Class EveHQSettingsConverter
         _newSettings.DBUsername = oldSettings.DBUsername
         _newSettings.DBPassword = oldSettings.DBPassword
         _newSettings.DbSqlSecurity = oldSettings.DBSQLSecurity
-        '_newSettings.Accounts = oldSettings.Accounts
-        '_newSettings.Pilots = oldSettings.Pilots
-        '_newSettings.Plugins = oldSettings.Plugins
-        '_newSettings.DashboardConfiguration = oldSettings.DashboardConfiguration
         _newSettings.MarketRegions = oldSettings.MarketRegions
         _newSettings.MarketSystem = oldSettings.MarketSystem
         _newSettings.MarketUseRegionMarket = oldSettings.MarketUseRegionMarket
@@ -565,5 +581,142 @@ Public Class EveHQSettingsConverter
             _newSettings.DashboardConfiguration.Add(config)
         Next
     End Sub
+
+#End Region
+
+#Region "Prism Data/Settings Conversion Methods"
+
+    Private Sub ConvertPrismSettings(settingsFolder As String)
+
+        Dim prismFolder As String = Path.Combine(settingsFolder, "Prism")
+
+        ConvertSettings(prismFolder)
+        ConvertBlueprintAssets(prismFolder)
+        ConvertProductionJobs(prismFolder)
+        ConvertBatchJobs(prismFolder)
+
+    End Sub
+
+    Private Sub ConvertSettings(prismFolder As String)
+
+        Dim oldPrismSettings As Prism.Settings
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "PrismSettings.bin")) = True Then
+            Using s As New FileStream(Path.Combine(prismFolder, "PrismSettings.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                oldPrismSettings = CType(f.Deserialize(s), Prism.Settings)
+            End Using
+
+            Dim json As String = JsonConvert.SerializeObject(oldPrismSettings, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write a JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(prismFolder, "PrismSettings.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old settings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "PrismSettings.bin"), "OldPrismSettings.bin")
+
+        End If
+
+    End Sub
+
+    Private Sub ConvertBlueprintAssets(prismFolder As String)
+
+        Dim ownerBlueprints As SortedList(Of String, SortedList(Of String, BlueprintAsset))
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "OwnerBlueprints.bin")) = True Then
+            Using s As New FileStream(Path.Combine(prismFolder, "OwnerBlueprints.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                ownerBlueprints = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
+            End Using
+
+            Dim json As String = JsonConvert.SerializeObject(ownerBlueprints, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write a JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(prismFolder, "OwnerBlueprints.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old settings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "OwnerBlueprints.bin"), "OldOwnerBlueprints.bin")
+
+        End If
+
+    End Sub
+
+    Private Sub ConvertProductionJobs(prismFolder As String)
+
+        Dim oldJobs As SortedList(Of String, Job)
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "ProductionJobs.bin")) = True Then
+            Using s As New FileStream(Path.Combine(prismFolder, "ProductionJobs.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                oldJobs = CType(f.Deserialize(s), SortedList(Of String, Job))
+            End Using
+
+            Dim json As String = JsonConvert.SerializeObject(oldJobs, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write a JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(prismFolder, "ProductionJobs.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old settings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "ProductionJobs.bin"), "OldProductionJobs.bin")
+
+        End If
+
+    End Sub
+
+    Private Sub ConvertBatchJobs(prismFolder As String)
+
+        Dim oldJobs As SortedList(Of String, BatchJob)
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "BatchJobs.bin")) = True Then
+            Using s As New FileStream(Path.Combine(prismFolder, "BatchJobs.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                oldJobs = CType(f.Deserialize(s), SortedList(Of String, BatchJob))
+            End Using
+
+            Dim json As String = JsonConvert.SerializeObject(oldJobs, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write a JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(prismFolder, "BatchJobs.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old settings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "BatchJobs.bin"), "OldBatchJobs.bin")
+
+        End If
+
+    End Sub
+
+#End Region
+
+#Region "HQF Data/Settings Conversion Methods"
+
+    Private Sub ConvertHQFSettings(settingsFolder As String)
+
+    End Sub
+
+#End Region
 
 End Class

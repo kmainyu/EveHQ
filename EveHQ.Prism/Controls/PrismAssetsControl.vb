@@ -24,6 +24,7 @@ Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Text
 Imports System.IO
+Imports EveHQ.EveData
 Imports EveHQ.Market
 Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
@@ -438,22 +439,25 @@ Public Class PrismAssetsControl
 
         ' find the assests that need updating in this batch
         Dim assetsUpdated As New List(Of AssetItem)
+        Dim testItem As String
         For Each itemTypeID As String In prices.Keys
-
-            Dim updatedAssets As IEnumerable(Of AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = itemTypeID Select ownedAsset.Value).Select(Function(a As AssetItem)
-                                                                                                                                                                           a.Price = prices(itemTypeID)
-                                                                                                                                                                           'totalAssetValue += a.Price * a.Quantity
-                                                                                                                                                                           totalAssetCount += a.Quantity
-                                                                                                                                                                           Return a
-                                                                                                                                                                       End Function)
+            testItem = itemTypeID
+            Dim updatedAssets As IEnumerable(Of AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = testItem Select ownedAsset.Value).Select(Function(a As AssetItem)
+                                                                                                                                                                         a.Price = prices(testItem)
+                                                                                                                                                                         'totalAssetValue += a.Price * a.Quantity
+                                                                                                                                                                         totalAssetCount += a.Quantity
+                                                                                                                                                                         Return a
+                                                                                                                                                                     End Function)
             assetsUpdated.AddRange(updatedAssets)
 
         Next
 
         Dim assetNodesToUpdate As New List(Of Tuple(Of Node, AssetItem))
         ' next get a list of the nodes to update
+        Dim testAsset As AssetItem
         For Each updatedAsset As AssetItem In assetsUpdated
-            Dim updateTarget As Node = (From assetNode In _assetNodes Where assetNode.Key = updatedAsset.ItemID Select assetNode.Value).Single
+            testAsset = updatedAsset
+            Dim updateTarget As Node = (From assetNode In _assetNodes Where assetNode.Key = testAsset.ItemID Select assetNode.Value).Single
 
 
             assetNodesToUpdate.Add(New Tuple(Of Node, AssetItem)(updateTarget, updatedAsset))
@@ -1500,7 +1504,7 @@ Public Class PrismAssetsControl
                                 ' Calculate BPC cost
                                 If Settings.PrismSettings.BPCCosts.ContainsKey(Job.InstalledItemTypeID.ToString) Then
                                     Dim pricerange As Double = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID.ToString).MaxRunCost - Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID.ToString).MinRunCost
-                                    Dim runrange As Integer = PlugInData.Blueprints(Job.InstalledItemTypeID.ToString).MaxProdLimit - 1
+                                    Dim runrange As Integer = StaticData.Blueprints(Job.InstalledItemTypeID).MaxProductionLimit - 1
                                     If runrange = 0 Then
                                         price = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID.ToString).MinRunCost
                                     Else

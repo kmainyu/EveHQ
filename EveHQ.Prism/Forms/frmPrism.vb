@@ -27,12 +27,15 @@ Imports System.IO
 Imports System.Diagnostics
 Imports System.Text
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports EveHQ.EveData
+Imports EveHQ.Prism.BPCalc
 Imports DevComponents.DotNetBar
 Imports DevComponents.AdvTree
 Imports System.Drawing
 Imports System.Threading
 Imports System.Data
 Imports System.Threading.Tasks
+Imports EveHQ.Core
 
 Public Class frmPrism
 
@@ -114,7 +117,7 @@ Public Class frmPrism
         Call Settings.PrismSettings.LoadPrismSettings()
 
         ' Load the Production Jobs
-        Call ProductionJobs.LoadProductionJobs()
+        Call Jobs.Load()
         ' Load the Batch Jobs
         Call BatchJobs.LoadBatchJobs()
 
@@ -184,11 +187,11 @@ Public Class frmPrism
         Next
         cboCategoryFilter.EndUpdate()
 
-        ' Build the Job Activity List
+        ' Build the Blueprint Activity List
         cboActivityFilter.BeginUpdate()
         cboActivityFilter.Items.Clear()
         cboActivityFilter.Items.Add("<All>")
-        For Each activity As String In [Enum].GetNames(GetType(JobActivity))
+        For Each activity As String In [Enum].GetNames(GetType(BlueprintActivity))
             cboActivityFilter.Items.Add(activity)
         Next
         cboActivityFilter.EndUpdate()
@@ -508,7 +511,7 @@ Public Class frmPrism
         End SyncLock
 
         ' Save the Production Jobs
-        Call ProductionJobs.SaveProductionJobs()
+        Call Jobs.Save()
         ' Save the Batch Jobs
         Call BatchJobs.SaveBatchJobs()
 
@@ -627,7 +630,7 @@ Public Class frmPrism
     End Function
     Private Function CanUseAPIv2(ByVal Owner As PrismOwner, ByVal APIType As CorpRepType) As Boolean
         Dim Account As EveHQ.Core.EveHQAccount = Owner.Account
-        If Account.APIKeySystem = Core.APIKeySystems.Version2 Then
+        If Account.ApiKeySystem = Core.APIKeySystems.Version2 Then
             Select Case Account.APIKeyType
                 Case Core.APIKeyTypes.Corporation
                     Select Case APIType
@@ -4060,7 +4063,7 @@ Public Class frmPrism
                 For col As Integer = 0 To .Columns.Count - 1
                     csvText.Append(.Columns(col).Text)
                     If col <> .Columns.Count - 1 Then
-                        csvText.Append(EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+                        csvText.Append(EveHQ.Core.HQ.Settings.CsvSeparatorChar)
                     End If
                 Next
                 csvText.AppendLine("")
@@ -4073,7 +4076,7 @@ Public Class frmPrism
                             csvText.Append("""" & row.Cells(col).Text & """")
                         End If
                         If col <> .Columns.Count - 1 Then
-                            csvText.Append(EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+                            csvText.Append(EveHQ.Core.HQ.Settings.CsvSeparatorChar)
                         End If
                     Next
                     csvText.AppendLine("")
@@ -4140,30 +4143,31 @@ Public Class frmPrism
             ' Show the full BP list
             adtBlueprints.BeginUpdate()
             adtBlueprints.Nodes.Clear()
-            Dim matchCat As Boolean = False
-            For Each BP As Blueprint In PlugInData.Blueprints.Values
-                If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BP.TechLevel) Then
+            Dim matchCat As Boolean
+            For Each blueprint As Blueprint In StaticData.Blueprints.Values
+                Dim bpName As String = StaticData.Types(blueprint.Id.ToString).Name
+                If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = blueprint.TechLevel) Then
                     matchCat = False
                     If cboCategoryFilter.SelectedIndex = 0 Then
                         matchCat = True
                     Else
                         If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                            If EveHQ.Core.HQ.itemData.ContainsKey(BP.ProductID.ToString) Then
-                                If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BP.ProductID.ToString).Category) Then
+                            If StaticData.Types.ContainsKey(blueprint.ProductId.ToString) Then
+                                If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(blueprint.ProductId.ToString).Category Then
                                     matchCat = True
                                 End If
                             End If
                         End If
                     End If
                     If matchCat = True Then
-                        If search = "" Or BP.Name.ToLower.Contains(search.ToLower) Then
+                        If search = "" Or bpName.ToLower.Contains(search.ToLower) Then
                             Dim newBPItem As New Node
-                            newBPItem.Text = BP.Name
+                            newBPItem.Text = bpName
                             adtBlueprints.Nodes.Add(newBPItem)
-                            For NewCell As Integer = 1 To 7 : newBPItem.Cells.Add(New Cell) : Next
+                            newBPItem.CreateCells()
                             newBPItem.Cells(1).Text = "n/a"
                             newBPItem.Cells(2).Text = "n/a"
-                            newBPItem.Cells(3).Text = BP.TechLevel.ToString
+                            newBPItem.Cells(3).Text = blueprint.TechLevel.ToString
                             newBPItem.Cells(4).Text = "0"
                             newBPItem.Cells(5).Text = "0"
                             newBPItem.Cells(6).Text = "Infinite"
@@ -4172,64 +4176,59 @@ Public Class frmPrism
                     End If
                 End If
             Next
-            EveHQ.Core.AdvTreeSorter.Sort(adtBlueprints, 1, True, True)
+            AdvTreeSorter.Sort(adtBlueprints, 1, True, True)
             adtBlueprints.EndUpdate()
         Else
             ' Show the owned BP list
-            Call Me.UpdateOwnerBPList()
+            Call UpdateOwnerBPList()
         End If
     End Sub
 
-    Private Sub UpdateOwnerBPList()
+   Private Sub UpdateOwnerBPList()
         Dim search As String = txtBPSearch.Text
         ' Establish the owner
         If cboBPOwner.SelectedItem IsNot Nothing Then
-            Dim owner As String = cboBPOwner.SelectedItem.ToString()
+            Dim prismOwner As String = cboBPOwner.SelectedItem.ToString()
 
             adtBlueprints.BeginUpdate()
             adtBlueprints.Nodes.Clear()
-            If owner <> "" Then
+            If prismOwner <> "" Then
                 ' Fetch the ownerBPs if it exists
                 Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
-                If PlugInData.BlueprintAssets.ContainsKey(owner) = True Then
-                    ownerBPs = PlugInData.BlueprintAssets(owner)
+                If PlugInData.BlueprintAssets.ContainsKey(prismOwner) = True Then
+                    ownerBPs = PlugInData.BlueprintAssets(prismOwner)
                 End If
-                Dim BPData As New Blueprint
-                Dim LocationName As String = ""
-                Dim matchCat As Boolean = False
-                BPLocations.Clear()
-                For Each BP As BlueprintAsset In ownerBPs.Values
-                    If BP.LocationDetails Is Nothing Then BP.LocationDetails = "" ' Resets details
-                    If BP.LocationID Is Nothing Then BP.LocationID = "0" ' Resets details
-                    If PlugInData.Blueprints.ContainsKey(BP.TypeID) Then
-                        BPData = PlugInData.Blueprints(BP.TypeID)
-                        LocationName = Locations.GetLocationNameFromID(BP.LocationID)
-                        If LocationName <> "" Then
-                            If BPLocations.Contains(LocationName) = False Then
-                                BPLocations.Add(LocationName)
-                            End If
-                        End If
-                        If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = BPData.TechLevel) Then
-                            If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = BP.BPType + 1) Then
+                Dim bpData As Blueprint
+                Dim locationName As String
+                Dim matchCat As Boolean
+                For Each blueprint As BlueprintAsset In ownerBPs.Values
+                    Dim bpName As String = StaticData.Types(blueprint.TypeID).Name
+                    If blueprint.LocationDetails Is Nothing Then blueprint.LocationDetails = "" ' Resets details
+                    If blueprint.LocationID Is Nothing Then blueprint.LocationID = "0" ' Resets details
+                    If StaticData.Blueprints.ContainsKey(CInt(blueprint.TypeID)) Then
+                        bpData = StaticData.Blueprints(CInt(blueprint.TypeID))
+                        locationName = Locations.GetLocationNameFromID(blueprint.LocationID)
+                        If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = bpData.TechLevel) Then
+                            If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = blueprint.BPType + 1) Then
                                 matchCat = False
                                 If cboCategoryFilter.SelectedIndex = 0 Then
                                     matchCat = True
                                 Else
                                     If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                                        If PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString) = CStr(EveHQ.Core.HQ.itemData(BPData.ProductID.ToString).Category) Then
+                                        If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(bpData.ProductId.ToString).Category Then
                                             matchCat = True
                                         End If
                                     End If
                                 End If
                                 If matchCat = True Then
-                                    If search = "" Or BPData.Name.ToLower.Contains(search.ToLower) Or BP.LocationDetails.ToLower.Contains(search.ToLower) Or LocationName.ToLower.Contains(search.ToLower) Then
+                                    If search = "" Or bpName.ToLower.Contains(search.ToLower) Or blueprint.LocationDetails.ToLower.Contains(search.ToLower) Or locationName.ToLower.Contains(search.ToLower) Then
                                         Dim newBPItem As New Node
-                                        For NewCell As Integer = 1 To 7 : newBPItem.Cells.Add(New Cell) : Next
-                                        newBPItem.Text = BPData.Name
-                                        newBPItem.Tag = BP.AssetID
                                         adtBlueprints.Nodes.Add(newBPItem)
-                                        newBPItem.Cells(3).Text = BPData.TechLevel.ToString
-                                        Call UpdateOwnerBPItem(owner, LocationName, BP, newBPItem)
+                                        newBPItem.CreateCells()
+                                        newBPItem.Text = bpName
+                                        newBPItem.Tag = blueprint.AssetID
+                                        newBPItem.Cells(3).Text = bpData.TechLevel.ToString
+                                        Call UpdateOwnerBPItem(prismOwner, locationName, blueprint, newBPItem)
                                     End If
                                 End If
                             End If
@@ -4237,7 +4236,7 @@ Public Class frmPrism
                     End If
                 Next
             End If
-            EveHQ.Core.AdvTreeSorter.Sort(adtBlueprints, 1, True, True)
+            AdvTreeSorter.Sort(adtBlueprints, 1, True, True)
             adtBlueprints.EndUpdate()
         End If
     End Sub
@@ -4520,7 +4519,7 @@ Public Class frmPrism
                         ' Fetch the current BP Data
                         Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
                         Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
-                            Case BPActivity.Manufacturing
+                            Case EveData.BlueprintActivity.Manufacturing
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
@@ -4543,7 +4542,7 @@ Public Class frmPrism
                                 Else
                                     cBPInfo.BPType = BPType.BPO
                                 End If
-                            Case BPActivity.TimeResearch
+                            Case EveData.BlueprintActivity.ResearchProductionLevel
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
@@ -4566,7 +4565,7 @@ Public Class frmPrism
                                 Else
                                     cBPInfo.BPType = BPType.BPO
                                 End If
-                            Case BPActivity.MaterialResearch
+                            Case EveData.BlueprintActivity.ResearchMaterialLevel
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) + Runs > cBPInfo.MELevel Then
@@ -4589,7 +4588,7 @@ Public Class frmPrism
                                 Else
                                     cBPInfo.BPType = BPType.BPO
                                 End If
-                            Case BPActivity.Copying
+                            Case EveData.BlueprintActivity.Copying
                                 Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
@@ -5172,7 +5171,7 @@ Public Class frmPrism
                 End If
             Next
             ' Check Production Jobs
-            For Each PJob As ProductionJob In ProductionJobs.Jobs.Values
+            For Each PJob As Job In Jobs.JobList.Values
                 ' Check the Job Name
                 If PJob.JobName.ToLower.Contains(strSearch) Then
                     Dim NewNode As New Node(PJob.JobName & " [Production Job]")
@@ -5201,8 +5200,8 @@ Public Class frmPrism
                 Dim BPCalc As New frmBPCalculator(BPName)
                 Call OpenBPCalculator(BPCalc)
             Case "Production"
-                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
-                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
+                If Jobs.JobList.ContainsKey(KeyName) Then
+                    Dim PJob As Job = Jobs.JobList(KeyName)
                     Dim BPCalc As New frmBPCalculator(PJob, False)
                     Call OpenBPCalculator(BPCalc)
                 End If
@@ -5224,8 +5223,8 @@ Public Class frmPrism
             Case "Production"
                 ' Set up a new Sortedlist to store the required items
                 Dim Orders As New SortedList(Of String, Integer)
-                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
-                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
+                If Jobs.JobList.ContainsKey(KeyName) Then
+                    Dim PJob As Job = Jobs.JobList(KeyName)
                     Call Me.CreateRequisitionFromJob(Orders, PJob)
                 End If
                 ' Setup the Requisition form for Prism and open it
@@ -5237,8 +5236,8 @@ Public Class frmPrism
                 Dim Orders As New SortedList(Of String, Integer)
                 If Prism.BatchJobs.Jobs.ContainsKey(KeyName) Then
                     For Each PJobName As String In Prism.BatchJobs.Jobs(KeyName).ProductionJobs
-                        If Prism.ProductionJobs.Jobs.ContainsKey(PJobName) Then
-                            Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(PJobName)
+                        If Jobs.JobList.ContainsKey(PJobName) Then
+                            Dim PJob As Job = Jobs.JobList(PJobName)
                             Call Me.CreateRequisitionFromJob(Orders, PJob)
                         End If
                     Next
@@ -5256,20 +5255,20 @@ Public Class frmPrism
         QP.Dispose()
     End Sub
 
-    Private Sub CreateRequisitionFromJob(ByVal Orders As SortedList(Of String, Integer), ByVal CurrentJob As ProductionJob)
+    Private Sub CreateRequisitionFromJob(ByVal Orders As SortedList(Of String, Integer), ByVal CurrentJob As Job)
 
         Dim maxProducableUnits As Long = -1
         Dim UnitMaterial As Double = 0
         Dim UnitWaste As Double = 0
 
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is JobResource Select CStr(CType(r, JobResource).TypeID))
             priceTask.Wait()
             Dim prices As Dictionary(Of String, Double) = priceTask.Result
             For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is RequiredResource Then
+                If TypeOf (resource) Is JobResource Then
                     ' This is a resource so add it
-                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                    Dim rResource As JobResource = CType(resource, JobResource)
                     If rResource.TypeCategory <> 16 Then
                         Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
                         Dim waste As Integer = CInt(rResource.WasteUnits)
@@ -5289,7 +5288,7 @@ Public Class frmPrism
                     End If
                 Else
                     ' This is another production job
-                    Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                    Dim subJob As Job = CType(resource, Job)
                     Call CreateRequisitionFromJob(Orders, subJob)
                 End If
             Next
@@ -5316,7 +5315,7 @@ Public Class frmPrism
                     Else
                         BPID = itemID
                         BPName = itemName
-                        itemID = PlugInData.Blueprints(BPID).ProductID.ToString
+                        itemID = StaticData.Blueprints(CInt(BPID)).ProductId.ToString
                         itemName = EveHQ.Core.HQ.itemData(itemID).Name
                     End If
 
@@ -5341,7 +5340,7 @@ Public Class frmPrism
                 End If
             Case "Production"
                 Dim JobName As String = adtSearch.SelectedNodes(0).Name
-                If Prism.ProductionJobs.Jobs.ContainsKey(JobName) = True Then
+                If Jobs.JobList.ContainsKey(JobName) = True Then
                     lblSelectedItem.Text = "Job: " & JobName
                     lblSelectedBP.Text = "Blueprint: <per job>"
                     btnLinkBPCalc.Enabled = True
@@ -5378,7 +5377,7 @@ Public Class frmPrism
                 Else
                     BPID = itemID
                     BPName = itemName
-                    itemID = PlugInData.Blueprints(BPID).ProductID.ToString
+                    itemID = StaticData.Blueprints(CInt(BPID)).ProductId.ToString
                     itemName = EveHQ.Core.HQ.itemData(itemID).Name
                 End If
                 If BPID <> "" Then
@@ -5387,8 +5386,8 @@ Public Class frmPrism
                     Call OpenBPCalculator(BPCalc)
                 End If
             Case "Production"
-                If Prism.ProductionJobs.Jobs.ContainsKey(KeyName) Then
-                    Dim PJob As ProductionJob = Prism.ProductionJobs.Jobs(KeyName)
+                If Jobs.JobList.ContainsKey(KeyName) Then
+                    Dim PJob As Job = Jobs.JobList(KeyName)
                     Dim BPCalc As New frmBPCalculator(PJob, False)
                     Call OpenBPCalculator(BPCalc)
                 End If
@@ -5402,19 +5401,19 @@ Public Class frmPrism
     Private Sub UpdateProductionJobList()
         adtProdJobs.BeginUpdate()
         adtProdJobs.Nodes.Clear()
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In ProductionJobs.Jobs.Values Where r.CurrentBP IsNot Nothing Select CStr(r.CurrentBP.ProductID))
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In Jobs.JobList.Values Where r.CurrentBlueprint IsNot Nothing Select CStr(r.CurrentBlueprint.ProductId))
         priceTask.Wait()
         Dim prices As Dictionary(Of String, Double) = priceTask.Result
-        For Each cJob As ProductionJob In ProductionJobs.Jobs.Values
+        For Each cJob As Job In Jobs.JobList.Values
             Dim NewJob As New Node
             NewJob.Name = cJob.JobName
             NewJob.Text = cJob.JobName
             NewJob.Cells.Add(New Cell(cJob.TypeName))
-            If cJob.CurrentBP IsNot Nothing Then
-                Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBP.ProductID))
+            If cJob.CurrentBlueprint IsNot Nothing Then
+                Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBlueprint.ProductId))
                 Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                 Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
-                Dim value As Double = prices(CStr(cJob.CurrentBP.ProductID))
+                Dim value As Double = prices(CStr(cJob.CurrentBlueprint.ProductId))
                 Dim profit As Double = value - unitcosts
                 Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
                 Dim margin As Double = (profit / value * 100)
@@ -5442,7 +5441,7 @@ Public Class frmPrism
             NewBatch.Text = cBatch.BatchName
             Dim obsoleteJobs As List(Of String) = New List(Of String)()
             For Each JobName As String In cBatch.ProductionJobs
-                If ProductionJobs.Jobs.ContainsKey(JobName) Then
+                If Jobs.JobList.ContainsKey(JobName) Then
                     Dim NewJob As New Node
                     NewJob.Name = JobName
                     NewJob.Text = JobName
@@ -5481,7 +5480,7 @@ Public Class frmPrism
                 ' Create a null batch job to pass to the PR control to negate batch display
                 PRPM.BatchJob = Nothing
                 Dim JobName As String = adtProdJobs.SelectedNodes(0).Name
-                Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
+                Dim ExistingJob As Job = Jobs.JobList(JobName)
                 PRPM.ProductionJob = ExistingJob
             Case Else
                 btnDeleteJob.Text = "Delete Jobs"
@@ -5499,7 +5498,7 @@ Public Class frmPrism
 
     Private Sub adtProdJobs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtProdJobs.NodeDoubleClick
         Dim JobName As String = e.Node.Name
-        Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
+        Dim ExistingJob As Job = Jobs.JobList(JobName)
         Dim BPCalc As New frmBPCalculator(ExistingJob, False)
         BPCalc.Location = New Point(CInt(Me.ParentForm.Left + ((Me.ParentForm.Width - BPCalc.Width) / 2)), CInt(Me.ParentForm.Top + ((Me.ParentForm.Height - BPCalc.Height) / 2)))
         BPCalc.Show()
@@ -5516,7 +5515,7 @@ Public Class frmPrism
             Exit Sub
         Else
             For Each DelNode As Node In adtProdJobs.SelectedNodes
-                ProductionJobs.Jobs.Remove(DelNode.Name)
+                Jobs.JobList.Remove(DelNode.Name)
             Next
             Call Me.UpdateProductionJobList()
             Call Me.UpdateBatchList()
@@ -5528,7 +5527,7 @@ Public Class frmPrism
         If reply = Windows.Forms.DialogResult.No Then
             Exit Sub
         Else
-            ProductionJobs.Jobs.Clear()
+            Jobs.JobList.Clear()
             Call Me.UpdateProductionJobList()
             Call Me.UpdateBatchList()
         End If
@@ -5536,8 +5535,8 @@ Public Class frmPrism
 
     Private Sub btnRefreshJobs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefreshJobs.Click
         ' Cycle through all the jobs and update the job names
-        For Each JobName As String In ProductionJobs.Jobs.Keys
-            ProductionJobs.Jobs(JobName).JobName = JobName
+        For Each JobName As String In Jobs.JobList.Keys
+            Jobs.JobList(JobName).JobName = JobName
         Next
         Call Me.UpdateProductionJobList()
     End Sub
@@ -5561,7 +5560,7 @@ Public Class frmPrism
 
 #Region "Batch Manager Routines"
 
-    Private Sub adtBatches_NodeClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtBatches.NodeClick
+    Private Sub adtBatches_NodeClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles adtBatches.NodeClick
         Dim selNode As Node = e.Node
         If e.Node.Nodes.Count > 0 Then
             ' This is a batch name
@@ -5572,7 +5571,7 @@ Public Class frmPrism
         Else
             ' This is a job name
             Dim JobName As String = e.Node.Name
-            Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
+            Dim ExistingJob As Job = Jobs.JobList(JobName)
             PRPM.ProductionJob = ExistingJob
             PRPM.tcResources.SelectedTab = PRPM.tiProductionResources
         End If
@@ -5614,10 +5613,10 @@ Public Class frmPrism
     Private Sub UpdateInventionJobList()
         adtInventionJobs.BeginUpdate()
         adtInventionJobs.Nodes.Clear()
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In ProductionJobs.Jobs.Values Where r.HasInventionJob = True Where r.InventionJob.InventedBpid <> 0 Select CStr(r.InventionJob.CalculateInventedBPC.ProductID))
+        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In Jobs.JobList.Values Where r.HasInventionJob = True Where r.InventionJob.InventedBpid <> 0 Select CStr(r.InventionJob.CalculateInventedBPC.ProductId))
         priceTask.Wait()
         Dim prices As Dictionary(Of String, Double) = priceTask.Result
-        For Each cJob As ProductionJob In ProductionJobs.Jobs.Values
+        For Each cJob As Job In Jobs.JobList.Values
             ' Check for the Invention Manager Flag
             If cJob.HasInventionJob = True Then
                 Dim NewJob As New Node
@@ -5627,8 +5626,8 @@ Public Class frmPrism
 
                     ' Calculate costs
                     Dim InvCost As InventionCost = cJob.InventionJob.CalculateInventionCost
-                    Dim IBP As BlueprintSelection = cJob.InventionJob.CalculateInventedBPC
-                    Dim BatchQty As Integer = EveHQ.Core.HQ.itemData(IBP.ProductID.ToString).PortionSize
+                    Dim IBP As OwnedBlueprint = cJob.InventionJob.CalculateInventedBPC
+                    Dim BatchQty As Integer = Core.HQ.itemData(IBP.ProductId.ToString).PortionSize
                     Dim InventionChance As Double = cJob.InventionJob.CalculateInventionChance
                     Dim InventionAttempts As Double = Math.Max(Math.Round(100 / InventionChance, 4, MidpointRounding.AwayFromZero), 1)
                     Dim InventionSuccessCost As Double = InventionAttempts * InvCost.TotalCost
@@ -5636,7 +5635,7 @@ Public Class frmPrism
                     ' Calculate Production Cost of invented item
                     Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                     Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2, MidpointRounding.AwayFromZero) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
-                    Dim SalesPrice As Double = prices(IBP.ProductID.ToString)
+                    Dim SalesPrice As Double = prices(IBP.ProductId.ToString)
                     Dim UnitProfit As Double = SalesPrice - AvgCost
                     Dim TotalProfit As Double = UnitProfit * IBP.Runs * BatchQty
                     Dim Margin As Double = UnitProfit / SalesPrice * 100
@@ -5666,8 +5665,8 @@ Public Class frmPrism
 
     Private Sub adtInventionJobs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtInventionJobs.NodeDoubleClick
         Dim JobName As String = e.Node.Name
-        If ProductionJobs.Jobs.ContainsKey(JobName) Then
-            Dim ExistingJob As ProductionJob = ProductionJobs.Jobs(JobName)
+        If Jobs.JobList.ContainsKey(JobName) Then
+            Dim ExistingJob As Job = Jobs.JobList(JobName)
             Dim BPCalc As New frmBPCalculator(ExistingJob, True)
             BPCalc.Location = New Point(CInt(Me.ParentForm.Left + ((Me.ParentForm.Width - BPCalc.Width) / 2)), CInt(Me.ParentForm.Top + ((Me.ParentForm.Height - BPCalc.Height) / 2)))
             BPCalc.Show()

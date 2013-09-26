@@ -66,7 +66,7 @@ Public Class frmEditBPDetails
 
             ' Update the name and assetID details
             lblAssetID.Text = "AssetID: " & cAssetID
-            lblBPName.Text = PlugInData.Blueprints(CurrentBP.TypeID).Name
+            lblBPName.Text = EveData.StaticData.Types(CurrentBP.TypeID).Name
 
             ' Update the current BP Info
             lblCurrentME.Text = CurrentBP.MELevel.ToString

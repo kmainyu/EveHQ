@@ -19,6 +19,7 @@
 '=========================================================================
 
 Imports System.Windows.Forms
+Imports EveHQ.EveData
 
 Public Class frmAddCustomBP
 
@@ -43,8 +44,8 @@ Public Class frmAddCustomBP
         cboBPs.Items.Clear()
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
-        For Each newBP As Blueprint In PlugInData.Blueprints.Values
-            cboBPs.Items.Add(newBP.Name)
+        For Each newBP As Blueprint In StaticData.Blueprints.Values
+            cboBPs.Items.Add(StaticData.Types(newBP.ID.ToString))
         Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()

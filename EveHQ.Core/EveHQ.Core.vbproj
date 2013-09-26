@@ -240,7 +240,6 @@
     <Compile Include="Requisitions\RequisitionIGB.vb" />
     <Compile Include="Requisitions\RequisitionOrder.vb" />
     <Compile Include="RSSFeed.vb" />
-    <Compile Include="Settings\EveHQSettingsConverter.vb" />
     <Compile Include="Settings\EveHQSkillQueue.vb" />
     <Compile Include="Settings\EveHQSkillQueueItem.vb" />
     <Compile Include="Settings\PilotSortTrainingTime.vb" />

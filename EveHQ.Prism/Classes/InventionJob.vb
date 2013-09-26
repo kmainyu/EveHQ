@@ -1,4 +1,6 @@
 ﻿Imports System.Threading.Tasks
+Imports EveHQ.EveData
+Imports EveHQ.Prism.BPCalc
 
 <Serializable()>
 Public Class InventionJob
@@ -16,7 +18,7 @@ Public Class InventionJob
     Private _encryptionSkill As Integer
     Private _datacoreSkill1 As Integer
     Private _datacoreSkill2 As Integer
-    Private _productionJob As ProductionJob
+    Private _productionJob As Job
 
     Public Property InventedBpid As Integer
         Get
@@ -135,18 +137,18 @@ Public Class InventionJob
         End Set
     End Property
 
-    Public Property ProductionJob As ProductionJob
+    Public Property ProductionJob As Job
         Get
             Return _productionJob
         End Get
-        Set(value As ProductionJob)
+        Set(value As Job)
             _productionJob = value
         End Set
     End Property
-    ' Specific manufacturing info for the invention
 
+    ' Specific manufacturing info for the invention
     Public Function GetBaseBP() As Blueprint
-        Return PlugInData.Blueprints(PlugInData.Blueprints(_inventedBpid.ToString).InventFrom(0))
+        Return StaticData.Blueprints(StaticData.Blueprints(_inventedBpid).InventFrom(0))
     End Function
 
     Public Function CalculateInventionChance() As Double
@@ -167,16 +169,14 @@ Public Class InventionJob
         Dim baseBp As Blueprint = GetBaseBP()
 
         ' Calculate Datacore costs
-        For Each resource As BlueprintResource In baseBp.Resources.Values
-            If resource.Activity = 8 Then
-                ' Only include datacores
-                If resource.TypeGroup = 333 Then
-                    Dim idKey As String = resource.TypeID.ToString
-                    If quantityTable.ContainsKey(idKey) = False Then
-                        quantityTable.Add(idKey, resource.Quantity)
-                    Else
-                        quantityTable(idKey) = quantityTable(idKey) + resource.Quantity
-                    End If
+        For Each resource As BlueprintResource In baseBp.Resources(BlueprintActivity.Invention).Values
+            ' Only include datacores
+            If resource.TypeGroup = 333 Then
+                Dim idKey As String = resource.TypeId.ToString
+                If quantityTable.ContainsKey(idKey) = False Then
+                    quantityTable.Add(idKey, resource.Quantity)
+                Else
+                    quantityTable(idKey) = quantityTable(idKey) + resource.Quantity
                 End If
             End If
         Next
@@ -211,7 +211,7 @@ Public Class InventionJob
 
         invCost.DatacoreCost =
             itemCost.Keys.Where(
-                Function(key) baseBp.Resources.Values.Any(Function(resource) resource.TypeID.ToString = key)).Sum(
+                Function(key) baseBp.Resources.Values.Any(Function(resource) resource(BlueprintActivity.Invention).TypeId.ToString = key)).Sum(
                     Function(key) itemCost(key) * quantityTable(key))
         If _decryptorUsed IsNot Nothing Then
             invCost.DecryptorCost =
@@ -237,13 +237,12 @@ Public Class InventionJob
         Return invCost
     End Function
 
-    Public Function CalculateInventedBPC() As BlueprintSelection
+    Public Function CalculateInventedBPC() As OwnedBlueprint
 
         ' Get base item BP for this invention
         Dim baseBp As Blueprint = GetBaseBP()
 
-        Dim ibp As BlueprintSelection =
-                BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(_inventedBpid.ToString))
+        Dim ibp As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(_inventedBpid))
 
         Dim ime As Integer = -4
         Dim ipe As Integer = -4
@@ -258,8 +257,7 @@ Public Class InventionJob
                 runMod = useDecryptor.RunMod
             End If
         End If
-        irc = Math.Min(Math.Max(CInt(Math.Truncate((_bpcRuns / baseBp.MaxProdLimit) * (ibp.MaxProdLimit / 10))), 1) + runMod,
-                       ibp.MaxProdLimit)
+        irc = Math.Min(Math.Max(CInt(Math.Truncate((_bpcRuns / baseBp.MaxProductionLimit) * (ibp.MaxProductionLimit / 10))), 1) + runMod, ibp.MaxProductionLimit)
 
         ibp.MELevel = ime
         ibp.PELevel = ipe
@@ -274,7 +272,7 @@ Public Class InventionJob
         If Settings.PrismSettings.BPCCosts.ContainsKey(baseBp.ID.ToString) Then
             Dim pricerange As Double = Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MaxRunCost -
                                        Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
-            Dim runrange As Integer = baseBp.MaxProdLimit - 1
+            Dim runrange As Integer = baseBp.MaxProductionLimit - 1
             If runrange = 0 Then
                 bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
             Else

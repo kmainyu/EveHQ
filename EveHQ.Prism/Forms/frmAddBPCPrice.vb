@@ -34,7 +34,7 @@ Public Class frmAddBPCPrice
         ' Add any initialization after the InitializeComponent() call.
         BlueprintID = BPID
         pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(BlueprintID)
-        lblBPName.Text = PlugInData.Blueprints(BlueprintID).Name
+        lblBPName.Text = EveData.StaticData.Types(BlueprintID).Name
 
         If Settings.PrismSettings.BPCCosts.ContainsKey(BlueprintID) = True Then
             nudMinRunCost.Value = Settings.PrismSettings.BPCCosts(BlueprintID).MinRunCost

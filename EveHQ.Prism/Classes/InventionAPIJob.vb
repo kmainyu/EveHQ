@@ -44,7 +44,7 @@ Imports System.Text
             Dim JobList As New SortedList(Of Long, InventionAPIJob)
             For Each Tran As XmlNode In JobNodes
                 ' Check for invention jobs
-                If CType(Tran.Attributes.GetNamedItem("activityID").Value, JobActivity) = JobActivity.Invention Then
+                If CType(Tran.Attributes.GetNamedItem("activityID").Value, EveData.BlueprintActivity) = EveData.BlueprintActivity.Invention Then
                     ' Check the job is actually completed first!
                     If CInt(Tran.Attributes.GetNamedItem("completed").Value) = 1 Then
                         Dim NewJob As New InventionAPIJob

@@ -90,11 +90,16 @@
     <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AssemblyArray.vb" />
+    <Compile Include="BPCalc\BPAssetComboBoxItem.vb" />
+    <Compile Include="BPCalc\Job.vb" />
+    <Compile Include="BPCalc\JobResource.vb" />
+    <Compile Include="BPCalc\OwnedBlueprint.vb" />
+    <Compile Include="Deprecated\AssemblyArray.vb" />
     <Compile Include="Classes\AssetItem.vb" />
     <Compile Include="Classes\BatchJob.vb" />
     <Compile Include="Classes\BatchJobs.vb" />
     <Compile Include="Classes\Blueprint.vb" />
+    <Compile Include="BPCalc\Jobs.vb" />
     <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
     <Compile Include="Classes\InventionAPIJob.vb" />
@@ -104,8 +109,8 @@
     <Compile Include="Classes\InventionJob.vb" />
     <Compile Include="Classes\PrismEvents.vb" />
     <Compile Include="Classes\PrismOwner.vb" />
-    <Compile Include="Classes\ProductionJob.vb" />
-    <Compile Include="Classes\ProductionJobs.vb" />
+    <Compile Include="Deprecated\ProductionJob.vb" />
+    <Compile Include="Deprecated\ProductionJobs.vb" />
     <Compile Include="Classes\Reports.vb" />
     <Compile Include="Classes\WalletJournalItem.vb" />
     <Compile Include="Controls\BPMEControl.Designer.vb">
@@ -359,6 +364,10 @@
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveData\EveHQ.EveData.csproj">
+      <Project>{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}</Project>
+      <Name>EveHQ.EveData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
       <Name>EveHQ.Market</Name>
@@ -411,6 +420,7 @@
   <ItemGroup>
     <None Include="Resources\icon38_111.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->

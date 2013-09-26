@@ -2282,8 +2282,10 @@ Public Class frmSettings
                 Next
             Else
 
+                Dim testID As Integer
                 For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
-                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = regionId Select region = region).FirstOrDefault()
+                    testID = regionId
+                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = testID Select region = region).FirstOrDefault()
                     If (temp IsNot Nothing) Then
                         _regionList.Items.Add(temp.Name)
                     End If
@@ -2319,9 +2321,11 @@ Public Class frmSettings
                 _systemList.Enabled = False
 
                 'Get the selected regions from settings and find them in the collection
+                Dim testID As Integer
                 For Each regionID As Integer In Core.HQ.Settings.MarketRegions
-                    Dim marketRegion As EveGalaticRegion = (From galRegion In Core.HQ.Regions _
-                                                             Where galRegion.Value.Id = regionID
+                    testID = regionID
+                    Dim marketRegion As EveGalaticRegion = (From galRegion In HQ.Regions _
+                                                             Where galRegion.Value.Id = testID
                                                              Select galRegion.Value).FirstOrDefault()
                     If marketRegion IsNot Nothing Then
                         _regionList.SelectedItems.Add(marketRegion.Name)

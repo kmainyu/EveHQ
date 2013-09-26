@@ -23,14 +23,14 @@ Imports System.Text
 
 <Serializable()> Public Class IndustryJob
     Public JobID As Long
-    Public InstalledItemLocationID As Long
+    Public InstalledItemLocationID As Integer
     Public InstallerID As Long
-    Public ActivityID As JobActivity
-    Public InstalledItemTypeID As Long
-    Public OutputTypeID As Long
+    Public ActivityID As EveData.BlueprintActivity
+    Public InstalledItemTypeID As Integer
+    Public OutputTypeID As Integer
     Public Runs As Integer
-    Public OutputLocationID As Long
-    Public InstalledInSolarSystemID As Long
+    Public OutputLocationID As Integer
+    Public InstalledInSolarSystemID As Integer
     Public Completed As Integer
     Public CompletedStatus As Integer
     Public CompletedSuccessfully As Integer
@@ -40,64 +40,64 @@ Imports System.Text
     Public InstalledMELevel As Integer
     Public InstalledPELevel As Integer
     Public InstalledRuns As Integer
-	Public MaterialMultiplier As Double
-	Public TimeMultiplier As Double
+    Public MaterialMultiplier As Double
+    Public TimeMultiplier As Double
 
-    Private Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Private Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    Private Shared ReadOnly Culture As New Globalization.CultureInfo("en-GB")
 
-    Public Shared Function ParseIndustryJobs(ByVal JobOwner As String) As List(Of IndustryJob)
+    Public Shared Function ParseIndustryJobs(ByVal jobOwner As String) As List(Of IndustryJob)
 
-        Dim Owner As New PrismOwner
+        Dim owner As PrismOwner
 
-        If PlugInData.PrismOwners.ContainsKey(JobOwner) = True Then
+        If PlugInData.PrismOwners.ContainsKey(jobOwner) = True Then
 
-            Owner = PlugInData.PrismOwners(JobOwner)
-            Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Jobs)
-            Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Jobs)
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-            Dim transXML As New XmlDocument
+            owner = PlugInData.PrismOwners(jobOwner)
+            Dim ownerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Jobs)
+            Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Jobs)
+            Dim apiReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+            Dim transXML As XmlDocument
 
-            If OwnerAccount IsNot Nothing Then
+            If ownerAccount IsNot Nothing Then
 
-                If Owner.IsCorp = True Then
-                    transXML = APIReq.GetAPIXML(EveAPI.APITypes.IndustryCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                If owner.IsCorp = True Then
+                    transXML = apiReq.GetAPIXML(EveAPI.APITypes.IndustryCorp, ownerAccount.ToAPIAccount, ownerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                 Else
-                    transXML = APIReq.GetAPIXML(EveAPI.APITypes.IndustryChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    transXML = apiReq.GetAPIXML(EveAPI.APITypes.IndustryChar, ownerAccount.ToAPIAccount, ownerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                 End If
 
                 If transXML IsNot Nothing Then
 
                     ' Get the Node List
-                    Dim JobNodes As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
+                    Dim jobNodes As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
 
                     ' Parse the Node List
-                    Dim JobList As New List(Of IndustryJob)
-                    For Each Tran As XmlNode In JobNodes
-                        Dim NewJob As New IndustryJob
-                        NewJob.JobID = CLng(Tran.Attributes.GetNamedItem("jobID").Value)
-                        NewJob.InstalledItemLocationID = CLng(Tran.Attributes.GetNamedItem("installedItemLocationID").Value)
-                        NewJob.InstallerID = CLng(Tran.Attributes.GetNamedItem("installerID").Value)
-                        NewJob.ActivityID = CType(Tran.Attributes.GetNamedItem("activityID").Value, JobActivity)
-                        NewJob.InstalledItemTypeID = CLng(Tran.Attributes.GetNamedItem("installedItemTypeID").Value)
-                        NewJob.OutputTypeID = CLng(Tran.Attributes.GetNamedItem("outputTypeID").Value)
-                        NewJob.Runs = CInt(Tran.Attributes.GetNamedItem("runs").Value)
-                        NewJob.OutputLocationID = CLng(Tran.Attributes.GetNamedItem("outputLocationID").Value)
-                        NewJob.InstalledInSolarSystemID = CLng(Tran.Attributes.GetNamedItem("installedInSolarSystemID").Value)
-                        NewJob.Completed = CInt(Tran.Attributes.GetNamedItem("completed").Value)
-                        NewJob.CompletedStatus = CInt(Tran.Attributes.GetNamedItem("completedStatus").Value)
-                        NewJob.CompletedSuccessfully = CInt(Tran.Attributes.GetNamedItem("completedSuccessfully").Value)
-                        NewJob.InstallTime = DateTime.ParseExact(Tran.Attributes.GetNamedItem("installTime").Value, IndustryTimeFormat, culture)
-                        NewJob.BeginProductionTime = DateTime.ParseExact(Tran.Attributes.GetNamedItem("beginProductionTime").Value, IndustryTimeFormat, culture)
-                        NewJob.EndProductionTime = DateTime.ParseExact(Tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture)
-                        NewJob.InstalledMELevel = CInt(Tran.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                        NewJob.InstalledPELevel = CInt(Tran.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                        NewJob.InstalledRuns = CInt(Tran.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                        NewJob.MaterialMultiplier = Double.Parse(Tran.Attributes.GetNamedItem("materialMultiplier").Value, culture)
-                        NewJob.TimeMultiplier = Double.Parse(Tran.Attributes.GetNamedItem("timeMultiplier").Value, culture)
-                        JobList.Add(NewJob)
+                    Dim jobList As New List(Of IndustryJob)
+                    For Each tran As XmlNode In jobNodes
+                        Dim newJob As New IndustryJob
+                        newJob.JobID = CLng(tran.Attributes.GetNamedItem("jobID").Value)
+                        newJob.InstalledItemLocationID = CInt(tran.Attributes.GetNamedItem("installedItemLocationID").Value)
+                        newJob.InstallerID = CLng(tran.Attributes.GetNamedItem("installerID").Value)
+                        newJob.ActivityID = CType(tran.Attributes.GetNamedItem("activityID").Value, EveData.BlueprintActivity)
+                        newJob.InstalledItemTypeID = CInt(tran.Attributes.GetNamedItem("installedItemTypeID").Value)
+                        newJob.OutputTypeID = CInt(tran.Attributes.GetNamedItem("outputTypeID").Value)
+                        newJob.Runs = CInt(tran.Attributes.GetNamedItem("runs").Value)
+                        newJob.OutputLocationID = CInt(tran.Attributes.GetNamedItem("outputLocationID").Value)
+                        newJob.InstalledInSolarSystemID = CInt(tran.Attributes.GetNamedItem("installedInSolarSystemID").Value)
+                        newJob.Completed = CInt(tran.Attributes.GetNamedItem("completed").Value)
+                        newJob.CompletedStatus = CInt(tran.Attributes.GetNamedItem("completedStatus").Value)
+                        newJob.CompletedSuccessfully = CInt(tran.Attributes.GetNamedItem("completedSuccessfully").Value)
+                        newJob.InstallTime = DateTime.ParseExact(tran.Attributes.GetNamedItem("installTime").Value, IndustryTimeFormat, culture)
+                        newJob.BeginProductionTime = DateTime.ParseExact(tran.Attributes.GetNamedItem("beginProductionTime").Value, IndustryTimeFormat, culture)
+                        newJob.EndProductionTime = DateTime.ParseExact(tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, culture)
+                        newJob.InstalledMELevel = CInt(tran.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
+                        newJob.InstalledPELevel = CInt(tran.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
+                        newJob.InstalledRuns = CInt(tran.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
+                        newJob.MaterialMultiplier = Double.Parse(tran.Attributes.GetNamedItem("materialMultiplier").Value, culture)
+                        newJob.TimeMultiplier = Double.Parse(tran.Attributes.GetNamedItem("timeMultiplier").Value, culture)
+                        jobList.Add(newJob)
                     Next
-                    Return JobList
+                    Return jobList
                 Else
                     Return Nothing
                 End If
@@ -110,51 +110,39 @@ Imports System.Text
 
     End Function
 
-    Public Shared Function GetInstallerList(ByVal JobList As List(Of IndustryJob)) As SortedList(Of Long, String)
-        Dim IDList As New List(Of String)
-        For Each Job As IndustryJob In JobList
-            If IDList.Contains(Job.InstallerID.ToString) = False Then
-                IDList.Add(Job.InstallerID.ToString)
+    Public Shared Function GetInstallerList(ByVal jobList As List(Of IndustryJob)) As SortedList(Of Long, String)
+        Dim idList As New List(Of String)
+        For Each job As IndustryJob In jobList
+            If idList.Contains(job.InstallerID.ToString) = False Then
+                idList.Add(job.InstallerID.ToString)
             End If
         Next
-        Dim InstallerList As New SortedList(Of Long, String)
+        Dim installerList As New SortedList(Of Long, String)
         Dim strID As New StringBuilder
-        If IDList.Count > 0 Then
-            For Each ID As String In IDList
-                If ID <> "" Then
-                    strID.Append("," & ID)
+        If idList.Count > 0 Then
+            For Each id As String In idList
+                If id <> "" Then
+                    strID.Append("," & id)
                 End If
             Next
             strID.Remove(0, 1)
             ' Get the name data from the DB
             Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-            Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-            If IDData IsNot Nothing Then
-                If IDData.Tables(0).Rows.Count > 0 Then
-                    For Each IDRow As DataRow In IDData.Tables(0).Rows
-                        InstallerList.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+            Dim idData As DataSet = Core.DataFunctions.GetCustomData(strSQL)
+            If idData IsNot Nothing Then
+                If idData.Tables(0).Rows.Count > 0 Then
+                    For Each idRow As DataRow In idData.Tables(0).Rows
+                        installerList.Add(CLng(idRow.Item("eveID")), CStr(idRow.Item("eveName")))
                     Next
                 End If
             End If
         End If
         ' Add in any other IDs we don't have
-        For Each ID As String In IDList
-            If InstallerList.ContainsKey(CLng(ID)) = False Then
-                InstallerList.Add(CLng(ID), ID)
+        For Each id As String In idList
+            If installerList.ContainsKey(CLng(id)) = False Then
+                installerList.Add(CLng(id), id)
             End If
         Next
-        Return InstallerList
+        Return installerList
     End Function
 End Class
-
-Public Enum JobActivity As Integer
-    None = 0
-    Manufacturing = 1
-    TechResearch = 2
-    PEResearch = 3
-    MEResearch = 4
-    Copying = 5
-    Duplicating = 6
-    ReverseEngineering = 7
-    Invention = 8
-End Enum

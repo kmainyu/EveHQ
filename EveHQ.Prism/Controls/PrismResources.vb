@@ -18,6 +18,8 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+Imports EveHQ.EveData
+Imports EveHQ.Prism.BPCalc
 Imports DevComponents.AdvTree
 Imports System.Drawing
 Imports System.Text
@@ -28,26 +30,26 @@ Imports System.Threading.Tasks
 
 Public Class PrismResources
 
-    Dim CurrentJob As Prism.ProductionJob
-    Dim CurrentBP As BlueprintSelection
+    Dim CurrentJob As Job
+    Dim CurrentBP As OwnedBlueprint
     Dim CurrentBatch As Prism.BatchJob
     Dim OwnedResources As New SortedList(Of String, SortedList(Of String, Long)) ' ItemID, (Location, Long)
     Dim GroupResources As New SortedList(Of String, Long)
     Dim SwapResources As New SortedList(Of String, SwapResource)
     Dim ProductionList As New SortedList(Of String, ProductionItem)
 
-    Public Property ProductionJob() As Prism.ProductionJob
+    Public Property ProductionJob() As Job
         Get
             Return CurrentJob
         End Get
-        Set(ByVal value As Prism.ProductionJob)
+        Set(ByVal value As Job)
             CurrentJob = Nothing
             ' Reset the "build all resources" check box, since we are switching jobs
             ' Setting the current job to nothing should prevent any side effect processing of the checked/unchecked event.
             chkUseStandardCosting.Checked = False
             CurrentJob = value
             If CurrentJob IsNot Nothing Then
-                If CurrentJob.CurrentBP IsNot Nothing Then
+                If CurrentJob.CurrentBlueprint IsNot Nothing Then
                     CurrentJob.RecalculateResourceRequirements()
                     DisplayRequiredResources()
                     RaiseEvent ProductionResourcesChanged()
@@ -60,11 +62,11 @@ Public Class PrismResources
         End Set
     End Property
 
-    Public Property InventionBP() As Prism.BlueprintSelection
+    Public Property InventionBP() As OwnedBlueprint
         Get
             Return CurrentBP
         End Get
-        Set(ByVal value As Prism.BlueprintSelection)
+        Set(ByVal value As OwnedBlueprint)
             If value IsNot Nothing Then
                 CurrentBP = value
                 DisplayInventionResources()
@@ -112,26 +114,24 @@ Public Class PrismResources
     Public Sub DisplayInventionResources()
         adtInventionResources.BeginUpdate()
         adtInventionResources.Nodes.Clear()
-        Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r As BlueprintResource In CurrentBP.Resources.Values Where r.Activity = 8 Select CStr(r.TypeID))
+        Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r As BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values Select CStr(r.TypeId))
         priceData.Wait()
         Dim prices As Dictionary(Of String, Double) = priceData.Result
 
-        For Each Resource As BlueprintResource In CurrentBP.Resources.Values
-            If Resource.Activity = 8 Then
-                ' Add the resource to the list
-                Dim NewIR As New Node
-                NewIR.Text = Resource.TypeName
-                NewIR.Name = Resource.TypeID.ToString
-                NewIR.Cells.Add(New Cell(Resource.Quantity.ToString))
-                Dim IRPrice As Double = prices(Resource.TypeID.ToString)
-                NewIR.Cells.
-                    Add(New Cell(IRPrice.ToString))
-                NewIR.Cells.Add(New Cell((IRPrice * Resource.Quantity).ToString))
-                adtInventionResources.Nodes.Add(NewIR)
-                For c As Integer = 1 To 3
-                    NewIR.Cells(c).TextDisplayFormat = "N0"
-                Next
-            End If
+        For Each resource As BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values
+            ' Add the resource to the list
+            Dim newIr As New Node
+            newIr.Text = StaticData.Types(resource.TypeId.ToString).Name
+            newIr.Name = resource.TypeId.ToString
+            newIr.Cells.Add(New Cell(resource.Quantity.ToString))
+            Dim irPrice As Double = prices(resource.TypeId.ToString)
+            newIr.Cells.
+                Add(New Cell(irPrice.ToString))
+            newIr.Cells.Add(New Cell((irPrice * resource.Quantity).ToString))
+            adtInventionResources.Nodes.Add(newIr)
+            For c As Integer = 1 To 3
+                newIr.Cells(c).TextDisplayFormat = "N0"
+            Next
         Next
         EveHQ.Core.AdvTreeSorter.Sort(adtInventionResources, 1, True, True)
         adtInventionResources.EndUpdate()
@@ -158,8 +158,8 @@ Public Class PrismResources
 
     Private Sub chkUseStandardCosting_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseStandardCosting.CheckedChanged
         If CurrentJob IsNot Nothing Then
-            If (CurrentJob.CurrentBP IsNot Nothing) Then
-                CurrentJob.CalculateResourceRequirements(chkUseStandardCosting.Checked, CurrentJob.BPOwner)
+            If (CurrentJob.CurrentBlueprint IsNot Nothing) Then
+                CurrentJob.CalculateResourceRequirements(chkUseStandardCosting.Checked, CurrentJob.BlueprintOwner)
                 Call Me.DisplayRequiredResources()
                 RaiseEvent ProductionResourcesChanged()
             End If
@@ -176,17 +176,17 @@ Public Class PrismResources
         Dim UnitWaste As Double = 0
 
         If CurrentJob IsNot Nothing Then
-            Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
-            Dim jobCostTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
+            Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is JobResource Let res = CType(r, JobResource) Select CStr(res.TypeID))
+            Dim jobCostTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is Job Let res = CType(r, Job) Select CStr(res.TypeID))
             Task.WaitAll(priceData, jobCostTask)
             ' resource costs
             Dim resourceCosts As Dictionary(Of String, Double) = priceData.Result
             ' production job costs
             Dim jobCosts As Dictionary(Of String, Double) = jobCostTask.Result
             For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is RequiredResource Then
+                If TypeOf (resource) Is JobResource Then
                     ' This is a resource so add it
-                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                    Dim rResource As JobResource = CType(resource, JobResource)
                     If rResource.TypeCategory <> 16 Or (rResource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
                         Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
                         Dim waste As Integer = CInt(rResource.WasteUnits)
@@ -236,10 +236,10 @@ Public Class PrismResources
                             newRes.Cells.Add(New Cell(TotalTotal.ToString))
                             newRes.Cells.Add(New Cell(price.ToString))
                             newRes.Cells.Add(New Cell((value * CurrentJob.Runs).ToString))
-                            If CurrentJob.CurrentBP.MatMod = 0 Or CurrentJob.CurrentBP.WasteFactor = 0 Then
+                            If CurrentJob.CurrentBlueprint.MaterialModifier = 0 Or CurrentJob.CurrentBlueprint.WasteFactor = 0 Then
                                 newRes.Cells.Add(New Cell("0"))
                             Else
-                                newRes.Cells.Add(New Cell((Int(rResource.BaseUnits * CurrentJob.CurrentBP.WasteFactor / 50)).ToString("N0")))
+                                newRes.Cells.Add(New Cell((Int(rResource.BaseUnits * CurrentJob.CurrentBlueprint.WasteFactor / 50)).ToString("N0")))
                             End If
                             For c As Integer = 1 To 7
                                 Select Case c
@@ -255,7 +255,7 @@ Public Class PrismResources
                     End If
                 Else
                     ' This is another production job
-                    Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                    Dim subJob As Job = CType(resource, Job)
                     Dim perfectRaw As Integer = CInt(subJob.PerfectUnits)
                     Dim waste As Integer = CInt(subJob.WasteUnits)
                     Dim total As Integer = perfectRaw + waste
@@ -264,9 +264,9 @@ Public Class PrismResources
                     Dim newRes As New Node(subJob.TypeName)
                     newRes.TextDisplayFormat = "N0"
                     If PlugInData.Products.ContainsKey(subJob.TypeID.ToString) = True Then
-                        newRes.Cells.Add(New Cell(subJob.CurrentBP.MELevel.ToString))
+                        newRes.Cells.Add(New Cell(subJob.CurrentBlueprint.MELevel.ToString))
                         Dim BPME As New BPMEControl
-                        BPME.nudME.Value = subJob.CurrentBP.MELevel
+                        BPME.nudME.Value = subJob.CurrentBlueprint.MELevel
                         BPME.nudME.LockUpdateChecked = subJob.ProduceSubJob
 
                         BPME.nudME.ButtonCustom.Enabled = True
@@ -284,13 +284,13 @@ Public Class PrismResources
                     newRes.Cells.Add(New Cell((total * CurrentJob.Runs).ToString))
                     newRes.Cells.Add(New Cell(price.ToString))
                     newRes.Cells.Add(New Cell((value * CurrentJob.Runs).ToString))
-                    newRes.Cells.Add(New Cell((Int(subJob.PerfectUnits * CurrentJob.CurrentBP.WasteFactor / 50)).ToString))
+                    newRes.Cells.Add(New Cell((Int(subJob.PerfectUnits * CurrentJob.CurrentBlueprint.WasteFactor / 50)).ToString))
                     Dim BPDetails As New StringBuilder
                     BPDetails.AppendLine("The blueprint used for this job is as follows:")
                     BPDetails.AppendLine("")
-                    BPDetails.AppendLine("ME Level: " & subJob.CurrentBP.MELevel.ToString)
-                    BPDetails.AppendLine("PE Level: " & subJob.CurrentBP.PELevel.ToString)
-                    BPDetails.AppendLine("Runs: " & subJob.CurrentBP.Runs.ToString)
+                    BPDetails.AppendLine("ME Level: " & subJob.CurrentBlueprint.MELevel.ToString)
+                    BPDetails.AppendLine("PE Level: " & subJob.CurrentBlueprint.PELevel.ToString)
+                    BPDetails.AppendLine("Runs: " & subJob.CurrentBlueprint.Runs.ToString)
                     Dim TTI As New SuperTooltipInfo("Blueprint Details", subJob.TypeName, BPDetails.ToString, Nothing, Nothing, eTooltipColor.Yellow)
                     STT.SetSuperTooltip(newRes, TTI)
                     Call DisplayJob(subJob, CurrentJob.Runs, newRes, maxProducableUnits)
@@ -325,18 +325,18 @@ Public Class PrismResources
 
     End Sub
 
-    Private Sub DisplayJob(ByVal parentJob As ProductionJob, ByVal BaseRuns As Integer, ByVal parentRes As Node, ByRef maxProducableUnits As Long)
-        Dim resourceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Let res = CType(r, RequiredResource) Select CStr(res.TypeID))
-        Dim jobTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is ProductionJob Let res = CType(r, ProductionJob) Select CStr(res.TypeID))
+    Private Sub DisplayJob(ByVal parentJob As Job, ByVal BaseRuns As Integer, ByVal parentRes As Node, ByRef maxProducableUnits As Long)
+        Dim resourceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is JobResource Let res = CType(r, JobResource) Select CStr(res.TypeID))
+        Dim jobTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.RequiredResources.Values Where TypeOf (r) Is Job Let res = CType(r, Job) Select CStr(res.TypeID))
         Task.WaitAll(resourceTask, jobTask)
         ' resource costs
         Dim resourceCosts As Dictionary(Of String, Double) = resourceTask.Result
         ' production job costs
         Dim jobCosts As Dictionary(Of String, Double) = jobTask.Result
         For Each resource As Object In parentJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
+            If TypeOf (resource) Is JobResource Then
                 ' This is a resource so add it
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                Dim rResource As JobResource = CType(resource, JobResource)
                 Dim UnitMaterial As Double = 0
                 Dim UnitWaste As Double = 0
                 If rResource.TypeCategory <> 16 Or (rResource.TypeCategory = 16 And chkShowSkills.Checked = True) Then
@@ -381,7 +381,7 @@ Public Class PrismResources
                     newRes.Cells.Add(New Cell(total.ToString))
                     newRes.Cells.Add(New Cell(price.ToString))
                     newRes.Cells.Add(New Cell(value.ToString))
-                    newRes.Cells.Add(New Cell((Int(rResource.BaseUnits / parentJob.CurrentBP.MatMod)).ToString))
+                    newRes.Cells.Add(New Cell((Int(rResource.BaseUnits / parentJob.CurrentBlueprint.MaterialModifier)).ToString))
                     For c As Integer = 1 To 7
                         Select Case c
                             Case 2, 3, 4, 7
@@ -394,7 +394,7 @@ Public Class PrismResources
                 End If
             Else
                 ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                Dim subJob As Job = CType(resource, Job)
                 Dim perfectRaw As Integer = CInt(subJob.PerfectUnits)
                 Dim waste As Integer = CInt(subJob.WasteUnits)
                 Dim runs As Integer = parentJob.Runs
@@ -404,9 +404,9 @@ Public Class PrismResources
                 Dim newRes As New Node(subJob.TypeName)
                 newRes.TextDisplayFormat = "N0"
                 If PlugInData.Products.ContainsKey(subJob.TypeID.ToString) = True Then
-                    newRes.Cells.Add(New Cell(subJob.CurrentBP.MELevel.ToString))
+                    newRes.Cells.Add(New Cell(subJob.CurrentBlueprint.MELevel.ToString))
                     Dim BPME As New BPMEControl
-                    BPME.nudME.Value = subJob.CurrentBP.MELevel
+                    BPME.nudME.Value = subJob.CurrentBlueprint.MELevel
                     BPME.nudME.LockUpdateChecked = True
                     BPME.nudME.ButtonCustom.Enabled = True
                     BPME.nudME.ButtonCustom.Enabled = False
@@ -423,13 +423,13 @@ Public Class PrismResources
                 newRes.Cells.Add(New Cell((total * runs).ToString))
                 newRes.Cells.Add(New Cell(price.ToString))
                 newRes.Cells.Add(New Cell((value * runs).ToString))
-                newRes.Cells.Add(New Cell((Int(perfectRaw / parentJob.CurrentBP.MatMod)).ToString))
+                newRes.Cells.Add(New Cell((Int(perfectRaw / parentJob.CurrentBlueprint.MaterialModifier)).ToString))
                 Dim BPDetails As New StringBuilder
                 BPDetails.AppendLine("The blueprint used for this job is as follows:")
                 BPDetails.AppendLine("")
-                BPDetails.AppendLine("ME Level: " & subJob.CurrentBP.MELevel.ToString)
-                BPDetails.AppendLine("PE Level: " & subJob.CurrentBP.PELevel.ToString)
-                BPDetails.AppendLine("Runs: " & subJob.CurrentBP.Runs.ToString)
+                BPDetails.AppendLine("ME Level: " & subJob.CurrentBlueprint.MELevel.ToString)
+                BPDetails.AppendLine("PE Level: " & subJob.CurrentBlueprint.PELevel.ToString)
+                BPDetails.AppendLine("Runs: " & subJob.CurrentBlueprint.Runs.ToString)
                 Dim TTI As New SuperTooltipInfo("Blueprint Details", subJob.TypeName, BPDetails.ToString, Nothing, Nothing, eTooltipColor.Yellow)
                 STT.SetSuperTooltip(newRes, TTI)
                 Call DisplayJob(subJob, BaseRuns, newRes, maxProducableUnits)
@@ -541,7 +541,7 @@ Public Class PrismResources
 
     End Sub
 
-    Private Sub GetResourcesFromJob(ByVal pJob As ProductionJob)
+    Private Sub GetResourcesFromJob(ByVal pJob As Job)
 
         ' Set Production List
         Dim PI As New ProductionItem(pJob.TypeID.ToString, True, pJob.Runs)
@@ -552,7 +552,7 @@ Public Class PrismResources
         End If
 
         Dim SR As New SwapResource
-        If pJob.TypeID <> pJob.CurrentBP.ID Then
+        If pJob.TypeID <> pJob.CurrentBlueprint.ID Then
             If SwapResources.ContainsKey(pJob.TypeID.ToString) = True Then
                 SR = SwapResources(pJob.TypeID.ToString)
                 SR.Quantity += pJob.Runs
@@ -563,12 +563,12 @@ Public Class PrismResources
         End If
 
         For Each resource As Object In pJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
+            If TypeOf (resource) Is JobResource Then
+                Dim rResource As JobResource = CType(resource, JobResource)
                 If rResource.TypeCategory <> 16 Then
                     ' Add as a "swap" resource - something we can later substitute for lower resources if we have them
                     ' Check this is not a blueprint swap!
-                    If pJob.TypeID <> pJob.CurrentBP.ID Then
+                    If pJob.TypeID <> pJob.CurrentBlueprint.Id Then
                         If SR.Resources.ContainsKey(rResource.TypeID.ToString) = False Then
                             SR.Resources.Add(rResource.TypeID.ToString, CLng(rResource.PerfectUnits + rResource.WasteUnits))
                         Else
@@ -591,9 +591,9 @@ Public Class PrismResources
                 End If
             Else
                 ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                Dim subJob As Job = CType(resource, Job)
                 ' Add as a "swap" resource - something we can later substitute for lower resources if we have them
-                If pJob.TypeID <> pJob.CurrentBP.ID Then
+                If pJob.TypeID <> pJob.CurrentBlueprint.Id Then
                     If SR.Resources.ContainsKey(subJob.TypeID.ToString) = False Then
                         SR.Resources.Add(subJob.TypeID.ToString, subJob.Runs)
                     Else
@@ -812,8 +812,8 @@ Public Class PrismResources
             GroupResources.Clear()
             For Each JobName As String In Me.BatchJob.ProductionJobs
                 ' Bug 69 : if there is a mismatch between these two collections then an error will occur
-                If (ProductionJobs.Jobs.ContainsKey((JobName))) Then
-                    Call Me.GetResourcesFromJob(ProductionJobs.Jobs(JobName))
+                If (Jobs.JobList.ContainsKey((JobName))) Then
+                    Call Me.GetResourcesFromJob(Jobs.JobList(JobName))
                 End If
             Next
             lblBatchName.Text = "Batch: " & BatchJob.BatchName
@@ -950,11 +950,11 @@ Public Class PrismResources
 
     End Sub
 
-    Private Sub AddPricingResources(ByVal ParentJob As ProductionJob, ByRef ItemIDs As List(Of String))
+    Private Sub AddPricingResources(ByVal ParentJob As Job, ByRef ItemIDs As List(Of String))
 
         For Each resource As Object In ParentJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
+            If TypeOf (resource) Is JobResource Then
+                Dim rResource As JobResource = CType(resource, JobResource)
                 If rResource.TypeCategory <> 16 Then
                     If ItemIDs.Contains(rResource.TypeID.ToString) = False Then
                         ItemIDs.Add(rResource.TypeID.ToString)
@@ -962,7 +962,7 @@ Public Class PrismResources
                 End If
             Else
                 ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                Dim subJob As Job = CType(resource, Job)
                 Call Me.AddPricingResources(subJob, ItemIDs)
             End If
         Next
@@ -971,7 +971,7 @@ Public Class PrismResources
 
 #End Region
 
-   
+
 End Class
 
 Public Class ProductionItem

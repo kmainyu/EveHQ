@@ -159,8 +159,8 @@ Public Class frmSplash
         Core.HQ.WriteLogEvent("Start: Checking settings files")
         If My.Computer.FileSystem.FileExists(Path.Combine(Core.HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
             Core.HQ.WriteLogEvent("Start: Converting settings files")
-            Dim esc As New Core.EveHQSettingsConverter
-            esc.ConvertOldSettings(EveHQ.Core.HQ.AppDataFolder)
+            Dim esc As New Settings.Converter
+            esc.ConvertEveHQSettings(Core.HQ.AppDataFolder)
             Core.HQ.WriteLogEvent("End: Converting settings files")
         End If
         Core.HQ.WriteLogEvent("End: Checking settings files")

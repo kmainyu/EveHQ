@@ -36,9 +36,7 @@ Public Class PlugInData
     Public Shared Corps As New SortedList
     Public Shared PackedVolumes As New SortedList(Of String, Double)
     Public Shared AssetItemNames As New SortedList(Of String, String)
-    Public Shared Blueprints As New SortedList(Of String, Blueprint)
     Public Shared Products As New SortedList(Of String, String)
-    Public Shared AssemblyArrays As New SortedList(Of String, AssemblyArray)
     Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of String, BlueprintAsset))
     Public Shared CorpList As New SortedList
     Public Shared CategoryNames As New SortedList(Of String, String)
@@ -123,15 +121,7 @@ Public Class PlugInData
             Call Me.LoadStatuses()
             Call Me.LoadPackedVolumes()
             Call Me.LoadAssetItemNames()
-            If Blueprint.LoadBluePrintData = False Then
-                Return False
-                Exit Function
-            End If
             If Invention.LoadInventionData = False Then
-                Return False
-                Exit Function
-            End If
-            If AssemblyArray.LoadAssemblyArrayData = False Then
                 Return False
                 Exit Function
             End If

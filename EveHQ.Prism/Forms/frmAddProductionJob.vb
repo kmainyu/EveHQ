@@ -19,6 +19,7 @@
 '=========================================================================
 
 Imports System.Windows.Forms
+Imports EveHQ.Prism.BPCalc
 
 Public Class frmAddProductionJob
 
@@ -70,7 +71,7 @@ Public Class frmAddProductionJob
             ' Get the mode we are using
             If EditMode = False Then
                 ' Adding a new name
-                If ProductionJobs.Jobs.ContainsKey(txtJobName.Text) = False Then
+                If Jobs.JobList.ContainsKey(txtJobName.Text) = False Then
                     cJobName = txtJobName.Text
                 Else
                     MessageBox.Show("Job Name already exists - please choose another name.", "Job Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -78,7 +79,7 @@ Public Class frmAddProductionJob
                 End If
             Else
                 ' Editing a name
-                If ProductionJobs.Jobs.ContainsKey(txtJobName.Text) = False Or (ProductionJobs.Jobs.ContainsKey(txtJobName.Text) = True And txtJobName.Text = cJobName) Then
+                If Jobs.JobList.ContainsKey(txtJobName.Text) = False Or (Jobs.JobList.ContainsKey(txtJobName.Text) = True And txtJobName.Text = cJobName) Then
                     cJobName = txtJobName.Text
                 Else
                     MessageBox.Show("Job Name already exists - please choose another name.", "Job Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

@@ -936,10 +936,12 @@ Public Class DataFunctions
                     End If
                 End If
 
+                Dim testItem As String
                 For Each itemId As String In distinctItems 'We only need to process the unique id results.
                     Try
+                        testItem = itemId
                         If result IsNot Nothing Then
-                            itemResult = (From item In result Where item.ItemTypeId.ToString() = itemId Select item).FirstOrDefault()
+                            itemResult = (From item In result Where item.ItemTypeId.ToString() = testitem Select item).FirstOrDefault()
                         End If
 
                         ' If there is a custom price set, use that if not get it from the provider.
