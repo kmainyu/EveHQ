@@ -5255,42 +5255,28 @@ Public Class frmPrism
         QP.Dispose()
     End Sub
 
-    Private Sub CreateRequisitionFromJob(ByVal Orders As SortedList(Of String, Integer), ByVal CurrentJob As Job)
-
-        Dim maxProducableUnits As Long = -1
-        Dim UnitMaterial As Double = 0
-        Dim UnitWaste As Double = 0
-
+    Private Sub CreateRequisitionFromJob(ByVal orders As SortedList(Of String, Integer), ByVal currentJob As Job)
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is JobResource Select CStr(CType(r, JobResource).TypeID))
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select CStr(r.TypeID))
             priceTask.Wait()
-            Dim prices As Dictionary(Of String, Double) = priceTask.Result
-            For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is JobResource Then
-                    ' This is a resource so add it
-                    Dim rResource As JobResource = CType(resource, JobResource)
-                    If rResource.TypeCategory <> 16 Then
-                        Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
-                        Dim waste As Integer = CInt(rResource.WasteUnits)
-                        Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = prices(CStr(rResource.TypeID))
-                        Dim value As Double = total * price
-                        If total > 0 Then
-                            UnitMaterial += value
-                            UnitWaste += waste * price
-                            Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
-                            If Orders.ContainsKey(rResource.TypeName) = False Then
-                                Orders.Add(rResource.TypeName, CInt(TotalTotal))
-                            Else
-                                Orders(rResource.TypeName) += CInt(TotalTotal)
-                            End If
+            For Each resource As JobResource In currentJob.Resources.Values
+                ' This is a resource so add it
+                If resource.TypeCategory <> 16 Then
+                    Dim perfectRaw As Integer = CInt(resource.PerfectUnits)
+                    Dim waste As Integer = CInt(resource.WasteUnits)
+                    Dim total As Integer = perfectRaw + waste
+                    If total > 0 Then
+                        Dim totalTotal As Long = CLng(total) * CLng(currentJob.Runs)
+                        If orders.ContainsKey(resource.TypeName) = False Then
+                            orders.Add(resource.TypeName, CInt(totalTotal))
+                        Else
+                            orders(resource.TypeName) += CInt(totalTotal)
                         End If
                     End If
-                Else
-                    ' This is another production job
-                    Dim subJob As Job = CType(resource, Job)
-                    Call CreateRequisitionFromJob(Orders, subJob)
                 End If
+            Next
+            For Each subJob As Job In currentJob.SubJobs.Values
+                Call CreateRequisitionFromJob(orders, subJob)
             Next
         End If
     End Sub

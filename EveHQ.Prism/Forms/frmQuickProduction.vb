@@ -26,9 +26,7 @@ Imports System.Threading.Tasks
 
 Public Class frmQuickProduction
 
-    Dim FormStartup As Boolean = True
-
-#Region "Constructors"
+   #Region "Constructors"
 
     Public Sub New()
 
@@ -36,17 +34,17 @@ Public Class frmQuickProduction
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Call Me.DisplayAllBlueprints()
+        Call DisplayAllBlueprints()
 
     End Sub
 
-    Public Sub New(BlueprintName As String)
+    Public Sub New(blueprintName As String)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Call Me.DisplayAllBlueprints()
+        Call DisplayAllBlueprints()
         If cboBPs.Items.Contains(BlueprintName) Then
             cboBPs.SelectedItem = BlueprintName
         End If
@@ -79,60 +77,49 @@ Public Class frmQuickProduction
         Call DisplayMaterials(currentJob)
     End Sub
 
-    Private Sub DisplayMaterials(CurrentJob As Job)
+    Private Sub DisplayMaterials(currentJob As Job)
         adtResources.BeginUpdate()
         adtResources.Nodes.Clear()
-        Dim UnitMaterial As Double = 0
-        Dim UnitWaste As Double = 0
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is JobResource Select CStr(CType(r, JobResource).TypeID))
+            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.Resources.Values Where TypeOf (r) Is JobResource Select CStr(r.TypeID))
             priceTask.Wait()
-            Dim prices As Dictionary(Of String, Double) = priceTask.Result
-            For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is JobResource Then
-                    ' This is a resource so add it
-                    Dim rResource As JobResource = CType(resource, JobResource)
-                    If rResource.TypeCategory <> 16 Then
-                        Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
-                        Dim waste As Integer = CInt(rResource.WasteUnits)
-                        Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = prices(CStr(rResource.TypeID))
-                        Dim value As Double = total * price
-                        ' Add a new list view item
-                        If total > 0 Then
-                            Dim newRes As New Node(rResource.TypeName)
-                            newRes.TextDisplayFormat = "N0"
-                            ' Calculate costs
-                            UnitMaterial += value
-                            UnitWaste += waste * price
-
-                            Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
-                            newRes.Cells.Add(New Cell(TotalTotal.ToString))
-                            newRes.Cells(1).TextDisplayFormat = "N0"
-                            adtResources.Nodes.Add(newRes)
-                        End If
+            For Each resource As JobResource In CurrentJob.Resources.Values
+                ' This is a resource so add it
+                If resource.TypeCategory <> 16 Then
+                    Dim perfectRaw As Integer = CInt(resource.PerfectUnits)
+                    Dim waste As Integer = CInt(resource.WasteUnits)
+                    Dim total As Integer = perfectRaw + waste
+                    ' Add a new list view item
+                    If total > 0 Then
+                        Dim newRes As New Node(resource.TypeName)
+                        newRes.TextDisplayFormat = "N0"
+                        ' Calculate costs
+                        Dim totalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
+                        newRes.Cells.Add(New Cell(totalTotal.ToString))
+                        newRes.Cells(1).TextDisplayFormat = "N0"
+                        adtResources.Nodes.Add(newRes)
                     End If
                 End If
             Next
         End If
-        EveHQ.Core.AdvTreeSorter.Sort(adtResources, 2, False, True)
+        Core.AdvTreeSorter.Sort(adtResources, 2, False, True)
         adtResources.EndUpdate()
     End Sub
 
-    Private Sub cboBPs_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
-        Call Me.CalculateMaterials()
+    Private Sub cboBPs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboBPs.SelectedIndexChanged
+        Call CalculateMaterials()
     End Sub
 
-    Private Sub nudMELevel_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudMELevel.ValueChanged
-        Call Me.CalculateMaterials()
+    Private Sub nudMELevel_ValueChanged(sender As Object, e As EventArgs) Handles nudMELevel.ValueChanged
+        Call CalculateMaterials()
     End Sub
 
-    Private Sub nudPELevel_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudPELevel.ValueChanged
-        Call Me.CalculateMaterials()
+    Private Sub nudPELevel_ValueChanged(sender As Object, e As EventArgs) Handles nudPELevel.ValueChanged
+        Call CalculateMaterials()
     End Sub
 
-    Private Sub nudCopyRuns_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudCopyRuns.ValueChanged
-        Call Me.CalculateMaterials()
+    Private Sub nudCopyRuns_ValueChanged(sender As Object, e As EventArgs) Handles nudCopyRuns.ValueChanged
+        Call CalculateMaterials()
     End Sub
 
    
