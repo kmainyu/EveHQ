@@ -106,12 +106,6 @@
     <Compile Include="Classes\SavedFitting.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
     <Compile Include="Classes\HQFPilot.vb" />
-    <Compile Include="Classes\ListViewNoFlicker.Designer.vb">
-      <DependentUpon>ListViewNoFlicker.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Classes\ListViewNoFlicker.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Classes\Market.vb" />
     <Compile Include="Classes\NPCs.vb" />
     <Compile Include="Classes\PlugInData.vb" />
