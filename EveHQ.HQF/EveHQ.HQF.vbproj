@@ -68,6 +68,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -95,8 +99,8 @@
     <Compile Include="Classes\CustomShip.vb" />
     <Compile Include="Classes\CustomShipClass.vb" />
     <Compile Include="Classes\CustomHQFClasses.vb" />
-    <Compile Include="Classes\DamageProfiles.vb" />
-    <Compile Include="Classes\DefenceProfiles.vb" />
+    <Compile Include="_Deprecated\DamageProfiles.vb" />
+    <Compile Include="_Deprecated\DefenceProfiles.vb" />
     <Compile Include="Classes\Effect.vb" />
     <Compile Include="Classes\EffectFunctions.vb" />
     <Compile Include="Classes\Fitting.vb" />
@@ -349,6 +353,12 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Classes\Skills.vb" />
+    <Compile Include="_New\HQFDamageProfile.vb" />
+    <Compile Include="_New\HQFDamageProfiles.vb" />
+    <Compile Include="_New\HQFDefenceProfile.vb" />
+    <Compile Include="_New\HQFDefenceProfiles.vb" />
+    <Compile Include="_New\HQFDefenseProfileResults.vb" />
+    <Compile Include="_New\ProfileTypes.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\EveSpace.resx">
@@ -666,6 +676,7 @@
     <Content Include="Resources\icon01_16.png" />
     <Content Include="Resources\icon53_16.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->

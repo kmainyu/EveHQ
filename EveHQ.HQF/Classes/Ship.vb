@@ -218,7 +218,7 @@ Imports System.ComponentModel
     Private cAuditLog As New ArrayList
 
     ' Damage Profile
-    Private cDamageProfile As DamageProfile
+    Private cDamageProfile As HQFDamageProfile
     Private cEM As Double
     Private cEx As Double
     Private cKi As Double
@@ -2008,13 +2008,13 @@ Imports System.ComponentModel
 #Region "Damage Profile Properties"
 
     <Browsable(False)> _
-    <Description("The damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfile() As DamageProfile
+    <Description("The damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfile() As HQFDamageProfile
         Get
             Return cDamageProfile
         End Get
-        Set(ByVal value As DamageProfile)
+        Set(ByVal value As HQFDamageProfile)
             If value Is Nothing Then
-                value = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
+                value = HQFDamageProfiles.ProfileList.Item("<Omni-Damage>")
             End If
             cDamageProfile = value
             cEMExKiTh = cDamageProfile.EM + cDamageProfile.Explosive + cDamageProfile.Kinetic + cDamageProfile.Thermal

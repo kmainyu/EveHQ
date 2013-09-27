@@ -152,7 +152,7 @@ Public Class frmDamageAnalysis
             Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboAttackerPilot.SelectedItem.ToString), HQFPilot)
             Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
             NewFit.UpdateBaseShipFromFitting()
-            NewFit.BaseShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+            NewFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
             NewFit.PilotName = aPilot.PilotName
             NewFit.ApplyFitting(BuildType.BuildEverything)
             attackingShip = NewFit.FittedShip
@@ -256,7 +256,7 @@ Public Class frmDamageAnalysis
             Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboTargetPilot.SelectedItem.ToString), HQFPilot)
             Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
             NewFit.UpdateBaseShipFromFitting()
-            NewFit.BaseShip.DamageProfile = CType(DamageProfiles.ProfileList("<Omni-Damage>"), DamageProfile)
+            NewFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
             NewFit.PilotName = aPilot.PilotName
             NewFit.ApplyFitting(BuildType.BuildEverything)
             targetShip = NewFit.FittedShip

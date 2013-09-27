@@ -777,7 +777,110 @@ Public Class Converter
 
         Dim hqfFolder As String = Path.Combine(settingsFolder, "HQF")
 
+        ConvertDefenceProfiles(hqfFolder)
+        ConvertDamageProfiles(hqfFolder)
+        
     End Sub
+
+    Private Sub ConvertDefenceProfiles(hqfFolder As String)
+
+        Dim oldProfiles As SortedList
+
+        ' Check for the profiles file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin")) = True Then
+            Using s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                oldProfiles = CType(f.Deserialize(s), SortedList)
+            End Using
+
+            Dim newProfiles As New SortedList(Of String, HQF.HQFDefenceProfile)
+            For Each profile As HQF.DefenceProfile In oldProfiles
+                Dim newProfile As New HQF.HQFDefenceProfile
+                newProfile.Name = profile.Name
+                newProfile.Type = CType(profile.Type, HQF.ProfileTypes)
+                newProfile.SEM = profile.SEM
+                newProfile.SExplosive = profile.SExplosive
+                newProfile.SKinetic = profile.SKinetic
+                newProfile.SThermal = profile.SThermal
+                newProfile.AEM = profile.AEM
+                newProfile.AExplosive = profile.AExplosive
+                newProfile.AKinetic = profile.AKinetic
+                newProfile.AThermal = profile.AThermal
+                newProfile.HEM = profile.HEM
+                newProfile.HExplosive = profile.HExplosive
+                newProfile.HKinetic = profile.HKinetic
+                newProfile.HThermal = profile.HThermal
+                newProfile.DPS = profile.DPS
+                newProfile.Fitting = profile.Fitting
+                newProfile.Pilot = profile.Pilot
+                newProfiles.Add(newProfile.Name, newProfile)
+            Next
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(newProfiles, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDefenseProfiles.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old settings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), "OldHQFDefenceProfiles.bin")
+      
+        End If
+
+
+    End Sub
+
+    Private Sub ConvertDamageProfiles(hqfFolder As String)
+
+        Dim oldProfiles As SortedList
+
+        ' Check for the profiles file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDamageProfiles.bin")) = True Then
+            Using s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDamageProfiles.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                oldProfiles = CType(f.Deserialize(s), SortedList)
+            End Using
+
+            Dim newProfiles As New SortedList(Of String, HQF.HQFDamageProfile)
+            For Each profile As HQF.DamageProfile In oldProfiles
+                Dim newProfile As New HQF.HQFDamageProfile
+                newProfile.Name = profile.Name
+                newProfile.Type = CType(profile.Type, HQF.ProfileTypes)
+                newProfile.EM = profile.EM
+                newProfile.Explosive = profile.Explosive
+                newProfile.Kinetic = profile.Kinetic
+                newProfile.Thermal = profile.Thermal
+                newProfile.DPS = 0
+                newProfile.Fitting = ""
+                newProfile.Pilot = ""
+                newProfiles.Add(newProfile.Name, newProfile)
+            Next
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(newProfiles, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDamageProfiles.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old settings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDamageProfiles.bin"), "OldHQFDamageProfiles.bin")
+
+        End If
+
+    End Sub
+
 
 #End Region
 

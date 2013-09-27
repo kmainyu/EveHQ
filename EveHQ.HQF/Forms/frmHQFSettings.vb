@@ -52,8 +52,8 @@ Public Class frmHQFSettings
         Next
 
         ' Save the profiles
-        Call DamageProfiles.SaveProfiles()
-        Call DefenceProfiles.SaveProfiles()
+        Call HQFDamageProfiles.Save()
+        Call HQFDefenceProfiles.Save()
 
         ' Save the settings
         Call Settings.HQFSettings.SaveHQFSettings()
@@ -751,18 +751,16 @@ Public Class frmHQFSettings
     Private Sub UpdateDamageProfileOptions()
         lvwProfiles.BeginUpdate()
         lvwProfiles.Items.Clear()
-        Dim newItem As New ListViewItem
-        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
+        Dim newItem As ListViewItem
+        For Each newProfile As HQFDamageProfile In HQFDamageProfiles.ProfileList.Values
             newItem = New ListViewItem
             newItem.Name = newProfile.Name
             newItem.Text = newProfile.Name
             Select Case newProfile.Type
-                Case 0
+                Case ProfileTypes.Manual
                     newItem.SubItems.Add("Manual")
-                Case 1
+                Case ProfileTypes.Fitting
                     newItem.SubItems.Add("Fitting")
-                Case 2
-                    newItem.SubItems.Add("NPC")
             End Select
             lvwProfiles.Items.Add(newItem)
         Next
@@ -771,27 +769,19 @@ Public Class frmHQFSettings
 
     Private Sub lvwProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwProfiles.SelectedIndexChanged
         If lvwProfiles.SelectedItems.Count > 0 Then
-            Dim selProfile As DamageProfile = CType(DamageProfiles.ProfileList(lvwProfiles.SelectedItems(0).Name), DamageProfile)
+            Dim selProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(lvwProfiles.SelectedItems(0).Name)
             lblProfileName.Text = selProfile.Name
             Select Case selProfile.Type
-                Case 0
+                Case ProfileTypes.Manual
                     lblProfileType.Text = "Manual"
                     lblFittingName.Text = "n/a"
                     lblPilotName.Text = "n/a"
                     lblNPCName.Text = "n/a"
-                Case 1
+                Case ProfileTypes.Fitting
                     lblProfileType.Text = "Fitting"
                     lblFittingName.Text = selProfile.Fitting
                     lblPilotName.Text = selProfile.Pilot
                     lblNPCName.Text = "n/a"
-                Case 2
-                    lblProfileType.Text = "NPC"
-                    lblFittingName.Text = "n/a"
-                    lblPilotName.Text = "n/a"
-                    lblNPCName.Text = ""
-                    For Each NPC As String In selProfile.NPCs
-                        lblNPCName.Text &= NPC & ", "
-                    Next
             End Select
             lblEMDamageAmount.Text = selProfile.EM.ToString("N2")
             lblEXDamageAmount.Text = selProfile.Explosive.ToString("N2")
@@ -821,10 +811,10 @@ Public Class frmHQFSettings
                     Exit Sub
                 Else
                     ' Delete the profile
-                    DamageProfiles.ProfileList.Remove(profileName)
+                    HQFDamageProfiles.ProfileList.Remove(profileName)
                     ' Save the profiles
-                    DamageProfiles.SaveProfiles()
-                    Call Me.UpdateDamageProfileOptions()
+                    HQFDamageProfiles.Save()
+                    Call UpdateDamageProfileOptions()
                 End If
             End If
         Else
@@ -847,12 +837,12 @@ Public Class frmHQFSettings
             If profileName = "<Omni-Damage>" Then
                 MessageBox.Show("You cannot edit this profile!", "Error Editing Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                Dim editProfile As DamageProfile = CType(DamageProfiles.ProfileList(profileName), DamageProfile)
-                Dim ProfileForm As New frmAddDamageProfile
-                ProfileForm.Tag = editProfile
-                ProfileForm.btnAccept.Text = "Edit Profile"
-                ProfileForm.ShowDialog()
-                ProfileForm.Dispose()
+                Dim editProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(profileName)
+                Dim profileForm As New frmAddDamageProfile
+                profileForm.Tag = editProfile
+                profileForm.btnAccept.Text = "Edit Profile"
+                profileForm.ShowDialog()
+                profileForm.Dispose()
                 Call Me.UpdateDamageProfileOptions()
             End If
         Else
@@ -869,8 +859,8 @@ Public Class frmHQFSettings
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
                         My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
-                    DamageProfiles.ResetDamageProfiles()
-                    Call Me.UpdateDamageProfileOptions()
+                    HQFDamageProfiles.Reset()
+                    Call UpdateDamageProfileOptions()
                     MessageBox.Show("Profiles successfully reset", "Profile Reset Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
                     MessageBox.Show("Unable to delete the Damage Profiles file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -891,14 +881,14 @@ Public Class frmHQFSettings
         lvwDefenceProfiles.BeginUpdate()
         lvwDefenceProfiles.Items.Clear()
         Dim newItem As New ListViewItem
-        For Each newProfile As DefenceProfile In DefenceProfiles.ProfileList.Values
+        For Each newProfile As HQFDefenceProfile In HQFDefenceProfiles.ProfileList.Values
             newItem = New ListViewItem
             newItem.Name = newProfile.Name
             newItem.Text = newProfile.Name
             Select Case newProfile.Type
-                Case 0
+                Case ProfileTypes.Manual
                     newItem.SubItems.Add("Manual")
-                Case 1
+                Case ProfileTypes.Fitting
                     newItem.SubItems.Add("Fitting")
             End Select
             lvwDefenceProfiles.Items.Add(newItem)
@@ -908,12 +898,12 @@ Public Class frmHQFSettings
 
     Private Sub lvwDefenceProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwDefenceProfiles.SelectedIndexChanged
         If lvwDefenceProfiles.SelectedItems.Count > 0 Then
-            Dim selProfile As DefenceProfile = CType(DefenceProfiles.ProfileList(lvwDefenceProfiles.SelectedItems(0).Name), DefenceProfile)
+            Dim selProfile As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(lvwDefenceProfiles.SelectedItems(0).Name)
             lblDefProfileName.Text = selProfile.Name
             Select Case selProfile.Type
-                Case 0
+                Case ProfileTypes.Manual
                     lblDefProfileType.Text = "Manual"
-                Case 1
+                Case ProfileTypes.Fitting
                     lblDefProfileType.Text = "Fitting"
             End Select
             lblDefSEM.Text = selProfile.SEM.ToString("N2")
@@ -942,10 +932,10 @@ Public Class frmHQFSettings
                 Exit Sub
             Else
                 ' Delete the profile
-                DefenceProfiles.ProfileList.Remove(profileName)
+                HQFDefenceProfiles.ProfileList.Remove(profileName)
                 ' Save the profiles
-                DefenceProfiles.SaveProfiles()
-                Call Me.UpdateDefenceProfileOptions()
+                HQFDefenceProfiles.Save()
+                Call UpdateDefenceProfileOptions()
             End If
         Else
             MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -964,12 +954,12 @@ Public Class frmHQFSettings
     Private Sub btnEditDefenceProfile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditDefenceProfile.Click
         If lvwDefenceProfiles.SelectedItems.Count > 0 Then
             Dim profileName As String = lvwDefenceProfiles.SelectedItems(0).Name
-            Dim editProfile As DefenceProfile = CType(DefenceProfiles.ProfileList(profileName), DefenceProfile)
-            Dim ProfileForm As New frmAddDefenceProfile()
-            ProfileForm.Tag = editProfile
-            ProfileForm.btnAccept.Text = "Edit Profile"
-            ProfileForm.ShowDialog()
-            ProfileForm.Dispose()
+            Dim editProfile As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(profileName)
+            Dim profileForm As New frmAddDefenceProfile()
+            profileForm.Tag = editProfile
+            profileForm.btnAccept.Text = "Edit Profile"
+            profileForm.ShowDialog()
+            profileForm.Dispose()
             Call Me.UpdateDefenceProfileOptions()
         Else
             MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -985,8 +975,8 @@ Public Class frmHQFSettings
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
                         My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
-                    DefenceProfiles.ResetDefenceProfiles()
-                    Call Me.UpdateDefenceProfileOptions()
+                    HQFDefenceProfiles.Reset()
+                    Call UpdateDefenceProfileOptions()
                     MessageBox.Show("Profiles successfully reset", "Profile Reset Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Catch ex As Exception
                     MessageBox.Show("Unable to delete the Defence Profiles file", "Deletion Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)

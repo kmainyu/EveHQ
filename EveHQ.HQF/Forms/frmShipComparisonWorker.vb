@@ -21,7 +21,7 @@
 Public Class frmShipComparisonWorker
 
     Dim pPilot As HQFPilot
-    Dim pProfile As DamageProfile
+    Dim pProfile As HQFDamageProfile
     Dim pShipList As New SortedList
     Dim pShipInfo As New SortedList
     Dim WithEvents CompareWorker As New System.ComponentModel.BackgroundWorker
@@ -34,11 +34,11 @@ Public Class frmShipComparisonWorker
             pPilot = value
         End Set
     End Property
-    Public Property Profile() As DamageProfile
+    Public Property Profile() As HQFDamageProfile
         Get
             Return pProfile
         End Get
-        Set(ByVal value As DamageProfile)
+        Set(ByVal value As HQFDamageProfile)
             pProfile = value
         End Set
     End Property

@@ -69,7 +69,7 @@ Public Class frmBCBrowser
         ' Add the profiles
         cboProfiles.BeginUpdate()
         cboProfiles.Items.Clear()
-        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
+        For Each newProfile As HQFDamageProfile In HQFDamageProfiles.ProfileList.Values
             cboProfiles.Items.Add(newProfile.Name)
         Next
         cboProfiles.EndUpdate()
@@ -404,7 +404,7 @@ Public Class frmBCBrowser
                 If cboPilots.SelectedItem IsNot Nothing Then
                     gpStatistics.Enabled = True
                     Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
-                    Dim loadoutProfile As HQF.DamageProfile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
+                    Dim loadoutProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
 
                     currentFitting.PilotName = loadoutPilot.PilotName
                     currentFitting.BaseShip.DamageProfile = loadoutProfile

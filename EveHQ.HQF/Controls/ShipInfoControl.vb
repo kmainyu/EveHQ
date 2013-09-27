@@ -394,7 +394,7 @@ Public Class ShipInfoControl
                 ttt &= " (DPS: " & ParentFitting.FittedShip.DroneDPS.ToString("N2") & ")" & ControlChars.CrLf
             End If
             ToolTip1.SetToolTip(lblDamage, ttt)
-            Dim dpr As DefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
+            Dim dpr As HQFDefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
             lblDPR.Text = dpr.ShieldDPS.ToString("N2") & " / " & dpr.ArmorDPS.ToString("N2") & " / " & dpr.HullDPS.ToString("N2")
         End If
         ' Mining info
@@ -540,7 +540,7 @@ Public Class ShipInfoControl
         ' Add the list of profiles to the combo box
         cboDamageProfiles.BeginUpdate()
         cboDamageProfiles.Items.Clear()
-        For Each cProfile As String In DamageProfiles.ProfileList.Keys
+        For Each cProfile As String In HQFDamageProfiles.ProfileList.Keys
             cboDamageProfiles.Items.Add(cProfile)
         Next
         cboDamageProfiles.EndUpdate()
@@ -556,7 +556,7 @@ Public Class ShipInfoControl
         End If
         ' Only perform this if we aren't setting the item at startup
         If StartUp = False Then
-            Dim dpr As DefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
+            Dim dpr As HQFDefenceProfileResults = ParentFitting.CalculateDamageStatsForDefenceProfile(ParentFitting.FittedShip)
             lblDPR.Text = dpr.ShieldDPS.ToString("N2") & " / " & dpr.ArmorDPS.ToString("N2") & " / " & dpr.HullDPS.ToString("N2")
         End If
     End Sub
@@ -583,7 +583,7 @@ Public Class ShipInfoControl
         ' Add the list of profiles to the combo box
         cboDefenceProfiles.BeginUpdate()
         cboDefenceProfiles.Items.Clear()
-        For Each cProfile As String In DefenceProfiles.ProfileList.Keys
+        For Each cProfile As String In HQFDefenceProfiles.ProfileList.Keys
             cboDefenceProfiles.Items.Add(cProfile)
         Next
         cboDefenceProfiles.EndUpdate()

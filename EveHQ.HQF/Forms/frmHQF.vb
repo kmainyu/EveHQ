@@ -149,8 +149,8 @@ Public Class frmHQF
         AddHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
 
         ' Load the Profiles - stored separately from settings for distribution!
-        Call DamageProfiles.LoadProfiles()
-        Call DefenceProfiles.LoadProfiles()
+        Call HQFDamageProfiles.Load()
+        Call HQFDefenceProfiles.Load()
 
         ' Load up a collection of pilots from the EveHQ Core
         Call Me.LoadPilots()
@@ -1571,7 +1571,7 @@ Public Class frmHQF
 
     Private Function CreateNewFittingTab(ByVal NewFit As Fitting) As Boolean
         If ShipLists.shipList.ContainsKey(NewFit.ShipName) = True Then
-            NewFit.BaseShip.DamageProfile = CType(DamageProfiles.ProfileList.Item("<Omni-Damage>"), DamageProfile)
+            NewFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList.Item("<Omni-Damage>")
             ShipLists.fittedShipList.Add(NewFit.KeyName, NewFit.BaseShip)
 
             tabHQF.SuspendLayout()

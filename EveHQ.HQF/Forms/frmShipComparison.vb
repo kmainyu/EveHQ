@@ -73,7 +73,7 @@ Public Class frmShipComparison
     Private Sub LoadProfiles()
         cboProfiles.BeginUpdate()
         cboProfiles.Items.Clear()
-        For Each newProfile As DamageProfile In DamageProfiles.ProfileList.Values
+        For Each newProfile As HQFDamageProfile In HQFDamageProfiles.ProfileList.Values
             cboProfiles.Items.Add(newProfile.Name)
         Next
         cboProfiles.EndUpdate()
@@ -98,7 +98,7 @@ Public Class frmShipComparison
             Dim CompareWorker As New frmShipComparisonWorker
 
             CompareWorker.Pilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
-            CompareWorker.Profile = CType(HQF.DamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString), DamageProfile)
+            CompareWorker.Profile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
             CompareWorker.ShipList = ShipList
             CompareWorker.ShowDialog()
             ShipInfo = CompareWorker.ShipInfo

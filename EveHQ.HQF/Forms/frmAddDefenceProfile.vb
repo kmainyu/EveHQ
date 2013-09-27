@@ -80,7 +80,7 @@ Public Class frmAddDefenceProfile
             Exit Sub
         Else
             ' Check the name isn't in use
-            If DamageProfiles.ProfileList.Contains(txtProfileName.Text.Trim) And txtProfileName.Text.Trim <> txtProfileName.Tag.ToString.Trim Then
+            If HQFDamageProfiles.ProfileList.ContainsKey(txtProfileName.Text.Trim) And txtProfileName.Text.Trim <> txtProfileName.Tag.ToString.Trim Then
                 MessageBox.Show("This Profile name is in use. Please select another.", "Duplicate Profile Name Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
@@ -123,9 +123,9 @@ Public Class frmAddDefenceProfile
                         End If
                 End Select
                 ' Assume all is OK so lets save the information
-                Dim newProfile As New DefenceProfile
+                Dim newProfile As New HQFDefenceProfile
                 newProfile.Name = txtProfileName.Text.Trim
-                newProfile.Type = cboProfileType.SelectedIndex
+                newProfile.Type = CType(cboProfileType.SelectedIndex, ProfileTypes)
                 newProfile.SEM = CDbl(txtSEM.Text)
                 newProfile.SExplosive = CDbl(txtSEx.Text)
                 newProfile.SKinetic = CDbl(txtSKi.Text)
@@ -139,18 +139,18 @@ Public Class frmAddDefenceProfile
                 newProfile.HKinetic = CDbl(txtHKi.Text)
                 newProfile.HThermal = CDbl(txtHTh.Text)
                 Select Case newProfile.Type
-                    Case 0 ' Manual
+                    Case ProfileTypes.Manual  ' Manual
                         newProfile.Fitting = "" : newProfile.Pilot = ""
-                    Case 1 ' Fitting
+                    Case ProfileTypes.Fitting  ' Fitting
                         newProfile.Fitting = cboFittingName.SelectedItem.ToString : newProfile.Pilot = cboPilotName.SelectedItem.ToString
                 End Select
                 ' If Editing, delete the old profile
                 If Me.Tag.ToString <> "Add" Then
-                    DefenceProfiles.ProfileList.Remove(txtProfileName.Tag.ToString)
+                    HQFDefenceProfiles.ProfileList.Remove(txtProfileName.Tag.ToString)
                 End If
                 ' Add the profile
-                DefenceProfiles.ProfileList.Add(newProfile.Name, newProfile)
-                Call DefenceProfiles.SaveProfiles()
+                HQFDefenceProfiles.ProfileList.Add(newProfile.Name, newProfile)
+                Call HQFDefenceProfiles.Save()
                 Me.Close()
             End If
         End If
@@ -189,12 +189,12 @@ Public Class frmAddDefenceProfile
             txtHTh.Text = CDbl(0).ToString("N2")
             startUp = False
         Else
-            Dim editProfile As DefenceProfile = CType(Me.Tag, DefenceProfile)
+            Dim editProfile As HQFDefenceProfile = CType(Me.Tag, HQFDefenceProfile)
             Me.txtProfileName.Tag = editProfile.Name
             ' Populate the bits and pieces with the relevant data
             Me.txtProfileName.Text = editProfile.Name
             Select Case editProfile.Type
-                Case 0 ' Manual
+                Case ProfileTypes.Manual  ' Manual
                     Me.txtSEM.Text = editProfile.SEM.ToString("N2")
                     Me.txtSEx.Text = editProfile.SExplosive.ToString("N2")
                     Me.txtSKi.Text = editProfile.SKinetic.ToString("N2")
@@ -207,7 +207,7 @@ Public Class frmAddDefenceProfile
                     Me.txtHEx.Text = editProfile.HExplosive.ToString("N2")
                     Me.txtHKi.Text = editProfile.HKinetic.ToString("N2")
                     Me.txtHTh.Text = editProfile.HThermal.ToString("N2")
-                Case 1 ' Fitting
+                Case ProfileTypes.Fitting  ' Fitting
                     Me.cboFittingName.SelectedItem = editProfile.Fitting
                     Me.cboPilotName.SelectedItem = editProfile.Pilot
             End Select
