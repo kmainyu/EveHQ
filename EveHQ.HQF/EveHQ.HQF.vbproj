@@ -104,7 +104,6 @@
     <Compile Include="Classes\ImageHandler.vb" />
     <Compile Include="Classes\ResourceHandler.vb" />
     <Compile Include="Classes\SavedFitting.vb" />
-    <Compile Include="Classes\FleetManager.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
     <Compile Include="Classes\HQFPilot.vb" />
     <Compile Include="Classes\ListViewNoFlicker.Designer.vb">
