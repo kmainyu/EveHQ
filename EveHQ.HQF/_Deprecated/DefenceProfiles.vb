@@ -21,25 +21,25 @@
 'Imports System.IO
 'Imports System.Windows.Forms
 
-'<Serializable()> Public Class DefenceProfile
-'    Public Name As String
-'    Public Type As Integer ' = DefenceProfileTypes
-'    Public SEM As Double
-'    Public SExplosive As Double
-'    Public SKinetic As Double
-'    Public SThermal As Double
-'    Public AEM As Double
-'    Public AExplosive As Double
-'    Public AKinetic As Double
-'    Public AThermal As Double
-'    Public HEM As Double
-'    Public HExplosive As Double
-'    Public HKinetic As Double
-'    Public HThermal As Double
-'    Public DPS As Double
-'    Public Fitting As String
-'    Public Pilot As String
-'End Class
+<Serializable()> Public Class DefenceProfile
+    Public Name As String
+    Public Type As Integer ' = DefenceProfileTypes
+    Public SEM As Double
+    Public SExplosive As Double
+    Public SKinetic As Double
+    Public SThermal As Double
+    Public AEM As Double
+    Public AExplosive As Double
+    Public AKinetic As Double
+    Public AThermal As Double
+    Public HEM As Double
+    Public HExplosive As Double
+    Public HKinetic As Double
+    Public HThermal As Double
+    Public DPS As Double
+    Public Fitting As String
+    Public Pilot As String
+End Class
 
 '<Serializable()> Public Class DefenceProfiles
 '    Public Shared ProfileList As New SortedList

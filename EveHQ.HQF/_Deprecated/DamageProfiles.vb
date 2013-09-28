@@ -21,18 +21,18 @@
 'Imports System.IO
 'Imports System.Windows.Forms
 
-'<Serializable()> Public Class DamageProfile
-'    Public Name As String
-'    Public Type As Integer ' = DamageProfileTypes
-'    Public EM As Double
-'    Public Explosive As Double
-'    Public Kinetic As Double
-'    Public Thermal As Double
-'    Public DPS As Double
-'    Public Fitting As String
-'    Public Pilot As String
-'    Public NPCs As New ArrayList
-'End Class
+<Serializable()> Public Class DamageProfile
+    Public Name As String
+    Public Type As Integer ' = DamageProfileTypes
+    Public EM As Double
+    Public Explosive As Double
+    Public Kinetic As Double
+    Public Thermal As Double
+    Public DPS As Double
+    Public Fitting As String
+    Public Pilot As String
+    Public NPCs As New ArrayList
+End Class
 
 '<Serializable()> Public Class DamageProfiles
 '    Public Shared ProfileList As New SortedList

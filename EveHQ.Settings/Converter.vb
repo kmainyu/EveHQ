@@ -856,9 +856,9 @@ Public Class Converter
                 newProfile.Explosive = profile.Explosive
                 newProfile.Kinetic = profile.Kinetic
                 newProfile.Thermal = profile.Thermal
-                newProfile.DPS = 0
-                newProfile.Fitting = ""
-                newProfile.Pilot = ""
+                newProfile.DPS = profile.DPS
+                newProfile.Fitting = profile.Fitting
+                newProfile.Pilot = profile.Pilot
                 newProfiles.Add(newProfile.Name, newProfile)
             Next
 
