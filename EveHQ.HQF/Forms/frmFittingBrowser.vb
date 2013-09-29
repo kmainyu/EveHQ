@@ -194,9 +194,9 @@ Public Class frmFittingBrowser
         ' Let's try and generate a fitting and get some damage info
         If currentShip IsNot Nothing Then
             If cboPilots.SelectedItem IsNot Nothing And cboProfiles.SelectedItem IsNot Nothing Then
-                If HQFPilotCollection.HQFPilots.ContainsKey(cboPilots.SelectedItem.ToString) Then
+                If FittingPilots.HQFPilots.ContainsKey(cboPilots.SelectedItem.ToString) Then
 
-                    Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+                    Dim loadoutPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
                     Dim loadoutProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
 
                     currentFitting.PilotName = loadoutPilot.PilotName
@@ -214,7 +214,7 @@ Public Class frmFittingBrowser
                     If csr.CapIsDrained = False Then
                         lblCapacitor.Text = "Stable at " & (csr.MinimumCap / loadoutShip.CapCapacity * 100).ToString("N0") & "%"
                     Else
-                        lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
+                        lblCapacitor.Text = "Lasts " & Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
                     End If
                     lblVelocity.Text = loadoutShip.MaxVelocity.ToString("N2") & " m/s"
                     lblMaxRange.Text = loadoutShip.MaxTargetRange.ToString("N0") & "m"

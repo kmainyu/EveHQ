@@ -20,52 +20,52 @@
 
 Public Class frmShipComparisonWorker
 
-    Dim pPilot As HQFPilot
-    Dim pProfile As HQFDamageProfile
-    Dim pShipList As New SortedList
-    Dim pShipInfo As New SortedList
-    Dim WithEvents CompareWorker As New System.ComponentModel.BackgroundWorker
+    Dim _pilot As FittingPilot
+    Dim _profile As HQFDamageProfile
+    Dim _shipList As New SortedList
+    Dim _shipInfo As New SortedList
+    Dim WithEvents CompareWorker As New ComponentModel.BackgroundWorker
 
-    Public Property Pilot() As HQFPilot
+    Public Property Pilot() As FittingPilot
         Get
-            Return pPilot
+            Return _pilot
         End Get
-        Set(ByVal value As HQFPilot)
-            pPilot = value
+        Set(ByVal value As FittingPilot)
+            _pilot = value
         End Set
     End Property
     Public Property Profile() As HQFDamageProfile
         Get
-            Return pProfile
+            Return _profile
         End Get
         Set(ByVal value As HQFDamageProfile)
-            pProfile = value
+            _profile = value
         End Set
     End Property
     Public Property ShipList() As SortedList
         Get
-            Return pShipList
+            Return _shipList
         End Get
         Set(ByVal value As SortedList)
-            pShipList = value
+            _shipList = value
         End Set
     End Property
     Public Property ShipInfo() As SortedList
         Get
-            Return pShipInfo
+            Return _shipInfo
         End Get
         Set(ByVal value As SortedList)
-            pShipInfo = value
+            _shipInfo = value
         End Set
     End Property
 
     Public Sub GenerateShipData()
-        For Each shipFit As String In pShipList.Keys
+        For Each shipFit As String In _shipList.Keys
             ' Let's try and generate a fitting and get some damage info
             Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
             NewFit.UpdateBaseShipFromFitting()
-            NewFit.BaseShip.DamageProfile = pProfile
-            NewFit.PilotName = pPilot.PilotName
+            NewFit.BaseShip.DamageProfile = _profile
+            NewFit.PilotName = _pilot.PilotName
             NewFit.ApplyFitting(BuildType.BuildEverything)
             Dim profileShip As Ship = NewFit.FittedShip
 
@@ -93,7 +93,7 @@ Public Class frmShipComparisonWorker
             newShip.AKi = profileShip.ArmorKiResist
             newShip.ATh = profileShip.ArmorThResist
             newShip.Speed = profileShip.MaxVelocity
-            pShipInfo.Add(shipFit, newShip)
+            _shipInfo.Add(shipFit, newShip)
         Next
     End Sub
 

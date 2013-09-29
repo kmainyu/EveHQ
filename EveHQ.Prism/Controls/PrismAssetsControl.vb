@@ -393,7 +393,7 @@ Public Class PrismAssetsControl
             adtAssets.Enabled = True
         End If
 
-        EveHQ.Core.AdvTreeSorter.Sort(adtAssets, 1, True, True)
+        Core.AdvTreeSorter.Sort(adtAssets, 1, True, True)
         adtAssets.EndUpdate()
     End Sub
 
@@ -548,13 +548,13 @@ Public Class PrismAssetsControl
             If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
 
                 Owner = PlugInData.PrismOwners(cOwner.Text)
-                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
+                Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.CorpSheet)
 
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -602,13 +602,13 @@ Public Class PrismAssetsControl
 
             If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                 Owner = PlugInData.PrismOwners(cOwner.Text)
-                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                 If OwnerAccount IsNot Nothing Then
 
                     Dim AssetXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                    Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
                     If Owner.IsCorp = True Then
                         assetCorpMode = chkCorpHangarMode.Checked
                         AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
@@ -730,7 +730,7 @@ Public Class PrismAssetsControl
 
                                 EveLocation = CType(locNode.Cells(AssetColumn("AssetSystem")).Tag, SolarSystem)
                                 Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
-                                Dim itemData As New EveHQ.Core.EveItem
+                                Dim itemData As Core.EveItem
                                 Dim itemName As String = ""
                                 Dim groupID As String = ""
                                 Dim catID As String = ""
@@ -738,22 +738,20 @@ Public Class PrismAssetsControl
                                 Dim catName As String = ""
                                 Dim metaLevel As String = ""
                                 Dim volume As String = ""
-                                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                                    itemData = EveHQ.Core.HQ.itemData(itemID)
+                                If Core.HQ.itemData.ContainsKey(itemID) Then
+                                    itemData = Core.HQ.itemData(itemID)
                                     itemName = itemData.Name
-                                    groupID = CStr(itemData.Group)
-                                    catID = CStr(itemData.Category)
-                                    groupName = EveHQ.Core.HQ.itemGroups(groupID)
-                                    catName = EveHQ.Core.HQ.itemCats(catID)
-                                    metaLevel = EveHQ.Core.HQ.itemData(itemID).MetaLevel.ToString
+                                    groupName = Core.HQ.itemGroups(itemData.Group)
+                                    catName = Core.HQ.itemCats(itemData.Category)
+                                    metaLevel = Core.HQ.itemData(itemID).MetaLevel.ToString
                                     If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
                                             volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                                         Else
-                                            volume = (EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                                            volume = (Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                                         End If
                                     Else
-                                        volume = (EveHQ.Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                                        volume = (Core.HQ.itemData(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                                     End If
                                 Else
                                     ' Can't find the item in the database
@@ -948,7 +946,7 @@ Public Class PrismAssetsControl
         For Each subLoc In subLocList
             Try
                 Dim ItemID As String = subLoc.Attributes.GetNamedItem("typeID").Value
-                Dim ItemData As New EveHQ.Core.EveItem
+                Dim ItemData As Core.EveItem
                 Dim itemName As String = ""
                 Dim groupID As String = ""
                 Dim catID As String = ""
@@ -956,22 +954,22 @@ Public Class PrismAssetsControl
                 Dim catName As String = ""
                 Dim metaLevel As String = ""
                 Dim volume As String = ""
-                If EveHQ.Core.HQ.itemData.ContainsKey(ItemID) Then
-                    ItemData = EveHQ.Core.HQ.itemData(ItemID)
+                If Core.HQ.itemData.ContainsKey(ItemID) Then
+                    ItemData = Core.HQ.itemData(ItemID)
                     itemName = ItemData.Name
                     groupID = CStr(ItemData.Group)
                     catID = CStr(ItemData.Category)
-                    groupName = EveHQ.Core.HQ.itemGroups(groupID)
-                    catName = EveHQ.Core.HQ.itemCats(catID)
-                    metaLevel = EveHQ.Core.HQ.itemData(ItemID).MetaLevel.ToString
+                    groupName = Core.HQ.itemGroups(ItemData.Group)
+                    catName = Core.HQ.itemCats(ItemData.Category)
+                    metaLevel = Core.HQ.itemData(ItemID).MetaLevel.ToString
                     If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
                             volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                         Else
-                            volume = (EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                            volume = (Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                         End If
                     Else
-                        volume = (EveHQ.Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                        volume = (Core.HQ.itemData(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                     End If
                 Else
                     ' Can't find the item in the database
@@ -1147,14 +1145,14 @@ Public Class PrismAssetsControl
             If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
 
                 Owner = PlugInData.PrismOwners(cOwner.Text)
-                Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
+                Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Balances)
 
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
                         ' Check for corp wallets
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -1184,7 +1182,7 @@ Public Class PrismAssetsControl
                         End If
                     Else
                         ' Check for character wallets
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
                         Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -1308,11 +1306,11 @@ Public Class PrismAssetsControl
                     Dim orderNode As New Node
                     CreateNodeCells(orderNode)
                     orderNode.Tag = ownerOrder.TypeID
-                    If EveHQ.Core.HQ.itemData.ContainsKey(ownerOrder.TypeID.ToString) = True Then
-                        Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ownerOrder.TypeID.ToString)
+                    If Core.HQ.itemData.ContainsKey(ownerOrder.TypeID.ToString) = True Then
+                        Dim orderItem As Core.EveItem = Core.HQ.itemData(ownerOrder.TypeID.ToString)
                         ItemName = orderItem.Name
-                        category = EveHQ.Core.HQ.itemCats(orderItem.Category.ToString)
-                        group = EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString)
+                        category = Core.HQ.itemCats(orderItem.Category)
+                        group = Core.HQ.itemGroups(orderItem.Group)
                         meta = orderItem.MetaLevel.ToString
                         vol = orderItem.Volume.ToString
                     Else
@@ -1389,10 +1387,10 @@ Public Class PrismAssetsControl
         If PlugInData.PrismOwners.ContainsKey(OrderOwner) = True Then
 
             Owner = PlugInData.PrismOwners(OrderOwner)
-            Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
+            Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
             Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Orders)
             Dim OrderXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
 
             If OwnerAccount IsNot Nothing Then
 
@@ -1468,9 +1466,9 @@ Public Class PrismAssetsControl
                         CreateNodeCells(RNode)
                         RNode.Tag = Job.InstalledItemTypeID.ToString
 
-                        Dim ResearchItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(Job.InstalledItemTypeID.ToString)
-                        category = EveHQ.Core.HQ.itemCats(ResearchItem.Category.ToString)
-                        group = EveHQ.Core.HQ.itemGroups(ResearchItem.Group.ToString)
+                        Dim ResearchItem As Core.EveItem = Core.HQ.itemData(Job.InstalledItemTypeID.ToString)
+                        category = Core.HQ.itemCats(ResearchItem.Category)
+                        group = Core.HQ.itemGroups(ResearchItem.Group)
                         ' Check for search criteria
                         If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And ResearchItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
                             ResearchNode.Nodes.Add(RNode)
@@ -1537,11 +1535,11 @@ Public Class PrismAssetsControl
         CreateNodeCells(RNode)
         RNode.Tag = Job.OutputTypeID.ToString
 
-        Dim ResearchItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(Job.OutputTypeID.ToString)
+        Dim ResearchItem As Core.EveItem = Core.HQ.itemData(Job.OutputTypeID.ToString)
         Dim category, group As String
         Dim EveLocation As SolarSystem
-        category = EveHQ.Core.HQ.itemCats(ResearchItem.Category.ToString)
-        group = EveHQ.Core.HQ.itemGroups(ResearchItem.Group.ToString)
+        category = Core.HQ.itemCats(ResearchItem.Category)
+        group = Core.HQ.itemGroups(ResearchItem.Group)
         ' Check for search criteria
         If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And ResearchItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
             ResearchNode.Nodes.Add(RNode)
@@ -1570,7 +1568,7 @@ Public Class PrismAssetsControl
             RNode.Cells(AssetColumn("AssetMeta")).Text = ResearchItem.MetaLevel.ToInvariantString("N0")
             RNode.Cells(AssetColumn("AssetVolume")).Text = ResearchItem.Volume.ToInvariantString("N2")
             RNode.Cells(AssetColumn("AssetQuantity")).Text = (Job.Runs * ResearchItem.PortionSize).ToInvariantString("N0")
-            Dim price As Double = EveHQ.Core.DataFunctions.GetPrice(Job.OutputTypeID.ToString)
+            Dim price As Double = Core.DataFunctions.GetPrice(Job.OutputTypeID.ToString)
             Dim value As Double = Job.Runs * ResearchItem.PortionSize * price
             RNode.Cells(AssetColumn("AssetPrice")).Text = price.ToInvariantString("N2")
             RNode.Cells(AssetColumn("AssetValue")).Text = value.ToInvariantString("N2")
@@ -1633,11 +1631,11 @@ Public Class PrismAssetsControl
                         priceTask.Wait()
                         Dim prices As Dictionary(Of String, Double) = priceTask.Result
                         For Each typeID As String In OwnerContract.Items.Keys
-                            If EveHQ.Core.HQ.itemData.ContainsKey(typeID) = True Then
-                                Dim orderItem As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeID)
+                            If Core.HQ.itemData.ContainsKey(typeID) = True Then
+                                Dim orderItem As Core.EveItem = Core.HQ.itemData(typeID)
                                 ItemName = orderItem.Name
-                                category = EveHQ.Core.HQ.itemCats(orderItem.Category.ToString)
-                                group = EveHQ.Core.HQ.itemGroups(orderItem.Group.ToString)
+                                category = Core.HQ.itemCats(orderItem.Category)
+                                group = Core.HQ.itemGroups(orderItem.Group)
                                 meta = orderItem.MetaLevel.ToString
                                 vol = orderItem.Volume.ToString
                             Else
@@ -1709,9 +1707,9 @@ Public Class PrismAssetsControl
                     Dim itemText As String = adtAssets.SelectedNodes(0).Text
                     Dim itemID As String = adtAssets.SelectedNodes(0).Tag.ToString
                     If itemName <> "Cash Balances" And itemName <> "Investments" Then
-                        If EveHQ.Core.HQ.itemList.ContainsKey(itemName) = True And itemName <> "Office" And adtAssets.SelectedNodes(0).Cells(AssetColumn("AssetQuantity")).Text <> "" Then
+                        If Core.HQ.itemList.ContainsKey(itemName) = True And itemName <> "Office" And adtAssets.SelectedNodes(0).Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                             mnuItemName.Text = itemName
-                            mnuItemName.Tag = EveHQ.Core.HQ.itemList(itemName)
+                            mnuItemName.Tag = Core.HQ.itemList(itemName)
                             mnuAddCustomName.Visible = True
                             mnuViewAssetID.Visible = True
                             mnuViewInIB.Visible = True
@@ -1806,15 +1804,15 @@ Public Class PrismAssetsControl
         ' This routine is shit hot!!
         Dim PluginName As String = "EveHQ Item Browser"
         Dim itemID As String = mnuItemName.Tag.ToString
-        Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(PluginName)
-        If myPlugIn.Status = EveHQ.Core.PlugIn.PlugInStatus.Active Then
-            Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-            Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+        Dim myPlugIn As Core.EveHQPlugIn = Core.HQ.Plugins(PluginName)
+        If myPlugIn.Status = Core.PlugIn.PlugInStatus.Active Then
+            Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+            Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMDITab(PluginName)
             If tp IsNot Nothing Then
                 mainTab.SelectedTab = tp
             Else
                 Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-                plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
+                plugInForm.MdiParent = Core.HQ.MainForm
                 plugInForm.Show()
             End If
             myPlugIn.Instance.GetPlugInData(itemID, 0)
@@ -1828,7 +1826,7 @@ Public Class PrismAssetsControl
 
     End Sub
     Private Sub mnuModifyPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuModifyPrice.Click
-        Dim newPrice As New EveHQ.Core.frmModifyPrice(mnuItemName.Tag.ToString, 0)
+        Dim newPrice As New Core.frmModifyPrice(mnuItemName.Tag.ToString, 0)
         newPrice.ShowDialog()
     End Sub
     Private Sub mnuViewInHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInHQF.Click
@@ -1912,13 +1910,13 @@ Public Class PrismAssetsControl
             If cOwner.Text = ShipOwner Then
                 If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                     Owner = PlugInData.PrismOwners(cOwner.Text)
-                    Dim OwnerAccount As EveHQ.Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                    Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                     If OwnerAccount IsNot Nothing Then
 
                         Dim AssetXML As New XmlDocument
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
                         If Owner.IsCorp = True Then
                             AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
                         Else
@@ -1945,8 +1943,8 @@ Public Class PrismAssetsControl
                                                 For Each mods In modList
                                                     Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
                                                     Dim itemName As String = ""
-                                                    If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                                        Dim itemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(itemID)
+                                                    If Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                                        Dim itemData As Core.EveItem = Core.HQ.itemData(itemID)
                                                         itemName = itemData.Name
                                                         groupID = itemData.Group.ToString
                                                         catID = itemData.Category.ToString
@@ -1998,8 +1996,8 @@ Public Class PrismAssetsControl
                         For Each mods In modList
                             Dim itemID As String = mods.Attributes.GetNamedItem("typeID").Value
                             Dim itemName As String = ""
-                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                Dim itemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(itemID)
+                            If Core.HQ.itemData.ContainsKey(itemID) = True Then
+                                Dim itemData As Core.EveItem = Core.HQ.itemData(itemID)
                                 itemName = itemData.Name
                                 groupID = itemData.Group.ToString
                                 catID = itemData.Category.ToString
@@ -2090,8 +2088,8 @@ Public Class PrismAssetsControl
         Dim assetID As String = mnuAddCustomName.Tag.ToString
         Dim itemName As String = mnuItemName.Text
         Dim assetSQL As String = "DELETE FROM assetItemNames WHERE itemID=" & assetID & ";"
-        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -2 Then
-            MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        If Core.DataFunctions.SetData(assetSQL) = -2 Then
+            MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Else
             PlugInData.AssetItemNames.Remove(assetID)
             adtAssets.SelectedNodes(0).Text = itemName
@@ -2099,7 +2097,7 @@ Public Class PrismAssetsControl
     End Sub
     Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+        Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
 #End Region
 
@@ -2109,18 +2107,18 @@ Public Class PrismAssetsControl
         tvwFilter.BeginUpdate()
         tvwFilter.Nodes.Clear()
         ' Load up the filter with categories
-        For Each cat As String In EveHQ.Core.HQ.itemCats.Keys
+        For Each cat As Integer In Core.HQ.itemCats.Keys
             newNode = New TreeNode
-            newNode.Name = cat
-            newNode.Text = EveHQ.Core.HQ.itemCats(cat)
+            newNode.Name = CStr(cat)
+            newNode.Text = Core.HQ.itemCats(cat)
             tvwFilter.Nodes.Add(newNode)
         Next
         ' Load up the filter with groups
-        For Each group As String In EveHQ.Core.HQ.itemGroups.Keys
+        For Each group As Integer In Core.HQ.itemGroups.Keys
             newNode = New TreeNode
-            newNode.Name = group
-            newNode.Text = CStr(EveHQ.Core.HQ.itemGroups(group))
-            tvwFilter.Nodes(EveHQ.Core.HQ.groupCats(newNode.Name)).Nodes.Add(newNode)
+            newNode.Name = CStr(group)
+            newNode.Text = CStr(Core.HQ.itemGroups(group))
+            tvwFilter.Nodes(Core.HQ.groupCats(CInt(newNode.Name))).Nodes.Add(newNode)
         Next
         ' Update the filter
         tvwFilter.Sorted = True
@@ -2413,7 +2411,7 @@ Public Class PrismAssetsControl
     End Function
     Private Sub mnuAddItemToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddItemToFilter.Click
         Dim ItemID As String = mnuItemName.Tag.ToString
-        Dim ItemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ItemID)
+        Dim ItemData As Core.EveItem = Core.HQ.itemData(ItemID)
         txtSearch.Text = ItemData.Name
         Dim minValue As Double
         If Double.TryParse(txtMinSystemValue.Text, minValue) = True Then
@@ -2424,16 +2422,16 @@ Public Class PrismAssetsControl
     End Sub
     Private Sub mnuAddGroupToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddGroupToFilter.Click
         Dim ItemID As String = mnuItemName.Tag.ToString
-        Dim ItemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ItemID)
-        Dim groupName As String = EveHQ.Core.HQ.itemGroups(ItemData.Group.ToString)
-        Dim catName As String = EveHQ.Core.HQ.itemCats(ItemData.Category.ToString)
+        Dim ItemData As Core.EveItem = Core.HQ.itemData(ItemID)
+        Dim groupName As String = Core.HQ.itemGroups(ItemData.Group)
+        Dim catName As String = Core.HQ.itemCats(ItemData.Category)
         Dim FullPath As String = catName & "\" & groupName
         Call SetFilterFromMenu(FullPath, True, groupName)
     End Sub
     Private Sub mnuAddCategoryToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCategoryToFilter.Click
         Dim ItemID As String = mnuItemName.Tag.ToString
-        Dim ItemData As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ItemID)
-        Dim FullPath As String = EveHQ.Core.HQ.itemCats(ItemData.Category.ToString)
+        Dim ItemData As Core.EveItem = Core.HQ.itemData(ItemID)
+        Dim FullPath As String = Core.HQ.itemCats(ItemData.Category)
         Call SetFilterFromMenu(FullPath, False, FullPath)
     End Sub
     Private Sub SetFilterFromMenu(ByVal FullPath As String, ByVal AddGroup As Boolean, ByVal FilterName As String)
@@ -2460,17 +2458,17 @@ Public Class PrismAssetsControl
         tempAssetList.Clear()
         For Each asset As Node In adtAssets.SelectedNodes
             assetName = asset.Cells(AssetColumn("AssetOwner")).Tag.ToString
-            If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
+            If recycleList.ContainsKey(Core.HQ.itemList(assetName)) = True Then
                 If asset.Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList(EveHQ.Core.HQ.itemList(assetName)) = CLng(recycleList(EveHQ.Core.HQ.itemList(assetName))) + CLng(asset.Cells(AssetColumn("AssetQuantity")).Text)
+                        recycleList(Core.HQ.itemList(assetName)) = CLng(recycleList(Core.HQ.itemList(assetName))) + CLng(asset.Cells(AssetColumn("AssetQuantity")).Text)
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
             Else
                 If asset.Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                     If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                        recycleList.Add(EveHQ.Core.HQ.itemList(assetName), CLng(asset.Cells(AssetColumn("AssetQuantity")).Text))
+                        recycleList.Add(Core.HQ.itemList(assetName), CLng(asset.Cells(AssetColumn("AssetQuantity")).Text))
                         tempAssetList.Add(asset.Tag.ToString)
                     End If
                 End If
@@ -2503,18 +2501,18 @@ Public Class PrismAssetsControl
         For Each asset As Node In adtAssets.SelectedNodes
             If asset.Cells(AssetColumn("AssetOwner")).Tag IsNot Nothing Then
                 assetName = asset.Cells(AssetColumn("AssetOwner")).Tag.ToString
-                If EveHQ.Core.HQ.itemList.ContainsKey(assetName) = True Then
-                    If recycleList.ContainsKey(EveHQ.Core.HQ.itemList(assetName)) = True Then
+                If Core.HQ.itemList.ContainsKey(assetName) = True Then
+                    If recycleList.ContainsKey(Core.HQ.itemList(assetName)) = True Then
                         If asset.Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                             If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                                recycleList(EveHQ.Core.HQ.itemList(assetName)) = CLng(recycleList(EveHQ.Core.HQ.itemList(assetName))) + CLng(asset.Cells(AssetColumn("AssetQuantity")).Text)
+                                recycleList(Core.HQ.itemList(assetName)) = CLng(recycleList(Core.HQ.itemList(assetName))) + CLng(asset.Cells(AssetColumn("AssetQuantity")).Text)
                                 tempAssetList.Add(asset.Tag.ToString)
                             End If
                         End If
                     Else
                         If asset.Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                             If tempAssetList.Contains(asset.Tag.ToString) = False Then
-                                recycleList.Add(EveHQ.Core.HQ.itemList(assetName), CLng(asset.Cells(AssetColumn("AssetQuantity")).Text))
+                                recycleList.Add(Core.HQ.itemList(assetName), CLng(asset.Cells(AssetColumn("AssetQuantity")).Text))
                                 tempAssetList.Add(asset.Tag.ToString)
                             End If
                         End If
@@ -2532,18 +2530,18 @@ Public Class PrismAssetsControl
 
     Private Sub AddItemsToRecycleList(ByVal item As Node, ByRef assetList As SortedList)
         For Each childItem As Node In item.Nodes
-            If EveHQ.Core.HQ.itemList.ContainsKey(childItem.Text) = True Then
-                If assetList.ContainsKey(EveHQ.Core.HQ.itemList(childItem.Text)) = True Then
+            If Core.HQ.itemList.ContainsKey(childItem.Text) = True Then
+                If assetList.ContainsKey(Core.HQ.itemList(childItem.Text)) = True Then
                     If childItem.Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                         If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                            assetList(EveHQ.Core.HQ.itemList(childItem.Text)) = CLng(assetList(EveHQ.Core.HQ.itemList(childItem.Text))) + CLng(childItem.Cells(AssetColumn("AssetQuantity")).Text)
+                            assetList(Core.HQ.itemList(childItem.Text)) = CLng(assetList(Core.HQ.itemList(childItem.Text))) + CLng(childItem.Cells(AssetColumn("AssetQuantity")).Text)
                             tempAssetList.Add(childItem.Tag.ToString)
                         End If
                     End If
                 Else
                     If childItem.Cells(AssetColumn("AssetQuantity")).Text <> "" Then
                         If tempAssetList.Contains(childItem.Tag.ToString) = False Then
-                            assetList.Add(EveHQ.Core.HQ.itemList(childItem.Text), CLng(childItem.Cells(AssetColumn("AssetQuantity")).Text))
+                            assetList.Add(Core.HQ.itemList(childItem.Text), CLng(childItem.Cells(AssetColumn("AssetQuantity")).Text))
                             tempAssetList.Add(childItem.Tag.ToString)
                         End If
                     End If
@@ -2638,26 +2636,26 @@ Public Class PrismAssetsControl
         Next
 
         ' Sort our result depending on the ExportType
-        Dim ResultsSorter As New EveHQ.Core.ClassSorter
+        Dim ResultsSorter As New Core.ClassSorter
         Select Case ExportType
             Case ExportTypes.TypeName
-                ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("TypeName", Core.SortDirection.Ascending))
+                ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
             Case ExportTypes.Quantity
-                ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Quantity", Core.SortDirection.Ascending))
+                ResultsSorter.SortClasses.Add(New Core.SortClass("Quantity", Core.SortDirection.Ascending))
             Case ExportTypes.Price
-                ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Price", Core.SortDirection.Ascending))
+                ResultsSorter.SortClasses.Add(New Core.SortClass("Price", Core.SortDirection.Ascending))
             Case ExportTypes.Value
-                ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Value", Core.SortDirection.Ascending))
+                ResultsSorter.SortClasses.Add(New Core.SortClass("Value", Core.SortDirection.Ascending))
             Case ExportTypes.Volume
-                ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Volume", Core.SortDirection.Ascending))
+                ResultsSorter.SortClasses.Add(New Core.SortClass("Volume", Core.SortDirection.Ascending))
         End Select
-        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("TypeName", Core.SortDirection.Ascending))
+        ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
         Assets.Sort(ResultsSorter)
 
         ' Select a location for the export
         Dim sfd As New SaveFileDialog
         sfd.Title = "Export Assets"
-        sfd.InitialDirectory = EveHQ.Core.HQ.reportFolder
+        sfd.InitialDirectory = Core.HQ.reportFolder
         Dim filterText As String = "Comma Separated Variable files (*.csv)|*.csv"
         filterText &= "|Tab Separated Variable files (*.txt)|*.txt"
         sfd.Filter = filterText
@@ -2668,7 +2666,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportGroupedAssets(Assets, EveHQ.Core.HQ.Settings.CSVSeparatorChar, sfd.FileName)
+                    Call Me.ExportGroupedAssets(Assets, Core.HQ.Settings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select
@@ -2750,26 +2748,26 @@ Public Class PrismAssetsControl
         Next
 
         ' Sort our result depending on the ExportType
-        Dim ResultsSorter As New EveHQ.Core.ClassSorter
+        Dim ResultsSorter As New Core.ClassSorter
         'Select Case ExportType
         '    Case ExportTypes.TypeName
-        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("TypeName", Core.SortDirection.Ascending))
+        '        ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
         '    Case ExportTypes.Quantity
-        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Quantity", Core.SortDirection.Ascending))
+        '        ResultsSorter.SortClasses.Add(New Core.SortClass("Quantity", Core.SortDirection.Ascending))
         '    Case ExportTypes.Price
-        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Price", Core.SortDirection.Ascending))
+        '        ResultsSorter.SortClasses.Add(New Core.SortClass("Price", Core.SortDirection.Ascending))
         '    Case ExportTypes.Value
-        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Value", Core.SortDirection.Ascending))
+        '        ResultsSorter.SortClasses.Add(New Core.SortClass("Value", Core.SortDirection.Ascending))
         '    Case ExportTypes.Volume
-        '        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("Volume", Core.SortDirection.Ascending))
+        '        ResultsSorter.SortClasses.Add(New Core.SortClass("Volume", Core.SortDirection.Ascending))
         'End Select
-        ResultsSorter.SortClasses.Add(New EveHQ.Core.SortClass("TypeName", Core.SortDirection.Ascending))
+        ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
         Assets.Sort(ResultsSorter)
 
         ' Select a location for the export
         Dim sfd As New SaveFileDialog
         sfd.Title = "Export Assets"
-        sfd.InitialDirectory = EveHQ.Core.HQ.reportFolder
+        sfd.InitialDirectory = Core.HQ.reportFolder
         Dim filterText As String = "Comma Separated Variable files (*.csv)|*.csv"
         filterText &= "|Tab Separated Variable files (*.txt)|*.txt"
         sfd.Filter = filterText
@@ -2780,7 +2778,7 @@ Public Class PrismAssetsControl
         If sfd.FileName <> "" Then
             Select Case sfd.FilterIndex
                 Case 1
-                    Call Me.ExportAssets(Assets, EveHQ.Core.HQ.Settings.CSVSeparatorChar, sfd.FileName)
+                    Call Me.ExportAssets(Assets, Core.HQ.Settings.CSVSeparatorChar, sfd.FileName)
                 Case 2
                     Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
             End Select

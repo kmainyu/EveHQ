@@ -466,7 +466,7 @@ Public Class ShipInfoControl
         If cboPilots.SelectedItem IsNot Nothing Then
             cboImplants.Tag = "Updating"
             Dim oldImplants As String
-            Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+            Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
             oldImplants = shipPilot.ImplantName(0)
             cboImplants.BeginUpdate()
             cboImplants.Items.Clear()
@@ -595,7 +595,7 @@ Public Class ShipInfoControl
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         ' Build the Affections data for this pilot
-        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+        Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
         ParentFitting.PilotName = shipPilot.PilotName
         cboImplants.Tag = "Updating"
         If shipPilot.ImplantName(0) IsNot Nothing Then
@@ -610,12 +610,12 @@ Public Class ShipInfoControl
     End Sub
 
     Private Sub cboImplants_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplants.SelectedIndexChanged
-        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem), HQFPilot)
+        Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
         ' Update the pilot's implants?
         shipPilot.ImplantName(0) = cboImplants.SelectedItem.ToString
-        Dim implantList As New System.Text.StringBuilder
+        Dim implantList As New Text.StringBuilder
         If cboImplants.SelectedItem.ToString <> "*Custom*" Then
-            If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(cboImplants.SelectedItem.ToString) Then
+            If Settings.HQFSettings.ImplantGroups.ContainsKey(cboImplants.SelectedItem.ToString) Then
                 Dim currentImplantGroup As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(cboImplants.SelectedItem.ToString), ImplantGroup)
                 For imp As Integer = 1 To 10
                     If currentImplantGroup.ImplantName(imp) = "" Then

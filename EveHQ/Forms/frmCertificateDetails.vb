@@ -83,7 +83,7 @@ Public Class frmCertificateDetails
         tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
 
-        For Each skillID As String In cCert.RequiredSkills.Keys
+        For Each skillID As Integer In cCert.RequiredSkills.Keys
 
             Dim level As Integer = 1
             Dim pointer(20) As Integer
@@ -147,7 +147,7 @@ Public Class frmCertificateDetails
 
             If cSkill.PreReqSkills.Count > 0 Then
                 Dim subSkill As EveHQ.Core.EveSkill
-                For Each subSkillID As String In cSkill.PreReqSkills.Keys
+                For Each subSkillID As Integer In cSkill.PreReqSkills.Keys
                     subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                 Next
@@ -195,7 +195,7 @@ Public Class frmCertificateDetails
 
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveHQ.Core.EveSkill
-            For Each subSkillID As String In newSkill.PreReqSkills.Keys
+            For Each subSkillID As Integer In newSkill.PreReqSkills.Keys
                 subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
                 Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
             Next
@@ -256,18 +256,18 @@ Public Class frmCertificateDetails
         Dim curNode As TreeNode = New TreeNode
         curNode = tvwReqs.SelectedNode
         Dim skillName As String = ""
-        Dim skillID As String = ""
+        Dim skillID As Integer
         skillName = curNode.Text
         If InStr(skillName, "(Level") <> 0 Then
             skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
         End If
-        skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+        skillID = Core.SkillFunctions.SkillNameToID(skillName)
         mnuSkillName.Text = skillName
         mnuSkillName.Tag = skillID
     End Sub
 
     Private Sub mnuViewSkillDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewSkillDetails.Click
-        Dim skillID As String = mnuSkillName.Tag.ToString
+        Dim skillID As Integer = CInt(mnuSkillName.Tag)
         frmSkillDetails.DisplayPilotName = cDisplayPilotName
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub

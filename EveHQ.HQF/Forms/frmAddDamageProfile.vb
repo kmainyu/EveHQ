@@ -171,7 +171,7 @@ Public Class frmAddDamageProfile
             If cboFittingName.SelectedItem IsNot Nothing And cboPilotName.SelectedItem IsNot Nothing Then
                 ' Let's try and generate a fitting and get some damage info
                 Dim shipFit As String = cboFittingName.SelectedItem.ToString
-                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilotName.SelectedItem.ToString), HQFPilot)
+                Dim pPilot As FittingPilot = FittingPilots.HQFPilots(cboPilotName.SelectedItem.ToString)
                 Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
                 newFit.UpdateBaseShipFromFitting()
                 newFit.PilotName = pPilot.PilotName

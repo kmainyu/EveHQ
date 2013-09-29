@@ -21,10 +21,10 @@ Imports System.Drawing
 
 Public Class SkillQueueBlock
 
-    Dim currentPilot As New EveHQ.Core.EveHQPilot
+    Dim currentPilot As New Core.EveHQPilot
     Dim CurrentPilotName As String = ""
-    Dim CurrentQueuedSkill As New EveHQ.Core.EveHQPilotQueuedSkill
-    Dim currentSkill As New EveHQ.Core.EveHQPilotSkill
+    Dim CurrentQueuedSkill As New Core.EveHQPilotQueuedSkill
+    Dim currentSkill As New Core.EveHQPilotSkill
     Dim TrainedLevel As Integer = 0
     Dim Percent As Double = 0
 
@@ -51,9 +51,9 @@ Public Class SkillQueueBlock
         g.FillRectangle(Brushes.DimGray, New RectangleF(sx, sy, panelSQB.Width - 4, 4))
         g.FillRectangle(Brushes.Silver, New RectangleF(sx, sy + 3, panelSQB.Width - 4, 1))
         ' Calculate number of seconds from now till start
-        Dim startSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) - Now
+        Dim startSpan As TimeSpan = Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) - Now
         Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
-        Dim endSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now
+        Dim endSpan As TimeSpan = Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now
         Dim endSec As Double = Math.Min(endSpan.TotalSeconds, 86400)
         Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQB.Width - 4)), 0)
         Dim endMark As Integer = CInt(endSec / 86400 * (panelSQB.Width - 4))
@@ -87,7 +87,7 @@ Public Class SkillQueueBlock
     ''' <param name="PilotName"></param>
     ''' <param name="QueuedSkill"></param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal PilotName As String, ByVal QueuedSkill As EveHQ.Core.EveHQPilotQueuedSkill)
+    Public Sub New(ByVal PilotName As String, ByVal QueuedSkill As Core.EveHQPilotQueuedSkill)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -97,24 +97,24 @@ Public Class SkillQueueBlock
         CurrentQueuedSkill = QueuedSkill
 
         ' Establish current skill & calculate level and percentage
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(CurrentPilotName) = True Then
-            currentPilot = EveHQ.Core.HQ.Settings.Pilots(CurrentPilotName)
-            If currentPilot.PilotSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID))) = True Then
-                currentSkill = currentPilot.PilotSkills(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(CurrentQueuedSkill.SkillID)))
+        If HQ.Settings.Pilots.ContainsKey(CurrentPilotName) = True Then
+            currentPilot = HQ.Settings.Pilots(CurrentPilotName)
+            If currentPilot.PilotSkills.ContainsKey(Core.SkillFunctions.SkillIDToName(CurrentQueuedSkill.SkillID)) = True Then
+                currentSkill = currentPilot.PilotSkills(Core.SkillFunctions.SkillIDToName(CurrentQueuedSkill.SkillID))
                 lblSkillName.Text = currentSkill.Name & " (" & currentSkill.Rank.ToString & "x)"
                 lblSkillLevel.Text = "Level " & QueuedSkill.Level.ToString
                 TrainedLevel = currentSkill.Level
                 ' Calculatate percentage
-                If CurrentQueuedSkill.SkillID = CDbl(currentPilot.TrainingSkillID) And CurrentQueuedSkill.Level = currentPilot.TrainingSkillLevel Then
+                If CurrentQueuedSkill.SkillID = currentPilot.TrainingSkillID And CurrentQueuedSkill.Level = currentPilot.TrainingSkillLevel Then
                     Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP + currentPilot.TrainingCurrentSP - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) / (HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel + 1) - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) * 100), 0), 100))
                 Else
                     Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) / (HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel + 1) - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) * 100), 0), 100))
                 End If
-                If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) < Now And EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) >= Now Then
-                    lblTimeToTrain.Text = EveHQ.Core.SkillFunctions.TimeToString((EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now).TotalSeconds)
+                If Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) < Now And Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) >= Now Then
+                    lblTimeToTrain.Text = Core.SkillFunctions.TimeToString((Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now).TotalSeconds)
                     PictureBox1.Image = My.Resources.SkillBook32
                 Else
-                    lblTimeToTrain.Text = EveHQ.Core.SkillFunctions.TimeToString((QueuedSkill.EndTime - QueuedSkill.StartTime).TotalSeconds)
+                    lblTimeToTrain.Text = Core.SkillFunctions.TimeToString((QueuedSkill.EndTime - QueuedSkill.StartTime).TotalSeconds)
                 End If
             Else
                 TrainedLevel = 0
@@ -141,14 +141,14 @@ Public Class SkillQueueBlock
         InitializeComponent()
 
         ' Set the current pilot and queued skill
-        CurrentQueuedSkill = New EveHQ.Core.EveHQPilotQueuedSkill
+        CurrentQueuedSkill = New Core.EveHQPilotQueuedSkill
         TrainedLevel = 0
         Percent = 0
     End Sub
 
     Private Sub tmrUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrUpdate.Tick
-        If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) < Now And EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) >= Now Then
-            lblTimeToTrain.Text = EveHQ.Core.SkillFunctions.TimeToString((EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now).TotalSeconds)
+        If Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.StartTime) < Now And Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) >= Now Then
+            lblTimeToTrain.Text = Core.SkillFunctions.TimeToString((Core.SkillFunctions.ConvertEveTimeToLocal(CurrentQueuedSkill.EndTime) - Now).TotalSeconds)
             If CurrentQueuedSkill.SkillID = CDbl(currentPilot.TrainingSkillID) And CurrentQueuedSkill.Level = currentPilot.TrainingSkillLevel Then
                 Percent = (Math.Min(Math.Max(CDbl((currentSkill.SP + currentPilot.TrainingCurrentSP - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) / (HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel + 1) - HQ.SkillListName(currentSkill.Name).LevelUp(TrainedLevel)) * 100), 0), 100))
             End If

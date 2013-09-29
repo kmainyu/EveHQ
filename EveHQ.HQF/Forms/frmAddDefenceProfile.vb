@@ -232,12 +232,12 @@ Public Class frmAddDefenceProfile
             If cboFittingName.SelectedItem IsNot Nothing And cboPilotName.SelectedItem IsNot Nothing Then
                 ' Let's try and generate a fitting and get some damage info
                 Dim shipFit As String = cboFittingName.SelectedItem.ToString
-                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilotName.SelectedItem.ToString), HQFPilot)
-                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                NewFit.UpdateBaseShipFromFitting()
-                NewFit.PilotName = pPilot.PilotName
-                NewFit.ApplyFitting(BuildType.BuildEverything)
-                Dim profileShip As Ship = NewFit.FittedShip
+                Dim pPilot As FittingPilot = FittingPilots.HQFPilots(cboPilotName.SelectedItem.ToString)
+                Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
+                newFit.UpdateBaseShipFromFitting()
+                newFit.PilotName = pPilot.PilotName
+                newFit.ApplyFitting(BuildType.BuildEverything)
+                Dim profileShip As Ship = newFit.FittedShip
                 ' Place details of ship damage and DPS into text boxes
                 txtSEM.Text = profileShip.ShieldEMResist.ToString("N2")
                 txtSEx.Text = profileShip.ShieldExResist.ToString("N2")

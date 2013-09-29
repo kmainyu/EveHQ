@@ -11,14 +11,14 @@
     Public Property CorpID As String = ""
     Public Property Isk As Double = 0
     Public Property CloneName As String = ""
-    Public Property CloneSP As String = ""
+    Public Property CloneSP As Integer = 0
     Public Property SkillPoints As Integer = 0
     Public Property Training As Boolean = False
     Public Property TrainingStartTime As Date = Now
     Public Property TrainingStartTimeActual As Date = Now
     Public Property TrainingEndTime As Date = Now
     Public Property TrainingEndTimeActual As Date = Now
-    Public Property TrainingSkillID As String = ""
+    Public Property TrainingSkillID As Integer = 0
     Public Property TrainingSkillName As String = ""
     Public Property TrainingStartSP As Integer = 0
     Public Property TrainingEndSP As Integer = 0

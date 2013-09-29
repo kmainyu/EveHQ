@@ -151,15 +151,15 @@ Imports EveHQ.Core
             Return cPilotName
         End Get
         Set(ByVal value As String)
-            If HQFPilotCollection.HQFPilots.ContainsKey(value) = False Then
+            If FittingPilots.HQFPilots.ContainsKey(value) = False Then
                 '  MessageBox.Show("The pilot '" & value & "' is not a listed pilot. The system will now try to use your configured default pilot instead for this fit (" & Me.FittingName & ").", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                If HQFPilotCollection.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) Then
+                If FittingPilots.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) Then
                     'Fall back to the configured default pilot if they are valid.
                     cPilotName = Settings.HQFSettings.DefaultPilot
                 Else
                     ' Even the configured default isn't valid... fallback to the first valid pilot in the collection
-                    If HQFPilotCollection.HQFPilots.Count > 0 Then
-                        cPilotName = CType(HQFPilotCollection.HQFPilots.GetByIndex(0), HQFPilot).PilotName
+                    If FittingPilots.HQFPilots.Count > 0 Then
+                        cPilotName = FittingPilots.HQFPilots.Values(0).PilotName
                         ' Thankfully there is already a check for pilots when HQF starts up...
                     End If
                 End If
@@ -438,9 +438,9 @@ Imports EveHQ.Core
 #End Region
 
 #Region "Fitting Mapping Collections"
-    Private SkillEffectsTable As New SortedList(Of String, List(Of FinalEffect))
-    Private ModuleEffectsTable As New SortedList(Of String, List(Of FinalEffect))
-    Private ChargeEffectsTable As New SortedList(Of String, List(Of FinalEffect))
+    Private ReadOnly _skillEffectsTable As New SortedList(Of String, List(Of FinalEffect))
+    Private ReadOnly _moduleEffectsTable As New SortedList(Of String, List(Of FinalEffect))
+    Private ReadOnly _chargeEffectsTable As New SortedList(Of String, List(Of FinalEffect))
 #End Region
 
 #Region "Class Methods"
@@ -462,16 +462,16 @@ Imports EveHQ.Core
     ''' <summary>
     ''' Calculates the final ship stats based on the internal base ship and pilot
     ''' </summary>
-    ''' <param name="BuildMethod"></param>
+    ''' <param name="buildMethod"></param>
     ''' <remarks></remarks>
-    Public Sub ApplyFitting(Optional ByVal BuildMethod As BuildType = BuildType.BuildEverything, Optional ByVal VisualUpdates As Boolean = True)
+    Public Sub ApplyFitting(Optional ByVal buildMethod As BuildType = BuildType.BuildEverything, Optional ByVal visualUpdates As Boolean = True)
         ' Update the pilot from the pilot name
 
         Dim baseShip As Ship = Me.BaseShip
-        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(Me.PilotName), HQFPilot)
+        Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(PilotName)
 
         ' Setup performance info - just in case!
-        Dim stages As Integer = 23
+        Const stages As Integer = 23
         Dim pStages(stages) As String
         Dim pStageTime(stages) As DateTime
         pStages(0) = "Start Timing: "
@@ -500,7 +500,7 @@ Imports EveHQ.Core
         pStages(23) = "Calculating Defence Statistics: "
         ' Apply the pilot skills to the ship
         Dim newShip As New Ship
-        Select Case BuildMethod
+        Select Case buildMethod
             Case BuildType.BuildEverything
                 pStageTime(0) = Now
                 Me.BuildSkillEffects(shipPilot)
@@ -659,7 +659,7 @@ Imports EveHQ.Core
             Next
             dTime = pStageTime(stages) - pStageTime(0)
             perfMsg &= "Total Time: " & dTime.TotalMilliseconds.ToString("N2") & "ms" & ControlChars.CrLf
-            MessageBox.Show(perfMsg, "Performance Data Results: Method " & BuildMethod, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show(perfMsg, "Performance Data Results: Method " & buildMethod, MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
         Ship.MapShipAttributes(newShip)
         cFittedShip = newShip
@@ -683,14 +683,14 @@ Imports EveHQ.Core
 #End Region
 
 #Region "Private Fitting Routines"
-    Private Sub BuildSkillEffects(ByVal hPilot As HQFPilot)
+    Private Sub BuildSkillEffects(ByVal hPilot As FittingPilot)
         ' Clear the Effects Table
-        SkillEffectsTable.Clear()
+        _skillEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
         Dim aSkill As New Skill
         Dim fEffect As New FinalEffect
         Dim fEffectList As New List(Of FinalEffect)
-        For Each hSkill As HQFSkill In hPilot.SkillSet
+        For Each hSkill As FittingSkill In hPilot.SkillSet.Values
             If SkillLists.SkillList.ContainsKey(hSkill.ID) = True Then
                 If hSkill.Level <> 0 Then
                     ' Go through the attributes
@@ -714,11 +714,11 @@ Imports EveHQ.Core
                                         fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
                                         fEffect.CalcType = chkEffect.CalcType
                                         fEffect.Status = chkEffect.Status
-                                        If SkillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                        If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                             fEffectList = New List(Of FinalEffect)
-                                            SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                            _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                         Else
-                                            fEffectList = SkillEffectsTable(fEffect.AffectedAtt.ToString)
+                                            fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
                                         End If
                                         fEffectList.Add(fEffect)
                                     End If
@@ -732,19 +732,19 @@ Imports EveHQ.Core
             End If
         Next
     End Sub
-    Private Sub BuildImplantEffects(ByVal hPilot As HQFPilot)
+    Private Sub BuildImplantEffects(ByVal hPilot As FittingPilot)
         ' Run through the implants and see if we have any pirate implants
         Dim hImplant As String = ""
         Dim aImplant As ShipModule
-        Dim PIGroup As String = ""
+        Dim piGroup As String = ""
         Dim cPirateImplantGroups As SortedList = CType(Engine.PirateImplantGroups.Clone, Collections.SortedList)
         For slotNo As Integer = 1 To 10
             hImplant = hPilot.ImplantName(slotNo)
             If Engine.PirateImplants.ContainsKey(hImplant) = True Then
                 ' We have a pirate implant so let's work out the group and the set bonus
-                PIGroup = CStr(Engine.PirateImplants.Item(hImplant))
+                piGroup = CStr(Engine.PirateImplants.Item(hImplant))
                 aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
-                Select Case PIGroup
+                Select Case piGroup
                     Case "Centurion", "Low-grade Centurion"
                         cPirateImplantGroups.Item("Centurion") = CDbl(cPirateImplantGroups.Item("Centurion")) * CDbl(aImplant.Attributes("1293"))
                         cPirateImplantGroups.Item("Low-grade Centurion") = CDbl(cPirateImplantGroups.Item("Low-grade Centurion")) * CDbl(aImplant.Attributes("1293"))
@@ -755,9 +755,9 @@ Imports EveHQ.Core
                         cPirateImplantGroups.Item("Edge") = CDbl(cPirateImplantGroups.Item("Edge")) * CDbl(aImplant.Attributes("1291"))
                         cPirateImplantGroups.Item("Low-grade Edge") = CDbl(cPirateImplantGroups.Item("Low-grade Edge")) * CDbl(aImplant.Attributes("1291"))
                     Case "Grail"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1550"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1550"))
                     Case "Low-grade Grail"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1569"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1569"))
                     Case "Halo", "Low-grade Halo"
                         cPirateImplantGroups.Item("Halo") = CDbl(cPirateImplantGroups.Item("Halo")) * CDbl(aImplant.Attributes("863"))
                         cPirateImplantGroups.Item("Low-grade Halo") = CDbl(cPirateImplantGroups.Item("Low-grade Halo")) * CDbl(aImplant.Attributes("863"))
@@ -765,9 +765,9 @@ Imports EveHQ.Core
                         cPirateImplantGroups.Item("Harvest") = CDbl(cPirateImplantGroups.Item("Harvest")) * CDbl(aImplant.Attributes("1292"))
                         cPirateImplantGroups.Item("Low-grade Harvest") = CDbl(cPirateImplantGroups.Item("Low-grade Harvest")) * CDbl(aImplant.Attributes("1292"))
                     Case "Jackal"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1554"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1554"))
                     Case "Low-grade Jackal"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1572"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1572"))
                     Case "Nomad", "Low-grade Nomad"
                         cPirateImplantGroups.Item("Nomad") = CDbl(cPirateImplantGroups.Item("Nomad")) * CDbl(aImplant.Attributes("1282"))
                         cPirateImplantGroups.Item("Low-grade Nomad") = CDbl(cPirateImplantGroups.Item("Low-grade Nomad")) * CDbl(aImplant.Attributes("1282"))
@@ -778,16 +778,16 @@ Imports EveHQ.Core
                         cPirateImplantGroups.Item("Snake") = CDbl(cPirateImplantGroups.Item("Snake")) * CDbl(aImplant.Attributes("802"))
                         cPirateImplantGroups.Item("Low-grade Snake") = CDbl(cPirateImplantGroups.Item("Low-grade Snake")) * CDbl(aImplant.Attributes("802"))
                     Case "Spur"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1553"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1553"))
                     Case "Low-grade Spur"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1570"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1570"))
                     Case "Talisman", "Low-grade Talisman"
                         cPirateImplantGroups.Item("Talisman") = CDbl(cPirateImplantGroups.Item("Talisman")) * CDbl(aImplant.Attributes("799"))
                         cPirateImplantGroups.Item("Low-grade Talisman") = CDbl(cPirateImplantGroups.Item("Low-grade Talisman")) * CDbl(aImplant.Attributes("799"))
                     Case "Talon"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1552"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1552"))
                     Case "Low-grade Talon"
-                        cPirateImplantGroups.Item(PIGroup) = CDbl(cPirateImplantGroups.Item(PIGroup)) * CDbl(aImplant.Attributes("1571"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1571"))
                     Case "Virtue", "Low-grade Virtue"
                         cPirateImplantGroups.Item("Virtue") = CDbl(cPirateImplantGroups.Item("Virtue")) * CDbl(aImplant.Attributes("1284"))
                         cPirateImplantGroups.Item("Low-grade Virtue") = CDbl(cPirateImplantGroups.Item("Low-grade Virtue")) * CDbl(aImplant.Attributes("1284"))
@@ -816,20 +816,20 @@ Imports EveHQ.Core
                                     fEffect.AffectedType = chkEffect.AffectedType
                                     fEffect.AffectedID = chkEffect.AffectedID
                                     If Engine.PirateImplants.ContainsKey(aImplant.Name) = True Then
-                                        PIGroup = CStr(Engine.PirateImplants.Item(hImplant))
-                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(PIGroup))
-                                        fEffect.Cause = aImplant.Name & " (Set Bonus: " & CDbl(cPirateImplantGroups.Item(PIGroup)).ToString("N3") & "x)"
+                                        piGroup = CStr(Engine.PirateImplants.Item(hImplant))
+                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(piGroup))
+                                        fEffect.Cause = aImplant.Name & " (Set Bonus: " & CDbl(cPirateImplantGroups.Item(piGroup)).ToString("N3") & "x)"
                                     Else
                                         fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
                                         fEffect.Cause = aImplant.Name
                                     End If
                                     fEffect.StackNerf = 0
                                     fEffect.CalcType = chkEffect.CalcType
-                                    If SkillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                    If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                         fEffectList = New List(Of FinalEffect)
-                                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                        _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                     Else
-                                        fEffectList = SkillEffectsTable(fEffect.AffectedAtt.ToString)
+                                        fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
                                     End If
                                     fEffectList.Add(fEffect)
                                 End If
@@ -846,21 +846,21 @@ Imports EveHQ.Core
             End If
         Next
     End Sub
-    Private Sub BuildShipBonuses(ByVal hPilot As HQFPilot, ByVal hShip As Ship)
+    Private Sub BuildShipBonuses(ByVal hPilot As FittingPilot, ByVal hShip As Ship)
         If hShip IsNot Nothing Then
             ' Go through all the skills and see what needs to be mapped
-            Dim shipRoles As New List(Of ShipEffect)
-            Dim hSkill As New HQFSkill
-            Dim fEffect As New FinalEffect
-            Dim fEffectList As New List(Of FinalEffect)
+            Dim shipRoles As List(Of ShipEffect)
+            Dim hSkill As FittingSkill
+            Dim fEffect As FinalEffect
+            Dim fEffectList As List(Of FinalEffect)
             If Engine.ShipBonusesMap.ContainsKey(hShip.ID) = True Then
                 shipRoles = Engine.ShipBonusesMap(hShip.ID)
                 If shipRoles IsNot Nothing Then
                     For Each chkEffect As ShipEffect In shipRoles
                         If chkEffect.Status <> 16 Then
                             fEffect = New FinalEffect
-                            If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
-                                hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                            If hPilot.SkillSet.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(chkEffect.AffectingID)) = True Then
+                                hSkill = hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(chkEffect.AffectingID))
                                 If chkEffect.IsPerLevel = True Then
                                     fEffect.AffectedValue = chkEffect.Value * hSkill.Level
                                     fEffect.Cause = "Ship Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
@@ -877,11 +877,11 @@ Imports EveHQ.Core
                             fEffect.AffectedID = chkEffect.AffectedID
                             fEffect.StackNerf = chkEffect.StackNerf
                             fEffect.CalcType = chkEffect.CalcType
-                            If SkillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                 fEffectList = New List(Of FinalEffect)
-                                SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                             Else
-                                fEffectList = SkillEffectsTable(fEffect.AffectedAtt.ToString)
+                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
                             End If
                             fEffectList.Add(fEffect)
                         End If
@@ -889,7 +889,7 @@ Imports EveHQ.Core
                 End If
             End If
             ' Get the ship effects
-            Dim processData As Boolean = False
+            Dim processData As Boolean
             For Each att As String In hShip.Attributes.Keys
                 If Engine.ShipEffectsMap.Contains(att) = True Then
                     For Each chkEffect As Effect In CType(Engine.ShipEffectsMap(att), ArrayList)
@@ -933,11 +933,11 @@ Imports EveHQ.Core
                             fEffect.StackNerf = chkEffect.StackNerf
                             fEffect.Cause = hShip.Name
                             fEffect.CalcType = chkEffect.CalcType
-                            If SkillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                 fEffectList = New List(Of FinalEffect)
-                                SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                             Else
-                                fEffectList = SkillEffectsTable(fEffect.AffectedAtt.ToString)
+                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
                             End If
                             fEffectList.Add(fEffect)
                         End If
@@ -953,8 +953,8 @@ Imports EveHQ.Core
                             For Each chkEffect As ShipEffect In shipRoles
                                 If chkEffect.Status <> 16 Then
                                     fEffect = New FinalEffect
-                                    If hPilot.SkillSet.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True Then
-                                        hSkill = CType(hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), HQFSkill)
+                                    If hPilot.SkillSet.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(chkEffect.AffectingID)) = True Then
+                                        hSkill = hPilot.SkillSet(EveHQ.Core.SkillFunctions.SkillIDToName(chkEffect.AffectingID))
                                         If chkEffect.IsPerLevel = True Then
                                             fEffect.AffectedValue = chkEffect.Value * hSkill.Level
                                             fEffect.Cause = "Subsystem Bonus - " & hSkill.Name & " (Level " & hSkill.Level & ")"
@@ -971,11 +971,11 @@ Imports EveHQ.Core
                                     fEffect.AffectedID = chkEffect.AffectedID
                                     fEffect.StackNerf = chkEffect.StackNerf
                                     fEffect.CalcType = chkEffect.CalcType
-                                    If SkillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                    If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                         fEffectList = New List(Of FinalEffect)
-                                        SkillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                        _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                     Else
-                                        fEffectList = SkillEffectsTable(fEffect.AffectedAtt.ToString)
+                                        fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
                                     End If
                                     fEffectList.Add(fEffect)
                                 End If
@@ -988,7 +988,7 @@ Imports EveHQ.Core
     End Sub
     Private Sub BuildChargeEffects(ByRef newShip As Ship)
         ' Clear the Effects Table
-        ChargeEffectsTable.Clear()
+        _chargeEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
         Dim fEffect As New FinalEffect
         Dim fEffectList As New List(Of FinalEffect)
@@ -1042,11 +1042,11 @@ Imports EveHQ.Core
                                 fEffect.StackNerf = chkEffect.StackNerf
                                 fEffect.Cause = aModule.LoadedCharge.Name
                                 fEffect.CalcType = chkEffect.CalcType
-                                If ChargeEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                If _chargeEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                     fEffectList = New List(Of FinalEffect)
-                                    ChargeEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    _chargeEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                 Else
-                                    fEffectList = ChargeEffectsTable(fEffect.AffectedAtt.ToString)
+                                    fEffectList = _chargeEffectsTable(fEffect.AffectedAtt.ToString)
                                 End If
                                 fEffectList.Add(fEffect)
                             End If
@@ -1058,7 +1058,7 @@ Imports EveHQ.Core
     End Sub
     Private Sub BuildModuleEffects(ByRef newShip As Ship)
         ' Clear the Effects Table
-        ModuleEffectsTable.Clear()
+        _moduleEffectsTable.Clear()
         ' Go through all the skills and see what needs to be mapped
         Dim fEffect As New FinalEffect
         Dim fEffectList As New List(Of FinalEffect)
@@ -1120,11 +1120,11 @@ Imports EveHQ.Core
                             fEffect.StackNerf = chkEffect.StackNerf
                             fEffect.Cause = If(cause = "", aModule.Name, cause)
                             fEffect.CalcType = chkEffect.CalcType
-                            If ModuleEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                            If _moduleEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
                                 fEffectList = New List(Of FinalEffect)
-                                ModuleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                _moduleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                             Else
-                                fEffectList = ModuleEffectsTable(fEffect.AffectedAtt.ToString)
+                                fEffectList = _moduleEffectsTable(fEffect.AffectedAtt.ToString)
                             End If
                             fEffectList.Add(fEffect)
                         End If
@@ -1359,8 +1359,8 @@ Imports EveHQ.Core
         Dim att As String = ""
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
-            If SkillEffectsTable.ContainsKey(att) = True Then
-                For Each fEffect As FinalEffect In SkillEffectsTable(att)
+            If _skillEffectsTable.ContainsKey(att) = True Then
+                For Each fEffect As FinalEffect In _skillEffectsTable(att)
                     If ProcessFinalEffectForShip(newShip, fEffect) = True Then
                         Call ApplyFinalEffectToShip(newShip, fEffect, att)
                     End If
@@ -1379,8 +1379,8 @@ Imports EveHQ.Core
         If aModule.ModuleState < 16 Then
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = aModule.Attributes.Keys(attNo)
-                If SkillEffectsTable.ContainsKey(att) = True Then
-                    For Each fEffect As FinalEffect In SkillEffectsTable(att)
+                If _skillEffectsTable.ContainsKey(att) = True Then
+                    For Each fEffect As FinalEffect In _skillEffectsTable(att)
                         If ProcessFinalEffectForModule(aModule, fEffect) = True Then
                             Call ApplyFinalEffectToModule(aModule, fEffect, att)
                         End If
@@ -1390,8 +1390,8 @@ Imports EveHQ.Core
             If aModule.LoadedCharge IsNot Nothing Then
                 For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
                     att = aModule.LoadedCharge.Attributes.Keys(attNo)
-                    If SkillEffectsTable.ContainsKey(att) = True Then
-                        For Each fEffect As FinalEffect In SkillEffectsTable(att)
+                    If _skillEffectsTable.ContainsKey(att) = True Then
+                        For Each fEffect As FinalEffect In _skillEffectsTable(att)
                             If ProcessFinalEffectForModule(aModule.LoadedCharge, fEffect) = True Then
                                 Call ApplyFinalEffectToModule(aModule.LoadedCharge, fEffect, att)
                             End If
@@ -1412,8 +1412,8 @@ Imports EveHQ.Core
             If aModule.ModuleState < 16 Then
                 For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                     att = aModule.Attributes.Keys(attNo)
-                    If SkillEffectsTable.ContainsKey(att) = True Then
-                        For Each fEffect As FinalEffect In SkillEffectsTable(att)
+                    If _skillEffectsTable.ContainsKey(att) = True Then
+                        For Each fEffect As FinalEffect In _skillEffectsTable(att)
                             If ProcessFinalEffectForModule(aModule, fEffect) = True Then
                                 Call ApplyFinalEffectToModule(aModule, fEffect, att)
                             End If
@@ -1429,8 +1429,8 @@ Imports EveHQ.Core
             If aModule.ModuleState < 16 Then
                 For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                     att = aModule.Attributes.Keys(attNo)
-                    If ChargeEffectsTable.ContainsKey(att) = True Then
-                        For Each fEffect As FinalEffect In ChargeEffectsTable(att)
+                    If _chargeEffectsTable.ContainsKey(att) = True Then
+                        For Each fEffect As FinalEffect In _chargeEffectsTable(att)
                             If ProcessFinalEffectForModule(aModule, fEffect) = True Then
                                 Call ApplyFinalEffectToModule(aModule, fEffect, att)
                             End If
@@ -1445,8 +1445,8 @@ Imports EveHQ.Core
         Dim att As String = ""
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
-            If ChargeEffectsTable.ContainsKey(att) = True Then
-                For Each fEffect As FinalEffect In ChargeEffectsTable(att)
+            If _chargeEffectsTable.ContainsKey(att) = True Then
+                For Each fEffect As FinalEffect In _chargeEffectsTable(att)
                     If ProcessFinalEffectForShip(newShip, fEffect) = True Then
                         Call ApplyFinalEffectToShip(newShip, fEffect, att)
                     End If
@@ -1467,9 +1467,9 @@ Imports EveHQ.Core
         Dim group2PEffectList As New SortedList
         Dim group2NEffectList As New SortedList
         Dim att As String
-        For attNumber As Integer = 0 To ModuleEffectsTable.Keys.Count - 1
-            att = ModuleEffectsTable.Keys(attNumber)
-            baseEffectList = ModuleEffectsTable(att)
+        For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
+            att = _moduleEffectsTable.Keys(attNumber)
+            baseEffectList = _moduleEffectsTable(att)
             tempPEffectList.Clear() : tempNEffectList.Clear()
             groupPEffectList.Clear() : groupNEffectList.Clear()
             group2PEffectList.Clear() : group2NEffectList.Clear()
@@ -1516,7 +1516,7 @@ Imports EveHQ.Core
             If group2NEffectList.Count > 0 Then
                 Call ApplyGroupStackingPenalties(finalEffectList, group2NEffectList, False)
             End If
-            ModuleEffectsTable(att) = finalEffectList
+            _moduleEffectsTable(att) = finalEffectList
         Next
         eTime = Now
         Dim dTime As TimeSpan = eTime - sTime
@@ -1563,9 +1563,9 @@ Imports EveHQ.Core
         Dim LowPEffectList As New List(Of FinalEffect)
         Dim finalEffectList As New List(Of FinalEffect)
         Dim att As String = ""
-        For attNumber As Integer = 0 To ModuleEffectsTable.Keys.Count - 1
-            att = ModuleEffectsTable.Keys(attNumber)
-            baseEffectList = ModuleEffectsTable(att)
+        For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
+            att = _moduleEffectsTable.Keys(attNumber)
+            baseEffectList = _moduleEffectsTable(att)
             HiPEffectList.Clear() : LowPEffectList.Clear()
             For Each fEffect As FinalEffect In baseEffectList
                 Select Case fEffect.CalcType
@@ -1582,7 +1582,7 @@ Imports EveHQ.Core
             For Each fEffect As FinalEffect In LowPEffectList
                 finalEffectList.Add(fEffect)
             Next
-            ModuleEffectsTable(att) = finalEffectList
+            _moduleEffectsTable(att) = finalEffectList
         Next
     End Sub
     Private Sub ApplyModuleEffectsToCharges(ByRef newShip As Ship)
@@ -1591,8 +1591,8 @@ Imports EveHQ.Core
             If aModule.LoadedCharge IsNot Nothing Then
                 For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
                     att = aModule.LoadedCharge.Attributes.Keys(attNo)
-                    If ModuleEffectsTable.ContainsKey(att) = True Then
-                        For Each fEffect As FinalEffect In ModuleEffectsTable(att)
+                    If _moduleEffectsTable.ContainsKey(att) = True Then
+                        For Each fEffect As FinalEffect In _moduleEffectsTable(att)
                             If ProcessFinalEffectForModule(aModule.LoadedCharge, fEffect) = True Then
                                 Call ApplyFinalEffectToModule(aModule.LoadedCharge, fEffect, att)
                             End If
@@ -1607,8 +1607,8 @@ Imports EveHQ.Core
         For Each aModule As ShipModule In newShip.SlotCollection
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = aModule.Attributes.Keys(attNo)
-                If ModuleEffectsTable.ContainsKey(att) = True Then
-                    For Each fEffect As FinalEffect In ModuleEffectsTable(att)
+                If _moduleEffectsTable.ContainsKey(att) = True Then
+                    For Each fEffect As FinalEffect In _moduleEffectsTable(att)
                         If ProcessFinalEffectForModule(aModule, fEffect) = True Then
                             Call ApplyFinalEffectToModule(aModule, fEffect, att)
                         End If
@@ -1625,8 +1625,8 @@ Imports EveHQ.Core
             aModule = DBI.DroneType
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = aModule.Attributes.Keys(attNo)
-                If ModuleEffectsTable.ContainsKey(att) = True Then
-                    For Each fEffect As FinalEffect In ModuleEffectsTable(att)
+                If _moduleEffectsTable.ContainsKey(att) = True Then
+                    For Each fEffect As FinalEffect In _moduleEffectsTable(att)
                         If ProcessFinalEffectForModule(aModule, fEffect) = True Then
                             Call ApplyFinalEffectToModule(aModule, fEffect, att)
                         End If
@@ -1639,8 +1639,8 @@ Imports EveHQ.Core
         Dim att As String = ""
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
-            If ModuleEffectsTable.ContainsKey(att) = True Then
-                For Each fEffect As FinalEffect In ModuleEffectsTable(att)
+            If _moduleEffectsTable.ContainsKey(att) = True Then
+                For Each fEffect As FinalEffect In _moduleEffectsTable(att)
                     If ProcessFinalEffectForShip(newShip, fEffect) = True Then
                         Call ApplyFinalEffectToShip(newShip, fEffect, att)
                     End If
@@ -2039,7 +2039,7 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case EffectType.Skill
-                If NewShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(FEffect.AffectedID(0)))) Then
+                If NewShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
                     Return True
                 End If
             Case EffectType.Attribute
@@ -2074,7 +2074,7 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case EffectType.Skill
-                If NewModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CStr(FEffect.AffectedID(0)))) Then
+                If NewModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
                     Return True
                 End If
             Case EffectType.Slot
@@ -3085,15 +3085,15 @@ Imports EveHQ.Core
 #Region "Skill Requirements"
     Public Function CalculateNeededSkills(ByVal pilotName As String) As NeededSkillsCollection
         Dim allSkills As SortedList = CollectNeededSkills(Me.BaseShip)
-        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+        Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(pilotName)
         Dim truePilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(pilotName)
         Dim shipPilotSkills As New ArrayList
         Dim truePilotSkills As New ArrayList
 
         For Each rSkill As ReqSkill In allSkills.Values
             ' Check for shipPilot match
-            If shipPilot.SkillSet.Contains(rSkill.Name) = True Then
-                If CType(shipPilot.SkillSet(rSkill.Name), HQFSkill).Level < rSkill.ReqLevel Then
+            If shipPilot.SkillSet.ContainsKey(rSkill.Name) = True Then
+                If shipPilot.SkillSet(rSkill.Name).Level < rSkill.ReqLevel Then
                     shipPilotSkills.Add(rSkill)
                 End If
             Else
@@ -3108,10 +3108,10 @@ Imports EveHQ.Core
                 truePilotSkills.Add(rSkill)
             End If
         Next
-        Dim NeededSkills As New NeededSkillsCollection
-        NeededSkills.ShipPilotSkills = shipPilotSkills
-        NeededSkills.TruePilotSkills = truePilotSkills
-        Return NeededSkills
+        Dim neededSkills As New NeededSkillsCollection
+        neededSkills.ShipPilotSkills = shipPilotSkills
+        neededSkills.TruePilotSkills = truePilotSkills
+        Return neededSkills
     End Function
     Private Function CollectNeededSkills(ByVal cShip As Ship) As SortedList
 
@@ -3271,7 +3271,7 @@ Imports EveHQ.Core
         Next
 
         ' Get Implant Skills
-        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(Me.PilotName), HQFPilot)
+        Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(PilotName)
         Dim FittedImplantName As String
         Dim FittedImplant As ShipModule
         For ImplantSlot As Integer = 1 To 10

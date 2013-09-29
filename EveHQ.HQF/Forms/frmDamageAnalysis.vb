@@ -149,13 +149,13 @@ Public Class frmDamageAnalysis
     Private Sub SetAttackingShip()
         If cboAttackerFitting.SelectedItem IsNot Nothing And cboAttackerPilot.SelectedItem IsNot Nothing Then
             Dim shipFit As String = cboAttackerFitting.SelectedItem.ToString
-            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboAttackerPilot.SelectedItem.ToString), HQFPilot)
-            Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-            NewFit.UpdateBaseShipFromFitting()
-            NewFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
-            NewFit.PilotName = aPilot.PilotName
-            NewFit.ApplyFitting(BuildType.BuildEverything)
-            attackingShip = NewFit.FittedShip
+            Dim aPilot As FittingPilot = FittingPilots.HQFPilots(cboAttackerPilot.SelectedItem.ToString)
+            Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
+            newFit.UpdateBaseShipFromFitting()
+            newFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
+            newFit.PilotName = aPilot.PilotName
+            newFit.ApplyFitting(BuildType.BuildEverything)
+            attackingShip = newFit.FittedShip
             ' Check hislots of attacker to find turret data
             Dim sMod As New ShipModule
             tMod = New ShipModule
@@ -253,13 +253,13 @@ Public Class frmDamageAnalysis
     Private Sub SetTargetShip()
         If cboTargetFitting.SelectedItem IsNot Nothing And cboTargetPilot.SelectedItem IsNot Nothing Then
             Dim shipFit As String = cboTargetFitting.SelectedItem.ToString
-            Dim aPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboTargetPilot.SelectedItem.ToString), HQFPilot)
-            Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-            NewFit.UpdateBaseShipFromFitting()
-            NewFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
-            NewFit.PilotName = aPilot.PilotName
-            NewFit.ApplyFitting(BuildType.BuildEverything)
-            targetShip = NewFit.FittedShip
+            Dim aPilot As FittingPilot = FittingPilots.HQFPilots(cboTargetPilot.SelectedItem.ToString)
+            Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
+            newFit.UpdateBaseShipFromFitting()
+            newFit.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
+            newFit.PilotName = aPilot.PilotName
+            newFit.ApplyFitting(BuildType.BuildEverything)
+            targetShip = newFit.FittedShip
             If EveSpace1.TargetShip Is Nothing Then
                 EveSpace1.TargetShip = New ShipStatus("TargetShip", targetShip, New Point(250, 250), New Point(150, 150))
             Else

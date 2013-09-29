@@ -26,7 +26,7 @@ Public Class frmPilotManager
 
     Public pilotName As String = ""
     Dim currentPilotName As String = ""
-    Dim currentPilot As HQFPilot
+    Dim currentPilot As FittingPilot
     Dim currentGroup As ImplantGroup
     Dim StartUp As Boolean = False
     Dim QueueSkills As New List(Of String)
@@ -63,7 +63,7 @@ Public Class frmPilotManager
 #Region "Form Loading & Closing Routines"
 
     Private Sub frmPilotManager_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
-        Call HQFPilotCollection.SaveHQFPilotData()
+        Call FittingPilots.SaveHQFPilotData()
     End Sub
     Private Sub frmPilotManager_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -118,7 +118,7 @@ Public Class frmPilotManager
 #Region "Pilot Change Routines"
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         currentPilotName = cboPilots.SelectedItem.ToString
-        currentPilot = CType(HQF.HQFPilotCollection.HQFPilots.Item(currentPilotName), HQFPilot)
+        currentPilot = FittingPilots.HQFPilots.Item(currentPilotName)
         Call Me.UpdateSkillQueues(currentPilotName)
         ' Display the pilot skills
         Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
@@ -146,7 +146,7 @@ Public Class frmPilotManager
             ' Get Core pilot
             Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(currentPilotName)
             ' Get HQF pilot
-            Dim hSkill As HQFSkill
+            Dim hSkill As FittingSkill
             ' Display the skill groups
             adtSkills.BeginUpdate()
             adtSkills.Nodes.Clear()
@@ -155,7 +155,7 @@ Public Class frmPilotManager
             Dim newSkill As EveHQ.Core.EveSkill
             Dim skillsModified As Boolean = False
             For Each newSkillGroup In EveHQ.Core.HQ.SkillGroups.Values
-                If newSkillGroup.ID <> "505" Then
+                If newSkillGroup.ID <> 505 Then
                     Dim groupNode As New Node
                     groupNode.Tag = newSkillGroup.ID
                     groupNode.Text = newSkillGroup.Name.Trim
@@ -163,13 +163,13 @@ Public Class frmPilotManager
                     adtSkills.Nodes.Add(groupNode)
                     ' Now cycle through the list to get the skills
                     For Each newSkill In EveHQ.Core.HQ.SkillListName.Values
-                        If newSkill.GroupID <> "505" Then
+                        If newSkill.GroupID <> 505 Then
                             If newSkill.GroupID = newSkillGroup.ID And newSkill.Published = True Then
                                 Dim skillNode As New Node
                                 skillNode.Text = newSkill.Name
                                 skillNode.Tag = newSkill.ID
                                 STT.SetSuperTooltip(skillNode, New SuperTooltipInfo(newSkill.Name, "Skill Description", newSkill.Description, Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow))
-                                hSkill = CType(currentPilot.SkillSet.Item(newSkill.Name), HQFSkill)
+                                hSkill = currentPilot.SkillSet.Item(newSkill.Name)
                                 If cPilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
                                     Dim mySkill As EveHQ.Core.EveHQPilotSkill = cPilot.PilotSkills(newSkill.Name)
                                     skillNode.ImageIndex = mySkill.Level
@@ -261,7 +261,7 @@ Public Class frmPilotManager
     End Sub
     Private Sub mnuSetLevel0_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetLevel0.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = 0
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -269,7 +269,7 @@ Public Class frmPilotManager
 
     Private Sub mnuSetLevel1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetLevel1.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = 1
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -277,7 +277,7 @@ Public Class frmPilotManager
 
     Private Sub mnuSetLevel2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetLevel2.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = 2
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -285,7 +285,7 @@ Public Class frmPilotManager
 
     Private Sub mnuSetLevel3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetLevel3.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = 3
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -293,7 +293,7 @@ Public Class frmPilotManager
 
     Private Sub mnuSetLevel4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetLevel4.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = 4
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -301,7 +301,7 @@ Public Class frmPilotManager
 
     Private Sub mnuSetLevel5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetLevel5.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = 5
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -309,7 +309,7 @@ Public Class frmPilotManager
 
     Private Sub mnuSetDefault_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSetDefault.Click
         Dim skillName As String = mnuSetSkillName.Text
-        Dim hSkill As HQFSkill = CType(currentPilot.SkillSet.Item(skillName), HQFSkill)
+        Dim hSkill As FittingSkill = currentPilot.SkillSet.Item(skillName)
         hSkill.Level = CInt(adtSkills.SelectedNodes(0).Cells(1).Text)
         adtSkills.SelectedNodes(0).Cells(2).Text = hSkill.Level.ToString
         Call Me.ChangeSkillStatus(adtSkills.SelectedNodes(0))
@@ -363,53 +363,53 @@ Public Class frmPilotManager
 
 #Region "Skill Routines"
 
-    Private Sub btnResetAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetAll.Click
-        Call HQFPilotCollection.ResetSkillsToDefault(currentPilot)
-        Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+    Private Sub btnResetAll_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnResetAll.Click
+        Call FittingPilots.ResetSkillsToDefault(currentPilot)
+        Call DisplayPilotSkills(chkShowModifiedSkills.Checked)
         ForceUpdate = True
     End Sub
 
-    Private Sub btnSetAllToLevel5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetAllToLevel5.Click
-        Call HQFPilotCollection.SetAllSkillsToLevel5(currentPilot)
-        Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+    Private Sub btnSetAllToLevel5_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSetAllToLevel5.Click
+        Call FittingPilots.SetAllSkillsToLevel5(currentPilot)
+        Call DisplayPilotSkills(chkShowModifiedSkills.Checked)
         ForceUpdate = True
     End Sub
 
-    Private Sub chkShowModifiedSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowModifiedSkills.CheckedChanged
-        Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+    Private Sub chkShowModifiedSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkShowModifiedSkills.CheckedChanged
+        Call DisplayPilotSkills(chkShowModifiedSkills.Checked)
     End Sub
 
-    Private Sub btnUpdateSkills_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateSkills.Click
-        Call HQFPilotCollection.UpdateHQFSkillsToActual(currentPilot)
-        Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+    Private Sub btnUpdateSkills_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpdateSkills.Click
+        Call FittingPilots.UpdateHQFSkillsToActual(currentPilot)
+        Call DisplayPilotSkills(chkShowModifiedSkills.Checked)
         ForceUpdate = True
     End Sub
 
-    Private Sub btnSetToSkillQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetToSkillQueue.Click
+    Private Sub btnSetToSkillQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSetToSkillQueue.Click
         If cboSkillQueue.SelectedItem IsNot Nothing Then
-            Call HQFPilotCollection.SetSkillsToSkillQueue(currentPilot, cboSkillQueue.SelectedItem.ToString)
-            Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+            Call FittingPilots.SetSkillsToSkillQueue(currentPilot, cboSkillQueue.SelectedItem.ToString)
+            Call DisplayPilotSkills(chkShowModifiedSkills.Checked)
             ForceUpdate = True
         End If
     End Sub
 
-    Private Sub cboSkillQueue_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkillQueue.SelectedIndexChanged
+    Private Sub cboSkillQueue_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkillQueue.SelectedIndexChanged
         If cboSkillQueue.SelectedIndex <> -1 Then
             btnSetToSkillQueue.Enabled = True
         End If
     End Sub
 
-    Private Sub btnAddHQFSkillstoQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddHQFSkillsToQueue.Click
-        Call Me.AddNeededSkillsToQueue()
+    Private Sub btnAddHQFSkillstoQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddHQFSkillsToQueue.Click
+        Call AddNeededSkillsToQueue()
     End Sub
 
     Private Sub AddNeededSkillsToQueue()
-        Dim selQ As New EveHQ.Core.frmSelectQueue(currentPilot.PilotName, QueueSkills, "HQF: Pilot Manager")
+        Dim selQ As New Core.frmSelectQueue(currentPilot.PilotName, QueueSkills, "HQF: Pilot Manager")
         selQ.ShowDialog()
-        EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
+        Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub
 
-    Private Sub btnImportSkillsFromEFT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImportSkillsFromEFT.Click
+    Private Sub btnImportSkillsFromEFT_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnImportSkillsFromEFT.Click
         ' Create a new file dialog
         Dim ofd1 As New OpenFileDialog
         With ofd1
@@ -426,35 +426,35 @@ Public Class frmPilotManager
                 Else
                     ' Open the file for reading
                     Dim sr As New StreamReader(.FileName)
-                    Dim CharFile As String = sr.ReadToEnd
+                    Dim charFile As String = sr.ReadToEnd
                     sr.Close()
                     ' Parse the file
-                    Dim SkillList() As String = CharFile.Split(ControlChars.CrLf.ToCharArray)
-                    Dim SkillName As String = ""
-                    Dim SkillLevel As Integer = 0
-                    Dim NewSkills As New SortedList(Of String, Integer)
-                    For Each Skill As String In SkillList
-                        If Skill.Trim <> "" Then
+                    Dim skillList() As String = charFile.Split(ControlChars.CrLf.ToCharArray)
+                    Dim skillName As String
+                    Dim skillLevel As Integer
+                    Dim newSkills As New SortedList(Of String, Integer)
+                    For Each eftSkill As String In skillList
+                        If eftSkill.Trim <> "" Then
                             ' Get the skill and level
-                            If Skill.Substring(Skill.Length - 2, 1) = "=" Then
-                                SkillName = Skill.Substring(0, Skill.Length - 2)
-                                SkillLevel = CInt(Skill.Substring(Skill.Length - 1, 1))
+                            If eftSkill.Substring(eftSkill.Length - 2, 1) = "=" Then
+                                skillName = eftSkill.Substring(0, eftSkill.Length - 2)
+                                skillLevel = CInt(eftSkill.Substring(eftSkill.Length - 1, 1))
                                 ' Check if this is a valid skill and skill level
-                                If EveHQ.Core.HQ.SkillListName.ContainsKey(SkillName) = True Then
-                                    If SkillLevel >= 0 And SkillLevel < 6 Then
+                                If EveHQ.Core.HQ.SkillListName.ContainsKey(skillName) = True Then
+                                    If skillLevel >= 0 And skillLevel < 6 Then
                                         ' Seems valid - add it to our list
-                                        NewSkills.Add(SkillName, SkillLevel)
+                                        newSkills.Add(skillName, skillLevel)
                                     End If
                                 End If
                             End If
                         End If
                     Next
-                    If NewSkills.Count > 0 Then
+                    If newSkills.Count > 0 Then
                         ' Add these skills to our HQF pilot
-                        Call HQFPilotCollection.SetSkillsToSkillList(currentPilot, NewSkills)
-                        Call Me.DisplayPilotSkills(chkShowModifiedSkills.Checked)
+                        Call FittingPilots.SetSkillsToSkillList(currentPilot, newSkills)
+                        Call DisplayPilotSkills(chkShowModifiedSkills.Checked)
                         ForceUpdate = True
-                        MessageBox.Show("Successfully imported " & NewSkills.Count.ToString & " skills from the EFT Character file.", "Import Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Successfully imported " & newSkills.Count.ToString & " skills from the EFT Character file.", "Import Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
                         MessageBox.Show("This file does not contain any valid Eve skills and skill levels", "Import Aborted", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
@@ -466,14 +466,14 @@ Public Class frmPilotManager
 #End Region
 
 #Region "Implant Routines"
-    Private Sub cboImplantGroup_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplantGroup.SelectedIndexChanged
+    Private Sub cboImplantGroup_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboImplantGroup.SelectedIndexChanged
         cboImplantFilter.Enabled = True
         If cboImplantFilter.SelectedItem Is Nothing Then
             cboImplantFilter.SelectedIndex = 0
         End If
         currentPilot.ImplantName(0) = cboImplantGroup.SelectedItem.ToString
         If cboImplantGroup.SelectedItem.ToString <> "*Custom*" Then
-            Dim currentImplantGroup As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(cboImplantGroup.SelectedItem.ToString), ImplantGroup)
+            Dim currentImplantGroup As ImplantGroup = CType(Settings.HQFSettings.ImplantGroups(cboImplantGroup.SelectedItem.ToString), ImplantGroup)
             For imp As Integer = 1 To 10
                 currentPilot.ImplantName(imp) = currentImplantGroup.ImplantName(imp)
             Next
@@ -516,10 +516,10 @@ Public Class frmPilotManager
         Next
         tvwImplants.EndUpdate()
     End Sub
-    Private Sub cboImplantFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplantFilter.SelectedIndexChanged
+    Private Sub cboImplantFilter_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboImplantFilter.SelectedIndexChanged
         Call Me.DrawImplantTree()
     End Sub
-    Private Sub tvwImplants_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwImplants.AfterSelect
+    Private Sub tvwImplants_AfterSelect(ByVal sender As Object, ByVal e As Windows.Forms.TreeViewEventArgs) Handles tvwImplants.AfterSelect
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
             Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
@@ -528,7 +528,7 @@ Public Class frmPilotManager
             lblImplantDescription.Text = ""
         End If
     End Sub
-    Private Sub tvwImplants_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplants.NodeMouseClick
+    Private Sub tvwImplants_NodeMouseClick(ByVal sender As Object, ByVal e As Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplants.NodeMouseClick
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
             Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
@@ -537,7 +537,7 @@ Public Class frmPilotManager
             lblImplantDescription.Text = ""
         End If
     End Sub
-    Private Sub tvwImplants_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplants.NodeMouseDoubleClick
+    Private Sub tvwImplants_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplants.NodeMouseDoubleClick
         'Work out if we need to replace an implant
         Dim currentImplant As String = ""
         Dim currentSlot As Integer = 0
@@ -579,10 +579,10 @@ Public Class frmPilotManager
         cboImplantGroup.SelectedIndex = 0
         ForceUpdate = True
     End Sub
-    Private Sub btnCollapseAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCollapseAll.Click
+    Private Sub btnCollapseAll_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCollapseAll.Click
         tvwImplants.CollapseAll()
     End Sub
-    Private Sub btnSaveGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveGroup.Click
+    Private Sub btnSaveGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSaveGroup.Click
         ' Clear the text boxes and show the dialog box
         Dim myGroup As New frmModifyImplantGroups
         With myGroup
@@ -595,7 +595,7 @@ Public Class frmPilotManager
         ' Set the implant group name is successful
         If myGroup.txtGroupName.Tag IsNot Nothing Then
             Dim implantGroupName As String = myGroup.txtGroupName.Tag.ToString
-            Dim implantgroup As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups.Item(implantGroupName), ImplantGroup)
+            Dim implantgroup As ImplantGroup = CType(Settings.HQFSettings.ImplantGroups.Item(implantGroupName), ImplantGroup)
             ' Add the implants to the implant group
             For Each impNode As TreeNode In tvwImplants.Nodes
                 If impNode.Text <> "No Implant" And impNode.Text.StartsWith("Slot") = False Then
@@ -625,7 +625,7 @@ Public Class frmPilotManager
         cboImplantGroup.BeginUpdate()
         cboImplantGroup.Items.Clear()
         cboImplantGroup.Items.Add("*Custom*")
-        For Each iG As ImplantGroup In HQF.Settings.HQFSettings.ImplantGroups.Values
+        For Each iG As ImplantGroup In Settings.HQFSettings.ImplantGroups.Values
             cboImplantGroup.Items.Add(iG.GroupName)
         Next
         cboImplantGroup.EndUpdate()
@@ -649,7 +649,7 @@ Public Class frmPilotManager
     Private Sub ShowImplantManagerGroups()
         lstImplantGroups.BeginUpdate()
         lstImplantGroups.Items.Clear()
-        For Each iG As ImplantGroup In HQF.Settings.HQFSettings.ImplantGroups.Values
+        For Each iG As ImplantGroup In Settings.HQFSettings.ImplantGroups.Values
             lstImplantGroups.Items.Add(iG.GroupName)
         Next
         lstImplantGroups.EndUpdate()
@@ -691,21 +691,21 @@ Public Class frmPilotManager
             tvwImplantsM.EndUpdate()
         End If
     End Sub
-    Private Sub tvwImplantsM_AfterSelect(ByVal sender As System.Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwImplantsM.AfterSelect
+    Private Sub tvwImplantsM_AfterSelect(ByVal sender As Object, ByVal e As Windows.Forms.TreeViewEventArgs) Handles tvwImplantsM.AfterSelect
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
             Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
             lblImplantDescriptionM.Text = cImplant.Description
         End If
     End Sub
-    Private Sub tvwImplantsM_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplantsM.NodeMouseClick
+    Private Sub tvwImplantsM_NodeMouseClick(ByVal sender As Object, ByVal e As Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplantsM.NodeMouseClick
         If e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
             Dim implantName As String = e.Node.Text
             Dim cImplant As ShipModule = CType(Implants.implantList.Item(implantName), ShipModule)
             lblImplantDescriptionM.Text = cImplant.Description
         End If
     End Sub
-    Private Sub tvwImplantsM_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplantsM.NodeMouseDoubleClick
+    Private Sub tvwImplantsM_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwImplantsM.NodeMouseDoubleClick
         'Work out if we need to replace an image
         Dim currentImplant As String = ""
         Dim currentSlot As Integer = 0
@@ -746,7 +746,7 @@ Public Class frmPilotManager
             End If
         End If
         ' Update the pilots for this group
-        For Each cPilot As HQF.HQFPilot In HQF.HQFPilotCollection.HQFPilots.Values
+        For Each cPilot As FittingPilot In FittingPilots.HQFPilots.Values
             If cPilot.ImplantName(0) = currentGroup.GroupName Then
                 If e.Node.Nodes.Count = 0 And e.Node.Text <> "No Implant" And e.Node.Text.StartsWith("Slot") = False Then
                     cPilot.ImplantName(currentSlot) = e.Node.Text
@@ -758,13 +758,13 @@ Public Class frmPilotManager
         Call Me.DrawImplantTree()
         ForceUpdate = True
     End Sub
-    Private Sub cboImplantFilterM_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboImplantFilterM.SelectedIndexChanged
+    Private Sub cboImplantFilterM_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboImplantFilterM.SelectedIndexChanged
         Call DrawImplantManagerTree()
     End Sub
-    Private Sub btnCollapseAllM_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCollapseAllM.Click
+    Private Sub btnCollapseAllM_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCollapseAllM.Click
         tvwImplantsM.CollapseAll()
     End Sub
-    Private Sub btnAddImplantGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddImplantGroup.Click
+    Private Sub btnAddImplantGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddImplantGroup.Click
         ' Clear the text boxes
         Dim myGroup As New frmModifyImplantGroups
         With myGroup
@@ -781,7 +781,7 @@ Public Class frmPilotManager
         HQFEvents.StartUpdateImplantComboBox = True
         ForceUpdate = True
     End Sub
-    Private Sub btnEditImplantGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnEditImplantGroup.Click
+    Private Sub btnEditImplantGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditImplantGroup.Click
         ' Check for some selection on the listview
         Dim oldImplantGroup As String = cboImplantGroup.SelectedItem.ToString
         If lstImplantGroups.SelectedItems.Count = 0 Then
@@ -801,7 +801,7 @@ Public Class frmPilotManager
             ' Redraw implant groups in the implant selection combobox
             Dim newImplantGroup As String = myGroup.txtGroupName.Tag.ToString
             Call Me.LoadImplantGroups()
-            If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
+            If Settings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
                 cboImplantGroup.SelectedItem = oldImplantGroup
             Else
                 cboImplantGroup.SelectedItem = newImplantGroup
@@ -810,7 +810,7 @@ Public Class frmPilotManager
             HQFEvents.StartUpdateImplantComboBox = True
         End If
     End Sub
-    Private Sub btnRemoveImplantGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveImplantGroup.Click
+    Private Sub btnRemoveImplantGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRemoveImplantGroup.Click
         ' Check for some selection on the listview
         If lstImplantGroups.SelectedItems.Count = 0 Then
             MessageBox.Show("Please select a Group to delete!", "Cannot Delete Implant Group", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
@@ -824,11 +824,11 @@ Public Class frmPilotManager
             Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = Windows.Forms.DialogResult.Yes Then
                 ' Delete the queue the accounts collection
-                HQF.Settings.HQFSettings.ImplantGroups.Remove(selGroup)
+                Settings.HQFSettings.ImplantGroups.Remove(selGroup)
                 Call Me.ShowImplantManagerGroups()
                 ' Redraw implant groups in the implant selection combobox
                 Call Me.LoadImplantGroups()
-                If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
+                If Settings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
                     cboImplantGroup.SelectedItem = oldImplantGroup
                 Else
                     cboImplantGroup.SelectedItem = "*Custom*"
@@ -840,13 +840,13 @@ Public Class frmPilotManager
             End If
         End If
     End Sub
-    Private Sub lstImplantGroups_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lstImplantGroups.SelectedIndexChanged
+    Private Sub lstImplantGroups_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles lstImplantGroups.SelectedIndexChanged
         If lstImplantGroups.SelectedItems.Count > 0 Then
             cboImplantFilterM.Enabled = True
             If cboImplantFilterM.SelectedItem Is Nothing Then
                 cboImplantFilterM.SelectedIndex = 0
             End If
-            currentGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(lstImplantGroups.SelectedItem.ToString), ImplantGroup)
+            currentGroup = CType(Settings.HQFSettings.ImplantGroups(lstImplantGroups.SelectedItem.ToString), ImplantGroup)
             lblCurrentGroup.Text = "Current Group: " & currentGroup.GroupName
             Call DrawImplantManagerTree()
         End If

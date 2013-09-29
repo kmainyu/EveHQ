@@ -37,8 +37,8 @@ Public Class HQ
     Public Shared TCorps As New SortedList(Of String, Corporation)
     Public Shared myIGB As New IGB
     Public Shared myTQServer As EveServer = New EveServer
-    Public Shared SkillListName As New SortedList(Of String, EveSkill)
-    Public Shared SkillListID As New SortedList(Of String, EveSkill)
+    Public Shared SkillListName As New SortedList(Of String, EveSkill) ' SkillName, EveSkill
+    Public Shared SkillListID As New SortedList(Of Integer, EveSkill) ' SkillID, EveSkill
     Public Shared SkillGroups As New SortedList(Of String, SkillGroup)
     Public Shared SkillUnlocks As New SortedList(Of String, ArrayList)
     Public Shared ItemUnlocks As New SortedList(Of String, ArrayList)
@@ -63,9 +63,9 @@ Public Class HQ
     Public Shared APIErrors As New SortedList
     Public Shared itemList As New SortedList(Of String, String)
     Public Shared itemData As New SortedList(Of String, EveItem)
-    Public Shared itemGroups As New SortedList(Of String, String)
-    Public Shared itemCats As New SortedList(Of String, String)
-    Public Shared groupCats As New SortedList(Of String, String)
+    Public Shared itemGroups As New SortedList(Of Integer, String) ' groupID, groupName
+    Public Shared itemCats As New SortedList(Of Integer, String) ' catID, catName
+    Public Shared groupCats As New SortedList(Of Integer, Integer) ' groupID, catID 
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
     Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs

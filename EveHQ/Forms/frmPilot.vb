@@ -342,13 +342,13 @@ Public Class frmPilot
         End If
 
         ' Parse in-game skill queue
-        Dim eveSkillsQueued As New SortedList(Of String, Integer)
+        Dim eveSkillsQueued As New SortedList(Of Integer, Integer)
         For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In displayPilot.QueuedSkills.Values
-            If eveSkillsQueued.ContainsKey(queuedSkill.SkillID.ToString) = False Then
-                eveSkillsQueued.Add(queuedSkill.SkillID.ToString, queuedSkill.Level)
+            If eveSkillsQueued.ContainsKey(queuedSkill.SkillID) = False Then
+                eveSkillsQueued.Add(queuedSkill.SkillID, queuedSkill.Level)
             Else
-                If queuedSkill.Level > eveSkillsQueued(queuedSkill.SkillID.ToString) Then
-                    eveSkillsQueued(queuedSkill.SkillID.ToString) = queuedSkill.Level
+                If queuedSkill.Level > eveSkillsQueued(queuedSkill.SkillID) Then
+                    eveSkillsQueued(queuedSkill.SkillID) = queuedSkill.Level
                 End If
             End If
         Next
@@ -416,39 +416,39 @@ Public Class frmPilot
                 newCLVItem.Cells(4).Tag = cSkill.SP
 
                 If chkGroupSkills.Checked = True Then
-                    For skillGroup As Integer = 0 To maxGroups
-                        If cSkill.GroupID = groupHeaders(skillGroup, 1) Then
+                    For group As Integer = 0 To maxGroups
+                        If cSkill.GroupID = CInt(groupHeaders(group, 1)) Then
                             'newLine.Group = lvSkills.Groups.Item(skillGroup)
-                            groupHeaders(skillGroup, 2) = CStr(CDbl(groupHeaders(skillGroup, 2)) + cSkill.SP)
-                            groupHeaders(skillGroup, 3) = CStr(CDbl(groupHeaders(skillGroup, 3)) + 1)
-                            groupCLV.Text = groupHeaders(skillGroup, 0) & " - skills: " & groupHeaders(skillGroup, 3)
+                            groupHeaders(group, 2) = CStr(CDbl(groupHeaders(group, 2)) + cSkill.SP)
+                            groupHeaders(group, 3) = CStr(CDbl(groupHeaders(group, 3)) + 1)
+                            groupCLV.Text = groupHeaders(group, 0) & " - skills: " & groupHeaders(group, 3)
                             If groupCLV.Cells(2).Tag IsNot Nothing Then
                                 If CInt(groupCLV.Cells(2).Tag) > 0 Then
                                     groupCLV.Text &= "<font color=""#0085AB"">  (" & groupCLV.Cells(2).TagString & " in queue)</font>"
                                 End If
                             End If
                             groupCLV.Tag = groupCLV.Text
-                            groupCLV.Cells(4).Text = CDbl(groupHeaders(skillGroup, 2)).ToString("N0")
-                            groupCLV.Cells(4).Tag = groupHeaders(skillGroup, 2)
+                            groupCLV.Cells(4).Text = CDbl(groupHeaders(group, 2)).ToString("N0")
+                            groupCLV.Cells(4).Tag = groupHeaders(group, 2)
                             Exit For
                         End If
                     Next
                 End If
 
                 ' Write time to next level - adjusted if 0 to put completed skills to the bottom
-                Dim TimeSubItem As New ListViewItem.ListViewSubItem
+                Dim timeSubItem As New ListViewItem.ListViewSubItem
                 Dim currentTime As Long = 0
                 If displayPilot.TrainingSkillID = cSkill.ID Then
-                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
+                    timeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(displayPilot.TrainingCurrentTime)
                     currentTime = displayPilot.TrainingCurrentTime
                     TrainingSkill = newCLVItem
                     TrainingGroup = groupCLV
                 Else
                     currentTime = CLng(EveHQ.Core.SkillFunctions.CalcTimeToLevel(displayPilot, EveHQ.Core.HQ.SkillListID(cSkill.ID), 0, ))
-                    TimeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(currentTime)
+                    timeSubItem.Text = EveHQ.Core.SkillFunctions.TimeToString(currentTime)
                 End If
                 If currentTime = 0 Then currentTime = 9999999999
-                newCLVItem.Cells.Add(New Cell(TimeSubItem.Text))
+                newCLVItem.Cells.Add(New Cell(timeSubItem.Text))
                 newCLVItem.Cells(5).Tag = currentTime.ToString
 
                 ' Select colours for line background
@@ -698,8 +698,7 @@ Public Class frmPilot
 #Region "UI Routines"
 
     Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
-        Dim skillID As String
-        skillID = mnuSkillName.Tag.ToString
+        Dim skillID As Integer = CInt(mnuSkillName.Tag)
         If EveHQ.Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
             Call Me.UpdatePilotInfo()
             If frmTraining.IsHandleCreated = True Then
@@ -710,8 +709,7 @@ Public Class frmPilot
     End Sub
 
     Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails.Click
-        Dim skillID As String
-        skillID = mnuSkillName.Tag.ToString
+        Dim skillID As Integer = CInt(mnuSkillName.Tag)
         frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
@@ -719,10 +717,8 @@ Public Class frmPilot
     Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSkills.Opening
         If adtSkills.SelectedNodes.Count <> 0 Then
             If adtSkills.SelectedNodes(0).Nodes.Count = 0 Then
-                Dim skillName As String = ""
-                Dim skillID As String = ""
-                skillName = adtSkills.SelectedNodes(0).Text
-                skillID = EveHQ.Core.SkillFunctions.SkillNameToID(skillName)
+                Dim skillName As String = adtSkills.SelectedNodes(0).Text
+                Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(skillName)
                 mnuSkillName.Text = skillName
                 mnuSkillName.Tag = skillID
             Else
@@ -739,20 +735,19 @@ Public Class frmPilot
     End Sub
 
     Private Sub adtSkills_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSkills.NodeDoubleClick
-        Dim OpenSkillDetails As Boolean = False
+        Dim openSkillDetails As Boolean = False
         If chkGroupSkills.Checked = True Then
             If e.Node.Level = 1 Then
-                OpenSkillDetails = True
+                openSkillDetails = True
             End If
         Else
             If e.Node.Level = 0 Then
-                OpenSkillDetails = True
+                openSkillDetails = True
             End If
         End If
 
-        If OpenSkillDetails = True Then
-            Dim skillID As String = ""
-            skillID = EveHQ.Core.SkillFunctions.SkillNameToID(e.Node.Text)
+        If openSkillDetails = True Then
+            Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(e.Node.Text)
             frmSkillDetails.DisplayPilotName = displayPilot.Name
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End If

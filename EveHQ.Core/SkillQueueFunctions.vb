@@ -176,7 +176,7 @@ Public Class SkillQueueFunctions
                 Dim specSkillName As String
                 specSkillName = CStr(skillArray(tagArray(i), 0))
                 toLvl = specSkillName.Substring(specSkillName.Length - 1, 1)
-                specSkillName = SkillFunctions.SkillIDToName(specSkillName.Substring(0, specSkillName.Length - 2))
+                specSkillName = SkillFunctions.SkillIDToName(CInt(specSkillName.Substring(0, specSkillName.Length - 2)))
                 If queueReqs.ContainsKey(specSkillName) = False Then
                     queueReqs.Add(specSkillName, CInt(toLvl))
                 End If
@@ -198,7 +198,7 @@ Public Class SkillQueueFunctions
                     frLvl = specSkillName.Substring(specSkillName.Length - 2, 1)
                     toLvl = specSkillName.Substring(specSkillName.Length - 1, 1)
                     specSkillID = specSkillName.Substring(0, specSkillName.Length - 2)
-                    myTSkill = bQueue.Queue(SkillFunctions.SkillIDToName(specSkillID) & frLvl & toLvl)
+                    myTSkill = bQueue.Queue(SkillFunctions.SkillIDToName(CInt(specSkillID)) & frLvl & toLvl)
                     myskill = HQ.SkillListName(myTSkill.Name)
                     fromLevel = myTSkill.FromLevel
                     toLevel = myTSkill.ToLevel
@@ -632,8 +632,8 @@ Public Class SkillQueueFunctions
         ' Sub to ensure we have all the prerequisite skills we require for a single skill
         ' Skills are added if required
 
-        Dim skillID As String = SkillFunctions.SkillNameToID(skillName)
-        If skillID <> "" Then
+        Dim skillID As Integer = SkillFunctions.SkillNameToID(skillName)
+        If skillID <> 0 Then
             Dim myPreReqs As String = GetSkillReqs(qPilot, skillID)
             Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
             Dim preReq As String
@@ -707,7 +707,7 @@ Public Class SkillQueueFunctions
             Dim curPos As Integer = curSkill.Pos
 
             ' Get the list of pre-reqs for the current skill
-            If SkillFunctions.SkillNameToID(curSkill.Name) <> "" Then
+            If SkillFunctions.SkillNameToID(curSkill.Name) <> 0 Then
                 Dim myPreReqs As String = GetSkillReqs(qPilot, SkillFunctions.SkillNameToID(curSkill.Name))
                 Dim preReqs() As String = myPreReqs.Split(ControlChars.Cr)
 
@@ -762,7 +762,7 @@ Public Class SkillQueueFunctions
 
     Public Shared Function AddSkillToQueue(ByVal qPilot As EveHQPilot, ByVal addSkill As String, ByVal di As Integer, ByVal qQueue As EveHQSkillQueue, ByVal planLevel As Integer, ByVal silent As Boolean, ByVal exitIfTrained As Boolean, ByVal note As String) As EveHQSkillQueue
         ' Check if skill is valid
-        If EveHQ.Core.HQ.SkillListName.ContainsKey(addSkill) = False Then
+        If HQ.SkillListName.ContainsKey(addSkill) = False Then
             If silent = False Then
                 MessageBox.Show("The skill '" & addSkill & "' is unknown and was not added to the queue '" & qQueue.Name & "'.", "Invalid Skill", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -920,11 +920,11 @@ Public Class SkillQueueFunctions
         Return nQueue
     End Function
 
-    Public Shared Function GetImmediateSkillReqs(ByVal qPilot As EveHQPilot, ByVal skillID As String) As String
+    Public Shared Function GetImmediateSkillReqs(ByVal qPilot As EveHQPilot, ByVal skillID As Integer) As String
         Dim cSkill As EveSkill = HQ.SkillListID(skillID)
         Dim strReqs As String = ""
         Dim subSkill As EveSkill
-        For Each subSkillID As String In cSkill.PreReqSkills.Keys
+        For Each subSkillID As Integer In cSkill.PreReqSkills.Keys
             subSkill = HQ.SkillListID(subSkillID)
             strReqs &= subSkill.Name & cSkill.PreReqSkills(subSkillID)
             If qPilot.PilotSkills.ContainsKey(subSkill.Name) Then
@@ -937,7 +937,7 @@ Public Class SkillQueueFunctions
         Return strReqs.Trim
     End Function
 
-    Public Shared Function GetSkillReqs(ByVal qPilot As EveHQPilot, ByVal skillID As String) As String
+    Public Shared Function GetSkillReqs(ByVal qPilot As EveHQPilot, ByVal skillID As Integer) As String
         Dim strReqs As String = ""
 
         Dim level As Integer = 1
@@ -954,7 +954,7 @@ Public Class SkillQueueFunctions
 
         If cSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveSkill
-            For Each subSkillID As String In cSkill.PreReqSkills.Keys
+            For Each subSkillID As Integer In cSkill.PreReqSkills.Keys
                 subSkill = HQ.SkillListID(subSkillID)
                 If subSkill.ID <> cSkill.ID Then
                     Call GetSkillPreReqs(qPilot, subSkill, cSkill.PreReqSkills(subSkillID), curNode, strReqs)
@@ -990,7 +990,7 @@ Public Class SkillQueueFunctions
 
         If newskill.PreReqSkills.Count > 0 Then
             Dim subSkill As EveSkill
-            For Each subSkillID As String In newskill.PreReqSkills.Keys
+            For Each subSkillID As Integer In newskill.PreReqSkills.Keys
                 subSkill = HQ.SkillListID(subSkillID)
                 If subSkill.ID <> newskill.ID Then
                     Call GetSkillPreReqs(qPilot, subSkill, newskill.PreReqSkills(subSkillID), curNode, strReqs)

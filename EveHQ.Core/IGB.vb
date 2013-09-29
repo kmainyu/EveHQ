@@ -590,8 +590,8 @@ Public Class IGB
                     Dim typeID As String = context.Request.QueryString.Item("id")
                     Dim pInfo As EveItem = EveHQ.Core.HQ.itemData(typeID)
                     dbNavigator &= "<a href=/itemDB/>Home</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & pInfo.Category.ToString & ">" & EveHQ.Core.HQ.itemCats(pInfo.Category.ToString) & "</a> -> "
-                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & pInfo.Group.ToString & ">" & EveHQ.Core.HQ.itemGroups(pInfo.Group.ToString) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=g&id=" & pInfo.Category.ToString & ">" & EveHQ.Core.HQ.itemCats(pInfo.Category) & "</a> -> "
+                    dbNavigator &= "<a href=/itemDB/?view=i&id=" & pInfo.Group.ToString & ">" & EveHQ.Core.HQ.itemGroups(pInfo.Group) & "</a> -> "
                     dbNavigator &= "<a href=/itemDB/?view=t&id=" & pInfo.ID.ToString & ">" & pInfo.Name & "</a>"
                     strHTML &= "<p>" & dbNavigator & "</p>"
                     strHTML &= "</td></tr></table>"

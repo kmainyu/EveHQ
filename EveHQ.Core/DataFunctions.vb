@@ -632,7 +632,7 @@ Public Class DataFunctions
             For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
                 iValue = eveData.Tables(0).Rows(item).Item("categoryName").ToString.Trim
                 iKey = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
-                HQ.itemCats.Add(iKey, iValue)
+                HQ.itemCats.Add(CInt(iKey), iValue)
             Next
             ' Load groups
             eveData = GetData("SELECT * FROM invGroups ORDER BY groupName;")
@@ -640,8 +640,8 @@ Public Class DataFunctions
                 iValue = eveData.Tables(0).Rows(item).Item("groupName").ToString.Trim
                 iKey = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
                 iParent = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
-                HQ.itemGroups.Add(iKey, iValue)
-                HQ.groupCats.Add(iKey, iParent)
+                HQ.itemGroups.Add(CInt(iKey), iValue)
+                HQ.groupCats.Add(CInt(iKey), CInt(iParent))
             Next
             ' Load items
             eveData = GetData("SELECT * FROM invTypes ORDER BY typeName;")
@@ -787,7 +787,7 @@ Public Class DataFunctions
             Next
             ' Add certificates into the skill unlocks?
             For Each cert As Certificate In HQ.Certificates.Values
-                For Each skill As String In cert.RequiredSkills.Keys
+                For Each skill As Integer In cert.RequiredSkills.Keys
                     Dim skillID As String = skill & "." & cert.RequiredSkills(skill).ToString
                     If HQ.CertUnlockSkills.ContainsKey(skillID) = False Then
                         ' Create an arraylist and add the item
@@ -2055,7 +2055,7 @@ Public Class DataFunctions
         Try
             If systemData IsNot Nothing Then
                 If systemData.Tables(0).Rows.Count > 0 Then
-                    Dim cSystem As SolarSystem = New SolarSystem
+                    Dim cSystem As SolarSystem
                     HQ.SolarSystemsById.Clear()
                     For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
                         cSystem = New SolarSystem
@@ -2288,8 +2288,7 @@ Public Class DataFunctions
                         Dim NewCert As Certificate = HQ.Certificates(certID)
                         If IsDBNull(CertRow.Item("parentID")) Then
                             ' This is a skill ID
-                            NewCert.RequiredSkills.Add(CertRow.Item("parentTypeID").ToString,
-                                                       CInt(CertRow.Item("parentLevel")))
+                            NewCert.RequiredSkills.Add(CInt(CertRow.Item("parentTypeID")), CInt(CertRow.Item("parentLevel")))
                         Else
                             ' This is a certID
                             NewCert.RequiredCerts.Add(CertRow.Item("parentID").ToString, 1)
@@ -2509,19 +2508,19 @@ Public Class DataFunctions
                         ' Item Groups
                         s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
                         f = New BinaryFormatter
-                        HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of String, String))
+                        HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of Integer, String))
                         s.Close()
 
                         ' Items Cats
                         s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
                         f = New BinaryFormatter
-                        HQ.itemCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                        HQ.itemCats = CType(f.Deserialize(s), SortedList(Of Integer, String))
                         s.Close()
 
                         ' Group Cats
                         s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
                         f = New BinaryFormatter
-                        HQ.groupCats = CType(f.Deserialize(s), SortedList(Of String, String))
+                        HQ.groupCats = CType(f.Deserialize(s), SortedList(Of Integer, Integer))
                         s.Close()
 
                         ' Cert Categories

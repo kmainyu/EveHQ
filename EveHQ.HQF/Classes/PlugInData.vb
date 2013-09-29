@@ -23,7 +23,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports EveHQ.Common.Extensions
 
 Public Class PlugInData
-    Implements EveHQ.Core.IEveHQPlugIn
+    Implements Core.IEveHQPlugIn
 
     Shared MarketGroupData As DataSet
     Shared shipGroupData As DataSet
@@ -55,9 +55,9 @@ Public Class PlugInData
     Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
         Try
             ' Check for existance of HQF folder & create if not existing
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for HQF folder...")
-            If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                Settings.HQFFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "HQF")
+            Core.HQ.WriteLogEvent("HQF: Checking for HQF folder...")
+            If Core.HQ.IsUsingLocalFolders = False Then
+                Settings.HQFFolder = Path.Combine(Core.HQ.AppDataFolder, "HQF")
             Else
                 Settings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
             End If
@@ -66,7 +66,7 @@ Public Class PlugInData
             End If
 
             ' Check for cache folder
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for HQF Cache folder...")
+            Core.HQ.WriteLogEvent("HQF: Checking for HQF Cache folder...")
             Settings.HQFCacheFolder = Path.Combine(Settings.HQFFolder, "Cache")
             If My.Computer.FileSystem.DirectoryExists(Settings.HQFCacheFolder) = True Then
                 ' Check for last cache version file
@@ -77,24 +77,24 @@ Public Class PlugInData
                     If IsUpdateAvailable(cacheVersion, PlugInData.LastCacheRefresh) = True Then
                         ' Delete the existing cache folder and force a rebuild
                         My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Cache outdated - rebuild of cache data required")
+                        Core.HQ.WriteLogEvent("HQF: Cache outdated - rebuild of cache data required")
                         PlugInData.UseSerializableData = False
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Cache still relevant - using existing cache data")
+                        Core.HQ.WriteLogEvent("HQF: Cache still relevant - using existing cache data")
                         PlugInData.UseSerializableData = True
                     End If
                 Else
                     ' Delete the existing cache folder and force a rebuild
                     My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
-                    EveHQ.Core.HQ.WriteLogEvent("HQF: Cache version not found - rebuild of cache data required")
+                    Core.HQ.WriteLogEvent("HQF: Cache version not found - rebuild of cache data required")
                     PlugInData.UseSerializableData = False
                 End If
             Else
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Cache folder not found - rebuild of cache data required")
+                Core.HQ.WriteLogEvent("HQF: Cache folder not found - rebuild of cache data required")
                 PlugInData.UseSerializableData = False
             End If
 
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for module replacement list...")
+            Core.HQ.WriteLogEvent("HQF: Checking for module replacement list...")
             Dim Mods() As String = My.Resources.ModuleChanges.Split(ControlChars.CrLf.ToCharArray)
             ModuleChanges.Clear()
             For Each ModLine As String In Mods
@@ -103,17 +103,17 @@ Public Class PlugInData
                     ModuleChanges.Add(ModData(0).Trim(ControlChars.Quote), ModData(1).Trim(ControlChars.Quote))
                 End If
             Next
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Building pirate implant list...")
+            Core.HQ.WriteLogEvent("HQF: Building pirate implant list...")
             Engine.BuildPirateImplants()
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Building booster penalty list...")
+            Core.HQ.WriteLogEvent("HQF: Building booster penalty list...")
             Engine.BuildBoosterPenaltyList()
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Building effects map...")
+            Core.HQ.WriteLogEvent("HQF: Building effects map...")
             Engine.BuildEffectsMap()
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Building ship effects map...")
+            Core.HQ.WriteLogEvent("HQF: Building ship effects map...")
             Engine.BuildShipEffectsMap()
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Building ship bonuses map...")
+            Core.HQ.WriteLogEvent("HQF: Building ship bonuses map...")
             Engine.BuildShipBonusesMap()
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Building subsystems bonuses map...")
+            Core.HQ.WriteLogEvent("HQF: Building subsystems bonuses map...")
             Engine.BuildSubSystemBonusMap()
 
             ' Check for the existence of the binary data
@@ -121,7 +121,7 @@ Public Class PlugInData
 
             If PlugInData.UseSerializableData = True Then
 
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading cache data...")
+                Core.HQ.WriteLogEvent("HQF: Loading cache data...")
 
                 If NoSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin")) = True Then
@@ -130,14 +130,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Attributes file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: Attributes file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Attributes file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening Attributes file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Attributes file not found")
+                        Core.HQ.WriteLogEvent("HQF: Attributes file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -153,14 +153,14 @@ Public Class PlugInData
                                 ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
                                 ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
                             Next
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Ships file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: Ships file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Ships file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening Ships file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Ships file not found")
+                        Core.HQ.WriteLogEvent("HQF: Ships file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -180,14 +180,14 @@ Public Class PlugInData
                                     End If
                                 End If
                             Next
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Modules file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: Modules file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Modules file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening Modules file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Modules file not found")
+                        Core.HQ.WriteLogEvent("HQF: Modules file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -199,14 +199,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             Implants.implantList = CType(f.Deserialize(s), SortedList)
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Implants file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: Implants file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Implants file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening Implants file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Implants file not found")
+                        Core.HQ.WriteLogEvent("HQF: Implants file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -218,14 +218,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             Boosters.BoosterList = CType(f.Deserialize(s), SortedList)
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Boosters file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: Boosters file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Boosters file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening Boosters file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Boosters file not found")
+                        Core.HQ.WriteLogEvent("HQF: Boosters file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -237,14 +237,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Skills file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: Skills file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening Skills file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening Skills file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Skills file not found")
+                        Core.HQ.WriteLogEvent("HQF: Skills file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -256,14 +256,14 @@ Public Class PlugInData
                             Dim f As BinaryFormatter = New BinaryFormatter
                             NPCs.NPCList = CType(f.Deserialize(s), SortedList)
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: NPCs file successfully loaded")
+                            Core.HQ.WriteLogEvent("HQF: NPCs file successfully loaded")
                         Catch sex As Exception
                             s.Close()
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Error opening NPCs file: " & sex.Message)
+                            Core.HQ.WriteLogEvent("HQF: Error opening NPCs file: " & sex.Message)
                             NoSerializableErrors = False
                         End Try
                     Else
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: NPCs file not found")
+                        Core.HQ.WriteLogEvent("HQF: NPCs file not found")
                         NoSerializableErrors = False
                     End If
                 End If
@@ -280,26 +280,22 @@ Public Class PlugInData
                     End If
                 End If
 
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Building attribute list...")
+                Core.HQ.WriteLogEvent("HQF: Building attribute list...")
                 Call Me.BuildAttributeQuickList()
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Building Implant Effects map...")
+                Core.HQ.WriteLogEvent("HQF: Building Implant Effects map...")
                 Engine.BuildImplantEffectsMap()
 
                 ' Load any custom ship classes and ships then implement into HQF
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading custom ship data...")
+                Core.HQ.WriteLogEvent("HQF: Loading custom ship data...")
                 CustomHQFClasses.LoadCustomShipClasses()
                 CustomHQFClasses.LoadCustomShips()
                 CustomHQFClasses.ImplementCustomShips()
 
-                ' Convert the old fittings file to the new version
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Checking for old version file...")
-                Call SavedFittings.ConvertOldFittingsFile()
-
                 ' Create Image Cache
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Generating icons...")
+                Core.HQ.WriteLogEvent("HQF: Generating icons...")
                 Call GenerateIcons()
 
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Initialisation complete!")
+                Core.HQ.WriteLogEvent("HQF: Initialisation complete!")
                 Return True
 
             Else
@@ -307,7 +303,7 @@ Public Class PlugInData
                 Return Me.GenerateHQFCacheData()
             End If
         Catch ex As Exception
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Exception occured - " & ex.Message)
+            Core.HQ.WriteLogEvent("HQF: Exception occured - " & ex.Message)
             Dim msg As String = "There was an error loading the HQF cache files. Would you like to try and re-generate the cache data to continue?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Re-create HQF Cache Data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
@@ -327,7 +323,7 @@ Public Class PlugInData
             If sMod.MetaType = MetaTypes.Tech1 Or sMod.MetaType = MetaTypes.Tech3 Then
                 If sMod.Icon <> "" Then
                     If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                        Dim OI As Drawing.Bitmap = CType(EveHQ.Core.ImageHandler.GetImage(sMod.ID, 64, sMod.Icon), Drawing.Bitmap)
+                        Dim OI As Drawing.Bitmap = CType(Core.ImageHandler.GetImage(sMod.ID, 64, sMod.Icon), Drawing.Bitmap)
                         If OI IsNot Nothing Then
                             ImageHandler.BaseIcons.Add(sMod.Icon, OI)
                         End If
@@ -349,61 +345,58 @@ Public Class PlugInData
 
     Public Function GenerateHQFCacheData() As Boolean
         Try
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Generating HQF cache data...")
+            Core.HQ.WriteLogEvent("HQF: Generating HQF cache data...")
             ' Populate the Ship data
-            EveHQ.Core.HQ.WriteLogEvent("HQF: Loading attributes...")
+            Core.HQ.WriteLogEvent("HQF: Loading attributes...")
             If Me.LoadAttributes = True Then
-                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading skill data...")
+                Core.HQ.WriteLogEvent("HQF: Loading skill data...")
                 If Me.LoadSkillData = True Then
-                    EveHQ.Core.HQ.WriteLogEvent("HQF: Loading ship group data...")
+                    Core.HQ.WriteLogEvent("HQF: Loading ship group data...")
                     If Me.LoadShipGroupData = True Then
-                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading market group data...")
+                        Core.HQ.WriteLogEvent("HQF: Loading market group data...")
                         If Me.LoadMarketGroupData = True Then
-                            EveHQ.Core.HQ.WriteLogEvent("HQF: Loading ship name data...")
+                            Core.HQ.WriteLogEvent("HQF: Loading ship name data...")
                             If Me.LoadShipNameData = True Then
-                                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading ship attribute data...")
+                                Core.HQ.WriteLogEvent("HQF: Loading ship attribute data...")
                                 If Me.LoadShipAttributeData = True Then
-                                    EveHQ.Core.HQ.WriteLogEvent("HQF: Populating ship lists...")
+                                    Core.HQ.WriteLogEvent("HQF: Populating ship lists...")
                                     Call Me.PopulateShipLists()
-                                    EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module data...")
+                                    Core.HQ.WriteLogEvent("HQF: Loading module data...")
                                     If Me.LoadModuleData = True Then
-                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module effect data...")
+                                        Core.HQ.WriteLogEvent("HQF: Loading module effect data...")
                                         If Me.LoadModuleEffectData = True Then
-                                            EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module attribute data...")
+                                            Core.HQ.WriteLogEvent("HQF: Loading module attribute data...")
                                             If Me.LoadModuleAttributeData = True Then
-                                                EveHQ.Core.HQ.WriteLogEvent("HQF: Loading module meta types...")
+                                                Core.HQ.WriteLogEvent("HQF: Loading module meta types...")
                                                 If Me.LoadModuleMetaTypes = True Then
-                                                    EveHQ.Core.HQ.WriteLogEvent("HQF: Building module data...")
+                                                    Core.HQ.WriteLogEvent("HQF: Building module data...")
                                                     If Me.BuildModuleData = True Then
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building attribute lists...")
+                                                        Core.HQ.WriteLogEvent("HQF: Building attribute lists...")
                                                         Call Me.BuildAttributeQuickList()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building implant effects map...")
+                                                        Core.HQ.WriteLogEvent("HQF: Building implant effects map...")
                                                         Engine.BuildImplantEffectsMap()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building module effects...")
+                                                        Core.HQ.WriteLogEvent("HQF: Building module effects...")
                                                         Call Me.BuildModuleEffects()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building implant effects...")
+                                                        Core.HQ.WriteLogEvent("HQF: Building implant effects...")
                                                         Call Me.BuildImplantEffects()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building ship effects...")
+                                                        Core.HQ.WriteLogEvent("HQF: Building ship effects...")
                                                         Call Me.BuildShipEffects()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Building subsystem effects...")
+                                                        Core.HQ.WriteLogEvent("HQF: Building subsystem effects...")
                                                         Call Me.BuildSubsystemEffects()
                                                         ' Save the HQF data
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Saving HQF cache data...")
+                                                        Core.HQ.WriteLogEvent("HQF: Saving HQF cache data...")
                                                         Call Me.SaveHQFCacheData()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Cleaning up data...")
+                                                        Core.HQ.WriteLogEvent("HQF: Cleaning up data...")
                                                         Call Me.CleanUpData()
                                                         ' Load any custom ship classes and ships then implement into HQF
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading custom ship classes...")
+                                                        Core.HQ.WriteLogEvent("HQF: Loading custom ship classes...")
                                                         CustomHQFClasses.LoadCustomShipClasses()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Loading custom ships...")
+                                                        Core.HQ.WriteLogEvent("HQF: Loading custom ships...")
                                                         CustomHQFClasses.LoadCustomShips()
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Implementing custom ships...")
+                                                        Core.HQ.WriteLogEvent("HQF: Implementing custom ships...")
                                                         CustomHQFClasses.ImplementCustomShips()
-                                                        ' Convert the old fittings file to the new version
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Checking old fittings file...")
-                                                        Call SavedFittings.ConvertOldFittingsFile()
                                                         ' Generate the icons
-                                                        EveHQ.Core.HQ.WriteLogEvent("HQF: Generating icons...")
+                                                        Core.HQ.WriteLogEvent("HQF: Generating icons...")
                                                         Call GenerateIcons()
                                                         Return True
                                                     Else
@@ -471,7 +464,7 @@ Public Class PlugInData
 
     Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.EveHQPlugIn
+        Dim EveHQPlugIn As New Core.EveHQPlugIn
         EveHQPlugIn.Name = "EveHQ Fitter"
         EveHQPlugIn.Description = "Allows theoretical ship setup and simulation"
         EveHQPlugIn.Author = "EveHQ Team"
@@ -510,7 +503,7 @@ Public Class PlugInData
             Call Me.LoadAttributes()
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invMarketGroups ORDER BY parentGroupID;"
-            PlugInData.MarketGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            PlugInData.MarketGroupData = Core.DataFunctions.GetData(strSQL)
             If PlugInData.MarketGroupData IsNot Nothing Then
                 If PlugInData.MarketGroupData.Tables(0).Rows.Count <> 0 Then
                     Market.MarketGroupList.Clear()
@@ -537,7 +530,7 @@ Public Class PlugInData
             strSQL &= "SELECT dgmAttributeTypes.attributeID, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName AS dgmAttributeTypes_displayName, dgmAttributeTypes.unitID AS dgmAttributeTypes_unitID, dgmAttributeTypes.attributeGroup, eveUnits.unitName, eveUnits.displayName AS eveUnits_displayName"
             strSQL &= " FROM eveUnits INNER JOIN dgmAttributeTypes ON eveUnits.unitID = dgmAttributeTypes.unitID"
             strSQL &= " ORDER BY dgmAttributeTypes.attributeID;"
-            Dim attributeData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            Dim attributeData As DataSet = Core.DataFunctions.GetData(strSQL)
             If attributeData IsNot Nothing Then
                 If attributeData.Tables(0).Rows.Count <> 0 Then
                     Attributes.AttributeList.Clear()
@@ -596,7 +589,7 @@ Public Class PlugInData
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName,  invTypes.basePrice, invTypes.published, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
             strSQL &= " WHERE invCategories.categoryID=16 ORDER BY typeName;"
-            skillData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            skillData = Core.DataFunctions.GetData(strSQL)
             If skillData IsNot Nothing Then
                 If skillData.Tables(0).Rows.Count <> 0 Then
                     HQF.SkillLists.SkillList.Clear()
@@ -605,7 +598,7 @@ Public Class PlugInData
                         Dim newSkill As HQF.Skill
                         If HQF.SkillLists.SkillList.Contains(skillRow.Item("typeID").ToString) = False Then
                             newSkill = New HQF.Skill
-                            newSkill.ID = skillRow.Item("typeID").ToString.Trim
+                            newSkill.ID = CInt(skillRow.Item("typeID"))
                             newSkill.GroupID = skillRow.Item("groupID").ToString.Trim
                             newSkill.Name = skillRow.Item("typeName").ToString.Trim
                             HQF.SkillLists.SkillList.Add(newSkill.ID, newSkill)
@@ -636,7 +629,7 @@ Public Class PlugInData
         Try
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invGroups WHERE invGroups.categoryID=6 ORDER BY groupName;"
-            PlugInData.shipGroupData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            PlugInData.shipGroupData = Core.DataFunctions.GetData(strSQL)
             If PlugInData.shipGroupData IsNot Nothing Then
                 If PlugInData.shipGroupData.Tables(0).Rows.Count <> 0 Then
                     Return True
@@ -657,7 +650,7 @@ Public Class PlugInData
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.published, invTypes.raceID, invTypes.marketGroupID"
             strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
             strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=1) ORDER BY typeName;"
-            PlugInData.shipNameData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            PlugInData.shipNameData = Core.DataFunctions.GetData(strSQL)
             If PlugInData.shipNameData IsNot Nothing Then
                 If PlugInData.shipNameData.Tables(0).Rows.Count <> 0 Then
                     Return True
@@ -681,7 +674,7 @@ Public Class PlugInData
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.raceID, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat"
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeAttributes ON invTypes.typeID=dgmTypeAttributes.typeID"
             strSQL &= " WHERE ((invCategories.categoryID=6 AND invTypes.published=1) OR invTypes.typeID IN (601,596,588,606)) ORDER BY typeName, attributeID;"
-            Dim shipData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            Dim shipData As DataSet = Core.DataFunctions.GetData(strSQL)
             If shipData IsNot Nothing Then
                 If shipData.Tables(0).Rows.Count <> 0 Then
                     ShipLists.shipList.Clear()
@@ -709,7 +702,7 @@ Public Class PlugInData
                             newShip.DatabaseCategory = shipRow.Item("categoryID").ToString
                             newShip.MarketGroup = shipRow.Item("marketGroupID").ToString
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
-                            newShip.MarketPrice = 0 'EveHQ.Core.DataFunctions.GetPrice(newShip.ID)
+                            newShip.MarketPrice = 0 'Core.DataFunctions.GetPrice(newShip.ID)
                             newShip.Mass = CDbl(shipRow.Item("mass"))
                             newShip.Volume = CDbl(shipRow.Item("volume"))
                             newShip.CargoBay = CDbl(shipRow.Item("capacity"))
@@ -746,21 +739,21 @@ Public Class PlugInData
                         ' Map only the skill attributes
                         Select Case shipRow.Item("attributeID").ToString
                             Case Attributes.Ship_ReqSkill1
-                                Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                                Dim pSkill As Core.EveSkill = Core.HQ.SkillListID(CInt(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = pSkill.ID
                                 nSkill.Name = pSkill.Name
                                 pSkillName = pSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case Attributes.Ship_ReqSkill2
-                                Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                                Dim sSkill As Core.EveSkill = Core.HQ.SkillListID(CInt(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = sSkill.ID
                                 nSkill.Name = sSkill.Name
                                 sSkillName = sSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case Attributes.Ship_ReqSkill3
-                                Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                                Dim tSkill As Core.EveSkill = Core.HQ.SkillListID(CInt(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = tSkill.ID
                                 nSkill.Name = tSkill.Name
@@ -822,7 +815,7 @@ Public Class PlugInData
             strSQL &= " FROM eveIcons RIGHT OUTER JOIN (invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID) ON (eveIcons.iconID = invTypes.iconID)"
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY invTypes.typeName;"
-            PlugInData.moduleData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            PlugInData.moduleData = Core.DataFunctions.GetData(strSQL)
             If PlugInData.moduleData IsNot Nothing Then
                 If PlugInData.moduleData.Tables(0).Rows.Count <> 0 Then
                     Return True
@@ -846,7 +839,7 @@ Public Class PlugInData
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeEffects ON invTypes.typeID=dgmTypeEffects.typeID"
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY typeName, effectID;"
-            PlugInData.moduleEffectData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            PlugInData.moduleEffectData = Core.DataFunctions.GetData(strSQL)
             If PlugInData.moduleEffectData IsNot Nothing Then
                 If PlugInData.moduleEffectData.Tables(0).Rows.Count <> 0 Then
                     Return True
@@ -871,7 +864,7 @@ Public Class PlugInData
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
 
-            PlugInData.moduleAttributeData = EveHQ.Core.DataFunctions.GetData(strSQL)
+            PlugInData.moduleAttributeData = Core.DataFunctions.GetData(strSQL)
             If PlugInData.moduleAttributeData IsNot Nothing Then
                 If PlugInData.moduleAttributeData.Tables(0).Rows.Count <> 0 Then
                     Return True
@@ -894,7 +887,7 @@ Public Class PlugInData
             strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invMetaTypes.parentTypeID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID"
             strSQL &= " FROM (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (invMetaGroups INNER JOIN invMetaTypes ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID) ON invTypes.typeID = invMetaTypes.typeID"
             strSQL &= " WHERE (((invGroups.categoryID) In (7,8,18,20,32)) AND (invTypes.published=1))"
-            Dim metaTypeData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+            Dim metaTypeData As DataSet = Core.DataFunctions.GetData(strSQL)
             If metaTypeData IsNot Nothing Then
                 If metaTypeData.Tables(0).Rows.Count <> 0 Then
                     ModuleLists.moduleMetaTypes.Clear()
@@ -947,7 +940,7 @@ Public Class PlugInData
                 Else
                     newModule.RaceID = 0
                 End If
-                newModule.MarketPrice = 0 ' EveHQ.Core.DataFunctions.GetPrice(newModule.ID)
+                newModule.MarketPrice = 0 ' Core.DataFunctions.GetPrice(newModule.ID)
                 newModule.Icon = row.Item("iconFile").ToString.Replace("res:/UI/Texture/Icons/", "").Replace(".png", "")
                 If IsDBNull(row.Item("marketGroupID")) = False Then
                     newModule.MarketGroup = row.Item("marketGroupID").ToString
@@ -1227,8 +1220,8 @@ Public Class PlugInData
                     Case Attributes.Module_BoosterSlot
                         attMod.BoosterSlot = CInt(attValue)
                     Case Attributes.Module_ReqSkill1
-                        If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
-                            Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                        If Core.HQ.SkillListID.ContainsKey(CInt(attValue)) = True Then
+                            Dim pSkill As Core.EveSkill = Core.HQ.SkillListID(CInt(attValue))
                             Dim nSkill As New ItemSkills
                             nSkill.ID = pSkill.ID
                             nSkill.Name = pSkill.Name
@@ -1236,8 +1229,8 @@ Public Class PlugInData
                             attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                         End If
                     Case Attributes.Module_ReqSkill2
-                        If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
-                            Dim sSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                        If Core.HQ.SkillListID.ContainsKey(CInt(attValue)) = True Then
+                            Dim sSkill As Core.EveSkill = Core.HQ.SkillListID(CInt(attValue))
                             Dim nSkill As New ItemSkills
                             nSkill.ID = sSkill.ID
                             nSkill.Name = sSkill.Name
@@ -1245,8 +1238,8 @@ Public Class PlugInData
                             attMod.RequiredSkills.Add(nSkill.Name, nSkill)
                         End If
                     Case Attributes.Module_ReqSkill3
-                        If EveHQ.Core.HQ.SkillListID.ContainsKey(CStr(attValue)) = True Then
-                            Dim tSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(CStr(attValue))
+                        If Core.HQ.SkillListID.ContainsKey(CInt(attValue)) = True Then
+                            Dim tSkill As Core.EveSkill = Core.HQ.SkillListID(CInt(attValue))
                             Dim nSkill As New ItemSkills
                             nSkill.ID = tSkill.ID
                             nSkill.Name = tSkill.Name
@@ -1426,17 +1419,17 @@ Public Class PlugInData
                         AffectingName = "Global;Global;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Item
                         If newEffect.AffectingID > 0 Then
-                            AffectingName = EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
-                            If EveHQ.Core.HQ.SkillListName.ContainsKey(AffectingName) = True Then
+                            AffectingName = Core.HQ.itemData(newEffect.AffectingID.ToString).Name
+                            If Core.HQ.SkillListName.ContainsKey(AffectingName) = True Then
                                 AffectingName &= ";Skill;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             Else
                                 AffectingName &= ";Item;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             End If
                         End If
                     Case EffectType.Group
-                        AffectingName = EveHQ.Core.HQ.itemGroups(newEffect.AffectingID.ToString) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                        AffectingName = Core.HQ.itemGroups(newEffect.AffectingID) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.Category
-                        AffectingName = EveHQ.Core.HQ.itemCats(newEffect.AffectingID.ToString) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                        AffectingName = Core.HQ.itemCats(newEffect.AffectingID) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                     Case EffectType.MarketGroup
                         AffectingName = CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 End Select
@@ -1465,7 +1458,7 @@ Public Class PlugInData
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Skill
-                            If cModule.RequiredSkills.ContainsKey(EveHQ.Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
+                            If cModule.RequiredSkills.ContainsKey(Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
                         Case EffectType.Attribute
@@ -1501,7 +1494,7 @@ Public Class PlugInData
                                         cShip.Affects.Add(AffectingName)
                                     End If
                                 Case EffectType.Skill
-                                    If cShip.RequiredSkills.ContainsKey(EveHQ.Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
+                                    If cShip.RequiredSkills.ContainsKey(Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
                                 Case EffectType.Attribute
@@ -1570,7 +1563,7 @@ Public Class PlugInData
                         newEffect.Groups.Add(EffectData(9))
                     End If
 
-                    AffectingName = EveHQ.Core.HQ.itemData(EffectData(2)).Name & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
+                    AffectingName = Core.HQ.itemData(EffectData(2)).Name & ";Implant;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
 
                     For Each cModule As ShipModule In ModuleLists.moduleList.Values
                         Select Case newEffect.AffectedType
@@ -1644,7 +1637,7 @@ Public Class PlugInData
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
 
-                AffectingName = EveHQ.Core.HQ.itemData(newEffect.ShipID.ToString).Name
+                AffectingName = Core.HQ.itemData(newEffect.ShipID.ToString).Name
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";Ship Role;"
                 Else
@@ -1654,7 +1647,7 @@ Public Class PlugInData
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";"
                 Else
-                    AffectingName &= ";" & EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
+                    AffectingName &= ";" & Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                 End If
 
                 ' Add the skills into the ship modules
@@ -1738,7 +1731,7 @@ Public Class PlugInData
                 newEffect.Status = CInt(EffectData(10))
                 shipEffectClassList.Add(newEffect)
 
-                AffectingName = EveHQ.Core.HQ.itemData(newEffect.ShipID.ToString).Name
+                AffectingName = Core.HQ.itemData(newEffect.ShipID.ToString).Name
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";Subsystem Role;"
                 Else
@@ -1748,7 +1741,7 @@ Public Class PlugInData
                 If newEffect.IsPerLevel = False Then
                     AffectingName &= ";"
                 Else
-                    AffectingName &= ";" & EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
+                    AffectingName &= ";" & Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                 End If
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
@@ -1781,7 +1774,7 @@ Public Class PlugInData
                     ' Add the skill onto the subsystem
                     If newEffect.IsPerLevel = True Then
                         If cModule.ID = newEffect.ShipID.ToString Then
-                            AffectingName = EveHQ.Core.HQ.itemData(newEffect.AffectingID.ToString).Name
+                            AffectingName = Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                             AffectingName &= ";Skill;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             If cModule.Affects.Contains(AffectingName) = False Then
                                 cModule.Affects.Add(AffectingName)

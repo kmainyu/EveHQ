@@ -32,6 +32,6 @@ End Class
     Public CategoryID As Integer
     Public CorpID As Long
     Public Description As String
-    Public RequiredSkills As New SortedList(Of String, Integer)
+    Public RequiredSkills As New SortedList(Of Integer, Integer)
     Public RequiredCerts As New SortedList(Of String, Integer)
 End Class

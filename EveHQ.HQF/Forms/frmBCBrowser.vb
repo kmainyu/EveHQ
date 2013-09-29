@@ -403,7 +403,7 @@ Public Class frmBCBrowser
             If currentFitting IsNot Nothing Then
                 If cboPilots.SelectedItem IsNot Nothing Then
                     gpStatistics.Enabled = True
-                    Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+                    Dim loadoutPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
                     Dim loadoutProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
 
                     currentFitting.PilotName = loadoutPilot.PilotName

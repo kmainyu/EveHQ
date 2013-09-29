@@ -24,7 +24,7 @@ Public Class frmGunnery
     Dim mCurrentSlot As String
     Dim mCurrentModule As ShipModule
     Dim mCurrentFit As Fitting
-    Dim mCurrentPilot As HQFPilot
+    Dim mCurrentPilot As FittingPilot
     Dim AmmoList As New ArrayList
 
     Public Property CurrentSlot() As String
@@ -49,12 +49,12 @@ Public Class frmGunnery
         End Set
     End Property
 
-    Public Property CurrentPilot() As HQFPilot
+    Public Property CurrentPilot() As FittingPilot
         Get
             Return mCurrentPilot
         End Get
-        Set(ByVal value As HQFPilot)
-            mCurrentpilot = value
+        Set(ByVal value As FittingPilot)
+            mCurrentPilot = value
         End Set
     End Property
 

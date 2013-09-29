@@ -96,9 +96,14 @@
     <Compile Include="Classes\Booster.vb" />
     <Compile Include="Classes\Capacitor.vb" />
     <Compile Include="Classes\Charges.vb" />
+    <Compile Include="_New\FittingPilots.vb" />
+    <Compile Include="_New\FittingSkill.vb" />
+    <Compile Include="_New\FittingPilot.vb" />
     <Compile Include="Classes\CustomShip.vb" />
     <Compile Include="Classes\CustomShipClass.vb" />
     <Compile Include="Classes\CustomHQFClasses.vb" />
+    <Compile Include="_Deprecated\HQFPilotCollection.vb" />
+    <Compile Include="_Deprecated\HQFSkill.vb" />
     <Compile Include="_Deprecated\DamageProfiles.vb" />
     <Compile Include="_Deprecated\DefenceProfiles.vb" />
     <Compile Include="Classes\Effect.vb" />
@@ -109,7 +114,7 @@
     <Compile Include="Classes\ResourceHandler.vb" />
     <Compile Include="Classes\SavedFitting.vb" />
     <Compile Include="Classes\HQFEvents.vb" />
-    <Compile Include="Classes\HQFPilot.vb" />
+    <Compile Include="_Deprecated\HQFPilot.vb" />
     <Compile Include="Classes\Market.vb" />
     <Compile Include="Classes\NPCs.vb" />
     <Compile Include="Classes\PlugInData.vb" />

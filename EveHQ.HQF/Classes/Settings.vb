@@ -486,7 +486,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
                 End If
             Next
         Next
-        For Each pilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
+        For Each pilot As FittingPilot In FittingPilots.HQFPilots.Values
             For slot As Integer = 1 To 10
                 If PlugInData.ModuleChanges.ContainsKey(pilot.ImplantName(slot)) Then
                     pilot.ImplantName(slot) = PlugInData.ModuleChanges(pilot.ImplantName(slot))

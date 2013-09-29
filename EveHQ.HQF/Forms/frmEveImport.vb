@@ -171,7 +171,7 @@ Public Class frmEveImport
 	Private Sub GenerateFittingData()
 		' Let's try and generate a fitting and get some damage info
 		If currentShip IsNot Nothing Then
-			Dim loadoutPilot As HQF.HQFPilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
+            Dim loadoutPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
             Dim loadoutProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
 
 			currentFitting.PilotName = loadoutPilot.PilotName

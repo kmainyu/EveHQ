@@ -132,19 +132,19 @@ Public Class frmCharCreate
 
         ' Load up the skills for the selected race
         skillsRace.Clear()
-        Dim skillID As String = ""
+        Dim skillID As Integer
         Dim skillName As String = ""
         Dim skillLevel As Integer = 0
         Dim skillPoints As Long = 0
         For Each raceskill As String In RaceSkills
             Dim RaceSkillData() As String = raceskill.Split(",".ToCharArray)
-            skillID = RaceSkillData(0)
+            skillID = CInt(RaceSkillData(0))
             skillLevel = CInt(RaceSkillData(1))
-            skillName = EveHQ.Core.SkillFunctions.SkillIDToName(skillID)
-            skillPoints = CLng(Math.Ceiling(EveHQ.Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel)))
+            skillName = Core.SkillFunctions.SkillIDToName(skillID)
+            skillPoints = CLng(Math.Ceiling(Core.SkillFunctions.CalculateSkillSPLevel(skillID, skillLevel)))
             Dim skillItem As New ListViewItem
             skillItem.Text = skillName
-            skillItem.Name = skillID
+            skillItem.Name = CStr(skillID)
             skillItem.SubItems.Add(skillLevel.ToString)
             skillItem.SubItems.Add(skillPoints.ToString)
             skillsRace.Add(skillItem, skillItem.Text)
@@ -164,7 +164,7 @@ Public Class frmCharCreate
     Private Sub btnAddPilot_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddPilot.Click
 
         ' Create a new pilot
-        Dim nPilot As New EveHQ.Core.EveHQPilot
+        Dim nPilot As New Core.EveHQPilot
         nPilot.ID = Me.lblCharID.Text
         ' Check name isn't blank
         If Me.txtCharName.Text.Trim = "" Then
@@ -174,27 +174,27 @@ Public Class frmCharCreate
             nPilot.Name = Me.txtCharName.Text
         End If
         ' Check if name exists
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(nPilot.Name) = True Then
+        If Core.HQ.Settings.Pilots.ContainsKey(nPilot.Name) = True Then
             MessageBox.Show("Pilot name already exists. Please choose an alternative name.", "Pilot Already Exists", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
         nPilot.Race = sRaceName
         nPilot.Blood = sBloodName
-        nPilot.CAtt = CInt(Me.nudC.Value)
-        nPilot.IAtt = CInt(Me.nudI.Value)
-        nPilot.MAtt = CInt(Me.nudM.Value)
-        nPilot.PAtt = CInt(Me.nudP.Value)
-        nPilot.WAtt = CInt(Me.nudW.Value)
+        nPilot.CAtt = CInt(nudC.Value)
+        nPilot.IAtt = CInt(nudI.Value)
+        nPilot.MAtt = CInt(nudM.Value)
+        nPilot.PAtt = CInt(nudP.Value)
+        nPilot.WAtt = CInt(nudW.Value)
         nPilot.Isk = 0
         nPilot.Active = True
         nPilot.Corp = "EveHQ Import Corp"
         nPilot.CorpID = "1000000"
         nPilot.Gender = "Male"
         nPilot.CloneName = "Clone Grade Alpha"
-        nPilot.CloneSP = "900000"
+        nPilot.CloneSP = 900000
         For Each skillItem As ListViewItem In lvwSkills.Items
-            Dim pilotSkill As New EveHQ.Core.EveHQPilotSkill
-            pilotSkill.ID = skillItem.Name
+            Dim pilotSkill As New Core.EveHQPilotSkill
+            pilotSkill.ID = CInt(skillItem.Name)
             pilotSkill.Name = skillItem.Text
             pilotSkill.Level = CInt(skillItem.SubItems(1).Text)
             pilotSkill.SP = CInt(skillItem.SubItems(2).Text)
@@ -203,14 +203,14 @@ Public Class frmCharCreate
         nPilot.Updated = True
 
         ' Write the XML files
-        Dim xmlFile As String = Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
-        Dim txmlFile As String = Path.Combine(EveHQ.Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
+        Dim xmlFile As String = Path.Combine(Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.CharacterSheet.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
+        Dim txmlFile As String = Path.Combine(Core.HQ.cacheFolder, "EVEHQAPI_" & EveAPI.APITypes.SkillQueue.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
         Dim strXML As String = ""
         Dim sw As IO.StreamWriter
 
         ' Write Character XML
         strXML = ""
-        strXML &= EveHQ.Core.Reports.CurrentPilotXML_New(nPilot)
+        strXML &= Core.Reports.CurrentPilotXML_New(nPilot)
         sw = New IO.StreamWriter(xmlFile)
         sw.Write(strXML)
         sw.Flush()
@@ -218,17 +218,17 @@ Public Class frmCharCreate
 
         ' Write Training XML
         strXML = ""
-        strXML &= EveHQ.Core.Reports.CurrentTrainingXML_New(nPilot)
+        strXML &= Core.Reports.CurrentTrainingXML_New(nPilot)
         sw = New IO.StreamWriter(txmlFile)
         sw.Write(strXML)
         sw.Flush()
         sw.Close()
 
         ' Import the data!
-        Call EveHQ.Core.PilotParseFunctions.ImportPilotFromXML(xmlFile, txmlFile)
+        Call Core.PilotParseFunctions.ImportPilotFromXML(xmlFile, txmlFile)
 
         ' Refresh the list of pilots in evehq
-        EveHQ.Core.PilotParseFunctions.StartPilotRefresh = True
+        Core.PilotParseFunctions.StartPilotRefresh = True
 
         ' Close the form
         Me.Close()
@@ -237,7 +237,7 @@ Public Class frmCharCreate
 #Region "Data Loading Routines"
 
     Private Function LoadData() As Boolean
-        raceData = EveHQ.Core.DataFunctions.GetData("SELECT * FROM chrRaces")
+        raceData = Core.DataFunctions.GetData("SELECT * FROM chrRaces")
         If raceData Is Nothing Then
             MessageBox.Show("chrRaces table returned a null dataset.", "Character Creation Data Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False

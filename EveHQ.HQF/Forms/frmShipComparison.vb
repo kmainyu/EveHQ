@@ -64,7 +64,7 @@ Public Class frmShipComparison
     Private Sub LoadPilots()
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each hPilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
+        For Each hPilot As FittingPilot In FittingPilots.HQFPilots.Values
             cboPilots.Items.Add(hPilot.PilotName)
         Next
         cboPilots.EndUpdate()
@@ -81,33 +81,33 @@ Public Class frmShipComparison
 
     Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
         If StartUp = False Then
-            Call Me.UpdateShipData()
+            Call UpdateShipData()
         End If
     End Sub
 
     Private Sub cboProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProfiles.SelectedIndexChanged
         If StartUp = False Then
-            Call Me.UpdateShipData()
+            Call UpdateShipData()
         End If
     End Sub
 
     Private Sub UpdateShipData()
-        Dim ShipInfo As New SortedList
+        Dim shipInfo As SortedList
         ' Create a sortedlist of holding results
         If cboPilots.SelectedItem IsNot Nothing And cboProfiles.SelectedItem IsNot Nothing Then
-            Dim CompareWorker As New frmShipComparisonWorker
+            Dim compareWorker As New frmShipComparisonWorker
 
-            CompareWorker.Pilot = CType(HQFPilotCollection.HQFPilots(cboPilots.SelectedItem.ToString), HQFPilot)
-            CompareWorker.Profile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
-            CompareWorker.ShipList = ShipList
-            CompareWorker.ShowDialog()
-            ShipInfo = CompareWorker.ShipInfo
-            CompareWorker.Dispose()
+            compareWorker.Pilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
+            compareWorker.Profile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
+            compareWorker.ShipList = ShipList
+            compareWorker.ShowDialog()
+            shipInfo = compareWorker.ShipInfo
+            compareWorker.Dispose()
 
             ' Add the details to the listview
             adtShips.BeginUpdate()
             adtShips.Nodes.Clear()
-            For Each newShip As ShipData In ShipInfo.Values
+            For Each newShip As ShipData In shipInfo.Values
                 Dim newShipNode As New Node
                 newShipNode.Text = newShip.Ship & ", " & newShip.Fitting
                 newShipNode.Tag = newShip.Modules
@@ -132,7 +132,7 @@ Public Class frmShipComparison
                 newShipNode.Cells.Add(New Cell(newShip.AKi.ToString("N2")))
                 newShipNode.Cells.Add(New Cell(newShip.ATh.ToString("N2")))
             Next
-            EveHQ.Core.AdvTreeSorter.Sort(adtShips, 1, True, True)
+            Core.AdvTreeSorter.Sort(adtShips, 1, True, True)
             adtShips.EndUpdate()
         End If
     End Sub

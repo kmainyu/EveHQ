@@ -220,15 +220,15 @@ Public Class frmHQF
 
         ' Save fittings
         'MessageBox.Show("HQF is about to enter the routine to save the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        Call Me.SaveFittings()
+        Call SaveFittings()
 
         ' Save pilots
-        Call HQFPilotCollection.SaveHQFPilotData()
+        Call FittingPilots.SaveHQFPilotData()
 
         ' Save the open fittings
-        HQF.Settings.HQFSettings.OpenFittingList.Clear()
+        Settings.HQFSettings.OpenFittingList.Clear()
         For Each fitting As String In ShipLists.fittedShipList.Keys
-            HQF.Settings.HQFSettings.OpenFittingList.Add(fitting)
+            Settings.HQFSettings.OpenFittingList.Add(fitting)
         Next
 
         ' Save the Settings
@@ -236,12 +236,12 @@ Public Class frmHQF
     End Sub
 
     Private Sub ShowShipGroups()
-        Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
+        Dim sr As New StreamReader(Path.Combine(Settings.HQFCacheFolder, "ShipGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
-        Dim cNode As New DevComponents.AdvTree.Node
-        Dim isFlyable As Boolean = True
+        Dim cNode As Node
+        Dim isFlyable As Boolean
         sr.Close()
         tvwShips.BeginUpdate()
         tvwShips.Nodes.Clear()
@@ -413,89 +413,89 @@ Public Class frmHQF
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
-            Call HQFPilotCollection.LoadHQFPilotData()
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+            Call FittingPilots.LoadHQFPilotData()
             ' Check we have all the available pilots!
             Dim morePilots As Boolean = False
-            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
-                If HQFPilotCollection.HQFPilots.Contains(pilot.Name) = False Then
+            For Each pilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+                If FittingPilots.HQFPilots.ContainsKey(pilot.Name) = False Then
                     ' We don't have it, so lets create one!
-                    Dim newHQFPilot As New HQFPilot
+                    Dim newHQFPilot As New FittingPilot
                     newHQFPilot.PilotName = pilot.Name
-                    newHQFPilot.SkillSet = New Collection
-                    HQFPilotCollection.ResetSkillsToDefault(newHQFPilot)
+                    newHQFPilot.SkillSet = New Dictionary(Of String, FittingSkill)
+                    FittingPilots.ResetSkillsToDefault(newHQFPilot)
                     For imp As Integer = 0 To 10
                         newHQFPilot.ImplantName(imp) = ""
                     Next
-                    HQFPilotCollection.HQFPilots.Add(newHQFPilot.PilotName, newHQFPilot)
+                    FittingPilots.HQFPilots.Add(newHQFPilot.PilotName, newHQFPilot)
                     morePilots = True
                 End If
             Next
-            For Each hPilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
+            For Each hPilot As FittingPilot In FittingPilots.HQFPilots.Values
                 ' Check to make sure the skills the HQF record has are infact existing skills
                 ' Bug #40: The Heavy Assault Missile Specialization skill was renamed to just Assault Missile Specialization,
                 ' however HQF pilot records which had the old skill were having it added to modules as well as the new skill.
                 ' If a pilot is found to have invalid/unknown skills in their HQF record, their skills will get reset to what
                 ' the EVE record states as valid.
-                Call HQFPilotCollection.CheckForInvalidSkills(hPilot)
+                Call FittingPilots.CheckForInvalidSkills(hPilot)
 
                 ' Check for missing skills in the pilots info
 
-                Call HQFPilotCollection.CheckForMissingSkills(hPilot)
+                Call FittingPilots.CheckForMissingSkills(hPilot)
             Next
 
             ' Check if we need to update the HQFPilot skills to actuals
-            If HQF.Settings.HQFSettings.AutoUpdateHQFSkills = True Then
+            If Settings.HQFSettings.AutoUpdateHQFSkills = True Then
                 morePilots = True
-                For Each hPilot As HQFPilot In HQFPilotCollection.HQFPilots.Values
-                    Call HQFPilotCollection.UpdateHQFSkillsToActual(hPilot)
+                For Each hPilot As FittingPilot In FittingPilots.HQFPilots.Values
+                    Call FittingPilots.UpdateHQFSkillsToActual(hPilot)
                 Next
             End If
             ' Save the data if we need to
             If morePilots = True Then
-                Call HQFPilotCollection.SaveHQFPilotData()
+                Call FittingPilots.SaveHQFPilotData()
             End If
         Else
-            HQFPilotCollection.HQFPilots.Clear()
-            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
-                Dim newHQFPilot As New HQFPilot
+            FittingPilots.HQFPilots.Clear()
+            For Each pilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+                Dim newHQFPilot As New FittingPilot
                 newHQFPilot.PilotName = pilot.Name
-                newHQFPilot.SkillSet = New Collection
-                HQFPilotCollection.ResetSkillsToDefault(newHQFPilot)
+                newHQFPilot.SkillSet = New Dictionary(Of String, FittingSkill)
+                FittingPilots.ResetSkillsToDefault(newHQFPilot)
                 For imp As Integer = 0 To 10
                     newHQFPilot.ImplantName(imp) = ""
                 Next
-                HQFPilotCollection.HQFPilots.Add(newHQFPilot.PilotName, newHQFPilot)
+                FittingPilots.HQFPilots.Add(newHQFPilot.PilotName, newHQFPilot)
             Next
             ' Save the data
-            Call HQFPilotCollection.SaveHQFPilotData()
+            Call FittingPilots.SaveHQFPilotData()
         End If
 
         ' Remove old HQF Pilots
         Dim removePilotList As New ArrayList
-        For Each hPilot As String In HQFPilotCollection.HQFPilots.Keys
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(hPilot) = False Then
+        For Each hPilot As String In FittingPilots.HQFPilots.Keys
+            If Core.HQ.Settings.Pilots.ContainsKey(hPilot) = False Then
                 removePilotList.Add(hPilot)
             End If
         Next
         For Each hpilot As String In removePilotList
-            HQFPilotCollection.HQFPilots.Remove(hpilot)
+            FittingPilots.HQFPilots.Remove(hpilot)
         Next
         removePilotList.Clear()
 
-        If HQFPilotCollection.HQFPilots.Count > 0 Then
+        If FittingPilots.HQFPilots.Count > 0 Then
             btnPilotManager.Enabled = True
             btnImplantManager.Enabled = True
         End If
 
         'Update the default pilot if it is null or set to a non-existing pilot
-        If (String.IsNullOrEmpty(Settings.HQFSettings.DefaultPilot) = True Or HQFPilotCollection.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) = False) And HQFPilotCollection.HQFPilots.Count > 0 Then
+        If (String.IsNullOrEmpty(Settings.HQFSettings.DefaultPilot) = True Or FittingPilots.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) = False) And FittingPilots.HQFPilots.Count > 0 Then
             ' default to first pilot in the collection
-            Settings.HQFSettings.DefaultPilot = CType(HQFPilotCollection.HQFPilots.GetByIndex(0), HQFPilot).PilotName
+            Settings.HQFSettings.DefaultPilot = FittingPilots.HQFPilots.Values(0).PilotName
         End If
 
         ' Update the ship filter
-        Call Me.UpdateShipFilter()
+        Call UpdateShipFilter()
 
     End Sub
     Private Sub UpdateShipFilter()
@@ -605,7 +605,7 @@ Public Class frmHQF
     Private Sub CreateNewFitting(ByVal shipName As String)
         ' Check we have some valid characters
         ' Bug 83: Adding a check of the core pilots collection as well, since it may end up in an unstable state due to other actors, and needs to contain pilots before loading the new fitting.
-        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And HQF.HQFPilotCollection.HQFPilots.Count > 0 Then
+        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And HQF.FittingPilots.HQFPilots.Count > 0 Then
             ' Clear the text boxes
             Dim myNewFitting As New frmModifyFittingName
             Dim fittingName As String = ""
@@ -819,7 +819,7 @@ Public Class frmHQF
     End Sub
     Private Function IsShipFlyable(ByVal shipName As String, ByVal pilotName As String) As Boolean
         Dim testShip As Ship = CType(ShipLists.shipList(shipName), Ship)
-        Dim testPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(pilotName), HQFPilot)
+        Dim testPilot As FittingPilot = FittingPilots.HQFPilots(pilotName)
         If testShip IsNot Nothing And testPilot IsNot Nothing Then
             Return Engine.IsFlyable(testPilot, testShip)
         Else
@@ -910,7 +910,7 @@ Public Class frmHQF
                     End If
                     If ActiveFitting IsNot Nothing Then
                         If chkOnlyShowUsable.Checked = True Then
-                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
                                     If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                         results.Add(sMod.Name, sMod)
@@ -949,7 +949,7 @@ Public Class frmHQF
                     End If
                     If ActiveFitting IsNot Nothing Then
                         If chkOnlyShowUsable.Checked = True Then
-                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                            If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
                                     If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                         results.Add(sMod.Name, sMod)
@@ -1010,7 +1010,7 @@ Public Class frmHQF
                 End If
                 If ActiveFitting IsNot Nothing Then
                     If chkOnlyShowUsable.Checked = True Then
-                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                        If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                             If chkOnlyShowFittable.Checked = True Then
                                 If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                     Results.Add(sMod.Name, sMod)
@@ -1058,7 +1058,7 @@ Public Class frmHQF
                         If ActiveFitting.ShipInfoCtrl IsNot Nothing Then
                             If ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem IsNot Nothing Then
                                 If chkOnlyShowUsable.Checked = True Then
-                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                         If chkOnlyShowFittable.Checked = True Then
                                             If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
                                                 results.Add(sMod.Name, sMod)
@@ -1129,7 +1129,7 @@ Public Class frmHQF
                         Select Case slotType
                             Case SlotTypes.Subsystem
                                 If chkOnlyShowUsable.Checked = True Then
-                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                    If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                         results.Add(sMod.Name, sMod)
                                     End If
                                 Else
@@ -1138,7 +1138,7 @@ Public Class frmHQF
                             Case SlotTypes.Rig
                                 If sMod.Calibration <= Calibration Then
                                     If chkOnlyShowUsable.Checked = True Then
-                                        If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                        If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                             results.Add(sMod.Name, sMod)
                                         End If
                                     Else
@@ -1149,7 +1149,7 @@ Public Class frmHQF
                                 If sMod.CPU <= CPU Then
                                     If sMod.PG <= PG Then
                                         If chkOnlyShowUsable.Checked = True Then
-                                            If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                            If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                                 results.Add(sMod.Name, sMod)
                                             End If
                                         Else
@@ -1163,7 +1163,7 @@ Public Class frmHQF
                                         If LauncherSlots >= Math.Abs(CInt(sMod.IsLauncher)) Then
                                             If TurretSlots >= Math.Abs(CInt(sMod.IsTurret)) Then
                                                 If chkOnlyShowUsable.Checked = True Then
-                                                    If Engine.IsUsable(CType(HQF.HQFPilotCollection.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem), HQFPilot), sMod) = True Then
+                                                    If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                                         results.Add(sMod.Name, sMod)
                                                     End If
                                                 Else
@@ -1426,7 +1426,7 @@ Public Class frmHQF
                     Dim shipInfo As ShipInfoControl = CType(thisTab.AttachedControl.Controls("panelShipInfo").Controls("shipInfo"), ShipInfoControl)
                     If pilotName = shipInfo.cboPilots.SelectedItem.ToString Then
                         ' Build the Affections data for this pilot
-                        Dim shipPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(shipInfo.cboPilots.SelectedItem), HQFPilot)
+                        Dim shipPilot As FittingPilot = FittingPilots.HQFPilots(shipInfo.cboPilots.SelectedItem.ToString)
                         ' Call the property modifier again which will trigger the fitting routines and update all slots for the new pilot
                         If shipSlots IsNot Nothing Then
                             shipSlots.UpdateAllSlots = True

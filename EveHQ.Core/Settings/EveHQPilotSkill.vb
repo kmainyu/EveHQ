@@ -3,13 +3,11 @@
 
     Private ReadOnly _levelUp(5) As Integer
 
-    Public Property ID As String
+    Public Property ID As Integer
 
     Public Property Name As String
 
-    Public Property GroupID As String
-
-    Public Property Flag As Integer
+    Public Property GroupID As Integer
 
     Public Property Rank As Integer
 

@@ -18,7 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 <Serializable()> Public Class ItemSkills
-    Public ID As String
+    Public ID As Integer
     Public Name As String
     Public Level As Integer
 End Class
@@ -29,7 +29,7 @@ End Class
 End Class
 
 <Serializable()> Public Class ReqSkill
-    Public ID As String
+    Public ID As Integer
     Public Name As String
     Public ReqLevel As Integer
     Public CurLevel As Integer
@@ -37,7 +37,7 @@ End Class
 End Class
 
 <Serializable()> Public Class Skill
-    Public ID As String
+    Public ID As Integer
     Public Name As String
     Public GroupID As String
     Public Attributes As New SortedList

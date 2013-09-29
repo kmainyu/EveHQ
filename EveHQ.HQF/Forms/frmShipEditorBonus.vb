@@ -52,7 +52,7 @@ Public Class frmShipEditorBonus
     ''' Creates a new instance of the frmShipEditorBonus
     ''' </summary>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ShipID As Integer, ByVal OldShipEffect As ShipEffect)
+    Public Sub New(ByVal shipID As Integer, ByVal oldShipEffect As ShipEffect)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -61,7 +61,7 @@ Public Class frmShipEditorBonus
         FormIsInitialising = True
 
         ' Setup the shipID
-        cShipID = ShipID.ToString
+        cShipID = shipID.ToString
 
         ' Set the ship effect
         If OldShipEffect IsNot Nothing Then
@@ -87,7 +87,7 @@ Public Class frmShipEditorBonus
         ' Set up the skills combo box
         cboSkill.BeginUpdate()
         cboSkill.Items.Clear()
-        For Each NewSkill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListID.Values
+        For Each NewSkill As Core.EveSkill In Core.HQ.SkillListID.Values
             If NewSkill.Published = True Then
                 cboSkill.Items.Add(NewSkill.Name)
             End If
@@ -161,7 +161,7 @@ Public Class frmShipEditorBonus
         ' Update the role
         If cNewShipEffect.IsPerLevel = True Then
             radSkillBonus.Checked = True
-            cboSkill.SelectedItem = EveHQ.Core.HQ.itemData(cNewShipEffect.AffectingID.ToString).Name
+            cboSkill.SelectedItem = Core.HQ.itemData(cNewShipEffect.AffectingID.ToString).Name
             cboSkill.Enabled = True
         Else
             radRole.Checked = True
@@ -218,15 +218,15 @@ Public Class frmShipEditorBonus
                     Case EffectType.All
                         ' Nothing here?
                     Case EffectType.Item
-                        newItem.Text = EveHQ.Core.HQ.itemData(id).Name
+                        newItem.Text = Core.HQ.itemData(id).Name
                     Case EffectType.Group
-                        newItem.Text = EveHQ.Core.HQ.itemGroups(id)
+                        newItem.Text = Core.HQ.itemGroups(CInt(id))
                     Case EffectType.Category
-                        newItem.Text = EveHQ.Core.HQ.itemCats(id)
+                        newItem.Text = Core.HQ.itemCats(CInt(id))
                     Case EffectType.MarketGroup
                         newItem.Text = Market.MarketGroupPath(id).ToString.Replace("&", "&&")
                     Case EffectType.Skill
-                        newItem.Text = EveHQ.Core.HQ.itemData(id).Name
+                        newItem.Text = Core.HQ.itemData(id).Name
                     Case EffectType.Slot
                         ' Not supported!!
                     Case EffectType.Attribute
@@ -258,7 +258,7 @@ Public Class frmShipEditorBonus
                     cboSkill.SelectedIndex = 0
                 End If
                 Dim SkillName As String = cboSkill.SelectedItem.ToString
-                cNewShipEffect.AffectingID = CInt(EveHQ.Core.HQ.SkillListName(SkillName).ID)
+                cNewShipEffect.AffectingID = CInt(Core.HQ.SkillListName(SkillName).ID)
                 cNewShipEffect.IsPerLevel = True
             Else
                 ' This is a role bonus
@@ -275,7 +275,7 @@ Public Class frmShipEditorBonus
         If FormIsInitialising = False Then
             If cboSkill.SelectedItem IsNot Nothing Then
                 Dim SkillName As String = cboSkill.SelectedItem.ToString
-                cNewShipEffect.AffectingID = CInt(EveHQ.Core.HQ.SkillListName(SkillName).ID)
+                cNewShipEffect.AffectingID = CInt(Core.HQ.SkillListName(SkillName).ID)
             Else
                 cNewShipEffect.AffectingID = 0
             End If
@@ -377,12 +377,12 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each NewGroup As String In EveHQ.Core.HQ.itemGroups.Keys
-                    Dim NewNode As New DevComponents.AdvTree.Node
-                    NewNode.NodesIndent = 0
-                    NewNode.Text = EveHQ.Core.HQ.itemGroups(NewGroup)
-                    NewNode.Name = NewGroup.ToString
-                    cboItems.Nodes.Add(NewNode)
+                For Each newGroup As Integer In Core.HQ.itemGroups.Keys
+                    Dim newNode As New DevComponents.AdvTree.Node
+                    newNode.NodesIndent = 0
+                    newNode.Text = Core.HQ.itemGroups(newGroup)
+                    newNode.Name = newGroup.ToString
+                    cboItems.Nodes.Add(newNode)
                 Next
                 cboItems.Nodes.Sort()
                 cboItems.ResumeLayout()
@@ -393,12 +393,12 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each NewCat As String In EveHQ.Core.HQ.itemCats.Keys
-                    Dim NewNode As New DevComponents.AdvTree.Node
-                    NewNode.NodesIndent = 0
-                    NewNode.Text = EveHQ.Core.HQ.itemCats(NewCat)
-                    NewNode.Name = NewCat.ToString
-                    cboItems.Nodes.Add(NewNode)
+                For Each newCat As Integer In Core.HQ.itemCats.Keys
+                    Dim newNode As New Node
+                    newNode.NodesIndent = 0
+                    newNode.Text = Core.HQ.itemCats(newCat)
+                    newNode.Name = newCat.ToString
+                    cboItems.Nodes.Add(newNode)
                 Next
                 cboItems.Nodes.Sort()
                 cboItems.ResumeLayout()
@@ -409,9 +409,9 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each OldNode As Node In Market.MarketNodeList
-                    If OldNode.Nodes.Count > 0 Then
-                        cboItems.Nodes.Add(OldNode)
+                For Each oldNode As Node In Market.MarketNodeList
+                    If oldNode.Nodes.Count > 0 Then
+                        cboItems.Nodes.Add(oldNode)
                     End If
                 Next
                 cboItems.ResumeLayout()
@@ -422,12 +422,12 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each NewSkill As EveHQ.Core.EveSkill In EveHQ.Core.HQ.SkillListName.Values
-                    Dim NewNode As New DevComponents.AdvTree.Node
-                    NewNode.NodesIndent = 0
-                    NewNode.Text = NewSkill.Name
-                    NewNode.Name = NewSkill.ID
-                    cboItems.Nodes.Add(NewNode)
+                For Each newSkill As Core.EveSkill In Core.HQ.SkillListName.Values
+                    Dim newNode As New DevComponents.AdvTree.Node
+                    newNode.NodesIndent = 0
+                    newNode.Text = newSkill.Name
+                    newNode.Name = CStr(newSkill.ID)
+                    cboItems.Nodes.Add(newNode)
                 Next
                 cboItems.ResumeLayout()
                 ' Enable the box
@@ -442,12 +442,12 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each Att As String In Attributes.AttributeQuickList.Keys
-                    Dim NewNode As New DevComponents.AdvTree.Node
-                    NewNode.NodesIndent = 0
-                    NewNode.Text = Attributes.AttributeQuickList.Item(Att).ToString & " (" & Att & ")"
-                    NewNode.Name = Att
-                    cboItems.Nodes.Add(NewNode)
+                For Each att As String In Attributes.AttributeQuickList.Keys
+                    Dim newNode As New DevComponents.AdvTree.Node
+                    newNode.NodesIndent = 0
+                    newNode.Text = Attributes.AttributeQuickList.Item(att).ToString & " (" & att & ")"
+                    newNode.Name = att
+                    cboItems.Nodes.Add(newNode)
                 Next
                 cboItems.Nodes.Sort()
                 cboItems.ResumeLayout()

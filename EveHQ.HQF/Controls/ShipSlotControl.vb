@@ -1652,25 +1652,12 @@ Public Class ShipSlotControl
                                     newRelSkill.Name = relSkill
                                     newRelSkill.Text = relSkill
                                     Dim pilotLevel As Integer = 0
-                                    If _
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                              HQFPilot).SkillSet.Contains(relSkill) Then
-                                        pilotLevel =
-                                            CType(
-                                                CType(
-                                                    HQFPilotCollection.HQFPilots(
-                                                        currentInfo.cboPilots.SelectedItem.ToString), 
-                                                    HQFPilot).SkillSet(relSkill), 
-                                                HQFSkill).Level
+                                    If FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet.ContainsKey(relSkill) Then
+                                        pilotLevel = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                                     Else
-                                        MessageBox.Show(
-                                            "There is a mis-match of roles for the " & ParentFitting.BaseShip.Name &
-                                            ". Please report this to the EveHQ Developers.", "Ship Role Error",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     End If
-                                    newRelSkill.Image =
-                                        CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
-                                              Image)
+                                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                                     For skillLevel As Integer = 0 To 5
                                         Dim newRelSkillLevel As New ToolStripMenuItem
                                         newRelSkillLevel.Name = relSkill & skillLevel.ToString
@@ -1702,25 +1689,12 @@ Public Class ShipSlotControl
                                     newRelSkill.Name = relSkill
                                     newRelSkill.Text = relSkill
                                     Dim pilotLevel As Integer = 0
-                                    If _
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                              HQFPilot).SkillSet.Contains(relSkill) Then
-                                        pilotLevel =
-                                            CType(
-                                                CType(
-                                                    HQFPilotCollection.HQFPilots(
-                                                        currentInfo.cboPilots.SelectedItem.ToString), 
-                                                    HQFPilot).SkillSet(relSkill), 
-                                                HQFSkill).Level
+                                    If FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet.ContainsKey(relSkill) Then
+                                        pilotLevel =FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                                     Else
-                                        MessageBox.Show(
-                                            "There is a mis-match of roles for the " & ParentFitting.BaseShip.Name &
-                                            ". Please report this to the EveHQ Developers.", "Ship Role Error",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error",MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     End If
-                                    newRelSkill.Image =
-                                        CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
-                                              Image)
+                                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                                     For skillLevel As Integer = 0 To 5
                                         Dim newRelSkillLevel As New ToolStripMenuItem
                                         newRelSkillLevel.Name = relSkill & skillLevel.ToString
@@ -2212,13 +2186,12 @@ Public Class ShipSlotControl
 
     Private Sub AnalyseAmmo(ByVal sender As Object, ByVal e As EventArgs)
         ' Display the ammo types available by this module
-        Dim AmmoAnalysis As New frmGunnery
-        AmmoAnalysis.CurrentFit = ParentFitting
-        AmmoAnalysis.CurrentPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                          HQFPilot)
-        AmmoAnalysis.CurrentSlot = adtSlots.SelectedNodes(0).Name
-        AmmoAnalysis.ShowDialog()
-        AmmoAnalysis.Dispose()
+        Dim ammoAnalysis As New frmGunnery
+        ammoAnalysis.CurrentFit = ParentFitting
+        ammoAnalysis.CurrentPilot = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString)
+        ammoAnalysis.CurrentSlot = adtSlots.SelectedNodes(0).Name
+        ammoAnalysis.ShowDialog()
+        ammoAnalysis.Dispose()
     End Sub
 
     Private Sub ConfigureSlotColumns(ByVal sender As Object, ByVal e As EventArgs)
@@ -2292,10 +2265,8 @@ Public Class ShipSlotControl
 
     Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
         Dim mnuPilotLevel As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
-        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                       HQFPilot)
-        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), 
-                                           HQFSkill)
+        Dim hPilot As FittingPilot = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString)
+        Dim pilotSkill As FittingSkill = hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1))
         Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
         If level <> pilotSkill.Level Then
             pilotSkill.Level = level
@@ -2305,13 +2276,13 @@ Public Class ShipSlotControl
         HQFEvents.StartUpdateShipInfo = hPilot.PilotName
     End Sub
 
-    Private Function SquishText(ByVal text As String) As String
-        Dim words() As String = text.Split(" ".ToCharArray)
+    Private Function SquishText(ByVal textToSquish As String) As String
+        Dim words() As String = textToSquish.Split(" ".ToCharArray)
         Dim newText As New StringBuilder
         Dim charCount As Integer = 0
         For c As Integer = 0 To words.Length - 1
             If words(c).Contains(vbCrLf) Then
-                If charCount + words(c).IndexOf(vbCrLf) > MaxTooltipWidth Then
+                If charCount + words(c).IndexOf(vbCrLf, System.StringComparison.Ordinal) > MaxTooltipWidth Then
                     newText.AppendLine()
                 End If
                 charCount = 0
@@ -2321,14 +2292,13 @@ Public Class ShipSlotControl
             End If
             newText.Append(words(c) & " ")
             ' if no CRLF is found LastIndexOf(vbCrLf) returns -1 which makes charCount what it should be in that case
-            charCount += words(c).Length - words(c).LastIndexOf(vbCrLf)
+            charCount += words(c).Length - words(c).LastIndexOf(vbCrLf, System.StringComparison.Ordinal)
         Next
 
         Return newText.ToString
     End Function
 
-    Private Sub ExpandableSplitter1_SplitterMoved(ByVal sender As Object, ByVal e As SplitterEventArgs) _
-        Handles ExpandableSplitter1.SplitterMoved
+    Private Sub ExpandableSplitter1_SplitterMoved(ByVal sender As Object, ByVal e As SplitterEventArgs) Handles ExpandableSplitter1.SplitterMoved
         Settings.HQFSettings.StorageBayHeight = tcStorage.Height
     End Sub
 
@@ -2856,20 +2826,15 @@ Public Class ShipSlotControl
                     RelChargeSkills.Sort()
                     If RelModuleSkills.Count > 0 Or RelChargeSkills.Count > 0 Then
                         ' Add the Main menu item
-                        Dim AlterRelevantSkills As New ToolStripMenuItem
-                        AlterRelevantSkills.Name = "Drone Skills"
-                        AlterRelevantSkills.Text = "Alter Relevant Skills"
+                        Dim alterRelevantSkills As New ToolStripMenuItem
+                        alterRelevantSkills.Name = "Drone Skills"
+                        alterRelevantSkills.Text = "Alter Relevant Skills"
                         For Each relSkill As String In RelModuleSkills
                             Dim newRelSkill As New ToolStripMenuItem
                             newRelSkill.Name = relSkill
                             newRelSkill.Text = relSkill
-                            Dim pilotLevel As Integer =
-                                    CType(
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                              HQFPilot).SkillSet(relSkill), 
-                                        HQFSkill).Level
-                            newRelSkill.Image =
-                                CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                            Dim pilotLevel As Integer =FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
+                            newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                             For skillLevel As Integer = 0 To 5
                                 Dim newRelSkillLevel As New ToolStripMenuItem
                                 newRelSkillLevel.Name = relSkill & skillLevel.ToString
@@ -2890,22 +2855,17 @@ Public Class ShipSlotControl
                             newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
                             AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
                             newRelSkill.DropDownItems.Add(newRelSkillDefault)
-                            AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                            alterRelevantSkills.DropDownItems.Add(newRelSkill)
                         Next
-                        If AlterRelevantSkills.DropDownItems.Count > 0 And RelChargeSkills.Count > 0 Then
-                            AlterRelevantSkills.DropDownItems.Add("-")
+                        If alterRelevantSkills.DropDownItems.Count > 0 And RelChargeSkills.Count > 0 Then
+                            alterRelevantSkills.DropDownItems.Add("-")
                         End If
                         For Each relSkill As String In RelChargeSkills
                             Dim newRelSkill As New ToolStripMenuItem
                             newRelSkill.Name = relSkill
                             newRelSkill.Text = relSkill
-                            Dim pilotLevel As Integer =
-                                    CType(
-                                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                              HQFPilot).SkillSet(relSkill), 
-                                        HQFSkill).Level
-                            newRelSkill.Image =
-                                CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
+                            Dim pilotLevel As Integer =FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
+                            newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                             For skillLevel As Integer = 0 To 5
                                 Dim newRelSkillLevel As New ToolStripMenuItem
                                 newRelSkillLevel.Name = relSkill & skillLevel.ToString
@@ -2926,12 +2886,12 @@ Public Class ShipSlotControl
                             newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
                             AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
                             newRelSkill.DropDownItems.Add(newRelSkillDefault)
-                            AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                            alterRelevantSkills.DropDownItems.Add(newRelSkill)
                         Next
                         If ctxBays.Items.ContainsKey("Drone Skills") = True Then
                             ctxBays.Items.RemoveByKey("Drone Skills")
                         End If
-                        ctxBays.Items.Add(AlterRelevantSkills)
+                        ctxBays.Items.Add(alterRelevantSkills)
                     End If
                     If lvwBay.SelectedItems.Count > 1 Then
                         ctxAlterQuantity.Enabled = False
@@ -3441,13 +3401,12 @@ Public Class ShipSlotControl
             For Each remoteFitting As ListViewItem In lvwRemoteFittings.CheckedItems
                 ' Let's try and generate a fitting and get some module info
                 Dim shipFit As String = remoteFitting.Tag.ToString
-                Dim pPilot As HQFPilot =
-                        CType(HQFPilotCollection.HQFPilots(remoteFitting.Name.Substring(shipFit.Length + 2)), HQFPilot)
-                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                NewFit.UpdateBaseShipFromFitting()
-                NewFit.PilotName = pPilot.PilotName
-                NewFit.ApplyFitting(BuildType.BuildEverything)
-                Dim remoteShip As Ship = NewFit.FittedShip
+                Dim pPilot As FittingPilot = FittingPilots.HQFPilots(remoteFitting.Name.Substring(shipFit.Length + 2))
+                Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
+                newFit.UpdateBaseShipFromFitting()
+                newFit.PilotName = pPilot.PilotName
+                newFit.ApplyFitting(BuildType.BuildEverything)
+                Dim remoteShip As Ship = newFit.FittedShip
                 For Each remoteModule As ShipModule In remoteShip.SlotCollection
                     If remoteGroups.Contains(CInt(remoteModule.DatabaseGroup)) = True Then
                         remoteModule.ModuleState = ModuleStates.Gang
@@ -3652,9 +3611,9 @@ Public Class ShipSlotControl
             lblSCShip.Enabled = True
             cboSCShip.Enabled = True
             If cboSCShip.SelectedIndex = -1 Then
-                Call Me.CalculateFleetEffects()
+                Call CalculateFleetEffects()
             Else
-                Call Me.UpdateSCShipEffects()
+                Call UpdateSCShipEffects()
             End If
         End If
     End Sub
@@ -3668,9 +3627,9 @@ Public Class ShipSlotControl
             lblWCShip.Enabled = True
             cboWCShip.Enabled = True
             If cboWCShip.SelectedIndex = -1 Then
-                Call Me.CalculateFleetEffects()
+                Call CalculateFleetEffects()
             Else
-                Call Me.UpdateWCShipEffects()
+                Call UpdateWCShipEffects()
             End If
         End If
     End Sub
@@ -3684,9 +3643,9 @@ Public Class ShipSlotControl
             lblFCShip.Enabled = True
             cboFCShip.Enabled = True
             If cboFCShip.SelectedIndex = -1 Then
-                Call Me.CalculateFleetEffects()
+                Call CalculateFleetEffects()
             Else
-                Call Me.UpdateFCShipEffects()
+                Call UpdateFCShipEffects()
             End If
         End If
     End Sub
@@ -3710,48 +3669,47 @@ Public Class ShipSlotControl
         cboFCShip.Tag = Nothing
         lblFleetStatus.Text = "Inactive"
         btnLeaveFleet.Enabled = False
-        Call Me.CalculateFleetEffects()
+        Call CalculateFleetEffects()
     End Sub
 
     Private Sub CalculateFleetSkillEffects()
 
         ' Add in the commander details
-        Dim Commanders As New ArrayList
+        Dim commanders As New List(Of String)
         If cboSCPilot.SelectedItem IsNot Nothing Then
             If chkSCActive.Checked = True Then
-                Commanders.Add(cboSCPilot.SelectedItem.ToString)
+                commanders.Add(cboSCPilot.SelectedItem.ToString)
             End If
         End If
         If cboWCPilot.SelectedItem IsNot Nothing Then
             If chkWCActive.Checked = True Then
-                Commanders.Add(cboWCPilot.SelectedItem.ToString)
+                commanders.Add(cboWCPilot.SelectedItem.ToString)
             End If
         End If
         If cboFCPilot.SelectedItem IsNot Nothing Then
             If chkFCActive.Checked = True Then
-                Commanders.Add(cboFCPilot.SelectedItem.ToString)
+                commanders.Add(cboFCPilot.SelectedItem.ToString)
             End If
         End If
 
-        If Commanders.Count > 0 Then
+        If commanders.Count > 0 Then
 
             ' Go through each commander and parse the skills
-            Dim FleetSkill(Commanders.Count + 1, fleetSkills.Count - 1) As String
-            Dim hPilot As New HQFPilot
-            For Commander As Integer = 0 To Commanders.Count - 1
-                hPilot = CType(HQFPilotCollection.HQFPilots(Commanders(Commander)), HQFPilot)
-                For Skill As Integer = 0 To fleetSkills.Count - 1
-                    If hPilot.ImplantName(10) = fleetSkills(Skill).ToString & " Mindlink" Then
-                        FleetSkill(Commander + 1, Skill) = "6"
-                        FleetSkill(0, Skill) = FleetSkill(Commander + 1, Skill)
-                        FleetSkill(Commanders.Count + 1, Skill) = hPilot.PilotName
+            Dim fleetSkill(commanders.Count + 1, fleetSkills.Count - 1) As String
+            Dim hPilot As FittingPilot
+            For commander As Integer = 0 To commanders.Count - 1
+                hPilot = FittingPilots.HQFPilots(commanders(commander))
+                For skill As Integer = 0 To fleetSkills.Count - 1
+                    If hPilot.ImplantName(10) = fleetSkills(skill).ToString & " Mindlink" Then
+                        fleetSkill(commander + 1, skill) = "6"
+                        fleetSkill(0, skill) = fleetSkill(commander + 1, skill)
+                        fleetSkill(commanders.Count + 1, skill) = hPilot.PilotName
                     Else
-                        If hPilot.SkillSet.Contains(fleetSkills(Skill).ToString) Then
-                            FleetSkill(Commander + 1, Skill) =
-                                CType(hPilot.SkillSet(fleetSkills(Skill).ToString), HQFSkill).Level.ToString
-                            If FleetSkill(Commander + 1, Skill) >= FleetSkill(0, Skill) Then
-                                FleetSkill(0, Skill) = FleetSkill(Commander + 1, Skill)
-                                FleetSkill(Commanders.Count + 1, Skill) = hPilot.PilotName
+                        If hPilot.SkillSet.ContainsKey(fleetSkills(skill).ToString) Then
+                            fleetSkill(commander + 1, skill) = hPilot.SkillSet(fleetSkills(skill).ToString).Level.ToString
+                            If fleetSkill(commander + 1, skill) >= fleetSkill(0, skill) Then
+                                fleetSkill(0, skill) = fleetSkill(commander + 1, skill)
+                                fleetSkill(commanders.Count + 1, skill) = hPilot.PilotName
                             End If
                         End If
                     End If
@@ -3760,54 +3718,54 @@ Public Class ShipSlotControl
 
             ' Display the fleet skills data
             For skill As Integer = 0 To fleetSkills.Count - 1
-                If CInt(FleetSkill(0, skill)) > 0 Then
+                If CInt(fleetSkill(0, skill)) > 0 Then
                     Dim fleetModule As New ShipModule
-                    fleetModule.Name = fleetSkills(skill).ToString & " (" & FleetSkill(Commanders.Count + 1, skill) &
-                                       " - Level " & FleetSkill(0, skill) & ")"
+                    fleetModule.Name = fleetSkills(skill).ToString & " (" & fleetSkill(commanders.Count + 1, skill) &
+                                       " - Level " & fleetSkill(0, skill) & ")"
                     fleetModule.ID = "-" & SkillFunctions.SkillNameToID(fleetSkills(skill).ToString)
                     fleetModule.ModuleState = ModuleStates.Fleet
                     Select Case fleetSkills(skill).ToString
                         Case "Armored Warfare"
-                            If CInt(FleetSkill(0, skill)) = 6 Then
+                            If CInt(fleetSkill(0, skill)) = 6 Then
                                 fleetModule.Name = "Armored Warfare Mindlink (" &
-                                                   FleetSkill(Commanders.Count + 1, skill) & ")"
+                                                   fleetSkill(commanders.Count + 1, skill) & ")"
                                 fleetModule.Attributes.Add("335", 15)
                             Else
-                                fleetModule.Attributes.Add("335", 2 * CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("335", 2 * CInt(fleetSkill(0, skill)))
                             End If
                         Case "Information Warfare"
-                            If CInt(FleetSkill(0, skill)) = 6 Then
+                            If CInt(fleetSkill(0, skill)) = 6 Then
                                 fleetModule.Name = "Information Warfare Mindlink (" &
-                                                   FleetSkill(Commanders.Count + 1, skill) & ")"
+                                                   fleetSkill(commanders.Count + 1, skill) & ")"
                                 fleetModule.Attributes.Add("309", 15)
                             Else
-                                fleetModule.Attributes.Add("309", 2 * CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("309", 2 * CInt(fleetSkill(0, skill)))
                             End If
                         Case "Leadership"
-                            fleetModule.Attributes.Add("566", 2 * CInt(FleetSkill(0, skill)))
+                            fleetModule.Attributes.Add("566", 2 * CInt(fleetSkill(0, skill)))
                         Case "Mining Foreman"
-                            If CInt(FleetSkill(0, skill)) = 6 Then
-                                fleetModule.Name = "Mining Foreman Mindlink (" & FleetSkill(Commanders.Count + 1, skill) &
+                            If CInt(fleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Mining Foreman Mindlink (" & fleetSkill(commanders.Count + 1, skill) &
                                                    ")"
                                 fleetModule.Attributes.Add("434", 15)
                             Else
-                                fleetModule.Attributes.Add("434", 2 * CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("434", 2 * CInt(fleetSkill(0, skill)))
                             End If
                         Case "Siege Warfare"
-                            If CInt(FleetSkill(0, skill)) = 6 Then
-                                fleetModule.Name = "Siege Warfare Mindlink (" & FleetSkill(Commanders.Count + 1, skill) &
+                            If CInt(fleetSkill(0, skill)) = 6 Then
+                                fleetModule.Name = "Siege Warfare Mindlink (" & fleetSkill(commanders.Count + 1, skill) &
                                                    ")"
                                 fleetModule.Attributes.Add("337", 15)
                             Else
-                                fleetModule.Attributes.Add("337", 2 * CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("337", 2 * CInt(fleetSkill(0, skill)))
                             End If
                         Case "Skirmish Warfare"
-                            If CInt(FleetSkill(0, skill)) = 6 Then
+                            If CInt(fleetSkill(0, skill)) = 6 Then
                                 fleetModule.Name = "Skirmish Warfare Mindlink (" &
-                                                   FleetSkill(Commanders.Count + 1, skill) & ")"
+                                                   fleetSkill(commanders.Count + 1, skill) & ")"
                                 fleetModule.Attributes.Add("151", -15)
                             Else
-                                fleetModule.Attributes.Add("151", -2 * CInt(FleetSkill(0, skill)))
+                                fleetModule.Attributes.Add("151", -2 * CInt(fleetSkill(0, skill)))
                             End If
                     End Select
                     ParentFitting.BaseShip.FleetSlotCollection.Add(fleetModule)
@@ -3860,26 +3818,26 @@ Public Class ShipSlotControl
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboSCShip.SelectedItem.ToString
                     If cboSCPilot.SelectedItem IsNot Nothing Then
-                        If HQFPilotCollection.HQFPilots.ContainsKey(cboSCPilot.SelectedItem.ToString) Then
+                        If FittingPilots.HQFPilots.ContainsKey(cboSCPilot.SelectedItem.ToString) Then
                             If Fittings.FittingList.ContainsKey(shipFit) Then
-                                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboSCPilot.SelectedItem.ToString), HQFPilot)
-                                Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-                                NewFit.UpdateBaseShipFromFitting()
-                                NewFit.PilotName = pPilot.PilotName
-                                NewFit.ApplyFitting(BuildType.BuildEverything)
-                                Dim remoteShip As Ship = NewFit.FittedShip
-                                Dim SCModules As New ArrayList
+                                Dim pPilot As FittingPilot = FittingPilots.HQFPilots(cboSCPilot.SelectedItem.ToString)
+                                Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
+                                newFit.UpdateBaseShipFromFitting()
+                                newFit.PilotName = pPilot.PilotName
+                                newFit.ApplyFitting(BuildType.BuildEverything)
+                                Dim remoteShip As Ship = newFit.FittedShip
+                                Dim scModules As List(Of ShipModule)
                                 ' Check the ship bonuses for further effects (Titans use this!)
-                                SCModules = GetShipGangBonusModules(remoteShip, pPilot)
+                                scModules = GetShipGangBonusModules(remoteShip, pPilot)
                                 ' Check the modules for fleet effects
-                                For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                                    If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                                        FleetModule.ModuleState = ModuleStates.Gang
-                                        FleetModule.SlotNo = 0
-                                        SCModules.Add(FleetModule)
+                                For Each fleetModule As ShipModule In remoteShip.SlotCollection
+                                    If fleetGroups.Contains(CInt(fleetModule.DatabaseGroup)) = True Then
+                                        fleetModule.ModuleState = ModuleStates.Gang
+                                        fleetModule.SlotNo = 0
+                                        scModules.Add(fleetModule)
                                     End If
                                 Next
-                                cboSCShip.Tag = SCModules
+                                cboSCShip.Tag = scModules
                             Else
                                 cboSCShip.Tag = Nothing
                                 MessageBox.Show("There was a mismatch of expected data. '" & shipFit & "' was not found in the collection of saved fittings.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -3905,23 +3863,23 @@ Public Class ShipSlotControl
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboWCShip.SelectedItem.ToString
                     If cboWCPilot.SelectedItem IsNot Nothing Then
-                        If HQFPilotCollection.HQFPilots.ContainsKey(cboWCPilot.SelectedItem.ToString) Then
+                        If FittingPilots.HQFPilots.ContainsKey(cboWCPilot.SelectedItem.ToString) Then
                             If Fittings.FittingList.ContainsKey(shipFit) Then
-                                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboWCPilot.SelectedItem.ToString), HQFPilot)
+                                Dim pPilot As FittingPilot = FittingPilots.HQFPilots(cboWCPilot.SelectedItem.ToString)
                                 Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
                                 NewFit.UpdateBaseShipFromFitting()
                                 NewFit.PilotName = pPilot.PilotName
                                 NewFit.ApplyFitting(BuildType.BuildEverything)
                                 Dim remoteShip As Ship = NewFit.FittedShip
-                                Dim WCModules As New ArrayList
-                                For Each FleetModule As ShipModule In remoteShip.SlotCollection
-                                    If fleetGroups.Contains(CInt(FleetModule.DatabaseGroup)) = True Then
-                                        FleetModule.ModuleState = ModuleStates.Gang
-                                        FleetModule.SlotNo = 0
-                                        WCModules.Add(FleetModule)
+                                Dim wcModules As New ArrayList
+                                For Each fleetModule As ShipModule In remoteShip.SlotCollection
+                                    If fleetGroups.Contains(CInt(fleetModule.DatabaseGroup)) = True Then
+                                        fleetModule.ModuleState = ModuleStates.Gang
+                                        fleetModule.SlotNo = 0
+                                        wcModules.Add(fleetModule)
                                     End If
                                 Next
-                                cboWCShip.Tag = WCModules
+                                cboWCShip.Tag = wcModules
                             Else
                                 cboWCShip.Tag = Nothing
                                 MessageBox.Show("There was a mismatch of expected data. '" & shipFit & "' was not found in the collection of saved fittings.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -3947,9 +3905,9 @@ Public Class ShipSlotControl
                     ' Let's try and generate a fitting and get some module info
                     Dim shipFit As String = cboFCShip.SelectedItem.ToString
                     If cboFCPilot.SelectedItem IsNot Nothing Then
-                        If HQFPilotCollection.HQFPilots.ContainsKey(cboFCPilot.SelectedItem.ToString) Then
+                        If FittingPilots.HQFPilots.ContainsKey(cboFCPilot.SelectedItem.ToString) Then
                             If Fittings.FittingList.ContainsKey(shipFit) Then
-                                Dim pPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(cboFCPilot.SelectedItem.ToString), HQFPilot)
+                                Dim pPilot As FittingPilot = FittingPilots.HQFPilots(cboFCPilot.SelectedItem.ToString)
                                 Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
                                 NewFit.UpdateBaseShipFromFitting()
                                 NewFit.PilotName = pPilot.PilotName
@@ -3987,28 +3945,28 @@ Public Class ShipSlotControl
 
     Private Sub CalculateFleetModuleEffects()
 
-        Dim FleetCollection As New SortedList
+        Dim fleetCollection As New SortedList(Of String, ShipModule)
 
         If cboSCShip.Tag IsNot Nothing Then
             Dim SCModules As ArrayList = CType(cboSCShip.Tag, ArrayList)
             For Each fleetModule As ShipModule In SCModules
-                If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+                If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                     ' Add it to the Fleet Collection
-                    FleetCollection.Add(fleetModule.Name, fleetModule)
+                    fleetCollection.Add(fleetModule.Name, fleetModule)
                 Else
                     ' See if this module improves the fleet capabilities
-                    Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                    Dim compareModule As ShipModule = fleetCollection(fleetModule.Name)
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
-                            FleetCollection(fleetModule.Name) = fleetModule
+                            fleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
                         If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
                             If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
 
-                                FleetCollection(fleetModule.Name) = fleetModule
+                                fleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
                     End If
@@ -4018,26 +3976,26 @@ Public Class ShipSlotControl
         End If
 
         If cboWCShip.Tag IsNot Nothing Then
-            Dim WCModules As ArrayList = CType(cboWCShip.Tag, ArrayList)
-            For Each fleetModule As ShipModule In WCModules
-                If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+            Dim wcModules As ArrayList = CType(cboWCShip.Tag, ArrayList)
+            For Each fleetModule As ShipModule In wcModules
+                If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                     ' Add it to the Fleet Collection
-                    FleetCollection.Add(fleetModule.Name, fleetModule)
+                    fleetCollection.Add(fleetModule.Name, fleetModule)
                 Else
                     ' See if this module improves the fleet capabilities
-                    Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                    Dim compareModule As ShipModule = fleetCollection(fleetModule.Name)
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
 
-                            FleetCollection(fleetModule.Name) = fleetModule
+                            fleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
                         If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
                             If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
 
-                                FleetCollection(fleetModule.Name) = fleetModule
+                                fleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
                     End If
@@ -4046,26 +4004,26 @@ Public Class ShipSlotControl
         End If
 
         If cboFCShip.Tag IsNot Nothing Then
-            Dim FCModules As ArrayList = CType(cboFCShip.Tag, ArrayList)
-            For Each fleetModule As ShipModule In FCModules
-                If FleetCollection.ContainsKey(fleetModule.Name) = False Then
+            Dim fcModules As ArrayList = CType(cboFCShip.Tag, ArrayList)
+            For Each fleetModule As ShipModule In fcModules
+                If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                     ' Add it to the Fleet Collection
-                    FleetCollection.Add(fleetModule.Name, fleetModule)
+                    fleetCollection.Add(fleetModule.Name, fleetModule)
                 Else
                     ' See if this module improves the fleet capabilities
-                    Dim compareModule As ShipModule = CType(FleetCollection(fleetModule.Name), ShipModule)
+                    Dim compareModule As ShipModule = CType(fleetCollection(fleetModule.Name), ShipModule)
                     If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonus) = True Then
                         ' Contains the Command Bonus attribute
                         If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonus))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonus))) Then
 
-                            FleetCollection(fleetModule.Name) = fleetModule
+                            fleetCollection(fleetModule.Name) = fleetModule
                         End If
                     Else
                         ' Contains the ECM Command Bonus attribute
                         If compareModule.Attributes.ContainsKey(Attributes.Module_CommandBonusECM) = True Then
                             If Math.Abs(CDbl(fleetModule.Attributes(Attributes.Module_CommandBonusECM))) >= Math.Abs(CDbl(compareModule.Attributes(Attributes.Module_CommandBonusECM))) Then
 
-                                FleetCollection(fleetModule.Name) = fleetModule
+                                fleetCollection(fleetModule.Name) = fleetModule
                             End If
                         End If
                     End If
@@ -4073,16 +4031,16 @@ Public Class ShipSlotControl
             Next
         End If
 
-        For Each FleetModule As ShipModule In FleetCollection.Values
-            ParentFitting.BaseShip.FleetSlotCollection.Add(FleetModule)
+        For Each fleetModule As ShipModule In fleetCollection.Values
+            ParentFitting.BaseShip.FleetSlotCollection.Add(fleetModule)
         Next
     End Sub
 
-    Private Function GetShipGangBonusModules(ByVal hShip As Ship, ByVal hPilot As HQFPilot) As ArrayList
-        Dim FleetModules As New ArrayList
+    Private Function GetShipGangBonusModules(ByVal hShip As Ship, ByVal hPilot As FittingPilot) As List(Of ShipModule)
+        Dim fleetModules As New List(Of ShipModule)
         If hShip IsNot Nothing Then
-            Dim shipRoles As New List(Of ShipEffect)
-            Dim hSkill As New HQFSkill
+            Dim shipRoles As List(Of ShipEffect)
+            Dim hSkill As FittingSkill
             'Dim fEffect As New FinalEffect
             'Dim fEffectList As New ArrayList
             shipRoles = Engine.ShipBonusesMap(hShip.ID)
@@ -4096,10 +4054,8 @@ Public Class ShipSlotControl
                         gangModule.ID = "-1"
                         gangModule.SlotNo = 0
                         gangModule.ModuleState = ModuleStates.Gang
-                        If hPilot.SkillSet.Contains(SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))) = True _
-                            Then
-                            hSkill = CType(hPilot.SkillSet(SkillFunctions.SkillIDToName(CStr(chkEffect.AffectingID))), 
-                                           HQFSkill)
+                        If hPilot.SkillSet.ContainsKey(SkillFunctions.SkillIDToName(chkEffect.AffectingID)) = True Then
+                            hSkill = hPilot.SkillSet(SkillFunctions.SkillIDToName(chkEffect.AffectingID))
                             If chkEffect.IsPerLevel = True Then
                                 gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value * hSkill.Level)
                             Else
@@ -4108,13 +4064,13 @@ Public Class ShipSlotControl
                         Else
                             gangModule.Attributes.Add(chkEffect.AffectedAtt.ToString, chkEffect.Value)
                         End If
-                        FleetModules.Add(gangModule)
+                        fleetModules.Add(gangModule)
 
                     End If
                 Next
             End If
         End If
-        Return FleetModules
+        Return fleetModules
     End Function
 
 #End Region
@@ -4175,9 +4131,9 @@ Public Class ShipSlotControl
         ShipSkills.Sort()
 
         ' Add the Main menu item
-        Dim AlterRelevantSkills As New ToolStripMenuItem
-        AlterRelevantSkills.Name = ParentFitting.BaseShip.Name
-        AlterRelevantSkills.Text = "Alter Relevant Skills"
+        Dim alterRelevantSkills As New ToolStripMenuItem
+        alterRelevantSkills.Name = ParentFitting.BaseShip.Name
+        alterRelevantSkills.Text = "Alter Relevant Skills"
 
         ' Add the bonus skills
         If RelGlobalSkills.Count > 0 Then
@@ -4186,19 +4142,10 @@ Public Class ShipSlotControl
                 newRelSkill.Name = relSkill
                 newRelSkill.Text = relSkill
                 Dim pilotLevel As Integer = 0
-                If _
-                    CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).SkillSet.
-                        Contains(relSkill) Then
-                    pilotLevel =
-                        CType(
-                            CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).
-                                SkillSet(relSkill), 
-                            HQFSkill).Level
+                If FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet.ContainsKey(relSkill) Then
+                    pilotLevel = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                 Else
-                    MessageBox.Show(
-                        "There is a mis-match of roles for the " & ParentFitting.BaseShip.Name &
-                        ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information)
+                    MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,MessageBoxIcon.Information)
                 End If
                 newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                 For skillLevel As Integer = 0 To 5
@@ -4219,15 +4166,15 @@ Public Class ShipSlotControl
                 Dim newRelSkillDefault As New ToolStripMenuItem
                 newRelSkillDefault.Name = relSkill & defaultLevel.ToString
                 newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
-                AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
+                AddHandler newRelSkillDefault.Click, AddressOf SetPilotSkillLevel
                 newRelSkill.DropDownItems.Add(newRelSkillDefault)
-                AlterRelevantSkills.DropDownItems.Add(newRelSkill)
+                alterRelevantSkills.DropDownItems.Add(newRelSkill)
             Next
         End If
 
         ' Add a divider if relevant
         If RelGlobalSkills.Count > 0 And ShipSkills.Count > 0 Then
-            AlterRelevantSkills.DropDownItems.Add("-")
+            alterRelevantSkills.DropDownItems.Add("-")
         End If
 
         ' Add the ship skills
@@ -4237,19 +4184,10 @@ Public Class ShipSlotControl
                 newShipSkill.Name = shipskill
                 newShipSkill.Text = shipskill
                 Dim pilotLevel As Integer = 0
-                If _
-                    CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).SkillSet.
-                        Contains(shipskill) Then
-                    pilotLevel =
-                        CType(
-                            CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).
-                                SkillSet(shipskill), 
-                            HQFSkill).Level
+                If FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet.ContainsKey(shipskill) Then
+                    pilotLevel = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(shipskill).Level
                 Else
-                    MessageBox.Show(
-                        "There is a mis-match of roles for the " & ParentFitting.BaseShip.Name &
-                        ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,
-                        MessageBoxIcon.Information)
+                    MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,MessageBoxIcon.Information)
                 End If
                 newShipSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                 For skillLevel As Integer = 0 To 5
@@ -4272,11 +4210,11 @@ Public Class ShipSlotControl
                 newRelSkillDefault.Text = "Actual (Level " & defaultLevel.ToString & ")"
                 AddHandler newRelSkillDefault.Click, AddressOf Me.SetPilotSkillLevel
                 newShipSkill.DropDownItems.Add(newRelSkillDefault)
-                AlterRelevantSkills.DropDownItems.Add(newShipSkill)
+                alterRelevantSkills.DropDownItems.Add(newShipSkill)
             Next
         End If
 
-        ctxShipSkills.Items.Add(AlterRelevantSkills)
+        ctxShipSkills.Items.Add(alterRelevantSkills)
     End Sub
 
 #End Region
@@ -4803,56 +4741,46 @@ Public Class ShipSlotControl
             Dim boosterName As String = cb.SelectedItem.ToString
             Dim boosterID As String = CStr(ModuleLists.moduleListName(boosterName))
             ' Check for related skills
-            Dim RelModuleSkills As New ArrayList
-            Dim Affects(3) As String
-            For Each Affect As String In bModule.Affects
-                If Affect.Contains(";Skill;") = True Then
-                    Affects = Affect.Split((";").ToCharArray)
-                    If RelModuleSkills.Contains(Affects(0)) = False Then
-                        RelModuleSkills.Add(Affects(0))
+            Dim relModuleSkills As New List(Of String)
+            Dim affects(3) As String
+            For Each affect As String In bModule.Affects
+                If affect.Contains(";Skill;") = True Then
+                    affects = affect.Split((";").ToCharArray)
+                    If relModuleSkills.Contains(affects(0)) = False Then
+                        relModuleSkills.Add(affects(0))
                     End If
                 End If
-                If Affect.Contains(";Ship Bonus;") = True Then
-                    Affects = Affect.Split((";").ToCharArray)
-                    If Me.ParentFitting.ShipName = Affects(0) Then
-                        If RelModuleSkills.Contains(Affects(3)) = False Then
-                            RelModuleSkills.Add(Affects(3))
+                If affect.Contains(";Ship Bonus;") = True Then
+                    affects = affect.Split((";").ToCharArray)
+                    If Me.ParentFitting.ShipName = affects(0) Then
+                        If relModuleSkills.Contains(affects(3)) = False Then
+                            relModuleSkills.Add(affects(3))
                         End If
                     End If
                 End If
-                If Affect.Contains(";Subsystem;") = True Then
-                    Affects = Affect.Split((";").ToCharArray)
-                    If RelModuleSkills.Contains(Affects(3)) = False Then
-                        RelModuleSkills.Add(Affects(3))
+                If affect.Contains(";Subsystem;") = True Then
+                    affects = affect.Split((";").ToCharArray)
+                    If relModuleSkills.Contains(affects(3)) = False Then
+                        relModuleSkills.Add(affects(3))
                     End If
                 End If
             Next
-            RelModuleSkills.Sort()
-            If RelModuleSkills.Count > 0 Then
+            relModuleSkills.Sort()
+            If relModuleSkills.Count > 0 Then
                 ' Add the Main menu item
                 ParentButton.SubItems("btnAlterSkills" & idx.ToString).Text = "Alter Relevant Skills"
                 ParentButton.SubItems("btnAlterSkills" & idx.ToString).SubItems.Clear()
-                For Each relSkill As String In RelModuleSkills
+                For Each relSkill As String In relModuleSkills
                     Dim newRelSkill As New ButtonItem
                     newRelSkill.Name = relSkill
                     newRelSkill.Text = relSkill
                     Dim pilotLevel As Integer = 0
-                    If _
-                        CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), HQFPilot).
-                            SkillSet.Contains(relSkill) Then
-                        pilotLevel =
-                            CType(
-                                CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                      HQFPilot).SkillSet(relSkill), 
-                                HQFSkill).Level
+                    If FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet.ContainsKey(relSkill) Then
+                        pilotLevel = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                     Else
-                        MessageBox.Show(
-                            "There is a mis-match of roles for the " & ParentFitting.BaseShip.Name &
-                            ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information)
+                        MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
-                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), 
-                                              Image)
+                    newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                     For skillLevel As Integer = 0 To 5
                         Dim newRelSkillLevel As New ButtonItem
                         newRelSkillLevel.Name = relSkill & skillLevel.ToString
@@ -4915,10 +4843,8 @@ Public Class ShipSlotControl
 
     Private Sub SetPilotBoosterSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
         Dim mnuPilotLevel As ButtonItem = CType(sender, ButtonItem)
-        Dim hPilot As HQFPilot = CType(HQFPilotCollection.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString), 
-                                       HQFPilot)
-        Dim pilotSkill As HQFSkill = CType(hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1)), 
-                                           HQFSkill)
+        Dim hPilot As FittingPilot = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString)
+        Dim pilotSkill As FittingSkill = hPilot.SkillSet(mnuPilotLevel.Name.Substring(0, mnuPilotLevel.Name.Length - 1))
         Dim level As Integer = CInt(mnuPilotLevel.Name.Substring(mnuPilotLevel.Name.Length - 1))
         If level <> pilotSkill.Level Then
             pilotSkill.Level = level

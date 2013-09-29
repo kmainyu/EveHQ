@@ -17,22 +17,21 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 
 Public Class frmRequiredSkills
 
-    Dim TrainedSkillStyle As ElementStyle
-    Dim HQFSkillStyle As ElementStyle
-    Dim NotTrainedSkillStyle As ElementStyle
-    Dim FittingName As String
+    ReadOnly _trainedSkillStyle As ElementStyle
+    ReadOnly _hqfSkillStyle As ElementStyle
+    ReadOnly _notTrainedSkillStyle As ElementStyle
+    ReadOnly _fittingName As String
 
 #Region "Property Variables"
-    Private reqSkills As New ArrayList
-    Private reqPilot As EveHQ.Core.EveHQPilot
-    Private reqHPilot As HQFPilot
-    Private SkillList As New SortedList(Of String, Integer)
+    Private _reqSkills As New ArrayList
+    Private _reqPilot As Core.EveHQPilot
+    Private _reqHPilot As FittingPilot
+    Private ReadOnly _skillList As New SortedList(Of String, Integer)
 #End Region
 
 #Region "Properties"
@@ -40,29 +39,29 @@ Public Class frmRequiredSkills
     Private WriteOnly Property ForceUpdate() As Boolean
         Set(ByVal value As Boolean)
             If value = True Then
-                HQFEvents.StartUpdateShipInfo = reqPilot.Name
+                HQFEvents.StartUpdateShipInfo = _reqPilot.Name
             End If
         End Set
     End Property
 
     Public Property Skills() As ArrayList
         Get
-            Return reqSkills
+            Return _reqSkills
         End Get
         Set(ByVal value As ArrayList)
-            reqSkills = value
-            Call Me.DrawSkillsTable()
+            _reqSkills = value
+            Call DrawSkillsTable()
         End Set
     End Property
 
-    Public Property Pilot() As EveHQ.Core.EveHQPilot
+    Public Property Pilot() As Core.EveHQPilot
         Get
-            Return reqPilot
+            Return _reqPilot
         End Get
-        Set(ByVal value As EveHQ.Core.EveHQPilot)
-            reqPilot = value
-            reqHPilot = CType(HQFPilotCollection.HQFPilots(reqPilot.Name), HQFPilot)
-            Me.Text = "Required Skills - " & reqPilot.Name
+        Set(ByVal value As Core.EveHQPilot)
+            _reqPilot = value
+            _reqHPilot = FittingPilots.HQFPilots(_reqPilot.Name)
+            Text = "Required Skills - " & _reqPilot.Name
         End Set
     End Property
 
@@ -70,21 +69,21 @@ Public Class frmRequiredSkills
 
 #Region "Form Constructor"
 
-    Public Sub New(Fitting As String)
+    Public Sub New(fitting As String)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Set Fitting Name
-        FittingName = Fitting
+        _fittingName = Fitting
 
         ' Set Styles
-        TrainedSkillStyle = adtSkills.Styles("Skill").Copy
-        HQFSkillStyle = adtSkills.Styles("Skill").Copy
-        NotTrainedSkillStyle = adtSkills.Styles("Skill").Copy
-        TrainedSkillStyle.TextColor = Drawing.Color.LimeGreen
-        HQFSkillStyle.TextColor = Drawing.Color.Orange
-        NotTrainedSkillStyle.TextColor = Drawing.Color.Red
+        _trainedSkillStyle = adtSkills.Styles("Skill").Copy
+        _hqfSkillStyle = adtSkills.Styles("Skill").Copy
+        _notTrainedSkillStyle = adtSkills.Styles("Skill").Copy
+        _trainedSkillStyle.TextColor = Drawing.Color.LimeGreen
+        _hqfSkillStyle.TextColor = Drawing.Color.Orange
+        _notTrainedSkillStyle.TextColor = Drawing.Color.Red
     End Sub
 
 #End Region
@@ -92,13 +91,12 @@ Public Class frmRequiredSkills
 #Region "Skill Display Routines"
 
     Private Sub DrawSkillsTable()
-        Dim aSkill As EveHQ.Core.EveHQPilotSkill
-        Dim hSkill As HQFSkill
-        Dim aLevel As Integer = 0
+        Dim aSkill As Core.EveHQPilotSkill
+        Dim hSkill As FittingSkill
 
         ' Compress the list of required skills into the smallest possible list
         Dim newSkills As New SortedList
-        For Each rSkill As ReqSkill In reqSkills
+        For Each rSkill As ReqSkill In _reqSkills
             If newSkills.Contains(rSkill.Name & " (Lvl " & rSkill.ReqLevel & ") - " & rSkill.NeededFor) = False Then
                 newSkills.Add(rSkill.Name & " (Lvl " & rSkill.ReqLevel & ") - " & rSkill.NeededFor, rSkill)
             End If
@@ -111,21 +109,21 @@ Public Class frmRequiredSkills
             Dim newSkill As New Node
             newSkill.Text = rSkill.Name
             newSkill.Cells.Add(New Cell(rSkill.ReqLevel.ToString))
-            If SkillList.ContainsKey(rSkill.Name) = False Then
-                SkillList.Add(rSkill.Name, rSkill.ReqLevel)
+            If _skillList.ContainsKey(rSkill.Name) = False Then
+                _skillList.Add(rSkill.Name, rSkill.ReqLevel)
             Else
-                If SkillList(rSkill.Name) < rSkill.ReqLevel Then
-                    SkillList(rSkill.Name) = rSkill.ReqLevel
+                If _skillList(rSkill.Name) < rSkill.ReqLevel Then
+                    _skillList(rSkill.Name) = rSkill.ReqLevel
                 End If
             End If
-            If reqPilot.PilotSkills.ContainsKey(rSkill.Name) = True Then
-                aSkill = reqPilot.PilotSkills(rSkill.Name)
+            If _reqPilot.PilotSkills.ContainsKey(rSkill.Name) = True Then
+                aSkill = _reqPilot.PilotSkills(rSkill.Name)
                 newSkill.Cells.Add(New Cell(aSkill.Level.ToString))
             Else
                 newSkill.Cells.Add(New Cell("0"))
             End If
-            If reqHPilot.SkillSet.Contains(rSkill.Name) = True Then
-                hSkill = CType(reqHPilot.SkillSet(rSkill.Name), HQFSkill)
+            If _reqHPilot.SkillSet.ContainsKey(rSkill.Name) = True Then
+                hSkill = _reqHPilot.SkillSet(rSkill.Name)
                 newSkill.Cells.Add(New Cell(hSkill.Level.ToString))
             Else
                 newSkill.Cells.Add(New Cell("0"))
@@ -135,45 +133,45 @@ Public Class frmRequiredSkills
             Dim actLevel As Integer = CInt(newSkill.Cells(2).Text)
             Dim hqfLevel As Integer = CInt(newSkill.Cells(3).Text)
             If actLevel >= reqLevel And hqfLevel >= reqLevel Then
-                newSkill.Style = TrainedSkillStyle
+                newSkill.Style = _trainedSkillStyle
             Else
                 If hqfLevel >= reqLevel Then
-                    newSkill.Style = HQFSkillStyle
+                    newSkill.Style = _hqfSkillStyle
                 Else
-                    newSkill.Style = NotTrainedSkillStyle
+                    newSkill.Style = _notTrainedSkillStyle
                 End If
             End If
             adtSkills.Nodes.Add(newSkill)
             ' Check for sub skills
-            Call Me.DisplaySubSkills(newSkill, rSkill.ID)
+            Call DisplaySubSkills(newSkill, rSkill.ID)
         Next
         adtSkills.EndUpdate()
 
         ' Calculate the Queue Time
-        Call Me.CalculateQueueTime()
+        Call CalculateQueueTime()
 
     End Sub
 
-    Private Sub DisplaySubSkills(ByVal parentSkill As Node, ByVal pSkillID As String)
-        Dim aSkill As EveHQ.Core.EveHQPilotSkill
-        Dim pSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(pSkillID)
+    Private Sub DisplaySubSkills(ByVal parentSkill As Node, ByVal pSkillID As Integer)
+        Dim aSkill As Core.EveHQPilotSkill
+        Dim pSkill As Core.EveSkill = Core.HQ.SkillListID(pSkillID)
 
         If pSkill.PreReqSkills.Count > 0 Then
-            For Each preReqSkill As String In pSkill.PreReqSkills.Keys
-                If EveHQ.Core.HQ.SkillListID.ContainsKey(preReqSkill) Then
+            For Each preReqSkill As Integer In pSkill.PreReqSkills.Keys
+                If Core.HQ.SkillListID.ContainsKey(preReqSkill) Then
                     Dim newSkill As New Node
-                    newSkill.Text = EveHQ.Core.SkillFunctions.SkillIDToName(preReqSkill)
-                    Dim rSkill As HQFSkill = CType(reqHPilot.SkillSet(newSkill.Text), HQFSkill)
+                    newSkill.Text = Core.SkillFunctions.SkillIDToName(preReqSkill)
+                    Dim rSkill As FittingSkill = _reqHPilot.SkillSet(newSkill.Text)
                     newSkill.Cells.Add(New Cell(pSkill.PreReqSkills(preReqSkill).ToString))
-                    If SkillList.ContainsKey(newSkill.Text) = False Then
-                        SkillList.Add(newSkill.Text, pSkill.PreReqSkills(preReqSkill))
+                    If _skillList.ContainsKey(newSkill.Text) = False Then
+                        _skillList.Add(newSkill.Text, pSkill.PreReqSkills(preReqSkill))
                     Else
-                        If SkillList(newSkill.Text) < pSkill.PreReqSkills(preReqSkill) Then
-                            SkillList(newSkill.Text) = pSkill.PreReqSkills(preReqSkill)
+                        If _skillList(newSkill.Text) < pSkill.PreReqSkills(preReqSkill) Then
+                            _skillList(newSkill.Text) = pSkill.PreReqSkills(preReqSkill)
                         End If
                     End If
-                    If reqPilot.PilotSkills.ContainsKey(newSkill.Text) = True Then
-                        aSkill = reqPilot.PilotSkills(newSkill.Text)
+                    If _reqPilot.PilotSkills.ContainsKey(newSkill.Text) = True Then
+                        aSkill = _reqPilot.PilotSkills(newSkill.Text)
                         newSkill.Cells.Add(New Cell(aSkill.Level.ToString))
                     Else
                         newSkill.Cells.Add(New Cell("0"))
@@ -183,16 +181,16 @@ Public Class frmRequiredSkills
                     Dim actLevel As Integer = CInt(newSkill.Cells(2).Text)
                     Dim hqfLevel As Integer = CInt(newSkill.Cells(3).Text)
                     If actLevel >= reqLevel And hqfLevel >= reqLevel Then
-                        newSkill.Style = TrainedSkillStyle
+                        newSkill.Style = _trainedSkillStyle
                     Else
                         If hqfLevel >= reqLevel Then
-                            newSkill.Style = HQFSkillStyle
+                            newSkill.Style = _hqfSkillStyle
                         Else
-                            newSkill.Style = NotTrainedSkillStyle
+                            newSkill.Style = _notTrainedSkillStyle
                         End If
                     End If
                     parentSkill.Nodes.Add(newSkill)
-                    Call Me.DisplaySubSkills(newSkill, preReqSkill)
+                    Call DisplaySubSkills(newSkill, preReqSkill)
                 End If
 
             Next
@@ -201,31 +199,32 @@ Public Class frmRequiredSkills
     End Sub
 
     Private Sub CalculateQueueTime()
-        Dim nPilot As EveHQ.Core.EveHQPilot = reqPilot
-        Dim newQueue As New EveHQ.Core.EveHQSkillQueue
+        Dim nPilot As Core.EveHQPilot = _reqPilot
+        Dim newQueue As New Core.EveHQSkillQueue
         newQueue.Name = "HQFQueue"
         newQueue.IncCurrentTraining = False
         newQueue.Primary = False
 
         ' Add the skills we have to the training queue (in any order, no learning skills will be applied)
-        Dim skill As Integer = 0
-        For Each rSkill As ReqSkill In reqSkills
+        Dim skillPos As Integer = 0
+        For Each rSkill As ReqSkill In _reqSkills
             Dim skillName As String = rSkill.Name
             Dim skillLevel As Integer = CInt(rSkill.ReqLevel)
-            Dim qItem As New EveHQ.Core.SkillQueueItem
+            Dim qItem As New Core.SkillQueueItem
             qItem.Name = skillName
             qItem.FromLevel = 0
             qItem.ToLevel = skillLevel
-            qItem.Pos = skill + 1
+            qItem.Pos = skillPos + 1
             qItem.Key = qItem.Name & qItem.FromLevel & qItem.ToLevel
-            newQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(nPilot, skillName, skill + 1, newQueue, skillLevel, True, True, "HQF: " & FittingName)
+            newQueue = Core.SkillQueueFunctions.AddSkillToQueue(nPilot, skillName, skillPos + 1, newQueue, skillLevel, True, True, "HQF: " & _fittingName)
+            skillPos += 1
         Next
 
         ' Build the Queue
-        Dim aQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue, False, True)
+        Core.SkillQueueFunctions.BuildQueue(nPilot, newQueue, False, True)
 
         ' Display the time results
-        lblQueueTime.Text = "Estimated Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(newQueue.QueueTime)
+        lblQueueTime.Text = "Estimated Queue Time: " & Core.SkillFunctions.TimeToString(newQueue.QueueTime)
 
     End Sub
 
@@ -233,40 +232,40 @@ Public Class frmRequiredSkills
 
 #Region "Button Routines"
 
-    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        Me.Close()
+    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+        Close()
     End Sub
 
-    Private Sub btnAddToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddToQueue.Click
-        Call Me.AddNeededSkillsToQueue()
+    Private Sub btnAddToQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddToQueue.Click
+        Call AddNeededSkillsToQueue()
     End Sub
 
     Private Sub AddNeededSkillsToQueue()
-        Dim NeededSkills As New List(Of String)
-        For Each NeededSkill As HQF.ReqSkill In reqSkills
-            NeededSkills.Add(NeededSkill.Name & NeededSkill.ReqLevel)
+        Dim neededSkills As New List(Of String)
+        For Each neededSkill As ReqSkill In _reqSkills
+            neededSkills.Add(neededSkill.Name & neededSkill.ReqLevel)
         Next
-        Dim selQ As New EveHQ.Core.frmSelectQueue(reqPilot.Name, NeededSkills, "HQF: " & FittingName)
+        Dim selQ As New Core.frmSelectQueue(_reqPilot.Name, neededSkills, "HQF: " & _fittingName)
         selQ.ShowDialog()
-        EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
+        Core.SkillQueueFunctions.StartQueueRefresh = True
     End Sub
 
-    Private Sub btnSetSkillsToRequirements_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSetSkillsToRequirements.Click
-        For Each requiredSkill As String In SkillList.Keys
-            Dim MyHQFSkill As HQFSkill = CType(reqHPilot.SkillSet(requiredSkill), HQFSkill)
-            If MyHQFSkill.Level < SkillList(requiredSkill) Then
-                MyHQFSkill.Level = SkillList(requiredSkill)
+    Private Sub btnSetSkillsToRequirements_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSetSkillsToRequirements.Click
+        For Each requiredSkill As String In _skillList.Keys
+            Dim myHQFSkill As FittingSkill = _reqHPilot.SkillSet(requiredSkill)
+            If myHQFSkill.Level < _skillList(requiredSkill) Then
+                myHQFSkill.Level = _skillList(requiredSkill)
             End If
         Next
         ForceUpdate = True
-        Call Me.UpdateReqSkills()
-        Call Me.DrawSkillsTable()
+        Call UpdateReqSkills()
+        Call DrawSkillsTable()
     End Sub
 
     Private Sub UpdateReqSkills()
-        For Each rSkill As ReqSkill In reqSkills
-            If SkillList.ContainsKey(rSkill.Name) = True Then
-                rSkill.CurLevel = SkillList(rSkill.Name)
+        For Each rSkill As ReqSkill In _reqSkills
+            If _skillList.ContainsKey(rSkill.Name) = True Then
+                rSkill.CurLevel = _skillList(rSkill.Name)
             End If
         Next
     End Sub

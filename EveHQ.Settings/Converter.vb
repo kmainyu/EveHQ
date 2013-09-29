@@ -438,14 +438,14 @@ Public Class Converter
             newPilot.CorpID = pilot.CorpID
             newPilot.Isk = pilot.Isk
             newPilot.CloneName = pilot.CloneName
-            newPilot.CloneSP = pilot.CloneSP
+            newPilot.CloneSP = CInt(pilot.CloneSP)
             newPilot.SkillPoints = pilot.SkillPoints
             newPilot.Training = pilot.Training
             newPilot.TrainingStartTime = pilot.TrainingStartTime
             newPilot.TrainingStartTimeActual = pilot.TrainingStartTimeActual
             newPilot.TrainingEndTime = pilot.TrainingEndTime
             newPilot.TrainingEndTimeActual = pilot.TrainingEndTimeActual
-            newPilot.TrainingSkillID = pilot.TrainingSkillID
+            newPilot.TrainingSkillID = CInt(pilot.TrainingSkillID)
             newPilot.TrainingSkillName = pilot.TrainingSkillName
             newPilot.TrainingStartSP = pilot.TrainingStartSP
             newPilot.TrainingEndSP = pilot.TrainingEndSP
@@ -511,10 +511,9 @@ Public Class Converter
         newPilot.PilotSkills.Clear()
         For Each oldskill As PilotSkill In pilot.PilotSkills
             Dim newSkill As New EveHQPilotSkill
-            newSkill.ID = oldskill.ID
+            newSkill.ID = CInt(oldskill.ID)
             newSkill.Name = oldskill.Name
-            newSkill.GroupID = oldskill.GroupID
-            newSkill.Flag = oldskill.Flag
+            newSkill.GroupID = CInt(oldskill.GroupID)
             newSkill.Rank = oldskill.Rank
             newSkill.SP = oldskill.SP
             newSkill.Level = oldskill.Level
@@ -779,6 +778,7 @@ Public Class Converter
 
         ConvertDefenceProfiles(hqfFolder)
         ConvertDamageProfiles(hqfFolder)
+        ConvertSavedFittings(hqfFolder)
         
     End Sub
 
@@ -881,7 +881,36 @@ Public Class Converter
 
     End Sub
 
+    Private Sub ConvertSavedFittings(hqfFolder As String)
 
+        Dim fittings As SortedList(Of String, HQF.SavedFitting)
+
+        ' Check for the fittings file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "Fittings.bin")) = True Then
+            Using s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                fittings = CType(f.Deserialize(s), SortedList(Of String, HQF.SavedFitting))
+            End Using
+
+           ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(fittings, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "Fittings.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old fittings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "Fittings.bin"), "OldFittings.bin")
+
+        End If
+        
+    End Sub
+    
 #End Region
 
 End Class

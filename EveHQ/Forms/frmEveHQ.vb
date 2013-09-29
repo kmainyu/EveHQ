@@ -914,8 +914,7 @@ Public Class frmEveHQ
                                 If cPilot.QueuedSkills.Count > 0 Then
                                     notifyText &= ControlChars.CrLf
                                     notifyText &= "Next skill in Eve skill queue: " &
-                                                  SkillFunctions.SkillIDToName(
-                                                      CStr(cPilot.QueuedSkills.Values(0).SkillID)) & " " &
+                                                  SkillFunctions.SkillIDToName(cPilot.QueuedSkills.Values(0).SkillID) & " " &
                                                   SkillFunctions.Roman(cPilot.QueuedSkills.Values(0).Level)
                                     notifyText &= ControlChars.CrLf
                                 Else

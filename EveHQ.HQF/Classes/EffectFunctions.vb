@@ -82,7 +82,7 @@ Public Class EffectFunctions
                 End If
             Else
                 ' Get the skill name
-                Dim Skill As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(BonusSkill)
+                Dim Skill As Core.EveItem = Core.HQ.itemData(BonusSkill)
                 If BonusGroup.Count = 1 Then
                     BonusDescription.AppendLine(Skill.Name & " Skill Bonus:")
                 Else
@@ -141,7 +141,7 @@ Public Class EffectFunctions
                             Else
                                 Dim ItemList As New List(Of String)
                                 For Each ID As String In IDs
-                                    ItemList.Add(EveHQ.Core.HQ.itemData(ID).Name.Trim)
+                                    ItemList.Add(Core.HQ.itemData(ID).Name.Trim)
                                 Next
                                 Desc.Append(" of " & ParseStringListToProperText(ItemList, True))
                             End If
@@ -154,7 +154,7 @@ Public Class EffectFunctions
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
                             For Each ID As String In IDs
-                                ItemList.Add(EveHQ.Core.HQ.itemGroups(ID).Trim)
+                                ItemList.Add(Core.HQ.itemGroups(CInt(ID)).Trim)
                             Next
                             Desc.Append(" of " & ParseStringListToProperText(ItemList, True))
                         Else
@@ -166,7 +166,7 @@ Public Class EffectFunctions
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
                             For Each ID As String In IDs
-                                ItemList.Add(EveHQ.Core.HQ.itemCats(ID).Trim)
+                                ItemList.Add(Core.HQ.itemCats(CInt(ID)).Trim)
                             Next
                             Desc.Append(" of " & ParseStringListToProperText(ItemList, True))
                         Else
@@ -197,7 +197,7 @@ Public Class EffectFunctions
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
                             For Each ID As String In IDs
-                                ItemList.Add(EveHQ.Core.HQ.itemData(ID).Name.Trim)
+                                ItemList.Add(Core.HQ.itemData(ID).Name.Trim)
                             Next
                             Desc.Append(" of items requiring the " & ParseStringListToProperText(ItemList, False) & " skill")
                             If IDs.Count > 1 Then Desc.Append("s")
