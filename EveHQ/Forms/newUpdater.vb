@@ -8,31 +8,25 @@ Imports System.IO
 Public Class NewUpdater
 
     Private _updateLocation As String
-    Private _proxyServer As String
-    Private _useDefaultCred As Boolean
-    Private _proxUsername As String
-    Private _proxyPassword As String
-    Private _useBasicAuth As Boolean
+    
     Private _storageFodler As String
 
+    Private _requestProvider As IHttpRequestProvider
 
     Const RequestTemplate As String = "Requesting"
     Const DownloadingTemplate As String = "Downloading"
 
 
-    Public Sub New(updateLocation As String, storageFolder As String, proxyServer As String, useDefaultCredentials As Boolean, proxyUserName As String, proxyPassword As String, useBasicAuth As Boolean)
+    Public Sub New(updateLocation As String, storageFolder As String, provider As IHttpRequestProvider)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
         _updateLocation = updateLocation
-        _proxyServer = proxyServer
-        _useDefaultCred = useDefaultCredentials
-        _proxUsername = proxyUserName
-        _proxyPassword = proxyPassword
-        _useBasicAuth = useBasicAuth
         _storageFodler = storageFolder
+        _requestProvider = provider
+
     End Sub
 
     Private Sub newUpdater_Load(sender As Object, e As System.EventArgs) Handles Me.Load
@@ -42,14 +36,12 @@ Public Class NewUpdater
 
     Private Sub DownloadUpdate()
         Try
-            Dim proxyUri As Uri = Nothing
-            If _proxyServer.IsNullOrWhiteSpace() = False Then
-                proxyUri = New Uri(_proxyServer)
-            End If
+
+
 
             Dim localStorage As String = _storageFodler
 
-            Dim task As Task(Of HttpResponseMessage) = HttpRequestProvider.Default.GetAsync(New Uri(_updateLocation), proxyUri, _useDefaultCred, _proxUsername, _proxyPassword, _useBasicAuth, Nothing, HttpCompletionOption.ResponseHeadersRead)
+            Dim task As Task(Of HttpResponseMessage) = _requestProvider.GetAsync(New Uri(_updateLocation), Nothing, HttpCompletionOption.ResponseHeadersRead)
 
             task.ContinueWith(Sub(dlTask As Task(Of HttpResponseMessage))
                                   If (dlTask.Exception IsNot Nothing) Then

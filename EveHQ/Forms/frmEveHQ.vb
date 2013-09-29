@@ -2145,12 +2145,7 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub ShowUpdateForm(installerUrl As String)
-        Dim myUpdater As New newUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), HQ.RemoteProxy.ProxyServer,
-                                                                                        HQ.RemoteProxy.
-                                                                                           UseDefaultCredentials,
-                                                                                        HQ.RemoteProxy.ProxyUsername,
-                                                                                        HQ.RemoteProxy.ProxyPassword,
-                                                                                        HQ.RemoteProxy.UseBasicAuthentication)
+        Dim myUpdater As New NewUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), New HttpRequestProvider(HQ.ProxyDetails))
         myUpdater.ShowDialog()
     End Sub
 
@@ -2194,19 +2189,9 @@ Public Class frmEveHQ
                 Return Nothing
             End If
 
-            Dim tempProxy As Uri = Nothing
-            If (Uri.TryCreate(HQ.RemoteProxy.ProxyServer, UriKind.Absolute, tempProxy)) = False Then
-                tempProxy = Nothing
-            End If
+            Dim provider As New HttpRequestProvider(HQ.ProxyDetails)
 
-            Dim requestTask As Task(Of HttpResponseMessage) = HttpRequestProvider.Default.GetAsync(temp,
-                                                                                        tempProxy,
-                                                                                        HQ.RemoteProxy.
-                                                                                           UseDefaultCredentials,
-                                                                                        HQ.RemoteProxy.ProxyUsername,
-                                                                                        HQ.RemoteProxy.ProxyPassword,
-                                                                                        HQ.RemoteProxy.
-                                                                                           UseBasicAuthentication)
+            Dim requestTask As Task(Of HttpResponseMessage) = provider.GetAsync(temp)
 
             requestTask.Wait()
             If (requestTask.IsFaulted Or requestTask.Exception IsNot Nothing) Then

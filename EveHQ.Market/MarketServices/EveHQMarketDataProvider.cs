@@ -88,23 +88,8 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _region data cache.</summary>
         private readonly ICacheProvider _priceCache;
 
-        /// <summary>The _proxy password.</summary>
-        private readonly string _proxyPassword;
-
-        /// <summary>The _proxy server address.</summary>
-        private readonly Uri _proxyServerAddress;
-
-        /// <summary>The _proxy user name.</summary>
-        private readonly string _proxyUserName;
-
         /// <summary>The _request provider.</summary>
         private readonly IHttpRequestProvider _requestProvider;
-
-        /// <summary>The _use basic auth.</summary>
-        private readonly bool _useBasicAuth;
-
-        /// <summary>The _use default credential.</summary>
-        private readonly bool _useDefaultCredential;
 
         #endregion
 
@@ -117,25 +102,6 @@ namespace EveHQ.Market.MarketServices
         {
             _priceCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, CacheFolder));
             _requestProvider = requestProvider;
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="EveHQMarketDataProvider"/> class. Initializes a new instance of
-        ///     the <see cref="EveCentralMarketDataProvider"/> class.</summary>
-        /// <param name="cacheRootFolder">The cache root folder.</param>
-        /// <param name="requestProvider">The request Provider.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
-        public EveHQMarketDataProvider(string cacheRootFolder, IHttpRequestProvider requestProvider, Uri proxyServerAddress, bool useDefaultCredential, string proxyUserName, string proxyPassword, bool useBasicAuth)
-            : this(cacheRootFolder, requestProvider)
-        {
-            _proxyServerAddress = proxyServerAddress;
-            _useDefaultCredential = useDefaultCredential;
-            _proxyUserName = proxyUserName;
-            _proxyPassword = proxyPassword;
-            _useBasicAuth = useBasicAuth;
         }
 
         #endregion
@@ -221,13 +187,7 @@ namespace EveHQ.Market.MarketServices
         private IEnumerable<ItemOrderStats> DownloadData(int entityId)
         {
             IEnumerable<ItemOrderStats> results = null;
-            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(
-                new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())), 
-                _proxyServerAddress, 
-                _useDefaultCredential, 
-                _proxyUserName, 
-                _proxyPassword, 
-                _useBasicAuth);
+            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())));
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
             if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
@@ -318,14 +278,7 @@ namespace EveHQ.Market.MarketServices
         /// <returns>The <see cref="MarketLocationData"/>.</returns>
         private MarketLocationData LastMarketUpdate(int marketLocationId)
         {
-            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(
-                new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), 
-                _proxyServerAddress, 
-                _useDefaultCredential, 
-                _proxyUserName, 
-                _proxyPassword, 
-                _useBasicAuth, 
-                "application/json");
+            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()),"application/json");
             requestTask.Wait();
             MarketLocationData results = null;
             if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
