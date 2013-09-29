@@ -8,6 +8,7 @@ Imports System.Web
 Imports System.Globalization
 Imports EveHQ.Core
 Imports EveHQ.Prism
+Imports EveHQ.HQF
 
 ''' <summary>
 ''' Converts the old settings format into the new one
@@ -779,7 +780,8 @@ Public Class Converter
         ConvertDefenceProfiles(hqfFolder)
         ConvertDamageProfiles(hqfFolder)
         ConvertSavedFittings(hqfFolder)
-        
+        ConvertPilots(hqfFolder)
+
     End Sub
 
     Private Sub ConvertDefenceProfiles(hqfFolder As String)
@@ -788,16 +790,16 @@ Public Class Converter
 
         ' Check for the profiles file so we can load it
         If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin")) = True Then
-            Using s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
+            Using s As New FileStream(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
                 oldProfiles = CType(f.Deserialize(s), SortedList)
             End Using
 
-            Dim newProfiles As New SortedList(Of String, HQF.HQFDefenceProfile)
-            For Each profile As HQF.DefenceProfile In oldProfiles
-                Dim newProfile As New HQF.HQFDefenceProfile
+            Dim newProfiles As New SortedList(Of String, HQFDefenceProfile)
+            For Each profile As DefenceProfile In oldProfiles
+                Dim newProfile As New HQFDefenceProfile
                 newProfile.Name = profile.Name
-                newProfile.Type = CType(profile.Type, HQF.ProfileTypes)
+                newProfile.Type = CType(profile.Type, ProfileTypes)
                 newProfile.SEM = profile.SEM
                 newProfile.SExplosive = profile.SExplosive
                 newProfile.SKinetic = profile.SKinetic
@@ -842,16 +844,16 @@ Public Class Converter
 
         ' Check for the profiles file so we can load it
         If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDamageProfiles.bin")) = True Then
-            Using s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDamageProfiles.bin"), FileMode.Open)
+            Using s As New FileStream(Path.Combine(hqfFolder, "HQFDamageProfiles.bin"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
                 oldProfiles = CType(f.Deserialize(s), SortedList)
             End Using
 
-            Dim newProfiles As New SortedList(Of String, HQF.HQFDamageProfile)
-            For Each profile As HQF.DamageProfile In oldProfiles
-                Dim newProfile As New HQF.HQFDamageProfile
+            Dim newProfiles As New SortedList(Of String, HQFDamageProfile)
+            For Each profile As DamageProfile In oldProfiles
+                Dim newProfile As New HQFDamageProfile
                 newProfile.Name = profile.Name
-                newProfile.Type = CType(profile.Type, HQF.ProfileTypes)
+                newProfile.Type = CType(profile.Type, ProfileTypes)
                 newProfile.EM = profile.EM
                 newProfile.Explosive = profile.Explosive
                 newProfile.Kinetic = profile.Kinetic
@@ -883,13 +885,13 @@ Public Class Converter
 
     Private Sub ConvertSavedFittings(hqfFolder As String)
 
-        Dim fittings As SortedList(Of String, HQF.SavedFitting)
+        Dim fittings As SortedList(Of String, SavedFitting)
 
         ' Check for the fittings file so we can load it
         If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "Fittings.bin")) = True Then
-            Using s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
+            Using s As New FileStream(Path.Combine(hqfFolder, "Fittings.bin"), FileMode.Open)
                 Dim f As BinaryFormatter = New BinaryFormatter
-                fittings = CType(f.Deserialize(s), SortedList(Of String, HQF.SavedFitting))
+                fittings = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
             End Using
 
            ' Create a JSON string for writing
@@ -910,7 +912,62 @@ Public Class Converter
         End If
         
     End Sub
-    
+
+    Private Sub ConvertPilots(hqfFolder As String)
+
+        Dim oldPilots As New SortedList
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFPilotSettings.bin")) = True Then
+            Try
+                Using s As New FileStream(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldPilots = CType(f.Deserialize(s), SortedList)
+                End Using
+            Catch ex As Exception
+            End Try
+        End If
+
+        Dim newPilots As New SortedList(Of String, FittingPilot)
+        For Each pilot As HQFPilot In oldPilots
+            newPilots.Add(pilot.PilotName, ConvertPilot(pilot))
+        Next
+
+        ' Create a JSON string for writing
+        Dim json As String = JsonConvert.SerializeObject(newPilots, Newtonsoft.Json.Formatting.Indented)
+
+        ' Write the JSON version of the settings
+        Try
+            Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFPilotSettings.json"), False)
+                s.Write(json)
+                s.Flush()
+            End Using
+        Catch e As Exception
+        End Try
+
+        ' Rename the old fittings file
+        My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), "OldHQFPilotSettings.bin")
+
+
+    End Sub
+
+    Private Function ConvertPilot(oldPilot As HQFPilot) As FittingPilot
+        Dim newPilot As New FittingPilot
+        newPilot.PilotName = oldPilot.PilotName
+        newPilot.SkillSet = New Dictionary(Of String, FittingSkill)
+        For Each skill As HQFSkill In oldPilot.SkillSet
+            Dim newSkill As New FittingSkill
+            newSkill.ID = CInt(skill.ID)
+            newSkill.Name = skill.Name
+            newSkill.Level = skill.Level
+            newPilot.SkillSet.Add(newSkill.Name, newSkill)
+        Next
+        For implant As Integer = 0 To 10
+            newPilot.ImplantName(implant) = oldPilot.ImplantName(implant)
+        Next
+        Return newPilot
+    End Function
+
+
 #End Region
 
 End Class

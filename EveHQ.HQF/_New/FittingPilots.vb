@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Forms
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports Newtonsoft.Json
 
 <Serializable()> Class FittingPilots
 
@@ -115,28 +116,34 @@ Imports System.Runtime.Serialization.Formatters.Binary
     End Sub
 
     Public Shared Sub SaveHQFPilotData()
-        Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, HQFPilots)
-        s.Flush()
-        s.Close()
+
+        ' Create a JSON string for writing
+        Dim json As String = JsonConvert.SerializeObject(HQFPilots, Newtonsoft.Json.Formatting.Indented)
+
+        ' Write the JSON version of the settings
+        Try
+            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.json"), False)
+                s.Write(json)
+                s.Flush()
+            End Using
+        Catch e As Exception
+        End Try
+
     End Sub
 
     Public Shared Sub LoadHQFPilotData()
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
-            Dim s As FileStream = Nothing
+       
+       If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.json")) = True Then
             Try
-                s = New FileStream(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                HQFPilots = CType(f.Deserialize(s), SortedList(Of String, FittingPilot))
+                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.json"))
+                    Dim json As String = s.ReadToEnd
+                    HQFPilots = JsonConvert.DeserializeObject(Of SortedList(Of String, FittingPilot))(json)
+                End Using
             Catch ex As Exception
-                MessageBox.Show("There was an loading the pilot settings file. It appears to be corrupted. A new file will be created however the old data is lost.")
-                HQFPilots = New SortedList(Of String, FittingPilot)
-            Finally
-                s.Close()
+                MessageBox.Show("There was an error loading the HQF Pilots file. The file appears corrupt, so it cannot be loaded at this time.")
             End Try
-
         End If
+        
     End Sub
 
 End Class

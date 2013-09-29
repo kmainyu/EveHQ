@@ -21,58 +21,58 @@
 'Imports System.IO
 'Imports System.Windows.Forms
 
-'<Serializable()> Public Class HQFPilot
+<Serializable()> Public Class HQFPilot
 
-'#Region "Property Variables"
+#Region "Property Variables"
 
-'    Private cPilotName As String
-'    Private cSkillSet As New Collection
-'    Private cImplantName(10) As String
+    Private cPilotName As String
+    Private cSkillSet As New Collection
+    Private cImplantName(10) As String
 
-'#End Region
+#End Region
 
-'#Region "Properties"
+#Region "Properties"
 
-'    Public Property PilotName() As String
-'        Get
-'            Return cPilotName
-'        End Get
-'        Set(ByVal value As String)
-'            cPilotName = value
-'        End Set
-'    End Property
+    Public Property PilotName() As String
+        Get
+            Return cPilotName
+        End Get
+        Set(ByVal value As String)
+            cPilotName = value
+        End Set
+    End Property
 
-'    Public Property SkillSet() As Collection
-'        Get
-'            Return cSkillSet
-'        End Get
-'        Set(ByVal value As Collection)
-'            cSkillSet = value
-'        End Set
-'    End Property
+    Public Property SkillSet() As Collection
+        Get
+            Return cSkillSet
+        End Get
+        Set(ByVal value As Collection)
+            cSkillSet = value
+        End Set
+    End Property
 
-'    Public Property ImplantName(ByVal index As Integer) As String
-'        ' Use ImplantName(0) as the GroupName identifer
-'        Get
-'            Return cImplantName(index)
-'        End Get
-'        Set(ByVal value As String)
-'            cImplantName(index) = value
-'            ' Check if we can set the implants from the group listing
-'            If index = 0 Then
-'                If value <> "*Custom*" Then
-'                    If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(value) Then
-'                        Dim ImplantSet As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(value), ImplantGroup)
-'                        For slot As Integer = 1 To 10
-'                            cImplantName(slot) = ImplantSet.ImplantName(slot)
-'                        Next
-'                    End If
-'                End If
-'            End If
-'        End Set
-'    End Property
+    Public Property ImplantName(ByVal index As Integer) As String
+        ' Use ImplantName(0) as the GroupName identifer
+        Get
+            Return cImplantName(index)
+        End Get
+        Set(ByVal value As String)
+            cImplantName(index) = value
+            ' Check if we can set the implants from the group listing
+            If index = 0 Then
+                If value <> "*Custom*" Then
+                    If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(value) Then
+                        Dim ImplantSet As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(value), ImplantGroup)
+                        For slot As Integer = 1 To 10
+                            cImplantName(slot) = ImplantSet.ImplantName(slot)
+                        Next
+                    End If
+                End If
+            End If
+        End Set
+    End Property
 
-'#End Region
+#End Region
 
-'End Class
+End Class
 
