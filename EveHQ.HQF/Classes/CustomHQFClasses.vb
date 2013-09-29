@@ -20,6 +20,7 @@
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports Newtonsoft.Json
 
 ''' <summary>
 ''' Class for holding and handling the collection of custom classes for the HQF Editors
@@ -39,16 +40,18 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShipClasses()
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShipClasses.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShipClasses.bin"), FileMode.Open)
+       
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShipClasses.json")) = True Then
             Try
-                Dim f As BinaryFormatter = New BinaryFormatter
-                CustomShipClasses = CType(f.Deserialize(s), SortedList(Of String, CustomShipClass))
-                s.Close()
-            Catch sex As Exception
-                s.Close()
+                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "CustomShipClasses.json"))
+                    Dim json As String = s.ReadToEnd
+                    CustomShipClasses = JsonConvert.DeserializeObject(Of SortedList(Of String, CustomShipClass))(json)
+                End Using
+            Catch ex As Exception
+                MessageBox.Show("There was an error loading the Custom Ship Classes file. The file appears corrupt, so it cannot be loaded at this time.")
             End Try
         End If
+
     End Sub
 
     ''' <summary>
@@ -56,12 +59,19 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub SaveCustomShipClasses()
-        ' Save ships
-        Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShipClasses.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, CustomShipClasses)
-        s.Flush()
-        s.Close()
+       
+        ' Create a JSON string for writing
+        Dim json As String = JsonConvert.SerializeObject(CustomShipClasses, Newtonsoft.Json.Formatting.Indented)
+
+        ' Write the JSON version of the settings
+        Try
+            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "CustomShipClasses.json"), False)
+                s.Write(json)
+                s.Flush()
+            End Using
+        Catch e As Exception
+        End Try
+        
     End Sub
 #End Region
 
@@ -84,20 +94,22 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShips()
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShips.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShips.bin"), FileMode.Open)
+       
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShips.json")) = True Then
             Try
-                Dim f As BinaryFormatter = New BinaryFormatter
-                CustomShips = CType(f.Deserialize(s), SortedList(Of String, CustomShip))
-                CustomShipIDs.Clear()
-                For Each cShip As CustomShip In CustomShips.Values
-                    CustomShipIDs.Add(cShip.ID, cShip.Name)
-                Next
-                s.Close()
-            Catch sex As Exception
-                s.Close()
+                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "CustomShips.json"))
+                    Dim json As String = s.ReadToEnd
+                    CustomShips = JsonConvert.DeserializeObject(Of SortedList(Of String, CustomShip))(json)
+                    CustomShipIDs.Clear()
+                    For Each cShip As CustomShip In CustomShips.Values
+                        CustomShipIDs.Add(cShip.ID, cShip.Name)
+                    Next
+                End Using
+            Catch ex As Exception
+                MessageBox.Show("There was an error loading the Custom Ships file. The file appears corrupt, so it cannot be loaded at this time.")
             End Try
         End If
+
     End Sub
 
     ''' <summary>
@@ -105,12 +117,19 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub SaveCustomShips()
-        ' Save ships
-        Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShips.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, CustomShips)
-        s.Flush()
-        s.Close()
+       
+        ' Create a JSON string for writing
+        Dim json As String = JsonConvert.SerializeObject(CustomShips, Newtonsoft.Json.Formatting.Indented)
+
+        ' Write the JSON version of the settings
+        Try
+            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "CustomShips.json"), False)
+                s.Write(json)
+                s.Flush()
+            End Using
+        Catch e As Exception
+        End Try
+
     End Sub
 
     ''' <summary>
@@ -124,17 +143,17 @@ Public Class CustomHQFClasses
         Call Engine.BuildShipBonusesMap()
 
         ' Rebuild the ship lists
-        ShipLists.shipListKeyID.Clear()
-        ShipLists.shipListKeyName.Clear()
+        ShipLists.ShipListKeyID.Clear()
+        ShipLists.ShipListKeyName.Clear()
         If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "ships.bin")) = True Then
             Dim s As New FileStream(Path.Combine(Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
-                ShipLists.shipList = CType(f.Deserialize(s), SortedList)
+                ShipLists.ShipList = CType(f.Deserialize(s), SortedList)
                 s.Close()
-                For Each cShip As Ship In ShipLists.shipList.Values
-                    ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
-                    ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
+                For Each cShip As Ship In ShipLists.ShipList.Values
+                    ShipLists.ShipListKeyID.Add(cShip.ID, cShip.Name)
+                    ShipLists.ShipListKeyName.Add(cShip.Name, cShip.ID)
                 Next
             Catch sex As Exception
                 s.Close()
@@ -151,9 +170,9 @@ Public Class CustomHQFClasses
             ' Add the bonuses
             Engine.ShipBonusesMap.Add(cShip.ID, cShip.Bonuses)
             ' Add the ship data
-            ShipLists.shipList.Add(cShip.Name, cShip.ShipData)
-            ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
-            ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
+            ShipLists.ShipList.Add(cShip.Name, cShip.ShipData)
+            ShipLists.ShipListKeyID.Add(cShip.ID, cShip.Name)
+            ShipLists.ShipListKeyName.Add(cShip.Name, cShip.ID)
         Next
 
         ' Rebuild the ship effects
@@ -179,8 +198,6 @@ Public Class CustomHQFClasses
     End Sub
 
 #End Region
-
-
 
 End Class
 

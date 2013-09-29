@@ -24,9 +24,6 @@
 ''' <remarks></remarks>
 <Serializable()> Public Class CustomShipClass
 
-    Dim cName As String
-    Dim cDescription As String
-
     ''' <summary>
     ''' Gets or sets the name of the custom ship class
     ''' </summary>
@@ -34,14 +31,7 @@
     ''' <returns>A string containing the name of the custom ship class</returns>
     ''' <remarks></remarks>
     Public Property Name() As String
-        Get
-            Return cName
-        End Get
-        Set(ByVal value As String)
-            cName = value
-        End Set
-    End Property
-
+      
     ''' <summary>
     ''' Gets or sets the description of the custom ship class
     ''' </summary>
@@ -49,12 +39,5 @@
     ''' <returns>A string containing the description of the custom ship class</returns>
     ''' <remarks></remarks>
     Public Property Description() As String
-        Get
-            Return cDescription
-        End Get
-        Set(ByVal value As String)
-            cDescription = value
-        End Set
-    End Property
-
+       
 End Class

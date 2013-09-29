@@ -18,27 +18,21 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System
-Imports System.Net
-Imports System.Text
 Imports System.IO
-Imports System.Net.Sockets
-Imports System.Threading
-Imports System.Xml
-Imports System.Web
 Imports System.Windows.Forms
-Imports System.Runtime.Serialization.Formatters.Binary
+Imports Newtonsoft.Json
 
 <Serializable()> Public Class Settings
 
-    Public Shared HQFSettings As New HQF.Settings
+    Public Shared HQFSettings As New Settings
     Public Shared HQFFolder As String
     Public Shared HQFCacheFolder As String
 
-    Private cHiSlotColour As Long = System.Drawing.Color.PeachPuff.ToArgb
-    Private cMidSlotColour As Long = System.Drawing.Color.LightSteelBlue.ToArgb
-    Private cLowSlotColour As Long = System.Drawing.Color.Thistle.ToArgb
-    Private cRigSlotColour As Long = System.Drawing.Color.LightGreen.ToArgb
-    Private cSubSlotColour As Long = System.Drawing.Color.DarkSeaGreen.ToArgb
+    Private cHiSlotColour As Long = Drawing.Color.PeachPuff.ToArgb
+    Private cMidSlotColour As Long = Drawing.Color.LightSteelBlue.ToArgb
+    Private cLowSlotColour As Long = Drawing.Color.Thistle.ToArgb
+    Private cRigSlotColour As Long = Drawing.Color.LightGreen.ToArgb
+    Private cSubSlotColour As Long = Drawing.Color.DarkSeaGreen.ToArgb
     Private cDefaultPilot As String = ""
     Private cRestoreLastSession As Boolean = False
     Private cLastPriceUpdate As DateTime
@@ -86,14 +80,14 @@ Imports System.Runtime.Serialization.Formatters.Binary
             cAutoResizeColumns = value
         End Set
     End Property
-    Public Property SortedModuleListInfo As EveHQ.Core.AdvTreeSortResult
+    Public Property SortedModuleListInfo As Core.AdvTreeSortResult
         Get
             If cSortedModuleListInfo Is Nothing Then
-                cSortedModuleListInfo = New EveHQ.Core.AdvTreeSortResult
+                cSortedModuleListInfo = New Core.AdvTreeSortResult
             End If
             Return cSortedModuleListInfo
         End Get
-        Set(ByVal value As EveHQ.Core.AdvTreeSortResult)
+        Set(ByVal value As Core.AdvTreeSortResult)
             cSortedModuleListInfo = value
         End Set
     End Property
@@ -441,41 +435,33 @@ Imports System.Runtime.Serialization.Formatters.Binary
 
     Public Sub SaveHQFSettings()
 
-        ' Write a serial version of the settings
-        Dim s As New FileStream(Path.Combine(HQFFolder, "HQFSettings.bin"), FileMode.Create)
-        Dim f As New BinaryFormatter
-        f.Serialize(s, HQF.Settings.HQFSettings)
-        s.Flush()
-        s.Close()
+       ' Create a JSON string for writing
+        Dim json As String = JsonConvert.SerializeObject(HQFSettings, Newtonsoft.Json.Formatting.Indented)
+
+        ' Write the JSON version of the settings
+        Try
+            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "HQFSettings.json"), False)
+                s.Write(json)
+                s.Flush()
+            End Using
+        Catch e As Exception
+        End Try
 
     End Sub
     Public Function LoadHQFSettings() As Boolean
 
         ' Initialise the standard slot columns
-        Call Me.InitialiseSlotColumns()
+        Call InitialiseSlotColumns()
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQFFolder, "HQFSettings.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQFFolder, "HQFSettings.bin"), FileMode.Open)
+       If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFSettings.json")) = True Then
             Try
-                Dim f As BinaryFormatter = New BinaryFormatter
-                HQF.Settings.HQFSettings = CType(f.Deserialize(s), HQF.Settings)
-                s.Close()
+                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "HQFSettings.json"))
+                    Dim json As String = s.ReadToEnd
+                    HQFSettings = JsonConvert.DeserializeObject(Of Settings)(json)
+                End Using
             Catch ex As Exception
-                Dim msg As String = "There was an error trying to load the HQF settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "HQF will delete this file and re-initialise the settings." & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Press OK to reset the settings." & ControlChars.CrLf
-                MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Try
-                    s.Close()
-                    My.Computer.FileSystem.DeleteFile(Path.Combine(HQFFolder, "HQFSettings.bin"))
-                Catch e As Exception
-                    MessageBox.Show("Unable to delete the HQFSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    Return False
-                End Try
+                MessageBox.Show("There was an error loading the HQF Settings file. The file appears corrupt, so it cannot be loaded at this time.")
             End Try
-        Else
-            ' Attempt to load the old version and convert
-            Call Me.LoadOldHQFSettings()
         End If
 
         ' Update implant names
@@ -496,17 +482,17 @@ Imports System.Runtime.Serialization.Formatters.Binary
 
         ' Check if the standard columns have changed and we need to add columns
         If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
-            Dim MissingFlag As Boolean = True
-            For Each StdCol As UserSlotColumn In cStandardSlotColumns
-                MissingFlag = True
-                For Each TestUserCol As UserSlotColumn In HQFSettings.UserSlotColumns
-                    If StdCol.Name = TestUserCol.Name Then
-                        MissingFlag = False
+            Dim missingFlag As Boolean
+            For Each stdCol As UserSlotColumn In cStandardSlotColumns
+                missingFlag = True
+                For Each testUserCol As UserSlotColumn In HQFSettings.UserSlotColumns
+                    If stdCol.Name = testUserCol.Name Then
+                        missingFlag = False
                         Exit For
                     End If
                 Next
-                If MissingFlag = True Then
-                    HQFSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
+                If missingFlag = True Then
+                    HQFSettings.UserSlotColumns.Add(New UserSlotColumn(stdCol.Name, stdCol.Description, stdCol.Width, stdCol.Active))
                 End If
             Next
         End If
@@ -532,126 +518,6 @@ Imports System.Runtime.Serialization.Formatters.Binary
         cStandardSlotColumns.Add(New UserSlotColumn("ExpRad", "Explosion Radius", 75, False))
         cStandardSlotColumns.Add(New UserSlotColumn("ExpVel", "Explosion Velocity", 75, False))
     End Sub
-
-    Public Function LoadOldHQFSettings() As Boolean
-        Dim XMLdoc As XmlDocument = New XmlDocument
-
-        ' Initialise the standard slot columns
-        Call Me.InitialiseSlotColumns()
-
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQFFolder, "HQFSettings.xml")) = True Then
-            XMLdoc.Load(Path.Combine(HQFFolder, "HQFSettings.xml"))
-            Dim settingDetails As XmlNodeList
-            Dim settingSettings As XmlNode
-
-            ' Get the General Settings
-            Try
-                settingDetails = XMLdoc.SelectNodes("/HQFSettings/general")
-                If settingDetails.Count <> 0 Then
-                    ' Get the relevant node!
-                    settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/pilots node in each XML doc
-                    If settingSettings.HasChildNodes Then
-                        HQFSettings.HiSlotColour = CLng(settingSettings.ChildNodes(0).InnerText)
-                        HQFSettings.MidSlotColour = CLng(settingSettings.ChildNodes(1).InnerText)
-                        HQFSettings.LowSlotColour = CLng(settingSettings.ChildNodes(2).InnerText)
-                        HQFSettings.RigSlotColour = CLng(settingSettings.ChildNodes(3).InnerText)
-                        HQFSettings.DefaultPilot = CStr(settingSettings.ChildNodes(4).InnerText)
-                        HQFSettings.RestoreLastSession = CBool(settingSettings.ChildNodes(5).InnerText)
-                        HQFSettings.LastPriceUpdate = CDate(settingSettings.ChildNodes(6).InnerText)
-                        HQFSettings.ModuleFilter = CInt(settingSettings.ChildNodes(7).InnerText)
-                        HQFSettings.AutoUpdateHQFSkills = CBool(settingSettings.ChildNodes(8).InnerText)
-                        HQFSettings.ShowPerformanceData = CBool(settingSettings.ChildNodes(9).InnerText)
-                        HQFSettings.CloseInfoPanel = CBool(settingSettings.ChildNodes(10).InnerText)
-                        HQFSettings.CapRechargeConstant = CDbl(settingSettings.ChildNodes(11).InnerText)
-                        HQFSettings.ShieldRechargeConstant = CDbl(settingSettings.ChildNodes(12).InnerText)
-                        HQFSettings.ShipPanelWidth = CInt(settingSettings.ChildNodes(13).InnerText)
-                        HQFSettings.ModPanelWidth = CInt(settingSettings.ChildNodes(14).InnerText)
-                        HQFSettings.ShipSplitterWidth = CInt(settingSettings.ChildNodes(15).InnerText)
-                        HQFSettings.ModSplitterWidth = CInt(settingSettings.ChildNodes(16).InnerText)
-                        HQFSettings.MissileRangeConstant = CDbl(settingSettings.ChildNodes(17).InnerText)
-                        HQFSettings.SubSlotColour = CLng(settingSettings.ChildNodes(18).InnerText)
-                        HQFSettings.IncludeAmmoReloadTime = CBool(settingSettings.ChildNodes(19).InnerText)
-                        HQFSettings.IncludeCapReloadTime = CBool(settingSettings.ChildNodes(20).InnerText)
-                        HQFSettings.UseLastPilot = CBool(settingSettings.ChildNodes(21).InnerText)
-                        HQFSettings.StorageBayHeight = CInt(settingSettings.ChildNodes(22).InnerText)
-                    End If
-                End If
-            Catch
-            End Try
-
-            ' Reset the column layout
-            HQFSettings.UserSlotColumns.Clear()
-            ' Check if the standard columns have changed and we need to add columns
-            If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
-                Dim MissingFlag As Boolean = True
-                For Each StdCol As UserSlotColumn In cStandardSlotColumns
-                    MissingFlag = True
-                    For Each TestUserCol As UserSlotColumn In HQFSettings.UserSlotColumns
-                        If StdCol.Name = TestUserCol.Name Then
-                            MissingFlag = False
-                            Exit For
-                        End If
-                    Next
-                    If MissingFlag = True Then
-                        HQFSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
-                    End If
-                Next
-            End If
-
-            ' Get the favourites
-            HQFSettings.Favourites.Clear()
-            Try
-                settingDetails = XMLdoc.SelectNodes("/HQFSettings/favourites")
-                ' Get the relevant node!
-                settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
-                If settingSettings.HasChildNodes Then
-                    For item As Integer = 0 To settingSettings.ChildNodes.Count - 1
-                        HQFSettings.Favourites.Add(settingSettings.ChildNodes(item).InnerText)
-                    Next
-                End If
-                HQFSettings.Favourites.Sort()
-            Catch
-            End Try
-
-            ' Get the open fitting details details
-            HQFSettings.OpenFittingList.Clear()
-            Try
-                settingDetails = XMLdoc.SelectNodes("/HQFSettings/openFittings")
-                ' Get the relevant node!
-                settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
-                If settingSettings.HasChildNodes Then
-                    For group As Integer = 0 To settingSettings.ChildNodes.Count - 1
-                        HQFSettings.OpenFittingList.Add(HttpUtility.HtmlDecode(settingSettings.ChildNodes(group).InnerText))
-                    Next
-                End If
-            Catch
-            End Try
-
-
-            ' Get the implant details
-            HQF.Settings.HQFSettings.ImplantGroups.Clear()
-            Try
-                settingDetails = XMLdoc.SelectNodes("/HQFSettings/implantGroups")
-                ' Get the relevant node!
-                settingSettings = settingDetails(0)       ' This is zero because there is only 1 occurence of the EveHQSettings/accounts node in each XML doc
-                If settingSettings.HasChildNodes Then
-                    For group As Integer = 0 To settingSettings.ChildNodes.Count - 1
-                        Dim newImplantGroup As New ImplantGroup
-                        newImplantGroup.GroupName = settingSettings.ChildNodes(group).ChildNodes(0).InnerText
-                        For imp As Integer = 1 To 10
-                            newImplantGroup.ImplantName(imp) = CStr(settingSettings.ChildNodes(group).ChildNodes(imp).InnerText)
-                        Next
-                        HQF.Settings.HQFSettings.ImplantGroups.Add(newImplantGroup.GroupName, newImplantGroup)
-                    Next
-                End If
-            Catch
-            End Try
-
-        End If
-
-        Return True
-
-    End Function
 
 End Class
 

@@ -781,6 +781,9 @@ Public Class Converter
         ConvertDamageProfiles(hqfFolder)
         ConvertSavedFittings(hqfFolder)
         ConvertPilots(hqfFolder)
+        ConvertCustomShipClasses(hqfFolder)
+        ConvertCustomShips(hqfFolder)
+        ConvertMainHQFSettings(hqfFolder)
 
     End Sub
 
@@ -834,8 +837,7 @@ Public Class Converter
             My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), "OldHQFDefenceProfiles.bin")
       
         End If
-
-
+        
     End Sub
 
     Private Sub ConvertDamageProfiles(hqfFolder As String)
@@ -946,8 +948,7 @@ Public Class Converter
 
         ' Rename the old fittings file
         My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), "OldHQFPilotSettings.bin")
-
-
+        
     End Sub
 
     Private Function ConvertPilot(oldPilot As HQFPilot) As FittingPilot
@@ -967,7 +968,90 @@ Public Class Converter
         Return newPilot
     End Function
 
+    Private Sub ConvertCustomShipClasses(hqfFolder As String)
+        Dim custom As SortedList(Of String, CustomShipClass)
 
+        ' Check for the fittings file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "CustomShipClasses.bin")) = True Then
+            Using s As New FileStream(Path.Combine(hqfFolder, "CustomShipClasses.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                custom = CType(f.Deserialize(s), SortedList(Of String, CustomShipClass))
+            End Using
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(custom, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "CustomShipClasses.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "CustomShipClasses.bin"), "OldCustomShipClasses.bin")
+
+        End If
+    End Sub
+
+    Private Sub ConvertCustomShips(hqfFolder As String)
+        Dim custom As SortedList(Of String, CustomShip)
+
+        ' Check for the fittings file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "CustomShips.bin")) = True Then
+            Using s As New FileStream(Path.Combine(hqfFolder, "CustomShips.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                custom = CType(f.Deserialize(s), SortedList(Of String, CustomShip))
+            End Using
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(custom, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "CustomShips.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "CustomShips.bin"), "OldCustomShips.bin")
+
+        End If
+    End Sub
+
+    Private Sub ConvertMainHQFSettings(hqfFolder As String)
+        Dim settings As HQF.Settings
+
+        ' Check for the fittings file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFSettings.bin")) = True Then
+            Using s As New FileStream(Path.Combine(hqfFolder, "HQFSettings.bin"), FileMode.Open)
+                Dim f As BinaryFormatter = New BinaryFormatter
+                settings = CType(f.Deserialize(s), HQF.Settings)
+            End Using
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFSettings.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFSettings.bin"), "OldHQFSettings.bin")
+
+        End If
+    End Sub
+    
 #End Region
 
 End Class
