@@ -308,11 +308,11 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <sourcecode name="AssemblyInfo.cs" parser="StyleCop.CSharp.CsParser">
+  <sourcecode name="HttpRequestProvider.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2013/07/26 10:22:18.000</styleCop>
       <settingsFile>2013/09/15 12:30:25.583</settingsFile>
-      <sourceFile>2013/09/29 12:48:40.140</sourceFile>
+      <sourceFile>2013/09/29 14:42:49.310</sourceFile>
       <parser>2013/07/26 10:22:18.000</parser>
       <StyleCop.CSharp.DocumentationRules>2013/07/26 10:22:18.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>1141006418</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -331,11 +331,11 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <sourcecode name="HttpRequestProvider.cs" parser="StyleCop.CSharp.CsParser">
+  <sourcecode name="AssemblyInfo.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2013/07/26 10:22:18.000</styleCop>
       <settingsFile>2013/09/15 12:30:25.583</settingsFile>
-      <sourceFile>2013/09/29 14:42:49.310</sourceFile>
+      <sourceFile>2013/09/29 15:57:11.931</sourceFile>
       <parser>2013/07/26 10:22:18.000</parser>
       <StyleCop.CSharp.DocumentationRules>2013/07/26 10:22:18.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>1141006418</StyleCop.CSharp.DocumentationRules.FilesHashCode>

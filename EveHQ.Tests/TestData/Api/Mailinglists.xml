@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<eveapi version="2">
+  <currentTime>2010-10-05 20:28:55</currentTime>
+  <result>
+    <rowset name="malingLists" key="listID" columns="listID,displayName" >
+      <row listID="128250439" displayName="EVETycoonMail"/>
+      <row listID="128783669" displayName="EVEMarkerScanner"/>
+      <row listID="141157801" displayName="Exploration Wormholes"/>
+    </rowset>
+  </result>
+  <cachedUntil>2010-10-05 19:43:55</cachedUntil>
+</eveapi>
