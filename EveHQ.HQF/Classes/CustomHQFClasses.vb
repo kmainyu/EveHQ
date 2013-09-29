@@ -39,8 +39,8 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShipClasses()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "CustomShipClasses.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "CustomShipClasses.bin"), FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShipClasses.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShipClasses.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
                 CustomShipClasses = CType(f.Deserialize(s), SortedList(Of String, CustomShipClass))
@@ -57,7 +57,7 @@ Public Class CustomHQFClasses
     ''' <remarks></remarks>
     Public Shared Sub SaveCustomShipClasses()
         ' Save ships
-        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "CustomShipClasses.bin"), FileMode.Create)
+        Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShipClasses.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, CustomShipClasses)
         s.Flush()
@@ -84,8 +84,8 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShips()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "CustomShips.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "CustomShips.bin"), FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShips.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShips.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
                 CustomShips = CType(f.Deserialize(s), SortedList(Of String, CustomShip))
@@ -106,7 +106,7 @@ Public Class CustomHQFClasses
     ''' <remarks></remarks>
     Public Shared Sub SaveCustomShips()
         ' Save ships
-        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "CustomShips.bin"), FileMode.Create)
+        Dim s As New FileStream(Path.Combine(Settings.HQFFolder, "CustomShips.bin"), FileMode.Create)
         Dim f As New BinaryFormatter
         f.Serialize(s, CustomShips)
         s.Flush()
@@ -126,8 +126,8 @@ Public Class CustomHQFClasses
         ' Rebuild the ship lists
         ShipLists.shipListKeyID.Clear()
         ShipLists.shipListKeyName.Clear()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "ships.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
                 ShipLists.shipList = CType(f.Deserialize(s), SortedList)
@@ -147,7 +147,7 @@ Public Class CustomHQFClasses
         End If
 
         ' Then add in all the data from the custom ships
-        For Each cShip As CustomShip In CustomHQFClasses.CustomShips.Values
+        For Each cShip As CustomShip In CustomShips.Values
             ' Add the bonuses
             Engine.ShipBonusesMap.Add(cShip.ID, cShip.Bonuses)
             ' Add the ship data
@@ -157,23 +157,23 @@ Public Class CustomHQFClasses
         Next
 
         ' Rebuild the ship effects
-        For Each cShip As CustomShip In CustomHQFClasses.CustomShips.Values
+        For Each cShip As CustomShip In CustomShips.Values
             cShip.ShipData.GlobalAffects.Clear()
             For Each neweffect As ShipEffect In cShip.Bonuses
-                Dim AffectingName As String = ""
-                AffectingName = cShip.Name
+                Dim affectingName As String
+                affectingName = cShip.Name
                 If neweffect.IsPerLevel = False Then
-                    AffectingName &= ";Ship Role;"
+                    affectingName &= ";Ship Role;"
                 Else
-                    AffectingName &= ";Ship Bonus;"
+                    affectingName &= ";Ship Bonus;"
                 End If
-                AffectingName &= HQF.Attributes.AttributeQuickList(neweffect.AffectedAtt.ToString).ToString
+                affectingName &= Attributes.AttributeQuickList(neweffect.AffectedAtt.ToString).ToString
                 If neweffect.IsPerLevel = False Then
-                    AffectingName &= ";"
+                    affectingName &= ";"
                 Else
-                    AffectingName &= ";" & EveHQ.Core.HQ.itemData(neweffect.AffectingID.ToString).Name
+                    affectingName &= ";" & Core.HQ.itemData(neweffect.AffectingID.ToString).Name
                 End If
-                cShip.ShipData.GlobalAffects.Add(AffectingName)
+                cShip.ShipData.GlobalAffects.Add(affectingName)
             Next
         Next
     End Sub

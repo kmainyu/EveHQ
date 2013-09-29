@@ -209,9 +209,9 @@ Public Class ShipSlotControl
     Private Sub UpdateSlotNumbers()
         Dim sc As Node = adtSlots.FindNodeByName("8")
         If sc IsNot Nothing Then
-            adtSlots.FindNodeByName("8").Text = "High Slots (Launchers: " & ParentFitting.BaseShip.LauncherSlots_Used &
+            adtSlots.FindNodeByName("8").Text = "High Slots (Launchers: " & ParentFitting.BaseShip.LauncherSlotsUsed &
                                                 "/" & ParentFitting.BaseShip.LauncherSlots & ", Turrets: " &
-                                                ParentFitting.BaseShip.TurretSlots_Used & "/" &
+                                                ParentFitting.BaseShip.TurretSlotsUsed & "/" &
                                                 ParentFitting.BaseShip.TurretSlots & ")"
         End If
     End Sub
@@ -1344,22 +1344,22 @@ Public Class ShipSlotControl
     Private Sub ClearDroneBay()
         If ParentFitting.BaseShip IsNot Nothing Then
             ParentFitting.BaseShip.DroneBayItems.Clear()
-            ParentFitting.BaseShip.DroneBay_Used = 0
+            ParentFitting.BaseShip.DroneBayUsed = 0
         End If
     End Sub
 
     Private Sub ClearCargoBay()
         If ParentFitting.BaseShip IsNot Nothing Then
             ParentFitting.BaseShip.CargoBayItems.Clear()
-            ParentFitting.BaseShip.CargoBay_Used = 0
-            ParentFitting.BaseShip.CargoBay_Additional = 0
+            ParentFitting.BaseShip.CargoBayUsed = 0
+            ParentFitting.BaseShip.CargoBayAdditional = 0
         End If
     End Sub
 
     Private Sub ClearShipBay()
         If ParentFitting.BaseShip IsNot Nothing Then
             ParentFitting.BaseShip.ShipBayItems.Clear()
-            ParentFitting.BaseShip.ShipBay_Used = 0
+            ParentFitting.BaseShip.ShipBayUsed = 0
         End If
         ' Remove the Ship Maintenance Bay tab if we don't need it (to avoid confusion)
         If ParentFitting.BaseShip.ShipBay = 0 Then
@@ -1690,9 +1690,9 @@ Public Class ShipSlotControl
                                     newRelSkill.Text = relSkill
                                     Dim pilotLevel As Integer = 0
                                     If FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet.ContainsKey(relSkill) Then
-                                        pilotLevel =FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
+                                        pilotLevel = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                                     Else
-                                        MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error",MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                        MessageBox.Show("There is a mis-match of roles for the " & ParentFitting.BaseShip.Name & ". Please report this to the EveHQ Developers.", "Ship Role Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                     End If
                                     newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                                     For skillLevel As Integer = 0 To 5
@@ -2115,11 +2115,11 @@ Public Class ShipSlotControl
         Dim slotInfo() As String = selectedSlot.Name.Split("_".ToCharArray)
         Dim modData As New ArrayList
         modData.Add(slotInfo(0))
-        modData.Add(ParentFitting.FittedShip.CPU - ParentFitting.FittedShip.CPU_Used)
-        modData.Add(ParentFitting.FittedShip.PG - ParentFitting.FittedShip.PG_Used)
-        modData.Add(ParentFitting.FittedShip.Calibration - ParentFitting.FittedShip.Calibration_Used)
-        modData.Add(ParentFitting.FittedShip.LauncherSlots - ParentFitting.FittedShip.LauncherSlots_Used)
-        modData.Add(ParentFitting.FittedShip.TurretSlots - ParentFitting.FittedShip.TurretSlots_Used)
+        modData.Add(ParentFitting.FittedShip.CPU - ParentFitting.FittedShip.CpuUsed)
+        modData.Add(ParentFitting.FittedShip.PG - ParentFitting.FittedShip.PgUsed)
+        modData.Add(ParentFitting.FittedShip.Calibration - ParentFitting.FittedShip.CalibrationUsed)
+        modData.Add(ParentFitting.FittedShip.LauncherSlots - ParentFitting.FittedShip.LauncherSlotsUsed)
+        modData.Add(ParentFitting.FittedShip.TurretSlots - ParentFitting.FittedShip.TurretSlotsUsed)
         HQFEvents.StartFindModule = modData
     End Sub
 
@@ -2581,8 +2581,8 @@ Public Class ShipSlotControl
     Private Sub RedrawCargoBay()
         lvwCargoBay.BeginUpdate()
         lvwCargoBay.Items.Clear()
-        ParentFitting.BaseShip.CargoBay_Used = 0
-        ParentFitting.BaseShip.CargoBay_Additional = 0
+        ParentFitting.BaseShip.CargoBayUsed = 0
+        ParentFitting.BaseShip.CargoBayAdditional = 0
         Dim CBI As CargoBayItem
         Dim HoldingBay As New SortedList
         For Each CBI In ParentFitting.BaseShip.CargoBayItems.Values
@@ -2594,9 +2594,9 @@ Public Class ShipSlotControl
             newCargoItem.Name = CStr(lvwCargoBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(CBI.Quantity))
             ParentFitting.BaseShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
-            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
+            ParentFitting.BaseShip.CargoBayUsed += CBI.ItemType.Volume * CBI.Quantity
             If CBI.ItemType.IsContainer Then _
-                ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
+                ParentFitting.BaseShip.CargoBayAdditional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()
@@ -2606,7 +2606,7 @@ Public Class ShipSlotControl
     Private Sub RedrawDroneBay()
         lvwDroneBay.BeginUpdate()
         lvwDroneBay.Items.Clear()
-        ParentFitting.BaseShip.DroneBay_Used = 0
+        ParentFitting.BaseShip.DroneBayUsed = 0
         Dim DBI As DroneBayItem
         Dim HoldingBay As New SortedList
         For Each DBI In ParentFitting.BaseShip.DroneBayItems.Values
@@ -2621,7 +2621,7 @@ Public Class ShipSlotControl
                 newDroneItem.Checked = True
             End If
             ParentFitting.BaseShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
-            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
+            ParentFitting.BaseShip.DroneBayUsed += DBI.DroneType.Volume * DBI.Quantity
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
@@ -2631,7 +2631,7 @@ Public Class ShipSlotControl
     Private Sub RedrawShipBay()
         lvwShipBay.BeginUpdate()
         lvwShipBay.Items.Clear()
-        ParentFitting.BaseShip.ShipBay_Used = 0
+        ParentFitting.BaseShip.ShipBayUsed = 0
         Dim SBI As ShipBayItem
         Dim HoldingBay As New SortedList
         For Each SBI In ParentFitting.BaseShip.ShipBayItems.Values
@@ -2645,7 +2645,7 @@ Public Class ShipSlotControl
             newCargoItem.SubItems.Add(SBI.ShipType.Volume.ToString("N0"))
             newCargoItem.SubItems.Add((SBI.ShipType.Volume * SBI.Quantity).ToString("N0"))
             ParentFitting.BaseShip.ShipBayItems.Add(lvwShipBay.Items.Count, SBI)
-            ParentFitting.BaseShip.ShipBay_Used += SBI.ShipType.Volume * SBI.Quantity
+            ParentFitting.BaseShip.ShipBayUsed += SBI.ShipType.Volume * SBI.Quantity
             lvwShipBay.Items.Add(newCargoItem)
         Next
         lvwShipBay.EndUpdate()
@@ -2653,13 +2653,13 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub RedrawCargoBayCapacity()
-        If ParentFitting.BaseShip.CargoBay_Additional > 0 Then
-            lblCargoBay.Text = ParentFitting.BaseShip.CargoBay_Used.ToString("N2") & " / " &
+        If ParentFitting.BaseShip.CargoBayAdditional > 0 Then
+            lblCargoBay.Text = ParentFitting.BaseShip.CargoBayUsed.ToString("N2") & " / " &
                                ParentFitting.FittedShip.CargoBay.ToString("N2") & " (" &
-                               (ParentFitting.FittedShip.CargoBay + ParentFitting.BaseShip.CargoBay_Additional).ToString(
+                               (ParentFitting.FittedShip.CargoBay + ParentFitting.BaseShip.CargoBayAdditional).ToString(
                                    "N2") & ") m³"
         Else
-            lblCargoBay.Text = ParentFitting.BaseShip.CargoBay_Used.ToString("N2") & " / " &
+            lblCargoBay.Text = ParentFitting.BaseShip.CargoBayUsed.ToString("N2") & " / " &
                                ParentFitting.FittedShip.CargoBay.ToString("N2") & " m³"
         End If
         If ParentFitting.FittedShip.CargoBay > 0 Then
@@ -2667,41 +2667,41 @@ Public Class ShipSlotControl
         Else
             pbCargoBay.Maximum = 1
         End If
-        If ParentFitting.BaseShip.CargoBay_Used > ParentFitting.FittedShip.CargoBay Then
+        If ParentFitting.BaseShip.CargoBayUsed > ParentFitting.FittedShip.CargoBay Then
             pbCargoBay.Value = CInt(ParentFitting.FittedShip.CargoBay)
         Else
-            pbCargoBay.Value = CInt(ParentFitting.BaseShip.CargoBay_Used)
+            pbCargoBay.Value = CInt(ParentFitting.BaseShip.CargoBayUsed)
         End If
     End Sub
 
     Private Sub RedrawDroneBayCapacity()
         lvwDroneBay.EndUpdate()
-        lblDroneBay.Text = ParentFitting.BaseShip.DroneBay_Used.ToString("N2") & " / " &
+        lblDroneBay.Text = ParentFitting.BaseShip.DroneBayUsed.ToString("N2") & " / " &
                            ParentFitting.FittedShip.DroneBay.ToString("N2") & " m³"
         If ParentFitting.FittedShip.DroneBay > 0 Then
             pbDroneBay.Maximum = CInt(ParentFitting.FittedShip.DroneBay)
         Else
             pbDroneBay.Maximum = 1
         End If
-        If ParentFitting.BaseShip.DroneBay_Used > ParentFitting.FittedShip.DroneBay Then
+        If ParentFitting.BaseShip.DroneBayUsed > ParentFitting.FittedShip.DroneBay Then
             pbDroneBay.Value = CInt(ParentFitting.FittedShip.DroneBay)
         Else
-            pbDroneBay.Value = CInt(ParentFitting.BaseShip.DroneBay_Used)
+            pbDroneBay.Value = CInt(ParentFitting.BaseShip.DroneBayUsed)
         End If
     End Sub
 
     Private Sub RedrawShipBayCapacity()
-        lblShipBay.Text = ParentFitting.BaseShip.ShipBay_Used.ToString("N2") & " / " &
+        lblShipBay.Text = ParentFitting.BaseShip.ShipBayUsed.ToString("N2") & " / " &
                           ParentFitting.FittedShip.ShipBay.ToString("N2") & " m³"
         If ParentFitting.FittedShip.ShipBay > 0 Then
             pbShipBay.Maximum = CInt(ParentFitting.FittedShip.ShipBay)
         Else
             pbShipBay.Maximum = 1
         End If
-        If ParentFitting.BaseShip.ShipBay_Used > ParentFitting.FittedShip.ShipBay Then
+        If ParentFitting.BaseShip.ShipBayUsed > ParentFitting.FittedShip.ShipBay Then
             pbShipBay.Value = CInt(ParentFitting.FittedShip.ShipBay)
         Else
-            pbShipBay.Value = CInt(ParentFitting.BaseShip.ShipBay_Used)
+            pbShipBay.Value = CInt(ParentFitting.BaseShip.ShipBayUsed)
         End If
     End Sub
 
@@ -2724,7 +2724,7 @@ Public Class ShipSlotControl
                         Exit Sub
                     End If
                     If _
-                        ParentFitting.FittedShip.DroneBandwidth_Used + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) >
+                        ParentFitting.FittedShip.DroneBandwidthUsed + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) >
                         ParentFitting.FittedShip.DroneBandwidth Then
                         ' Cannot do this because we don't have enough bandwidth
                         MessageBox.Show(
@@ -2833,7 +2833,7 @@ Public Class ShipSlotControl
                             Dim newRelSkill As New ToolStripMenuItem
                             newRelSkill.Name = relSkill
                             newRelSkill.Text = relSkill
-                            Dim pilotLevel As Integer =FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
+                            Dim pilotLevel As Integer = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                             newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                             For skillLevel As Integer = 0 To 5
                                 Dim newRelSkillLevel As New ToolStripMenuItem
@@ -2864,7 +2864,7 @@ Public Class ShipSlotControl
                             Dim newRelSkill As New ToolStripMenuItem
                             newRelSkill.Name = relSkill
                             newRelSkill.Text = relSkill
-                            Dim pilotLevel As Integer =FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
+                            Dim pilotLevel As Integer = FittingPilots.HQFPilots(currentInfo.cboPilots.SelectedItem.ToString).SkillSet(relSkill).Level
                             newRelSkill.Image = CType(My.Resources.ResourceManager.GetObject("Level" & pilotLevel.ToString), Image)
                             For skillLevel As Integer = 0 To 5
                                 Dim newRelSkillLevel As New ToolStripMenuItem
@@ -2981,7 +2981,7 @@ Public Class ShipSlotControl
                                                     CInt(
                                                         Int(
                                                             (ParentFitting.FittedShip.CargoBay -
-                                                             ParentFitting.BaseShip.CargoBay_Used) / CBI.ItemType.Volume))
+                                                             ParentFitting.BaseShip.CargoBayUsed) / CBI.ItemType.Volume))
                 newSelectForm.nudQuantity.Value = CBI.Quantity
                 newSelectForm.ShowDialog()
                 newSelectForm.Dispose()
@@ -3002,7 +3002,7 @@ Public Class ShipSlotControl
                                                     CInt(
                                                         Int(
                                                             (ParentFitting.FittedShip.ShipBay -
-                                                             ParentFitting.BaseShip.ShipBay_Used) / SBI.ShipType.Volume))
+                                                             ParentFitting.BaseShip.ShipBayUsed) / SBI.ShipType.Volume))
                 newSelectForm.nudQuantity.Value = SBI.Quantity
                 newSelectForm.ShowDialog()
                 newSelectForm.Dispose()
@@ -3022,7 +3022,7 @@ Public Class ShipSlotControl
                                                     CInt(
                                                         Int(
                                                             (ParentFitting.FittedShip.DroneBay -
-                                                             ParentFitting.BaseShip.DroneBay_Used) / DBI.DroneType.Volume))
+                                                             ParentFitting.BaseShip.DroneBayUsed) / DBI.DroneType.Volume))
                 newSelectForm.nudQuantity.Value = DBI.Quantity
                 newSelectForm.ShowDialog()
                 ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
@@ -3097,7 +3097,7 @@ Public Class ShipSlotControl
         UpdateDrones = True
         lvwDroneBay.BeginUpdate()
         lvwDroneBay.Items.Clear()
-        ParentFitting.BaseShip.DroneBay_Used = 0
+        ParentFitting.BaseShip.DroneBayUsed = 0
         Dim DBI As DroneBayItem
         Dim HoldingBay As New SortedList
         Dim DroneQuantities As New SortedList
@@ -3122,7 +3122,7 @@ Public Class ShipSlotControl
             newDroneItem.Name = CStr(lvwDroneBay.Items.Count)
             newDroneItem.SubItems.Add(CStr(DBI.Quantity))
             ParentFitting.BaseShip.DroneBayItems.Add(lvwDroneBay.Items.Count, DBI)
-            ParentFitting.BaseShip.DroneBay_Used += DBI.DroneType.Volume * DBI.Quantity
+            ParentFitting.BaseShip.DroneBayUsed += DBI.DroneType.Volume * DBI.Quantity
             lvwDroneBay.Items.Add(newDroneItem)
         Next
         lvwDroneBay.EndUpdate()
@@ -3135,8 +3135,8 @@ Public Class ShipSlotControl
     Private Sub btnMergeCargo_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMergeCargo.Click
         lvwCargoBay.BeginUpdate()
         lvwCargoBay.Items.Clear()
-        ParentFitting.BaseShip.CargoBay_Used = 0
-        ParentFitting.BaseShip.CargoBay_Additional = 0
+        ParentFitting.BaseShip.CargoBayUsed = 0
+        ParentFitting.BaseShip.CargoBayAdditional = 0
         Dim CBI As CargoBayItem
         Dim HoldingBay As New SortedList
         Dim CargoQuantities As New SortedList
@@ -3160,9 +3160,9 @@ Public Class ShipSlotControl
             newCargoItem.Name = CStr(lvwCargoBay.Items.Count)
             newCargoItem.SubItems.Add(CStr(CBI.Quantity))
             ParentFitting.BaseShip.CargoBayItems.Add(lvwCargoBay.Items.Count, CBI)
-            ParentFitting.BaseShip.CargoBay_Used += CBI.ItemType.Volume * CBI.Quantity
+            ParentFitting.BaseShip.CargoBayUsed += CBI.ItemType.Volume * CBI.Quantity
             If CBI.ItemType.IsContainer Then _
-                ParentFitting.BaseShip.CargoBay_Additional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
+                ParentFitting.BaseShip.CargoBayAdditional += (CBI.ItemType.Capacity - CBI.ItemType.Volume) * CBI.Quantity
             lvwCargoBay.Items.Add(newCargoItem)
         Next
         lvwCargoBay.EndUpdate()

@@ -124,11 +124,11 @@ Public Class ShipInfoControl
         Else
             pbxCPU.Maximum = 1
         End If
-        pbxCPU.Value = Math.Min(CInt(ParentFitting.FittedShip.CPU_Used), CInt(ParentFitting.FittedShip.CPU))
-        Select Case Math.Round(ParentFitting.FittedShip.CPU_Used, 4) / ParentFitting.FittedShip.CPU
+        pbxCPU.Value = Math.Min(CInt(ParentFitting.FittedShip.CpuUsed), CInt(ParentFitting.FittedShip.CPU))
+        Select Case Math.Round(ParentFitting.FittedShip.CpuUsed, 4) / ParentFitting.FittedShip.CPU
             Case Is > 1
                 pbxCPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error
-                lblCPUReqd.Text = ((ParentFitting.FittedShip.CPU_Used - ParentFitting.FittedShip.CPU) / ParentFitting.FittedShip.CPU * 100).ToString("N2") & "%"
+                lblCPUReqd.Text = ((ParentFitting.FittedShip.CpuUsed - ParentFitting.FittedShip.CPU) / ParentFitting.FittedShip.CPU * 100).ToString("N2") & "%"
                 lblCPUReqd.ForeColor = Drawing.Color.Red
             Case Is < 0.9
                 pbxCPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal
@@ -137,7 +137,7 @@ Public Class ShipInfoControl
                 pbxCPU.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Paused
                 lblCPUReqd.Text = ""
         End Select
-        lblCPU.Text = ParentFitting.FittedShip.CPU_Used.ToString("N2") & " / " & ParentFitting.FittedShip.CPU.ToString("N2")
+        lblCPU.Text = ParentFitting.FittedShip.CpuUsed.ToString("N2") & " / " & ParentFitting.FittedShip.CPU.ToString("N2")
 
         ' Powergrid
         If ParentFitting.FittedShip.PG > 0 Then
@@ -145,11 +145,11 @@ Public Class ShipInfoControl
         Else
             pbxPG.Maximum = 1
         End If
-        pbxPG.Value = Math.Min(CInt(ParentFitting.FittedShip.PG_Used), CInt(ParentFitting.FittedShip.PG))
-        Select Case Math.Round(ParentFitting.FittedShip.PG_Used, 4) / ParentFitting.FittedShip.PG
+        pbxPG.Value = Math.Min(CInt(ParentFitting.FittedShip.PgUsed), CInt(ParentFitting.FittedShip.PG))
+        Select Case Math.Round(ParentFitting.FittedShip.PgUsed, 4) / ParentFitting.FittedShip.PG
             Case Is > 1
                 pbxPG.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error
-                lblPGReqd.Text = ((ParentFitting.FittedShip.PG_Used - ParentFitting.FittedShip.PG) / ParentFitting.FittedShip.PG * 100).ToString("N2") & "%"
+                lblPGReqd.Text = ((ParentFitting.FittedShip.PgUsed - ParentFitting.FittedShip.PG) / ParentFitting.FittedShip.PG * 100).ToString("N2") & "%"
                 lblPGReqd.ForeColor = Drawing.Color.Red
             Case Is < 0.9
                 pbxPG.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal
@@ -158,7 +158,7 @@ Public Class ShipInfoControl
                 pbxPG.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Paused
                 lblPGReqd.Text = ""
         End Select
-        lblPG.Text = ParentFitting.FittedShip.PG_Used.ToString("N2") & " / " & ParentFitting.FittedShip.PG.ToString("N2")
+        lblPG.Text = ParentFitting.FittedShip.PgUsed.ToString("N2") & " / " & ParentFitting.FittedShip.PG.ToString("N2")
 
         ' Calibration
         If ParentFitting.FittedShip.Calibration > 0 Then
@@ -166,9 +166,9 @@ Public Class ShipInfoControl
         Else
             pbxCalibration.Maximum = 1
         End If
-        pbxCalibration.Value = Math.Min(CInt(ParentFitting.FittedShip.Calibration_Used), CInt(ParentFitting.FittedShip.Calibration))
+        pbxCalibration.Value = Math.Min(CInt(ParentFitting.FittedShip.CalibrationUsed), CInt(ParentFitting.FittedShip.Calibration))
         If ParentFitting.FittedShip.Calibration > 0 Then
-            Select Case CDbl(Math.Round(ParentFitting.FittedShip.Calibration_Used, 4) / ParentFitting.FittedShip.Calibration)
+            Select Case CDbl(Math.Round(ParentFitting.FittedShip.CalibrationUsed, 4) / ParentFitting.FittedShip.Calibration)
                 Case Is > 1
                     pbxCalibration.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Error
                 Case Is < 0.9
@@ -179,7 +179,7 @@ Public Class ShipInfoControl
         Else
             pbxCalibration.ColorTable = DevComponents.DotNetBar.eProgressBarItemColor.Normal
         End If
-        lblCalibration.Text = ParentFitting.FittedShip.Calibration_Used.ToString("N2") & " / " & ParentFitting.FittedShip.Calibration.ToString("N2")
+        lblCalibration.Text = ParentFitting.FittedShip.CalibrationUsed.ToString("N2") & " / " & ParentFitting.FittedShip.Calibration.ToString("N2")
 
         ' Shield
         lblShieldHP.Text = ParentFitting.FittedShip.ShieldCapacity.ToString("N0")
@@ -385,9 +385,9 @@ Public Class ShipInfoControl
                 ttt &= " (DPS: " & ParentFitting.FittedShip.MissileDPS.ToString("N2") & ")" & ControlChars.CrLf
                 missileShip = True
             End If
-            If ParentFitting.FittedShip.SBVolley > 0 Then
-                ttt &= "Smartbomb Volley: " & ParentFitting.FittedShip.SBVolley.ToString("N2")
-                ttt &= " (DPS: " & ParentFitting.FittedShip.SBDPS.ToString("N2") & ")" & ControlChars.CrLf
+            If ParentFitting.FittedShip.SmartbombVolley > 0 Then
+                ttt &= "Smartbomb Volley: " & ParentFitting.FittedShip.SmartbombVolley.ToString("N2")
+                ttt &= " (DPS: " & ParentFitting.FittedShip.SmartbombDPS.ToString("N2") & ")" & ControlChars.CrLf
             End If
             If ParentFitting.FittedShip.DroneVolley > 0 Then
                 ttt &= "Drone Volley: " & ParentFitting.FittedShip.DroneVolley.ToString("N2")
@@ -483,13 +483,13 @@ Public Class ShipInfoControl
     End Sub
 
     Public Sub UpdateDroneUsage()
-        ParentFitting.FittedShip.DroneBandwidth_Used = 0
+        ParentFitting.FittedShip.DroneBandwidthUsed = 0
         For Each DBI As DroneBayItem In ParentFitting.FittedShip.DroneBayItems.Values
             If DBI.IsActive = True Then
-                ParentFitting.FittedShip.DroneBandwidth_Used += CDbl(DBI.DroneType.Attributes("1272")) * DBI.Quantity
+                ParentFitting.FittedShip.DroneBandwidthUsed += CDbl(DBI.DroneType.Attributes("1272")) * DBI.Quantity
             End If
         Next
-        lblDroneBandwidth.Text = ParentFitting.FittedShip.DroneBandwidth_Used.ToString("N0") & " / " & ParentFitting.FittedShip.DroneBandwidth.ToString("N0")
+        lblDroneBandwidth.Text = ParentFitting.FittedShip.DroneBandwidthUsed.ToString("N0") & " / " & ParentFitting.FittedShip.DroneBandwidth.ToString("N0")
         lblDroneControl.Text = ParentFitting.FittedShip.UsedDrones & " / " & ParentFitting.FittedShip.MaxDrones
         Dim ttt As String = "Drone Control Range: " & ParentFitting.FittedShip.Attributes("10007").ToString("N0") & "m"
         ToolTip1.SetToolTip(lblDroneControl, ttt)

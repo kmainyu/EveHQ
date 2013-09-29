@@ -2684,7 +2684,7 @@ Public Class frmHQF
         stats.AppendLine("")
         stats.AppendLine(ActiveFitting.ShipInfoCtrl.lblEffectiveHP.Text)
         stats.AppendLine(ActiveFitting.ShipInfoCtrl.lblTankAbility.Text)
-        stats.AppendLine("Damage Profile - " & currentship.DamageProfile.Name & " (EM: " & (currentship.DamageProfileEM * 100).ToString("N2") & "%, Ex: " & (currentship.DamageProfileEX * 100).ToString("N2") & "%, Ki: " & (currentship.DamageProfileKI * 100).ToString("N2") & "%, Th: " & (currentship.DamageProfileTH * 100).ToString("N2") & "%)")
+        stats.AppendLine("Damage Profile - " & currentship.DamageProfile.Name & " (EM: " & (currentship.DamageProfileEM * 100).ToString("N2") & "%, Ex: " & (currentship.DamageProfileEx * 100).ToString("N2") & "%, Ki: " & (currentship.DamageProfileKi * 100).ToString("N2") & "%, Th: " & (currentship.DamageProfileTh * 100).ToString("N2") & "%)")
         stats.AppendLine("Shield Resists - EM: " & ActiveFitting.ShipInfoCtrl.lblShieldEM.Text & ", Ex: " & ActiveFitting.ShipInfoCtrl.lblShieldExplosive.Text & ", Ki: " & ActiveFitting.ShipInfoCtrl.lblShieldKinetic.Text & ", Th: " & ActiveFitting.ShipInfoCtrl.lblShieldThermal.Text)
         stats.AppendLine("Armor Resists - EM: " & ActiveFitting.ShipInfoCtrl.lblArmorEM.Text & ", Ex: " & ActiveFitting.ShipInfoCtrl.lblArmorExplosive.Text & ", Ki: " & ActiveFitting.ShipInfoCtrl.lblArmorKinetic.Text & ", Th: " & ActiveFitting.ShipInfoCtrl.lblArmorThermal.Text)
         stats.AppendLine("")

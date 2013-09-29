@@ -945,7 +945,7 @@ Imports EveHQ.Core
                 End If
             Next
             ' Get the bonuses from the subsystems
-            If hShip.SubSlots_Used > 0 Then
+            If hShip.SubSlotsUsed > 0 Then
                 For slot As Integer = 1 To hShip.SubSlots
                     If hShip.SubSlot(slot) IsNot Nothing Then
                         shipRoles = Engine.SubSystemEffectsMap(hShip.SubSlot(slot).ID)
@@ -1253,11 +1253,11 @@ Imports EveHQ.Core
             Next
         End If
         newShip.CargoBayItems = CType(cShip.CargoBayItems.Clone, Collections.SortedList)
-        newShip.CargoBay_Used = cShip.CargoBay_Used
+        newShip.CargoBayUsed = cShip.CargoBayUsed
         newShip.DroneBayItems = CType(cShip.DroneBayItems.Clone, Collections.SortedList)
-        newShip.DroneBay_Used = cShip.DroneBay_Used
+        newShip.DroneBayUsed = cShip.DroneBayUsed
         newShip.ShipBayItems = CType(cShip.ShipBayItems.Clone, Collections.SortedList)
-        newShip.ShipBay_Used = cShip.ShipBay_Used
+        newShip.ShipBayUsed = cShip.ShipBayUsed
         newShip.FleetSlotCollection = CType(cShip.FleetSlotCollection.Clone, ArrayList)
         newShip.RemoteSlotCollection = CType(cShip.RemoteSlotCollection.Clone, ArrayList)
         newShip.EnviroSlotCollection = CType(cShip.EnviroSlotCollection.Clone, ArrayList)
@@ -2000,10 +2000,10 @@ Imports EveHQ.Core
         Next
         sRP = (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
         ' Calculate the actual tanking ability
-        Dim sTA As Double = sRA / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
-        Dim sTP As Double = sRP / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ShieldThResist / 100)))
-        Dim aT As Double = aR / ((newShip.DamageProfileEM * (1 - newShip.ArmorEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.ArmorExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.ArmorKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.ArmorThResist / 100)))
-        Dim hT As Double = hR / ((newShip.DamageProfileEM * (1 - newShip.StructureEMResist / 100)) + (newShip.DamageProfileEX * (1 - newShip.StructureExResist / 100)) + (newShip.DamageProfileKI * (1 - newShip.StructureKiResist / 100)) + (newShip.DamageProfileTH * (1 - newShip.StructureThResist / 100)))
+        Dim sTA As Double = sRA / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ShieldThResist / 100)))
+        Dim sTP As Double = sRP / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ShieldThResist / 100)))
+        Dim aT As Double = aR / ((newShip.DamageProfileEM * (1 - newShip.ArmorEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ArmorExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ArmorKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ArmorThResist / 100)))
+        Dim hT As Double = hR / ((newShip.DamageProfileEM * (1 - newShip.StructureEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.StructureExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.StructureKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.StructureThResist / 100)))
         newShip.Attributes(Attributes.Ship_ShieldTankActive) = sTA
         newShip.Attributes(Attributes.Ship_ArmorTank) = aT
         newShip.Attributes(Attributes.Ship_HullTank) = hT
@@ -2527,7 +2527,7 @@ Imports EveHQ.Core
         Else
             myShip = Me.BaseShip
         End If
-        If myShip.DroneBay - Me.BaseShip.DroneBay_Used >= vol * Qty Then
+        If myShip.DroneBay - Me.BaseShip.DroneBayUsed >= vol * Qty Then
             ' Scan through existing items and see if we can group this new one
             For Each droneGroup As DroneBayItem In Me.BaseShip.DroneBayItems.Values
                 If Drone.Name = droneGroup.DroneType.Name And Active = droneGroup.IsActive And UpdateAll = False Then
@@ -2543,7 +2543,7 @@ Imports EveHQ.Core
                 Dim DBI As New DroneBayItem
                 DBI.DroneType = Drone
                 DBI.Quantity = Qty
-                If Active = True And myShip.MaxDrones - Me.BaseShip.UsedDrones >= Qty And myShip.DroneBandwidth - Me.BaseShip.DroneBandwidth_Used >= Qty * bw Then
+                If Active = True And myShip.MaxDrones - Me.BaseShip.UsedDrones >= Qty And myShip.DroneBandwidth - Me.BaseShip.DroneBandwidthUsed >= Qty * bw Then
                     DBI.IsActive = True
                 Else
                     DBI.IsActive = False
@@ -2557,7 +2557,7 @@ Imports EveHQ.Core
                     Call Me.ShipSlotCtrl.UpdateDroneBay()
                 End If
             Else
-                Me.BaseShip.DroneBay_Used += vol * Qty
+                Me.BaseShip.DroneBayUsed += vol * Qty
             End If
         Else
             MessageBox.Show("There is not enough space in the Drone Bay to hold " & Qty & " unit(s) of " & Drone.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2576,7 +2576,7 @@ Imports EveHQ.Core
             Else
                 myShip = Me.BaseShip
             End If
-            If myShip.CargoBay - Me.BaseShip.CargoBay_Used >= vol * Qty Then
+            If myShip.CargoBay - Me.BaseShip.CargoBayUsed >= vol * Qty Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As CargoBayItem In Me.BaseShip.CargoBayItems.Values
                     If Item.Name = itemGroup.ItemType.Name And UpdateAll = False Then
@@ -2600,7 +2600,7 @@ Imports EveHQ.Core
                         Call Me.ShipSlotCtrl.UpdateItemBay()
                     End If
                 Else
-                    Me.BaseShip.CargoBay_Used += vol * Qty
+                    Me.BaseShip.CargoBayUsed += vol * Qty
                 End If
             Else
                 MessageBox.Show("There is not enough space in the Cargo Bay to hold " & Qty & " unit(s) of " & Item.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2620,7 +2620,7 @@ Imports EveHQ.Core
             Else
                 myShip = Me.BaseShip
             End If
-            If myShip.ShipBay - Me.BaseShip.ShipBay_Used >= vol * Qty Then
+            If myShip.ShipBay - Me.BaseShip.ShipBayUsed >= vol * Qty Then
                 ' Scan through existing items and see if we can group this new one
                 For Each itemGroup As ShipBayItem In Me.BaseShip.ShipBayItems.Values
                     If Item.Name = itemGroup.ShipType.Name And UpdateAll = False Then
@@ -2644,7 +2644,7 @@ Imports EveHQ.Core
                         Call Me.ShipSlotCtrl.UpdateShipBay()
                     End If
                 Else
-                    Me.BaseShip.ShipBay_Used += vol * Qty
+                    Me.BaseShip.ShipBayUsed += vol * Qty
                 End If
             Else
                 MessageBox.Show("There is not enough space in the Ship Maintenance Bay to hold " & Qty & " unit(s) of " & Item.Name & " on '" & FittingName & "' (" & ShipName & ").", "Insufficient Space", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2662,30 +2662,30 @@ Imports EveHQ.Core
         If repShipMod IsNot Nothing Then
             Select Case repShipMod.SlotType
                 Case SlotTypes.Rig
-                    cRig = Me.BaseShip.RigSlots_Used - 1
+                    cRig = Me.BaseShip.RigSlotsUsed - 1
                 Case SlotTypes.Low
-                    cLow = Me.BaseShip.LowSlots_Used - 1
+                    cLow = Me.BaseShip.LowSlotsUsed - 1
                 Case SlotTypes.Mid
-                    cMid = Me.BaseShip.MidSlots_Used - 1
+                    cMid = Me.BaseShip.MidSlotsUsed - 1
                 Case SlotTypes.High
-                    cHi = Me.BaseShip.HiSlots_Used - 1
+                    cHi = Me.BaseShip.HiSlotsUsed - 1
                 Case SlotTypes.Subsystem
-                    cSub = Me.BaseShip.SubSlots_Used - 1
+                    cSub = Me.BaseShip.SubSlotsUsed - 1
             End Select
             If repShipMod.IsTurret = True Then
-                cTurret = Me.BaseShip.TurretSlots_Used - 1
+                cTurret = Me.BaseShip.TurretSlotsUsed - 1
             End If
             If repShipMod.IsLauncher = True Then
-                cLauncher = Me.BaseShip.LauncherSlots_Used - 1
+                cLauncher = Me.BaseShip.LauncherSlotsUsed - 1
             End If
         Else
-            cSub = Me.BaseShip.SubSlots_Used
-            cRig = Me.BaseShip.RigSlots_Used
-            cLow = Me.BaseShip.LowSlots_Used
-            cMid = Me.BaseShip.MidSlots_Used
-            cHi = Me.BaseShip.HiSlots_Used
-            cTurret = Me.BaseShip.TurretSlots_Used
-            cLauncher = Me.BaseShip.LauncherSlots_Used
+            cSub = Me.BaseShip.SubSlotsUsed
+            cRig = Me.BaseShip.RigSlotsUsed
+            cLow = Me.BaseShip.LowSlotsUsed
+            cMid = Me.BaseShip.MidSlotsUsed
+            cHi = Me.BaseShip.HiSlotsUsed
+            cTurret = Me.BaseShip.TurretSlotsUsed
+            cLauncher = Me.BaseShip.LauncherSlotsUsed
         End If
         ' First, check slot layout
         Select Case shipMod.SlotType

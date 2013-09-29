@@ -90,7 +90,7 @@ Public Class ShipWidgetModules
         Call Me.UpdateShipSlotLayout()
         Call Me.UpdateAllSlotLocations()
 
-        Select Case Math.Round(ParentFitting.FittedShip.CPU_Used, 4) / ParentFitting.FittedShip.CPU
+        Select Case Math.Round(ParentFitting.FittedShip.CpuUsed, 4) / ParentFitting.FittedShip.CPU
             Case Is > 1
                 HostControl.pbCPUStability.Image = My.Resources.Mod02
                 Dim STI As New SuperTooltipInfo("", "CPU Stability Information", "This fitting has overloaded the CPU requirement. Deactivate modules or find more CPU capacity.", Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow)
@@ -101,7 +101,7 @@ Public Class ShipWidgetModules
                 HostControl.STT.SetSuperTooltip(HostControl.pbCPUStability, STI)
         End Select
 
-        Select Case Math.Round(ParentFitting.FittedShip.PG_Used, 4) / ParentFitting.FittedShip.PG
+        Select Case Math.Round(ParentFitting.FittedShip.PgUsed, 4) / ParentFitting.FittedShip.PG
             Case Is > 1
                 HostControl.pbPGStability.Image = My.Resources.Mod02
                 Dim STI As New SuperTooltipInfo("", "PG Stability Information", "This fitting has overloaded the PG requirement. Deactivate modules or find more PG capacity.", Nothing, My.Resources.imgInfo1, eTooltipColor.Yellow)

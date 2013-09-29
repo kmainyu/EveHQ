@@ -57,7 +57,7 @@ Public Class frmSelectQuantity
                 Dim reqQ As Integer = newQuantity - DBI.Quantity
                 Dim reqVolume As Double = reqQ * DBI.DroneType.Volume
                 ' Double-check we can get them in the drone bay
-                If fittedShip.DroneBay_Used + (reqQ * DBI.DroneType.Volume) > fittedShip.DroneBay Then
+                If fittedShip.DroneBayUsed + (reqQ * DBI.DroneType.Volume) > fittedShip.DroneBay Then
                     ' Cannot do this because our drone bay space is insufficient
                     MessageBox.Show("You do not have the space in the Drone Bay to store that many drones. Please try again.", "Drone Bay Volume Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
@@ -71,7 +71,7 @@ Public Class frmSelectQuantity
                     End If
                 End If
                 If DBI.IsActive = True Then
-                    If fittedShip.DroneBandwidth_Used + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) > fittedShip.DroneBandwidth Then
+                    If fittedShip.DroneBandwidthUsed + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) > fittedShip.DroneBandwidth Then
                         ' Cannot do this because we don't have enough bandwidth
                         MessageBox.Show("You do not have the spare bandwidth to control this many drones. This drone group will be made inactive.", "Drone Bandwidth Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         DBI.IsActive = False
@@ -86,7 +86,7 @@ Public Class frmSelectQuantity
                 Dim reqQ As Integer = newQuantity - CBI.Quantity
                 Dim reqVolume As Double = reqQ * CBI.ItemType.Volume
                 ' Double-check we can get them in the cargo bay
-                If fittedShip.CargoBay_Used + (reqQ * CBI.ItemType.Volume) > fittedShip.CargoBay Then
+                If fittedShip.CargoBayUsed + (reqQ * CBI.ItemType.Volume) > fittedShip.CargoBay Then
                     ' Cannot do this because our cargo bay space is insufficient
                     MessageBox.Show("You do not have the space in the Cargo Bay to store that many units. Please try again.", "Cargo Bay Volume Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
@@ -99,7 +99,7 @@ Public Class frmSelectQuantity
                 Dim reqQ As Integer = newQuantity - SBI.Quantity
                 Dim reqVolume As Double = reqQ * SBI.ShipType.Volume
                 ' Double-check we can get them in the ship bay
-                If fittedShip.ShipBay_Used + (reqQ * SBI.ShipType.Volume) > fittedShip.ShipBay Then
+                If fittedShip.ShipBayUsed + (reqQ * SBI.ShipType.Volume) > fittedShip.ShipBay Then
                     ' Cannot do this because our cargo bay space is insufficient
                     MessageBox.Show("You do not have the space in the Ship Maintenance Bay to store that many units. Please try again.", "Ship Maintenance Bay Volume Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub

@@ -163,9 +163,9 @@ Public Class frmEveImport
 				currentShip.SubSlot(slot) = Nothing
 			Next
 			currentShip.DroneBayItems.Clear()
-			currentShip.DroneBay_Used = 0
+            currentShip.DroneBayUsed = 0
 			currentShip.CargoBayItems.Clear()
-			currentShip.CargoBay_Used = 0
+            currentShip.CargoBayUsed = 0
 		End If
 	End Sub
 	Private Sub GenerateFittingData()
@@ -193,14 +193,14 @@ Public Class frmEveImport
 			End If
             lblVelocity.Text = loadoutShip.MaxVelocity.ToString("N2") & " m/s"
             lblMaxRange.Text = loadoutShip.MaxTargetRange.ToString("N0") & "m"
-			Dim CPU As Double = loadoutShip.CPU_Used / loadoutShip.CPU * 100
+            Dim CPU As Double = loadoutShip.CpuUsed / loadoutShip.CPU * 100
             lblCPU.Text = CPU.ToString("N2") & "%"
 			If CPU > 100 Then
 				lblCPU.ForeColor = Color.Red
 			Else
 				lblCPU.ForeColor = Color.Black
 			End If
-			Dim PG As Double = loadoutShip.PG_Used / loadoutShip.PG * 100
+            Dim PG As Double = loadoutShip.PgUsed / loadoutShip.PG * 100
             lblPG.Text = PG.ToString("N2") & "%"
 			If PG > 100 Then
 				lblPG.ForeColor = Color.Red

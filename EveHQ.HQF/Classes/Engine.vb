@@ -414,9 +414,9 @@ Public Class Engine
         Return usable
     End Function
     Public Shared Function IsFittable(ByVal cMod As ShipModule, ByVal cShip As Ship) As Boolean
-        If cMod.CPU <= cShip.CPU - cShip.CPU_Used Then
-            If cMod.PG <= cShip.PG - cShip.PG_Used Then
-                If cMod.Calibration <= cShip.Calibration - cShip.Calibration_Used Then
+        If cMod.CPU <= cShip.CPU - cShip.CpuUsed Then
+            If cMod.PG <= cShip.PG - cShip.PgUsed Then
+                If cMod.Calibration <= cShip.Calibration - cShip.CalibrationUsed Then
                     Return True
                 End If
             End If
