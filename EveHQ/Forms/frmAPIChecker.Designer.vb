@@ -33,18 +33,18 @@ Partial Class frmAPIChecker
         Me.chkReturnCachedXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.chkReturnActualXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.pnlAPIChecker = New DevComponents.DotNetBar.PanelEx()
-        Me.lblAPICategory = New System.Windows.Forms.Label()
+        Me.chkReturnStandardXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.txtOtherInfo = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.cboWalletAccount = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboAPIOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.lblAPIOwner = New System.Windows.Forms.Label()
+        Me.cboAPIType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboAPICategory = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.ciCharacter = New DevComponents.Editors.ComboItem()
         Me.ciCorporation = New DevComponents.Editors.ComboItem()
         Me.ciAccount = New DevComponents.Editors.ComboItem()
         Me.ciStatic = New DevComponents.Editors.ComboItem()
-        Me.cboAPIType = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.lblAPIOwner = New System.Windows.Forms.Label()
-        Me.cboAPIOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboWalletAccount = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.txtOtherInfo = New DevComponents.DotNetBar.Controls.TextBoxX()
-        Me.chkReturnStandardXML = New DevComponents.DotNetBar.Controls.CheckBoxX()
+        Me.lblAPICategory = New System.Windows.Forms.Label()
         Me.pnlAPIChecker.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -126,7 +126,6 @@ Partial Class frmAPIChecker
         '
         '
         '
-        Me.chkReturnCachedXML.BackgroundStyle.Class = ""
         Me.chkReturnCachedXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkReturnCachedXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkReturnCachedXML.Location = New System.Drawing.Point(710, 15)
@@ -143,7 +142,6 @@ Partial Class frmAPIChecker
         '
         '
         '
-        Me.chkReturnActualXML.BackgroundStyle.Class = ""
         Me.chkReturnActualXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkReturnActualXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
         Me.chkReturnActualXML.Location = New System.Drawing.Point(798, 15)
@@ -187,14 +185,87 @@ Partial Class frmAPIChecker
         Me.pnlAPIChecker.Style.GradientAngle = 90
         Me.pnlAPIChecker.TabIndex = 16
         '
-        'lblAPICategory
+        'chkReturnStandardXML
         '
-        Me.lblAPICategory.AutoSize = True
-        Me.lblAPICategory.Location = New System.Drawing.Point(8, 15)
-        Me.lblAPICategory.Name = "lblAPICategory"
-        Me.lblAPICategory.Size = New System.Drawing.Size(76, 13)
-        Me.lblAPICategory.TabIndex = 16
-        Me.lblAPICategory.Text = "API Category:"
+        Me.chkReturnStandardXML.AutoSize = True
+        '
+        '
+        '
+        Me.chkReturnStandardXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkReturnStandardXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
+        Me.chkReturnStandardXML.Checked = True
+        Me.chkReturnStandardXML.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkReturnStandardXML.CheckValue = "Y"
+        Me.chkReturnStandardXML.Location = New System.Drawing.Point(596, 15)
+        Me.chkReturnStandardXML.Name = "chkReturnStandardXML"
+        Me.chkReturnStandardXML.Size = New System.Drawing.Size(108, 16)
+        Me.chkReturnStandardXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkReturnStandardXML.TabIndex = 23
+        Me.chkReturnStandardXML.Text = "Standard Caching"
+        '
+        'txtOtherInfo
+        '
+        '
+        '
+        '
+        Me.txtOtherInfo.Border.Class = "TextBoxBorder"
+        Me.txtOtherInfo.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.txtOtherInfo.Enabled = False
+        Me.txtOtherInfo.Location = New System.Drawing.Point(408, 39)
+        Me.txtOtherInfo.Name = "txtOtherInfo"
+        Me.txtOtherInfo.Size = New System.Drawing.Size(466, 21)
+        Me.txtOtherInfo.TabIndex = 22
+        '
+        'cboWalletAccount
+        '
+        Me.cboWalletAccount.DisplayMember = "Text"
+        Me.cboWalletAccount.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWalletAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWalletAccount.Enabled = False
+        Me.cboWalletAccount.FormattingEnabled = True
+        Me.cboWalletAccount.ItemHeight = 15
+        Me.cboWalletAccount.Location = New System.Drawing.Point(408, 12)
+        Me.cboWalletAccount.Name = "cboWalletAccount"
+        Me.cboWalletAccount.Size = New System.Drawing.Size(170, 21)
+        Me.cboWalletAccount.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWalletAccount.TabIndex = 21
+        '
+        'cboAPIOwner
+        '
+        Me.cboAPIOwner.DisplayMember = "Text"
+        Me.cboAPIOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboAPIOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboAPIOwner.FormattingEnabled = True
+        Me.cboAPIOwner.ItemHeight = 15
+        Me.cboAPIOwner.Location = New System.Drawing.Point(90, 66)
+        Me.cboAPIOwner.Name = "cboAPIOwner"
+        Me.cboAPIOwner.Size = New System.Drawing.Size(192, 21)
+        Me.cboAPIOwner.Sorted = True
+        Me.cboAPIOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboAPIOwner.TabIndex = 20
+        '
+        'lblAPIOwner
+        '
+        Me.lblAPIOwner.AutoSize = True
+        Me.lblAPIOwner.Location = New System.Drawing.Point(8, 69)
+        Me.lblAPIOwner.Name = "lblAPIOwner"
+        Me.lblAPIOwner.Size = New System.Drawing.Size(63, 13)
+        Me.lblAPIOwner.TabIndex = 19
+        Me.lblAPIOwner.Text = "API Owner:"
+        '
+        'cboAPIType
+        '
+        Me.cboAPIType.DisplayMember = "Text"
+        Me.cboAPIType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboAPIType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboAPIType.FormattingEnabled = True
+        Me.cboAPIType.ItemHeight = 15
+        Me.cboAPIType.Location = New System.Drawing.Point(90, 39)
+        Me.cboAPIType.Name = "cboAPIType"
+        Me.cboAPIType.Size = New System.Drawing.Size(192, 21)
+        Me.cboAPIType.Sorted = True
+        Me.cboAPIType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboAPIType.TabIndex = 18
         '
         'cboAPICategory
         '
@@ -226,88 +297,14 @@ Partial Class frmAPIChecker
         '
         Me.ciStatic.Text = "Static"
         '
-        'cboAPIType
+        'lblAPICategory
         '
-        Me.cboAPIType.DisplayMember = "Text"
-        Me.cboAPIType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboAPIType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboAPIType.FormattingEnabled = True
-        Me.cboAPIType.ItemHeight = 15
-        Me.cboAPIType.Location = New System.Drawing.Point(90, 39)
-        Me.cboAPIType.Name = "cboAPIType"
-        Me.cboAPIType.Size = New System.Drawing.Size(192, 21)
-        Me.cboAPIType.Sorted = True
-        Me.cboAPIType.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboAPIType.TabIndex = 18
-        '
-        'lblAPIOwner
-        '
-        Me.lblAPIOwner.AutoSize = True
-        Me.lblAPIOwner.Location = New System.Drawing.Point(8, 69)
-        Me.lblAPIOwner.Name = "lblAPIOwner"
-        Me.lblAPIOwner.Size = New System.Drawing.Size(63, 13)
-        Me.lblAPIOwner.TabIndex = 19
-        Me.lblAPIOwner.Text = "API Owner:"
-        '
-        'cboAPIOwner
-        '
-        Me.cboAPIOwner.DisplayMember = "Text"
-        Me.cboAPIOwner.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboAPIOwner.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboAPIOwner.FormattingEnabled = True
-        Me.cboAPIOwner.ItemHeight = 15
-        Me.cboAPIOwner.Location = New System.Drawing.Point(90, 66)
-        Me.cboAPIOwner.Name = "cboAPIOwner"
-        Me.cboAPIOwner.Size = New System.Drawing.Size(192, 21)
-        Me.cboAPIOwner.Sorted = True
-        Me.cboAPIOwner.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboAPIOwner.TabIndex = 20
-        '
-        'cboWalletAccount
-        '
-        Me.cboWalletAccount.DisplayMember = "Text"
-        Me.cboWalletAccount.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboWalletAccount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWalletAccount.Enabled = False
-        Me.cboWalletAccount.FormattingEnabled = True
-        Me.cboWalletAccount.ItemHeight = 15
-        Me.cboWalletAccount.Location = New System.Drawing.Point(408, 12)
-        Me.cboWalletAccount.Name = "cboWalletAccount"
-        Me.cboWalletAccount.Size = New System.Drawing.Size(170, 21)
-        Me.cboWalletAccount.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboWalletAccount.TabIndex = 21
-        '
-        'txtOtherInfo
-        '
-        '
-        '
-        '
-        Me.txtOtherInfo.Border.Class = "TextBoxBorder"
-        Me.txtOtherInfo.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.txtOtherInfo.Enabled = False
-        Me.txtOtherInfo.Location = New System.Drawing.Point(408, 39)
-        Me.txtOtherInfo.Name = "txtOtherInfo"
-        Me.txtOtherInfo.Size = New System.Drawing.Size(466, 21)
-        Me.txtOtherInfo.TabIndex = 22
-        '
-        'chkReturnStandardXML
-        '
-        Me.chkReturnStandardXML.AutoSize = True
-        '
-        '
-        '
-        Me.chkReturnStandardXML.BackgroundStyle.Class = ""
-        Me.chkReturnStandardXML.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.chkReturnStandardXML.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton
-        Me.chkReturnStandardXML.Checked = True
-        Me.chkReturnStandardXML.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkReturnStandardXML.CheckValue = "Y"
-        Me.chkReturnStandardXML.Location = New System.Drawing.Point(596, 15)
-        Me.chkReturnStandardXML.Name = "chkReturnStandardXML"
-        Me.chkReturnStandardXML.Size = New System.Drawing.Size(108, 16)
-        Me.chkReturnStandardXML.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.chkReturnStandardXML.TabIndex = 23
-        Me.chkReturnStandardXML.Text = "Standard Caching"
+        Me.lblAPICategory.AutoSize = True
+        Me.lblAPICategory.Location = New System.Drawing.Point(8, 15)
+        Me.lblAPICategory.Name = "lblAPICategory"
+        Me.lblAPICategory.Size = New System.Drawing.Size(76, 13)
+        Me.lblAPICategory.TabIndex = 16
+        Me.lblAPICategory.Text = "API Category:"
         '
         'frmAPIChecker
         '
@@ -321,7 +318,6 @@ Partial Class frmAPIChecker
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmAPIChecker"
         Me.Text = "API Checker"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.pnlAPIChecker.ResumeLayout(False)
         Me.pnlAPIChecker.PerformLayout()
         Me.ResumeLayout(False)

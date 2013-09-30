@@ -26,6 +26,7 @@ Partial Class frmMail
         Me.panelMails = New DevComponents.DotNetBar.PanelEx()
         Me.btnCopyEvemail = New DevComponents.DotNetBar.ButtonX()
         Me.pnlMail = New DevComponents.DotNetBar.PanelEx()
+        Me.txtMail = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.adtMails = New DevComponents.AdvTree.AdvTree()
         Me.Node1 = New DevComponents.AdvTree.Node()
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
@@ -36,7 +37,6 @@ Partial Class frmMail
         Me.cboPilots = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.btnGetEveIDs = New DevComponents.DotNetBar.ButtonX()
         Me.btnDownloadMail = New DevComponents.DotNetBar.ButtonX()
-        Me.txtMail = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.panelMails.SuspendLayout()
         Me.pnlMail.SuspendLayout()
         CType(Me.adtMails, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,6 +113,22 @@ Partial Class frmMail
         Me.pnlMail.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelText
         Me.pnlMail.Style.GradientAngle = 90
         Me.pnlMail.TabIndex = 60
+        '
+        'txtMail
+        '
+        '
+        '
+        '
+        Me.txtMail.Border.Class = "TextBoxBorder"
+        Me.txtMail.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.txtMail.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtMail.Location = New System.Drawing.Point(0, 0)
+        Me.txtMail.Multiline = True
+        Me.txtMail.Name = "txtMail"
+        Me.txtMail.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.txtMail.Size = New System.Drawing.Size(886, 728)
+        Me.txtMail.TabIndex = 0
+        Me.txtMail.Text = "txtMail"
         '
         'adtMails
         '
@@ -236,22 +252,6 @@ Partial Class frmMail
         Me.btnDownloadMail.TabIndex = 52
         Me.btnDownloadMail.Text = "Download Mail"
         '
-        'txtMail
-        '
-        '
-        '
-        '
-        Me.txtMail.Border.Class = "TextBoxBorder"
-        Me.txtMail.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.txtMail.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.txtMail.Location = New System.Drawing.Point(0, 0)
-        Me.txtMail.Multiline = True
-        Me.txtMail.Name = "txtMail"
-        Me.txtMail.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtMail.Size = New System.Drawing.Size(886, 728)
-        Me.txtMail.TabIndex = 0
-        Me.txtMail.Text = "txtMail"
-        '
         'frmMail
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -262,7 +262,6 @@ Partial Class frmMail
         Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "frmMail"
         Me.Text = "EveHQ Mail Viewer"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.panelMails.ResumeLayout(False)
         Me.panelMails.PerformLayout()
         Me.pnlMail.ResumeLayout(False)
