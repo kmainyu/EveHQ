@@ -19,10 +19,10 @@
 '=========================================================================
 Public Class Effect
     Public AffectingAtt As Integer
-    Public AffectingType As EffectType
+    Public AffectingType As HQFEffectType
     Public AffectingID As Integer
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
+    Public AffectedType As HQFEffectType
     Public AffectedID As New List(Of String)
     Public StackNerf As EffectStackType
     Public IsPerLevel As Boolean
@@ -32,10 +32,10 @@ End Class
 
 <Serializable()> Public Class ShipEffect
     Public ShipID As Integer
-    Public AffectingType As EffectType
+    Public AffectingType As HQFEffectType
     Public AffectingID As Integer
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
+    Public AffectedType As HQFEffectType
     Public AffectedID As New List(Of String)
     Public StackNerf As EffectStackType
     Public IsPerLevel As Boolean
@@ -67,7 +67,7 @@ Public Class ImplantEffect
     Public ImplantName As String
     Public AffectingAtt As Integer
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
+    Public AffectedType As HQFEffectType
     Public AffectedID As New List(Of String)
     Public CalcType As EffectCalcType
     Public Status As Integer
@@ -78,7 +78,7 @@ End Class
 
 <Serializable()> Public Class FinalEffect
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
+    Public AffectedType As HQFEffectType
     Public AffectedID As New List(Of String)
     Public AffectedValue As Double
     Public StackNerf As EffectStackType
@@ -87,7 +87,7 @@ End Class
     Public Status As Integer
 End Class
 
-Public Enum EffectType As Integer
+Public Enum HQFEffectType As Integer
     All = 0
     Item = 1
     Group = 2

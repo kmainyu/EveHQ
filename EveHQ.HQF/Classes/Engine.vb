@@ -146,10 +146,10 @@ Public Class Engine
                     EffectsMap.Add(effectData(0), effectClassList)
                 End If
                 newEffect.AffectingAtt = CInt(effectData(0))
-                newEffect.AffectingType = CType(effectData(1), EffectType)
+                newEffect.AffectingType = CType(effectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(effectData(2))
                 newEffect.AffectedAtt = CInt(effectData(3))
-                newEffect.AffectedType = CType(effectData(4), EffectType)
+                newEffect.AffectedType = CType(effectData(4), HQFEffectType)
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
@@ -189,10 +189,10 @@ Public Class Engine
                     ShipEffectsMap.Add(effectData(0), effectClassList)
                 End If
                 newEffect.AffectingAtt = CInt(effectData(0))
-                newEffect.AffectingType = CType(effectData(1), EffectType)
+                newEffect.AffectingType = CType(effectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(effectData(2))
                 newEffect.AffectedAtt = CInt(effectData(3))
-                newEffect.AffectedType = CType(effectData(4), EffectType)
+                newEffect.AffectedType = CType(effectData(4), HQFEffectType)
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
@@ -232,10 +232,10 @@ Public Class Engine
                     ShipBonusesMap.Add(effectData(0), shipEffectClassList)
                 End If
                 newEffect.ShipID = CInt(effectData(0))
-                newEffect.AffectingType = CType(effectData(1), EffectType)
+                newEffect.AffectingType = CType(effectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(effectData(2))
                 newEffect.AffectedAtt = CInt(effectData(3))
-                newEffect.AffectedType = CType(effectData(4), EffectType)
+                newEffect.AffectedType = CType(effectData(4), HQFEffectType)
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
@@ -276,10 +276,10 @@ Public Class Engine
                     SubSystemEffectsMap.Add(effectData(0), shipEffectClassList)
                 End If
                 newEffect.ShipID = CInt(effectData(0))
-                newEffect.AffectingType = CType(effectData(1), EffectType)
+                newEffect.AffectingType = CType(effectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(effectData(2))
                 newEffect.AffectedAtt = CInt(effectData(3))
-                newEffect.AffectedType = CType(effectData(4), EffectType)
+                newEffect.AffectedType = CType(effectData(4), HQFEffectType)
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
@@ -334,7 +334,7 @@ Public Class Engine
                     newEffect.ImplantName = CStr(effectData(10))
                     newEffect.AffectingAtt = CInt(effectData(0))
                     newEffect.AffectedAtt = CInt(att)
-                    newEffect.AffectedType = CType(effectData(4), EffectType)
+                    newEffect.AffectedType = CType(effectData(4), HQFEffectType)
                     If effectData(5).Contains(";") = True Then
                         ids = effectData(5).Split(";".ToCharArray)
                         For Each id As String In ids

@@ -1396,10 +1396,10 @@ Public Class PlugInData
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New Effect
                 newEffect.AffectingAtt = CInt(EffectData(0))
-                newEffect.AffectingType = CType(EffectData(1), EffectType)
+                newEffect.AffectingType = CType(EffectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(EffectData(2))
                 newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CType(EffectData(4), EffectType)
+                newEffect.AffectedType = CType(EffectData(4), HQFEffectType)
                 If EffectData(5).Contains(";") = True Then
                     IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
@@ -1415,9 +1415,9 @@ Public Class PlugInData
 
                 Select Case newEffect.AffectingType
                     ' Setup the name as Item;Type;Attribute
-                    Case EffectType.All
+                    Case HQFEffectType.All
                         AffectingName = "Global;Global;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
-                    Case EffectType.Item
+                    Case HQFEffectType.Item
                         If newEffect.AffectingID > 0 Then
                             AffectingName = Core.HQ.itemData(newEffect.AffectingID.ToString).Name
                             If Core.HQ.SkillListName.ContainsKey(AffectingName) = True Then
@@ -1426,42 +1426,42 @@ Public Class PlugInData
                                 AffectingName &= ";Item;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             End If
                         End If
-                    Case EffectType.Group
+                    Case HQFEffectType.Group
                         AffectingName = Core.HQ.itemGroups(newEffect.AffectingID) & ";Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
-                    Case EffectType.Category
+                    Case HQFEffectType.Category
                         AffectingName = Core.HQ.itemCats(newEffect.AffectingID) & ";Category;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
-                    Case EffectType.MarketGroup
+                    Case HQFEffectType.MarketGroup
                         AffectingName = CStr(HQF.Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & HQF.Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                 End Select
                 AffectingName &= ";"
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
-                        Case EffectType.All
+                        Case HQFEffectType.All
                             If newEffect.AffectingID <> 0 Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Item
+                        Case HQFEffectType.Item
                             If newEffect.AffectedID.Contains(cModule.ID) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Group
+                        Case HQFEffectType.Group
                             If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Category
+                        Case HQFEffectType.Category
                             If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.MarketGroup
+                        Case HQFEffectType.MarketGroup
                             If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Skill
+                        Case HQFEffectType.Skill
                             If cModule.RequiredSkills.ContainsKey(Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Attribute
+                        Case HQFEffectType.Attribute
                             If cModule.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
@@ -1473,31 +1473,31 @@ Public Class PlugInData
                     If AffectingName.Contains(";Skill;") = True Then
                         For Each cShip As Ship In ShipLists.shipList.Values
                             Select Case newEffect.AffectedType
-                                Case EffectType.All
+                                Case HQFEffectType.All
                                     If newEffect.AffectingID <> 0 Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
-                                Case EffectType.Item
+                                Case HQFEffectType.Item
                                     If newEffect.AffectedID.Contains(cShip.ID) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
-                                Case EffectType.Group
+                                Case HQFEffectType.Group
                                     If newEffect.AffectedID.Contains(cShip.DatabaseGroup) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
-                                Case EffectType.Category
+                                Case HQFEffectType.Category
                                     If newEffect.AffectedID.Contains(cShip.DatabaseCategory) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
-                                Case EffectType.MarketGroup
+                                Case HQFEffectType.MarketGroup
                                     If newEffect.AffectedID.Contains(cShip.MarketGroup) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
-                                Case EffectType.Skill
+                                Case HQFEffectType.Skill
                                     If cShip.RequiredSkills.ContainsKey(Core.HQ.itemData(newEffect.AffectedID(0).ToString).Name) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
-                                Case EffectType.Attribute
+                                Case HQFEffectType.Attribute
                                     If cShip.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                         cShip.Affects.Add(AffectingName)
                                     End If
@@ -1541,7 +1541,7 @@ Public Class PlugInData
                     newEffect.ImplantName = CStr(EffectData(10))
                     newEffect.AffectingAtt = CInt(EffectData(0))
                     newEffect.AffectedAtt = CInt(att)
-                    newEffect.AffectedType = CType(EffectData(4), EffectType)
+                    newEffect.AffectedType = CType(EffectData(4), HQFEffectType)
                     If EffectData(5).Contains(";") = True Then
                         IDs = EffectData(5).Split(";".ToCharArray)
                         For Each ID As String In IDs
@@ -1567,27 +1567,27 @@ Public Class PlugInData
 
                     For Each cModule As ShipModule In ModuleLists.moduleList.Values
                         Select Case newEffect.AffectedType
-                            Case EffectType.All
+                            Case HQFEffectType.All
                                 If CInt(EffectData(2)) <> 0 Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
-                            Case EffectType.Item
+                            Case HQFEffectType.Item
                                 If newEffect.AffectedID.Contains(cModule.ID) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
-                            Case EffectType.Group
+                            Case HQFEffectType.Group
                                 If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
-                            Case EffectType.Category
+                            Case HQFEffectType.Category
                                 If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
-                            Case EffectType.MarketGroup
+                            Case HQFEffectType.MarketGroup
                                 If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
-                            Case EffectType.Attribute
+                            Case HQFEffectType.Attribute
                                 If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
                                     cModule.Affects.Add(AffectingName)
                                 End If
@@ -1618,10 +1618,10 @@ Public Class PlugInData
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
                 newEffect.ShipID = CInt(EffectData(0))
-                newEffect.AffectingType = CType(EffectData(1), EffectType)
+                newEffect.AffectingType = CType(EffectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(EffectData(2))
                 newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CType(EffectData(4), EffectType)
+                newEffect.AffectedType = CType(EffectData(4), HQFEffectType)
                 If EffectData(5).Contains(";") = True Then
                     IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
@@ -1653,27 +1653,27 @@ Public Class PlugInData
                 ' Add the skills into the ship modules
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
-                        Case EffectType.All
+                        Case HQFEffectType.All
                             If newEffect.AffectingID <> 0 Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Item
+                        Case HQFEffectType.Item
                             If newEffect.AffectedID.Contains(cModule.ID) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Group
+                        Case HQFEffectType.Group
                             If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Category
+                        Case HQFEffectType.Category
                             If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.MarketGroup
+                        Case HQFEffectType.MarketGroup
                             If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Attribute
+                        Case HQFEffectType.Attribute
                             If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
@@ -1712,10 +1712,10 @@ Public Class PlugInData
                 EffectData = EffectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
                 newEffect.ShipID = CInt(EffectData(0))
-                newEffect.AffectingType = CType(EffectData(1), EffectType)
+                newEffect.AffectingType = CType(EffectData(1), HQFEffectType)
                 newEffect.AffectingID = CInt(EffectData(2))
                 newEffect.AffectedAtt = CInt(EffectData(3))
-                newEffect.AffectedType = CType(EffectData(4), EffectType)
+                newEffect.AffectedType = CType(EffectData(4), HQFEffectType)
                 If EffectData(5).Contains(";") = True Then
                     IDs = EffectData(5).Split(";".ToCharArray)
                     For Each ID As String In IDs
@@ -1746,27 +1746,27 @@ Public Class PlugInData
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
                     Select Case newEffect.AffectedType
-                        Case EffectType.All
+                        Case HQFEffectType.All
                             If newEffect.AffectingID <> 0 Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Item
+                        Case HQFEffectType.Item
                             If newEffect.AffectedID.Contains(cModule.ID) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Group
+                        Case HQFEffectType.Group
                             If newEffect.AffectedID.Contains(cModule.DatabaseGroup) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Category
+                        Case HQFEffectType.Category
                             If newEffect.AffectedID.Contains(cModule.DatabaseCategory) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.MarketGroup
+                        Case HQFEffectType.MarketGroup
                             If newEffect.AffectedID.Contains(cModule.MarketGroup) Then
                                 cModule.Affects.Add(AffectingName)
                             End If
-                        Case EffectType.Attribute
+                        Case HQFEffectType.Attribute
                             If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
                                 cModule.Affects.Add(AffectingName)
                             End If

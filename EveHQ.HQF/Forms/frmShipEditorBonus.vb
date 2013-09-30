@@ -118,7 +118,7 @@ Public Class frmShipEditorBonus
         ' Set up the effect type
         cboEffectType.BeginUpdate()
         cboEffectType.Items.Clear()
-        Dim EffectItems() As String = [Enum].GetNames(GetType(EffectType))
+        Dim EffectItems() As String = [Enum].GetNames(GetType(HQFEffectType))
         For Each EffectItem As String In EffectItems
             cboEffectType.Items.Add(EffectItem)
         Next
@@ -144,7 +144,7 @@ Public Class frmShipEditorBonus
             cNewShipEffect = New ShipEffect
             cNewShipEffect.ShipID = CInt(cShipID)
             cNewShipEffect.Value = 0
-            cNewShipEffect.AffectingType = EffectType.All
+            cNewShipEffect.AffectingType = HQFEffectType.All
             cNewShipEffect.AffectingID = 0
             cNewShipEffect.Status = 15
 
@@ -215,21 +215,21 @@ Public Class frmShipEditorBonus
                 Dim newItem As New ListViewItem
                 newItem.Name = id
                 Select Case cNewShipEffect.AffectedType
-                    Case EffectType.All
+                    Case HQFEffectType.All
                         ' Nothing here?
-                    Case EffectType.Item
+                    Case HQFEffectType.Item
                         newItem.Text = Core.HQ.itemData(id).Name
-                    Case EffectType.Group
+                    Case HQFEffectType.Group
                         newItem.Text = Core.HQ.itemGroups(CInt(id))
-                    Case EffectType.Category
+                    Case HQFEffectType.Category
                         newItem.Text = Core.HQ.itemCats(CInt(id))
-                    Case EffectType.MarketGroup
+                    Case HQFEffectType.MarketGroup
                         newItem.Text = Market.MarketGroupPath(id).ToString.Replace("&", "&&")
-                    Case EffectType.Skill
+                    Case HQFEffectType.Skill
                         newItem.Text = Core.HQ.itemData(id).Name
-                    Case EffectType.Slot
+                    Case HQFEffectType.Slot
                         ' Not supported!!
-                    Case EffectType.Attribute
+                    Case HQFEffectType.Attribute
                         newItem.Text = Attributes.AttributeQuickList(id).ToString
                 End Select
                 lvwItems.Items.Add(newItem)
@@ -253,7 +253,7 @@ Public Class frmShipEditorBonus
             ' Alter the ship effect
             If radSkillBonus.Checked = True Then
                 ' This is skill bonus
-                cNewShipEffect.AffectingType = EffectType.Item
+                cNewShipEffect.AffectingType = HQFEffectType.Item
                 If cboSkill.SelectedItem Is Nothing Then
                     cboSkill.SelectedIndex = 0
                 End If
@@ -262,7 +262,7 @@ Public Class frmShipEditorBonus
                 cNewShipEffect.IsPerLevel = True
             Else
                 ' This is a role bonus
-                cNewShipEffect.AffectingType = EffectType.All
+                cNewShipEffect.AffectingType = HQFEffectType.All
                 cNewShipEffect.AffectingID = 0
                 cNewShipEffect.IsPerLevel = False
             End If
@@ -324,9 +324,9 @@ Public Class frmShipEditorBonus
     End Sub
 
     Private Sub cboEffectType_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboEffectType.SelectedIndexChanged
-        Dim oldType As EffectType = cNewShipEffect.AffectedType
+        Dim oldType As HQFEffectType = cNewShipEffect.AffectedType
         ' Check if we want to change this if there are items
-        If lvwItems.Items.Count > 0 And CType(cboEffectType.SelectedIndex, EffectType) <> oldType Then
+        If lvwItems.Items.Count > 0 And CType(cboEffectType.SelectedIndex, HQFEffectType) <> oldType Then
             Dim reply As DialogResult = MessageBox.Show("This will clear any existing items. Are you sure you want to change the type?", "Confirm Type Change?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.Yes Then
                 ' We want to change the type, so reset the list
@@ -339,15 +339,15 @@ Public Class frmShipEditorBonus
                 Exit Sub
             End If
         End If
-        cNewShipEffect.AffectedType = CType(cboEffectType.SelectedIndex, EffectType)
+        cNewShipEffect.AffectedType = CType(cboEffectType.SelectedIndex, HQFEffectType)
         ' Update the contents of the affectedID box depending on our result
         Select Case cNewShipEffect.AffectedType
-            Case EffectType.All
+            Case HQFEffectType.All
                 cboItems.Nodes.Clear()
                 ' Disable the boxes
                 cboItems.Enabled = False
                 btnAddItem.Enabled = False
-            Case EffectType.Item
+            Case HQFEffectType.Item
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
@@ -373,7 +373,7 @@ Public Class frmShipEditorBonus
                     ' Update the description
                     txtDescription.Text = EffectFunctions.ConvertShipBonusesToDescription(cNewShipEffect)
                 End If
-            Case EffectType.Group
+            Case HQFEffectType.Group
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
@@ -389,7 +389,7 @@ Public Class frmShipEditorBonus
                 ' Enable the box
                 cboItems.Enabled = True
                 btnAddItem.Enabled = True
-            Case EffectType.Category
+            Case HQFEffectType.Category
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
@@ -405,7 +405,7 @@ Public Class frmShipEditorBonus
                 ' Enable the box
                 cboItems.Enabled = True
                 btnAddItem.Enabled = True
-            Case EffectType.MarketGroup
+            Case HQFEffectType.MarketGroup
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
@@ -418,7 +418,7 @@ Public Class frmShipEditorBonus
                 ' Enable the box
                 cboItems.Enabled = True
                 btnAddItem.Enabled = True
-            Case EffectType.Skill
+            Case HQFEffectType.Skill
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
@@ -433,12 +433,12 @@ Public Class frmShipEditorBonus
                 ' Enable the box
                 cboItems.Enabled = True
                 btnAddItem.Enabled = True
-            Case EffectType.Slot
+            Case HQFEffectType.Slot
                 MessageBox.Show("Slot Effect Type is not implemented for Ship Bonuses.", "Effect Type Not Implemented", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 ' We don't want to change type, so change the type back and exit
                 cboEffectType.SelectedIndex = oldType
                 Exit Sub
-            Case EffectType.Attribute
+            Case HQFEffectType.Attribute
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
@@ -463,7 +463,7 @@ Public Class frmShipEditorBonus
         If cboItems.SelectedNode IsNot Nothing Then
             Dim ItemNode As DevComponents.AdvTree.Node = cboItems.SelectedNode
             Select Case cNewShipEffect.AffectedType
-                Case EffectType.MarketGroup
+                Case HQFEffectType.MarketGroup
                     If ItemNode.Tag IsNot Nothing Then
                         If ItemNode.Tag.ToString <> "0" Then
                             If lvwItems.Items.ContainsKey(ItemNode.Tag.ToString) = False Then
@@ -579,7 +579,7 @@ Public Class frmShipEditorBonus
 
         ' Check if not global, we have at least one affected item
         Select Case cboEffectType.SelectedIndex
-            Case EffectType.All
+            Case HQFEffectType.All
                 ' Allow exit regardless of contents of items
             Case Else
                 ' Check we have at least one item
@@ -598,7 +598,7 @@ Public Class frmShipEditorBonus
 
 #End Region
 
-   
+
     Private Sub chkOffline_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOffline.CheckedChanged
         If FormIsInitialising = False Then
             If chkOffline.Checked = True Then
@@ -642,7 +642,7 @@ Public Class frmShipEditorBonus
     Private Sub chkUseActiveShip_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseActiveShip.CheckedChanged
         ' If active, set the Type and items accordingly (and disable)
         If chkUseActiveShip.Checked = True Then
-            cboEffectType.SelectedIndex = EffectType.Item
+            cboEffectType.SelectedIndex = HQFEffectType.Item
             cboEffectType.Enabled = False
             cboItems.Enabled = False
             btnAddItem.Enabled = False

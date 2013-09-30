@@ -699,7 +699,7 @@ Imports EveHQ.Core
                         For Each att As String In aSkill.Attributes.Keys
                             If Engine.EffectsMap.Contains(att) = True Then
                                 For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
-                                    If chkEffect.AffectingType = EffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
+                                    If chkEffect.AffectingType = HQFEffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
                                         fEffect = New FinalEffect
                                         fEffect.AffectedAtt = chkEffect.AffectedAtt
                                         fEffect.AffectedType = chkEffect.AffectedType
@@ -895,31 +895,31 @@ Imports EveHQ.Core
                     For Each chkEffect As Effect In CType(Engine.ShipEffectsMap(att), ArrayList)
                         processData = False
                         Select Case chkEffect.AffectingType
-                            Case EffectType.All
+                            Case HQFEffectType.All
                                 processData = True
-                            Case EffectType.Item
+                            Case HQFEffectType.Item
                                 If chkEffect.AffectingID.ToString = hShip.ID Then
                                     processData = True
                                 End If
-                            Case EffectType.Group
+                            Case HQFEffectType.Group
                                 If chkEffect.AffectingID.ToString = hShip.DatabaseGroup Then
                                     processData = True
                                 End If
-                            Case EffectType.Category
+                            Case HQFEffectType.Category
                                 If chkEffect.AffectingID.ToString = hShip.DatabaseCategory Then
                                     processData = True
                                 End If
-                            Case EffectType.MarketGroup
+                            Case HQFEffectType.MarketGroup
                                 If chkEffect.AffectingID.ToString = hShip.MarketGroup Then
                                     processData = True
                                 End If
-                            Case EffectType.Skill
+                            Case HQFEffectType.Skill
                                 If hShip.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
                                     processData = True
                                 End If
-                            Case EffectType.Slot
+                            Case HQFEffectType.Slot
                                 processData = True
-                            Case EffectType.Attribute
+                            Case HQFEffectType.Attribute
                                 If hShip.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
                                     processData = True
                                 End If
@@ -1000,31 +1000,31 @@ Imports EveHQ.Core
                         For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
                             processData = False
                             Select Case chkEffect.AffectingType
-                                Case EffectType.All
+                                Case HQFEffectType.All
                                     processData = True
-                                Case EffectType.Item
+                                Case HQFEffectType.Item
                                     If chkEffect.AffectingID.ToString = aModule.LoadedCharge.ID Then
                                         processData = True
                                     End If
-                                Case EffectType.Group
+                                Case HQFEffectType.Group
                                     If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseGroup Then
                                         processData = True
                                     End If
-                                Case EffectType.Category
+                                Case HQFEffectType.Category
                                     If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseCategory Then
                                         processData = True
                                     End If
-                                Case EffectType.MarketGroup
+                                Case HQFEffectType.MarketGroup
                                     If chkEffect.AffectingID.ToString = aModule.LoadedCharge.MarketGroup Then
                                         processData = True
                                     End If
-                                Case EffectType.Skill
+                                Case HQFEffectType.Skill
                                     If aModule.LoadedCharge.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
                                         processData = True
                                     End If
-                                Case EffectType.Slot
+                                Case HQFEffectType.Slot
                                     processData = True
-                                Case EffectType.Attribute
+                                Case HQFEffectType.Attribute
                                     If aModule.LoadedCharge.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
                                         processData = True
                                     End If
@@ -1033,7 +1033,7 @@ Imports EveHQ.Core
                                 fEffect = New FinalEffect
                                 fEffect.AffectedAtt = chkEffect.AffectedAtt
                                 fEffect.AffectedType = chkEffect.AffectedType
-                                If chkEffect.AffectedType = EffectType.Slot Then
+                                If chkEffect.AffectedType = HQFEffectType.Slot Then
                                     fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
                                 Else
                                     fEffect.AffectedID = chkEffect.AffectedID
@@ -1069,31 +1069,31 @@ Imports EveHQ.Core
                     For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
                         processData = False
                         Select Case chkEffect.AffectingType
-                            Case EffectType.All
+                            Case HQFEffectType.All
                                 processData = True
-                            Case EffectType.Item
+                            Case HQFEffectType.Item
                                 If chkEffect.AffectingID.ToString = aModule.ID Then
                                     processData = True
                                 End If
-                            Case EffectType.Group
+                            Case HQFEffectType.Group
                                 If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
                                     processData = True
                                 End If
-                            Case EffectType.Category
+                            Case HQFEffectType.Category
                                 If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
                                     processData = True
                                 End If
-                            Case EffectType.MarketGroup
+                            Case HQFEffectType.MarketGroup
                                 If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
                                     processData = True
                                 End If
-                            Case EffectType.Skill
+                            Case HQFEffectType.Skill
                                 If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
                                     processData = True
                                 End If
-                            Case EffectType.Slot
+                            Case HQFEffectType.Slot
                                 processData = True
-                            Case EffectType.Attribute
+                            Case HQFEffectType.Attribute
                                 If aModule.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
                                     processData = True
                                 End If
@@ -1111,7 +1111,7 @@ Imports EveHQ.Core
                             fEffect = New FinalEffect
                             fEffect.AffectedAtt = chkEffect.AffectedAtt
                             fEffect.AffectedType = chkEffect.AffectedType
-                            If chkEffect.AffectedType = EffectType.Slot Then
+                            If chkEffect.AffectedType = HQFEffectType.Slot Then
                                 fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
                             Else
                                 fEffect.AffectedID = chkEffect.AffectedID
@@ -1161,31 +1161,31 @@ Imports EveHQ.Core
                             For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
                                 processData = False
                                 Select Case chkEffect.AffectingType
-                                    Case EffectType.All
+                                    Case HQFEffectType.All
                                         processData = True
-                                    Case EffectType.Item
+                                    Case HQFEffectType.Item
                                         If chkEffect.AffectingID.ToString = aModule.ID Then
                                             processData = True
                                         End If
-                                    Case EffectType.Group
+                                    Case HQFEffectType.Group
                                         If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
                                             processData = True
                                         End If
-                                    Case EffectType.Category
+                                    Case HQFEffectType.Category
                                         If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
                                             processData = True
                                         End If
-                                    Case EffectType.MarketGroup
+                                    Case HQFEffectType.MarketGroup
                                         If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
                                             processData = True
                                         End If
-                                    Case EffectType.Skill
+                                    Case HQFEffectType.Skill
                                         If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
                                             processData = True
                                         End If
-                                    Case EffectType.Slot
+                                    Case HQFEffectType.Slot
                                         processData = True
-                                    Case EffectType.Attribute
+                                    Case HQFEffectType.Attribute
                                         If aModule.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
                                             processData = True
                                         End If
@@ -1194,7 +1194,7 @@ Imports EveHQ.Core
                                     fEffect = New FinalEffect
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
-                                    If chkEffect.AffectedType = EffectType.Slot Then
+                                    If chkEffect.AffectedType = HQFEffectType.Slot Then
                                         fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
                                     Else
                                         fEffect.AffectedID = chkEffect.AffectedID
@@ -2020,29 +2020,29 @@ Imports EveHQ.Core
 
     Private Function ProcessFinalEffectForShip(ByVal NewShip As Ship, ByVal FEffect As FinalEffect) As Boolean
         Select Case FEffect.AffectedType
-            Case EffectType.All
+            Case HQFEffectType.All
                 Return True
-            Case EffectType.Item
+            Case HQFEffectType.Item
                 If FEffect.AffectedID.Contains(NewShip.ID) Then
                     Return True
                 End If
-            Case EffectType.Group
+            Case HQFEffectType.Group
                 If FEffect.AffectedID.Contains(NewShip.DatabaseGroup) Then
                     Return True
                 End If
-            Case EffectType.Category
+            Case HQFEffectType.Category
                 If FEffect.AffectedID.Contains(NewShip.DatabaseCategory) Then
                     Return True
                 End If
-            Case EffectType.MarketGroup
+            Case HQFEffectType.MarketGroup
                 If FEffect.AffectedID.Contains(NewShip.MarketGroup) Then
                     Return True
                 End If
-            Case EffectType.Skill
+            Case HQFEffectType.Skill
                 If NewShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
                     Return True
                 End If
-            Case EffectType.Attribute
+            Case HQFEffectType.Attribute
                 If NewShip.Attributes.ContainsKey(FEffect.AffectedID(0)) Then
                     Return True
                 End If
@@ -2052,36 +2052,36 @@ Imports EveHQ.Core
 
     Private Function ProcessFinalEffectForModule(ByVal NewModule As ShipModule, ByVal FEffect As FinalEffect) As Boolean
         Select Case FEffect.AffectedType
-            Case EffectType.All
+            Case HQFEffectType.All
                 Return True
-            Case EffectType.Item
+            Case HQFEffectType.Item
                 If FEffect.AffectedID.Contains(NewModule.ID) Then
                     Return True
                 End If
-            Case EffectType.Group
+            Case HQFEffectType.Group
                 If NewModule.ModuleState = ModuleStates.Gang And FEffect.AffectedID.Contains(CStr(-CInt(NewModule.DatabaseGroup))) Then
                     Return True
                 End If
                 If FEffect.AffectedID.Contains(NewModule.DatabaseGroup) Then
                     Return True
                 End If
-            Case EffectType.Category
+            Case HQFEffectType.Category
                 If FEffect.AffectedID.Contains(NewModule.DatabaseCategory) Then
                     Return True
                 End If
-            Case EffectType.MarketGroup
+            Case HQFEffectType.MarketGroup
                 If FEffect.AffectedID.Contains(NewModule.MarketGroup) Then
                     Return True
                 End If
-            Case EffectType.Skill
+            Case HQFEffectType.Skill
                 If NewModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
                     Return True
                 End If
-            Case EffectType.Slot
+            Case HQFEffectType.Slot
                 If FEffect.AffectedID.Contains(NewModule.SlotType & NewModule.SlotNo) Then
                     Return True
                 End If
-            Case EffectType.Attribute
+            Case HQFEffectType.Attribute
                 If NewModule.Attributes.ContainsKey(CStr(FEffect.AffectedID(0))) Then
                     Return True
                 End If

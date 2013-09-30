@@ -130,9 +130,9 @@ Public Class EffectFunctions
 
                 ' Display IDs
                 Select Case bonus.AffectedType
-                    Case EffectType.All
+                    Case HQFEffectType.All
                         Desc.Append(" of everything")
-                    Case EffectType.Item
+                    Case HQFEffectType.Item
                         Dim IDs As List(Of String) = bonus.AffectedID
                         If IDs.Count > 0 Then
                             ' Check for the ship type
@@ -149,7 +149,7 @@ Public Class EffectFunctions
                             ' No IDs?
                             Desc.Append(" of nothing")
                         End If
-                    Case EffectType.Group
+                    Case HQFEffectType.Group
                         Dim IDs As List(Of String) = bonus.AffectedID
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
@@ -161,7 +161,7 @@ Public Class EffectFunctions
                             ' No IDs?
                             Desc.Append(" of nothing")
                         End If
-                    Case EffectType.Category
+                    Case HQFEffectType.Category
                         Dim IDs As List(Of String) = bonus.AffectedID
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
@@ -173,7 +173,7 @@ Public Class EffectFunctions
                             ' No IDs?
                             Desc.Append(" of nothing")
                         End If
-                    Case EffectType.MarketGroup
+                    Case HQFEffectType.MarketGroup
                         Dim IDs As List(Of String) = bonus.AffectedID
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
@@ -192,7 +192,7 @@ Public Class EffectFunctions
                             ' No IDs?
                             Desc.Append(" of nothing")
                         End If
-                    Case EffectType.Skill
+                    Case HQFEffectType.Skill
                         Dim IDs As List(Of String) = bonus.AffectedID
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
@@ -205,9 +205,9 @@ Public Class EffectFunctions
                             ' No IDs?
                             Desc.Append(" of nothing")
                         End If
-                    Case EffectType.Slot
+                    Case HQFEffectType.Slot
                         Desc.Append(" of the occupied slot")
-                    Case EffectType.Attribute
+                    Case HQFEffectType.Attribute
                         Dim IDs As List(Of String) = bonus.AffectedID
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
