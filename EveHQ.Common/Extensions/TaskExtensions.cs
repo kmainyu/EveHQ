@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="TaskExtensions.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (TaskExtensions.cs), is part of EveHQ.
@@ -11,8 +12,9 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Common.Extensions
 {
     using System;
@@ -24,24 +26,40 @@ namespace EveHQ.Common.Extensions
     /// </summary>
     public static class TaskExtensions
     {
+        #region Public Methods and Operators
+
         /// <summary>Attempts to run the task, and captures any failures to the trace log</summary>
         /// <param name="factory">The factory.</param>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         public static Task TryRun(this TaskFactory factory, Action action)
         {
-            return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            if (factory != null)
+            {
+                return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            }
+
+            return null;
         }
 
         /// <summary>Attempts to run the task, and captures any failures to the trace log</summary>
         /// <param name="factory">The factory.</param>
         /// <param name="action">The action.</param>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The result type of the task</typeparam>
         /// <returns>The <see cref="Task"/>.</returns>
         public static Task<T> TryRun<T>(this TaskFactory<T> factory, Func<T> action)
         {
-            return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            if (factory != null)
+            {
+                return factory.StartNew(action).ContinueWith((t) => VerifyTaskCompletedSuccessFully(t));
+            }
+
+            return null;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>The verify task completed success fully.</summary>
         /// <param name="task">The task.</param>
@@ -59,7 +77,7 @@ namespace EveHQ.Common.Extensions
 
         /// <summary>The verify task completed success fully.</summary>
         /// <param name="task">The task.</param>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">the type of task result</typeparam>
         /// <returns>The <see cref="T"/>.</returns>
         private static T VerifyTaskCompletedSuccessFully<T>(Task<T> task)
         {
@@ -72,5 +90,7 @@ namespace EveHQ.Common.Extensions
 
             return task.Result;
         }
+
+        #endregion
     }
 }

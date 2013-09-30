@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="MarketProvider.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (MarketProvider.cs), is part of EveHQ.
@@ -11,14 +12,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market
 {
     /// <summary>
-    ///     TODO: Update summary.
+    ///     Market Order data providers.
     /// </summary>
-    public enum MarketProviders
+    public enum MarketProvider
     {
         /// <summary>The eve central.</summary>
         EveCentral

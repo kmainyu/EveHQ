@@ -1,72 +1,89 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="TextFileCache.cs" company="">
-// TODO: Update copyright text.
+﻿// ===========================================================================
+// <copyright file="TextFileCacheProvider.cs" company="EveHQ Development Team">
+//  EveHQ - An Eve-Online™ character assistance application
+//  Copyright © 2005-2012  EveHQ Development Team
+//  This file (TextFileCacheProvider.cs), is part of EveHQ.
+//  EveHQ is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 2 of the License, or
+//  (at your option) any later version.
+//  EveHQ is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//  You should have received a copy of the GNU General Public License
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
 // </copyright>
-// -----------------------------------------------------------------------
-
+// ============================================================================
 namespace EveHQ.Caching
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Text;
 
     using Newtonsoft.Json;
 
     /// <summary>
-    /// A simple caching system that uses text files for persistence.
+    ///     A simple caching system that uses text files for persistence.
     /// </summary>
-    public class TextFileCacheProvider:ICacheProvider
+    public class TextFileCacheProvider : ICacheProvider
     {
-         /// <summary>
-        /// Cache file naming format.
+        #region Constants
+
+        /// <summary>
+        ///     Cache file naming format.
         /// </summary>
         private const string CacheFileFormat = "{0}.json.txt";
 
+        #endregion
+
+        #region Fields
+
         /// <summary>
-        /// In memory copy of cache
+        ///     In memory copy of cache
         /// </summary>
         private readonly ConcurrentDictionary<string, object> _memCache = new ConcurrentDictionary<string, object>();
 
         /// <summary>
-        /// root path of the current cache instance.
+        ///     root path of the current cache instance.
         /// </summary>
         private readonly string _rootPath;
 
-        /// <summary>
-        /// Initializes a new instance of the SimpleTextFileCache class.
-        /// </summary>
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>Initializes a new instance of the TextFileCacheProvider class.</summary>
         /// <param name="rootPath">Root path of the cache instance.</param>
         public TextFileCacheProvider(string rootPath)
         {
             _rootPath = rootPath;
         }
 
-        /// <summary>
-        /// Adds an item to the cache.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <param name="cacheUntil"></param>
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>Adds an item to the cache.</summary>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="cacheUntil">The cache Until.</param>
+        /// <typeparam name="T">Type to Cache</typeparam>
         public void Add<T>(string key, T value, DateTimeOffset cacheUntil)
         {
             var cacheitem = new CacheItem<T> { CacheUntil = cacheUntil, Data = value };
 
             _memCache[key] = cacheitem;
-            SaveToFile(key, cacheitem); ;
+            SaveToFile(key, cacheitem);
         }
 
-        /// <summary>
-        /// Gets an item from cache.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <summary>Gets an item from cache.</summary>
+        /// <param name="key">The key.</param>
+        /// <typeparam name="T">Tye to get from cache</typeparam>
+        /// <returns>The <see cref="CacheItem"/>.</returns>
         public CacheItem<T> Get<T>(string key)
         {
             CacheItem<T> result = null;
@@ -93,13 +110,15 @@ namespace EveHQ.Caching
             return result;
         }
 
-        /// <summary>
-        /// Gets cached data from physical disk
-        /// </summary>
+        #endregion
+
+        #region Methods
+
+        /// <summary>Gets cached data from physical disk</summary>
         /// <typeparam name="T">Data type to return</typeparam>
         /// <param name="key">Key to look for on disk</param>
         /// <returns>The cache item</returns>
-        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times",
+        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times", 
             Justification = "The disposal may appear to be happening twice, but it doesn't. Without the 2 using clauses, FXcop also complains about not disposing an object before losing scope.")]
         private CacheItem<T> GetFromDisk<T>(string key)
         {
@@ -124,9 +143,7 @@ namespace EveHQ.Caching
             return result;
         }
 
-        /// <summary>
-        /// Saves the cache item to disk
-        /// </summary>
+        /// <summary>Saves the cache item to disk</summary>
         /// <typeparam name="T">Type of data</typeparam>
         /// <param name="key">name of the cache item</param>
         /// <param name="cacheitem">data to cache</param>
@@ -150,5 +167,7 @@ namespace EveHQ.Caching
                 stream.Flush();
             }
         }
+
+        #endregion
     }
 }

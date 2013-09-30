@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="IMarketDataReceiver.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (IMarketDataReceiver.cs), is part of EveHQ.
@@ -11,8 +12,9 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market
 {
     using System;
@@ -21,10 +23,12 @@ namespace EveHQ.Market
     using EveHQ.Market.UnifiedMarketDataFormat;
 
     /// <summary>
-    /// An object implementing this interface provides the functionality to upload data to a given web service.
+    ///     An object implementing this interface provides the functionality to upload data to a given web service.
     /// </summary>
     public interface IMarketDataReceiver
     {
+        #region Public Properties
+
         /// <summary>Gets a value indicating whether is enabled.</summary>
         bool IsEnabled { get; }
 
@@ -34,9 +38,15 @@ namespace EveHQ.Market
         /// <summary>Gets the unified upload key.</summary>
         UploadKey UnifiedUploadKey { get; }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         /// <summary>The upload market data.</summary>
-        /// <param name="marketDataJson">The market data json.</param>
+        /// <param name="marketData">The market data json string.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        Task UploadMarketData(string marketDataJson);
+        Task UploadMarketData(string marketData);
+
+        #endregion
     }
 }

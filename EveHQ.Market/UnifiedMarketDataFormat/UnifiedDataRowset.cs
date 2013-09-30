@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="UnifiedDataRowset.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (UnifiedDataRowset.cs), is part of EveHQ.
@@ -11,26 +12,35 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market.UnifiedMarketDataFormat
 {
     using System.Collections.Generic;
 
     /// <summary>Rowset for a specific type of rows.</summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Format of the rows.</typeparam>
     public abstract class UnifiedDataRowset<T>
     {
+        #region Public Properties
+
         /// <summary>Gets or sets the generated at.</summary>
         public string GeneratedAt { get; set; }
 
         /// <summary>Gets or sets the region id.</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "ID", Justification = "output format expects this casing.")]
         public string RegionID { get; set; }
 
+        /// <summary>Gets or sets the rows.</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Need AddRange method.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "Required for serialization operations.")]
+        public List<T> Rows { get; set; }
+
         /// <summary>Gets or sets the type id.</summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "ID", Justification = "output format expects this casing.")]
         public string TypeID { get; set; }
 
-        /// <summary>Gets or sets the rows.</summary>
-        public List<T> Rows { get; set; }
+        #endregion
     }
 }

@@ -5,7 +5,7 @@ Imports System.Threading.Tasks
 Imports System.IO
 
 
-Public Class newUpdater
+Public Class NewUpdater
 
     Private _updateLocation As String
     Private _proxyServer As String
@@ -16,8 +16,8 @@ Public Class newUpdater
     Private _storageFodler As String
 
 
-    Const RequestTemplate As String = "Requesting: {0}"
-    Const DownloadingTemplate As String = "Downloading: {0}"
+    Const RequestTemplate As String = "Requesting"
+    Const DownloadingTemplate As String = "Downloading"
 
 
     Public Sub New(updateLocation As String, storageFolder As String, proxyServer As String, useDefaultCredentials As Boolean, proxyUserName As String, proxyPassword As String, useBasicAuth As Boolean)
@@ -36,7 +36,8 @@ Public Class newUpdater
     End Sub
 
     Private Sub newUpdater_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-        _statusLabel.Text = RequestTemplate.FormatInvariant(_updateLocation)
+        _statusHeader.Text = RequestTemplate
+        _statusDetail.Text = _updateLocation
     End Sub
 
     Private Sub DownloadUpdate()
@@ -73,7 +74,8 @@ Public Class newUpdater
                                   End If
 
                                   Invoke(Sub()
-                                             _statusLabel.Text = DownloadingTemplate.FormatInvariant(_updateLocation)
+                                             _statusHeader.Text = DownloadingTemplate
+                                             _statusDetail.Text = _updateLocation
                                          End Sub)
 
                                   Try
@@ -103,8 +105,8 @@ Public Class newUpdater
                                           streamTask.Result.Dispose()
 
                                           Invoke(Sub()
-                                                     _statusLabel.Text = "Saving update file to disk."
-                                                     _statusLabel.TextAlign = ContentAlignment.MiddleCenter
+                                                     _statusDetail.Text = "Saving update file to disk."
+                                                     _statusDetail.TextAlign = ContentAlignment.MiddleCenter
                                                  End Sub)
 
 
@@ -114,8 +116,8 @@ Public Class newUpdater
                                           End Using
 
                                           Invoke(Sub()
-                                                     _statusLabel.Text = "Download Complete. Click Continue to install update."
-                                                     _statusLabel.TextAlign = ContentAlignment.MiddleCenter
+                                                     _statusDetail.Text = "Download Complete. Click Continue to install update."
+                                                     _statusDetail.TextAlign = ContentAlignment.MiddleCenter
                                                      _continueButton.Visible = True
                                                  End Sub)
 

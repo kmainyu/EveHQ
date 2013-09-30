@@ -2151,7 +2151,7 @@ Public Class frmEveHQ
                                                                                         HQ.RemoteProxy.ProxyUsername,
                                                                                         HQ.RemoteProxy.ProxyPassword,
                                                                                         HQ.RemoteProxy.UseBasicAuthentication)
-        myUpdater.Show()
+        myUpdater.ShowDialog()
     End Sub
 
     Private Shared Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean

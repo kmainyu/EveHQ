@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="MarketLocationData.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (MarketLocationData.cs), is part of EveHQ.
@@ -11,8 +12,9 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market
 {
     using System;
@@ -20,13 +22,17 @@ namespace EveHQ.Market
     /// <summary>The market location data.</summary>
     public class MarketLocationData
     {
-        /// <summary>Gets or sets the location id.</summary>
-        public int LocationId { get; set; }
+        #region Public Properties
 
         /// <summary>Gets or sets the freshness.</summary>
         public DateTimeOffset Freshness { get; set; }
 
+        /// <summary>Gets or sets the location id.</summary>
+        public int LocationId { get; set; }
+
         /// <summary>Gets or sets the path from root.</summary>
         public string PathFromRoot { get; set; }
+
+        #endregion
     }
 }

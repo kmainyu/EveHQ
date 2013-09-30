@@ -1,4 +1,5 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="UploadKey.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
 //  Copyright © 2005-2012  EveHQ Development Team
 //  This file (UploadKey.cs), is part of EveHQ.
@@ -11,19 +12,24 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.Market.UnifiedMarketDataFormat
 {
     /// <summary>
-    /// Key data specific to the service being uploaded to.
+    ///     Key data specific to the service being uploaded to.
     /// </summary>
     public class UploadKey
     {
-        /// <summary>Gets or sets the name.</summary>
-        public string Name { get; set; }
+        #region Public Properties
 
         /// <summary>Gets or sets the key.</summary>
         public string Key { get; set; }
+
+        /// <summary>Gets or sets the name.</summary>
+        public string Name { get; set; }
+
+        #endregion
     }
 }
