@@ -486,7 +486,7 @@ Public Class frmPrism
 
     Private Sub frmPrism_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         ' Save data and settings
-        Call Me.SaveAll()
+        Call SaveAll()
 
         ' Remove events
         RemoveHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
@@ -494,29 +494,19 @@ Public Class frmPrism
     End Sub
 
     Public Sub SaveAll()
-        ' Save the current 
-        SyncLock LockObj
-            Dim bpFile As String = Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")
-            Dim tempFile As String = Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin.temp")
-            Using s As New FileStream(tempFile, FileMode.Create)
-                Dim f As New BinaryFormatter
-                f.Serialize(s, PlugInData.BlueprintAssets)
-                s.Flush()
-            End Using
-
-            If File.Exists(bpFile) Then
-                File.Delete(bpFile)
-            End If
-            File.Move(tempFile, bpFile)
-        End SyncLock
+       
+        ' Save the Owner Blueprints
+        Call PlugInData.SaveOwnerBlueprints()
 
         ' Save the Production Jobs
         Call Jobs.Save()
+
         ' Save the Batch Jobs
         Call BatchJobs.SaveBatchJobs()
 
         ' Save the settings
         Call Settings.PrismSettings.SavePrismSettings()
+
     End Sub
 
 #End Region

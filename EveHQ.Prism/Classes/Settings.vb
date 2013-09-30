@@ -18,8 +18,8 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports Newtonsoft.Json
 
 <Serializable()> Public Class Settings
 
@@ -172,43 +172,56 @@ Imports System.Windows.Forms
     End Property
 
     Private Shared LockObj As New Object()
-    Private Const SettingsFileName As String = "PrismSettings.bin"
+    Private Const MainFileName As String = "PrismSettings.json"
     Public Sub SavePrismSettings()
-        SyncLock LockObj
-            Dim settingsFile As String = Path.Combine(Settings.PrismFolder, SettingsFileName)
-            Dim tempFile As String = Path.Combine(Settings.PrismFolder, SettingsFileName & ".temp")
 
-            ' Write a serial version of the settings
-            Using s As New FileStream(tempFile, FileMode.Create)
-                Dim f As New BinaryFormatter
-                f.Serialize(s, Settings.PrismSettings)
-                s.Flush()
-            End Using
-            If (File.Exists(settingsFile)) Then
-                File.Delete(settingsFile)
-            End If
-            File.Move(tempFile, settingsFile)
+        SyncLock LockObj
+
+            Dim newFile As String = Path.Combine(Settings.PrismFolder, MainFileName)
+            Dim tempFile As String = Path.Combine(Settings.PrismFolder, MainFileName & ".temp")
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(PrismSettings, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(tempFile, False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+
+                If File.Exists(newFile) Then
+                    File.Delete(newFile)
+                End If
+
+                File.Move(tempFile, newFile)
+
+            Catch e As Exception
+
+            End Try
+
         End SyncLock
 
     End Sub
 
     Public Function LoadPrismSettings() As Boolean
         SyncLock LockObj
-            
-            If File.Exists(Path.Combine(Settings.PrismFolder, SettingsFileName)) = True Then
+
+            If File.Exists(Path.Combine(Settings.PrismFolder, MainFileName)) = True Then
 
                 Try
-                    Using s As New FileStream(Path.Combine(Settings.PrismFolder, SettingsFileName), FileMode.Open)
-                        Dim f As BinaryFormatter = New BinaryFormatter
-                        Settings.PrismSettings = CType(f.Deserialize(s), Settings)
+                    Using s As New StreamReader(Path.Combine(Settings.PrismFolder, MainFileName))
+                        Dim json As String = s.ReadToEnd
+                        PrismSettings = JsonConvert.DeserializeObject(Of Settings)(json)
                     End Using
+
                 Catch ex As Exception
                     Dim msg As String = "There was an error trying to load the Prism settings file and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
                     msg &= "Prism will delete this file and re-initialise the settings." & ControlChars.CrLf & ControlChars.CrLf
                     msg &= "Press OK to reset the settings." & ControlChars.CrLf
                     MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Try
-                        My.Computer.FileSystem.DeleteFile(Path.Combine(Settings.PrismFolder, SettingsFileName))
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(Settings.PrismFolder, MainFileName))
                     Catch e As Exception
                         MessageBox.Show("Unable to delete the PrismSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Return False
@@ -217,7 +230,7 @@ Imports System.Windows.Forms
             End If
         End SyncLock
         ' Initialise the standard slot columns
-        Call Me.InitialiseSlotColumns()
+        Call InitialiseSlotColumns()
 
         ' Check if the standard columns have changed and we need to add columns
         If Settings.PrismSettings.UserSlotColumns.Count <> Settings.PrismSettings.StandardSlotColumns.Count Then

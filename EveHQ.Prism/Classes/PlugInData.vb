@@ -21,9 +21,8 @@
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Reflection
-Imports System.Text
 Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
+Imports Newtonsoft.Json
 
 Public Class PlugInData
     Implements EveHQ.Core.IEveHQPlugIn
@@ -43,11 +42,13 @@ Public Class PlugInData
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
     Private activeForm As frmPrism
+    Private Const OwnerBlueprintsFileName As String = "OwnerBlueprints.json"
+    Private Shared ReadOnly LockObj As New Object
 
 #Region "Plug-in Interface Properties and Functions"
 
     Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
-        Select Case DataType
+        Select Case dataType
             Case 0 ' Return a location
                 ' Check the data is Long return the station name
                 If TypeOf (data) Is Long Then
@@ -103,53 +104,47 @@ Public Class PlugInData
 
 #Region "Plug-in Startup Routines"
     Private Function LoadPlugIndata() As Boolean
-        If Me.CheckVersion = False Then
+        If CheckVersion() = False Then
             Return False
         Else
             ' Setup the Prism Folder
-            If EveHQ.Core.HQ.IsUsingLocalFolders = False Then
-                Settings.PrismFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, "Prism")
+            If Core.HQ.IsUsingLocalFolders = False Then
+                Settings.PrismFolder = Path.Combine(Core.HQ.AppDataFolder, "Prism")
             Else
                 Settings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
             End If
             If My.Computer.FileSystem.DirectoryExists(Settings.PrismFolder) = False Then
                 My.Computer.FileSystem.CreateDirectory(Settings.PrismFolder)
             End If
-            Call Prism.DataFunctions.CheckDatabaseTables()
-            Call Me.LoadItemFlags()
-            Call Me.LoadActivities()
-            Call Me.LoadStatuses()
-            Call Me.LoadPackedVolumes()
-            Call Me.LoadAssetItemNames()
+            Call DataFunctions.CheckDatabaseTables()
+            Call LoadItemFlags()
+            Call LoadStatuses()
+            Call LoadPackedVolumes()
+            Call LoadAssetItemNames()
             If Invention.LoadInventionData = False Then
                 Return False
-                Exit Function
             End If
-            If Me.LoadRefTypes = False Then
+            If LoadRefTypes() = False Then
                 Return False
-                Exit Function
             End If
-            If Me.LoadStations = False Then
+            If LoadStations() = False Then
                 Return False
-                Exit Function
             End If
-            If Me.LoadSolarSystems = False Then
+            If LoadSolarSystems() = False Then
                 Return False
-                Exit Function
             End If
-            If Me.LoadNPCCorps = False Then
+            If LoadNPCCorps() = False Then
                 Return False
-                Exit Function
             End If
-            Call Me.CheckForConqXMLFile()
-            Call Me.LoadOwnerBlueprints()
+            Call CheckForConqXMLFile()
+            Call LoadOwnerBlueprints()
             Return True
         End If
     End Function
     Private Sub LoadAssetItemNames()
         Try
             Dim strSQL As String = "SELECT * FROM assetItemNames;"
-            Dim nameData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            Dim nameData As DataSet = Core.DataFunctions.GetCustomData(strSQL)
             AssetItemNames.Clear()
             If nameData IsNot Nothing Then
                 If nameData.Tables(0).Rows.Count > 0 Then
@@ -202,7 +197,7 @@ Public Class PlugInData
     Private Sub LoadItemFlags()
         itemFlags.Clear()
         Dim strSQL As String = "SELECT * FROM invFlags"
-        Dim flagData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
+        Dim flagData As DataSet = Core.DataFunctions.GetData(strSQL)
         If flagData IsNot Nothing Then
             If flagData.Tables(0).Rows.Count > 0 Then
                 For Each flagRow As DataRow In flagData.Tables(0).Rows
@@ -211,18 +206,7 @@ Public Class PlugInData
             End If
         End If
     End Sub
-    Private Sub LoadActivities()
-        Activities.Clear()
-        Activities.Add("1", "Manufacturing")
-        Activities.Add("2", "Research Tech")
-        Activities.Add("3", "Research PE")
-        Activities.Add("4", "Research ME")
-        Activities.Add("5", "Copying")
-        Activities.Add("6", "Recycling")
-        Activities.Add("7", "Reverse Eng.")
-        Activities.Add("8", "Invention")
-    End Sub
-    Private Sub LoadStatuses()
+   Private Sub LoadStatuses()
         Statuses.Clear()
         Statuses.Add("0", "Failed")
         Statuses.Add("1", "Delivered")
@@ -438,21 +422,71 @@ Public Class PlugInData
             Next
         End If
     End Sub
-    Private Sub LoadOwnerBlueprints()
-        SyncLock frmPrism.LockObj
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin")) = True Then
-                Using s As New FileStream(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.bin"), FileMode.Open)
-                    If s.Length > 0 Then
-                        Dim f As BinaryFormatter = New BinaryFormatter
-                        PlugInData.BlueprintAssets = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
-                    End If
-                End Using
-            End If
-        End SyncLock
-    End Sub
+    
 #End Region
 
-#Region "API Helper Routines"
+#Region "Owner Blueprint Load/Save Methods"
+
+    Public Shared Sub LoadOwnerBlueprints()
+
+        SyncLock frmPrism.LockObj
+
+            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json")) = True Then
+                Try
+                    Using s As New StreamReader(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json"))
+                        Dim json As String = s.ReadToEnd
+                        BlueprintAssets = JsonConvert.DeserializeObject(Of SortedList(Of String, SortedList(Of String, BlueprintAsset)))(json)
+                    End Using
+                Catch ex As Exception
+                    Dim msg As String = "There was an error trying to load the Owner Blueprints and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Prism will rename this file (and add a .bad suffix) and re-initialise the settings." & ControlChars.CrLf & ControlChars.CrLf
+                    msg &= "Press OK to reset the Owner Blueprints file." & ControlChars.CrLf
+                    MessageBox.Show(msg, "Invalid Owner Blueprints file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Try
+                        File.Move(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json"), Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json" & ".bad"))
+                    Catch e As Exception
+                        MessageBox.Show("Unable to delete the OwnerBlueprints.json file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End Try
+                End Try
+            End If
+
+        End SyncLock
+
+    End Sub
+
+    Public Shared Sub SaveOwnerBlueprints()
+
+        SyncLock LockObj
+            Dim newFile As String = Path.Combine(Settings.PrismFolder, OwnerBlueprintsFileName)
+            Dim tempFile As String = Path.Combine(Settings.PrismFolder, OwnerBlueprintsFileName & ".temp")
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(BlueprintAssets, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(tempFile, False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+
+                If File.Exists(newFile) Then
+                    File.Delete(newFile)
+                End If
+
+                File.Move(tempFile, newFile)
+
+            Catch e As Exception
+
+            End Try
+
+        End SyncLock
+
+    End Sub
+
+#End Region
+
+#Region "API Helper Methods"
 
     Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.EveHQAccount
         If Owner.IsCorp = True Then

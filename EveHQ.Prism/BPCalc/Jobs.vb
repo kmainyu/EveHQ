@@ -18,42 +18,42 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports Newtonsoft.Json
 
 Namespace BPCalc
 
     Public Class Jobs
         Public Shared JobList As New SortedList(Of String, Job)
 
-        Private Const DataFileName As String = "ProductionJobs.bin"
-        Private Const TempFileName As String = "ProductionJobs.temp"
+        Private Const MainFileName As String = "ProductionJobs.bin"
         Private Shared ReadOnly LockObj As New Object
 
         Public Shared Sub Save()
 
             SyncLock LockObj
+                Dim newFile As String = Path.Combine(Settings.PrismFolder, MainFileName)
+                Dim tempFile As String = Path.Combine(Settings.PrismFolder, MainFileName & ".temp")
 
-                Dim dataFile As String = Path.Combine(Settings.PrismFolder, DataFileName)
-                Dim tempFile As String = Path.Combine(Settings.PrismFolder, TempFileName)
-                Dim previousFile As String = Path.Combine(Settings.PrismFolder, "Previous" & DataFileName)
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(JobList, Newtonsoft.Json.Formatting.Indented)
 
-                If (File.Exists(previousFile)) Then
-                    File.Delete(previousFile)
-                End If
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(tempFile, False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
 
-                If (File.Exists(dataFile)) Then
-                    File.Move(dataFile, previousFile)
-                End If
+                    If File.Exists(newFile) Then
+                        File.Delete(newFile)
+                    End If
 
-                ' Write a serial version of the classes
-                Using s As New FileStream(tempFile, FileMode.Create)
-                    Dim f As New BinaryFormatter
-                    f.Serialize(s, JobList)
-                    s.Flush()
-                End Using
+                    File.Move(tempFile, newFile)
 
-                File.Move(tempFile, dataFile)
+                Catch e As Exception
+
+                End Try
 
             End SyncLock
 
@@ -63,12 +63,12 @@ Namespace BPCalc
 
             SyncLock LockObj
 
-                If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, DataFileName)) = True Then
+                If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, MainFileName)) = True Then
 
                     Try
-                        Using s As New FileStream(Path.Combine(Settings.PrismFolder, DataFileName), FileMode.Open)
-                            Dim f As BinaryFormatter = New BinaryFormatter
-                            JobList = CType(f.Deserialize(s), SortedList(Of String, Job))
+                        Using s As New StreamReader(Path.Combine(Settings.PrismFolder, MainFileName))
+                            Dim json As String = s.ReadToEnd
+                            JobList = JsonConvert.DeserializeObject(Of SortedList(Of String, Job))(json)
                         End Using
 
                         ' Run a check on job names to ensure not blank
@@ -84,7 +84,7 @@ Namespace BPCalc
                         msg &= "Press OK to reset the Production Jobs file." & ControlChars.CrLf
                         MessageBox.Show(msg, "Invalid Production Jobs file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Try
-                            File.Move(Path.Combine(Settings.PrismFolder, DataFileName), Path.Combine(Settings.PrismFolder, DataFileName & ".bad"))
+                            File.Move(Path.Combine(Settings.PrismFolder, MainFileName), Path.Combine(Settings.PrismFolder, MainFileName & ".bad"))
                         Catch e As Exception
                             MessageBox.Show("Unable to delete the ProductionJobs.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Return False
@@ -93,6 +93,7 @@ Namespace BPCalc
                 End If
 
                 Return True
+
             End SyncLock
 
         End Function
