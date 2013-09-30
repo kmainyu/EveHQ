@@ -136,9 +136,12 @@ namespace EveHQ.Common.Extensions
         public static T ToEnum<T>(this string word) where T : struct
         {
             T value;
-            Enum.TryParse(word, out value);
+            if (Enum.TryParse(word, out value))
+            {
+                return value;
+            }
 
-            return value;
+            return default(T);
         }
 
         #endregion

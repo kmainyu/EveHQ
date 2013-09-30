@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ", "EveHQ\EveHQ.vbproj", "{366925AB-54F3-4D36-B05C-E98DBE8DA595}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQPatcher", "EveHQPatcher\EveHQPatcher.vbproj", "{49764CA5-FF2F-4FE5-95BB-C1935C636BD7}"
@@ -40,7 +40,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Common", "EveHQ.Commo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LegacyLibs", "LegacyLibs", "{3DEE9EE8-C786-45E3-A4E2-10709F5137F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.EveAPI", "EveHQ.NewEveAPI\EveHQ.EveAPI.csproj", "{7CAAEB13-6EB8-482C-B63C-F78CB30B2289}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.NewEveAPI", "EveHQ.NewEveAPI\EveHQ.NewEveAPI.csproj", "{7CAAEB13-6EB8-482C-B63C-F78CB30B2289}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EveHQ.Tests", "EveHQ.Tests\EveHQ.Tests.csproj", "{8A49ED2D-451B-4D60-BDB0-4B6605D035FA}"
 EndProject

@@ -25,7 +25,7 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports System.Text
 Imports System.Runtime.Serialization.Formatters.Binary
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.Market
 Imports EveHQ.Common.Extensions
 Imports Microsoft.VisualBasic.FileIO
@@ -868,7 +868,7 @@ Public Class DataFunctions
                 ' Go through the list of id's provided and only get the items that have a valid market group.
                 Dim filteredIdNumbers As IEnumerable(Of String) = (From itemId In itemIDs Where HQ.itemData.ContainsKey(itemId))
 
-                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where HQ.itemData(itemId).MarketGroup <> 0 Select ToInt=itemId.ToInt32())
+                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where HQ.itemData(itemId).MarketGroup <> 0 Select ToInt = itemId.ToInt32())
 
                 If itemIdNumbersToRequest Is Nothing Then
                     itemIdNumbersToRequest = New List(Of Integer)
@@ -1832,45 +1832,45 @@ Public Class DataFunctions
                 If ReqIDList.Count > 0 Then
 
                     HQ.WriteLogEvent("Rebuilding Required ID List for sending to the API")
-                    strID = New StringBuilder
-                    For Each ID As String In ReqIDList
-                        strID.Append("," & ID)
-                    Next
-                    If strID.Length > 1 Then
-                        strID.Remove(0, 1)
-                    End If
+                    'strID = New StringBuilder
+                    'For Each ID As String In ReqIDList
+                    '    strID.Append("," & ID)
+                    'Next
+                    'If strID.Length > 1 Then
+                    '    strID.Remove(0, 1)
+                    'End If
                     HQ.WriteLogEvent("Finishing building list of " & ReqIDList.Count.ToString & " IDs for the API")
 
                     ' Send this to the API if we have something!
                     HQ.WriteLogEvent("Requesting ID List From the API: " & strID.ToString)
-                    Dim _
-                        APIReq As _
-                            New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
-                                              HQ.cacheFolder)
-                    Dim IDXML As XmlDocument = APIReq.GetAPIXML(APITypes.IDToName, strID.ToString,
-                                                                APIReturnMethods.ReturnActual)
+                    'Dim _
+                    '    APIReq As _
+                    '        New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
+                    '                          HQ.cacheFolder)
+                    'Dim IDXML As XmlDocument = APIReq.GetAPIXML(APITypes.IDToName, strID.ToString,
+                    '                                            APIReturnMethods.ReturnActual)
+                    Dim characterIds As List(Of Long) = (From ID In ReqIDList Select Long.Parse(ID)).ToList()
+                    Dim names As EveServiceResponse(Of IEnumerable(Of CharacterName)) = HQ.ApiProvider.Eve.CharacterName(characterIds)
+
                     ' Parse this XML
                     Dim FinalIDs As New SortedList(Of Long, String)
-                    Dim IDList As XmlNodeList
-                    Dim IDNode As XmlNode
                     Dim eveID As Long = 0
                     Dim eveName As String = ""
-                    If IDXML IsNot Nothing Then
-                        IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-                        If IDList.Count > 0 Then
-                            HQ.WriteLogEvent("Parsing " & IDList.Count.ToString & " IDs in the XML file")
-                            For Each IDNode In IDList
-                                eveID = CLng(IDNode.Attributes.GetNamedItem("characterID").Value)
-                                eveName = IDNode.Attributes.GetNamedItem("name").Value
-                                If FinalIDs.ContainsKey(eveID) = False Then
-                                    FinalIDs.Add(eveID, eveName)
-                                End If
-                            Next
-                        Else
-                            If APIReq.LastAPIError > 0 Then
-                                HQ.WriteLogEvent("Error " & APIReq.LastAPIError.ToString & " returned by the API!")
+                    If names IsNot Nothing Then
+                        If names.WasSucessful Then
+                            If names.ResultData.Any() Then
+                                HQ.WriteLogEvent("Parsing " & names.ResultData.Count() & " IDs in the XML file")
+                                For Each name As CharacterName In names.ResultData
+                                    If FinalIDs.ContainsKey(name.Id) = False Then
+                                        FinalIDs.Add(name.Id, name.Name)
+                                    End If
+                                Next
                             End If
+                        Else
+                            'TODO: Get Detailed error message when API errors are fixed.
+                            HQ.WriteLogEvent("Error returned by the API!")
                         End If
+
 
                         ' Add all the data to the database
                         HQ.WriteLogEvent("Creating SQL Query for IDToName data")

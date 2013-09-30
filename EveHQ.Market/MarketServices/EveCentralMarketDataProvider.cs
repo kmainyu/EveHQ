@@ -89,32 +89,17 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The _market order cache.</summary>
         private readonly ICacheProvider _marketOrderCache;
 
-        /// <summary>The _proxy password.</summary>
-        private readonly string _proxyPassword;
-
-        /// <summary>The _proxy server address.</summary>
-        private readonly Uri _proxyServerAddress;
-
-        /// <summary>The _proxy user name.</summary>
-        private readonly string _proxyUserName;
-
         /// <summary>The _region data cache.</summary>
         private readonly ICacheProvider _regionDataCache;
 
         /// <summary>The _upload key.</summary>
-        private readonly UploadKey _uploadKey = new UploadKey { Key = "0", Name = "Eve-Central" };
-
-        /// <summary>The _use basic auth.</summary>
-        private readonly bool _useBasicAuth;
-
-        /// <summary>The _use default credential.</summary>
-        private readonly bool _useDefaultCredential;
+        private readonly UploadKey _uploadKey = new UploadKey { Key = "0", Name = "Eve-Central" };        
 
         /// <summary>The _next upload attempt.</summary>
         private DateTimeOffset _nextUploadAttempt;
 
         /// <summary>The _request provider.</summary>
-        private IHttpRequestProvider _requestProvider;
+        private readonly IHttpRequestProvider _requestProvider;
 
         /// <summary>The _upload service online.</summary>
         private bool _uploadServiceOnline;
@@ -131,31 +116,6 @@ namespace EveHQ.Market.MarketServices
             _regionDataCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, Region));
             _marketOrderCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, "MarketOrders"));
             _requestProvider = requestProvider;
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="EveCentralMarketDataProvider"/> class.</summary>
-        /// <param name="cacheRootFolder">The cache root folder.</param>
-        /// <param name="requestProvider">The request Provider.</param>
-        /// <param name="proxyServerAddress">The proxy Server Address.</param>
-        /// <param name="useDefaultCredential">The use Default Credential.</param>
-        /// <param name="proxyUserName">The proxy User Name.</param>
-        /// <param name="proxyPassword">The proxy Password.</param>
-        /// <param name="useBasicAuth">The use Basic Auth.</param>
-        public EveCentralMarketDataProvider(
-            string cacheRootFolder,
-            IHttpRequestProvider requestProvider,
-            Uri proxyServerAddress,
-            bool useDefaultCredential,
-            string proxyUserName,
-            string proxyPassword,
-            bool useBasicAuth)
-            : this(cacheRootFolder, requestProvider)
-        {
-            _proxyServerAddress = proxyServerAddress;
-            _useDefaultCredential = useDefaultCredential;
-            _proxyUserName = proxyUserName;
-            _proxyPassword = proxyPassword;
-            _useBasicAuth = useBasicAuth;
         }
 
         #endregion

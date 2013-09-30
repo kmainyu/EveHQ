@@ -166,5 +166,7 @@ namespace EveHQ.EveApi
 
 
         public const string Ids = "ids";
+
+        public const string Names = "names";
     }
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>StyleCop</id>
+    <version>4.7.44.0</version>
+    <title>StyleCop</title>
+    <authors>Andy Reeves</authors>
+    <owners>Andy Reeves</owners>
+    <licenseUrl>http://stylecop.codeplex.com/license</licenseUrl>
+    <projectUrl>http://stylecop.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Core StyleCop libraries to create custom rules</description>
+    <releaseNotes />
+    <copyright />
+    <language>en-US</language>
+  </metadata>
+</package>

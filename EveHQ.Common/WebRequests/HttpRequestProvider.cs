@@ -39,7 +39,7 @@ namespace EveHQ.Common
         /// <summary>
         ///     user agent value to send along on requests for provider collection.
         /// </summary>
-        private static readonly string UserAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version;
+        //  private static readonly string UserAgent = "EveHQ v" + Assembly.GetExecutingAssembly().GetName().Version;
 
         #endregion
 
@@ -140,16 +140,13 @@ namespace EveHQ.Common
         /// <param name="postContent">The string content to send as the payload.</param>
         /// <param name="contentType">The content Type.</param>
         /// <returns>The asynchronouse task instance</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "validated by extension method.")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Catching for logging purposes.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the handler for async operations would cause the operation to fail."),
+        System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "1", Justification = "validated by extension method.")]
         public Task<HttpResponseMessage> PostAsync(Uri target, string postContent, string contentType)
         {
             if (target != null && !postContent.IsNullOrWhiteSpace())
             {
                 var handler = new HttpClientHandler();
-
-                // TODO: Update this to use HTTP Client.
-                var request = WebRequest.Create(target) as HttpWebRequest;
 
                 // This is never null
                 if (_proxyInfo != null && _proxyInfo.ProxyServerAddress != null)
@@ -178,37 +175,6 @@ namespace EveHQ.Common
                 var content = new StringContent(postContent, Encoding.UTF8, contentType);
 
                 return requestClient.PostAsync(target, content);
-
-                // request.Method = "POST";
-                // request.UserAgent = UserAgent;
-                // request.ContentType = "application/x-www-form-urlencoded";
-
-                // request.ContentLength = postContent.Length;
-                // Stream reqStream = request.GetRequestStream();
-
-                // byte[] dataBytes = Encoding.UTF8.GetBytes(postContent);
-
-                // reqStream.Write(dataBytes, 0, dataBytes.Length);
-                // reqStream.Flush();
-                // reqStream.Close();
-
-                // return Task<WebResponse>.Factory.FromAsync(
-                // request.BeginGetResponse, 
-                // ticket =>
-                // {
-                // WebResponse response = null;
-                // try
-                // {
-                // response = request.EndGetResponse(ticket);
-                // }
-                // catch (Exception ex)
-                // {
-                // Trace.TraceError("Error with web request to {0} : {1}".FormatInvariant(target, ex.Message));
-                // }
-
-                // return response;
-                // }, 
-                // null);
             }
 
             return Task<HttpResponseMessage>.Factory.StartNew(() => null);

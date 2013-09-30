@@ -116,7 +116,6 @@ namespace EveHQ.Market
             return _requestProvider.PostAsync(requestUri, marketData).ContinueWith(
                 task =>
                     {
-                        HttpWebResponse httpResponse;
                         if (task.IsCompleted && !task.IsCanceled && !task.IsFaulted && task.Exception == null && task.Result != null && task.Result.StatusCode == HttpStatusCode.OK)
                         {
                             // success

@@ -20,7 +20,7 @@
 Imports System.Windows.Forms
 Imports EveHQ.Common
 Imports DevComponents.DotNetBar
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports System.IO
 Imports System.Linq
 Imports EveHQ.Market
@@ -107,7 +107,7 @@ Public Class HQ
     Private Shared _loggingStream As Stream
     Private Shared _eveHqTracer As EveHQTraceLogger
     Private Shared _proxyDetails As WebProxyDetails
-
+    Private Shared _apiProvider As EveAPI.EveAPI
 
     Shared Sub New()
 
@@ -277,6 +277,15 @@ Public Class HQ
                 Return _proxyDetails
             End If
             Return Nothing
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property ApiProvider As EveApi.EveAPI
+        Get
+            If _apiProvider Is Nothing Then
+                _apiProvider = New EveApi.EveAPI(Path.Combine(AppDataFolder, "ApiCache"), New HttpRequestProvider(ProxyDetails))
+            End If
+            Return _apiProvider
         End Get
     End Property
 

@@ -393,6 +393,10 @@
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
       <Name>EveHQ.Market</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EveHQ.NewEveAPI\EveHQ.NewEveAPI.csproj">
+      <Project>{7caaeb13-6eb8-482c-b63c-f78cb30b2289}</Project>
+      <Name>EveHQ.NewEveAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
