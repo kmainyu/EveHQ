@@ -11,7 +11,6 @@ namespace EveHQ.EveData
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -32,7 +31,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// The type attributes.
         /// </summary>
-        private static Collection<TypeAttrib> typeAttributes = new Collection<TypeAttrib>();
+        private static List<TypeAttrib> typeAttributes = new List<TypeAttrib>();
 
         /// <summary>
         /// The attribute units.
@@ -47,7 +46,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// The type effects.
         /// </summary>
-        private static Collection<TypeEffect> typeEffects = new Collection<TypeEffect>();
+        private static List<TypeEffect> typeEffects = new List<TypeEffect>();
 
         /// <summary>
         /// The type names.
@@ -112,27 +111,27 @@ namespace EveHQ.EveData
         /// <summary>
         /// The certificate recommendations.
         /// </summary>
-        private static Collection<CertificateRecommendation> certificateRecommendations = new Collection<CertificateRecommendation>();
+        private static List<CertificateRecommendation> certificateRecommendations = new List<CertificateRecommendation>();
 
         /// <summary>
         /// The skill unlocks.
         /// </summary>
-        private static SortedList<string, Collection<string>> skillUnlocks = new SortedList<string, Collection<string>>();
+        private static SortedList<string, List<string>> skillUnlocks = new SortedList<string, List<string>>();
 
         /// <summary>
         /// The item unlocks.
         /// </summary>
-        private static SortedList<string, Collection<string>> itemUnlocks = new SortedList<string, Collection<string>>();
+        private static SortedList<string, List<string>> itemUnlocks = new SortedList<string, List<string>>();
 
         /// <summary>
         /// The cert unlock certificates.
         /// </summary>
-        private static SortedList<string, Collection<string>> certUnlockCertificates = new SortedList<string, Collection<string>>();
+        private static SortedList<string, List<string>> certUnlockCertificates = new SortedList<string, List<string>>();
 
         /// <summary>
         /// The cert unlock skills.
         /// </summary>
-        private static SortedList<string, Collection<string>> certUnlockSkills = new SortedList<string, Collection<string>>();
+        private static SortedList<string, List<string>> certUnlockSkills = new SortedList<string, List<string>>();
 
         /// <summary>
         /// The regions.
@@ -235,7 +234,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the type attributes.
         /// </summary>
-        public static Collection<TypeAttrib> TypeAttributes
+        public static List<TypeAttrib> TypeAttributes
         {
             get
             {
@@ -268,7 +267,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the type effects.
         /// </summary>
-        public static Collection<TypeEffect> TypeEffects
+        public static List<TypeEffect> TypeEffects
         {
             get
             {
@@ -411,7 +410,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the certificate recommendations.
         /// </summary>
-        public static Collection<CertificateRecommendation> CertificateRecommendations
+        public static List<CertificateRecommendation> CertificateRecommendations
         {
             get
             {
@@ -422,7 +421,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the skill unlocks.
         /// </summary>
-        public static SortedList<string, Collection<string>> SkillUnlocks
+        public static SortedList<string, List<string>> SkillUnlocks
         {
             get
             {
@@ -433,7 +432,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the item unlocks.
         /// </summary>
-        public static SortedList<string, Collection<string>> ItemUnlocks
+        public static SortedList<string, List<string>> ItemUnlocks
         {
             get
             {
@@ -444,7 +443,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the cert unlock certs.
         /// </summary>
-        public static SortedList<string, Collection<string>> CertUnlockCertificates
+        public static SortedList<string, List<string>> CertUnlockCertificates
         {
             get
             {
@@ -455,7 +454,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the cert unlock skills.
         /// </summary>
-        public static SortedList<string, Collection<string>> CertUnlockSkills
+        public static SortedList<string, List<string>> CertUnlockSkills
         {
             get
             {
@@ -899,35 +898,35 @@ namespace EveHQ.EveData
                 // Cert Recommendations
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Open))
                 {
-                    certificateRecommendations = Serializer.Deserialize<Collection<CertificateRecommendation>>(s);
+                    certificateRecommendations = Serializer.Deserialize<List<CertificateRecommendation>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificate Recommendations Finished Loading");
 
                 // Unlocks
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemUnlocks.dat"), FileMode.Open))
                 {
-                    itemUnlocks = Serializer.Deserialize<SortedList<string, Collection<string>>>(s);
+                    itemUnlocks = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Item Unlocks Finished Loading");
 
                 // SkillUnlocks
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Open))
                 {
-                    skillUnlocks = Serializer.Deserialize<SortedList<string, Collection<string>>>(s);
+                    skillUnlocks = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Skill Unlocks Finished Loading");
 
                 // CertCerts
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertCerts.dat"), FileMode.Open))
                 {
-                    certUnlockCertificates = Serializer.Deserialize<SortedList<string, Collection<string>>>(s);
+                    certUnlockCertificates = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificate Unlocks Finished Loading");
 
                 // CertSkills
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open))
                 {
-                    certUnlockSkills = Serializer.Deserialize<SortedList<string, Collection<string>>>(s);
+                    certUnlockSkills = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificate Skills Finished Loading");
 
@@ -983,7 +982,7 @@ namespace EveHQ.EveData
                 // Type Attributes
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeAttributes.dat"), FileMode.Open))
                 {
-                    typeAttributes = Serializer.Deserialize<Collection<TypeAttrib>>(s);
+                    typeAttributes = Serializer.Deserialize<List<TypeAttrib>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Type Attributes Finished Loading");
 
@@ -1004,7 +1003,7 @@ namespace EveHQ.EveData
                 // Type Effects
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeEffects.dat"), FileMode.Open))
                 {
-                    typeEffects = Serializer.Deserialize<Collection<TypeEffect>>(s);
+                    typeEffects = Serializer.Deserialize<List<TypeEffect>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Type Effects Finished Loading");
 
