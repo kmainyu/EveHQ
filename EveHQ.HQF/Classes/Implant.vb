@@ -17,37 +17,39 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-<Serializable()> Public Class Implants
+Imports ProtoBuf
 
-    Public Shared implantList As New SortedList   ' Key = Name
+<ProtoContract()> <Serializable()> Public Class Implants
+
+    <ProtoMember(1)> Public Shared ImplantList As New SortedList(Of String, ShipModule)    ' Key = Name
 
 End Class
 
-<Serializable()> Public Class ImplantGroup
+<ProtoContract()> <Serializable()> Public Class ImplantGroup
 
 #Region "Property Variables"
 
-    Private cGroupName As String
-    Private cImplantName(10) As String
+    Private _groupName As String
+    Private ReadOnly _implantName(10) As String
 
 #End Region
 
 #Region "Properties"
 
-    Public Property GroupName() As String
+    <ProtoMember(1)> Public Property GroupName() As String
         Get
-            Return cGroupName
+            Return _groupName
         End Get
         Set(ByVal value As String)
-            cGroupName = value
+            _groupName = value
         End Set
     End Property
-    Public Property ImplantName(ByVal index As Integer) As String
+    <ProtoMember(2)> Public Property ImplantName(ByVal index As Integer) As String
         Get
-            Return cImplantName(index)
+            Return _implantName(index)
         End Get
         Set(ByVal value As String)
-            cImplantName(index) = value
+            _implantName(index) = value
         End Set
     End Property
 

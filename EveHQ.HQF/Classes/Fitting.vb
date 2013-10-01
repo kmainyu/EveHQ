@@ -1135,7 +1135,7 @@ Imports EveHQ.Core
     End Sub
     Public Function BuildSubSystemEffects(ByVal cShip As Ship) As Ship
 
-        Dim newShip As Ship = CType(ShipLists.shipList(cShip.Name), Ship).Clone
+        Dim newShip As Ship = ShipLists.ShipList(cShip.Name).Clone
 
         If newShip.SubSlots > 0 Then
             For slot As Integer = 1 To newShip.SubSlots
@@ -1144,14 +1144,13 @@ Imports EveHQ.Core
         End If
 
         ' Clear the Effects Table
-        Dim SSEffectsTable As New SortedList
+        Dim ssEffectsTable As New SortedList
         ' Go through all the skills and see what needs to be mapped
-        Dim att As String = ""
-        Dim attData As New ArrayList
-        Dim fEffect As New FinalEffect
-        Dim fEffectList As New ArrayList
-        Dim aModule As New ShipModule
-        Dim processData As Boolean = False
+        Dim att As String
+        Dim fEffect As FinalEffect
+        Dim fEffectList As ArrayList
+        Dim aModule As ShipModule
+        Dim processData As Boolean
         If newShip.SubSlots > 0 Then
             For s As Integer = 1 To newShip.SubSlots
                 aModule = newShip.SubSlot(s)
@@ -1203,11 +1202,11 @@ Imports EveHQ.Core
                                     fEffect.StackNerf = chkEffect.StackNerf
                                     fEffect.Cause = aModule.Name
                                     fEffect.CalcType = chkEffect.CalcType
-                                    If SSEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
+                                    If ssEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
                                         fEffectList = New ArrayList
-                                        SSEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                        ssEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
                                     Else
-                                        fEffectList = CType(SSEffectsTable(fEffect.AffectedAtt.ToString), Collections.ArrayList)
+                                        fEffectList = CType(ssEffectsTable(fEffect.AffectedAtt.ToString), ArrayList)
                                     End If
                                     fEffectList.Add(fEffect)
                                 End If
@@ -1220,8 +1219,8 @@ Imports EveHQ.Core
 
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
-            If SSEffectsTable.Contains(att) = True Then
-                For Each fEffect In CType(SSEffectsTable(att), ArrayList)
+            If ssEffectsTable.Contains(att) = True Then
+                For Each fEffect In CType(ssEffectsTable(att), ArrayList)
                     If ProcessFinalEffectForShip(newShip, fEffect) = True Then
                         Call ApplyFinalEffectToShip(newShip, fEffect, att)
                     End If
@@ -1252,22 +1251,35 @@ Imports EveHQ.Core
                 newShip.RigSlot(slot) = cShip.RigSlot(slot)
             Next
         End If
-        newShip.CargoBayItems = CType(cShip.CargoBayItems.Clone, Collections.SortedList)
+        For Each cbidx As Integer In cShip.CargoBayItems.Keys
+            newShip.CargoBayItems.Add(cbidx, cShip.CargoBayItems(cbidx))
+        Next
+        For Each dbidx As Integer In cShip.DroneBayItems.Keys
+            newShip.DroneBayItems.Add(dbidx, cShip.DroneBayItems(dbidx))
+        Next
+        For Each sbidx As Integer In cShip.ShipBayItems.Keys
+            newShip.ShipBayItems.Add(sbidx, cShip.ShipBayItems(sbidx))
+        Next
         newShip.CargoBayUsed = cShip.CargoBayUsed
-        newShip.DroneBayItems = CType(cShip.DroneBayItems.Clone, Collections.SortedList)
         newShip.DroneBayUsed = cShip.DroneBayUsed
-        newShip.ShipBayItems = CType(cShip.ShipBayItems.Clone, Collections.SortedList)
         newShip.ShipBayUsed = cShip.ShipBayUsed
-        newShip.FleetSlotCollection = CType(cShip.FleetSlotCollection.Clone, ArrayList)
-        newShip.RemoteSlotCollection = CType(cShip.RemoteSlotCollection.Clone, ArrayList)
-        newShip.EnviroSlotCollection = CType(cShip.EnviroSlotCollection.Clone, ArrayList)
-        newShip.BoosterSlotCollection = CType(cShip.BoosterSlotCollection.Clone, ArrayList)
+        For Each shipMod As ShipModule In cShip.FleetSlotCollection
+            newShip.FleetSlotCollection.Add(shipMod.Clone)
+        Next
+        For Each shipMod As ShipModule In cShip.RemoteSlotCollection
+            newShip.RemoteSlotCollection.Add(shipMod.Clone)
+        Next
+        For Each shipMod As ShipModule In cShip.EnviroSlotCollection
+            newShip.EnviroSlotCollection.Add(shipMod.Clone)
+        Next
+        For Each shipMod As ShipModule In cShip.BoosterSlotCollection
+            newShip.BoosterSlotCollection.Add(shipMod.Clone)
+        Next
         If cShip.DamageProfile IsNot Nothing Then
             newShip.DamageProfile = cShip.DamageProfile
         Else
             newShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
         End If
-
         Return newShip
     End Function
     Private Sub BuildExternalModules()
@@ -1293,31 +1305,31 @@ Imports EveHQ.Core
         End If
 
     End Sub
-    Private Function CollectModules(ByVal newShip As Ship) As Ship
+       Private Function CollectModules(ByVal newShip As Ship) As Ship
         newShip.SlotCollection.Clear()
-        For Each RemoteObject As Object In newShip.RemoteSlotCollection
-            If TypeOf RemoteObject Is ShipModule Then
-                newShip.SlotCollection.Add(RemoteObject)
+        For Each remoteObject As Object In newShip.RemoteSlotCollection
+            If TypeOf remoteObject Is ShipModule Then
+                newShip.SlotCollection.Add(CType(remoteObject, ShipModule))
             Else
-                Dim remoteDrones As DroneBayItem = CType(RemoteObject, DroneBayItem)
+                Dim remoteDrones As DroneBayItem = CType(remoteObject, DroneBayItem)
                 For drone As Integer = 1 To remoteDrones.Quantity
                     newShip.SlotCollection.Add(remoteDrones.DroneType)
                 Next
             End If
         Next
-        For Each FleetObject As Object In newShip.FleetSlotCollection
-            If TypeOf FleetObject Is ShipModule Then
-                newShip.SlotCollection.Add(FleetObject)
+        For Each fleetObject As Object In newShip.FleetSlotCollection
+            If TypeOf fleetObject Is ShipModule Then
+                newShip.SlotCollection.Add(CType(fleetObject, ShipModule))
             End If
         Next
-        For Each EnviroObject As Object In newShip.EnviroSlotCollection
-            If TypeOf EnviroObject Is ShipModule Then
-                newShip.SlotCollection.Add(EnviroObject)
+        For Each enviroObject As Object In newShip.EnviroSlotCollection
+            If TypeOf enviroObject Is ShipModule Then
+                newShip.SlotCollection.Add(CType(enviroObject, ShipModule))
             End If
         Next
-        For Each BoosterObject As Object In newShip.BoosterSlotCollection
-            If TypeOf BoosterObject Is ShipModule Then
-                newShip.SlotCollection.Add(BoosterObject)
+        For Each boosterObject As Object In newShip.BoosterSlotCollection
+            If TypeOf boosterObject Is ShipModule Then
+                newShip.SlotCollection.Add(CType(boosterObject, ShipModule))
             End If
         Next
         For slot As Integer = 1 To newShip.HiSlots
@@ -1329,11 +1341,11 @@ Imports EveHQ.Core
             If newShip.MidSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.MidSlot(slot))
                 ' Recalculate Cap Booster calcs if reload time is included
-                If HQF.Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = ShipModule.Group_CapBoosters Then
+                If Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = "76" Then
                     Dim cModule As ShipModule = newShip.MidSlot(slot)
                     If cModule.LoadedCharge IsNot Nothing Then
                         Dim reloadEffect As Double = 10 / (CInt(Int(cModule.Capacity / cModule.LoadedCharge.Volume)))
-                        cModule.Attributes(Attributes.Module_ActivationTime) += reloadEffect
+                        cModule.Attributes("73") += reloadEffect
                     End If
                 End If
             End If
@@ -1349,10 +1361,7 @@ Imports EveHQ.Core
             End If
         Next
         ' Reset max gang links status
-        newShip.Attributes(Attributes.Ship_MaxGangLinks) = 1
-        'If newShip.Attributes.ContainsKey("435") = True Then
-        '    newShip.Attributes("10063") = newShip.Attributes("10063") + Me.BaseShip.Attributes("435")
-        'End If
+        newShip.Attributes("10063") = 1
         Return newShip
     End Function
     Private Sub ApplySkillEffectsToShip(ByRef newShip As Ship)

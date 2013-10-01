@@ -3490,7 +3490,7 @@ Public Class ShipSlotControl
         If lvwRemoteEffects.Tag.ToString <> "Refresh" Then
             ParentFitting.BaseShip.RemoteSlotCollection.Clear()
             For Each item As ListViewItem In lvwRemoteEffects.CheckedItems
-                ParentFitting.BaseShip.RemoteSlotCollection.Add(item.Tag)
+                ParentFitting.BaseShip.RemoteSlotCollection.Add(CType(item.Tag, ShipModule))
             Next
             ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
         End If
@@ -4395,7 +4395,7 @@ Public Class ShipSlotControl
                 Dim cbo As ComboBox =
                         CType(Me.tcStorage.Controls("tcpBoosters").Controls("cboBoosterSlot" & slot.ToString), ComboBox)
                 If cbo.Tag IsNot Nothing Then
-                    ParentFitting.BaseShip.BoosterSlotCollection.Add(cbo.Tag)
+                    ParentFitting.BaseShip.BoosterSlotCollection.Add(CType(cbo.Tag, ShipModule))
                 End If
             Next
             ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)

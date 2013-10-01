@@ -17,10 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-<Serializable()> Public Class Attributes
+Imports ProtoBuf
 
-    Public Shared AttributeList As New SortedList
-    Public Shared AttributeQuickList As New SortedList
+<ProtoContract()> <Serializable()> Public Class Attributes
+
+    <ProtoMember(1)> Public Shared AttributeList As New SortedList(Of String, Attribute) ' Attribute.ID, Attribute
+    <ProtoMember(2)> Public Shared AttributeQuickList As New SortedList(Of String, String) ' AttributeID, Attribute.DisplayName
 
 #Region "Constants"
     ' DB attributeIDs (see dgmAttributeTypes)
@@ -244,10 +246,10 @@
 
 End Class
 
-<Serializable()> Public Class Attribute
-    Public ID As String
-    Public Name As String
-    Public DisplayName As String
-    Public UnitName As String
-    Public AttributeGroup As String
+<ProtoContract()> <Serializable()> Public Class Attribute
+    <ProtoMember(1)> Public ID As String
+    <ProtoMember(2)> Public Name As String
+    <ProtoMember(3)> Public DisplayName As String
+    <ProtoMember(4)> Public UnitName As String
+    <ProtoMember(5)> Public AttributeGroup As String
 End Class

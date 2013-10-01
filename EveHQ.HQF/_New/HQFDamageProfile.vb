@@ -17,17 +17,18 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports ProtoBuf
 
+<ProtoContract()>
+<Serializable()>
 Public Class HQFDamageProfile
-    Public Property Name As String
-    Public Property Type As ProfileTypes
-    Public Property EM As Double
-    Public Property Explosive As Double
-    Public Property Kinetic As Double
-    Public Property Thermal As Double
-    Public Property DPS As Double
-    Public Property Fitting As String
-    Public Property Pilot As String
+    <ProtoMember(1)> Public Property Name As String
+    <ProtoMember(2)> Public Property Type As ProfileTypes
+    <ProtoMember(3)> Public Property EM As Double
+    <ProtoMember(4)> Public Property Explosive As Double
+    <ProtoMember(5)> Public Property Kinetic As Double
+    <ProtoMember(6)> Public Property Thermal As Double
+    <ProtoMember(7)> Public Property DPS As Double
+    <ProtoMember(8)> Public Property Fitting As String
+    <ProtoMember(9)> Public Property Pilot As String
 End Class
-
-

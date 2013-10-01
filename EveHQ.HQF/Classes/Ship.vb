@@ -28,116 +28,155 @@ Imports ProtoBuf
 ''' Public class for storing details of a ship used for processing
 ''' </summary>
 ''' <remarks></remarks>
-<ProtoContract()>
-<Serializable()>
-Public Class Ship
+<ProtoContract()> <Serializable()> Public Class Ship
 
 #Region "Constants"
     Const MaxBasicSlots As Integer = 8
     Const MaxRigSlots As Integer = 3
     Const MaxSubSlots As Integer = 5
-
 #End Region
 
 #Region "Property Variables"
 
-    ' Max Fitting Layout
-    Private _hiSlots As Integer
-    Private _midSlots As Integer
-    Private _lowSlots As Integer
-    Private _rigSlots As Integer
-    Private _subSlots As Integer
-    Private _turretSlots As Integer
-    Private _launcherSlots As Integer
-    Private _calibration As Integer
+    Private _cName As String
+    Private _cID As String
+    Private _cMarketGroup As String
+    Private _cDatabaseGroup As String
+    Private _cDatabaseCategory As String
+    Private _cDescription As String
+    Private _cBasePrice As Double
+    Private _cMarketPrice As Double
+    Private _cRaceID As Integer
+    Private _cIcon As String
+    Private _cFittingBasePrice As Double
+    Private _cFittingMarketPrice As Double
+    Private _cHiSlots As Integer
+    Private _cMidSlots As Integer
+    Private _cLowSlots As Integer
+    Private _cRigSlots As Integer
+    Private _cSubSlots As Integer
+    Private _cTurretSlots As Integer
+    Private _cLauncherSlots As Integer
+    Private _cCalibration As Integer
+    Private _cOverrideFittingRules As Boolean = False
+    Private _cSlotCollection As New List(Of ShipModule)
+    Private _cRemoteSlotCollection As New List(Of ShipModule)
+    Private _cFleetSlotCollection As New List(Of ShipModule)
+    Private _cEnviroSlotCollection As New List(Of ShipModule)
+    Private _cBoosterSlotCollection As New List(Of ShipModule)
+    Private _cCPU As Double
+    Private _cPG As Double
+    Private _cCapCapacity As Double
+    Private _cCapRecharge As Double
+    Private _cShieldCapacity As Double
+    Private _cShieldRecharge As Double
+    Private _cShieldEMResist As Double
+    Private _cShieldExResist As Double
+    Private _cShieldKiResist As Double
+    Private _cShieldThResist As Double
+    Private _cArmorCapacity As Double
+    Private _cArmorEMResist As Double
+    Private _cArmorExResist As Double
+    Private _cArmorKiResist As Double
+    Private _cArmorThResist As Double
+    Private _cStructureCapacity As Double
+    Private _cStructureEMResist As Double
+    Private _cStructureExResist As Double
+    Private _cStructureKiResist As Double
+    Private _cStructureThResist As Double
+    Private _cCargoBay As Double
+    Private _cMass As Double
+    Private _cVolume As Double
+    Private _cDroneBay As Double
+    Private _cDroneBandwidth As Double
+    Private _cUsedDrones As Integer
+    Private _cMaxDrones As Integer
+    Private _cShipBay As Double
+    Private _cMaxLockedTargets As Double
+    Private _cMaxTargetRange As Double
+    Private _cTargetingSpeed As Double
+    Private _cScanResolution As Double
+    Private _cSigRadius As Double
+    Private _cGravSensorStrenth As Double
+    Private _cLadarSensorStrenth As Double
+    Private _cMagSensorStrenth As Double
+    Private _cRadarSensorStrenth As Double
+    Private _cMaxVelocity As Double
+    Private _cInertia As Double
+    Private _cFusionPropStrength As Double
+    Private _cIonPropStrength As Double
+    Private _cMagpulsePropStrength As Double
+    Private _cPlasmaPropStrength As Double
+    Private _cWarpSpeed As Double
+    Private _cWarpCapNeed As Double
+    Private _cHiSlot(8) As ShipModule
+    Private ReadOnly _cMidSlot(8) As ShipModule
+    Private ReadOnly _cLowSlot(8) As ShipModule
+    Private ReadOnly _cRigSlot(8) As ShipModule
+    Private ReadOnly _cSubSlot(5) As ShipModule
+    Private _cRequiredSkills As New SortedList(Of String, ItemSkills)
+    Private _cRequiredSkillList As New SortedList(Of String, ItemSkills)
+    Private _cAttributes As New SortedList(Of String, Double)
+    Private _cHiSlotsUsed As Integer
+    Private _cMidSlotsUsed As Integer
+    Private _cLowSlotsUsed As Integer
+    Private _cRigSlotsUsed As Integer
+    Private _cSubSlotsUsed As Integer
+    Private _cTurretSlotsUsed As Integer
+    Private _cLauncherSlotsUsed As Integer
+    Private _cCalibrationUsed As Integer
+    Private _cCPUUsed As Double
+    Private _cPGUsed As Double
+    Private _cCargoBayUsed As Double
+    Private _cCargoBayAdditional As Double
+    Private _cDroneBayUsed As Double
+    Private _cShipBayUsed As Double
+    Private _cDroneBandwidthUsed As Double
+    Private _cCargoBayItems As New SortedList(Of Integer, CargoBayItem)
+    Private _cDroneBayItems As New SortedList(Of Integer, DroneBayItem)
+    Private _cShipBayItems As New SortedList(Of Integer, ShipBayItem)
+    Private _cEffectiveShieldHp As Double
+    Private _cEffectiveArmorHp As Double
+    Private _cEffectiveStructureHp As Double
+    Private _cEffectiveHp As Double
+    Private _cEveEffectiveShieldHp As Double
+    Private _cEveEffectiveArmorHp As Double
+    Private _cEveEffectiveStructureHp As Double
+    Private _cEveEffectiveHp As Double
+    Private _cDamageProfile As HQFDamageProfile
+    Private _cEM As Double
+    Private _cEx As Double
+    Private _cKi As Double
+    Private _cTh As Double
+    Private _cEMExKiTh As Double
+    Private _cAffects As New List(Of String)
+    Private _cGlobalAffects As List(Of String)
 
-    ' CPU, Power & Capacitor
-    Private _cpu As Double
-    Private _pg As Double
-    Private _capCapacity As Double
-    Private _capRecharge As Double
-
-    ' Shield
-    Private _shieldCapacity As Double
-    Private _shieldRecharge As Double
-    Private _shieldEMResist As Double
-    Private _shieldExResist As Double
-    Private _shieldKiResist As Double
-    Private _shieldThResist As Double
-
-    ' Armor
-    Private _armorCapacity As Double
-    Private _armorEMResist As Double
-    Private _armorExResist As Double
-    Private _armorKiResist As Double
-    Private _armorThResist As Double
-
-    ' Structure
-    Private _structureCapacity As Double
-    Private _structureEMResist As Double
-    Private _structureExResist As Double
-    Private _structureKiResist As Double
-    Private _structureThResist As Double
-
-    ' Space & Volume
-    Private _cargoBay As Double
-    Private _mass As Double
-    Private _volume As Double
-
-    ' Drones
-    Private _droneBay As Double
-    Private _droneBandwidth As Double
-    Private _usedDrones As Integer
-    Private _maxDrones As Integer
-
-    ' Ship Bay
-    Private _shipBay As Double
-
-    ' Targeting
-    Private _maxLockedTargets As Double
-    Private _maxTargetRange As Double
-    Private _targetingSpeed As Double
-    Private _scanResolution As Double
-    Private _sigRadius As Double
-    Private _gravSensorStrenth As Double
-    Private _ladarSensorStrenth As Double
-    Private _magSensorStrenth As Double
-    Private _radarSensorStrenth As Double
-
-    ' Propulsion
-    Private _maxVelocity As Double
-    Private _inertia As Double
-    Private _fusionPropStrength As Double
-    Private _ionPropStrength As Double
-    Private _magpulsePropStrength As Double
-    Private _plasmaPropStrength As Double
-    Private _warpSpeed As Double
-    Private _warpCapNeed As Double
-
-    ' Module Slots
-    Private _hiSlot(8) As ShipModule
-    Private _midSlot(8) As ShipModule
-    Private _lowSlot(8) As ShipModule
-    Private _rigSlot(8) As ShipModule
-    Private _subSlot(5) As ShipModule
-
-    ' Effective Resists
-    Private _effectiveShieldHP As Double
-    Private _effectiveArmorHP As Double
-    Private _effectiveStructureHP As Double
-    Private _effectiveHP As Double
-    Private _eveEffectiveShieldHP As Double
-    Private _eveEffectiveArmorHP As Double
-    Private _eveEffectiveStructureHP As Double
-    Private _eveEffectiveHP As Double
-
-    ' Damage Profile
-    Private _damageProfile As HQFDamageProfile
-    Private _em As Double
-    Private _ex As Double
-    Private _ki As Double
-    Private _th As Double
-    Private _emExKiTh As Double
+    Private _cTurretVolley As Double
+    Private _cMissileVolley As Double
+    Private _cSmartbombVolley As Double
+    Private _cBombVolley As Double
+    Private _cDroneVolley As Double
+    Private _cTurretDPS As Double
+    Private _cMissileDPS As Double
+    Private _cSmartbombDPS As Double
+    Private _cBombDPS As Double
+    Private _cDroneDPS As Double
+    Private _cTotalVolley As Double
+    Private _cTotalDPS As Double
+    Private _cOreTurretAmount As Double
+    Private _cOreDroneAmount As Double
+    Private _cOreTotalAmount As Double
+    Private _cIceTurretAmount As Double
+    Private _cIceDroneAmount As Double
+    Private _cIceTotalAmount As Double
+    Private _cOreTurretRate As Double
+    Private _cOreDroneRate As Double
+    Private _cOreTotalRate As Double
+    Private _cIceTurretRate As Double
+    Private _cIceDroneRate As Double
+    Private _cIceTotalRate As Double
+    Private _cAuditLog As New List(Of String)
 
 #End Region
 
@@ -147,28 +186,84 @@ Public Class Ship
 
     ' Note: These properties (except the RaceID) should not be directly editable in the property editor, but still visible
 
-    <[ReadOnly](True)> _
+    <ProtoMember(109)> <[ReadOnly](True)> _
     <Description("The name of the ship")> <Category("Database")> Public Property Name() As String
+        Get
+            Return _cName
+        End Get
+        Set(ByVal value As String)
+            _cName = value
+        End Set
+    End Property
 
-    <[ReadOnly](True)> _
+    <ProtoMember(1)> <[ReadOnly](True)> _
     <Description("The ID of the ship")> <Category("Database")> Public Property ID() As String
+        Get
+            Return _cID
+        End Get
+        Set(ByVal value As String)
+            _cID = value
+        End Set
+    End Property
 
-    <[ReadOnly](True)> _
+    <ProtoMember(2)> <[ReadOnly](True)> _
     <Description("The market group ID of the ship")> <Category("Database")> Public Property MarketGroup() As String
+        Get
+            Return _cMarketGroup
+        End Get
+        Set(ByVal value As String)
+            _cMarketGroup = value
+        End Set
+    End Property
 
-    <[ReadOnly](True)> _
+    <ProtoMember(3)> <[ReadOnly](True)> _
     <Description("The database group ID of the ship")> <Category("Database")> Public Property DatabaseGroup() As String
+        Get
+            Return _cDatabaseGroup
+        End Get
+        Set(ByVal value As String)
+            _cDatabaseGroup = value
+        End Set
+    End Property
 
-    <[ReadOnly](True)> _
+    <ProtoMember(4)> <[ReadOnly](True)> _
     <Description("The database category ID of the ship")> <Category("Database")> Public Property DatabaseCategory() As String
+        Get
+            Return _cDatabaseCategory
+        End Get
+        Set(ByVal value As String)
+            _cDatabaseCategory = value
+        End Set
+    End Property
 
-    <[ReadOnly](True)> _
+    <ProtoMember(5)> <[ReadOnly](True)> _
     <Description("The description of the ship")> <Category("Database")> Public Property Description() As String
+        Get
+            Return _cDescription
+        End Get
+        Set(ByVal value As String)
+            _cDescription = value
+        End Set
+    End Property
 
-    <Description("The raceID of the ship")> <Category("Database")> Public Property RaceID() As Integer
+    <ProtoMember(6)> <Description("The raceID of the ship")> <Category("Database")> Public Property RaceID() As Integer
+        Get
+            Return _cRaceID
+        End Get
+        Set(ByVal value As Integer)
+            _cRaceID = value
+        End Set
+    End Property
 
-    <[ReadOnly](True)> _
+    <ProtoMember(7)> <[ReadOnly](True)> _
     <Description("The icon ID of the ship")> <Category("Database")> Public Property Icon() As String
+        Get
+            Return _cIcon
+        End Get
+        Set(ByVal value As String)
+            _cIcon = value
+        End Set
+    End Property
 
 #End Region
 
@@ -176,182 +271,217 @@ Public Class Ship
 
     ' Nore: These properties should not be visible in the property editor as they are irrelevant
 
-    <Browsable(False)> _
+    <ProtoMember(8)> <Browsable(False)> _
     <Description("The base price of the ship")> <Category("Price")> Public Property BasePrice() As Double
+        Get
+            Return _cBasePrice
+        End Get
+        Set(ByVal value As Double)
+            _cBasePrice = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(9)> <Browsable(False)> _
     <Description("The market price of the ship")> <Category("Price")> Public Property MarketPrice() As Double
+        Get
+            Return _cMarketPrice
+        End Get
+        Set(ByVal value As Double)
+            _cMarketPrice = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(10)> <Browsable(False)> _
     <Description("The base price of the ship including all fittings")> <Category("Price")> Public Property FittingBasePrice() As Double
+        Get
+            Return _cFittingBasePrice
+        End Get
+        Set(ByVal value As Double)
+            _cFittingBasePrice = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(11)> <Browsable(False)> _
     <Description("The market price of the ship including all fittings")> <Category("Price")> Public Property FittingMarketPrice() As Double
+        Get
+            Return _cFittingMarketPrice
+        End Get
+        Set(ByVal value As Double)
+            _cFittingMarketPrice = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Fitting Properties"
 
-    <Description("The number of available high slots on the ship")> <Category("Fitting")> Public Property HiSlots() As Integer
+    <ProtoMember(12)> <Description("The number of available high slots on the ship")> <Category("Fitting")> Public Property HiSlots() As Integer
         Get
-            Return _hiSlots
+            Return _cHiSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value < 0 Or value > MaxBasicSlots Then
                     MessageBox.Show("High slots must be between 0 and " & MaxBasicSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _hiSlots = value
+                    _cHiSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The number of available mid slots on the ship")> <Category("Fitting")> Public Property MidSlots() As Integer
+    <ProtoMember(13)> <Description("The number of available mid slots on the ship")> <Category("Fitting")> Public Property MidSlots() As Integer
         Get
-            Return _midSlots
+            Return _cMidSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value < 0 Or value > MaxBasicSlots Then
                     MessageBox.Show("Mid slots must be between 0 and " & MaxBasicSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _midSlots = value
+                    _cMidSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The number of available low slots on the ship")> <Category("Fitting")> Public Property LowSlots() As Integer
+    <ProtoMember(14)> <Description("The number of available low slots on the ship")> <Category("Fitting")> Public Property LowSlots() As Integer
         Get
-            Return _lowSlots
+            Return _cLowSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value < 0 Or value > MaxBasicSlots Then
                     MessageBox.Show("Low slots must be between 0 and " & MaxBasicSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _lowSlots = value
+                    _cLowSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The number of available rig slots on the ship")> <Category("Fitting")> Public Property RigSlots() As Integer
+    <ProtoMember(15)> <Description("The number of available rig slots on the ship")> <Category("Fitting")> Public Property RigSlots() As Integer
         Get
-            Return _rigSlots
+            Return _cRigSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value < 0 Or value > MaxRigSlots Then
                     MessageBox.Show("Rig slots must be between 0 and " & MaxRigSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _rigSlots = value
+                    _cRigSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The number of available subsystem slots on the ship")> <Category("Fitting")> Public Property SubSlots() As Integer
+    <ProtoMember(16)> <Description("The number of available subsystem slots on the ship")> <Category("Fitting")> Public Property SubSlots() As Integer
         Get
-            Return _subSlots
+            Return _cSubSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value <> MaxSubSlots And value <> 0 Then
                     MessageBox.Show("The number of subsystem slots is currently restricted to " & MaxSubSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _subSlots = value
+                    _cSubSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The number of available turret slots on the ship")> <Category("Fitting")> Public Property TurretSlots() As Integer
+    <ProtoMember(17)> <Description("The number of available turret slots on the ship")> <Category("Fitting")> Public Property TurretSlots() As Integer
         Get
-            Return _turretSlots
+            Return _cTurretSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value < 0 Or value > MaxBasicSlots Then
                     MessageBox.Show("Turret slots must be between 0 and " & MaxBasicSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _turretSlots = value
+                    _cTurretSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The number of available launcher slots on the ship")> <Category("Fitting")> Public Property LauncherSlots() As Integer
+    <ProtoMember(18)> <Description("The number of available launcher slots on the ship")> <Category("Fitting")> Public Property LauncherSlots() As Integer
         Get
-            Return _launcherSlots
+            Return _cLauncherSlots
         End Get
         Set(ByVal value As Integer)
-            If OverrideFittingRules = False Then
+            If _cOverrideFittingRules = False Then
                 If value < 0 Or value > MaxBasicSlots Then
                     MessageBox.Show("Launcher slots must be between 0 and " & MaxBasicSlots.ToString, "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    _launcherSlots = value
+                    _cLauncherSlots = value
                 End If
             Else
-                _hiSlots = value
+                _cHiSlots = value
             End If
         End Set
     End Property
 
-    <Description("The maximum CPU available for all modules on the ship")> <Category("Fitting")> Public Property Cpu() As Double
+    <ProtoMember(19)> <Description("The maximum CPU available for all modules on the ship")> <Category("Fitting")> Public Property CPU() As Double
         Get
-            Return _cpu
+            Return _cCPU
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("CPU must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cpu = value
+                _cCPU = value
             End If
         End Set
     End Property
 
-    <Description("The maximum powergrid available for all modules on the ship")> <Category("Fitting")> Public Property Pg() As Double
+    <ProtoMember(20)> <Description("The maximum powergrid available for all modules on the ship")> <Category("Fitting")> Public Property PG() As Double
         Get
-            Return _pg
+            Return _cPG
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Powergrid must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _pg = value
+                _cPG = value
             End If
         End Set
     End Property
 
-    <Description("The maximum available calibration units available for rigs")> <Category("Fitting")> Public Property Calibration() As Integer
+    <ProtoMember(21)> <Description("The maximum available calibration units available for rigs")> <Category("Fitting")> Public Property Calibration() As Integer
         Get
-            Return _calibration
+            Return _cCalibration
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then
                 MessageBox.Show("Calibration must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _calibration = value
+                _cCalibration = value
             End If
         End Set
     End Property
 
-    <Browsable(False)> _
+    <ProtoMember(22)> <Browsable(False)> _
     <Description("Allows fitting rules to be relaxed to increase fitting limits")> <Category("Fitting")> Public Property OverrideFittingRules() As Boolean
+        Get
+            Return _cOverrideFittingRules
+        End Get
+        Set(ByVal value As Boolean)
+            _cOverrideFittingRules = value
+        End Set
+    End Property
 
 #End Region
 
@@ -359,47 +489,82 @@ Public Class Ship
 
     ' Note: None of these properties should be visible in the property editor
 
-    <Browsable(False)> _
-    <Description("The collection of internal modules for the ship")> <Category("Slot Collection")> Public Property SlotCollection() As New ArrayList
+    <ProtoMember(23)> <Browsable(False)> _
+    <Description("The collection of internal modules for the ship")> <Category("Slot Collection")> Public Property SlotCollection() As List(Of ShipModule)
+        Get
+            Return _cSlotCollection
+        End Get
+        Set(ByVal value As List(Of ShipModule))
+            _cSlotCollection = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The collection of remote modules for the ship")> <Category("Slot Collection")> Public Property RemoteSlotCollection() As New ArrayList
+    <ProtoMember(24)> <Browsable(False)> _
+    <Description("The collection of remote modules for the ship")> <Category("Slot Collection")> Public Property RemoteSlotCollection() As List(Of ShipModule)
+        Get
+            Return _cRemoteSlotCollection
+        End Get
+        Set(ByVal value As List(Of ShipModule))
+            _cRemoteSlotCollection = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The collection of fleet-based modules for the ship")> <Category("Slot Collection")> Public Property FleetSlotCollection() As New ArrayList
+    <ProtoMember(25)> <Browsable(False)> _
+    <Description("The collection of fleet-based modules for the ship")> <Category("Slot Collection")> Public Property FleetSlotCollection() As List(Of ShipModule)
+        Get
+            Return _cFleetSlotCollection
+        End Get
+        Set(ByVal value As List(Of ShipModule))
+            _cFleetSlotCollection = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The collection of external environment modules for the ship")> <Category("Slot Collection")> Public Property EnviroSlotCollection() As New ArrayList
+    <ProtoMember(26)> <Browsable(False)> _
+    <Description("The collection of external environment modules for the ship")> <Category("Slot Collection")> Public Property EnviroSlotCollection() As List(Of ShipModule)
+        Get
+            Return _cEnviroSlotCollection
+        End Get
+        Set(ByVal value As List(Of ShipModule))
+            _cEnviroSlotCollection = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The collection of combat boosters for the ship")> <Category("Slot Collection")> Public Property BoosterSlotCollection() As New ArrayList
+    <ProtoMember(27)> <Browsable(False)> _
+    <Description("The collection of combat boosters for the ship")> <Category("Slot Collection")> Public Property BoosterSlotCollection() As List(Of ShipModule)
+        Get
+            Return _cBoosterSlotCollection
+        End Get
+        Set(ByVal value As List(Of ShipModule))
+            _cBoosterSlotCollection = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Capacitor Properties"
 
-    <Description("The total available capacitor of the ship")> <Category("Capacitor")> Public Property CapCapacity() As Double
+    <ProtoMember(28)> <Description("The total available capacitor of the ship")> <Category("Capacitor")> Public Property CapCapacity() As Double
         Get
-            Return _capCapacity
+            Return _cCapCapacity
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Capacitor capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _capCapacity = value
+                _cCapCapacity = value
             End If
         End Set
     End Property
 
-    <Description("The capacitor recharge time of the ship")> <Category("Capacitor")> Public Property CapRecharge() As Double
+    <ProtoMember(29)> <Description("The capacitor recharge time of the ship")> <Category("Capacitor")> Public Property CapRecharge() As Double
         Get
-            Return _capRecharge
+            Return _cCapRecharge
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Capacitor recharge time must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _capRecharge = value
+                _cCapRecharge = value
             End If
         End Set
     End Property
@@ -408,84 +573,84 @@ Public Class Ship
 
 #Region "Shield Properties"
 
-    <Description("The shield hitpoint capacity of the ship")> <Category("Shield")> Public Property ShieldCapacity() As Double
+    <ProtoMember(30)> <Description("The shield hitpoint capacity of the ship")> <Category("Shield")> Public Property ShieldCapacity() As Double
         Get
-            Return _shieldCapacity
+            Return _cShieldCapacity
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Shield capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shieldCapacity = value
+                _cShieldCapacity = value
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
     End Property
 
-    <Description("The shield recharge time of the ship")> <Category("Shield")> Public Property ShieldRecharge() As Double
+    <ProtoMember(31)> <Description("The shield recharge time of the ship")> <Category("Shield")> Public Property ShieldRecharge() As Double
         Get
-            Return _shieldRecharge
+            Return _cShieldRecharge
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Shield recharge time must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shieldRecharge = value
+                _cShieldRecharge = value
             End If
         End Set
     End Property
 
-    <Description("The shield EM resistance of the ship")> <Category("Shield")> Public Property ShieldEMResist() As Double
+    <ProtoMember(32)> <Description("The shield EM resistance of the ship")> <Category("Shield")> Public Property ShieldEMResist() As Double
         Get
-            Return _shieldEMResist
+            Return _cShieldEMResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shieldEMResist = value
+                _cShieldEMResist = value
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
     End Property
 
-    <Description("The shield Explosive resistance of the ship")> <Category("Shield")> Public Property ShieldExResist() As Double
+    <ProtoMember(33)> <Description("The shield Explosive resistance of the ship")> <Category("Shield")> Public Property ShieldExResist() As Double
         Get
-            Return _shieldExResist
+            Return _cShieldExResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shieldExResist = value
+                _cShieldExResist = value
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
     End Property
 
-    <Description("The shield Kinetic resistance of the ship")> <Category("Shield")> Public Property ShieldKiResist() As Double
+    <ProtoMember(34)> <Description("The shield Kinetic resistance of the ship")> <Category("Shield")> Public Property ShieldKiResist() As Double
         Get
-            Return _shieldKiResist
+            Return _cShieldKiResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shieldKiResist = value
+                _cShieldKiResist = value
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
     End Property
 
-    <Description("The shield Thermal resistance of the ship")> <Category("Shield")> Public Property ShieldThResist() As Double
+    <ProtoMember(35)> <Description("The shield Thermal resistance of the ship")> <Category("Shield")> Public Property ShieldThResist() As Double
         Get
-            Return _shieldThResist
+            Return _cShieldThResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Shield resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shieldThResist = value
+                _cShieldThResist = value
                 Call CalculateEffectiveShieldHP()
             End If
         End Set
@@ -495,67 +660,67 @@ Public Class Ship
 
 #Region "Armor Properties"
 
-    <Description("The armor hitpoint capacity of the ship")> <Category("Armor")> Public Property ArmorCapacity() As Double
+    <ProtoMember(36)> <Description("The armor hitpoint capacity of the ship")> <Category("Armor")> Public Property ArmorCapacity() As Double
         Get
-            Return _armorCapacity
+            Return _cArmorCapacity
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Armor capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _armorCapacity = value
+                _cArmorCapacity = value
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
     End Property
-    <Description("The armor EM resistance of the ship")> <Category("Armor")> Public Property ArmorEMResist() As Double
+    <ProtoMember(37)> <Description("The armor EM resistance of the ship")> <Category("Armor")> Public Property ArmorEMResist() As Double
         Get
-            Return _armorEMResist
+            Return _cArmorEMResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _armorEMResist = value
+                _cArmorEMResist = value
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
     End Property
-    <Description("The armor Explosive resistance of the ship")> <Category("Armor")> Public Property ArmorExResist() As Double
+    <ProtoMember(38)> <Description("The armor Explosive resistance of the ship")> <Category("Armor")> Public Property ArmorExResist() As Double
         Get
-            Return _armorExResist
+            Return _cArmorExResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _armorExResist = value
+                _cArmorExResist = value
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
     End Property
-    <Description("The armor Kinetic resistance of the ship")> <Category("Armor")> Public Property ArmorKiResist() As Double
+    <ProtoMember(39)> <Description("The armor Kinetic resistance of the ship")> <Category("Armor")> Public Property ArmorKiResist() As Double
         Get
-            Return _armorKiResist
+            Return _cArmorKiResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _armorKiResist = value
+                _cArmorKiResist = value
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
     End Property
-    <Description("The armor Thermal resistance of the ship")> <Category("Armor")> Public Property ArmorThResist() As Double
+    <ProtoMember(40)> <Description("The armor Thermal resistance of the ship")> <Category("Armor")> Public Property ArmorThResist() As Double
         Get
-            Return _armorThResist
+            Return _cArmorThResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Armor resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _armorThResist = value
+                _cArmorThResist = value
                 Call CalculateEffectiveArmorHP()
             End If
         End Set
@@ -565,71 +730,71 @@ Public Class Ship
 
 #Region "Hull Properties"
 
-    <Description("The hull hitpoint capacity of the ship")> <Category("Hull")> Public Property StructureCapacity() As Double
+    <ProtoMember(41)> <Description("The hull hitpoint capacity of the ship")> <Category("Hull")> Public Property StructureCapacity() As Double
         Get
-            Return _structureCapacity
+            Return _cStructureCapacity
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Structure capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _structureCapacity = value
+                _cStructureCapacity = value
                 Call CalculateEffectiveStructureHP()
             End If
         End Set
     End Property
 
-    <Description("The hull EM resistance of the ship")> <Category("Hull")> Public Property StructureEMResist() As Double
+    <ProtoMember(42)> <Description("The hull EM resistance of the ship")> <Category("Hull")> Public Property StructureEMResist() As Double
         Get
-            Return _structureEMResist
+            Return _cStructureEMResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Structure resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _structureEMResist = value
+                _cStructureEMResist = value
                 Call CalculateEffectiveStructureHP()
             End If
         End Set
     End Property
 
-    <Description("The hull Explosive resistance of the ship")> <Category("Hull")> Public Property StructureExResist() As Double
+    <ProtoMember(43)> <Description("The hull Explosive resistance of the ship")> <Category("Hull")> Public Property StructureExResist() As Double
         Get
-            Return _structureExResist
+            Return _cStructureExResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Structure resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _structureExResist = value
+                _cStructureExResist = value
                 Call CalculateEffectiveStructureHP()
             End If
         End Set
     End Property
 
-    <Description("The hull Kinetic resistance of the ship")> <Category("Hull")> Public Property StructureKiResist() As Double
+    <ProtoMember(44)> <Description("The hull Kinetic resistance of the ship")> <Category("Hull")> Public Property StructureKiResist() As Double
         Get
-            Return _structureKiResist
+            Return _cStructureKiResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Structure resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _structureKiResist = value
+                _cStructureKiResist = value
                 Call CalculateEffectiveStructureHP()
             End If
         End Set
     End Property
 
-    <Description("The hull Thermal resistance of the ship")> <Category("Hull")> Public Property StructureThResist() As Double
+    <ProtoMember(45)> <Description("The hull Thermal resistance of the ship")> <Category("Hull")> Public Property StructureThResist() As Double
         Get
-            Return _structureThResist
+            Return _cStructureThResist
         End Get
         Set(ByVal value As Double)
             If value < 0 Or value > 100 Then
                 MessageBox.Show("Structure resistances must be between 0 and 100.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _structureThResist = value
+                _cStructureThResist = value
                 Call CalculateEffectiveStructureHP()
             End If
         End Set
@@ -639,29 +804,21 @@ Public Class Ship
 
 #Region "Structure Properties"
 
-    <Description("The mass of the ship")> <Category("Structure")> Public Property Mass() As Double
+    <ProtoMember(46)> <Description("The mass of the ship")> <Category("Structure")> Public Property Mass() As Double
         Get
-            Return _mass
+            Return _cMass
         End Get
         Set(ByVal value As Double)
-            If value < 0 Then
-                MessageBox.Show("Mass must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                _mass = value
-            End If
+            _cMass = value
         End Set
     End Property
 
-    <Description("The unpacked volume of the ship")> <Category("Structure")> Public Property Volume() As Double
+    <ProtoMember(47)> <Description("The unpacked volume of the ship")> <Category("Structure")> Public Property Volume() As Double
         Get
-            Return _volume
+            Return _cVolume
         End Get
         Set(ByVal value As Double)
-            If value < 0 Then
-                MessageBox.Show("Volume must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                _volume = value
-            End If
+            _cVolume = value
         End Set
     End Property
 
@@ -669,28 +826,28 @@ Public Class Ship
 
 #Region "Storage Bay Properties"
 
-    <Description("The cargo bay capacity of the ship")> <Category("Storage")> Public Property CargoBay() As Double
+    <ProtoMember(48)> <Description("The cargo bay capacity of the ship")> <Category("Storage")> Public Property CargoBay() As Double
         Get
-            Return _cargoBay
+            Return _cCargoBay
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Cargo Bay capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _cargoBay = value
+                _cCargoBay = value
             End If
         End Set
     End Property
 
-    <Description("The ship maintenance bay capacity of the ship")> <Category("Storage")> Public Property ShipBay() As Double
+    <ProtoMember(49)> <Description("The ship maintenance bay capacity of the ship")> <Category("Storage")> Public Property ShipBay() As Double
         Get
-            Return _shipBay
+            Return _cShipBay
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Ship Bay capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _shipBay = value
+                _cShipBay = value
             End If
         End Set
     End Property
@@ -699,55 +856,55 @@ Public Class Ship
 
 #Region "Drone Properties"
 
-    <Description("The drone bay capacity of the ship")> <Category("Drones")> Public Property DroneBay() As Double
+    <ProtoMember(50)> <Description("The drone bay capacity of the ship")> <Category("Drones")> Public Property DroneBay() As Double
         Get
-            Return _droneBay
+            Return _cDroneBay
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Drone Bay capacity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _droneBay = value
+                _cDroneBay = value
             End If
         End Set
     End Property
 
-    <Description("The maxmium drone bandwidth capability of the ship")> <Category("Drones")> Public Property DroneBandwidth() As Double
+    <ProtoMember(51)> <Description("The maxmium drone bandwidth capability of the ship")> <Category("Drones")> Public Property DroneBandwidth() As Double
         Get
-            Return _droneBandwidth
+            Return _cDroneBandwidth
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Drone bandwidth must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _droneBandwidth = value
+                _cDroneBandwidth = value
             End If
         End Set
     End Property
 
-    <Browsable(False)> _
+    <ProtoMember(52)> <Browsable(False)> _
     <Description("The number of drones currently used by the ship")> <Category("Drones")> Public Property UsedDrones() As Integer
         Get
-            Return _usedDrones
+            Return _cUsedDrones
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then
                 MessageBox.Show("Used Drones must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _usedDrones = value
+                _cUsedDrones = value
             End If
         End Set
     End Property
 
-    <Description("The maximum amount of drones to be used by the ship")> <Category("Drones")> Public Property MaxDrones() As Integer
+    <ProtoMember(53)> <Description("The maximum amount of drones to be used by the ship")> <Category("Drones")> Public Property MaxDrones() As Integer
         Get
-            Return _maxDrones
+            Return _cMaxDrones
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then
                 MessageBox.Show("Maximum drones must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _maxDrones = value
+                _cMaxDrones = value
             End If
         End Set
     End Property
@@ -756,119 +913,119 @@ Public Class Ship
 
 #Region "Targeting Properties"
 
-    <Description("The maximum number of locked targets allowed by the ship")> <Category("Targeting")> Public Property MaxLockedTargets() As Double
+    <ProtoMember(54)> <Description("The maximum number of locked targets allowed by the ship")> <Category("Targeting")> Public Property MaxLockedTargets() As Double
         Get
-            Return _maxLockedTargets
+            Return _cMaxLockedTargets
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Maximum Locked Targets must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _maxLockedTargets = value
+                _cMaxLockedTargets = value
             End If
         End Set
     End Property
 
-    <Description("The maximum targeting range of the ship")> <Category("Targeting")> Public Property MaxTargetRange() As Double
+    <ProtoMember(55)> <Description("The maximum targeting range of the ship")> <Category("Targeting")> Public Property MaxTargetRange() As Double
         Get
-            Return _maxTargetRange
+            Return _cMaxTargetRange
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Maximum Targeting Range must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _maxTargetRange = value
+                _cMaxTargetRange = value
             End If
         End Set
     End Property
 
-    <Description("The base targeting speed of the ship")> <Category("Targeting")> Public Property TargetingSpeed() As Double
+    <ProtoMember(56)> <Description("The base targeting speed of the ship")> <Category("Targeting")> Public Property TargetingSpeed() As Double
         Get
-            Return _targetingSpeed
+            Return _cTargetingSpeed
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Base Targeting Speed must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _targetingSpeed = value
+                _cTargetingSpeed = value
             End If
         End Set
     End Property
 
-    <Description("The scan resolution of the ship")> <Category("Targeting")> Public Property ScanResolution() As Double
+    <ProtoMember(57)> <Description("The scan resolution of the ship")> <Category("Targeting")> Public Property ScanResolution() As Double
         Get
-            Return _scanResolution
+            Return _cScanResolution
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Scan Resolution must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _scanResolution = value
+                _cScanResolution = value
             End If
         End Set
     End Property
 
-    <Description("The signature radius of the ship")> <Category("Targeting")> Public Property SigRadius() As Double
+    <ProtoMember(58)> <Description("The signature radius of the ship")> <Category("Targeting")> Public Property SigRadius() As Double
         Get
-            Return _sigRadius
+            Return _cSigRadius
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Signature Radius must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _sigRadius = value
+                _cSigRadius = value
             End If
         End Set
     End Property
 
-    <Description("The Gravimetric sensor strength of the ship")> <Category("Targeting")> Public Property GravSensorStrenth() As Double
+    <ProtoMember(59)> <Description("The Gravimetric sensor strength of the ship")> <Category("Targeting")> Public Property GravSensorStrenth() As Double
         Get
-            Return _gravSensorStrenth
+            Return _cGravSensorStrenth
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Sensor Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _gravSensorStrenth = value
+                _cGravSensorStrenth = value
             End If
         End Set
     End Property
 
-    <Description("The LADAR sensor strength of the ship")> <Category("Targeting")> Public Property LadarSensorStrenth() As Double
+    <ProtoMember(60)> <Description("The LADAR sensor strength of the ship")> <Category("Targeting")> Public Property LadarSensorStrenth() As Double
         Get
-            Return _ladarSensorStrenth
+            Return _cLadarSensorStrenth
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Sensor Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _ladarSensorStrenth = value
+                _cLadarSensorStrenth = value
             End If
         End Set
     End Property
 
-    <Description("The Magnetometric sensor strength of the ship")> <Category("Targeting")> Public Property MagSensorStrenth() As Double
+    <ProtoMember(61)> <Description("The Magnetometric sensor strength of the ship")> <Category("Targeting")> Public Property MagSensorStrenth() As Double
         Get
-            Return _magSensorStrenth
+            Return _cMagSensorStrenth
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Sensor Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _magSensorStrenth = value
+                _cMagSensorStrenth = value
             End If
         End Set
     End Property
 
-    <Description("The RADAR sensor strength of the ship")> <Category("Targeting")> Public Property RadarSensorStrenth() As Double
+    <ProtoMember(62)> <Description("The RADAR sensor strength of the ship")> <Category("Targeting")> Public Property RadarSensorStrenth() As Double
         Get
-            Return _radarSensorStrenth
+            Return _cRadarSensorStrenth
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Sensor Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _radarSensorStrenth = value
+                _cRadarSensorStrenth = value
             End If
         End Set
     End Property
@@ -877,106 +1034,106 @@ Public Class Ship
 
 #Region "Propulsion Properties"
 
-    <Description("The maxmium velocity of the ship")> <Category("Propulsion")> Public Property MaxVelocity() As Double
+    <ProtoMember(63)> <Description("The maxmium velocity of the ship")> <Category("Propulsion")> Public Property MaxVelocity() As Double
         Get
-            Return _maxVelocity
+            Return _cMaxVelocity
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Maximum Velocity must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _maxVelocity = value
+                _cMaxVelocity = value
             End If
         End Set
     End Property
 
-    <Description("The inertia (agility) modifier of the ship")> <Category("Propulsion")> Public Property Inertia() As Double
+    <ProtoMember(64)> <Description("The inertia (agility) modifier of the ship")> <Category("Propulsion")> Public Property Inertia() As Double
         Get
-            Return _inertia
+            Return _cInertia
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Inertia Modifier must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _inertia = value
+                _cInertia = value
             End If
         End Set
     End Property
 
-    <Description("The Fusion propulsion strength of the ship")> <Category("Propulsion")> Public Property FusionPropStrength() As Double
+    <ProtoMember(65)> <Description("The Fusion propulsion strength of the ship")> <Category("Propulsion")> Public Property FusionPropStrength() As Double
         Get
-            Return _fusionPropStrength
+            Return _cFusionPropStrength
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Propulsion Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _fusionPropStrength = value
+                _cFusionPropStrength = value
             End If
         End Set
     End Property
 
-    <Description("The Ion propulsion strength of the ship")> <Category("Propulsion")> Public Property IonPropStrength() As Double
+    <ProtoMember(66)> <Description("The Ion propulsion strength of the ship")> <Category("Propulsion")> Public Property IonPropStrength() As Double
         Get
-            Return _ionPropStrength
+            Return _cIonPropStrength
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Propulsion Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _ionPropStrength = value
+                _cIonPropStrength = value
             End If
         End Set
     End Property
 
-    <Description("The Magpulse propulsion strength of the ship")> <Category("Propulsion")> Public Property MagpulsePropStrength() As Double
+    <ProtoMember(67)> <Description("The Magpulse propulsion strength of the ship")> <Category("Propulsion")> Public Property MagpulsePropStrength() As Double
         Get
-            Return _magpulsePropStrength
+            Return _cMagpulsePropStrength
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Propulsion Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _magpulsePropStrength = value
+                _cMagpulsePropStrength = value
             End If
         End Set
     End Property
 
-    <Description("The Plasma propulsion strength of the ship")> <Category("Propulsion")> Public Property PlasmaPropStrength() As Double
+    <ProtoMember(68)> <Description("The Plasma propulsion strength of the ship")> <Category("Propulsion")> Public Property PlasmaPropStrength() As Double
         Get
-            Return _plasmaPropStrength
+            Return _cPlasmaPropStrength
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Propulsion Strength must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _plasmaPropStrength = value
+                _cPlasmaPropStrength = value
             End If
         End Set
     End Property
 
-    <Description("The maxmium warp velocity of the ship")> <Category("Propulsion")> Public Property WarpSpeed() As Double
+    <ProtoMember(69)> <Description("The maxmium warp velocity of the ship")> <Category("Propulsion")> Public Property WarpSpeed() As Double
         Get
-            Return _warpSpeed
+            Return _cWarpSpeed
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Warp Speed must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _warpSpeed = value
+                _cWarpSpeed = value
             End If
         End Set
     End Property
 
-    <Description("The capacitor required to move 1kg a distance of 1au")> <Category("Propulsion")> Public Property WarpCapNeed() As Double
+    <ProtoMember(70)> <Description("The capacitor required to move 1kg a distance of 1au")> <Category("Propulsion")> Public Property WarpCapNeed() As Double
         Get
-            Return _warpCapNeed
+            Return _cWarpCapNeed
         End Get
         Set(ByVal value As Double)
             If value < 0 Then
                 MessageBox.Show("Warp Capacitor Need must be a zero or positive value.", "Ship Properties Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                _warpCapNeed = value
+                _cWarpCapNeed = value
             End If
         End Set
     End Property
@@ -985,191 +1142,178 @@ Public Class Ship
 
 #Region "Fitted Slot Properties"
 
-    <Browsable(False)> _
+    '<ProtoMember(71)> <Browsable(False)> _
     <Description("The fitted high slots of the ship")> <Category("Fitted Slots")> Public Property HiSlot(ByVal index As Integer) As ShipModule
         Get
-            If (index < 1 Or index > _hiSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("High Slot index must be in the range 1 to " & _hiSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cHiSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("High Slot index must be in the range 1 to " & _cHiSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return Nothing
             Else
-                Return _hiSlot(index)
+                Return _cHiSlot(index)
             End If
         End Get
         Set(ByVal value As ShipModule)
-            If (index < 1 Or index > _hiSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("High Slot index must be in the range 1 to " & _hiSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cHiSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("High Slot index must be in the range 1 to " & _cHiSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
-                If _hiSlots > 8 Then ReDim Preserve _hiSlot(_hiSlots) ' Used if we artifically expand the slot count for weapon analysis
+                If _cHiSlots > 8 Then ReDim Preserve _cHiSlot(_cHiSlots) ' Used if we artifically expand the slot count for weapon analysis
                 If value Is Nothing Then
-                    If _hiSlot(index) IsNot Nothing Then
-                        HiSlotsUsed -= 1
-                        If _hiSlot(index).IsLauncher Then
-                            LauncherSlotsUsed -= 1
-                        ElseIf _hiSlot(index).IsTurret Then
-                            TurretSlotsUsed -= 1
+                    If _cHiSlot(index) IsNot Nothing Then
+                        _cHiSlotsUsed -= 1
+                        If _cHiSlot(index).IsLauncher Then
+                            _cLauncherSlotsUsed -= 1
+                        ElseIf _cHiSlot(index).IsTurret Then
+                            _cTurretSlotsUsed -= 1
                         End If
-                        FittingBasePrice -= _hiSlot(index).BasePrice
-
+                        _cFittingBasePrice -= _cHiSlot(index).BasePrice
                     End If
                 Else
-                    If _hiSlot(index) IsNot Nothing Then
-                        HiSlotsUsed -= 1
-                        If _hiSlot(index).IsLauncher Then
-                            LauncherSlotsUsed -= 1
-                        ElseIf _hiSlot(index).IsTurret Then
-                            TurretSlotsUsed -= 1
+                    If _cHiSlot(index) IsNot Nothing Then
+                        _cHiSlotsUsed -= 1
+                        If _cHiSlot(index).IsLauncher Then
+                            _cLauncherSlotsUsed -= 1
+                        ElseIf _cHiSlot(index).IsTurret Then
+                            _cTurretSlotsUsed -= 1
                         End If
-                        FittingBasePrice -= _hiSlot(index).BasePrice
-
+                        _cFittingBasePrice -= _cHiSlot(index).BasePrice
                     End If
-                    HiSlotsUsed += 1
+                    _cHiSlotsUsed += 1
                     If value.IsLauncher Then
-                        LauncherSlotsUsed += 1
+                        _cLauncherSlotsUsed += 1
                     ElseIf value.IsTurret Then
-                        TurretSlotsUsed += 1
+                        _cTurretSlotsUsed += 1
                     End If
-                    FittingBasePrice += value.BasePrice
-
+                    _cFittingBasePrice += value.BasePrice
                 End If
-                _hiSlot(index) = value
+                _cHiSlot(index) = value
             End If
         End Set
     End Property
 
-    <Browsable(False)> _
+    '<ProtoMember(72)> <Browsable(False)> _
     <Description("The fitted mid slots of the ship")> <Category("Fitted Slots")> Public Property MidSlot(ByVal index As Integer) As ShipModule
         Get
-            If (index < 1 Or index > _midSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Mid Slot index must be in the range 1 to " & _midSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cMidSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Mid Slot index must be in the range 1 to " & _cMidSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return Nothing
             Else
-                Return _midSlot(index)
+                Return _cMidSlot(index)
             End If
         End Get
         Set(ByVal value As ShipModule)
-            If (index < 1 Or index > _midSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Mid Slot index must be in the range 1 to " & _midSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cMidSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Mid Slot index must be in the range 1 to " & _cMidSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If value Is Nothing Then
-                    If _midSlot(index) IsNot Nothing Then
-                        MidSlotsUsed -= 1
-                        FittingBasePrice -= _midSlot(index).BasePrice
-
+                    If _cMidSlot(index) IsNot Nothing Then
+                        _cMidSlotsUsed -= 1
+                        _cFittingBasePrice -= _cMidSlot(index).BasePrice
                     End If
                 Else
-                    If _midSlot(index) IsNot Nothing Then
-                        MidSlotsUsed -= 1
-                        FittingBasePrice -= _midSlot(index).BasePrice
-
+                    If _cMidSlot(index) IsNot Nothing Then
+                        _cMidSlotsUsed -= 1
+                        _cFittingBasePrice -= _cMidSlot(index).BasePrice
                     End If
-                    MidSlotsUsed += 1
-                    FittingBasePrice += value.BasePrice
-
+                    _cMidSlotsUsed += 1
+                    _cFittingBasePrice += value.BasePrice
                 End If
-                _midSlot(index) = value
+                _cMidSlot(index) = value
             End If
         End Set
     End Property
 
-    <Browsable(False)> _
+    ' <ProtoMember(73)> <Browsable(False)> _
     <Description("The fitted low slots of the ship")> <Category("Fitted Slots")> Public Property LowSlot(ByVal index As Integer) As ShipModule
         Get
-            If (index < 1 Or index > _lowSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Low Slot index must be in the range 1 to " & _lowSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cLowSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Low Slot index must be in the range 1 to " & _cLowSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return Nothing
             Else
-                Return _lowSlot(index)
+                Return _cLowSlot(index)
             End If
         End Get
         Set(ByVal value As ShipModule)
-            If (index < 1 Or index > _lowSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Low Slot index must be in the range 1 to " & _lowSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cLowSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Low Slot index must be in the range 1 to " & _cLowSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If value Is Nothing Then
-                    If _lowSlot(index) IsNot Nothing Then
-                        LowSlotsUsed -= 1
-                        FittingBasePrice -= _lowSlot(index).BasePrice
-
+                    If _cLowSlot(index) IsNot Nothing Then
+                        _cLowSlotsUsed -= 1
+                        _cFittingBasePrice -= _cLowSlot(index).BasePrice
                     End If
                 Else
-                    If _lowSlot(index) IsNot Nothing Then
-                        LowSlotsUsed -= 1
-                        FittingBasePrice -= _lowSlot(index).BasePrice
-
+                    If _cLowSlot(index) IsNot Nothing Then
+                        _cLowSlotsUsed -= 1
+                        _cFittingBasePrice -= _cLowSlot(index).BasePrice
                     End If
-                    LowSlotsUsed += 1
-                    FittingBasePrice += value.BasePrice
-
+                    _cLowSlotsUsed += 1
+                    _cFittingBasePrice += value.BasePrice
                 End If
-                _lowSlot(index) = value
+                _cLowSlot(index) = value
             End If
         End Set
     End Property
 
-    <Browsable(False)> _
+    '<ProtoMember(74)> <Browsable(False)> _
     <Description("The fitted rig slots of the ship")> <Category("Fitted Slots")> Public Property RigSlot(ByVal index As Integer) As ShipModule
         Get
-            If (index < 1 Or index > _rigSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Rig Slot index must be in the range 1 to " & _rigSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cRigSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Rig Slot index must be in the range 1 to " & _cRigSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return Nothing
             Else
-                Return _rigSlot(index)
+                Return _cRigSlot(index)
             End If
         End Get
         Set(ByVal value As ShipModule)
-            If (index < 1 Or index > _rigSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Rig Slot index must be in the range 1 to " & _rigSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cRigSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Rig Slot index must be in the range 1 to " & _cRigSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If value Is Nothing Then
-                    If _rigSlot(index) IsNot Nothing Then
-                        RigSlotsUsed -= 1
-                        FittingBasePrice -= _rigSlot(index).BasePrice
+                    If _cRigSlot(index) IsNot Nothing Then
+                        _cRigSlotsUsed -= 1
+                        _cFittingBasePrice -= _cRigSlot(index).BasePrice
                     End If
                 Else
-                    If _rigSlot(index) IsNot Nothing Then
-                        RigSlotsUsed -= 1
-                        FittingBasePrice -= _rigSlot(index).BasePrice
-
+                    If _cRigSlot(index) IsNot Nothing Then
+                        _cRigSlotsUsed -= 1
+                        _cFittingBasePrice -= _cRigSlot(index).BasePrice
                     End If
-                    RigSlotsUsed += 1
-                    FittingBasePrice += value.BasePrice
+                    _cRigSlotsUsed += 1
+                    _cFittingBasePrice += value.BasePrice
                 End If
-                _rigSlot(index) = value
+                _cRigSlot(index) = value
             End If
         End Set
     End Property
 
-    <Browsable(False)> _
+    '<ProtoMember(75)> <Browsable(False)> _
     <Description("The fitted subsystem slots of the ship")> <Category("Fitted Slots")> Public Property SubSlot(ByVal index As Integer) As ShipModule
         Get
-            If (index < 1 Or index > _subSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Subsystem Slot index must be in the range 1 to " & _subSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cSubSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Subsystem Slot index must be in the range 1 to " & _cSubSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Return Nothing
             Else
-                Return _subSlot(index)
+                Return _cSubSlot(index)
             End If
         End Get
         Set(ByVal value As ShipModule)
-            If (index < 1 Or index > _subSlots) And OverrideFittingRules = False Then
-                MessageBox.Show("Subsystem Slot index must be in the range 1 to " & _subSlots & " for " & Name, "EveHQ HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If (index < 1 Or index > _cSubSlots) And _cOverrideFittingRules = False Then
+                MessageBox.Show("Subsystem Slot index must be in the range 1 to " & _cSubSlots & " for " & _cName, "HQF Slot Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If value Is Nothing Then
-                    If _subSlot(index) IsNot Nothing Then
-                        SubSlotsUsed -= 1
-                        FittingBasePrice -= _subSlot(index).BasePrice
-
+                    If _cSubSlot(index) IsNot Nothing Then
+                        _cSubSlotsUsed -= 1
+                        _cFittingBasePrice -= _cSubSlot(index).BasePrice
                     End If
                 Else
-                    If _subSlot(index) IsNot Nothing Then
-                        SubSlotsUsed -= 1
-                        FittingBasePrice -= _subSlot(index).BasePrice
-
+                    If _cSubSlot(index) IsNot Nothing Then
+                        _cSubSlotsUsed -= 1
+                        _cFittingBasePrice -= _cSubSlot(index).BasePrice
                     End If
-                    SubSlotsUsed += 1
-                    FittingBasePrice += value.BasePrice
-
+                    _cSubSlotsUsed += 1
+                    _cFittingBasePrice += value.BasePrice
                 End If
-                _subSlot(index) = value
+                _cSubSlot(index) = value
             End If
         End Set
     End Property
@@ -1178,75 +1322,225 @@ Public Class Ship
 
 #Region "Fitting Used Properties"
 
-    <Browsable(False)> _
+    <ProtoMember(76)> <Browsable(False)> _
     <Description("The number of fitted high slots on the ship")> <Category("Fitting Used")> Public Property HiSlotsUsed() As Integer
+        Get
+            Return _cHiSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cHiSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(77)> <Browsable(False)> _
     <Description("The number of fitted mide slots on the ship")> <Category("Fitting Used")> Public Property MidSlotsUsed() As Integer
+        Get
+            Return _cMidSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cMidSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(78)> <Browsable(False)> _
     <Description("The number of fitted low slots on the ship")> <Category("Fitting Used")> Public Property LowSlotsUsed() As Integer
+        Get
+            Return _cLowSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cLowSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(79)> <Browsable(False)> _
     <Description("The number of fitted rig slots on the ship")> <Category("Fitting Used")> Public Property RigSlotsUsed() As Integer
+        Get
+            Return _cRigSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cRigSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(80)> <Browsable(False)> _
     <Description("The number of fitted subsystem slots on the ship")> <Category("Fitting Used")> Public Property SubSlotsUsed() As Integer
+        Get
+            Return _cSubSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cSubSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(81)> <Browsable(False)> _
     <Description("The number of fitted turret slots on the ship")> <Category("Fitting Used")> Public Property TurretSlotsUsed() As Integer
+        Get
+            Return _cTurretSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cTurretSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(82)> <Browsable(False)> _
     <Description("The number of fitted launcher slots on the ship")> <Category("Fitting Used")> Public Property LauncherSlotsUsed() As Integer
+        Get
+            Return _cLauncherSlotsUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cLauncherSlotsUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(83)> <Browsable(False)> _
     <Description("The amount of calibration points used on the ship")> <Category("Fitting Used")> Public Property CalibrationUsed() As Integer
+        Get
+            Return _cCalibrationUsed
+        End Get
+        Set(ByVal value As Integer)
+            _cCalibrationUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The amount of CPU used on the ship")> <Category("Fitting Used")> Public Property CpuUsed() As Double
+    <ProtoMember(84)> <Browsable(False)> _
+    <Description("The amount of CPU used on the ship")> <Category("Fitting Used")> Public Property CPUUsed() As Double
+        Get
+            Return _cCPUUsed
+        End Get
+        Set(ByVal value As Double)
+            _cCPUUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The amount of powergrid used on the ship")> <Category("Fitting Used")> Public Property PgUsed() As Double
+    <ProtoMember(85)> <Browsable(False)> _
+    <Description("The amount of powergrid used on the ship")> <Category("Fitting Used")> Public Property PGUsed() As Double
+        Get
+            Return _cPGUsed
+        End Get
+        Set(ByVal value As Double)
+            _cPGUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(86)> <Browsable(False)> _
     <Description("The amount of cargo bay capacity used on the ship")> <Category("Fitting Used")> Public Property CargoBayUsed() As Double
+        Get
+            Return _cCargoBayUsed
+        End Get
+        Set(ByVal value As Double)
+            _cCargoBayUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(87)> <Browsable(False)> _
     <Description("The amount of additional cargo bay capacity available on the ship")> <Category("Fitting Used")> Public Property CargoBayAdditional() As Double
+        Get
+            Return _cCargoBayAdditional
+        End Get
+        Set(ByVal value As Double)
+            _cCargoBayAdditional = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(88)> <Browsable(False)> _
     <Description("The amount of drone bay capacity used on the ship")> <Category("Fitting Used")> Public Property DroneBayUsed() As Double
+        Get
+            Return _cDroneBayUsed
+        End Get
+        Set(ByVal value As Double)
+            _cDroneBayUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(89)> <Browsable(False)> _
     <Description("The amount of ship maintenance bay capacity used on the ship")> <Category("Fitting Used")> Public Property ShipBayUsed() As Double
+        Get
+            Return _cShipBayUsed
+        End Get
+        Set(ByVal value As Double)
+            _cShipBayUsed = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(90)> <Browsable(False)> _
     <Description("The amount of drone bandwidth used on the ship")> <Category("Fitting Used")> Public Property DroneBandwidthUsed() As Double
+        Get
+            Return _cDroneBandwidthUsed
+        End Get
+        Set(ByVal value As Double)
+            _cDroneBandwidthUsed = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Skill Properties"
 
-    <Description("The minimum skills required to fly the ship hull")> <Category("Skills")> Public Property RequiredSkills() As New SortedList(Of String, ItemSkills)
+    <ProtoMember(91)> <Description("The minimum skills required to fly the ship hull")> <Category("Skills")> Public Property RequiredSkills() As SortedList(Of String, ItemSkills)
+        Get
+            Return _cRequiredSkills
+        End Get
+        Set(ByVal value As SortedList(Of String, ItemSkills))
+            _cRequiredSkills = value
+        End Set
+    End Property
+
+    <ProtoMember(92)> <Browsable(False)> _
+    <Description("The minimum skills required to fly the ship (inlcuding all modules)")> <Category("Skills")> Public Property RequiredSkillList() As SortedList(Of String, ItemSkills)
+        Get
+            Return _cRequiredSkillList
+        End Get
+        Set(ByVal value As SortedList(Of String, ItemSkills))
+            _cRequiredSkillList = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Attribute Properties"
 
-    <Description("The detailed attributes of the ship")> <Category("Attributes")> Public Property Attributes() As New SortedList(Of String, Double)
+    <ProtoMember(93)> <Description("The detailed attributes of the ship")> <Category("Attributes")> Public Property Attributes() As SortedList(Of String, Double)
+        Get
+            Return _cAttributes
+        End Get
+        Set(ByVal value As SortedList(Of String, Double))
+            _cAttributes = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Storage Bay Items"
 
-    <Browsable(False)> _
-    <Description("The collection of items stored in the cargo bay of the ship")> <Category("Storage Bay Items")> Public Property CargoBayItems() As New SortedList
+    <ProtoMember(94)> <Browsable(False)> _
+    <Description("The collection of items stored in the cargo bay of the ship")> <Category("Storage Bay Items")> Public Property CargoBayItems() As SortedList(Of Integer, CargoBayItem)
+        Get
+            Return _cCargoBayItems
+        End Get
+        Set(ByVal value As SortedList(Of Integer, CargoBayItem))
+            _cCargoBayItems = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The collection of items stored in the drone bay of the ship")> <Category("Storage Bay Items")> Public Property DroneBayItems() As New SortedList
+    <ProtoMember(95)> <Browsable(False)> _
+    <Description("The collection of items stored in the drone bay of the ship")> <Category("Storage Bay Items")> Public Property DroneBayItems() As SortedList(Of Integer, DroneBayItem)
+        Get
+            Return _cDroneBayItems
+        End Get
+        Set(ByVal value As SortedList(Of Integer, DroneBayItem))
+            _cDroneBayItems = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The collection of items stored in the ship maintenance bay of the ship")> <Category("Storage Bay Items")> Public Property ShipBayItems() As New SortedList
+    <ProtoMember(96)> <Browsable(False)> _
+    <Description("The collection of items stored in the ship maintenance bay of the ship")> <Category("Storage Bay Items")> Public Property ShipBayItems() As SortedList(Of Integer, ShipBayItem)
+        Get
+            Return _cShipBayItems
+        End Get
+        Set(ByVal value As SortedList(Of Integer, ShipBayItem))
+            _cShipBayItems = value
+        End Set
+    End Property
 
 #End Region
 
@@ -1255,35 +1549,35 @@ Public Class Ship
     <Browsable(False)> _
     <Description("The effective shield HP based on shield resistances")> <Category("Effective HP")> Public ReadOnly Property EffectiveShieldHP() As Double
         Get
-            Return _effectiveShieldHP
+            Return _cEffectiveShieldHp
         End Get
     End Property
 
     <Browsable(False)> _
     <Description("The effective armor HP based on armor resistances")> <Category("Effective HP")> Public ReadOnly Property EffectiveArmorHP() As Double
         Get
-            Return _effectiveArmorHP
+            Return _cEffectiveArmorHp
         End Get
     End Property
 
     <Browsable(False)> _
     <Description("The effective hull HP based on hull resistances")> <Category("Effective HP")> Public ReadOnly Property EffectiveStructureHP() As Double
         Get
-            Return _effectiveStructureHP
+            Return _cEffectiveStructureHp
         End Get
     End Property
 
     <Browsable(False)> _
     <Description("The overall effective HP of the ship")> <Category("Effective HP")> Public ReadOnly Property EffectiveHP() As Double
         Get
-            Return _effectiveHP
+            Return _cEffectiveHp
         End Get
     End Property
 
     <Browsable(False)> _
     <Description("The overall effective HP of the ship, as stated by Eve")> <Category("Effective HP")> Public ReadOnly Property EveEffectiveHP() As Double
         Get
-            Return _eveEffectiveHP
+            Return _cEveEffectiveHp
         End Get
     End Property
 
@@ -1293,21 +1587,63 @@ Public Class Ship
 
     <Browsable(False)> _
     <Description("The combined turret volley damage for the ship")> <Category("Volley Damage")> Public Property TurretVolley() As Double
+        Get
+            Return _cTurretVolley
+        End Get
+        Set(ByVal value As Double)
+            _cTurretVolley = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined missile volley damage for the ship")> <Category("Volley Damage")> Public Property MissileVolley() As Double
+        Get
+            Return _cMissileVolley
+        End Get
+        Set(ByVal value As Double)
+            _cMissileVolley = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined smartbomb volley damage for the ship")> <Category("Volley Damage")> Public Property SmartbombVolley() As Double
+        Get
+            Return _cSmartbombVolley
+        End Get
+        Set(ByVal value As Double)
+            _cSmartbombVolley = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined bomb volley damage for the ship")> <Category("Volley Damage")> Public Property BombVolley() As Double
+        Get
+            Return _cBombVolley
+        End Get
+        Set(ByVal value As Double)
+            _cBombVolley = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined drone volley damage for the ship")> <Category("Volley Damage")> Public Property DroneVolley() As Double
+        Get
+            Return _cDroneVolley
+        End Get
+        Set(ByVal value As Double)
+            _cDroneVolley = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The total volley damage for the ship")> <Category("Volley Damage")> Public Property TotalVolley() As Double
+        Get
+            Return _cTotalVolley
+        End Get
+        Set(ByVal value As Double)
+            _cTotalVolley = value
+        End Set
+    End Property
 
 #End Region
 
@@ -1315,21 +1651,63 @@ Public Class Ship
 
     <Browsable(False)> _
     <Description("The combined turret DPS for the ship")> <Category("DPS")> Public Property TurretDPS() As Double
+        Get
+            Return _cTurretDPS
+        End Get
+        Set(ByVal value As Double)
+            _cTurretDPS = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined missile DPS for the ship")> <Category("DPS")> Public Property MissileDPS() As Double
+        Get
+            Return _cMissileDPS
+        End Get
+        Set(ByVal value As Double)
+            _cMissileDPS = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined smartbomb DPS for the ship")> <Category("DPS")> Public Property SmartbombDPS() As Double
+        Get
+            Return _cSmartbombDPS
+        End Get
+        Set(ByVal value As Double)
+            _cSmartbombDPS = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined bomb DPS for the ship")> <Category("DPS")> Public Property BombDPS() As Double
+        Get
+            Return _cBombDPS
+        End Get
+        Set(ByVal value As Double)
+            _cBombDPS = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined drone DPS for the ship")> <Category("DPS")> Public Property DroneDPS() As Double
+        Get
+            Return _cDroneDPS
+        End Get
+        Set(ByVal value As Double)
+            _cDroneDPS = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The total DPS for the ship")> <Category("DPS")> Public Property TotalDPS() As Double
+        Get
+            Return _cTotalDPS
+        End Get
+        Set(ByVal value As Double)
+            _cTotalDPS = value
+        End Set
+    End Property
 
 #End Region
 
@@ -1337,21 +1715,63 @@ Public Class Ship
 
     <Browsable(False)> _
     <Description("The combined turret ore mining amount for the ship")> <Category("Ore Mining")> Public Property OreTurretAmount() As Double
+        Get
+            Return _cOreTurretAmount
+        End Get
+        Set(ByVal value As Double)
+            _cOreTurretAmount = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined drone ore mining amount for the ship")> <Category("Ore Mining")> Public Property OreDroneAmount() As Double
+        Get
+            Return _cOreDroneAmount
+        End Get
+        Set(ByVal value As Double)
+            _cOreDroneAmount = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The total ore mining amount for the ship")> <Category("Ore Mining")> Public Property OreTotalAmount() As Double
+        Get
+            Return _cOreTotalAmount
+        End Get
+        Set(ByVal value As Double)
+            _cOreTotalAmount = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined turret ore mining rate for the ship")> <Category("Ore Mining")> Public Property OreTurretRate() As Double
+        Get
+            Return _cOreTurretRate
+        End Get
+        Set(ByVal value As Double)
+            _cOreTurretRate = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined drone ore mining rate for the ship")> <Category("Ore Mining")> Public Property OreDroneRate() As Double
+        Get
+            Return _cOreDroneRate
+        End Get
+        Set(ByVal value As Double)
+            _cOreDroneRate = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The total ore mining rate for the ship")> <Category("Ore Mining")> Public Property OreTotalRate() As Double
+        Get
+            Return _cOreTotalRate
+        End Get
+        Set(ByVal value As Double)
+            _cOreTotalRate = value
+        End Set
+    End Property
 
 #End Region
 
@@ -1359,21 +1779,63 @@ Public Class Ship
 
     <Browsable(False)> _
     <Description("The combined turret ice mining amount for the ship")> <Category("Ice Mining")> Public Property IceTurretAmount() As Double
+        Get
+            Return _cIceTurretAmount
+        End Get
+        Set(ByVal value As Double)
+            _cIceTurretAmount = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined drone ice mining amount for the ship")> <Category("Ice Mining")> Public Property IceDroneAmount() As Double
+        Get
+            Return _cIceDroneAmount
+        End Get
+        Set(ByVal value As Double)
+            _cIceDroneAmount = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The total ice mining amount for the ship")> <Category("Ice Mining")> Public Property IceTotalAmount() As Double
+        Get
+            Return _cIceTotalAmount
+        End Get
+        Set(ByVal value As Double)
+            _cIceTotalAmount = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined turret ice mining rate for the ship")> <Category("Ice Mining")> Public Property IceTurretRate() As Double
+        Get
+            Return _cIceTurretRate
+        End Get
+        Set(ByVal value As Double)
+            _cIceTurretRate = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The combined drone ice mining rate for the ship")> <Category("Ice Mining")> Public Property IceDroneRate() As Double
+        Get
+            Return _cIceDroneRate
+        End Get
+        Set(ByVal value As Double)
+            _cIceDroneRate = value
+        End Set
+    End Property
 
     <Browsable(False)> _
     <Description("The total ice mining rate for the ship")> <Category("Ice Mining")> Public Property IceTotalRate() As Double
+        Get
+            Return _cIceTotalRate
+        End Get
+        Set(ByVal value As Double)
+            _cIceTotalRate = value
+        End Set
+    End Property
 
 #End Region
 
@@ -1412,51 +1874,100 @@ Public Class Ship
 #Region "Audit Log Properties"
 
     <Browsable(False)> _
-    <Description("The list of audit log entries for the fitted ship")> <Category("Audit Log")> Public Property AuditLog() As New List(Of String)
+    <Description("The list of audit log entries for the fitted ship")> <Category("Audit Log")> Public Property AuditLog() As List(Of String)
+        Get
+            Return _cAuditLog
+        End Get
+        Set(ByVal value As List(Of String))
+            _cAuditLog = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Damage Profile Properties"
 
-    <Browsable(False)> _
+    <ProtoMember(102)> <Browsable(False)> _
     <Description("The damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfile() As HQFDamageProfile
         Get
-            Return _damageProfile
+            Return _cDamageProfile
         End Get
         Set(ByVal value As HQFDamageProfile)
             If value Is Nothing Then
                 value = HQFDamageProfiles.ProfileList.Item("<Omni-Damage>")
             End If
-            _damageProfile = value
-            _emExKiTh = _damageProfile.EM + _damageProfile.Explosive + _damageProfile.Kinetic + _damageProfile.Thermal
-            _em = _damageProfile.EM / _emExKiTh
-            _ex = _damageProfile.Explosive / _emExKiTh
-            _ki = _damageProfile.Kinetic / _emExKiTh
-            _th = _damageProfile.Thermal / _emExKiTh
+            _cDamageProfile = value
+            _cEMExKiTh = _cDamageProfile.EM + _cDamageProfile.Explosive + _cDamageProfile.Kinetic + _cDamageProfile.Thermal
+            _cEM = _cDamageProfile.EM / _cEMExKiTh
+            _cEx = _cDamageProfile.Explosive / _cEMExKiTh
+            _cKi = _cDamageProfile.Kinetic / _cEMExKiTh
+            _cTh = _cDamageProfile.Thermal / _cEMExKiTh
         End Set
     End Property
 
-    <Browsable(False)> _
+    <ProtoMember(103)> <Browsable(False)> _
     <Description("The EM element of the damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfileEM() As Double
+        Get
+            Return _cEM
+        End Get
+        Set(ByVal value As Double)
+            _cEM = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(104)> <Browsable(False)> _
     <Description("The Explosive element of the damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfileEx() As Double
+        Get
+            Return _cEx
+        End Get
+        Set(ByVal value As Double)
+            _cEx = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(105)> <Browsable(False)> _
     <Description("The Kinetic element of the damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfileKi() As Double
+        Get
+            Return _cKi
+        End Get
+        Set(ByVal value As Double)
+            _cKi = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
+    <ProtoMember(106)> <Browsable(False)> _
     <Description("The Thermal element of the damage profile used to calculate the effective HP of the ship")> <Category("Damage Profile")> Public Property DamageProfileTh() As Double
+        Get
+            Return _cTh
+        End Get
+        Set(ByVal value As Double)
+            _cTh = value
+        End Set
+    End Property
 
 #End Region
 
 #Region "Affects"
 
-    <Browsable(False)> _
-    <Description("The items which are affected by this ship")> <Category("Affects")> Public Property Affects() As New List(Of String)
+    <ProtoMember(107)> <Browsable(False)> _
+    <Description("The items which are affected by this ship")> <Category("Affects")> Public Property Affects() As List(Of String)
+        Get
+            Return _cAffects
+        End Get
+        Set(ByVal value As List(Of String))
+            _cAffects = value
+        End Set
+    End Property
 
-    <Browsable(False)> _
-    <Description("The items which are globally affected by this ship")> <Category("Affects")> Public Property GlobalAffects() As New List(Of String)
+    <ProtoMember(108)> <Browsable(False)> _
+    <Description("The items which are globally affected by this ship")> <Category("Affects")> Public Property GlobalAffects() As List(Of String)
+        Get
+            Return _cGlobalAffects
+        End Get
+        Set(ByVal value As List(Of String))
+            _cGlobalAffects = value
+        End Set
+    End Property
 
 #End Region
 
@@ -1465,7 +1976,7 @@ Public Class Ship
 #Region "Cloning"
     Public Function Clone() As Ship
         Dim shipMemoryStream As New MemoryStream
-        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+        Dim objBinaryFormatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter(Nothing, New Runtime.Serialization.StreamingContext(Runtime.Serialization.StreamingContextStates.Clone))
         objBinaryFormatter.Serialize(shipMemoryStream, Me)
         shipMemoryStream.Seek(0, SeekOrigin.Begin)
         Dim newShip As Ship = CType(objBinaryFormatter.Deserialize(shipMemoryStream), Ship)
@@ -1477,44 +1988,44 @@ Public Class Ship
 #Region "Effective HP Calculations"
 
     Private Sub CalculateEffectiveShieldHP()
-        _effectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - _shieldEMResist) + _ex * (100 - _shieldExResist) + _ki * (100 - _shieldKiResist) + _th * (100 - _shieldThResist))
-        Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_shieldEMResist, _shieldExResist), _shieldKiResist), _shieldThResist)
-        _eveEffectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
+        _cEffectiveShieldHp = _cShieldCapacity * 100 / (_cEM * (100 - _cShieldEMResist) + _cEx * (100 - _cShieldExResist) + _cKi * (100 - _cShieldKiResist) + _cTh * (100 - _cShieldThResist))
+        Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_cShieldEMResist, _cShieldExResist), _cShieldKiResist), _cShieldThResist)
+        _cEveEffectiveShieldHp = _cShieldCapacity * 100 / (_cEM * (100 - lowResist) + _cEx * (100 - lowResist) + _cKi * (100 - lowResist) + _cTh * (100 - lowResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveArmorHP()
-        _effectiveArmorHP = _armorCapacity * 100 / (_em * (100 - _armorEMResist) + _ex * (100 - _armorExResist) + _ki * (100 - _armorKiResist) + _th * (100 - _armorThResist))
-        Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_armorEMResist, _armorExResist), _armorKiResist), _armorThResist)
-        _eveEffectiveArmorHP = _armorCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
+        _cEffectiveArmorHp = _cArmorCapacity * 100 / (_cEM * (100 - _cArmorEMResist) + _cEx * (100 - _cArmorExResist) + _cKi * (100 - _cArmorKiResist) + _cTh * (100 - _cArmorThResist))
+        Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_cArmorEMResist, _cArmorExResist), _cArmorKiResist), _cArmorThResist)
+        _cEveEffectiveArmorHp = _cArmorCapacity * 100 / (_cEM * (100 - lowResist) + _cEx * (100 - lowResist) + _cKi * (100 - lowResist) + _cTh * (100 - lowResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveStructureHP()
-        _effectiveStructureHP = _structureCapacity * 100 / (_em * (100 - _structureEMResist) + _ex * (100 - _structureExResist) + _ki * (100 - _structureKiResist) + _th * (100 - _structureThResist))
-        Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_structureEMResist, _structureExResist), _structureKiResist), _structureThResist)
-        _eveEffectiveStructureHP = _structureCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
+        _cEffectiveStructureHp = _cStructureCapacity * 100 / (_cEM * (100 - _cStructureEMResist) + _cEx * (100 - _cStructureExResist) + _cKi * (100 - _cStructureKiResist) + _cTh * (100 - _cStructureThResist))
+        Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_cStructureEMResist, _cStructureExResist), _cStructureKiResist), _cStructureThResist)
+        _cEveEffectiveStructureHp = _cStructureCapacity * 100 / (_cEM * (100 - lowResist) + _cEx * (100 - lowResist) + _cKi * (100 - lowResist) + _cTh * (100 - lowResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveHP()
-        _effectiveHP = _effectiveShieldHP + _effectiveArmorHP + _effectiveStructureHP
-        _eveEffectiveHP = Int(_eveEffectiveShieldHP + _eveEffectiveArmorHP + _eveEffectiveStructureHP)
+        _cEffectiveHp = _cEffectiveShieldHp + _cEffectiveArmorHp + _cEffectiveStructureHp
+        _cEveEffectiveHp = Int(_cEveEffectiveShieldHp + _cEveEffectiveArmorHp + _cEveEffectiveStructureHp)
     End Sub
     Public Sub RecalculateEffectiveHP()
         Dim lowResist As Double
         ' Calculate Shield EHP
-        _effectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - _shieldEMResist) + _ex * (100 - _shieldExResist) + _ki * (100 - _shieldKiResist) + _th * (100 - _shieldThResist))
-        lowResist = Math.Min(Math.Min(Math.Min(_shieldEMResist, _shieldExResist), _shieldKiResist), _shieldThResist)
-        _eveEffectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
+        _cEffectiveShieldHp = _cShieldCapacity * 100 / (_cEM * (100 - _cShieldEMResist) + _cEx * (100 - _cShieldExResist) + _cKi * (100 - _cShieldKiResist) + _cTh * (100 - _cShieldThResist))
+        lowResist = Math.Min(Math.Min(Math.Min(_cShieldEMResist, _cShieldExResist), _cShieldKiResist), _cShieldThResist)
+        _cEveEffectiveShieldHp = _cShieldCapacity * 100 / (_cEM * (100 - lowResist) + _cEx * (100 - lowResist) + _cKi * (100 - lowResist) + _cTh * (100 - lowResist))
         ' Calculate Armor EHP
-        _effectiveArmorHP = _armorCapacity * 100 / (_em * (100 - _armorEMResist) + _ex * (100 - _armorExResist) + _ki * (100 - _armorKiResist) + _th * (100 - _armorThResist))
-        lowResist = Math.Min(Math.Min(Math.Min(_armorEMResist, _armorExResist), _armorKiResist), _armorThResist)
-        _eveEffectiveArmorHP = _armorCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
+        _cEffectiveArmorHp = _cArmorCapacity * 100 / (_cEM * (100 - _cArmorEMResist) + _cEx * (100 - _cArmorExResist) + _cKi * (100 - _cArmorKiResist) + _cTh * (100 - _cArmorThResist))
+        lowResist = Math.Min(Math.Min(Math.Min(_cArmorEMResist, _cArmorExResist), _cArmorKiResist), _cArmorThResist)
+        _cEveEffectiveArmorHp = _cArmorCapacity * 100 / (_cEM * (100 - lowResist) + _cEx * (100 - lowResist) + _cKi * (100 - lowResist) + _cTh * (100 - lowResist))
         ' Calculate Structure EHP
-        _effectiveStructureHP = _structureCapacity * 100 / (_em * (100 - _structureEMResist) + _ex * (100 - _structureExResist) + _ki * (100 - _structureKiResist) + _th * (100 - _structureThResist))
-        lowResist = Math.Min(Math.Min(Math.Min(_structureEMResist, _structureExResist), _structureKiResist), _structureThResist)
-        _eveEffectiveStructureHP = _structureCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
+        _cEffectiveStructureHp = _cStructureCapacity * 100 / (_cEM * (100 - _cStructureEMResist) + _cEx * (100 - _cStructureExResist) + _cKi * (100 - _cStructureKiResist) + _cTh * (100 - _cStructureThResist))
+        lowResist = Math.Min(Math.Min(Math.Min(_cStructureEMResist, _cStructureExResist), _cStructureKiResist), _cStructureThResist)
+        _cEveEffectiveStructureHp = _cStructureCapacity * 100 / (_cEM * (100 - lowResist) + _cEx * (100 - lowResist) + _cKi * (100 - lowResist) + _cTh * (100 - lowResist))
         ' Calculate Total EHP
-        _effectiveHP = _effectiveShieldHP + _effectiveArmorHP + _effectiveStructureHP
-        _eveEffectiveHP = Int(_eveEffectiveShieldHP + _eveEffectiveArmorHP + _eveEffectiveStructureHP)
+        _cEffectiveHp = _cEffectiveShieldHp + _cEffectiveArmorHp + _cEffectiveStructureHp
+        _cEveEffectiveHp = Int(_cEveEffectiveShieldHp + _cEveEffectiveArmorHp + _cEveEffectiveStructureHp)
     End Sub
 
 #End Region

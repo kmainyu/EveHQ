@@ -117,63 +117,63 @@ Public Class PlugInData
             Engine.BuildSubSystemBonusMap()
 
             ' Check for the existence of the binary data
-            Dim NoSerializableErrors As Boolean = True
+            Dim noSerializableErrors As Boolean = True
 
             If PlugInData.UseSerializableData = True Then
 
                 Core.HQ.WriteLogEvent("HQF: Loading cache data...")
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "attributes.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
-                            Attributes.AttributeList = CType(f.Deserialize(s), SortedList)
+                            Attributes.AttributeList = CType(f.Deserialize(s), SortedList(Of String, Attribute))
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Attributes file successfully loaded")
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening Attributes file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: Attributes file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
                             ShipLists.ShipList = CType(f.Deserialize(s), SortedList(Of String, Ship))
                             s.Close()
-                            For Each cShip As Ship In ShipLists.shipList.Values
-                                ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
-                                ShipLists.shipListKeyName.Add(cShip.Name, cShip.ID)
+                            For Each cShip As Ship In ShipLists.ShipList.Values
+                                ShipLists.ShipListKeyID.Add(cShip.ID, cShip.Name)
+                                ShipLists.ShipListKeyName.Add(cShip.Name, cShip.ID)
                             Next
                             Core.HQ.WriteLogEvent("HQF: Ships file successfully loaded")
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening Ships file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: Ships file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
                             ModuleLists.ModuleList = CType(f.Deserialize(s), SortedList(Of String, ShipModule))
                             s.Close()
-                            For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                                ModuleLists.moduleListName.Add(cMod.Name.Trim, cMod.ID)
+                            For Each cMod As ShipModule In ModuleLists.ModuleList.Values
+                                ModuleLists.ModuleListName.Add(cMod.Name.Trim, cMod.ID)
                                 If cMod.IsCharge = True Then
                                     If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
                                         Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
@@ -184,53 +184,53 @@ Public Class PlugInData
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening Modules file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: Modules file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "implants.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
-                            Implants.implantList = CType(f.Deserialize(s), SortedList)
+                            Implants.ImplantList = CType(f.Deserialize(s), SortedList(Of String, ShipModule))
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Implants file successfully loaded")
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening Implants file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: Implants file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "boosters.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
-                            Boosters.BoosterList = CType(f.Deserialize(s), SortedList)
+                            Boosters.BoosterList = CType(f.Deserialize(s), SortedList(Of String, ShipModule))
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Boosters file successfully loaded")
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening Boosters file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: Boosters file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin"), FileMode.Open)
                         Try
@@ -241,15 +241,15 @@ Public Class PlugInData
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening Skills file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: Skills file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
-                If NoSerializableErrors = True Then
+                If noSerializableErrors = True Then
                     If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin")) = True Then
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "NPCs.bin"), FileMode.Open)
                         Try
@@ -260,16 +260,16 @@ Public Class PlugInData
                         Catch sex As Exception
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Error opening NPCs file: " & sex.Message)
-                            NoSerializableErrors = False
+                            noSerializableErrors = False
                         End Try
                     Else
                         Core.HQ.WriteLogEvent("HQF: NPCs file not found")
-                        NoSerializableErrors = False
+                        noSerializableErrors = False
                     End If
                 End If
 
                 ' Ask what we want to do in the case of errors during the deserialization process
-                If NoSerializableErrors = False Then
+                If noSerializableErrors = False Then
                     Dim msg As String = "There was an error loading one of the HQF cache files. Would you like to try and re-generate the cache data to continue?"
                     Dim reply As DialogResult = MessageBox.Show(msg, "Re-create HQF Cache Data?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.Yes Then
