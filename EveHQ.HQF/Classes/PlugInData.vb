@@ -147,7 +147,7 @@ Public Class PlugInData
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
-                            ShipLists.shipList = CType(f.Deserialize(s), SortedList)
+                            ShipLists.ShipList = CType(f.Deserialize(s), SortedList(Of String, Ship))
                             s.Close()
                             For Each cShip As Ship In ShipLists.shipList.Values
                                 ShipLists.shipListKeyID.Add(cShip.ID, cShip.Name)
@@ -170,7 +170,7 @@ Public Class PlugInData
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "modules.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
-                            ModuleLists.moduleList = CType(f.Deserialize(s), SortedList)
+                            ModuleLists.ModuleList = CType(f.Deserialize(s), SortedList(Of String, ShipModule))
                             s.Close()
                             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                                 ModuleLists.moduleListName.Add(cMod.Name.Trim, cMod.ID)
@@ -235,7 +235,7 @@ Public Class PlugInData
                         Dim s As New FileStream(Path.Combine(HQF.Settings.HQFCacheFolder, "skills.bin"), FileMode.Open)
                         Try
                             Dim f As BinaryFormatter = New BinaryFormatter
-                            SkillLists.SkillList = CType(f.Deserialize(s), SortedList)
+                            SkillLists.SkillList = CType(f.Deserialize(s), SortedList(Of Integer, Skill))
                             s.Close()
                             Core.HQ.WriteLogEvent("HQF: Skills file successfully loaded")
                         Catch sex As Exception
@@ -596,19 +596,19 @@ Public Class PlugInData
                     For Each skillRow As DataRow In skillData.Tables(0).Rows
                         ' Check if the typeID already exists
                         Dim newSkill As HQF.Skill
-                        If HQF.SkillLists.SkillList.Contains(skillRow.Item("typeID").ToString) = False Then
+                        If HQF.SkillLists.SkillList.ContainsKey(CInt(skillRow.Item("typeID"))) = False Then
                             newSkill = New HQF.Skill
                             newSkill.ID = CInt(skillRow.Item("typeID"))
                             newSkill.GroupID = skillRow.Item("groupID").ToString.Trim
                             newSkill.Name = skillRow.Item("typeName").ToString.Trim
                             HQF.SkillLists.SkillList.Add(newSkill.ID, newSkill)
                         Else
-                            newSkill = CType(HQF.SkillLists.SkillList(skillRow.Item("typeID").ToString), HQF.Skill)
+                            newSkill = HQF.SkillLists.SkillList(CInt(skillRow.Item("typeID")))
                         End If
                         If IsDBNull(skillRow.Item("valueInt")) = False Then
-                            newSkill.Attributes.Add(skillRow.Item("attributeID").ToString, skillRow.Item("valueInt"))
+                            newSkill.Attributes.Add(CInt(skillRow.Item("attributeID")), CDbl(skillRow.Item("valueInt")))
                         Else
-                            newSkill.Attributes.Add(skillRow.Item("attributeID").ToString, skillRow.Item("valueFloat"))
+                            newSkill.Attributes.Add(CInt(skillRow.Item("attributeID")), CDbl(skillRow.Item("valueFloat")))
                         End If
                     Next
                     Return True
@@ -893,13 +893,13 @@ Public Class PlugInData
                     ModuleLists.moduleMetaTypes.Clear()
                     ModuleLists.moduleMetaGroups.Clear()
                     For Each row As DataRow In metaTypeData.Tables(0).Rows
-                        If ModuleLists.moduleMetaTypes.Contains(row.Item("invTypes_typeID").ToString) = False Then
-                            ModuleLists.moduleMetaTypes.Add(row.Item("invTypes_typeID").ToString, row.Item("parentTypeID").ToString)
-                            ModuleLists.moduleMetaGroups.Add(row.Item("invTypes_typeID").ToString, row.Item("invMetaGroups_metaGroupID").ToString)
+                        If ModuleLists.ModuleMetaTypes.ContainsKey(row.Item("invTypes_typeID").ToString) = False Then
+                            ModuleLists.ModuleMetaTypes.Add(row.Item("invTypes_typeID").ToString, row.Item("parentTypeID").ToString)
+                            ModuleLists.ModuleMetaGroups.Add(row.Item("invTypes_typeID").ToString, row.Item("invMetaGroups_metaGroupID").ToString)
                         End If
-                        If ModuleLists.moduleMetaTypes.Contains(row.Item("parentTypeID").ToString) = False Then
-                            ModuleLists.moduleMetaTypes.Add(row.Item("parentTypeID").ToString, row.Item("parentTypeID").ToString)
-                            ModuleLists.moduleMetaGroups.Add(row.Item("parentTypeID").ToString, "0")
+                        If ModuleLists.ModuleMetaTypes.ContainsKey(row.Item("parentTypeID").ToString) = False Then
+                            ModuleLists.ModuleMetaTypes.Add(row.Item("parentTypeID").ToString, row.Item("parentTypeID").ToString)
+                            ModuleLists.ModuleMetaGroups.Add(row.Item("parentTypeID").ToString, "0")
                         End If
                     Next
                     Return True
@@ -935,11 +935,6 @@ Public Class PlugInData
                 newModule.Capacity = CDbl(row.Item("capacity"))
                 newModule.Attributes.Add(Attributes.Module_Capacity, CDbl(row.Item("capacity")))
                 newModule.Attributes.Add(Attributes.Module_Mass, CDbl(row.Item("mass")))
-                If IsDBNull(row.Item("raceID")) = False Then
-                    newModule.RaceID = CInt(row.Item("raceID"))
-                Else
-                    newModule.RaceID = 0
-                End If
                 newModule.MarketPrice = 0 ' Core.DataFunctions.GetPrice(newModule.ID)
                 newModule.Icon = row.Item("iconFile").ToString.Replace("res:/UI/Texture/Icons/", "").Replace(".png", "")
                 If IsDBNull(row.Item("marketGroupID")) = False Then
@@ -985,10 +980,10 @@ Public Class PlugInData
                 For Each row As DataRow In PlugInData.moduleData.Tables(0).Rows
                     If IsDBNull(row.Item("marketGroupID")) = True Then
                         modID = row.Item("typeID").ToString
-                        nModule = CType(ModuleLists.moduleList(modID), ShipModule)
-                        If ModuleLists.moduleMetaTypes.Contains(modID) = True Then
-                            parentID = ModuleLists.moduleMetaTypes(modID).ToString
-                            eModule = CType(ModuleLists.moduleList(parentID), ShipModule)
+                        nModule = ModuleLists.ModuleList(modID)
+                        If ModuleLists.ModuleMetaTypes.ContainsKey(modID) = True Then
+                            parentID = ModuleLists.ModuleMetaTypes(modID).ToString
+                            eModule = ModuleLists.ModuleList(parentID)
                             nModule.MarketGroup = eModule.MarketGroup
                         End If
                     End If
@@ -1005,7 +1000,7 @@ Public Class PlugInData
                     Dim marketGroupID As String = changeData(1)
                     Dim metaTypeID As Integer = CInt(changeData(2))
                     If ModuleLists.moduleList.ContainsKey(typeID) = True Then
-                        Dim mModule As ShipModule = CType(ModuleLists.moduleList(typeID), ShipModule)
+                        Dim mModule As ShipModule = ModuleLists.ModuleList(typeID)
                         mModule.MarketGroup = marketGroupID
                         If metaTypeID <> 0 Then
                             mModule.MetaType = metaTypeID
@@ -1276,8 +1271,8 @@ Public Class PlugInData
             Next
             ' Build the metaType data
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                If ModuleLists.moduleMetaGroups.Contains(cMod.ID) = True Then
-                    If CStr(ModuleLists.moduleMetaGroups(cMod.ID)) = "0" Then
+                If ModuleLists.ModuleMetaGroups.ContainsKey(cMod.ID) = True Then
+                    If CStr(ModuleLists.ModuleMetaGroups(cMod.ID)) = "0" Then
                         If cMod.Attributes.ContainsKey(Attributes.Module_TechLevel) = True Then
                             Select Case CInt(cMod.Attributes(Attributes.Module_TechLevel))
                                 Case 1
@@ -1293,7 +1288,7 @@ Public Class PlugInData
                             cMod.MetaType = MetaTypes.Tech1
                         End If
                     Else
-                        cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.moduleMetaGroups(cMod.ID)) - 1))
+                        cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.ModuleMetaGroups(cMod.ID)) - 1))
                     End If
                 Else
                     cMod.MetaType = MetaTypes.Tech1

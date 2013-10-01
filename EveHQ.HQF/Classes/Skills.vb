@@ -40,9 +40,9 @@ End Class
     Public ID As Integer
     Public Name As String
     Public GroupID As String
-    Public Attributes As New SortedList
+    Public Attributes As New SortedList(Of Integer, Double)
 End Class
 
 <Serializable()> Public Class SkillLists
-    Public Shared SkillList As New SortedList
+    Public Shared SkillList As New SortedList(Of Integer, Skill)
 End Class

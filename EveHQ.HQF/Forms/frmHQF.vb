@@ -36,7 +36,7 @@ Public Class frmHQF
 
     Dim cActiveFitting As Fitting
     Dim LastSlotFitting As New ArrayList
-    Dim LastModuleResults As New SortedList
+    Dim LastModuleResults As New SortedList(Of String, ShipModule)
     Dim ModuleListItems As New ArrayList
     Dim myPilotManager As New frmPilotManager
     Dim myBCBrowser As New frmBCBrowser
@@ -892,19 +892,19 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub CalculateFilteredModules(ByVal groupNode As Node)
-        Me.Cursor = Cursors.WaitCursor
-        Dim sMod As New ShipModule
+        Cursor = Cursors.WaitCursor
+        Dim sMod As ShipModule
         Dim groupID As String
-        Dim results As New SortedList
+        Dim results As New SortedList(Of String, ShipModule)
         If groupNode.Name = "Favourites" Then
             ModuleDisplay = "Favourites"
             For Each modName As String In Settings.HQFSettings.Favourites
-                If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
-                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                If HQF.ModuleLists.ModuleListName.ContainsKey(modName) = True Then
+                    sMod = HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(modName))
                     ' Add results in by name, module
                     If ActiveFitting IsNot Nothing Then
                         If chkApplySkills.Checked = True Then
-                            sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
+                            sMod = HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(modName)).Clone
                             ActiveFitting.ApplySkillEffectsToModule(sMod, True)
                         End If
                     End If
@@ -938,12 +938,12 @@ Public Class frmHQF
         ElseIf groupNode.Name = "Recently Used" Then
             ModuleDisplay = "Recently Used"
             For Each modName As String In Settings.HQFSettings.MRUModules
-                If HQF.ModuleLists.moduleListName.Contains(modName) = True Then
-                    sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule)
+                If HQF.ModuleLists.ModuleListName.ContainsKey(modName) = True Then
+                    sMod = HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(modName))
                     ' Add results in by name, module
                     If ActiveFitting IsNot Nothing Then
                         If chkApplySkills.Checked = True Then
-                            sMod = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(modName)), ShipModule).Clone
+                            sMod = HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(modName)).Clone
                             ActiveFitting.ApplySkillEffectsToModule(sMod, True)
                         End If
                     End If
@@ -985,7 +985,7 @@ Public Class frmHQF
             Else
                 ' Check on the last results
                 If LastModuleResults.Count > 0 Then
-                    groupID = CType(LastModuleResults.GetByIndex(0), ShipModule).MarketGroup
+                    groupID = LastModuleResults.Values(0).MarketGroup
                 Else
                     groupID = "0"
                 End If
@@ -996,15 +996,15 @@ Public Class frmHQF
         Call Me.ShowFilteredModules()
         Me.Cursor = Cursors.Default
     End Sub
-    Private Sub AddGroupResults(ByVal ModuleList As SortedList, ByVal groupID As String, ByRef Results As SortedList)
+    Private Sub AddGroupResults(ByVal moduleList As SortedList(Of String, ShipModule), ByVal groupID As String, ByRef results As SortedList(Of String, ShipModule))
         Dim sMod As New ShipModule
-        For Each shipMod As ShipModule In ModuleList.Values
+        For Each shipMod As ShipModule In moduleList.Values
             If shipMod.MarketGroup = groupID Then
                 ' Add results in by name, module
-                sMod = CType(HQF.ModuleLists.moduleList(shipMod.ID), ShipModule)
+                sMod = HQF.ModuleLists.ModuleList(shipMod.ID)
                 If ActiveFitting IsNot Nothing Then
                     If chkApplySkills.Checked = True Then
-                        sMod = CType(HQF.ModuleLists.moduleList(shipMod.ID), ShipModule).Clone
+                        sMod = HQF.ModuleLists.ModuleList(shipMod.ID).Clone
                         ActiveFitting.ApplySkillEffectsToModule(sMod, True)
                     End If
                 End If
@@ -1039,11 +1039,11 @@ Public Class frmHQF
         ModuleDisplay = "Filter"
     End Sub
     Private Sub CalculateSearchedModules()
-        Me.Cursor = Cursors.WaitCursor
-        Dim sMod As New ShipModule
+        Cursor = Cursors.WaitCursor
+        Dim sMod As ShipModule
         If Len(txtSearchModules.Text) > 2 Then
             Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-            Dim results As New SortedList
+            Dim results As New SortedList(Of String, ShipModule)
             For Each item As String In HQF.ModuleLists.moduleListName.Keys
                 If item.ToLower.Contains(strSearch) Then
                     ' Add results in by name, module
@@ -1104,7 +1104,7 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub CalculateModulesThatWillFit()
-        Me.Cursor = Cursors.WaitCursor
+        Cursor = Cursors.WaitCursor
         Dim slotType As Integer = CInt(LastSlotFitting(0))
         Dim CPU As Double = CDbl(LastSlotFitting(1))
         Dim PG As Double = CDbl(LastSlotFitting(2))
@@ -1112,8 +1112,8 @@ Public Class frmHQF
         Dim LauncherSlots As Integer = CInt(LastSlotFitting(4))
         Dim TurretSlots As Integer = CInt(LastSlotFitting(5))
         Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-        Dim results As New SortedList
-        Dim sMod As New ShipModule
+        Dim results As New SortedList(Of String, ShipModule)
+        Dim sMod As ShipModule
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
             sMod = cMod
             If ActiveFitting IsNot Nothing Then
@@ -1470,7 +1470,7 @@ Public Class frmHQF
                     Dim fittingMatch As System.Text.RegularExpressions.Match = System.Text.RegularExpressions.Regex.Match(fileText, "\[(?<ShipName>[^,]*)\]|\[(?<ShipName>.*),\s?(?<FittingName>.*)\]")
                     If fittingMatch.Success = True Then
                         ' Appears to be a match so lets check the ship type
-                        If ShipLists.shipList.Contains(fittingMatch.Groups.Item("ShipName").Value) = True Then
+                        If ShipLists.ShipList.ContainsKey(fittingMatch.Groups.Item("ShipName").Value) = True Then
                             btnImport.Enabled = True
                         Else
                             btnImport.Enabled = False

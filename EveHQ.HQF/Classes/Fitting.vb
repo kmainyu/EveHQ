@@ -696,7 +696,7 @@ Imports EveHQ.Core
                     ' Go through the attributes
                     aSkill = CType(SkillLists.SkillList(hSkill.ID), Skill)
                     Try
-                        For Each att As String In aSkill.Attributes.Keys
+                        For Each att As Integer In aSkill.Attributes.Keys
                             If Engine.EffectsMap.Contains(att) = True Then
                                 For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
                                     If chkEffect.AffectingType = HQFEffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
@@ -914,7 +914,7 @@ Imports EveHQ.Core
                                     processData = True
                                 End If
                             Case HQFEffectType.Skill
-                                If hShip.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                If hShip.RequiredSkills.ContainsKey(chkEffect.AffectingID.ToString) Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Slot
@@ -1019,7 +1019,7 @@ Imports EveHQ.Core
                                         processData = True
                                     End If
                                 Case HQFEffectType.Skill
-                                    If aModule.LoadedCharge.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                    If aModule.LoadedCharge.RequiredSkills.ContainsKey(chkEffect.AffectingID.ToString) Then
                                         processData = True
                                     End If
                                 Case HQFEffectType.Slot
@@ -1088,7 +1088,7 @@ Imports EveHQ.Core
                                     processData = True
                                 End If
                             Case HQFEffectType.Skill
-                                If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                If aModule.RequiredSkills.ContainsKey(chkEffect.AffectingID.ToString) Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Slot
@@ -1180,7 +1180,7 @@ Imports EveHQ.Core
                                             processData = True
                                         End If
                                     Case HQFEffectType.Skill
-                                        If aModule.RequiredSkills.Contains(chkEffect.AffectingID.ToString) Then
+                                        If aModule.RequiredSkills.ContainsKey(chkEffect.AffectingID.ToString) Then
                                             processData = True
                                         End If
                                     Case HQFEffectType.Slot
@@ -2039,7 +2039,7 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case HQFEffectType.Skill
-                If NewShip.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
+                If NewShip.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
                     Return True
                 End If
             Case HQFEffectType.Attribute
@@ -2074,7 +2074,7 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case HQFEffectType.Skill
-                If NewModule.RequiredSkills.Contains(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
+                If NewModule.RequiredSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
                     Return True
                 End If
             Case HQFEffectType.Slot

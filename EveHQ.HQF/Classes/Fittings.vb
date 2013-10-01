@@ -66,12 +66,12 @@
             ' Check if the module exists
             If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
                 Dim modID As String = ModuleLists.moduleListName(modData(0)).ToString
-                Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                Dim sMod As ShipModule = ModuleLists.ModuleList(modID).Clone
                 If modData.GetUpperBound(0) > 0 Then
                     ' Check if a charge (will be a valid item)
-                    If ModuleLists.moduleListName.Contains(modData(1).Trim) = True Then
-                        Dim chgID As String = ModuleLists.moduleListName(modData(1).Trim).ToString
-                        sMod.LoadedCharge = CType(ModuleLists.moduleList(chgID), ShipModule).Clone
+                    If ModuleLists.ModuleListName.ContainsKey(modData(1).Trim) = True Then
+                        Dim chgID As String = ModuleLists.ModuleListName(modData(1).Trim).ToString
+                        sMod.LoadedCharge = ModuleLists.ModuleList(chgID).Clone
                     End If
                 End If
                 ' Check if module is nothing

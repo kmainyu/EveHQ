@@ -22,13 +22,16 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.ComponentModel
+Imports ProtoBuf
 
 ''' <summary>
 ''' Public class for storing details of a ship used for processing
 ''' </summary>
 ''' <remarks></remarks>
-<Serializable()> Public Class Ship
-    
+<ProtoContract()>
+<Serializable()>
+Public Class Ship
+
 #Region "Constants"
     Const MaxBasicSlots As Integer = 8
     Const MaxRigSlots As Integer = 3
@@ -38,7 +41,7 @@ Imports System.ComponentModel
 
 #Region "Property Variables"
 
-  ' Max Fitting Layout
+    ' Max Fitting Layout
     Private _hiSlots As Integer
     Private _midSlots As Integer
     Private _lowSlots As Integer
@@ -357,19 +360,19 @@ Imports System.ComponentModel
     ' Note: None of these properties should be visible in the property editor
 
     <Browsable(False)> _
-    <Description("The collection of internal modules for the ship")> <Category("Slot Collection")> Public Property SlotCollection() As ArrayList
+    <Description("The collection of internal modules for the ship")> <Category("Slot Collection")> Public Property SlotCollection() As New ArrayList
 
     <Browsable(False)> _
-    <Description("The collection of remote modules for the ship")> <Category("Slot Collection")> Public Property RemoteSlotCollection() As ArrayList
+    <Description("The collection of remote modules for the ship")> <Category("Slot Collection")> Public Property RemoteSlotCollection() As New ArrayList
 
     <Browsable(False)> _
-    <Description("The collection of fleet-based modules for the ship")> <Category("Slot Collection")> Public Property FleetSlotCollection() As ArrayList
+    <Description("The collection of fleet-based modules for the ship")> <Category("Slot Collection")> Public Property FleetSlotCollection() As New ArrayList
 
     <Browsable(False)> _
-    <Description("The collection of external environment modules for the ship")> <Category("Slot Collection")> Public Property EnviroSlotCollection() As ArrayList
+    <Description("The collection of external environment modules for the ship")> <Category("Slot Collection")> Public Property EnviroSlotCollection() As New ArrayList
 
     <Browsable(False)> _
-    <Description("The collection of combat boosters for the ship")> <Category("Slot Collection")> Public Property BoosterSlotCollection() As ArrayList
+    <Description("The collection of combat boosters for the ship")> <Category("Slot Collection")> Public Property BoosterSlotCollection() As New ArrayList
 
 #End Region
 
@@ -1224,29 +1227,26 @@ Imports System.ComponentModel
 
 #Region "Skill Properties"
 
-    <Description("The minimum skills required to fly the ship hull")> <Category("Skills")> Public Property RequiredSkills() As SortedList
-
-    <Browsable(False)> _
-    <Description("The minimum skills required to fly the ship (inlcuding all modules)")> <Category("Skills")> Public Property RequiredSkillList() As SortedList
+    <Description("The minimum skills required to fly the ship hull")> <Category("Skills")> Public Property RequiredSkills() As New SortedList(Of String, ItemSkills)
 
 #End Region
 
 #Region "Attribute Properties"
 
-    <Description("The detailed attributes of the ship")> <Category("Attributes")> Public Property Attributes() As SortedList(Of String, Double)
+    <Description("The detailed attributes of the ship")> <Category("Attributes")> Public Property Attributes() As New SortedList(Of String, Double)
 
 #End Region
 
 #Region "Storage Bay Items"
 
     <Browsable(False)> _
-    <Description("The collection of items stored in the cargo bay of the ship")> <Category("Storage Bay Items")> Public Property CargoBayItems() As SortedList
+    <Description("The collection of items stored in the cargo bay of the ship")> <Category("Storage Bay Items")> Public Property CargoBayItems() As New SortedList
 
     <Browsable(False)> _
-    <Description("The collection of items stored in the drone bay of the ship")> <Category("Storage Bay Items")> Public Property DroneBayItems() As SortedList
+    <Description("The collection of items stored in the drone bay of the ship")> <Category("Storage Bay Items")> Public Property DroneBayItems() As New SortedList
 
     <Browsable(False)> _
-    <Description("The collection of items stored in the ship maintenance bay of the ship")> <Category("Storage Bay Items")> Public Property ShipBayItems() As SortedList
+    <Description("The collection of items stored in the ship maintenance bay of the ship")> <Category("Storage Bay Items")> Public Property ShipBayItems() As New SortedList
 
 #End Region
 
@@ -1412,7 +1412,7 @@ Imports System.ComponentModel
 #Region "Audit Log Properties"
 
     <Browsable(False)> _
-    <Description("The list of audit log entries for the fitted ship")> <Category("Audit Log")> Public Property AuditLog() As ArrayList
+    <Description("The list of audit log entries for the fitted ship")> <Category("Audit Log")> Public Property AuditLog() As New List(Of String)
 
 #End Region
 
@@ -1428,11 +1428,11 @@ Imports System.ComponentModel
                 value = HQFDamageProfiles.ProfileList.Item("<Omni-Damage>")
             End If
             _damageProfile = value
-            _EMExKiTh = _damageProfile.EM + _damageProfile.Explosive + _damageProfile.Kinetic + _damageProfile.Thermal
-            _EM = _damageProfile.EM / _EMExKiTh
-            _Ex = _damageProfile.Explosive / _EMExKiTh
-            _Ki = _damageProfile.Kinetic / _EMExKiTh
-            _Th = _damageProfile.Thermal / _EMExKiTh
+            _emExKiTh = _damageProfile.EM + _damageProfile.Explosive + _damageProfile.Kinetic + _damageProfile.Thermal
+            _em = _damageProfile.EM / _emExKiTh
+            _ex = _damageProfile.Explosive / _emExKiTh
+            _ki = _damageProfile.Kinetic / _emExKiTh
+            _th = _damageProfile.Thermal / _emExKiTh
         End Set
     End Property
 
@@ -1453,10 +1453,10 @@ Imports System.ComponentModel
 #Region "Affects"
 
     <Browsable(False)> _
-    <Description("The items which are affected by this ship")> <Category("Affects")> Public Property Affects() As ArrayList
+    <Description("The items which are affected by this ship")> <Category("Affects")> Public Property Affects() As New List(Of String)
 
     <Browsable(False)> _
-    <Description("The items which are globally affected by this ship")> <Category("Affects")> Public Property GlobalAffects() As ArrayList
+    <Description("The items which are globally affected by this ship")> <Category("Affects")> Public Property GlobalAffects() As New List(Of String)
 
 #End Region
 
@@ -1477,21 +1477,21 @@ Imports System.ComponentModel
 #Region "Effective HP Calculations"
 
     Private Sub CalculateEffectiveShieldHP()
-        _effectiveShieldHP = _shieldCapacity * 100 / (_EM * (100 - _shieldEMResist) + _Ex * (100 - _shieldExResist) + _Ki * (100 - _shieldKiResist) + _Th * (100 - _shieldThResist))
+        _effectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - _shieldEMResist) + _ex * (100 - _shieldExResist) + _ki * (100 - _shieldKiResist) + _th * (100 - _shieldThResist))
         Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_shieldEMResist, _shieldExResist), _shieldKiResist), _shieldThResist)
-        _eveEffectiveShieldHP = _shieldCapacity * 100 / (_EM * (100 - lowResist) + _Ex * (100 - lowResist) + _Ki * (100 - lowResist) + _Th * (100 - lowResist))
+        _eveEffectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveArmorHP()
-        _effectiveArmorHP = _armorCapacity * 100 / (_EM * (100 - _armorEMResist) + _Ex * (100 - _armorExResist) + _Ki * (100 - _armorKiResist) + _Th * (100 - _armorThResist))
+        _effectiveArmorHP = _armorCapacity * 100 / (_em * (100 - _armorEMResist) + _ex * (100 - _armorExResist) + _ki * (100 - _armorKiResist) + _th * (100 - _armorThResist))
         Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_armorEMResist, _armorExResist), _armorKiResist), _armorThResist)
-        _eveEffectiveArmorHP = _armorCapacity * 100 / (_EM * (100 - lowResist) + _Ex * (100 - lowResist) + _Ki * (100 - lowResist) + _Th * (100 - lowResist))
+        _eveEffectiveArmorHP = _armorCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveStructureHP()
-        _effectiveStructureHP = _structureCapacity * 100 / (_EM * (100 - _structureEMResist) + _Ex * (100 - _structureExResist) + _Ki * (100 - _structureKiResist) + _Th * (100 - _structureThResist))
+        _effectiveStructureHP = _structureCapacity * 100 / (_em * (100 - _structureEMResist) + _ex * (100 - _structureExResist) + _ki * (100 - _structureKiResist) + _th * (100 - _structureThResist))
         Dim lowResist As Double = Math.Min(Math.Min(Math.Min(_structureEMResist, _structureExResist), _structureKiResist), _structureThResist)
-        _eveEffectiveStructureHP = _structureCapacity * 100 / (_EM * (100 - lowResist) + _Ex * (100 - lowResist) + _Ki * (100 - lowResist) + _Th * (100 - lowResist))
+        _eveEffectiveStructureHP = _structureCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
         Call CalculateEffectiveHP()
     End Sub
     Private Sub CalculateEffectiveHP()
@@ -1501,17 +1501,17 @@ Imports System.ComponentModel
     Public Sub RecalculateEffectiveHP()
         Dim lowResist As Double
         ' Calculate Shield EHP
-        _effectiveShieldHP = _shieldCapacity * 100 / (_EM * (100 - _shieldEMResist) + _Ex * (100 - _shieldExResist) + _Ki * (100 - _shieldKiResist) + _Th * (100 - _shieldThResist))
+        _effectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - _shieldEMResist) + _ex * (100 - _shieldExResist) + _ki * (100 - _shieldKiResist) + _th * (100 - _shieldThResist))
         lowResist = Math.Min(Math.Min(Math.Min(_shieldEMResist, _shieldExResist), _shieldKiResist), _shieldThResist)
-        _eveEffectiveShieldHP = _shieldCapacity * 100 / (_EM * (100 - lowResist) + _Ex * (100 - lowResist) + _Ki * (100 - lowResist) + _Th * (100 - lowResist))
+        _eveEffectiveShieldHP = _shieldCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
         ' Calculate Armor EHP
-        _effectiveArmorHP = _armorCapacity * 100 / (_EM * (100 - _armorEMResist) + _Ex * (100 - _armorExResist) + _Ki * (100 - _armorKiResist) + _Th * (100 - _armorThResist))
+        _effectiveArmorHP = _armorCapacity * 100 / (_em * (100 - _armorEMResist) + _ex * (100 - _armorExResist) + _ki * (100 - _armorKiResist) + _th * (100 - _armorThResist))
         lowResist = Math.Min(Math.Min(Math.Min(_armorEMResist, _armorExResist), _armorKiResist), _armorThResist)
-        _eveEffectiveArmorHP = _armorCapacity * 100 / (_EM * (100 - lowResist) + _Ex * (100 - lowResist) + _Ki * (100 - lowResist) + _Th * (100 - lowResist))
+        _eveEffectiveArmorHP = _armorCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
         ' Calculate Structure EHP
-        _effectiveStructureHP = _structureCapacity * 100 / (_EM * (100 - _structureEMResist) + _Ex * (100 - _structureExResist) + _Ki * (100 - _structureKiResist) + _Th * (100 - _structureThResist))
+        _effectiveStructureHP = _structureCapacity * 100 / (_em * (100 - _structureEMResist) + _ex * (100 - _structureExResist) + _ki * (100 - _structureKiResist) + _th * (100 - _structureThResist))
         lowResist = Math.Min(Math.Min(Math.Min(_structureEMResist, _structureExResist), _structureKiResist), _structureThResist)
-        _eveEffectiveStructureHP = _structureCapacity * 100 / (_EM * (100 - lowResist) + _Ex * (100 - lowResist) + _Ki * (100 - lowResist) + _Th * (100 - lowResist))
+        _eveEffectiveStructureHP = _structureCapacity * 100 / (_em * (100 - lowResist) + _ex * (100 - lowResist) + _ki * (100 - lowResist) + _th * (100 - lowResist))
         ' Calculate Total EHP
         _effectiveHP = _effectiveShieldHP + _effectiveArmorHP + _effectiveStructureHP
         _eveEffectiveHP = Int(_eveEffectiveShieldHP + _eveEffectiveArmorHP + _eveEffectiveStructureHP)
@@ -1624,9 +1624,9 @@ Imports System.ComponentModel
                 Case 1152
                     newShip.CalibrationUsed = CInt(attValue)
                 Case 11
-                    newShip.PG = attValue
+                    newShip.Pg = attValue
                 Case 48
-                    newShip.CPU = attValue
+                    newShip.Cpu = attValue
                 Case 49
                     newShip.CpuUsed = attValue
                 Case 101
@@ -1796,8 +1796,8 @@ Imports System.ComponentModel
         Attributes("15") = PgUsed
         Attributes("1132") = Calibration
         Attributes("1152") = CalibrationUsed
-        Attributes("11") = PG
-        Attributes("48") = CPU
+        Attributes("11") = Pg
+        Attributes("48") = Cpu
         Attributes("49") = CpuUsed
         Attributes("101") = LauncherSlots
         Attributes("102") = TurretSlots
@@ -1878,35 +1878,35 @@ Imports System.ComponentModel
 
 End Class
 
-Public Enum SlotTypes As Integer
-    Rig = 1
-    Low = 2
-    Mid = 4
-    High = 8
-    Subsystem = 16
+<ProtoContract()> Public Enum SlotTypes As Integer
+    <ProtoMember(1)> Rig = 1
+    <ProtoMember(2)> Low = 2
+    <ProtoMember(3)> Mid = 4
+    <ProtoMember(4)> High = 8
+    <ProtoMember(5)> Subsystem = 16
 End Enum
 
-<Serializable()> Public Class ShipLists
+<ProtoContract()> <Serializable()> Public Class ShipLists
 
-    Public Shared Property ShipListKeyName As New SortedList(Of String, String)
-    Public Shared Property ShipListKeyID As New SortedList(Of String, String)
-    Public Shared Property ShipList As New SortedList   ' Key = ship name
-    Public Shared Property FittedShipList As New SortedList   ' Key = fitting key
+    <ProtoMember(1)> Public Shared ShipListKeyName As New SortedList(Of String, String)
+    <ProtoMember(2)> Public Shared ShipListKeyID As New SortedList(Of String, String)
+    <ProtoMember(3)> Public Shared ShipList As New SortedList(Of String, Ship)   ' Key = ship name
+    <ProtoMember(4)> Public Shared FittedShipList As New SortedList(Of String, Ship)   ' Key = fitting key
 
 End Class
 
-<Serializable()> Public Class DroneBayItem
-    Public Property DroneType As ShipModule
-    Public Property Quantity As Integer
-    Public Property IsActive As Boolean
+<ProtoContract()> <Serializable()> Public Class DroneBayItem
+    <ProtoMember(1)> Public DroneType As ShipModule
+    <ProtoMember(2)> Public Quantity As Integer
+    <ProtoMember(3)> Public IsActive As Boolean
 End Class
 
-<Serializable()> Public Class CargoBayItem
-    Public Property ItemType As ShipModule
-    Public Property Quantity As Integer
+<ProtoContract()> <Serializable()> Public Class CargoBayItem
+    <ProtoMember(1)> Public ItemType As ShipModule
+    <ProtoMember(2)> Public Quantity As Integer
 End Class
 
-<Serializable()> Public Class ShipBayItem
-    Public Property ShipType As Ship
-    Public Property Quantity As Integer
+<ProtoContract()> <Serializable()> Public Class ShipBayItem
+    <ProtoMember(1)> Public ShipType As Ship
+    <ProtoMember(2)> Public Quantity As Integer
 End Class

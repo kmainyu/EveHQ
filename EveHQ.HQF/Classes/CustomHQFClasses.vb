@@ -149,7 +149,7 @@ Public Class CustomHQFClasses
             Dim s As New FileStream(Path.Combine(Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
-                ShipLists.ShipList = CType(f.Deserialize(s), SortedList)
+                ShipLists.ShipList = CType(f.Deserialize(s), SortedList(Of String, Ship))
                 s.Close()
                 For Each cShip As Ship In ShipLists.ShipList.Values
                     ShipLists.ShipListKeyID.Add(cShip.ID, cShip.Name)

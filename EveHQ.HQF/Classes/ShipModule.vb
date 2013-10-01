@@ -20,8 +20,11 @@
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
+Imports ProtoBuf
 
-<Serializable()> Public Class ShipModule
+<ProtoContract()>
+<Serializable()>
+Public Class ShipModule
 
 #Region "Constants"
     ' itemIDs (see invTypes)
@@ -99,447 +102,86 @@ Imports System.Runtime.Serialization
 
 #End Region
 
-#Region "Property Variables"
-
-    ' Name and Classification
-    Private cName As String
-    Private cID As String
-    Private cMarketGroup As String
-    Private cDatabaseGroup As String
-    Private cDatabaseCategory As String
-    Private cDescription As String
-    Private cBasePrice As Double
-    Private cMarketPrice As Double
-    Private cMetaType As Integer
-    Private cMetaLevel As Integer
-    Private cRaceID As Integer
-	Private cIcon As String
-
-    ' Fitting Details
-    Private cSlotType As SlotTypes ' 1=Rig, 2=Low, 4=Mid, 8=High, 16=Subsystem
-    Private cSlotNo As Integer
-    Private cImplantSlot As Integer
-    Private cBoosterSlot As Integer
-    Private cVolume As Double
-    Private cCapacity As Double
-    Private cCPU As Double
-    Private cPG As Double
-    Private cCalibration As Integer
-    Private cCapUsage As Double
-    Private cCapUsageRate As Double
-    Private cActivationTime As Double
-    Private cReactivationDelay As Double
-    Private cIsLauncher As Boolean
-    Private cIsTurret As Boolean
-    Private cIsDrone As Boolean
-    Private cIsCharge As Boolean
-    Private cIsImplant As Boolean
-    Private cIsBooster As Boolean
-    Private cIsContainer As Boolean
-
-    ' Skills
-    Private cRequiredSkills As New SortedList
-    Private cRequiredSkillList As New SortedList
-
-    ' Named Attributes
-    Private cChargeSize As Integer
-
-    ' Attributes
-    Private cAttributes As New SortedList(Of String, Double)
-
-    ' Charges
-    Private cCharges As New ArrayList
-    Private cLoadedCharge As ShipModule
-
-    ' Audit Log
-    Private cAuditLog As New ArrayList
-
-    ' Module State
-    Private cModuleState As ModuleStates = ModuleStates.Active ' Default to Active
-
-    ' Implant Groups
-    Private cImplantGroups As New ArrayList
-
-    ' Affected by
-    Private cAffects As New ArrayList
-
-#End Region
-
 #Region "Properties"
 
     ' Name and Classification
-    Public Property Name() As String
-        Get
-            Return cName
-        End Get
-        Set(ByVal value As String)
-            cName = value
-        End Set
-    End Property
-    Public Property ID() As String
-        Get
-            Return cID
-        End Get
-        Set(ByVal value As String)
-            cID = value
-        End Set
-    End Property
-    Public Property MarketGroup() As String
-        Get
-            Return cMarketGroup
-        End Get
-        Set(ByVal value As String)
-            cMarketGroup = value
-        End Set
-    End Property
-    Public Property DatabaseGroup() As String
-        Get
-            Return cDatabaseGroup
-        End Get
-        Set(ByVal value As String)
-            cDatabaseGroup = value
-        End Set
-    End Property
-    Public Property DatabaseCategory() As String
-        Get
-            Return cDatabaseCategory
-        End Get
-        Set(ByVal value As String)
-            cDatabaseCategory = value
-        End Set
-    End Property
-    Public Property Description() As String
-        Get
-            Return cDescription
-        End Get
-        Set(ByVal value As String)
-            cDescription = value
-        End Set
-    End Property
-    Public Property BasePrice() As Double
-        Get
-            Return cBasePrice
-        End Get
-        Set(ByVal value As Double)
-            cBasePrice = value
-        End Set
-    End Property
-    Public Property MarketPrice() As Double
-        Get
-            Return cMarketPrice
-        End Get
-        Set(ByVal value As Double)
-            cMarketPrice = value
-        End Set
-    End Property
-    Public Property MetaType() As Integer
-        Get
-            Return cMetaType
-        End Get
-        Set(ByVal value As Integer)
-            cMetaType = value
-        End Set
-    End Property
-    Public Property MetaLevel() As Integer
-        Get
-            Return cMetaLevel
-        End Get
-        Set(ByVal value As Integer)
-            cMetaLevel = value
-        End Set
-    End Property
-    Public Property RaceID() As Integer
-        Get
-            Return cRaceID
-        End Get
-        Set(ByVal value As Integer)
-            cRaceID = value
-        End Set
-    End Property
-    Public Property Icon() As String
-        Get
-            Return cIcon
-        End Get
-        Set(ByVal value As String)
-            cIcon = value
-        End Set
-	End Property
+    <ProtoMember(1)> Public Property Name() As String
+    <ProtoMember(2)> Public Property ID() As String
+    <ProtoMember(3)> Public Property Description() As String
+    <ProtoMember(4)> Public Property MarketGroup() As String
+    <ProtoMember(5)> Public Property DatabaseGroup() As String
+    <ProtoMember(6)> Public Property DatabaseCategory() As String
+    <ProtoMember(7)> Public Property BasePrice() As Double
+    <ProtoMember(8)> Public Property MarketPrice() As Double
+    <ProtoMember(9)> Public Property MetaType() As Integer
+    <ProtoMember(10)> Public Property MetaLevel() As Integer
+    <ProtoMember(11)> Public Property Icon() As String
 
     ' Fitting Details
-    Public Property SlotType() As SlotTypes
-        Get
-            Return cSlotType
-        End Get
-        Set(ByVal value As SlotTypes)
-            cSlotType = value
-        End Set
-    End Property
-    Public Property SlotNo() As Integer
-        Get
-            Return cSlotNo
-        End Get
-        Set(ByVal value As Integer)
-            cSlotNo = value
-        End Set
-    End Property
-    Public Property ImplantSlot() As Integer
-        Get
-            Return cImplantSlot
-        End Get
-        Set(ByVal value As Integer)
-            cImplantSlot = value
-        End Set
-    End Property
-    Public Property BoosterSlot() As Integer
-        Get
-            Return cBoosterSlot
-        End Get
-        Set(ByVal value As Integer)
-            cBoosterSlot = value
-        End Set
-    End Property
-    Public Property Volume() As Double
-        Get
-            Return cVolume
-        End Get
-        Set(ByVal value As Double)
-            cVolume = value
-        End Set
-    End Property
-    Public Property Capacity() As Double
-        Get
-            Return cCapacity
-        End Get
-        Set(ByVal value As Double)
-            cCapacity = value
-        End Set
-    End Property
+    <ProtoMember(12)> Public Property SlotType() As SlotTypes
+    <ProtoMember(13)> Public Property SlotNo() As Integer
+    <ProtoMember(14)> Public Property ImplantSlot() As Integer
+    <ProtoMember(15)> Public Property BoosterSlot() As Integer
+    <ProtoMember(16)> Public Property Volume() As Double
+    <ProtoMember(17)> Public Property Capacity() As Double
+    <ProtoMember(18)> Public Property CPU() As Double
+    <ProtoMember(19)> Public Property PG() As Double
+    <ProtoMember(20)> Public Property Calibration() As Integer
+    <ProtoMember(21)> Public Property CapUsage() As Double
+    <ProtoMember(22)> Public Property CapUsageRate() As Double
+    <ProtoMember(23)> Public Property ActivationTime() As Double
+    <ProtoMember(24)> Public Property ReactivationDelay() As Double
+    <ProtoMember(25)> Public Property IsLauncher() As Boolean
+    <ProtoMember(26)> Public Property IsTurret() As Boolean
+    <ProtoMember(27)> Public Property IsDrone() As Boolean
+    <ProtoMember(28)> Public Property IsCharge() As Boolean
+    <ProtoMember(29)> Public Property IsImplant() As Boolean
+    <ProtoMember(30)> Public Property IsBooster() As Boolean
+    <ProtoMember(31)> Public Property IsContainer() As Boolean
 
-    Public Property CPU() As Double
-        Get
-            Return cCPU
-        End Get
-        Set(ByVal value As Double)
-            cCPU = value
-        End Set
-    End Property
-    Public Property PG() As Double
-        Get
-            Return cPG
-        End Get
-        Set(ByVal value As Double)
-            cPG = value
-        End Set
-    End Property
-    Public Property Calibration() As Integer
-        Get
-            Return cCalibration
-        End Get
-        Set(ByVal value As Integer)
-            cCalibration = value
-        End Set
-    End Property
-    Public Property CapUsage() As Double
-        Get
-            Return cCapUsage
-        End Get
-        Set(ByVal value As Double)
-            cCapUsage = value
-        End Set
-    End Property
-    Public Property CapUsageRate() As Double
-        Get
-            Return cCapUsageRate
-        End Get
-        Set(ByVal value As Double)
-            cCapUsageRate = value
-        End Set
-    End Property
-    Public Property ActivationTime() As Double
-        Get
-            Return cActivationTime
-        End Get
-        Set(ByVal value As Double)
-            cActivationTime = value
-        End Set
-    End Property
-    Public Property ReactivationDelay() As Double
-        Get
-            Return cReactivationDelay
-        End Get
-        Set(ByVal value As Double)
-            cReactivationDelay = value
-        End Set
-    End Property
-    Public Property IsLauncher() As Boolean
-        Get
-            Return cIsLauncher
-        End Get
-        Set(ByVal value As Boolean)
-            cIsLauncher = value
-        End Set
-    End Property
-    Public Property IsTurret() As Boolean
-        Get
-            Return cIsTurret
-        End Get
-        Set(ByVal value As Boolean)
-            cIsTurret = value
-        End Set
-    End Property
-    Public Property IsDrone() As Boolean
-        Get
-            Return cIsDrone
-        End Get
-        Set(ByVal value As Boolean)
-            cIsDrone = value
-        End Set
-    End Property
-    Public Property IsCharge() As Boolean
-        Get
-            Return cIsCharge
-        End Get
-        Set(ByVal value As Boolean)
-            cIsCharge = value
-        End Set
-    End Property
-    Public Property IsImplant() As Boolean
-        Get
-            Return cIsImplant
-        End Get
-        Set(ByVal value As Boolean)
-            cIsImplant = value
-        End Set
-    End Property
-    Public Property IsBooster() As Boolean
-        Get
-            Return cIsBooster
-        End Get
-        Set(ByVal value As Boolean)
-            cIsBooster = value
-        End Set
-    End Property
-    Public Property IsContainer() As Boolean
-        Get
-            Return cIsContainer
-        End Get
-        Set(ByVal value As Boolean)
-            cIsContainer = value
-        End Set
-    End Property
     ' Skills
-    Public Property RequiredSkills() As SortedList
-        Get
-            Return cRequiredSkills
-        End Get
-        Set(ByVal value As SortedList)
-            cRequiredSkills = value
-        End Set
-    End Property
-    Public Property RequiredSkillList() As SortedList
-        Get
-            Return cRequiredSkillList
-        End Get
-        Set(ByVal value As SortedList)
-            cRequiredSkillList = value
-        End Set
-    End Property
+    <ProtoMember(32)> Public Property RequiredSkills() As New SortedList(Of String, ItemSkills)
 
     ' Named Attributes
-    Public Property ChargeSize() As Integer
-        Get
-            Return cChargeSize
-        End Get
-        Set(ByVal value As Integer)
-            cChargeSize = value
-        End Set
-    End Property
+    <ProtoMember(33)> Public Property ChargeSize() As Integer
 
     ' Attributes
-    Public Property Attributes() As SortedList(Of String, Double)
-        Get
-            Return cAttributes
-        End Get
-        Set(ByVal value As SortedList(Of String, Double))
-            cAttributes = value
-        End Set
-    End Property
+    <ProtoMember(34)> Public Property Attributes() As New SortedList(Of String, Double)
 
     ' Charges
-    Public Property Charges() As ArrayList
-        Get
-            Return cCharges
-        End Get
-        Set(ByVal value As ArrayList)
-            cCharges = value
-        End Set
-    End Property
-    Public Property LoadedCharge() As ShipModule
-        Get
-            Return cLoadedCharge
-        End Get
-        Set(ByVal value As ShipModule)
-            cLoadedCharge = value
-        End Set
-    End Property
+    <ProtoMember(35)> Public Property Charges() As New List(Of String)
+
+    <ProtoMember(36)> Public Property LoadedCharge() As ShipModule
 
     'Audit Log
-    Public Property AuditLog() As ArrayList
-        Get
-            Return cAuditLog
-        End Get
-        Set(ByVal value As ArrayList)
-            cAuditLog = value
-        End Set
-    End Property
+    <ProtoMember(37)> Public Property AuditLog() As New List(Of String)
 
     ' Module State
-    Public Property ModuleState() As ModuleStates
-        Get
-            Return cModuleState
-        End Get
-        Set(ByVal value As ModuleStates)
-            cModuleState = value
-        End Set
-    End Property
+    <ProtoMember(38)> Public Property ModuleState() As ModuleStates = ModuleStates.Active
 
     ' Implant Groups
-    Public Property ImplantGroups() As ArrayList
-        Get
-            Return cImplantGroups
-        End Get
-        Set(ByVal value As ArrayList)
-            cImplantGroups = value
-        End Set
-    End Property
+    <ProtoMember(39)> Public Property ImplantGroups() As New List(Of String)
 
     ' Affected by
-    Public Property Affects() As ArrayList
-        Get
-            Return cAffects
-        End Get
-        Set(ByVal value As ArrayList)
-            cAffects = value
-        End Set
-    End Property
+    <ProtoMember(40)> Public Property Affects() As New List(Of String)
 
 #End Region
 
 #Region "Cloning"
     Public Function Clone() As ShipModule
-        Dim ShipMemoryStream As New MemoryStream(10000)
+        Dim shipMemoryStream As New MemoryStream(10000)
         Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-        objBinaryFormatter.Serialize(ShipMemoryStream, Me)
-        ShipMemoryStream.Seek(0, SeekOrigin.Begin)
-        Dim newModule As ShipModule = CType(objBinaryFormatter.Deserialize(ShipMemoryStream), ShipModule)
-        ShipMemoryStream.Close()
+        objBinaryFormatter.Serialize(shipMemoryStream, Me)
+        shipMemoryStream.Seek(0, SeekOrigin.Begin)
+        Dim newModule As ShipModule = CType(objBinaryFormatter.Deserialize(shipMemoryStream), ShipModule)
+        shipMemoryStream.Close()
         Return newModule
     End Function
 #End Region
 
 #Region "Map Attributes to Properties"
     Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
-        Dim attValue As Double = 0
+        Dim attValue As Double 
         Dim attributes As New Attributes
         ' Amend for remote effects capacitor use
         If (newModule.ModuleState And 16) = 16 Then
@@ -613,11 +255,16 @@ Public Enum MetaTypes As Integer
     Tech3 = 8192
 End Enum
 
-<Serializable()> Public Class ModuleLists
-    Public Shared moduleMetaTypes As New SortedList
-    Public Shared moduleMetaGroups As New SortedList
-    Public Shared moduleList As New SortedList   ' Key = module ID, Value = ShipModule
-    Public Shared moduleListName As New SortedList ' Key = moduleName, Value = ID (for quick name to ID conversions)
+<ProtoContract()>
+<Serializable()>
+Public Class ModuleLists
+    <ProtoMember(1)> Public Shared ModuleMetaTypes As New SortedList(Of String, String)
+    <ProtoMember(2)> Public Shared ModuleMetaGroups As New SortedList(Of String, String)
+    <ProtoMember(3)> Public Shared ModuleList As New SortedList(Of String, ShipModule)   ' Key = module ID, Value = ShipModule
+    <ProtoMember(4)> Public Shared ModuleListName As New SortedList(Of String, String) ' Key = moduleName, Value = ID (for quick name to ID conversions)
+    <ProtoMember(5)> Public Shared TypeGroups As New SortedList(Of Integer, String) ' groupID, groupName
+    <ProtoMember(6)> Public Shared TypeCats As New SortedList(Of Integer, String) ' catID, catName
+    <ProtoMember(7)> Public Shared GroupCats As New SortedList(Of Integer, Integer) ' groupID, catID
 End Class
 
 

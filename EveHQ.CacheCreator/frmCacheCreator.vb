@@ -1418,20 +1418,20 @@ Public Class FrmCacheCreator
                     For Each skillRow As DataRow In skillData.Tables(0).Rows
                         ' Check if the typeID already exists
                         Dim newSkill As Skill
-                        If SkillLists.SkillList.ContainsKey(skillRow.Item("typeID").ToString) = False Then
+                        If SkillLists.SkillList.ContainsKey(CInt(skillRow.Item("typeID"))) = False Then
                             newSkill = New Skill
-                            newSkill.Attributes = New SortedList
+                            newSkill.Attributes = New SortedList(Of Integer, Double)
                             newSkill.ID = CInt(skillRow.Item("typeID"))
                             newSkill.GroupID = skillRow.Item("groupID").ToString.Trim
                             newSkill.Name = skillRow.Item("typeName").ToString.Trim
                             SkillLists.SkillList.Add(newSkill.ID, newSkill)
                         Else
-                            newSkill = CType(SkillLists.SkillList(skillRow.Item("typeID").ToString), Skill)
+                            newSkill = SkillLists.SkillList(CInt(skillRow.Item("typeID")))
                         End If
                         If IsDBNull(skillRow.Item("valueInt")) = False Then
-                            newSkill.Attributes.Add(skillRow.Item("attributeID").ToString, CDbl(skillRow.Item("valueInt")))
+                            newSkill.Attributes.Add(CInt(skillRow.Item("attributeID")), CDbl(skillRow.Item("valueInt")))
                         Else
-                            newSkill.Attributes.Add(skillRow.Item("attributeID").ToString, CDbl(skillRow.Item("valueFloat")))
+                            newSkill.Attributes.Add(CInt(skillRow.Item("attributeID")), CDbl(skillRow.Item("valueFloat")))
                         End If
                     Next
                     Return
@@ -1647,7 +1647,7 @@ Public Class FrmCacheCreator
                             newShip.DatabaseCategory = shipRow.Item("categoryID").ToString
                             newShip.MarketGroup = shipRow.Item("marketGroupID").ToString
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
-                            newShip.MarketPrice = Core.DataFunctions.GetPrice(newShip.ID)
+                            newShip.MarketPrice = 0
                             newShip.Mass = CDbl(shipRow.Item("mass"))
                             newShip.Volume = CDbl(shipRow.Item("volume"))
                             newShip.CargoBay = CDbl(shipRow.Item("capacity"))
@@ -1876,7 +1876,7 @@ Public Class FrmCacheCreator
                 newModule.Capacity = CDbl(row.Item("capacity"))
                 newModule.Attributes.Add("10004", CDbl(row.Item("capacity")))
                 newModule.Attributes.Add("10002", CDbl(row.Item("mass")))
-                newModule.MarketPrice = Core.DataFunctions.GetPrice(newModule.ID)
+                newModule.MarketPrice = 0
                 ' Get icon from the YAML parsing
                 'newModule.Icon = row.Item("iconFile").ToString
                 If _yamlTypes.ContainsKey(CInt(newModule.ID)) Then
@@ -2616,7 +2616,7 @@ Public Class FrmCacheCreator
                     For Each cShip As Ship In ShipLists.shipList.Values
                         If newEffect.ShipID = CInt(cShip.ID) Then
                             If cShip.GlobalAffects Is Nothing Then
-                                cShip.GlobalAffects = New ArrayList
+                                cShip.GlobalAffects = New List(Of String)
                             End If
                             cShip.GlobalAffects.Add(affectingName)
                         End If

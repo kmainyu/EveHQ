@@ -48,7 +48,7 @@ Public Class frmEFTImport
                 Application.DoEvents()
                 ' Lets check the filename for a ship type
                 shipName = fileInf.Name.TrimEnd(".cfg".ToCharArray)
-                If ShipLists.shipList.Contains(shipName) = True Then
+                If ShipLists.ShipList.ContainsKey(shipName) = True Then
                     ' Valid shiptype so lets see if we can parse the file
                     sr = New StreamReader(filename)
                     filetext = sr.ReadToEnd
