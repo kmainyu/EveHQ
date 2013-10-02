@@ -741,6 +741,9 @@ Public Class EveHQSettings
                 End Try
                 Return False
             End Try
+        Else
+            ' Create a new settings file
+            HQ.Settings = New EveHQSettings
         End If
 
         If showRawData = False Then
