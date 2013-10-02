@@ -41,7 +41,7 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Account status cache key
         /// </summary>
-        private const string AccountStatusCacheKeyFormat = "AccountStatus_{0}_{1}";
+        private const string AccountStatusCacheKeyFormat = "AccountStatus_{0}";
 
         /// <summary>
         /// Path to Account status method.
@@ -79,22 +79,31 @@ namespace EveHQ.EveApi
         {
         }
 
+
+        public EveServiceResponse<Account> AccountStatus(string keyId, string vCode)
+        {
+            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
+            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            
+            var task = AccountStatusAsync(keyId, vCode);
+            task.Wait();
+            return task.Result;
+        }
+
         /// <summary>
         /// Gets the status of an account user. 
         /// </summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
-        /// <param name="characterId">Character to query.</param>
         /// <returns>An account object</returns>
-        public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<Account>> AccountStatusAsync(string keyId, string vCode)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
 
-            string cacheKey = AccountStatusCacheKeyFormat.FormatInvariant(keyId, characterId);
+            string cacheKey = AccountStatusCacheKeyFormat.FormatInvariant(keyId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, AccountStatusPath, null, cacheKey, ApiConstants.SixtyMinuteCache, ParseAccountXml);
+            return this.GetServiceResponseAsync(keyId, vCode, 0, AccountStatusPath, null, cacheKey, ApiConstants.SixtyMinuteCache, ParseAccountXml);
         }
 
         public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode)
@@ -105,6 +114,19 @@ namespace EveHQ.EveApi
             string cacheKey = ApiKeyInfoCacheKeyFormat.FormatInvariant(keyId);
 
             return this.GetServiceResponseAsync(keyId, vCode, 0, ApiKeyInfoPath, null, cacheKey, ApiConstants.FiveMinuteCache, ParseApiKeyInfoXml);
+        }
+
+        /// <summary>
+        /// Gets the list of characters on the given account.
+        /// </summary>
+        /// <param name="keyId">API Key ID to query</param>
+        /// <param name="vCode">The Verification Code for this ID</param>
+        /// <returns>A Service Response object, containing the collection of Characters.</returns>
+        public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode)
+        {
+            var task = CharactersAsync(keyId, vCode);
+            task.Wait();
+            return task.Result;
         }
 
         /// <summary>

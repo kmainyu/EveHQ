@@ -54,16 +54,14 @@ namespace EveHQ.Tests.Api
         {
             // setup mock data and parameters.
             var url = new Uri("https://api.eveonline.com/account/AccountStatus.xml.aspx");
-            const int characterId = 123456;
             Dictionary<string, string> data = ApiTestHelpers.GetBaseTestParams();
-            data.Add(ApiConstants.CharacterId, characterId.ToString(CultureInfo.InvariantCulture));
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, AccountStatusXml);
 
             // create the client to test
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
                 // call the method
-                Task<EveServiceResponse<Account>> asyncTask = client.Account.AccountStatusAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                Task<EveServiceResponse<Account>> asyncTask = client.Account.AccountStatusAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue);
 
                 // wait on the task
                 asyncTask.Wait();

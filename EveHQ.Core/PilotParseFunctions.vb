@@ -29,6 +29,8 @@ Imports System.Security.Cryptography.Xml
 Imports System.Data
 Imports System.Web
 Imports System.Windows.Forms
+Imports EveHQ.EveApi
+Imports EveHQ.Common.Extensions
 
 Public Class PilotParseFunctions
 
@@ -318,35 +320,32 @@ Public Class PilotParseFunctions
         Call GetAccountStatus(caccount)
 
         ' Fetch the characters on account XML file
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, caccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
-        If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
-            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -APIReq.LastAPIError)
-        Else
-            EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, APIReq.LastAPIResult)
-        End If
+        Dim characterServiceResponse As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) = HQ.ApiProvider.Account.Characters(caccount.userID, caccount.APIKey)
+        'Dim APIReq As New EveApi.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        'Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, caccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+        'If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
+        '    EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -APIReq.LastAPIError)
+        'Else
+        '    EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, APIReq.LastAPIResult)
+        'End If
 
         ' Ignore for APIv2 corp keys
         If Not (caccount.APIKeySystem = APIKeySystems.Version2 And caccount.APIKeyType = APIKeyTypes.Corporation) Then
 
-            If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedCached Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
-                If accountXML IsNot Nothing Then
+            'If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedCached Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
+            If characterServiceResponse.WasSucessful Then
+                If characterServiceResponse.ResultData IsNot Nothing Then
                     ' Get characters
-                    Dim charlist As XmlNodeList
-                    Dim toon As XmlNode
-                    Dim curr_toon As Integer = 0
-
-                    ' Get the list of characters and the character IDs
-                    charlist = accountXML.SelectNodes("/eveapi/result/rowset/row")
+                    Dim currToon As Integer = 0
                     ' Clear the current characters on the account
                     caccount.Characters = New ArrayList
-                    For Each toon In charlist
-                        curr_toon += 1
+                    For Each toon As AccountCharacter In characterServiceResponse.ResultData
+                        currToon += 1
                         ' Add the pilot details into the collection
                         Dim newPilot As New EveHQ.Core.Pilot
-                        newPilot.Name = toon.Attributes.GetNamedItem("name").Value
-                        newPilot.ID = toon.Attributes.GetNamedItem("characterID").Value
-                        newPilot.AccountPosition = CStr(curr_toon)
+                        newPilot.Name = toon.Name
+                        newPilot.ID = toon.CharacterId.ToInvariantString()
+                        newPilot.AccountPosition = CStr(currToon)
                         newPilot.Account = caccount.userID
                         ' Copy notification data if available - we reset this after checking the API request if not cached
                         If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(newPilot.Name) = True Then
@@ -375,8 +374,8 @@ Public Class PilotParseFunctions
                         End If
                         If oldPilot.Account = caccount.userID Then
                             Dim validPilot As Boolean = False
-                            For Each toon In charlist
-                                If toon.Attributes.GetNamedItem("name").Value = oldPilot.Name Then
+                            For Each toon As AccountCharacter In characterServiceResponse.ResultData
+                                If toon.Name = oldPilot.Name Then
                                     validPilot = True
                                     Exit For
                                 End If
@@ -404,30 +403,29 @@ Public Class PilotParseFunctions
                 End If
             End If
         Else
-            Dim CorpList As XmlNodeList
-            Dim Corp As XmlNode
+            Dim CorpList As List(Of AccountCharacter)
             ' Add a corporation to the settings
             ' Get the list of characters and the character IDs
-            CorpList = accountXML.SelectNodes("/eveapi/result/rowset/row")
+            CorpList = characterServiceResponse.ResultData.ToList()
             ' Clear the current characters on the account
             caccount.Characters = New ArrayList
             If CorpList.Count > 0 Then
-                Corp = CorpList(0)
+                Dim corp As AccountCharacter = CorpList(0)
                 Dim NewCorp As New EveHQ.Core.Corporation
                 ' Get the existing corp if appropriate
-                If EveHQ.Core.HQ.TCorps.ContainsKey(Corp.Attributes.GetNamedItem("corporationName").Value) = True Then
-                    NewCorp = EveHQ.Core.HQ.TCorps(Corp.Attributes.GetNamedItem("corporationName").Value)
+                If EveHQ.Core.HQ.TCorps.ContainsKey(corp.CorporationName) = True Then
+                    NewCorp = EveHQ.Core.HQ.TCorps(corp.CorporationName)
                 Else
-                    NewCorp.Name = Corp.Attributes.GetNamedItem("corporationName").Value
-                    NewCorp.ID = Corp.Attributes.GetNamedItem("corporationID").Value
+                    NewCorp.Name = corp.CorporationName
+                    NewCorp.ID = corp.CorporationId.ToInvariantString()
                     EveHQ.Core.HQ.TCorps.Add(NewCorp.Name, NewCorp)
                     caccount.Characters.Add(NewCorp.Name)
                 End If
-                If NewCorp.CharacterIDs.Contains(Corp.Attributes.GetNamedItem("characterID").Value) = False Then
-                    NewCorp.CharacterIDs.Add(Corp.Attributes.GetNamedItem("characterID").Value)
+                If NewCorp.CharacterIDs.Contains(corp.CharacterId.ToInvariantString()) = False Then
+                    NewCorp.CharacterIDs.Add(corp.CharacterId.ToInvariantString())
                 End If
-                If NewCorp.CharacterNames.Contains(Corp.Attributes.GetNamedItem("name").Value) = False Then
-                    NewCorp.CharacterNames.Add(Corp.Attributes.GetNamedItem("name").Value)
+                If NewCorp.CharacterNames.Contains(corp.Name) = False Then
+                    NewCorp.CharacterNames.Add(corp.Name)
                 End If
                 If NewCorp.Accounts.Contains(caccount.userID) = False Then
                     NewCorp.Accounts.Add(caccount.userID)
@@ -437,41 +435,42 @@ Public Class PilotParseFunctions
     End Sub
     Private Shared Sub GetAccountStatus(ByRef cAccount As EveAccount)
         ' Attempts to get the AccountStatus API for additional information and for checking API key status
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
-        Select Case cAccount.APIKeySystem
-            Case APIKeySystems.Version2
-                Select Case APIReq.LastAPIError
-                    Case -1
-                        If accountXML IsNot Nothing Then
-                            cAccount.LastAccountStatusCheck = Now
-                            ' Parse the account information
-                            If accountXML.GetElementsByTagName("createDate").Item(0).InnerText <> "" Then
-                                Dim cd As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("createDate").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                                cAccount.CreateDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cd)
-                                Dim pu As Date = DateTime.ParseExact(accountXML.GetElementsByTagName("paidUntil").Item(0).InnerText, SkillTimeFormat, culture, System.Globalization.DateTimeStyles.None)
-                                cAccount.PaidUntil = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(pu)
-                                cAccount.LogonCount = CLng(accountXML.GetElementsByTagName("logonCount").Item(0).InnerText)
-                                cAccount.LogonMinutes = CLng(accountXML.GetElementsByTagName("logonMinutes").Item(0).InnerText)
-                                If cAccount.PaidUntil < Now Then
-                                    ' Account has expired
-                                    cAccount.APIAccountStatus = APIAccountStatuses.Disabled
-                                Else
-                                    cAccount.APIAccountStatus = APIAccountStatuses.Active
-                                End If
-                            End If
-                        End If
-                    Case 211
-                        ' Account has expired
-                        cAccount.APIAccountStatus = APIAccountStatuses.Disabled
-                    Case 200
-                        ' Should be limited key
-                        cAccount.APIKeyType = Core.APIKeyTypes.Limited
-                        cAccount.APIAccountStatus = APIAccountStatuses.Active
-                    Case Else
-                        ' Ignore
-                End Select
-        End Select     
+        'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+        'Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+        Dim response As EveServiceResponse(Of Account) = HQ.ApiProvider.Account.AccountStatus(cAccount.userID, cAccount.APIKey)
+      
+        If response.WasSucessful Then
+
+
+            If response.ResultData IsNot Nothing Then
+                cAccount.LastAccountStatusCheck = Now
+                ' Parse the account information
+
+                Dim cd As Date = response.ResultData.CreateDate.DateTime
+                cAccount.CreateDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cd)
+                Dim pu As Date = response.ResultData.ExpiryDate.DateTime
+                cAccount.PaidUntil = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(pu)
+                cAccount.LogonCount = response.ResultData.LogOnCount
+                cAccount.LogonMinutes = CLng(response.ResultData.LoggedInTime.TotalMinutes)
+                If cAccount.PaidUntil < Now Then
+                    ' Account has expired
+                    cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+                Else
+                    cAccount.APIAccountStatus = APIAccountStatuses.Active
+                End If
+        End If
+        ' TODO: Handle API Error codes.
+        '        Case 211
+        '' Account has expired
+        'cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+        '        Case 200
+        '' Should be limited key
+        'cAccount.APIKeyType = Core.APIKeyTypes.Limited
+        'cAccount.APIAccountStatus = APIAccountStatuses.Active
+        '        Case Else
+        '' Ignore
+        End If
+
     End Sub
     Private Shared Sub GetCharacterXMLs(ByVal cAccount As EveAccount, ByVal cPilot As EveHQ.Core.Pilot)
 
