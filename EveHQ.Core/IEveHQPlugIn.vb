@@ -21,7 +21,7 @@ Public Interface IEveHQPlugIn
 
     Function GetEveHQPlugInInfo() As EveHQ.Core.EveHQPlugIn
     Function EveHQStartUp() As Boolean
-    Function IGBService(ByVal context As Net.HttpListenerContext) As String
+    Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String
     Function RunEveHQPlugIn() As Windows.Forms.Form
     Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object
     Function SaveAll() As Boolean

@@ -77,7 +77,7 @@ Public Class PlugInData
         Return EveHQPlugIn
     End Function
 
-    Public Function IGBService(ByVal IGBContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
+    Public Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
         Return ""
     End Function
 
