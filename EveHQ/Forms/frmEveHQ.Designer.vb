@@ -48,6 +48,45 @@ Partial Public Class frmEveHQ
         Me.iconEveHQMLW = New System.Windows.Forms.NotifyIcon(Me.components)
         Me.tmrMemory = New System.Windows.Forms.Timer(Me.components)
         Me.RibbonControl1 = New DevComponents.DotNetBar.RibbonControl()
+        Me.rpCore = New DevComponents.DotNetBar.RibbonPanel()
+        Me.rbHelp = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnInfoHelp = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbSQLTools = New DevComponents.DotNetBar.RibbonBar()
+        Me.ItemContainer3 = New DevComponents.DotNetBar.ItemContainer()
+        Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbCache = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnCreateCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnDeleteCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnRebuildCoreCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbAPITools = New DevComponents.DotNetBar.RibbonBar()
+        Me.ItemContainer2 = New DevComponents.DotNetBar.ItemContainer()
+        Me.btnAPIChecker = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnOpenCacheFolder = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnClearCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnClearCharacterCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnClearImageCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnClearAllCache = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbBackup = New DevComponents.DotNetBar.RibbonBar()
+        Me.ItemContainer5 = New DevComponents.DotNetBar.ItemContainer()
+        Me.btnBackupEveHQ = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnBackupEve = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbIGB = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnIGB = New DevComponents.DotNetBar.ButtonItem()
+        Me.lblIGB = New DevComponents.DotNetBar.LabelItem()
+        Me.rbEveMail = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnEveMail = New DevComponents.DotNetBar.ButtonItem()
+        Me.lblEveMail = New DevComponents.DotNetBar.LabelItem()
+        Me.rbView = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnViewPilotInfo = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnViewSkillTraining = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnViewPrices = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnViewDashboard = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnViewReqs = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbAPI = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnManageAPI = New DevComponents.DotNetBar.ButtonItem()
+        Me.btnQueryAPI = New DevComponents.DotNetBar.ButtonItem()
+        Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
+        Me.btnSave = New DevComponents.DotNetBar.ButtonItem()
         Me.rpReports = New DevComponents.DotNetBar.RibbonPanel()
         Me.rbCharts = New DevComponents.DotNetBar.RibbonBar()
         Me.btnChartSkillGroup = New DevComponents.DotNetBar.ButtonItem()
@@ -103,45 +142,6 @@ Partial Public Class frmEveHQ
         Me.ciReportPHPBB = New DevComponents.Editors.ComboItem()
         Me.ciReportChart = New DevComponents.Editors.ComboItem()
         Me.btnOpenReportFolder = New DevComponents.DotNetBar.ButtonItem()
-        Me.rpCore = New DevComponents.DotNetBar.RibbonPanel()
-        Me.rbHelp = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnInfoHelp = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbSQLTools = New DevComponents.DotNetBar.RibbonBar()
-        Me.ItemContainer3 = New DevComponents.DotNetBar.ItemContainer()
-        Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbCache = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnCreateCoreCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnDeleteCoreCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnRebuildCoreCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbAPITools = New DevComponents.DotNetBar.RibbonBar()
-        Me.ItemContainer2 = New DevComponents.DotNetBar.ItemContainer()
-        Me.btnAPIChecker = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnOpenCacheFolder = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnClearCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnClearCharacterCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnClearImageCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnClearAllCache = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbBackup = New DevComponents.DotNetBar.RibbonBar()
-        Me.ItemContainer5 = New DevComponents.DotNetBar.ItemContainer()
-        Me.btnBackupEveHQ = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnBackupEve = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbIGB = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnIGB = New DevComponents.DotNetBar.ButtonItem()
-        Me.lblIGB = New DevComponents.DotNetBar.LabelItem()
-        Me.rbEveMail = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnEveMail = New DevComponents.DotNetBar.ButtonItem()
-        Me.lblEveMail = New DevComponents.DotNetBar.LabelItem()
-        Me.rbView = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnViewPilotInfo = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnViewSkillTraining = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnViewPrices = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnViewDashboard = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnViewReqs = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnSave = New DevComponents.DotNetBar.ButtonItem()
-        Me.rbAPI = New DevComponents.DotNetBar.RibbonBar()
-        Me.btnManageAPI = New DevComponents.DotNetBar.ButtonItem()
-        Me.btnQueryAPI = New DevComponents.DotNetBar.ButtonItem()
         Me.rtiCore = New DevComponents.DotNetBar.RibbonTabItem()
         Me.rtiPlugins = New DevComponents.DotNetBar.RibbonTabItem()
         Me.rtiReports = New DevComponents.DotNetBar.RibbonTabItem()
@@ -194,8 +194,8 @@ Partial Public Class frmEveHQ
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
         Me.RibbonControl1.SuspendLayout()
-        Me.rpReports.SuspendLayout()
         Me.rpCore.SuspendLayout()
+        Me.rpReports.SuspendLayout()
         Me.DockSite4.SuspendLayout()
         CType(Me.Bar1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Bar1.SuspendLayout()
@@ -351,7 +351,7 @@ Partial Public Class frmEveHQ
         '
         'tmrModules
         '
-        Me.tmrModules.Interval = 250
+        Me.tmrModules.Interval = 10
         '
         'ctxTabbedMDI
         '
@@ -382,7 +382,6 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.RibbonControl1.CaptionVisible = True
         Me.RibbonControl1.Controls.Add(Me.rpCore)
-        Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Controls.Add(Me.rpPlugins)
         Me.RibbonControl1.Controls.Add(Me.rpReports)
         Me.RibbonControl1.Dock = System.Windows.Forms.DockStyle.Top
@@ -390,7 +389,7 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.KeyTipsFont = New System.Drawing.Font("Tahoma", 7.0!)
         Me.RibbonControl1.Location = New System.Drawing.Point(5, 1)
         Me.RibbonControl1.Name = "RibbonControl1"
-        Me.RibbonControl1.Padding = New System.Windows.Forms.Padding(0, 0, 0, 2)
+        Me.RibbonControl1.Padding = New System.Windows.Forms.Padding(0, 0, 0, 3)
         Me.RibbonControl1.QuickToolbarItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.Office2007StartButton1, Me.QatCustomizeItem1})
         Me.RibbonControl1.Size = New System.Drawing.Size(1231, 154)
         Me.RibbonControl1.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -412,6 +411,604 @@ Partial Public Class frmEveHQ
         Me.RibbonControl1.TabGroupHeight = 14
         Me.RibbonControl1.TabIndex = 22
         Me.RibbonControl1.Text = "RibbonControl1"
+        '
+        'rpCore
+        '
+        Me.rpCore.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rpCore.Controls.Add(Me.rbHelp)
+        Me.rpCore.Controls.Add(Me.rbSQLTools)
+        Me.rpCore.Controls.Add(Me.rbCache)
+        Me.rpCore.Controls.Add(Me.rbAPITools)
+        Me.rpCore.Controls.Add(Me.rbBackup)
+        Me.rpCore.Controls.Add(Me.rbIGB)
+        Me.rpCore.Controls.Add(Me.rbEveMail)
+        Me.rpCore.Controls.Add(Me.rbView)
+        Me.rpCore.Controls.Add(Me.rbAPI)
+        Me.rpCore.Controls.Add(Me.rbOptions)
+        Me.rpCore.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rpCore.Location = New System.Drawing.Point(0, 56)
+        Me.rpCore.Name = "rpCore"
+        Me.rpCore.Padding = New System.Windows.Forms.Padding(3, 0, 3, 3)
+        Me.rpCore.Size = New System.Drawing.Size(1231, 95)
+        '
+        '
+        '
+        Me.rpCore.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rpCore.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rpCore.TabIndex = 1
+        '
+        'rbHelp
+        '
+        Me.rbHelp.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbHelp.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbHelp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbHelp.ContainerControlProcessDialogKey = True
+        Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbHelp.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInfoHelp})
+        Me.rbHelp.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbHelp.Location = New System.Drawing.Point(1184, 0)
+        Me.rbHelp.Name = "rbHelp"
+        Me.rbHelp.Size = New System.Drawing.Size(73, 92)
+        Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbHelp.TabIndex = 9
+        Me.rbHelp.Text = "Info and Help"
+        '
+        '
+        '
+        Me.rbHelp.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbHelp.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnInfoHelp
+        '
+        Me.btnInfoHelp.Image = CType(resources.GetObject("btnInfoHelp.Image"), System.Drawing.Image)
+        Me.btnInfoHelp.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnInfoHelp.Name = "btnInfoHelp"
+        Me.btnInfoHelp.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnInfoHelp, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Info Centre", "Provides links and information relating to support on EveHQ." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnInfoHelp.Text = "EveHQ Info Centre"
+        '
+        'rbSQLTools
+        '
+        Me.rbSQLTools.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbSQLTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbSQLTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbSQLTools.ContainerControlProcessDialogKey = True
+        Me.rbSQLTools.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbSQLTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer3})
+        Me.rbSQLTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbSQLTools.Location = New System.Drawing.Point(1092, 0)
+        Me.rbSQLTools.Name = "rbSQLTools"
+        Me.rbSQLTools.Size = New System.Drawing.Size(92, 92)
+        Me.rbSQLTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbSQLTools.TabIndex = 8
+        Me.rbSQLTools.Text = "SQL Tools"
+        '
+        '
+        '
+        Me.rbSQLTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbSQLTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'ItemContainer3
+        '
+        '
+        '
+        '
+        Me.ItemContainer3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer3.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
+        Me.ItemContainer3.Name = "ItemContainer3"
+        Me.ItemContainer3.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSQLQueryTool})
+        '
+        '
+        '
+        Me.ItemContainer3.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer3.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'btnSQLQueryTool
+        '
+        Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnSQLQueryTool.Text = "SQL Query Tool"
+        '
+        'rbCache
+        '
+        Me.rbCache.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbCache.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbCache.ContainerControlProcessDialogKey = True
+        Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbCache.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnCreateCoreCache, Me.btnDeleteCoreCache, Me.btnRebuildCoreCache})
+        Me.rbCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbCache.Location = New System.Drawing.Point(957, 0)
+        Me.rbCache.Name = "rbCache"
+        Me.rbCache.Size = New System.Drawing.Size(135, 92)
+        Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbCache.TabIndex = 7
+        Me.rbCache.Text = "Core Cache"
+        '
+        '
+        '
+        Me.rbCache.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbCache.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnCreateCoreCache
+        '
+        Me.btnCreateCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnCreateCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnCreateCoreCache.Name = "btnCreateCoreCache"
+        Me.btnCreateCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Create Core Cache Files", "Creates a set of cache files used to speed up the opening of EveHQ. These files i" & _
+            "nclude data for items, locations, skills and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnCreateCoreCache.Text = "Create Cache"
+        '
+        'btnDeleteCoreCache
+        '
+        Me.btnDeleteCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnDeleteCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnDeleteCoreCache.Name = "btnDeleteCoreCache"
+        Me.btnDeleteCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Delete Core Cache Files", "Deletes the Core Cache files so that EveHQ will always start with data extracted " & _
+            "from the static database." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnDeleteCoreCache.Text = "Delete Cache"
+        '
+        'btnRebuildCoreCache
+        '
+        Me.btnRebuildCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnRebuildCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnRebuildCoreCache.Name = "btnRebuildCoreCache"
+        Me.btnRebuildCoreCache.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Rebuild Core Cache Files", "Rebuilds the Core Cache files from data in the current static database. This over" & _
+            "writes any existing Core Cache files.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnRebuildCoreCache.Text = "Rebuild Cache"
+        '
+        'rbAPITools
+        '
+        Me.rbAPITools.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbAPITools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbAPITools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbAPITools.ContainerControlProcessDialogKey = True
+        Me.rbAPITools.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbAPITools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2})
+        Me.rbAPITools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbAPITools.Location = New System.Drawing.Point(837, 0)
+        Me.rbAPITools.Name = "rbAPITools"
+        Me.rbAPITools.Size = New System.Drawing.Size(120, 92)
+        Me.rbAPITools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbAPITools.TabIndex = 6
+        Me.rbAPITools.Text = "API Tools"
+        '
+        '
+        '
+        Me.rbAPITools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbAPITools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'ItemContainer2
+        '
+        '
+        '
+        '
+        Me.ItemContainer2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer2.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
+        Me.ItemContainer2.Name = "ItemContainer2"
+        Me.ItemContainer2.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnAPIChecker, Me.btnOpenCacheFolder, Me.btnClearCache})
+        '
+        '
+        '
+        Me.ItemContainer2.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer2.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'btnAPIChecker
+        '
+        Me.btnAPIChecker.Name = "btnAPIChecker"
+        Me.btnAPIChecker.Text = "API Checker"
+        Me.btnAPIChecker.Tooltip = "API Checker Tool"
+        '
+        'btnOpenCacheFolder
+        '
+        Me.btnOpenCacheFolder.Name = "btnOpenCacheFolder"
+        Me.btnOpenCacheFolder.Text = "Open AppData Folder"
+        '
+        'btnClearCache
+        '
+        Me.btnClearCache.Name = "btnClearCache"
+        Me.btnClearCache.SplitButton = True
+        Me.btnClearCache.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnClearCharacterCache, Me.btnClearImageCache, Me.btnClearAllCache})
+        Me.btnClearCache.Text = "Clear Cache"
+        Me.btnClearCache.Tooltip = "Clear Various Aspects of the API Cache"
+        '
+        'btnClearCharacterCache
+        '
+        Me.btnClearCharacterCache.Name = "btnClearCharacterCache"
+        Me.btnClearCharacterCache.Text = "Clear Character Cache"
+        '
+        'btnClearImageCache
+        '
+        Me.btnClearImageCache.Name = "btnClearImageCache"
+        Me.btnClearImageCache.Text = "Clear Image Cache"
+        '
+        'btnClearAllCache
+        '
+        Me.btnClearAllCache.Name = "btnClearAllCache"
+        Me.btnClearAllCache.Text = "Clear All Cached XML Data"
+        '
+        'rbBackup
+        '
+        Me.rbBackup.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbBackup.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbBackup.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbBackup.ContainerControlProcessDialogKey = True
+        Me.rbBackup.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbBackup.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer5})
+        Me.rbBackup.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbBackup.Location = New System.Drawing.Point(723, 0)
+        Me.rbBackup.Name = "rbBackup"
+        Me.rbBackup.Size = New System.Drawing.Size(114, 92)
+        Me.rbBackup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbBackup.TabIndex = 5
+        Me.rbBackup.Text = "Backup Tools"
+        '
+        '
+        '
+        Me.rbBackup.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbBackup.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'ItemContainer5
+        '
+        '
+        '
+        '
+        Me.ItemContainer5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer5.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
+        Me.ItemContainer5.Name = "ItemContainer5"
+        Me.ItemContainer5.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnBackupEveHQ, Me.btnBackupEve})
+        '
+        '
+        '
+        Me.ItemContainer5.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.ItemContainer5.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+        '
+        'btnBackupEveHQ
+        '
+        Me.btnBackupEveHQ.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnBackupEveHQ.Image = Global.EveHQ.My.Resources.Resources.SecureCan32
+        Me.btnBackupEveHQ.ImageFixedSize = New System.Drawing.Size(24, 24)
+        Me.btnBackupEveHQ.Name = "btnBackupEveHQ"
+        Me.btnBackupEveHQ.SubItemsExpandWidth = 14
+        Me.btnBackupEveHQ.Text = "Backup EveHQ"
+        Me.btnBackupEveHQ.Tooltip = "Backup EveHQ Settings"
+        '
+        'btnBackupEve
+        '
+        Me.btnBackupEve.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnBackupEve.Image = Global.EveHQ.My.Resources.Resources.Database32
+        Me.btnBackupEve.ImageFixedSize = New System.Drawing.Size(24, 24)
+        Me.btnBackupEve.Name = "btnBackupEve"
+        Me.btnBackupEve.Text = "Backup Eve"
+        Me.btnBackupEve.Tooltip = "Backup Eve Settings"
+        '
+        'rbIGB
+        '
+        Me.rbIGB.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbIGB.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbIGB.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbIGB.ContainerControlProcessDialogKey = True
+        Me.rbIGB.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbIGB.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnIGB, Me.lblIGB})
+        Me.rbIGB.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbIGB.Location = New System.Drawing.Point(590, 0)
+        Me.rbIGB.Name = "rbIGB"
+        Me.rbIGB.Size = New System.Drawing.Size(133, 92)
+        Me.rbIGB.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbIGB.TabIndex = 4
+        Me.rbIGB.Text = "IGB Server"
+        '
+        '
+        '
+        Me.rbIGB.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbIGB.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnIGB
+        '
+        Me.btnIGB.AutoCheckOnClick = True
+        Me.btnIGB.Image = Global.EveHQ.My.Resources.Resources.IGB32
+        Me.btnIGB.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnIGB.Name = "btnIGB"
+        Me.btnIGB.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnIGB, New DevComponents.DotNetBar.SuperTooltipInfo("", "Toggle EveHQ IGB Server", "Toggles the IGB Server between active/inactive states.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.IGB32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnIGB.Text = "Toggle IGB Server"
+        '
+        'lblIGB
+        '
+        Me.lblIGB.CanCustomize = False
+        Me.lblIGB.Name = "lblIGB"
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblIGB, New DevComponents.DotNetBar.SuperTooltipInfo("", "EveHQ IGB Server Status", "Provides the status of the EveHQ IGB Server including the port number to which th" & _
+            "e server is assigned.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.IGB32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblIGB.Text = "Port: 26001" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Status: Off"
+        Me.lblIGB.TextAlignment = System.Drawing.StringAlignment.Center
+        '
+        'rbEveMail
+        '
+        Me.rbEveMail.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbEveMail.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbEveMail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbEveMail.ContainerControlProcessDialogKey = True
+        Me.rbEveMail.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbEveMail.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEveMail, Me.lblEveMail})
+        Me.rbEveMail.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbEveMail.Location = New System.Drawing.Point(460, 0)
+        Me.rbEveMail.Name = "rbEveMail"
+        Me.rbEveMail.Size = New System.Drawing.Size(130, 92)
+        Me.rbEveMail.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbEveMail.TabIndex = 3
+        Me.rbEveMail.Text = "EveMail"
+        '
+        '
+        '
+        Me.rbEveMail.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbEveMail.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnEveMail
+        '
+        Me.btnEveMail.Image = Global.EveHQ.My.Resources.Resources.EveMail32
+        Me.btnEveMail.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnEveMail.Name = "btnEveMail"
+        Me.btnEveMail.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnEveMail, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveMail and Eve Notifications", "Displays EveMail and Eve Notifications based on data provided by the API.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.EveMail32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnEveMail.Text = "View EveMail"
+        '
+        'lblEveMail
+        '
+        Me.lblEveMail.CanCustomize = False
+        Me.lblEveMail.Name = "lblEveMail"
+        Me.lblEveMail.PaddingBottom = 3
+        Me.lblEveMail.PaddingLeft = 5
+        Me.lblEveMail.PaddingRight = 3
+        Me.lblEveMail.PaddingTop = 3
+        Me.lblEveMail.Stretch = True
+        Me.SuperTooltip1.SetSuperTooltip(Me.lblEveMail, New DevComponents.DotNetBar.SuperTooltipInfo("", "Unread Mail and Notifications", "This is the number of unread EveMail and Eve Notifications that have been downloa" & _
+            "ded via the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This only refers to what has not been read in EveHQ, not in-" & _
+            "game.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.EveMail32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.lblEveMail.Text = "EveMail: 0" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Notices: 0"
+        Me.lblEveMail.Width = 75
+        '
+        'rbView
+        '
+        Me.rbView.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbView.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbView.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbView.ContainerControlProcessDialogKey = True
+        Me.rbView.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbView.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnViewPilotInfo, Me.btnViewSkillTraining, Me.btnViewPrices, Me.btnViewDashboard, Me.btnViewReqs})
+        Me.rbView.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbView.Location = New System.Drawing.Point(191, 0)
+        Me.rbView.Name = "rbView"
+        Me.rbView.Size = New System.Drawing.Size(269, 92)
+        Me.rbView.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbView.TabIndex = 2
+        Me.rbView.Text = "View"
+        '
+        '
+        '
+        Me.rbView.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbView.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnViewPilotInfo
+        '
+        Me.btnViewPilotInfo.Image = Global.EveHQ.My.Resources.Resources.Aura32
+        Me.btnViewPilotInfo.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnViewPilotInfo.Name = "btnViewPilotInfo"
+        Me.btnViewPilotInfo.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPilotInfo, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Pilot Information", "Opens the pilot information screen which provides basic details, as well as skill" & _
+            "s, certificates and standings.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Aura32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnViewPilotInfo.Text = "Pilot Info"
+        '
+        'btnViewSkillTraining
+        '
+        Me.btnViewSkillTraining.Image = Global.EveHQ.My.Resources.Resources.SkillBook32
+        Me.btnViewSkillTraining.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnViewSkillTraining.Name = "btnViewSkillTraining"
+        Me.btnViewSkillTraining.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewSkillTraining, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
+            " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnViewSkillTraining.Text = "Skill Planner"
+        '
+        'btnViewPrices
+        '
+        Me.btnViewPrices.Image = Global.EveHQ.My.Resources.Resources.Market32
+        Me.btnViewPrices.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnViewPrices.Name = "btnViewPrices"
+        Me.btnViewPrices.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPrices, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Prices System", "The prices system allows you to download market and faction prices from third par" & _
+            "ty sites, as well as providing your own custom prices.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Market32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnViewPrices.Text = "Market Prices"
+        '
+        'btnViewDashboard
+        '
+        Me.btnViewDashboard.Image = Global.EveHQ.My.Resources.Resources.Dashboard32
+        Me.btnViewDashboard.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnViewDashboard.Name = "btnViewDashboard"
+        Me.btnViewDashboard.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewDashboard, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Dashboard", "The EveHQ Dashboard provides users with a collection of widgets which display rel" & _
+            "evant data about pilots skills and training, along with some additional useful i" & _
+            "nformation.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Dashboard32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnViewDashboard.Text = "EveHQ Dashboard"
+        '
+        'btnViewReqs
+        '
+        Me.btnViewReqs.Image = Global.EveHQ.My.Resources.Resources.Orders32
+        Me.btnViewReqs.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnViewReqs.Name = "btnViewReqs"
+        Me.btnViewReqs.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewReqs, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Requisitions", "Allows the creation, editing and viewing of requisitions (also known as Shopping " & _
+            "Lists)." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Requisitions created in other parts of EveHQ will be visible here.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Orders32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnViewReqs.Text = "EveHQ Requisitions"
+        '
+        'rbAPI
+        '
+        Me.rbAPI.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbAPI.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbAPI.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbAPI.ContainerControlProcessDialogKey = True
+        Me.rbAPI.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbAPI.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnManageAPI, Me.btnQueryAPI})
+        Me.rbAPI.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbAPI.Location = New System.Drawing.Point(97, 0)
+        Me.rbAPI.Name = "rbAPI"
+        Me.rbAPI.Size = New System.Drawing.Size(94, 92)
+        Me.rbAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbAPI.TabIndex = 1
+        Me.rbAPI.Text = "API Functions"
+        '
+        '
+        '
+        Me.rbAPI.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbAPI.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnManageAPI
+        '
+        Me.btnManageAPI.Image = Global.EveHQ.My.Resources.Resources.ManageAPI32
+        Me.btnManageAPI.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnManageAPI.Name = "btnManageAPI"
+        Me.btnManageAPI.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnManageAPI, New DevComponents.DotNetBar.SuperTooltipInfo("", "Manage API", "Opens the EveHQ Settings so that API Accounts can be added, edited or removed." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.ManageAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnManageAPI.Text = "Manage API"
+        '
+        'btnQueryAPI
+        '
+        Me.btnQueryAPI.Image = Global.EveHQ.My.Resources.Resources.QueryAPI32
+        Me.btnQueryAPI.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnQueryAPI.Name = "btnQueryAPI"
+        Me.btnQueryAPI.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnQueryAPI, New DevComponents.DotNetBar.SuperTooltipInfo("", "Update Character API", "Updates character associated APIs, including character sheet, training, standings" & _
+            " and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If the full API has been entered, the account status and d" & _
+            "etails will also be retrieved.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.QueryAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnQueryAPI.Text = "Update API"
+        '
+        'rbOptions
+        '
+        Me.rbOptions.AutoOverflowEnabled = True
+        '
+        '
+        '
+        Me.rbOptions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rbOptions.ContainerControlProcessDialogKey = True
+        Me.rbOptions.Dock = System.Windows.Forms.DockStyle.Left
+        Me.rbOptions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSave})
+        Me.rbOptions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+        Me.rbOptions.Location = New System.Drawing.Point(3, 0)
+        Me.rbOptions.Name = "rbOptions"
+        Me.rbOptions.Size = New System.Drawing.Size(94, 92)
+        Me.rbOptions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.rbOptions.TabIndex = 0
+        Me.rbOptions.Text = "Options"
+        '
+        '
+        '
+        Me.rbOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        '
+        '
+        Me.rbOptions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        '
+        'btnSave
+        '
+        Me.btnSave.Image = Global.EveHQ.My.Resources.Resources.AssetsSafe32
+        Me.btnSave.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.SubItemsExpandWidth = 14
+        Me.SuperTooltip1.SetSuperTooltip(Me.btnSave, New DevComponents.DotNetBar.SuperTooltipInfo("", "Save Data", "Saves settings and data of EveHQ Core and open plug-ins." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.AssetsSafe32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+        Me.btnSave.Text = "Save Data"
         '
         'rpReports
         '
@@ -1134,604 +1731,6 @@ Partial Public Class frmEveHQ
             "outside EveHQ.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Folder32, DevComponents.DotNetBar.eTooltipColor.Yellow))
         Me.btnOpenReportFolder.Text = "Open Report Folder"
         '
-        'rpCore
-        '
-        Me.rpCore.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rpCore.Controls.Add(Me.rbHelp)
-        Me.rpCore.Controls.Add(Me.rbSQLTools)
-        Me.rpCore.Controls.Add(Me.rbCache)
-        Me.rpCore.Controls.Add(Me.rbAPITools)
-        Me.rpCore.Controls.Add(Me.rbBackup)
-        Me.rpCore.Controls.Add(Me.rbIGB)
-        Me.rpCore.Controls.Add(Me.rbEveMail)
-        Me.rpCore.Controls.Add(Me.rbView)
-        Me.rpCore.Controls.Add(Me.rbAPI)
-        Me.rpCore.Controls.Add(Me.rbOptions)
-        Me.rpCore.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rpCore.Location = New System.Drawing.Point(0, 56)
-        Me.rpCore.Name = "rpCore"
-        Me.rpCore.Padding = New System.Windows.Forms.Padding(3, 0, 3, 3)
-        Me.rpCore.Size = New System.Drawing.Size(1231, 96)
-        '
-        '
-        '
-        Me.rpCore.Style.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rpCore.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rpCore.TabIndex = 1
-        '
-        'rbHelp
-        '
-        Me.rbHelp.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbHelp.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbHelp.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbHelp.ContainerControlProcessDialogKey = True
-        Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbHelp.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInfoHelp})
-        Me.rbHelp.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbHelp.Location = New System.Drawing.Point(1090, 0)
-        Me.rbHelp.Name = "rbHelp"
-        Me.rbHelp.Size = New System.Drawing.Size(73, 93)
-        Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbHelp.TabIndex = 9
-        Me.rbHelp.Text = "Info and Help"
-        '
-        '
-        '
-        Me.rbHelp.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbHelp.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnInfoHelp
-        '
-        Me.btnInfoHelp.Image = CType(resources.GetObject("btnInfoHelp.Image"), System.Drawing.Image)
-        Me.btnInfoHelp.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnInfoHelp.Name = "btnInfoHelp"
-        Me.btnInfoHelp.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnInfoHelp, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Info Centre", "Provides links and information relating to support on EveHQ." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnInfoHelp.Text = "EveHQ Info Centre"
-        '
-        'rbSQLTools
-        '
-        Me.rbSQLTools.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbSQLTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbSQLTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbSQLTools.ContainerControlProcessDialogKey = True
-        Me.rbSQLTools.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbSQLTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer3})
-        Me.rbSQLTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbSQLTools.Location = New System.Drawing.Point(998, 0)
-        Me.rbSQLTools.Name = "rbSQLTools"
-        Me.rbSQLTools.Size = New System.Drawing.Size(92, 93)
-        Me.rbSQLTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbSQLTools.TabIndex = 8
-        Me.rbSQLTools.Text = "SQL Tools"
-        '
-        '
-        '
-        Me.rbSQLTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbSQLTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'ItemContainer3
-        '
-        '
-        '
-        '
-        Me.ItemContainer3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ItemContainer3.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
-        Me.ItemContainer3.Name = "ItemContainer3"
-        Me.ItemContainer3.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSQLQueryTool})
-        '
-        '
-        '
-        Me.ItemContainer3.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ItemContainer3.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
-        '
-        'btnSQLQueryTool
-        '
-        Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnSQLQueryTool.Text = "SQL Query Tool"
-        '
-        'rbCache
-        '
-        Me.rbCache.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbCache.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbCache.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbCache.ContainerControlProcessDialogKey = True
-        Me.rbCache.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbCache.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnCreateCoreCache, Me.btnDeleteCoreCache, Me.btnRebuildCoreCache})
-        Me.rbCache.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbCache.Location = New System.Drawing.Point(863, 0)
-        Me.rbCache.Name = "rbCache"
-        Me.rbCache.Size = New System.Drawing.Size(135, 93)
-        Me.rbCache.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbCache.TabIndex = 7
-        Me.rbCache.Text = "Core Cache"
-        '
-        '
-        '
-        Me.rbCache.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbCache.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnCreateCoreCache
-        '
-        Me.btnCreateCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnCreateCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnCreateCoreCache.Name = "btnCreateCoreCache"
-        Me.btnCreateCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnCreateCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Create Core Cache Files", "Creates a set of cache files used to speed up the opening of EveHQ. These files i" & _
-            "nclude data for items, locations, skills and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnCreateCoreCache.Text = "Create Cache"
-        '
-        'btnDeleteCoreCache
-        '
-        Me.btnDeleteCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnDeleteCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnDeleteCoreCache.Name = "btnDeleteCoreCache"
-        Me.btnDeleteCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnDeleteCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Delete Core Cache Files", "Deletes the Core Cache files so that EveHQ will always start with data extracted " & _
-            "from the static database." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnDeleteCoreCache.Text = "Delete Cache"
-        '
-        'btnRebuildCoreCache
-        '
-        Me.btnRebuildCoreCache.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnRebuildCoreCache.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnRebuildCoreCache.Name = "btnRebuildCoreCache"
-        Me.btnRebuildCoreCache.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnRebuildCoreCache, New DevComponents.DotNetBar.SuperTooltipInfo("", "Rebuild Core Cache Files", "Rebuilds the Core Cache files from data in the current static database. This over" & _
-            "writes any existing Core Cache files.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Database32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnRebuildCoreCache.Text = "Rebuild Cache"
-        '
-        'rbAPITools
-        '
-        Me.rbAPITools.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbAPITools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbAPITools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbAPITools.ContainerControlProcessDialogKey = True
-        Me.rbAPITools.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbAPITools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2})
-        Me.rbAPITools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbAPITools.Location = New System.Drawing.Point(743, 0)
-        Me.rbAPITools.Name = "rbAPITools"
-        Me.rbAPITools.Size = New System.Drawing.Size(120, 93)
-        Me.rbAPITools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbAPITools.TabIndex = 6
-        Me.rbAPITools.Text = "API Tools"
-        '
-        '
-        '
-        Me.rbAPITools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbAPITools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'ItemContainer2
-        '
-        '
-        '
-        '
-        Me.ItemContainer2.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ItemContainer2.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
-        Me.ItemContainer2.Name = "ItemContainer2"
-        Me.ItemContainer2.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnAPIChecker, Me.btnOpenCacheFolder, Me.btnClearCache})
-        '
-        '
-        '
-        Me.ItemContainer2.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ItemContainer2.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
-        '
-        'btnAPIChecker
-        '
-        Me.btnAPIChecker.Name = "btnAPIChecker"
-        Me.btnAPIChecker.Text = "API Checker"
-        Me.btnAPIChecker.Tooltip = "API Checker Tool"
-        '
-        'btnOpenCacheFolder
-        '
-        Me.btnOpenCacheFolder.Name = "btnOpenCacheFolder"
-        Me.btnOpenCacheFolder.Text = "Open AppData Folder"
-        '
-        'btnClearCache
-        '
-        Me.btnClearCache.Name = "btnClearCache"
-        Me.btnClearCache.SplitButton = True
-        Me.btnClearCache.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnClearCharacterCache, Me.btnClearImageCache, Me.btnClearAllCache})
-        Me.btnClearCache.Text = "Clear Cache"
-        Me.btnClearCache.Tooltip = "Clear Various Aspects of the API Cache"
-        '
-        'btnClearCharacterCache
-        '
-        Me.btnClearCharacterCache.Name = "btnClearCharacterCache"
-        Me.btnClearCharacterCache.Text = "Clear Character Cache"
-        '
-        'btnClearImageCache
-        '
-        Me.btnClearImageCache.Name = "btnClearImageCache"
-        Me.btnClearImageCache.Text = "Clear Image Cache"
-        '
-        'btnClearAllCache
-        '
-        Me.btnClearAllCache.Name = "btnClearAllCache"
-        Me.btnClearAllCache.Text = "Clear All Cached XML Data"
-        '
-        'rbBackup
-        '
-        Me.rbBackup.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbBackup.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbBackup.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbBackup.ContainerControlProcessDialogKey = True
-        Me.rbBackup.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbBackup.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer5})
-        Me.rbBackup.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbBackup.Location = New System.Drawing.Point(629, 0)
-        Me.rbBackup.Name = "rbBackup"
-        Me.rbBackup.Size = New System.Drawing.Size(114, 93)
-        Me.rbBackup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbBackup.TabIndex = 5
-        Me.rbBackup.Text = "Backup Tools"
-        '
-        '
-        '
-        Me.rbBackup.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbBackup.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'ItemContainer5
-        '
-        '
-        '
-        '
-        Me.ItemContainer5.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ItemContainer5.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
-        Me.ItemContainer5.Name = "ItemContainer5"
-        Me.ItemContainer5.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnBackupEveHQ, Me.btnBackupEve})
-        '
-        '
-        '
-        Me.ItemContainer5.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.ItemContainer5.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
-        '
-        'btnBackupEveHQ
-        '
-        Me.btnBackupEveHQ.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-        Me.btnBackupEveHQ.Image = Global.EveHQ.My.Resources.Resources.SecureCan32
-        Me.btnBackupEveHQ.ImageFixedSize = New System.Drawing.Size(24, 24)
-        Me.btnBackupEveHQ.Name = "btnBackupEveHQ"
-        Me.btnBackupEveHQ.SubItemsExpandWidth = 14
-        Me.btnBackupEveHQ.Text = "Backup EveHQ"
-        Me.btnBackupEveHQ.Tooltip = "Backup EveHQ Settings"
-        '
-        'btnBackupEve
-        '
-        Me.btnBackupEve.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-        Me.btnBackupEve.Image = Global.EveHQ.My.Resources.Resources.Database32
-        Me.btnBackupEve.ImageFixedSize = New System.Drawing.Size(24, 24)
-        Me.btnBackupEve.Name = "btnBackupEve"
-        Me.btnBackupEve.Text = "Backup Eve"
-        Me.btnBackupEve.Tooltip = "Backup Eve Settings"
-        '
-        'rbIGB
-        '
-        Me.rbIGB.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbIGB.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbIGB.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbIGB.ContainerControlProcessDialogKey = True
-        Me.rbIGB.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbIGB.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnIGB, Me.lblIGB})
-        Me.rbIGB.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbIGB.Location = New System.Drawing.Point(496, 0)
-        Me.rbIGB.Name = "rbIGB"
-        Me.rbIGB.Size = New System.Drawing.Size(133, 93)
-        Me.rbIGB.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbIGB.TabIndex = 4
-        Me.rbIGB.Text = "IGB Server"
-        '
-        '
-        '
-        Me.rbIGB.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbIGB.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnIGB
-        '
-        Me.btnIGB.AutoCheckOnClick = True
-        Me.btnIGB.Image = Global.EveHQ.My.Resources.Resources.IGB32
-        Me.btnIGB.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnIGB.Name = "btnIGB"
-        Me.btnIGB.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnIGB, New DevComponents.DotNetBar.SuperTooltipInfo("", "Toggle EveHQ IGB Server", "Toggles the IGB Server between active/inactive states.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.IGB32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnIGB.Text = "Toggle IGB Server"
-        '
-        'lblIGB
-        '
-        Me.lblIGB.CanCustomize = False
-        Me.lblIGB.Name = "lblIGB"
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblIGB, New DevComponents.DotNetBar.SuperTooltipInfo("", "EveHQ IGB Server Status", "Provides the status of the EveHQ IGB Server including the port number to which th" & _
-            "e server is assigned.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.IGB32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblIGB.Text = "Port: 26001" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Status: Off"
-        Me.lblIGB.TextAlignment = System.Drawing.StringAlignment.Center
-        '
-        'rbEveMail
-        '
-        Me.rbEveMail.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbEveMail.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbEveMail.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbEveMail.ContainerControlProcessDialogKey = True
-        Me.rbEveMail.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbEveMail.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEveMail, Me.lblEveMail})
-        Me.rbEveMail.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbEveMail.Location = New System.Drawing.Point(366, 0)
-        Me.rbEveMail.Name = "rbEveMail"
-        Me.rbEveMail.Size = New System.Drawing.Size(130, 93)
-        Me.rbEveMail.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbEveMail.TabIndex = 3
-        Me.rbEveMail.Text = "EveMail"
-        '
-        '
-        '
-        Me.rbEveMail.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbEveMail.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnEveMail
-        '
-        Me.btnEveMail.Image = Global.EveHQ.My.Resources.Resources.EveMail32
-        Me.btnEveMail.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnEveMail.Name = "btnEveMail"
-        Me.btnEveMail.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnEveMail, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveMail and Eve Notifications", "Displays EveMail and Eve Notifications based on data provided by the API.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.EveMail32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnEveMail.Text = "View EveMail"
-        '
-        'lblEveMail
-        '
-        Me.lblEveMail.CanCustomize = False
-        Me.lblEveMail.Name = "lblEveMail"
-        Me.lblEveMail.PaddingBottom = 3
-        Me.lblEveMail.PaddingLeft = 5
-        Me.lblEveMail.PaddingRight = 3
-        Me.lblEveMail.PaddingTop = 3
-        Me.lblEveMail.Stretch = True
-        Me.SuperTooltip1.SetSuperTooltip(Me.lblEveMail, New DevComponents.DotNetBar.SuperTooltipInfo("", "Unread Mail and Notifications", "This is the number of unread EveMail and Eve Notifications that have been downloa" & _
-            "ded via the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This only refers to what has not been read in EveHQ, not in-" & _
-            "game.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.EveMail32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.lblEveMail.Text = "EveMail: 0" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Notices: 0"
-        Me.lblEveMail.Width = 75
-        '
-        'rbView
-        '
-        Me.rbView.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbView.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbView.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbView.ContainerControlProcessDialogKey = True
-        Me.rbView.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbView.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnViewPilotInfo, Me.btnViewSkillTraining, Me.btnViewPrices, Me.btnViewDashboard, Me.btnViewReqs})
-        Me.rbView.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbView.Location = New System.Drawing.Point(97, 0)
-        Me.rbView.Name = "rbView"
-        Me.rbView.Size = New System.Drawing.Size(269, 93)
-        Me.rbView.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbView.TabIndex = 2
-        Me.rbView.Text = "View"
-        '
-        '
-        '
-        Me.rbView.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbView.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnViewPilotInfo
-        '
-        Me.btnViewPilotInfo.Image = Global.EveHQ.My.Resources.Resources.Aura32
-        Me.btnViewPilotInfo.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnViewPilotInfo.Name = "btnViewPilotInfo"
-        Me.btnViewPilotInfo.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPilotInfo, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Pilot Information", "Opens the pilot information screen which provides basic details, as well as skill" & _
-            "s, certificates and standings.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Aura32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewPilotInfo.Text = "Pilot Info"
-        '
-        'btnViewSkillTraining
-        '
-        Me.btnViewSkillTraining.Image = Global.EveHQ.My.Resources.Resources.SkillBook32
-        Me.btnViewSkillTraining.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnViewSkillTraining.Name = "btnViewSkillTraining"
-        Me.btnViewSkillTraining.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewSkillTraining, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
-            " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewSkillTraining.Text = "Skill Planner"
-        '
-        'btnViewPrices
-        '
-        Me.btnViewPrices.Image = Global.EveHQ.My.Resources.Resources.Market32
-        Me.btnViewPrices.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnViewPrices.Name = "btnViewPrices"
-        Me.btnViewPrices.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPrices, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Prices System", "The prices system allows you to download market and faction prices from third par" & _
-            "ty sites, as well as providing your own custom prices.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Market32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewPrices.Text = "Market Prices"
-        '
-        'btnViewDashboard
-        '
-        Me.btnViewDashboard.Image = Global.EveHQ.My.Resources.Resources.Dashboard32
-        Me.btnViewDashboard.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnViewDashboard.Name = "btnViewDashboard"
-        Me.btnViewDashboard.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewDashboard, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Dashboard", "The EveHQ Dashboard provides users with a collection of widgets which display rel" & _
-            "evant data about pilots skills and training, along with some additional useful i" & _
-            "nformation.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Dashboard32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewDashboard.Text = "EveHQ Dashboard"
-        '
-        'btnViewReqs
-        '
-        Me.btnViewReqs.Image = Global.EveHQ.My.Resources.Resources.Orders32
-        Me.btnViewReqs.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnViewReqs.Name = "btnViewReqs"
-        Me.btnViewReqs.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnViewReqs, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Requisitions", "Allows the creation, editing and viewing of requisitions (also known as Shopping " & _
-            "Lists)." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Requisitions created in other parts of EveHQ will be visible here.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Orders32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnViewReqs.Text = "EveHQ Requisitions"
-        '
-        'rbAPI
-        '
-        Me.rbAPI.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbAPI.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbAPI.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbAPI.ContainerControlProcessDialogKey = True
-        Me.rbAPI.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbAPI.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnManageAPI, Me.btnQueryAPI})
-        Me.rbAPI.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbAPI.Location = New System.Drawing.Point(47, 0)
-        Me.rbAPI.Name = "rbAPI"
-        Me.rbAPI.Size = New System.Drawing.Size(94, 93)
-        Me.rbAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbAPI.TabIndex = 1
-        Me.rbAPI.Text = "API Functions"
-        '
-        '
-        '
-        Me.rbAPI.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbAPI.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnManageAPI
-        '
-        Me.btnManageAPI.Image = Global.EveHQ.My.Resources.Resources.ManageAPI32
-        Me.btnManageAPI.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnManageAPI.Name = "btnManageAPI"
-        Me.btnManageAPI.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnManageAPI, New DevComponents.DotNetBar.SuperTooltipInfo("", "Manage API", "Opens the EveHQ Settings so that API Accounts can be added, edited or removed." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.ManageAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnManageAPI.Text = "Manage API"
-        '
-        'btnQueryAPI
-        '
-        Me.btnQueryAPI.Image = Global.EveHQ.My.Resources.Resources.QueryAPI32
-        Me.btnQueryAPI.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnQueryAPI.Name = "btnQueryAPI"
-        Me.btnQueryAPI.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnQueryAPI, New DevComponents.DotNetBar.SuperTooltipInfo("", "Update Character API", "Updates character associated APIs, including character sheet, training, standings" & _
-            " and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If the full API has been entered, the account status and d" & _
-            "etails will also be retrieved.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.QueryAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnQueryAPI.Text = "Update API"
-        '
-        'rbOptions
-        '
-        Me.rbOptions.AutoOverflowEnabled = True
-        '
-        '
-        '
-        Me.rbOptions.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbOptions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        Me.rbOptions.ContainerControlProcessDialogKey = True
-        Me.rbOptions.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbOptions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSave})
-        Me.rbOptions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbOptions.Location = New System.Drawing.Point(3, 0)
-        Me.rbOptions.Name = "rbOptions"
-        Me.rbOptions.Size = New System.Drawing.Size(94, 93)
-        Me.rbOptions.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.rbOptions.TabIndex = 0
-        Me.rbOptions.Text = "Options"
-        '
-        '
-        '
-        Me.rbOptions.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        '
-        '
-        Me.rbOptions.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-        '
-        'btnSave
-        '
-        Me.btnSave.Image = Global.EveHQ.My.Resources.Resources.AssetsSafe32
-        Me.btnSave.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.SubItemsExpandWidth = 14
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnSave, New DevComponents.DotNetBar.SuperTooltipInfo("", "Save Data", "Saves settings and data of EveHQ Core and open plug-ins." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.AssetsSafe32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnSave.Text = "Save Data"
-        '
         'rtiCore
         '
         Me.rtiCore.Checked = True
@@ -2243,9 +2242,8 @@ Partial Public Class frmEveHQ
         Me.ctxTabbedMDI.ResumeLayout(False)
         Me.RibbonControl1.ResumeLayout(False)
         Me.RibbonControl1.PerformLayout()
+        Me.rpCore.ResumeLayout(False)
         Me.rpReports.ResumeLayout(False)
-        Me.rpCore.ResumeLayout(False)
-        Me.rpCore.ResumeLayout(False)
         Me.DockSite4.ResumeLayout(False)
         CType(Me.Bar1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Bar1.ResumeLayout(False)

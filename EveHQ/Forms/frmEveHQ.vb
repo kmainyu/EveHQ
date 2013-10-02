@@ -1518,25 +1518,17 @@ Public Class frmEveHQ
                 End If
             End If
             If serverOverride = False Then
-                If PlugInInfo.Available = True And PlugInInfo.Disabled = False Then
-                    'If PlugInInfo.Available = True Then
+                If plugInInfo.Available = True And plugInInfo.Disabled = False Then
                     If PlugInInfo.RunAtStartup = True Then
-                        'Dim t As New Thread(AddressOf Me.RunModuleStartUps)
-                        't.IsBackground = True
-                        't.Start(PlugInInfo)
-                        ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
+                        ThreadPool.QueueUserWorkItem(AddressOf RunModuleStartUps, PlugInInfo)
                     End If
                 ElseIf PlugInInfo.Available = True And PlugInInfo.Disabled = True Then
                     ' Check for initialisation from a parameter
                     If PlugInInfo.PostStartupData IsNot Nothing Then
-                        Dim msg As String = PlugInInfo.Name &
-                                            " is not configured to run at startup but EveHQ was started with data specifcally for that Plug-In." &
-                                            ControlChars.CrLf & ControlChars.CrLf
+                        Dim msg As String = PlugInInfo.Name & " is not configured to run at startup but EveHQ was started with data specifcally for that Plug-In." & ControlChars.CrLf & ControlChars.CrLf
                         msg &= "Would you like to initialise the Plug-in so the data can be viewed?"
-                        If _
-                            MessageBox.Show(msg, "Confirm Load Plug-In", MessageBoxButtons.YesNo,
-                                            MessageBoxIcon.Question) = DialogResult.Yes Then
-                            ThreadPool.QueueUserWorkItem(AddressOf Me.RunModuleStartUps, PlugInInfo)
+                        If MessageBox.Show(msg, "Confirm Load Plug-In", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+                            ThreadPool.QueueUserWorkItem(AddressOf RunModuleStartUps, PlugInInfo)
                         End If
                     End If
                 End If
@@ -1609,7 +1601,7 @@ Public Class frmEveHQ
 #Region "Plug-in Routines"
 
     Private Sub SetupModuleMenu()
-        If HQ.Settings.Plugins.Count <> 0 Then
+        If HQ.Plugins.Count <> 0 Then
             ' Clear the Plug-ins ribbon
             rbPlugins.Items.Clear()
             Dim modCount As Integer = 0
