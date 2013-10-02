@@ -31,6 +31,7 @@ Imports System.Text
 Imports DevComponents.DotNetBar
 Imports System.Linq
 Imports System.Threading.Tasks
+Imports EveHQ.Core.Requisitions
 
 Public Class frmHQF
 
@@ -2212,7 +2213,7 @@ Public Class frmHQF
 
             Next
 
-            Dim newReq As New EveHQ.Core.frmAddRequisition("HQF", Orders)
+            Dim newReq As New frmAddRequisition("HQF", Orders)
             newReq.ShowDialog()
 
         End If
@@ -2728,7 +2729,7 @@ Public Class frmHQF
         ' Add the current ship
         Orders.Add(ActiveFitting.BaseShip.Name, 1)
         ' Setup the Requisition form for HQF and open it
-        Dim newReq As New EveHQ.Core.frmAddRequisition("HQF", Orders)
+        Dim newReq As New frmAddRequisition("HQF", Orders)
         newReq.ShowDialog()
     End Sub
 

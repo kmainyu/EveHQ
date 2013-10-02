@@ -36,6 +36,7 @@ Imports System.Threading
 Imports System.Data
 Imports System.Threading.Tasks
 Imports EveHQ.Core
+Imports EveHQ.Core.Requisitions
 
 Public Class frmPrism
 
@@ -494,7 +495,7 @@ Public Class frmPrism
     End Sub
 
     Public Sub SaveAll()
-       
+
         ' Save the Owner Blueprints
         Call PlugInData.SaveOwnerBlueprints()
 
@@ -4174,7 +4175,7 @@ Public Class frmPrism
         End If
     End Sub
 
-   Private Sub UpdateOwnerBPList()
+    Private Sub UpdateOwnerBPList()
         Dim search As String = txtBPSearch.Text
         ' Establish the owner
         If cboBPOwner.SelectedItem IsNot Nothing Then
@@ -5207,7 +5208,7 @@ Public Class frmPrism
                 ' Add the current item
                 Orders.Add(KeyName, 1)
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+                Dim newReq As New frmAddRequisition("Prism", Orders)
                 newReq.ShowDialog()
                 newReq.Dispose()
             Case "Production"
@@ -5218,7 +5219,7 @@ Public Class frmPrism
                     Call Me.CreateRequisitionFromJob(Orders, PJob)
                 End If
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+                Dim newReq As New frmAddRequisition("Prism", Orders)
                 newReq.ShowDialog()
                 newReq.Dispose()
             Case "Batch"
@@ -5233,7 +5234,7 @@ Public Class frmPrism
                     Next
                 End If
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+                Dim newReq As New frmAddRequisition("Prism", Orders)
                 newReq.ShowDialog()
                 newReq.Dispose()
         End Select

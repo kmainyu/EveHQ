@@ -57,13 +57,7 @@ Public Class EveHQBackup
             EveHQ.Core.HQ.WriteLogEvent("Backup: Request to save EveHQ Settings before backup")
             Call EveHQ.Core.HQ.Settings.Save()
 
-            ' Backup the SQL Data file if applicable
-            If EveHQ.Core.HQ.Settings.DBFormat = 1 Then
-                EveHQ.Core.HQ.WriteLogEvent("Backup: Backup SQL database")
-                Call EveHQBackup.BackupSQLDB()
-            End If
-
-            ' Create the zip folder
+           ' Create the zip folder
             If My.Computer.FileSystem.DirectoryExists(zipFolder) = False Then
                 My.Computer.FileSystem.CreateDirectory(zipFolder)
             End If
@@ -124,12 +118,7 @@ Public Class EveHQBackup
             Dim ZipSettings As FastZip = New FastZip()
             ZipSettings.ExtractZip(BackupFile, EveHQ.Core.HQ.AppDataFolder, "")
 
-            ' Restore the SQL Data file if applicable
-            If EveHQ.Core.HQ.Settings.DBFormat = 1 Then
-                Call EveHQBackup.RestoreSQLDB()
-            End If
-
-            ' Report success
+           ' Report success
             MessageBox.Show("Restore successful! EveHQ needs to be restarted for the new settings to apply - Click OK to close EveHQ.", "Restore Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             ' If all is good, set the exit flag
@@ -148,45 +137,6 @@ Public Class EveHQBackup
             MessageBox.Show(msg, "EveHQ Restore Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
 
-    End Function
-
-    ''' <summary>
-    ''' Backs up the SQL database
-    ''' </summary>
-    ''' <returns>A boolean value indicating if the backup was successful</returns>
-    ''' <remarks></remarks>
-    Public Shared Function BackupSQLDB() As Boolean
-        Try
-            Dim strSQL As String = "BACKUP DATABASE EveHQData TO DISK = '" & IO.Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQSQLBackup.bak") & "' WITH FORMAT;"
-            EveHQ.Core.DataFunctions.SetData(strSQL)
-            Return True
-        Catch e As Exception
-            MessageBox.Show("There was an error backing up the SQL Database. You may need to back this up manually. The error was: " & e.Message, "SQL Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-
-    ''' <summary>
-    ''' Restores the SQL database
-    ''' </summary>
-    ''' <returns>A boolean value indicating if the restore was successful</returns>
-    ''' <remarks></remarks>
-    Public Shared Function RestoreSQLDB() As Boolean
-        Try
-            ' Attempt a forced close of all connections to the database in order to perform a successful restore
-            Dim closeSQL As String = "ALTER DATABASE EveHQData SET SINGLE_USER WITH ROLLBACK IMMEDIATE;"
-            EveHQ.Core.DataFunctions.SetData(closeSQL)
-            ' Now try the restore operation (NB needs to use the Master DB to avoid database in use onflicts)
-            Dim strSQL As String = "USE [MASTER]; RESTORE DATABASE EveHQData FROM DISK = '" & IO.Path.Combine(EveHQ.Core.HQ.AppDataFolder, "EveHQSQLBackup.bak") & "' WITH RECOVERY;"
-            EveHQ.Core.DataFunctions.SetData(strSQL)
-            ' Set multi-user again, just in case the restore operation failed
-            Dim openSQL As String = "ALTER DATABASE EveHQData SET MULTI_USER;"
-            EveHQ.Core.DataFunctions.SetData(openSQL)
-            Return True
-        Catch e As Exception
-            MessageBox.Show("There was an error restoring the SQL Database. You may need to restore the database manually. The error was: " & e.Message, "SQL Restore Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
     End Function
 
 End Class

@@ -29,7 +29,7 @@ Public Class frmPilotManager
     Dim currentPilot As FittingPilot
     Dim currentGroup As ImplantGroup
     Dim StartUp As Boolean = False
-    Dim QueueSkills As New List(Of String)
+    Dim QueueSkills As New SortedList(Of String, Integer)
     Dim StandardSkillStyle As ElementStyle
     Dim HigherSkillStyle As ElementStyle
     Dim LowerSkillStyle As ElementStyle
@@ -199,7 +199,7 @@ Public Class frmPilotManager
                                         r.ReqLevel = hSkill.Level
                                         r.CurLevel = CInt(skillNode.Cells(1).Text)
                                         r.NeededFor = ""
-                                        QueueSkills.Add(r.Name & r.ReqLevel)
+                                        QueueSkills.Add(r.Name, r.ReqLevel)
                                     Else
                                         ' Default = HQF
                                         skillNode.Style = StandardSkillStyle

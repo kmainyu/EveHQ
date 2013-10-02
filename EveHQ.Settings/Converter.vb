@@ -270,8 +270,6 @@ Public Class Converter
         _newSettings.MarketLogToolTipConfirm = oldSettings.MarketLogToolTipConfirm
         _newSettings.IgnoreBuyOrders = oldSettings.IgnoreBuyOrders
         _newSettings.IgnoreSellOrders = oldSettings.IgnoreSellOrders
-        _newSettings.DBDataName = oldSettings.DBDataName
-        _newSettings.DBDataFilename = oldSettings.DBDataFilename
         _newSettings.DBTimeout = oldSettings.DBTimeout
         _newSettings.PilotSkillHighlightColor = oldSettings.PilotSkillHighlightColor
         _newSettings.PilotSkillTextColor = oldSettings.PilotSkillTextColor
@@ -379,13 +377,6 @@ Public Class Converter
                 _newSettings.QColumns(i, j) = oldSettings.QColumns(i, j)
             Next
         Next
-        _newSettings.DBFormat = oldSettings.DBFormat
-        _newSettings.DBFilename = oldSettings.DBFilename
-        _newSettings.DBName = oldSettings.DBName
-        _newSettings.DBServer = oldSettings.DBServer
-        _newSettings.DBUsername = oldSettings.DBUsername
-        _newSettings.DBPassword = oldSettings.DBPassword
-        _newSettings.DbSqlSecurity = oldSettings.DBSQLSecurity
         _newSettings.MarketRegions = oldSettings.MarketRegions
         _newSettings.MarketSystem = oldSettings.MarketSystem
         _newSettings.MarketUseRegionMarket = oldSettings.MarketUseRegionMarket

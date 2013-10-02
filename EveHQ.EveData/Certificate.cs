@@ -24,8 +24,8 @@ namespace EveHQ.EveData
         /// </summary>
         public Certificate()
         {
-            this.RequiredSkills = new SortedList<string, int>();
-            this.RequiredCertificates = new SortedList<string, int>();
+            this.RequiredSkills = new SortedList<int, int>();
+            this.RequiredCertificates = new SortedList<int, int>();
         }
 
         /// <summary>
@@ -68,12 +68,12 @@ namespace EveHQ.EveData
         /// Gets or sets the pre-requisite skills for the certificate.
         /// </summary>
         [ProtoMember(7)]
-        public SortedList<string, int> RequiredSkills { get; set; }
+        public SortedList<int, int> RequiredSkills { get; set; }
 
         /// <summary>
         /// Gets or sets the pre-requisite certificates for the certificate.
         /// </summary>
         [ProtoMember(8)]
-        public SortedList<string, int> RequiredCertificates { get; set; }
+        public SortedList<int, int> RequiredCertificates { get; set; }
     }
 }

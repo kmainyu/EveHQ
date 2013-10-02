@@ -259,8 +259,7 @@ Public Class EveHQSettings
     Public Property MarketLogToolTipConfirm() As Boolean
     Public Property IgnoreBuyOrders() As Boolean
     Public Property IgnoreSellOrders() As Boolean
-    Public Property DBDataName() As String
-    Public Property DBDataFilename() As String
+    Public Property CustomDBFileName As String
     Public Property DBTimeout() As Integer
     Public Property PilotSkillHighlightColor() As Long
     Public Property PilotSkillTextColor() As Long
@@ -477,13 +476,6 @@ Public Class EveHQSettings
             _qColumns(col, ref) = value
         End Set
     End Property
-    Public Property DBFormat() As Integer
-    Public Property DBFilename() As String
-    Public Property DBName() As String
-    Public Property DBServer() As String
-    Public Property DBUsername() As String
-    Public Property DBPassword() As String
-    Public Property DbSqlSecurity() As Boolean
     Public Property Accounts() As Dictionary(Of String, EveHQAccount)
         Get
             If _accounts Is Nothing Then
@@ -570,8 +562,6 @@ Public Class EveHQSettings
         BackupStart = Now
         BackupFreq = 1
         BackupLast = New DateTime(1999, 1, 1)
-        DBFormat = -1
-        DBName = "EveHQ"
         ProxyUseDefault = True
         ShutdownNotifyPeriod = 8
         EMailPort = 25
@@ -753,46 +743,7 @@ Public Class EveHQSettings
                 HQ.Settings.UpdateUrl = "http://evehq.net/update/"
             End If
 
-            ' Set the database connection string
-            ' Determine if a database format has been chosen before and set it if not
-            ' TODO: Delete this block when we rip out the static DB
-            If HQ.Settings.DBFormat = -1 Then
-                HQ.Settings.DBFormat = 0
-                HQ.Settings.DBFilename = Path.Combine(HQ.AppDataFolder, "EveHQ.sdf")
-                ' Check for this file!
-                Dim fileExists As Boolean = False
-                Do
-                    If My.Computer.FileSystem.FileExists(HQ.Settings.DBFilename) = False Then
-                        Dim msg As String = "EveHQ needs a database in order to work correctly." & ControlChars.CrLf
-                        msg &= "If you do not select a valid DB file, EveHQ will exit." & ControlChars.CrLf &
-                               ControlChars.CrLf
-                        msg &= "Would you like to select a file now?" & ControlChars.CrLf
-                        Dim reply As Integer = MessageBox.Show(msg, "Database Required", MessageBoxButtons.YesNo,
-                                                               MessageBoxIcon.Question)
-                        If reply = DialogResult.No Then
-                            Return False
-                        End If
-                        Dim ofd1 As New OpenFileDialog
-                        With ofd1
-                            .Title = "Select SQL CE Data file"
-                            .FileName = ""
-                            .InitialDirectory = HQ.appFolder
-                            .Filter = "SQL CE Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
-                            .FilterIndex = 1
-                            .RestoreDirectory = True
-                            If .ShowDialog() = DialogResult.OK Then
-                                HQ.Settings.DBFilename = .FileName
-                            End If
-                        End With
-                    Else
-                        fileExists = True
-                    End If
-                Loop Until fileExists = True
-                HQ.Settings.DBUsername = ""
-                HQ.Settings.DBPassword = ""
-            End If
-
-            ' TODO: Reword this when we rip out SQLCE
+           ' TODO: Reword this when we rip out SQLCE
             Try
                 If DataFunctions.SetEveHQConnectionString() = False Then
                     Return False

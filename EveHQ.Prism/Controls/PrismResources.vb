@@ -26,6 +26,7 @@ Imports System.Windows.Forms
 Imports System.Xml
 Imports DevComponents.DotNetBar
 Imports System.Threading.Tasks
+Imports EveHQ.Core.Requisitions
 
 Public Class PrismResources
 
@@ -584,7 +585,7 @@ Public Class PrismResources
             End If
             Call Me.GetResourcesFromJob(subJob)
         Next
-       
+
     End Sub
 
     Private Sub CheckSwapResources()
@@ -741,7 +742,7 @@ Public Class PrismResources
         ' Set up a new Sortedlist to store the required items
         Dim Orders As SortedList(Of String, Integer) = GetAmountsForRequisition(True)
         ' Setup the Requisition form for HQF and open it
-        Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+        Dim newReq As New frmAddRequisition("Prism", Orders)
         newReq.ShowDialog()
     End Sub
 
@@ -749,7 +750,7 @@ Public Class PrismResources
         ' Set up a new Sortedlist to store the required items
         Dim Orders As SortedList(Of String, Integer) = GetAmountsForRequisition(False)
         ' Setup the Requisition form for HQF and open it
-        Dim newReq As New EveHQ.Core.frmAddRequisition("Prism", Orders)
+        Dim newReq As New frmAddRequisition("Prism", Orders)
         newReq.ShowDialog()
     End Sub
 

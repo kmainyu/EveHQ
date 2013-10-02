@@ -38,6 +38,7 @@ Imports EveHQ.Common.Extensions
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.FileIO
 Imports System.Threading.Tasks
+Imports EveHQ.Core.Requisitions
 
 Public Class frmEveHQ
     Dim WithEvents eveTQWorker As BackgroundWorker = New BackgroundWorker
@@ -2237,11 +2238,6 @@ Public Class frmEveHQ
         Else
             args &= " /Local;False"
         End If
-        If HQ.Settings.DBFormat = 0 Then
-            args &= " /DB;" & ControlChars.Quote & HQ.Settings.DBFilename & ControlChars.Quote
-        Else
-            args &= " /DB;None"
-        End If
         startInfo.Arguments = args
         Dim osInfo As OperatingSystem = Environment.OSVersion
         If osInfo.Version.Major > 5 Then
@@ -2251,12 +2247,12 @@ Public Class frmEveHQ
         HQ.StartShutdownEveHQ = True
     End Sub
 
-    Private Function DownloadPatcherFile(ByVal FileNeeded As String) As Boolean
+    Private Function DownloadPatcherFile(ByVal fileNeeded As String) As Boolean
 
         ' Set a default policy level for the "http:" and "https" schemes.
         Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
 
-        Dim httpURI As String = HQ.Settings.UpdateURL & FileNeeded
+        Dim httpURI As String = HQ.Settings.UpdateUrl & FileNeeded
         Dim localFile As String = Path.Combine(HQ.AppDataFolder, FileNeeded)
 
         ' Create the request to access the server and set credentials
@@ -3435,46 +3431,4 @@ Public Class frmEveHQ
         Return IGBCanBeInitialised
     End Function
 
-    Private Sub btnCreateCoreCache_Click(sender As Object, e As EventArgs) Handles btnCreateCoreCache.Click
-        Call DataFunctions.CreateCoreCache()
-    End Sub
-
-    Private Sub DeleteCacheFolders()
-        If My.Computer.FileSystem.DirectoryExists(HQ.coreCacheFolder) = True Then
-            ' Create the cache folder if it doesn't exist
-            My.Computer.FileSystem.DeleteDirectory(HQ.coreCacheFolder, DeleteDirectoryOption.DeleteAllContents)
-        End If
-
-        If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) = True Then
-            ' Create the cache folder if it doesn't exist
-            My.Computer.FileSystem.DeleteDirectory(HQ.cacheFolder, DeleteDirectoryOption.DeleteAllContents)
-        End If
-
-        'Delete core plugin cache files too. TODO: extend plugin interface to support dropping cache.
-        Dim fitterCache As String = Path.Combine(HQ.AppDataFolder, "HQF", "Cache")
-        If (Directory.Exists(fitterCache)) Then
-            Directory.Delete(fitterCache, True)
-        End If
-    End Sub
-
-    Private Sub btnDeleteCoreCache_Click(sender As Object, e As EventArgs) Handles btnDeleteCoreCache.Click
-        Try
-            DeleteCacheFolders()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-
-    Private Sub btnRebuildCoreCache_Click(sender As Object, e As EventArgs) Handles btnRebuildCoreCache.Click
-        Try
-            DeleteCacheFolders()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-        Call DataFunctions.LoadItems()
-        Call DataFunctions.LoadSolarSystems()
-        Call DataFunctions.LoadStations()
-        Call DataFunctions.CreateCoreCache()
-    End Sub
 End Class
-

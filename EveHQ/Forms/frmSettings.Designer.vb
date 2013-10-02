@@ -23,21 +23,20 @@ Partial Public Class frmSettings
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("General")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Colours & Styles")
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Dashboard")
-        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Database Format")
-        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("E-Mail")
-        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
-        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
-        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
-        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
-        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
-        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
-        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
-        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
-        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
-        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Item Overrides")
-        Dim TreeNode18 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode17})
+        Dim TreeNode4 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("E-Mail")
+        Dim TreeNode5 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Accounts")
+        Dim TreeNode6 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve Folders")
+        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Eve API & Server")
+        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("G15 Display")
+        Dim TreeNode9 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("IGB")
+        Dim TreeNode10 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Notifications")
+        Dim TreeNode11 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Pilots")
+        Dim TreeNode12 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Plug Ins")
+        Dim TreeNode13 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Proxy Server")
+        Dim TreeNode14 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Taskbar Icon")
+        Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
+        Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Item Overrides")
+        Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode16})
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
         Me.gbGeneral = New System.Windows.Forms.GroupBox()
         Me.lblAutomaticSaveTime = New System.Windows.Forms.Label()
@@ -167,33 +166,6 @@ Partial Public Class frmSettings
         Me.lblIsPreReqColour = New System.Windows.Forms.Label()
         Me.lblSkillQueueColours = New System.Windows.Forms.Label()
         Me.lblQueueColumns = New System.Windows.Forms.Label()
-        Me.gbDatabaseFormat = New System.Windows.Forms.GroupBox()
-        Me.nudDBTimeout = New System.Windows.Forms.NumericUpDown()
-        Me.lblDatabaseTimeout = New System.Windows.Forms.Label()
-        Me.btnTestDB = New System.Windows.Forms.Button()
-        Me.cboFormat = New System.Windows.Forms.ComboBox()
-        Me.lblFormat = New System.Windows.Forms.Label()
-        Me.gbAccess = New System.Windows.Forms.GroupBox()
-        Me.chkUseAppDirForDB = New System.Windows.Forms.CheckBox()
-        Me.btnBrowseMDB = New System.Windows.Forms.Button()
-        Me.txtMDBPassword = New System.Windows.Forms.TextBox()
-        Me.txtMDBUsername = New System.Windows.Forms.TextBox()
-        Me.txtMDBServer = New System.Windows.Forms.TextBox()
-        Me.lblMDBPassword = New System.Windows.Forms.Label()
-        Me.lblMDBUser = New System.Windows.Forms.Label()
-        Me.lblMDBFilename = New System.Windows.Forms.Label()
-        Me.gbMSSQL = New System.Windows.Forms.GroupBox()
-        Me.txtMSSQLDatabase = New System.Windows.Forms.TextBox()
-        Me.lblMSSQLDatabase = New System.Windows.Forms.Label()
-        Me.lblMSSQLSecurity = New System.Windows.Forms.Label()
-        Me.radMSSQLDatabase = New System.Windows.Forms.RadioButton()
-        Me.radMSSQLWindows = New System.Windows.Forms.RadioButton()
-        Me.txtMSSQLPassword = New System.Windows.Forms.TextBox()
-        Me.txtMSSQLUsername = New System.Windows.Forms.TextBox()
-        Me.txtMSSQLServer = New System.Windows.Forms.TextBox()
-        Me.lblMSSQLPassword = New System.Windows.Forms.Label()
-        Me.lblMSSQLUser = New System.Windows.Forms.Label()
-        Me.lblMSSQLServer = New System.Windows.Forms.Label()
         Me.gbProxyServer = New System.Windows.Forms.GroupBox()
         Me.gbProxyServerInfo = New System.Windows.Forms.GroupBox()
         Me.chkProxyUseBasic = New System.Windows.Forms.CheckBox()
@@ -381,10 +353,6 @@ Partial Public Class frmSettings
         CType(Me.pbBothPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbHasPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbDatabaseFormat.SuspendLayout()
-        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gbAccess.SuspendLayout()
-        Me.gbMSSQL.SuspendLayout()
         Me.gbProxyServer.SuspendLayout()
         Me.gbProxyServerInfo.SuspendLayout()
         Me.gbEveServer.SuspendLayout()
@@ -435,9 +403,9 @@ Partial Public Class frmSettings
         Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
         Me.gbGeneral.Controls.Add(Me.chkAutoRun)
         Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-        Me.gbGeneral.Location = New System.Drawing.Point(195, 12)
+        Me.gbGeneral.Location = New System.Drawing.Point(389, 436)
         Me.gbGeneral.Name = "gbGeneral"
-        Me.gbGeneral.Size = New System.Drawing.Size(679, 476)
+        Me.gbGeneral.Size = New System.Drawing.Size(180, 42)
         Me.gbGeneral.TabIndex = 1
         Me.gbGeneral.TabStop = False
         Me.gbGeneral.Text = "General Settings"
@@ -1767,268 +1735,6 @@ Partial Public Class frmSettings
         Me.lblQueueColumns.TabIndex = 1
         Me.lblQueueColumns.Text = "Queue Column Selection:"
         '
-        'gbDatabaseFormat
-        '
-        Me.gbDatabaseFormat.Controls.Add(Me.nudDBTimeout)
-        Me.gbDatabaseFormat.Controls.Add(Me.lblDatabaseTimeout)
-        Me.gbDatabaseFormat.Controls.Add(Me.btnTestDB)
-        Me.gbDatabaseFormat.Controls.Add(Me.cboFormat)
-        Me.gbDatabaseFormat.Controls.Add(Me.lblFormat)
-        Me.gbDatabaseFormat.Controls.Add(Me.gbAccess)
-        Me.gbDatabaseFormat.Controls.Add(Me.gbMSSQL)
-        Me.gbDatabaseFormat.Location = New System.Drawing.Point(489, 155)
-        Me.gbDatabaseFormat.Name = "gbDatabaseFormat"
-        Me.gbDatabaseFormat.Size = New System.Drawing.Size(162, 47)
-        Me.gbDatabaseFormat.TabIndex = 18
-        Me.gbDatabaseFormat.TabStop = False
-        Me.gbDatabaseFormat.Text = "Database Format"
-        Me.gbDatabaseFormat.Visible = False
-        '
-        'nudDBTimeout
-        '
-        Me.nudDBTimeout.Location = New System.Drawing.Point(135, 360)
-        Me.nudDBTimeout.Name = "nudDBTimeout"
-        Me.nudDBTimeout.Size = New System.Drawing.Size(50, 21)
-        Me.nudDBTimeout.TabIndex = 40
-        '
-        'lblDatabaseTimeout
-        '
-        Me.lblDatabaseTimeout.AutoSize = True
-        Me.lblDatabaseTimeout.Location = New System.Drawing.Point(6, 363)
-        Me.lblDatabaseTimeout.Name = "lblDatabaseTimeout"
-        Me.lblDatabaseTimeout.Size = New System.Drawing.Size(125, 13)
-        Me.lblDatabaseTimeout.TabIndex = 39
-        Me.lblDatabaseTimeout.Text = "Database Timeout (sec):"
-        '
-        'btnTestDB
-        '
-        Me.btnTestDB.Location = New System.Drawing.Point(6, 425)
-        Me.btnTestDB.Name = "btnTestDB"
-        Me.btnTestDB.Size = New System.Drawing.Size(162, 23)
-        Me.btnTestDB.TabIndex = 38
-        Me.btnTestDB.Text = "Test Database Connection"
-        Me.btnTestDB.UseVisualStyleBackColor = True
-        '
-        'cboFormat
-        '
-        Me.cboFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFormat.FormattingEnabled = True
-        Me.cboFormat.Items.AddRange(New Object() {"MS SQL CE (.SDF)", "MS SQL Server"})
-        Me.cboFormat.Location = New System.Drawing.Point(103, 45)
-        Me.cboFormat.Name = "cboFormat"
-        Me.cboFormat.Size = New System.Drawing.Size(309, 21)
-        Me.cboFormat.TabIndex = 34
-        '
-        'lblFormat
-        '
-        Me.lblFormat.AutoSize = True
-        Me.lblFormat.Location = New System.Drawing.Point(6, 48)
-        Me.lblFormat.Name = "lblFormat"
-        Me.lblFormat.Size = New System.Drawing.Size(94, 13)
-        Me.lblFormat.TabIndex = 33
-        Me.lblFormat.Text = "Database Format:"
-        '
-        'gbAccess
-        '
-        Me.gbAccess.Controls.Add(Me.chkUseAppDirForDB)
-        Me.gbAccess.Controls.Add(Me.btnBrowseMDB)
-        Me.gbAccess.Controls.Add(Me.txtMDBPassword)
-        Me.gbAccess.Controls.Add(Me.txtMDBUsername)
-        Me.gbAccess.Controls.Add(Me.txtMDBServer)
-        Me.gbAccess.Controls.Add(Me.lblMDBPassword)
-        Me.gbAccess.Controls.Add(Me.lblMDBUser)
-        Me.gbAccess.Controls.Add(Me.lblMDBFilename)
-        Me.gbAccess.Location = New System.Drawing.Point(9, 91)
-        Me.gbAccess.Name = "gbAccess"
-        Me.gbAccess.Size = New System.Drawing.Size(500, 250)
-        Me.gbAccess.TabIndex = 37
-        Me.gbAccess.TabStop = False
-        Me.gbAccess.Text = "MS SQL CE (SDF) Options"
-        '
-        'chkUseAppDirForDB
-        '
-        Me.chkUseAppDirForDB.AutoSize = True
-        Me.chkUseAppDirForDB.Location = New System.Drawing.Point(99, 128)
-        Me.chkUseAppDirForDB.Name = "chkUseAppDirForDB"
-        Me.chkUseAppDirForDB.Size = New System.Drawing.Size(248, 17)
-        Me.chkUseAppDirForDB.TabIndex = 7
-        Me.chkUseAppDirForDB.Text = "Use EveHQ Application Directory for Database"
-        Me.chkUseAppDirForDB.UseVisualStyleBackColor = True
-        '
-        'btnBrowseMDB
-        '
-        Me.btnBrowseMDB.Location = New System.Drawing.Point(7, 46)
-        Me.btnBrowseMDB.Name = "btnBrowseMDB"
-        Me.btnBrowseMDB.Size = New System.Drawing.Size(51, 23)
-        Me.btnBrowseMDB.TabIndex = 6
-        Me.btnBrowseMDB.Text = "Browse"
-        Me.btnBrowseMDB.UseVisualStyleBackColor = True
-        '
-        'txtMDBPassword
-        '
-        Me.txtMDBPassword.Location = New System.Drawing.Point(99, 101)
-        Me.txtMDBPassword.Name = "txtMDBPassword"
-        Me.txtMDBPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMDBPassword.Size = New System.Drawing.Size(230, 21)
-        Me.txtMDBPassword.TabIndex = 5
-        '
-        'txtMDBUsername
-        '
-        Me.txtMDBUsername.Location = New System.Drawing.Point(99, 75)
-        Me.txtMDBUsername.Name = "txtMDBUsername"
-        Me.txtMDBUsername.Size = New System.Drawing.Size(230, 21)
-        Me.txtMDBUsername.TabIndex = 4
-        '
-        'txtMDBServer
-        '
-        Me.txtMDBServer.Location = New System.Drawing.Point(99, 27)
-        Me.txtMDBServer.Multiline = True
-        Me.txtMDBServer.Name = "txtMDBServer"
-        Me.txtMDBServer.Size = New System.Drawing.Size(324, 42)
-        Me.txtMDBServer.TabIndex = 3
-        '
-        'lblMDBPassword
-        '
-        Me.lblMDBPassword.AutoSize = True
-        Me.lblMDBPassword.Location = New System.Drawing.Point(7, 104)
-        Me.lblMDBPassword.Name = "lblMDBPassword"
-        Me.lblMDBPassword.Size = New System.Drawing.Size(57, 13)
-        Me.lblMDBPassword.TabIndex = 2
-        Me.lblMDBPassword.Text = "Password:"
-        '
-        'lblMDBUser
-        '
-        Me.lblMDBUser.AutoSize = True
-        Me.lblMDBUser.Location = New System.Drawing.Point(7, 78)
-        Me.lblMDBUser.Name = "lblMDBUser"
-        Me.lblMDBUser.Size = New System.Drawing.Size(33, 13)
-        Me.lblMDBUser.TabIndex = 1
-        Me.lblMDBUser.Text = "User:"
-        '
-        'lblMDBFilename
-        '
-        Me.lblMDBFilename.AutoSize = True
-        Me.lblMDBFilename.Location = New System.Drawing.Point(6, 30)
-        Me.lblMDBFilename.Name = "lblMDBFilename"
-        Me.lblMDBFilename.Size = New System.Drawing.Size(82, 13)
-        Me.lblMDBFilename.TabIndex = 0
-        Me.lblMDBFilename.Text = "Item Database:"
-        '
-        'gbMSSQL
-        '
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLDatabase)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLDatabase)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLSecurity)
-        Me.gbMSSQL.Controls.Add(Me.radMSSQLDatabase)
-        Me.gbMSSQL.Controls.Add(Me.radMSSQLWindows)
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLPassword)
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLUsername)
-        Me.gbMSSQL.Controls.Add(Me.txtMSSQLServer)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLPassword)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLUser)
-        Me.gbMSSQL.Controls.Add(Me.lblMSSQLServer)
-        Me.gbMSSQL.Location = New System.Drawing.Point(9, 155)
-        Me.gbMSSQL.Name = "gbMSSQL"
-        Me.gbMSSQL.Size = New System.Drawing.Size(513, 160)
-        Me.gbMSSQL.TabIndex = 35
-        Me.gbMSSQL.TabStop = False
-        Me.gbMSSQL.Text = "MS SQL Options"
-        Me.gbMSSQL.Visible = False
-        '
-        'txtMSSQLDatabase
-        '
-        Me.txtMSSQLDatabase.Location = New System.Drawing.Point(105, 77)
-        Me.txtMSSQLDatabase.Name = "txtMSSQLDatabase"
-        Me.txtMSSQLDatabase.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLDatabase.TabIndex = 10
-        '
-        'lblMSSQLDatabase
-        '
-        Me.lblMSSQLDatabase.AutoSize = True
-        Me.lblMSSQLDatabase.Location = New System.Drawing.Point(6, 82)
-        Me.lblMSSQLDatabase.Name = "lblMSSQLDatabase"
-        Me.lblMSSQLDatabase.Size = New System.Drawing.Size(82, 13)
-        Me.lblMSSQLDatabase.TabIndex = 9
-        Me.lblMSSQLDatabase.Text = "Item Database:"
-        '
-        'lblMSSQLSecurity
-        '
-        Me.lblMSSQLSecurity.AutoSize = True
-        Me.lblMSSQLSecurity.Location = New System.Drawing.Point(6, 32)
-        Me.lblMSSQLSecurity.Name = "lblMSSQLSecurity"
-        Me.lblMSSQLSecurity.Size = New System.Drawing.Size(46, 13)
-        Me.lblMSSQLSecurity.TabIndex = 8
-        Me.lblMSSQLSecurity.Text = "Security"
-        '
-        'radMSSQLDatabase
-        '
-        Me.radMSSQLDatabase.AutoSize = True
-        Me.radMSSQLDatabase.Location = New System.Drawing.Point(105, 29)
-        Me.radMSSQLDatabase.Name = "radMSSQLDatabase"
-        Me.radMSSQLDatabase.Size = New System.Drawing.Size(44, 17)
-        Me.radMSSQLDatabase.TabIndex = 7
-        Me.radMSSQLDatabase.Text = "SQL"
-        Me.radMSSQLDatabase.UseVisualStyleBackColor = True
-        '
-        'radMSSQLWindows
-        '
-        Me.radMSSQLWindows.AutoSize = True
-        Me.radMSSQLWindows.Location = New System.Drawing.Point(173, 29)
-        Me.radMSSQLWindows.Name = "radMSSQLWindows"
-        Me.radMSSQLWindows.Size = New System.Drawing.Size(68, 17)
-        Me.radMSSQLWindows.TabIndex = 6
-        Me.radMSSQLWindows.Text = "Windows"
-        Me.radMSSQLWindows.UseVisualStyleBackColor = True
-        '
-        'txtMSSQLPassword
-        '
-        Me.txtMSSQLPassword.Location = New System.Drawing.Point(105, 130)
-        Me.txtMSSQLPassword.Name = "txtMSSQLPassword"
-        Me.txtMSSQLPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtMSSQLPassword.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLPassword.TabIndex = 5
-        '
-        'txtMSSQLUsername
-        '
-        Me.txtMSSQLUsername.Location = New System.Drawing.Point(105, 104)
-        Me.txtMSSQLUsername.Name = "txtMSSQLUsername"
-        Me.txtMSSQLUsername.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLUsername.TabIndex = 4
-        '
-        'txtMSSQLServer
-        '
-        Me.txtMSSQLServer.Location = New System.Drawing.Point(105, 51)
-        Me.txtMSSQLServer.Name = "txtMSSQLServer"
-        Me.txtMSSQLServer.Size = New System.Drawing.Size(230, 21)
-        Me.txtMSSQLServer.TabIndex = 3
-        '
-        'lblMSSQLPassword
-        '
-        Me.lblMSSQLPassword.AutoSize = True
-        Me.lblMSSQLPassword.Location = New System.Drawing.Point(6, 133)
-        Me.lblMSSQLPassword.Name = "lblMSSQLPassword"
-        Me.lblMSSQLPassword.Size = New System.Drawing.Size(57, 13)
-        Me.lblMSSQLPassword.TabIndex = 2
-        Me.lblMSSQLPassword.Text = "Password:"
-        '
-        'lblMSSQLUser
-        '
-        Me.lblMSSQLUser.AutoSize = True
-        Me.lblMSSQLUser.Location = New System.Drawing.Point(6, 107)
-        Me.lblMSSQLUser.Name = "lblMSSQLUser"
-        Me.lblMSSQLUser.Size = New System.Drawing.Size(33, 13)
-        Me.lblMSSQLUser.TabIndex = 1
-        Me.lblMSSQLUser.Text = "User:"
-        '
-        'lblMSSQLServer
-        '
-        Me.lblMSSQLServer.AutoSize = True
-        Me.lblMSSQLServer.Location = New System.Drawing.Point(6, 56)
-        Me.lblMSSQLServer.Name = "lblMSSQLServer"
-        Me.lblMSSQLServer.Size = New System.Drawing.Size(43, 13)
-        Me.lblMSSQLServer.TabIndex = 0
-        Me.lblMSSQLServer.Text = "Server:"
-        '
         'gbProxyServer
         '
         Me.gbProxyServer.Controls.Add(Me.gbProxyServerInfo)
@@ -2827,37 +2533,35 @@ Partial Public Class frmSettings
         TreeNode2.Text = "Colours & Styles"
         TreeNode3.Name = "nodeDashboard"
         TreeNode3.Text = "Dashboard"
-        TreeNode4.Name = "nodeDatabaseFormat"
-        TreeNode4.Text = "Database Format"
-        TreeNode5.Name = "nodeEmail"
-        TreeNode5.Text = "E-Mail"
-        TreeNode6.Name = "nodeEveAccounts"
-        TreeNode6.Text = "Eve Accounts"
-        TreeNode7.Name = "nodeEveFolders"
-        TreeNode7.Text = "Eve Folders"
-        TreeNode8.Name = "nodeEveServer"
-        TreeNode8.Text = "Eve API & Server"
-        TreeNode9.Name = "nodeG15"
-        TreeNode9.Text = "G15 Display"
-        TreeNode10.Name = "nodeIGB"
-        TreeNode10.Text = "IGB"
-        TreeNode11.Name = "nodeNotifications"
-        TreeNode11.Text = "Notifications"
-        TreeNode12.Name = "nodePilots"
-        TreeNode12.Text = "Pilots"
-        TreeNode13.Name = "nodePlugins"
-        TreeNode13.Text = "Plug Ins"
-        TreeNode14.Name = "nodeProxyServer"
-        TreeNode14.Text = "Proxy Server"
-        TreeNode15.Name = "nodeTaskBarIcon"
-        TreeNode15.Text = "Taskbar Icon"
-        TreeNode16.Name = "nodeTrainingQueue"
-        TreeNode16.Text = "Training Queue"
-        TreeNode17.Name = "nodeItemOverrides"
-        TreeNode17.Text = "Item Overrides"
-        TreeNode18.Name = "nodeMarket"
-        TreeNode18.Text = "Market & Price Data"
-        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode16, TreeNode18})
+        TreeNode4.Name = "nodeEmail"
+        TreeNode4.Text = "E-Mail"
+        TreeNode5.Name = "nodeEveAccounts"
+        TreeNode5.Text = "Eve Accounts"
+        TreeNode6.Name = "nodeEveFolders"
+        TreeNode6.Text = "Eve Folders"
+        TreeNode7.Name = "nodeEveServer"
+        TreeNode7.Text = "Eve API & Server"
+        TreeNode8.Name = "nodeG15"
+        TreeNode8.Text = "G15 Display"
+        TreeNode9.Name = "nodeIGB"
+        TreeNode9.Text = "IGB"
+        TreeNode10.Name = "nodeNotifications"
+        TreeNode10.Text = "Notifications"
+        TreeNode11.Name = "nodePilots"
+        TreeNode11.Text = "Pilots"
+        TreeNode12.Name = "nodePlugins"
+        TreeNode12.Text = "Plug Ins"
+        TreeNode13.Name = "nodeProxyServer"
+        TreeNode13.Text = "Proxy Server"
+        TreeNode14.Name = "nodeTaskBarIcon"
+        TreeNode14.Text = "Taskbar Icon"
+        TreeNode15.Name = "nodeTrainingQueue"
+        TreeNode15.Text = "Training Queue"
+        TreeNode16.Name = "nodeItemOverrides"
+        TreeNode16.Text = "Item Overrides"
+        TreeNode17.Name = "nodeMarket"
+        TreeNode17.Text = "Market & Price Data"
+        Me.tvwSettings.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode1, TreeNode2, TreeNode3, TreeNode4, TreeNode5, TreeNode6, TreeNode7, TreeNode8, TreeNode9, TreeNode10, TreeNode11, TreeNode12, TreeNode13, TreeNode14, TreeNode15, TreeNode17})
         Me.tvwSettings.Size = New System.Drawing.Size(180, 463)
         Me.tvwSettings.TabIndex = 27
         '
@@ -3180,7 +2884,6 @@ Partial Public Class frmSettings
         Me.panelSettings.Controls.Add(Me.gbPlugIns)
         Me.panelSettings.Controls.Add(Me.gpNav)
         Me.panelSettings.Controls.Add(Me.btnClose)
-        Me.panelSettings.Controls.Add(Me.gbDatabaseFormat)
         Me.panelSettings.Controls.Add(Me.gbG15)
         Me.panelSettings.Controls.Add(Me.gbColours)
         Me.panelSettings.Dock = System.Windows.Forms.DockStyle.Fill
@@ -3759,13 +3462,6 @@ Partial Public Class frmSettings
         CType(Me.pbBothPreReqColour, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbHasPreReqColour, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.pbIsPreReqColour, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbDatabaseFormat.ResumeLayout(False)
-        Me.gbDatabaseFormat.PerformLayout()
-        CType(Me.nudDBTimeout, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gbAccess.ResumeLayout(False)
-        Me.gbAccess.PerformLayout()
-        Me.gbMSSQL.ResumeLayout(False)
-        Me.gbMSSQL.PerformLayout()
         Me.gbProxyServer.ResumeLayout(False)
         Me.gbProxyServer.PerformLayout()
         Me.gbProxyServerInfo.ResumeLayout(False)
@@ -3846,29 +3542,7 @@ Partial Public Class frmSettings
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents btnGetData As System.Windows.Forms.Button
     Friend WithEvents lblQueueColumns As System.Windows.Forms.Label
-    Friend WithEvents gbDatabaseFormat As System.Windows.Forms.GroupBox
-    Friend WithEvents gbMSSQL As System.Windows.Forms.GroupBox
-    Friend WithEvents lblMSSQLSecurity As System.Windows.Forms.Label
-    Friend WithEvents radMSSQLDatabase As System.Windows.Forms.RadioButton
-    Friend WithEvents radMSSQLWindows As System.Windows.Forms.RadioButton
-    Friend WithEvents txtMSSQLPassword As System.Windows.Forms.TextBox
-    Friend WithEvents txtMSSQLUsername As System.Windows.Forms.TextBox
-    Friend WithEvents txtMSSQLServer As System.Windows.Forms.TextBox
-    Friend WithEvents lblMSSQLPassword As System.Windows.Forms.Label
-    Friend WithEvents lblMSSQLUser As System.Windows.Forms.Label
-    Friend WithEvents lblMSSQLServer As System.Windows.Forms.Label
-    Friend WithEvents cboFormat As System.Windows.Forms.ComboBox
-    Friend WithEvents lblFormat As System.Windows.Forms.Label
-    Friend WithEvents gbAccess As System.Windows.Forms.GroupBox
-    Friend WithEvents txtMDBPassword As System.Windows.Forms.TextBox
-    Friend WithEvents txtMDBUsername As System.Windows.Forms.TextBox
-    Friend WithEvents txtMDBServer As System.Windows.Forms.TextBox
-    Friend WithEvents lblMDBPassword As System.Windows.Forms.Label
-    Friend WithEvents lblMDBUser As System.Windows.Forms.Label
-    Friend WithEvents lblMDBFilename As System.Windows.Forms.Label
-    Friend WithEvents btnBrowseMDB As System.Windows.Forms.Button
     Friend WithEvents ofd1 As System.Windows.Forms.OpenFileDialog
-    Friend WithEvents btnTestDB As System.Windows.Forms.Button
     Friend WithEvents btnAddPilotFromXML As System.Windows.Forms.Button
     Friend WithEvents gbProxyServer As System.Windows.Forms.GroupBox
     Friend WithEvents chkUseProxy As System.Windows.Forms.CheckBox
@@ -3941,8 +3615,6 @@ Partial Public Class frmSettings
     Friend WithEvents chkDeleteCompletedSkills As System.Windows.Forms.CheckBox
     Friend WithEvents pbPartiallyTrainedColour As System.Windows.Forms.PictureBox
     Friend WithEvents lblPartiallyTrainedColour As System.Windows.Forms.Label
-    Friend WithEvents txtMSSQLDatabase As System.Windows.Forms.TextBox
-    Friend WithEvents lblMSSQLDatabase As System.Windows.Forms.Label
     Friend WithEvents gbG15 As System.Windows.Forms.GroupBox
     Friend WithEvents chkActivateG15 As System.Windows.Forms.CheckBox
     Friend WithEvents nudCycleTime As System.Windows.Forms.NumericUpDown
@@ -3995,7 +3667,6 @@ Partial Public Class frmSettings
     Friend WithEvents chkUseAPIRSServer As System.Windows.Forms.CheckBox
     Friend WithEvents lblUpdateLocation As System.Windows.Forms.Label
     Friend WithEvents txtUpdateLocation As System.Windows.Forms.TextBox
-    Friend WithEvents chkUseAppDirForDB As System.Windows.Forms.CheckBox
     Friend WithEvents txtAPIFileExtension As System.Windows.Forms.TextBox
     Friend WithEvents lblAPIFileExtension As System.Windows.Forms.Label
     Friend WithEvents txtSMTPPort As System.Windows.Forms.TextBox
@@ -4016,8 +3687,6 @@ Partial Public Class frmSettings
     Friend WithEvents lblPilotGroupText As System.Windows.Forms.Label
     Friend WithEvents pbPilotGroupBG As System.Windows.Forms.PictureBox
     Friend WithEvents lblPilotGroupBG As System.Windows.Forms.Label
-    Friend WithEvents lblDatabaseTimeout As System.Windows.Forms.Label
-    Friend WithEvents nudDBTimeout As System.Windows.Forms.NumericUpDown
     Friend WithEvents chkShowCompletedSkills As System.Windows.Forms.CheckBox
     Friend WithEvents lblMDITabPosition As System.Windows.Forms.Label
     Friend WithEvents cboMDITabPosition As System.Windows.Forms.ComboBox

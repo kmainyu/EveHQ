@@ -57,22 +57,21 @@ Public Class frmSettings
         ' Set the startup flag
         startup = True
 
-        Call Me.UpdateGeneralSettings()
-        Call Me.UpdateColourOptions()
-        Call Me.UpdateEveServerSettings()
-        Call Me.UpdateIGBSettings()
-        Call Me.UpdateAccounts()
-        Call Me.UpdatePilots()
-        Call Me.UpdateEveFolderOptions()
-        Call Me.UpdateViewPilots()
-        Call Me.UpdateProxyOptions()
-        Call Me.UpdatePlugIns()
-        Call Me.UpdateNotificationOptions()
-        Call Me.UpdateTrainingQueueOptions()
-        Call Me.UpdateG15Options()
-        Call Me.UpdateDatabaseSettings()
-        Call Me.UpdateTaskBarIconOptions()
-        Call Me.UpdateDashboardOptions()
+        Call UpdateGeneralSettings()
+        Call UpdateColourOptions()
+        Call UpdateEveServerSettings()
+        Call UpdateIGBSettings()
+        Call UpdateAccounts()
+        Call UpdatePilots()
+        Call UpdateEveFolderOptions()
+        Call UpdateViewPilots()
+        Call UpdateProxyOptions()
+        Call UpdatePlugIns()
+        Call UpdateNotificationOptions()
+        Call UpdateTrainingQueueOptions()
+        Call UpdateG15Options()
+        Call UpdateTaskBarIconOptions()
+        Call UpdateDashboardOptions()
         Call UpdateMarketSettings()
 
         ' Set the flag to indicate end of the startup
@@ -1059,135 +1058,6 @@ Public Class frmSettings
             HQ.Settings.PartialTrainColor = cd1.Color.ToArgb
             redrawColumns = True
         End If
-    End Sub
-
-#End Region
-
-#Region "Database Options"
-
-    Private Sub UpdateDatabaseSettings()
-        Me.cboFormat.SelectedIndex = HQ.Settings.DBFormat
-        Me.chkUseAppDirForDB.Checked = HQ.Settings.UseAppDirectoryForDB
-        Me.nudDBTimeout.Value = HQ.Settings.DBTimeout
-    End Sub
-
-    Private Sub nudDBTimeout_HandleDestroyed(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles nudDBTimeout.HandleDestroyed
-        HQ.Settings.DBTimeout = CInt(nudDBTimeout.Value)
-    End Sub
-
-    Private Sub nudDBTimeout_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles nudDBTimeout.ValueChanged
-        HQ.Settings.DBTimeout = CInt(nudDBTimeout.Value)
-    End Sub
-
-    Private Sub cboFormat_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles cboFormat.SelectedIndexChanged
-        Select Case cboFormat.SelectedIndex
-            Case 0
-                gbAccess.Left = 6
-                gbAccess.Top = 80
-                gbAccess.Width = 500
-                gbAccess.Height = 250
-                txtMDBServer.Text = HQ.Settings.DBFilename
-                txtMDBUsername.Text = HQ.Settings.DBUsername
-                txtMDBPassword.Text = HQ.Settings.DBPassword
-                gbAccess.Visible = True
-                gbMSSQL.Visible = False
-            Case 1, 2
-                gbMSSQL.Left = 6
-                gbMSSQL.Top = 80
-                gbMSSQL.Width = 500
-                gbMSSQL.Height = 250
-                txtMSSQLServer.Text = HQ.Settings.DBServer
-                txtMSSQLDatabase.Text = HQ.Settings.DBName
-                txtMSSQLUsername.Text = HQ.Settings.DBUsername
-                txtMSSQLPassword.Text = HQ.Settings.DBPassword
-                If HQ.Settings.DBSQLSecurity = True Then
-                    radMSSQLDatabase.Checked = True
-                Else
-                    radMSSQLWindows.Checked = True
-                End If
-                gbAccess.Visible = False
-                gbMSSQL.Visible = True
-        End Select
-        HQ.Settings.DBFormat = cboFormat.SelectedIndex
-        Call DataFunctions.SetEveHQConnectionString()
-        Call DataFunctions.SetEveHQDataConnectionString()
-    End Sub
-
-    Private Sub btnBrowseMDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnBrowseMDB.Click
-        With ofd1
-            .Title = "Select SQL CE Data file"
-            .FileName = ""
-            .InitialDirectory = HQ.appFolder
-            .Filter = "SQL Data files (*.sdf)|*.sdf|All files (*.*)|*.*"
-            .FilterIndex = 1
-            .RestoreDirectory = True
-            If .ShowDialog() = DialogResult.OK Then
-                txtMDBServer.Text = .FileName
-            End If
-        End With
-    End Sub
-
-    Private Sub txtMDBUser_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtMDBUsername.TextChanged
-        HQ.Settings.DBUsername = txtMDBUsername.Text
-    End Sub
-
-    Private Sub txtMDBPassword_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles txtMDBPassword.TextChanged
-        HQ.Settings.DBPassword = txtMDBPassword.Text
-    End Sub
-
-    Private Sub txtMSSQLServer_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles txtMSSQLServer.TextChanged
-        HQ.Settings.DBServer = txtMSSQLServer.Text
-    End Sub
-
-    Private Sub txtMSSQLUser_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles txtMSSQLUsername.TextChanged
-        HQ.Settings.DBUsername = txtMSSQLUsername.Text
-    End Sub
-
-    Private Sub txtMSSQLPassword_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles txtMSSQLPassword.TextChanged
-        HQ.Settings.DBPassword = txtMSSQLPassword.Text
-    End Sub
-
-    Private Sub radMSSQLWindows_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles radMSSQLWindows.CheckedChanged
-        HQ.Settings.DBSQLSecurity = False
-        Me.lblMSSQLUser.Visible = False
-        Me.lblMSSQLPassword.Visible = False
-        Me.txtMSSQLUsername.Visible = False
-        Me.txtMSSQLPassword.Visible = False
-    End Sub
-
-    Private Sub radMSSQLDatabase_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles radMSSQLDatabase.CheckedChanged
-        HQ.Settings.DBSQLSecurity = True
-        Me.lblMSSQLUser.Visible = True
-        Me.lblMSSQLPassword.Visible = True
-        Me.txtMSSQLUsername.Visible = True
-        Me.txtMSSQLPassword.Visible = True
-    End Sub
-
-    Private Sub txtMDBServer_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtMDBServer.TextChanged
-        HQ.Settings.DBFilename = txtMDBServer.Text
-    End Sub
-
-    Private Sub txtMSSQLDatabase_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles txtMSSQLDatabase.TextChanged
-        HQ.Settings.DBName = txtMSSQLDatabase.Text
-    End Sub
-
-    Private Sub btnTestDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnTestDB.Click
-        Call DataFunctions.CheckDatabaseConnection(False)
-    End Sub
-
-    Private Sub chkUseAppDirForDB_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles chkUseAppDirForDB.CheckedChanged
-        HQ.Settings.UseAppDirectoryForDB = Me.chkUseAppDirForDB.Checked
     End Sub
 
 #End Region

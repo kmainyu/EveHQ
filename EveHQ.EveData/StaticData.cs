@@ -51,12 +51,12 @@ namespace EveHQ.EveData
         /// <summary>
         /// The type names.
         /// </summary>
-        private static SortedList<string, string> typeNames = new SortedList<string, string>(); // typeName, typeID
+        private static SortedList<string, int> typeNames = new SortedList<string, int>(); // typeName, typeID
 
         /// <summary>
         /// The types.
         /// </summary>
-        private static SortedList<string, EveType> types = new SortedList<string, EveType>(); // typeID, EveType
+        private static SortedList<int, EveType> types = new SortedList<int, EveType>(); // typeID, EveType
 
         /// <summary>
         /// The type groups.
@@ -96,7 +96,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// The certificates.
         /// </summary>
-        private static SortedList<string, Certificate> certificates = new SortedList<string, Certificate>();
+        private static SortedList<int, Certificate> certificates = new SortedList<int, Certificate>();
 
         /// <summary>
         /// The certificate categories.
@@ -126,12 +126,12 @@ namespace EveHQ.EveData
         /// <summary>
         /// The cert unlock certificates.
         /// </summary>
-        private static SortedList<string, List<string>> certUnlockCertificates = new SortedList<string, List<string>>();
+        private static SortedList<int, List<int>> certUnlockCertificates = new SortedList<int, List<int>>();
 
         /// <summary>
         /// The cert unlock skills.
         /// </summary>
-        private static SortedList<string, List<string>> certUnlockSkills = new SortedList<string, List<string>>();
+        private static SortedList<int, List<string>> certUnlockSkills = new SortedList<int, List<string>>();
 
         /// <summary>
         /// The regions.
@@ -204,7 +204,7 @@ namespace EveHQ.EveData
         public StaticData(string coreCacheFolder)
         {
             // TODO: Constructor should have a parameter containing a reference to the log file so it can be written to
-            if (this.LoadCoreCache(coreCacheFolder))
+            if (LoadCoreCache(coreCacheFolder))
             {
                 // Mark data as being available
                 DataAvailable = true;
@@ -278,7 +278,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the type names.
         /// </summary>
-        public static SortedList<string, string> TypeNames // typeName, typeID
+        public static SortedList<string, int> TypeNames // typeName, typeID
         {
             get
             {
@@ -289,7 +289,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the types.
         /// </summary>
-        public static SortedList<string, EveType> Types // typeID, EveType
+        public static SortedList<int, EveType> Types // typeID, EveType
         {
             get
             {
@@ -377,7 +377,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the certificates.
         /// </summary>
-        public static SortedList<string, Certificate> Certificates
+        public static SortedList<int, Certificate> Certificates
         {
             get
             {
@@ -443,7 +443,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the cert unlock certs.
         /// </summary>
-        public static SortedList<string, List<string>> CertUnlockCertificates
+        public static SortedList<int, List<int>> CertUnlockCertificates
         {
             get
             {
@@ -454,7 +454,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the cert unlock skills.
         /// </summary>
-        public static SortedList<string, List<string>> CertUnlockSkills
+        public static SortedList<int, List<string>> CertUnlockSkills
         {
             get
             {
@@ -705,11 +705,11 @@ namespace EveHQ.EveData
                         if (attributeList.ContainsKey(skillLevelAttribute) == false)
                         {
                             attributesToAdd.Add(skillLevelAttribute, new ItemAttribData(skillLevelAttribute, 0, string.Empty, string.Empty));
-                            att.DisplayValue = Types[Convert.ToString(att.Value, CultureInfo.CurrentCulture)].Name + " (Level " + attributesToAdd[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
+                            att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name + " (Level " + attributesToAdd[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
                         }
                         else
                         {
-                            att.DisplayValue = Types[Convert.ToString(att.Value, CultureInfo.CurrentCulture)].Name + " (Level " + attributeList[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
+                            att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name + " (Level " + attributeList[skillLevelAttribute].Value.ToString("N0", CultureInfo.CurrentCulture) + ")";
                         }
 
                         break;
@@ -762,7 +762,7 @@ namespace EveHQ.EveData
                     break;
                 case 116:
                     // typeID
-                    att.DisplayValue = Types[Convert.ToString(att.Value, CultureInfo.CurrentCulture)].Name;
+                    att.DisplayValue = Types[Convert.ToInt32(att.Value, CultureInfo.CurrentCulture)].Name;
                     att.Unit = string.Empty;
                     break;
                 case 119:
@@ -781,7 +781,7 @@ namespace EveHQ.EveData
         /// </summary>
         /// <param name="typeId">The type ID to get the variations of</param>
         /// <returns>A List(Of Integer) containing the typeIDs of the variations</returns>
-        public static IEnumerable<int> GetVariationsForItem(int typeId)
+        public static List<int> GetVariationsForItem(int typeId)
         {
             // Fetch the parent item ID for this item
             var parentTypeId = typeId;
@@ -802,16 +802,69 @@ namespace EveHQ.EveData
             return itemIDs;
         }
 
-        #endregion
+        /// <summary>
+        /// Gets the name of an Eve location from the location ID
+        /// </summary>
+        /// <param name="locationId">
+        /// The location id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
+        public static string GetLocationName(int locationId)
+        {
+            if (locationId >= 66000000)
+            {
+                if (locationId < 66014933)
+                {
+                    locationId = locationId - 6000001;
+                }
+                else
+                {
+                    locationId = locationId - 6000000;
+                }
+            }
 
-        #region "Private Methods"
+            if (Convert.ToDouble(locationId) >= 61000000 & Convert.ToDouble(locationId) <= 61999999)
+            {
+                if (Stations.ContainsKey(locationId))
+                {
+                    // Known Outpost
+                    return Stations[locationId].StationName;
+                }
+
+                // Unknown outpost!
+                return "Unknown Outpost";
+            }
+
+            if (Convert.ToDouble(locationId) < 60000000)
+            {
+                if (SolarSystems.ContainsKey(locationId))
+                {
+                    // Known solar system
+                    return SolarSystems[locationId].Name;
+                }
+
+                // Unknown solar system
+                return "Unknown System";
+            }
+
+            if (Stations.ContainsKey(locationId))
+            {
+                // Known station
+                return Stations[locationId].StationName;
+            }
+
+            // Unknown station
+            return "Unknown Station";
+        }
 
         /// <summary>
         /// Loads the core cache data from storage.
         /// </summary>
         /// <param name="coreCacheFolder">The full path to the folder containing the EveHQ cache files.</param>
         /// <returns>A boolean value indicating whether the load procedure was successful.</returns>
-        private bool LoadCoreCache(string coreCacheFolder)
+        public static bool LoadCoreCache(string coreCacheFolder)
         {
             try
             {
@@ -828,14 +881,14 @@ namespace EveHQ.EveData
                 // Item List
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open))
                 {
-                    typeNames = Serializer.Deserialize<SortedList<string, string>>(s);
+                    typeNames = Serializer.Deserialize<SortedList<string, int>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Item List Finished Loading");
 
                 // Item Data
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "Items.dat"), FileMode.Open))
                 {
-                    types = Serializer.Deserialize<SortedList<string, EveType>>(s);
+                    types = Serializer.Deserialize<SortedList<int, EveType>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Items Finished Loading");
 
@@ -891,7 +944,7 @@ namespace EveHQ.EveData
                 // Certs
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Open))
                 {
-                    certificates = Serializer.Deserialize<SortedList<string, Certificate>>(s);
+                    certificates = Serializer.Deserialize<SortedList<int, Certificate>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificates Finished Loading");
 
@@ -919,14 +972,14 @@ namespace EveHQ.EveData
                 // CertCerts
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertCerts.dat"), FileMode.Open))
                 {
-                    certUnlockCertificates = Serializer.Deserialize<SortedList<string, List<string>>>(s);
+                    certUnlockCertificates = Serializer.Deserialize<SortedList<int, List<int>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificate Unlocks Finished Loading");
 
                 // CertSkills
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open))
                 {
-                    certUnlockSkills = Serializer.Deserialize<SortedList<string, List<string>>>(s);
+                    certUnlockSkills = Serializer.Deserialize<SortedList<int, List<string>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificate Skills Finished Loading");
 

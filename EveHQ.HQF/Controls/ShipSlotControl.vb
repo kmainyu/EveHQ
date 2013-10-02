@@ -28,6 +28,7 @@ Imports System.Text
 Imports EveHQ.Market
 Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
+Imports EveHQ.Core.Requisitions
 
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False

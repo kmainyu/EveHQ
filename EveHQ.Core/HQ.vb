@@ -40,10 +40,6 @@ Public Class HQ
     Public Shared SkillListName As New SortedList(Of String, EveSkill) ' SkillName, EveSkill
     Public Shared SkillListID As New SortedList(Of Integer, EveSkill) ' SkillID, EveSkill
     Public Shared SkillGroups As New SortedList(Of String, SkillGroup)
-    Public Shared SkillUnlocks As New SortedList(Of String, ArrayList)
-    Public Shared ItemUnlocks As New SortedList(Of String, ArrayList)
-    Public Shared CertUnlockSkills As New SortedList(Of String, ArrayList)
-    Public Shared CertUnlockCerts As New SortedList(Of String, ArrayList)
     Public Shared IsUsingLocalFolders As Boolean = False
     Public Shared IsSplashFormDisabled As Boolean = False
     Private Shared _appDataFolder As String = ""
@@ -73,12 +69,9 @@ Public Class HQ
     Public Shared IsG15LCDActive As Boolean = False
     Public Shared lcdPilot As String = ""
     Public Shared lcdCharMode As Integer = 0
-    Public Shared CustomPriceList As New SortedList(Of String, Double) ' TypeID, Price
+    Public Shared CustomPriceList As New SortedList(Of Integer, Double) ' TypeID, Price
     Public Shared APIUpdateAvailable As Boolean = False
     Public Shared AppUpdateAvailable As Boolean = False
-    Public Shared CertificateCategories As New SortedList(Of String, CertificateCategory)
-    Public Shared CertificateClasses As New SortedList(Of String, CertificateClass)
-    Public Shared Certificates As New SortedList(Of String, Certificate)
     Public Shared FittingProtocol As String = "fitting"
     Public Shared NextAutoMailAPITime As DateTime = Now
     Public Shared Widgets As New SortedList(Of String, String)

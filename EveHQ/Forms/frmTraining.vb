@@ -20,6 +20,7 @@
 Imports System.Text
 Imports System.IO
 Imports System.Xml
+Imports EveHQ.EveData
 
 Public Class frmTraining
 
@@ -595,43 +596,43 @@ Public Class frmTraining
                                 addSkill = True
                             End If
                         Case 29
-                            If newSkill.Published = True And newSkill.PA = "Charisma" Then
+                            If newSkill.Published = True And newSkill.Pa = "Charisma" Then
                                 addSkill = True
                             End If
                         Case 30
-                            If newSkill.Published = True And newSkill.PA = "Intelligence" Then
+                            If newSkill.Published = True And newSkill.Pa = "Intelligence" Then
                                 addSkill = True
                             End If
                         Case 31
-                            If newSkill.Published = True And newSkill.PA = "Memory" Then
+                            If newSkill.Published = True And newSkill.Pa = "Memory" Then
                                 addSkill = True
                             End If
                         Case 32
-                            If newSkill.Published = True And newSkill.PA = "Perception" Then
+                            If newSkill.Published = True And newSkill.Pa = "Perception" Then
                                 addSkill = True
                             End If
                         Case 33
-                            If newSkill.Published = True And newSkill.PA = "Willpower" Then
+                            If newSkill.Published = True And newSkill.Pa = "Willpower" Then
                                 addSkill = True
                             End If
                         Case 34
-                            If newSkill.Published = True And newSkill.SA = "Charisma" Then
+                            If newSkill.Published = True And newSkill.Sa = "Charisma" Then
                                 addSkill = True
                             End If
                         Case 35
-                            If newSkill.Published = True And newSkill.SA = "Intelligence" Then
+                            If newSkill.Published = True And newSkill.Sa = "Intelligence" Then
                                 addSkill = True
                             End If
                         Case 36
-                            If newSkill.Published = True And newSkill.SA = "Memory" Then
+                            If newSkill.Published = True And newSkill.Sa = "Memory" Then
                                 addSkill = True
                             End If
                         Case 37
-                            If newSkill.Published = True And newSkill.SA = "Perception" Then
+                            If newSkill.Published = True And newSkill.Sa = "Perception" Then
                                 addSkill = True
                             End If
                         Case 38
-                            If newSkill.Published = True And newSkill.SA = "Willpower" Then
+                            If newSkill.Published = True And newSkill.Sa = "Willpower" Then
                                 addSkill = True
                             End If
                     End Select
@@ -750,7 +751,7 @@ Public Class frmTraining
                         End If
                         Dim clashTime As DateTime = Core.SkillFunctions.ConvertLocalTimeToEve(qItem.DateFinished)
                         If clashTime.Hour = 11 And (clashTime.Minute >= 0 And clashTime.Minute <= 30) Then
-                            newskill.ForeColor = Color.FromArgb(CInt(Core.HQ.Settings.DTClashColor))
+                            newskill.ForeColor = Color.FromArgb(CInt(Core.HQ.Settings.DtClashColor))
                             If newskill.ToolTipText <> "" Then
                                 newskill.ToolTipText &= ControlChars.CrLf & ControlChars.CrLf
                             End If
@@ -1422,9 +1423,9 @@ Public Class frmTraining
     End Sub
     Private Sub LoadCertGroups()
         certListNodes.Clear()
-        For Each CertCat As Core.CertificateCategory In Core.HQ.CertificateCategories.Values
+        For Each CertCat As CertificateCategory In StaticData.CertificateCategories.Values
             Dim groupNode As TreeNode = New TreeNode
-            groupNode.Name = CertCat.ID.ToString
+            groupNode.Name = CertCat.Id.ToString
             groupNode.Text = CertCat.Name
             groupNode.ImageIndex = 8
             groupNode.SelectedImageIndex = 8
@@ -1432,20 +1433,20 @@ Public Class frmTraining
         Next
     End Sub
     Private Sub LoadFilteredCerts(ByVal filter As Integer)
-        Dim groupNode As New TreeNode
-        Dim addCert As Boolean = False
-        For Each newCert As Core.Certificate In Core.HQ.Certificates.Values
+        Dim groupNode As TreeNode
+        Dim addCert As Boolean
+        For Each newCert As Certificate In StaticData.Certificates.Values
             addCert = False
-            groupNode = CType(certListNodes.Item(newCert.CategoryID.ToString), TreeNode)
+            groupNode = CType(certListNodes.Item(newCert.CategoryId.ToString), TreeNode)
             Select Case filter
                 Case 0
                     addCert = True
                 Case 1
-                    If displayPilot.Certificates.Contains(newCert.ID) = True Then
+                    If displayPilot.Certificates.Contains(newCert.Id) = True Then
                         addCert = True
                     End If
                 Case 2
-                    If displayPilot.Certificates.Contains(newCert.ID) = False Then
+                    If displayPilot.Certificates.Contains(newCert.Id) = False Then
                         addCert = True
                     End If
                 Case 3 To 7
@@ -1453,15 +1454,15 @@ Public Class frmTraining
                         addCert = True
                     End If
                 Case 8 To 12
-                    If newCert.Grade = filter - 7 And displayPilot.Certificates.Contains(newCert.ID) = False Then
+                    If newCert.Grade = filter - 7 And displayPilot.Certificates.Contains(newCert.Id) = False Then
                         addCert = True
                     End If
             End Select
             If addCert = True Then
                 Dim certNode As New TreeNode
-                certNode.Text = Core.HQ.CertificateClasses(newCert.ClassID.ToString).Name & " (" & newCert.Grade & " - " & CertGrades(newCert.Grade) & ")"
-                certNode.Name = newCert.ID.ToString
-                If displayPilot.Certificates.Contains(newCert.ID) = True Then
+                certNode.Text = StaticData.CertificateClasses(newCert.ClassId.ToString).Name & " (" & newCert.Grade & " - " & CertGrades(newCert.Grade) & ")"
+                certNode.Name = newCert.Id.ToString
+                If displayPilot.Certificates.Contains(newCert.Id) = True Then
                     certNode.ImageIndex = newCert.Grade
                     certNode.SelectedImageIndex = newCert.Grade
                 Else
@@ -1476,7 +1477,7 @@ Public Class frmTraining
                         End If
                     Next
                     If CanClaimCert = True Then
-                        For Each ReqCert As String In newCert.RequiredCerts.Keys
+                        For Each ReqCert As String In newCert.RequiredCertificates.Keys
                             If displayPilot.Certificates.Contains(CInt(ReqCert)) = False Then
                                 CanClaimCert = False
                                 Exit For
@@ -1538,12 +1539,12 @@ Public Class frmTraining
                 mnuAddCertGroupToQueue.Enabled = True
                 mnuAddCertToQueue.Enabled = True
                 ' Determine enabled menu items of adding to queue
-                Dim selCert As Core.Certificate = Core.HQ.Certificates(certID)
+                Dim selCert As Certificate = StaticData.Certificates(certID)
                 Dim selCertClass As Integer = selCert.ClassID
-                For Each testCert As Core.Certificate In Core.HQ.Certificates.Values
-                    If testCert.ClassID = selCertClass Then
+                For Each testCert As Certificate In StaticData.Certificates.Values
+                    If testCert.ClassId = selCertClass Then
                         ' Check if the pilot has it
-                        If displayPilot.Certificates.Contains(testCert.ID) = False Then
+                        If displayPilot.Certificates.Contains(testCert.Id) = False Then
                             mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = True
                         Else
                             mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = False
@@ -1564,9 +1565,9 @@ Public Class frmTraining
         ' Get the certificate details
         Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
         Dim certID As String = mnuCertName.Tag.ToString
-        Dim certClass As Integer = Core.HQ.Certificates(certID).ClassID
-        For Each cert As Core.Certificate In Core.HQ.Certificates.Values
-            If cert.ClassID = certClass Then
+        Dim certClass As Integer = StaticData.Certificates(certID).ClassId
+        For Each cert As Certificate In StaticData.Certificates.Values
+            If cert.ClassId = certClass Then
                 If cert.Grade = grade Then
                     Call AddCertSkills(cert)
                 End If
@@ -1576,14 +1577,14 @@ Public Class frmTraining
         Call Me.RefreshTraining(activeQueueName)
     End Sub
 
-    Private Sub AddCertSkills(ByVal cert As Core.Certificate)
+    Private Sub AddCertSkills(ByVal cert As Certificate)
         Dim reqSkills As SortedList(Of Integer, Integer) = cert.RequiredSkills
         For Each reqSkill As Integer In reqSkills.Keys
-            Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, CStr(Core.SkillFunctions.SkillIDToName(reqSkill)), activeQueue.Queue.Count + 1, activeQueue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & Core.HQ.CertificateClasses(cert.ClassID.ToString).Name)
+            Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, CStr(Core.SkillFunctions.SkillIDToName(reqSkill)), activeQueue.Queue.Count + 1, activeQueue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
         Next
         ' Get a list of the certs that are required
-        For Each reqCertID As String In cert.RequiredCerts.Keys
-            Call AddCertSkills(Core.HQ.Certificates(reqCertID))
+        For Each reqCertID As String In cert.RequiredCertificates.Keys
+            Call AddCertSkills(StaticData.Certificates(reqCertID))
         Next
     End Sub
 
@@ -1591,8 +1592,8 @@ Public Class frmTraining
         ' Get the Grade required
         Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
         Dim certCat As String = mnuCertName.Tag.ToString
-        For Each cert As Core.Certificate In Core.HQ.Certificates.Values
-            If cert.CategoryID = CInt(certCat) Then
+        For Each cert As Certificate In StaticData.Certificates.Values
+            If cert.CategoryId = CInt(certCat) Then
                 If cert.Grade = grade Then
                     Call AddCertSkills(cert)
                 End If
@@ -1614,13 +1615,13 @@ Public Class frmTraining
             TrainingBonus = 1
         End If
 
-        Call Me.PrepareDetails(skillID)
-        Call Me.PrepareTree(skillID)
-        Call Me.PrepareDepends(skillID)
-        Call Me.PrepareDescription(skillID)
-        Call Me.PrepareQueues(skillID)
-        Call Me.PrepareSPs(skillID)
-        Call Me.PrepareTimes(skillID)
+        Call PrepareDetails(skillID)
+        Call PrepareTree(skillID)
+        Call PrepareDepends(skillID)
+        Call PrepareDescription(skillID)
+        Call PrepareQueues(skillID)
+        Call PrepareSPs(skillID)
+        Call PrepareTimes(skillID)
 
     End Sub
     Private Sub PrepareDetails(ByVal skillID As Integer)
@@ -1673,8 +1674,8 @@ Public Class frmTraining
                 .Items(2).SubItems(1).Text = "<Unknown>"
             End If
             .Items(3).SubItems(1).Text = cSkill.BasePrice.ToString("N2")
-            .Items(4).SubItems(1).Text = cSkill.PA
-            .Items(5).SubItems(1).Text = cSkill.SA
+            .Items(4).SubItems(1).Text = cSkill.Pa
+            .Items(5).SubItems(1).Text = cSkill.Sa
             .Items(6).SubItems(1).Text = cLevel
             .Items(7).SubItems(1).Text = CLng(cSP).ToString("N0")
             .Items(8).SubItems(1).Text = cTime
@@ -1795,14 +1796,14 @@ Public Class frmTraining
         lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
         Dim catID As Integer
-        Dim skillName As String = ""
-        Dim certName As String = ""
+        Dim skillName As String
+        Dim certName As String
         Dim certGrade As String = ""
         Dim itemData(1) As String
         Dim skillData(1) As String
         For lvl As Integer = 1 To 5
-            If Core.HQ.SkillUnlocks.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                Dim itemUnlocked As ArrayList = Core.HQ.SkillUnlocks(skillID & "." & CStr(lvl))
+            If StaticData.SkillUnlocks.ContainsKey(skillID & "." & CStr(lvl)) = True Then
+                Dim itemUnlocked As List(Of String) = StaticData.SkillUnlocks(skillID & "." & CStr(lvl))
                 For Each item As String In itemUnlocked
                     Dim newItem As New ListViewItem
                     Dim toolTipText As New StringBuilder
@@ -1812,7 +1813,7 @@ Public Class frmTraining
                     newItem.Text = Core.HQ.itemData(itemData(0)).Name
                     newItem.Name = itemData(0)
                     newItem.Tag = itemData(0)
-                    Dim skillUnlocked As ArrayList = Core.HQ.ItemUnlocks(itemData(0))
+                    Dim skillUnlocked As List(Of String) = StaticData.ItemUnlocks(itemData(0))
                     Dim allTrained As Boolean = True
                     For Each skillPair As String In skillUnlocked
                         skillData = skillPair.Split(CChar("."))
@@ -1845,14 +1846,14 @@ Public Class frmTraining
                 Next
             End If
             ' Add the certificate unlocks
-            If Core.HQ.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                Dim certUnlocked As ArrayList = Core.HQ.CertUnlockSkills(skillID & "." & CStr(lvl))
+            If StaticData.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
+                Dim certUnlocked As List(Of String) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
                 For Each item As String In certUnlocked
                     Dim newItem As New ListViewItem
                     newItem.Group = lvwDepend.Groups("CatCerts")
-                    Dim cert As Core.Certificate = Core.HQ.Certificates(item)
+                    Dim cert As Certificate = StaticData.Certificates(item)
                     newItem.Tag = cert.ID
-                    certName = Core.HQ.CertificateClasses(cert.ClassID.ToString).Name
+                    certName = StaticData.CertificateClasses(cert.ClassId.ToString).Name
                     Select Case cert.Grade
                         Case 1
                             certGrade = "Basic"
@@ -1865,10 +1866,10 @@ Public Class frmTraining
                         Case 5
                             certGrade = "Elite"
                     End Select
-                    For Each reqCertID As String In cert.RequiredCerts.Keys
-                        Dim reqCert As Core.Certificate = Core.HQ.Certificates(reqCertID)
+                    For Each reqCertID As String In cert.RequiredCertificates.Keys
+                        Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
                         If reqCert.ID.ToString <> item Then
-                            newItem.ToolTipText &= Core.HQ.CertificateClasses(reqCert.ClassID.ToString).Name
+                            newItem.ToolTipText &= StaticData.CertificateClasses(reqCert.ClassId.ToString).Name
                             Select Case reqCert.Grade
                                 Case 1
                                     newItem.ToolTipText &= " (Basic), "
@@ -3038,14 +3039,14 @@ Public Class frmTraining
                     End Try
                     ' Get the list of skills from the plan
                     Dim skillList As XmlNodeList = planXML.SelectNodes("/plan/entry")
-                    Dim planSkills As New List(Of String)
+                    Dim planSkills As New SortedList(Of String, Integer)
                     For Each skill As XmlNode In skillList
                         Dim skillName As String = skill.Attributes.GetNamedItem("skill").Value
-                        Dim skillLevel As String = skill.Attributes.GetNamedItem("level").Value
-                        planSkills.Add(skillName & skillLevel)
+                        Dim skillLevel As Integer = CInt(skill.Attributes.GetNamedItem("level").Value)
+                        planSkills.Add(skillName, skillLevel)
                     Next
                     ' Get a dialog for the new skills
-                    Dim selectQueue As New Core.frmSelectQueue(displayPilot.Name, planSkills, "Import from EveMon")
+                    Dim selectQueue As New Core.FrmSelectQueue(displayPilot.Name, planSkills, "Import from EveMon")
                     selectQueue.ShowDialog()
                     Call Me.RefreshAllTraining()
                 End If

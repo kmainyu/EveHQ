@@ -47,7 +47,6 @@ Partial Class frmBackupEveHQ
         Me.nudDays = New System.Windows.Forms.NumericUpDown()
         Me.lblBackupFreq = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btnBackupSQLDB = New System.Windows.Forms.Button()
         Me.gpEveHQBackup = New DevComponents.DotNetBar.Controls.GroupPanel()
         Me.chkBackupBeforeUpdate = New System.Windows.Forms.CheckBox()
         Me.gpEveHQRestore = New DevComponents.DotNetBar.Controls.GroupPanel()
@@ -179,7 +178,7 @@ Partial Class frmBackupEveHQ
         '
         'btnResetBackup
         '
-        Me.btnResetBackup.Location = New System.Drawing.Point(396, 63)
+        Me.btnResetBackup.Location = New System.Drawing.Point(396, 33)
         Me.btnResetBackup.Name = "btnResetBackup"
         Me.btnResetBackup.Size = New System.Drawing.Size(125, 23)
         Me.btnResetBackup.TabIndex = 13
@@ -310,25 +309,12 @@ Partial Class frmBackupEveHQ
         Me.lblBackupFreq.TabIndex = 1
         Me.lblBackupFreq.Text = "Backup Frequency:"
         '
-        'btnBackupSQLDB
-        '
-        Me.btnBackupSQLDB.Location = New System.Drawing.Point(396, 34)
-        Me.btnBackupSQLDB.Name = "btnBackupSQLDB"
-        Me.btnBackupSQLDB.Size = New System.Drawing.Size(125, 23)
-        Me.SuperTooltip1.SetSuperTooltip(Me.btnBackupSQLDB, New DevComponents.DotNetBar.SuperTooltipInfo("", "Backup MS SQL Server 2008 Database", "This option backs up the SQL database where the MS SQL Server 2008 is used. This " & _
-            "option does not apply when usin g the SQL CE database.", Nothing, Global.EveHQ.My.Resources.Resources.Info32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-        Me.btnBackupSQLDB.TabIndex = 21
-        Me.btnBackupSQLDB.Text = "Backup SQL DB Only"
-        Me.ToolTip1.SetToolTip(Me.btnBackupSQLDB, "Backup the EveHQ settings now")
-        Me.btnBackupSQLDB.UseVisualStyleBackColor = True
-        '
         'gpEveHQBackup
         '
         Me.gpEveHQBackup.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gpEveHQBackup.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpEveHQBackup.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.gpEveHQBackup.Controls.Add(Me.btnBackupSQLDB)
         Me.gpEveHQBackup.Controls.Add(Me.chkBackupBeforeUpdate)
         Me.gpEveHQBackup.Controls.Add(Me.RadAutoBackup)
         Me.gpEveHQBackup.Controls.Add(Me.lblLastBackupLbl)
@@ -487,6 +473,5 @@ Partial Class frmBackupEveHQ
     Friend WithEvents gpEveHQBackup As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents gpEveHQRestore As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents chkBackupBeforeUpdate As System.Windows.Forms.CheckBox
-    Friend WithEvents btnBackupSQLDB As System.Windows.Forms.Button
     Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
 End Class

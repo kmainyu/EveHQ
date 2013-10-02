@@ -32,7 +32,7 @@ Partial Class FrmCacheCreator
         Me.btnCheckMarketGroup = New System.Windows.Forms.Button()
         Me.lblInfo = New System.Windows.Forms.Label()
         Me.gbCheckingTools = New System.Windows.Forms.GroupBox()
-        Me.gbEITTCacheGeneration = New System.Windows.Forms.GroupBox()
+        Me.gbEveHQCacheGeneration = New System.Windows.Forms.GroupBox()
         Me.gbEveCacheExtraction = New System.Windows.Forms.GroupBox()
         Me.gbEveServerType = New System.Windows.Forms.GroupBox()
         Me.rbBuckingham = New System.Windows.Forms.RadioButton()
@@ -52,7 +52,7 @@ Partial Class FrmCacheCreator
         Me.gbInstructions = New System.Windows.Forms.GroupBox()
         Me.lblInstructions = New System.Windows.Forms.Label()
         Me.gbCheckingTools.SuspendLayout()
-        Me.gbEITTCacheGeneration.SuspendLayout()
+        Me.gbEveHQCacheGeneration.SuspendLayout()
         Me.gbEveCacheExtraction.SuspendLayout()
         Me.gbEveServerType.SuspendLayout()
         Me.gbInstructions.SuspendLayout()
@@ -130,20 +130,20 @@ Partial Class FrmCacheCreator
         Me.gbCheckingTools.TabStop = False
         Me.gbCheckingTools.Text = "Checking Tools"
         '
-        'gbEITTCacheGeneration
+        'gbEveHQCacheGeneration
         '
-        Me.gbEITTCacheGeneration.Controls.Add(Me.lblInfo)
-        Me.gbEITTCacheGeneration.Controls.Add(Me.gbCheckingTools)
-        Me.gbEITTCacheGeneration.Controls.Add(Me.btnGenerateCache)
-        Me.gbEITTCacheGeneration.Controls.Add(Me.btnCheckDB)
-        Me.gbEITTCacheGeneration.Controls.Add(Me.btnGenerateHQFIcons)
-        Me.gbEITTCacheGeneration.Controls.Add(Me.lblDB)
-        Me.gbEITTCacheGeneration.Location = New System.Drawing.Point(12, 12)
-        Me.gbEITTCacheGeneration.Name = "gbEITTCacheGeneration"
-        Me.gbEITTCacheGeneration.Size = New System.Drawing.Size(318, 302)
-        Me.gbEITTCacheGeneration.TabIndex = 12
-        Me.gbEITTCacheGeneration.TabStop = False
-        Me.gbEITTCacheGeneration.Text = "EveHQ Cache Generation"
+        Me.gbEveHQCacheGeneration.Controls.Add(Me.lblInfo)
+        Me.gbEveHQCacheGeneration.Controls.Add(Me.gbCheckingTools)
+        Me.gbEveHQCacheGeneration.Controls.Add(Me.btnGenerateCache)
+        Me.gbEveHQCacheGeneration.Controls.Add(Me.btnCheckDB)
+        Me.gbEveHQCacheGeneration.Controls.Add(Me.btnGenerateHQFIcons)
+        Me.gbEveHQCacheGeneration.Controls.Add(Me.lblDB)
+        Me.gbEveHQCacheGeneration.Location = New System.Drawing.Point(12, 12)
+        Me.gbEveHQCacheGeneration.Name = "gbEveHQCacheGeneration"
+        Me.gbEveHQCacheGeneration.Size = New System.Drawing.Size(318, 302)
+        Me.gbEveHQCacheGeneration.TabIndex = 12
+        Me.gbEveHQCacheGeneration.TabStop = False
+        Me.gbEveHQCacheGeneration.Text = "EveHQ Cache Generation"
         '
         'gbEveCacheExtraction
         '
@@ -322,13 +322,13 @@ Partial Class FrmCacheCreator
         Me.ClientSize = New System.Drawing.Size(811, 862)
         Me.Controls.Add(Me.gbInstructions)
         Me.Controls.Add(Me.gbEveCacheExtraction)
-        Me.Controls.Add(Me.gbEITTCacheGeneration)
+        Me.Controls.Add(Me.gbEveHQCacheGeneration)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "FrmCacheCreator"
         Me.Text = "EveHQ Cache Creator"
         Me.gbCheckingTools.ResumeLayout(False)
-        Me.gbEITTCacheGeneration.ResumeLayout(False)
-        Me.gbEITTCacheGeneration.PerformLayout()
+        Me.gbEveHQCacheGeneration.ResumeLayout(False)
+        Me.gbEveHQCacheGeneration.PerformLayout()
         Me.gbEveCacheExtraction.ResumeLayout(False)
         Me.gbEveCacheExtraction.PerformLayout()
         Me.gbEveServerType.ResumeLayout(False)
@@ -345,7 +345,7 @@ Partial Class FrmCacheCreator
     Friend WithEvents btnCheckMarketGroup As System.Windows.Forms.Button
     Friend WithEvents lblInfo As System.Windows.Forms.Label
     Friend WithEvents gbCheckingTools As System.Windows.Forms.GroupBox
-    Friend WithEvents gbEITTCacheGeneration As System.Windows.Forms.GroupBox
+    Friend WithEvents gbEveHQCacheGeneration As System.Windows.Forms.GroupBox
     Friend WithEvents gbEveCacheExtraction As System.Windows.Forms.GroupBox
     Friend WithEvents lblEveLocationLabel As System.Windows.Forms.Label
     Friend WithEvents lblEveProtocol As System.Windows.Forms.Label

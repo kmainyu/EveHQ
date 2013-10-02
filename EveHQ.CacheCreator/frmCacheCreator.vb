@@ -255,7 +255,7 @@ Public Class FrmCacheCreator
                 newItem.Volume = CDbl(itemRow.Item("volume"))
                 newItem.PortionSize = CInt(itemRow.Item("portionSize"))
                 newItem.BasePrice = CDbl(itemRow.Item("basePrice"))
-                StaticData.Types.Add(newItem.ID.ToString, newItem)
+                StaticData.Types.Add(newItem.Id, newItem)
             End If
         Next
         ' Get the MetaLevel data
@@ -263,8 +263,8 @@ Public Class FrmCacheCreator
         evehqData = GetStaticData(strSQL)
         If evehqData.Tables(0).Rows.Count > 0 Then
             For Each itemRow As DataRow In evehqData.Tables(0).Rows
-                If StaticData.Types.ContainsKey(CStr(itemRow.Item("typeID"))) Then
-                    newItem = StaticData.Types(CStr(itemRow.Item("typeID")))
+                If StaticData.Types.ContainsKey(CInt(itemRow.Item("typeID"))) Then
+                    newItem = StaticData.Types(CInt(itemRow.Item("typeID")))
                     If IsDBNull(itemRow.Item("valueInt")) = False Then
                         newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
                     Else
@@ -325,7 +325,7 @@ Public Class FrmCacheCreator
                 iKey = evehqData.Tables(0).Rows(item).Item("typeName").ToString.Trim
                 iValue = evehqData.Tables(0).Rows(item).Item("typeID").ToString.Trim
                 If StaticData.TypeNames.ContainsKey(iKey) = False Then
-                    StaticData.TypeNames.Add(iKey, iValue)
+                    StaticData.TypeNames.Add(iKey, CInt(iValue))
                 End If
             Next
         End Using
@@ -420,20 +420,20 @@ Public Class FrmCacheCreator
             newCert.Description = CStr(certRow.Item("description"))
             newCert.Grade = CInt(certRow.Item("grade"))
             newCert.CorpID = CInt(certRow.Item("corpID"))
-            StaticData.Certificates.Add(newCert.ID.ToString, newCert)
+            StaticData.Certificates.Add(newCert.Id, newCert)
         Next
 
         evehqData = GetStaticData("SELECT * FROM crtRelationships;")
         For Each certRow As DataRow In evehqData.Tables(0).Rows
-            Dim certID As String = certRow.Item("childID").ToString
+            Dim certID As Integer = CInt(certRow.Item("childID"))
             If StaticData.Certificates.ContainsKey(certID) = True Then
                 Dim newCert As Certificate = StaticData.Certificates(certID)
                 If IsDBNull(certRow.Item("parentID")) Then
                     ' This is a skill ID
-                    newCert.RequiredSkills.Add(certRow.Item("parentTypeID").ToString, CInt(certRow.Item("parentLevel")))
+                    newCert.RequiredSkills.Add(CInt(certRow.Item("parentTypeID")), CInt(certRow.Item("parentLevel")))
                 Else
                     ' This is a certID
-                    newCert.RequiredCertificates.Add(certRow.Item("parentID").ToString, 1)
+                    newCert.RequiredCertificates.Add(CInt(certRow.Item("parentID")), 1)
                 End If
             End If
         Next
@@ -521,7 +521,7 @@ Public Class FrmCacheCreator
             ' Place the items into the Shared arrays
             Dim items(2) As String
             Dim itemUnlocked As List(Of String)
-            Dim certUnlocked As List(Of String)
+            Dim certUnlocked As List(Of Integer)
             StaticData.SkillUnlocks.Clear()
             StaticData.ItemUnlocks.Clear()
             For Each item As String In itemList
@@ -550,29 +550,29 @@ Public Class FrmCacheCreator
 
             ' Add certificates into the skill unlocks?
             For Each cert As Certificate In StaticData.Certificates.Values
-                For Each skill As String In cert.RequiredSkills.Keys
+                For Each skill As Integer In cert.RequiredSkills.Keys
                     Dim skillID As String = skill & "." & cert.RequiredSkills(skill).ToString
                     If StaticData.CertUnlockSkills.ContainsKey(skillID) = False Then
                         ' Create an arraylist and add the item
-                        certUnlocked = New List(Of String)
-                        certUnlocked.Add(cert.ID.ToString)
+                        certUnlocked = New List(Of Integer)
+                        certUnlocked.Add(cert.Id)
                         StaticData.CertUnlockSkills.Add(skillID, certUnlocked)
                     Else
                         ' Fetch the item and add the new one
                         certUnlocked = StaticData.CertUnlockSkills(skillID)
-                        certUnlocked.Add(cert.ID.ToString)
+                        certUnlocked.Add(cert.Id)
                     End If
                 Next
-                For Each certID As String In cert.RequiredCertificates.Keys
+                For Each certID As Integer In cert.RequiredCertificates.Keys
                     If StaticData.CertUnlockCertificates.ContainsKey(certID) = False Then
                         ' Create an arraylist and add the item
-                        certUnlocked = New List(Of String)
-                        certUnlocked.Add(cert.Id.ToString)
+                        certUnlocked = New List(Of Integer)
+                        certUnlocked.Add(cert.Id)
                         StaticData.CertUnlockCertificates.Add(certID, certUnlocked)
                     Else
                         ' Fetch the item and add the new one
                         certUnlocked = StaticData.CertUnlockCertificates(certID)
-                        certUnlocked.Add(cert.Id.ToString)
+                        certUnlocked.Add(cert.Id)
                     End If
                 Next
             Next
@@ -1016,7 +1016,7 @@ Public Class FrmCacheCreator
             If StaticData.Blueprints(CInt(invRow.Item("blueprintTypeID"))).InventionMetaItems.Contains(CInt(invRow.Item("parentTypeID"))) = False Then
                 StaticData.Blueprints(CInt(invRow.Item("blueprintTypeID"))).InventionMetaItems.Add(CInt(invRow.Item("parentTypeID")))
             End If
-            If StaticData.Types(invRow.Item("typeID").ToString).MetaLevel < 5 Then
+            If StaticData.Types(CInt(invRow.Item("typeID"))).MetaLevel < 5 Then
                 StaticData.Blueprints(CInt(invRow.Item("blueprintTypeID"))).InventionMetaItems.Add(CInt(invRow.Item("typeID")))
             End If
         Next
@@ -1684,21 +1684,21 @@ Public Class FrmCacheCreator
                         ' Map only the skill attributes
                         Select Case CInt(shipRow.Item("attributeID"))
                             Case 182
-                                Dim pSkill As EveType = StaticData.Types(CStr(attValue))
+                                Dim pSkill As EveType = StaticData.Types(CInt(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = pSkill.Id
                                 nSkill.Name = pSkill.Name
                                 pSkillName = pSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 183
-                                Dim sSkill As EveType = StaticData.Types(CStr(attValue))
+                                Dim sSkill As EveType = StaticData.Types(CInt(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = sSkill.Id
                                 nSkill.Name = sSkill.Name
                                 sSkillName = sSkill.Name
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 184
-                                Dim tSkill As EveType = StaticData.Types(CStr(attValue))
+                                Dim tSkill As EveType = StaticData.Types(CInt(attValue))
                                 Dim nSkill As New ItemSkills
                                 nSkill.ID = tSkill.Id
                                 nSkill.Name = tSkill.Name
@@ -1706,17 +1706,17 @@ Public Class FrmCacheCreator
                                 newShip.RequiredSkills.Add(nSkill.Name, nSkill)
                             Case 277
                                 If newShip.RequiredSkills.ContainsKey(pSkillName) = True Then
-                                    Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(pSkillName), ItemSkills)
+                                    Dim cSkill As ItemSkills = newShip.RequiredSkills(pSkillName)
                                     cSkill.Level = CInt(attValue)
                                 End If
                             Case 278
                                 If newShip.RequiredSkills.ContainsKey(sSkillName) = True Then
-                                    Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(sSkillName), ItemSkills)
+                                    Dim cSkill As ItemSkills = newShip.RequiredSkills(sSkillName)
                                     cSkill.Level = CInt(attValue)
                                 End If
                             Case 279
                                 If newShip.RequiredSkills.ContainsKey(tSkillName) = True Then
-                                    Dim cSkill As ItemSkills = CType(newShip.RequiredSkills(tSkillName), ItemSkills)
+                                    Dim cSkill As ItemSkills = newShip.RequiredSkills(tSkillName)
                                     cSkill.Level = CInt(attValue)
                                 End If
                         End Select
@@ -1923,10 +1923,10 @@ Public Class FrmCacheCreator
                 For Each row As DataRow In _moduleData.Tables(0).Rows
                     If IsDBNull(row.Item("marketGroupID")) = True Then
                         modID = row.Item("typeID").ToString
-                        nModule = CType(ModuleLists.moduleList(modID), ShipModule)
+                        nModule = ModuleLists.ModuleList(modID)
                         If ModuleLists.moduleMetaTypes.ContainsKey(modID) = True Then
                             parentID = ModuleLists.moduleMetaTypes(modID).ToString
-                            eModule = CType(ModuleLists.moduleList(parentID), ShipModule)
+                            eModule = ModuleLists.ModuleList(parentID)
                             nModule.MarketGroup = eModule.MarketGroup
                         End If
                     End If
@@ -1942,7 +1942,7 @@ Public Class FrmCacheCreator
                     Dim marketGroupID As String = changeData(1)
                     Dim metaTypeID As Integer = CInt(changeData(2))
                     If ModuleLists.moduleList.ContainsKey(typeID) = True Then
-                        Dim mModule As ShipModule = CType(ModuleLists.moduleList(typeID), ShipModule)
+                        Dim mModule As ShipModule = ModuleLists.ModuleList(typeID)
                         mModule.MarketGroup = marketGroupID
                         If metaTypeID <> 0 Then
                             mModule.MetaType = metaTypeID
@@ -1961,7 +1961,7 @@ Public Class FrmCacheCreator
         Try
             ' Get details of module attributes from already retrieved dataset
             For Each modRow As DataRow In _moduleEffectData.Tables(0).Rows
-                Dim effMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
+                Dim effMod As ShipModule = ModuleLists.ModuleList.Item(modRow.Item("typeID").ToString)
                 If effMod IsNot Nothing Then
                     Select Case CInt(modRow.Item("effectID"))
                         Case 11 ' Low slot
@@ -2033,7 +2033,7 @@ Public Class FrmCacheCreator
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
             Dim lastModName As String = ""
             For Each modRow As DataRow In _moduleAttributeData.Tables(0).Rows
-                Dim attMod As ShipModule = CType(ModuleLists.moduleList.Item(modRow.Item("typeID").ToString), ShipModule)
+                Dim attMod As ShipModule = ModuleLists.ModuleList.Item(modRow.Item("typeID").ToString)
                 'If attMod IsNot Nothing Then
                 If lastModName <> modRow.Item("typeName").ToString And lastModName <> "" Then
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
@@ -2156,8 +2156,8 @@ Public Class FrmCacheCreator
                     Case 1087 ' Slot Type For Boosters
                         attMod.BoosterSlot = CInt(attValue)
                     Case 182
-                        If StaticData.Types.ContainsKey(CStr(attValue)) = True Then
-                            Dim pSkill As EveType = StaticData.Types(CStr(attValue))
+                        If StaticData.Types.ContainsKey(CInt(attValue)) = True Then
+                            Dim pSkill As EveType = StaticData.Types(CInt(attValue))
                             Dim nSkill As New ItemSkills
                             nSkill.ID = pSkill.Id
                             nSkill.Name = pSkill.Name
@@ -2167,8 +2167,8 @@ Public Class FrmCacheCreator
                             End If
                         End If
                     Case 183
-                        If StaticData.Types.ContainsKey(CStr(attValue)) = True Then
-                            Dim sSkill As EveType = StaticData.Types(CStr(attValue))
+                        If StaticData.Types.ContainsKey(CInt(attValue)) = True Then
+                            Dim sSkill As EveType = StaticData.Types(CInt(attValue))
                             Dim nSkill As New ItemSkills
                             nSkill.ID = sSkill.Id
                             nSkill.Name = sSkill.Name
@@ -2178,8 +2178,8 @@ Public Class FrmCacheCreator
                             End If
                         End If
                     Case 184
-                        If StaticData.Types.ContainsKey(CStr(attValue)) = True Then
-                            Dim tSkill As EveType = StaticData.Types(CStr(attValue))
+                        If StaticData.Types.ContainsKey(CInt(attValue)) = True Then
+                            Dim tSkill As EveType = StaticData.Types(CInt(attValue))
                             Dim nSkill As New ItemSkills
                             nSkill.ID = tSkill.Id
                             nSkill.Name = tSkill.Name
@@ -2190,21 +2190,21 @@ Public Class FrmCacheCreator
                         End If
                     Case 277
                         If attMod.RequiredSkills.ContainsKey(pSkillName) Then
-                            Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(pSkillName), ItemSkills)
+                            Dim cSkill As ItemSkills = attMod.RequiredSkills(pSkillName)
                             If cSkill IsNot Nothing Then
                                 cSkill.Level = CInt(attValue)
                             End If
                         End If
                     Case 278
                         If attMod.RequiredSkills.ContainsKey(sSkillName) Then
-                            Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(sSkillName), ItemSkills)
+                            Dim cSkill As ItemSkills = attMod.RequiredSkills(sSkillName)
                             If cSkill IsNot Nothing Then
                                 cSkill.Level = CInt(attValue)
                             End If
                         End If
                     Case 279
                         If attMod.RequiredSkills.ContainsKey(tSkillName) Then
-                            Dim cSkill As ItemSkills = CType(attMod.RequiredSkills(tSkillName), ItemSkills)
+                            Dim cSkill As ItemSkills = attMod.RequiredSkills(tSkillName)
                             If cSkill IsNot Nothing Then
                                 cSkill.Level = CInt(attValue)
                             End If
@@ -2257,7 +2257,7 @@ Public Class FrmCacheCreator
             ' Check for drone missiles
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                 If cMod.IsDrone = True And cMod.Attributes.ContainsKey("507") = True Then
-                    Dim chg As ShipModule = CType(ModuleLists.moduleList(CStr(cMod.Attributes("507"))), ShipModule)
+                    Dim chg As ShipModule = ModuleLists.ModuleList(CStr(cMod.Attributes("507")))
                     cMod.LoadedCharge = chg
                 End If
             Next
@@ -2296,7 +2296,7 @@ Public Class FrmCacheCreator
                     implantGroups = implantData(9)
                     implantGroup = implantGroups.Split(";".ToCharArray)
                     If Implants.implantList.ContainsKey(implantName) = True Then
-                        Dim bImplant As ShipModule = CType(Implants.implantList(implantName), ShipModule)
+                        Dim bImplant As ShipModule = Implants.ImplantList(implantName)
                         For Each impGroup As String In implantGroup
                             bImplant.ImplantGroups.Add(impGroup)
                         Next
@@ -2313,7 +2313,7 @@ Public Class FrmCacheCreator
         Attributes.AttributeQuickList.Clear()
         Dim attData As Attribute
         For Each att As String In Attributes.AttributeList.Keys
-            attData = CType(Attributes.AttributeList(att), Attribute)
+            attData = Attributes.AttributeList(att)
             If attData.DisplayName <> "" Then
                 Attributes.AttributeQuickList.Add(attData.ID, attData.DisplayName)
             Else
@@ -2362,7 +2362,7 @@ Public Class FrmCacheCreator
                             affectingName = "Global;Global;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                         Case HQFEffectType.Item
                             If newEffect.AffectingID > 0 Then
-                                affectingName = StaticData.Types(newEffect.AffectingID.ToString).Name
+                                affectingName = StaticData.Types(newEffect.AffectingID).Name
                                 If Core.HQ.SkillListName.ContainsKey(affectingName) = True Then
                                     affectingName &= ";Skill;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                                 Else
@@ -2401,7 +2401,7 @@ Public Class FrmCacheCreator
                                     cModule.Affects.Add(affectingName)
                                 End If
                             Case HQFEffectType.Skill
-                                If cModule.RequiredSkills.ContainsKey(StaticData.Types(newEffect.AffectedID(0).ToString).Name) Then
+                                If cModule.RequiredSkills.ContainsKey(StaticData.Types(CInt(newEffect.AffectedID(0))).Name) Then
                                     cModule.Affects.Add(affectingName)
                                 End If
                             Case HQFEffectType.Attribute
@@ -2485,7 +2485,7 @@ Public Class FrmCacheCreator
                         newEffect.AffectedID.Add(effectData(5))
                     End If
                     newEffect.CalcType = CType(effectData(6), EffectCalcType)
-                    Dim cImplant As ShipModule = CType(Implants.implantList(newEffect.ImplantName), ShipModule)
+                    Dim cImplant As ShipModule = Implants.ImplantList(newEffect.ImplantName)
                     newEffect.Value = CDbl(cImplant.Attributes(effectData(0)))
                     newEffect.IsGang = CBool(effectData(8))
                     If effectData(9).Contains(";") = True Then
@@ -2497,7 +2497,7 @@ Public Class FrmCacheCreator
                         newEffect.Groups.Add(effectData(9))
                     End If
 
-                    affectingName = StaticData.Types(effectData(2)).Name & ";Implant;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
+                    affectingName = StaticData.Types(CInt(effectData(2))).Name & ";Implant;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
 
                     For Each cModule As ShipModule In ModuleLists.moduleList.Values
                         Select Case newEffect.AffectedType
@@ -2567,7 +2567,7 @@ Public Class FrmCacheCreator
                 newEffect.Status = CInt(effectData(10))
                 shipEffectClassList.Add(newEffect)
 
-                affectingName = StaticData.Types(newEffect.ShipID.ToString).Name
+                affectingName = StaticData.Types(newEffect.ShipID).Name
                 If newEffect.IsPerLevel = False Then
                     affectingName &= ";Ship Role;"
                 Else
@@ -2577,7 +2577,7 @@ Public Class FrmCacheCreator
                 If newEffect.IsPerLevel = False Then
                     affectingName &= ";"
                 Else
-                    affectingName &= ";" & StaticData.Types(newEffect.AffectingID.ToString).Name
+                    affectingName &= ";" & StaticData.Types(newEffect.AffectingID).Name
                 End If
 
                 ' Add the skills into the ship modules
@@ -2662,7 +2662,7 @@ Public Class FrmCacheCreator
                 newEffect.Status = CInt(effectData(10))
                 shipEffectClassList.Add(newEffect)
 
-                affectingName = StaticData.Types(newEffect.ShipID.ToString).Name
+                affectingName = StaticData.Types(newEffect.ShipID).Name
                 If newEffect.IsPerLevel = False Then
                     affectingName &= ";Subsystem Role;"
                 Else
@@ -2672,7 +2672,7 @@ Public Class FrmCacheCreator
                 If newEffect.IsPerLevel = False Then
                     affectingName &= ";"
                 Else
-                    affectingName &= ";" & StaticData.Types(newEffect.AffectingID.ToString).Name
+                    affectingName &= ";" & StaticData.Types(newEffect.AffectingID).Name
                 End If
 
                 For Each cModule As ShipModule In ModuleLists.moduleList.Values
@@ -2705,7 +2705,7 @@ Public Class FrmCacheCreator
                     ' Add the skill onto the subsystem
                     If newEffect.IsPerLevel = True Then
                         If cModule.ID = newEffect.ShipID.ToString Then
-                            affectingName = StaticData.Types(newEffect.AffectingID.ToString).Name
+                            affectingName = StaticData.Types(newEffect.AffectingID).Name
                             affectingName &= ";Skill;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
                             If cModule.Affects.Contains(affectingName) = False Then
                                 cModule.Affects.Add(affectingName)

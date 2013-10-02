@@ -115,8 +115,8 @@ Public Class frmPrismSettings
         cboDefaultBPCalcBPOwner.BeginUpdate() : cboDefaultBPCalcBPOwner.Items.Clear()
         cboDefaultBPCalcManufacturer.BeginUpdate() : cboDefaultBPCalcManufacturer.Items.Clear()
         cboDefaultBPCalcAssetOwner.BeginUpdate() : cboDefaultBPCalcAssetOwner.Items.Clear()
-        For Each owner As String In PlugInData.PrismOwners.Keys
-            cboDefaultPrismCharacter.Items.Add(owner)
+        For Each prismOwner As String In PlugInData.PrismOwners.Keys
+            cboDefaultPrismCharacter.Items.Add(prismOwner)
         Next
         For Each selpilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If selpilot.Active = True Then
@@ -175,42 +175,36 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDuplicateJournals.Click
-        Dim strSQL As String = ""
-        Select Case EveHQ.Core.HQ.Settings.DBFormat
-            Case 0 ' SQLCE
-                strSQL = "DELETE FROM walletJournal WHERE transID IN ("
-                strSQL &= " SELECT walletJournal.transID"
-                strSQL &= " FROM walletJournal INNER JOIN"
-                strSQL &= " (SELECT transKey, MIN(transID) AS MinTransID, MAX(transID) AS MaxTransID"
-                strSQL &= " FROM walletJournal"
-                strSQL &= " GROUP BY transKey"
-                strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletJournal.transKey = Dupes.transKey AND walletJournal.transID <> Dupes.MinTransID)"
-            Case 1 ' SQL
-                strSQL = "DELETE T1 FROM walletJournal T1, walletJournal T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
-        End Select
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
+    Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteDuplicateJournals.Click
+        Dim strSQL As String
+        strSQL = "DELETE FROM walletJournal WHERE transID IN ("
+        strSQL &= " SELECT walletJournal.transID"
+        strSQL &= " FROM walletJournal INNER JOIN"
+        strSQL &= " (SELECT transKey, MIN(transID) AS MinTransID, MAX(transID) AS MaxTransID"
+        strSQL &= " FROM walletJournal"
+        strSQL &= " GROUP BY transKey"
+        strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletJournal.transKey = Dupes.transKey AND walletJournal.transID <> Dupes.MinTransID)"
+        ' Old SQL code - may come in useful!
+        'strSQL = "DELETE T1 FROM walletJournal T1, walletJournal T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
+        If Core.CustomDataFunctions.SetCustomData(strSQL) = -2 Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Journal table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted duplicate entries from the Wallet Journal table!", "Delete Duplicates Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
 
-    Private Sub btnDeleteDuplicateTransactions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteDuplicateTransactions.Click
-        Dim strSQL As String = ""
-        Select Case EveHQ.Core.HQ.Settings.DBFormat
-            Case 0 ' SQLCE
-                strSQL = "DELETE FROM walletTransactions WHERE transID IN ("
-                strSQL &= " SELECT walletTransactions.transID"
-                strSQL &= " FROM walletTransactions INNER JOIN"
-                strSQL &= " (SELECT transKey, MIN(transID) AS MinTransID, MAX(transID) AS MaxTransID"
-                strSQL &= " FROM walletTransactions"
-                strSQL &= " GROUP BY transKey"
-                strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletTransactions.transKey = Dupes.transKey AND walletTransactions.transID <> Dupes.MinTransID)"
-            Case 1 ' SQL
-                strSQL = "DELETE T1 FROM walletTransactions T1, walletTransactions T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
-        End Select
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
+    Private Sub btnDeleteDuplicateTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteDuplicateTransactions.Click
+        Dim strSQL As String
+        strSQL = "DELETE FROM walletTransactions WHERE transID IN ("
+        strSQL &= " SELECT walletTransactions.transID"
+        strSQL &= " FROM walletTransactions INNER JOIN"
+        strSQL &= " (SELECT transKey, MIN(transID) AS MinTransID, MAX(transID) AS MaxTransID"
+        strSQL &= " FROM walletTransactions"
+        strSQL &= " GROUP BY transKey"
+        strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletTransactions.transKey = Dupes.transKey AND walletTransactions.transID <> Dupes.MinTransID)"
+        ' Old SQL code - may come in useful!
+        'strSQL = "DELETE T1 FROM walletTransactions T1, walletTransactions T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
+        If Core.CustomDataFunctions.SetCustomData(strSQL) = -2 Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Transactions table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted duplicate entries from the Wallet Transactions table!", "Delete Duplicates Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -677,14 +671,8 @@ Public Class frmPrismSettings
 #End Region
 
     Private Sub btnDeleteUndefinedJournals_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteUndefinedJournals.Click
-        Dim strSQL As String = ""
-        Select Case EveHQ.Core.HQ.Settings.DBFormat
-            Case 0 ' SQLCE
-                strSQL = "DELETE FROM walletJournal WHERE refTypeID = 0;"
-            Case 1 ' SQL
-                strSQL = "DELETE FROM walletJournal WHERE refTypeID = 0;"
-        End Select
-        If EveHQ.Core.DataFunctions.SetData(strSQL) = -2 Then
+        Const strSQL As String = "DELETE FROM walletJournal WHERE refTypeID = 0;"
+        If Core.CustomDataFunctions.SetCustomData(strSQL) = -2 Then
             MessageBox.Show("Error deleting undefined entries from the Wallet Journal table!", "Delete Undefined Entries Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted undefined entries from the Wallet Journal table!", "Delete Undefined Entries Success", MessageBoxButtons.OK, MessageBoxIcon.Information)

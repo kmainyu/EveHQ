@@ -28,11 +28,11 @@ Public Class frmShowInfo
     Dim oldNodeIndex As Integer = -1
     Dim itemType As Object
     Dim itemName As String = ""
-    Dim hPilot As EveHQ.Core.EveHQPilot
-    Dim SkillsNeeded As New List(Of String)
+    Dim hPilot As Core.EveHQPilot
+    Dim SkillsNeeded As New SortedList(Of String, Integer)
     Dim ItemUsable As Boolean = True
 
-    Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As EveHQ.Core.EveHQPilot)
+    Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As Core.EveHQPilot)
 
         hPilot = iPilot
 
@@ -46,13 +46,13 @@ Public Class frmShowInfo
             Else
                 baseID = itemObject.id
             End If
-            picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(baseID)
+            picItem.ImageLocation = Core.ImageHandler.GetImageLocation(baseID)
         Else
             If TypeOf itemObject Is ShipModule Then
                 itemType = CType(itemObject, ShipModule)
                 itemName = CType(itemObject, ShipModule).Name
                 If itemType.IsDrone = True Then
-                    picItem.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(itemObject.ID)
+                    picItem.ImageLocation = Core.ImageHandler.GetImageLocation(itemObject.ID)
                 Else
                     picItem.Image = ImageHandler.IconImage48(itemType.Icon, itemType.MetaType)
                 End If
@@ -60,7 +60,7 @@ Public Class frmShowInfo
         End If
 
         ' Get image from cache 
-        Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, hPilot.ID & ".png")
+        Dim imgFilename As String = Path.Combine(Core.HQ.imageCacheFolder, hPilot.ID & ".png")
         If My.Computer.FileSystem.FileExists(imgFilename) = True Then
             pbPilot.ImageLocation = imgFilename
         Else
@@ -93,7 +93,7 @@ Public Class frmShowInfo
                     skillsRequired = True
                     Dim skillID As String = itemSkill.ID
                     Dim strTree As String = ""
-                    Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(skillID)
+                    Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
                     Dim curSkill As Integer = CInt(skillID)
                     Dim curLevel As Integer = itemSkill.Level
                     Dim curNode As New DevComponents.AdvTree.Node
@@ -104,16 +104,16 @@ Public Class frmShowInfo
                     Dim skillTrained As Boolean = False
                     Dim myLevel As Integer = 0
                     skillTrained = False
-                    If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And hPilot.Updated = True Then
+                    If Core.HQ.Settings.Pilots.Count > 0 And hPilot.Updated = True Then
                         If hPilot.PilotSkills.ContainsKey(cSkill.Name) Then
-                            Dim mySkill As EveHQ.Core.EveHQPilotSkill = hPilot.PilotSkills(cSkill.Name)
+                            Dim mySkill As Core.EveHQPilotSkill = hPilot.PilotSkills(cSkill.Name)
                             myLevel = CInt(mySkill.Level)
                             If myLevel >= curLevel Then skillTrained = True
                             If skillTrained = True Then
                                 curNode.Style.TextColor = Color.LimeGreen
                                 SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Already Trained", cSkill.Name, "This skill has already been trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
                             Else
-                                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
+                                Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
                                 If planLevel = 0 Then
                                     curNode.Style.TextColor = Color.Red
                                     SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill has not been trained to the required level and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
@@ -126,11 +126,11 @@ Public Class frmShowInfo
                                         SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
                                     End If
                                 End If
-                                skillsNeeded.Add(cSkill.Name & curLevel)
+                                SkillsNeeded.Add(cSkill.Name, curLevel)
                                 ItemUsable = False
                             End If
                         Else
-                            Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
+                            Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(hPilot, cSkill.Name, curLevel)
                             If planLevel = 0 Then
                                 curNode.Style.TextColor = Color.Red
                                 SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill has not been trained and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
@@ -143,16 +143,16 @@ Public Class frmShowInfo
                                     SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
                                 End If
                             End If
-                            skillsNeeded.Add(cSkill.Name & curLevel)
+                            SkillsNeeded.Add(cSkill.Name, curLevel)
                             ItemUsable = False
                         End If
                     End If
                     tvwReqs.Nodes.Add(curNode)
 
                     If cSkill.PreReqSkills.Count > 0 Then
-                        Dim subSkill As EveHQ.Core.EveSkill
+                        Dim subSkill As Core.EveSkill
                         For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                            subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
+                            subSkill = Core.HQ.SkillListID(subSkillID)
                             Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                         Next
                     End If
@@ -199,14 +199,14 @@ Public Class frmShowInfo
                         Loop Until skillNo >= skillsNeeded.Count - 1
                     End If
                     skillsNeeded.Reverse()
-                    For Each skill As String In skillsNeeded
+                    For Each skill As String In SkillsNeeded.Keys
                         Dim skillName As String = skill.Substring(0, skill.Length - 1)
                         Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                        Dim cSkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListName(skillName)
-                        usableTime += EveHQ.Core.SkillFunctions.CalcTimeToLevel(hPilot, cSkill, skillLvl)
+                        Dim cSkill As Core.EveSkill = Core.HQ.SkillListName(skillName)
+                        usableTime += Core.SkillFunctions.CalcTimeToLevel(hPilot, cSkill, skillLvl)
                     Next
                     lblUsable.Text = hPilot.Name & " doesn't have the skills to use this item."
-                    lblUsableTime.Text = "Training Time: " & EveHQ.Core.SkillFunctions.TimeToString(usableTime)
+                    lblUsableTime.Text = "Training Time: " & Core.SkillFunctions.TimeToString(usableTime)
                 End If
             Else
                 lblUsable.Text = "No pilot selected to calculate skill time."
@@ -217,7 +217,7 @@ Public Class frmShowInfo
             lblUsableTime.Text = ""
         End If
     End Sub
-    Private Sub AddPreReqsToTree(ByVal newSkill As EveHQ.Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As DevComponents.AdvTree.Node)
+    Private Sub AddPreReqsToTree(ByVal newSkill As Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As DevComponents.AdvTree.Node)
         Dim skillTrained As Boolean = False
         Dim myLevel As Integer = 0
         Dim newNode As New DevComponents.AdvTree.Node
@@ -225,11 +225,11 @@ Public Class frmShowInfo
         newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
         newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
         ' Check status of this skill
-        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 And hPilot.Updated = True Then
+        If Core.HQ.Settings.Pilots.Count > 0 And hPilot.Updated = True Then
             skillTrained = False
             myLevel = 0
             If hPilot.PilotSkills.ContainsKey(newSkill.Name) Then
-                Dim mySkill As EveHQ.Core.EveHQPilotSkill = hPilot.PilotSkills(newSkill.Name)
+                Dim mySkill As Core.EveHQPilotSkill = hPilot.PilotSkills(newSkill.Name)
                 myLevel = CInt(mySkill.Level)
                 If myLevel >= curLevel Then skillTrained = True
             End If
@@ -237,7 +237,7 @@ Public Class frmShowInfo
                 newNode.Style.TextColor = Color.LimeGreen
                 SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Already Trained", newSkill.Name, "This skill has already been trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Else
-                Dim planLevel As Integer = EveHQ.Core.SkillQueueFunctions.IsPlanned(hPilot, newSkill.Name, curLevel)
+                Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(hPilot, newSkill.Name, curLevel)
                 If planLevel = 0 Then
                     newNode.Style.TextColor = Color.Red
                     SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill has not been trained and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
@@ -250,7 +250,7 @@ Public Class frmShowInfo
                         SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
                     End If
                 End If
-                SkillsNeeded.Add(newSkill.Name & curLevel)
+                SkillsNeeded.Add(newSkill.Name, curLevel)
                 ItemUsable = False
             End If
         End If
@@ -258,10 +258,10 @@ Public Class frmShowInfo
         curNode = newNode
 
         If newSkill.PreReqSkills.Count > 0 Then
-            Dim subSkill As EveHQ.Core.EveSkill
+            Dim subSkill As Core.EveSkill
             For Each subSkillID As String In newSkill.PreReqSkills.Keys
                 If subSkillID <> newSkill.ID Then
-                    subSkill = EveHQ.Core.HQ.SkillListID(subSkillID)
+                    subSkill = Core.HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
                 End If
             Next
@@ -352,12 +352,12 @@ Public Class frmShowInfo
                 Select Case attData.UnitName
                     Case "typeID"
                         If stdItem.Attributes.Item(att).ToString <> "0" Then
-                            newItem.SubItems.Add(EveHQ.Core.HQ.itemData(stdItem.Attributes.Item(att).ToString).Name)
+                            newItem.SubItems.Add(Core.HQ.itemData(stdItem.Attributes.Item(att).ToString).Name)
                         Else
                             newItem.SubItems.Add("n/a")
                         End If
                     Case "groupID"
-                        newItem.SubItems.Add(EveHQ.Core.HQ.itemGroups(stdItem.Attributes.Item(att).ToString))
+                        newItem.SubItems.Add(Core.HQ.itemGroups(stdItem.Attributes.Item(att).ToString))
                     Case Else
                         If stdItem.Attributes.ContainsKey(att) = True Then
                             newItem.SubItems.Add(stdItem.Attributes.Item(att) & " " & attData.UnitName)
@@ -369,12 +369,12 @@ Public Class frmShowInfo
                 Select Case attData.UnitName
                     Case "typeID"
                         If stdShip.Attributes.Item(att).ToString <> "0" Then
-                            newItem.SubItems.Add(EveHQ.Core.HQ.itemData(stdShip.Attributes.Item(att).ToString).Name)
+                            newItem.SubItems.Add(Core.HQ.itemData(stdShip.Attributes.Item(att).ToString).Name)
                         Else
                             newItem.SubItems.Add("n/a")
                         End If
                     Case "groupID"
-                        newItem.SubItems.Add(EveHQ.Core.HQ.itemGroups(stdShip.Attributes.Item(att).ToString))
+                        newItem.SubItems.Add(Core.HQ.itemGroups(stdShip.Attributes.Item(att).ToString))
                     Case Else
                         If stdShip.Attributes.ContainsKey(att) = True Then
                             newItem.SubItems.Add(stdShip.Attributes.Item(att) & " " & attData.UnitName)
@@ -387,13 +387,13 @@ Public Class frmShowInfo
                 Case "typeID"
                     If itemObject.Attributes.Item(att).ToString <> "0" Then
                         newItem.UseItemStyleForSubItems = False
-                        itemData = EveHQ.Core.HQ.itemData(itemObject.Attributes.Item(att).ToString).Name
+                        itemData = Core.HQ.itemData(itemObject.Attributes.Item(att).ToString).Name
                     Else
                         itemData = "n/a"
                         newItem.SubItems.Add("n/a")
                     End If
                 Case "groupID"
-                    itemData = EveHQ.Core.HQ.itemGroups(itemObject.Attributes.Item(att).ToString)
+                    itemData = Core.HQ.itemGroups(itemObject.Attributes.Item(att).ToString)
                 Case Else
 
                     itemData = itemObject.Attributes.Item(att) & " " & attData.UnitName
@@ -445,10 +445,10 @@ Public Class frmShowInfo
 
     Private Sub lvwAffects_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvwAffects.ColumnClick
         If CInt(lvwAffects.Tag) = e.Column Then
-            Me.lvwAffects.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+            Me.lvwAffects.ListViewItemSorter = New Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
             lvwAffects.Tag = -1
         Else
-            Me.lvwAffects.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+            Me.lvwAffects.ListViewItemSorter = New Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
             lvwAffects.Tag = e.Column
         End If
         ' Call the sort method to manually sort.
@@ -456,10 +456,10 @@ Public Class frmShowInfo
     End Sub
 
     Private Sub lblUsableTime_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblUsableTime.LinkClicked
-        Dim selQ As New EveHQ.Core.frmSelectQueue(hPilot.Name, SkillsNeeded, "HQF: " & itemName)
+        Dim selQ As New Core.frmSelectQueue(hPilot.Name, SkillsNeeded, "HQF: " & itemName)
         selQ.TopMost = True
         selQ.ShowDialog()
-        EveHQ.Core.SkillQueueFunctions.StartQueueRefresh = True
+        Core.SkillQueueFunctions.StartQueueRefresh = True
         Call Me.GenerateSkills(itemType)
     End Sub
 

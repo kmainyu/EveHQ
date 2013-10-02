@@ -24,6 +24,7 @@ Imports System.IO
 Imports System.Text
 Imports System.Xml
 Imports EveHQ.Core
+Imports EveHQ.Core.Requisitions
 
 
 Public Class frmItemBrowser
@@ -236,7 +237,7 @@ Public Class frmItemBrowser
                 CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("H"), 0) = "0"
             End If
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I1"), 0) = EveData.Tables(0).Rows(row).Item("basePrice").ToString
-            
+
             CompMatrix(compItems.IndexOfKey(item), compAtts.IndexOfKey("I2"), 0) = DataFunctions.GetPrice(item)
 
             If EveHQ.Core.HQ.CustomPriceList.ContainsKey(item) = True Then
@@ -2104,7 +2105,7 @@ Public Class frmItemBrowser
     Private Sub btnRequisition_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRequisition.Click
         Dim Orders As New SortedList(Of String, Integer)
         Orders.Add(itemTypeName, 1)
-        Dim newReq As New EveHQ.Core.frmAddRequisition("Item Browser", Orders)
+        Dim newReq As New frmAddRequisition("Item Browser", Orders)
         newReq.ShowDialog()
     End Sub
 

@@ -29,6 +29,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Text.RegularExpressions
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
+Imports EveHQ.EveData
 
 Public Class frmPilot
     Dim TrainingSkill As Node
@@ -503,36 +504,36 @@ Public Class frmPilot
 
     Private Sub DisplayCertificates()
 
-        Dim cCert As EveHQ.Core.Certificate
+        Dim cCert As Certificate
 
         ' Filter out the lower end certificates
         Dim certList As New SortedList
-        For Each cCertID As String In displayPilot.Certificates
-            If EveHQ.Core.HQ.Certificates.ContainsKey(cCertID) Then
-                cCert = EveHQ.Core.HQ.Certificates(cCertID)
-                If certList.Contains(cCert.ClassID) = False Then
-                    certList.Add(cCert.ClassID, cCert)
+        For Each cCertID As Integer In displayPilot.Certificates
+            If StaticData.Certificates.ContainsKey(cCertID) Then
+                cCert = StaticData.Certificates(cCertID)
+                If certList.Contains(cCert.ClassId) = False Then
+                    certList.Add(cCert.ClassId, cCert)
                 Else
-                    Dim storedGrade As Integer = CType(certList(cCert.ClassID), Core.Certificate).Grade
+                    Dim storedGrade As Integer = CType(certList(cCert.ClassId), Certificate).Grade
                     If cCert.Grade > storedGrade Then
-                        certList(cCert.ClassID) = cCert
+                        certList(cCert.ClassId) = cCert
                     End If
                 End If
             End If
         Next
 
         ' Set Styles
-        Dim CertGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-        CertGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupBackgroundColor))
-        CertGroupStyle.BackColor2 = Color.Black
-        CertGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupTextColor))
-        Dim NormalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        NormalCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotStandardSkillColor))
-        NormalCertStyle.BackColor = Color.FromArgb(128, NormalCertStyle.BackColor2)
-        NormalCertStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
-        Dim SelCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-        SelCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillHighlightColor))
-        SelCertStyle.BackColor = Color.FromArgb(32, SelCertStyle.BackColor2)
+        Dim certGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
+        certGroupStyle.BackColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupBackgroundColor))
+        certGroupStyle.BackColor2 = Color.Black
+        certGroupStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotGroupTextColor))
+        Dim normalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
+        normalCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotStandardSkillColor))
+        normalCertStyle.BackColor = Color.FromArgb(128, normalCertStyle.BackColor2)
+        normalCertStyle.TextColor = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillTextColor))
+        Dim selCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
+        selCertStyle.BackColor2 = Color.FromArgb(CInt(EveHQ.Core.HQ.Settings.PilotSkillHighlightColor))
+        selCertStyle.BackColor = Color.FromArgb(32, selCertStyle.BackColor2)
 
         'Set up Groups
         adtCerts.BeginUpdate()
@@ -541,16 +542,16 @@ Public Class frmPilot
         Dim certGroups As New SortedList
 
         If chkGroupSkills.Checked = True Then
-            For Each cCategory As EveHQ.Core.CertificateCategory In EveHQ.Core.HQ.CertificateCategories.Values
-                Dim newCertGroup As New DevComponents.AdvTree.Node("", CertGroupStyle)
+            For Each cCategory As CertificateCategory In StaticData.CertificateCategories.Values
+                Dim newCertGroup As New Node("", certGroupStyle)
                 newCertGroup.FullRowBackground = True
-                For Cell As Integer = 1 To 1
+                For cell As Integer = 1 To 1
                     newCertGroup.Cells.Add(New Cell)
-                    newCertGroup.Cells(Cell).Tag = 0
+                    newCertGroup.Cells(cell).Tag = 0
                 Next
                 newCertGroup.Text = cCategory.Name
                 newCertGroup.Tag = 0
-                certGroups.Add(cCategory.ID.ToString, newCertGroup)
+                certGroups.Add(cCategory.Id.ToString, newCertGroup)
                 adtCerts.Nodes.Add(newCertGroup)
             Next
         End If
@@ -559,9 +560,9 @@ Public Class frmPilot
 
         For Each cCert In certList.Values
             Dim certGroup As Node = CType(certGroups(cCert.CategoryID.ToString), Node)
-            Dim newCert As New Node("", NormalCertStyle)
+            Dim newCert As New Node("", normalCertStyle)
             newCert.FullRowBackground = True
-            newCert.Text = EveHQ.Core.HQ.CertificateClasses(cCert.ClassID.ToString).Name
+            newCert.Text = StaticData.CertificateClasses(cCert.ClassId.ToString).Name
             newCert.Tag = cCert.ID
             If chkGroupSkills.Checked = True Then
                 certGroup.Nodes.Add(newCert)
@@ -569,7 +570,7 @@ Public Class frmPilot
             Else
                 adtCerts.Nodes.Add(newCert)
             End If
-            newCert.StyleSelected = SelCertStyle
+            newCert.StyleSelected = selCertStyle
             newCert.Cells.Add(New Cell)
             newCert.Cells(1).Tag = cCert.Grade
             newCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & cCert.Grade.ToString), Image)

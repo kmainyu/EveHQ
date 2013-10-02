@@ -111,55 +111,55 @@ Public Class frmMarketPrices
         adtPrices.BeginUpdate()
         adtPrices.Nodes.Clear()
         Dim lvItem As New Node
-        Dim itemID As String = ""
-        Dim itemData As New EveHQ.Core.EveItem
+        Dim itemID As Integer
+        Dim itemData As New EveItem
         Dim price As Double = 0
         If chkShowOnlyCustom.Checked = True Then
-            For Each itemID In EveHQ.Core.HQ.CustomPriceList.Keys ' ID
-                itemData = EveHQ.Core.HQ.itemData(itemID)
+            For Each itemID In HQ.CustomPriceList.Keys ' ID
+                itemData = HQ.itemData(CStr(itemID))
                 If itemData.Name.ToLower.Contains(search) = True Then
                     If itemData.Published = True Then
                         lvItem = New Node
                         lvItem.Text = itemData.Name
-                        lvItem.Name = itemID
-                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
+                        lvItem.Name = CStr(itemID)
+                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
 
-                        price = DataFunctions.GetPrice(itemID)
+                        price = DataFunctions.GetPrice(CStr(itemID))
                         lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
-                    
-                    If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                        price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+
+                        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+                            price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
                             lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
-                    Else
-                        lvItem.Cells.Add(New Cell(""))
+                        Else
+                            lvItem.Cells.Add(New Cell(""))
+                        End If
+                        adtPrices.Nodes.Add(lvItem)
                     End If
-                    adtPrices.Nodes.Add(lvItem)
-                End If
                 End If
             Next
         Else
             Dim itemCells As New Dictionary(Of String, Cell)
             For Each item As String In EveHQ.Core.HQ.itemList.Keys
                 If item.ToLower.Contains(search) = True Then
-                    itemID = EveHQ.Core.HQ.itemList(item)
-                    If HQ.itemData.TryGetValue(itemID, itemData) = True Then
+                    itemID = CInt(EveHQ.Core.HQ.itemList(item))
+                    If HQ.itemData.TryGetValue(CStr(itemID), itemData) = True Then
                         If itemData.Published = True Then
                             lvItem = New Node
                             lvItem.Text = itemData.Name
                             lvItem.Name = CStr(itemData.ID)
-                            lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(itemID).BasePrice.ToString("N2")))
+                            lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
 
-                            itemCells.Add(itemID, New Cell())
-                            lvItem.Cells.Add(itemCells(itemID))
-                        
-                        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                            price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
-                            lvItem.Cells.Add(New Cell(price.ToString("N2")))
-                        Else
-                            lvItem.Cells.Add(New Cell(""))
+                            itemCells.Add(CStr(itemID), New Cell())
+                            lvItem.Cells.Add(itemCells(CStr(itemID)))
+
+                            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
+                                price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                                lvItem.Cells.Add(New Cell(price.ToString("N2")))
+                            Else
+                                lvItem.Cells.Add(New Cell(""))
+                            End If
+                            adtPrices.Nodes.Add(lvItem)
                         End If
-                        adtPrices.Nodes.Add(lvItem)
-                    End If
                     End If
                 End If
             Next
@@ -216,7 +216,7 @@ Public Class frmMarketPrices
                 mnuPriceItemName.Text = selItem.Text
                 Dim selItemID As String = selItem.Name
                 ' Check if it exists and we can edit/delete it
-                If EveHQ.Core.HQ.CustomPriceList.ContainsKey(selItemID) = True Then
+                If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(selItemID)) = True Then
                     ' Already in custom price list
                     mnuPriceAdd.Enabled = False
                     mnuPriceDelete.Enabled = True
@@ -238,7 +238,7 @@ Public Class frmMarketPrices
     Private Sub mnuPriceDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceDelete.Click
         For Each selitem As Node In adtPrices.SelectedNodes
             Dim selItemID As String = selitem.Name
-            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(selItemID) = True Then
+            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(selItemID)) = True Then
                 ' Double check it exists and delete it
                 Call EveHQ.Core.DataFunctions.DeleteCustomPrice(selItemID)
                 ' refresh that asset rather than the whole list
@@ -251,8 +251,8 @@ Public Class frmMarketPrices
         Dim itemID As String = selItem.Name
         Dim newPrice As New EveHQ.Core.frmModifyPrice(itemID, 0)
         newPrice.ShowDialog()
-        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(itemID).ToString("N2")
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
+            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(CInt(itemID)).ToString("N2")
         End If
     End Sub
     Private Sub mnuPriceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceEdit.Click
@@ -260,8 +260,8 @@ Public Class frmMarketPrices
         Dim itemID As String = selItem.Name
         Dim newPrice As New EveHQ.Core.frmModifyPrice(itemID, 0)
         newPrice.ShowDialog()
-        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(itemID).ToString("N2")
+        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
+            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(CInt(itemID)).ToString("N2")
         End If
     End Sub
     Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOnlyCustom.CheckedChanged

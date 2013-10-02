@@ -79,6 +79,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>ExternalLibs\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalLibs\System.Data.SqlServerCe.dll</HintPath>
@@ -88,6 +91,7 @@
     <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -104,8 +108,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdvTreeSorter.vb" />
+    <Compile Include="CoreReports\PieCollectedDataHelper.vb" />
+    <Compile Include="CoreReports\Reports.vb" />
     <Compile Include="Corporation.vb" />
+    <Compile Include="CustomDataFunctions.vb" />
+    <Compile Include="DataFunctions.vb" />
     <Compile Include="Entities\EveGalaticRegion.vb" />
+    <Compile Include="ItemBrowser\frmIB.Designer.vb">
+      <DependentUpon>frmIB.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ItemBrowser\frmIB.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ItemBrowser\IBSkillTree.Designer.vb">
+      <DependentUpon>IBSkillTree.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ItemBrowser\IBSkillTree.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Settings\APIAccountStatuses.vb" />
     <Compile Include="Settings\APIKeySystems.vb" />
     <Compile Include="Settings\APIKeyTypes.vb" />
@@ -123,16 +143,8 @@
     <Compile Include="frmModifyPrices.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmUpgradeMDB.Designer.vb">
-      <DependentUpon>frmUpgradeMDB.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmUpgradeMDB.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="EveHQBackup.vb" />
-    <Compile Include="Certificates.vb" />
     <Compile Include="ClassSorter.vb" />
-    <Compile Include="DataFunctions.vb" />
     <Compile Include="EveAccount.vb" />
     <Compile Include="EveAPIStatusForm.Designer.vb">
       <DependentUpon>EveAPIStatusForm.vb</DependentUpon>
@@ -167,12 +179,6 @@
       <DependentUpon>frmSelectQueue.vb</DependentUpon>
     </Compile>
     <Compile Include="frmSelectQueue.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmUpdatePricesDB.Designer.vb">
-      <DependentUpon>frmUpdatePricesDB.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmUpdatePricesDB.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="G15LCDB.vb" />
@@ -236,7 +242,6 @@
     </Compile>
     <Compile Include="Requisitions\Requisition.vb" />
     <Compile Include="Requisitions\RequisitionAsset.vb" />
-    <Compile Include="Requisitions\RequisitionDataFunctions.vb" />
     <Compile Include="Requisitions\RequisitionIGB.vb" />
     <Compile Include="Requisitions\RequisitionOrder.vb" />
     <Compile Include="RSSFeed.vb" />
@@ -282,10 +287,6 @@
     <EmbeddedResource Include="frmModifyPrices.resx">
       <DependentUpon>frmModifyPrices.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUpgradeMDB.resx">
-      <DependentUpon>frmUpgradeMDB.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="EveAPIStatusForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>EveAPIStatusForm.vb</DependentUpon>
@@ -302,9 +303,11 @@
       <DependentUpon>frmSelectQueue.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmUpdatePricesDB.resx">
-      <DependentUpon>frmUpdatePricesDB.vb</DependentUpon>
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="ItemBrowser\frmIB.resx">
+      <DependentUpon>frmIB.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemBrowser\IBSkillTree.resx">
+      <DependentUpon>IBSkillTree.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -377,6 +380,7 @@
     <Content Include="ExternalLibs\System.Data.SqlServerCe.dll" />
     <None Include="Resources\ArrowDown.png" />
     <None Include="Resources\ArrowUp.png" />
+    <None Include="Resources\Info32.png" />
     <Content Include="Resources\nochar.jpg" />
     <None Include="Resources\IGBAccess.csv" />
     <None Include="Resources\Orders321.png" />
@@ -404,6 +408,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveData\EveHQ.EveData.csproj">
+      <Project>{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}</Project>
+      <Name>EveHQ.EveData</Name>
     </ProjectReference>
     <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>

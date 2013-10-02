@@ -24,12 +24,11 @@ Imports System.Xml
 Imports System.IO
 Imports System.Windows.Forms
 Imports System.Text
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports EveHQ.EveAPI
 Imports EveHQ.Market
 Imports EveHQ.Common.Extensions
-Imports Microsoft.VisualBasic.FileIO
 Imports System.Threading.Tasks
+Imports EveHQ.EveData
 
 
 Public Class DataFunctions
@@ -485,359 +484,24 @@ Public Class DataFunctions
         End Select
     End Function
 
-    Public Shared Function GetBPTypeID(ByVal typeID As String) As String
-        Dim eveData As DataSet = GetData("SELECT * FROM invBlueprintTypes WHERE productTypeID=" & typeID & ";")
-        If eveData.Tables(0).Rows.Count = 0 Then
-            Return typeID
-        Else
-            typeID = eveData.Tables(0).Rows(0).Item("blueprintTypeID").ToString
-            Return typeID
-        End If
-    End Function
-
-    Public Shared Function GetTypeID(ByVal bpTypeID As String) As String
-        Dim eveData As DataSet = GetData("SELECT * FROM invBlueprintTypes WHERE blueprintTypeID=" & bpTypeID & ";")
-        If eveData.Tables(0).Rows.Count = 0 Then
-            Return bpTypeID
-        Else
-            bpTypeID = eveData.Tables(0).Rows(0).Item("productTypeID").ToString
-            Return bpTypeID
-        End If
-    End Function
-
-    Public Shared Function GetBPWF(ByVal typeID As String) As Double
-        Dim BPWF As Double = 0
-        Dim strSQL As String = "SELECT *"
-        strSQL &= " FROM invBlueprintTypes"
-        strSQL &= " WHERE blueprintTypeID=" & typeID & ";"
-        Dim eveData As DataSet = GetData(strSQL)
-        If eveData IsNot Nothing Then
-            If eveData.Tables(0).Rows.Count > 0 Then
-                For col As Integer = 3 To eveData.Tables(0).Columns.Count - 1
-                    ' Check for BPWF
-                    If eveData.Tables(0).Columns(col).Caption = "wasteFactor" Then
-                        BPWF = Math.Round(CDbl(eveData.Tables(0).Rows(0).Item(col).ToString))
-                        Exit For
-                    End If
-                Next
-            End If
-            eveData.Dispose()
-        End If
-        Return BPWF
-    End Function
-
-    Public Shared Function LoadItemData() As Boolean
-        Dim itemData As New DataSet
-        Try
-            HQ.itemData.Clear()
-            ' Get type data
-            ' Retribution 1.0 DB: introduced null typenames 
-            Dim strSQL As String =
-                    "SELECT invGroups.categoryID, invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.volume, invTypes.portionSize, invTypes.basePrice, invTypes.published, invTypes.marketGroupID FROM invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID where typeName is not null;"
-            itemData = GetData(strSQL)
-            ' Get meta data
-            strSQL = ""
-            Dim newItem As New EveItem
-            If itemData IsNot Nothing Then
-                If itemData.Tables(0).Rows.Count > 0 Then
-                    For Each itemRow As DataRow In itemData.Tables(0).Rows
-                        newItem = New EveItem
-                        newItem.ID = CLng(itemRow.Item("typeID"))
-                        newItem.Name = CStr(itemRow.Item("typeName"))
-                        newItem.Group = CInt(itemRow.Item("groupID"))
-                        newItem.Published = CBool(itemRow.Item("published"))
-                        newItem.Category = CInt(itemRow.Item("categoryID"))
-                        If IsDBNull(itemRow.Item("marketGroupID")) = False Then
-                            newItem.MarketGroup = CInt(itemRow.Item("marketGroupID"))
-                        Else
-                            newItem.MarketGroup = 0
-                        End If
-                        newItem.Volume = CDbl(itemRow.Item("volume"))
-                        newItem.PortionSize = CInt(itemRow.Item("portionSize"))
-                        newItem.BasePrice = CDbl(itemRow.Item("basePrice"))
-                        HQ.itemData.Add(CStr(newItem.ID), newItem)
-                    Next
-                    ' Get the MetaLevel data
-                    strSQL = "SELECT * FROM dgmTypeAttributes WHERE attributeID=633;"
-                    itemData = GetData(strSQL)
-                    If itemData.Tables(0).Rows.Count > 0 Then
-                        For Each itemRow As DataRow In itemData.Tables(0).Rows
-                            If HQ.itemData.ContainsKey(CStr(itemRow.Item("typeID"))) Then
-                                newItem = HQ.itemData(CStr(itemRow.Item("typeID")))
-                                If IsDBNull(itemRow.Item("valueInt")) = False Then
-                                    newItem.MetaLevel = CInt(itemRow.Item("valueInt"))
-                                Else
-                                    newItem.MetaLevel = CInt(itemRow.Item("valueFloat"))
-                                End If
-                            End If
-                        Next
-                        ' Get the icon data
-                        strSQL =
-                            "SELECT invTypes.typeID, eveIcons.iconFile FROM eveIcons INNER JOIN invTypes ON eveIcons.iconID = invTypes.iconID;"
-                        itemData = GetData(strSQL)
-                        If itemData.Tables(0).Rows.Count > 0 Then
-                            For Each itemRow As DataRow In itemData.Tables(0).Rows
-                                If HQ.itemData.ContainsKey(CStr(itemRow.Item("typeID"))) Then
-                                    newItem = HQ.itemData(CStr(itemRow.Item("typeID")))
-                                    If IsDBNull(itemRow.Item("iconFile")) = False Then
-                                        newItem.Icon = CStr(itemRow.Item("iconFile"))
-                                    End If
-                                End If
-                            Next
-                        End If
-                        itemData.Dispose()
-                        GC.Collect()
-                        Return True
-                    Else
-                        itemData.Dispose()
-                        Return False
-                    End If
-                Else
-                    itemData.Dispose()
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            If itemData IsNot Nothing Then
-                itemData.Dispose()
-            End If
-            MessageBox.Show("Error Loading Item Data:" & ControlChars.CrLf & ex.Message, "Load Items Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-
-    Public Shared Function LoadItems() As Boolean
-
-        ' Initally load the new item data routine
-        Call LoadItemData()
-        Call MarketFunctions.LoadItemMarketGroups()
-
-        HQ.itemList.Clear()
-        HQ.itemGroups.Clear()
-        HQ.itemCats.Clear()
-        HQ.groupCats.Clear()
-        Dim eveData As New DataSet
-        Try
-
-            Dim iKey As String = ""
-            Dim iValue As String = ""
-            Dim iParent As String = ""
-            Dim iPublished As Boolean = False
-            Dim iBasePrice As String = ""
-            ' Load categories
-            eveData = GetData("SELECT * FROM invCategories ORDER BY categoryName;")
-            For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                iValue = eveData.Tables(0).Rows(item).Item("categoryName").ToString.Trim
-                iKey = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
-                HQ.itemCats.Add(CInt(iKey), iValue)
-            Next
-            ' Load groups
-            eveData = GetData("SELECT * FROM invGroups ORDER BY groupName;")
-            For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                iValue = eveData.Tables(0).Rows(item).Item("groupName").ToString.Trim
-                iKey = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
-                iParent = eveData.Tables(0).Rows(item).Item("categoryID").ToString.Trim
-                HQ.itemGroups.Add(CInt(iKey), iValue)
-                HQ.groupCats.Add(CInt(iKey), CInt(iParent))
-            Next
-            ' Load items
-            eveData = GetData("SELECT * FROM invTypes ORDER BY typeName;")
-            For item As Integer = 0 To eveData.Tables(0).Rows.Count - 1
-                iKey = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
-                iValue = eveData.Tables(0).Rows(item).Item("typeID").ToString.Trim
-                iParent = eveData.Tables(0).Rows(item).Item("groupID").ToString.Trim
-                iBasePrice = eveData.Tables(0).Rows(item).Item("basePrice").ToString.Trim
-                iPublished = CBool(eveData.Tables(0).Rows(item).Item("published"))
-                If HQ.itemList.ContainsKey(iKey) = False Then
-                    HQ.itemList.Add(iKey, iValue)
-                End If
-            Next
-            ' Load Certificate data
-            Call LoadCertCategories()
-            Call LoadCertClasses()
-            Call LoadCerts()
-            Call LoadCertReqs()
-            ' Load the "unlock" (dependancy) data
-            If LoadUnlocks() = False Then
-                If eveData IsNot Nothing Then
-                    eveData.Dispose()
-                End If
-                Return False
-            End If
-            ' Load price data
-            LoadCustomPricesFromDB()
-
-            If eveData IsNot Nothing Then
-                eveData.Dispose()
-            End If
-
-            Return True
-
-        Catch e As Exception
-            If eveData IsNot Nothing Then
-                eveData.Dispose()
-            End If
-            Return False
-            Exit Function
-        End Try
-    End Function
-
-    Public Shared Function LoadUnlocks() As Boolean
-        Dim skillIDs(), skillLevels() As String
-        skillIDs = New String() {"182", "183", "184", "1285", "1289", "1290"}
-        skillLevels = New String() {"277", "278", "279", "1286", "1287", "1288"}
-        Try
-            Dim strSQL As String = ""
-            strSQL &=
-                "SELECT invTypes.typeID AS invTypeID, invTypes.groupID, invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, invTypes.published"
-            strSQL &= " FROM invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID"
-            strSQL &=
-                " WHERE (((dgmTypeAttributes.attributeID) IN (182,183,184,277,278,279,1285,1286,1287,1288,1289,1290)) AND (invTypes.published=1))"
-            strSQL &= " ORDER BY invTypes.typeID, dgmTypeAttributes.attributeID;"
-            Dim attData As DataSet = GetData(strSQL)
-            Dim lastAtt As String = "0"
-            Dim skillIDLevel As String = ""
-            Dim atts As Double = 0
-            Dim itemList As New ArrayList
-            Dim attValue As Double
-            For row As Integer = 0 To attData.Tables(0).Rows.Count - 1
-                If attData.Tables(0).Rows(row).Item("invTypeID").ToString <> lastAtt Then
-                    Dim attRows() As DataRow =
-                            attData.Tables(0).Select(
-                                "invTypeID=" & attData.Tables(0).Rows(row).Item("invtypeID").ToString)
-                    Dim MaxPreReqs As Integer = 10
-                    Dim PreReqSkills(MaxPreReqs) As String
-                    Dim PreReqSkillLevels(MaxPreReqs) As Integer
-                    For Each attRow As DataRow In attRows
-                        If IsDBNull(attRow.Item("valueInt")) = False Then
-                            attValue = CDbl(attRow.Item("valueInt"))
-                        Else
-                            attValue = CDbl(attRow.Item("valueFloat"))
-                        End If
-                        Select Case CInt(attRow.Item("attributeID"))
-                            Case 182
-                                PreReqSkills(1) = CStr(attValue)
-                            Case 183
-                                PreReqSkills(2) = CStr(attValue)
-                            Case 184
-                                PreReqSkills(3) = CStr(attValue)
-                            Case 1285
-                                PreReqSkills(4) = CStr(attValue)
-                            Case 1289
-                                PreReqSkills(5) = CStr(attValue)
-                            Case 1290
-                                PreReqSkills(6) = CStr(attValue)
-                            Case 277
-                                PreReqSkillLevels(1) = CInt(attValue)
-                            Case 278
-                                PreReqSkillLevels(2) = CInt(attValue)
-                            Case 279
-                                PreReqSkillLevels(3) = CInt(attValue)
-                            Case 1286
-                                PreReqSkillLevels(4) = CInt(attValue)
-                            Case 1287
-                                PreReqSkillLevels(5) = CInt(attValue)
-                            Case 1288
-                                PreReqSkillLevels(6) = CInt(attValue)
-                        End Select
-                    Next
-                    For prereq As Integer = 1 To MaxPreReqs
-                        If PreReqSkills(prereq) <> "" Then
-                            skillIDLevel = PreReqSkills(prereq) & "." & PreReqSkillLevels(prereq).ToString
-                            itemList.Add(
-                                skillIDLevel & "_" & attData.Tables(0).Rows(row).Item("invtypeID").ToString & "_" &
-                                attData.Tables(0).Rows(row).Item("groupID").ToString)
-                        End If
-                    Next
-                    lastAtt = CStr(attData.Tables(0).Rows(row).Item("invtypeID"))
-                End If
-            Next
-
-            ' Place the items into the Shared arrays
-            Dim items(2) As String
-            Dim itemUnlocked As New ArrayList
-            Dim certUnlocked As New ArrayList
-            HQ.SkillUnlocks.Clear()
-            HQ.ItemUnlocks.Clear()
-            For Each item As String In itemList
-                items = item.Split(CChar("_"))
-                If HQ.SkillUnlocks.ContainsKey(items(0)) = False Then
-                    ' Create an arraylist and add the item
-                    itemUnlocked = New ArrayList
-                    itemUnlocked.Add(items(1) & "_" & items(2))
-                    HQ.SkillUnlocks.Add(items(0), itemUnlocked)
-                Else
-                    ' Fetch the item and add the new one
-                    itemUnlocked = HQ.SkillUnlocks(items(0))
-                    itemUnlocked.Add(items(1) & "_" & items(2))
-                End If
-                If HQ.ItemUnlocks.ContainsKey(items(1)) = False Then
-                    ' Create an arraylist and add the item
-                    itemUnlocked = New ArrayList
-                    itemUnlocked.Add(items(0))
-                    HQ.ItemUnlocks.Add(items(1), itemUnlocked)
-                Else
-                    ' Fetch the item and add the new one
-                    itemUnlocked = HQ.ItemUnlocks(items(1))
-                    itemUnlocked.Add(items(0))
-                End If
-            Next
-            ' Add certificates into the skill unlocks?
-            For Each cert As Certificate In HQ.Certificates.Values
-                For Each skill As Integer In cert.RequiredSkills.Keys
-                    Dim skillID As String = skill & "." & cert.RequiredSkills(skill).ToString
-                    If HQ.CertUnlockSkills.ContainsKey(skillID) = False Then
-                        ' Create an arraylist and add the item
-                        certUnlocked = New ArrayList
-                        certUnlocked.Add(cert.ID)
-                        HQ.CertUnlockSkills.Add(skillID, certUnlocked)
-                    Else
-                        ' Fetch the item and add the new one
-                        certUnlocked = HQ.CertUnlockSkills(skillID)
-                        certUnlocked.Add(cert.ID)
-                    End If
-                Next
-                For Each certID As String In cert.RequiredCerts.Keys
-                    If HQ.CertUnlockCerts.ContainsKey(certID) = False Then
-                        ' Create an arraylist and add the item
-                        certUnlocked = New ArrayList
-                        certUnlocked.Add(cert.ID)
-                        HQ.CertUnlockCerts.Add(certID, certUnlocked)
-                    Else
-                        ' Fetch the item and add the new one
-                        certUnlocked = HQ.CertUnlockCerts(certID)
-                        certUnlocked.Add(cert.ID)
-                    End If
-                Next
-            Next
-            Return True
-        Catch e As Exception
-            Return False
-            Exit Function
-        End Try
-    End Function
-
-    Public Shared Function GetPrice(ByVal itemID As String) As Double
+    Public Shared Function GetPrice(ByVal itemID As Integer) As Double
         Return GetPrice(itemID, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
-    Public Shared Function GetPrice(ByVal itemID As String, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Double
-        Dim task As Task(Of Dictionary(Of String, Double)) = GetMarketPrices(New String() {itemID}, metric, transType)
+    Public Shared Function GetPrice(ByVal itemID As Integer, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Double
+        Dim task As Task(Of Dictionary(Of Integer, Double)) = GetMarketPrices(New Integer() {itemID}, metric, transType)
         task.Wait()
         Return task.Result.Where(Function(pair) pair.Key = itemID).Select(Function(pair) pair.Value).FirstOrDefault()
     End Function
 
 
-    Public Shared Function GetPriceAsync(ByVal itemID As String) As Task(Of Double)
+    Public Shared Function GetPriceAsync(ByVal itemID As Integer) As Task(Of Double)
         Return GetPriceAsync(itemID, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
 
-    Public Shared Function GetPriceAsync(ByVal itemID As String, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Double)
-        Dim task As Task(Of Dictionary(Of String, Double)) = GetMarketPrices(New String() {itemID}, metric, transType)
+    Public Shared Function GetPriceAsync(ByVal itemID As Integer, ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Double)
+        Dim task As Task(Of Dictionary(Of Integer, Double)) = GetMarketPrices(New Integer() {itemID}, metric, transType)
 
-        Dim task2 As Task(Of Double) = task.ContinueWith(Function(priceTask As Task(Of Dictionary(Of String, Double))) As Double
+        Dim task2 As Task(Of Double) = task.ContinueWith(Function(priceTask As Task(Of Dictionary(Of Integer, Double))) As Double
                                                              If priceTask.IsCompleted And priceTask.IsFaulted = False Then
                                                                  Return priceTask.Result(itemID)
                                                              End If
@@ -848,11 +512,11 @@ Public Class DataFunctions
         Return task2
     End Function
 
-    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String)) As Task(Of Dictionary(Of String, Double))
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of Integer)) As Task(Of Dictionary(Of Integer, Double))
         Return GetMarketPrices(itemIDs, MarketMetric.Default, MarketTransactionKind.Default)
     End Function
 
-    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Dictionary(Of String, Double))
+    Public Shared Function GetMarketPrices(ByVal itemIDs As IEnumerable(Of Integer), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Task(Of Dictionary(Of Integer, Double))
         If metric = MarketMetric.Default Then
             metric = HQ.Settings.MarketDefaultMetric
         End If
@@ -861,14 +525,14 @@ Public Class DataFunctions
         End If
 
         Dim dataTask As Task(Of IEnumerable(Of ItemOrderStats))
-        Dim resultTask As Task(Of Dictionary(Of String, Double))
+        Dim resultTask As Task(Of Dictionary(Of Integer, Double))
 
         If itemIDs IsNot Nothing Then
             If itemIDs.Any() Then
                 ' Go through the list of id's provided and only get the items that have a valid market group.
-                Dim filteredIdNumbers As IEnumerable(Of String) = (From itemId In itemIDs Where HQ.itemData.ContainsKey(itemId))
+                Dim filteredIdNumbers As IEnumerable(Of Integer) = (From itemId In itemIDs Where StaticData.Types.ContainsKey(itemId))
 
-                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where HQ.itemData(itemId).MarketGroup <> 0 Select ToInt=itemId.ToInt32())
+                Dim itemIdNumbersToRequest As IEnumerable(Of Integer) = (From itemId In filteredIdNumbers Where StaticData.Types(itemId).MarketGroupId <> 0 Select itemId)
 
                 If itemIdNumbersToRequest Is Nothing Then
                     itemIdNumbersToRequest = New List(Of Integer)
@@ -883,7 +547,7 @@ Public Class DataFunctions
                     End If
 
                     ' Still need to do this in a synchronous fashion...unfortunately
-                    resultTask = dataTask.ContinueWith(Function(markettask As Task(Of IEnumerable(Of ItemOrderStats))) As Dictionary(Of String, Double)
+                    resultTask = dataTask.ContinueWith(Function(markettask As Task(Of IEnumerable(Of ItemOrderStats))) As Dictionary(Of Integer, Double)
 
 
                                                            Return ProcessPriceTaskData(markettask, itemIDs, metric, transType)
@@ -891,39 +555,39 @@ Public Class DataFunctions
 
                                                        End Function)
                 Else
-                    resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
-                                                                                           'Empty Result
-                                                                                           Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
-                                                                                       End Function)
+                    resultTask = Task(Of Dictionary(Of Integer, Double)).Factory.TryRun(Function() As Dictionary(Of Integer, Double)
+                                                                                            'Empty Result
+                                                                                            Return itemIDs.ToDictionary(Of Integer, Double)(Function(id) id, Function(id) 0)
+                                                                                        End Function)
                 End If
             Else
-                resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
-                                                                                       'Empty Result
-                                                                                       Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
-                                                                                   End Function)
+                resultTask = Task(Of Dictionary(Of Integer, Double)).Factory.TryRun(Function() As Dictionary(Of Integer, Double)
+                                                                                        'Empty Result
+                                                                                        Return itemIDs.ToDictionary(Of Integer, Double)(Function(id) id, Function(id) 0)
+                                                                                    End Function)
 
             End If
         Else
-            resultTask = Task(Of Dictionary(Of String, Double)).Factory.TryRun(Function() As Dictionary(Of String, Double)
-                                                                                   'Empty Result
-                                                                                   Return itemIDs.ToDictionary(Of String, Double)(Function(id) id, Function(id) 0)
-                                                                               End Function)
+            resultTask = Task(Of Dictionary(Of Integer, Double)).Factory.TryRun(Function() As Dictionary(Of Integer, Double)
+                                                                                    'Empty Result
+                                                                                    Return itemIDs.ToDictionary(Of Integer, Double)(Function(id) id, Function(id) 0)
+                                                                                End Function)
         End If
 
         Return resultTask
     End Function
 
-    Private Shared Function ProcessPriceTaskData(markettask As Task(Of IEnumerable(Of ItemOrderStats)), itemIDs As IEnumerable(Of String), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Dictionary(Of String, Double)
+    Private Shared Function ProcessPriceTaskData(markettask As Task(Of IEnumerable(Of ItemOrderStats)), itemIDs As IEnumerable(Of Integer), ByVal metric As MarketMetric, ByVal transType As MarketTransactionKind) As Dictionary(Of Integer, Double)
 
         ' TODO: Web exceptions and otheres can be thrown here... need to protect upstream code.
 
         ' TODO: ItemIds are integers but through out the existing code they are inconsistently treated as strings (or longs...)... must fix that.
-        Dim itemPrices As New Dictionary(Of String, Double)
+        Dim itemPrices As Dictionary(Of Integer, Double)
 
-        Dim distinctItems As IEnumerable(Of String) = itemIDs.Distinct()
+        Dim distinctItems As IEnumerable(Of Integer) = itemIDs.Distinct()
 
         ' Initialize all items to have a default price of 0 (provides a safe default for items being requested that do not have a valid marketgroup)
-        itemPrices = distinctItems.ToDictionary(Of String, Double)(Function(item) item, Function(item) 0)
+        itemPrices = distinctItems.ToDictionary(Of Integer, Double)(Function(item) item, Function(item) 0)
 
         If markettask.Exception Is Nothing Then
 
@@ -936,12 +600,12 @@ Public Class DataFunctions
                     End If
                 End If
 
-                Dim testItem As String
-                For Each itemId As String In distinctItems 'We only need to process the unique id results.
+                Dim testItem As Integer
+                For Each itemId As Integer In distinctItems 'We only need to process the unique id results.
                     Try
                         testItem = itemId
                         If result IsNot Nothing Then
-                            itemResult = (From item In result Where item.ItemTypeId.ToString() = testitem Select item).FirstOrDefault()
+                            itemResult = (From item In result Where item.ItemTypeId = testItem Select item).FirstOrDefault()
                         End If
 
                         ' If there is a custom price set, use that if not get it from the provider.
@@ -985,15 +649,15 @@ Public Class DataFunctions
                             End Select
                         Else
                             ' failing all that, fallback onto the base price.
-                            If HQ.itemData.ContainsKey(itemId) Then
-                                itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                            If StaticData.Types.ContainsKey(itemId) Then
+                                itemPrices(itemId) = StaticData.Types(itemId).BasePrice
                             Else
                                 itemPrices(itemId) = 0
                             End If
                         End If
                     Catch e As Exception
-                        If HQ.itemData.ContainsKey(itemId) Then
-                            itemPrices(itemId) = HQ.itemData(itemId).BasePrice
+                        If StaticData.Types.ContainsKey(itemId) Then
+                            itemPrices(itemId) = StaticData.Types(itemId).BasePrice
                         Else
                             itemPrices(itemId) = 0
                         End If
@@ -1009,47 +673,6 @@ Public Class DataFunctions
         Return itemPrices
     End Function
 
-
-
-#Region "MSSQL Data Conversion Routines"
-
-    Public Shared Sub AddSQLAttributeGroupColumn(ByVal connection As SqlConnection)
-        Dim strSQL As String = "ALTER TABLE dgmAttributeTypes ADD attributeGroup INTEGER DEFAULT 0;"
-        Dim keyCommand As New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        strSQL = "UPDATE dgmAttributeTypes SET attributeGroup=0;"
-        keyCommand = New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-        Dim line As String = My.Resources.attributeGroups.Replace(ControlChars.CrLf, Chr(13))
-        Dim lines() As String = line.Split(Chr(13))
-        ' Read the first line which is a header line
-        For Each line In lines
-            If line.StartsWith("attributeID") = False And line <> "" Then
-                Dim fields() As String = line.Split(",".ToCharArray)
-                Dim strSQL2 As String = "UPDATE dgmAttributeTypes SET attributeGroup=" & fields(1) &
-                                        " WHERE attributeID=" & fields(0) & ";"
-                Dim keyCommand2 As New SqlCommand(strSQL2, connection)
-                keyCommand2.ExecuteNonQuery()
-            End If
-        Next
-    End Sub
-
-    Public Shared Sub CorrectSQLEveUnits(ByVal connection As SqlConnection)
-        Dim strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
-        Dim keyCommand As New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-    End Sub
-
-    Public Shared Sub DoSQLQuery(ByVal connection As SqlConnection)
-        Dim strSQL As String = My.Resources.SQLQueries.ToString
-        Dim keyCommand As New SqlCommand(strSQL, connection)
-        keyCommand.ExecuteNonQuery()
-    End Sub
-
-#End Region ' Converts the Base CCP Data Export into something EveHQ can use
-
-
-
     Public Shared Function LoadCustomPricesFromDB() As Boolean
         Dim eveData As New DataSet
         Try
@@ -1057,7 +680,7 @@ Public Class DataFunctions
             If eveData IsNot Nothing Then
                 HQ.CustomPriceList.Clear()
                 For Each priceRow As DataRow In eveData.Tables(0).Rows
-                    HQ.CustomPriceList.Add(CStr(priceRow.Item("typeID")), CDbl(priceRow.Item("price")))
+                    HQ.CustomPriceList.Add(CInt(priceRow.Item("typeID")), CDbl(priceRow.Item("price")))
                 Next
             Else
                 ' Doesn't look like the table is there so try creating it
@@ -1187,19 +810,19 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Function SetCustomPrice(ByVal typeID As Long, ByVal UserPrice As Double, ByVal DBOpen As Boolean) _
+    Public Shared Function SetCustomPrice(ByVal typeID As Integer, ByVal userPrice As Double, ByVal dbOpen As Boolean) _
         As Boolean
         ' Store the user's price in the database
-        If HQ.CustomPriceList.ContainsKey(typeID.ToString) = False Then
+        If HQ.CustomPriceList.ContainsKey(typeID) = False Then
             ' Add the data
-            If AddCustomPrice(typeID.ToString, UserPrice, DBOpen) = True Then
+            If AddCustomPrice(typeID, userPrice, DBOpen) = True Then
                 Return True
             Else
                 Return False
             End If
         Else
             ' Edit the data
-            If EditCustomPrice(typeID.ToString, UserPrice, DBOpen) = True Then
+            If EditCustomPrice(typeID, userPrice, DBOpen) = True Then
                 Return True
             Else
                 Return False
@@ -1207,7 +830,7 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Function AddCustomPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) _
+    Public Shared Function AddCustomPrice(ByVal itemID As Integer, ByVal price As Double, ByVal dbOpen As Boolean) _
         As Boolean
         HQ.CustomPriceList(itemID) = price
         Dim priceSQL As String = "INSERT INTO customPrices (typeID, price, priceDate) VALUES (" & itemID & ", " &
@@ -1235,7 +858,7 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Function EditCustomPrice(ByVal itemID As String, ByVal price As Double, ByVal DBOpen As Boolean) _
+    Public Shared Function EditCustomPrice(ByVal itemID As Integer, ByVal price As Double, ByVal dbOpen As Boolean) _
         As Boolean
         HQ.CustomPriceList(itemID) = price
         Dim priceSQL As String = "UPDATE customPrices SET price=" & price.ToString(culture) & ", priceDate='" &
@@ -1263,7 +886,7 @@ Public Class DataFunctions
         End If
     End Function
 
-    Public Shared Function DeleteCustomPrice(ByVal itemID As String) As Boolean
+    Public Shared Function DeleteCustomPrice(ByVal itemID As Integer) As Boolean
         ' Double check it exists and delete it
         If HQ.CustomPriceList.ContainsKey(itemID) = True Then
             HQ.CustomPriceList.Remove(itemID)
@@ -1946,104 +1569,6 @@ Public Class DataFunctions
         Return FinalIDs
     End Function
 
-    Public Shared Function CheckDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
-        Dim strConnection As String = ""
-        Select Case HQ.Settings.DBFormat
-            Case 0 ' SQL CE
-                strConnection = "Data Source = " & ControlChars.Quote & HQ.Settings.DBFilename & ControlChars.Quote &
-                                ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
-                Dim connection As New SqlCeConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    If silentResponse = False Then
-                        MessageBox.Show("Connected successfully to SQL CE database", "Connection Successful",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                    Return True
-                Catch ex As Exception
-                    If silentResponse = False Then
-                        MessageBox.Show(ex.Message, "Error Opening SQL CE Database", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error)
-                    End If
-                    Return False
-                End Try
-            Case 1 ' SQL
-                strConnection = "Server=" & HQ.Settings.DBServer
-                If HQ.Settings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & HQ.Settings.DBName & "; User ID=" &
-                                     HQ.Settings.DBUsername & "; Password=" & HQ.Settings.DBPassword & ";"
-                Else
-                    strConnection += "; Database = " & HQ.Settings.DBName & "; Integrated Security = SSPI;"
-                End If
-                Dim connection As New SqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    If silentResponse = False Then
-                        MessageBox.Show("Connected successfully to MS SQL database", "Connection Successful",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                    Return True
-                Catch ex As Exception
-                    If silentResponse = False Then
-                        MessageBox.Show(ex.Message, "Error Opening MS SQL Database", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error)
-                    End If
-                    Return False
-                End Try
-        End Select
-    End Function
-
-    Public Shared Function CheckDataDatabaseConnection(ByVal silentResponse As Boolean) As Boolean
-        Dim strConnection As String = ""
-        Select Case HQ.Settings.DBFormat
-            Case 0 ' SQL CE
-                strConnection = "Data Source = " & ControlChars.Quote & HQ.Settings.DBDataFilename &
-                                ControlChars.Quote & ";" & "Max Database Size = 512; Max Buffer Size = 2048;"
-                Dim connection As New SqlCeConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    If silentResponse = False Then
-                        MessageBox.Show("Connected successfully to SQL CE database", "Connection Successful",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                    Return True
-                Catch ex As Exception
-                    If silentResponse = False Then
-                        MessageBox.Show(ex.Message, "Error Opening SQL CE Database", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error)
-                    End If
-                    Return False
-                End Try
-            Case 1 ' SQL
-                strConnection = "Server=" & HQ.Settings.DBServer
-                If HQ.Settings.DBSQLSecurity = True Then
-                    strConnection += "; Database = " & HQ.Settings.DBDataName & "; User ID=" &
-                                     HQ.Settings.DBUsername & "; Password=" & HQ.Settings.DBPassword & ";"
-                Else
-                    strConnection += "; Database = " & HQ.Settings.DBDataName & "; Integrated Security = SSPI;"
-                End If
-                Dim connection As New SqlConnection(strConnection)
-                Try
-                    connection.Open()
-                    connection.Close()
-                    If silentResponse = False Then
-                        MessageBox.Show("Connected successfully to MS SQL database", "Connection Successful",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                    Return True
-                Catch ex As Exception
-                    If silentResponse = False Then
-                        MessageBox.Show(ex.Message, "Error Opening MS SQL Database", MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error)
-                    End If
-                    Return False
-                End Try
-        End Select
-    End Function
-
 #Region "Solar System & Station Data Routines"
 
     Public Shared Function LoadSolarSystems() As Boolean
@@ -2199,430 +1724,6 @@ Public Class DataFunctions
 
 #End Region
 
-#Region "Certificate Load Routines"
-
-    Public Shared Function LoadCertCategories() As Boolean
-        Dim strSQL As String = "SELECT * FROM crtCategories;"
-        Dim CertData As DataSet = GetData(strSQL)
-        If CertData IsNot Nothing Then
-            If CertData.Tables(0).Rows.Count > 0 Then
-                HQ.CertificateCategories.Clear()
-                For Each CertRow As DataRow In CertData.Tables(0).Rows
-                    Dim NewCat As New CertificateCategory
-                    NewCat.ID = CInt(CertRow.Item("categoryID"))
-                    NewCat.Name = CertRow.Item("categoryName").ToString
-                    HQ.CertificateCategories.Add(NewCat.ID.ToString, NewCat)
-                Next
-                CertData.Dispose()
-                Return True
-            Else
-                CertData.Dispose()
-                Return False
-            End If
-        Else
-            CertData.Dispose()
-            Return False
-        End If
-    End Function
-
-    Public Shared Function LoadCertClasses() As Boolean
-        Dim strSQL As String = "SELECT * FROM crtClasses;"
-        Dim CertData As DataSet = GetData(strSQL)
-        If CertData IsNot Nothing Then
-            If CertData.Tables(0).Rows.Count > 0 Then
-                HQ.CertificateClasses.Clear()
-                For Each CertRow As DataRow In CertData.Tables(0).Rows
-                    Dim NewClass As New CertificateClass
-                    NewClass.ID = CInt(CertRow.Item("classID"))
-                    NewClass.Name = CertRow.Item("className").ToString
-                    HQ.CertificateClasses.Add(NewClass.ID.ToString, NewClass)
-                Next
-                CertData.Dispose()
-                Return True
-            Else
-                CertData.Dispose()
-                Return False
-            End If
-        Else
-            CertData.Dispose()
-            Return False
-        End If
-    End Function
-
-    Public Shared Function LoadCerts() As Boolean
-        Dim strSQL As String = "SELECT * FROM crtCertificates;"
-        Dim CertData As DataSet = GetData(strSQL)
-        If CertData IsNot Nothing Then
-            If CertData.Tables(0).Rows.Count > 0 Then
-                HQ.Certificates.Clear()
-                For Each CertRow As DataRow In CertData.Tables(0).Rows
-                    Dim NewCert As New Certificate
-                    NewCert.ID = CInt(CertRow.Item("certificateID"))
-                    NewCert.CategoryID = CInt(CertRow.Item("categoryID"))
-                    NewCert.ClassID = CInt(CertRow.Item("classID"))
-                    NewCert.Description = CStr(CertRow.Item("description"))
-                    NewCert.Grade = CInt(CertRow.Item("grade"))
-                    NewCert.CorpID = CInt(CertRow.Item("corpID"))
-                    HQ.Certificates.Add(NewCert.ID.ToString, NewCert)
-                Next
-                CertData.Dispose()
-                Return True
-            Else
-                CertData.Dispose()
-                Return False
-            End If
-        Else
-            CertData.Dispose()
-            Return False
-        End If
-    End Function
-
-    Public Shared Function LoadCertReqs() As Boolean
-        Dim strSQL As String = "SELECT * FROM crtRelationships;"
-        Dim CertData As DataSet = GetData(strSQL)
-        If CertData IsNot Nothing Then
-            If CertData.Tables(0).Rows.Count > 0 Then
-                For Each CertRow As DataRow In CertData.Tables(0).Rows
-                    Dim certID As String = CertRow.Item("childID").ToString
-                    If HQ.Certificates.ContainsKey(certID) = True Then
-                        Dim NewCert As Certificate = HQ.Certificates(certID)
-                        If IsDBNull(CertRow.Item("parentID")) Then
-                            ' This is a skill ID
-                            NewCert.RequiredSkills.Add(CInt(CertRow.Item("parentTypeID")), CInt(CertRow.Item("parentLevel")))
-                        Else
-                            ' This is a certID
-                            NewCert.RequiredCerts.Add(CertRow.Item("parentID").ToString, 1)
-                        End If
-                    End If
-                Next
-                CertData.Dispose()
-                Return True
-            Else
-                CertData.Dispose()
-                Return False
-            End If
-        Else
-            CertData.Dispose()
-            Return False
-        End If
-    End Function
-
-#End Region
-
-#Region "Core Cache Routines"
-
-    Public Shared Function CreateCoreCache() As Boolean
-
-        ' Check for existence of a core cache folder in the application directory
-        Dim CoreCacheFolder As String = ""
-        If HQ.IsUsingLocalFolders = False Then
-            CoreCacheFolder = Path.Combine(HQ.AppDataFolder, "CoreCache")
-        Else
-            CoreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
-        End If
-        If My.Computer.FileSystem.DirectoryExists(CoreCacheFolder) = False Then
-            ' Create the cache folder if it doesn't exist
-            My.Computer.FileSystem.CreateDirectory(CoreCacheFolder)
-        End If
-
-        ' Dump core data to folder
-        Dim s As FileStream
-        Dim f As BinaryFormatter
-
-        ' Item Data
-        s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.itemData)
-        s.Flush()
-        s.Close()
-
-        ' Item Market Groups
-        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.ItemMarketGroups)
-        s.Flush()
-        s.Close()
-
-        ' Item List
-        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.itemList)
-        s.Flush()
-        s.Close()
-
-        ' Item Groups
-        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.itemGroups)
-        s.Flush()
-        s.Close()
-
-        ' Items Cats
-        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.itemCats)
-        s.Flush()
-        s.Close()
-
-        ' Group Cats
-        s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.groupCats)
-        s.Flush()
-        s.Close()
-
-        ' Cert Categories
-        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.CertificateCategories)
-        s.Flush()
-        s.Close()
-
-        ' Cert Classes
-        s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.CertificateClasses)
-        s.Flush()
-        s.Close()
-
-        ' Certs
-        s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.Certificates)
-        s.Flush()
-        s.Close()
-
-        ' Unlocks
-        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.ItemUnlocks)
-        s.Flush()
-        s.Close()
-
-        ' SkillUnlocks
-        s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.SkillUnlocks)
-        s.Flush()
-        s.Close()
-
-        ' CertCerts
-        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.CertUnlockCerts)
-        s.Flush()
-        s.Close()
-
-        ' CertSkills
-        s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.CertUnlockSkills)
-        s.Flush()
-        s.Close()
-
-        ' Solar Systems
-        s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.SolarSystemsById)
-        s.Flush()
-        s.Close()
-
-        ' Stations
-        s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Create)
-        f = New BinaryFormatter
-        f.Serialize(s, HQ.Stations)
-        s.Flush()
-        s.Close()
-
-        ' Write the current version
-        Dim sw As New StreamWriter(Path.Combine(CoreCacheFolder, "version.txt"))
-        sw.Write(LastCacheRefresh)
-        sw.Flush()
-        sw.Close()
-
-        Return True
-    End Function
-
-    Public Shared Function LoadCoreCache() As Boolean
-
-        Try
-
-            ' Check for existence of a core cache folder in the application directory
-            Dim CoreCacheFolder As String = ""
-            If HQ.IsUsingLocalFolders = False Then
-                CoreCacheFolder = Path.Combine(HQ.AppDataFolder, "CoreCache")
-            Else
-                CoreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
-            End If
-            If My.Computer.FileSystem.DirectoryExists(CoreCacheFolder) = True Then
-
-                ' Check for last cache version file
-                Dim UseCoreCache As Boolean = False
-                If My.Computer.FileSystem.FileExists(Path.Combine(CoreCacheFolder, "version.txt")) = True Then
-                    Dim sr As New StreamReader(Path.Combine(CoreCacheFolder, "version.txt"))
-                    Dim cacheVersion As String = sr.ReadToEnd
-                    sr.Close()
-                    If IsUpdateAvailable(cacheVersion, LastCacheRefresh) = True Then
-                        ' Delete the existing cache folder and force a rebuild
-                        My.Computer.FileSystem.DeleteDirectory(CoreCacheFolder, DeleteDirectoryOption.DeleteAllContents)
-                        HQ.WriteLogEvent("Core Cache outdated - rebuild of cache data required")
-                        UseCoreCache = False
-                    Else
-                        HQ.WriteLogEvent("Core Cache still relevant - using existing cache data")
-                        UseCoreCache = True
-                    End If
-                Else
-                    ' Delete the existing cache folder and force a rebuild
-                    My.Computer.FileSystem.DeleteDirectory(CoreCacheFolder, DeleteDirectoryOption.DeleteAllContents)
-                    HQ.WriteLogEvent("Core Cache version file not found - rebuild of cache data required")
-                    UseCoreCache = False
-                End If
-
-                If UseCoreCache = True Then
-
-                    Try
-                        ' Try to load from cache... in the event of a corrupt cache file, drop & rebuild
-
-                        ' Get files from dump
-                        Dim s As FileStream
-                        Dim f As BinaryFormatter
-
-                        ' Item Data
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "Items.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.itemData = CType(f.Deserialize(s), SortedList(Of String, EveItem))
-                        s.Close()
-
-                        ' Item Market Groups
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemMarketGroups.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.ItemMarketGroups = CType(f.Deserialize(s), SortedList(Of String, String))
-                        s.Close()
-
-                        ' Item List
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemList.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.itemList = CType(f.Deserialize(s), SortedList(Of String, String))
-                        s.Close()
-
-                        ' Item Groups
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemGroups.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.itemGroups = CType(f.Deserialize(s), SortedList(Of Integer, String))
-                        s.Close()
-
-                        ' Items Cats
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemCats.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.itemCats = CType(f.Deserialize(s), SortedList(Of Integer, String))
-                        s.Close()
-
-                        ' Group Cats
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "GroupCats.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.groupCats = CType(f.Deserialize(s), SortedList(Of Integer, Integer))
-                        s.Close()
-
-                        ' Cert Categories
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCats.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.CertificateCategories = CType(f.Deserialize(s), SortedList(Of String, CertificateCategory))
-                        s.Close()
-
-                        ' Cert Classes
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertClasses.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.CertificateClasses = CType(f.Deserialize(s), SortedList(Of String, CertificateClass))
-                        s.Close()
-
-                        ' Certs
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "Certs.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.Certificates = CType(f.Deserialize(s), SortedList(Of String, Certificate))
-                        s.Close()
-
-                        ' Unlocks
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "ItemUnlocks.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.ItemUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                        s.Close()
-
-                        ' SkillUnlocks
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "SkillUnlocks.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.SkillUnlocks = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                        s.Close()
-
-                        ' CertCerts
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertCerts.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.CertUnlockCerts = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                        s.Close()
-
-                        ' CertSkills
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "CertSkills.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.CertUnlockSkills = CType(f.Deserialize(s), SortedList(Of String, ArrayList))
-                        s.Close()
-
-                        ' SolarSystemsById
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "Systems.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.SolarSystemsById = CType(f.Deserialize(s), SortedList(Of String, SolarSystem))
-                        s.Close()
-
-                        ' Stations
-                        s = New FileStream(Path.Combine(CoreCacheFolder, "Stations.bin"), FileMode.Open)
-                        f = New BinaryFormatter
-                        HQ.Stations = CType(f.Deserialize(s), SortedList(Of String, Station))
-                        s.Close()
-
-                        ' Load price data
-                        LoadCustomPricesFromDB()
-
-                        Return True
-                    Catch ex As Exception
-                        ' todo log
-                        Return False
-
-                    End Try
-                Else
-                    Return False
-                End If
-
-            Else
-                Return False
-            End If
-
-        Catch e As Exception
-            ' Load Core Cache failed
-            Return False
-        End Try
-    End Function
-
-    Private Shared Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
-        If localVer = remoteVer Then
-            Return False
-        Else
-            Dim localVers() As String = localVer.Split(CChar("."))
-            Dim remoteVers() As String = remoteVer.Split(CChar("."))
-            Dim requiresUpdate As Boolean = False
-            For ver As Integer = 0 To 3
-                If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
-                    If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
-                        requiresUpdate = True
-                        Exit For
-                    Else
-                        requiresUpdate = False
-                        Exit For
-                    End If
-                End If
-            Next
-            Return requiresUpdate
-        End If
-    End Function
-
-#End Region
 End Class
 
 Public Enum DatabaseFormat

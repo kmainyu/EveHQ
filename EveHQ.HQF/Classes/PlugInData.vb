@@ -270,7 +270,7 @@ Public Class PlugInData
 #End Region
 
 #Region "Fitting Link Parser"
-    'fitting://eitt/28710:2032*1:2420*4:15681*4:15905*1:17498*2:19191*1:19814*2:24348*3:26416*1:26418*1
+    'fitting://evehq/28710:2032*1:2420*4:15681*4:15905*1:17498*2:19191*1:19814*2:24348*3:26416*1:26418*1
     '?sourceURL=http://eve.battleclinic.com/loadout/21813-Golem-that-actually-has-TP-039-s.html
 
     Private Function ParseFittingLink(ByVal dna As String) As DNAFitting

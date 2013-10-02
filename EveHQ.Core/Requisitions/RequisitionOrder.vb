@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2012  EveHQ Development Team
+' Copyright © 2012-2013 EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,118 +17,119 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-''' <summary>
-''' Storage class for a single item within a Requisition
-''' </summary>
-''' <remarks></remarks>
-Public Class RequisitionOrder
-    Implements ICloneable
-
-    Dim cID As String ' Key for Requisition, matches ID in DB
-    Dim cItemID As String
-    Dim cItemName As String
-    Dim cItemQuantity As Integer
-    Dim cSource As String ' Core feature or Plug-in
-    Dim cRequestDate As Date
-
+Namespace Requisitions
     ''' <summary>
-    ''' Returns the unique ID of the item in the requisition list
+    ''' Storage class for a single item within a Requisition
     ''' </summary>
-    ''' <value></value>
-    ''' <returns>The unique ID of the item</returns>
-    ''' <remarks>This is the key for the Requisition.Orders collection and also matches the ID in the DB</remarks>
-    Public Property ID() As String
-        Get
-            Return cID
-        End Get
-        Set(ByVal value As String)
-            cID = value
-        End Set
-    End Property
-
-    ''' <summary>
-    ''' Gets or sets the CCP typeID of the item in the order
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns>The typeName of the item in the order</returns>
     ''' <remarks></remarks>
-    Public Property ItemName() As String
-        Get
-            Return cItemName
-        End Get
-        Set(ByVal value As String)
-            cItemName = value
-        End Set
-    End Property
+    Public Class RequisitionOrder
+        Implements ICloneable
 
-    ''' <summary>
-    ''' Gets or sets the CCP typeID of the item in the order
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns>The typeID of the item in the order</returns>
-    ''' <remarks></remarks>
-    Public Property ItemID() As String
-        Get
-            Return cItemID
-        End Get
-        Set(ByVal value As String)
-            cItemID = value
-        End Set
-    End Property
+        Dim _cID As String ' Key for Requisition, matches ID in DB
+        Dim _cItemID As String
+        Dim _cItemName As String
+        Dim _cItemQuantity As Integer
+        Dim _cSource As String ' Core feature or Plug-in
+        Dim _cRequestDate As Date
 
-    ''' <summary>
-    ''' Gets or sets the quantity of the item in the order
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns>The order quantity</returns>
-    ''' <remarks></remarks>
-    Public Property ItemQuantity() As Integer
-        Get
-            Return cItemQuantity
-        End Get
-        Set(ByVal value As Integer)
-            cItemQuantity = value
-        End Set
-    End Property
+        ''' <summary>
+        ''' Returns the unique ID of the item in the requisition list
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The unique ID of the item</returns>
+        ''' <remarks>This is the key for the Requisition.Orders collection and also matches the ID in the DB</remarks>
+        Public Property ID() As String
+            Get
+                Return _cID
+            End Get
+            Set(ByVal value As String)
+                _cID = value
+            End Set
+        End Property
 
-    ''' <summary>
-    ''' Gets or sets the EveHQ core feature or plug-in used to place or modify this order
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns>The core feature or plug-in used to place or modify the order</returns>
-    ''' <remarks></remarks>
-    Public Property Source() As String
-        Get
-            Return cSource
-        End Get
-        Set(ByVal value As String)
-            cSource = value
-        End Set
-    End Property
+        ''' <summary>
+        ''' Gets or sets the CCP typeID of the item in the order
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The typeName of the item in the order</returns>
+        ''' <remarks></remarks>
+        Public Property ItemName() As String
+            Get
+                Return _cItemName
+            End Get
+            Set(ByVal value As String)
+                _cItemName = value
+            End Set
+        End Property
 
-    ''' <summary>
-    ''' Gets or sets the date on which the order was originally made
-    ''' </summary>
-    ''' <value></value>
-    ''' <returns>The date the order was originally made</returns>
-    ''' <remarks></remarks>
-    Public Property RequestDate() As Date
-        Get
-            Return cRequestDate
-        End Get
-        Set(ByVal value As Date)
-            cRequestDate = value
-        End Set
-    End Property
+        ''' <summary>
+        ''' Gets or sets the CCP typeID of the item in the order
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The typeID of the item in the order</returns>
+        ''' <remarks></remarks>
+        Public Property ItemID() As String
+            Get
+                Return _cItemID
+            End Get
+            Set(ByVal value As String)
+                _cItemID = value
+            End Set
+        End Property
 
-    ''' <summary>
-    ''' Method for cloning a requisition 
-    ''' </summary>
-    ''' <returns>A copy of the instance of EveHQ.Core.Requisition from where the function was called</returns>
-    ''' <remarks></remarks>
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim ClonedOrder As RequisitionOrder = CType(Me.MemberwiseClone, RequisitionOrder)
-        Return ClonedOrder
-    End Function
-End Class
+        ''' <summary>
+        ''' Gets or sets the quantity of the item in the order
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The order quantity</returns>
+        ''' <remarks></remarks>
+        Public Property ItemQuantity() As Integer
+            Get
+                Return _cItemQuantity
+            End Get
+            Set(ByVal value As Integer)
+                _cItemQuantity = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Gets or sets the EveHQ core feature or plug-in used to place or modify this order
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The core feature or plug-in used to place or modify the order</returns>
+        ''' <remarks></remarks>
+        Public Property Source() As String
+            Get
+                Return _cSource
+            End Get
+            Set(ByVal value As String)
+                _cSource = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Gets or sets the date on which the order was originally made
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The date the order was originally made</returns>
+        ''' <remarks></remarks>
+        Public Property RequestDate() As Date
+            Get
+                Return _cRequestDate
+            End Get
+            Set(ByVal value As Date)
+                _cRequestDate = value
+            End Set
+        End Property
+
+        ''' <summary>
+        ''' Method for cloning a requisition 
+        ''' </summary>
+        ''' <returns>A copy of the instance of Requisition from where the function was called</returns>
+        ''' <remarks></remarks>
+        Public Function Clone() As Object Implements ICloneable.Clone
+            Dim clonedOrder As RequisitionOrder = CType(MemberwiseClone(), RequisitionOrder)
+            Return clonedOrder
+        End Function
+    End Class
+End Namespace

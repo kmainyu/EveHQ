@@ -193,8 +193,4 @@ Public Class frmBackupEveHQ
             btnRestore.Enabled = False
         End If
     End Sub
-
-    Private Sub btnBackupSQLDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBackupSQLDB.Click
-        Call EveHQ.Core.EveHQBackup.BackupSQLDB()
-    End Sub
 End Class

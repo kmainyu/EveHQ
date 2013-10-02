@@ -19,13 +19,14 @@
 '=========================================================================
 Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports EveHQ.EveData
 
 Public Class frmModifyPrices
 
 #Region "Class Variables"
 
-    Dim ItemIDList As New List(Of String)
-    Dim PricesChanged As Boolean = False
+    ReadOnly _itemIDList As New List(Of Integer)
+    Dim _pricesChanged As Boolean = False
 
 #End Region
 
@@ -40,29 +41,29 @@ Public Class frmModifyPrices
 
     End Sub
 
-    Public Sub New(ItemIDs As List(Of String))
+    Public Sub New(itemIDs As List(Of Integer))
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.ItemIDList = ItemIDs
-        Call Me.UpdatePriceMatrix()
+        _itemIDList = itemIDs
+        UpdatePriceMatrix()
 
     End Sub
 
     Private Sub UpdatePriceMatrix()
 
         ' Set style for the price list
-        Dim NumberStyle As New DevComponents.DotNetBar.ElementStyle
-        NumberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
+        Dim numberStyle As New DevComponents.DotNetBar.ElementStyle
+        numberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
 
         adtPrices.BeginUpdate()
         adtPrices.Nodes.Clear()
 
-        For Each itemID As String In Me.ItemIDList
+        For Each itemID As Integer In _itemIDList
 
-            Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(itemID)
+            Dim item As EveType = StaticData.Types(itemID)
             Dim itemNode As New DevComponents.AdvTree.Node
             itemNode.Text = item.Name
             itemNode.Name = item.ID.ToString
@@ -73,7 +74,7 @@ Public Class frmModifyPrices
             MarketPrice = DataFunctions.GetPrice(itemID)
 
             Dim qCell As New DevComponents.AdvTree.Cell(MarketPrice.ToString("N2"))
-            qCell.StyleNormal = NumberStyle
+            qCell.StyleNormal = numberStyle
             itemNode.Cells.Add(qCell)
             ' Add Custom Price cell
             Dim CustomPrice As Double = 0
@@ -81,7 +82,7 @@ Public Class frmModifyPrices
                 CustomPrice = EveHQ.Core.HQ.CustomPriceList(itemID)
             End If
             Dim mlCell As New DevComponents.AdvTree.Cell(CustomPrice.ToString("N2"))
-            mlCell.StyleNormal = NumberStyle
+            mlCell.StyleNormal = numberStyle
             itemNode.Cells.Add(mlCell)
 
             ' Add Node to the list
@@ -102,7 +103,7 @@ Public Class frmModifyPrices
             e.NewText = "0"
         End If
         If CDbl(e.Cell.Text) <> CDbl(e.NewText) Then
-            PricesChanged = True
+            _pricesChanged = True
         End If
     End Sub
 
@@ -110,7 +111,7 @@ Public Class frmModifyPrices
 
     Private Sub btnCancel_Click(sender As System.Object, e As System.EventArgs) Handles btnCancel.Click
         ' Check if the prices have changed before closing
-        If PricesChanged = True Then
+        If _pricesChanged = True Then
             Dim msg As String = "At least one price has changed. Are you sure you wish to cancel the changes?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.Yes Then
@@ -127,7 +128,7 @@ Public Class frmModifyPrices
 
     Private Sub btnAccept_Click(sender As System.Object, e As System.EventArgs) Handles btnAccept.Click
         ' Check if anything has changed first
-        If PricesChanged = False Then
+        If _pricesChanged = False Then
             Me.DialogResult = Windows.Forms.DialogResult.Cancel
             Me.Close()
         Else
@@ -172,7 +173,7 @@ Public Class frmModifyPrices
 
         ' Add the prices
         For Each PriceNode As Node In adtPrices.Nodes
-            Dim itemID As Long = CLng(PriceNode.Name)
+            Dim itemID As Integer = CInt(PriceNode.Name)
 
             Dim CustomPrice As Double = CDbl(PriceNode.Cells(2).Text)
 
@@ -182,7 +183,7 @@ Public Class frmModifyPrices
             If CustomPrice > 0 Then
                 Call EveHQ.Core.DataFunctions.SetCustomPrice(itemID, CustomPrice, False)
             ElseIf CustomPrice = 0 Then
-                Call EveHQ.Core.DataFunctions.DeleteCustomPrice(itemID.ToString)
+                Call EveHQ.Core.DataFunctions.DeleteCustomPrice(itemID)
             End If
 
         Next

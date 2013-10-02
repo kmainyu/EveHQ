@@ -1,6 +1,6 @@
 ﻿' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2012  EveHQ Development Team
+' Copyright © 2012-2013 EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -17,65 +17,68 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class frmMergeRequisitions
+Namespace Requisitions
 
-    Dim ReqList As New SortedList(Of String, EveHQ.Core.Requisition)
+    Public Class FrmMergeRequisitions
 
-    Public Sub New(ByVal MergeList As SortedList(Of String, EveHQ.Core.Requisition))
+        ReadOnly _reqList As New SortedList(Of String, Requisition)
 
-        ' This call is required by the designer.
-        InitializeComponent()
+        Public Sub New(ByVal mergeList As SortedList(Of String, Requisition))
 
-        ' Add any initialization after the InitializeComponent() call.
-        ReqList = MergeList
+            ' This call is required by the designer.
+            InitializeComponent()
 
-        ' Populate the combo box
-        cboReqs.BeginUpdate()
-        cboReqs.Items.Clear()
-        For Each Req As EveHQ.Core.Requisition In ReqList.Values
-            cboReqs.Items.Add(Req.Name)
-        Next
-        cboReqs.Sorted = True
-        cboReqs.EndUpdate()
-    End Sub
+            ' Add any initialization after the InitializeComponent() call.
+            _reqList = mergeList
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-
-        If cboReqs.SelectedItem IsNot Nothing Then
-            ' Get the name of the requisition to store the merged data
-            Dim NewReqName As String = cboReqs.SelectedItem.ToString
-
-            Dim MergedReq As EveHQ.Core.Requisition = CType(ReqList(NewReqName).Clone, Requisition)
-
-            ' Cycle through all the other requisitions and add the items
-            For Each Req As EveHQ.Core.Requisition In ReqList.Values
-                ' Exclude the merged req
-                If Req.Name <> MergedReq.Name Then
-                    MergedReq.AddOrdersFromRequisition(Req.Orders)
-                    ' Delete the old Req from the database if not needed to be kept
-                    If chkRetainOldReqs.Checked = False Then
-                        Req.DeleteFromDatabase()
-                    End If
-                End If
+            ' Populate the combo box
+            cboReqs.BeginUpdate()
+            cboReqs.Items.Clear()
+            For Each req As Requisition In _reqList.Values
+                cboReqs.Items.Add(req.Name)
             Next
+            cboReqs.Sorted = True
+            cboReqs.EndUpdate()
+        End Sub
 
-            ' Update the merged requisition in the database
-            MergedReq.UpdateDatabase(ReqList(NewReqName))
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
 
+            If cboReqs.SelectedItem IsNot Nothing Then
+                ' Get the name of the requisition to store the merged data
+                Dim newReqName As String = cboReqs.SelectedItem.ToString
+
+                Dim mergedReq As Requisition = CType(_reqList(newReqName).Clone, Requisition)
+
+                ' Cycle through all the other requisitions and add the items
+                For Each req As Requisition In _reqList.Values
+                    ' Exclude the merged req
+                    If req.Name <> mergedReq.Name Then
+                        mergedReq.AddOrdersFromRequisition(req.Orders)
+                        ' Delete the old Req from the database if not needed to be kept
+                        If chkRetainOldReqs.Checked = False Then
+                            req.DeleteFromDatabase()
+                        End If
+                    End If
+                Next
+
+                ' Update the merged requisition in the database
+                mergedReq.UpdateDatabase(_reqList(newReqName))
+
+                ' Set the result and close the form
+                DialogResult = Windows.Forms.DialogResult.OK
+                Close()
+            Else
+                ' Set the result and close the form
+                DialogResult = Windows.Forms.DialogResult.Cancel
+                Close()
+            End If
+        End Sub
+
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Set the result and close the form
-            Me.DialogResult = Windows.Forms.DialogResult.OK
-            Me.Close()
-        Else
-            ' Set the result and close the form
-            Me.DialogResult = Windows.Forms.DialogResult.Cancel
-            Me.Close()
-        End If
-    End Sub
+            DialogResult = Windows.Forms.DialogResult.Cancel
+            Close()
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        ' Set the result and close the form
-        Me.DialogResult = Windows.Forms.DialogResult.Cancel
-        Me.Close()
-    End Sub
-
-End Class
+    End Class
+End Namespace
