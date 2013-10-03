@@ -613,6 +613,7 @@ Public Class EveHQSettings
         SkillQueuePanelWidth = 440
         MarketSystem = 30000142 'Safe Default of Jita
         MaxUpdateThreads = 5
+        MainFormWindowState = FormWindowState.Maximized
 
     End Sub
 
