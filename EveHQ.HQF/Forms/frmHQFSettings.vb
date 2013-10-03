@@ -511,35 +511,7 @@ Public Class frmHQFSettings
     End Sub
 
     Private Sub btnCheckAttributeIntFloat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckAttributeIntFloat.Click
-        Try
-            Dim strSQL As String = ""
-            strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.mass, invTypes.volume, invTypes.capacity, invTypes.basePrice, invTypes.published, invTypes.marketGroupID, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.attributeName, dgmAttributeTypes.displayName, dgmAttributeTypes.unitID, eveUnits.unitName, eveUnits.displayName"
-            strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN (eveUnits INNER JOIN (dgmAttributeTypes INNER JOIN dgmTypeAttributes ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID) ON eveUnits.unitID = dgmAttributeTypes.unitID) ON invTypes.typeID = dgmTypeAttributes.typeID) ON invCategories.categoryID = invGroups.categoryID"
-            strSQL &= " WHERE (((invCategories.categoryID) In (7,8,18,20)) AND ((invTypes.published)=1))"
-            strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
-
-            Dim moduleAttributeData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If moduleAttributeData IsNot Nothing Then
-                If moduleAttributeData.Tables(0).Rows.Count <> 0 Then
-                    ' Find module information
-                    For Each attRow As DataRow In moduleAttributeData.Tables(0).Rows
-                        If IsDBNull(attRow.Item("valueFloat")) = False And IsDBNull(attRow.Item("valueInt")) = False Then
-                            MessageBox.Show(CStr(attRow.Item("typeID")) & ": " & CStr(attRow.Item("typeName")))
-                        End If
-                    Next
-                Else
-                    MessageBox.Show("Module Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    Exit Sub
-                End If
-            Else
-                MessageBox.Show("Module Attribute Data returned a null dataset", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error loading Module Attribute Data", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
-        End Try
-
+       
     End Sub
 #End Region
 

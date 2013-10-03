@@ -107,9 +107,9 @@ Public Class Reports
         strSQL &= " ORDER BY walletJournal.transKey ASC;"
 
         ' Fetch the data
-        Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim walletData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
 
-        Return WalletData
+        Return walletData
 
     End Function
 
@@ -486,9 +486,9 @@ Public Class Reports
         strSQL &= " ORDER BY walletTransactions.transKey ASC;"
 
         ' Fetch the data
-        Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim walletData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
 
-        Return WalletData
+        Return walletData
 
     End Function
 

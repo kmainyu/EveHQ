@@ -186,11 +186,11 @@ Namespace Requisitions
                 reqNode.Text = newReq.Name & "<font color=""#BBBBBB""> (" & newReq.Requestor & " - " & newReq.Orders.Count.ToString("N0") & IIf(newReq.Orders.Count = 1, " item)", " items)").ToString & "</font>"
                 reqNode.Name = newReq.Name
                 For Each newOrder As RequisitionOrder In newReq.Orders.Values
-                    Dim item As EveType = StaticData.Types(newOrder.ItemID)
+                    Dim item As EveType = StaticData.Types(CInt(newOrder.ItemID))
                     Dim orderNode As New Node
                     orderNode.Text = newOrder.ItemName
                     orderNode.Name = newOrder.ItemName
-                    orderNode.Image = ImageHandler.GetImage(item.Id.ToString, 20)
+                    orderNode.Image = ImageHandler.GetImage(item.Id, 20)
                     reqNode.Nodes.Add(orderNode)
                 Next
                 adtReqs.Nodes.Add(reqNode)
@@ -291,15 +291,15 @@ Namespace Requisitions
             numberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
             adtOrders.BeginUpdate()
             adtOrders.Nodes.Clear()
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(From o In req.Orders.Values Select o.ItemID)
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From o In req.Orders.Values Select CInt(o.ItemID))
             For Each order As RequisitionOrder In req.Orders.Values
                 Dim orderOwned As Long
-                Dim item As EveType = StaticData.Types(order.ItemID)
+                Dim item As EveType = StaticData.Types(CInt(order.ItemID))
                 Dim unitCost As Double
                 Dim orderNode As New Node
                 orderNode.Text = order.ItemName
                 orderNode.Name = order.ItemName
-                orderNode.Image = ImageHandler.GetImage(item.Id.ToString, 20)
+                orderNode.Image = ImageHandler.GetImage(item.Id, 20)
                 ' Add Quantity cell
                 Dim qCell As New Cell(order.ItemQuantity.ToString("N0"))
                 qCell.StyleNormal = numberStyle
@@ -362,15 +362,15 @@ Namespace Requisitions
             lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & totalVolumeReqd.ToString("N2") & " m³"
 
             ' Update Pricing from task
-            priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
+            priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of Integer, Double)))
                                        If IsHandleCreated Then
-                                           Dim priceData As Dictionary(Of String, Double) = currentTask.Result
+                                           Dim priceData As Dictionary(Of Integer, Double) = currentTask.Result
                                            ' cut over to main thread
                                            Invoke(Sub()
                                                       For Each row As Node In adtOrders.Nodes
                                                           Dim price As Double
                                                           Dim quantity As Long
-                                                          If (priceData.TryGetValue(row.Name, price)) Then
+                                                          If (priceData.TryGetValue(CInt(row.Name), price)) Then
                                                               row.Cells(4).Text = price.ToInvariantString("F2")
                                                               Long.TryParse(row.Cells(1).Text, quantity)
                                                               row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
@@ -547,8 +547,8 @@ Namespace Requisitions
                 If item.Attributes.GetNamedItem("locationID") IsNot Nothing Then
                     locationID = item.Attributes.GetNamedItem("locationID").Value
                 End If
-                If StaticData.Types.ContainsKey(itemID) Then
-                    itemData = StaticData.Types(itemID)
+                If StaticData.Types.ContainsKey(CInt(itemID)) Then
+                    itemData = StaticData.Types(CInt(itemID))
                     If categories.Count > 0 Or groups.Count > 0 Then
                         ' Check if this is an excluded ship first
                         If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And itemData.Category = 6 And item.Attributes.GetNamedItem("singleton").Value = "1") Then

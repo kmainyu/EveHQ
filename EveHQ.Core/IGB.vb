@@ -565,7 +565,7 @@ Public Class IGB
                     'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                     '    strHTML &= "<td width=64px><img src=""typeicon:" & typeID & """ width=64 height=64></td>"
                     'Else
-                    strHTML &= "<td width=64px><img src='" & GetExternalIcon(item.ID.ToString) & "'></td>"
+                    strHTML &= "<td width=64px><img src='" & GetExternalIcon(item.Id) & "'></td>"
                     'End If
                     strHTML &= "<td style='font-size:x-large;'>"
                     strHTML &= "<b>" & item.Name & "</b>"
@@ -774,7 +774,7 @@ Public Class IGB
                                 'If context.Request.UserAgent.StartsWith("EVE-IGB") Then
                                 '    strHTML &= "<td width=32px><img src=typeicon:" & matInfo.ID.ToString & " width=32 height=32></td>"
                                 'Else
-                                strHTML &= "<td width=32px><img src='" & GetExternalIcon(matInfo.ID.ToString) & "' width=32px height=32px></td>"
+                                strHTML &= "<td width=32px><img src='" & GetExternalIcon(matInfo.Id) & "' width=32px height=32px></td>"
                                 'End If
                                 strHTML &= "<td width=300px><a href=/itemDB/?view=t&id=" & matInfo.ID.ToString & ">" & matInfo.Name & "</a>"
                                 strHTML &= "</td><td>"
@@ -793,7 +793,7 @@ Public Class IGB
                                 '    strHTML &= "<td width=32px><img src=typeicon:" & itemVariations(0, item) & " width=32 height=32></td>"
                                 'Else
                                 Dim iInfo As EveType = StaticData.Types(metaItemID)
-                                strHTML &= "<td width=32px><img src='" & GetExternalIcon(iInfo.ID.ToString) & "' width=32px height=32px></td>"
+                                strHTML &= "<td width=32px><img src='" & GetExternalIcon(iInfo.Id) & "' width=32px height=32px></td>"
                                 'End If
                                 strHTML &= "<td width=368px><a href=/itemDB/?view=t&id=" & iInfo.ID.ToString & ">" & iInfo.Name & "</a></td><td>" & StaticData.MetaGroups(StaticData.MetaTypes(iInfo.ID).MetaGroupID) & "</td></tr>"
                             Next
@@ -810,7 +810,7 @@ Public Class IGB
         Return strHTML
     End Function
 
-    Private Function GetExternalIcon(ByVal typeID As String) As String
+    Private Function GetExternalIcon(ByVal typeID As Integer) As String
         Return ImageHandler.GetRawImageLocation(typeID)
     End Function
 

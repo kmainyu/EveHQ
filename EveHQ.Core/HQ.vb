@@ -78,23 +78,18 @@ Public Class HQ
     Public Shared Event ShutDownEveHQ()
     Public Shared UpdateShutDownRequest As Boolean = False
     Public Shared RemoteProxy As New RemoteProxyServer
-    Public Shared Stations As New SortedList(Of String, Station)
-    Private Shared _solarSystemsById As SortedList(Of String, SolarSystem)
-    Private Shared _solarSystemsByName As SortedList(Of String, SolarSystem)
     Public Shared APIUpdateInProgress As Boolean = False
     Public Shared EveHQServerMessage As EveHQMessage
     Public Shared RestoredSettings As Boolean = False
     Public Shared BCAppKey As String = "B23079B49E1FCBB9C224C9D9CC591DF9904C193F"
     Public Shared EveHQAPIServerInfo As New APIServerInfo
     Public Shared EveHQIsUpdating As Boolean = False
-    Public Shared ItemMarketGroups As New SortedList(Of String, String) ' TypeID, MarketGroupID
     Private Shared _marketStatDataProvider As IMarketStatDataProvider
     Private Shared _marketOrderDataProvider As IMarketOrderDataProvider
-    Private Shared _regions As SortedList(Of String, EveGalaticRegion)
     Private Shared _marketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
     Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
     Private Shared _marketCacheUploader As MarketUploader
-    Private Shared _tickerItemList As New List(Of String)
+    Private Shared _tickerItemList As New List(Of Integer)
     Private Shared _loggingStream As Stream
     Private Shared _eveHqTracer As EveHqTraceLogger
 
@@ -154,42 +149,6 @@ Public Class HQ
         End Set
     End Property
 
-    Public Shared ReadOnly Property Regions As SortedList(Of String, EveGalaticRegion)
-        Get
-            If _regions Is Nothing Then
-                PopulateRegionList()
-            End If
-            Return _regions
-        End Get
-
-    End Property
-
-    Public Shared Property SolarSystemsById As SortedList(Of String, SolarSystem)
-        Get
-            If (_solarSystemsById Is Nothing) Then
-                _solarSystemsById = New SortedList(Of String, SolarSystem)
-                DataFunctions.LoadSolarSystems()
-            End If
-            Return _solarSystemsById
-        End Get
-        Set(value As SortedList(Of String, SolarSystem))
-            _solarSystemsById = value
-        End Set
-    End Property
-
-    Public Shared ReadOnly Property SolarSystemsByName As SortedList(Of String, SolarSystem)
-        Get
-            If _solarSystemsByName Is Nothing Then
-                _solarSystemsByName = New SortedList(Of String, SolarSystem)
-                For Each solSystem As SolarSystem In SolarSystemsById.Values
-                    _solarSystemsByName.Add(solSystem.Name, solSystem)
-                Next
-            End If
-
-            Return _solarSystemsByName
-        End Get
-    End Property
-
     Public Shared Property MarketCacheUploader As MarketUploader
         Get
             If _marketCacheUploader Is Nothing Then
@@ -204,22 +163,22 @@ Public Class HQ
         End Set
     End Property
 
-    Public Shared Property TickerItemList As List(Of String)
+    Public Shared Property TickerItemList As List(Of Integer)
         Get
             If (_tickerItemList.Count = 0) Then
                 'Add place holder mineral types only
-                _tickerItemList.Add("34")
-                _tickerItemList.Add("35")
-                _tickerItemList.Add("36")
-                _tickerItemList.Add("37")
-                _tickerItemList.Add("38")
-                _tickerItemList.Add("39")
-                _tickerItemList.Add("40")
-                _tickerItemList.Add("11399")
+                _tickerItemList.Add(34)
+                _tickerItemList.Add(35)
+                _tickerItemList.Add(36)
+                _tickerItemList.Add(37)
+                _tickerItemList.Add(38)
+                _tickerItemList.Add(39)
+                _tickerItemList.Add(40)
+                _tickerItemList.Add(11399)
             End If
             Return _tickerItemList
         End Get
-        Set(value As List(Of String))
+        Set(value As List(Of Integer))
             _tickerItemList = value
         End Set
     End Property
@@ -289,22 +248,6 @@ Public Class HQ
         Next
         Return Nothing
     End Function
-
-    ' Gets the EveGalaticRegion list from the DB and stores it in a reusable collection
-    Private Shared Sub PopulateRegionList()
-
-        ' Get the data from the DB
-        Dim regionSet As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT regionID, regionName FROM mapRegions where regionName <> 'Unknown' ORDER BY regionName;", True)
-        If regionSet IsNot Nothing Then
-            _regions = New SortedList(Of String, EveGalaticRegion)
-            For Each regionRow As DataRow In regionSet.Tables(0).Rows
-                Dim eveGalaticRegion As EveGalaticRegion = New EveGalaticRegion()
-                eveGalaticRegion.Name = CStr(regionRow.Item("regionName"))
-                eveGalaticRegion.Id = CInt(regionRow.Item("regionID"))
-                _regions.Add(eveGalaticRegion.Name, eveGalaticRegion)
-            Next
-        End If
-    End Sub
 
     Private Shared EveCentralProvider As EveCentralMarketDataProvider
     Public Shared Function GetEveCentralMarketInstance(appDataFolder As String) As EveCentralMarketDataProvider

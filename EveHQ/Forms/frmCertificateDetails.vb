@@ -35,7 +35,7 @@ Public Class frmCertificateDetails
         End Set
     End Property
 
-    Public Sub ShowCertDetails(ByVal certID As String)
+    Public Sub ShowCertDetails(ByVal certID As Integer)
 
         Dim cCert As Certificate = StaticData.Certificates(certID)
         Text = StaticData.CertificateClasses(cCert.ClassId.ToString).Name & " (" & _certGrades(cCert.Grade) & ")"
@@ -52,18 +52,18 @@ Public Class frmCertificateDetails
 
     End Sub
 
-    Private Sub PrepareDescription(ByVal certID As String)
+    Private Sub PrepareDescription(ByVal certID As Integer)
         Dim cCert As Certificate = StaticData.Certificates(certID)
         lblDescription.Text = cCert.Description
     End Sub
 
-    Private Sub PrepareCerts(ByVal certID As String)
+    Private Sub PrepareCerts(ByVal certID As Integer)
         Dim cCert As Certificate = StaticData.Certificates(certID)
         Dim cRCert As Certificate
         Dim newCert As ListViewItem
         lvwCerts.BeginUpdate()
         lvwCerts.Items.Clear()
-        For Each cReqCert As String In cCert.RequiredCertificates.Keys
+        For Each cReqCert As Integer In cCert.RequiredCertificates.Keys
             cRCert = StaticData.Certificates(cReqCert)
             newCert = New ListViewItem
             newCert.Text = StaticData.CertificateClasses(cRCert.ClassId.ToString).Name
@@ -79,7 +79,7 @@ Public Class frmCertificateDetails
         lvwCerts.EndUpdate()
     End Sub
 
-    Private Sub PrepareTree(ByVal certID As String)
+    Private Sub PrepareTree(ByVal certID As Integer)
         Dim cCert As Certificate = StaticData.Certificates(certID)
         tvwReqs.BeginUpdate()
         tvwReqs.Nodes.Clear()
@@ -196,14 +196,14 @@ Public Class frmCertificateDetails
         End If
     End Sub
 
-    Private Sub PrepareDepends(ByVal certID As String)
+    Private Sub PrepareDepends(ByVal certID As Integer)
         ' Add the certificate unlocks
         lvwDepend.BeginUpdate()
         lvwDepend.Items.Clear()
         If StaticData.CertUnlockCertificates.ContainsKey(certID) = True Then
-            Dim certUnlocks As List(Of String) = StaticData.CertUnlockCertificates(certID)
+            Dim certUnlocks As List(Of Integer) = StaticData.CertUnlockCertificates(certID)
             If certUnlocks IsNot Nothing Then
-                For Each item As String In certUnlocks
+                For Each item As Integer In certUnlocks
                     Dim newItem As New ListViewItem
                     Dim toolTipText As New StringBuilder
                     newItem.Group = lvwDepend.Groups("CatCerts")
@@ -212,7 +212,7 @@ Public Class frmCertificateDetails
                     Dim certGrade As String = _certGrades(cert.Grade)
                     For Each reqCertID As Integer In cert.RequiredCertificates.Keys
                         Dim requiredCert As Certificate = StaticData.Certificates(reqCertID)
-                        If requiredCert.Id.ToString <> certID Then
+                        If requiredCert.Id <> certID Then
                             toolTipText.Append(StaticData.CertificateClasses(requiredCert.ClassId.ToString).Name)
                             toolTipText.Append(" (")
                             toolTipText.Append(_certGrades(requiredCert.Grade))
@@ -237,7 +237,7 @@ Public Class frmCertificateDetails
                     newItem.Text = certName
                     newItem.Name = cert.Id.ToString
                     newItem.SubItems.Add(certGrade)
-                    newItem.Name = item
+                    newItem.Name = CStr(item)
                     lvwDepend.Items.Add(newItem)
                 Next
             End If
@@ -284,7 +284,7 @@ Public Class frmCertificateDetails
     End Sub
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewCertDetails.Click
-        Dim certID As String = mnuCertName.Tag.ToString
+        Dim certID As Integer = CInt(mnuCertName.Tag)
         Dim cCert As Certificate = StaticData.Certificates(certID)
         Text = StaticData.CertificateClasses(cCert.ClassId.ToString).Name & " (" & _certGrades(cCert.Grade) & ")"
         Call PrepareDescription(certID)

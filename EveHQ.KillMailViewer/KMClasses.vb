@@ -19,7 +19,7 @@
 '=========================================================================
 
 Public Class KMItem
-    Public typeID As String
+    Public typeID As Integer
     Public flag As Integer
     Public qtyDropped As Integer
     Public qtyDestroyed As Integer
@@ -35,7 +35,7 @@ Public Class KMVictim
     Public factionID As String
     Public factionName As String
     Public damageTaken As Double
-    Public shipTypeID As String
+    Public shipTypeID As Integer
 End Class
 
 Public Class KMAttacker
@@ -50,26 +50,16 @@ Public Class KMAttacker
     Public secStatus As Double
     Public damageDone As Double
     Public finalBlow As Boolean
-    Public weaponTypeID As String
-    Public shipTypeID As String
+    Public weaponTypeID As Integer
+    Public shipTypeID As Integer
 End Class
 
 Public Class KillMail
-    Public killID As String
-    Public systemID As String
+    Public killID As Integer
+    Public systemID As Integer
     Public killTime As Date
     Public moonID As String
     Public Victim As KMVictim
     Public Attackers As New SortedList
     Public Items As New List(Of KMItem)
 End Class
-
-Public Class SolarSystem
-    Public ID As Integer
-    Public Name As String
-    Public Security As Double
-    Public Region As String
-    Public Constellation As String
-End Class
-
-

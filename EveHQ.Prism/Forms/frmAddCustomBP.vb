@@ -23,19 +23,19 @@ Imports EveHQ.EveData
 
 Public Class frmAddCustomBP
 
-    Dim currentBP As New BlueprintAsset
-    Dim cBPOwner As String = ""
+    Dim _currentBP As New BlueprintAsset
+    Dim _bpOwner As String = ""
     Public Property BPOwner() As String
         Get
-            Return cBPOwner
+            Return _bpOwner
         End Get
         Set(ByVal value As String)
-            cBPOwner = value
+            _bpOwner = value
         End Set
     End Property
 
-    Private Sub frmAddCustomBP_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Call Me.DisplayAllBlueprints()
+    Private Sub frmAddCustomBP_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+        Call DisplayAllBlueprints()
     End Sub
 
     Private Sub DisplayAllBlueprints()
@@ -45,61 +45,61 @@ Public Class frmAddCustomBP
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
         For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
-            cboBPs.Items.Add(StaticData.Types(newBP.Id.ToString))
+            cboBPs.Items.Add(StaticData.Types(newBP.Id))
         Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         ' Fetch the ownerBPs if it exists
-        Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
-        If PlugInData.BlueprintAssets.ContainsKey(cBPOwner) = True Then
-            ownerBPs = PlugInData.BlueprintAssets(cBPOwner)
+        Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
+        If PlugInData.BlueprintAssets.ContainsKey(_bpOwner) = True Then
+            ownerBPs = PlugInData.BlueprintAssets(_bpOwner)
         Else
-            PlugInData.BlueprintAssets.Add(cBPOwner, ownerBPs)
+            PlugInData.BlueprintAssets.Add(_bpOwner, ownerBPs)
         End If
 
         ' Check for the assetID in the owner's assets
-        If ownerBPs.ContainsKey(currentBP.AssetID) = True Then
-            MessageBox.Show(cBPOwner & " already has this custom blueprint in their collection and cannot be added again.", "Duplicate Custom Blueprint", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If ownerBPs.ContainsKey(CInt(_currentBP.AssetID)) = True Then
+            MessageBox.Show(_bpOwner & " already has this custom blueprint in their collection and cannot be added again.", "Duplicate Custom Blueprint", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
 
         ' Add the custom BPO into the owner's assets
-        ownerBPs.Add(currentBP.AssetID, currentBP)
+        ownerBPs.Add(CInt(_currentBP.AssetID), _currentBP)
 
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        DialogResult = Windows.Forms.DialogResult.OK
+        Close()
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.DialogResult = Windows.Forms.DialogResult.Cancel
-        Me.Close()
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+        DialogResult = Windows.Forms.DialogResult.Cancel
+        Close()
     End Sub
 
-    Private Sub cboBPs_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
+    Private Sub cboBPs_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboBPs.SelectedIndexChanged
         ' This is a standard blueprint
-        If EveHQ.Core.HQ.itemList.ContainsKey(cboBPs.SelectedItem.ToString.Trim) = True Then
-            Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
-            currentBP = New BlueprintAsset
-            currentBP.TypeID = bpID
-            currentBP.AssetID = bpID
-            currentBP.MELevel = CInt(nudMELevel.Value)
-            currentBP.PELevel = CInt(nudPELevel.Value)
-            currentBP.Runs = -1
-            currentBP.BPType = BPType.User
-            currentBP.Status = BPStatus.Present
+        If StaticData.TypeNames.ContainsKey(cboBPs.SelectedItem.ToString.Trim) = True Then
+            Dim bpID As Integer = CInt(StaticData.TypeNames(cboBPs.SelectedItem.ToString.Trim))
+            _currentBP = New BlueprintAsset
+            _currentBP.TypeID = CStr(bpID)
+            _currentBP.AssetID = CStr(bpID)
+            _currentBP.MELevel = CInt(nudMELevel.Value)
+            _currentBP.PELevel = CInt(nudPELevel.Value)
+            _currentBP.Runs = -1
+            _currentBP.BPType = BPType.User
+            _currentBP.Status = BPStatus.Present
             ' First get the image
-            pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(bpID)
+            pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(bpID)
         End If
     End Sub
 
-    Private Sub nudMELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMELevel.ValueChanged
-        currentBP.MELevel = CInt(nudMELevel.Value)
+    Private Sub nudMELevel_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudMELevel.ValueChanged
+        _currentBP.MELevel = CInt(nudMELevel.Value)
     End Sub
 
-    Private Sub nudPELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPELevel.ValueChanged
-        currentBP.PELevel = CInt(nudPELevel.Value)
+    Private Sub nudPELevel_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudPELevel.ValueChanged
+        _currentBP.PELevel = CInt(nudPELevel.Value)
     End Sub
 End Class

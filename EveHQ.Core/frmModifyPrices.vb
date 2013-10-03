@@ -64,24 +64,24 @@ Public Class frmModifyPrices
         For Each itemID As Integer In _itemIDList
 
             Dim item As EveType = StaticData.Types(itemID)
-            Dim itemNode As New DevComponents.AdvTree.Node
+            Dim itemNode As New Node
             itemNode.Text = item.Name
             itemNode.Name = item.ID.ToString
-            itemNode.Image = EveHQ.Core.ImageHandler.GetImage(item.ID.ToString, 24)
+            itemNode.Image = ImageHandler.GetImage(item.Id, 24)
+
             ' Add Market Price cell
-            Dim MarketPrice As Double = 0
-
-            MarketPrice = DataFunctions.GetPrice(itemID)
-
-            Dim qCell As New DevComponents.AdvTree.Cell(MarketPrice.ToString("N2"))
+            Dim marketPrice As Double
+            marketPrice = DataFunctions.GetPrice(itemID)
+            Dim qCell As New Cell(marketPrice.ToString("N2"))
             qCell.StyleNormal = numberStyle
             itemNode.Cells.Add(qCell)
+
             ' Add Custom Price cell
-            Dim CustomPrice As Double = 0
-            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                CustomPrice = EveHQ.Core.HQ.CustomPriceList(itemID)
+            Dim customPrice As Double = 0
+            If HQ.CustomPriceList.ContainsKey(itemID) Then
+                customPrice = HQ.CustomPriceList(itemID)
             End If
-            Dim mlCell As New DevComponents.AdvTree.Cell(CustomPrice.ToString("N2"))
+            Dim mlCell As New Cell(customPrice.ToString("N2"))
             mlCell.StyleNormal = numberStyle
             itemNode.Cells.Add(mlCell)
 
@@ -97,7 +97,7 @@ Public Class frmModifyPrices
 
 #Region "Cell Editing Routines"
 
-    Private Sub adtPrices_AfterCellEdit(sender As Object, e As DevComponents.AdvTree.CellEditEventArgs) Handles adtPrices.AfterCellEdit
+    Private Sub adtPrices_AfterCellEdit(sender As Object, e As CellEditEventArgs) Handles adtPrices.AfterCellEdit
         ' Check the new text is valid before comparison
         If e.NewText = "" Or IsNumeric(e.NewText) = False Then
             e.NewText = "0"
@@ -109,38 +109,38 @@ Public Class frmModifyPrices
 
 #End Region
 
-    Private Sub btnCancel_Click(sender As System.Object, e As System.EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         ' Check if the prices have changed before closing
         If _pricesChanged = True Then
-            Dim msg As String = "At least one price has changed. Are you sure you wish to cancel the changes?"
+            Const msg As String = "At least one price has changed. Are you sure you wish to cancel the changes?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.Yes Then
-                Me.DialogResult = Windows.Forms.DialogResult.Cancel
-                Me.Close()
+                DialogResult = Windows.Forms.DialogResult.Cancel
+                Close()
             Else
                 Exit Sub
             End If
         Else
-            Me.DialogResult = Windows.Forms.DialogResult.Cancel
-            Me.Close()
+            DialogResult = Windows.Forms.DialogResult.Cancel
+            Close()
         End If
     End Sub
 
-    Private Sub btnAccept_Click(sender As System.Object, e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(sender As Object, e As EventArgs) Handles btnAccept.Click
         ' Check if anything has changed first
         If _pricesChanged = False Then
-            Me.DialogResult = Windows.Forms.DialogResult.Cancel
-            Me.Close()
+            DialogResult = Windows.Forms.DialogResult.Cancel
+            Close()
         Else
             ' Check we really want to save the prices
-            Dim msg As String = "Are you sure you wish to save the changes to the price databases?"
+            Const msg As String = "Are you sure you wish to save the changes to the price databases?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Price Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = Windows.Forms.DialogResult.Yes Then
                 ' Update the prices
-                Call Me.UpdatePrices()
+                Call UpdatePrices()
                 ' Close the form
-                Me.DialogResult = Windows.Forms.DialogResult.OK
-                Me.Close()
+                DialogResult = Windows.Forms.DialogResult.OK
+                Close()
             Else
                 Exit Sub
             End If
@@ -150,40 +150,43 @@ Public Class frmModifyPrices
     Private Sub UpdatePrices()
 
         ' Check if everything is filled out as it should be
-        For Each PriceNode As Node In adtPrices.Nodes
-            If IsNumeric(PriceNode.Cells(1).Text) = False Then
+        For Each priceNode As Node In adtPrices.Nodes
+            If IsNumeric(priceNode.Cells(1).Text) = False Then
                 MessageBox.Show("At least one item contains an invalid market price - you must enter a valid price for this item.", "Error In Price", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
-                If CDbl(PriceNode.Cells(1).Text) < 0 Then
+                If CDbl(priceNode.Cells(1).Text) < 0 Then
                     MessageBox.Show("At least one item contains a negative market price - you cannot enter a negative price for this item.", "Error In Price", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
             End If
-            If IsNumeric(PriceNode.Cells(2).Text) = False Then
+            If IsNumeric(priceNode.Cells(2).Text) = False Then
                 MessageBox.Show("At least one item contains an invalid custom price - you must enter a valid price for this item.", "Error In Price", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
-                If CDbl(PriceNode.Cells(2).Text) < 0 Then
+                If CDbl(priceNode.Cells(2).Text) < 0 Then
                     MessageBox.Show("At least one item contains a negative custom price - you cannot enter a negative price for this item.", "Error In Price", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Exit Sub
                 End If
             End If
         Next
 
-        ' Add the prices
-        For Each PriceNode As Node In adtPrices.Nodes
-            Dim itemID As Integer = CInt(PriceNode.Name)
+        ' Add the prices to a price list for updating
+        Dim customPriceList As New Dictionary(Of Integer, Double)
+        For Each priceNode As Node In adtPrices.Nodes
+            Dim itemID As Integer = CInt(priceNode.Name)
+            Dim customPrice As Double = CDbl(priceNode.Cells(2).Text)
 
-            Dim CustomPrice As Double = CDbl(PriceNode.Cells(2).Text)
-
-            ' Set the market price
-           
             ' Set the custom price
-            If CustomPrice > 0 Then
-                Call EveHQ.Core.DataFunctions.SetCustomPrice(itemID, CustomPrice, False)
-            ElseIf CustomPrice = 0 Then
-                Call EveHQ.Core.DataFunctions.DeleteCustomPrice(itemID)
+            If customPrice > 0 Then
+                customPriceList.Add(itemID, customPrice)
+            ElseIf customPrice = 0 Then
+                Call CustomDataFunctions.DeleteCustomPrice(itemID)
+            End If
+
+            ' Update the custom prices
+            If customPriceList.Count > 0 Then
+                Call CustomDataFunctions.SetCustomPrices(customPriceList)
             End If
 
         Next

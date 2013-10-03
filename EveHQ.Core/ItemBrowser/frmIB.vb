@@ -351,7 +351,7 @@ Namespace ItemBrowser
                 startTime = Now
 
                 ' Load picture
-                picItem.ImageLocation = ImageHandler.GetImageLocation(typeID.ToString)
+                picItem.ImageLocation = ImageHandler.GetImageLocation(typeID)
 
                 ' Get the Item from the collection
                 _item = StaticData.Types((typeID))
@@ -397,7 +397,7 @@ Namespace ItemBrowser
                 dbLocation.AppendLine("Database Item: " & _item.Name)
                 dbLocation.AppendLine("")
                 dbLocation.AppendLine("Double-click here to open the database group in the browser")
-                STTItem.SetSuperTooltip(lblDBLocation, New SuperTooltipInfo("", "Database Location Information", dbLocation.ToString, ImageHandler.GetImage(CStr(typeID)), My.Resources.Info32, eTooltipColor.Yellow))
+                STTItem.SetSuperTooltip(lblDBLocation, New SuperTooltipInfo("", "Database Location Information", dbLocation.ToString, ImageHandler.GetImage(typeID), My.Resources.Info32, eTooltipColor.Yellow))
                 lblID.Text = "ID: " & _item.Category.ToString & " > " & _item.Group.ToString & " > " & _item.Id.ToString
                 Dim dbID As New StringBuilder
                 dbID.AppendLine("Category ID: " & _item.Category.ToString)
@@ -405,7 +405,7 @@ Namespace ItemBrowser
                 dbID.AppendLine("Item ID: " & _item.Id.ToString)
                 dbID.AppendLine("")
                 dbID.AppendLine("Double-click here to manually enter an item ID")
-                STTItem.SetSuperTooltip(lblID, New SuperTooltipInfo("", "ID Information", dbID.ToString, ImageHandler.GetImage(CStr(typeID)), My.Resources.Info32, eTooltipColor.Yellow))
+                STTItem.SetSuperTooltip(lblID, New SuperTooltipInfo("", "ID Information", dbID.ToString, ImageHandler.GetImage(typeID), My.Resources.Info32, eTooltipColor.Yellow))
                 btnRequisition.Enabled = True
             Else
                 MessageBox.Show("Unable to find item with ID of " & typeID.ToString, "Unknown Item!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

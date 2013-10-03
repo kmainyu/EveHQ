@@ -103,13 +103,13 @@ Public Class Ticker
     End Sub
 
     Private Sub SetupImage()
-        If EveHQ.Core.HQ.TickerItemList.Count > 0 Then
-            Dim itemID As String = EveHQ.Core.HQ.TickerItemList(r.Next(0, lastItem))
-            Dim items As New List(Of String)
+        If HQ.TickerItemList.Count > 0 Then
+            Dim itemID As Integer = HQ.TickerItemList(r.Next(0, lastItem))
+            Dim items As New List(Of Integer)
             items.Add(itemID)
 
-            Dim task As Task(Of Dictionary(Of String, Double)) = EveHQ.Core.DataFunctions.GetMarketPrices(items)
-            task.ContinueWith(Sub(priceTask As Task(Of Dictionary(Of String, Double)))
+            Dim task As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(items)
+            task.ContinueWith(Sub(priceTask As Task(Of Dictionary(Of Integer, Double)))
                                   If priceTask.IsCompleted And priceTask.IsFaulted = False And priceTask.Exception Is Nothing And priceTask.Result IsNot Nothing Then
                                       Dim price As Double
                                       If (priceTask.Result.ContainsKey(itemID)) Then
@@ -137,10 +137,10 @@ Public Class Ticker
     End Sub
 
 
-    Private Sub SetupImage(itemID As String, itemPrice As Double)
+    Private Sub SetupImage(itemID As Integer, itemPrice As Double)
 
-        Dim MainFont As New Font("Tahoma", 10, FontStyle.Regular)
-        Dim SmallFont As New Font("Tahoma", 7, FontStyle.Regular)
+        Dim mainFont As New Font("Tahoma", 10, FontStyle.Regular)
+        Dim smallFont As New Font("Tahoma", 7, FontStyle.Regular)
 
         Dim itemName As String = ""
         Dim imgText As String = ""
@@ -151,21 +151,20 @@ Public Class Ticker
         g.SmoothingMode = SmoothingMode.HighQuality
         Dim strWidth As Integer
 
-        itemName = EveHQ.Core.HQ.itemData(itemID).Name
+        itemName = EveData.StaticData.Types(itemID).Name
 
         imgText = itemName & " - " & itemPrice.ToString("N2")
 
-        strWidth = CInt(g.MeasureString(imgText, MainFont).Width)
+        strWidth = CInt(g.MeasureString(imgText, mainFont).Width)
         g.FillRectangle(New SolidBrush(Color.Black), New Rectangle(0, 0, 300, 40))
-        g.DrawString(imgText, MainFont, New SolidBrush(Color.White), 0, 2)
-        g.DrawString("(+" & itemID & ")", SmallFont, New SolidBrush(Color.LawnGreen), strWidth - 5, 1)
-        strWidth += CInt(g.MeasureString("(+" & itemID & ")", SmallFont).Width)
+        g.DrawString(imgText, mainFont, New SolidBrush(Color.White), 0, 2)
+        g.DrawString("(+" & itemID & ")", smallFont, New SolidBrush(Color.LawnGreen), strWidth - 5, 1)
+        strWidth += CInt(g.MeasureString("(+" & itemID & ")", smallFont).Width)
         Dim finalImage As Bitmap = img.Clone(New Rectangle(0, 0, strWidth + 10, 30), img.PixelFormat)
         Dim si As New ScrollImage
         si.img = finalImage
         si.imgX = 0
         si.imgID = itemID
-        si.imgName = itemName
         scrollImages.Enqueue(si)
     End Sub
 
@@ -176,7 +175,7 @@ Public Class Ticker
     Private Sub Ticker_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDoubleClick
         ' Get co-ords of click
         Dim x As Integer = e.X
-        Dim itemID As String = ""
+        Dim itemID As Integer
         For Each si As ScrollImage In scrollImages
             If x >= si.imgX And x <= si.imgX + si.img.Width Then
                 itemID = si.imgID
@@ -186,18 +185,18 @@ Public Class Ticker
         Call LaunchItemBrowser(itemID)
     End Sub
 
-    Private Sub LaunchItemBrowser(ByVal itemID As String)
+    Private Sub LaunchItemBrowser(ByVal itemID As Integer)
         ' Try to launch the item browser
         Dim PluginName As String = "EveHQ Item Browser"
-        Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(PluginName)
-        If myPlugIn.Status = EveHQ.Core.EveHQPlugInStatus.Active Then
-            Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-            Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+        Dim myPlugIn As EveHQPlugIn = HQ.Plugins(PluginName)
+        If myPlugIn.Status = EveHQPlugInStatus.Active Then
+            Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+            Dim tp As DevComponents.DotNetBar.TabItem = HQ.GetMDITab(PluginName)
             If tp IsNot Nothing Then
                 mainTab.SelectedTab = tp
             Else
                 Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-                plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
+                plugInForm.MdiParent = HQ.MainForm
                 plugInForm.Show()
             End If
             myPlugIn.Instance.GetPlugInData(itemID, 0)
@@ -236,12 +235,11 @@ Public Class Ticker
     Private Class ScrollImage
         Public img As Bitmap
         Public imgX As Integer
-        Public imgID As String = ""
-        Public imgName As String = ""
+        Public imgID As Integer
     End Class
 
     Private Sub Ticker_VisibleChanged(sender As System.Object, e As System.EventArgs) Handles MyBase.VisibleChanged
-        If Me.Visible Then
+        If Visible Then
             scrollTimer.Enabled = True
         Else
             scrollTimer.Enabled = False

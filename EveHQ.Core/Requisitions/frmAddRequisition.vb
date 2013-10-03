@@ -207,7 +207,7 @@ Namespace Requisitions
                 _cRequisition = New Requisition(cboReqName.Text, cboRequestor.SelectedItem.ToString, _cSource)
                 For Each newItem As String In _cOrders.Keys
                     Dim newOrder As New RequisitionOrder()
-                    newOrder.ItemID = StaticData.TypeNames(newItem)
+                    newOrder.ItemID = CStr(StaticData.TypeNames(newItem))
                     newOrder.ItemName = newItem
                     newOrder.ItemQuantity = _cOrders(newItem)
                     newOrder.Source = _cSource

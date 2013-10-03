@@ -86,7 +86,7 @@ Namespace BPCalc
             Dim newPj As New Job
             newPj.CurrentBlueprint = Me
             newPj.TypeID = Id
-            newPj.TypeName = EveData.StaticData.Types(Id.ToString).Name
+            newPj.TypeName = EveData.StaticData.Types(Id).Name
             newPj.Runs = bpRuns
             newPj.StartTime = Now
             newPj.Manufacturer = manufacturer
@@ -113,7 +113,7 @@ Namespace BPCalc
         Public Sub UpdateProductionJob(ByRef job As Job)
             job.CurrentBlueprint = Me
             job.TypeID = Id
-            job.TypeName = EveData.StaticData.Types(Id.ToString).Name
+            job.TypeName = EveData.StaticData.Types(Id).Name
             job.RecalculateResourceRequirements()
         End Sub
 
@@ -160,15 +160,15 @@ Namespace BPCalc
             Return CLng(time * bpRuns)
         End Function
 
-        Public Function CalculateInventionCost(ByVal metaItemId As String, ByVal decryptorId As String, ByVal bpcRuns As Integer) As Double
+        Public Function CalculateInventionCost(ByVal metaItemId As Integer, ByVal decryptorId As Integer, ByVal bpcRuns As Integer) As Double
 
-            Dim quantityTable As New Dictionary(Of String, Integer)
+            Dim quantityTable As New Dictionary(Of Integer, Integer)
 
             ' Gather a list of resources and quantities
             For Each resource As EveData.BlueprintResource In Resources(EveData.BlueprintActivity.Invention).Values
                 ' Only include datacores
                 If resource.TypeGroup = 333 Then
-                    Dim idKey As String = resource.TypeId.ToString
+                    Dim idKey As Integer = resource.TypeId
                     If quantityTable.ContainsKey(idKey) = False Then
                         quantityTable.Add(idKey, resource.Quantity)
                     Else
@@ -178,7 +178,7 @@ Namespace BPCalc
             Next
 
             ' Add in the meta item id
-            If String.IsNullOrWhiteSpace(metaItemId) = False And metaItemId <> "0" Then
+            If metaItemId <> 0 Then
                 If quantityTable.ContainsKey(metaItemId) = False Then
                     quantityTable.Add(metaItemId, 1)
                 Else
@@ -187,7 +187,7 @@ Namespace BPCalc
             End If
 
             ' add the decryptor to the list of items to get prices for
-            If String.IsNullOrWhiteSpace(decryptorId) = False And decryptorId <> "0" Then
+            If decryptorId <> 0 Then
                 If quantityTable.ContainsKey(decryptorId) = False Then
                     quantityTable.Add(decryptorId, 1)
                 Else
@@ -196,9 +196,9 @@ Namespace BPCalc
             End If
 
             ' Total the item costs
-            Dim prices As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+            Dim prices As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
             prices.Wait()
-            Dim itemCost As Dictionary(Of String, Double) = prices.Result
+            Dim itemCost As Dictionary(Of Integer, Double) = prices.Result
             Dim invCost As Double = itemCost.Keys.Sum(Function(key) itemCost(key) * quantityTable(key))
 
 
@@ -207,13 +207,13 @@ Namespace BPCalc
             invCost += Math.Round(Settings.PrismSettings.LabRunningCost * (ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
 
             ' Calculate BPC cost
-            If Settings.PrismSettings.BPCCosts.ContainsKey(Id.ToString) Then
-                Dim pricerange As Double = Settings.PrismSettings.BPCCosts(Id.ToString).MaxRunCost - Settings.PrismSettings.BPCCosts(Id.ToString).MinRunCost
+            If Settings.PrismSettings.BPCCosts.ContainsKey(Id) Then
+                Dim pricerange As Double = Settings.PrismSettings.BPCCosts(Id).MaxRunCost - Settings.PrismSettings.BPCCosts(Id).MinRunCost
                 Dim runrange As Integer = MaxProductionLimit - 1
                 If runrange = 0 Then
-                    invCost += Settings.PrismSettings.BPCCosts(Id.ToString).MinRunCost
+                    invCost += Settings.PrismSettings.BPCCosts(Id).MinRunCost
                 Else
-                    invCost += Settings.PrismSettings.BPCCosts(Id.ToString).MinRunCost + Math.Round((pricerange / runrange) * (bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
+                    invCost += Settings.PrismSettings.BPCCosts(Id).MinRunCost + Math.Round((pricerange / runrange) * (bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
                 End If
             End If
 
@@ -227,7 +227,7 @@ Namespace BPCalc
             Dim ipe As Integer = -4
             Dim irc As Integer
 
-            Dim decryptorName As String = EveData.StaticData.Types(decryptorID.ToString).Name
+            Dim decryptorName As String = EveData.StaticData.Types(decryptorID).Name
 
             If decryptorName <> "" Then
                 If PlugInData.Decryptors.ContainsKey(decryptorName) Then

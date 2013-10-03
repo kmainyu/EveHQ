@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.ComponentModel
 Imports System.Data
+Imports EveHQ.EveData
 Imports EveHQ.Core
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
@@ -31,14 +32,11 @@ Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
 
 Public Class frmMarketPrices
-    Dim Regions As New SortedList(Of String, Long) ' RegionName, RegionID
-    Dim RegionNames As New SortedList(Of Long, String) ' RegionID, RegionName
     Dim marketCacheFolder As String = ""
     Dim startUp As Boolean = True
     Private Const MarketCacheFolderName As String = "MarketCache"
     Private Const Expired As String = "Expired!"
  
-
 #Region "Form Opening and Closing Routines"
 
     Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -51,50 +49,27 @@ Public Class frmMarketPrices
         startUp = True
 
         ' Check for the market cache folder
-        If My.Computer.FileSystem.DirectoryExists(Path.Combine(EveHQ.Core.HQ.AppDataFolder, MarketCacheFolderName)) = False Then
+        If My.Computer.FileSystem.DirectoryExists(Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)) = False Then
             Try
-                marketCacheFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, MarketCacheFolderName)
+                marketCacheFolder = Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)
                 My.Computer.FileSystem.CreateDirectory(marketCacheFolder)
             Catch ex As Exception
                 MessageBox.Show("An error occured while attempting to create the Market Cache folder: " & ex.Message, "Error Creating Market Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Exit Sub
             End Try
         Else
-            marketCacheFolder = Path.Combine(EveHQ.Core.HQ.AppDataFolder, MarketCacheFolderName)
+            marketCacheFolder = Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)
         End If
 
-        ' Get Regions
-        Call Me.LoadRegionNames()
-
         ' Update the Custom Price Grid
-        Call Me.UpdatePriceMatrix()
+        Call UpdatePriceMatrix()
 
         startUp = False
 
     End Sub
-
-    Private Sub LoadRegionNames()
-        Dim regionSet As DataSet = EveHQ.Core.DataFunctions.GetData("SELECT * FROM mapRegions ORDER BY regionName;")
-        If regionSet IsNot Nothing Then
-            Regions.Clear()
-            RegionNames.Clear()
-            For Each regionRow As DataRow In regionSet.Tables(0).Rows
-                If CStr(regionRow.Item("regionName")) <> "Unknown" Then
-                    Regions.Add(CStr(regionRow.Item("regionName")), CLng(regionRow.Item("regionID")))
-                    RegionNames.Add(CLng(regionRow.Item("regionID")), CStr(regionRow.Item("regionName")))
-                End If
-            Next
-
-        Else
-            MessageBox.Show("EveHQ cannot proceed with the market price processing until the Map Regions have been correctly loaded.", "Error Loading Map Regions", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End If
-    End Sub
-
-
+    
 #End Region
-
-
-
+    
 #Region "Custom Prices Functions"
     Private Sub txtSearchPrices_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchPrices.TextChanged
         If Len(txtSearchPrices.Text) > 2 Then
@@ -122,13 +97,13 @@ Public Class frmMarketPrices
                         lvItem = New Node
                         lvItem.Text = itemData.Name
                         lvItem.Name = CStr(itemID)
-                        lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
+                        lvItem.Cells.Add(New Cell(HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
 
-                        price = DataFunctions.GetPrice(CStr(itemID))
+                        price = DataFunctions.GetPrice(itemID)
                         lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
 
-                        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                            price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                        If HQ.CustomPriceList.ContainsKey(itemID) Then
+                            price = CDbl(HQ.CustomPriceList(itemID))
                             lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
                         Else
                             lvItem.Cells.Add(New Cell(""))
@@ -139,21 +114,21 @@ Public Class frmMarketPrices
             Next
         Else
             Dim itemCells As New Dictionary(Of String, Cell)
-            For Each item As String In EveHQ.Core.HQ.itemList.Keys
+            For Each item As String In HQ.itemList.Keys
                 If item.ToLower.Contains(search) = True Then
-                    itemID = CInt(EveHQ.Core.HQ.itemList(item))
+                    itemID = CInt(HQ.itemList(item))
                     If HQ.itemData.TryGetValue(CStr(itemID), itemData) = True Then
                         If itemData.Published = True Then
                             lvItem = New Node
                             lvItem.Text = itemData.Name
                             lvItem.Name = CStr(itemData.ID)
-                            lvItem.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
+                            lvItem.Cells.Add(New Cell(HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
 
                             itemCells.Add(CStr(itemID), New Cell())
                             lvItem.Cells.Add(itemCells(CStr(itemID)))
 
-                            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(itemID) Then
-                                price = CDbl(EveHQ.Core.HQ.CustomPriceList(itemID))
+                            If HQ.CustomPriceList.ContainsKey(itemID) Then
+                                price = CDbl(HQ.CustomPriceList(itemID))
                                 lvItem.Cells.Add(New Cell(price.ToString("N2")))
                             Else
                                 lvItem.Cells.Add(New Cell(""))
@@ -168,30 +143,30 @@ Public Class frmMarketPrices
             'Task.Factory.StartNew(Sub()
             '                          GetItemPrices(itemCells)
             '                      End Sub)
-           
+
 
         End If
-        EveHQ.Core.AdvTreeSorter.Sort(adtPrices, 1, False, True)
+        AdvTreeSorter.Sort(adtPrices, 1, False, True)
         adtPrices.EndUpdate()
     End Sub
 
-    Private Sub GetItemPrices(itemCells As Dictionary(Of String, Cell))
-        Dim items As List(Of String) = (From item As String In itemCells.Keys Select item).Where(Function(item As String) As Boolean
-                                                                                                     Return HQ.itemData(item).MarketGroup <> 0
-                                                                                                 End Function).ToList()
+    Private Sub GetItemPrices(itemCells As Dictionary(Of Integer, Cell))
+        Dim items As List(Of Integer) = (From item As Integer In itemCells.Keys Select item).Where(Function(item As Integer) As Boolean
+                                                                                                       Return StaticData.Types(item).MarketGroupId <> 0
+                                                                                                   End Function).ToList()
         Dim counter As Integer = 0
         Dim max As Integer = items.Count
-        Dim subSetSize As Integer = 50
+        Const subSetSize As Integer = 50
         While (counter < max)
-            Dim subitems As IEnumerable(Of String) = items.Skip(counter).Take(subSetSize)
+            Dim subitems As IEnumerable(Of Integer) = items.Skip(counter).Take(subSetSize)
 
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(subitems, MarketMetric.Default, MarketTransactionKind.Sell)
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(subitems, MarketMetric.Default, MarketTransactionKind.Sell)
 
-            priceTask.ContinueWith(Sub(finishedTask As Task(Of Dictionary(Of String, Double)))
+            priceTask.ContinueWith(Sub(finishedTask As Task(Of Dictionary(Of Integer, Double)))
                                        'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
                                        If IsHandleCreated Then
                                            Invoke(Sub()
-                                                      For Each item As String In From item1 In finishedTask.Result.Keys Where itemCells.ContainsKey(item1)
+                                                      For Each item As Integer In From item1 In finishedTask.Result.Keys Where itemCells.ContainsKey(item1)
                                                           itemCells(item).Text = finishedTask.Result(item).ToInvariantString("N2")
                                                       Next
                                                   End Sub)
@@ -216,7 +191,7 @@ Public Class frmMarketPrices
                 mnuPriceItemName.Text = selItem.Text
                 Dim selItemID As String = selItem.Name
                 ' Check if it exists and we can edit/delete it
-                If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(selItemID)) = True Then
+                If HQ.CustomPriceList.ContainsKey(CInt(selItemID)) = True Then
                     ' Already in custom price list
                     mnuPriceAdd.Enabled = False
                     mnuPriceDelete.Enabled = True
@@ -237,10 +212,10 @@ Public Class frmMarketPrices
     End Sub
     Private Sub mnuPriceDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceDelete.Click
         For Each selitem As Node In adtPrices.SelectedNodes
-            Dim selItemID As String = selitem.Name
-            If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(selItemID)) = True Then
+            Dim selItemID As Integer = CInt(selitem.Name)
+            If HQ.CustomPriceList.ContainsKey(selItemID) = True Then
                 ' Double check it exists and delete it
-                Call EveHQ.Core.DataFunctions.DeleteCustomPrice(selItemID)
+                Call CustomDataFunctions.DeleteCustomPrice(selItemID)
                 ' refresh that asset rather than the whole list
             End If
             selitem.Cells(3).Text = ""
@@ -248,20 +223,20 @@ Public Class frmMarketPrices
     End Sub
     Private Sub mnuPriceAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceAdd.Click
         Dim selItem As Node = adtPrices.SelectedNodes(0)
-        Dim itemID As String = selItem.Name
-        Dim newPrice As New EveHQ.Core.frmModifyPrice(itemID, 0)
+        Dim itemID As Integer = CInt(selItem.Name)
+        Dim newPrice As New frmModifyPrice(itemID, 0)
         newPrice.ShowDialog()
-        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
-            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(CInt(itemID)).ToString("N2")
+        If HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
+            selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
         End If
     End Sub
     Private Sub mnuPriceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceEdit.Click
         Dim selItem As Node = adtPrices.SelectedNodes(0)
-        Dim itemID As String = selItem.Name
-        Dim newPrice As New EveHQ.Core.frmModifyPrice(itemID, 0)
+        Dim itemID As Integer = CInt(selItem.Name)
+        Dim newPrice As New frmModifyPrice(itemID, 0)
         newPrice.ShowDialog()
-        If EveHQ.Core.HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
-            selItem.Cells(3).Text = EveHQ.Core.HQ.CustomPriceList(CInt(itemID)).ToString("N2")
+        If HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
+            selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
         End If
     End Sub
     Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOnlyCustom.CheckedChanged
@@ -274,7 +249,7 @@ Public Class frmMarketPrices
     End Sub
     Private Sub adtPrices_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtPrices.ColumnHeaderMouseDown
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+        AdvTreeSorter.Sort(CH, True, False)
     End Sub
 #End Region
 
@@ -357,7 +332,7 @@ Public Class frmMarketPrices
             If (diff.TotalSeconds <= 0) Then
                 expiresLabel = Expired
             Else
-                expiresLabel = EveHQ.Core.SkillFunctions.TimeToString(diff.TotalSeconds, False)
+                expiresLabel = SkillFunctions.TimeToString(diff.TotalSeconds, False)
             End If
 
             row.Cells.Add(New Cell(expiresLabel))
@@ -390,7 +365,7 @@ Public Class frmMarketPrices
             If (diff.TotalSeconds <= 0) Then
                 expiresLabel = Expired
             Else
-                expiresLabel = EveHQ.Core.SkillFunctions.TimeToString(diff.TotalSeconds, False)
+                expiresLabel = SkillFunctions.TimeToString(diff.TotalSeconds, False)
             End If
 
 

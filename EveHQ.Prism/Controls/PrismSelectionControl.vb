@@ -182,7 +182,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.JournalOwnersAll
                 Dim strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)
@@ -194,7 +194,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.JournalOwnersChars
                 Dim strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         If PlugInData.CorpList.ContainsKey(DR.Item(0).ToString.Trim) = False Then
@@ -208,7 +208,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.JournalOwnersCorps
                 Dim strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         If PlugInData.CorpList.ContainsKey(DR.Item(0).ToString.Trim) = True Then
@@ -221,7 +221,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.JournalRefTypes
                 Dim strSQL As String = "SELECT DISTINCT refTypeID from walletJournal;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         Dim NewItem As New ListViewItem(PlugInData.RefTypes(DR.Item(0).ToString))
@@ -232,7 +232,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.TransactionOwnersAll
                 Dim strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)
@@ -244,7 +244,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.TransactionOwnersChars
                 Dim strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         If PlugInData.CorpList.ContainsKey(DR.Item(0).ToString.Trim) = False Then
@@ -258,7 +258,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.TransactionOwnersCorps
                 Dim strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         If PlugInData.CorpList.ContainsKey(DR.Item(0).ToString.Trim) = True Then
@@ -276,7 +276,7 @@ Public Class PrismSelectionControl
                 Else
                     strSQL = "SELECT DISTINCT typeName from walletTransactions WHERE charName='" & cExtraData.Replace("'", "''") & "';"
                 End If
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)
@@ -287,7 +287,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.InventionInstallers
                 Dim strSQL As String = "SELECT DISTINCT installerName from inventionResults;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)
@@ -299,7 +299,7 @@ Public Class PrismSelectionControl
 
             Case PrismSelectionType.InventionItems
                 Dim strSQL As String = "SELECT DISTINCT typeName from inventionResults;"
-                ItemData = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                ItemData = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If ItemData IsNot Nothing Then
                     For Each DR As DataRow In ItemData.Tables(0).Rows
                         Dim NewItem As New ListViewItem(DR.Item(0).ToString.Trim)

@@ -53,6 +53,7 @@ Partial Public Class frmHQFSettings
         Me.lblRigSlotColour = New System.Windows.Forms.Label()
         Me.pbRigSlotColour = New System.Windows.Forms.PictureBox()
         Me.gbSlotFormat = New System.Windows.Forms.GroupBox()
+        Me.chkAutoResizeColumns = New System.Windows.Forms.CheckBox()
         Me.lblSubSlotColour = New System.Windows.Forms.Label()
         Me.pbSubSlotColour = New System.Windows.Forms.PictureBox()
         Me.btnMoveDown = New System.Windows.Forms.Button()
@@ -167,7 +168,6 @@ Partial Public Class frmHQFSettings
         Me.lvwProfiles = New DevComponents.DotNetBar.Controls.ListViewEx()
         Me.colProfileName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.colProfileType = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-        Me.chkAutoResizeColumns = New System.Windows.Forms.CheckBox()
         Me.gbGeneral.SuspendLayout()
         Me.gbFittingProtocol.SuspendLayout()
         CType(Me.pbHiSlotColour, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -271,6 +271,7 @@ Partial Public Class frmHQFSettings
         '
         Me.cboStartupPilot.DisplayMember = "Text"
         Me.cboStartupPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboStartupPilot.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.cboStartupPilot.FormattingEnabled = True
         Me.cboStartupPilot.ItemHeight = 15
         Me.cboStartupPilot.Location = New System.Drawing.Point(152, 48)
@@ -462,11 +463,21 @@ Partial Public Class frmHQFSettings
         Me.gbSlotFormat.Controls.Add(Me.lblHiSlotColour)
         Me.gbSlotFormat.Location = New System.Drawing.Point(194, 10)
         Me.gbSlotFormat.Name = "gbSlotFormat"
-        Me.gbSlotFormat.Size = New System.Drawing.Size(582, 499)
+        Me.gbSlotFormat.Size = New System.Drawing.Size(214, 68)
         Me.gbSlotFormat.TabIndex = 3
         Me.gbSlotFormat.TabStop = False
         Me.gbSlotFormat.Text = "Slot Layout"
         Me.gbSlotFormat.Visible = False
+        '
+        'chkAutoResizeColumns
+        '
+        Me.chkAutoResizeColumns.AutoSize = True
+        Me.chkAutoResizeColumns.Location = New System.Drawing.Point(287, 269)
+        Me.chkAutoResizeColumns.Name = "chkAutoResizeColumns"
+        Me.chkAutoResizeColumns.Size = New System.Drawing.Size(167, 17)
+        Me.chkAutoResizeColumns.TabIndex = 34
+        Me.chkAutoResizeColumns.Text = "Automatically Resize Columns"
+        Me.chkAutoResizeColumns.UseVisualStyleBackColor = True
         '
         'lblSubSlotColour
         '
@@ -1800,16 +1811,6 @@ Partial Public Class frmHQFSettings
         Me.colProfileType.Text = "Profile Type"
         Me.colProfileType.Width = 100
         '
-        'chkAutoResizeColumns
-        '
-        Me.chkAutoResizeColumns.AutoSize = True
-        Me.chkAutoResizeColumns.Location = New System.Drawing.Point(287, 269)
-        Me.chkAutoResizeColumns.Name = "chkAutoResizeColumns"
-        Me.chkAutoResizeColumns.Size = New System.Drawing.Size(167, 17)
-        Me.chkAutoResizeColumns.TabIndex = 34
-        Me.chkAutoResizeColumns.Text = "Automatically Resize Columns"
-        Me.chkAutoResizeColumns.UseVisualStyleBackColor = True
-        '
         'frmHQFSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1909,17 +1910,7 @@ Partial Public Class frmHQFSettings
     Friend WithEvents gbFittingProtocol As System.Windows.Forms.GroupBox
     Friend WithEvents lblFittingProtocolStatus As System.Windows.Forms.Label
     Friend WithEvents lblFittingProtocolStatusLbl As System.Windows.Forms.Label
-    Friend WithEvents btnClose As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents chkUseLastPilot As DevComponents.DotNetBar.Controls.CheckBoxX
-    Friend WithEvents chkAutoUpdateHQFSkills As DevComponents.DotNetBar.Controls.CheckBoxX
-    Friend WithEvents chkRestoreLastSession As DevComponents.DotNetBar.Controls.CheckBoxX
-    Friend WithEvents chkShowPerformance As DevComponents.DotNetBar.Controls.CheckBoxX
-    Friend WithEvents cboStartupPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
-    Friend WithEvents pnlSettings As DevComponents.DotNetBar.PanelEx
-    Friend WithEvents btnEnableProtocol As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnDisableProtocol As DevComponents.DotNetBar.ButtonX
     Friend WithEvents gbDamageProfiles As System.Windows.Forms.GroupBox
-    Friend WithEvents gpProfile As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents lblNPCName As System.Windows.Forms.Label
     Friend WithEvents lblProfileNameLbl As System.Windows.Forms.Label
     Friend WithEvents lblNPCNameLbl As System.Windows.Forms.Label
@@ -1948,15 +1939,10 @@ Partial Public Class frmHQFSettings
     Friend WithEvents lblTHDamage As System.Windows.Forms.Label
     Friend WithEvents lblTHDamagePercentage As System.Windows.Forms.Label
     Friend WithEvents lblTHDamageAmount As System.Windows.Forms.Label
-    Friend WithEvents btnEditProfile As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnDeleteProfile As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnResetProfiles As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnAddProfile As DevComponents.DotNetBar.ButtonX
     Friend WithEvents lvwProfiles As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents colProfileName As System.Windows.Forms.ColumnHeader
     Friend WithEvents colProfileType As System.Windows.Forms.ColumnHeader
     Friend WithEvents gbDefenceProfiles As System.Windows.Forms.GroupBox
-    Friend WithEvents gpDefenceProfile As DevComponents.DotNetBar.Controls.GroupPanel
     Friend WithEvents lblDefProfileNameLbl As System.Windows.Forms.Label
     Friend WithEvents lblDefProfiletypeLbl As System.Windows.Forms.Label
     Friend WithEvents lblDefTypes As System.Windows.Forms.Label
@@ -1971,10 +1957,6 @@ Partial Public Class frmHQFSettings
     Friend WithEvents Label25 As System.Windows.Forms.Label
     Friend WithEvents lblDefTh As System.Windows.Forms.Label
     Friend WithEvents lblDefSTh As System.Windows.Forms.Label
-    Friend WithEvents btnEditDefenceProfile As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnDeleteDefenceProfile As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnResetDefenceProfiles As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnAddDefenceProfile As DevComponents.DotNetBar.ButtonX
     Friend WithEvents lvwDefenceProfiles As DevComponents.DotNetBar.Controls.ListViewEx
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
@@ -1993,12 +1975,31 @@ Partial Public Class frmHQFSettings
     Friend WithEvents pbIcon As System.Windows.Forms.PictureBox
     Friend WithEvents btnGetIconImage As System.Windows.Forms.Button
     Friend WithEvents gbAttributeColumns As System.Windows.Forms.GroupBox
-    Friend WithEvents adtAttributeColumns As DevComponents.AdvTree.AdvTree
-    Friend WithEvents colAttributeID As DevComponents.AdvTree.ColumnHeader
-    Friend WithEvents colAttributeName As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector1 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents ElementStyle1 As DevComponents.DotNetBar.ElementStyle
-    Friend WithEvents btnClearAttributes As DevComponents.DotNetBar.ButtonX
-    Friend WithEvents btnRemoveAttribute As DevComponents.DotNetBar.ButtonX
     Friend WithEvents chkAutoResizeColumns As System.Windows.Forms.CheckBox
+    Private WithEvents btnClose As DevComponents.DotNetBar.ButtonX
+    Private WithEvents chkUseLastPilot As DevComponents.DotNetBar.Controls.CheckBoxX
+    Private WithEvents chkAutoUpdateHQFSkills As DevComponents.DotNetBar.Controls.CheckBoxX
+    Private WithEvents chkRestoreLastSession As DevComponents.DotNetBar.Controls.CheckBoxX
+    Private WithEvents chkShowPerformance As DevComponents.DotNetBar.Controls.CheckBoxX
+    Private WithEvents cboStartupPilot As DevComponents.DotNetBar.Controls.ComboBoxEx
+    Private WithEvents pnlSettings As DevComponents.DotNetBar.PanelEx
+    Private WithEvents btnEnableProtocol As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnDisableProtocol As DevComponents.DotNetBar.ButtonX
+    Private WithEvents gpProfile As DevComponents.DotNetBar.Controls.GroupPanel
+    Private WithEvents btnEditProfile As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnDeleteProfile As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnResetProfiles As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnAddProfile As DevComponents.DotNetBar.ButtonX
+    Private WithEvents gpDefenceProfile As DevComponents.DotNetBar.Controls.GroupPanel
+    Private WithEvents btnEditDefenceProfile As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnDeleteDefenceProfile As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnResetDefenceProfiles As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnAddDefenceProfile As DevComponents.DotNetBar.ButtonX
+    Private WithEvents adtAttributeColumns As DevComponents.AdvTree.AdvTree
+    Private WithEvents colAttributeID As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents colAttributeName As DevComponents.AdvTree.ColumnHeader
+    Private WithEvents btnClearAttributes As DevComponents.DotNetBar.ButtonX
+    Private WithEvents btnRemoveAttribute As DevComponents.DotNetBar.ButtonX
 End Class

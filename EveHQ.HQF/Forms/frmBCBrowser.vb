@@ -84,7 +84,7 @@ Public Class frmBCBrowser
         End Get
         Set(ByVal value As Ship)
             currentShip = value
-            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CInt(currentShip.ID))
             Call GetBCShipLoadouts()
         End Set
     End Property
@@ -96,7 +96,7 @@ Public Class frmBCBrowser
         ' Check if the loadout list is in the cache
         lblBCStatus.Text = "Checking Loadout Cache..." : StatusStrip1.Refresh()
         Dim loadoutXML As New XmlDocument
-        Dim UseCacheFile As Boolean = False
+        Dim useCacheFile As Boolean = False
         If My.Computer.FileSystem.DirectoryExists(BCLoadoutCache) Then
             If My.Computer.FileSystem.FileExists(Path.Combine(BCLoadoutCache, currentShip.ID & ".xml")) Then
                 ' Open the file and check the cache time
@@ -105,14 +105,14 @@ Public Class frmBCBrowser
                 Dim cacheTime As DateTime = DateTime.Parse(cacheNode.InnerText)
                 If Now > cacheTime Then
                     ' cache expired, get a new one
-                    UseCacheFile = False
+                    useCacheFile = False
                 Else
-                    UseCacheFile = True
+                    useCacheFile = True
                 End If
             End If
         End If
 
-        If UseCacheFile = False Then
+        If useCacheFile = False Then
             lblBCStatus.Text = "Retrieving " & currentShip.Name & " loadouts from BattleClinic..."
             Dim remoteURL As String = "http://eve.battleclinic.com/ship_loadout_feed.php?typeID=" & currentShip.ID
             Try
@@ -157,9 +157,9 @@ Public Class frmBCBrowser
             adtLoadouts.EndUpdate()
             lblShipType.Text = currentShip.Name
             lblBCStatus.Text = "Update of loadouts completed!"
-            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CInt(currentShip.ID))
             ' Save the XML into the cache
-            If UseCacheFile = False Then
+            If useCacheFile = False Then
                 loadoutXML.Save(Path.Combine(BCLoadoutCache, currentShip.ID & ".xml"))
             End If
         Else

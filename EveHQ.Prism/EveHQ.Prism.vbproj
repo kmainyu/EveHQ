@@ -79,6 +79,9 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\EveHQ.Core\ExternalLibs\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -112,7 +115,7 @@
     <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
     <Compile Include="Classes\InventionAPIJob.vb" />
-    <Compile Include="Classes\DataFunctions.vb" />
+    <Compile Include="Classes\PrismDataFunctions.vb" />
     <Compile Include="Classes\IndustryJob.vb" />
     <Compile Include="Classes\Invention.vb" />
     <Compile Include="Classes\InventionJob.vb" />
@@ -267,7 +270,6 @@
     </Compile>
     <Compile Include="Classes\PlugInData.vb" />
     <Compile Include="Classes\Settings.vb" />
-    <Compile Include="Classes\SolarSystem.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\BPMEControl.resx">

@@ -131,7 +131,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// The cert unlock skills.
         /// </summary>
-        private static SortedList<int, List<string>> certUnlockSkills = new SortedList<int, List<string>>();
+        private static SortedList<string, List<int>> certUnlockSkills = new SortedList<string, List<int>>();
 
         /// <summary>
         /// The regions.
@@ -454,7 +454,7 @@ namespace EveHQ.EveData
         /// <summary>
         /// Gets the cert unlock skills.
         /// </summary>
-        public static SortedList<int, List<string>> CertUnlockSkills
+        public static SortedList<string, List<int>> CertUnlockSkills
         {
             get
             {
@@ -979,7 +979,7 @@ namespace EveHQ.EveData
                 // CertSkills
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open))
                 {
-                    certUnlockSkills = Serializer.Deserialize<SortedList<int, List<string>>>(s);
+                    certUnlockSkills = Serializer.Deserialize<SortedList<string, List<int>>>(s);
                 }
                 //// HQ.WriteLogEvent(" *** Certificate Skills Finished Loading");
 

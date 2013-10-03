@@ -33,7 +33,7 @@ Public Class Invention
             For Each item As EveType In items
                 ' Set data
                 Dim newDecryptor As New Decryptor
-                newDecryptor.ID = item.ID.ToString
+                newDecryptor.ID = item.Id
                 newDecryptor.Name = item.Name
                 newDecryptor.GroupID = item.Group.ToString
                 PlugInData.Decryptors.Add(newDecryptor.Name, newDecryptor)

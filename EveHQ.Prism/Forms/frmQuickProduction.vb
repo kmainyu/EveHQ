@@ -60,15 +60,15 @@ Public Class frmQuickProduction
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
         For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
-            cboBPs.Items.Add(StaticData.Types(newBP.Id.ToString).Name)
+            cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
         Next
         cboBPs.Sorted = True
         cboBPs.EndUpdate()
     End Sub
 
     Private Sub CalculateMaterials()
-        Dim bpID As String = StaticData.TypeNames(cboBPs.SelectedItem.ToString.Trim)
-        Dim currentBP As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(CInt(bpID)))
+        Dim bpID As Integer = StaticData.TypeNames(cboBPs.SelectedItem.ToString.Trim)
+        Dim currentBP As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(bpID))
         currentBP.MELevel = nudMELevel.Value
         currentBP.PELevel = nudPELevel.Value
         currentBP.Runs = -1
@@ -81,7 +81,7 @@ Public Class frmQuickProduction
         adtResources.BeginUpdate()
         adtResources.Nodes.Clear()
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.Resources.Values Where TypeOf (r) Is JobResource Select CStr(r.TypeID))
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select r.TypeID)
             priceTask.Wait()
             For Each resource As JobResource In CurrentJob.Resources.Values
                 ' This is a resource so add it

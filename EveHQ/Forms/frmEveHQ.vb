@@ -999,40 +999,6 @@ Public Class frmEveHQ
         End Try
     End Sub
 
-    Public Sub UpdateToNextLevel()
-        For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
-            If cPilot.Training = True Then
-                If cPilot.PilotSkills.ContainsKey(cPilot.TrainingSkillName) = True Then
-                    Dim trainSkill As EveHQPilotSkill = cPilot.PilotSkills(cPilot.TrainingSkillName)
-                    Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
-                    ' See if we need to "update" this level
-                    If trainingTime <= 0 And cPilot.TrainingSkillLevel <> trainSkill.Level Then
-                        Dim strXML As String = ""
-
-                        ' Browse the skill queue and pick the next available skill
-                        Dim pq As EveHQSkillQueue = cPilot.TrainingQueues(cPilot.PrimaryQueue)
-                        If pq IsNot Nothing Then
-                            Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(cPilot, pq, False, True)
-                            Dim qItem As New SortedQueueItem
-                            For Each qItem In arrQueue
-                                If qItem.Done = False Then
-                                    If qItem.IsTraining = False Then
-                                        ' Update the skill and move on
-                                        If SkillFunctions.ForceSkillTraining(cPilot, qItem.ID, True) = True Then
-                                            Call frmPilot.UpdatePilotInfo()
-                                            Call frmTraining.LoadSkillTree()
-                                        End If
-                                        Exit For
-                                    End If
-                                End If
-                            Next
-                        End If
-                    End If
-                End If
-            End If
-        Next
-    End Sub
-
     Private Sub CheckForCharAPIUpdate()
         ' Check for an API update if applicable
         If HQ.Settings.AutoAPI = True Then
@@ -1926,9 +1892,9 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub OpenSQLQueryForm()
-        Dim tp As TabItem = HQ.GetMDITab(frmSQLQuery.Text)
+        Dim tp As TabItem = HQ.GetMDITab(Forms.FrmSQLQuery.Text)
         If tp Is Nothing Then
-            Call DisplayChildForm(frmSQLQuery)
+            Call DisplayChildForm(Forms.FrmSQLQuery)
         Else
             tabEveHQMDI.SelectedTab = tp
         End If
@@ -2314,7 +2280,7 @@ Public Class frmEveHQ
         ' Get a list of the mail messages that are unread
         Try
             strSQL = "SELECT COUNT(*) FROM eveMail WHERE readMail=0;"
-            mailData = DataFunctions.GetCustomData(strSQL)
+            mailData = CustomDataFunctions.GetCustomData(strSQL)
             If mailData IsNot Nothing Then
                 If mailData.Tables(0).Rows.Count > 0 Then
                     UnreadMail = CInt(mailData.Tables(0).Rows(0).Item(0))
@@ -2330,7 +2296,7 @@ Public Class frmEveHQ
 
         ' Get a list of the notifications that are unread
         strSQL = "SELECT COUNT(*) FROM eveNotifications WHERE readMail=0;"
-        mailData = DataFunctions.GetCustomData(strSQL)
+        mailData = CustomDataFunctions.GetCustomData(strSQL)
         Dim unreadNotices As Integer = 0
         If mailData IsNot Nothing Then
             If mailData.Tables(0).Rows.Count > 0 Then
@@ -2908,25 +2874,24 @@ Public Class frmEveHQ
     End Sub
 
     Private Sub btnStdAlloyReport_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnStdAlloyReport.Click
-        Dim newReport As New frmReportViewer
-        Call Reports.GenerateAlloyReport()
-        newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "AlloyReport.html"))
-        DisplayReport(newReport, "Alloy Composition")
+        'Dim newReport As New frmReportViewer
+        'Call Reports.GenerateAlloyReport()
+        'newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "AlloyReport.html"))
+        'DisplayReport(newReport, "Alloy Composition")
     End Sub
 
-    Private Sub btnStdAsteroidReport_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles btnStdAsteroidReport.Click
-        Dim newReport As New frmReportViewer
-        Call Reports.GenerateRockReport()
-        newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "OreReport.html"))
-        DisplayReport(newReport, "Asteroid Composition")
+    Private Sub btnStdAsteroidReport_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnStdAsteroidReport.Click
+        'Dim newReport As New frmReportViewer
+        'Call Reports.GenerateRockReport()
+        'newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "OreReport.html"))
+        'DisplayReport(newReport, "Asteroid Composition")
     End Sub
 
     Private Sub btnStdIceReport_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnStdIceReport.Click
-        Dim newReport As New frmReportViewer
-        Call Reports.GenerateIceReport()
-        newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "IceReport.html"))
-        DisplayReport(newReport, "Ice Composition")
+        'Dim newReport As New frmReportViewer
+        'Call Reports.GenerateIceReport()
+        'newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "IceReport.html"))
+        'DisplayReport(newReport, "Ice Composition")
     End Sub
 
 #End Region

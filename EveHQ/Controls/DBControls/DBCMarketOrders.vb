@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.EveData
 Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports System.Globalization
@@ -133,7 +134,7 @@ Public Class DBCMarketOrders
                                                                NumberStyles.Any, culture)
                             sOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
-                            loc = DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
+                            loc = StaticData.GetLocationName(CInt(Order.Attributes.GetNamedItem("stationID").Value))
                             sOrder.SubItems.Add(loc)
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value,
                                                                         IndustryTimeFormat, culture, DateTimeStyles.None)
@@ -169,7 +170,7 @@ Public Class DBCMarketOrders
                                                                NumberStyles.Any, culture)
                             sOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
-                            loc = DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
+                            loc = StaticData.GetLocationName(CInt(Order.Attributes.GetNamedItem("stationID").Value))
                             sOrder.SubItems.Add(loc)
                         End If
                     Else
@@ -194,7 +195,7 @@ Public Class DBCMarketOrders
                                                                NumberStyles.Any, culture)
                             bOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
-                            loc = DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
+                            loc = StaticData.GetLocationName(CInt(Order.Attributes.GetNamedItem("stationID").Value))
                             bOrder.SubItems.Add(loc)
                             Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value,
                                                                         IndustryTimeFormat, culture, DateTimeStyles.None)
@@ -232,7 +233,7 @@ Public Class DBCMarketOrders
                                                                NumberStyles.Any, culture)
                             bOrder.SubItems.Add(price.ToString("N2"))
                             Dim loc As String = ""
-                            loc = DataFunctions.GetLocationName(Order.Attributes.GetNamedItem("stationID").Value)
+                            loc = StaticData.GetLocationName(CInt(Order.Attributes.GetNamedItem("stationID").Value))
                             bOrder.SubItems.Add(loc)
                         End If
                     End If

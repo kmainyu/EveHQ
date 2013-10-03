@@ -1504,12 +1504,12 @@ Public Class frmTraining
 
 #Region "Certificate Menu Routines"
 
-    Private Sub tvwCertList_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwCertList.NodeMouseClick
+    Private Sub tvwCertList_NodeMouseClick(ByVal sender As Object, ByVal e As Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwCertList.NodeMouseClick
         tvwCertList.SelectedNode = e.Node
     End Sub
 
     Private Sub ctxCertDetails_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCertDetails.Opening
-        Dim curNode As TreeNode = New TreeNode
+        Dim curNode As TreeNode
         curNode = tvwCertList.SelectedNode
         If curNode IsNot Nothing Then
             ' Reset grades
@@ -1517,9 +1517,9 @@ Public Class frmTraining
                 mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & grade).Enabled = False
             Next
             Dim certName As String = ""
-            Dim certID As String = ""
+            Dim certID As Integer
             certName = curNode.Text
-            certID = curNode.Name
+            certID = CInt(curNode.Name)
             mnuCertName.Text = certName
             mnuCertName.Tag = certID
             ' Determine if this is a parent node or not
@@ -1556,7 +1556,7 @@ Public Class frmTraining
     End Sub
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
-        Dim certID As String = mnuCertName.Tag.ToString
+        Dim certID As Integer = CInt(mnuCertName.Tag)
         frmCertificateDetails.DisplayPilotName = displayPilot.Name
         frmCertificateDetails.ShowCertDetails(certID)
     End Sub
@@ -1564,7 +1564,7 @@ Public Class frmTraining
     Private Sub mnuAddCertToQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCertToQueue1.Click, mnuAddCertToQueue2.Click, mnuAddCertToQueue3.Click, mnuAddCertToQueue4.Click, mnuAddCertToQueue5.Click
         ' Get the certificate details
         Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
-        Dim certID As String = mnuCertName.Tag.ToString
+        Dim certID As Integer = CInt(mnuCertName.Tag)
         Dim certClass As Integer = StaticData.Certificates(certID).ClassId
         For Each cert As Certificate In StaticData.Certificates.Values
             If cert.ClassId = certClass Then
@@ -1583,7 +1583,7 @@ Public Class frmTraining
             Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, CStr(Core.SkillFunctions.SkillIDToName(reqSkill)), activeQueue.Queue.Count + 1, activeQueue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
         Next
         ' Get a list of the certs that are required
-        For Each reqCertID As String In cert.RequiredCertificates.Keys
+        For Each reqCertID As Integer In cert.RequiredCertificates.Keys
             Call AddCertSkills(StaticData.Certificates(reqCertID))
         Next
     End Sub
@@ -1630,8 +1630,8 @@ Public Class frmTraining
         lvwDetails.Groups(1).Header = "Pilot Specific - " & displayPilot.Name
 
         With lvwDetails
-            Dim mySkill As New Core.EveHQPilotSkill
-            Dim myGroup As Core.SkillGroup = New Core.SkillGroup
+            Dim mySkill As Core.EveHQPilotSkill
+            Dim myGroup As Core.SkillGroup
             If Core.HQ.itemGroups.ContainsKey(cSkill.GroupID) = True Then
                 Dim groupName As String = Core.HQ.itemGroups(cSkill.GroupID)
                 If Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
@@ -1847,12 +1847,12 @@ Public Class frmTraining
             End If
             ' Add the certificate unlocks
             If StaticData.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                Dim certUnlocked As List(Of String) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
-                For Each item As String In certUnlocked
+                Dim certUnlocked As List(Of Integer) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
+                For Each item As Integer In certUnlocked
                     Dim newItem As New ListViewItem
                     newItem.Group = lvwDepend.Groups("CatCerts")
                     Dim cert As Certificate = StaticData.Certificates(item)
-                    newItem.Tag = cert.ID
+                    newItem.Tag = cert.Id
                     certName = StaticData.CertificateClasses(cert.ClassId.ToString).Name
                     Select Case cert.Grade
                         Case 1
@@ -1866,9 +1866,9 @@ Public Class frmTraining
                         Case 5
                             certGrade = "Elite"
                     End Select
-                    For Each reqCertID As String In cert.RequiredCertificates.Keys
+                    For Each reqCertID As Integer In cert.RequiredCertificates.Keys
                         Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
-                        If reqCert.ID.ToString <> item Then
+                        If reqCert.Id <> item Then
                             newItem.ToolTipText &= StaticData.CertificateClasses(reqCert.ClassId.ToString).Name
                             Select Case reqCert.Grade
                                 Case 1
@@ -1888,13 +1888,13 @@ Public Class frmTraining
                         newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
                         newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
                     End If
-                    If displayPilot.Certificates.Contains(cert.ID) = True Then
+                    If displayPilot.Certificates.Contains(cert.Id) = True Then
                         newItem.ForeColor = Color.Green
                     Else
                         newItem.ForeColor = Color.Red
                     End If
                     newItem.Text = certName & " (" & certGrade & ")"
-                    newItem.Name = item
+                    newItem.Name = CStr(item)
                     newItem.SubItems.Add("Level " & lvl)
                     lvwDepend.Items.Add(newItem)
                 Next
@@ -2579,7 +2579,7 @@ Public Class frmTraining
 
 #Region "Skill Tree Context Menu Functions"
     Private Sub ctxDetails_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDetails.Opening
-        Dim curNode As TreeNode = New TreeNode
+        Dim curNode As TreeNode
         curNode = tvwSkillList.SelectedNode
         If curNode IsNot Nothing Then
             Dim skillName As String = ""
@@ -2631,13 +2631,6 @@ Public Class frmTraining
         Dim skillID As Integer = CInt(mnuSkillName2.Tag)
         frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
-    End Sub
-    Private Sub mnuForceTraining2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining2.Click
-        Dim skillID As Integer = CInt(mnuSkillName2.Tag)
-        If Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
-            Call frmPilot.UpdatePilotInfo()
-            Call Me.LoadSkillTree()
-        End If
     End Sub
     Private Sub mnuAddToQueueNext_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToQueueNext.Click
         If activeQueue IsNot Nothing Then
@@ -2853,13 +2846,6 @@ Public Class frmTraining
         frmSkillDetails.DisplayPilotName = displayPilot.Name
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
-    Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
-        Dim skillID As Integer = CInt(mnuSkillName.Tag)
-        If Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
-            Call frmPilot.UpdatePilotInfo()
-            Call Me.LoadSkillTree()
-        End If
-    End Sub
     Private Sub mnuSplitQueue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSplitQueue.Click
         Call Me.SplitQueue()
     End Sub
@@ -2901,7 +2887,7 @@ Public Class frmTraining
         Call frmSkillDetails.ShowSkillDetails(skillID)
     End Sub
     Private Sub mnuViewItemDetailsInCertScreen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewItemDetailsInCertScreen.Click
-        Dim certID As String = mnuItemName.Tag.ToString
+        Dim certID As Integer = CInt(mnuItemName.Tag)
         frmCertificateDetails.DisplayPilotName = displayPilot.Name
         frmCertificateDetails.ShowCertDetails(certID)
     End Sub

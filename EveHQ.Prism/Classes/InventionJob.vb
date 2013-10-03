@@ -164,7 +164,7 @@ Public Class InventionJob
     Public Function CalculateInventionCost() As InventionCost
         'TODO: Refactor this so it is not a dupe of the blueprint Calc Invention Cost
         Dim invCost As New InventionCost
-        Dim quantityTable As New Dictionary(Of String, Integer)
+        Dim quantityTable As New Dictionary(Of Integer, Integer)
         ' Get base item BP for this invention
         Dim baseBp As EveData.Blueprint = GetBaseBP()
 
@@ -172,7 +172,7 @@ Public Class InventionJob
         For Each resource As EveData.BlueprintResource In baseBp.Resources(BlueprintActivity.Invention).Values
             ' Only include datacores
             If resource.TypeGroup = 333 Then
-                Dim idKey As String = resource.TypeId.ToString
+                Dim idKey As Integer = resource.TypeId
                 If quantityTable.ContainsKey(idKey) = False Then
                     quantityTable.Add(idKey, resource.Quantity)
                 Else
@@ -183,18 +183,17 @@ Public Class InventionJob
 
         ' Calculate Item cost
         If _metaItemId <> 0 Then
-            Dim metaId As String = CStr(_metaItemId)
-            If quantityTable.ContainsKey(metaId) = False Then
-                quantityTable.Add(metaId, 1)
+            If quantityTable.ContainsKey(_metaItemId) = False Then
+                quantityTable.Add(_metaItemId, 1)
             Else
-                quantityTable(metaId) = quantityTable(metaId) + 1
+                quantityTable(_metaItemId) = quantityTable(_metaItemId) + 1
             End If
 
         End If
 
         ' Calculate Decryptor cost
         If _decryptorUsed IsNot Nothing Then
-            If _decryptorUsed.ID <> "" And _decryptorUsed.ID <> "0" Then
+            If _decryptorUsed.ID <> 0 Then
                 If quantityTable.ContainsKey(_decryptorUsed.ID) = False Then
                     quantityTable.Add(_decryptorUsed.ID, 1)
                 Else
@@ -205,13 +204,13 @@ Public Class InventionJob
 
         ' Total the item costs
 
-        Dim prices As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+        Dim prices As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
         prices.Wait()
-        Dim itemCost As Dictionary(Of String, Double) = prices.Result
+        Dim itemCost As Dictionary(Of Integer, Double) = prices.Result
 
         invCost.DatacoreCost =
             itemCost.Keys.Where(
-                Function(key) baseBp.Resources.Values.Any(Function(resource) resource(BlueprintActivity.Invention).TypeId.ToString = key)).Sum(
+                Function(key) baseBp.Resources.Values.Any(Function(resource) resource(BlueprintActivity.Invention).TypeId = key)).Sum(
                     Function(key) itemCost(key) * quantityTable(key))
         If _decryptorUsed IsNot Nothing Then
             invCost.DecryptorCost =
@@ -220,7 +219,7 @@ Public Class InventionJob
         End If
 
         invCost.MetaItemCost =
-            itemCost.Keys.Where(Function(key) key = _metaItemId.ToString).Select(
+            itemCost.Keys.Where(Function(key) key = _metaItemId).Select(
                 Function(key) itemCost(key) * quantityTable(key)).Sum()
 
         ' Calculate lab cost
@@ -269,14 +268,14 @@ Public Class InventionJob
     Public Function CalculateBPCCost() As Double
         Dim bpcCost As Double = 0
         Dim baseBp As EveData.Blueprint = GetBaseBP()
-        If Settings.PrismSettings.BPCCosts.ContainsKey(baseBp.ID.ToString) Then
-            Dim pricerange As Double = Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MaxRunCost -
-                                       Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
+        If Settings.PrismSettings.BPCCosts.ContainsKey(baseBp.Id) Then
+            Dim pricerange As Double = Settings.PrismSettings.BPCCosts(baseBp.Id).MaxRunCost -
+                                       Settings.PrismSettings.BPCCosts(baseBp.Id).MinRunCost
             Dim runrange As Integer = baseBp.MaxProductionLimit - 1
             If runrange = 0 Then
-                bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost
+                bpcCost += Settings.PrismSettings.BPCCosts(baseBp.Id).MinRunCost
             Else
-                bpcCost += Settings.PrismSettings.BPCCosts(baseBp.ID.ToString).MinRunCost +
+                bpcCost += Settings.PrismSettings.BPCCosts(baseBp.Id).MinRunCost +
                            Math.Round((pricerange / runrange) * (_bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
             End If
         End If

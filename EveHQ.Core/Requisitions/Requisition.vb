@@ -147,7 +147,7 @@ Namespace Requisitions
                     ' Create a new order
                     Dim newReqOrder As New RequisitionOrder
                     newReqOrder.ID = "-1" ' Will be replaced by the database ID on reloading from the DB
-                    newReqOrder.ItemID = StaticData.TypeNames(itemName)
+                    newReqOrder.ItemID = CStr(StaticData.TypeNames(itemName))
                     newReqOrder.ItemName = itemName
                     newReqOrder.ItemQuantity = orderList(itemName)
                     newReqOrder.RequestDate = Now

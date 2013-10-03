@@ -1275,18 +1275,18 @@ Public Class frmHQF
 
         'Update pricing data
         'query for the prices of each of the modules. This iterates the collection more than once, but it is more efficient than potientially making a dozen or more web requests
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From modules In LastModuleResults.Values Let mods = CType(modules, ShipModule) Select mods.ID)
+        Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From modules In LastModuleResults.Values Let mods = modules Select CInt(mods.ID))
 
         'Update UI when pricing data is acquired
-        priceTask.ContinueWith(Sub(task As Task(Of Dictionary(Of String, Double)))
-                                   Dim prices As Dictionary(Of String, Double) = task.Result
+        priceTask.ContinueWith(Sub(task As Task(Of Dictionary(Of Integer, Double)))
+                                   Dim prices As Dictionary(Of Integer, Double) = task.Result
                                    'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
                                    If IsHandleCreated Then
                                        ' Switch to UI thread
                                        Invoke(Sub()
                                                   For Each moduleNode As Node In tvwModules.Nodes
                                                       Dim price As Double
-                                                      If prices.TryGetValue(moduleNode.Name, price) Then
+                                                      If prices.TryGetValue(CInt(moduleNode.Name), price) Then
                                                           moduleNode.Cells(4).Text = price.ToInvariantString("N2")
                                                       End If
                                                   Next
@@ -1616,7 +1616,7 @@ Public Class frmHQF
             Else
                 baseID = NewFit.BaseShip.ID
             End If
-            shipSlot.pbShip.Image = EveHQ.Core.ImageHandler.GetImage(baseID, 32)
+            shipSlot.pbShip.Image = EveHQ.Core.ImageHandler.GetImage(CInt(baseID), 32)
 
             ' Create a new Ship Info Control
             Dim shipInfo As New ShipInfoControl(NewFit)

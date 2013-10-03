@@ -307,7 +307,7 @@ Public Class frmShipEditorAttributes
     End Sub
 
     Private Sub UpdateImage()
-        Dim img As Drawing.Image = EveHQ.Core.ImageHandler.GetImage(ShipLists.shipListKeyName(CustomShip.BaseShipName), 128)
+        Dim img As Drawing.Image = Core.ImageHandler.GetImage(CInt(ShipLists.ShipListKeyName(CustomShip.BaseShipName)), 128)
         If img IsNot Nothing Then
             picShip.Image = img
         End If

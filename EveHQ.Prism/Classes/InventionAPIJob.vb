@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.Xml
 Imports System.Text
+Imports EveHQ.EveData
 
 <Serializable()> Public Class InventionAPIJob
     Public JobID As Long
@@ -54,7 +55,7 @@ Imports System.Text
                         NewJob.InstallerName = ""
                         NewJob.BPID = CInt(Tran.Attributes.GetNamedItem("installedItemTypeID").Value)
                         NewJob.TypeID = CInt(Tran.Attributes.GetNamedItem("outputTypeID").Value)
-                        NewJob.TypeName = EveHQ.Core.HQ.itemData(NewJob.TypeID.ToString).Name
+                        NewJob.TypeName = StaticData.Types(NewJob.TypeID).Name
                         NewJob.result = CInt(Tran.Attributes.GetNamedItem("completedStatus").Value)
                         JobList.Add(NewJob.JobID, NewJob)
                     End If
@@ -82,7 +83,7 @@ Imports System.Text
         Try
             If strSQL <> "" Then
                 ' Fetch the data
-                Dim JobData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+                Dim JobData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
                 If JobData IsNot Nothing Then
                     If JobData.Tables(0).Rows.Count > 0 Then
                         For Each JE As DataRow In JobData.Tables(0).Rows
@@ -128,7 +129,7 @@ Imports System.Text
             strID.Remove(0, 1)
             ' Get the name data from the DB
             Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-            Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            Dim IDData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
             If IDData IsNot Nothing Then
                 If IDData.Tables(0).Rows.Count > 0 Then
                     For Each IDRow As DataRow In IDData.Tables(0).Rows

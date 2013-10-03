@@ -4,7 +4,7 @@
 
         Public ID As Integer
         Public Quantity As Long
-        Public Resources As New SortedList(Of String, Long)
+        Public Resources As New SortedList(Of Integer, Long)
 
     End Class
 

@@ -20,26 +20,26 @@
 
 Public Class frmEditBPDetails
 
-    Dim cAssetIDs As New ArrayList
-    Dim cOwnerName As String
-    Dim CurrentBP As New BlueprintAsset
+    Dim _assetIDs As New List(Of Integer)
+    Dim _ownerName As String
+    Dim _currentBP As New BlueprintAsset
 
-    Public Property AssetIDs() As ArrayList
+    Public Property AssetIDs() As List(Of Integer)
         Get
-            Return cAssetIDs
+            Return _assetIDs
         End Get
-        Set(ByVal value As ArrayList)
-            cAssetIDs = value
-            Call Me.UpdateCurrentBP()
+        Set(ByVal value As List(Of Integer))
+            _assetIDs = value
+            Call UpdateCurrentBP()
         End Set
     End Property
 
     Public Property OwnerName() As String
         Get
-            Return cOwnerName
+            Return _ownerName
         End Get
         Set(ByVal value As String)
-            cOwnerName = value
+            _ownerName = value
         End Set
     End Property
 
@@ -54,32 +54,32 @@ Public Class frmEditBPDetails
         cboStatus.EndUpdate()
 
         ' Loads a single Blueprint
-        Dim cAssetID As String = cAssetIDs(0).ToString
+        Dim cAssetID As Integer = _assetIDs(0)
 
         ' Fetch the ownerBPs if it exists
-        CurrentBP = PlugInData.BlueprintAssets(cOwnerName).Item(cAssetID)
+        _currentBP = PlugInData.BlueprintAssets(_ownerName).Item(cAssetID)
 
         ' Get the image
-        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CurrentBP.TypeID)
+        pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(CInt(_currentBP.TypeID))
 
-        If cAssetIDs.Count = 1 Then
+        If _assetIDs.Count = 1 Then
 
             ' Update the name and assetID details
             lblAssetID.Text = "AssetID: " & cAssetID
-            lblBPName.Text = EveData.StaticData.Types(CurrentBP.TypeID).Name
+            lblBPName.Text = EveData.StaticData.Types(CInt(_currentBP.TypeID)).Name
 
             ' Update the current BP Info
-            lblCurrentME.Text = CurrentBP.MELevel.ToString
-            lblCurrentPE.Text = CurrentBP.PELevel.ToString
-            lblCurrentRuns.Text = CurrentBP.Runs.ToString
-            lblCurrentStatus.Text = [Enum].GetName(GetType(BPStatus), CurrentBP.Status)
+            lblCurrentME.Text = _currentBP.MELevel.ToString
+            lblCurrentPE.Text = _currentBP.PELevel.ToString
+            lblCurrentRuns.Text = _currentBP.Runs.ToString
+            lblCurrentStatus.Text = [Enum].GetName(GetType(BPStatus), _currentBP.Status)
             cboStatus.SelectedItem = lblCurrentStatus.Text
-            nudMELevel.Value = CurrentBP.MELevel
-            nudPELevel.Value = CurrentBP.PELevel
-            nudRuns.Value = CurrentBP.Runs
+            nudMELevel.Value = _currentBP.MELevel
+            nudPELevel.Value = _currentBP.PELevel
+            nudRuns.Value = _currentBP.Runs
 
             ' Check for User Asset
-            If CurrentBP.BPType = BPType.User Then
+            If _currentBP.BPType = BPType.User Then
                 lblAssetID.Text &= " (Custom Blueprint)"
                 nudRuns.Enabled = False
                 cboStatus.Enabled = False
@@ -104,33 +104,33 @@ Public Class frmEditBPDetails
 
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.Close()
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+        Close()
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        For Each cAssetID As String In cAssetIDs
-            CurrentBP = PlugInData.BlueprintAssets(cOwnerName).Item(cAssetID)
-            CurrentBP.MELevel = CInt(nudMELevel.Value)
-            CurrentBP.PELevel = CInt(nudPELevel.Value)
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+        For Each cAssetID As Integer In _assetIDs
+            _currentBP = PlugInData.BlueprintAssets(_ownerName).Item(cAssetID)
+            _currentBP.MELevel = CInt(nudMELevel.Value)
+            _currentBP.PELevel = CInt(nudPELevel.Value)
             ' Only update runs on non-user BPs
-            If CurrentBP.BPType <> BPType.User Then
-                CurrentBP.Runs = CInt(nudRuns.Value)
-                CurrentBP.Status = CInt([Enum].Parse(GetType(BPStatus), cboStatus.SelectedItem.ToString))
-                If CurrentBP.Runs = -1 Then
-                    CurrentBP.BPType = BPType.Original
+            If _currentBP.BPType <> BPType.User Then
+                _currentBP.Runs = CInt(nudRuns.Value)
+                _currentBP.Status = CInt([Enum].Parse(GetType(BPStatus), cboStatus.SelectedItem.ToString))
+                If _currentBP.Runs = -1 Then
+                    _currentBP.BPType = BPType.Original
                 Else
-                    CurrentBP.BPType = BPType.Copy
-                    If CurrentBP.Runs = 0 Then
-                        CurrentBP.Status = BPStatus.Exhausted
+                    _currentBP.BPType = BPType.Copy
+                    If _currentBP.Runs = 0 Then
+                        _currentBP.Status = BPStatus.Exhausted
                     End If
                 End If
             End If
         Next
-        Me.Close()
+        Close()
     End Sub
 
-    Private Sub cboStatus_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStatus.SelectedIndexChanged
+    Private Sub cboStatus_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboStatus.SelectedIndexChanged
         If cboStatus.SelectedIndex = BPStatus.Exhausted Then
             nudRuns.Value = 0
         Else
@@ -140,7 +140,7 @@ Public Class frmEditBPDetails
         End If
     End Sub
 
-    Private Sub nudRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudRuns.ValueChanged
+    Private Sub nudRuns_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudRuns.ValueChanged
         If nudRuns.Value = 0 Then
             cboStatus.SelectedIndex = BPStatus.Exhausted
         Else

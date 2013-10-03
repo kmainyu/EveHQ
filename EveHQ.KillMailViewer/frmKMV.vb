@@ -23,6 +23,7 @@ Imports System.Xml
 Imports System.Text
 Imports System.IO
 Imports System.Net
+Imports EveHQ.EveData
 Imports DevComponents.AdvTree
 
 Public Class frmKMV
@@ -235,25 +236,25 @@ Public Class frmKMV
 
 #Region "Killmail XML Parsing Routines"
 
-    Private Sub ParseKMXML(ByVal KM As XmlDocument)
+    Private Sub ParseKMXML(ByVal km As XmlDocument)
 
-        Dim KMList As XmlNodeList
-        Dim KMInfo As XmlNode
+        Dim kmList As XmlNodeList
+        Dim kmInfo As XmlNode
 
         ' Get the list of characters and the character IDs
-        KMList = KM.SelectNodes("/eveapi/result/rowset/row")
+        kmList = km.SelectNodes("/eveapi/result/rowset/row")
 
-        For Each KMInfo In KMList
+        For Each kmInfo In kmList
             ' Start a new KM class
             Dim newKM As New KillMail
-            newKM.killID = KMInfo.Attributes.GetNamedItem("killID").Value
-            newKM.systemID = KMInfo.Attributes.GetNamedItem("solarSystemID").Value
-            newKM.killTime = DateTime.ParseExact(KMInfo.Attributes.GetNamedItem("killTime").Value, KillTimeFormat, culture, Globalization.DateTimeStyles.None)
-            newKM.moonID = KMInfo.Attributes.GetNamedItem("moonID").Value
+            newKM.killID = CInt(kmInfo.Attributes.GetNamedItem("killID").Value)
+            newKM.systemID = CInt(kmInfo.Attributes.GetNamedItem("solarSystemID").Value)
+            newKM.killTime = DateTime.ParseExact(kmInfo.Attributes.GetNamedItem("killTime").Value, KillTimeFormat, culture, Globalization.DateTimeStyles.None)
+            newKM.moonID = kmInfo.Attributes.GetNamedItem("moonID").Value
 
             ' Parse the victim data
             Dim newVictim As New KMVictim
-            With KMInfo.ChildNodes(0)
+            With kmInfo.ChildNodes(0)
                 newVictim.charID = .Attributes.GetNamedItem("characterID").Value
                 newVictim.charName = .Attributes.GetNamedItem("characterName").Value
                 newVictim.corpID = .Attributes.GetNamedItem("corporationID").Value
@@ -263,12 +264,12 @@ Public Class frmKMV
                 newVictim.factionID = .Attributes.GetNamedItem("factionID").Value
                 newVictim.factionName = .Attributes.GetNamedItem("factionName").Value
                 newVictim.damageTaken = Double.Parse(.Attributes.GetNamedItem("damageTaken").Value, Globalization.NumberStyles.Any, culture)
-                newVictim.shipTypeID = .Attributes.GetNamedItem("shipTypeID").Value
+                newVictim.shipTypeID = CInt(.Attributes.GetNamedItem("shipTypeID").Value)
             End With
             newKM.Victim = newVictim
 
             ' Parse the attackers data
-            For Each attackerNode As XmlNode In KMInfo.ChildNodes(1).ChildNodes
+            For Each attackerNode As XmlNode In kmInfo.ChildNodes(1).ChildNodes
                 Dim newAttacker As New KMAttacker
                 newAttacker.charID = attackerNode.Attributes.GetNamedItem("characterID").Value
                 newAttacker.charName = attackerNode.Attributes.GetNamedItem("characterName").Value
@@ -281,17 +282,17 @@ Public Class frmKMV
                 newAttacker.secStatus = Double.Parse(attackerNode.Attributes.GetNamedItem("securityStatus").Value, Globalization.NumberStyles.Any, culture)
                 newAttacker.damageDone = Double.Parse(attackerNode.Attributes.GetNamedItem("damageDone").Value, Globalization.NumberStyles.Any, culture)
                 newAttacker.finalBlow = CBool(attackerNode.Attributes.GetNamedItem("finalBlow").Value)
-                newAttacker.weaponTypeID = attackerNode.Attributes.GetNamedItem("weaponTypeID").Value
-                newAttacker.shipTypeID = attackerNode.Attributes.GetNamedItem("shipTypeID").Value
+                newAttacker.weaponTypeID = CInt(attackerNode.Attributes.GetNamedItem("weaponTypeID").Value)
+                newAttacker.shipTypeID = CInt(attackerNode.Attributes.GetNamedItem("shipTypeID").Value)
                 ' Setup the key for sorting
                 Dim key As String = Format(newAttacker.damageDone, "0000000000") & newAttacker.charName & newAttacker.corpID
                 newKM.Attackers.Add(key, newAttacker)
             Next
 
             ' Parse the item data
-            For Each itemNode As XmlNode In KMInfo.ChildNodes(2).ChildNodes
+            For Each itemNode As XmlNode In kmInfo.ChildNodes(2).ChildNodes
                 Dim newItem As New KMItem
-                newItem.typeID = itemNode.Attributes.GetNamedItem("typeID").Value
+                newItem.typeID = CInt(itemNode.Attributes.GetNamedItem("typeID").Value)
                 newItem.flag = Integer.Parse(itemNode.Attributes.GetNamedItem("flag").Value, Globalization.NumberStyles.Any, culture)
                 newItem.qtyDropped = Integer.Parse(itemNode.Attributes.GetNamedItem("qtyDropped").Value, Globalization.NumberStyles.Any, culture)
                 newItem.qtyDestroyed = Integer.Parse(itemNode.Attributes.GetNamedItem("qtyDestroyed").Value, Globalization.NumberStyles.Any, culture)
@@ -323,7 +324,7 @@ Public Class frmKMV
                 newKM.Text = charKM.Victim.charName
             End If
             adtKillmails.Nodes.Add(newKM)
-            newKM.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(charKM.Victim.shipTypeID).Name))
+            newKM.Cells.Add(New Cell(StaticData.Types(charKM.Victim.shipTypeID).Name))
             newKM.Cells.Add(New Cell(charKM.killTime.ToString))
         Next
         adtKillmails.EndUpdate()
@@ -331,15 +332,15 @@ Public Class frmKMV
         lblKMSummary.Text = "Killmail Summary for " & charName & " (" & adtKillmails.Nodes.Count & " items)"
         ' Clear the killmail detail text
         txtKillMailDetails.Text = ""
-        EveHQ.Core.AdvTreeSorter.Sort(adtKillmails, 1, True, True)
+        Core.AdvTreeSorter.Sort(adtKillmails, 1, True, True)
     End Sub
 #End Region
 
 #Region "Killmail Detail Routines"
 
     Private Sub adtKillmails_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtKillmails.ColumnHeaderMouseDown
-        Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-        EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+        Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+        Core.AdvTreeSorter.Sort(ch, True, False)
     End Sub
 
     Private Sub adtKillmails_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtKillmails.SelectionChanged
@@ -369,7 +370,7 @@ Public Class frmKMV
         KMText.AppendLine("")
 
         ' Get the solar system details
-        Dim ss As SolarSystem = PlugInData.Systems(selKM.systemID)
+        Dim ss As SolarSystem = StaticData.SolarSystems(selKM.systemID)
 
         ' Write the victim details
         If selKM.Victim.charName = "" Then
@@ -388,7 +389,7 @@ Public Class frmKMV
         Else
             KMText.AppendLine("Faction: " & selKM.Victim.factionName)
         End If
-        KMText.AppendLine("Destroyed: " & EveHQ.Core.HQ.itemData(selKM.Victim.shipTypeID).Name)
+        KMText.AppendLine("Destroyed: " & StaticData.Types(selKM.Victim.shipTypeID).Name)
         KMText.AppendLine("System: " & ss.Name)
         KMText.AppendLine("Security: " & Math.Max(ss.Security, 0).ToString("N1"))
         KMText.AppendLine("Damage Taken: " & selKM.Victim.damageTaken.ToString)
@@ -424,17 +425,17 @@ Public Class frmKMV
                 Else
                     KMText.AppendLine("Faction: " & attacker.factionName)
                 End If
-                If attacker.shipTypeID = "0" Then
+                If attacker.shipTypeID = 0 Then
                     KMText.AppendLine("Ship: Unknown")
                 Else
-                    KMText.AppendLine("Ship: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name)
+                    KMText.AppendLine("Ship: " & StaticData.Types(attacker.shipTypeID).Name)
                 End If
-                KMText.AppendLine("Weapon: " & EveHQ.Core.HQ.itemData(attacker.weaponTypeID).Name)
+                KMText.AppendLine("Weapon: " & StaticData.Types(attacker.weaponTypeID).Name)
             Else
                 If attacker.corpName = "" Then
-                    KMText.Append("Name: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name & " / Unknown")
+                    KMText.Append("Name: " & StaticData.Types(attacker.shipTypeID).Name & " / Unknown")
                 Else
-                    KMText.Append("Name: " & EveHQ.Core.HQ.itemData(attacker.shipTypeID).Name & " / " & attacker.corpName)
+                    KMText.Append("Name: " & StaticData.Types(attacker.shipTypeID).Name & " / " & attacker.corpName)
                 End If
                 If attacker.finalBlow = True Then
                     KMText.AppendLine(" (laid the final blow)")
@@ -450,7 +451,7 @@ Public Class frmKMV
         Dim droppedItems, destroyedItems As New List(Of String)
         Dim itemName As String = ""
         For Each item As KMItem In selKM.Items
-            itemName = EveHQ.Core.HQ.itemData(item.typeID).Name
+            itemName = StaticData.Types(item.typeID).Name
             If item.qtyDestroyed > 0 Then
                 If item.qtyDestroyed = 1 Then
                     If item.flag = 0 Then
@@ -597,7 +598,7 @@ Public Class frmKMV
 
         If adtKillmails.SelectedNodes.Count > 0 Then
 
-            Dim FittedItems As New SortedList(Of String, Integer)
+            Dim fittedItems As New SortedList(Of Integer, Integer)
 
             ' Get the killID of the selected Killmail
             Dim killID As String = CStr(adtKillmails.SelectedNodes(0).Tag)
@@ -610,7 +611,7 @@ Public Class frmKMV
                 If item.flag = 0 Then
                     ' This is a fitted item
                     If (item.qtyDestroyed + item.qtyDropped) > 0 Then
-                        FittedItems.Add(item.typeID, item.qtyDestroyed + item.qtyDropped)
+                        fittedItems.Add(item.typeID, item.qtyDestroyed + item.qtyDropped)
                     End If
                 End If
             Next
@@ -619,18 +620,18 @@ Public Class frmKMV
             Dim DNA As New StringBuilder
             DNA.Append("fitting://evehq/")
             DNA.Append(selKM.Victim.shipTypeID.ToString)
-            For Each item As String In FittedItems.Keys
-                DNA.Append(":" & item & "*" & FittedItems(item).ToString)
+            For Each item As Integer In fittedItems.Keys
+                DNA.Append(":" & item & "*" & fittedItems(item).ToString)
             Next
             ' Add a basic loadout name
-            DNA.Append("?LoadoutName=" & selKM.Victim.charName & "'s " & EveHQ.Core.HQ.itemData(selKM.Victim.shipTypeID).Name)
+            DNA.Append("?LoadoutName=" & selKM.Victim.charName & "'s " & StaticData.Types(selKM.Victim.shipTypeID).Name)
 
             ' Start the HQF plug-in if it's active
             Dim PluginName As String = "EveHQ Fitter"
             Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(PluginName)
             If myPlugIn.Status = EveHQ.Core.EveHQPlugInStatus.Active Then
-                Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-                Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+                Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+                Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMDITab(PluginName)
                 If tp IsNot Nothing Then
                     mainTab.SelectedTab = tp
                 Else

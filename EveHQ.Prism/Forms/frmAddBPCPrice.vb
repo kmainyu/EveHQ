@@ -22,18 +22,18 @@ Imports System.Windows.Forms
 
 Public Class frmAddBPCPrice
 
-    Dim BlueprintID As String
+    Dim BlueprintID As Integer
 
 #Region "Form Constructor"
 
-    Public Sub New(ByVal BPID As String)
+    Public Sub New(ByVal BPID As Integer)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
         BlueprintID = BPID
-        pbBP.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(BlueprintID)
+        pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(BlueprintID)
         lblBPName.Text = EveData.StaticData.Types(BlueprintID).Name
 
         If Settings.PrismSettings.BPCCosts.ContainsKey(BlueprintID) = True Then

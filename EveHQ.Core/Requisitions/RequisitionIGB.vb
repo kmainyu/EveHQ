@@ -92,9 +92,9 @@ Namespace Requisitions
                 strHTML.Append("Source: " & newReq.Source & "<br /><br />")
                 strHTML.Append("<table border=1><tr style='text-align:center'><td width=300><b>Item</b></td><td width=100><b>Quantity</b></td><td width=100></td></tr>")
                 For Each order As RequisitionOrder In newReq.Orders.Values
-                    Dim item As EveType = StaticData.Types(order.ItemID)
+                    Dim item As EveType = StaticData.Types(CInt(order.ItemID))
                     strHTML.Append("<tr style='vertical-align:middle'><td ><img width=24 height=24 src='")
-                    strHTML.Append(ImageHandler.GetRawImageLocation(item.Id.ToString))
+                    strHTML.Append(ImageHandler.GetRawImageLocation(item.Id))
                     strHTML.Append("' style='vertical-align:middle' />  " & order.ItemName & "</td><td style='text-align:center'>" & order.ItemQuantity & "</td>")
                     strHTML.Append("<td><button type=""button"" onclick=""CCPEVE.showMarketDetails(" & order.ItemID & ")"">Show Market</button></td>")
                     strHTML.Append("</tr>")

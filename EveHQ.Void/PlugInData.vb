@@ -17,11 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Windows.Forms
+Imports EveHQ.EveData
 
 Public Class PlugInData
-    Implements EveHQ.Core.IEveHQPlugIn
+    Implements Core.IEveHQPlugIn
 
     Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
         Return Nothing
@@ -33,23 +32,23 @@ Public Class PlugInData
 
     Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.EveHQPlugIn
-        EveHQPlugIn.Name = "EveHQ Void"
-        EveHQPlugIn.Description = "Wormhole and W-Space Information Tool"
-        EveHQPlugIn.Author = "EveHQ Team"
-        EveHQPlugIn.MainMenuText = "Void"
-        EveHQPlugIn.RunAtStartup = True
-        EveHQPlugIn.RunInIGB = True
-        EveHQPlugIn.MenuImage = My.Resources.Plugin_Icon
-        EveHQPlugIn.Version = My.Application.Info.Version.ToString
-        Return EveHQPlugIn
+        Dim eveHQPlugIn As New Core.EveHQPlugIn
+        eveHQPlugIn.Name = "EveHQ Void"
+        eveHQPlugIn.Description = "Wormhole and W-Space Information Tool"
+        eveHQPlugIn.Author = "EveHQ Team"
+        eveHQPlugIn.MainMenuText = "Void"
+        eveHQPlugIn.RunAtStartup = True
+        eveHQPlugIn.RunInIGB = True
+        eveHQPlugIn.MenuImage = My.Resources.Plugin_Icon
+        eveHQPlugIn.Version = My.Application.Info.Version.ToString
+        Return eveHQPlugIn
     End Function
 
     Public Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
         Return IGBData.Response(IGBContext)
     End Function
 
-    Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
+    Public Function RunEveHQPlugIn() As Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
         Return New frmVoid
     End Function
 
@@ -59,13 +58,13 @@ Public Class PlugInData
     End Function
 
     Private Function LoadVoidData() As Boolean
-        If Me.LoadWormholeData = False Then
+        If LoadWormholeData() = False Then
             Return False
         End If
-        If Me.LoadWHSystemData = False Then
+        If LoadWHSystemData() = False Then
             Return False
         End If
-        If Me.LoadWHAttributeData = False Then
+        If LoadWHAttributeData() = False Then
             Return False
         End If
         Return True
@@ -73,181 +72,135 @@ Public Class PlugInData
 
     Private Function LoadWormholeData() As Boolean
         ' Parse the WHAttributes resource
-        Dim WHAttributes As New SortedList(Of String, SortedList(Of String, String))
-        Dim cAtts As New SortedList(Of String, String)
-        Dim Atts() As String = My.Resources.WHattribs.Split((ControlChars.CrLf).ToCharArray)
-        For Each Att As String In Atts
-            If Att <> "" Then
-                Dim AttData() As String = Att.Split(",".ToCharArray)
-                If WHAttributes.ContainsKey(AttData(0)) = False Then
-                    WHAttributes.Add(AttData(0), New SortedList(Of String, String))
+        Dim whAttributes As New SortedList(Of String, SortedList(Of String, String))
+        Dim cAtts As SortedList(Of String, String)
+        Dim atts() As String = My.Resources.WHattribs.Split((ControlChars.CrLf).ToCharArray)
+        For Each att As String In atts
+            If att <> "" Then
+                Dim attData() As String = att.Split(",".ToCharArray)
+                If whAttributes.ContainsKey(attData(0)) = False Then
+                    whAttributes.Add(attData(0), New SortedList(Of String, String))
                 End If
-                cAtts = WHAttributes(AttData(0))
-                cAtts.Add(AttData(1), AttData(2))
+                cAtts = whAttributes(attData(0))
+                cAtts.Add(attData(1), attData(2))
             End If
         Next
         ' Load the data
-        ' Added null check on typeName for Retribution 1.0 database update.
-        Dim strSQL As String = "SELECT * from invTypes WHERE groupID=988 and typeName is not null;"
-        Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If WHData IsNot Nothing Then
-                If WHData.Tables(0).Rows.Count > 0 Then
-                    Dim cWH As New WormHole
-                    VoidData.Wormholes.Clear()
-                    For WH As Integer = 0 To WHData.Tables(0).Rows.Count - 1
-                        cWH = New WormHole
-                        cWH.ID = CStr(WHData.Tables(0).Rows(WH).Item("typeID"))
-                        cWH.Name = CStr(WHData.Tables(0).Rows(WH).Item("typeName")).Replace("Wormhole ", "")
-                        If WHAttributes.ContainsKey(cWH.ID) = True Then
-                            For Each Att As String In WHAttributes(cWH.ID).Keys
-                                Select Case Att
-                                    Case "1381"
-                                        cWH.TargetClass = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1382"
-                                        cWH.MaxStabilityWindow = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1383"
-                                        cWH.MaxMassCapacity = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1384"
-                                        cWH.MassRegeneration = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1385"
-                                        cWH.MaxJumpableMass = WHAttributes(cWH.ID).Item(Att)
-                                    Case "1457"
-                                        cWH.TargetDistributionID = WHAttributes(cWH.ID).Item(Att)
-                                End Select
-                            Next
-                        Else
-                            cWH.TargetClass = ""
-                            cWH.MaxStabilityWindow = ""
-                            cWH.MaxMassCapacity = ""
-                            cWH.MassRegeneration = ""
-                            cWH.MaxJumpableMass = ""
-                            cWH.TargetDistributionID = ""
-                        End If
-                        ' Add in data from the resource file
-                        If cWH.Name.StartsWith("Test") = False Then
-                            VoidData.Wormholes.Add(CStr(cWH.Name), cWH)
-                        End If
-                    Next
-                    WHAttributes.Clear()
-                    WHData.Dispose()
-                    Return True
-                Else
-                    Return False
-                End If
+        Dim cWH As WormHole
+        VoidData.Wormholes.Clear()
+        For Each wh As EveType In StaticData.GetItemsInGroup(988)
+            cWH = New WormHole
+            cWH.ID = wh.Id.ToString
+            cWH.Name = wh.Name.Replace("Wormhole ", "")
+            If whAttributes.ContainsKey(cWH.ID) = True Then
+                For Each att As String In whAttributes(cWH.ID).Keys
+                    Select Case att
+                        Case "1381"
+                            cWH.TargetClass = whAttributes(cWH.ID).Item(att)
+                        Case "1382"
+                            cWH.MaxStabilityWindow = whAttributes(cWH.ID).Item(att)
+                        Case "1383"
+                            cWH.MaxMassCapacity = whAttributes(cWH.ID).Item(att)
+                        Case "1384"
+                            cWH.MassRegeneration = whAttributes(cWH.ID).Item(att)
+                        Case "1385"
+                            cWH.MaxJumpableMass = whAttributes(cWH.ID).Item(att)
+                        Case "1457"
+                            cWH.TargetDistributionID = whAttributes(cWH.ID).Item(att)
+                    End Select
+                Next
             Else
-                Return False
+                cWH.TargetClass = ""
+                cWH.MaxStabilityWindow = ""
+                cWH.MaxMassCapacity = ""
+                cWH.MassRegeneration = ""
+                cWH.MaxJumpableMass = ""
+                cWH.TargetDistributionID = ""
             End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading Wormhole Data for the Void Plugin" & ControlChars.CrLf & ex.Message, "Void Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
+            ' Add in data from the resource file
+            If cWH.Name.StartsWith("Test", StringComparison.Ordinal) = False Then
+                VoidData.Wormholes.Add(CStr(cWH.Name), cWH)
+            End If
+        Next
+        whAttributes.Clear()
     End Function
 
     Private Function LoadWHSystemData() As Boolean
         ' Parse the location classes
-        Dim WHClasses As New SortedList(Of String, String)
-        Dim Classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
-        For Each WHClass As String In Classes
-            If WHClass <> "" Then
-                Dim ClassData() As String = WHClass.Split(",".ToCharArray)
-                If WHClasses.ContainsKey(ClassData(0)) = False Then
-                    WHClasses.Add(ClassData(0), ClassData(1))
+        Dim whClasses As New SortedList(Of String, String)
+        Dim classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
+        For Each whClass As String In classes
+            If whClass <> "" Then
+                Dim classData() As String = whClass.Split(",".ToCharArray)
+                If whClasses.ContainsKey(classData(0)) = False Then
+                    whClasses.Add(classData(0), classData(1))
                 End If
             End If
         Next
         ' Parse the location effects
-        Dim WHEffects As New SortedList(Of String, String)
-        Dim Effects() As String = My.Resources.WSpaceTypes.Split((ControlChars.CrLf).ToCharArray)
-        For Each WHEffect As String In Effects
-            If WHEffect <> "" Then
-                Dim EffectData() As String = WHEffect.Split(",".ToCharArray)
-                If WHEffects.ContainsKey(EffectData(0)) = False Then
-                    WHEffects.Add(EffectData(0), EffectData(1))
+        Dim whEffects As New SortedList(Of String, String)
+        Dim effects() As String = My.Resources.WSpaceTypes.Split((ControlChars.CrLf).ToCharArray)
+        For Each whEffect As String In effects
+            If whEffect <> "" Then
+                Dim effectData() As String = whEffect.Split(",".ToCharArray)
+                If whEffects.ContainsKey(effectData(0)) = False Then
+                    whEffects.Add(effectData(0), effectData(1))
                 End If
             End If
         Next
+
         ' Load the data
-        Dim strSQL As String = "SELECT * FROM mapSolarSystems WHERE regionID>11000000;"
-        Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If systemData IsNot Nothing Then
-                If systemData.Tables(0).Rows.Count > 0 Then
-                    Dim cSystem As WormholeSystem = New WormholeSystem
-                    VoidData.WormholeSystems.Clear()
-                    For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
-                        cSystem = New WormholeSystem
-                        cSystem.ID = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemID"))
-                        cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
-                        cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionID"))
-                        cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationID"))
-                        cSystem.WClass = WHClasses(cSystem.Region)
-                        If WHEffects.ContainsKey(cSystem.Name) = True Then
-                            cSystem.WEffect = WHEffects(cSystem.Name)
-                        Else
-                            cSystem.WEffect = ""
-                        End If
-                        VoidData.WormholeSystems.Add(CStr(cSystem.Name), cSystem)
-                    Next
-                    WHClasses.Clear()
-                    WHEffects.Clear()
-                    systemData.Dispose()
-                    Return True
-                Else
-                    Return False
-                End If
+        Dim systems As IEnumerable(Of SolarSystem) = From item In StaticData.SolarSystems.Values Where item.RegionId > 11000000
+
+        Dim cSystem As WormholeSystem
+        VoidData.WormholeSystems.Clear()
+
+        For Each solar As SolarSystem In systems
+            cSystem = New WormholeSystem
+            cSystem.ID = solar.Id.ToString
+            cSystem.Name = solar.Name
+            cSystem.Region = solar.RegionId.ToString
+            cSystem.Constellation = solar.ConstellationId.ToString
+            cSystem.WClass = whClasses(cSystem.Region)
+            If VoidData.WormholeEffects.ContainsKey(cSystem.Name) = True Then
+                cSystem.WEffect = whEffects(cSystem.Name)
             Else
-                Return False
+                cSystem.WEffect = ""
             End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading System Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
+            VoidData.WormholeSystems.Add(CStr(cSystem.Name), cSystem)
+        Next
+        whClasses.Clear()
+        VoidData.WormholeEffects.Clear()
+
     End Function
 
     Private Function LoadWHAttributeData() As Boolean
         ' Load the data
-        Dim strSQL As String = "SELECT invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.unitID"
-        strSQL &= " FROM dgmAttributeTypes INNER JOIN (invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID) ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID"
-        strSQL &= " WHERE (((invTypes.groupID)=920));"
-        Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If WHData IsNot Nothing Then
-                If WHData.Tables(0).Rows.Count > 0 Then
-                    Dim cWH As New WormHole
-                    VoidData.WormholeEffects.Clear()
-                    Dim currentEffect As New WormholeEffect
-                    For WH As Integer = 0 To WHData.Tables(0).Rows.Count - 1
-                        Dim typeName As String = CStr(WHData.Tables(0).Rows(WH).Item("typeName"))
-                        Dim attID As String = CStr(WHData.Tables(0).Rows(WH).Item("attributeID"))
-                        Dim attValue As Double = 0
-                        If IsDBNull(WHData.Tables(0).Rows(WH).Item("valueInt")) = False Then
-                            attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueInt"))
-                        Else
-                            attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueFloat"))
-                        End If
-                        If CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "124" Or CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "105" Then
-                            attValue = -attValue
-                        End If
-                        If VoidData.WormholeEffects.ContainsKey(typeName) = False Then
-                            VoidData.WormholeEffects.Add(typeName, New WormholeEffect)
-                        End If
-                        currentEffect = VoidData.WormholeEffects(typeName)
-                        currentEffect.WormholeType = typeName
-                        currentEffect.Attributes.Add(attID, attValue)
-                    Next
-                    WHData.Dispose()
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
+        Dim taqs As IEnumerable = (From item In StaticData.Types.Values Join ta In StaticData.TypeAttributes On item.Id Equals ta.TypeId Join at In StaticData.AttributeTypes.Values On ta.AttributeId Equals at.AttributeId
+                Where item.Group = 920
+                Select New TypeAttributeQuery With {
+                .TypeID = item.Id,
+                .TypeName = item.Name,
+                .AttributeID = ta.AttributeId,
+                .UnitID = at.UnitId,
+                .Value = ta.Value}).ToList
+
+        VoidData.WormholeEffects.Clear()
+        Dim currentEffect As WormholeEffect
+        For Each taq As TypeAttributeQuery In taqs
+            Dim typeName As String = taq.TypeName
+            Dim attID As String = CStr(taq.AttributeID)
+            Dim attValue As Double = taq.Value
+            If taq.UnitID = 124 Or taq.UnitID = 105 Then
+                attValue = -attValue
             End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading Wormhole Effect Data for the Void Plugin" & ControlChars.CrLf & ex.Message, "Void Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
+            If VoidData.WormholeEffects.ContainsKey(typeName) = False Then
+                VoidData.WormholeEffects.Add(typeName, New WormholeEffect)
+            End If
+            currentEffect = VoidData.WormholeEffects(typeName)
+            currentEffect.WormholeType = typeName
+            currentEffect.Attributes.Add(attID, attValue)
+        Next
     End Function
 
 End Class

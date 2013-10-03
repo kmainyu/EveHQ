@@ -249,7 +249,7 @@ Public Class ShipWidgetModules
                     SlotNode.Text = remoteDrone.DroneType.Name & " (x" & remoteDrone.Quantity & ")"
                     Dim Desc As String = ""
                     Desc &= remoteDrone.DroneType.Description
-                    SlotTip.SetSuperTooltip(SlotNode, New SuperTooltipInfo(remoteDrone.DroneType.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(remoteDrone.DroneType.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
+                    SlotTip.SetSuperTooltip(SlotNode, New SuperTooltipInfo(remoteDrone.DroneType.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(CInt(remoteDrone.DroneType.ID), 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
                     adtSlots.Nodes.Add(SlotNode)
                 End If
             End If
@@ -278,7 +278,7 @@ Public Class ShipWidgetModules
                 Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
             End If
             Desc &= shipMod.Description
-            SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
+            SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(CInt(shipMod.ID), 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
         Else
             slotNode.Text = "<Empty>"
             SlotTip.SetSuperTooltip(slotNode, Nothing)
@@ -307,7 +307,7 @@ Public Class ShipWidgetModules
             Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
         End If
         Desc &= shipMod.Description
-        SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(shipMod.ID, 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
+        SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(CInt(shipMod.ID), 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
     End Sub
 
     Public Sub UpdateAllSlotLocations()

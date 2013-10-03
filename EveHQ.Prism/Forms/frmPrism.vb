@@ -58,20 +58,17 @@ Public Class frmPrism
     Dim BPManagerUpdate As Boolean = False
     Dim BPLocations As List(Of String) = New List(Of String)()
 
-    ' Investment variables
-    Dim InvestmentID As String
-
     ' Rig Builder Variables
-    Dim RigBPData As New SortedList
-    Dim RigBuildData As New SortedList
-    Dim SalvageList As New SortedList
+    Dim _rigBPData As New SortedList(Of String, SortedList(Of Integer, Long))
+    Dim _rigBuildData As New SortedList(Of Integer, Long)
+    Dim _salvageList As New SortedList
 
     ' Recycling Variables
-    Dim RecyclerAssetList As New SortedList
+    Dim _recyclerAssetList As New SortedList(Of Integer, Long)
     Dim RecyclerAssetOwner As String = ""
     Dim RecyclerAssetLocation As String = ""
-    Dim itemList As New SortedList
-    Dim matList As New SortedList
+    ReadOnly _itemList As New SortedList(Of Integer, SortedList(Of String, Long))
+    Dim matList As New SortedList(Of String, Long)
     Dim BaseYield As Double = 0.5
     Dim NetYield As Double = 0
     Dim StationYield As Double = 0
@@ -841,8 +838,8 @@ Public Class frmPrism
 
                         ' Write the installerIDs to the database
                         If APIXML IsNot Nothing Then
-                            Call Prism.DataFunctions.WriteInstallerIDsToDB(APIXML)
-                            Call Prism.DataFunctions.WriteInventionResultsToDB(APIXML)
+                            Call Prism.PrismDataFunctions.WriteInstallerIDsToDB(APIXML)
+                            Call Prism.PrismDataFunctions.WriteInventionResultsToDB(APIXML)
                         End If
 
                     End If
@@ -880,7 +877,7 @@ Public Class frmPrism
                     If CanUseAPI(Owner, CorpRepType.WalletJournal) = True Then
 
                         ' Get the last referenceID for the wallet
-                        Dim LastTrans As Long = DataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(Owner.ID), 1000)
+                        Dim LastTrans As Long = PrismDataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(Owner.ID), 1000)
 
                         ' Start a loop to collect multiple APIs
                         Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
@@ -898,7 +895,7 @@ Public Class frmPrism
 
                             ' Parse the Journal XML to get the data
                             If APIXML IsNot Nothing Then
-                                WalletExhausted = Prism.DataFunctions.ParseWalletJournalXML(APIXML, WalletJournals, Owner.ID)
+                                WalletExhausted = Prism.PrismDataFunctions.ParseWalletJournalXML(APIXML, WalletJournals, Owner.ID)
                             Else
                                 WalletExhausted = True
                             End If
@@ -913,7 +910,7 @@ Public Class frmPrism
 
                         ' Write the journal to the database!
                         If WalletJournals.Count > 0 Then
-                            Call Prism.DataFunctions.WriteWalletJournalToDB(WalletJournals, CInt(Owner.ID), Owner.Name, 1000, LastTrans)
+                            Call PrismDataFunctions.WriteWalletJournalsToDB(WalletJournals, CInt(Owner.ID), Owner.Name, 1000, LastTrans)
                         End If
 
                     End If
@@ -1004,7 +1001,7 @@ Public Class frmPrism
                         Loop Until Retries >= MaxAPIRetries Or APIReq.LastAPIError <> 0
 
                         ' Write the journal to the database!
-                        Call Prism.DataFunctions.WriteWalletTransactionsToDB(APIXML, False, CInt(Owner.ID), Owner.Name, 1000)
+                        Call Prism.PrismDataFunctions.WriteWalletTransactionsToDB(APIXML, False, CInt(Owner.ID), Owner.Name, 1000)
 
                     End If
 
@@ -1049,7 +1046,7 @@ Public Class frmPrism
 
                         ' Write the contractIDs to the database
                         If APIXML IsNot Nothing Then
-                            Call Prism.DataFunctions.WriteContractIDsToDB(APIXML)
+                            Call Prism.PrismDataFunctions.WriteContractIDsToDB(APIXML)
                         End If
 
                         If APIXML IsNot Nothing Then
@@ -1225,8 +1222,8 @@ Public Class frmPrism
 
                             ' Write the installerIDs to the database
                             If APIXML IsNot Nothing Then
-                                Call Prism.DataFunctions.WriteInstallerIDsToDB(APIXML)
-                                Call Prism.DataFunctions.WriteInventionResultsToDB(APIXML)
+                                Call Prism.PrismDataFunctions.WriteInstallerIDsToDB(APIXML)
+                                Call Prism.PrismDataFunctions.WriteInventionResultsToDB(APIXML)
                             End If
 
                         End If
@@ -1270,7 +1267,7 @@ Public Class frmPrism
                             For divID As Integer = 1006 To 1000 Step -1
 
                                 ' Get the last referenceID for the wallet
-                                Dim LastTrans As Long = DataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(Owner.ID), divID)
+                                Dim LastTrans As Long = PrismDataFunctions.GetLastWalletID(WalletTypes.Journal, CInt(Owner.ID), divID)
 
                                 ' Start a loop to collect multiple APIs
                                 Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
@@ -1288,7 +1285,7 @@ Public Class frmPrism
 
                                     ' Parse the Journal XML to get the data
                                     If APIXML IsNot Nothing Then
-                                        WalletExhausted = Prism.DataFunctions.ParseWalletJournalXML(APIXML, WalletJournals, Owner.ID)
+                                        WalletExhausted = Prism.PrismDataFunctions.ParseWalletJournalXML(APIXML, WalletJournals, Owner.ID)
                                     Else
                                         WalletExhausted = True
                                     End If
@@ -1303,7 +1300,7 @@ Public Class frmPrism
 
                                 ' Write the journal to the database!
                                 If WalletJournals.Count > 0 Then
-                                    Call Prism.DataFunctions.WriteWalletJournalToDB(WalletJournals, CInt(Owner.ID), Owner.Name, divID, LastTrans)
+                                    Call Prism.PrismDataFunctions.WriteWalletJournalsToDB(WalletJournals, CInt(Owner.ID), Owner.Name, divID, LastTrans)
                                 End If
 
                             Next
@@ -1407,7 +1404,7 @@ Public Class frmPrism
                                 Loop Until Retries >= MaxAPIRetries Or APIReq.LastAPIError <> 0
 
                                 ' Write the journal to the database!
-                                Call Prism.DataFunctions.WriteWalletTransactionsToDB(APIXML, False, CInt(Owner.ID), Owner.Name, divID)
+                                Call Prism.PrismDataFunctions.WriteWalletTransactionsToDB(APIXML, False, CInt(Owner.ID), Owner.Name, divID)
 
                             Next
                         End If
@@ -1457,7 +1454,7 @@ Public Class frmPrism
 
                             ' Write the contractIDs to the database
                             If APIXML IsNot Nothing Then
-                                Call Prism.DataFunctions.WriteContractIDsToDB(APIXML)
+                                Call Prism.PrismDataFunctions.WriteContractIDsToDB(APIXML)
                             End If
 
                             If APIXML IsNot Nothing Then
@@ -1844,10 +1841,10 @@ Public Class frmPrism
                                     Dim sOrder As New Node
                                     For NewCell As Integer = 1 To adtSellOrders.Columns.Count : sOrder.Cells.Add(New Cell) : Next
                                     adtSellOrders.Nodes.Add(sOrder)
-                                    Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
+                                    Dim itemID As Integer = CInt(Order.Attributes.GetNamedItem("typeID").Value)
                                     Dim itemName As String = ""
-                                    If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                        itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                                    If StaticData.Types.ContainsKey(itemID) = True Then
+                                        itemName = StaticData.Types(itemID).Name
                                     Else
                                         itemName = "Unknown Item ID:" & itemID
                                     End If
@@ -1880,10 +1877,10 @@ Public Class frmPrism
                                     Dim bOrder As New Node
                                     For NewCell As Integer = 1 To adtBuyOrders.Columns.Count : bOrder.Cells.Add(New Cell) : Next
                                     adtBuyOrders.Nodes.Add(bOrder)
-                                    Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
+                                    Dim itemID As Integer = CInt(Order.Attributes.GetNamedItem("typeID").Value)
                                     Dim itemName As String = ""
-                                    If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                        itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                                    If StaticData.Types.ContainsKey(itemID) = True Then
+                                        itemName = StaticData.Types(itemID).Name
                                     Else
                                         itemName = "Unknown Item ID:" & itemID
                                     End If
@@ -2141,9 +2138,9 @@ Public Class frmPrism
             Case 18 ' Agents Temp
                 desc = "Agents Temporary" & misc
             Case 19 ' Insurance
-                Dim itemName As String = ""
-                If EveHQ.Core.HQ.itemData.ContainsKey(argName1) = True Then
-                    itemName = EveHQ.Core.HQ.itemData(argName1).Name
+                Dim itemName As String
+                If StaticData.Types.ContainsKey(CInt(argName1)) = True Then
+                    itemName = StaticData.Types(CInt(argName1)).Name
                 Else
                     itemName = "ship"
                 End If
@@ -2456,13 +2453,13 @@ Public Class frmPrism
                     Else
                         If IsDBNull(JE.Item("typeID")) = False Then
                             ' Put some market data here
-                            Dim typeId As String = JE.Item("typeID").ToString()
-                            If (Core.HQ.itemData.ContainsKey(typeId)) Then
-                                Dim Item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(typeId)
+                            Dim typeId As Integer = CInt(JE.Item("typeID"))
+                            If (StaticData.Types.ContainsKey(typeId)) Then
+                                Dim item As EveType = StaticData.Types(typeId)
                                 TransItem.Cells.Add(New Cell("[t] " & BuildJournalDescription(CInt(refType), JE.Item("ownerName1").ToString, JE.Item("ownerName2").ToString, JE.Item("argID1").ToString, JE.Item("argName1").ToString)))
                                 Dim transReason As New Node
                                 transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell) : transReason.Cells.Add(New Cell)
-                                transReason.Cells.Add(New Cell(Item.Name & " (" & CDbl(JE.Item("quantity")).ToString("N0") & " @ " & CDbl(JE.Item("price")).ToString("N2") & " isk p/u)"))
+                                transReason.Cells.Add(New Cell(item.Name & " (" & CDbl(JE.Item("quantity")).ToString("N0") & " @ " & CDbl(JE.Item("price")).ToString("N2") & " isk p/u)"))
                                 TransItem.Nodes.Add(transReason)
                             Else
                                 Trace.TraceWarning("Display Wallet Journal tried to find information on an unknown item type id: " & typeId)
@@ -2526,9 +2523,9 @@ Public Class frmPrism
         strSQL &= " ORDER BY walletJournal.transKey DESC;"
 
         ' Fetch the data
-        Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim walletData As DataSet = EveHQ.Core.CustomDataFunctions.GetCustomData(strSQL)
 
-        Return WalletData
+        Return walletData
 
     End Function
 
@@ -2569,9 +2566,9 @@ Public Class frmPrism
         strSQL &= " ORDER BY walletJournal.transKey DESC;"
 
         ' Fetch the data
-        Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim walletData As DataSet = EveHQ.Core.CustomDataFunctions.GetCustomData(strSQL)
 
-        Return WalletData
+        Return walletData
 
     End Function
 
@@ -2605,21 +2602,21 @@ Public Class frmPrism
         Dim reply As DialogResult = MessageBox.Show("Are you really sure you want to delete all the journal entries from the database?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.Yes Then
             Dim strSQL As String = "DELETE * FROM walletJournal;"
-            If EveHQ.Core.DataFunctions.SetData(strSQL) <> -2 Then
+            If CustomDataFunctions.SetCustomData(strSQL) <> -2 Then
                 MessageBox.Show("Reset Complete")
             End If
             strSQL = "DROP TABLE walletJournal;"
-            If EveHQ.Core.DataFunctions.SetData(strSQL) <> -2 Then
+            If CustomDataFunctions.SetCustomData(strSQL) <> -2 Then
                 MessageBox.Show("Table Deletion Complete")
             End If
-            Call Prism.DataFunctions.CheckDatabaseTables()
+            Call Prism.PrismDataFunctions.CheckDatabaseTables()
         End If
     End Sub
 
     Private Sub btnCheckJournalOmissions_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckJournalOmissions.Click
-        Dim CheckJournals As New frmJournalCheck
-        CheckJournals.ShowDialog()
-        CheckJournals.Dispose()
+        Dim checkJournals As New frmJournalCheck
+        checkJournals.ShowDialog()
+        checkJournals.Dispose()
     End Sub
 
     Private Sub btnExportEntries_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportEntries.Click
@@ -2801,16 +2798,16 @@ Public Class frmPrism
         strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(SQLTimeFormat, culture) & "'"
         strSQL &= " AND walletJournal.charName IN ('" & OwnerName.Replace("'", "''") & "')"
         Try
-            EveHQ.Core.DataFunctions.SetData(strSQL)
+            CustomDataFunctions.SetCustomData(strSQL)
         Catch ex As Exception
             MessageBox.Show("There was an error removing existing transactions. The error was: " & ex.Message, "Import Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End Try
 
         ' Step 5: Import new transactions
-        Dim WalletJournals As New SortedList(Of String, WalletJournalItem)
-        Prism.DataFunctions.ParseWalletJournalExportXML(xmlDoc, WalletJournals, OwnerID)
-        Prism.DataFunctions.WriteWalletJournalToDB(WalletJournals, CInt(OwnerID), OwnerName, WalletID, 0)
+        Dim walletJournals As New SortedList(Of String, WalletJournalItem)
+        PrismDataFunctions.ParseWalletJournalExportXML(xmlDoc, walletJournals, OwnerID)
+        PrismDataFunctions.WriteWalletJournalsToDB(walletJournals, CInt(OwnerID), OwnerName, WalletID, 0)
 
         ' Step 6: Tidy up
         ofd.Dispose()
@@ -2899,7 +2896,7 @@ Public Class frmPrism
         strSQL &= " ORDER BY walletTransactions.transKey DESC;"
 
         ' Fetch the data
-        Dim WalletData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim walletData As DataSet = EveHQ.Core.CustomDataFunctions.GetCustomData(strSQL)
 
         ' Determine if this is personal, or corp, or unknown if an old owner
         Dim IsPersonal As Boolean = False
@@ -2920,14 +2917,14 @@ Public Class frmPrism
 
         adtTransactions.BeginUpdate()
         adtTransactions.Nodes.Clear()
-        If WalletData IsNot Nothing Then
-            If WalletData.Tables(0).Rows.Count > 0 Then
+        If walletData IsNot Nothing Then
+            If walletData.Tables(0).Rows.Count > 0 Then
 
                 Dim TransItem As New Node
                 Dim transDate As Date
                 Dim price, qty, value As Double
                 Dim RunningBalance As Double = 0
-                For Each JE As DataRow In WalletData.Tables(0).Rows
+                For Each JE As DataRow In walletData.Tables(0).Rows
                     If (JE.Item("transFor").ToString = "personal" And IsPersonal = True) Or IsCorp = True Or (IsPersonal = False And IsCorp = False) Then
                         TransItem = New Node
                         transDate = DateTime.Parse(JE.Item("transDate").ToString)
@@ -3125,8 +3122,8 @@ Public Class frmPrism
                 cboInstallerFilter.Tag = False
 
                 ' Parse the XML
-                Dim transItem As New Node
-                Dim transTypeID As String = ""
+                Dim transItem As Node
+                Dim transTypeID As Integer
                 Dim locationID As String = ""
                 Dim completed As String = ""
                 Dim DisplayJob As Boolean = False
@@ -3169,9 +3166,9 @@ Public Class frmPrism
                     If DisplayJob = True Then
                         transItem = New Node
                         For NewCell As Integer = 1 To adtJobs.Columns.Count : transItem.Cells.Add(New Cell) : Next
-                        transTypeID = CStr(Job.InstalledItemTypeID)
-                        If EveHQ.Core.HQ.itemData.ContainsKey(transTypeID) = True Then
-                            transItem.Text = EveHQ.Core.HQ.itemData(transTypeID).Name
+                        transTypeID = Job.InstalledItemTypeID
+                        If StaticData.Types.ContainsKey(transTypeID) = True Then
+                            transItem.Text = StaticData.Types(transTypeID).Name
                         Else
                             transItem.Text = "Unknown Item ID:" & transTypeID
                         End If
@@ -3279,13 +3276,13 @@ Public Class frmPrism
                             NewContract.Text = C.Title
                         Else
                             If C.Items.Count = 1 Then
-                                NewContract.Text = EveHQ.Core.HQ.itemData(C.Items.Keys(0)).Name
+                                NewContract.Text = StaticData.Types(C.Items.Keys(0)).Name
                             Else
                                 NewContract.Text = "Contract ID: " & C.ContractID.ToString
                             End If
                         End If
-                        If EveHQ.Core.HQ.Stations.ContainsKey(C.StartStationID.ToString) Then
-                            NewContract.Cells(1).Text = EveHQ.Core.HQ.Stations(C.StartStationID.ToString).stationName
+                        If StaticData.Stations.ContainsKey(C.StartStationID) Then
+                            NewContract.Cells(1).Text = StaticData.Stations(C.StartStationID).StationName
                         Else
                             NewContract.Cells(1).Text = "Station ID: " & C.StartStationID.ToString
                         End If
@@ -3313,22 +3310,22 @@ Public Class frmPrism
 
                         ' Add items
                         If C.Items.Count > 0 Then
-                            Dim ItemCH As New DevComponents.AdvTree.ColumnHeader("Item Name")
-                            ItemCH.SortingEnabled = False
-                            ItemCH.Width.Absolute = 300
-                            ItemCH.DisplayIndex = 1
-                            NewContract.NodesColumns.Add(ItemCH)
-                            Dim QtyCH As New DevComponents.AdvTree.ColumnHeader("Quantity")
-                            QtyCH.SortingEnabled = False
-                            QtyCH.Width.Absolute = 100
-                            QtyCH.DisplayIndex = 2
-                            NewContract.NodesColumns.Add(QtyCH)
-                            For Each TypeID As String In C.Items.Keys
-                                Dim ItemNode As New Node
-                                ItemNode.Name = TypeID
-                                ItemNode.Text = EveHQ.Core.HQ.itemData(TypeID).Name
-                                ItemNode.Cells.Add(New Cell(C.Items(TypeID).ToString))
-                                NewContract.Nodes.Add(ItemNode)
+                            Dim itemCH As New DevComponents.AdvTree.ColumnHeader("Item Name")
+                            itemCH.SortingEnabled = False
+                            itemCH.Width.Absolute = 300
+                            itemCH.DisplayIndex = 1
+                            NewContract.NodesColumns.Add(itemCH)
+                            Dim qtyCH As New DevComponents.AdvTree.ColumnHeader("Quantity")
+                            qtyCH.SortingEnabled = False
+                            qtyCH.Width.Absolute = 100
+                            qtyCH.DisplayIndex = 2
+                            NewContract.NodesColumns.Add(qtyCH)
+                            For Each typeID As Integer In C.Items.Keys
+                                Dim itemNode As New Node
+                                itemNode.Name = CStr(typeID)
+                                itemNode.Text = StaticData.Types(typeID).Name
+                                itemNode.Cells.Add(New Cell(C.Items(typeID).ToString))
+                                NewContract.Nodes.Add(itemNode)
                             Next
 
                         End If
@@ -3372,7 +3369,7 @@ Public Class frmPrism
 
     Public Sub RecycleInfoFromAssets()
         ' Fetch the recycling info from the assets control
-        RecyclerAssetList = PAC.RecyclingAssetList
+        _recyclerAssetList = PAC.RecyclingAssetList
         RecyclerAssetOwner = cboRecyclePilots.SelectedItem.ToString
         RecyclerAssetLocation = GetLocationID(PAC.RecyclingAssetLocation)
         Call LoadRecyclingInfo()
@@ -3391,34 +3388,19 @@ Public Class frmPrism
     End Function
     Private Sub LoadRecyclingInfo()
 
-        itemList.Clear()
-        If RecyclerAssetList.Count > 0 Then
+        _itemList.Clear()
+        If _recyclerAssetList.Count > 0 Then
 
-            ' Form a string of the asset IDs in the AssetList Property
-            Dim strAssets As New StringBuilder
-            For Each asset As String In RecyclerAssetList.Keys
-                strAssets.Append(", " & asset)
+            ' Cycle through the items and get the materials
+            For Each itemID As Integer In _recyclerAssetList.Keys
+                Dim bpID As Integer = StaticData.GetBPTypeId(CInt(itemID))
+                _itemList.Add(itemID, New SortedList(Of String, Long))
+                If StaticData.Blueprints(bpID).Resources.ContainsKey(6) Then
+                    For Each br As EveData.BlueprintResource In StaticData.Blueprints(bpID).Resources(6).Values
+                        _itemList(itemID).Add(StaticData.Types(br.TypeId).Name, br.Quantity)
+                    Next
+                End If
             Next
-            strAssets.Remove(0, 2)
-
-            ' Fetch the data from the database
-            Dim strSQL As String = "SELECT invTypeMaterials.typeID AS itemTypeID, invTypes.typeID AS materialTypeID, invTypes.typeName AS materialTypeName, invTypeMaterials.quantity AS materialQuantity"
-            strSQL &= " FROM invCategories INNER JOIN ((invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.materialTypeID) ON invCategories.categoryID = invGroups.categoryID"
-            strSQL &= " WHERE (invTypeMaterials.typeID IN (" & strAssets.ToString & ") AND invTypes.groupID NOT IN (268,269,270,332)) ORDER BY invCategories.categoryName, invGroups.groupName"
-            Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-
-            ' Add the data into a collection for parsing
-            With mDataSet.Tables(0)
-                For row As Integer = 0 To .Rows.Count - 1
-                    If itemList.ContainsKey(.Rows(row).Item("itemTypeID").ToString.Trim) = True Then
-                        matList = CType(itemList(.Rows(row).Item("itemTypeID").ToString.Trim), Collections.SortedList)
-                    Else
-                        matList = New SortedList
-                        itemList.Add(.Rows(row).Item("itemTypeID").ToString.Trim, matList)
-                    End If
-                    matList.Add(.Rows(row).Item("materialTypeName").ToString.Trim, CLng(.Rows(row).Item("materialQuantity").ToString.Trim))
-                Next
-            End With
 
         End If
 
@@ -3439,12 +3421,12 @@ Public Class frmPrism
                 If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                     lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
                     lblCorp.Tag = aLocation.corpID.ToString
-                    StationYield = aLocation.refiningEff
+                    StationYield = aLocation.RefiningEfficiency
                     lblBaseYield.Text = (StationYield * 100).ToString("N2")
                 Else
                     If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
                         lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
-                        lblBaseYield.Text = (aLocation.refiningEff * 100).ToString("N2")
+                        lblBaseYield.Text = (aLocation.RefiningEfficiency * 100).ToString("N2")
                     Else
                         lblCorp.Text = "Unknown"
                         lblCorp.Tag = Nothing
@@ -3490,10 +3472,10 @@ Public Class frmPrism
         Dim value As Double = 0
         Dim fees As Double = 0
         Dim sale As Double = 0
-        Dim recycleTotal As Double = 0
-        Dim newCLVItem As New Node
-        Dim newCLVSubItem As New Node
-        Dim itemInfo As New EveHQ.Core.EveItem
+        Dim recycleTotal As Double
+        Dim newCLVItem As Node
+        Dim newCLVSubItem As Node
+        Dim itemInfo As EveType
         Dim batches As Integer = 0
         Dim items As Long = 0
         Dim volume As Double = 0
@@ -3506,11 +3488,11 @@ Public Class frmPrism
         Dim RecycleWaste As New SortedList
         Dim RecycleTake As New SortedList
         Dim rPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cboRecyclePilots.SelectedItem.ToString)
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From a In RecyclerAssetList.Keys Select CStr(a))
+        Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From a In _recyclerAssetList.Keys Select a)
         priceTask.Wait()
-        Dim prices As Dictionary(Of String, Double) = priceTask.Result
-        For Each asset As String In RecyclerAssetList.Keys
-            itemInfo = EveHQ.Core.HQ.itemData(asset)
+        Dim prices As Dictionary(Of Integer, Double) = priceTask.Result
+        For Each asset As Integer In _recyclerAssetList.Keys
+            itemInfo = StaticData.Types(asset)
             If itemInfo.Category = 25 Then
                 Select Case itemInfo.Group
                     Case 465 ' Ice
@@ -3552,15 +3534,15 @@ Public Class frmPrism
                 tempNetYield = (NetYield - BaseYield) * (1 + (0.05 * CDbl(rPilot.KeySkills(EveHQ.Core.KeySkill.ScrapMetalProc)))) + BaseYield
             End If
             tempNetYield = Math.Min(tempNetYield, 1)
-            matList = CType(itemList(asset), Collections.SortedList)
+            matList = _itemList(asset)
             newCLVItem = New Node
             For NewCell As Integer = 1 To adtRecycle.Columns.Count : newCLVItem.Cells.Add(New Cell) : Next
             newCLVItem.Text = itemInfo.Name
             newCLVItem.Tag = itemInfo.ID
             adtRecycle.Nodes.Add(newCLVItem)
             price = Math.Round(prices(asset), 2, MidpointRounding.AwayFromZero)
-            batches = CInt(Int(CLng(RecyclerAssetList(itemInfo.ID.ToString)) / itemInfo.PortionSize))
-            quantity = CLng(RecyclerAssetList(asset))
+            batches = CInt(Int(CLng(_recyclerAssetList(itemInfo.Id)) / itemInfo.PortionSize))
+            quantity = CLng(_recyclerAssetList(asset))
             volume += itemInfo.Volume * quantity
             items += CLng(quantity)
             value = price * quantity
@@ -3579,11 +3561,11 @@ Public Class frmPrism
             End If
             recycleTotal = 0
             If matList IsNot Nothing Then ' i.e. it can be refined
-                Dim matPriceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From m In matList.Keys Select EveHQ.Core.HQ.itemList(CStr(m)))
+                Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From m In matList.Keys Select StaticData.TypeNames(CStr(m)))
                 matPriceTask.Wait()
-                Dim matPrices As Dictionary(Of String, Double) = matPriceTask.Result
+                Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
                 For Each mat As String In matList.Keys
-                    price = Math.Round(matPrices(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
+                    price = Math.Round(matPrices(StaticData.TypeNames(mat)), 2, MidpointRounding.AwayFromZero)
                     perfect = CLng(matList(mat)) * batches
                     wastage = CLng(perfect * (1 - tempNetYield))
                     quant = CLng(perfect * tempNetYield)
@@ -3654,11 +3636,11 @@ Public Class frmPrism
         adtTotals.BeginUpdate()
         adtTotals.Nodes.Clear()
         If RecycleResults IsNot Nothing Then
-            Dim matPriceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From m In RecycleResults.Keys Select EveHQ.Core.HQ.itemList(CStr(m)))
+            Dim matPriceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From m In RecycleResults.Keys Select StaticData.TypeNames(CStr(m)))
             matPriceTask.Wait()
-            Dim matPrices As Dictionary(Of String, Double) = matPriceTask.Result
+            Dim matPrices As Dictionary(Of Integer, Double) = matPriceTask.Result
             For Each mat As String In RecycleResults.Keys
-                price = Math.Round(matPrices(EveHQ.Core.HQ.itemList(mat)), 2, MidpointRounding.AwayFromZero)
+                price = Math.Round(matPrices(StaticData.TypeNames(mat)), 2, MidpointRounding.AwayFromZero)
                 wastage = CLng(RecycleWaste(mat))
                 taken = CLng(RecycleTake(mat))
                 quant = CLng(RecycleResults(mat))
@@ -3835,14 +3817,14 @@ Public Class frmPrism
         End If
         RTotalFees = RBrokerFee + RTransTax
         lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
-        Call Me.RecalcRecycling()
+        Call RecalcRecycling()
     End Sub
     Private Sub nudBrokerFee_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudBrokerFee.ValueChanged
         If chkOverrideBrokerFee.Checked = True Then
             RBrokerFee = nudBrokerFee.Value
             RTotalFees = RBrokerFee + RTransTax
             lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
-            Call Me.RecalcRecycling()
+            Call RecalcRecycling()
         End If
     End Sub
     Private Sub nudTax_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudTax.ValueChanged
@@ -3850,7 +3832,7 @@ Public Class frmPrism
             RTransTax = nudTax.Value
             RTotalFees = RBrokerFee + RTransTax
             lblTotalFees.Text = RTotalFees.ToString("N2") & "%"
-            Call Me.RecalcRecycling()
+            Call RecalcRecycling()
         End If
     End Sub
 #End Region
@@ -3934,39 +3916,39 @@ Public Class frmPrism
 
     Private Sub mnuAlterRecycleQuantity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAlterRecycleQuantity.Click
         If adtRecycle.SelectedNodes.Count > 0 Then
-            Dim newQ As New frmSelectQuantity(CInt(RecyclerAssetList(adtRecycle.SelectedNodes(0).Tag.ToString)))
+            Dim newQ As New frmSelectQuantity(CInt(_recyclerAssetList(CInt(adtRecycle.SelectedNodes(0).Tag))))
             newQ.ShowDialog()
             For Each rNode As Node In adtRecycle.SelectedNodes
-                RecyclerAssetList(rNode.Tag.ToString) = newQ.Quantity
+                _recyclerAssetList(CInt(rNode.Tag)) = newQ.Quantity
             Next
             newQ.Dispose()
-            Call Me.RecalcRecycling()
+            Call RecalcRecycling()
         End If
     End Sub
 
     Private Sub mnuRemoveRecycleItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveRecycleItem.Click
         If adtRecycle.SelectedNodes.Count > 0 Then
             For Each rNode As Node In adtRecycle.SelectedNodes
-                RecyclerAssetList.Remove(rNode.Tag.ToString)
+                _recyclerAssetList.Remove(CInt(rNode.Tag))
             Next
-            Call Me.RecalcRecycling()
+            Call RecalcRecycling()
         End If
     End Sub
 
     Private Sub mnuExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.Settings.CsvSeparatorChar)
+        Call ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, EveHQ.Core.HQ.Settings.CsvSeparatorChar)
     End Sub
 
     Private Sub mnuExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportToTSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, ControlChars.Tab)
+        Call ExportToClipboard("PRISM Item Recycling Analysis", adtRecycle, ControlChars.Tab)
     End Sub
 
     Private Sub mnuExportTotalsToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToCSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.Settings.CsvSeparatorChar)
+        Call ExportToClipboard("PRISM Item Recycling Totals", adtTotals, EveHQ.Core.HQ.Settings.CsvSeparatorChar)
     End Sub
 
     Private Sub mnuExportTotalsToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuExportTotalsToTSV.Click
-        Call Me.ExportToClipboard("PRISM Item Recycling Totals", adtTotals, ControlChars.Tab)
+        Call ExportToClipboard("PRISM Item Recycling Totals", adtTotals, ControlChars.Tab)
     End Sub
 
     Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As AdvTree, ByVal sepChar As String)
@@ -4013,12 +3995,12 @@ Public Class frmPrism
         newI.ShowDialog()
         Dim itemName As String = newI.Item
         If itemName IsNot Nothing Then
-            Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
-            If RecyclerAssetList.ContainsKey(itemID) = False Then
-                RecyclerAssetList.Add(itemID, 1)
+            Dim itemID As Integer = StaticData.TypeNames(itemName)
+            If _recyclerAssetList.ContainsKey(itemID) = False Then
+                _recyclerAssetList.Add(itemID, 1)
             End If
             newI.Dispose()
-            Call Me.LoadRecyclingInfo()
+            Call LoadRecyclingInfo()
         End If
     End Sub
 
@@ -4136,15 +4118,15 @@ Public Class frmPrism
             adtBlueprints.Nodes.Clear()
             Dim matchCat As Boolean
             For Each blueprint As EveData.Blueprint In StaticData.Blueprints.Values
-                Dim bpName As String = StaticData.Types(blueprint.Id.ToString).Name
+                Dim bpName As String = StaticData.Types(blueprint.Id).Name
                 If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = blueprint.TechLevel) Then
                     matchCat = False
                     If cboCategoryFilter.SelectedIndex = 0 Then
                         matchCat = True
                     Else
                         If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                            If StaticData.Types.ContainsKey(blueprint.ProductId.ToString) Then
-                                If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(blueprint.ProductId.ToString).Category Then
+                            If StaticData.Types.ContainsKey(blueprint.ProductId) Then
+                                If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(blueprint.ProductId).Category Then
                                     matchCat = True
                                 End If
                             End If
@@ -4185,7 +4167,7 @@ Public Class frmPrism
             adtBlueprints.Nodes.Clear()
             If prismOwner <> "" Then
                 ' Fetch the ownerBPs if it exists
-                Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+                Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
                 If PlugInData.BlueprintAssets.ContainsKey(prismOwner) = True Then
                     ownerBPs = PlugInData.BlueprintAssets(prismOwner)
                 End If
@@ -4193,12 +4175,12 @@ Public Class frmPrism
                 Dim locationName As String
                 Dim matchCat As Boolean
                 For Each blueprint As BlueprintAsset In ownerBPs.Values
-                    Dim bpName As String = StaticData.Types(blueprint.TypeID).Name
+                    Dim bpName As String = StaticData.Types(CInt(blueprint.TypeID)).Name
                     If blueprint.LocationDetails Is Nothing Then blueprint.LocationDetails = "" ' Resets details
                     If blueprint.LocationID Is Nothing Then blueprint.LocationID = "0" ' Resets details
                     If StaticData.Blueprints.ContainsKey(CInt(blueprint.TypeID)) Then
                         bpData = StaticData.Blueprints(CInt(blueprint.TypeID))
-                        locationName = Locations.GetLocationNameFromID(blueprint.LocationID)
+                        locationName = Locations.GetLocationNameFromID(CInt(blueprint.LocationID))
                         If cboTechFilter.SelectedIndex = 0 Or (cboTechFilter.SelectedIndex = bpData.TechLevel) Then
                             If cboTypeFilter.SelectedIndex = 0 Or (cboTypeFilter.SelectedIndex = blueprint.BPType + 1) Then
                                 matchCat = False
@@ -4206,7 +4188,7 @@ Public Class frmPrism
                                     matchCat = True
                                 Else
                                     If PlugInData.CategoryNames.ContainsKey(cboCategoryFilter.SelectedItem.ToString) Then
-                                        If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(bpData.ProductId.ToString).Category Then
+                                        If CInt(PlugInData.CategoryNames(cboCategoryFilter.SelectedItem.ToString)) = StaticData.Types(bpData.ProductId).Category Then
                                             matchCat = True
                                         End If
                                     End If
@@ -4279,7 +4261,7 @@ Public Class frmPrism
                 Owner = PlugInData.PrismOwners(cboBPOwner.SelectedItem.ToString)
 
                 ' Fetch the ownerBPs if it exists
-                Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+                Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
                 If PlugInData.BlueprintAssets.ContainsKey(Owner.Name) = True Then
                     ownerBPs = PlugInData.BlueprintAssets(Owner.Name)
                 Else
@@ -4298,7 +4280,7 @@ Public Class frmPrism
                 End If
 
                 If AssetXML IsNot Nothing Then
-                    Dim Assets As New SortedList(Of String, BlueprintAsset)
+                    Dim Assets As New SortedList(Of Integer, BlueprintAsset)
                     Dim locList As XmlNodeList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
                     If locList.Count > 0 Then
                         ' Define what we want to obtain
@@ -4310,13 +4292,13 @@ Public Class frmPrism
                             Dim locationDetails As String = PlugInData.itemFlags(flagID).ToString
                             Dim BPCFlag As Boolean = False
                             ' Check the asset
-                            Dim ItemData As New EveHQ.Core.EveItem
-                            Dim AssetID As String = ""
-                            Dim itemID As String = ""
-                            AssetID = loc.Attributes.GetNamedItem("itemID").Value
-                            itemID = loc.Attributes.GetNamedItem("typeID").Value
-                            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                                ItemData = EveHQ.Core.HQ.itemData(itemID)
+                            Dim ItemData As EveType
+                            Dim AssetID As Integer
+                            Dim itemID As Integer
+                            AssetID = CInt(loc.Attributes.GetNamedItem("itemID").Value)
+                            itemID = CInt(loc.Attributes.GetNamedItem("typeID").Value)
+                            If StaticData.Types.ContainsKey(itemID) Then
+                                ItemData = StaticData.Types(itemID)
                                 ' Check for BPO/BPC
                                 If ItemData.Category = 9 Then
                                     If loc.Attributes.GetNamedItem("singleton").Value = "1" Then
@@ -4336,7 +4318,7 @@ Public Class frmPrism
                                 End If
                                 If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
                                     Dim newBP As New BlueprintAsset
-                                    newBP.AssetID = AssetID
+                                    newBP.AssetID = CStr(AssetID)
                                     newBP.LocationID = locationID
                                     If Owner.IsCorp = True Then
                                         Dim accountID As Integer = flagID + 885
@@ -4355,7 +4337,7 @@ Public Class frmPrism
                                         End If
                                     End If
                                     newBP.LocationDetails = locationDetails
-                                    newBP.TypeID = itemID
+                                    newBP.TypeID = CStr(itemID)
                                     newBP.Status = BPStatus.Present
                                     newBP.MELevel = 0
                                     newBP.PELevel = 0
@@ -4381,7 +4363,7 @@ Public Class frmPrism
                         Next
                         ' Should have our list of assets now so let's compare them
                         Dim item As New EveHQ.Core.EveItem
-                        For Each assetID As String In Assets.Keys
+                        For Each assetID As Integer In Assets.Keys
                             ' See if the assetID already exists for the owner
                             If ownerBPs.ContainsKey(assetID) = True Then
                                 ' We have it so set the status to present
@@ -4414,22 +4396,22 @@ Public Class frmPrism
         End If
 
     End Sub
-    Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of String, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal Owner As PrismOwner)
+    Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of Integer, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal Owner As PrismOwner)
         Dim itemList As XmlNodeList = loc.ChildNodes(0).ChildNodes
-        Dim ItemData As New EveHQ.Core.EveItem
-        Dim AssetID As String = ""
-        Dim itemID As String = ""
+        Dim ItemData As EveType
+        Dim AssetID As Integer
+        Dim itemID As Integer
         Dim flagID As Integer = 0
         Dim flagName As String = ""
-        Dim containerID As String = loc.Attributes.GetNamedItem("itemID").Value
-        Dim containerType As String = loc.Attributes.GetNamedItem("typeID").Value
+        Dim containerID As Integer = CInt(loc.Attributes.GetNamedItem("itemID").Value)
+        Dim containerType As Integer = CInt(loc.Attributes.GetNamedItem("typeID").Value)
         For Each item As XmlNode In itemList
-            AssetID = item.Attributes.GetNamedItem("itemID").Value
-            itemID = item.Attributes.GetNamedItem("typeID").Value
+            AssetID = CInt(item.Attributes.GetNamedItem("itemID").Value)
+            itemID = CInt(item.Attributes.GetNamedItem("typeID").Value)
             flagID = CInt(item.Attributes.GetNamedItem("flag").Value)
             Dim BPCFlag As Boolean = False
-            If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
-                ItemData = EveHQ.Core.HQ.itemData(itemID)
+            If StaticData.Types.ContainsKey(itemID) Then
+                ItemData = StaticData.Types(itemID)
                 ' Check for BPO/BPC
                 If ItemData.Category = 9 Then
                     If item.Attributes.GetNamedItem("singleton").Value = "1" Then
@@ -4443,13 +4425,13 @@ Public Class frmPrism
                 If PlugInData.AssetItemNames.ContainsKey(containerID) = True Then
                     flagName = locationDetails & "/" & PlugInData.AssetItemNames(containerID)
                 Else
-                    flagName = locationDetails & "/" & EveHQ.Core.HQ.itemData(containerType).Name
+                    flagName = locationDetails & "/" & StaticData.Types(containerType).Name
                 End If
                 If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
                     Dim newBP As New BlueprintAsset
-                    newBP.AssetID = AssetID
+                    newBP.AssetID = CStr(AssetID)
                     newBP.LocationID = locationID
-                    If Owner.IsCorp = True And EveHQ.Core.HQ.itemData(itemID).Group <> 16 Then
+                    If Owner.IsCorp = True And StaticData.Types(itemID).Group <> 16 Then
                         Dim accountID As Integer = flagID + 885
                         If accountID = 889 Then accountID = 1000
                         If divisions.ContainsKey(Owner.ID & "_" & accountID.ToString) = True Then
@@ -4466,7 +4448,7 @@ Public Class frmPrism
                         End If
                     End If
                     newBP.LocationDetails = flagName
-                    newBP.TypeID = itemID
+                    newBP.TypeID = CStr(itemID)
                     newBP.Status = BPStatus.Present
                     newBP.MELevel = 0
                     newBP.PELevel = 0
@@ -4483,7 +4465,7 @@ Public Class frmPrism
 
     Private Sub btnGetBPJobInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetBPJobInfo.Click
         ' Get the owner BPs
-        Dim ownerBPs As New SortedList(Of String, BlueprintAsset)
+        Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
         If cboBPOwner.SelectedItem IsNot Nothing Then
             Dim owner As String = cboBPOwner.SelectedItem.ToString()
             ' Fetch the ownerBPs if it exists
@@ -4505,13 +4487,13 @@ Public Class frmPrism
                 ' Get the Node List
                 Dim jobs As XmlNodeList = jobXML.SelectNodes("/eveapi/result/rowset/row")
                 For Each job As XmlNode In jobs
-                    Dim assetID As String = job.Attributes.GetNamedItem("installedItemID").Value
+                    Dim assetID As Integer = CInt(job.Attributes.GetNamedItem("installedItemID").Value)
                     If ownerBPs.ContainsKey(assetID) = True Then
                         ' Fetch the current BP Data
                         Dim cBPInfo As BlueprintAsset = ownerBPs(assetID)
                         Select Case CInt(job.Attributes.GetNamedItem("activityID").Value)
-                            Case EveData.BlueprintActivity.Manufacturing
-                                Dim Runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
+                            Case BlueprintActivity.Manufacturing
+                                Dim runs As Integer = CInt(job.Attributes.GetNamedItem("runs").Value)
                                 ' Check if the MELevel is greater than what we have
                                 If CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value) > cBPInfo.MELevel Then
                                     cBPInfo.MELevel = CInt(job.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
@@ -4524,8 +4506,8 @@ Public Class frmPrism
                                 Dim initialRuns As Integer = CInt(job.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
                                 If initialRuns <> -1 Then
                                     cBPInfo.BPType = BPType.Copy
-                                    If initialRuns - Runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
-                                        cBPInfo.Runs = initialRuns - Runs
+                                    If initialRuns - runs < cBPInfo.Runs Or cBPInfo.Runs = -1 Then
+                                        cBPInfo.Runs = initialRuns - runs
                                     End If
                                     If cBPInfo.Runs = 0 Then
                                         cBPInfo.Status = BPStatus.Exhausted
@@ -4626,7 +4608,7 @@ Public Class frmPrism
             MessageBox.Show("There is no blueprint owner selected.", "Empty Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
-        Dim ownerBPAssets As SortedList(Of String, BlueprintAsset)
+        Dim ownerBPAssets As SortedList(Of Integer, BlueprintAsset)
         If PlugInData.BlueprintAssets.ContainsKey(owner) Then
             ownerBPAssets = PlugInData.BlueprintAssets(owner)
         Else
@@ -4656,8 +4638,8 @@ Public Class frmPrism
             End If
             Dim currentBP As BlueprintAsset = New BlueprintAsset()
 
-            If EveHQ.Core.HQ.itemList.ContainsKey(currentBPInfo(0)) = True Then
-                currentBP.TypeID = EveHQ.Core.HQ.itemList(currentBPInfo(0))
+            If StaticData.TypeNames.ContainsKey(currentBPInfo(0)) = True Then
+                currentBP.TypeID = CStr(StaticData.TypeNames(currentBPInfo(0)))
             Else
                 MessageBox.Show("There was a data row with invalid 'Name' data.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 Exit Sub
@@ -4712,7 +4694,7 @@ Public Class frmPrism
         ' Match owned BPs at selected location to imported BPs and update their data
         Dim unknownBPs As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
         For Each ownedBP As BlueprintAsset In ownerBPAssets.Values
-            If Locations.GetLocationNameFromID(ownedBP.LocationID) = bpLoc Then
+            If Locations.GetLocationNameFromID(CInt(ownedBP.LocationID)) = bpLoc Then
                 Select Case ownedBP.BPType
                     Case BPType.Original
                         If includeBPOs = True Then
@@ -4779,9 +4761,9 @@ Public Class frmPrism
             mnuSendToBPCalc.Enabled = True
             ' Get the blueprint info
             If chkShowOwnedBPs.Checked = True Then
-                Dim assetID As String = CStr(adtBlueprints.SelectedNodes(0).Tag)
-                Dim BPOwner As String = cboBPOwner.SelectedItem.ToString
-                Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(BPOwner).Item(assetID)
+                Dim assetID As Integer = CInt(adtBlueprints.SelectedNodes(0).Tag)
+                Dim bpOwner As String = cboBPOwner.SelectedItem.ToString
+                Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(bpOwner).Item(assetID)
                 If asset.AssetID = asset.TypeID Then
                     ' Custom BP
                     mnuRemoveCustomBP.Text = "Remove Custom Blueprint"
@@ -4837,9 +4819,9 @@ Public Class frmPrism
     Private Sub EditBlueprintDetails()
         Dim BPForm As New frmEditBPDetails
         BPForm.OwnerName = cboBPOwner.SelectedItem.ToString
-        Dim BPs As New ArrayList
+        Dim BPs As New List(Of Integer)
         For Each selItem As Node In adtBlueprints.SelectedNodes
-            BPs.Add(selItem.Tag.ToString)
+            BPs.Add(CInt(selItem.Tag))
         Next
         If BPs.Count > 0 Then
             BPForm.AssetIDs = BPs
@@ -4848,8 +4830,8 @@ Public Class frmPrism
             Dim BP As New BlueprintAsset
             Dim locationName As String = ""
             For Each selitem As Node In adtBlueprints.SelectedNodes
-                BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(selitem.Tag.ToString)
-                locationName = Locations.GetLocationNameFromID(BP.LocationID)
+                BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(CInt(selitem.Tag))
+                locationName = Locations.GetLocationNameFromID(CInt(BP.LocationID))
                 Call Me.UpdateOwnerBPItem(BPForm.OwnerName, locationName, BP, selitem)
             Next
         Else
@@ -4895,7 +4877,7 @@ Public Class frmPrism
             ' Remove the nodes
             Dim BPOwner As String = cboBPOwner.SelectedItem.ToString
             For Each RN As Node In RemovalList
-                Dim assetID As String = CStr(RN.Tag)
+                Dim assetID As Integer = CInt(RN.Tag)
                 If PlugInData.BlueprintAssets(BPOwner).ContainsKey(assetID) = True Then
                     PlugInData.BlueprintAssets(BPOwner).Remove(assetID)
                     adtBlueprints.Nodes.Remove(RN)
@@ -4969,8 +4951,8 @@ Public Class frmPrism
             Dim TransItem As Node = adtTransactions.SelectedNodes(0)
             Dim ItemName As String = TransItem.Cells(1).Text
             mnuTransactionModifyPrice.Text = "Modify Custom Price of " & ItemName
-            If EveHQ.Core.HQ.itemList.ContainsKey(ItemName) Then
-                mnuTransactionModifyPrice.Tag = EveHQ.Core.HQ.itemList(ItemName)
+            If StaticData.TypeNames.ContainsKey(ItemName) Then
+                mnuTransactionModifyPrice.Tag = StaticData.TypeNames(ItemName)
             Else
                 MessageBox.Show("There was a mismatch of expected data. '" & ItemName & "' was not found in the collection of items.", "Data Retrieval Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
@@ -4979,10 +4961,10 @@ Public Class frmPrism
 
     Private Sub mnuTransactionModifyPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuTransactionModifyPrice.Click
         If mnuTransactionModifyPrice.Tag IsNot Nothing Then
-            Dim ItemID As String = mnuTransactionModifyPrice.Tag.ToString
-            Dim Price As Double = Double.Parse(adtTransactions.SelectedNodes(0).Cells(3).Text, Globalization.NumberStyles.Any, culture)
-            Dim NewPrice As New EveHQ.Core.frmModifyPrice(ItemID, Price)
-            NewPrice.ShowDialog()
+            Dim itemID As Integer = CInt(mnuTransactionModifyPrice.Tag)
+            Dim price As Double = Double.Parse(adtTransactions.SelectedNodes(0).Cells(3).Text, Globalization.NumberStyles.Any, culture)
+            Dim newPrice As New frmModifyPrice(itemID, price)
+            newPrice.ShowDialog()
         End If
     End Sub
 
@@ -5143,7 +5125,7 @@ Public Class frmPrism
             adtSearch.BeginUpdate()
             adtSearch.Nodes.Clear()
             ' Check items
-            For Each item As String In EveHQ.Core.HQ.itemList.Keys
+            For Each item As String In StaticData.TypeNames.Keys
                 If item.ToLower.Contains(strSearch) Then
                     Dim NewNode As New Node(item)
                     NewNode.Name = item
@@ -5248,7 +5230,7 @@ Public Class frmPrism
 
     Private Sub CreateRequisitionFromJob(ByVal orders As SortedList(Of String, Integer), ByVal currentJob As Job)
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select CStr(r.TypeID))
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select r.TypeID)
             priceTask.Wait()
             For Each resource As JobResource In currentJob.Resources.Values
                 ' This is a resource so add it
@@ -5278,35 +5260,35 @@ Public Class frmPrism
             Case "Item"
                 ' Get the name and ID
                 Dim itemName As String = adtSearch.SelectedNodes(0).Name
-                If EveHQ.Core.HQ.itemList.ContainsKey(itemName) = True Then
-                    Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
+                If StaticData.TypeNames.ContainsKey(itemName) = True Then
+                    Dim itemID As Integer = StaticData.TypeNames(itemName)
 
                     ' See if we have a blueprint
-                    Dim BPName As String = ""
-                    Dim BPID As String = ""
-                    If itemName.EndsWith("Blueprint") = False Then
-                        If EveHQ.Core.HQ.itemList.ContainsKey(itemName.Trim & " Blueprint") = True Then
-                            BPName = itemName.Trim & " Blueprint"
-                            BPID = EveHQ.Core.HQ.itemList(BPName)
+                    Dim bpName As String = ""
+                    Dim bpid As Integer
+                    If itemName.EndsWith("Blueprint", System.StringComparison.Ordinal) = False Then
+                        If StaticData.TypeNames.ContainsKey(itemName.Trim & " Blueprint") = True Then
+                            bpName = itemName.Trim & " Blueprint"
+                            bpid = StaticData.TypeNames(bpName)
                         End If
                     Else
-                        BPID = itemID
-                        BPName = itemName
-                        itemID = StaticData.Blueprints(CInt(BPID)).ProductId.ToString
-                        itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                        bpid = itemID
+                        bpName = itemName
+                        itemID = StaticData.Blueprints(CInt(bpid)).ProductId
+                        itemName = StaticData.Types(itemID).Name
                     End If
 
                     lblSelectedItem.Text = "Item: " & itemName
                     lblSelectedItem.Tag = itemName
-                    If BPName <> "" Then
-                        lblSelectedBP.Text = "Blueprint: " & BPName
-                        lblSelectedBP.Tag = BPName
+                    If bpName <> "" Then
+                        lblSelectedBP.Text = "Blueprint: " & bpName
+                        lblSelectedBP.Tag = bpName
                     Else
                         lblSelectedBP.Text = "Blueprint: <none available>"
                     End If
 
                     ' Check we can activate buttons
-                    If BPID <> "" Then
+                    If bpid <> 0 Then
                         btnLinkBPCalc.Enabled = True
                         btnLinkProduction.Enabled = True
                     Else
@@ -5316,18 +5298,18 @@ Public Class frmPrism
                     btnLinkRequisition.Enabled = True
                 End If
             Case "Production"
-                Dim JobName As String = adtSearch.SelectedNodes(0).Name
-                If Jobs.JobList.ContainsKey(JobName) = True Then
-                    lblSelectedItem.Text = "Job: " & JobName
+                Dim jobName As String = adtSearch.SelectedNodes(0).Name
+                If Jobs.JobList.ContainsKey(jobName) = True Then
+                    lblSelectedItem.Text = "Job: " & jobName
                     lblSelectedBP.Text = "Blueprint: <per job>"
                     btnLinkBPCalc.Enabled = True
                     btnLinkProduction.Enabled = False
                     btnLinkRequisition.Enabled = True
                 End If
             Case "Batch"
-                Dim BatchName As String = adtSearch.SelectedNodes(0).Name
-                If Prism.BatchJobs.Jobs.ContainsKey(BatchName) = True Then
-                    lblSelectedItem.Text = "Batch: " & BatchName
+                Dim batchName As String = adtSearch.SelectedNodes(0).Name
+                If BatchJobs.Jobs.ContainsKey(batchName) = True Then
+                    lblSelectedItem.Text = "Batch: " & batchName
                     lblSelectedBP.Text = "Blueprint: <multiple>"
                     btnLinkBPCalc.Enabled = False
                     btnLinkProduction.Enabled = False
@@ -5338,35 +5320,35 @@ Public Class frmPrism
     End Sub
 
     Private Sub adtSearch_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles adtSearch.NodeDoubleClick
-        Dim KeyName As String = e.Node.Name
+        Dim keyName As String = e.Node.Name
         Select Case e.Node.TagString
             Case "Item"
-                Dim itemName As String = KeyName
-                Dim itemID As String = EveHQ.Core.HQ.itemList(itemName)
+                Dim itemName As String = keyName
+                Dim itemID As Integer = StaticData.TypeNames(itemName)
                 ' See if we have a blueprint
-                Dim BPName As String = ""
-                Dim BPID As String = ""
-                If itemName.EndsWith("Blueprint") = False Then
-                    If EveHQ.Core.HQ.itemList.ContainsKey(itemName.Trim & " Blueprint") = True Then
-                        BPName = itemName.Trim & " Blueprint"
-                        BPID = EveHQ.Core.HQ.itemList(BPName)
+                Dim bpName As String = ""
+                Dim bpid As Integer
+                If itemName.EndsWith("Blueprint", System.StringComparison.Ordinal) = False Then
+                    If StaticData.TypeNames.ContainsKey(itemName.Trim & " Blueprint") = True Then
+                        bpName = itemName.Trim & " Blueprint"
+                        bpid = StaticData.TypeNames(bpName)
                     End If
                 Else
-                    BPID = itemID
-                    BPName = itemName
-                    itemID = StaticData.Blueprints(CInt(BPID)).ProductId.ToString
-                    itemName = EveHQ.Core.HQ.itemData(itemID).Name
+                    bpid = itemID
+                    bpName = itemName
+                    itemID = StaticData.Blueprints(CInt(bpid)).ProductId
+                    itemName = StaticData.Types(itemID).Name
                 End If
-                If BPID <> "" Then
+                If bpid <> 0 Then
                     ' Start a standard BP Calc
-                    Dim BPCalc As New frmBPCalculator(BPName)
-                    Call OpenBPCalculator(BPCalc)
+                    Dim bpCalc As New frmBPCalculator(bpName)
+                    Call OpenBPCalculator(bpCalc)
                 End If
             Case "Production"
-                If Jobs.JobList.ContainsKey(KeyName) Then
-                    Dim PJob As Job = Jobs.JobList(KeyName)
-                    Dim BPCalc As New frmBPCalculator(PJob, False)
-                    Call OpenBPCalculator(BPCalc)
+                If Jobs.JobList.ContainsKey(keyName) Then
+                    Dim pJob As Job = Jobs.JobList(keyName)
+                    Dim bpCalc As New frmBPCalculator(pJob, False)
+                    Call OpenBPCalculator(bpCalc)
                 End If
         End Select
     End Sub
@@ -5378,31 +5360,31 @@ Public Class frmPrism
     Private Sub UpdateProductionJobList()
         adtProdJobs.BeginUpdate()
         adtProdJobs.Nodes.Clear()
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In Jobs.JobList.Values Where r.CurrentBlueprint IsNot Nothing Select CStr(r.CurrentBlueprint.ProductId))
+        Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In Jobs.JobList.Values Where r.CurrentBlueprint IsNot Nothing Select r.CurrentBlueprint.ProductId)
         priceTask.Wait()
-        Dim prices As Dictionary(Of String, Double) = priceTask.Result
+        Dim prices As Dictionary(Of Integer, Double) = priceTask.Result
         For Each cJob As Job In Jobs.JobList.Values
-            Dim NewJob As New Node
-            NewJob.Name = cJob.JobName
-            NewJob.Text = cJob.JobName
-            NewJob.Cells.Add(New Cell(cJob.TypeName))
+            Dim newJob As New Node
+            newJob.Name = cJob.JobName
+            newJob.Text = cJob.JobName
+            newJob.Cells.Add(New Cell(cJob.TypeName))
             If cJob.CurrentBlueprint IsNot Nothing Then
-                Dim product As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(CStr(cJob.CurrentBlueprint.ProductId))
+                Dim product As EveType = StaticData.Types(cJob.CurrentBlueprint.ProductId)
                 Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                 Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
-                Dim value As Double = prices(CStr(cJob.CurrentBlueprint.ProductId))
+                Dim value As Double = prices(cJob.CurrentBlueprint.ProductId)
                 Dim profit As Double = value - unitcosts
                 Dim rate As Double = profit / ((cJob.RunTime / cJob.Runs) / 3600)
                 Dim margin As Double = (profit / value * 100)
-                NewJob.Cells.Add(New Cell(profit.ToString("N2")))
-                NewJob.Cells.Add(New Cell(rate.ToString("N2")))
-                NewJob.Cells.Add(New Cell(margin.ToString("N2")))
+                newJob.Cells.Add(New Cell(profit.ToString("N2")))
+                newJob.Cells.Add(New Cell(rate.ToString("N2")))
+                newJob.Cells.Add(New Cell(margin.ToString("N2")))
             Else
-                NewJob.Cells.Add(New Cell(0.ToString("N2")))
-                NewJob.Cells.Add(New Cell(0.ToString("N2")))
-                NewJob.Cells.Add(New Cell(0.ToString("N2")))
+                newJob.Cells.Add(New Cell(0.ToString("N2")))
+                newJob.Cells.Add(New Cell(0.ToString("N2")))
+                newJob.Cells.Add(New Cell(0.ToString("N2")))
             End If
-            adtProdJobs.Nodes.Add(NewJob)
+            adtProdJobs.Nodes.Add(newJob)
         Next
         EveHQ.Core.AdvTreeSorter.Sort(adtProdJobs, 1, True, True)
         adtProdJobs.EndUpdate()
@@ -5590,9 +5572,9 @@ Public Class frmPrism
     Private Sub UpdateInventionJobList()
         adtInventionJobs.BeginUpdate()
         adtInventionJobs.Nodes.Clear()
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In Jobs.JobList.Values Where r.HasInventionJob = True Where r.InventionJob.InventedBpid <> 0 Select CStr(r.InventionJob.CalculateInventedBPC.ProductId))
+        Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In Jobs.JobList.Values Where r.HasInventionJob = True Where r.InventionJob.InventedBpid <> 0 Select r.InventionJob.CalculateInventedBPC.ProductId)
         priceTask.Wait()
-        Dim prices As Dictionary(Of String, Double) = priceTask.Result
+        Dim prices As Dictionary(Of Integer, Double) = priceTask.Result
         For Each cJob As Job In Jobs.JobList.Values
             ' Check for the Invention Manager Flag
             If cJob.HasInventionJob = True Then
@@ -5604,7 +5586,7 @@ Public Class frmPrism
                     ' Calculate costs
                     Dim InvCost As InventionCost = cJob.InventionJob.CalculateInventionCost
                     Dim IBP As OwnedBlueprint = cJob.InventionJob.CalculateInventedBPC
-                    Dim BatchQty As Integer = Core.HQ.itemData(IBP.ProductId.ToString).PortionSize
+                    Dim BatchQty As Integer = StaticData.Types(IBP.ProductId).PortionSize
                     Dim InventionChance As Double = cJob.InventionJob.CalculateInventionChance
                     Dim InventionAttempts As Double = Math.Max(Math.Round(100 / InventionChance, 4, MidpointRounding.AwayFromZero), 1)
                     Dim InventionSuccessCost As Double = InventionAttempts * InvCost.TotalCost
@@ -5612,12 +5594,12 @@ Public Class frmPrism
                     ' Calculate Production Cost of invented item
                     Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                     Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2, MidpointRounding.AwayFromZero) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
-                    Dim SalesPrice As Double = prices(IBP.ProductId.ToString)
+                    Dim SalesPrice As Double = prices(IBP.ProductId)
                     Dim UnitProfit As Double = SalesPrice - AvgCost
                     Dim TotalProfit As Double = UnitProfit * IBP.Runs * BatchQty
                     Dim Margin As Double = UnitProfit / SalesPrice * 100
 
-                    NewJob.Cells.Add(New Cell(EveHQ.Core.HQ.itemData(CStr(cJob.InventionJob.InventedBpid)).Name))
+                    NewJob.Cells.Add(New Cell(StaticData.Types(cJob.InventionJob.InventedBpid).Name))
                     NewJob.Cells.Add(New Cell(InventionChance.ToString("N2")))
                     NewJob.Cells.Add(New Cell(InventionSuccessCost.ToString("N2")))
                     NewJob.Cells.Add(New Cell(AvgCost.ToString("N2")))
@@ -5908,7 +5890,7 @@ Public Class frmPrism
     Private Sub GetSalvage()
 
         Dim Owner As New PrismOwner
-        SalvageList.Clear()
+        _salvageList.Clear()
 
         For Each cOwner As ListViewItem In PSCRigOwners.ItemList.CheckedItems
 
@@ -5933,24 +5915,24 @@ Public Class frmPrism
                         locList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
                         If locList.Count > 0 Then
                             For Each loc In locList
-                                Dim itemID As String = loc.Attributes.GetNamedItem("typeID").Value
-                                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                                    Dim groupID As String = EveHQ.Core.HQ.itemData(itemID).Group.ToString
+                                Dim itemID As Integer = CInt(loc.Attributes.GetNamedItem("typeID").Value)
+                                If StaticData.Types.ContainsKey(itemID) = True Then
+                                    Dim groupID As String = StaticData.Types(itemID).Group.ToString
                                     If CLng(groupID) = 754 Then
 
                                         Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                        Dim itemName As String = EveHQ.Core.HQ.itemData(itemID).Name
-                                        If SalvageList.Contains(itemName) = False Then
-                                            SalvageList.Add(itemName, quantity)
+                                        Dim itemName As String = StaticData.Types(itemID).Name
+                                        If _salvageList.Contains(itemName) = False Then
+                                            _salvageList.Add(itemName, quantity)
                                         Else
-                                            SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                                            _salvageList.Item(itemName) = CLng(_salvageList.Item(itemName)) + quantity
                                         End If
                                     End If
                                 End If
 
                                 ' Check if this row has child nodes and repeat
                                 If loc.HasChildNodes = True Then
-                                    Call Me.GetSalvageNode(SalvageList, loc)
+                                    Call Me.GetSalvageNode(_salvageList, loc)
                                 End If
                             Next
                         End If
@@ -5965,12 +5947,12 @@ Public Class frmPrism
         subLocList = loc.ChildNodes(0).ChildNodes
         For Each subLoc In subLocList
             Try
-                Dim itemID As String = subLoc.Attributes.GetNamedItem("typeID").Value
-                If EveHQ.Core.HQ.itemData.ContainsKey(itemID) = True Then
-                    Dim groupID As String = EveHQ.Core.HQ.itemData(itemID).Group.ToString
+                Dim itemID As Integer = CInt(subLoc.Attributes.GetNamedItem("typeID").Value)
+                If StaticData.Types.ContainsKey(itemID) = True Then
+                    Dim groupID As String = StaticData.Types(itemID).Group.ToString
                     If CLng(groupID) = 754 Then
                         Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
-                        Dim itemName As String = EveHQ.Core.HQ.itemData(itemID).Name
+                        Dim itemName As String = StaticData.Types(itemID).Name
                         If SalvageList.Contains(itemName) = False Then
                             SalvageList.Add(itemName, quantity)
                         Else
@@ -5993,76 +5975,51 @@ Public Class frmPrism
         adtRigBuildList.Nodes.Clear()
 
         ' Build a Salvage List
-        Call Me.GetSalvage()
+        Call GetSalvage()
 
-        ' Calculate the true Waste Factor
-        Dim BPWF As Double = 10
-        If nudRigMELevel.Value >= 0 Then
-            BPWF = 1 + ((1 / BPWF) / (1 + nudRigMELevel.Value))
-        Else
-            BPWF = 1 + ((1 / BPWF) * (1 - nudRigMELevel.Value))
-        End If
+        Dim bpName As String
+        _rigBPData = New SortedList(Of String, SortedList(Of Integer, Long))
 
-        RigBPData = New SortedList
-        RigBuildData = New SortedList
-
-        ' Get the BP Details and build requirements
-        Dim strSQL As String = "SELECT invBuildMaterials.typeID AS invBuildMaterials_typeID, invBuildMaterials.activityID, invBuildMaterials.requiredTypeID, invBuildMaterials.quantity, invBuildMaterials.damagePerJob, invTypes.typeID AS invTypes_typeID, invTypes.groupID, invTypes.published"
-        strSQL &= " FROM invTypes INNER JOIN invBuildMaterials ON invTypes.typeID = invBuildMaterials.typeID"
-        strSQL &= " WHERE (((invBuildMaterials.activityID)=1) AND ((invTypes.groupID)=787) AND ((invTypes.published)=1));"
-        Dim rigData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Dim BPID As String = ""
-        Dim BPName As String = ""
-        Dim SalvageID As String = ""
-        Dim SalvageName As String = ""
-        Dim SalvageQ As Double = 0
-        Dim groupID As String = ""
-        For Each rigRow As DataRow In rigData.Tables(0).Rows
-            BPID = rigRow.Item("invTypes_typeID").ToString
-            BPName = EveHQ.Core.HQ.itemData(BPID).Name.TrimEnd(" Blueprint".ToCharArray)
-            If EveHQ.Core.HQ.itemList.ContainsKey(BPName) = True Then
-                ' Add it to the BPList if not already in
-                If RigBPData.Contains(BPName) = False Then
-                    RigBPData.Add(BPName, New SortedList)
+        ' Get the items in the group and build the materials
+        Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(787)
+        For Each item As EveType In items
+            bpName = item.Name.TrimEnd(" Blueprint".ToCharArray)
+            _rigBPData.Add(bpName, New SortedList(Of Integer, Long))
+            Dim rigBP As EveData.Blueprint = StaticData.Blueprints(item.Id)
+            For Each br As EveData.BlueprintResource In rigBP.Resources(1).Values
+                ' Check if the resource is salvage
+                If br.TypeGroup = 754 Then
+                    _rigBPData(bpName).Add(br.TypeId, br.Quantity)
                 End If
-                ' Read the required type and see if it is salvage (read groupID = 754)
-                SalvageID = rigRow.Item("requiredTypeID").ToString
-                groupID = EveHQ.Core.HQ.itemData(SalvageID).Group.ToString
-                If groupID = "754" Then
-                    SalvageName = EveHQ.Core.HQ.itemData(SalvageID).Name
-                    SalvageQ = Math.Round(CDbl(rigRow.Item("quantity")) * BPWF, 0, MidpointRounding.AwayFromZero)
-                    RigBuildData = CType(RigBPData.Item(BPName), Collections.SortedList)
-                    RigBuildData.Add(SalvageName, SalvageQ)
-                End If
-            End If
+            Next
         Next
 
     End Sub
     Private Sub GetBuildList()
-        Dim buildableBP As Boolean = False
-        Dim material As String = ""
-        Dim minQuantity As Double = 1.0E+99
-        Dim buildCost As Double = 0
-        Dim rigCost As Double = 0
+        Dim buildableBP As Boolean
+        Dim material As Integer
+        Dim minQuantity As Double
+        Dim buildCost As Double
+        Dim rigCost As Double
         adtRigs.BeginUpdate()
         adtRigs.Nodes.Clear()
-        Dim bpCostsTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From blueprint In RigBPData.Keys Select EveHQ.Core.HQ.itemList(CStr(blueprint)))
+        Dim bpCostsTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From blueprint In _rigBPData.Keys Select StaticData.TypeNames(CStr(blueprint)))
         bpCostsTask.Wait()
-        Dim bpCosts As Dictionary(Of String, Double) = bpCostsTask.Result
-        For Each BP As String In RigBPData.Keys
-            If EveHQ.Core.HQ.itemList.ContainsKey(BP) = True Then
+        Dim bpCosts As Dictionary(Of Integer, Double) = bpCostsTask.Result
+        For Each BP As String In _rigBPData.Keys
+            If StaticData.TypeNames.ContainsKey(BP) = True Then
                 buildableBP = True
                 minQuantity = 1.0E+99
                 buildCost = 0
                 ' Fetch the build requirements
-                RigBuildData = CType(RigBPData(BP), Collections.SortedList)
+                _rigBuildData = _rigBPData(BP)
                 ' Go through the requirements and see if have sufficient materials
-                For Each material In RigBuildData.Keys
-                    If SalvageList.Contains(material) = True Then
+                For Each material In _rigBuildData.Keys
+                    If _salvageList.Contains(material) = True Then
                         ' Check quantity
-                        If CDbl(SalvageList(material)) > CDbl(RigBuildData(material)) Then
+                        If CDbl(_salvageList(material)) > CDbl(_rigBuildData(material)) Then
                             ' We have enough so let's calculate the quantity we can use
-                            minQuantity = Math.Min(minQuantity, (CDbl(SalvageList(material)) / CDbl(RigBuildData(material))))
+                            minQuantity = Math.Min(minQuantity, (CDbl(_salvageList(material)) / CDbl(_rigBuildData(material))))
                         Else
                             ' We are lacking
                             buildableBP = False
@@ -6076,14 +6033,14 @@ Public Class frmPrism
                 ' Find the results
                 If buildableBP = True Then
                     ' Caluclate the build cost
-                    Dim costTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From mat In RigBuildData.Keys Select EveHQ.Core.HQ.itemList(CStr(mat)))
+                    Dim costTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From mat In _rigBuildData.Keys Select StaticData.TypeNames(CStr(mat)))
                     costTask.Wait()
-                    Dim costs As Dictionary(Of String, Double) = costTask.Result
-                    For Each material In RigBuildData.Keys
+                    Dim costs As Dictionary(Of Integer, Double) = costTask.Result
+                    For Each material In _rigBuildData.Keys
                         ' Get price
-                        buildCost += CInt(RigBuildData(material)) * costs(EveHQ.Core.HQ.itemList(material))
+                        buildCost += CInt(_rigBuildData(material)) * costs(material)
                     Next
-                    rigCost = bpCosts(EveHQ.Core.HQ.itemList(BP))
+                    rigCost = bpCosts(StaticData.TypeNames(BP))
                     Dim lviBP2 As New Node
                     lviBP2.Text = BP
                     Dim Qty As Integer = CInt(Int(minQuantity))
@@ -6103,7 +6060,7 @@ Public Class frmPrism
                 End If
             End If
         Next
-        EveHQ.Core.AdvTreeSorter.Sort(adtRigs, 1, True, True)
+        AdvTreeSorter.Sort(adtRigs, 1, True, True)
         adtRigs.EndUpdate()
     End Sub
     Private Sub adtRigs_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs)
@@ -6125,18 +6082,18 @@ Public Class frmPrism
             newRig.Cells.Add(New Cell(currentRig.Cells(subI).Text))
         Next
         'Get the salvage used by the rig and reduce the main list
-        Dim RigSalvageList As SortedList = CType(RigBPData(currentRig.Text), Collections.SortedList)
-        For Each salvage As String In RigSalvageList.Keys
-            SalvageList(salvage) = CInt(SalvageList(salvage)) - (CInt(RigSalvageList(salvage)) * CInt(currentRig.Cells(1).Text))
+        Dim rigSalvageList As SortedList(Of Integer, Long) = _rigBPData(currentRig.Text)
+        For Each salvage As Integer In rigSalvageList.Keys
+            _salvageList(salvage) = CInt(_salvageList(salvage)) - (CInt(rigSalvageList(salvage)) * CInt(currentRig.Cells(1).Text))
         Next
     End Sub
     Private Sub RemoveRigFromBuildList(ByVal currentRig As Node)
         ' Remove the selected rig to the build list
         adtRigBuildList.Nodes.Remove(currentRig)
         ' Get the salvage used by the rig and reduce the main list
-        Dim RigSalvageList As SortedList = CType(RigBPData(currentRig.Text), Collections.SortedList)
-        For Each salvage As String In RigSalvageList.Keys
-            SalvageList(salvage) = CInt(SalvageList(salvage)) + (CInt(RigSalvageList(salvage)) * CInt(currentRig.Cells(1).Text))
+        Dim rigSalvageList As SortedList(Of Integer, Long) = _rigBPData(currentRig.Text)
+        For Each salvage As Integer In rigSalvageList.Keys
+            _salvageList(salvage) = CInt(_salvageList(salvage)) + (CInt(rigSalvageList(salvage)) * CInt(currentRig.Cells(1).Text))
         Next
     End Sub
     Private Sub chkRigSaleprice_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRigSalePrice.CheckedChanged

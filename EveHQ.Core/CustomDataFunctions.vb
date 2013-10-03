@@ -1042,7 +1042,7 @@ Public Class CustomDataFunctions
     ''' <param name="mPilot"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Shared Function WriteMailingListIDsToDatabase(ByVal mPilot As Pilot) As SortedList(Of Long, String)
+    Public Shared Function WriteMailingListIDsToDatabase(ByVal mPilot As EveHQPilot) As SortedList(Of Long, String)
         Dim finalIDs As New SortedList(Of Long, String)
         Dim accountName As String = mPilot.Account
         If accountName <> "" Then

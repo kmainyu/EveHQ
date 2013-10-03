@@ -76,8 +76,8 @@ Public Class frmFittingBrowser
         End Get
         Set(ByVal value As DNAFitting)
             cDNAFit = value
-            currentShip = CType(ShipLists.shipList(ShipLists.shipListKeyID(value.ShipID)), Ship).Clone
-            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(currentShip.ID)
+            currentShip = ShipLists.ShipList(ShipLists.ShipListKeyID(value.ShipID)).Clone
+            pbShip.ImageLocation = EveHQ.Core.ImageHandler.GetImageLocation(CInt(currentShip.ID))
             lblShipType.Text = currentShip.Name
             Call Me.UseDNAFitting()
             lblLoadoutName.Text = LoadoutName

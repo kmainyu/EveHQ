@@ -17,8 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Windows.Forms
+Imports EveHQ.EveData
 
 Public Class frmSelectItem
 
@@ -43,21 +42,16 @@ Public Class frmSelectItem
 
     Private Sub frmSelectItem_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        ' Fetch the data from the database
-        Dim strSQL As String = "SELECT DISTINCT invTypes.typeName AS itemName"
-        strSQL &= " FROM invTypes INNER JOIN invTypeMaterials ON invTypes.typeID = invTypeMaterials.typeID"
-        strSQL &= " ORDER BY invTypes.typeName;"
-
-        Dim mDataSet As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Dim typeName As String = ""
-        cboItems.Items.Clear()
-        cboItems.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cboItems.AutoCompleteSource = AutoCompleteSource.CustomSource
+        ' Load recyclable items
         cboItems.BeginUpdate()
-        For Each ItemRow As DataRow In mDataSet.Tables(0).Rows
-            cboItems.AutoCompleteCustomSource.Add(CStr(ItemRow.Item("itemName")))
-            cboItems.Items.Add(CStr(ItemRow.Item("itemName")))
+        cboItems.Items.Clear()
+        For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
+            If bp.Resources.ContainsKey(6) Then
+                cboItems.AutoCompleteCustomSource.Add(StaticData.Types(bp.ProductId).Name)
+                cboItems.Items.Add(StaticData.Types(bp.ProductId).Name)
+            End If
         Next
         cboItems.EndUpdate()
+
     End Sub
 End Class

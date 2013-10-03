@@ -18,13 +18,13 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Public Class AssetItem
-    Public ItemID As String
+    Public ItemID As Integer
     Public Station As String
     Public System As String
     Public Constellation As String
     Public Region As String
     Public SystemSec As String
-    Public TypeID As String
+    Public TypeID As Integer
     Public TypeName As String
     Public Owner As String
     Public Group As String

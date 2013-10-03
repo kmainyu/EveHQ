@@ -698,17 +698,6 @@ Public Class frmPilot
 
 #Region "UI Routines"
 
-    Private Sub mnuForceTraining_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuForceTraining.Click
-        Dim skillID As Integer = CInt(mnuSkillName.Tag)
-        If EveHQ.Core.SkillFunctions.ForceSkillTraining(displayPilot, skillID, False) = True Then
-            Call Me.UpdatePilotInfo()
-            If frmTraining.IsHandleCreated = True Then
-                Call frmTraining.RefreshAllTrainingQueues()
-                Call frmTraining.LoadSkillTree()
-            End If
-        End If
-    End Sub
-
     Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewDetails.Click
         Dim skillID As Integer = CInt(mnuSkillName.Tag)
         frmSkillDetails.DisplayPilotName = displayPilot.Name
@@ -827,7 +816,7 @@ Public Class frmPilot
     End Sub
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
-        Dim certID As String = mnuCertName.Tag.ToString
+        Dim certID As Integer = CInt(mnuCertName.Tag)
         frmCertificateDetails.Text = mnuCertName.Text
         frmCertificateDetails.DisplayPilotName = displayPilot.Name
         frmCertificateDetails.ShowCertDetails(certID)

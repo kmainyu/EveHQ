@@ -30,7 +30,7 @@ Imports Newtonsoft.Json
     Private cFactoryRunningCost As Double = 333
     Private cLabInstallCost As Double = 1000
     Private cLabRunningCost As Double = 333
-    Private cBPCCosts As New SortedList(Of String, BPCCostInfo)
+    Private cBPCCosts As New SortedList(Of Integer, BPCCostInfo)
     Private cDefaultCharacter As String
     Private cDefaultBPOwner As String
     Private cDefaultBPCalcManufacturer As String
@@ -127,14 +127,14 @@ Imports Newtonsoft.Json
             cDefaultCharacter = value
         End Set
     End Property
-    Public Property BPCCosts() As SortedList(Of String, BPCCostInfo)
+    Public Property BPCCosts() As SortedList(Of Integer, BPCCostInfo)
         Get
             If cBPCCosts Is Nothing Then
-                cBPCCosts = New SortedList(Of String, BPCCostInfo)
+                cBPCCosts = New SortedList(Of Integer, BPCCostInfo)
             End If
             Return cBPCCosts
         End Get
-        Set(ByVal value As SortedList(Of String, BPCCostInfo))
+        Set(ByVal value As SortedList(Of Integer, BPCCostInfo))
             cBPCCosts = value
         End Set
     End Property

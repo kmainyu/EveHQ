@@ -20,6 +20,7 @@
 Imports System.Text
 Imports System.Xml
 Imports System.Windows.Forms
+Imports EveHQ.EveAPI
 
 Public Class EveMailEvents
     Public Shared Event MailUpdateStarted()
@@ -38,15 +39,13 @@ Public Class EveMailEvents
 End Class
 
 Public Class EveMail
-
-    Dim MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Dim SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
-    Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
-    Public Event MailProgress(ByVal Status As String)
+    Private Const MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
+    ReadOnly _culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+    Public Event MailProgress(ByVal status As String)
 
     Public Sub GetMail()
-        Call Me.GetEveMail()
-        Call Me.GetNotifications()
+        Call GetEveMail()
+        Call GetNotifications()
     End Sub
 
     Private Sub GetEveMail()
@@ -57,23 +56,23 @@ Public Class EveMail
         ' Stage 5: Get all the IDs and parse them
 
         ' Add to the auto timer
-        EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
-        Dim Mails As New SortedList(Of String, EveHQ.Core.EveMailMessage)
-        Dim MailingListIDs As New SortedList(Of Long, String)
-        For Each mPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        HQ.NextAutoMailAPITime = Now.AddMinutes(30)
+        Dim mails As New SortedList(Of String, EveMailMessage)
+        Dim mailingListIDs As New SortedList(Of Long, String)
+        For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
             ' Stage 1: Download the latest EveMail API using the standard API method
             If mPilot.Active = True Then
                 Dim accountName As String = mPilot.Account
-                If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(accountName) = True Then
-                    Dim mAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts.Item(accountName)
+                If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
+                    Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
                     ' Add in the data for mailing lists
                     RaiseEvent MailProgress("Processing Mailing Lists for " & mPilot.Name & "...")
-                    MailingListIDs = EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
-                    ' Make a call to the EveHQ.Core.API to fetch the EveMail
+                    mailingListIDs = CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
+                    ' Make a call to the API to fetch the EveMail
                     RaiseEvent MailProgress("Fetching EveMails for " & mPilot.Name & "...")
-                    Dim mailXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                    mailXML = APIReq.GetAPIXML(EveAPI.APITypes.MailMessages, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+                    Dim mailXML As XmlDocument
+                    Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    mailXML = apiReq.GetAPIXML(APITypes.MailMessages, mAccount.ToAPIAccount, mPilot.ID, APIReturnMethods.ReturnStandard)
                     If mailXML IsNot Nothing Then
                         ' Stage 2: Populate the class with our EveMails
                         If mailXML.SelectNodes("/eveapi/error").Count = 0 Then
@@ -83,11 +82,11 @@ Public Class EveMail
                             If mailList.Count > 0 Then
                                 Dim mailIDs As New List(Of String)
                                 For Each mail In mailList
-                                    Dim nMail As New EveHQ.Core.EveMailMessage
+                                    Dim nMail As New EveMailMessage
                                     nMail.OriginatorID = CLng(mPilot.ID)
                                     nMail.MessageID = CLng(mail.Attributes.GetNamedItem("messageID").Value)
                                     nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
-                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
+                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
                                     nMail.MessageTitle = mail.Attributes.GetNamedItem("title").Value
                                     nMail.ToCharacterIDs = mail.Attributes.GetNamedItem("toCharacterIDs").Value
                                     nMail.ToCorpAllianceIDs = mail.Attributes.GetNamedItem("toCorpOrAllianceID").Value
@@ -99,22 +98,22 @@ Public Class EveMail
                                         nMail.ReadFlag = False
                                     End If
                                     nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
-                                    If Mails.ContainsKey(nMail.MessageKey) = False Then
-                                        Mails.Add(nMail.MessageKey, nMail)
+                                    If mails.ContainsKey(nMail.MessageKey) = False Then
+                                        mails.Add(nMail.MessageKey, nMail)
                                     End If
                                     mailIDs.Add(nMail.MessageID.ToString)
                                 Next
                                 ' Get the mail bodies
                                 If mailIDs.Count > 0 Then
                                     Dim strID As New StringBuilder
-                                    For Each ID As String In mailIDs
-                                        strID.Append("," & ID)
+                                    For Each id As String In mailIDs
+                                        strID.Append("," & id)
                                     Next
                                     strID.Remove(0, 1)
-                                    Dim IDList As String = strID.ToString
-                                    Dim bodyXML As New XmlDocument
-                                    Dim BodyReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                                    bodyXML = BodyReq.GetAPIXML(EveAPI.APITypes.MailBodies, mAccount.ToAPIAccount, mPilot.ID, IDList, EveAPI.APIReturnMethods.ReturnActual)
+                                    Dim idList As String = strID.ToString
+                                    Dim bodyXML As XmlDocument
+                                    Dim bodyReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                                    bodyXML = bodyReq.GetAPIXML(APITypes.MailBodies, mAccount.ToAPIAccount, mPilot.ID, idList, APIReturnMethods.ReturnActual)
                                     If bodyXML IsNot Nothing Then
                                         If bodyXML.SelectNodes("/eveapi/error").Count = 0 Then
                                             Dim bodyList As XmlNodeList
@@ -123,8 +122,8 @@ Public Class EveMail
                                             If bodyList.Count > 0 Then
                                                 For Each body In bodyList
                                                     Dim searchKey As String = body.Attributes.GetNamedItem("messageID").Value & "_" & mPilot.ID
-                                                    If Mails.ContainsKey(searchKey) = True Then
-                                                        Mails(searchKey).MessageBody = body.ChildNodes(0).InnerText
+                                                    If mails.ContainsKey(searchKey) = True Then
+                                                        mails(searchKey).MessageBody = body.ChildNodes(0).InnerText
                                                     End If
                                                 Next
                                             End If
@@ -134,13 +133,13 @@ Public Class EveMail
                             End If
 
                             ' Set the cache time
-                            Dim CacheList As XmlNodeList
+                            Dim cacheList As XmlNodeList
                             Dim cache As XmlNode
-                            CacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
-                            cache = CacheList(0)
-                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
-                            If cacheTime < EveHQ.Core.HQ.NextAutoMailAPITime And cacheTime > Now Then
-                                EveHQ.Core.HQ.NextAutoMailAPITime = cacheTime
+                            cacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
+                            cache = cacheList(0)
+                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
+                            If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
+                                HQ.NextAutoMailAPITime = cacheTime
                             End If
                         End If
                     End If
@@ -152,13 +151,13 @@ Public Class EveMail
         RaiseEvent MailProgress("Checking for new EveMails for all characters...")
         Dim existingMails As New ArrayList
         Dim strExistingMails As New StringBuilder
-        If Mails.Count > 0 Then
-            For Each messageKey As String In Mails.Keys
+        If mails.Count > 0 Then
+            For Each messageKey As String In mails.Keys
                 strExistingMails.Append(",'" & messageKey & "'")
             Next
             strExistingMails.Remove(0, 1)
             Dim strSQL As String = "SELECT messageKey FROM eveMail WHERE messageKey IN (" & strExistingMails.ToString & ");"
-            Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            Dim mailData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             If mailData IsNot Nothing Then
                 If mailData.Tables(0).Rows.Count > 0 Then
                     For Each mailRow As DataRow In mailData.Tables(0).Rows
@@ -170,10 +169,10 @@ Public Class EveMail
 
         ' Stage 4: Post all new messages to the database
         RaiseEvent MailProgress("Posting new EveMails to the database...")
-        Dim NewMails As New ArrayList
-        Dim strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail, messageBody) VALUES "
-        For Each mailKey As String In Mails.Keys
-            Dim cMail As EveHQ.Core.EveMailMessage = Mails(mailKey)
+        Dim newMails As New ArrayList
+        Const strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail, messageBody) VALUES "
+        For Each mailKey As String In mails.Keys
+            Dim cMail As EveMailMessage = mails(mailKey)
             If existingMails.Contains(mailKey) = False Then
                 ' Add the message to the database
                 Dim uSQL As New StringBuilder
@@ -183,7 +182,7 @@ Public Class EveMail
                 uSQL.Append(cMail.MessageID & ", ")
                 uSQL.Append(cMail.OriginatorID & ", ")
                 uSQL.Append(cMail.SenderID & ", ")
-                uSQL.Append("'" & cMail.MessageDate.ToString(SQLTimeFormat, culture) & "', ")
+                uSQL.Append("'" & cMail.MessageDate.ToString(MailTimeFormat, _culture) & "', ")
                 uSQL.Append("'" & cMail.MessageTitle.Replace("'", "''") & "', ")
                 uSQL.Append("'" & cMail.ToCorpAllianceIDs & "', ")
                 uSQL.Append("'" & cMail.ToCharacterIDs & "', ")
@@ -194,50 +193,50 @@ Public Class EveMail
                 Else
                     uSQL.Append("'');")
                 End If
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -2 Then
-                    MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                If CustomDataFunctions.SetCustomData(uSQL.ToString) = -2 Then
+                    MessageBox.Show("There was an error writing data to the Eve Mail database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing EveMails", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     ' This may require an EveMail notification, so store it for later
-                    NewMails.Add(cMail)
+                    newMails.Add(cMail)
                 End If
             End If
         Next
 
         ' Stage 5: Get all the IDs and parse them
         RaiseEvent MailProgress("Posting EveMail IDs to the database...")
-        Dim IDs As New List(Of String)
-        For Each cMail As EveHQ.Core.EveMailMessage In Mails.Values
+        Dim ids As New List(Of String)
+        For Each cMail As EveMailMessage In mails.Values
             ' Get Sender IDs
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.SenderID.ToString)
+            CustomDataFunctions.ParseIDs(ids, cMail.SenderID.ToString)
             ' Get Originator IDs
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.OriginatorID.ToString)
+            CustomDataFunctions.ParseIDs(ids, cMail.OriginatorID.ToString)
             ' Get Character IDs
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCharacterIDs)
+            CustomDataFunctions.ParseIDs(ids, cMail.ToCharacterIDs)
             ' Get Corp/Alliance IDs
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToCorpAllianceIDs)
+            CustomDataFunctions.ParseIDs(ids, cMail.ToCorpAllianceIDs)
         Next
         ' Remove any mailing list IDs
-        For Each MailingListID As Long In MailingListIDs.Keys
-            If IDs.Contains(MailingListID.ToString) = True Then
-                IDs.Remove(MailingListID.ToString)
+        For Each mailingListID As Long In mailingListIDs.Keys
+            If ids.Contains(mailingListID.ToString) = True Then
+                ids.Remove(mailingListID.ToString)
             End If
         Next
-        Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
+        Call CustomDataFunctions.WriteEveIDsToDatabase(ids)
 
         ' Add in the Mailing List IDs
-        For Each cMail As EveHQ.Core.EveMailMessage In Mails.Values
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cMail.ToListIDs)
+        For Each cMail As EveMailMessage In mails.Values
+            CustomDataFunctions.ParseIDs(ids, cMail.ToListIDs)
         Next
 
         ' Send E-mail notification of new mails if required
-        If EveHQ.Core.HQ.Settings.NotifyEveMail = True And NewMails.Count > 0 Then
+        If HQ.Settings.NotifyEveMail = True And newMails.Count > 0 Then
             RaiseEvent MailProgress("Sending notification of new mails...")
-            Call SendEmailForNewEveMails(NewMails, IDs)
+            Call SendEmailForNewEveMails(newMails, ids)
         End If
 
         ' Just check the timer to make sure we're not gonna be bombarded with tons of short-lived requests!
-        If EveHQ.Core.HQ.NextAutoMailAPITime < Now.AddSeconds(60) Then
-            EveHQ.Core.HQ.NextAutoMailAPITime = EveHQ.Core.HQ.NextAutoMailAPITime.AddSeconds(60)
+        If HQ.NextAutoMailAPITime < Now.AddSeconds(60) Then
+            HQ.NextAutoMailAPITime = HQ.NextAutoMailAPITime.AddSeconds(60)
         End If
     End Sub
 
@@ -249,19 +248,19 @@ Public Class EveMail
         ' Stage 5: Get all the IDs and parse them
 
         ' Add to the auto timer
-        EveHQ.Core.HQ.NextAutoMailAPITime = Now.AddMinutes(30)
-        Dim Notices As New SortedList(Of String, EveHQ.Core.EveNotification)
-        For Each mPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        HQ.NextAutoMailAPITime = Now.AddMinutes(30)
+        Dim notices As New SortedList(Of String, EveNotification)
+        For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
             ' Stage 1: Download the latest EveMail API using the standard API method
             If mPilot.Active = True Then
                 Dim accountName As String = mPilot.Account
-                If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(accountName) = True Then
-                    Dim mAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts.Item(accountName)
-                    ' Make a call to the EveHQ.Core.API to fetch the EveMail
+                If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
+                    Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
+                    ' Make a call to the API to fetch the EveMail
                     RaiseEvent MailProgress("Fetching Eve Notifications for " & mPilot.Name & "...")
-                    Dim mailXML As New XmlDocument
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                    mailXML = APIReq.GetAPIXML(EveAPI.APITypes.Notifications, mAccount.ToAPIAccount, mPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
+                    Dim mailXML As XmlDocument
+                    Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    mailXML = apiReq.GetAPIXML(APITypes.Notifications, mAccount.ToAPIAccount, mPilot.ID, APIReturnMethods.ReturnStandard)
                     If mailXML IsNot Nothing Then
                         If mailXML.SelectNodes("/eveapi/error").Count = 0 Then
                             ' Stage 2: Populate the class with our EveMails
@@ -271,16 +270,16 @@ Public Class EveMail
                             If mailList.Count > 0 Then
                                 Dim mailIDs As New List(Of String)
                                 For Each mail In mailList
-                                    Dim nMail As New EveHQ.Core.EveNotification
+                                    Dim nMail As New EveNotification
                                     nMail.OriginatorID = CLng(mPilot.ID)
                                     nMail.MessageID = CLng(mail.Attributes.GetNamedItem("notificationID").Value)
                                     nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
-                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
+                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
                                     nMail.TypeID = CLng(mail.Attributes.GetNamedItem("typeID").Value)
                                     nMail.ReadFlag = CBool(mail.Attributes.GetNamedItem("read").Value)
                                     nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
-                                    If Notices.ContainsKey(nMail.MessageKey) = False Then
-                                        Notices.Add(nMail.MessageKey, nMail)
+                                    If notices.ContainsKey(nMail.MessageKey) = False Then
+                                        notices.Add(nMail.MessageKey, nMail)
                                     End If
                                     mailIDs.Add(nMail.MessageID.ToString)
                                 Next
@@ -288,14 +287,14 @@ Public Class EveMail
                                 ' Get the notification bodies
                                 If mailIDs.Count > 0 Then
                                     Dim strID As New StringBuilder
-                                    For Each ID As String In mailIDs
-                                        strID.Append("," & ID)
+                                    For Each id As String In mailIDs
+                                        strID.Append("," & id)
                                     Next
                                     strID.Remove(0, 1)
-                                    Dim IDList As String = strID.ToString
-                                    Dim bodyXML As New XmlDocument
-                                    Dim BodyReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                                    bodyXML = BodyReq.GetAPIXML(EveAPI.APITypes.NotificationTexts, mAccount.ToAPIAccount, mPilot.ID, IDList, EveAPI.APIReturnMethods.ReturnActual)
+                                    Dim idList As String = strID.ToString
+                                    Dim bodyXML As XmlDocument
+                                    Dim bodyReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                                    bodyXML = bodyReq.GetAPIXML(APITypes.NotificationTexts, mAccount.ToAPIAccount, mPilot.ID, idList, APIReturnMethods.ReturnActual)
                                     If bodyXML IsNot Nothing Then
                                         If bodyXML.SelectNodes("/eveapi/error").Count = 0 Then
                                             Dim bodyList As XmlNodeList
@@ -304,8 +303,8 @@ Public Class EveMail
                                             If bodyList.Count > 0 Then
                                                 For Each body In bodyList
                                                     Dim searchKey As String = body.Attributes.GetNamedItem("notificationID").Value & "_" & mPilot.ID
-                                                    If Notices.ContainsKey(searchKey) = True Then
-                                                        Notices(searchKey).MessageBody = body.ChildNodes(0).InnerText
+                                                    If notices.ContainsKey(searchKey) = True Then
+                                                        notices(searchKey).MessageBody = body.ChildNodes(0).InnerText
                                                     End If
                                                 Next
                                             End If
@@ -315,13 +314,13 @@ Public Class EveMail
 
                             End If
                             ' Set the cache time
-                            Dim CacheList As XmlNodeList
+                            Dim cacheList As XmlNodeList
                             Dim cache As XmlNode
-                            CacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
-                            cache = CacheList(0)
-                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, culture, Globalization.DateTimeStyles.None)
-                            If cacheTime < EveHQ.Core.HQ.NextAutoMailAPITime And cacheTime > Now Then
-                                EveHQ.Core.HQ.NextAutoMailAPITime = cacheTime
+                            cacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
+                            cache = cacheList(0)
+                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
+                            If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
+                                HQ.NextAutoMailAPITime = cacheTime
                             End If
                         End If
                     End If
@@ -333,13 +332,13 @@ Public Class EveMail
         RaiseEvent MailProgress("Checking for new Eve Notifications for all characters...")
         Dim existingMails As New ArrayList
         Dim strExistingMails As New StringBuilder
-        If Notices.Count > 0 Then
-            For Each messageKey As String In Notices.Keys
+        If notices.Count > 0 Then
+            For Each messageKey As String In notices.Keys
                 strExistingMails.Append(",'" & messageKey & "'")
             Next
             strExistingMails.Remove(0, 1)
             Dim strSQL As String = "SELECT messageKey FROM eveNotifications WHERE messageKey IN (" & strExistingMails.ToString & ");"
-            Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            Dim mailData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             If mailData IsNot Nothing Then
                 If mailData.Tables(0).Rows.Count > 0 Then
                     For Each mailRow As DataRow In mailData.Tables(0).Rows
@@ -352,9 +351,9 @@ Public Class EveMail
         ' Stage 4: Post all new messages to the database
         RaiseEvent MailProgress("Posting new Eve Notifications to the database...")
         Dim newNotifys As New ArrayList
-        Dim strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail, messageBody) VALUES "
-        For Each NoticeKey As String In Notices.Keys
-            Dim cMail As EveHQ.Core.EveNotification = Notices(NoticeKey)
+        Const strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail, messageBody) VALUES "
+        For Each noticeKey As String In notices.Keys
+            Dim cMail As EveNotification = notices(noticeKey)
             If existingMails.Contains(cMail.MessageKey) = False Then
                 ' Add the message to the database
                 Dim uSQL As New StringBuilder
@@ -365,15 +364,15 @@ Public Class EveMail
                 uSQL.Append(cMail.OriginatorID & ", ")
                 uSQL.Append(cMail.SenderID & ", ")
                 uSQL.Append(cMail.TypeID & ", ")
-                uSQL.Append("'" & cMail.MessageDate.ToString(SQLTimeFormat, culture) & "', ")
+                uSQL.Append("'" & cMail.MessageDate.ToString(MailTimeFormat, _culture) & "', ")
                 uSQL.Append(CInt(cMail.ReadFlag) & ", ")
                 If cMail.MessageBody IsNot Nothing Then
                     uSQL.Append("'" & cMail.MessageBody.Replace("'", "''") & "');")
                 Else
                     uSQL.Append("'');")
                 End If
-                If EveHQ.Core.DataFunctions.SetData(uSQL.ToString) = -2 Then
-                    MessageBox.Show("There was an error writing data to the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                If CustomDataFunctions.SetCustomData(uSQL.ToString) = -2 Then
+                    MessageBox.Show("There was an error writing data to the Eve Notifications database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & uSQL.ToString, "Error Writing Eve Notifications", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     ' This may require an EveMail notification, so store it
                     newNotifys.Add(cMail)
@@ -383,44 +382,44 @@ Public Class EveMail
 
         ' Stage 5: Get all the IDs and parse them
         RaiseEvent MailProgress("Posting Eve Notification IDs to the database...")
-        Dim IDs As New List(Of String)
-        For Each cNotice As EveHQ.Core.EveNotification In Notices.Values
+        Dim ids As New List(Of String)
+        For Each cNotice As EveNotification In notices.Values
             ' Get Sender IDs
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cNotice.SenderID.ToString)
+            CustomDataFunctions.ParseIDs(ids, cNotice.SenderID.ToString)
             ' Get Originator IDs
-            EveHQ.Core.DataFunctions.ParseIDs(IDs, cNotice.OriginatorID.ToString)
+            CustomDataFunctions.ParseIDs(ids, cNotice.OriginatorID.ToString)
         Next
-        Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
+        Call CustomDataFunctions.WriteEveIDsToDatabase(ids)
 
         ' Send E-mail notification of new mails if required
-        If EveHQ.Core.HQ.Settings.NotifyEveMail = True And newNotifys.Count > 0 Then
+        If HQ.Settings.NotifyEveMail = True And newNotifys.Count > 0 Then
             RaiseEvent MailProgress("Sending notification of new notices...")
-            Call SendEmailForNewEveNotifications(newNotifys, IDs)
+            Call SendEmailForNewEveNotifications(newNotifys, ids)
         End If
 
         ' Just check the timer to make sure we're not gonna be bombarded with tons of short-lived requests!
-        If EveHQ.Core.HQ.NextAutoMailAPITime < Now.AddSeconds(60) Then
-            EveHQ.Core.HQ.NextAutoMailAPITime = EveHQ.Core.HQ.NextAutoMailAPITime.AddSeconds(60)
+        If HQ.NextAutoMailAPITime < Now.AddSeconds(60) Then
+            HQ.NextAutoMailAPITime = HQ.NextAutoMailAPITime.AddSeconds(60)
         End If
 
     End Sub
 
-    Private Sub SendEmailForNewEveMails(ByVal NewMails As ArrayList, ByVal IDs As List(Of String))
+    Private Sub SendEmailForNewEveMails(ByVal newMails As ArrayList, ByVal ds As IEnumerable(Of String))
         ' Get the name data from the DB
         Dim strID As New StringBuilder
-        For Each ID As String In IDs
-            If ID <> "" Then
-                strID.Append(ID & ",")
+        For Each id As String In ds
+            If id <> "" Then
+                strID.Append(id & ",")
             End If
         Next
         strID.Append("0")
-        Dim FinalIDs As New SortedList(Of Long, String)
+        Dim finalIDs As New SortedList(Of Long, String)
         Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-        Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-        If IDData IsNot Nothing Then
-            If IDData.Tables(0).Rows.Count > 0 Then
-                For Each IDRow As DataRow In IDData.Tables(0).Rows
-                    FinalIDs.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+        Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+        If idData IsNot Nothing Then
+            If idData.Tables(0).Rows.Count > 0 Then
+                For Each idRow As DataRow In idData.Tables(0).Rows
+                    finalIDs.Add(CLng(idRow.Item("eveID")), CStr(idRow.Item("eveName")))
                 Next
             End If
         End If
@@ -428,22 +427,22 @@ Public Class EveMail
         strBody.AppendLine("EveHQ has collected the following new Eve mail messages:")
         strBody.AppendLine("")
         Dim messageTotal As Integer = 0
-        For Each cMail As EveHQ.Core.EveMailMessage In NewMails
+        For Each cMail As EveMailMessage In newMails
             If cMail.SenderID <> cMail.OriginatorID Then
                 messageTotal += 1
             End If
         Next
         If messageTotal > 0 Then
-            Dim MessageCount As Integer = 1
-            For Each cMail As EveHQ.Core.EveMailMessage In NewMails
+            Dim messageCount As Integer = 1
+            For Each cMail As EveMailMessage In newMails
                 If cMail.SenderID <> cMail.OriginatorID Then
-                    strBody.AppendLine("Mail " & MessageCount.ToString & " of " & messageTotal.ToString)
-                    strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
+                    strBody.AppendLine("Mail " & messageCount.ToString & " of " & messageTotal.ToString)
+                    strBody.AppendLine("From: " & finalIDs(cMail.SenderID))
                     If cMail.ToCharacterIDs <> "" Then
-                        strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
+                        strBody.AppendLine("To: " & finalIDs(cMail.OriginatorID))
                     Else
                         If cMail.ToCorpAllianceIDs <> "" Then
-                            strBody.AppendLine("To: " & FinalIDs(CLng(cMail.ToCorpAllianceIDs)))
+                            strBody.AppendLine("To: " & finalIDs(CLng(cMail.ToCorpAllianceIDs)))
                         Else
                             strBody.AppendLine("To: Mailing List")
                         End If
@@ -453,67 +452,67 @@ Public Class EveMail
                     strBody.AppendLine("Message:")
                     strBody.AppendLine(cMail.MessageBody.Replace("<br>", "<br />").Replace("<BR>", "<br />").Replace("<br />", ControlChars.CrLf))
                     strBody.AppendLine("")
-                    MessageCount += 1
+                    messageCount += 1
                 End If
             Next
             Call SendEveHQMail("New Eve Mail Messages Notification", strBody.ToString)
         End If
     End Sub
 
-    Private Sub SendEmailForNewEveNotifications(ByVal NewNotifys As ArrayList, ByVal IDs As List(Of String))
+    Private Sub SendEmailForNewEveNotifications(ByVal newNotifys As ArrayList, ByVal ids As IEnumerable(Of String))
         ' Get the name data from the DB
         Dim strID As New StringBuilder
-        For Each ID As String In IDs
-            If ID <> "" Then
-                strID.Append(ID & ",")
+        For Each id As String In ids
+            If id <> "" Then
+                strID.Append(id & ",")
             End If
         Next
         strID.Append("0")
-        Dim FinalIDs As New SortedList(Of Long, String)
+        Dim finalIDs As New SortedList(Of Long, String)
         Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-        Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-        If IDData IsNot Nothing Then
-            If IDData.Tables(0).Rows.Count > 0 Then
-                For Each IDRow As DataRow In IDData.Tables(0).Rows
-                    FinalIDs.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+        Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+        If idData IsNot Nothing Then
+            If idData.Tables(0).Rows.Count > 0 Then
+                For Each idRow As DataRow In idData.Tables(0).Rows
+                    finalIDs.Add(CLng(idRow.Item("eveID")), CStr(idRow.Item("eveName")))
                 Next
             End If
         End If
         Dim strBody As New StringBuilder
         strBody.AppendLine("EveHQ has collected the following new Eve notifications:")
         strBody.AppendLine("")
-        Dim MessageCount As Integer = 1
-        For Each cMail As EveHQ.Core.EveNotification In NewNotifys
-            strBody.AppendLine("Mail " & MessageCount.ToString & " of " & NewNotifys.Count.ToString)
-            strBody.AppendLine("From: " & FinalIDs(cMail.SenderID))
-            strBody.AppendLine("To: " & FinalIDs(cMail.OriginatorID))
+        Dim messageCount As Integer = 1
+        For Each cMail As EveNotification In newNotifys
+            strBody.AppendLine("Mail " & messageCount.ToString & " of " & newNotifys.Count.ToString)
+            strBody.AppendLine("From: " & finalIDs(cMail.SenderID))
+            strBody.AppendLine("To: " & finalIDs(cMail.OriginatorID))
             strBody.AppendLine("Date: " & cMail.MessageDate.ToString)
-            Dim strNotice As String = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), cMail.TypeID)
+            Dim strNotice As String = [Enum].GetName(GetType(EveNotificationTypes), cMail.TypeID)
             strNotice = strNotice.Replace("_", " ")
             strBody.AppendLine("Subject: " & strNotice)
             strBody.AppendLine("")
-            MessageCount += 1
+            messageCount += 1
         Next
         Call SendEveHQMail("New Eve Notification Messages Notification", strBody.ToString)
     End Sub
 
     Private Sub SendEveHQMail(ByVal mailSubject As String, ByVal mailText As String)
-        Dim eveHQMail As New System.Net.Mail.SmtpClient
+        Dim evehqMail As New Net.Mail.SmtpClient
         Try
-            eveHQMail.Host = EveHQ.Core.HQ.Settings.EMailServer
-            eveHQMail.Port = EveHQ.Core.HQ.Settings.EMailPort
-            eveHQMail.EnableSsl = EveHQ.Core.HQ.Settings.UseSSL
-            If EveHQ.Core.HQ.Settings.UseSMTPAuth = True Then
-                Dim newCredentials As New System.Net.NetworkCredential
-                newCredentials.UserName = EveHQ.Core.HQ.Settings.EMailUsername
-                newCredentials.Password = EveHQ.Core.HQ.Settings.EMailPassword
-                eveHQMail.Credentials = newCredentials
+            evehqMail.Host = HQ.Settings.EMailServer
+            evehqMail.Port = HQ.Settings.EMailPort
+            evehqMail.EnableSsl = HQ.Settings.UseSsl
+            If HQ.Settings.UseSmtpAuth = True Then
+                Dim newCredentials As New Net.NetworkCredential
+                newCredentials.UserName = HQ.Settings.EMailUsername
+                newCredentials.Password = HQ.Settings.EMailPassword
+                evehqMail.Credentials = newCredentials
             End If
-            Dim recList As String = EveHQ.Core.HQ.Settings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
-            Dim eveHQMsg As New System.Net.Mail.MailMessage(EveHQ.Core.HQ.Settings.EmailSenderAddress, recList)
-            eveHQMsg.Subject = mailSubject
-            eveHQMsg.Body = mailText
-            eveHQMail.Send(eveHQMsg)
+            Dim recList As String = HQ.Settings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
+            Dim evehqMsg As New Net.Mail.MailMessage(HQ.Settings.EmailSenderAddress, recList)
+            evehqMsg.Subject = mailSubject
+            evehqMsg.Body = mailText
+            evehqMail.Send(evehqMsg)
         Catch ex As Exception
             MessageBox.Show("The mail notification sending process failed. Please check that the server, port, address, username and password are correct." & ControlChars.CrLf & ControlChars.CrLf & "The error was: " & ex.Message, "EveHQ Email Notification Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
@@ -531,8 +530,8 @@ Public Class EveMailMessage
     Public ToCorpAllianceIDs As String
     Public ToCharacterIDs As String
     Public ToListIDs As String
-	Public ReadFlag As Boolean
-	Public MessageBody As String
+    Public ReadFlag As Boolean
+    Public MessageBody As String
 End Class
 
 Public Class EveNotification
@@ -546,6 +545,11 @@ Public Class EveNotification
     Public MessageBody As String
 End Class
 
+''' <summary>
+''' Eve Notification types
+''' IMPORTANT: Leave with underscores in to permit correct parsing
+''' </summary>
+''' <remarks></remarks>
 Public Enum EveNotificationTypes As Integer
     Character_Deleted = 2
     Give_Medal_To_Character = 3

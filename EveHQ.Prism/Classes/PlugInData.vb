@@ -22,6 +22,8 @@ Imports System.Windows.Forms
 Imports System.Xml
 Imports System.Reflection
 Imports System.IO
+Imports EveHQ.EveData
+Imports EveHQ.EveAPI
 Imports Newtonsoft.Json
 
 Public Class PlugInData
@@ -33,12 +35,12 @@ Public Class PlugInData
     Public Shared stations As New SortedList
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
-    Public Shared PackedVolumes As New SortedList(Of String, Double)
-    Public Shared AssetItemNames As New SortedList(Of String, String)
+    Public Shared PackedVolumes As New SortedList(Of Integer, Double) ' groupID, volume
+    Public Shared AssetItemNames As New SortedList(Of Integer, String)
     Public Shared Products As New SortedList(Of String, String)
-    Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of String, BlueprintAsset))
+    Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of Integer, BlueprintAsset))
     Public Shared CorpList As New SortedList
-    Public Shared CategoryNames As New SortedList(Of String, String)
+    Public Shared CategoryNames As New SortedList(Of String, Integer) ' catName, catID
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
     Private activeForm As frmPrism
@@ -104,52 +106,56 @@ Public Class PlugInData
 
 #Region "Plug-in Startup Routines"
     Private Function LoadPlugIndata() As Boolean
-        If CheckVersion() = False Then
-            Return False
+        ' Setup the Prism Folder
+        If Core.HQ.IsUsingLocalFolders = False Then
+            Settings.PrismFolder = Path.Combine(Core.HQ.AppDataFolder, "Prism")
         Else
-            ' Setup the Prism Folder
-            If Core.HQ.IsUsingLocalFolders = False Then
-                Settings.PrismFolder = Path.Combine(Core.HQ.AppDataFolder, "Prism")
-            Else
-                Settings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
-            End If
-            If My.Computer.FileSystem.DirectoryExists(Settings.PrismFolder) = False Then
-                My.Computer.FileSystem.CreateDirectory(Settings.PrismFolder)
-            End If
-            Call DataFunctions.CheckDatabaseTables()
-            Call LoadItemFlags()
-            Call LoadStatuses()
-            Call LoadPackedVolumes()
-            Call LoadAssetItemNames()
-            If Invention.LoadInventionData = False Then
-                Return False
-            End If
-            If LoadRefTypes() = False Then
-                Return False
-            End If
-            If LoadStations() = False Then
-                Return False
-            End If
-            If LoadSolarSystems() = False Then
-                Return False
-            End If
-            If LoadNPCCorps() = False Then
-                Return False
-            End If
-            Call CheckForConqXMLFile()
-            Call LoadOwnerBlueprints()
-            Return True
+            Settings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
         End If
+        If My.Computer.FileSystem.DirectoryExists(Settings.PrismFolder) = False Then
+            My.Computer.FileSystem.CreateDirectory(Settings.PrismFolder)
+        End If
+        Call PrismDataFunctions.CheckDatabaseTables()
+        Call LoadStatuses()
+        Call LoadPackedVolumes()
+        Call LoadAssetItemNames()
+        Call LoadCategoryData()
+        If Invention.LoadInventionData = False Then
+            Return False
+        End If
+        If LoadRefTypes() = False Then
+            Return False
+        End If
+        Call CheckForConqXMLFile()
+        Call LoadOwnerBlueprints()
+        Return True
     End Function
+    Private Sub LoadCategoryData()
+
+        CategoryNames.Clear()
+        Products.Clear()
+        For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
+            If StaticData.Types.ContainsKey(bp.ProductId) Then
+                Dim catID As Integer = StaticData.Types(bp.ProductId).Category
+                If CategoryNames.ContainsKey(StaticData.TypeCats(catID)) = False Then
+                    CategoryNames.Add(StaticData.TypeCats(catID), catID)
+                End If
+            End If
+            If Products.ContainsKey(bp.ProductId.ToString) = False Then
+                Products.Add(bp.ProductId.ToString, bp.Id.ToString)
+            End If
+        Next
+
+    End Sub
     Private Sub LoadAssetItemNames()
         Try
             Dim strSQL As String = "SELECT * FROM assetItemNames;"
-            Dim nameData As DataSet = Core.DataFunctions.GetCustomData(strSQL)
+            Dim nameData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
             AssetItemNames.Clear()
             If nameData IsNot Nothing Then
                 If nameData.Tables(0).Rows.Count > 0 Then
                     For Each nameRow As DataRow In nameData.Tables(0).Rows
-                        AssetItemNames.Add(CStr(nameRow.Item("itemID")), CStr(nameRow.Item("itemName")))
+                        AssetItemNames.Add(CInt(nameRow.Item("itemID")), CStr(nameRow.Item("itemName")))
                     Next
                 End If
             End If
@@ -160,51 +166,40 @@ Public Class PlugInData
     End Sub
     Private Sub LoadPackedVolumes()
         PackedVolumes.Clear()
-        PackedVolumes.Add("31", 500)
-        PackedVolumes.Add("324", 2500)
-        PackedVolumes.Add("419", 15000)
-        PackedVolumes.Add("27", 50000)
-        PackedVolumes.Add("898", 50000)
-        PackedVolumes.Add("547", 1000000)
-        PackedVolumes.Add("659", 1000000)
-        PackedVolumes.Add("540", 15000)
-        PackedVolumes.Add("830", 2500)
-        PackedVolumes.Add("834", 2500)
-        PackedVolumes.Add("26", 10000)
-        PackedVolumes.Add("420", 5000)
-        PackedVolumes.Add("485", 1000000)
-        PackedVolumes.Add("893", 2500)
-        PackedVolumes.Add("543", 3750)
-        PackedVolumes.Add("513", 1000000)
-        PackedVolumes.Add("25", 2500)
-        PackedVolumes.Add("358", 10000)
-        PackedVolumes.Add("894", 10000)
-        PackedVolumes.Add("28", 20000)
-        PackedVolumes.Add("831", 2500)
-        PackedVolumes.Add("541", 5000)
-        PackedVolumes.Add("902", 1000000)
-        PackedVolumes.Add("832", 10000)
-        PackedVolumes.Add("900", 50000)
-        PackedVolumes.Add("463", 3750)
-        PackedVolumes.Add("906", 10000)
-        PackedVolumes.Add("833", 10000)
-        PackedVolumes.Add("30", 10000000)
-        PackedVolumes.Add("380", 20000)
-        PackedVolumes.Add("941", 500000)
-        PackedVolumes.Add("883", 1000000)
-        PackedVolumes.Add("237", 2500)
-    End Sub
-    Private Sub LoadItemFlags()
-        itemFlags.Clear()
-        Dim strSQL As String = "SELECT * FROM invFlags"
-        Dim flagData As DataSet = Core.DataFunctions.GetData(strSQL)
-        If flagData IsNot Nothing Then
-            If flagData.Tables(0).Rows.Count > 0 Then
-                For Each flagRow As DataRow In flagData.Tables(0).Rows
-                    itemFlags.Add(CInt(flagRow.Item("flagID")), CStr(flagRow.Item("flagText")))
-                Next
-            End If
-        End If
+        PackedVolumes.Clear()
+        PackedVolumes.Add(31, 500)
+        PackedVolumes.Add(324, 2500)
+        PackedVolumes.Add(419, 15000)
+        PackedVolumes.Add(27, 50000)
+        PackedVolumes.Add(898, 50000)
+        PackedVolumes.Add(547, 1000000)
+        PackedVolumes.Add(659, 1000000)
+        PackedVolumes.Add(540, 15000)
+        PackedVolumes.Add(830, 2500)
+        PackedVolumes.Add(834, 2500)
+        PackedVolumes.Add(26, 10000)
+        PackedVolumes.Add(420, 5000)
+        PackedVolumes.Add(485, 1000000)
+        PackedVolumes.Add(893, 2500)
+        PackedVolumes.Add(543, 3750)
+        PackedVolumes.Add(513, 1000000)
+        PackedVolumes.Add(25, 2500)
+        PackedVolumes.Add(358, 10000)
+        PackedVolumes.Add(894, 10000)
+        PackedVolumes.Add(28, 20000)
+        PackedVolumes.Add(831, 2500)
+        PackedVolumes.Add(541, 5000)
+        PackedVolumes.Add(902, 1000000)
+        PackedVolumes.Add(832, 10000)
+        PackedVolumes.Add(900, 50000)
+        PackedVolumes.Add(463, 3750)
+        PackedVolumes.Add(906, 10000)
+        PackedVolumes.Add(833, 10000)
+        PackedVolumes.Add(30, 10000000)
+        PackedVolumes.Add(380, 20000)
+        PackedVolumes.Add(941, 500000)
+        PackedVolumes.Add(883, 1000000)
+        PackedVolumes.Add(237, 2500)
     End Sub
    Private Sub LoadStatuses()
         Statuses.Clear()
@@ -217,92 +212,6 @@ Public Class PlugInData
         Statuses.Add("A", "In Progress")
         Statuses.Add("B", "Finished but not Delivered")
     End Sub
-    Private Function LoadStations() As Boolean
-        ' Load the Station Data From the mapDenormalize table
-        Try
-            Dim strSQL As String = "SELECT * FROM staStations;"
-            Dim locationData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If locationData IsNot Nothing Then
-                If locationData.Tables(0).Rows.Count > 0 Then
-                    stations.Clear()
-                    For Each locationRow As DataRow In locationData.Tables(0).Rows
-                        Dim newStation As New Station
-                        newStation.stationID = CLng(locationRow.Item("stationID"))
-                        newStation.stationName = CStr(locationRow.Item("stationName"))
-                        newStation.systemID = CLng(locationRow.Item("solarSystemID"))
-                        newStation.constID = CLng(locationRow.Item("constellationID"))
-                        newStation.regionID = CLng(locationRow.Item("regionID"))
-                        newStation.corpID = CLng(locationRow.Item("corporationID"))
-                        newStation.stationTypeID = CLng(locationRow.Item("stationTypeID"))
-                        newStation.operationID = CLng(locationRow.Item("operationID"))
-                        newStation.refiningEff = CDbl(locationRow.Item("reprocessingEfficiency"))
-                        stations.Add(newStation.stationID.ToString, newStation)
-                    Next
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading Station Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-    Public Function LoadSolarSystems() As Boolean
-        Dim strSQL As String = "SELECT mapSolarSystems.regionID AS mapSolarSystems_regionID, mapSolarSystems.constellationID AS mapSolarSystems_constellationID, mapSolarSystems.solarSystemID, mapSolarSystems.solarSystemName, mapSolarSystems.x, mapSolarSystems.y, mapSolarSystems.z, mapSolarSystems.xMin, mapSolarSystems.xMax, mapSolarSystems.yMin, mapSolarSystems.yMax, mapSolarSystems.zMin, mapSolarSystems.zMax, mapSolarSystems.luminosity, mapSolarSystems.border, mapSolarSystems.fringe, mapSolarSystems.corridor, mapSolarSystems.hub, mapSolarSystems.international, mapSolarSystems.regional, mapSolarSystems.constellation, mapSolarSystems.security, mapSolarSystems.factionID, mapSolarSystems.radius, mapSolarSystems.sunTypeID, mapSolarSystems.securityClass, mapRegions.regionID AS mapRegions_regionID, mapRegions.regionName, mapConstellations.constellationID AS mapConstellations_constellationID, mapConstellations.constellationName"
-        strSQL &= " FROM (mapRegions INNER JOIN mapConstellations ON mapRegions.regionID = mapConstellations.regionID) INNER JOIN mapSolarSystems ON mapConstellations.constellationID = mapSolarSystems.constellationID;"
-        Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If systemData IsNot Nothing Then
-                If systemData.Tables(0).Rows.Count > 0 Then
-                    Dim cSystem As SolarSystem = New SolarSystem
-                    For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
-                        cSystem = New SolarSystem
-                        cSystem.ID = CInt(systemData.Tables(0).Rows(solar).Item("solarSystemID"))
-                        cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
-                        cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionName"))
-                        cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationName"))
-                        cSystem.Security = CDbl(systemData.Tables(0).Rows(solar).Item("security"))
-                        stations.Add(CStr(cSystem.ID), cSystem)
-                    Next
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading System Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-    Private Function LoadNPCCorps() As Boolean
-        ' Load the Station Data From the mapDenormalize table
-        NPCCorps.Clear()
-        Try
-            Dim strSQL As String = "SELECT itemID, itemName FROM invUniqueNames WHERE groupID=2;"
-            Dim corpData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-            If corpData IsNot Nothing Then
-                NPCCorps.Clear()
-                If corpData.Tables(0).Rows.Count > 0 Then
-                    For Each corpRow As DataRow In corpData.Tables(0).Rows
-                        NPCCorps.Add(CStr(corpRow.Item("itemID")), CStr(corpRow.Item("itemname")))
-                    Next
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading NPC Corporation Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
     Public Function LoadRefTypes() As Boolean
         Try
             ' Dimension variables
@@ -346,16 +255,7 @@ Public Class PlugInData
             Exit Function
         End Try
     End Function
-    Public Sub CheckForConqXMLFile()
-        ' Check for the Conquerable XML file in the cache
-        Dim stationXML As New XmlDocument
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        stationXML = APIReq.GetAPIXML(EveAPI.APITypes.Conquerables, EveAPI.APIReturnMethods.ReturnStandard)
-        If stationXML IsNot Nothing Then
-            Call ParseConquerableXML(stationXML)
-        End If
-    End Sub
-    Private Function CheckVersion() As Boolean
+   Private Function CheckVersion() As Boolean
         Dim thisAssembly As [Assembly] = System.Reflection.Assembly.GetExecutingAssembly()
         ' Display the set of assemblies our assemblies references.
         Dim refAssemblies As AssemblyName
@@ -389,31 +289,40 @@ Public Class PlugInData
         Next
         Return requiresUpdate
     End Function
+    Public Sub CheckForConqXMLFile()
+        ' Check for the Conquerable XML file in the cache
+        Dim stationXML As XmlDocument
+        Dim apiReq As New EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+        stationXML = apiReq.GetAPIXML(APITypes.Conquerables, APIReturnMethods.ReturnStandard)
+        If stationXML IsNot Nothing Then
+            Call ParseConquerableXML(stationXML)
+        End If
+    End Sub
     Public Shared Sub ParseConquerableXML(ByVal stationXML As XmlDocument)
         Dim locList As XmlNodeList
         Dim loc As XmlNode
-        Dim stationID As String = ""
+        Dim stationID As Integer
         locList = stationXML.SelectNodes("/eveapi/result/rowset/row")
         If locList.Count > 0 Then
             Corps.Clear()
             For Each loc In locList
-                stationID = (loc.Attributes.GetNamedItem("stationID").Value)
+                stationID = CInt((loc.Attributes.GetNamedItem("stationID").Value))
                 ' This is an outpost so needs adding to the station list if it's not there
-                If PlugInData.stations.Contains(stationID) = False Then
+                If StaticData.Stations.ContainsKey(stationID) = False Then
                     Dim cStation As New Station
-                    cStation.stationID = CLng(stationID)
+                    cStation.StationID = CInt(stationID)
                     cStation.stationName = (loc.Attributes.GetNamedItem("stationName").Value)
-                    cStation.systemID = CLng(loc.Attributes.GetNamedItem("solarSystemID").Value)
-                    Dim system As SolarSystem = CType(PlugInData.stations(cStation.systemID.ToString), SolarSystem)
-                    cStation.stationName &= " (" & system.Name & ", " & system.Region & ")"
-                    cStation.corpID = CLng(loc.Attributes.GetNamedItem("corporationID").Value)
-                    PlugInData.stations.Add(cStation.stationID.ToString, cStation)
+                    cStation.SystemID = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemID)
+                    cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionID) & ")"
+                    cStation.corpID = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
+                    StaticData.Stations.Add(cStation.StationID, cStation)
                 Else
-                    Dim cStation As Station = CType(PlugInData.stations(stationID), Prism.Station)
-                    cStation.systemID = CLng(loc.Attributes.GetNamedItem("solarSystemID").Value)
-                    Dim system As SolarSystem = CType(PlugInData.stations(cStation.systemID.ToString), SolarSystem)
-                    cStation.stationName &= " (" & system.Name & ", " & system.Region & ")"
-                    cStation.corpID = CLng(loc.Attributes.GetNamedItem("corporationID").Value)
+                    Dim cStation As Station = StaticData.Stations(stationID)
+                    cStation.SystemID = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemID)
+                    cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionID) & ")"
+                    cStation.corpID = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
                 End If
                 ' Add the corp if not already entered
                 If Corps.ContainsKey(CStr(loc.Attributes.GetNamedItem("corporationID").Value)) = False Then
@@ -422,7 +331,7 @@ Public Class PlugInData
             Next
         End If
     End Sub
-    
+  
 #End Region
 
 #Region "Owner Blueprint Load/Save Methods"
@@ -435,7 +344,7 @@ Public Class PlugInData
                 Try
                     Using s As New StreamReader(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json"))
                         Dim json As String = s.ReadToEnd
-                        BlueprintAssets = JsonConvert.DeserializeObject(Of SortedList(Of String, SortedList(Of String, BlueprintAsset)))(json)
+                        BlueprintAssets = JsonConvert.DeserializeObject(Of SortedList(Of String, SortedList(Of Integer, BlueprintAsset)))(json)
                     End Using
                 Catch ex As Exception
                     Dim msg As String = "There was an error trying to load the Owner Blueprints and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf

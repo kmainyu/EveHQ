@@ -113,7 +113,6 @@
     <Compile Include="Corporation.vb" />
     <Compile Include="CustomDataFunctions.vb" />
     <Compile Include="DataFunctions.vb" />
-    <Compile Include="Entities\EveGalaticRegion.vb" />
     <Compile Include="ItemBrowser\frmIB.Designer.vb">
       <DependentUpon>frmIB.vb</DependentUpon>
     </Compile>
@@ -272,10 +271,8 @@
     <Compile Include="SkillQueueControl\SkillQueueTimeControl.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Entities\SolarSystem.vb" />
     <Compile Include="SortedQueueItem.vb" />
     <Compile Include="Standings.vb" />
-    <Compile Include="Station.vb" />
     <Compile Include="Ticker.Designer.vb">
       <DependentUpon>Ticker.vb</DependentUpon>
     </Compile>

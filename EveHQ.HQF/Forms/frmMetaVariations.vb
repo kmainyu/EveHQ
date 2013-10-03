@@ -20,13 +20,14 @@
 
 Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports EveHQ.EveData
 
 Public Class frmMetaVariations
 
     Dim cBaseModule As New ShipModule
     Dim cActiveFitting As Fitting
     Dim itemVariations(,) As String
-    Dim compItems As New SortedList
+    Dim _compItems As New SortedList
     Dim ColumnIndexes As New SortedList(Of String, Integer)
     Dim CurrentColumnIndex As Integer = -1
     Dim Startup As Boolean = True
@@ -53,48 +54,23 @@ Public Class frmMetaVariations
 
     Private Sub GetVariations(ByVal startModule As ShipModule)
         Dim metaTypeID As String = startModule.ID
+        Dim metaItems As List(Of Integer) = StaticData.GetVariationsForItem(CInt(metaTypeID))
 
-        Dim strSQL As String = ""
-        strSQL &= "SELECT invMetaTypes.typeID, invMetaTypes.parentTypeID"
-        strSQL &= " FROM invMetaTypes"
-        strSQL &= " WHERE (((invMetaTypes.typeID)=" & metaTypeID & ") OR ((invMetaTypes.parentTypeID)=" & metaTypeID & "));"
-        Dim eveData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        If eveData.Tables(0).Rows.Count > 0 Then
-            Dim metaParentID As String = eveData.Tables(0).Rows(0).Item("parentTypeID").ToString
-            strSQL = ""
-            strSQL &= "SELECT invTypes.typeID AS invTypes_typeID, invTypes.typeName, invMetaTypes.typeID AS invMetaTypes_typeID, invMetaTypes.parentTypeID, invMetaTypes.metaGroupID AS invMetaTypes_metaGroupID, invMetaGroups.metaGroupID AS invMetaGroups_metaGroupID, invMetaGroups.metaGroupName"
-            strSQL &= " FROM invMetaGroups INNER JOIN (invTypes INNER JOIN invMetaTypes ON invTypes.typeID = invMetaTypes.typeID) ON invMetaGroups.metaGroupID = invMetaTypes.metaGroupID"
-            strSQL &= " WHERE (((invMetaTypes.parentTypeID)=" & metaParentID & "));"
-            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            Dim metaItemCount As Integer = eveData.Tables(0).Rows.Count
-            ReDim itemVariations(2, metaItemCount)
-            For item As Integer = 0 To metaItemCount - 1
-                itemVariations(0, item + 1) = eveData.Tables(0).Rows(item).Item("invTypes_typeID").ToString
-                itemVariations(1, item + 1) = eveData.Tables(0).Rows(item).Item("typeName").ToString.Trim
-                itemVariations(2, item + 1) = eveData.Tables(0).Rows(item).Item("metaGroupName").ToString.Trim
-            Next
-            strSQL = "SELECT invTypes.typeID, invTypes.typeName FROM invTypes WHERE invTypes.typeID=" & metaParentID & ";"
-            eveData = EveHQ.Core.DataFunctions.GetData(strSQL)
-            itemVariations(0, 0) = eveData.Tables(0).Rows(0).Item("typeID").ToString.Trim
-            itemVariations(1, 0) = eveData.Tables(0).Rows(0).Item("typeName").ToString.Trim
-            itemVariations(2, 0) = "Tech I"
-
-            ' Generate Comparisons
-            compItems.Clear()
-            For item As Integer = 0 To metaItemCount
-                compItems.Add(itemVariations(0, item), itemVariations(1, item))
-            Next
-            ' Get all the comparatives
-            Call Me.GetComparatives()
-
-        End If
+        ' Generate Comparisons
+        _compItems.Clear()
+        For Each metaItem As Integer In metaItems
+            _compItems.Add(metaItem, StaticData.Types(metaItem).Name)
+        Next
+        ' Get all the comparatives
+        Call GetComparatives()
     End Sub
+
     Private Sub GetComparatives()
         Dim ModuleList As New ArrayList
 
-        For Each modID As String In compItems.Keys
-            If ModuleLists.moduleList.ContainsKey(modID) = True Then
-                Dim sModule As ShipModule = CType(ModuleLists.moduleList.Item(modID), ShipModule).Clone
+        For Each modID As String In _compItems.Keys
+            If ModuleLists.ModuleList.ContainsKey(modID) = True Then
+                Dim sModule As ShipModule = CType(ModuleLists.ModuleList.Item(modID), ShipModule).Clone
                 If chkApplySkills.Checked = True Then
                     If cActiveFitting IsNot Nothing Then
                         cActiveFitting.ApplySkillEffectsToModule(sModule, True)
@@ -257,8 +233,8 @@ Public Class frmMetaVariations
             If cActiveFitting.ShipSlotCtrl IsNot Nothing Then
                 If adtComparisons.SelectedNodes.Count = 1 Then
                     Dim moduleName As String = adtComparisons.SelectedNodes(0).Name
-                    Dim moduleID As String = CStr(ModuleLists.moduleListName(moduleName))
-                    Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
+                    Dim moduleID As String = CStr(ModuleLists.ModuleListName(moduleName))
+                    Dim shipMod As ShipModule = CType(ModuleLists.ModuleList(moduleID), ShipModule).Clone
                     If shipMod.IsDrone = True Then
                         Dim active As Boolean = False
                         Call cActiveFitting.AddDrone(shipMod, 1, False, False)
@@ -286,8 +262,8 @@ Public Class frmMetaVariations
         If cActiveFitting IsNot Nothing Then
             If cActiveFitting.ShipSlotCtrl IsNot Nothing Then
                 Dim moduleName As String = adtComparisons.SelectedNodes(0).Name
-                Dim moduleID As String = CStr(ModuleLists.moduleListName(moduleName))
-                Dim NewModule As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
+                Dim moduleID As String = CStr(ModuleLists.ModuleListName(moduleName))
+                Dim NewModule As ShipModule = CType(ModuleLists.ModuleList(moduleID), ShipModule).Clone
                 NewModule.ModuleState = cBaseModule.ModuleState
                 Dim OldChargeName As String = ""
                 Dim NewChargeName As String = ""

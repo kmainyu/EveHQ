@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports DevComponents.DotNetBar
+Imports EveHQ.EveData
 Imports EveHQ.Core
 Imports DevComponents.AdvTree
 Imports System.Net.Mail
@@ -750,11 +751,10 @@ Public Class frmSettings
         Call Me.UpdatePilots()
     End Sub
 
-    Private Sub btnCreateBlankPilot_Click(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles btnCreateBlankPilot.Click
-        Dim newCharForm As New frmCharCreate
+    Private Sub btnCreateBlankPilot_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCreateBlankPilot.Click
+        Dim newCharForm As New Forms.FrmCharCreate
         newCharForm.ShowDialog()
-        Call Me.UpdatePilots()
+        Call UpdatePilots()
         newCharForm.Dispose()
     End Sub
 
@@ -2137,7 +2137,7 @@ Public Class frmSettings
             Return
         End If
 
-        If HQ.Regions Is Nothing Then
+        If StaticData.Regions Is Nothing Then
             Return
         End If
 
@@ -2147,17 +2147,13 @@ Public Class frmSettings
             End If
 
             If (HQ.MarketStatDataProvider.LimitedRegionSelection = False) Then
-                For Each galaticRegion As EveGalaticRegion In HQ.Regions.Values
-                    _regionList.Items.Add(galaticRegion.Name)
+                For Each regionName As String In StaticData.Regions.Values
+                    _regionList.Items.Add(regionName)
                 Next
             Else
-
-                Dim testID As Integer
                 For Each regionId As Integer In HQ.MarketStatDataProvider.SupportedRegions
-                    testID = regionId
-                    Dim temp As EveGalaticRegion = (From region In HQ.Regions.Values Where region.Id = testID Select region = region).FirstOrDefault()
-                    If (temp IsNot Nothing) Then
-                        _regionList.Items.Add(temp.Name)
+                    If StaticData.Regions.ContainsKey(regionId) Then
+                        _regionList.Items.Add(StaticData.Regions(regionId))
                     End If
                 Next
             End If
@@ -2169,15 +2165,13 @@ Public Class frmSettings
             End If
 
             If (HQ.MarketStatDataProvider.LimitedSystemSelection = False) Then
-                For Each system As SolarSystem In HQ.SolarSystemsByName.Values
+                For Each system As SolarSystem In StaticData.SolarSystems.Values
                     _systemList.Items.Add(system.Name)
                 Next
-
             Else
                 For Each systemId As Integer In HQ.MarketStatDataProvider.SupportedSystems
-                    Dim temp As New SolarSystem
-                    If (HQ.SolarSystemsById.TryGetValue(systemId.ToInvariantString(), temp)) Then
-                        _systemList.Items.Add(temp.Name)
+                    If StaticData.SolarSystems.ContainsKey(systemId) Then
+                        _systemList.Items.Add(StaticData.SolarSystems(systemId).Name)
                     End If
                 Next
             End If
@@ -2191,14 +2185,9 @@ Public Class frmSettings
                 _systemList.Enabled = False
 
                 'Get the selected regions from settings and find them in the collection
-                Dim testID As Integer
                 For Each regionID As Integer In Core.HQ.Settings.MarketRegions
-                    testID = regionID
-                    Dim marketRegion As EveGalaticRegion = (From galRegion In HQ.Regions _
-                                                             Where galRegion.Value.Id = testID
-                                                             Select galRegion.Value).FirstOrDefault()
-                    If marketRegion IsNot Nothing Then
-                        _regionList.SelectedItems.Add(marketRegion.Name)
+                    If StaticData.Regions.ContainsKey(regionID) Then
+                        _regionList.SelectedItems.Add(StaticData.Regions(regionID))
                     End If
                 Next
 
@@ -2209,7 +2198,7 @@ Public Class frmSettings
                 _systemList.Enabled = True
 
                 'Find the select system based on id
-                Dim marketSystem As SolarSystem = (From system In Core.HQ.SolarSystemsById Where system.Value.Id = Core.HQ.Settings.MarketSystem Select system.Value).FirstOrDefault()
+                Dim marketSystem As SolarSystem = (From system In StaticData.SolarSystems Where system.Value.Id = HQ.Settings.MarketSystem Select system.Value).FirstOrDefault()
                 If marketSystem IsNot Nothing Then
                     _systemList.SelectedItem = marketSystem.Name
                 End If
@@ -2270,20 +2259,26 @@ Public Class frmSettings
         End If
 
         If _systemList.SelectedItem IsNot Nothing Then
-            HQ.Settings.MarketSystem = HQ.SolarSystemsByName(_systemList.SelectedItem.ToString).Id
+            HQ.Settings.MarketSystem = (From s In StaticData.SolarSystems.Values Where s.Name = _systemList.SelectedItem.ToString Select s.Id).FirstOrDefault
         End If
 
         If _regionList.SelectedItems IsNot Nothing Then
             If _regionList.SelectedItems.Count > 0 Then
-                HQ.Settings.MarketRegions = (From marketRegion In _regionList.SelectedItems Select HQ.Regions(marketRegion.ToString).Id).ToList()
+                For Each regionName As String In _regionList.SelectedItems
+                    For Each regionId As Integer In StaticData.Regions.Keys
+                        If regionName = StaticData.Regions(regionId) Then
+                            HQ.Settings.MarketRegions.Add(regionId)
+                        End If
+                    Next
+                Next
             End If
         End If
         HQ.Settings.MarketDataUploadEnabled = enableMarketDataUpload.Checked
 
-        If EveHQ.Core.HQ.Settings.MarketDataUploadEnabled = True Then
-            Core.HQ.MarketCacheUploader.Start()
+        If HQ.Settings.MarketDataUploadEnabled = True Then
+            HQ.MarketCacheUploader.Start()
         Else
-            Core.HQ.MarketCacheUploader.Stop() ' It should be stopped already, but never hurts to set it so again.
+            HQ.MarketCacheUploader.Stop() ' It should be stopped already, but never hurts to set it so again.
         End If
     End Sub
 

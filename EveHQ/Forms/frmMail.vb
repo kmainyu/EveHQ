@@ -17,7 +17,6 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Xml
 Imports System.Data
 Imports System.Text
 Imports DevComponents.DotNetBar
@@ -25,46 +24,42 @@ Imports DevComponents.AdvTree
 Imports System.Text.RegularExpressions
 
 Public Class frmMail
-    Dim displayPilot As New EveHQ.Core.EveHQPilot
-    Dim cDisplayPilotName As String = ""
-    Dim mailStatus As String = ""
-    Dim groupStyle As New ElementStyle()
-    Dim subItemStyle As New ElementStyle()
-    Dim ReadItemStyle As New ElementStyle()
-    Dim UnreadItemStyle As New ElementStyle()
-    Dim allMails As New SortedList(Of Long, EveHQ.Core.EveMailMessage)
-    Dim allNotices As New SortedList(Of Long, EveHQ.Core.EveNotification)
+    Dim _displayPilot As New Core.EveHQPilot
+    Dim _cDisplayPilotName As String = ""
+    Dim _mailStatus As String = ""
+    ReadOnly _groupStyle As New ElementStyle()
+    ReadOnly _subItemStyle As New ElementStyle()
+    ReadOnly _readItemStyle As New ElementStyle()
+    ReadOnly _unreadItemStyle As New ElementStyle()
+    ReadOnly _allMails As New SortedList(Of Long, Core.EveMailMessage)
+    ReadOnly _allNotices As New SortedList(Of Long, Core.EveNotification)
 
-    Dim CurrentUnreadMails As Integer = 0
-    Dim CurrentUnreadNotices As Integer = 0
+    Dim _currentUnreadMails As Integer = 0
+    Dim _currentUnreadNotices As Integer = 0
 
     Public Property DisplayPilotName() As String
         Get
-            Return displayPilot.Name
+            Return _displayPilot.Name
         End Get
         Set(ByVal value As String)
-            cDisplayPilotName = value
+            _cDisplayPilotName = value
             If cboPilots.Items.Contains(value) Then
                 cboPilots.SelectedItem = value
             End If
         End Set
     End Property
 
-    Private Sub frmMail_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmMail_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
         ' Adds handlers for the external mail events
-        RemoveHandler EveHQ.Core.EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
-        RemoveHandler EveHQ.Core.EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
+        RemoveHandler Core.EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
+        RemoveHandler Core.EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
     End Sub
 
-    Private Sub frmMail_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmMail_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         ' Adds handlers for the external mail events
-        AddHandler EveHQ.Core.EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
-        AddHandler EveHQ.Core.EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
-        ' Check for the existence of our 2 required tables
-        Call EveHQ.Core.DataFunctions.CheckForEveMailTable()
-        Call EveHQ.Core.DataFunctions.CheckForEveNotificationTable()
-        Call EveHQ.Core.DataFunctions.CheckForIDNameTable()
-        Call Me.UpdatePilots()
+        AddHandler Core.EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
+        AddHandler Core.EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
+        Call UpdatePilots()
     End Sub
 
     Public Sub UpdatePilots()
@@ -78,7 +73,7 @@ Public Class frmMail
         ' Update the pilots combo box
         cboPilots.BeginUpdate()
         cboPilots.Items.Clear()
-        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        For Each cPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilots.Items.Add(cPilot.Name)
             End If
@@ -86,17 +81,17 @@ Public Class frmMail
         cboPilots.EndUpdate()
 
         ' Select a pilot
-        If cDisplayPilotName <> "" Then
-            If cboPilots.Items.Contains(cDisplayPilotName) = True Then
-                cboPilots.SelectedItem = cDisplayPilotName
+        If _cDisplayPilotName <> "" Then
+            If cboPilots.Items.Contains(_cDisplayPilotName) = True Then
+                cboPilots.SelectedItem = _cDisplayPilotName
             Else
                 cboPilots.SelectedIndex = 0
             End If
         Else
             If oldPilot = "" Then
                 If cboPilots.Items.Count > 0 Then
-                    If cboPilots.Items.Contains(EveHQ.Core.HQ.Settings.StartupPilot) = True Then
-                        cboPilots.SelectedItem = EveHQ.Core.HQ.Settings.StartupPilot
+                    If cboPilots.Items.Contains(Core.HQ.Settings.StartupPilot) = True Then
+                        cboPilots.SelectedItem = Core.HQ.Settings.StartupPilot
                     Else
                         cboPilots.SelectedIndex = 0
                     End If
@@ -114,8 +109,8 @@ Public Class frmMail
 
     End Sub
 
-    Private Sub btnDownloadMail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDownloadMail.Click
-        If EveHQ.Core.EveMailEvents.MailIsBeingProcessed = False Then
+    Private Sub btnDownloadMail_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDownloadMail.Click
+        If Core.EveMailEvents.MailIsBeingProcessed = False Then
             Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread)
         Else
             MessageBox.Show("EveMail and Notifications are currently being downloaded automatically. Please wait until this has finished before checking again.", "EveMail Update In Progress", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -123,30 +118,30 @@ Public Class frmMail
     End Sub
 
     Private Sub MailUpdateThread(ByVal state As Object)
-        Dim myMail As New EveHQ.Core.EveMail
+        Dim myMail As New Core.EveMail
         AddHandler myMail.MailProgress, AddressOf DisplayMailProgress
         Try
-            EveHQ.Core.EveMailEvents.MailIsBeingProcessed = True
-            Me.Invoke(New MethodInvoker(AddressOf MailUpdateStarted))
+            Core.EveMailEvents.MailIsBeingProcessed = True
+            Invoke(New MethodInvoker(AddressOf MailUpdateStarted))
             Call myMail.GetMail()
-            Me.Invoke(New MethodInvoker(AddressOf MailUpdateCompleted))
-            EveHQ.Core.EveMailEvents.UpdateMailNumbers()
+            Invoke(New MethodInvoker(AddressOf MailUpdateCompleted))
+            Core.EveMailEvents.UpdateMailNumbers()
         Catch e As Exception
             ' Handles cases where application is sluggish due to plug-in loading etc
             ' Simply abort
         Finally
             RemoveHandler myMail.MailProgress, AddressOf DisplayMailProgress
-            EveHQ.Core.EveMailEvents.MailIsBeingProcessed = False
+            Core.EveMailEvents.MailIsBeingProcessed = False
         End Try
     End Sub
 
-    Private Sub DisplayMailProgress(ByVal Status As String)
-        mailStatus = Status
-        Me.Invoke(New MethodInvoker(AddressOf UpdateMailProgress))
+    Private Sub DisplayMailProgress(ByVal status As String)
+        _mailStatus = status
+        Invoke(New MethodInvoker(AddressOf UpdateMailProgress))
     End Sub
 
     Private Sub UpdateMailProgress()
-        lblDownloadMailStatus.Text = mailStatus
+        lblDownloadMailStatus.Text = _mailStatus
     End Sub
 
     Public Sub MailUpdateStarted()
@@ -157,61 +152,53 @@ Public Class frmMail
     Public Sub MailUpdateCompleted()
         ' Update the display with EveMail
         lblDownloadMailStatus.Text = "Updating EveMail display!"
-        Call Me.UpdateMailInfo()
+        Call UpdateMailInfo()
         btnDownloadMail.Enabled = True
         lblDownloadMailStatus.Text = "Mail Processing Complete!"
     End Sub
 
     Public Sub UpdateMailNumbers()
-        EveHQ.Core.EveMailEvents.UpdateMailNumbers()
+        Core.EveMailEvents.UpdateMailNumbers()
     End Sub
 
-    Private Sub RemoteMailUpdateStarted()
-        Me.Invoke(New MethodInvoker(AddressOf MailUpdateStarted))
-    End Sub
-
-    Private Sub RemoteMailUpdateCompleted()
-        Me.Invoke(New MethodInvoker(AddressOf MailUpdateCompleted))
-    End Sub
-
-    Private Sub btnGetEveIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetEveIDs.Click
+    Private Sub btnGetEveIDs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetEveIDs.Click
         ' Fetch all the emails in the database
         Try
-            Dim MailingListIDs As New SortedList(Of Long, String)
-            For Each mPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            Dim mailingListIDs As New SortedList(Of Long, String)
+            For Each mPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
                 ' Stage 1: Download the latest EveMail API using the standard API method
-                Dim NewMailingListIDs As New SortedList(Of Long, String)
+                Dim newMailingListIDs As New SortedList(Of Long, String)
                 If mPilot.Active = True Then
-                    NewMailingListIDs = EveHQ.Core.DataFunctions.WriteMailingListIDsToDatabase(mPilot)
+                    newMailingListIDs = Core.CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
                 End If
-                If NewMailingListIDs.Count > 0 Then
-                    For Each ID As Long In NewMailingListIDs.Keys
-                        If MailingListIDs.ContainsKey(ID) = False Then
-                            MailingListIDs.Add(ID, NewMailingListIDs(ID))
+                If newMailingListIDs.Count > 0 Then
+                    For Each id As Long In newMailingListIDs.Keys
+                        If mailingListIDs.ContainsKey(id) = False Then
+                            mailingListIDs.Add(id, newMailingListIDs(id))
                         End If
                     Next
                 End If
             Next
-            Dim strSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
-            Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+            Const strSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
+            Dim mailData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
             If mailData IsNot Nothing Then
                 If mailData.Tables(0).Rows.Count > 0 Then
-                    Dim IDs As New List(Of String)
-                    For Each MailRow As DataRow In mailData.Tables(0).Rows
+                    Dim ids As New List(Of String)
+                    For Each mailRow As DataRow In mailData.Tables(0).Rows
                         ' Get Sender IDs
-                        EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(MailRow.Item("senderID")))
+                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("senderID")))
                         ' Get Character IDs
-                        EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(MailRow.Item("toCharacterIDs")))
+                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCharacterIDs")))
                         ' Get Corp/Alliance IDs
-                        EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(MailRow.Item("toCorpOrAllianceID")))
+                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCorpOrAllianceID")))
                     Next
                     ' Remove any mailing list IDs
-                    For Each MailingListID As Long In MailingListIDs.Keys
-                        If IDs.Contains(MailingListID.ToString) = True Then
-                            IDs.Remove(MailingListID.ToString)
+                    For Each mailingListID As Long In mailingListIDs.Keys
+                        If ids.Contains(mailingListID.ToString) = True Then
+                            ids.Remove(mailingListID.ToString)
                         End If
                     Next
-                    Call EveHQ.Core.DataFunctions.WriteEveIDsToDatabase(IDs)
+                    Call Core.CustomDataFunctions.WriteEveIDsToDatabase(ids)
                 End If
             End If
             MessageBox.Show("Successfully fetched Eve IDs!", "ID Retrieval Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -220,31 +207,31 @@ Public Class frmMail
         End Try
     End Sub
 
-    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
-            displayPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilots.SelectedIndexChanged
+        If Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+            _displayPilot = Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
             Call UpdateMailInfo()
         End If
     End Sub
 
     Public Sub UpdateMailInfo()
-        Call Me.UpdateMails()
-        Call Me.UpdateNotifications()
+        Call UpdateMails()
+        Call UpdateNotifications()
         txtMail.Text = ""
     End Sub
 
     Private Sub UpdateMails()
         ' Get the mails for the selected pilot and the corp
-        Dim strSQL As String = "SELECT * FROM eveMAIL WHERE originatorID=" & displayPilot.ID & " ORDER BY messageID DESC;"
-        Dim mailData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim strSQL As String = "SELECT * FROM eveMAIL WHERE originatorID=" & _displayPilot.ID & " ORDER BY messageID DESC;"
+        Dim mailData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
 
-        Dim FinalIDs As New SortedList(Of Long, String)
-        allMails.Clear()
+        Dim finalIDs As New SortedList(Of Long, String)
+        _allMails.Clear()
         If mailData IsNot Nothing Then
             If mailData.Tables(0).Rows.Count > 0 Then
-                Dim IDs As New List(Of String)
+                Dim ids As New List(Of String)
                 For Each mailRow As DataRow In mailData.Tables(0).Rows
-                    Dim newMail As New EveHQ.Core.EveMailMessage
+                    Dim newMail As New Core.EveMailMessage
                     newMail.MessageKey = CStr(mailRow.Item("messageKey"))
                     newMail.MessageID = CLng(mailRow.Item("messageID"))
                     newMail.OriginatorID = CLng(mailRow.Item("originatorID"))
@@ -260,30 +247,30 @@ Public Class frmMail
                     Else
                         newMail.MessageBody = ("<Message body not available>")
                     End If
-                    allMails.Add(-newMail.MessageID, newMail)
+                    _allMails.Add(-newMail.MessageID, newMail)
                     ' Get Sender IDs
-                    EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("senderID")))
+                    Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("senderID")))
                     ' Get Character IDs
-                    EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("toCharacterIDs")))
+                    Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCharacterIDs")))
                     ' Get Corp/Alliance IDs
-                    EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("toCorpOrAllianceID")))
+                    Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCorpOrAllianceID")))
                     ' Get Mailing List IDs
-                    EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(mailRow.Item("toListIDs")))
+                    Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toListIDs")))
                 Next
                 Dim strID As New StringBuilder
-                For Each ID As String In IDs
-                    If ID <> "" Then
-                        strID.Append(ID & ",")
+                For Each id As String In ids
+                    If id <> "" Then
+                        strID.Append(id & ",")
                     End If
                 Next
                 strID.Append("0")
                 ' Get the name data from the DB
                 strSQL = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-                Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-                If IDData IsNot Nothing Then
-                    If IDData.Tables(0).Rows.Count > 0 Then
-                        For Each IDRow As DataRow In IDData.Tables(0).Rows
-                            FinalIDs.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+                Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                If idData IsNot Nothing Then
+                    If idData.Tables(0).Rows.Count > 0 Then
+                        For Each idRow As DataRow In idData.Tables(0).Rows
+                            finalIDs.Add(CLng(idRow.Item("eveID")), CStr(idRow.Item("eveName")))
                         Next
                     End If
                 End If
@@ -295,26 +282,26 @@ Public Class frmMail
         adtMails.Nodes.Clear()
         adtMails.TileSize = New Size(275, 50)
 
-        Dim InboxNode As New Node("EveMail Inbox", groupStyle)
-        adtMails.Nodes.Add(InboxNode)
+        Dim inboxNode As New Node("EveMail Inbox", _groupStyle)
+        adtMails.Nodes.Add(inboxNode)
 
-        Dim SentNode As New Node("EveMail Sent Items", groupStyle)
-        SentNode.Expanded = False
-        adtMails.Nodes.Add(SentNode)
+        Dim sentNode As New Node("EveMail Sent Items", _groupStyle)
+        sentNode.Expanded = False
+        adtMails.Nodes.Add(sentNode)
 
-        CurrentUnreadMails = 0
-        For Each newMail As EveHQ.Core.EveMailMessage In allMails.Values
-            If newMail.SenderID = CDbl(displayPilot.ID) Then
+        _currentUnreadMails = 0
+        For Each newMail As Core.EveMailMessage In _allMails.Values
+            If newMail.SenderID = CDbl(_displayPilot.ID) Then
                 ' Sent Items
-                Dim strTo As String = ""
+                Dim strTo As String
                 If newMail.ToListIDs = "" Or newMail.ToListIDs = "0" Then
                     strTo = newMail.ToCharacterIDs & ", " & newMail.ToCorpAllianceIDs
-                    Dim IDs As New List(Of String)
-                    EveHQ.Core.DataFunctions.ParseIDs(IDs, strTo)
+                    Dim ids As New List(Of String)
+                    Core.CustomDataFunctions.ParseIDs(ids, strTo)
                     strTo = ""
-                    For Each ID As String In IDs
-                        If FinalIDs.ContainsKey(CLng(ID)) = True Then
-                            strTo &= "; " & FinalIDs(CLng(ID))
+                    For Each id As String In ids
+                        If finalIDs.ContainsKey(CLng(id)) = True Then
+                            strTo &= "; " & finalIDs(CLng(id))
                         End If
                     Next
                     If strTo = "" Then
@@ -327,82 +314,82 @@ Public Class frmMail
                 Else
                     strTo = "<Mailing List>"
                 End If
-                SentNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, strTo, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, ReadItemStyle, subItemStyle))
+                sentNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, strTo, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
             Else
                 ' Inbox
-                Dim SenderName As String = "ID: " & newMail.SenderID.ToString
-                If FinalIDs.ContainsKey(newMail.SenderID) = True Then
-                    SenderName = FinalIDs(newMail.SenderID)
+                Dim senderName As String = "ID: " & newMail.SenderID.ToString
+                If finalIDs.ContainsKey(newMail.SenderID) = True Then
+                    senderName = finalIDs(newMail.SenderID)
                 End If
                 If newMail.ReadFlag = False Then
-                    InboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, SenderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, UnreadItemStyle, subItemStyle))
-                    CurrentUnreadMails += 1
+                    inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _unreadItemStyle, _subItemStyle))
+                    _currentUnreadMails += 1
                 Else
-                    InboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, SenderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, ReadItemStyle, subItemStyle))
+                    inboxNode.Nodes.Add(CreateChildNode(newMail.MessageID.ToString, senderName, newMail.MessageTitle, newMail.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
                 End If
             End If
         Next
-        InboxNode.Text = "EveMail Inbox (" & CurrentUnreadMails.ToString & ")"
-        If CurrentUnreadMails > 0 Then
-            InboxNode.Expanded = True
+        inboxNode.Text = "EveMail Inbox (" & _currentUnreadMails.ToString & ")"
+        If _currentUnreadMails > 0 Then
+            inboxNode.Expanded = True
         Else
-            InboxNode.Expanded = False
+            inboxNode.Expanded = False
         End If
         adtMails.EndUpdate()
 
     End Sub
 
-    Private Function CreateChildNode(ByVal Key As String, ByVal nodeText As String, ByVal subText As String, ByVal dateText As String, ByVal image As Image, ByVal ItemStyle As ElementStyle, ByVal subItemStyle As ElementStyle) As Node
-        Dim childNode As New Node(nodeText, ItemStyle)
-        childNode.Name = Key
+    Private Function CreateChildNode(ByVal key As String, ByVal nodeText As String, ByVal subText As String, ByVal dateText As String, ByVal image As Image, ByVal itemStyle As ElementStyle, ByVal childItemStyle As ElementStyle) As Node
+        Dim childNode As New Node(nodeText, itemStyle)
+        childNode.Name = key
         childNode.Image = image
-        childNode.Cells.Add(New Cell(dateText, subItemStyle))
-        childNode.Cells.Add(New Cell(subText, subItemStyle))
+        childNode.Cells.Add(New Cell(dateText, childItemStyle))
+        childNode.Cells.Add(New Cell(subText, childItemStyle))
         Return childNode
     End Function
 
     Private Sub UpdateNotifications()
         ' Get the notifications for the selected pilot and the corp
-        Dim strSQL As String = "SELECT * FROM eveNotifications WHERE originatorID=" & displayPilot.ID & " ORDER BY messageID DESC;"
-        Dim NoticeData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
+        Dim strSQL As String = "SELECT * FROM eveNotifications WHERE originatorID=" & _displayPilot.ID & " ORDER BY messageID DESC;"
+        Dim noticeData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
 
-        Dim FinalIDs As New SortedList(Of Long, String)
-        allNotices.Clear()
-        If NoticeData IsNot Nothing Then
-            If NoticeData.Tables(0).Rows.Count > 0 Then
-                Dim IDs As New List(Of String)
-                For Each NoticeRow As DataRow In NoticeData.Tables(0).Rows
-                    Dim newNotice As New EveHQ.Core.EveNotification
-                    newNotice.MessageKey = CStr(NoticeRow.Item("messageKey"))
-                    newNotice.MessageID = CLng(NoticeRow.Item("messageID"))
-                    newNotice.OriginatorID = CLng(NoticeRow.Item("originatorID"))
-                    newNotice.SenderID = CLng(NoticeRow.Item("senderID"))
-                    newNotice.TypeID = CLng(NoticeRow.Item("typeID"))
-                    newNotice.MessageDate = CDate(NoticeRow.Item("sentDate"))
-                    newNotice.ReadFlag = CBool(NoticeRow.Item("readMail"))
-                    If IsDBNull(NoticeRow.Item("messageBody")) = False Then
-                        newNotice.MessageBody = CStr(NoticeRow.Item("messageBody"))
+        Dim finalIDs As New SortedList(Of Long, String)
+        _allNotices.Clear()
+        If noticeData IsNot Nothing Then
+            If noticeData.Tables(0).Rows.Count > 0 Then
+                Dim ids As New List(Of String)
+                For Each noticeRow As DataRow In noticeData.Tables(0).Rows
+                    Dim newNotice As New Core.EveNotification
+                    newNotice.MessageKey = CStr(noticeRow.Item("messageKey"))
+                    newNotice.MessageID = CLng(noticeRow.Item("messageID"))
+                    newNotice.OriginatorID = CLng(noticeRow.Item("originatorID"))
+                    newNotice.SenderID = CLng(noticeRow.Item("senderID"))
+                    newNotice.TypeID = CLng(noticeRow.Item("typeID"))
+                    newNotice.MessageDate = CDate(noticeRow.Item("sentDate"))
+                    newNotice.ReadFlag = CBool(noticeRow.Item("readMail"))
+                    If IsDBNull(noticeRow.Item("messageBody")) = False Then
+                        newNotice.MessageBody = CStr(noticeRow.Item("messageBody"))
                     Else
                         newNotice.MessageBody = ("<Message body not available>")
                     End If
-                    allNotices.Add(-newNotice.MessageID, newNotice)
+                    _allNotices.Add(-newNotice.MessageID, newNotice)
                     ' Get Sender IDs
-                    EveHQ.Core.DataFunctions.ParseIDs(IDs, CStr(NoticeRow.Item("senderID")))
+                    Core.CustomDataFunctions.ParseIDs(ids, CStr(noticeRow.Item("senderID")))
                 Next
                 Dim strID As New StringBuilder
-                For Each ID As String In IDs
-                    If ID <> "" Then
-                        strID.Append(ID & ",")
+                For Each id As String In ids
+                    If id <> "" Then
+                        strID.Append(id & ",")
                     End If
                 Next
                 strID.Append("0")
                 ' Get the name data from the DB
                 strSQL = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-                Dim IDData As DataSet = EveHQ.Core.DataFunctions.GetCustomData(strSQL)
-                If IDData IsNot Nothing Then
-                    If IDData.Tables(0).Rows.Count > 0 Then
-                        For Each IDRow As DataRow In IDData.Tables(0).Rows
-                            FinalIDs.Add(CLng(IDRow.Item("eveID")), CStr(IDRow.Item("eveName")))
+                Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                If idData IsNot Nothing Then
+                    If idData.Tables(0).Rows.Count > 0 Then
+                        For Each idRow As DataRow In idData.Tables(0).Rows
+                            finalIDs.Add(CLng(idRow.Item("eveID")), CStr(idRow.Item("eveName")))
                         Next
                     End If
                 End If
@@ -412,61 +399,61 @@ Public Class frmMail
         ' New code for saving into the treeview
         adtMails.BeginUpdate()
 
-        Dim NoticeNode As New Node("Eve Notifications", groupStyle)
-        NoticeNode.Expanded = False
-        adtMails.Nodes.Add(NoticeNode)
+        Dim noticeNode As New Node("Eve Notifications", _groupStyle)
+        noticeNode.Expanded = False
+        adtMails.Nodes.Add(noticeNode)
 
-        CurrentUnreadNotices = 0
-        For Each newNotice As EveHQ.Core.EveNotification In allNotices.Values
-            Dim strNotice As String = ""
-            If [Enum].IsDefined(GetType(EveHQ.Core.EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
-                strNotice = [Enum].GetName(GetType(EveHQ.Core.EveNotificationTypes), newNotice.TypeID)
+        _currentUnreadNotices = 0
+        For Each newNotice As Core.EveNotification In _allNotices.Values
+            Dim strNotice As String
+            If [Enum].IsDefined(GetType(Core.EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
+                strNotice = [Enum].GetName(GetType(Core.EveNotificationTypes), newNotice.TypeID)
             Else
                 strNotice = "Unknown Notification"
             End If
-            Dim SenderName As String = "ID: " & newNotice.SenderID.ToString
-            If FinalIDs.ContainsKey(newNotice.SenderID) = True Then
-                SenderName = FinalIDs(newNotice.SenderID)
+            Dim senderName As String = "ID: " & newNotice.SenderID.ToString
+            If finalIDs.ContainsKey(newNotice.SenderID) = True Then
+                senderName = finalIDs(newNotice.SenderID)
             End If
             If newNotice.ReadFlag = False Then
-                NoticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, SenderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, UnreadItemStyle, subItemStyle))
-                CurrentUnreadNotices += 1
+                noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, _unreadItemStyle, _subItemStyle))
+                _currentUnreadNotices += 1
             Else
-                NoticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, SenderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, ReadItemStyle, subItemStyle))
+                noticeNode.Nodes.Add(CreateChildNode(newNotice.MessageID.ToString, senderName, strNotice, newNotice.MessageDate.ToString, My.Resources.EveMail32, _readItemStyle, _subItemStyle))
             End If
         Next
-        NoticeNode.Text = "Eve Notifications (" & CurrentUnreadNotices.ToString & ")"
+        noticeNode.Text = "Eve Notifications (" & _currentUnreadNotices.ToString & ")"
         adtMails.EndUpdate()
 
     End Sub
 
-    Private Sub btnMarkAllMailsRead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMarkAllMailsRead.Click
+    Private Sub btnMarkAllMailsRead_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMarkAllMailsRead.Click
         ' Confirm we want to mark them all as read
         Dim reply As DialogResult = MessageBox.Show("This will mark all EveMails as read for all characters. Are you sure you want to mark all EveMails as read?", "Read All EveMails?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If reply = Windows.Forms.DialogResult.No Then
+        If reply = DialogResult.No Then
             Exit Sub
         Else
-            Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
-            If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
-                MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Const updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
+            If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
-            Call Me.UpdateMails()
-            Call Me.MailUpdateCompleted()
+            Call UpdateMails()
+            Call MailUpdateCompleted()
         End If
     End Sub
 
-    Private Sub btnMarkAllNoticesRead_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMarkAllNoticesRead.Click
+    Private Sub btnMarkAllNoticesRead_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMarkAllNoticesRead.Click
         ' Confirm we want to mark them all as read
         Dim reply As DialogResult = MessageBox.Show("This will mark all Notifications as read for all characters. Are you sure you want to mark all Notifications as read?", "Read All Notifications?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-        If reply = Windows.Forms.DialogResult.No Then
+        If reply = DialogResult.No Then
             Exit Sub
         Else
-            Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
-            If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
-                MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            Const updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
+            If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
-            Call Me.UpdateNotifications()
-            Call Me.MailUpdateCompleted()
+            Call UpdateNotifications()
+            Call MailUpdateCompleted()
         End If
     End Sub
 
@@ -478,69 +465,69 @@ Public Class frmMail
         ' Add any initialization after the InitializeComponent() call.
 
         ' Define group node style
-        groupStyle = New ElementStyle()
-        groupStyle.TextColor = Color.Navy
-        groupStyle.Font = New Font(adtMails.Font.FontFamily, 9.0F)
-        groupStyle.Name = "groupstyle"
-        adtMails.Styles.Add(groupStyle)
+        _groupStyle = New ElementStyle()
+        _groupStyle.TextColor = Color.Navy
+        _groupStyle.Font = New Font(adtMails.Font.FontFamily, 9.0F)
+        _groupStyle.Name = "groupstyle"
+        adtMails.Styles.Add(_groupStyle)
 
         ' Define sub-item style, simply to make text gray
-        subItemStyle = New ElementStyle()
-        subItemStyle.TextColor = Color.Gray
-        subItemStyle.Name = "subitemstyle"
-        adtMails.Styles.Add(subItemStyle)
+        _subItemStyle = New ElementStyle()
+        _subItemStyle.TextColor = Color.Gray
+        _subItemStyle.Name = "subitemstyle"
+        adtMails.Styles.Add(_subItemStyle)
 
         ' Define "read" style
-        ReadItemStyle = New ElementStyle()
-        ReadItemStyle.TextColor = Color.Black
-        ReadItemStyle.Font = New Font(adtMails.Font.FontFamily, 8.0F)
-        ReadItemStyle.Name = "readitemstyle"
-        adtMails.Styles.Add(ReadItemStyle)
+        _readItemStyle = New ElementStyle()
+        _readItemStyle.TextColor = Color.Black
+        _readItemStyle.Font = New Font(adtMails.Font.FontFamily, 8.0F)
+        _readItemStyle.Name = "readitemstyle"
+        adtMails.Styles.Add(_readItemStyle)
 
         ' Define "unread" style
-        UnreadItemStyle = New ElementStyle()
-        UnreadItemStyle.TextColor = Color.Black
-        UnreadItemStyle.Font = New Font(adtMails.Font.FontFamily, 8.0F, FontStyle.Bold)
-        UnreadItemStyle.Name = "unreaditemstyle"
-        adtMails.Styles.Add(UnreadItemStyle)
+        _unreadItemStyle = New ElementStyle()
+        _unreadItemStyle.TextColor = Color.Black
+        _unreadItemStyle.Font = New Font(adtMails.Font.FontFamily, 8.0F, FontStyle.Bold)
+        _unreadItemStyle.Name = "unreaditemstyle"
+        adtMails.Styles.Add(_unreadItemStyle)
     End Sub
 
-    Private Sub adtMails_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtMails.SelectionChanged
+    Private Sub adtMails_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtMails.SelectionChanged
         If adtMails.SelectedNodes.Count > 0 Then
-            Dim KeyNode As Node = adtMails.SelectedNodes(0)
+            Dim keyNode As Node = adtMails.SelectedNodes(0)
             Dim key As String = adtMails.SelectedNodes(0).Name
             ' Select whether this is an evemail or notification
-            If KeyNode.Parent IsNot Nothing Then
-                If KeyNode.Parent.Text.StartsWith("EveMail") = True Then
+            If keyNode.Parent IsNot Nothing Then
+                If keyNode.Parent.Text.StartsWith("EveMail", StringComparison.Ordinal) = True Then
                     ' Is an Evemail
-                    Dim mailtext As String = CleanMessage(allMails(-CLng(key)).MessageBody)
+                    Dim mailtext As String = CleanMessage(_allMails(-CLng(key)).MessageBody)
                     txtMail.Text = mailtext
                     ' Update the style of the item to read
-                    If KeyNode.Parent.Text.StartsWith("EveMail Inbox") And KeyNode.Style.Name = "unreaditemstyle" Then
-                        KeyNode.Style = ReadItemStyle
-                        CurrentUnreadMails -= 1
-                        KeyNode.Parent.Text = "EveMail Inbox (" & CurrentUnreadMails.ToString & ")"
-                        Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE messageKey='" & allMails(-CLng(key)).MessageKey & "';"
-                        If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
-                            MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    If keyNode.Parent.Text.StartsWith("EveMail Inbox", StringComparison.Ordinal) And keyNode.Style.Name = "unreaditemstyle" Then
+                        keyNode.Style = _readItemStyle
+                        _currentUnreadMails -= 1
+                        keyNode.Parent.Text = "EveMail Inbox (" & _currentUnreadMails.ToString & ")"
+                        Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE messageKey='" & _allMails(-CLng(key)).MessageKey & "';"
+                        If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                            MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                         Call frmEveHQ.UpdateEveMailButton()
                     End If
                 Else
-                    Dim newnotice As EveHQ.Core.EveNotification = allNotices(-CLng(key))
+                    Dim newnotice As Core.EveNotification = _allNotices(-CLng(key))
                     txtMail.Text = CleanMessage(newnotice.MessageBody)
-                    'If [Enum].IsDefined(GetType(EveHQ.Core.EveNotificationTypes), CInt(newnotice.TypeID)) = True Then
-                    '   txtMail.Text = CleanMessage(newnotice.MessageBody)
+                    'If [Enum].IsDefined(GetType(Core.EveNotificationTypes), CInt(newnotice.TypeID)) = True Then
+                    '   lblMail.Text = CleanMessage(newnotice.MessageBody)
                     'Else
-                    '	txtMail.Text = "Unknown Notification"
+                    '	lblMail.Text = "Unknown Notification"
                     'End If
-                    If KeyNode.Style.Name = "unreaditemstyle" Then
-                        KeyNode.Style = ReadItemStyle
-                        CurrentUnreadNotices -= 1
-                        KeyNode.Parent.Text = "Eve Notifications (" & CurrentUnreadNotices.ToString & ")"
-                        Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE messageKey='" & allNotices(-CLng(key)).MessageKey & "';"
-                        If EveHQ.Core.DataFunctions.SetData(updateSQL) = -2 Then
-                            MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    If keyNode.Style.Name = "unreaditemstyle" Then
+                        keyNode.Style = _readItemStyle
+                        _currentUnreadNotices -= 1
+                        keyNode.Parent.Text = "Eve Notifications (" & _currentUnreadNotices.ToString & ")"
+                        Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE messageKey='" & _allNotices(-CLng(key)).MessageKey & "';"
+                        If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                            MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         End If
                         Call frmEveHQ.UpdateEveMailButton()
                     End If
@@ -552,7 +539,7 @@ Public Class frmMail
         End If
     End Sub
 
-    Private Function CleanMessage(ByVal Message As String) As String
+    Private Function CleanMessage(ByVal message As String) As String
         Dim output As String = Message.Trim()
 
         output = output.Replace("<br>", "<br />").Replace("<BR>", "<br />")
@@ -566,7 +553,7 @@ Public Class frmMail
         Return output
     End Function
 
-    Private Sub btnCopyEvemail_Click(sender As System.Object, e As System.EventArgs) Handles btnCopyEvemail.Click
+    Private Sub btnCopyEvemail_Click(sender As Object, e As EventArgs) Handles btnCopyEvemail.Click
         Try
             Clipboard.SetText(txtMail.Text.Replace("<br />", ControlChars.CrLf))
         Catch ex As Exception

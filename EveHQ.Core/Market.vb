@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.EveData
+
 Public Class Market
 
 End Class
@@ -58,20 +60,7 @@ End Enum
 
 Public Class MarketFunctions
 
-    Public Shared Sub LoadItemMarketGroups()
-        EveHQ.Core.HQ.ItemMarketGroups.Clear()
-        ' Get the stuff that can have market prices
-        Dim priceData As Data.DataSet = EveHQ.Core.DataFunctions.GetData("SELECT typeID, marketGroupID FROM invTypes WHERE marketGroupID IS NOT NULL;")
-        If priceData IsNot Nothing Then
-            If priceData.Tables(0).Rows.Count > 0 Then
-                For Each ItemRow As DataRow In priceData.Tables(0).Rows
-                    EveHQ.Core.HQ.ItemMarketGroups.Add(ItemRow.Item("typeID").ToString, ItemRow.Item("marketGroupID").ToString)
-                Next
-            End If
-        End If
-    End Sub
-
-    Public Shared Function CalculateUserPriceFromPriceArray(PriceArray As ArrayList, regionID As String, typeID As String, WriteToDB As Boolean) As Double
+   Public Shared Function CalculateUserPriceFromPriceArray(PriceArray As ArrayList, regionID As String, typeID As String, WriteToDB As Boolean) As Double
 
         ' Get user price
         Dim GlobalPriceData As New SortedList(Of String, SortedList(Of String, EveHQ.Core.MarketData))
@@ -132,9 +121,9 @@ Public Class MarketFunctions
         If EveHQ.Core.HQ.Settings.PriceGroups.ContainsKey("<Global>") = True Then
 
             Dim MPG As EveHQ.Core.PriceGroup = EveHQ.Core.HQ.Settings.PriceGroups("<Global>")
-            For Each ItemID As String In EveHQ.Core.HQ.ItemMarketGroups.Keys
-                If UsedPriceList.ContainsKey(ItemID) = False Then
-                    MPG.TypeIDs.Add(ItemID)
+            For Each itemID As String In StaticData.ItemMarketGroups.Keys
+                If UsedPriceList.ContainsKey(itemID) = False Then
+                    MPG.TypeIDs.Add(itemID)
                 End If
             Next
 

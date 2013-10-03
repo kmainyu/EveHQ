@@ -57,7 +57,7 @@ Public Class ShipWidget
         Else
             baseID = WidgetFit.BaseShip.ID
         End If
-        pbFitting.Image = EveHQ.Core.ImageHandler.GetImage(baseID, 32)
+        pbFitting.Image = EveHQ.Core.ImageHandler.GetImage(CInt(baseID), 32)
 
         ' Set up ShipWidgetsModules
         'Me.pnlModules.Controls.Clear()

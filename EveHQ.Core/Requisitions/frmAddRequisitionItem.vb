@@ -126,7 +126,7 @@ Namespace Requisitions
 
         Private Sub cboItems_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboItems.SelectedIndexChanged
             _cItemName = cboItems.SelectedItem.ToString
-            _cItemID = StaticData.TypeNames(cboItems.SelectedItem.ToString)
+            _cItemID = CStr(StaticData.TypeNames(cboItems.SelectedItem.ToString))
         End Sub
 
         Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click

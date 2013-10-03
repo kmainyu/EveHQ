@@ -144,7 +144,7 @@ Namespace BPCalc
                         Dim subJob As New Job
                         subJob.CurrentBlueprint = subBps
                         subJob.TypeID = resource.TypeId
-                        subJob.TypeName = EveData.StaticData.Types(resource.TypeId.ToString).Name
+                        subJob.TypeName = EveData.StaticData.Types(resource.TypeId).Name
                         subJob.PerfectUnits = perfectRaw
                         subJob.WasteUnits = waste
                         subJob.Runs = (perfectRaw + waste) * Runs
@@ -168,7 +168,7 @@ Namespace BPCalc
                     Else
                         Dim newResource As New JobResource
                         newResource.TypeID = resource.TypeId
-                        newResource.TypeName = EveData.StaticData.Types(resource.TypeId.ToString).Name
+                        newResource.TypeName = EveData.StaticData.Types(resource.TypeId).Name
                         newResource.TypeGroup = resource.TypeGroup
                         newResource.TypeCategory = resource.TypeCategory
                         newResource.PerfectUnits = perfectRaw
@@ -190,10 +190,10 @@ Namespace BPCalc
 
             'Get the prices for the resource
             Dim enumerable As IEnumerable(Of JobResource) = If(TryCast(resourceList, JobResource()), resourceList.ToArray())
-            Dim prices As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(enumerable.Select(Function(r) r.TypeID.ToString))
+            Dim prices As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(enumerable.Select(Function(r) r.TypeID))
             prices.Wait()
-            Dim resourceCost As Dictionary(Of String, Double) = prices.Result
-            costs += enumerable.Select(Function(r) ((r.PerfectUnits + r.WasteUnits) * resourceCost(r.TypeID.ToString())) * Runs).Sum()
+            Dim resourceCost As Dictionary(Of Integer, Double) = prices.Result
+            costs += enumerable.Select(Function(r) ((r.PerfectUnits + r.WasteUnits) * resourceCost(r.TypeID)) * Runs).Sum()
 
             ' Add in the costs for the sub jobs
             costs += subJobList.Sum(Function(j) j.CalculateCost)
@@ -239,7 +239,7 @@ Namespace BPCalc
                     ' Add the new resource
                     Dim newResource As New JobResource
                     newResource.TypeID = resource.TypeId
-                    newResource.TypeName = EveData.StaticData.Types(resource.TypeId.ToString).Name
+                    newResource.TypeName = EveData.StaticData.Types(resource.TypeId).Name
                     newResource.TypeGroup = resource.TypeGroup
                     newResource.TypeCategory = resource.TypeCategory
                     newResource.PerfectUnits = perfectRaw
@@ -305,7 +305,7 @@ Namespace BPCalc
                     Dim subJob As New Job
                     subJob.CurrentBlueprint = subBps
                     subJob.TypeID = resource.TypeId
-                    subJob.TypeName = EveData.StaticData.Types(resource.TypeId.ToString).Name
+                    subJob.TypeName = EveData.StaticData.Types(resource.TypeId).Name
                     subJob.PerfectUnits = perfectRaw
                     subJob.WasteUnits = waste
                     subJob.Runs = (perfectRaw + waste) * Runs

@@ -23,46 +23,46 @@ Imports System.IO
 
 Public Class ImageHandler
 
-    Public Shared Function GetRawImageLocation(ByVal TypeID As String) As String
+    Public Shared Function GetRawImageLocation(ByVal typeID As Integer) As String
 
-        Dim remoteURL As String = "http://image.eveonline.com/Type/" & TypeID & "_64.png"
+        Dim remoteURL As String = "http://image.eveonline.com/Type/" & CStr(typeID) & "_64.png"
         ' Return the image location
         Return remoteURL
 
     End Function
 
-    Public Shared Function GetImageLocation(ByVal TypeID As String) As String
+    Public Shared Function GetImageLocation(ByVal typeID As Integer) As String
         ' Check EveHQ image cache folder for the image
-        If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, TypeID & ".png")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQ.imageCacheFolder, typeID & ".png")) = True Then
             ' Return the cached image location
-            Return Path.Combine(EveHQ.Core.HQ.imageCacheFolder, TypeID & ".png")
+            Return Path.Combine(HQ.imageCacheFolder, CStr(typeID) & ".png")
         Else
             ' Calculate the remote URL
-            Dim remoteURL As String = GetRawImageLocation(TypeID)
+            Dim remoteURL As String = GetRawImageLocation(typeID)
             ' Download the image
-            Threading.ThreadPool.QueueUserWorkItem(AddressOf DownloadImage, New Object() {remoteURL, TypeID})
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf DownloadImage, New Object() {remoteURL, typeID})
             ' Return the image location
             Return remoteURL
         End If
 
     End Function
 
-    Public Shared Function GetImage(ByVal TypeID As String, Optional ByVal ImageSize As Integer = 64, Optional ByVal FileName As String = "") As Image
+    Public Shared Function GetImage(ByVal typeID As Integer, Optional ByVal imageSize As Integer = 64, Optional ByVal fileName As String = "") As Image
         Try
             If FileName = "" Then
-                FileName = TypeID
+                fileName = CStr(typeID)
             End If
             ' Check EveHQ image cache folder for the image
             If My.Computer.FileSystem.FileExists(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, FileName & ".png")) = True Then
                 ' Return the cached image location
-                Return CType(New Bitmap(Image.FromFile(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, FileName & ".png")), ImageSize, ImageSize), Image)
+                Return CType(New Bitmap(Image.FromFile(Path.Combine(EveHQ.Core.HQ.imageCacheFolder, FileName & ".png")), imageSize, imageSize), Image)
             Else
                 ' Calculate the remote URL
-                Dim remoteURL As String = GetRawImageLocation(TypeID)
+                Dim remoteURL As String = GetRawImageLocation(typeID)
                 ' Download the image
                 Dim dlImage As Image = DownloadImage(New Object() {remoteURL, FileName})
                 If dlImage IsNot Nothing Then
-                    Return CType(New Bitmap(dlImage, ImageSize, ImageSize), Image)
+                    Return CType(New Bitmap(dlImage, imageSize, imageSize), Image)
                 Else
                     Return Nothing
                 End If
@@ -72,18 +72,18 @@ Public Class ImageHandler
         End Try
     End Function
 
-    Public Shared Function GetPortraitImage(ByVal PilotID As String) As Image
+    Public Shared Function GetPortraitImage(ByVal pilotID As String) As Image
         ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
         Try
             ' Check for the file first and download it
-            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, PilotID & ".png")
-            If My.Computer.FileSystem.FileExists(Filename) = False Then
-                Call DownloadPortrait(PilotID.ToString)
+            Dim filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, pilotID & ".png")
+            If My.Computer.FileSystem.FileExists(filename) = False Then
+                Call DownloadPortrait(pilotID.ToString)
             End If
 
             ' Get the file if it's there
-            If My.Computer.FileSystem.FileExists(Filename) = True Then
-                Dim fs As New FileStream(Filename, FileMode.Open, FileAccess.Read)
+            If My.Computer.FileSystem.FileExists(filename) = True Then
+                Dim fs As New FileStream(filename, FileMode.Open, FileAccess.Read)
                 Dim img As Image = Image.FromStream(fs)
                 Dim ms As New MemoryStream()
                 img.Save(ms, Imaging.ImageFormat.Png)
@@ -101,13 +101,13 @@ Public Class ImageHandler
         End Try
     End Function
 
-    Public Shared Function GetPortraitImage(ByVal PilotID As String, ImageSize As Integer) As Image
+    Public Shared Function GetPortraitImage(ByVal pilotID As String, imageSize As Integer) As Image
         ' Requires a special function due to Bitmap.FromFile not releasing the file handle on a timely basis
         Try
             ' Check for the file first and download it
-            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, PilotID & ".png")
+            Dim Filename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, pilotID & ".png")
             If My.Computer.FileSystem.FileExists(Filename) = False Then
-                Call DownloadPortrait(PilotID.ToString)
+                Call DownloadPortrait(pilotID.ToString)
             End If
 
             ' Get the file if it's there

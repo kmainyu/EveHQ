@@ -252,10 +252,10 @@ Public Class frmPrismSettings
         For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
             Dim newBP As New ListViewItem
             newBP.Name = bp.Id.ToString
-            newBP.Text = StaticData.Types(bp.Id.ToString).Name
-            If Settings.PrismSettings.BPCCosts.ContainsKey(bp.Id.ToString) Then
-                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id.ToString).MinRunCost.ToString("N2"))
-                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id.ToString).MaxRunCost.ToString("N2"))
+            newBP.Text = StaticData.Types(bp.Id).Name
+            If Settings.PrismSettings.BPCCosts.ContainsKey(bp.Id) Then
+                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id).MinRunCost.ToString("N2"))
+                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id).MaxRunCost.ToString("N2"))
             Else
                 newBP.SubItems.Add(0.ToString("N2"))
                 newBP.SubItems.Add(0.ToString("N2"))
@@ -269,11 +269,11 @@ Public Class frmPrismSettings
 
     Private Sub lvwBPCCosts_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwBPCCosts.DoubleClick
         If lvwBPCCosts.SelectedItems.Count = 1 Then
-            Dim BPID As String = lvwBPCCosts.SelectedItems(0).Name
-            Dim PriceForm As New frmAddBPCPrice(BPID)
-            PriceForm.ShowDialog()
-            Call Me.PopulateBPCCostGrid()
-            PriceForm.Dispose()
+            Dim bpid As Integer = CInt(lvwBPCCosts.SelectedItems(0).Name)
+            Dim priceForm As New frmAddBPCPrice(bpid)
+            priceForm.ShowDialog()
+            Call PopulateBPCCostGrid()
+            priceForm.Dispose()
         End If
     End Sub
 

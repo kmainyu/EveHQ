@@ -219,12 +219,12 @@ Public Class ShipSlotControl
 
     Private Sub UpdatePrices()
         ' get a collection of the item Ids used in the fitting
-        Dim itemIds As New List(Of String)
+        Dim itemIds As New List(Of Integer)
 
         ' Get the base ship ID, for custom ships, this will need to be the hull on which the custom ship is based on
         ' Fixes EVEHQ-178
         Dim baseShipID As String = ""
-        If EveHQ.Core.HQ.itemData.ContainsKey(ParentFitting.BaseShip.ID) Then
+        If HQ.itemData.ContainsKey(ParentFitting.BaseShip.ID) Then
             baseShipID = ParentFitting.BaseShip.ID
         Else
             If CustomHQFClasses.CustomShipIDs.ContainsKey(ParentFitting.BaseShip.ID) Then
@@ -236,69 +236,69 @@ Public Class ShipSlotControl
 
         ' Add the baseShipID, but only if not blank
         If baseShipID <> "" Then
-            itemIds.Add(baseShipID)
+            itemIds.Add(CInt(baseShipID))
         End If
 
         ' add in the HiSlot items
         For slot As Integer = 1 To ParentFitting.FittedShip.HiSlots
             If ParentFitting.FittedShip.HiSlot(slot) IsNot Nothing Then
-                itemIds.Add(ParentFitting.FittedShip.HiSlot(slot).ID)
+                itemIds.Add(CInt(ParentFitting.FittedShip.HiSlot(slot).ID))
             End If
         Next
         ' Mids
         For slot As Integer = 1 To ParentFitting.FittedShip.MidSlots
             If ParentFitting.FittedShip.MidSlot(slot) IsNot Nothing Then
-                itemIds.Add(ParentFitting.FittedShip.MidSlot(slot).ID)
+                itemIds.Add(CInt(ParentFitting.FittedShip.MidSlot(slot).ID))
             End If
         Next
         ' Lows
         For slot As Integer = 1 To ParentFitting.FittedShip.LowSlots
             If ParentFitting.FittedShip.LowSlot(slot) IsNot Nothing Then
-                itemIds.Add(ParentFitting.FittedShip.LowSlot(slot).ID)
+                itemIds.Add(CInt(ParentFitting.FittedShip.LowSlot(slot).ID))
             End If
         Next
         'Rigs
         For slot As Integer = 1 To ParentFitting.FittedShip.RigSlots
             If ParentFitting.FittedShip.RigSlot(slot) IsNot Nothing Then
-                itemIds.Add(ParentFitting.FittedShip.RigSlot(slot).ID)
+                itemIds.Add(CInt(ParentFitting.FittedShip.RigSlot(slot).ID))
             End If
         Next
 
         'Subsystems
         For slot As Integer = 1 To ParentFitting.FittedShip.SubSlots
             If ParentFitting.FittedShip.SubSlot(slot) IsNot Nothing Then
-                itemIds.Add(ParentFitting.FittedShip.SubSlot(slot).ID)
+                itemIds.Add(CInt(ParentFitting.FittedShip.SubSlot(slot).ID))
             End If
         Next
 
         'Drone bay
         itemIds.AddRange(
             From dbi As Object In ParentFitting.FittedShip.DroneBayItems.Values
-                            Select CType(dbi, DroneBayItem).DroneType.ID)
+                            Select CInt(CType(dbi, DroneBayItem).DroneType.ID))
 
         'Cargo bay
         For Each item As Object In ParentFitting.FittedShip.CargoBayItems.Values
-            itemIds.Add(CType(item, CargoBayItem).ItemType.ID)
+            itemIds.Add(CInt(CType(item, CargoBayItem).ItemType.ID))
         Next
 
         ' Calculate the fitted prices
-        Dim priceTask As Task(Of Dictionary(Of String, Double)) = DataFunctions.GetMarketPrices(itemIds)
+        Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(itemIds)
 
 
-        priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of String, Double)))
+        priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of Integer, Double)))
 
                                    'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
                                    If IsHandleCreated Then
 
 
-                                       Dim prices As Dictionary(Of String, Double) = currentTask.Result
+                                       Dim prices As Dictionary(Of Integer, Double) = currentTask.Result
 
                                        ' call back to main thread to update UI
                                        Invoke(Sub()
                                                   ' update the values
                                                   ' base ship price
                                                   If baseShipID <> "" Then
-                                                      ParentFitting.BaseShip.MarketPrice = prices(baseShipID)
+                                                      ParentFitting.BaseShip.MarketPrice = prices(CInt(baseShipID))
                                                   End If
                                                   ' the sum of all the modules except the ship item.
                                                   Dim total As Double = prices.Sum(Function(itemPrice) itemPrice.Value * (From id In itemIds Where id = itemPrice.Key).Count())
@@ -311,9 +311,9 @@ Public Class ShipSlotControl
                                                                                    ToInvariantString("N2")
 
                                                   ' update the fitting slots with their respective price value
-                                                  For Each itemId As String In prices.Keys
+                                                  For Each itemId As Integer In prices.Keys
                                                       Dim priceCells As New List(Of Cell)
-                                                      If _fittingPriceCells.TryGetValue(itemId, priceCells) Then
+                                                      If _fittingPriceCells.TryGetValue(CStr(itemId), priceCells) Then
                                                           For Each priceCell As Cell In priceCells
                                                               priceCell.Text = prices(itemId).ToInvariantString("N2")
                                                           Next
@@ -772,7 +772,7 @@ Public Class ShipSlotControl
                         idx += 1
                     Case "Price"
                         Dim currentIndex As Integer = idx
-                        Dim task As Task(Of Double) = DataFunctions.GetPriceAsync(shipMod.ID)
+                        Dim task As Task(Of Double) = DataFunctions.GetPriceAsync(CInt(shipMod.ID))
                         task.ContinueWith(Sub(price As Task(Of Double))
                                               If (price.IsCompleted And price.IsFaulted = False) Then
                                                   'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.

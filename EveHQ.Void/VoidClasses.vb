@@ -48,3 +48,11 @@ Public Class WormholeEffect
     Public WormholeType As String
     Public Attributes As New SortedList(Of String, Double)
 End Class
+
+Public Class TypeAttributeQuery
+    Public Property TypeID As Long
+    Public Property TypeName As String
+    Public Property AttributeID As Integer
+    Public Property UnitID As Integer
+    Public Property Value As Double
+End Class

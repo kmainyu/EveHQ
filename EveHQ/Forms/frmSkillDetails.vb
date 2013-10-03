@@ -284,8 +284,8 @@ Public Class frmSkillDetails
             End If
             ' Add the certificate unlocks
             If StaticData.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                Dim certUnlocked As List(Of String) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
-                For Each item As String In certUnlocked
+                Dim certUnlocked As List(Of Integer) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
+                For Each item As Integer In certUnlocked
                     Dim newItem As New ListViewItem
                     Dim toolTipText As New StringBuilder
 
@@ -304,9 +304,9 @@ Public Class frmSkillDetails
                         Case 5
                             certGrade = "Elite"
                     End Select
-                    For Each reqCertID As String In cert.RequiredCertificates.Keys
+                    For Each reqCertID As Integer In cert.RequiredCertificates.Keys
                         Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
-                        If reqCert.Id.ToString <> item Then
+                        If reqCert.Id <> item Then
                             toolTipText.Append(StaticData.CertificateClasses(reqCert.ClassId.ToString).Name)
                             Select Case reqCert.Grade
                                 Case 1
@@ -336,7 +336,7 @@ Public Class frmSkillDetails
                     End If
                     newItem.ToolTipText = toolTipText.ToString()
                     newItem.Text = certName & " (" & certGrade & ")"
-                    newItem.Name = item
+                    newItem.Name = CStr(item)
                     newItem.SubItems.Add("Level " & lvl)
                     lvwDepend.Items.Add(newItem)
                 Next
@@ -541,7 +541,7 @@ Public Class frmSkillDetails
     End Sub
 
     Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewCertDetails.Click
-        Dim certID As String = mnuItemName.Tag.ToString
+        Dim certID As Integer = CInt(mnuItemName.Tag)
         frmCertificateDetails.Text = mnuItemName.Text
         frmCertificateDetails.DisplayPilotName = _displayPilotName
         frmCertificateDetails.ShowCertDetails(certID)

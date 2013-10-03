@@ -743,37 +743,18 @@ Public Class EveHQSettings
                 HQ.Settings.UpdateUrl = "http://evehq.net/update/"
             End If
 
-           ' TODO: Reword this when we rip out SQLCE
+            ' Set the Custom database connection
             Try
-                If DataFunctions.SetEveHQConnectionString() = False Then
-                    Return False
-                End If
-                If DataFunctions.SetEveHQDataConnectionString() = False Then
+                If CustomDataFunctions.SetEveHQDataConnectionString() = False Then
                     Return False
                 End If
             Catch ex As Exception
                 Dim msg As New StringBuilder
                 msg.AppendLine("Error: " & ex.Message)
                 msg.AppendLine("")
-                msg.AppendLine(
-                    "An error occurred trying to access the database, with the most common cause being that SQL Compact Edition v4 was not installed as instructed.")
-                msg.AppendLine("")
-                msg.AppendLine(
-                    "Click OK to close EveHQ where you will be redirected to the SQL Compact Edition download page at http://www.microsoft.com/download/en/details.aspx?id=17876")
+                msg.AppendLine("An error occurred trying to set the custom database connection string. This could be down to a missing database library file.")
                 MessageBox.Show(msg.ToString, "Error Initialising Database", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Try
-                    Process.Start("http://www.microsoft.com/download/en/details.aspx?id=17876")
-                    Application.ExitThread()
-                Catch ex2 As Exception
-                    ' Do nothing - users have the link
-                End Try
             End Try
-
-            ' Load the skill data before attempting to load in the EveHQ.Core.Pilot skill data
-            ' TODO: Why this? Skill data should be loaded via the main startup, not dependant on settings
-            If SkillFunctions.LoadEveSkillData() = False Then
-                Return False
-            End If
 
             '  Setup queue columns etc
             Call InitialiseQueueColumns()
@@ -785,23 +766,13 @@ Public Class EveHQSettings
 
             ' Set Theme stuff
             If HQ.Settings.ThemeSetByUser = False Then
-                HQ.Settings.ThemeStyle = eStyle.Office2007Black
-                HQ.Settings.ThemeTint = Color.Empty
-            End If
-
-            ' Set up a global price list if not present
-            If HQ.Settings.PriceGroups.ContainsKey("<Global>") = False Then
-                ' Add a new price group
-                Dim newPg As New PriceGroup
-                newPg.Name = "<Global>"
-                newPg.RegionIDs.Add("10000002")
-                newPg.PriceFlags = PriceGroupFlags.MinSell
-                HQ.Settings.PriceGroups.Add(newPg.Name, newPg)
+                HQ.Settings.ThemeStyle = DevComponents.DotNetBar.eStyle.Office2007Black
+                HQ.Settings.ThemeTint = Drawing.Color.Empty
             End If
 
             ' Set Global APIServerInfo
             HQ.EveHQAPIServerInfo = New APIServerInfo(HQ.Settings.CcpapiServerAddress, HQ.Settings.ApirsAddress, HQ.Settings.UseApirs, HQ.Settings.UseCcpapiBackup)
-
+            
         End If
 
         Return True

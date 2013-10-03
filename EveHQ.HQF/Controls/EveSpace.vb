@@ -125,7 +125,7 @@ Public Class EveSpace
             cSourceShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(SourceShip.Ship.ID)
+                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(CInt(SourceShip.Ship.ID))
                 Dim img As Bitmap
                 If baseImage IsNot Nothing Then
                     img = New Bitmap(baseImage, 32, 32)
@@ -161,7 +161,7 @@ Public Class EveSpace
             cTargetShip = value
             If value IsNot Nothing Then
                 Dim DI1 As DraggableImage
-                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(TargetShip.Ship.ID)
+                Dim baseImage As Image = EveHQ.Core.ImageHandler.GetImage(CInt(TargetShip.Ship.ID))
                 Dim img As Bitmap
                 If baseImage IsNot Nothing Then
                     img = New Bitmap(baseImage, 32, 32)

@@ -128,7 +128,7 @@ Imports System.Text
             strID.Remove(0, 1)
             ' Get the name data from the DB
             Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-            Dim idData As DataSet = Core.DataFunctions.GetCustomData(strSQL)
+            Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
             If idData IsNot Nothing Then
                 If idData.Tables(0).Rows.Count > 0 Then
                     For Each idRow As DataRow In idData.Tables(0).Rows

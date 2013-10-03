@@ -22,15 +22,15 @@ Imports System.Windows.Forms
 
 Public Class frmAssetItemName
 
-    Dim cAssetID As String = ""
+    Dim cAssetID As Integer
     Dim cAssetName As String = ""
     Dim cAssetItemName As String = ""
     Dim cEditMode As Boolean = False
-    Public Property AssetID() As String
+    Public Property AssetID() As Integer
         Get
             Return cAssetID
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             cAssetID = value
         End Set
     End Property
@@ -96,9 +96,9 @@ Public Class frmAssetItemName
         Me.Close()
     End Sub
 
-    Private Function AddAssetItemName(ByVal assetID As String, ByVal assetName As String) As Boolean
+    Private Function AddAssetItemName(ByVal assetID As Integer, ByVal assetName As String) As Boolean
         Dim assetSQL As String = "INSERT INTO assetItemNames (itemID, itemName) VALUES (" & assetID & ", '" & assetName & "');"
-        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -2 Then
+        If Core.CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
             MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else
@@ -106,9 +106,9 @@ Public Class frmAssetItemName
         End If
     End Function
 
-    Private Function EditAssetItemName(ByVal assetID As String, ByVal assetName As String) As Boolean
+    Private Function EditAssetItemName(ByVal assetID As Integer, ByVal assetName As String) As Boolean
         Dim assetSQL As String = "UPDATE assetItemNames SET itemName='" & assetName & "' WHERE itemID=" & assetID & ";"
-        If EveHQ.Core.DataFunctions.SetData(assetSQL) = -2 Then
+        If Core.CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
             MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else

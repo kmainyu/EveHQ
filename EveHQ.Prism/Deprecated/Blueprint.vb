@@ -288,7 +288,7 @@ End Class
     '    Dim IPE As Integer = -4
     '    Dim IRC As Integer = 10
 
-    '    Dim DecryptorName As String = EveHQ.Core.HQ.itemData(DecryptorID.ToString).Name
+    '    Dim DecryptorName As String = StaticData.Types(DecryptorID.ToString).Name
 
     '    If DecryptorName <> "" Then
     '        If PlugInData.Decryptors.ContainsKey(DecryptorName) Then

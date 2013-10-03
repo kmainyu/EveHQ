@@ -1,3 +1,5 @@
+Imports EveHQ.EveData
+
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2012  EveHQ Development Team
@@ -18,69 +20,48 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-Public Class Station
-    Public stationID As Long
-    Public stationName As String
-    Public systemID As Long
-    Public constID As Long
-    Public regionID As Long
-    Public corpID As Long
-    Public stationTypeID As Long
-    Public operationID As Long
-    Public refiningEff As Double
-End Class
-
-Public Class Corporation
-    Public CorpID As Long
-    Public CorpName As String
-End Class
-
 Public Class Locations
-    Public Shared Function GetLocationNameFromID(ByVal locID As String) As String
-        If CDbl(locID) >= 66000000 Then
-            If CDbl(locID) < 66014933 Then
-                locID = (CDbl(locID) - 6000001).ToString
+    Public Shared Function GetLocationNameFromID(ByVal locID As Integer) As String
+        If locID >= 66000000 Then
+            If locID < 66014933 Then
+                locID = locID - 6000001
             Else
-                locID = (CDbl(locID) - 6000000).ToString
+                locID = locID - 6000000
             End If
         End If
-        Dim newLocation As Prism.Station
-        If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
-            If PlugInData.stations.Contains(locID) = True Then
+        Dim newLocation As Station
+        If locID >= 61000000 And locID <= 61999999 Then
+            If StaticData.Stations.ContainsKey(locID) = True Then
                 ' Known Outpost
-                newLocation = CType(PlugInData.stations(locID), Prism.Station)
-                Return newLocation.stationName
+                newLocation = StaticData.Stations(locID)
+                Return newLocation.StationName
             Else
                 ' Unknown outpost!
-                newLocation = New Prism.Station
-                newLocation.stationID = CLng(locID)
-                newLocation.stationName = "Unknown Outpost"
-                newLocation.systemID = 0
-                newLocation.constID = 0
-                newLocation.regionID = 0
-                Return newLocation.stationName
+                newLocation = New Station
+                newLocation.StationId = locID
+                newLocation.StationName = "Unknown Outpost"
+                newLocation.SystemId = 0
+                Return newLocation.StationName
             End If
         Else
-            If CDbl(locID) < 60000000 Then
-                If PlugInData.stations.Contains(locID) Then
-                    Dim newSystem As SolarSystem = CType(PlugInData.stations(locID), SolarSystem)
+            If locID < 60000000 Then
+                If StaticData.Stations.ContainsKey(locID) Then
+                    Dim newSystem As SolarSystem = StaticData.SolarSystems(locID)
                     Return newSystem.Name
                 Else
                     Return "Unknown Location"
                 End If
             Else
-                newLocation = CType(PlugInData.stations(locID), Prism.Station)
+                newLocation = StaticData.Stations(locID)
                 If newLocation IsNot Nothing Then
-                    Return newLocation.stationName
+                    Return newLocation.StationName
                 Else
                     ' Unknown system/station!
-                    newLocation = New Prism.Station
-                    newLocation.stationID = CLng(locID)
-                    newLocation.stationName = "Unknown Location"
-                    newLocation.systemID = 0
-                    newLocation.constID = 0
-                    newLocation.regionID = 0
-                    Return newLocation.stationName
+                    newLocation = New Station
+                    newLocation.StationId = locID
+                    newLocation.StationName = "Unknown Location"
+                    newLocation.SystemId = 0
+                    Return newLocation.StationName
                 End If
             End If
         End If
