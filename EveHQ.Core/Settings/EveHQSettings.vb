@@ -614,6 +614,7 @@ Public Class EveHQSettings
         MarketSystem = 30000142 'Safe Default of Jita
         MaxUpdateThreads = 5
         MainFormWindowState = FormWindowState.Maximized
+        StartupPilot = ""
 
     End Sub
 
