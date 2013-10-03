@@ -86,13 +86,15 @@ Public Class HQ
     Private Shared _marketCacheUploader As MarketUploader
     Private Shared _tickerItemList As New List(Of Integer)
     Private Shared _loggingStream As Stream
-    Private Shared _eveHqTracer As EveHqTraceLogger
-
+    Private Shared _eveHqTracer As EveHQTraceLogger
+    
     Shared Sub New()
 
     End Sub
 
     Public Shared Property Settings As EveHQSettings
+
+    Public Shared Property EveHQLogTimer As New Stopwatch
 
     Public Shared Property Plugins() As Dictionary(Of String, EveHQPlugIn)
         Get
@@ -220,7 +222,11 @@ Public Class HQ
         End Try
     End Sub
 
-    Public Shared Sub WriteLogEvent(ByVal EventText As String)
+    Public Shared Sub WriteLogEvent(ByVal eventText As String)
+        Dim ts As TimeSpan = EveHQLogTimer.Elapsed
+        ' Format and display the TimeSpan value.
+        Dim elapsedTime As String = String.Format("{0:00}:{1:00}:{2:00}.{3:000}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds)
+        EventText = "[" & elapsedTime & "]" & " " & EventText
         Try
             Trace.WriteLine(EventText, "Information")
         Catch e As Exception
@@ -228,7 +234,7 @@ Public Class HQ
         End Try
     End Sub
 
-    Public Shared Function GetMDITab(ByVal TabName As String) As TabItem
+    Public Shared Function GetMDITab(ByVal tabName As String) As TabItem
 
         Dim mainTab As TabStrip = CType(MainForm.Controls("tabEveHQMDI"), TabStrip)
         For Each tp As TabItem In mainTab.Tabs

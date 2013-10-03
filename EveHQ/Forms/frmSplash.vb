@@ -88,6 +88,7 @@ Public Class frmSplash
         Core.HQ.LoggingStream = New FileStream(Path.Combine(Core.HQ.AppDataFolder, "EveHQ.log"), FileMode.Create, FileAccess.Write, FileShare.Read)
         Core.HQ.EveHqTracer = New EveHQTraceLogger(Core.HQ.LoggingStream)
         Trace.Listeners.Add(Core.HQ.EveHqTracer)
+        Core.HQ.EveHQLogTimer.Start()
         Core.HQ.WriteLogEvent("Start of EveHQ Event Log: " & Now.ToString)
         If Stopwatch.IsHighResolution Then
             Core.HQ.WriteLogEvent("Operations timed using the system's high-resolution performance counter.")
@@ -328,7 +329,7 @@ Public Class frmSplash
         Core.HQ.WriteLogEvent("Start: Load Plug-ins")
         lblStatus.Text = "> Loading modules..."
         lblStatus.Refresh()
-        Threading.ThreadPool.QueueUserWorkItem(AddressOf LoadModules)
+        ThreadPool.QueueUserWorkItem(AddressOf LoadModules)
         Core.HQ.WriteLogEvent("End: Load Plug-ins")
 
         'Set the servers to their server details
@@ -389,7 +390,6 @@ Public Class frmSplash
         End If
         Core.HQ.WriteLogEvent("End: Enable Market Data Uploader")
 
-
         ' Show the main form
         Core.HQ.WriteLogEvent("Start: Initialise main form")
         lblStatus.Text = "> Initialising EveHQ..."
@@ -434,7 +434,7 @@ Public Class frmSplash
                     Dim types() As Type = myAssembly.GetTypes
                     For Each t As Type In types
                         If t.IsPublic = True Then
-                            If t.GetInterface("Core.IEveHQPlugIn") IsNot Nothing Then
+                            If t.GetInterface("EveHQ.Core.IEveHQPlugIn") IsNot Nothing Then
                                 Dim myPlugIn As Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), Core.IEveHQPlugIn)
                                 Dim eveHQPlugIn As Core.EveHQPlugIn = myPlugIn.GetEveHQPlugInInfo
                                 eveHQPlugIn.FileName = filename
