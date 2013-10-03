@@ -186,6 +186,7 @@ Partial Public Class frmEveHQ
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
         Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
+        Me.btnIB = New DevComponents.DotNetBar.ButtonItem()
         Me.rpPlugins.SuspendLayout()
         Me.EveIconMenu.SuspendLayout()
         Me.ctxTabbedMDI.SuspendLayout()
@@ -203,10 +204,10 @@ Partial Public Class frmEveHQ
         Me.rpPlugins.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rpPlugins.Controls.Add(Me.rbPlugins)
         Me.rpPlugins.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rpPlugins.Location = New System.Drawing.Point(0, 56)
+        Me.rpPlugins.Location = New System.Drawing.Point(0, 0)
         Me.rpPlugins.Name = "rpPlugins"
         Me.rpPlugins.Padding = New System.Windows.Forms.Padding(3, 0, 3, 3)
-        Me.rpPlugins.Size = New System.Drawing.Size(1231, 95)
+        Me.rpPlugins.Size = New System.Drawing.Size(1231, 151)
         Me.rpPlugins.StretchLastRibbonBar = True
         '
         '
@@ -242,7 +243,7 @@ Partial Public Class frmEveHQ
         Me.rbPlugins.Location = New System.Drawing.Point(3, 0)
         Me.rbPlugins.Name = "rbPlugins"
         Me.rbPlugins.OverflowButtonText = "Click for more plug-ins!"
-        Me.rbPlugins.Size = New System.Drawing.Size(1017, 92)
+        Me.rbPlugins.Size = New System.Drawing.Size(1017, 148)
         Me.rbPlugins.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbPlugins.TabIndex = 0
         Me.rbPlugins.Text = "EveHQ Plug-ins"
@@ -454,7 +455,7 @@ Partial Public Class frmEveHQ
         Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbHelp.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInfoHelp})
         Me.rbHelp.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbHelp.Location = New System.Drawing.Point(1002, 0)
+        Me.rbHelp.Location = New System.Drawing.Point(1051, 0)
         Me.rbHelp.Name = "rbHelp"
         Me.rbHelp.Size = New System.Drawing.Size(73, 92)
         Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -493,7 +494,7 @@ Partial Public Class frmEveHQ
         Me.rbSQLTools.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbSQLTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer3})
         Me.rbSQLTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbSQLTools.Location = New System.Drawing.Point(910, 0)
+        Me.rbSQLTools.Location = New System.Drawing.Point(959, 0)
         Me.rbSQLTools.Name = "rbSQLTools"
         Me.rbSQLTools.Size = New System.Drawing.Size(92, 92)
         Me.rbSQLTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -544,7 +545,7 @@ Partial Public Class frmEveHQ
         Me.rbAPITools.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbAPITools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2})
         Me.rbAPITools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbAPITools.Location = New System.Drawing.Point(790, 0)
+        Me.rbAPITools.Location = New System.Drawing.Point(839, 0)
         Me.rbAPITools.Name = "rbAPITools"
         Me.rbAPITools.Size = New System.Drawing.Size(120, 92)
         Me.rbAPITools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -623,7 +624,7 @@ Partial Public Class frmEveHQ
         Me.rbBackup.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbBackup.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer5})
         Me.rbBackup.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbBackup.Location = New System.Drawing.Point(676, 0)
+        Me.rbBackup.Location = New System.Drawing.Point(725, 0)
         Me.rbBackup.Name = "rbBackup"
         Me.rbBackup.Size = New System.Drawing.Size(114, 92)
         Me.rbBackup.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -687,7 +688,7 @@ Partial Public Class frmEveHQ
         Me.rbIGB.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbIGB.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnIGB, Me.lblIGB})
         Me.rbIGB.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbIGB.Location = New System.Drawing.Point(543, 0)
+        Me.rbIGB.Location = New System.Drawing.Point(592, 0)
         Me.rbIGB.Name = "rbIGB"
         Me.rbIGB.Size = New System.Drawing.Size(133, 92)
         Me.rbIGB.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -736,7 +737,7 @@ Partial Public Class frmEveHQ
         Me.rbEveMail.Dock = System.Windows.Forms.DockStyle.Left
         Me.rbEveMail.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEveMail, Me.lblEveMail})
         Me.rbEveMail.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbEveMail.Location = New System.Drawing.Point(413, 0)
+        Me.rbEveMail.Location = New System.Drawing.Point(462, 0)
         Me.rbEveMail.Name = "rbEveMail"
         Me.rbEveMail.Size = New System.Drawing.Size(130, 92)
         Me.rbEveMail.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -788,11 +789,11 @@ Partial Public Class frmEveHQ
         Me.rbView.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbView.ContainerControlProcessDialogKey = True
         Me.rbView.Dock = System.Windows.Forms.DockStyle.Left
-        Me.rbView.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnViewPilotInfo, Me.btnViewSkillTraining, Me.btnViewPrices, Me.btnViewDashboard, Me.btnViewReqs})
+        Me.rbView.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnViewPilotInfo, Me.btnViewSkillTraining, Me.btnViewPrices, Me.btnViewDashboard, Me.btnViewReqs, Me.btnIB})
         Me.rbView.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbView.Location = New System.Drawing.Point(146, 0)
         Me.rbView.Name = "rbView"
-        Me.rbView.Size = New System.Drawing.Size(267, 92)
+        Me.rbView.Size = New System.Drawing.Size(316, 92)
         Me.rbView.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbView.TabIndex = 2
         Me.rbView.Text = "View"
@@ -2149,6 +2150,14 @@ Partial Public Class frmEveHQ
         Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
         Me.EveStatusIcon.Text = ""
         '
+        'btnIB
+        '
+        Me.btnIB.Image = CType(resources.GetObject("btnIB.Image"), System.Drawing.Image)
+        Me.btnIB.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnIB.Name = "btnIB"
+        Me.btnIB.SubItemsExpandWidth = 14
+        Me.btnIB.Text = "Item Browser"
+        '
         'frmEveHQ
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2350,5 +2359,6 @@ Partial Public Class frmEveHQ
     Friend WithEvents btnInfoHelp As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnVisualStudio2010Blue As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
+    Friend WithEvents btnIB As DevComponents.DotNetBar.ButtonItem
 
 End Class

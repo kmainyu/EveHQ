@@ -3396,4 +3396,10 @@ Public Class frmEveHQ
         Return IGBCanBeInitialised
     End Function
 
+    Private Sub btnIB_Click(sender As System.Object, e As System.EventArgs) Handles btnIB.Click
+        Dim newIB As New ItemBrowser.FrmIB
+        newIB.ShowDialog()
+        newIB.Dispose()
+    End Sub
+
 End Class
