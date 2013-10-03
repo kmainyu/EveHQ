@@ -164,7 +164,7 @@ Public Class frmMetaVariations
                     ' Adjust for TypeIDs
                     Select Case adtComparisons.Columns(att).Tag.ToString
                         Case "typeID"
-                            newMod.Cells(i).Text = EveHQ.Core.HQ.itemData(CStr(sMod.Attributes(att))).Name
+                            newMod.Cells(i).Text = StaticData.Types(CInt(sMod.Attributes(att))).Name
                             newMod.Cells(i).Tag = newMod.Cells(i).Text
                             newMod.Cells(i).Name = i.ToString
                         Case "Level"

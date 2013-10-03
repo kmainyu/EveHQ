@@ -57,11 +57,6 @@ Public Class HQ
     Public Shared IGBActive As Boolean = False
     Public Shared APIResults As New SortedList
     Public Shared APIErrors As New SortedList
-    Public Shared itemList As New SortedList(Of String, String)
-    Public Shared itemData As New SortedList(Of String, EveItem)
-    Public Shared itemGroups As New SortedList(Of Integer, String) ' groupID, groupName
-    Public Shared itemCats As New SortedList(Of Integer, String) ' catID, catName
-    Public Shared groupCats As New SortedList(Of Integer, Integer) ' groupID, catID 
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
     Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs
@@ -213,12 +208,7 @@ Public Class HQ
         End Set
     End Property
 
-    Public Enum DBFormat As Integer
-        SQLCE = 0
-        MSSQL = 1
-    End Enum
-
-    Public Shared Sub ReduceMemory()
+   Public Shared Sub ReduceMemory()
         GC.Collect()
         GC.WaitForPendingFinalizers()
         Try

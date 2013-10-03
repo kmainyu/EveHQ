@@ -60,7 +60,7 @@
     <DocumentationFile>EveHQ.xml</DocumentationFile>
     <NoWarn>42353,42354,42355,40010</NoWarn>
     <Optimize>false</Optimize>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

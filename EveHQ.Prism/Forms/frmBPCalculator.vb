@@ -681,7 +681,7 @@ Public Class frmBPCalculator
             lblBPRuns.Text = CurrentBP.Runs.ToString
             lblBPMaxRuns.Text = CurrentBP.MaxProductionLimit.ToString("N0")
             ' Update the prices
-            lblBPOMarketValue.Text = (CDbl(HQ.itemData(CurrentBP.Id.ToString).BasePrice) * 0.9).ToString("N2") & " Isk"
+            lblBPOMarketValue.Text = (CDbl(StaticData.Types(CurrentBP.Id).BasePrice) * 0.9).ToString("N2") & " Isk"
             ' Update the limits on the Runs
             nudCopyRuns.MaxValue = CurrentBP.MaxProductionLimit
             If CurrentBP.Runs = -1 Then

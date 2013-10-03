@@ -43,7 +43,7 @@ Public Class frmMarketPrices
 
         ' Initialize Price check item list
         If (ComboBox1.Items.Count = 0) Then
-            ComboBox1.Items.AddRange((From item In Core.HQ.itemData.Values Where item.MarketGroup <> 0 Select item.Name).ToArray())
+            ComboBox1.Items.AddRange((From item In StaticData.Types.Values Where item.MarketGroupId <> 0 Select item.Name).ToArray())
         End If
 
         startUp = True
@@ -74,30 +74,30 @@ Public Class frmMarketPrices
     Private Sub txtSearchPrices_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchPrices.TextChanged
         If Len(txtSearchPrices.Text) > 2 Then
             Dim strSearch As String = txtSearchPrices.Text.Trim.ToLower
-            Call Me.UpdatePriceMatrix(strSearch)
+            Call UpdatePriceMatrix(strSearch)
         End If
     End Sub
     Private Sub btnResetGrid_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetGrid.Click
         txtSearchPrices.Text = ""
-        Call Me.UpdatePriceMatrix("")
+        Call UpdatePriceMatrix("")
     End Sub
     Private Sub UpdatePriceMatrix(Optional ByVal search As String = "")
         ' Loads prices into the listview
         adtPrices.BeginUpdate()
         adtPrices.Nodes.Clear()
-        Dim lvItem As New Node
+        Dim lvItem As Node
         Dim itemID As Integer
-        Dim itemData As New EveItem
-        Dim price As Double = 0
+        Dim itemData As New EveType
+        Dim price As Double
         If chkShowOnlyCustom.Checked = True Then
             For Each itemID In HQ.CustomPriceList.Keys ' ID
-                itemData = HQ.itemData(CStr(itemID))
+                itemData = StaticData.Types(itemID)
                 If itemData.Name.ToLower.Contains(search) = True Then
                     If itemData.Published = True Then
                         lvItem = New Node
                         lvItem.Text = itemData.Name
                         lvItem.Name = CStr(itemID)
-                        lvItem.Cells.Add(New Cell(HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
+                        lvItem.Cells.Add(New Cell(StaticData.Types(itemID).BasePrice.ToString("N2")))
 
                         price = DataFunctions.GetPrice(itemID)
                         lvItem.Cells.Add(New Cell(price.ToInvariantString("N2")))
@@ -114,15 +114,15 @@ Public Class frmMarketPrices
             Next
         Else
             Dim itemCells As New Dictionary(Of String, Cell)
-            For Each item As String In HQ.itemList.Keys
+            For Each item As String In StaticData.TypeNames.Keys
                 If item.ToLower.Contains(search) = True Then
-                    itemID = CInt(HQ.itemList(item))
-                    If HQ.itemData.TryGetValue(CStr(itemID), itemData) = True Then
+                    itemID = StaticData.TypeNames(item)
+                    If StaticData.Types.TryGetValue(itemID, itemData) = True Then
                         If itemData.Published = True Then
                             lvItem = New Node
                             lvItem.Text = itemData.Name
-                            lvItem.Name = CStr(itemData.ID)
-                            lvItem.Cells.Add(New Cell(HQ.itemData(CStr(itemID)).BasePrice.ToString("N2")))
+                            lvItem.Name = CStr(itemData.Id)
+                            lvItem.Cells.Add(New Cell(StaticData.Types(itemID).BasePrice.ToString("N2")))
 
                             itemCells.Add(CStr(itemID), New Cell())
                             lvItem.Cells.Add(itemCells(CStr(itemID)))
@@ -262,7 +262,7 @@ Public Class frmMarketPrices
         End If
 
         'get the itemid needed for retrieval
-        Dim itemId As Integer = (From items In Core.HQ.itemData.Values Where items.Name = CStr(ComboBox1.SelectedItem) Select CInt(items.ID)).FirstOrDefault()
+        Dim itemId As Integer = (From items In StaticData.Types.Values Where items.Name = CStr(ComboBox1.SelectedItem) Select items.Id).FirstOrDefault()
 
         Dim orderTask As Task(Of ItemMarketOrders)
         Dim statstask As Task(Of IEnumerable(Of ItemOrderStats))

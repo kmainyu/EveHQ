@@ -169,7 +169,7 @@ Public Class DBCWSystem
                 Else
                     modName = wh.WEffect & " Effect Beacon Class " & wh.WClass
                 End If
-                'Dim SSun As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(EveHQ.Core.HQ.itemList(modName))
+                'Dim SSun As EveHQ.Core.EveItem = EveHQ.StaticData.Types(EveHQ.StaticData.TypeNames(modName))
                 lblAnomalyName.Text = wh.WEffect
                 ' Establish the effects
                 Dim effectList As New SortedList(Of String, Double)

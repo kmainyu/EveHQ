@@ -221,7 +221,7 @@ namespace EveHQ.EveData
         public static bool DataAvailable { get; set; }
 
         /// <summary>
-        /// Gets the attribute types.
+        /// Stores a collection of the available attribute types.
         /// </summary>
         public static SortedList<int, AttributeType> AttributeTypes // attributeID, AttributeType
         {
@@ -232,7 +232,7 @@ namespace EveHQ.EveData
         }
 
         /// <summary>
-        /// Gets the type attributes.
+        /// Holds the attributes for each EveType.
         /// </summary>
         public static List<TypeAttrib> TypeAttributes
         {
@@ -276,7 +276,7 @@ namespace EveHQ.EveData
         }
 
         /// <summary>
-        /// Gets the type names.
+        /// Stores a collection of type names as key, with typeIDs as values.
         /// </summary>
         public static SortedList<string, int> TypeNames // typeName, typeID
         {

@@ -124,8 +124,8 @@ Public Class frmTraining
         For Each cSkill As Core.EveSkill In Core.HQ.SkillListID.Values
             PreReqs = New SortedList(Of String, Integer)
             For Each preReqID As Integer In cSkill.PreReqSkills.Keys
-                If Core.HQ.itemData.ContainsKey(CStr(preReqID)) = True Then
-                    preReqName = CType(Core.HQ.itemData(CStr(preReqID)), Core.EveItem).Name
+                If StaticData.Types.ContainsKey(preReqID) = True Then
+                    preReqName = StaticData.Types(preReqID).Name
                     PreReqs.Add(preReqName, cSkill.PreReqSkills(preReqID))
                     If Core.SkillQueueFunctions.SkillDepends.ContainsKey(preReqName) = True Then
                         Depends = Core.SkillQueueFunctions.SkillDepends(preReqName)
@@ -140,8 +140,8 @@ Public Class frmTraining
         Next
         ' Add the category groups into the listview
         lvwDepend.Groups.Clear()
-        For Each cat As Integer In Core.HQ.itemCats.Keys
-            lvwDepend.Groups.Add("Cat" & cat, Core.HQ.itemCats(cat))
+        For Each cat As Integer In StaticData.TypeCats.Keys
+            lvwDepend.Groups.Add("Cat" & cat, StaticData.TypeCats(cat))
         Next
         lvwDepend.Groups.Add("CatCerts", "Certificates")
     End Sub
@@ -1632,8 +1632,8 @@ Public Class frmTraining
         With lvwDetails
             Dim mySkill As Core.EveHQPilotSkill
             Dim myGroup As Core.SkillGroup
-            If Core.HQ.itemGroups.ContainsKey(cSkill.GroupID) = True Then
-                Dim groupName As String = Core.HQ.itemGroups(cSkill.GroupID)
+            If StaticData.TypeGroups.ContainsKey(cSkill.GroupID) = True Then
+                Dim groupName As String = StaticData.TypeGroups(cSkill.GroupID)
                 If Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
                     myGroup = Core.HQ.SkillGroups(groupName)
                 Else
@@ -1808,9 +1808,9 @@ Public Class frmTraining
                     Dim newItem As New ListViewItem
                     Dim toolTipText As New StringBuilder
                     itemData = item.Split(CChar("_"))
-                    catID = Core.HQ.groupCats.Item(CInt(itemData(1)))
+                    catID = StaticData.GroupCats(CInt(itemData(1)))
                     newItem.Group = lvwDepend.Groups("Cat" & catID)
-                    newItem.Text = Core.HQ.itemData(itemData(0)).Name
+                    newItem.Text = StaticData.Types(CInt(itemData(0))).Name
                     newItem.Name = itemData(0)
                     newItem.Tag = itemData(0)
                     Dim skillUnlocked As List(Of String) = StaticData.ItemUnlocks(itemData(0))

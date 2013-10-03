@@ -19,15 +19,16 @@
 '=========================================================================
 Imports System.Data
 Imports DevComponents.AdvTree
+Imports EveHQ.EveData
 
 Public Class frmModifyPriceGroupItem
 
 	Dim ItemMarketGroups As New SortedList(Of String, String)
     Dim ParentMarketGroup As New SortedList(Of String, String) ' marketGroupID, parentGroupID
     Dim AdtPreparedItems As New AdvTree
-    Dim cSelectedItems As New SortedList(Of String, String) ' typeName, typeID
+    Dim cSelectedItems As New SortedList(Of String, Integer) ' typeName, typeID
 
-    Public ReadOnly Property SelectedItems As SortedList(Of String, String)
+    Public ReadOnly Property SelectedItems As SortedList(Of String, Integer)
         Get
             Return cSelectedItems
         End Get
@@ -154,15 +155,15 @@ Public Class frmModifyPriceGroupItem
     Private Sub UpdateSelectedItems()
         adtSelection.BeginUpdate()
         adtSelection.Nodes.Clear()
-        For Each ItemID As String In cSelectedItems.Values
-            Dim item As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(ItemID)
-            Dim itemNode As New DevComponents.AdvTree.Node
+        For Each itemID As Integer In cSelectedItems.Values
+            Dim item As EveType = StaticData.Types(itemID)
+            Dim itemNode As New Node
             itemNode.Text = item.Name
-            itemNode.Name = item.ID.ToString
+            itemNode.Name = item.Id.ToString
             ' Check if the item has been added to another price group, and hence is a conflict
             itemNode.Image = My.Resources.Tick
             For Each PG As EveHQ.Core.PriceGroup In EveHQ.Core.HQ.Settings.PriceGroups.Values
-                If PG.TypeIDs.Contains(item.ID.ToString) Then
+                If PG.TypeIDs.Contains(item.Id.ToString) Then
                     itemNode.Image = My.Resources.Cross
                     Exit For
                 End If
@@ -177,15 +178,15 @@ Public Class frmModifyPriceGroupItem
         adtSelection.EndUpdate()
     End Sub
 
-    Private Sub AddNodeToSelection(ANode As Node)
+    Private Sub AddNodeToSelection(aNode As Node)
         If ANode.HasChildNodes = True Then
-            For Each SNode As Node In ANode.Nodes
-                AddNodeToSelection(SNode)
+            For Each sNode As Node In aNode.Nodes
+                AddNodeToSelection(sNode)
             Next
         Else
             ' No child nodes therefore must be an item - but only add ones we don't have!
             If cSelectedItems.ContainsKey(ANode.Text) = False And ANode.Name.StartsWith("i") Then
-                cSelectedItems.Add(ANode.Text, ANode.Name.Remove(0, 1))
+                cSelectedItems.Add(ANode.Text, CInt(ANode.Name.Remove(0, 1)))
             End If
         End If
     End Sub

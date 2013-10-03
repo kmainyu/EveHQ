@@ -23,6 +23,7 @@ Imports System.Drawing
 Imports System.Text
 Imports System.Xml
 Imports System.Windows.Forms
+Imports EveHQ.EveData
 
 Public Class Reports
     Shared www As String = "http://www.evehq.net"
@@ -1186,7 +1187,7 @@ Public Class Reports
             If trainable = True Then
                 strHTML &= "<tr height=20px>"
                 strHTML &= "<td>" & skill.Name & "</td>"
-                strHTML &= "<td>" & HQ.itemGroups(skill.GroupID) & "</td>"
+                strHTML &= "<td>" & StaticData.TypeGroups(skill.GroupID) & "</td>"
                 strHTML &= "<td>" & skill.Rank & "</td>"
                 strHTML &= "</tr>"
             End If
@@ -2231,7 +2232,7 @@ Public Class Reports
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(HQ.itemData(CStr(cSkill.ID)).BasePrice) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(StaticData.Types(cSkill.ID).BasePrice) * 0.9).ToString("N0")
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
                     totalCost += CLng(repSkill(groupCount, CInt(skillCount), 4))
                 End If
@@ -2831,7 +2832,7 @@ Public Class Reports
             End If
 
             If trainable = True Then
-                strText.AppendLine(String.Format("{0,-45} {1,-29} {2,-5}", skill.Name, HQ.itemGroups(skill.GroupID), skill.Rank))
+                strText.AppendLine(String.Format("{0,-45} {1,-29} {2,-5}", skill.Name, StaticData.TypeGroups(skill.GroupID), skill.Rank))
             End If
         Next
 
@@ -3512,12 +3513,12 @@ Public Class Reports
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
-                    groupCost = CLng(groupCost + (CLng(HQ.itemData(CStr(cSkill.ID)).BasePrice) * 0.9))
+                    groupCost = CLng(groupCost + (CLng(StaticData.Types(cSkill.ID).BasePrice) * 0.9))
                     repSkill(groupCount, CInt(skillCount), 0) = CStr(cSkill.ID)
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(HQ.itemData(CStr(cSkill.ID)).BasePrice) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(StaticData.Types(cSkill.ID).BasePrice) * 0.9).ToString("N0")
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then
@@ -3620,12 +3621,12 @@ Public Class Reports
                 If cSkill.GroupID = cGroup.ID Then
                     skillCount += 1
                     SPCount += cSkill.SP
-                    groupCost = CLng(groupCost + (CLng(HQ.itemData(CStr(cSkill.ID)).BasePrice) * 0.9))
+                    groupCost = CLng(groupCost + (CLng(StaticData.Types(cSkill.ID).BasePrice) * 0.9))
                     repSkill(groupCount, CInt(skillCount), 0) = CStr(cSkill.ID)
                     repSkill(groupCount, CInt(skillCount), 1) = cSkill.Name
                     repSkill(groupCount, CInt(skillCount), 2) = CStr(cSkill.Rank)
                     repSkill(groupCount, CInt(skillCount), 3) = CStr(cSkill.SP)
-                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(HQ.itemData(CStr(cSkill.ID)).BasePrice) * 0.9).ToString("N0")
+                    repSkill(groupCount, CInt(skillCount), 4) = (CLng(StaticData.Types(cSkill.ID).BasePrice) * 0.9).ToString("N0")
                     repSkill(groupCount, CInt(skillCount), 5) = CStr(cSkill.Level)
 
                     If rpilot.Training = True Then

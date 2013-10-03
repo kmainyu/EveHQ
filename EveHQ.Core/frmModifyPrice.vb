@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms
+Imports EveHQ.EveData
 Imports EveHQ.Common.Extensions
 
 Public Class frmModifyPrice
@@ -45,7 +46,7 @@ Public Class frmModifyPrice
         End If
 
         ' Set the prices
-        lblBasePrice.Text = HQ.itemData(CStr(_itemID)).BasePrice.ToInvariantString("N2")
+        lblBasePrice.Text = StaticData.Types(_itemID).BasePrice.ToInvariantString("N2")
 
         lblMarketPrice.Text = DataFunctions.GetPrice(_itemID).ToInvariantString("N2")
 
@@ -56,13 +57,13 @@ Public Class frmModifyPrice
         End If
 
         If _editingPrice = False Then
-            Text = "Add Price - " & HQ.itemData(CStr(_itemID)).Name
+            Text = "Add Price - " & StaticData.Types(_itemID).Name
         Else
-            Text = "Modify Price - " & HQ.itemData(CStr(_itemID)).Name
+            Text = "Modify Price - " & StaticData.Types(_itemID).Name
         End If
 
         ' Set the default price if not zero
-        If defaultValue = 0 Then
+        If Math.Abs(defaultValue - 0) < 0.000001 Then
             txtNewPrice.Text = DataFunctions.GetPrice(_itemID).ToString()
         Else
             txtNewPrice.Text = defaultValue.ToString

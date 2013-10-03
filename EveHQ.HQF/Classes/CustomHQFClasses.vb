@@ -20,6 +20,7 @@
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports EveHQ.EveData
 Imports Newtonsoft.Json
 
 ''' <summary>
@@ -190,7 +191,7 @@ Public Class CustomHQFClasses
                 If neweffect.IsPerLevel = False Then
                     affectingName &= ";"
                 Else
-                    affectingName &= ";" & Core.HQ.itemData(neweffect.AffectingID.ToString).Name
+                    affectingName &= ";" & StaticData.Types(neweffect.AffectingID).Name
                 End If
                 cShip.ShipData.GlobalAffects.Add(affectingName)
             Next

@@ -21,6 +21,7 @@ Imports System.Windows.Forms
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
+Imports EveHQ.EveData
 Imports EveHQ.Core
 
 ''' <summary>
@@ -2749,7 +2750,7 @@ Imports EveHQ.Core
             ' Check for subsystem type restriction
             If CStr(shipMod.Attributes(Attributes.Module_FitsToShipType)) <> CStr(Me.BaseShip.ID) Then
                 If search = False Then
-                    MessageBox.Show("You cannot fit a subsystem module designed for a " & EveHQ.Core.HQ.itemData(CStr(shipMod.Attributes(Attributes.Module_FitsToShipType))).Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot fit a subsystem module designed for a " & StaticData.Types(CInt(shipMod.Attributes(Attributes.Module_FitsToShipType))).Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return False
             End If

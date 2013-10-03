@@ -283,7 +283,8 @@ Public Class DataFunctions
         Dim oReg, oSys, oStation As Long
         Dim oID, oRange, oVolEntered, oJumps As Long
         Dim oDuration As Integer
-        Dim oTypeID, oType, oMinVol, oVol As Long
+        Dim oTypeID As Integer
+        Dim oType, oMinVol, oVol As Long
         Dim oPrice As Double
         Dim avgBuy, avgSell, avgAll As Double
         Dim medBuy, medSell, medAll As Double
@@ -328,7 +329,7 @@ Public Class DataFunctions
             orderDetails = order.Split(",".ToCharArray)
             oPrice = Double.Parse(orderDetails(0).Trim, NumberStyles.Any, culture)
             oVol = CLng(orderDetails(1).Trim)
-            oTypeID = CLng(orderDetails(2).Trim)
+            oTypeID = CInt(orderDetails(2).Trim)
             oRange = CLng(orderDetails(3).Trim)
             oID = CLng(orderDetails(4).Trim)
             oVolEntered = CLng(orderDetails(5).Trim)
@@ -346,7 +347,7 @@ Public Class DataFunctions
             If oType = 0 Then ' Sell Order
                 If _
                     HQ.Settings.IgnoreSellOrders = True And
-                    oPrice > (HQ.Settings.IgnoreSellOrderLimit * HQ.itemData(oTypeID.ToString).BasePrice) Then
+                    oPrice > (HQ.Settings.IgnoreSellOrderLimit * StaticData.Types(oTypeID).BasePrice) Then
                     ProcessOrder = False
                 End If
             Else ' Buy Order

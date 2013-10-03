@@ -20,6 +20,7 @@
 
 Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports EveHQ.EveData
 
 Public Class frmShipEditorBonus
 
@@ -161,7 +162,7 @@ Public Class frmShipEditorBonus
         ' Update the role
         If cNewShipEffect.IsPerLevel = True Then
             radSkillBonus.Checked = True
-            cboSkill.SelectedItem = Core.HQ.itemData(cNewShipEffect.AffectingID.ToString).Name
+            cboSkill.SelectedItem = StaticData.Types(cNewShipEffect.AffectingID).Name
             cboSkill.Enabled = True
         Else
             radRole.Checked = True
@@ -218,15 +219,15 @@ Public Class frmShipEditorBonus
                     Case HQFEffectType.All
                         ' Nothing here?
                     Case HQFEffectType.Item
-                        newItem.Text = Core.HQ.itemData(id).Name
+                        newItem.Text = StaticData.Types(CInt(id)).Name
                     Case HQFEffectType.Group
-                        newItem.Text = Core.HQ.itemGroups(CInt(id))
+                        newItem.Text = StaticData.TypeGroups(CInt(id))
                     Case HQFEffectType.Category
-                        newItem.Text = Core.HQ.itemCats(CInt(id))
+                        newItem.Text = StaticData.TypeCats(CInt(id))
                     Case HQFEffectType.MarketGroup
                         newItem.Text = Market.MarketGroupPath(id).ToString.Replace("&", "&&")
                     Case HQFEffectType.Skill
-                        newItem.Text = Core.HQ.itemData(id).Name
+                        newItem.Text = StaticData.Types(CInt(id)).Name
                     Case HQFEffectType.Slot
                         ' Not supported!!
                     Case HQFEffectType.Attribute
@@ -377,10 +378,10 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each newGroup As Integer In Core.HQ.itemGroups.Keys
+                For Each newGroup As Integer In StaticData.TypeGroups.Keys
                     Dim newNode As New DevComponents.AdvTree.Node
                     newNode.NodesIndent = 0
-                    newNode.Text = Core.HQ.itemGroups(newGroup)
+                    newNode.Text = StaticData.TypeGroups(newGroup)
                     newNode.Name = newGroup.ToString
                     cboItems.Nodes.Add(newNode)
                 Next
@@ -393,10 +394,10 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each newCat As Integer In Core.HQ.itemCats.Keys
+                For Each newCat As Integer In StaticData.TypeCats.Keys
                     Dim newNode As New Node
                     newNode.NodesIndent = 0
-                    newNode.Text = Core.HQ.itemCats(newCat)
+                    newNode.Text = StaticData.TypeCats(newCat)
                     newNode.Name = newCat.ToString
                     cboItems.Nodes.Add(newNode)
                 Next

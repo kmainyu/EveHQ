@@ -20,6 +20,7 @@
 Imports System.ComponentModel
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports EveHQ.EveData
 Imports EveHQ.Core
 Imports DevComponents.AdvTree
 
@@ -224,12 +225,12 @@ Public Class ShipSlotControl
         ' Get the base ship ID, for custom ships, this will need to be the hull on which the custom ship is based on
         ' Fixes EVEHQ-178
         Dim baseShipID As String = ""
-        If HQ.itemData.ContainsKey(ParentFitting.BaseShip.ID) Then
+        If StaticData.Types.ContainsKey(CInt(ParentFitting.BaseShip.ID)) Then
             baseShipID = ParentFitting.BaseShip.ID
         Else
             If CustomHQFClasses.CustomShipIDs.ContainsKey(ParentFitting.BaseShip.ID) Then
-                If EveHQ.Core.HQ.itemList.ContainsKey(CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).BaseShipName) Then
-                    baseShipID = EveHQ.Core.HQ.itemList(CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).BaseShipName)
+                If StaticData.TypeNames.ContainsKey(CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).BaseShipName) Then
+                    baseShipID = CStr(StaticData.TypeNames(CustomHQFClasses.CustomShips(CustomHQFClasses.CustomShipIDs(ParentFitting.BaseShip.ID)).BaseShipName))
                 End If
             End If
         End If

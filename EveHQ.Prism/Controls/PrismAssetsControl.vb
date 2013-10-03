@@ -737,10 +737,10 @@ Public Class PrismAssetsControl
                                 If StaticData.Types.ContainsKey(itemID) Then
                                     itemData = StaticData.Types(itemID)
                                     itemName = itemData.Name
-                                    groupName = Core.HQ.itemGroups(itemData.Group)
+                                    groupName = StaticData.TypeGroups(itemData.Group)
                                     groupID = itemData.Group
                                     catID = itemData.Category
-                                    catName = Core.HQ.itemCats(itemData.Category)
+                                    catName = StaticData.TypeCats(itemData.Category)
                                     metaLevel = StaticData.Types(itemID).MetaLevel.ToString
                                     If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
@@ -953,8 +953,8 @@ Public Class PrismAssetsControl
                     itemName = ItemData.Name
                     groupID = ItemData.Group
                     catID = ItemData.Category
-                    groupName = Core.HQ.itemGroups(ItemData.Group)
-                    catName = Core.HQ.itemCats(ItemData.Category)
+                    groupName = StaticData.TypeGroups(ItemData.Group)
+                    catName = StaticData.TypeCats(ItemData.Category)
                     metaLevel = StaticData.Types(ItemID).MetaLevel.ToString
                     If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
                         If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
@@ -966,7 +966,7 @@ Public Class PrismAssetsControl
                         volume = (StaticData.Types(ItemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
                     End If
                 Else
-                     ' Can't find the item in the database
+                    ' Can't find the item in the database
                     itemName = "ItemID: " & ItemID.ToString
                     groupName = "Unknown"
                     catName = "Unknown"
@@ -1301,8 +1301,8 @@ Public Class PrismAssetsControl
                     If StaticData.Types.ContainsKey(ownerOrder.TypeID) = True Then
                         Dim orderItem As EveType = StaticData.Types(ownerOrder.TypeID)
                         ItemName = orderItem.Name
-                        category = Core.HQ.itemCats(orderItem.Category)
-                        group = Core.HQ.itemGroups(orderItem.Group)
+                        category = StaticData.TypeCats(orderItem.Category)
+                        group = StaticData.TypeGroups(orderItem.Group)
                         meta = orderItem.MetaLevel.ToString
                         vol = orderItem.Volume.ToString
                     Else
@@ -1459,8 +1459,8 @@ Public Class PrismAssetsControl
                         RNode.Tag = Job.InstalledItemTypeID.ToString
 
                         Dim ResearchItem As EveType = StaticData.Types(Job.InstalledItemTypeID)
-                        category = Core.HQ.itemCats(ResearchItem.Category)
-                        group = Core.HQ.itemGroups(ResearchItem.Group)
+                        category = StaticData.TypeCats(ResearchItem.Category)
+                        group = StaticData.TypeGroups(ResearchItem.Group)
                         ' Check for search criteria
                         If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And ResearchItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
                             ResearchNode.Nodes.Add(RNode)
@@ -1530,8 +1530,8 @@ Public Class PrismAssetsControl
         Dim ResearchItem As EveType = StaticData.Types(Job.OutputTypeID)
         Dim category, group As String
         Dim EveLocation As SolarSystem
-        category = Core.HQ.itemCats(ResearchItem.Category)
-        group = Core.HQ.itemGroups(ResearchItem.Group)
+        category = StaticData.TypeCats(ResearchItem.Category)
+        group = StaticData.TypeGroups(ResearchItem.Group)
         ' Check for search criteria
         If Not ((filters.Count > 0 And catFilters.Contains(category) = False And groupFilters.Contains(group) = False) Or (searchText <> "" And ResearchItem.Name.ToLower.Contains(searchText.ToLower) = False)) Then
             ResearchNode.Nodes.Add(RNode)
@@ -1626,8 +1626,8 @@ Public Class PrismAssetsControl
                             If StaticData.Types.ContainsKey(typeID) = True Then
                                 Dim orderItem As EveType = StaticData.Types(typeID)
                                 ItemName = orderItem.Name
-                                category = Core.HQ.itemCats(orderItem.Category)
-                                group = Core.HQ.itemGroups(orderItem.Group)
+                                category = StaticData.TypeCats(orderItem.Category)
+                                group = StaticData.TypeGroups(orderItem.Group)
                                 meta = orderItem.MetaLevel.ToString
                                 vol = orderItem.Volume.ToString
                             Else
@@ -2098,18 +2098,18 @@ Public Class PrismAssetsControl
         tvwFilter.BeginUpdate()
         tvwFilter.Nodes.Clear()
         ' Load up the filter with categories
-        For Each cat As Integer In Core.HQ.itemCats.Keys
+        For Each cat As Integer In StaticData.TypeCats.Keys
             newNode = New TreeNode
             newNode.Name = CStr(cat)
-            newNode.Text = Core.HQ.itemCats(cat)
+            newNode.Text = StaticData.TypeCats(cat)
             tvwFilter.Nodes.Add(newNode)
         Next
         ' Load up the filter with groups
-        For Each group As Integer In Core.HQ.itemGroups.Keys
+        For Each group As Integer In StaticData.TypeGroups.Keys
             newNode = New TreeNode
             newNode.Name = CStr(group)
-            newNode.Text = CStr(Core.HQ.itemGroups(group))
-            tvwFilter.Nodes(Core.HQ.groupCats(CInt(newNode.Name))).Nodes.Add(newNode)
+            newNode.Text = CStr(StaticData.TypeGroups(group))
+            tvwFilter.Nodes(StaticData.GroupCats(CInt(newNode.Name))).Nodes.Add(newNode)
         Next
         ' Update the filter
         tvwFilter.Sorted = True
@@ -2414,15 +2414,15 @@ Public Class PrismAssetsControl
     Private Sub mnuAddGroupToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddGroupToFilter.Click
         Dim ItemID As Integer = CInt(mnuItemName.Tag)
         Dim ItemData As EveType = StaticData.Types(ItemID)
-        Dim groupName As String = Core.HQ.itemGroups(ItemData.Group)
-        Dim catName As String = Core.HQ.itemCats(ItemData.Category)
+        Dim groupName As String = StaticData.TypeGroups(ItemData.Group)
+        Dim catName As String = StaticData.TypeCats(ItemData.Category)
         Dim FullPath As String = catName & "\" & groupName
         Call SetFilterFromMenu(FullPath, True, groupName)
     End Sub
     Private Sub mnuAddCategoryToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCategoryToFilter.Click
         Dim ItemID As Integer = CInt(mnuItemName.Tag)
         Dim ItemData As EveType = StaticData.Types(ItemID)
-        Dim FullPath As String = Core.HQ.itemCats(ItemData.Category)
+        Dim FullPath As String = StaticData.TypeCats(ItemData.Category)
         Call SetFilterFromMenu(FullPath, False, FullPath)
     End Sub
     Private Sub SetFilterFromMenu(ByVal FullPath As String, ByVal AddGroup As Boolean, ByVal FilterName As String)

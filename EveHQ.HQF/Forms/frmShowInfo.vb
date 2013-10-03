@@ -21,6 +21,7 @@ Option Strict Off
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.IO
+Imports EveHQ.EveData
 
 
 Public Class frmShowInfo
@@ -352,12 +353,12 @@ Public Class frmShowInfo
                 Select Case attData.UnitName
                     Case "typeID"
                         If stdItem.Attributes.Item(att).ToString <> "0" Then
-                            newItem.SubItems.Add(Core.HQ.itemData(stdItem.Attributes.Item(att).ToString).Name)
+                            newItem.SubItems.Add(StaticData.Types(stdItem.Attributes.Item(att)).Name)
                         Else
                             newItem.SubItems.Add("n/a")
                         End If
                     Case "groupID"
-                        newItem.SubItems.Add(Core.HQ.itemGroups(stdItem.Attributes.Item(att).ToString))
+                        newItem.SubItems.Add(StaticData.TypeGroups(stdItem.Attributes.Item(att)))
                     Case Else
                         If stdItem.Attributes.ContainsKey(att) = True Then
                             newItem.SubItems.Add(stdItem.Attributes.Item(att) & " " & attData.UnitName)
@@ -369,12 +370,12 @@ Public Class frmShowInfo
                 Select Case attData.UnitName
                     Case "typeID"
                         If stdShip.Attributes.Item(att).ToString <> "0" Then
-                            newItem.SubItems.Add(Core.HQ.itemData(stdShip.Attributes.Item(att).ToString).Name)
+                            newItem.SubItems.Add(StaticData.Types(stdShip.Attributes.Item(att)).Name)
                         Else
                             newItem.SubItems.Add("n/a")
                         End If
                     Case "groupID"
-                        newItem.SubItems.Add(Core.HQ.itemGroups(stdShip.Attributes.Item(att).ToString))
+                        newItem.SubItems.Add(StaticData.TypeGroups(stdShip.Attributes.Item(att)))
                     Case Else
                         If stdShip.Attributes.ContainsKey(att) = True Then
                             newItem.SubItems.Add(stdShip.Attributes.Item(att) & " " & attData.UnitName)
@@ -387,13 +388,13 @@ Public Class frmShowInfo
                 Case "typeID"
                     If itemObject.Attributes.Item(att).ToString <> "0" Then
                         newItem.UseItemStyleForSubItems = False
-                        itemData = Core.HQ.itemData(itemObject.Attributes.Item(att).ToString).Name
+                        itemData = StaticData.Types(itemObject.Attributes.Item(att).ToString).Name
                     Else
                         itemData = "n/a"
                         newItem.SubItems.Add("n/a")
                     End If
                 Case "groupID"
-                    itemData = Core.HQ.itemGroups(itemObject.Attributes.Item(att).ToString)
+                    itemData = StaticData.TypeGroups(itemObject.Attributes.Item(att).ToString)
                 Case Else
 
                     itemData = itemObject.Attributes.Item(att) & " " & attData.UnitName

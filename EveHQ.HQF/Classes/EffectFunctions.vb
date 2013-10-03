@@ -20,6 +20,7 @@
 
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports EveHQ.EveData
 
 Public Class EffectFunctions
 
@@ -56,25 +57,25 @@ Public Class EffectFunctions
 
         ' Create a SortedList to use to group skills etc
         ' Use key of "0" to identify roles
-        Dim Bonuses As New SortedList(Of String, List(Of ShipEffect))
+        Dim Bonuses As New SortedList(Of Integer, List(Of ShipEffect))
         Dim BonusGroup As New List(Of ShipEffect)
         For Each bonus As ShipEffect In ShipBonuses
             ' Check if the bonus group already exists - create it if it doesn't
-            If Bonuses.ContainsKey(bonus.AffectingID.ToString) = False Then
+            If Bonuses.ContainsKey(bonus.AffectingID) = False Then
                 BonusGroup = New List(Of ShipEffect)
-                Bonuses.Add(bonus.AffectingID.ToString, BonusGroup)
+                Bonuses.Add(bonus.AffectingID, BonusGroup)
             Else
-                BonusGroup = Bonuses(bonus.AffectingID.ToString)
+                BonusGroup = Bonuses(bonus.AffectingID)
             End If
             ' Add the bonus to the bonus group
             BonusGroup.Add(bonus)
         Next
 
         ' Go through the bonus groups and parse the data as a string description
-        For Each BonusSkill As String In Bonuses.Keys
-            BonusGroup = Bonuses(BonusSkill)
+        For Each bonusSkill As Integer In Bonuses.Keys
+            BonusGroup = Bonuses(bonusSkill)
             ' Write the skill if not zero, or "role bonus" if so
-            If BonusSkill = "0" Then
+            If bonusSkill = 0 Then
                 If BonusGroup.Count = 1 Then
                     BonusDescription.AppendLine("Role Bonus:")
                 Else
@@ -82,11 +83,11 @@ Public Class EffectFunctions
                 End If
             Else
                 ' Get the skill name
-                Dim Skill As Core.EveItem = Core.HQ.itemData(BonusSkill)
+                Dim skill As EveType = StaticData.Types(bonusSkill)
                 If BonusGroup.Count = 1 Then
-                    BonusDescription.AppendLine(Skill.Name & " Skill Bonus:")
+                    BonusDescription.AppendLine(skill.Name & " Skill Bonus:")
                 Else
-                    BonusDescription.AppendLine(Skill.Name & " Skill Bonuses:")
+                    BonusDescription.AppendLine(skill.Name & " Skill Bonuses:")
                 End If
             End If
 
@@ -141,7 +142,7 @@ Public Class EffectFunctions
                             Else
                                 Dim ItemList As New List(Of String)
                                 For Each ID As String In IDs
-                                    ItemList.Add(Core.HQ.itemData(ID).Name.Trim)
+                                    ItemList.Add(StaticData.Types(CInt(ID)).Name.Trim)
                                 Next
                                 Desc.Append(" of " & ParseStringListToProperText(ItemList, True))
                             End If
@@ -154,7 +155,7 @@ Public Class EffectFunctions
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
                             For Each ID As String In IDs
-                                ItemList.Add(Core.HQ.itemGroups(CInt(ID)).Trim)
+                                ItemList.Add(StaticData.TypeGroups(CInt(ID)).Trim)
                             Next
                             Desc.Append(" of " & ParseStringListToProperText(ItemList, True))
                         Else
@@ -166,7 +167,7 @@ Public Class EffectFunctions
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
                             For Each ID As String In IDs
-                                ItemList.Add(Core.HQ.itemCats(CInt(ID)).Trim)
+                                ItemList.Add(StaticData.TypeCats(CInt(ID)).Trim)
                             Next
                             Desc.Append(" of " & ParseStringListToProperText(ItemList, True))
                         Else
@@ -197,7 +198,7 @@ Public Class EffectFunctions
                         If IDs.Count > 0 Then
                             Dim ItemList As New List(Of String)
                             For Each ID As String In IDs
-                                ItemList.Add(Core.HQ.itemData(ID).Name.Trim)
+                                ItemList.Add(StaticData.Types(CInt(ID)).Name.Trim)
                             Next
                             Desc.Append(" of items requiring the " & ParseStringListToProperText(ItemList, False) & " skill")
                             If IDs.Count > 1 Then Desc.Append("s")
@@ -225,7 +226,7 @@ Public Class EffectFunctions
                 End Select
 
                 ' Check if this is per level, ignore for a role bonus
-                If BonusSkill <> "0" Then
+                If bonusSkill <> 0 Then
                     Desc.Append(" per level")
                 End If
 

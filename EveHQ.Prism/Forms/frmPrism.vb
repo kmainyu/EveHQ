@@ -4362,7 +4362,6 @@ Public Class frmPrism
                             End If
                         Next
                         ' Should have our list of assets now so let's compare them
-                        Dim item As New EveHQ.Core.EveItem
                         For Each assetID As Integer In Assets.Keys
                             ' See if the assetID already exists for the owner
                             If ownerBPs.ContainsKey(assetID) = True Then
@@ -4387,7 +4386,7 @@ Public Class frmPrism
 
                 ' Update the owner list if the option requires it
                 If chkShowOwnedBPs.Checked = True Then
-                    Call Me.UpdateOwnerBPList()
+                    Call UpdateOwnerBPList()
                 End If
 
             End If

@@ -117,10 +117,10 @@ Public Class DBCMarketOrders
                         If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
                             Dim sOrder As New ListViewItem
                             clvSellOrders.Items.Add(sOrder)
-                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-                            Dim itemName As String = ""
-                            If HQ.itemData.ContainsKey(itemID) = True Then
-                                itemName = HQ.itemData(itemID).Name
+                            Dim itemID As Integer = CInt(Order.Attributes.GetNamedItem("typeID").Value)
+                            Dim itemName As String
+                            If StaticData.Types.ContainsKey(itemID) = True Then
+                                itemName = StaticData.Types(itemID).Name
                             Else
                                 itemName = "Unknown Item ID:" & itemID
                             End If
@@ -153,10 +153,10 @@ Public Class DBCMarketOrders
                         ElseIf Order.Attributes.GetNamedItem("orderState").Value = "2" Then
                             Dim sOrder As New ListViewItem
                             clvRecentlySold.Items.Add(sOrder)
-                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-                            Dim itemName As String = ""
-                            If HQ.itemData.ContainsKey(itemID) = True Then
-                                itemName = HQ.itemData(itemID).Name
+                            Dim itemID As Integer = CInt(Order.Attributes.GetNamedItem("typeID").Value)
+                            Dim itemName As String
+                            If StaticData.Types.ContainsKey(itemID) = True Then
+                                itemName = StaticData.Types(itemID).Name
                             Else
                                 itemName = "Unknown Item ID:" & itemID
                             End If
@@ -177,11 +177,10 @@ Public Class DBCMarketOrders
                         If Order.Attributes.GetNamedItem("orderState").Value = "0" Then
                             Dim bOrder As New ListViewItem
                             clvBuyOrders.Items.Add(bOrder)
-                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-
-                            Dim itemName As String = ""
-                            If HQ.itemData.ContainsKey(itemID) = True Then
-                                itemName = HQ.itemData(itemID).Name
+                            Dim itemID As Integer = CInt(Order.Attributes.GetNamedItem("typeID").Value)
+                            Dim itemName As String
+                            If StaticData.Types.ContainsKey(itemID) = True Then
+                                itemName = StaticData.Types(itemID).Name
                             Else
                                 itemName = "Unknown Item ID:" & itemID
                             End If
@@ -216,10 +215,10 @@ Public Class DBCMarketOrders
                         ElseIf Order.Attributes.GetNamedItem("orderState").Value = "2" Then
                             Dim bOrder As New ListViewItem
                             clvRecentlyBought.Items.Add(bOrder)
-                            Dim itemID As String = Order.Attributes.GetNamedItem("typeID").Value
-                            Dim itemName As String = ""
-                            If HQ.itemData.ContainsKey(itemID) = True Then
-                                itemName = HQ.itemData(itemID).Name
+                            Dim itemID As Integer = CInt(Order.Attributes.GetNamedItem("typeID").Value)
+                            Dim itemName As String
+                            If StaticData.Types.ContainsKey(itemID) = True Then
+                                itemName = StaticData.Types(itemID).Name
                             Else
                                 itemName = "Unknown Item ID:" & itemID
                             End If

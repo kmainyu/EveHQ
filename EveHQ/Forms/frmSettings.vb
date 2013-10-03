@@ -2285,7 +2285,7 @@ Public Class frmSettings
 
     Private Sub UpdateItemOverrideControls()
         If (_itemOverrideItemList.Items.Count = 0) Then
-            _itemOverrideItemList.Items.AddRange((From item In Core.HQ.itemData.Values Where item.MarketGroup <> 0 Select item.Name).ToArray())
+            _itemOverrideItemList.Items.AddRange((From item In StaticData.Types.Values Where item.MarketGroupId <> 0 Select item.Name).ToArray())
         End If
 
         'set radio buttons to defaults
@@ -2333,7 +2333,7 @@ Public Class frmSettings
         Dim itemId As Integer
         Dim activeStat As MarketMetric = HQ.Settings.MarketDefaultMetric
         Dim activeTransactionType As MarketTransactionKind = HQ.Settings.MarketDefaultTransactionType
-        If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item)) And Integer.TryParse(item, itemId) Then
+        If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) And Integer.TryParse(item, itemId) Then
 
             ' see if the item is in the override list, otherwise set values to default
             Dim itemOverride As New ItemMarketOverride
@@ -2354,12 +2354,10 @@ Public Class frmSettings
 
     End Sub
 
-
     Private Sub OnAddUpdateItemOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideAddOverride.Click
         Dim item As String = ""
         Dim itemID As Integer
-
-
+        
         If _itemOverrideItemList Is Nothing Then
             Return
         End If
@@ -2368,15 +2366,13 @@ Public Class frmSettings
             Return
         End If
 
-
-        If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item) = False) Or (Integer.TryParse(item, itemID) = False) Then
+        If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Or (Integer.TryParse(item, itemID) = False) Then
             Return 'not a real item
         End If
 
         Dim override As New ItemMarketOverride()
         override.ItemId = itemID
-
-
+        
         If (_itemOverrideAllOrders.Checked) Then
             override.TransactionType = MarketTransactionKind.All
         ElseIf _itemOverrideBuyOrders.Checked Then
@@ -2422,17 +2418,17 @@ Public Class frmSettings
             Return
         End If
 
-        If HQ.itemData Is Nothing Then
+        If StaticData.Types Is Nothing Then
             Return
         End If
 
-        If (HQ.itemData.Count = 0) Then
+        If (StaticData.Types.Count = 0) Then
             Return
         End If
 
         For Each override As ItemMarketOverride In HQ.Settings.MarketStatOverrides.Values
             Dim node As New Node()
-            node.Text = HQ.itemData(override.ItemId.ToInvariantString).Name
+            node.Text = StaticData.Types(CInt(override.ItemId.ToInvariantString)).Name
             node.Cells.Add(New Cell(override.ItemId.ToInvariantString))
             node.Cells.Add(New Cell(override.TransactionType.ToString))
             node.Cells.Add(New Cell(override.MarketStat.ToString))
@@ -2456,7 +2452,7 @@ Public Class frmSettings
             Return
         End If
 
-        If (HQ.itemList.TryGetValue(_itemOverrideItemList.SelectedItem.ToString, item) = False) Or (Integer.TryParse(item, itemID) = False) Then
+        If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Or (Integer.TryParse(item, itemID) = False) Then
             Return 'not a real item
         End If
 

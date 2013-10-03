@@ -69,8 +69,8 @@ Public Class frmSkillDetails
         With lvwDetails
             Dim mySkill As Core.EveHQPilotSkill
             Dim myGroup As Core.SkillGroup
-            If Core.HQ.itemGroups.ContainsKey(cSkill.GroupID) = True Then
-                Dim groupName As String = Core.HQ.itemGroups(cSkill.GroupID)
+            If StaticData.TypeGroups.ContainsKey(cSkill.GroupID) = True Then
+                Dim groupName As String = StaticData.TypeGroups(cSkill.GroupID)
                 If Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
                     myGroup = Core.HQ.SkillGroups(groupName)
                 Else
@@ -217,7 +217,7 @@ Public Class frmSkillDetails
             End If
         End If
         curNode.Nodes.Add(newNode)
-        
+
         If newSkill.PreReqSkills.Count > 0 Then
             Dim subSkill As Core.EveSkill
             For Each subSkillID As Integer In newSkill.PreReqSkills.Keys
@@ -246,9 +246,9 @@ Public Class frmSkillDetails
                     Dim toolTipText As New StringBuilder
 
                     itemData = item.Split(CChar("_"))
-                    catID = Core.HQ.groupCats.Item(CInt(itemData(1)))
+                    catID = StaticData.GroupCats.Item(CInt(itemData(1)))
                     newItem.Group = lvwDepend.Groups("Cat" & catID)
-                    newItem.Text = Core.HQ.itemData(itemData(0)).Name
+                    newItem.Text = StaticData.Types(CInt(itemData(0))).Name
                     newItem.Name = itemData(0)
                     Dim skillUnlocked As List(Of String) = StaticData.ItemUnlocks(itemData(0))
                     Dim allTrained As Boolean = True
@@ -554,8 +554,8 @@ Public Class frmSkillDetails
 
         ' Add the category groups into the listview
         lvwDepend.Groups.Clear()
-        For Each cat As Integer In Core.HQ.itemCats.Keys
-            lvwDepend.Groups.Add("Cat" & cat, Core.HQ.itemCats(cat))
+        For Each cat As Integer In StaticData.TypeCats.Keys
+            lvwDepend.Groups.Add("Cat" & cat, StaticData.TypeCats(cat))
         Next
         lvwDepend.Groups.Add("CatCerts", "Certificates")
 
