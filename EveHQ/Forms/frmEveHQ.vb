@@ -1518,7 +1518,7 @@ Public Class frmEveHQ
         RunPlugInButton.Refresh()
         plugInInfo.Status = EveHQPlugInStatus.Loading
         Try
-            Dim PlugInResponse As String = ""
+            Dim PlugInResponse As String
             PlugInResponse = runPlugIn.EveHQStartUp().ToString
             If CBool(PlugInResponse) = False Then
                 LoadPlugInButton.Enabled = True

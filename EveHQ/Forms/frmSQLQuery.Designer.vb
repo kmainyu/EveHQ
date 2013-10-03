@@ -401,7 +401,6 @@
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.Name = "FrmSQLQuery"
             Me.Text = "EveHQ Database Query Tool"
-            Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
             Me.panelText.ResumeLayout(False)
             Me.panelText.PerformLayout()
             CType(Me.dgvQuery, System.ComponentModel.ISupportInitialize).EndInit()
