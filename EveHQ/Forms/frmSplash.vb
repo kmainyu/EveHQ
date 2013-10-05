@@ -38,7 +38,7 @@ Public Class frmSplash
     Dim _itemsLoaded As Boolean = False
     Dim _messageLoaded As Boolean = False
 
-    Private Sub frmSplash_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Private Sub frmSplash_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
 
         ' Force primary thread into UK english
         Application.CurrentCulture = CultureInfo.GetCultureInfo("en-GB")
@@ -243,13 +243,16 @@ Public Class frmSplash
         Core.HQ.WriteLogEvent("End: Set EveHQ backup directory")
 
         ' Convert the settings if relevant
+        ' Relevance of settings conversion is based on existence of EveHQSettings.bin file - may want to add other conditions
         Core.HQ.WriteLogEvent("Start: Checking settings files")
         If My.Computer.FileSystem.FileExists(Path.Combine(Core.HQ.AppDataFolder, "EveHQSettings.bin")) = True Then
             Core.HQ.WriteLogEvent("Start: Converting settings files")
-            Dim esc As New Settings.Converter
-            esc.ConvertEveHQSettings(Core.HQ.AppDataFolder)
+            lblStatus.Text = "> Converting EveHQ settings..."
+            lblStatus.Refresh()
+            ConvertSettings(_isLocal, Core.HQ.AppDataFolder)
             Core.HQ.WriteLogEvent("End: Converting settings files")
         End If
+
         Core.HQ.WriteLogEvent("End: Checking settings files")
 
         ' Load user settings - this is needed to work out data connection type & update requirements
@@ -259,7 +262,7 @@ Public Class frmSplash
         Core.EveHQSettings.Load(False)
         Core.HQ.WriteLogEvent("End: Loading settings")
 
-       ' Check for Widgets
+        ' Check for Widgets
         Core.HQ.WriteLogEvent("Start: Enumerate widgets")
         lblStatus.Text = "> Enumerating Widgets..."
         lblStatus.Refresh()
@@ -298,7 +301,7 @@ Public Class frmSplash
 
         ' Force DBDataDirectory location if using SQL CE
         Core.HQ.WriteLogEvent("Start: Set data directory")
-        Core.HQ.Settings.CustomDBFilename = Path.Combine(Core.HQ.AppDataFolder, "EveHQData.db3")
+        Core.HQ.Settings.CustomDBFileName = Path.Combine(Core.HQ.AppDataFolder, "EveHQData.db3")
         Call Core.CustomDataFunctions.SetEveHQDataConnectionString()
         Core.HQ.WriteLogEvent("End: Set data directory")
 
@@ -415,6 +418,44 @@ Public Class frmSplash
 
     End Sub
 
+    Private Sub ConvertSettings(useLocalSwitch As Boolean, settingsFolder As String)
+
+        Dim oldSettings As Core.EveSettings
+        Dim arguments As New StringBuilder
+        Dim externalApp As New ProcessStartInfo
+        externalApp.FileName = Path.Combine(Application.StartupPath, "EveHQ.SettingsConverter.exe")
+
+        ' Load up the old settings file to see if we can grab some info
+        If My.Computer.FileSystem.FileExists(Path.Combine(settingsFolder, "EveHQSettings.bin")) = True Then
+            Using s As New FileStream(Path.Combine(settingsFolder, "EveHQSettings.bin"), FileMode.Open)
+                Dim f As New Runtime.Serialization.Formatters.Binary.BinaryFormatter
+                oldSettings = CType(f.Deserialize(s), Core.EveSettings)
+            End Using
+
+            ' Build the command line arguments
+            If useLocalSwitch = True Then
+                arguments.Append("/local")
+            End If
+            arguments.Append(" /dbformat;" & CStr(oldSettings.DBFormat))
+            arguments.Append(" /dbserver;" & oldSettings.DBServer)
+            arguments.Append(" /dbname;" & oldSettings.DBServer)
+            If oldSettings.DBSQLSecurity = True Then
+                arguments.Append(" /dbsqlsec;1")
+            Else
+                arguments.Append(" /dbsqlsec;0")
+            End If
+            arguments.Append(" /dbusername;" & oldSettings.DBUsername)
+            arguments.Append(" /dbpassword;" & oldSettings.DBPassword)
+        End If
+        externalApp.Arguments = arguments.ToString
+
+        ' Start the process and wait until it has finished
+        Using newProcess As Process = Process.Start(externalApp)
+            newProcess.WaitForExit()
+        End Using
+      
+    End Sub
+
     Private Sub LoadItemData(state As Object)
 
         ' Load data from the core cache
@@ -438,7 +479,7 @@ Public Class frmSplash
                                 Dim myPlugIn As Core.IEveHQPlugIn = CType(Activator.CreateInstance(t), Core.IEveHQPlugIn)
                                 Dim eveHQPlugIn As Core.EveHQPlugIn = myPlugIn.GetEveHQPlugInInfo
                                 eveHQPlugIn.FileName = filename
-                                Dim fi As New IO.FileInfo(filename)
+                                Dim fi As New FileInfo(filename)
                                 eveHQPlugIn.ShortFileName = fi.Name
                                 eveHQPlugIn.FileType = t.FullName
                                 eveHQPlugIn.Version = myAssembly.GetName.Version.ToString
@@ -483,7 +524,7 @@ Public Class frmSplash
             If myType.BaseType.Name = "Widget" Then
                 ' Get the control name based on the property of an instance of the control
                 Dim myInstance As Control = CType(Activator.CreateInstance(myType), Control)
-                Dim pi As System.Reflection.PropertyInfo = myType.GetProperty("ControlName")
+                Dim pi As PropertyInfo = myType.GetProperty("ControlName")
                 Dim myControlName As String = pi.GetValue(myInstance, Nothing).ToString
                 Core.HQ.Widgets.Add(myControlName, myType.FullName)
                 myInstance.Dispose()

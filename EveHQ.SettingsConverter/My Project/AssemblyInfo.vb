@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("EveHQ.Settings")> 
+<Assembly: AssemblyTitle("EveHQ.SettingsConverter")> 
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("EveHQ.Settings")> 
+<Assembly: AssemblyProduct("EveHQ.SettingsConverter")> 
 <Assembly: AssemblyCopyright("Copyright ©  2013")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("c71e4aa3-40fb-4b8f-914b-3cf79cbc97ea")> 
+<Assembly: Guid("ecc0330b-3fa5-4d54-b7c4-72b345844ce3")> 
 
 ' Version information for an assembly consists of the following four values:
 '

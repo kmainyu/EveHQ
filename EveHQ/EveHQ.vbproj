@@ -790,10 +790,6 @@
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
       <Name>EveHQ.Market</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EveHQ.Settings\EveHQ.Settings.vbproj">
-      <Project>{981B7C74-F013-4F90-90B9-38CF17D0E3D4}</Project>
-      <Name>EveHQ.Settings</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon09_09_grey.png" />

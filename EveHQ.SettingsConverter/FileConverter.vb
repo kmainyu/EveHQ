@@ -1,10 +1,10 @@
 ﻿Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports System.ComponentModel
 Imports EveHQ.Prism.BPCalc
 Imports Newtonsoft.Json
 Imports System.Xml
-Imports System.Web
 Imports System.Globalization
 Imports EveHQ.Core
 Imports EveHQ.Prism
@@ -14,26 +14,31 @@ Imports EveHQ.HQF
 ''' Converts the old settings format into the new one
 ''' </summary>
 ''' <remarks></remarks>
-Public Class Converter
+Public Class FileConverter
 
+    Private ReadOnly _settingsFolder As String
     Private _newSettings As EveHQSettings
 
-    Public Sub New()
+    Private ReadOnly _worker As BackgroundWorker
+
+    Public Sub New(worker As BackgroundWorker, settingsFolder As String)
+        _worker = worker
+        _settingsFolder = settingsFolder
         _newSettings = New EveHQSettings
     End Sub
 
 #Region "Public Methods"
 
-    Public Sub ConvertEveHQSettings(settingsFolder As String)
+    Public Sub Convert()
 
         ' Convert the Core settings
-        ConvertCoreSettings(settingsFolder)
+        ConvertCoreSettings(_settingsFolder)
 
         ' Convert the Prism settings
-        ConvertPrismSettings(settingsFolder)
+        ConvertPrismSettings(_settingsFolder)
 
         ' Convert the HQF settings
-        ConvertHQFSettings(settingsFolder)
+        ConvertHQFSettings(_settingsFolder)
 
     End Sub
 
@@ -53,23 +58,33 @@ Public Class Converter
                 oldSettings = CType(f.Deserialize(s), EveSettings)
             End Using
 
-            ' Add training
+            _worker.ReportProgress(0, "Core Settings Conversion Step 1/8: Loading training queues...")
             LoadTraining(oldSettings, Path.Combine(settingsFolder, "Data"))
 
+            _worker.ReportProgress(0, "Core Settings Conversion Step 2/8: Converting main settings...")
             ConvertMainSettings(oldSettings)
+
+            _worker.ReportProgress(0, "Core Settings Conversion Step 3/8: Converting API accounts...")
             ConvertAccounts(oldSettings)
+
+            _worker.ReportProgress(0, "Core Settings Conversion Step 4/8: Converting characters...")
             ConvertPilots(oldSettings)
+
+            _worker.ReportProgress(0, "Core Settings Conversion Step 5/8: Converting plug-in settings...")
             ConvertPlugins(oldSettings)
+
+            _worker.ReportProgress(0, "Core Settings Conversion Step 6/8: Converting dashboard configuration...")
             ConvertDashboard(oldSettings)
 
-            Dim startTime, endTime As DateTime
-            Dim timeTaken As TimeSpan
+            'Dim startTime, endTime As DateTime
+            'Dim timeTaken As TimeSpan
 
-            startTime = Now
+            'startTime = Now
             Dim json As String = JsonConvert.SerializeObject(_newSettings, Newtonsoft.Json.Formatting.Indented)
-            endTime = Now
-            timeTaken = (endTime - startTime)
+            'endTime = Now
+            'timeTaken = (endTime - startTime)
 
+            _worker.ReportProgress(0, "Core Settings Conversion Step 7/8: Saving new settings file...")
             ' Write a JSON version of the settings
             Try
                 Using s As New StreamWriter(Path.Combine(settingsFolder, "EveHQSettings.json"), False)
@@ -80,9 +95,10 @@ Public Class Converter
             End Try
 
             ' Rename the old settings file
+            _worker.ReportProgress(0, "Core Settings Conversion Step 8/8: Archiving old settings...")
             My.Computer.FileSystem.RenameFile(Path.Combine(settingsFolder, "EveHQSettings.bin"), "OldEveHQSettings.bin")
 
-            MessageBox.Show("Successfully converted settings in " & timeTaken.TotalMilliseconds.ToString("N2") & "ms", "Settings conversion complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            'MessageBox.Show("Successfully converted settings in " & timeTaken.TotalMilliseconds.ToString("N2") & "ms", "Settings conversion complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         End If
 
@@ -148,7 +164,7 @@ Public Class Converter
                         If queueList.Count > 0 Then
                             For Each queueDetails In queueList
                                 Dim newQ As New SkillQueue
-                                newQ.Name = HttpUtility.HtmlDecode(queueDetails.Attributes("name").Value)
+                                newQ.Name = Net.WebUtility.HtmlDecode(queueDetails.Attributes("name").Value)
                                 newQ.IncCurrentTraining = CBool(queueDetails.Attributes("ICT").Value)
                                 newQ.Primary = CBool(queueDetails.Attributes("primary").Value)
                                 If newQ.Primary = True Then
@@ -180,7 +196,7 @@ Public Class Converter
                                                 myskill.ToLevel = CInt(trainingDetails.ChildNodes(2).InnerText)
                                                 myskill.Pos = CInt(trainingDetails.ChildNodes(3).InnerText)
                                                 myskill.Notes =
-                                                    HttpUtility.HtmlDecode(trainingDetails.ChildNodes(4).InnerText)
+                                                    Net.WebUtility.HtmlDecode(trainingDetails.ChildNodes(4).InnerText)
                                             Catch e As Exception
                                                 ' We don't have the required info
                                             End Try
@@ -313,8 +329,8 @@ Public Class Converter
         _newSettings.ActivateG15 = oldSettings.ActivateG15
         _newSettings.AutoAPI = oldSettings.AutoAPI
         _newSettings.MainFormWindowState = CType(oldSettings.MainFormPosition(4), FormWindowState)
-        _newSettings.MainFormLocation = New Drawing.Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
-        _newSettings.MainFormSize = New Drawing.Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
+        _newSettings.MainFormLocation = New Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
+        _newSettings.MainFormSize = New Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
         _newSettings.DeleteSkills = oldSettings.DeleteSkills
         _newSettings.PartialTrainColor = oldSettings.PartialTrainColor
         _newSettings.ReadySkillColor = oldSettings.ReadySkillColor
@@ -477,7 +493,7 @@ Public Class Converter
             newPilot.QueuedSkillTime = pilot.QueuedSkillTime
             newPilot.Certificates.Clear()
             For Each c As String In pilot.Certificates
-                newPilot.Certificates.Add(Convert.ToInt32(c))
+                newPilot.Certificates.Add(CInt(c))
             Next
             newPilot.PrimaryQueue = pilot.PrimaryQueue
             ConvertTrainingQueues(pilot, newPilot)
@@ -581,9 +597,16 @@ Public Class Converter
 
         Dim prismFolder As String = Path.Combine(settingsFolder, "Prism")
 
+        _worker.ReportProgress(0, "Prism Settings Conversion Step 1/4: Converting settings...")
         ConvertSettings(prismFolder)
+
+        _worker.ReportProgress(0, "Prism Settings Conversion Step 2/4: Converting blueprints...")
         ConvertBlueprintAssets(prismFolder)
+
+        _worker.ReportProgress(0, "Prism Settings Conversion Step 3/4: Converting production jobs...")
         ConvertProductionJobs(prismFolder)
+
+        _worker.ReportProgress(0, "Prism Settings Conversion Step 4/4: Converting batch jobs...")
         ConvertBatchJobs(prismFolder)
 
     End Sub
@@ -729,7 +752,7 @@ Public Class Converter
         Next
 
         Return newJob
-       
+
     End Function
 
     Private Sub ConvertBatchJobs(prismFolder As String)
@@ -768,13 +791,26 @@ Public Class Converter
 
         Dim hqfFolder As String = Path.Combine(settingsFolder, "HQF")
 
-        ConvertDefenceProfiles(hqfFolder)
-        ConvertDamageProfiles(hqfFolder)
-        ConvertSavedFittings(hqfFolder)
-        ConvertPilots(hqfFolder)
-        ConvertCustomShipClasses(hqfFolder)
-        ConvertCustomShips(hqfFolder)
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 1/7: Converting settings...")
         ConvertMainHQFSettings(hqfFolder)
+
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 2/7: Converting defence profiles...")
+        ConvertDefenceProfiles(hqfFolder)
+
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 3/7: Converting damage profiles...")
+        ConvertDamageProfiles(hqfFolder)
+
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 4/7: Converting fittings...")
+        ConvertSavedFittings(hqfFolder)
+
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 5/7: Converting pilots...")
+        ConvertPilots(hqfFolder)
+
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 6/7: Converting custom ship classes...")
+        ConvertCustomShipClasses(hqfFolder)
+
+        _worker.ReportProgress(0, "HQF Settings Conversion Step 7/7: Converting custom ships...")
+        ConvertCustomShips(hqfFolder)
 
     End Sub
 
@@ -826,9 +862,9 @@ Public Class Converter
 
             ' Rename the old settings file
             My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), "OldHQFDefenceProfiles.bin")
-      
+
         End If
-        
+
     End Sub
 
     Private Sub ConvertDamageProfiles(hqfFolder As String)
@@ -887,7 +923,7 @@ Public Class Converter
                 fittings = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
             End Using
 
-           ' Create a JSON string for writing
+            ' Create a JSON string for writing
             Dim json As String = JsonConvert.SerializeObject(fittings, Newtonsoft.Json.Formatting.Indented)
 
             ' Write the JSON version of the settings
@@ -903,7 +939,7 @@ Public Class Converter
             My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "Fittings.bin"), "OldFittings.bin")
 
         End If
-        
+
     End Sub
 
     Private Sub ConvertPilots(hqfFolder As String)
@@ -918,28 +954,30 @@ Public Class Converter
                 End Using
             Catch ex As Exception
             End Try
+
+
+            Dim newPilots As New SortedList(Of String, FittingPilot)
+            For Each pilot As HQFPilot In oldPilots
+                newPilots.Add(pilot.PilotName, ConvertPilot(pilot))
+            Next
+
+            ' Create a JSON string for writing
+            Dim json As String = JsonConvert.SerializeObject(newPilots, Newtonsoft.Json.Formatting.Indented)
+
+            ' Write the JSON version of the settings
+            Try
+                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFPilotSettings.json"), False)
+                    s.Write(json)
+                    s.Flush()
+                End Using
+            Catch e As Exception
+            End Try
+
+            ' Rename the old fittings file
+            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), "OldHQFPilotSettings.bin")
+
         End If
 
-        Dim newPilots As New SortedList(Of String, FittingPilot)
-        For Each pilot As HQFPilot In oldPilots
-            newPilots.Add(pilot.PilotName, ConvertPilot(pilot))
-        Next
-
-        ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(newPilots, Newtonsoft.Json.Formatting.Indented)
-
-        ' Write the JSON version of the settings
-        Try
-            Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFPilotSettings.json"), False)
-                s.Write(json)
-                s.Flush()
-            End Using
-        Catch e As Exception
-        End Try
-
-        ' Rename the old fittings file
-        My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), "OldHQFPilotSettings.bin")
-        
     End Sub
 
     Private Function ConvertPilot(oldPilot As HQFPilot) As FittingPilot
@@ -1042,7 +1080,7 @@ Public Class Converter
 
         End If
     End Sub
-    
+
 #End Region
 
 End Class
