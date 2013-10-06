@@ -535,7 +535,18 @@ Public Class IGB
                     strHTML &= "<p><a href=/itemDB/?view=t&id=" & typeID & "&s=a>ATTRIBUTES</a>"
                     strHTML &= "  |  "
                     Dim bpTypeID As Integer = StaticData.GetBPTypeId(CInt(typeID))
-                    If StaticData.Blueprints(bpTypeID).Resources(1).Count > 0 Or StaticData.Blueprints(bpTypeID).Resources(6).Count > 0 Then
+                    Dim displayMaterialsLink As Boolean = False
+                    If StaticData.Blueprints(bpTypeID).Resources.ContainsKey(1) Then
+                        If StaticData.Blueprints(bpTypeID).Resources(1).Count > 0 Then
+                            displayMaterialsLink = True
+                        End If
+                    End If
+                    If StaticData.Blueprints(bpTypeID).Resources.ContainsKey(6) Then
+                        If StaticData.Blueprints(bpTypeID).Resources(6).Count > 0 Then
+                            displayMaterialsLink = True
+                        End If
+                    End If
+                    If displayMaterialsLink = True Then
                         strHTML &= "<a href=/itemDB/?view=t&id=" & typeID & "&s=m>MATERIALS</a>"
                         strHTML &= "  |  "
                     End If
