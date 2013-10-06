@@ -119,11 +119,53 @@ namespace EveHQ.EveApi
             return this.GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterNameResult);
         }
 
+        public Task<EveServiceResponse<CharacterInfo>> CharacterInfoAsync(int characterId)
+        {
+            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            const string MethodPath = "{0}/CharacterInfo.xml.aspx";
+            const string CacheKeyFormat = "Eve_CharacterInfo{0}";
+            
+            string cacheKey = CacheKeyFormat.FormatInvariant(characterId);
+            IDictionary<string, string> apiParams = new Dictionary<string, string>();
+            apiParams.Add(ApiConstants.CharacterId, characterId.ToInvariantString());
+
+            return this.GetServiceResponseAsync(null, null, 0, MethodPath.FormatInvariant(RequestPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterInfoResult);
+        }
+
+        public EveServiceResponse<CharacterInfo> CharacterInfo(int characterId)
+        {
+            var task = CharacterInfoAsync(characterId);
+            task.Wait();
+            return task.Result;
+        }
 
 
         #endregion
 
         #region Methods
+
+        private static CharacterInfo ParseCharacterInfoResult(XElement results)
+        {
+            if (results == null)
+            {
+                return null; // return null... no data.
+            }
+
+            var info = new CharacterInfo();
+
+            info.AllianceId = results.Element("allianceID").Value.ToInt64();
+            info.AllianceInDate = results.Element("alliancenDate").Value.ToDateTimeOffset(0);
+            info.AllianceName = results.Element("alliance").Value;
+            info.Bloodline = results.Element("bloodline").Value;
+            info.CharacterId = results.Element("characterID").Value.ToInt64();
+            info.CharacterName = results.Element("characterName").Value;
+            info.CorporationId = results.Element("corporationID").Value.ToInt64();
+            info.CorporationName = results.Element("corporation").Value;
+            info.Race = results.Element("race").Value;
+            info.SecurityStatus = results.Element("securityStatus").Value.ToDouble();
+
+            return info;
+        }
 
         /// <summary>Parses the xml results for Character names.</summary>
         /// <param name="results"></param>

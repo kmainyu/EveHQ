@@ -106,6 +106,13 @@ namespace EveHQ.EveApi
             return this.GetServiceResponseAsync(keyId, vCode, 0, AccountStatusPath, null, cacheKey, ApiConstants.SixtyMinuteCache, ParseAccountXml);
         }
 
+        public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode)
+        {
+            var task = ApiKeyInfoAsync(keyId, vCode);
+            task.Wait();
+            return task.Result;
+        }
+
         public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());

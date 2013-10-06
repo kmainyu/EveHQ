@@ -34,14 +34,20 @@ namespace EveHQ.EveApi
         /// </summary>
         /// <param name="serviceData">Data for the response</param>
         /// <param name="serviceFault">Any exception that occurred processing the service call.</param>
+        /// <param name="isSuccessCode"></param>
         /// <param name="statusCode">Http Status code.</param>
         /// <param name="cacheUntil">Cache expiry time.</param>
-        public EveServiceResponse(T serviceData, Exception serviceFault, HttpStatusCode statusCode, DateTimeOffset cacheUntil)
+        /// <param name="eveErrorCode"></param>
+        /// <param name="eveErrorText"></param>
+        public EveServiceResponse(T serviceData, Exception serviceFault, bool isSuccessCode, HttpStatusCode statusCode, DateTimeOffset cacheUntil, int eveErrorCode, string eveErrorText)
         {
             ResultData = serviceData;
             ServiceException = serviceFault;
-            WasSucessful = (int)statusCode >= 200 && (int)statusCode < 300;
+            IsSuccessfulHttpStatus = isSuccessCode;
+            HttpStatusCode = statusCode;
+            EveErrorCode = eveErrorCode;
             CacheUntil = cacheUntil;
+            EveErrorText = eveErrorText;
         }
 
         /// <summary>
@@ -67,7 +73,7 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets a value indicating whether there was an exception thrown during processing.
         /// </summary>
-        public bool WasFaulted
+        public bool IsFaulted
         {
             get
             {
@@ -78,6 +84,12 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets a value indicating whether the call was successful (from an HTTP status POV).
         /// </summary>
-        public bool WasSucessful { get; private set; }
+        public bool IsSuccessfulHttpStatus { get; private set; }
+
+        public HttpStatusCode HttpStatusCode { get; private set; }
+
+        public int EveErrorCode { get; private set; }
+
+        public string EveErrorText { get; private set; }
     }
 }

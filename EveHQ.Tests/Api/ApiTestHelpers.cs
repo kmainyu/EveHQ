@@ -57,8 +57,8 @@ namespace EveHQ.Tests.Api
 
             EveServiceResponse<T> result = asyncTask.Result;
 
-            Assert.IsTrue(result.WasSucessful);
-            Assert.IsFalse(result.WasFaulted);
+            Assert.IsTrue(result.IsSuccessfulHttpStatus);
+            Assert.IsFalse(result.IsFaulted);
             Assert.IsNull(result.ServiceException);
             Assert.IsFalse(result.CachedResponse);
         }

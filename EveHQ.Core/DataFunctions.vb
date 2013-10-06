@@ -1857,7 +1857,7 @@ Public Class DataFunctions
                     Dim eveID As Long = 0
                     Dim eveName As String = ""
                     If names IsNot Nothing Then
-                        If names.WasSucessful Then
+                        If names.IsSuccessfulHttpStatus Then
                             If names.ResultData.Any() Then
                                 HQ.WriteLogEvent("Parsing " & names.ResultData.Count() & " IDs in the XML file")
                                 For Each name As CharacterName In names.ResultData

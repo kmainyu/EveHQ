@@ -82,6 +82,9 @@
     <Content Include="TestData\Api\CharacterId.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\Api\CharacterInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestData\Api\CharacterName.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -102,6 +105,9 @@
     </Content>
     <Content Include="TestData\Api\FacWarfareData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestData\Api\GenericError.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData\Api\IndustryJobs.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

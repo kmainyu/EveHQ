@@ -333,7 +333,7 @@ Public Class PilotParseFunctions
         If Not (caccount.APIKeySystem = APIKeySystems.Version2 And caccount.APIKeyType = APIKeyTypes.Corporation) Then
 
             'If APIReq.LastAPIResult = EveAPI.APIResults.ReturnedActual Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedCached Or APIReq.LastAPIResult = EveAPI.APIResults.ReturnedNew Then
-            If characterServiceResponse.WasSucessful Then
+            If characterServiceResponse.IsSuccessfulHttpStatus Then
                 If characterServiceResponse.ResultData IsNot Nothing Then
                     ' Get characters
                     Dim currToon As Integer = 0
@@ -438,8 +438,8 @@ Public Class PilotParseFunctions
         'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         'Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
         Dim response As EveServiceResponse(Of Account) = HQ.ApiProvider.Account.AccountStatus(cAccount.userID, cAccount.APIKey)
-      
-        If response.WasSucessful Then
+
+        If response.IsSuccessfulHttpStatus Then
 
 
             If response.ResultData IsNot Nothing Then
@@ -458,17 +458,17 @@ Public Class PilotParseFunctions
                 Else
                     cAccount.APIAccountStatus = APIAccountStatuses.Active
                 End If
-        End If
-        ' TODO: Handle API Error codes.
-        '        Case 211
-        '' Account has expired
-        'cAccount.APIAccountStatus = APIAccountStatuses.Disabled
-        '        Case 200
-        '' Should be limited key
-        'cAccount.APIKeyType = Core.APIKeyTypes.Limited
-        'cAccount.APIAccountStatus = APIAccountStatuses.Active
-        '        Case Else
-        '' Ignore
+            End If
+            ' TODO: Handle API Error codes.
+            '        Case 211
+            '' Account has expired
+            'cAccount.APIAccountStatus = APIAccountStatuses.Disabled
+            '        Case 200
+            '' Should be limited key
+            'cAccount.APIKeyType = Core.APIKeyTypes.Limited
+            'cAccount.APIAccountStatus = APIAccountStatuses.Active
+            '        Case Else
+            '' Ignore
         End If
 
     End Sub

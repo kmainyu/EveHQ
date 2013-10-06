@@ -37,8 +37,8 @@ namespace EveHQ.Tests.Api
             {
                 var result = client.Eve.CharacterName(ids);
                 
-                Assert.IsTrue(result.WasSucessful);
-                Assert.IsFalse(result.WasFaulted);
+                Assert.IsTrue(result.IsSuccessfulHttpStatus);
+                Assert.IsFalse(result.IsFaulted);
                 Assert.IsNull(result.ServiceException);
                 Assert.IsFalse(result.CachedResponse);
 
@@ -93,6 +93,57 @@ namespace EveHQ.Tests.Api
                 Assert.AreEqual(1, result.ResultData.Count());
                 Assert.AreEqual("CCP Garthagk", result.ResultData.First().Name);
                 Assert.AreEqual(797400947, result.ResultData.First().Id);
+            }
+        }
+
+
+        [Test]
+        public static void BasicErrorParsingTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/CharacterID.xml.aspx");
+
+            var names = new[] { "CCP Garthahk" };
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add(ApiConstants.Names, string.Join(",", names));
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\GenericError.xml"));
+
+            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            {
+                var task = client.Eve.CharacterIdAsync(names);
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                var result = task.Result;
+
+                Assert.AreEqual(222, result.EveErrorCode);
+                Assert.AreEqual("Key has expired. Contact key owner for access renewal.", result.EveErrorText);
+            }
+        }
+
+        [Test]
+        public static void CharacterInfoTest()
+        {
+            var url = new Uri("https://api.eveonline.com/eve/CharacterInfo.xml.aspx");
+
+            
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add(ApiConstants.CharacterId, "1643072492");
+            IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\CharacterInfo.xml"));
+            using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
+            {
+                var task = client.Eve.CharacterInfoAsync(1643072492);
+                task.Wait();
+
+                ApiTestHelpers.BasicSuccessResultValidations(task);
+
+                var result = task.Result;
+                Assert.AreEqual("Catari Taga", result.ResultData.CharacterName);
+
+                Assert.AreEqual(1923227030, result.ResultData.AllianceId);
+
+                Assert.AreEqual(0.0, result.ResultData.SecurityStatus);
+
             }
         }
     }

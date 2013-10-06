@@ -46,6 +46,8 @@ namespace EveHQ.EveApi
         /// </summary>
         private const string Result = "result";
 
+        private const string Error = "error";
+
         /// <summary>
         /// File/Memory backed cache of data.
         /// </summary>
@@ -83,31 +85,31 @@ namespace EveHQ.EveApi
             GC.SuppressFinalize(this);
         }
 
-         protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(
-             string keyId, string vCode, int characterId, string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
-         {
-             if (callParams == null)
-             {
-                 callParams = new Dictionary<string, string>();
-             }
+        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(
+            string keyId, string vCode, int characterId, string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+        {
+            if (callParams == null)
+            {
+                callParams = new Dictionary<string, string>();
+            }
 
-             if (!keyId.IsNullOrWhiteSpace())
-             {
-                 callParams.Add(ApiConstants.KeyId, keyId);
-             }
+            if (!keyId.IsNullOrWhiteSpace())
+            {
+                callParams.Add(ApiConstants.KeyId, keyId);
+            }
 
-             if (!vCode.IsNullOrWhiteSpace())
-             {
-                 callParams.Add(ApiConstants.VCode, vCode);
-             }
+            if (!vCode.IsNullOrWhiteSpace())
+            {
+                callParams.Add(ApiConstants.VCode, vCode);
+            }
 
-             if (characterId > 0)
-             {
-                 callParams.Add(ApiConstants.CharacterId, characterId.ToInvariantString());
-             }
+            if (characterId > 0)
+            {
+                callParams.Add(ApiConstants.CharacterId, characterId.ToInvariantString());
+            }
 
-             return this.GetServiceResponseAsync(servicePath, callParams, cacheKey, defaultCacheSeconds, xmlParseDelegate);
-         }
+            return this.GetServiceResponseAsync(servicePath, callParams, cacheKey, defaultCacheSeconds, xmlParseDelegate);
+        }
 
         /// <summary>
         /// Initiates an async request to the service provider.
@@ -242,6 +244,8 @@ namespace EveHQ.EveApi
             Exception faultError = null;
             T result = default(T);
             DateTimeOffset cacheTime = DateTimeOffset.Now.AddSeconds(defaultCacheSeconds);
+            int eveErrorCode = 0;
+            string eveErrorText = string.Empty;
             if (webTask.IsFaulted)
             {
                 faultError = webTask.Exception;
@@ -258,7 +262,22 @@ namespace EveHQ.EveApi
                     result = parseXml(resultsElement);
                     cacheTime = GetCacheExpiryFromResponse(xml.Root, defaultCacheSeconds);
                 }
-                // TODO: handle when there is no data, or when the service returns a server side error (auth error or no access for instance).
+                else if (xml != null && xml.Root != null && (resultsElement = xml.Root.Element(Error)) != null)
+                {
+                    // CCP server side error
+                    eveErrorCode = GetErrorCodeFromResponse(resultsElement, ref eveErrorText);
+
+                    // because cacheTime in the response is bugged (per http://wiki.eve-id.net/APIv2_Eve_ErrorList_XML ), 
+                    // defaulting cacheTime for 1 hour
+                    cacheTime = DateTimeOffset.Now.AddHours(1);
+                }
+                else
+                {
+                    // shenanigans.
+                    eveErrorCode = 999999;
+                    eveErrorText = "Unknown Error.";
+                }
+                
             }
             catch (Exception e)
             {
@@ -267,12 +286,19 @@ namespace EveHQ.EveApi
             }
 
             // store it.
-            var eveResult = new EveServiceResponse<T>(result, faultError, webTask.Result.StatusCode, cacheTime);
+            var eveResult = new EveServiceResponse<T>(result, faultError, webTask.Result.IsSuccessStatusCode, webTask.Result.StatusCode, cacheTime, eveErrorCode, eveErrorText);
 
             // cache it
             SetCacheEntry(cacheKey, eveResult);
 
             return eveResult;
+        }
+
+        private int GetErrorCodeFromResponse(XElement errorElement, ref string eveErrorText)
+        {
+            int errorCode = errorElement.Attribute("code").Value.ToInt32();
+            eveErrorText = errorElement.Value;
+            return errorCode;
         }
 
         /// <summary>
