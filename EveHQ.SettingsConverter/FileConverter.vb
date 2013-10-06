@@ -47,16 +47,21 @@ Public Class FileConverter
 #Region "Core Data/Settings Conversion Methods"
 
     Private Sub ConvertCoreSettings(settingsFolder As String)
-        Dim oldSettings As EveSettings
+
+       Dim oldSettings As EveSettings
         _newSettings = New EveHQSettings
 
         ' Load in the old EveHQ Settings
 
         If My.Computer.FileSystem.FileExists(Path.Combine(settingsFolder, "EveHQSettings.bin")) = True Then
-            Using s As New FileStream(Path.Combine(settingsFolder, "EveHQSettings.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                oldSettings = CType(f.Deserialize(s), EveSettings)
-            End Using
+            Try
+                Using s As New FileStream(Path.Combine(settingsFolder, "EveHQSettings.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldSettings = CType(f.Deserialize(s), EveSettings)
+                End Using
+            Catch e As Exception
+                MessageBox.Show(e.Message)
+            End Try
 
             _worker.ReportProgress(0, "Core Settings Conversion Step 1/8: Loading training queues...")
             LoadTraining(oldSettings, Path.Combine(settingsFolder, "Data"))
@@ -92,6 +97,7 @@ Public Class FileConverter
                     s.Flush()
                 End Using
             Catch e As Exception
+                MessageBox.Show("Unable to write JSON file")
             End Try
 
             ' Rename the old settings file
@@ -446,14 +452,22 @@ Public Class FileConverter
             newPilot.CorpID = pilot.CorpID
             newPilot.Isk = pilot.Isk
             newPilot.CloneName = pilot.CloneName
-            newPilot.CloneSP = CInt(pilot.CloneSP)
+            If IsNumeric(pilot.CloneSP) Then
+                newPilot.CloneSP = CInt(pilot.CloneSP)
+            Else
+                newPilot.CloneSP = 0
+            End If
             newPilot.SkillPoints = pilot.SkillPoints
             newPilot.Training = pilot.Training
             newPilot.TrainingStartTime = pilot.TrainingStartTime
             newPilot.TrainingStartTimeActual = pilot.TrainingStartTimeActual
             newPilot.TrainingEndTime = pilot.TrainingEndTime
             newPilot.TrainingEndTimeActual = pilot.TrainingEndTimeActual
-            newPilot.TrainingSkillID = CInt(pilot.TrainingSkillID)
+            If IsNumeric(pilot.TrainingSkillID) Then
+                newPilot.TrainingSkillID = CInt(pilot.TrainingSkillID)
+            Else
+                newPilot.TrainingSkillID = 0
+            End If
             newPilot.TrainingSkillName = pilot.TrainingSkillName
             newPilot.TrainingStartSP = pilot.TrainingStartSP
             newPilot.TrainingEndSP = pilot.TrainingEndSP
