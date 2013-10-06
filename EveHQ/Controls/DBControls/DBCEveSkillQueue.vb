@@ -97,7 +97,7 @@ Public Class DBCEveSkillQueue
     End Sub
 
     Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
-        frmPilot.DisplayPilotName = _pilot.Name
+        Forms.FrmPilot.DisplayPilotName = _pilot.Name
         frmEveHQ.OpenPilotInfoForm()
     End Sub
 

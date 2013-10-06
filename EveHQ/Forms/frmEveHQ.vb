@@ -807,8 +807,8 @@ Public Class frmEveHQ
 
         Call CheckNotifications()
 
-        If frmPilot.IsHandleCreated = True Then
-            Call frmPilot.UpdateSkillInfo()
+        If Forms.FrmPilot.IsHandleCreated = True Then
+            Call Forms.FrmPilot.UpdateSkillInfo()
         End If
         If frmTraining.IsHandleCreated = True Then
             Call frmTraining.UpdateTraining()
@@ -1178,8 +1178,8 @@ Public Class frmEveHQ
         Call Me.SetupTrainingStatus()
 
         ' Update the cbopilots in the pilot form and the training form
-        If frmPilot.IsHandleCreated = True Then
-            frmPilot.UpdatePilots()
+        If Forms.FrmPilot.IsHandleCreated = True Then
+            Forms.FrmPilot.UpdatePilots()
         End If
         If frmTraining.IsHandleCreated = True Then
             frmTraining.UpdatePilots()
@@ -1191,9 +1191,9 @@ Public Class frmEveHQ
         If HQ.Settings.Pilots.Count = 0 Then
             btnViewPilotInfo.Enabled = False
             btnViewSkillTraining.Enabled = False
-            If frmPilot IsNot Nothing Then
-                If frmPilot.IsHandleCreated = True Then
-                    frmPilot.Close()
+            If Forms.FrmPilot IsNot Nothing Then
+                If Forms.FrmPilot.IsHandleCreated = True Then
+                    Forms.FrmPilot.Close()
                 End If
             End If
             If frmTraining IsNot Nothing Then
@@ -1329,7 +1329,7 @@ Public Class frmEveHQ
         Dim selectedPic As PictureBox = CType(sender, PictureBox)
         Call Me.OpenPilotInfoForm()
         If selectedPic.Name <> "" Then
-            frmPilot.DisplayPilotName = selectedPic.Name
+            Forms.FrmPilot.DisplayPilotName = selectedPic.Name
         End If
     End Sub
 
@@ -1810,9 +1810,9 @@ Public Class frmEveHQ
 #Region "TabbedMDI Window Routines"
 
     Public Sub OpenPilotInfoForm()
-        Dim tp As TabItem = HQ.GetMDITab(frmPilot.Text)
+        Dim tp As TabItem = HQ.GetMDITab(Forms.FrmPilot.Text)
         If tp Is Nothing Then
-            Call DisplayChildForm(frmPilot)
+            Call DisplayChildForm(Forms.FrmPilot)
         Else
             tabEveHQMDI.SelectedTab = tp
         End If

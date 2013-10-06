@@ -162,7 +162,7 @@ Public Class DBCPilotInfo
     End Sub
 
     Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
-        frmPilot.DisplayPilotName = cPilot.Name
+        Forms.FrmPilot.DisplayPilotName = cPilot.Name
         frmEveHQ.OpenPilotInfoForm()
     End Sub
 

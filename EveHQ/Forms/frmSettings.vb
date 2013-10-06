@@ -404,7 +404,7 @@ Public Class frmSettings
                     HQ.Settings.PilotSkillHighlightColor = cd1.Color.ToArgb
             End Select
             ' Update the colours
-            frmPilot.adtSkills.Refresh()
+            Forms.FrmPilot.adtSkills.Refresh()
         End If
     End Sub
 
@@ -420,7 +420,7 @@ Public Class frmSettings
         HQ.Settings.PilotSkillTextColor = Color.Black.ToArgb
         HQ.Settings.PilotSkillHighlightColor = Color.DodgerBlue.ToArgb
         ' Update the colours
-        frmPilot.adtSkills.Refresh()
+        Forms.FrmPilot.adtSkills.Refresh()
         ' Update the PBPilot Colours
         Call Me.UpdatePBPilotColours()
     End Sub
