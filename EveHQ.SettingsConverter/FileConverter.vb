@@ -48,7 +48,7 @@ Public Class FileConverter
 
     Private Sub ConvertCoreSettings(settingsFolder As String)
 
-       Dim oldSettings As EveSettings
+        Dim oldSettings As New EveSettings
         _newSettings = New EveHQSettings
 
         ' Load in the old EveHQ Settings
