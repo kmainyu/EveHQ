@@ -671,13 +671,13 @@ Public Class ShipInfoControl
         Next
         myAuditLog.lvwAudit.EndUpdate()
         myAuditLog.ShowDialog()
-        myAuditLog = Nothing
+        myAuditLog.Dispose()
     End Sub
 
     Private Sub btnTargetSpeed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTargetSpeed.Click
-        Dim targetSpeed As New frmTargetSpeed
+        Dim targetSpeed As New Forms.FrmTargetSpeed
         targetSpeed.ShipType = ParentFitting.FittedShip
-        targetSpeed = Nothing
+        targetSpeed.Dispose()
     End Sub
 
     Private Sub btnDamageAnalysis_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDamageAnalysis.Click
@@ -693,14 +693,14 @@ Public Class ShipInfoControl
     End Sub
 
     Private Sub btnCapSim_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCapSim.Click
-        Dim CapSimForm As New frmCapSim(ParentFitting.FittedShip)
-        CapSimForm.ShowDialog()
-        CapSimForm.Dispose()
+        Dim capSimForm As New frmCapSim(ParentFitting.FittedShip)
+        capSimForm.ShowDialog()
+        capSimForm.Dispose()
     End Sub
 
     Private Sub epDefence_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epDefence.ExpandedChanged
         If StartUp = False Then
-            HQF.Settings.HQFSettings.DefensePanelIsCollapsed = Not epDefence.Expanded
+            Settings.HQFSettings.DefensePanelIsCollapsed = Not epDefence.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub
