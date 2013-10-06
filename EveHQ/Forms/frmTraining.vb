@@ -507,10 +507,10 @@ Public Class frmTraining
     End Sub
     Private Sub LoadFilteredSkills(ByVal filter As Integer)
         Dim newSkill As Core.EveSkill
-        Dim groupNode As New TreeNode
+        Dim groupNode As TreeNode
         For Each newSkill In Core.HQ.SkillListID.Values
             Dim gID As Integer = newSkill.GroupID
-            groupNode = CType(skillListNodes.Item(gID), TreeNode)
+            groupNode = CType(skillListNodes.Item(CStr(gID)), TreeNode)
             If gID <> 505 Then
                 Dim skillNode As TreeNode = New TreeNode
                 skillNode.Text = newSkill.Name
