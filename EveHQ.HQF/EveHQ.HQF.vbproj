@@ -100,6 +100,8 @@
     <Compile Include="Classes\Booster.vb" />
     <Compile Include="Classes\Capacitor.vb" />
     <Compile Include="Classes\Charges.vb" />
+    <Compile Include="Classes\DNAFitting.vb" />
+    <Compile Include="Classes\IGBData.vb" />
     <Compile Include="_New\FittingPilots.vb" />
     <Compile Include="_New\FittingSkill.vb" />
     <Compile Include="_New\FittingPilot.vb" />

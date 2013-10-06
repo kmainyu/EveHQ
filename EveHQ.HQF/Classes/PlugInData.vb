@@ -244,14 +244,14 @@ Public Class PlugInData
         eveHQPlugIn.Author = "EveHQ Team"
         eveHQPlugIn.MainMenuText = "EveHQ Fitter"
         eveHQPlugIn.RunAtStartup = True
-        eveHQPlugIn.RunInIGB = False
+        eveHQPlugIn.RunInIGB = True
         eveHQPlugIn.MenuImage = My.Resources.plugin_icon
         eveHQPlugIn.Version = My.Application.Info.Version.ToString
         Return eveHQPlugIn
     End Function
 
     Public Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
-        Return ""
+        Return Classes.IGBData.Response(igbContext)
     End Function
 
     Public Function RunEveHQPlugIn() As Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn

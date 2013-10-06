@@ -171,10 +171,3 @@
 #End Region
 
 End Class
-
-Public Class DNAFitting
-    Public ShipID As String
-    Public Modules As New ArrayList
-    Public Charges As New ArrayList
-    Public Arguments As New SortedList(Of String, String)
-End Class

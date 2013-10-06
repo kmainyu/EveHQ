@@ -186,13 +186,13 @@ Public Class ShipModule
         ' Amend for remote effects capacitor use
         If (newModule.ModuleState And 16) = 16 Then
             Select Case newModule.DatabaseGroup
-                Case ShipModule.Group_EnergyTransfers
+                Case Group_EnergyTransfers
                     newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_PowerTransferAmount)) * -1
-                Case ShipModule.Group_EnergyVampires
+                Case Group_EnergyVampires
                     newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_PowerTransferAmount))
-                Case ShipModule.Group_EnergyNeutralizers
+                Case Group_EnergyNeutralizers
                     newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_EnergyNeutAmount))
-                Case ShipModule.Group_EnergyNeutralizerDrones
+                Case Group_EnergyNeutralizerDrones
                     newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_EnergyNeutAmount))
                 Case Else
                     newModule.Attributes(attributes.Module_CapacitorNeed) = 0
@@ -232,16 +232,53 @@ Public Class ShipModule
         End If
         If newModule.Attributes.ContainsKey(attributes.Module_MiningAmount) = True Then
             Select Case newModule.MarketGroup
-                Case ShipModule.Marketgroup_IceHarvesters
+                Case Marketgroup_IceHarvesters
                     newModule.Attributes(attributes.Module_TurretIceMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
-                Case ShipModule.Marketgroup_MiningLasers, ShipModule.Marketgroup_StripMiners
+                Case Marketgroup_MiningLasers, Marketgroup_StripMiners
                     newModule.Attributes(attributes.Module_TurretOreMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
-                Case ShipModule.Marketgroup_MiningDrones
+                Case Marketgroup_MiningDrones
                     newModule.Attributes(attributes.Module_DroneOreMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
             End Select
         End If
     End Sub
 #End Region
+
+    Public Function GetChargeList() As SortedList(Of String, String)
+
+        ' Get the charge group and item data
+        Dim chargeGroups As New ArrayList
+        Dim chargeGroupData() As String
+        Dim chargeItems As New SortedList(Of String, String)
+        Dim groupName As String = ""
+        For Each chargeGroup As String In HQF.Charges.ChargeGroups
+            chargeGroupData = chargeGroup.Split("_".ToCharArray)
+            If Charges.Contains(chargeGroupData(1)) = True Then
+                If Market.MarketGroupList.ContainsKey(chargeGroupData(0)) = True Then
+                    Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                        Case "Small", "Medium", "Large", "Extra Large"
+                            Dim pathLine As String = CStr(Market.MarketGroupPath(chargeGroupData(0)))
+                            Dim paths() As String = pathLine.Split("\".ToCharArray)
+                            groupName = paths(paths.GetUpperBound(0) - 1)
+                        Case Else
+                            groupName = Market.MarketGroupList.Item(chargeGroupData(0)).ToString
+                    End Select
+                End If
+                If chargeGroups.Contains(groupName) = False Then
+                    chargeGroups.Add(groupName)
+                End If
+                If IsTurret Then
+                    If ChargeSize = CInt(chargeGroupData(3)) Then
+                        chargeItems.Add(chargeGroupData(2), groupName)
+                    End If
+                Else
+                    chargeItems.Add(chargeGroupData(2), groupName)
+                End If
+            End If
+        Next
+
+        Return chargeItems
+
+    End Function
 
 End Class
 

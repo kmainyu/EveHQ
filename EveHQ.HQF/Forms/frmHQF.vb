@@ -92,10 +92,7 @@ Public Class frmHQF
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-
-        ' Load the settings!
-        Call Settings.HQFSettings.LoadHQFSettings()
-
+        
         ' Set the panel widths
         panelShips.Width = Settings.HQFSettings.ShipPanelWidth
         panelModules.Width = Settings.HQFSettings.ModPanelWidth
