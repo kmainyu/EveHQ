@@ -695,11 +695,11 @@ Imports EveHQ.Core
             If SkillLists.SkillList.ContainsKey(hSkill.ID) = True Then
                 If hSkill.Level <> 0 Then
                     ' Go through the attributes
-                    aSkill = CType(SkillLists.SkillList(hSkill.ID), Skill)
+                    aSkill = SkillLists.SkillList(hSkill.ID)
                     Try
                         For Each att As Integer In aSkill.Attributes.Keys
-                            If Engine.EffectsMap.Contains(att) = True Then
-                                For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
+                            If Engine.EffectsMap.Contains(CStr(att)) = True Then
+                                For Each chkEffect As Effect In CType(Engine.EffectsMap(CStr(att)), ArrayList)
                                     If chkEffect.AffectingType = HQFEffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
                                         fEffect = New FinalEffect
                                         fEffect.AffectedAtt = chkEffect.AffectedAtt
@@ -735,16 +735,16 @@ Imports EveHQ.Core
     End Sub
     Private Sub BuildImplantEffects(ByVal hPilot As FittingPilot)
         ' Run through the implants and see if we have any pirate implants
-        Dim hImplant As String = ""
+        Dim hImplant As String
         Dim aImplant As ShipModule
-        Dim piGroup As String = ""
-        Dim cPirateImplantGroups As SortedList = CType(Engine.PirateImplantGroups.Clone, Collections.SortedList)
+        Dim piGroup As String
+        Dim cPirateImplantGroups As SortedList = CType(Engine.PirateImplantGroups.Clone, SortedList)
         For slotNo As Integer = 1 To 10
             hImplant = hPilot.ImplantName(slotNo)
             If Engine.PirateImplants.ContainsKey(hImplant) = True Then
                 ' We have a pirate implant so let's work out the group and the set bonus
                 piGroup = CStr(Engine.PirateImplants.Item(hImplant))
-                aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
+                aImplant = ModuleLists.ModuleList(ModuleLists.ModuleListName(hImplant))
                 Select Case piGroup
                     Case "Centurion", "Low-grade Centurion"
                         cPirateImplantGroups.Item("Centurion") = CDbl(cPirateImplantGroups.Item("Centurion")) * CDbl(aImplant.Attributes("1293"))
