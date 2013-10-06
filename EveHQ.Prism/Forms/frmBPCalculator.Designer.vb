@@ -1513,7 +1513,7 @@ Partial Class frmBPCalculator
         Me.PACUnitValue.Price = 0.0R
         Me.PACUnitValue.Size = New System.Drawing.Size(20, 12)
         Me.PACUnitValue.TabIndex = 209
-        Me.PACUnitValue.TypeID = CType(0, Long)
+        Me.PACUnitValue.TypeID = 0
         '
         'PPRProduction
         '
@@ -2345,7 +2345,7 @@ Partial Class frmBPCalculator
         Me.PACDecryptor.Price = 0.0R
         Me.PACDecryptor.Size = New System.Drawing.Size(20, 12)
         Me.PACDecryptor.TabIndex = 209
-        Me.PACDecryptor.TypeID = CType(0, Long)
+        Me.PACDecryptor.TypeID = 0
         '
         'PACSalesPrice
         '
@@ -2354,7 +2354,7 @@ Partial Class frmBPCalculator
         Me.PACSalesPrice.Price = 0.0R
         Me.PACSalesPrice.Size = New System.Drawing.Size(20, 12)
         Me.PACSalesPrice.TabIndex = 208
-        Me.PACSalesPrice.TypeID = CType(0, Long)
+        Me.PACSalesPrice.TypeID = 0
         '
         'PACMetaItem
         '
@@ -2363,7 +2363,7 @@ Partial Class frmBPCalculator
         Me.PACMetaItem.Price = 0.0R
         Me.PACMetaItem.Size = New System.Drawing.Size(20, 12)
         Me.PACMetaItem.TabIndex = 207
-        Me.PACMetaItem.TypeID = CType(0, Long)
+        Me.PACMetaItem.TypeID = 0
         '
         'tiInvention
         '

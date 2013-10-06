@@ -680,6 +680,7 @@ Public Class frmBPCalculator
             lblBPPE.Text = CurrentBP.PELevel.ToString
             lblBPRuns.Text = CurrentBP.Runs.ToString
             lblBPMaxRuns.Text = CurrentBP.MaxProductionLimit.ToString("N0")
+            lblBPWF.Text = CurrentBP.WasteFactor.ToString("N2") & "%"
             ' Update the prices
             lblBPOMarketValue.Text = (CDbl(StaticData.Types(CurrentBP.Id).BasePrice) * 0.9).ToString("N2") & " Isk"
             ' Update the limits on the Runs
