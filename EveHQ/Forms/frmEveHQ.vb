@@ -20,6 +20,7 @@
 Imports System.ComponentModel
 Imports System.Net.Cache
 Imports System.Data
+Imports EveHQ.Controls
 Imports EveHQ.EveAPI
 Imports EveHQ.Common
 Imports DevComponents.AdvTree

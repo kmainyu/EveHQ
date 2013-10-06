@@ -19,266 +19,315 @@
 '=========================================================================
 Imports System.IO
 
-Public Class CharacterTrainingBlock
+Namespace Controls
 
-    Dim displayPilotName As String = ""
-    Dim UsingAccount As String = ""
+    Public Class CharacterTrainingBlock
 
-    Public Sub New(ByVal objectName As String, ByVal IsAccount As Boolean)
+        ReadOnly _displayPilot As Core.EveHQPilot
+        ReadOnly _displayPilotName As String = ""
+        ReadOnly _usingAccount As String = ""
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
-        ' Add any initialization after the InitializeComponent() call.
+        Public Sub New(ByVal objectName As String, ByVal isAccount As Boolean)
 
-        If IsAccount = True Then
-            Dim cAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts(objectName)
-            UsingAccount = cAccount.userID
-            If cAccount.APIAccountStatus = Core.APIAccountStatuses.Disabled Then
-                ' Prepare block for a blank account
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
+            ' Add any initialization after the InitializeComponent() call.
+
+            If IsAccount = True Then
+                Dim cAccount As Core.EveHQAccount = Core.HQ.Settings.Accounts(objectName)
+                _usingAccount = cAccount.userID
+                If cAccount.APIAccountStatus = Core.APIAccountStatuses.Disabled Then
+                    ' Prepare block for a blank account
+                    pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
+                    pbPilot.Image = My.Resources.Warning64
+                    lblSkill.Text = "Account: " & cAccount.FriendlyName
+                    lblTime.Text = "ACCOUNT HAS EXPIRED!"
+                    ToolTip1.SetToolTip(lblTime, "Account '" & cAccount.FriendlyName & "' has expired!")
+                    lblQueue.Text = "Click here to buy Eve GTCs!"
+                    ToolTip1.SetToolTip(lblQueue, "Purchase your GTCs from BattleClinic Deep Space Supply and help support EveHQ!")
+                    lblSkill.ForeColor = Color.Red
+                    lblTime.LinkColor = Color.Red
+                    lblQueue.LinkColor = Color.Red
+                    lblSkill.Name = ""
+                    lblTime.Name = ""
+                    lblQueue.Name = ""
+                Else
+                    ' Prepare block for a blank account
+                    pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
+                    pbPilot.Image = My.Resources.Warning64
+                    lblSkill.Text = "Account: " & cAccount.FriendlyName
+                    lblTime.Text = "NOT CURRENTLY TRAINING!"
+                    ToolTip1.SetToolTip(lblTime, "Account '" & cAccount.FriendlyName & "' is not training!")
+                    lblQueue.Text = ""
+                    ToolTip1.SetToolTip(lblQueue, "")
+                    lblSkill.ForeColor = Color.Red
+                    lblTime.LinkColor = Color.Red
+                    lblQueue.LinkColor = Color.Red
+                    lblSkill.Name = ""
+                    lblTime.Name = ""
+                    lblQueue.Name = ""
+                End If
+            Else
+                ' Prepare block for a training character
+                _displayPilotName = objectName
+                _usingAccount = ""
+                _displayPilot = Core.HQ.Settings.Pilots(_displayPilotName)
+
+                ' Update skill info before displaying
+                _displayPilot.TrainingCurrentSP = CInt(Core.SkillFunctions.CalcCurrentSkillPoints(_displayPilot))
+                _displayPilot.TrainingCurrentTime = Core.SkillFunctions.CalcCurrentSkillTime(_displayPilot)
+
+                ' Draw image
                 pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
-                pbPilot.Image = My.Resources.Warning64
-                lblSkill.Text = "Account: " & cAccount.FriendlyName
-                lblTime.Text = "ACCOUNT HAS EXPIRED!"
-                ToolTip1.SetToolTip(lblTime, "Account '" & cAccount.FriendlyName & "' has expired!")
-                lblQueue.Text = "Click here to buy Eve GTCs!"
-                ToolTip1.SetToolTip(lblQueue, "Purchase your GTCs from BattleClinic Deep Space Supply and help support EveHQ!")
-                lblSkill.ForeColor = Color.Red
-                lblTime.LinkColor = Color.Red
-                lblQueue.LinkColor = Color.Red
-                lblSkill.Name = ""
-                lblTime.Name = ""
-                lblQueue.Name = ""
-            Else
-                ' Prepare block for a blank account
-                pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
-                pbPilot.Image = My.Resources.Warning64
-                lblSkill.Text = "Account: " & cAccount.FriendlyName
-                lblTime.Text = "NOT CURRENTLY TRAINING!"
-                ToolTip1.SetToolTip(lblTime, "Account '" & cAccount.FriendlyName & "' is not training!")
-                lblQueue.Text = ""
-                ToolTip1.SetToolTip(lblQueue, "")
-                lblSkill.ForeColor = Color.Red
-                lblTime.LinkColor = Color.Red
-                lblQueue.LinkColor = Color.Red
-                lblSkill.Name = ""
-                lblTime.Name = ""
-                lblQueue.Name = ""
+                pbPilot.InitialImage = Core.ImageHandler.GetPortraitImage(_displayPilot.ID)
+                pbPilot.Image = Core.ImageHandler.GetPortraitImage(_displayPilot.ID)
+
+                ' Create pilot image tooltip
+                Dim stti As New DevComponents.DotNetBar.SuperTooltipInfo
+                stti.BodyImage = New Bitmap(Core.ImageHandler.GetPortraitImage(_displayPilot.ID), 48, 48)
+                stti.BodyText = "Click the pilot image to view the pilot information for " & _displayPilot.Name
+                stti.FooterText = "View Pilot Information"
+                stti.FooterImage = My.Resources.Aura32
+                stti.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+                STT.SetSuperTooltip(pbPilot, stti)
+
+                ' Check for overlay
+                Call OverlayAccountTime()
+
+                ' Establish which skill is training
+                Dim currentTrainingSkill As New Core.EveHQPilotQueuedSkill
+                Dim lastQueueTime As DateTime = Now
+                For Each queuedSkill As Core.EveHQPilotQueuedSkill In _displayPilot.QueuedSkills.Values
+                    If Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now And Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) <= Now Then
+                        currentTrainingSkill = queuedSkill
+                    End If
+                    lastQueueTime = queuedSkill.EndTime
+                Next
+
+                ' Add labels
+                Dim baseTime As DateTime = Core.SkillFunctions.ConvertLocalTimeToEve(New Date(Now.Year, Now.Month, Now.Day, Now.Hour, Now.Minute, Now.Second))
+                Dim queueTimeRemaining As Long
+                If currentTrainingSkill.SkillID <> 0 Then
+                    lblSkill.Text = _displayPilot.Name & " - " & Core.SkillFunctions.SkillIDToName(currentTrainingSkill.SkillID)
+                    lblTime.Text = "Training Lvl " & Core.SkillFunctions.Roman(currentTrainingSkill.Level) & ": " & Core.SkillFunctions.TimeToString((currentTrainingSkill.EndTime - baseTime).TotalSeconds)
+                    queueTimeRemaining = CLng((lastQueueTime - baseTime).TotalSeconds)
+                Else
+                    lblSkill.Text = _displayPilot.Name & " - " & _displayPilot.TrainingSkillName
+                    lblTime.Text = "Training Lvl " & Core.SkillFunctions.Roman(_displayPilot.TrainingSkillLevel) & ": " & Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                    queueTimeRemaining = _displayPilot.TrainingCurrentTime + _displayPilot.QueuedSkillTime
+                End If
+                lblQueue.Text = "Queue Time: " & Core.SkillFunctions.TimeToString(queueTimeRemaining)
+                If queueTimeRemaining < 86400 Then
+                    lblQueue.LinkColor = Color.Red
+                Else
+                    lblQueue.LinkColor = Color.Black
+                End If
+
+                ' Set label tooltips
+                Dim sttt As New DevComponents.DotNetBar.SuperTooltipInfo
+                sttt.BodyImage = New Bitmap(Core.ImageHandler.GetPortraitImage(_displayPilot.ID), 48, 48)
+                sttt.BodyText = "Click the hyperlink to view the skill training information for " & _displayPilot.Name
+                sttt.FooterText = "View Skill Training Information"
+                sttt.FooterImage = My.Resources.SkillBook32
+                sttt.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+                STT.SetSuperTooltip(lblSkill, sttt)
+                STT.SetSuperTooltip(lblTime, sttt)
+                STT.SetSuperTooltip(lblQueue, sttt)
+
+                ' Set names
+                pbPilot.Name = _displayPilotName
+                lblSkill.Name = _displayPilotName
+                lblTime.Name = _displayPilotName
+                lblQueue.Name = _displayPilotName
+
+                ' Start the timers
+                tmrUpdate.Enabled = True
+                tmrUpdate.Start()
+                tmrUpdateOverlays.Enabled = True
+                tmrUpdateOverlays.Start()
+
             End If
-        Else
-            ' Prepare block for a training character
-            displayPilotName = objectName
-            UsingAccount = ""
-            Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
+        End Sub
 
-            ' Update skill info before displaying
-            dPilot.TrainingCurrentSP = CInt(EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(dPilot))
-            dPilot.TrainingCurrentTime = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(dPilot)
+        Private Sub tmrUpdate_Tick(ByVal sender As System.Object, ByVal e As EventArgs) Handles tmrUpdate.Tick
+            If Core.HQ.Settings.Pilots.ContainsKey(_displayPilotName) = True Then
 
-            ' Draw image
-            pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
-            pbPilot.InitialImage = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID)
-            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID)
+                ' Establish which skill is training
+                Dim currentTrainingSkill As New Core.EveHQPilotQueuedSkill
+                Dim lastQueueTime As DateTime = Now
+                For Each queuedSkill As Core.EveHQPilotQueuedSkill In _displayPilot.QueuedSkills.Values
+                    If Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now And Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) <= Now Then
+                        currentTrainingSkill = queuedSkill
+                    End If
+                    lastQueueTime = queuedSkill.EndTime
+                Next
 
-            ' Create pilot image tooltip
-            Dim STTI As New DevComponents.DotNetBar.SuperTooltipInfo
-            STTI.BodyImage = New Bitmap(EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID), 48, 48)
-            STTI.BodyText = "Click the pilot image to view the pilot information for " & dPilot.Name
-            STTI.FooterText = "View Pilot Information"
-            STTI.FooterImage = My.Resources.Aura32
-            STTI.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
-            STT.SetSuperTooltip(pbPilot, STTI)
+                ' Add labels
+                Dim baseTime As DateTime = Core.SkillFunctions.ConvertLocalTimeToEve(New Date(Now.Year, Now.Month, Now.Day, Now.Hour, Now.Minute, Now.Second))
+                Dim queueTimeRemaining As Long
+                If currentTrainingSkill.SkillID <> 0 Then
+                    lblSkill.Text = _displayPilot.Name & " - " & Core.SkillFunctions.SkillIDToName(currentTrainingSkill.SkillID)
+                    lblTime.Text = "Training Lvl " & Core.SkillFunctions.Roman(currentTrainingSkill.Level) & ": " & Core.SkillFunctions.TimeToString((currentTrainingSkill.EndTime - baseTime).TotalSeconds)
+                    queueTimeRemaining = CLng((lastQueueTime - baseTime).TotalSeconds)
+                Else
+                    lblSkill.Text = _displayPilot.Name & " - " & _displayPilot.TrainingSkillName
+                    lblTime.Text = "Training Lvl " & Core.SkillFunctions.Roman(_displayPilot.TrainingSkillLevel) & ": " & Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                    queueTimeRemaining = _displayPilot.TrainingCurrentTime + _displayPilot.QueuedSkillTime
+                End If
 
-            ' Check for overlay
-            Call Me.ApplyOverlays()
-
-            ' Add labels
-            lblSkill.Text = dPilot.Name & " - " & dPilot.TrainingSkillName
-            Dim currentDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
-            lblTime.Text = "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime)
-            lblQueue.Text = "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime + dPilot.QueuedSkillTime)
-            If dPilot.QueuedSkillTime + dPilot.TrainingCurrentTime < 86400 Then
-                lblQueue.LinkColor = Color.Red
-                'lblQueue.Text &= " (" & EveHQ.Core.SkillFunctions.TimeToString(86400 - dPilot.QueuedSkillTime - dPilot.TrainingCurrentTime) & ")"
-            Else
-                lblQueue.LinkColor = Color.Black
+                lblQueue.Text = "Queue Time: " & Core.SkillFunctions.TimeToString(queueTimeRemaining)
+                If queueTimeRemaining < 86400 Then
+                    lblQueue.LinkColor = Color.Red
+                Else
+                    lblQueue.LinkColor = Color.Black
+                End If
             End If
-            ' Set label tooltips
-            Dim STTT As New DevComponents.DotNetBar.SuperTooltipInfo
-            STTT.BodyImage = New Bitmap(EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID), 48, 48)
-            STTT.BodyText = "Click the hyperlink to view the skill training information for " & dPilot.Name
-            STTT.FooterText = "View Skill Training Information"
-            STTT.FooterImage = My.Resources.SkillBook32
-            STTT.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
-            STT.SetSuperTooltip(lblSkill, STTT)
-            STT.SetSuperTooltip(lblTime, STTT)
-            STT.SetSuperTooltip(lblQueue, STTT)
-            ' Set names
-            pbPilot.Name = displayPilotName
-            lblSkill.Name = displayPilotName
-            lblTime.Name = displayPilotName
-            lblQueue.Name = displayPilotName
-            ' Start the timer
-            tmrUpdate.Enabled = True
-            tmrUpdate.Start()
-        End If
-    End Sub
+        End Sub
 
-    Private Sub tmrUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrUpdate.Tick
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(displayPilotName) = True Then
-            Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
-            lblSkill.Text = dPilot.Name & " - " & dPilot.TrainingSkillName
-            Dim currentDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
-            lblTime.Text = "Training Lvl " & EveHQ.Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel) & ": " & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime)
-            lblQueue.Text = "Queue Time: " & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime + dPilot.QueuedSkillTime)
-            If dPilot.QueuedSkillTime + dPilot.TrainingCurrentTime < 86400 Then
-                lblQueue.LinkColor = Color.Red
-                'lblQueue.Text &= " (" & EveHQ.Core.SkillFunctions.TimeToString(86400 - dPilot.QueuedSkillTime - dPilot.TrainingCurrentTime) & ")"
-            Else
-                lblQueue.LinkColor = Color.Black
+        Private Sub lblQueue_LinkClicked(ByVal sender As System.Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblQueue.LinkClicked
+            If _usingAccount <> "" Then
+                ' Start a link to the DSS GTC site
+                'Try
+
+                'Catch ex As Exception
+                '    MessageBox.Show("Unable to browse to the selected website", "Account Expiry Link Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'End Try
             End If
-            Call Me.ApplyOverlays()
-        End If
-    End Sub
+        End Sub
 
-    Private Sub lblQueue_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblQueue.LinkClicked
-        If UsingAccount <> "" Then
-            ' Start a link to the DSS GTC site
-            'Try
+        Private Sub ApplyOverlays()
+            Call OverlayAccountTime()
+            Call OverlayInsuffClone()
+        End Sub
 
-            'Catch ex As Exception
-            '    MessageBox.Show("Unable to browse to the selected website", "Account Expiry Link Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            'End Try
-        End If
-    End Sub
-
-    Private Sub ApplyOverlays()
-        Call Me.OverlayAccountTime()
-        Call Me.OverlayInsuffClone()
-    End Sub
-
-    Private Sub OverlayAccountTime()
-        If pbPilot.InitialImage IsNot Nothing Then
-            If EveHQ.Core.HQ.Settings.NotifyAccountTime = True Then
-                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(displayPilotName) Then
-                    Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
-                    If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(dPilot.Account) Then
-                        Dim AccountTime As Date = EveHQ.Core.HQ.Settings.Accounts(dPilot.Account).PaidUntil
-                        If AccountTime.Year > 2000 And (AccountTime - Now).TotalHours <= EveHQ.Core.HQ.Settings.AccountTimeLimit Then
-                            ' Check exactly how much time is left (i.e. less than an hour?)
-                            Dim OverlayText As String = ""
-                            Dim TimeRemaining As Double = (AccountTime - Now).TotalHours
-                            If TimeRemaining > 2400 Then
-                                TimeRemaining = Int(TimeRemaining / 24) * 24
+        Private Sub OverlayAccountTime()
+            If pbPilot.InitialImage IsNot Nothing Then
+                If Core.HQ.Settings.NotifyAccountTime = True Then
+                    If Core.HQ.Settings.Pilots.ContainsKey(_displayPilotName) Then
+                        If Core.HQ.Settings.Accounts.ContainsKey(_displayPilot.Account) Then
+                            Dim accountTime As Date = Core.HQ.Settings.Accounts(_displayPilot.Account).PaidUntil
+                            If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= Core.HQ.Settings.AccountTimeLimit Then
+                                ' Check exactly how much time is left (i.e. less than an hour?)
+                                Dim overlayText As String
+                                Dim timeRemaining As Double = (accountTime - Now).TotalHours
+                                If timeRemaining > 2400 Then
+                                    timeRemaining = Int(timeRemaining / 24) * 24
+                                End If
+                                Select Case timeRemaining
+                                    Case Is <= 0
+                                        overlayText = "Expired"
+                                    Case Is >= 1
+                                        overlayText = Core.SkillFunctions.TimeToString(Int(timeRemaining) * 3600, False)
+                                    Case Else
+                                        overlayText = " < 1h"
+                                End Select
+                                Dim overlayFont As Font = New Font(Font.FontFamily, 7)
+                                Dim overlayBrush As New SolidBrush(Color.FromArgb(192, 255, 0, 0))
+                                ' Define a new image
+                                Dim olImage As Bitmap = New Bitmap(pbPilot.InitialImage, pbPilot.Width, pbPilot.Height)
+                                Dim myGraphics As Graphics = Graphics.FromImage(olImage)
+                                ' Draw a rectangle for the text background
+                                myGraphics.FillRectangle(overlayBrush, 0, pbPilot.Height - 10, pbPilot.Width, 10)
+                                ' Add the text to the new bitmap.
+                                myGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
+                                Dim ts As Size = Size.Round(myGraphics.MeasureString(overlayText, overlayFont, 40))
+                                myGraphics.DrawString(overlayText, overlayFont, New SolidBrush(Color.White), CInt((40 - ts.Width) / 2), 30)
+                                pbPilot.Image = olImage
+                            Else
+                                pbPilot.Image = pbPilot.InitialImage
                             End If
-                            Select Case TimeRemaining
-                                Case Is <= 0
-                                    OverlayText = "Expired"
-                                Case Is >= 1
-                                    OverlayText = EveHQ.Core.SkillFunctions.TimeToString(Int(TimeRemaining) * 3600, False)
-                                Case Else
-                                    OverlayText = " < 1h"
-                            End Select
-                            Dim OverlayFont As Font = New Font(Me.Font.FontFamily, 7)
-                            Dim OverlayBrush As New SolidBrush(Drawing.Color.FromArgb(192, 255, 0, 0))
+                        End If
+                    End If
+                Else
+                    pbPilot.Image = pbPilot.InitialImage
+                End If
+            End If
+        End Sub
+
+        Private Sub OverlayInsuffClone()
+            If pbPilot.Image IsNot Nothing Then
+                If Core.HQ.Settings.NotifyInsuffClone = True Then
+                    If Core.HQ.Settings.Pilots.ContainsKey(_displayPilotName) Then
+                        If (_displayPilot.SkillPoints + Core.SkillFunctions.CalcCurrentSkillPoints(_displayPilot)) > CLng(_displayPilot.CloneSP) Then
+                            Const overlayText As String = "Clone"
+                            Dim overlayFont As Font = New Font(Font.FontFamily, 7)
+                            Dim overlayBrush As New SolidBrush(Color.Coral)
                             ' Define a new image
-                            Dim OLImage As Bitmap = New Bitmap(pbPilot.InitialImage, pbPilot.Width, pbPilot.Height)
-                            Dim MyGraphics As Graphics = Graphics.FromImage(OLImage)
+                            Dim olImage As Bitmap = New Bitmap(pbPilot.Image, pbPilot.Width, pbPilot.Height)
+                            Dim myGraphics As Graphics = Graphics.FromImage(olImage)
                             ' Draw a rectangle for the text background
-                            MyGraphics.FillRectangle(OverlayBrush, 0, pbPilot.Height - 10, pbPilot.Width, 10)
+                            myGraphics.FillRectangle(overlayBrush, 0, pbPilot.Height - 20, pbPilot.Width, 10)
                             ' Add the text to the new bitmap.
-                            MyGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
-                            Dim ts As Size = Size.Round(MyGraphics.MeasureString(OverlayText, OverlayFont, 40))
-                            MyGraphics.DrawString(OverlayText, OverlayFont, New SolidBrush(Color.White), CInt((40 - ts.Width) / 2), pbPilot.Height - 10)
-                            pbPilot.Image = OLImage
-                        Else
-                            pbPilot.Image = pbPilot.InitialImage
+                            myGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
+                            Dim ts As Size = Size.Round(myGraphics.MeasureString(overlayText, overlayFont, 40))
+                            myGraphics.DrawString(overlayText, overlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
+                            pbPilot.Image = olImage
                         End If
                     End If
                 End If
-            Else
-                pbPilot.Image = pbPilot.InitialImage
             End If
-        End If
-    End Sub
-
-    Private Sub OverlayInsuffClone()
-        If pbPilot.Image IsNot Nothing Then
-            If EveHQ.Core.HQ.Settings.NotifyInsuffClone = True Then
-                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(displayPilotName) Then
-                    Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
-                    If (dPilot.SkillPoints + EveHQ.Core.SkillFunctions.CalcCurrentSkillPoints(dPilot)) > CLng(dPilot.CloneSP) Then
-                        Const OverlayText As String = "Clone"
-                        Dim OverlayFont As Font = New Font(Me.Font.FontFamily, 7)
-                        Dim OverlayBrush As New SolidBrush(Drawing.Color.Coral)
-                        ' Define a new image
-                        Dim OLImage As Bitmap = New Bitmap(pbPilot.Image, pbPilot.Width, pbPilot.Height)
-                        Dim MyGraphics As Graphics = Graphics.FromImage(OLImage)
-                        ' Draw a rectangle for the text background
-                        MyGraphics.FillRectangle(OverlayBrush, 0, pbPilot.Height - 20, pbPilot.Width, 10)
-                        ' Add the text to the new bitmap.
-                        MyGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
-                        Dim ts As Size = Size.Round(MyGraphics.MeasureString(OverlayText, OverlayFont, 40))
-                        MyGraphics.DrawString(OverlayText, OverlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
-                        pbPilot.Image = OLImage
-                    End If
-                End If
-            End If
-        End If
-    End Sub
+        End Sub
 
 #Region "Portrait Related Routines"
 
-    Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
-        Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
-        pbPilot.ImageLocation = "http://image.eveonline.com/Character/" & dPilot.ID & "_256.jpg"
-    End Sub
-    Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
-        ' If double-clicked, see if we can get it from the eve portrait folder
-        Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
-        For folder As Integer = 1 To 4
-            Dim folderName As String
-            If EveHQ.Core.HQ.Settings.EveFolderLUA(folder) = False Then
-                Dim eveSettingsFolder As String = EveHQ.Core.HQ.Settings.EveFolder(folder)
-                If eveSettingsFolder IsNot Nothing Then
-                    eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
-                    Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
-                    folderName = Path.Combine(Path.Combine(Path.Combine(Path.Combine(eveFolder, eveSettingsFolder), "cache"), "Pictures"), "Portraits")
-                Else
-                    folderName = ""
-                End If
-            Else
-                folderName = Path.Combine(Path.Combine(Path.Combine(EveHQ.Core.HQ.Settings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
-            End If
-            If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
-                For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
-                    If foundFile.Contains(dPilot.ID & "_") = True Then
-                        ' Get the dimensions of the file
-                        Dim myFile As New FileInfo(foundFile)
-                        Dim fileData As String() = myFile.Name.Split(New Char(1) {CChar("_"), CChar(".")})
-                        If CInt(fileData(1)) >= 128 And CInt(fileData(1)) <= 256 Then
-                            pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(dPilot.ID)
-                            Exit Sub
-                        End If
+        Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
+            Dim dPilot As Core.EveHQPilot = Core.HQ.Settings.Pilots(_displayPilotName)
+            pbPilot.ImageLocation = "http://image.eveonline.com/Character/" & dPilot.ID & "_256.jpg"
+        End Sub
+        Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
+            ' If double-clicked, see if we can get it from the eve portrait folder
+            For folder As Integer = 1 To 4
+                Dim folderName As String
+                If Core.HQ.Settings.EveFolderLua(folder) = False Then
+                    Dim eveSettingsFolder As String = Core.HQ.Settings.EveFolder(folder)
+                    If eveSettingsFolder IsNot Nothing Then
+                        eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
+                        Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
+                        folderName = Path.Combine(Path.Combine(Path.Combine(Path.Combine(eveFolder, eveSettingsFolder), "cache"), "Pictures"), "Portraits")
+                    Else
+                        folderName = ""
                     End If
-                Next
-            End If
-        Next
-        MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
-    End Sub
-    Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuSavePortrait.Click
-        Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(displayPilotName)
-        Dim imgFilename As String = dPilot.ID & ".png"
-        imgFilename = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, imgFilename)
-        ' Save the file
-        Try
-            pbPilot.InitialImage.Save(imgFilename)
-        Catch ex As Exception
-        End Try
-    End Sub
+                Else
+                    folderName = Path.Combine(Path.Combine(Path.Combine(Core.HQ.Settings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
+                End If
+                If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
+                        If foundFile.Contains(_displayPilot.ID & "_") = True Then
+                            ' Get the dimensions of the file
+                            Dim myFile As New FileInfo(foundFile)
+                            Dim fileData As String() = myFile.Name.Split(New Char() {CChar("_"), CChar(".")})
+                            If CInt(fileData(1)) >= 128 And CInt(fileData(1)) <= 256 Then
+                                pbPilot.Image = Core.ImageHandler.GetPortraitImage(_displayPilot.ID)
+                                Exit Sub
+                            End If
+                        End If
+                    Next
+                End If
+            Next
+            MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End Sub
+
+        Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuSavePortrait.Click
+            Dim imgFilename As String = _displayPilot.ID & ".png"
+            imgFilename = Path.Combine(Core.HQ.imageCacheFolder, imgFilename)
+            ' Save the file
+            Try
+                pbPilot.InitialImage.Save(imgFilename)
+            Catch ex As Exception
+            End Try
+        End Sub
+
 #End Region
 
-    Private Sub pbPilot_LoadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs) Handles pbPilot.LoadCompleted
-        pbPilot.InitialImage = pbPilot.Image
-        Call ApplyOverlays()
-    End Sub
-End Class
+        Private Sub pbPilot_LoadCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.AsyncCompletedEventArgs) Handles pbPilot.LoadCompleted
+            pbPilot.InitialImage = pbPilot.Image
+            Call ApplyOverlays()
+        End Sub
+
+        Private Sub tmrUpdateOverlays_Tick(sender As System.Object, e As EventArgs) Handles tmrUpdateOverlays.Tick
+            If Core.HQ.Settings.Pilots.ContainsKey(_displayPilotName) = True Then
+                Call ApplyOverlays()
+            End If
+        End Sub
+    End Class
+End Namespace
