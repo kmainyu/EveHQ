@@ -24,6 +24,7 @@ Imports System.Text
 Imports System.Xml
 Imports System.Windows.Forms
 Imports EveHQ.EveData
+Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Reports
     Shared www As String = "http://www.evehq.net"
@@ -2082,10 +2083,11 @@ Public Class Reports
 #End Region
 
 #Region "Skill Group Chart"
-    Public Shared Function SkillGroupChart(ByVal rpilot As EveHQPilot) As ZedGraph.ZedGraphControl
-        Dim zgc As New ZedGraph.ZedGraphControl
-        Dim myPane As ZedGraph.GraphPane = zgc.GraphPane
+    Public Shared Sub SkillGroupChart(ByVal rpilot As EveHQPilot, chart1 As Chart)
 
+        Const collectionThreshold As Double = 4
+
+        ' Calculate skill splits
         Dim currentSkill As New EveHQPilotSkill
         Dim currentSP As String = ""
         Dim currentTime As String = ""
@@ -2095,8 +2097,6 @@ Public Class Reports
             currentTime = SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
         End If
 
-        Dim otherGroup As Double
-        Dim otherList As New ArrayList
         Dim repGroup(HQ.SkillGroups.Count, 3) As String
         Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 5) As String
         Dim cGroup As SkillGroup
@@ -2133,87 +2133,80 @@ Public Class Reports
             totalSPCount += spCount
         Next
 
-        ' Set the GraphPane title
-        myPane.Title.Text = "Skill Breakdown by Category - " & rpilot.Name
-        myPane.Title.FontSpec.IsItalic = True
-        myPane.Title.FontSpec.Size = 18.0F
-        myPane.Title.FontSpec.Family = "Arial"
+        ' Create series
+        chart1.Series.Clear()
+        chart1.Series.Add("SP")
 
-        ' Fill the pane background with a color gradient
-        myPane.Fill = New ZedGraph.Fill(Color.White, Color.LightSteelBlue, 45.0F)
-        ' No fill for the chart background
-        myPane.Chart.Fill.Type = ZedGraph.FillType.None
+        ' Set chart type and styles
+        chart1.Series("SP").ChartType = SeriesChartType.Doughnut
+        chart1.Series("SP")("PieLabelStyle") = "Inside"
+        chart1.Series("SP")("DoughnutRadius") = "90"
+        chart1.Series("SP")("PieDrawingStyle") = "SoftEdge"
 
-        ' Set the legend to an arbitrary location
-        myPane.Legend.IsVisible = False
-        myPane.Legend.Position = ZedGraph.LegendPos.TopCenter
-        myPane.Legend.FontSpec.Size = 8.0F
-        myPane.Legend.IsHStack = False
+        chart1.ChartAreas("Default").Area3DStyle.Enable3D = True
 
-        ' Add some pie slices
-        Dim segment(HQ.SkillGroups.Count) As ZedGraph.PieItem
+        chart1.Titles(0).Text = "Skill Breakdown by Category - " & rpilot.Name
+
+        ' Add the data
+        Dim x As New List(Of String)
+        Dim y As New List(Of Double)
+        Dim collectedTotal As Double = 0
+        Dim collectedDetails As String = ""
+
         For group As Integer = 1 To HQ.SkillGroups.Count
             If CDbl(repGroup(group, 3)) > 0 Then
-                If CDbl(repGroup(group, 3)) / totalSPCount * 100 > 2.5 Then
-                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & CDbl(repGroup(group, 3)).ToString("N0") & ")")
-                    segment(group).LabelType = ZedGraph.PieLabelType.Name_Percent
-                    segment(group).LabelDetail.FontSpec.Size = 8
-                Else
-                    otherGroup += CDbl(repGroup(group, 3))
-                    otherList.Add(repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0"))
+                x.Add(repGroup(group, 1) & ControlChars.CrLf & CDbl(repGroup(group, 3)).ToString("N0") & " (" & (CDbl(repGroup(group, 3)) / totalSPCount * 100).ToString("N2") & "%)")
+                y.Add(CDbl(repGroup(group, 3)))
+                If CDbl(repGroup(group, 3)) / totalSPCount * 100 <= collectionThreshold Then
+                    collectedTotal += CDbl(repGroup(group, 3))
+                    collectedDetails &= repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0") & ControlChars.CrLf
                 End If
             End If
         Next
-        If otherGroup > 0 Then
-            segment(0) = myPane.AddPieSlice(otherGroup, Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & otherGroup.ToString("N0") & ")")
-            segment(0).LabelType = ZedGraph.PieLabelType.Name_Percent
-            segment(0).LabelDetail.FontSpec.Size = 8
-            ' Make a text label to highlight the total value
-            Dim text As New ZedGraph.TextObj("Others:" & ControlChars.CrLf, 0.1, 0.2, ZedGraph.CoordType.PaneFraction)
-            text.Location.AlignH = ZedGraph.AlignH.Center
-            text.Location.AlignV = ZedGraph.AlignV.Bottom
-            text.FontSpec.Size = 7
-            text.FontSpec.Border.IsVisible = False
-            text.FontSpec.Fill = New ZedGraph.Fill(Color.FromArgb(200, 200, 255), Color.FromArgb(100, 100, 255), 45.0F)
-            text.FontSpec.StringAlignment = StringAlignment.Center
-            myPane.GraphObjList.Add(text)
-            For Each groupText As String In otherList
-                text.Text &= groupText & ControlChars.CrLf
-            Next
-        End If
+        chart1.Series("SP").Points.DataBindXY(x, y)
+        chart1.Legends(0).Enabled = True
+        chart1.Legends(0).Alignment = StringAlignment.Center
+        chart1.Legends(0).Docking = Docking.Right
 
-        ' Calculate the Axis Scale Ranges
-        zgc.AxisChange()
-        zgc.Top = 0 : zgc.Left = 0 : zgc.Dock = Windows.Forms.DockStyle.Fill
-        Return zgc
-    End Function
+        ' Explode all points
+        For Each point As DataPoint In chart1.Series("SP").Points
+            point("Exploded") = "true"
+        Next
 
-    Private Shared Function RandomRGBColor() As Color
-        Static colRandom As New Random(CInt(Math.Sqrt(Now.Ticks)))
-        Dim r As Integer = colRandom.Next(0, 255)
-        Dim g As Integer = colRandom.Next(0, 255)
-        Dim b As Integer = colRandom.Next(0, 255)
-        Return Color.FromArgb(255, r, g, b)
-        colRandom = New Random(r * g * b)
-    End Function
+        Dim series1 As Series = chart1.Series(0)
+
+        ' Set the threshold under which all points will be collected
+        series1("CollectedThreshold") = collectionThreshold.ToString
+
+        ' Set the threshold type to be a percentage of the pie
+        ' When set to false, this property uses the actual value to determine the collected threshold
+        series1("CollectedThresholdUsePercent") = "true"
+
+        ' Set the label of the collected pie slice
+        series1("CollectedLabel") = "Others" & ControlChars.CrLf & collectedTotal.ToString("N0") & " (" & (collectedTotal / totalSPCount * 100).ToString("N2") & "%)"
+
+        ' Set the legend text of the collected pie slice
+        series1("CollectedLegendText") = "Others:-" & ControlChars.CrLf & collectedDetails
+
+        ' Set the collected pie slice to be exploded
+        series1("CollectedSliceExploded") = "true"
+
+        ' Set the color of the collected pie slice
+        series1("CollectedColor") = "LightGreen"
+
+        ' Set the tooltip of the collected pie slice
+        series1("CollectedToolTip") = "Others:-" & ControlChars.CrLf & collectedDetails
+
+    End Sub
+
 #End Region
 
 #Region "Skill Cost Chart"
-    Public Shared Function SkillCostChart(ByVal rpilot As EveHQPilot) As ZedGraph.ZedGraphControl
-        Dim zgc As New ZedGraph.ZedGraphControl
-        Dim myPane As ZedGraph.GraphPane = zgc.GraphPane
+    Public Shared Sub SkillCostChart(ByVal rpilot As EveHQPilot, chart1 As Chart)
 
-        Dim currentSkill As New EveHQPilotSkill
-        Dim currentSP As String = ""
-        Dim currentTime As String = ""
-        If rpilot.Training = True Then
-            currentSkill = rpilot.PilotSkills.Item(SkillFunctions.SkillIDToName(rpilot.TrainingSkillID))
-            currentSP = CStr(rpilot.TrainingCurrentSP)
-            currentTime = SkillFunctions.TimeToString(rpilot.TrainingCurrentTime)
-        End If
+        Const collectionThreshold As Double = 1
 
-        Dim otherGroup As Double
-        Dim otherList As New ArrayList
+        ' Calculate skill splits
         Dim repGroup(HQ.SkillGroups.Count, 3) As String
         Dim repSkill(HQ.SkillGroups.Count, HQ.SkillListID.Count, 5) As String
         Dim cGroup As SkillGroup
@@ -2242,61 +2235,73 @@ Public Class Reports
             totalSkillCost += totalCost
         Next
 
-        ' Set the GraphPane title
-        myPane.Title.Text = "Skill Cost Breakdown by Category - " & rpilot.Name
-        myPane.Title.FontSpec.IsItalic = True
-        myPane.Title.FontSpec.Size = 18.0F
-        myPane.Title.FontSpec.Family = "Arial"
+        ' Create series
+        chart1.Series.Clear()
+        chart1.Series.Add("SP")
 
-        ' Fill the pane background with a color gradient
-        myPane.Fill = New ZedGraph.Fill(Color.White, Color.LightSteelBlue, 45.0F)
-        ' No fill for the chart background
-        myPane.Chart.Fill.Type = ZedGraph.FillType.None
+        ' Set chart type and styles
+        chart1.Series("SP").ChartType = SeriesChartType.Doughnut
+        chart1.Series("SP")("PieLabelStyle") = "Outside"
+        chart1.Series("SP")("DoughnutRadius") = "90"
+        chart1.Series("SP")("PieDrawingStyle") = "SoftEdge"
 
-        ' Set the legend to an arbitrary location
-        myPane.Legend.IsVisible = False
-        myPane.Legend.Position = ZedGraph.LegendPos.TopCenter
-        myPane.Legend.FontSpec.Size = 8.0F
-        myPane.Legend.IsHStack = False
+        chart1.ChartAreas("Default").Area3DStyle.Enable3D = True
 
-        ' Add some pie slices
-        Dim segment(HQ.SkillGroups.Count) As ZedGraph.PieItem
+        chart1.Titles(0).Text = "Skill Breakdown by Category - " & rpilot.Name
+
+        ' Add the data
+        Dim x As New List(Of String)
+        Dim y As New List(Of Double)
+        Dim collectedTotal As Double = 0
+        Dim collectedDetails As String = ""
+
         For group As Integer = 1 To HQ.SkillGroups.Count
             If CDbl(repGroup(group, 3)) > 0 Then
-                If CDbl(repGroup(group, 3)) / totalSkillCost * 100 > 1.25 Then
-                    segment(group) = myPane.AddPieSlice(CDbl(repGroup(group, 3)), Reports.RandomRGBColor, Color.White, 45, 0.05, repGroup(group, 1) & " (" & CDbl(repGroup(group, 3)).ToString("N0") & " ISK)")
-                    segment(group).LabelType = ZedGraph.PieLabelType.Name_Percent
-                    segment(group).LabelDetail.FontSpec.Size = 8
-                Else
-                    otherGroup += CDbl(repGroup(group, 3))
-                    otherList.Add(repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0") & " ISK")
+                x.Add(repGroup(group, 1) & ControlChars.CrLf & CDbl(repGroup(group, 3)).ToString("N0") & " (" & (CDbl(repGroup(group, 3)) / totalSkillCost * 100).ToString("N2") & "%)")
+                y.Add(CDbl(repGroup(group, 3)))
+                If CDbl(repGroup(group, 3)) / totalSkillCost * 100 <= collectionThreshold Then
+                    collectedTotal += CDbl(repGroup(group, 3))
+                    collectedDetails &= repGroup(group, 1) & ": " & CDbl(repGroup(group, 3)).ToString("N0") & ControlChars.CrLf
                 End If
             End If
         Next
-        If otherGroup > 0 Then
-            segment(0) = myPane.AddPieSlice(otherGroup, Reports.RandomRGBColor, Color.White, 45, 0.05, "Other Groups (" & otherGroup.ToString("N0") & " ISK)")
-            segment(0).LabelType = ZedGraph.PieLabelType.Name_Percent
-            segment(0).LabelDetail.FontSpec.Size = 8
-            ' Make a text label to highlight the total value
-            Dim text As New ZedGraph.TextObj("Others:" & ControlChars.CrLf, 0.1, 0.98, ZedGraph.CoordType.PaneFraction, ZedGraph.AlignH.Left, ZedGraph.AlignV.Bottom)
-            text.Location.AlignH = ZedGraph.AlignH.Center
-            text.Location.AlignV = ZedGraph.AlignV.Bottom
-            text.FontSpec.Size = 7
-            text.FontSpec.Border.IsVisible = False
-            text.FontSpec.Fill = New ZedGraph.Fill(Color.FromArgb(200, 200, 255), Color.FromArgb(100, 100, 255), 45.0F)
-            text.FontSpec.StringAlignment = StringAlignment.Center
-            myPane.GraphObjList.Add(text)
-            For Each groupText As String In otherList
-                text.Text &= groupText & ControlChars.CrLf
-            Next
-        End If
+        chart1.Series("SP").Points.DataBindXY(x, y)
+        chart1.Legends(0).Enabled = True
+        chart1.Legends(0).Alignment = StringAlignment.Center
+        chart1.Legends(0).Docking = Docking.Right
 
-        ' Calculate the Axis Scale Ranges
-        zgc.AxisChange()
-        zgc.Top = 0 : zgc.Left = 0 : zgc.Dock = Windows.Forms.DockStyle.Fill
-        Return zgc
-    End Function
+        ' Explode all points
+        For Each point As DataPoint In chart1.Series("SP").Points
+            point("Exploded") = "true"
+        Next
+
+        Dim series1 As Series = chart1.Series(0)
+
+        ' Set the threshold under which all points will be collected
+        series1("CollectedThreshold") = collectionThreshold.ToString
+
+        ' Set the threshold type to be a percentage of the pie
+        ' When set to false, this property uses the actual value to determine the collected threshold
+        series1("CollectedThresholdUsePercent") = "true"
+
+        ' Set the label of the collected pie slice
+        series1("CollectedLabel") = "Others" & ControlChars.CrLf & collectedTotal.ToString("N0") & " (" & (collectedTotal / totalSkillCost * 100).ToString("N2") & "%)"
+
+        ' Set the legend text of the collected pie slice
+        series1("CollectedLegendText") = "Others:-" & ControlChars.CrLf & collectedDetails
+
+        ' Set the collected pie slice to be exploded
+        series1("CollectedSliceExploded") = "true"
+
+        ' Set the color of the collected pie slice
+        series1("CollectedColor") = "LightGreen"
+
+        ' Set the tooltip of the collected pie slice
+        series1("CollectedToolTip") = "Others:-" & ControlChars.CrLf & collectedDetails
+
+    End Sub
 #End Region
+
 
 #Region "Text Character Sheet Report"
     Public Shared Sub GenerateTextCharSheet(ByVal rpilot As EveHQPilot)

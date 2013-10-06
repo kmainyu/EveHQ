@@ -111,6 +111,7 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -769,10 +770,6 @@
     <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
       <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
       <Name>EveHQ.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
-      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
-      <Name>EveHQ.CoreControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>

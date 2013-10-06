@@ -92,7 +92,7 @@ Public Class HQ
 
     End Sub
 
-    Public Shared Property Settings As EveHQSettings
+    Public Shared Property Settings As New EveHQSettings
 
     Public Shared Property EveHQLogTimer As New Stopwatch
 

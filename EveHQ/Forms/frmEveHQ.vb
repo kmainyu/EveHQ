@@ -1925,7 +1925,7 @@ Public Class frmEveHQ
         Call Me.UpdatePilotInfo()
     End Sub
 
-    Public Sub DisplayChartReport(ByRef chartForm As frmChartViewer, ByVal formTitle As String)
+    Public Sub DisplayChartReport(ByRef chartForm As Forms.FrmChartViewer, ByVal formTitle As String)
         chartForm.Text = formTitle
         Dim tp As TabItem = HQ.GetMDITab(chartForm.Text)
         If tp Is Nothing Then
@@ -2413,7 +2413,7 @@ Public Class frmEveHQ
 #Region "Ribbon Button Routines"
 
     Private Sub btnSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSave.Click
-        Call Me.SaveEverything(False)
+        Call SaveEverything(False)
     End Sub
 
     Private Sub btnManageAPI_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnManageAPI.Click
@@ -3225,26 +3225,24 @@ Public Class frmEveHQ
 
     Private Sub btnChartSkillGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnChartSkillGroup.Click
         If cboReportPilot.SelectedItem Is Nothing Then
-            MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information)
+            MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
         Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
-        Dim newChartForm As New frmChartViewer
-        newChartForm.Controls.Add(Reports.SkillGroupChart(rPilot))
-        Call Me.DisplayChartReport(newChartForm, "Skill Group Chart - " & rPilot.Name)
+        Dim newChartForm As New Forms.FrmChartViewer
+        Call Reports.SkillGroupChart(rPilot, newChartForm.Chart1)
+        Call DisplayChartReport(newChartForm, "Skill Group Chart - " & rPilot.Name)
     End Sub
 
     Private Sub btnChartSkillCost_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnChartSkillCost.Click
         If cboReportPilot.SelectedItem Is Nothing Then
-            MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information)
+            MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
         End If
         Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
-        Dim newChartForm As New frmChartViewer
-        newChartForm.Controls.Add(Reports.SkillCostChart(rPilot))
-        Call Me.DisplayChartReport(newChartForm, "Skill Cost Chart - " & rPilot.Name)
+        Dim newChartForm As New Forms.FrmChartViewer
+        Call Reports.SkillCostChart(rPilot, newChartForm.Chart1)
+        Call DisplayChartReport(newChartForm, "Skill Cost Chart - " & rPilot.Name)
     End Sub
 
 #End Region

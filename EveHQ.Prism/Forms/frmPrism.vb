@@ -168,9 +168,6 @@ Public Class frmPrism
         ' Initialise the Report data
         Call Me.InitialiseReports()
 
-        ' Initialise the Chart data
-        Call Me.InitialiseCharts()
-
         ' Initialise the Journal and Transaction Data
         Call Me.InitialiseJournal()
         Call Me.InitialiseTransactions()
@@ -5071,11 +5068,6 @@ Public Class frmPrism
         tiReports.Visible = True
     End Sub
 
-    Private Sub btnCharts_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCharts.Click
-        tabPrism.SelectedTab = tiCharts
-        tiCharts.Visible = True
-    End Sub
-
     Private Sub btnInventionChance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInventionChance.Click
         Dim InvCalc As New frmQuickInventionChance
         InvCalc.ShowDialog()
@@ -5816,72 +5808,6 @@ Public Class frmPrism
         End If
     End Sub
 
-
-#End Region
-
-#Region "Chart Routines"
-
-    Private Sub InitialiseCharts()
-
-        ' Update the report combobox with the reports
-
-        cboChart.BeginUpdate()
-        cboChart.Items.Clear()
-
-        ' Add the report types here in 
-        cboChart.Items.Add("Wallet Balance History")
-
-        ' Finalise the report combobox update
-        cboChart.EndUpdate()
-
-        ' Set the dates
-        dtiChartEndDate.Value = Now
-        dtiChartStartDate.Value = Now.AddMonths(-1)
-
-        cboChartOwners.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalOwnersAll, True, cboChartOwners)
-
-    End Sub
-
-    Private Sub btnGenerateChart_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateChart.Click
-
-        Call Me.GenerateChart()
-
-    End Sub
-
-    Private Sub GenerateChart()
-
-        If cboChart.SelectedItem IsNot Nothing Then
-
-            ' Set the start and end date
-            Dim StartDate As Date = dtiChartStartDate.Value
-            Dim EndDate As Date = dtiChartEndDate.Value.AddDays(1) ' Add 1 to the date so we can check everything less than it
-
-            ' Build the Owners List
-            Dim OwnerNames As New List(Of String)
-            Dim OwnerList As New StringBuilder
-            For Each LVI As ListViewItem In CType(cboChartOwners.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems
-                OwnerNames.Add(LVI.Name)
-            Next
-
-            ' Get the chart name
-            Dim ChartName As String = cboChart.SelectedItem.ToString
-
-            ' Choose what report is selected and get the information
-            Select Case ChartName
-
-                Case "Wallet Balance History"
-                    Dim ReportData As DataSet = Reports.GetJournalReportData(StartDate, EndDate, OwnerNames)
-                    Reports.GenerateWalletBalanceHistoryAnalysisChart(zgcPrism, Reports.GenerateWalletBalanceHistoryAnalysis(ReportData))
-
-            End Select
-
-            ' Display the chart
-            zgcPrism.Visible = True
-
-        Else
-            MessageBox.Show("You must select a chart type before generating a chart!", "Chart Type Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
-    End Sub
 
 #End Region
 

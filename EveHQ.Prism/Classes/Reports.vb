@@ -20,7 +20,6 @@
 
 Imports System.Text
 Imports System.Windows.Forms
-Imports ZedGraph
 Imports System.Drawing
 
 Public Class Reports
@@ -800,56 +799,6 @@ Public Class Reports
         Return Owners
 
     End Function
-
-    Public Shared Sub GenerateWalletBalanceHistoryAnalysisChart(ChartControl As ZedGraphControl, Owners As SortedList(Of String, SortedList(Of Date, Double)))
-
-        Dim ChartPane As GraphPane = ChartControl.GraphPane
-
-        ChartPane.CurveList.Clear()
-
-        ' Set the titles and axis labels
-        ChartPane.Title.Text = "Wallet Balance Analysis"
-        ChartPane.XAxis.Title.Text = "Date"
-        ChartPane.YAxis.Title.Text = "Balance (ISK, Millions)"
-        ChartPane.XAxis.Type = AxisType.Date
-        ChartPane.YAxis.Type = AxisType.Linear
-        ChartPane.YAxis.Title.IsOmitMag = True
-        ChartPane.YAxis.Scale.Mag = 6
-        ChartPane.XAxis.Scale.MinAuto = True
-        ChartPane.XAxis.Scale.MaxAuto = True
-        ChartPane.YAxis.Scale.MinAuto = True
-        ChartPane.YAxis.Scale.MaxAuto = True
-
-
-        Dim RandomClass As New Random(Now.Millisecond)
-        For Each owner As String In Owners.Keys
-            Dim OwnerData As New PointPairList
-            For Each BalDate As Date In Owners(owner).Keys
-                OwnerData.Add(CDbl(BalDate.ToOADate), Owners(owner).Item(BalDate))
-            Next
-            Dim intR, intG, intB As Integer
-            intR = CInt(RandomClass.Next(0, 256) / 2)
-            intG = CInt(RandomClass.Next(0, 256) / 2)
-            intB = CInt(RandomClass.Next(0, 256) / 2)
-            Dim myCurve As LineItem = ChartPane.AddCurve(owner, OwnerData, Color.FromArgb(intR, intG, intB), SymbolType.Circle)
-            myCurve.Line.IsAntiAlias = True
-            myCurve.Line.Width = 2
-            myCurve.Line.StepType = StepType.ForwardStep
-        Next
-
-        ' Fill the axis background with a color gradient
-        ChartPane.Chart.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
-        ChartPane.Legend.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
-        ChartPane.Legend.FontSpec.FontColor = Color.MidnightBlue
-
-        ' Fill the pane background with a color gradient
-        ChartPane.Fill = New Fill(Color.White, Color.LightSteelBlue, 45.0F)
-
-        ' Calculate the Axis Scale Ranges
-        ChartControl.AxisChange()
-        ChartControl.Refresh()
-
-    End Sub
 
 #End Region
 

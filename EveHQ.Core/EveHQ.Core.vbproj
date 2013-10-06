@@ -71,6 +71,10 @@
     <Reference Include="GammaJul.LgLcd">
       <HintPath>ExternalLibs\GammaJul.LgLcd.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalLibs\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -396,10 +400,6 @@
     <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
       <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
       <Name>EveHQ.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
-      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
-      <Name>EveHQ.CoreControls</Name>
     </ProjectReference>
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
