@@ -681,7 +681,7 @@ Public Class ShipInfoControl
     End Sub
 
     Private Sub btnDamageAnalysis_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDamageAnalysis.Click
-        Dim myDA As New frmDamageAnalysis
+        Dim myDA As New Forms.FrmDamageAnalysis
         If cboPilots.SelectedItem IsNot Nothing Then
             myDA.PilotName = cboPilots.SelectedItem.ToString
         End If

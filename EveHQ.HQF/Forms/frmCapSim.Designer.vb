@@ -22,10 +22,14 @@ Partial Class frmCapSim
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.btnExport = New DevComponents.DotNetBar.ButtonX()
         Me.btnReset = New DevComponents.DotNetBar.ButtonX()
-        Me.zgcCapacitor = New ZedGraph.ZedGraphControl()
         Me.btnUpdateEvents = New DevComponents.DotNetBar.ButtonX()
         Me.iiEndTime = New DevComponents.Editors.IntegerInput()
         Me.iiStartTime = New DevComponents.Editors.IntegerInput()
@@ -58,6 +62,7 @@ Partial Class frmCapSim
         Me.lblPeakOut = New DevComponents.DotNetBar.LabelX()
         Me.lblRecharge = New DevComponents.DotNetBar.LabelX()
         Me.lblCapacity = New DevComponents.DotNetBar.LabelX()
+        Me.chartCap = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.PanelEx1.SuspendLayout()
         CType(Me.iiEndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.iiStartTime, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,15 +71,16 @@ Partial Class frmCapSim
         Me.gpModuleList.SuspendLayout()
         CType(Me.adtModules, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gpCapStats.SuspendLayout()
+        CType(Me.chartCap, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'PanelEx1
         '
         Me.PanelEx1.CanvasColor = System.Drawing.SystemColors.Control
         Me.PanelEx1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.PanelEx1.Controls.Add(Me.chartCap)
         Me.PanelEx1.Controls.Add(Me.btnExport)
         Me.PanelEx1.Controls.Add(Me.btnReset)
-        Me.PanelEx1.Controls.Add(Me.zgcCapacitor)
         Me.PanelEx1.Controls.Add(Me.btnUpdateEvents)
         Me.PanelEx1.Controls.Add(Me.iiEndTime)
         Me.PanelEx1.Controls.Add(Me.iiStartTime)
@@ -118,23 +124,6 @@ Partial Class frmCapSim
         Me.btnReset.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.btnReset.TabIndex = 9
         Me.btnReset.Text = "Reset"
-        '
-        'zgcCapacitor
-        '
-        Me.zgcCapacitor.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.zgcCapacitor.Location = New System.Drawing.Point(0, 352)
-        Me.zgcCapacitor.Name = "zgcCapacitor"
-        Me.zgcCapacitor.ScrollGrace = 0.0R
-        Me.zgcCapacitor.ScrollMaxX = 0.0R
-        Me.zgcCapacitor.ScrollMaxY = 0.0R
-        Me.zgcCapacitor.ScrollMaxY2 = 0.0R
-        Me.zgcCapacitor.ScrollMinX = 0.0R
-        Me.zgcCapacitor.ScrollMinY = 0.0R
-        Me.zgcCapacitor.ScrollMinY2 = 0.0R
-        Me.zgcCapacitor.Size = New System.Drawing.Size(794, 224)
-        Me.zgcCapacitor.TabIndex = 8
         '
         'btnUpdateEvents
         '
@@ -181,7 +170,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblEndTimeOffset.BackgroundStyle.Class = ""
         Me.lblEndTimeOffset.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblEndTimeOffset.Location = New System.Drawing.Point(681, 247)
         Me.lblEndTimeOffset.Name = "lblEndTimeOffset"
@@ -195,7 +183,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblStartTimeOffset.BackgroundStyle.Class = ""
         Me.lblStartTimeOffset.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblStartTimeOffset.Location = New System.Drawing.Point(681, 203)
         Me.lblStartTimeOffset.Name = "lblStartTimeOffset"
@@ -227,7 +214,6 @@ Partial Class frmCapSim
         Me.gpResults.Style.BorderRightWidth = 1
         Me.gpResults.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpResults.Style.BorderTopWidth = 1
-        Me.gpResults.Style.Class = ""
         Me.gpResults.Style.CornerDiameter = 4
         Me.gpResults.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpResults.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -236,12 +222,10 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.gpResults.StyleMouseDown.Class = ""
         Me.gpResults.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpResults.StyleMouseOver.Class = ""
         Me.gpResults.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpResults.TabIndex = 2
         Me.gpResults.Text = "Simulation Results"
@@ -333,7 +317,6 @@ Partial Class frmCapSim
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -362,7 +345,6 @@ Partial Class frmCapSim
         Me.gpModuleList.Style.BorderRightWidth = 1
         Me.gpModuleList.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpModuleList.Style.BorderTopWidth = 1
-        Me.gpModuleList.Style.Class = ""
         Me.gpModuleList.Style.CornerDiameter = 4
         Me.gpModuleList.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpModuleList.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -371,12 +353,10 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.gpModuleList.StyleMouseDown.Class = ""
         Me.gpModuleList.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpModuleList.StyleMouseOver.Class = ""
         Me.gpModuleList.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpModuleList.TabIndex = 1
         Me.gpModuleList.Text = "Modules Affecting Capacitor"
@@ -448,7 +428,6 @@ Partial Class frmCapSim
         '
         Me.SlotStyle.BackColorGradientAngle = 90
         Me.SlotStyle.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
-        Me.SlotStyle.Class = ""
         Me.SlotStyle.CornerDiameter = 4
         Me.SlotStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.SlotStyle.Name = "SlotStyle"
@@ -485,7 +464,6 @@ Partial Class frmCapSim
         Me.gpCapStats.Style.BorderRightWidth = 1
         Me.gpCapStats.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpCapStats.Style.BorderTopWidth = 1
-        Me.gpCapStats.Style.Class = ""
         Me.gpCapStats.Style.CornerDiameter = 4
         Me.gpCapStats.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpCapStats.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -494,12 +472,10 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.gpCapStats.StyleMouseDown.Class = ""
         Me.gpCapStats.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpCapStats.StyleMouseOver.Class = ""
         Me.gpCapStats.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpCapStats.TabIndex = 0
         Me.gpCapStats.Text = "Capacitor Summary Statistics"
@@ -510,7 +486,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblStability.BackgroundStyle.Class = ""
         Me.lblStability.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblStability.Location = New System.Drawing.Point(3, 132)
         Me.lblStability.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -525,7 +500,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblPeakDelta.BackgroundStyle.Class = ""
         Me.lblPeakDelta.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPeakDelta.Location = New System.Drawing.Point(3, 112)
         Me.lblPeakDelta.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -540,7 +514,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblPeakRate.BackgroundStyle.Class = ""
         Me.lblPeakRate.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPeakRate.Location = New System.Drawing.Point(3, 52)
         Me.lblPeakRate.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -555,7 +528,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblPeakIn.BackgroundStyle.Class = ""
         Me.lblPeakIn.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPeakIn.Location = New System.Drawing.Point(3, 72)
         Me.lblPeakIn.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -570,7 +542,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblPeakOut.BackgroundStyle.Class = ""
         Me.lblPeakOut.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPeakOut.Location = New System.Drawing.Point(3, 92)
         Me.lblPeakOut.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -585,7 +556,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblRecharge.BackgroundStyle.Class = ""
         Me.lblRecharge.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblRecharge.Location = New System.Drawing.Point(3, 32)
         Me.lblRecharge.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -600,7 +570,6 @@ Partial Class frmCapSim
         '
         '
         '
-        Me.lblCapacity.BackgroundStyle.Class = ""
         Me.lblCapacity.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblCapacity.Location = New System.Drawing.Point(3, 12)
         Me.lblCapacity.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
@@ -608,6 +577,103 @@ Partial Class frmCapSim
         Me.lblCapacity.Size = New System.Drawing.Size(47, 16)
         Me.lblCapacity.TabIndex = 0
         Me.lblCapacity.Text = "Capacity:"
+        '
+        'chartCap
+        '
+        Me.chartCap.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chartCap.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.chartCap.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom
+        Me.chartCap.BackSecondaryColor = System.Drawing.Color.White
+        Me.chartCap.BorderlineColor = System.Drawing.Color.FromArgb(CType(CType(26, Byte), Integer), CType(CType(59, Byte), Integer), CType(CType(105, Byte), Integer))
+        Me.chartCap.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid
+        Me.chartCap.BorderlineWidth = 2
+        ChartArea1.Area3DStyle.Inclination = 15
+        ChartArea1.Area3DStyle.IsClustered = True
+        ChartArea1.Area3DStyle.IsRightAngleAxes = False
+        ChartArea1.Area3DStyle.Perspective = 10
+        ChartArea1.Area3DStyle.Rotation = 10
+        ChartArea1.Area3DStyle.WallWidth = 0
+        ChartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.[True]
+        ChartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount
+        ChartArea1.AxisX.IsLabelAutoFit = False
+        ChartArea1.AxisX.IsStartedFromZero = False
+        ChartArea1.AxisX.LabelAutoFitMaxFontSize = 7
+        ChartArea1.AxisX.LabelAutoFitStyle = CType(((System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.IncreaseFont Or System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.DecreaseFont) _
+            Or System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles.WordWrap), System.Windows.Forms.DataVisualization.Charting.LabelAutoFitStyles)
+        ChartArea1.AxisX.LabelStyle.Font = New System.Drawing.Font("Trebuchet MS", 8.25!, System.Drawing.FontStyle.Bold)
+        ChartArea1.AxisX.LabelStyle.Format = "N0"
+        ChartArea1.AxisX.LabelStyle.Interval = 0.0R
+        ChartArea1.AxisX.LabelStyle.IntervalOffset = 0.0R
+        ChartArea1.AxisX.LabelStyle.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.[Auto]
+        ChartArea1.AxisX.LabelStyle.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.[Auto]
+        ChartArea1.AxisX.LabelStyle.TruncatedLabels = True
+        ChartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        ChartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        ChartArea1.AxisX.MajorTickMark.Interval = 0.0R
+        ChartArea1.AxisX.MajorTickMark.IntervalOffset = 0.0R
+        ChartArea1.AxisX.MajorTickMark.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.[Auto]
+        ChartArea1.AxisX.MajorTickMark.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.[Auto]
+        ChartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black
+        ChartArea1.AxisX.ScrollBar.Size = 10.0R
+        ChartArea1.AxisX.Title = "Time (s)"
+        ChartArea1.AxisX.TitleFont = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        ChartArea1.AxisY.IsLabelAutoFit = False
+        ChartArea1.AxisY.LabelStyle.Font = New System.Drawing.Font("Tahoma", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        ChartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        ChartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        ChartArea1.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black
+        ChartArea1.AxisY.ScrollBar.Size = 10.0R
+        ChartArea1.AxisY.Title = "Cap (%)"
+        ChartArea1.BackColor = System.Drawing.Color.Gainsboro
+        ChartArea1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom
+        ChartArea1.BackSecondaryColor = System.Drawing.Color.White
+        ChartArea1.BorderColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        ChartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid
+        ChartArea1.CursorX.IsUserEnabled = True
+        ChartArea1.CursorX.IsUserSelectionEnabled = True
+        ChartArea1.CursorY.IsUserEnabled = True
+        ChartArea1.CursorY.IsUserSelectionEnabled = True
+        ChartArea1.Name = "Default"
+        ChartArea1.ShadowColor = System.Drawing.Color.Transparent
+        Me.chartCap.ChartAreas.Add(ChartArea1)
+        Legend1.Alignment = System.Drawing.StringAlignment.Center
+        Legend1.BackColor = System.Drawing.Color.Transparent
+        Legend1.DockedToChartArea = "Default"
+        Legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom
+        Legend1.Enabled = False
+        Legend1.Font = New System.Drawing.Font("Tahoma", 8.0!, System.Drawing.FontStyle.Bold)
+        Legend1.IsTextAutoFit = False
+        Legend1.Name = "Default"
+        Legend1.TitleFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chartCap.Legends.Add(Legend1)
+        Me.chartCap.Location = New System.Drawing.Point(12, 352)
+        Me.chartCap.Name = "chartCap"
+        Series1.BorderColor = System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(26, Byte), Integer), CType(CType(59, Byte), Integer), CType(CType(105, Byte), Integer))
+        Series1.ChartArea = "Default"
+        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series1.Legend = "Default"
+        Series1.Name = "Series1"
+        Series1.ShadowColor = System.Drawing.Color.Black
+        Series2.BorderColor = System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(26, Byte), Integer), CType(CType(59, Byte), Integer), CType(CType(105, Byte), Integer))
+        Series2.ChartArea = "Default"
+        Series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine
+        Series2.Color = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(10, Byte), Integer))
+        Series2.Legend = "Default"
+        Series2.Name = "Series2"
+        Series2.ShadowColor = System.Drawing.Color.Black
+        Me.chartCap.Series.Add(Series1)
+        Me.chartCap.Series.Add(Series2)
+        Me.chartCap.Size = New System.Drawing.Size(770, 221)
+        Me.chartCap.TabIndex = 20
+        Title1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Title1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(26, Byte), Integer), CType(CType(59, Byte), Integer), CType(CType(105, Byte), Integer))
+        Title1.Name = "Title1"
+        Title1.ShadowColor = System.Drawing.Color.FromArgb(CType(CType(32, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Title1.ShadowOffset = 3
+        Title1.Text = "Capacitor Simulation"
+        Me.chartCap.Titles.Add(Title1)
         '
         'frmCapSim
         '
@@ -633,6 +699,7 @@ Partial Class frmCapSim
         CType(Me.adtModules, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gpCapStats.ResumeLayout(False)
         Me.gpCapStats.PerformLayout()
+        CType(Me.chartCap, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -652,7 +719,6 @@ Partial Class frmCapSim
     Friend WithEvents lblStartTimeOffset As DevComponents.DotNetBar.LabelX
     Friend WithEvents btnUpdateEvents As DevComponents.DotNetBar.ButtonX
     Friend WithEvents lblStability As DevComponents.DotNetBar.LabelX
-    Friend WithEvents zgcCapacitor As ZedGraph.ZedGraphControl
     Friend WithEvents btnReset As DevComponents.DotNetBar.ButtonX
     Friend WithEvents btnExport As DevComponents.DotNetBar.ButtonX
     Friend WithEvents adtResults As DevComponents.AdvTree.AdvTree
@@ -672,4 +738,5 @@ Partial Class frmCapSim
     Friend WithEvents colRate As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
     Friend WithEvents SlotStyle As DevComponents.DotNetBar.ElementStyle
+    Friend WithEvents chartCap As System.Windows.Forms.DataVisualization.Charting.Chart
 End Class

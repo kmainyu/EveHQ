@@ -19,7 +19,7 @@
 '=========================================================================
 
 Imports System.Windows.Forms
-Imports ZedGraph
+Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Drawing
 Imports System.Text
 Imports DevComponents.AdvTree
@@ -27,202 +27,181 @@ Imports DevComponents.DotNetBar
 
 Public Class frmCapSim
 
-    Dim CSR As CapSimResults
-    Dim CapShip As Ship
-    Dim MaxSimTime As Double = 0
+    Dim _csr As CapSimResults
+    ReadOnly _capShip As Ship
+    Dim _maxSimTime As Double = 0
 
-    Public Sub New(ByVal CalcShip As Ship)
+    Public Sub New(ByVal calcShip As Ship)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        CSR = Capacitor.CalculateCapStatistics(CalcShip, True)
-        CapShip = CalcShip
+        _csr = Capacitor.CalculateCapStatistics(CalcShip, True)
+        _capShip = CalcShip
 
-        Call Me.UpdateCapData()
+        Call UpdateCapData()
 
-        Dim HiSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
-        Dim MidSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
-        Dim LowSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
-        Dim RigSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
-        Dim SubSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
-        Dim SelSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
-
+        Dim hiSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim midSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+        Dim lowSlotStyle As ElementStyle = adtModules.Styles("SlotStyle").Copy
+      
         ' Add modules
         adtModules.BeginUpdate()
         adtModules.Nodes.Clear()
-        For Each CM As CapacitorModule In CSR.Modules
-            Dim NewMod As New Node
-            NewMod.Text = CM.Name
-            NewMod.Cells.Add(New Cell(CM.CycleTime.ToString("N2")))
-            NewMod.Cells.Add(New Cell(CM.CapAmount.ToString("N2")))
-            NewMod.Cells.Add(New Cell((CM.CapAmount / CM.CycleTime).ToString("N2")))
-            NewMod.CheckBoxThreeState = False
-            NewMod.CheckBoxVisible = True
-            NewMod.Checked = CM.IsActive
-            NewMod.Tag = CM
+        For Each cm As CapacitorModule In _csr.Modules
+            Dim newMod As New Node
+            newMod.Text = cm.Name
+            newMod.Cells.Add(New Cell(cm.CycleTime.ToString("N2")))
+            newMod.Cells.Add(New Cell(cm.CapAmount.ToString("N2")))
+            newMod.Cells.Add(New Cell((cm.CapAmount / cm.CycleTime).ToString("N2")))
+            newMod.CheckBoxThreeState = False
+            newMod.CheckBoxVisible = True
+            newMod.Checked = cm.IsActive
+            newMod.Tag = cm
             ' Set Style
-            Select Case CM.SlotType
+            Select Case cm.SlotType
                 Case SlotTypes.High
-                    NewMod.Style = HiSlotStyle
-                    NewMod.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                    newMod.Style = hiSlotStyle
+                    newMod.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.HiSlotColour))
                 Case SlotTypes.Mid
-                    NewMod.Style = MidSlotStyle
-                    NewMod.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                    newMod.Style = midSlotStyle
+                    newMod.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.MidSlotColour))
                 Case SlotTypes.Low
-                    NewMod.Style = LowSlotStyle
-                    NewMod.Style.BackColor2 = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                    newMod.Style = lowSlotStyle
+                    newMod.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.LowSlotColour))
             End Select
-            NewMod.Style.BackColor = Color.FromArgb(255, 255, 255)
-            NewMod.StyleSelected = NewMod.Style
-            adtModules.Nodes.Add(NewMod)
+            newMod.Style.BackColor = Color.FromArgb(255, 255, 255)
+            newMod.StyleSelected = newMod.Style
+            adtModules.Nodes.Add(newMod)
         Next
         adtModules.EndUpdate()
 
         ' Set Filter limits
-        Call Me.ResetTimeFilter()
+        Call ResetTimeFilter()
 
     End Sub
 
-    Private Sub adtModules_AfterCheck(sender As Object, e As DevComponents.AdvTree.AdvTreeCellEventArgs) Handles adtModules.AfterCheck
-        For Each CheckNode As Node In adtModules.Nodes
-            CType(CheckNode.Tag, CapacitorModule).IsActive = CheckNode.Checked
+    Private Sub adtModules_AfterCheck(sender As Object, e As AdvTreeCellEventArgs) Handles adtModules.AfterCheck
+        For Each checkNode As Node In adtModules.Nodes
+            CType(checkNode.Tag, CapacitorModule).IsActive = checkNode.Checked
         Next
-        Capacitor.RecalculateCapStatistics(CapShip, True, CSR)
-        Call Me.UpdateCapData()
+        Capacitor.RecalculateCapStatistics(_capShip, True, _csr)
+        Call UpdateCapData()
         UpdateEventList()
     End Sub
 
-    Private Sub iiStartTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles iiStartTime.ValueChanged
+    Private Sub iiStartTime_ValueChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles iiStartTime.ValueChanged
         ' Set the minimum end time to 1 second after
         iiEndTime.MinValue = iiStartTime.Value + 1
     End Sub
 
-    Private Sub iiEndTime_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles iiEndTime.ValueChanged
+    Private Sub iiEndTime_ValueChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles iiEndTime.ValueChanged
         ' Set the maximum start time to 1 second before
         iiStartTime.MaxValue = iiEndTime.Value - 1
     End Sub
 
     Private Sub UpdateCapData()
         ' Determine the maximum sim time
-        If CSR.CapIsDrained = True Then
-            MaxSimTime = CSR.TimeToDrain
+        If _csr.CapIsDrained = True Then
+            _maxSimTime = _csr.TimeToDrain
         Else
-            MaxSimTime = CSR.SimulationTime
+            _maxSimTime = _csr.SimulationTime
         End If
-        Me.Text = "Capacitor Simulation Results - Max Time: " & EveHQ.Core.SkillFunctions.TimeToString(MaxSimTime, False)
+        Text = "Capacitor Simulation Results - Max Time: " & Core.SkillFunctions.TimeToString(_maxSimTime, False)
         ' Populate the Summary Labels
-        lblCapacity.Text = "Capacity: " & CapShip.CapCapacity & " GJ"
-        lblRecharge.Text = "Recharge Time: " & CapShip.CapRecharge & " s"
-        lblPeakRate.Text = "Peak Recharge Rate: " & (HQF.Settings.HQFSettings.CapRechargeConstant * CapShip.CapCapacity / CapShip.CapRecharge).ToString("N2") & " GJ/s"
-        Dim PI As Double = (CDbl(CapShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * CapShip.CapCapacity / CapShip.CapRecharge)
-        Dim PO As Double = CDbl(CapShip.Attributes("10049"))
-        lblPeakIn.Text = "Peak In: " & PI.ToString("N2") & " GJ"
-        lblPeakOut.Text = "Peak Out: " & PO.ToString("N2") & " GJ"
-        lblPeakDelta.Text = "Peak Delta: " & (PI - PO).ToString("N2") & " GJ"
-        If CSR.CapIsDrained = False Then
-            lblStability.Text = "Stability: Stable at " & (CSR.MinimumCap / CapShip.CapCapacity * 100).ToString("N2") & "%"
+        lblCapacity.Text = "Capacity: " & _capShip.CapCapacity & " GJ"
+        lblRecharge.Text = "Recharge Time: " & _capShip.CapRecharge & " s"
+        lblPeakRate.Text = "Peak Recharge Rate: " & (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge).ToString("N2") & " GJ/s"
+        Dim pi As Double = (CDbl(_capShip.Attributes("10050")) * -1) + (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge)
+        Dim po As Double = CDbl(_capShip.Attributes("10049"))
+        lblPeakIn.Text = "Peak In: " & pi.ToString("N2") & " GJ"
+        lblPeakOut.Text = "Peak Out: " & po.ToString("N2") & " GJ"
+        lblPeakDelta.Text = "Peak Delta: " & (pi - po).ToString("N2") & " GJ"
+        If _csr.CapIsDrained = False Then
+            lblStability.Text = "Stability: Stable at " & (_csr.MinimumCap / _capShip.CapCapacity * 100).ToString("N2") & "%"
         Else
-            lblStability.Text = "Stability: Lasts " & EveHQ.Core.SkillFunctions.TimeToString(CSR.TimeToDrain, False)
+            lblStability.Text = "Stability: Lasts " & Core.SkillFunctions.TimeToString(_csr.TimeToDrain, False)
         End If
     End Sub
 
     Private Sub UpdateEventList()
         adtResults.BeginUpdate()
         adtResults.Nodes.Clear()
-        For Each CE As CapacitorEvent In CSR.Events
-            If CE.SimTime >= iiStartTime.Value And CE.SimTime <= iiEndTime.Value Then
-                Dim NewEvent As New Node
-                NewEvent.Text = CE.SimTime.ToString("N2")
-                NewEvent.Cells.Add(New Cell(CE.ModuleName))
-                NewEvent.Cells.Add(New Cell(CE.StartingCap.ToString("N2")))
-                NewEvent.Cells.Add(New Cell((-CE.ActivationCost).ToString("N2")))
-                Dim EndCap As Double = Math.Min(Math.Max(CE.StartingCap - CE.ActivationCost, 0), CapShip.CapCapacity)
-                NewEvent.Cells.Add(New Cell(EndCap.ToString("N2")))
-                NewEvent.Cells.Add(New Cell((EndCap / CapShip.CapCapacity * 100).ToString("N2") & "%"))
-                NewEvent.Cells.Add(New Cell(CE.RechargeRate.ToString("N2")))
-                adtResults.Nodes.Add(NewEvent)
+        For Each ce As CapacitorEvent In _csr.Events
+            If ce.SimTime >= iiStartTime.Value And ce.SimTime <= iiEndTime.Value Then
+                Dim newEvent As New Node
+                newEvent.Text = ce.SimTime.ToString("N2")
+                newEvent.Cells.Add(New Cell(ce.ModuleName))
+                newEvent.Cells.Add(New Cell(ce.StartingCap.ToString("N2")))
+                newEvent.Cells.Add(New Cell((-ce.ActivationCost).ToString("N2")))
+                Dim endCap As Double = Math.Min(Math.Max(ce.StartingCap - ce.ActivationCost, 0), _capShip.CapCapacity)
+                newEvent.Cells.Add(New Cell(endCap.ToString("N2")))
+                newEvent.Cells.Add(New Cell((endCap / _capShip.CapCapacity * 100).ToString("N2") & "%"))
+                newEvent.Cells.Add(New Cell(ce.RechargeRate.ToString("N2")))
+                adtResults.Nodes.Add(newEvent)
             End If
         Next
         adtResults.EndUpdate()
-        Call Me.UpdateCapGraph()
+        Call UpdateCapGraph()
     End Sub
 
     Private Sub UpdateCapGraph()
-        Dim myPane As GraphPane = zgcCapacitor.GraphPane
-        myPane.CurveList.Clear()
+        ' Create series
+        chartCap.Series.Clear()
+        chartCap.Series.Add("Cap")
 
-        ' Set the titles and axis labels
-        myPane.Title.Text = "Capacitor Simulation - " & CapShip.Name
-        myPane.XAxis.Title.Text = "Time (s)"
-        myPane.XAxis.Scale.Min = iiStartTime.Value
-        myPane.XAxis.Scale.Max = iiEndTime.Value
-        myPane.YAxis.Title.Text = "Cap (%)"
-        myPane.YAxis.Scale.Min = 0
-        myPane.YAxis.Scale.Max = 100
-        'myPane.YAxis.Scale.MaxAuto = True
+        ' Set chart type and styles
+        chartCap.Titles(0).Text = "Capacitor Simulation - " & _capShip.Name
+        chartCap.Series("Cap").ChartType = SeriesChartType.FastLine
+        chartCap.Series("Cap").XAxisType = AxisType.Primary
+
+        chartCap.ChartAreas("Default").AxisX.Minimum = iiStartTime.Value
+        chartCap.ChartAreas("Default").AxisX.Maximum = iiEndTime.Value
+        chartCap.ChartAreas("Default").AxisY.Minimum = 0
+        chartCap.ChartAreas("Default").AxisY.Maximum = 100
 
         ' Calculate the points for a graph taking into account the lowest value in each time reference
-        Dim Cap As New SortedList(Of Double, Double)
-        For Each CE As CapacitorEvent In CSR.Events
-            If CE.SimTime >= iiStartTime.Value And CE.SimTime <= iiEndTime.Value Then
-                Dim EndCap As Double = (Math.Min(Math.Max(CE.StartingCap - CE.ActivationCost, 0), CapShip.CapCapacity)) / CapShip.CapCapacity * 100
-                If Cap.ContainsKey(CE.SimTime) = True Then
-                    Cap(CE.SimTime) = Math.Min(Cap(CE.SimTime), EndCap)
+        Dim cap As New SortedList(Of Double, Double)
+        For Each ce As CapacitorEvent In _csr.Events
+            If ce.SimTime >= iiStartTime.Value And ce.SimTime <= iiEndTime.Value Then
+                Dim endCap As Double = (Math.Min(Math.Max(ce.StartingCap - ce.ActivationCost, 0), _capShip.CapCapacity)) / _capShip.CapCapacity * 100
+                If cap.ContainsKey(ce.SimTime) = True Then
+                    cap(ce.SimTime) = Math.Min(cap(ce.SimTime), endCap)
                 Else
-                    Cap.Add(CE.SimTime, EndCap)
+                    cap.Add(ce.SimTime, endCap)
                 End If
             End If
         Next
 
         ' Create the actual points
-        Dim list As New PointPairList()
-        For Each time As Double In Cap.Keys
-            list.Add(time, Cap(time))
+        For Each time As Double In cap.Keys
+            chartCap.Series("Cap").Points.AddXY(time, cap(time))
         Next
 
-        Dim myCurve As LineItem = myPane.AddCurve("Cap Level", list, Color.DarkGreen, SymbolType.None)
-        myCurve.Line.IsAntiAlias = True
-        ' Fill the area under the curve with a white-green gradient at 45 degrees
-        myCurve.Line.Fill = New Fill(Color.White, Color.YellowGreen, 90.0F)
-        ' Make the symbols opaque by filling them with white
-        myCurve.Symbol.Fill = New Fill(Color.White)
-
-        ' Fill the axis background with a color gradient
-        myPane.Chart.Fill = New Fill(Color.White, Color.LightGray, 45.0F)
-        myPane.Legend.Fill = New Fill(Color.White, Color.LightGray, 45.0F)
-        myPane.Legend.FontSpec.FontColor = Color.MidnightBlue
-
-        ' Fill the pane background with a color gradient
-        myPane.Fill = New Fill(Color.White, Color.LightGray, 45.0F)
-        ' Calculate the Axis Scale Ranges
-        zgcCapacitor.AxisChange()
-        zgcCapacitor.Refresh()
-
     End Sub
 
-    Private Sub btnUpdateEvents_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUpdateEvents.Click
-        Call Me.UpdateEventList()
+    Private Sub btnUpdateEvents_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles btnUpdateEvents.Click
+        Call UpdateEventList()
     End Sub
 
-    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReset.Click
-        Call Me.ResetTimeFilter()
+    Private Sub btnReset_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles btnReset.Click
+        Call ResetTimeFilter()
     End Sub
 
     Private Sub ResetTimeFilter()
         iiStartTime.MinValue = 0
-        iiStartTime.MaxValue = CInt(MaxSimTime) - 1
+        iiStartTime.MaxValue = CInt(_maxSimTime) - 1
         iiStartTime.Value = 0
         iiEndTime.MinValue = iiStartTime.Value + 1
-        iiEndTime.MaxValue = CInt(MaxSimTime)
-        iiEndTime.Value = CInt(Math.Min(MaxSimTime, 1800))
+        iiEndTime.MaxValue = CInt(_maxSimTime)
+        iiEndTime.Value = CInt(Math.Min(_maxSimTime, 1800))
         ' Add Events
-        Call Me.UpdateEventList()
+        Call UpdateEventList()
     End Sub
 
-    Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
-        Call Me.ExportToClipboard("Capacitor Simulation Results", adtResults, ControlChars.Tab)
+    Private Sub btnExport_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExport.Click
+        Call ExportToClipboard("Capacitor Simulation Results", adtResults, ControlChars.Tab)
     End Sub
 
     Private Sub ExportToClipboard(ByVal title As String, ByVal sourceList As AdvTree, ByVal sepChar As String)
