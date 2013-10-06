@@ -58,19 +58,13 @@ Public Class PlugInData
     End Function
 
     Private Function LoadVoidData() As Boolean
-        If LoadWormholeData() = False Then
-            Return False
-        End If
-        If LoadWHSystemData() = False Then
-            Return False
-        End If
-        If LoadWHAttributeData() = False Then
-            Return False
-        End If
+        LoadWormholeData()
+        LoadWHSystemData()
+        LoadWHAttributeData()
         Return True
     End Function
 
-    Private Function LoadWormholeData() As Boolean
+    Private Sub LoadWormholeData()
         ' Parse the WHAttributes resource
         Dim whAttributes As New SortedList(Of String, SortedList(Of String, String))
         Dim cAtts As SortedList(Of String, String)
@@ -123,9 +117,9 @@ Public Class PlugInData
             End If
         Next
         whAttributes.Clear()
-    End Function
+    End Sub
 
-    Private Function LoadWHSystemData() As Boolean
+    Private Sub LoadWHSystemData()
         ' Parse the location classes
         Dim whClasses As New SortedList(Of String, String)
         Dim classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
@@ -172,9 +166,9 @@ Public Class PlugInData
         whClasses.Clear()
         VoidData.WormholeEffects.Clear()
 
-    End Function
+    End Sub
 
-    Private Function LoadWHAttributeData() As Boolean
+    Private Sub LoadWHAttributeData()
         ' Load the data
         Dim taqs As IEnumerable = (From item In StaticData.Types.Values Join ta In StaticData.TypeAttributes On item.Id Equals ta.TypeId Join at In StaticData.AttributeTypes.Values On ta.AttributeId Equals at.AttributeId
                 Where item.Group = 920
@@ -201,6 +195,6 @@ Public Class PlugInData
             currentEffect.WormholeType = typeName
             currentEffect.Attributes.Add(attID, attValue)
         Next
-    End Function
+    End Sub
 
 End Class
