@@ -34,6 +34,9 @@
     Public Property ImplantName(ByVal index As Integer) As String
         ' Use ImplantName(0) as the GroupName identifer
         Get
+            If _implantName(index) Is Nothing Then
+                _implantName(index) = ""
+            End If
             Return _implantName(index)
         End Get
         Set(ByVal value As String)
@@ -51,6 +54,14 @@
             End If
         End Set
     End Property
+
+    Public Sub New()
+        PilotName = ""
+        SkillSet = New Dictionary(Of String, FittingSkill)
+        For implant As Integer = 0 To 10
+            ImplantName(implant) = ""
+        Next
+    End Sub
 
 #End Region
 
