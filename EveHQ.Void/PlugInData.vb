@@ -80,40 +80,40 @@ Public Class PlugInData
             End If
         Next
         ' Load the data
-        Dim cWH As WormHole
+        Dim cWormhole As WormHole
         VoidData.Wormholes.Clear()
         For Each wh As EveType In StaticData.GetItemsInGroup(988)
-            cWH = New WormHole
-            cWH.ID = wh.Id.ToString
-            cWH.Name = wh.Name.Replace("Wormhole ", "")
-            If whAttributes.ContainsKey(cWH.ID) = True Then
-                For Each att As String In whAttributes(cWH.ID).Keys
+            cWormhole = New WormHole
+            cWormhole.ID = wh.Id.ToString
+            cWormhole.Name = wh.Name.Replace("Wormhole ", "")
+            If whAttributes.ContainsKey(cWormhole.ID) = True Then
+                For Each att As String In whAttributes(cWormhole.ID).Keys
                     Select Case att
                         Case "1381"
-                            cWH.TargetClass = whAttributes(cWH.ID).Item(att)
+                            cWormhole.TargetClass = whAttributes(cWormhole.ID).Item(att)
                         Case "1382"
-                            cWH.MaxStabilityWindow = whAttributes(cWH.ID).Item(att)
+                            cWormhole.MaxStabilityWindow = whAttributes(cWormhole.ID).Item(att)
                         Case "1383"
-                            cWH.MaxMassCapacity = whAttributes(cWH.ID).Item(att)
+                            cWormhole.MaxMassCapacity = whAttributes(cWormhole.ID).Item(att)
                         Case "1384"
-                            cWH.MassRegeneration = whAttributes(cWH.ID).Item(att)
+                            cWormhole.MassRegeneration = whAttributes(cWormhole.ID).Item(att)
                         Case "1385"
-                            cWH.MaxJumpableMass = whAttributes(cWH.ID).Item(att)
+                            cWormhole.MaxJumpableMass = whAttributes(cWormhole.ID).Item(att)
                         Case "1457"
-                            cWH.TargetDistributionID = whAttributes(cWH.ID).Item(att)
+                            cWormhole.TargetDistributionID = whAttributes(cWormhole.ID).Item(att)
                     End Select
                 Next
             Else
-                cWH.TargetClass = ""
-                cWH.MaxStabilityWindow = ""
-                cWH.MaxMassCapacity = ""
-                cWH.MassRegeneration = ""
-                cWH.MaxJumpableMass = ""
-                cWH.TargetDistributionID = ""
+                cWormhole.TargetClass = ""
+                cWormhole.MaxStabilityWindow = ""
+                cWormhole.MaxMassCapacity = ""
+                cWormhole.MassRegeneration = ""
+                cWormhole.MaxJumpableMass = ""
+                cWormhole.TargetDistributionID = ""
             End If
             ' Add in data from the resource file
-            If cWH.Name.StartsWith("Test", StringComparison.Ordinal) = False Then
-                VoidData.Wormholes.Add(CStr(cWH.Name), cWH)
+            If cWormhole.Name.StartsWith("Test", StringComparison.Ordinal) = False Then
+                VoidData.Wormholes.Add(CStr(cWormhole.Name), cWormhole)
             End If
         Next
         whAttributes.Clear()
