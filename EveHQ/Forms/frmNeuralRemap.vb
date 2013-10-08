@@ -298,7 +298,7 @@ Namespace Forms
                     tagArray(a) = a
                 Next
                 ' Initialize the comparer and sort
-                Dim myComparer As New EveHQ.Core.Reports.RectangularComparer(pointScores)
+                Dim myComparer As New Core.CoreReports.Reports.RectangularComparer(pointScores)
                 Array.Sort(tagArray, myComparer)
                 Array.Reverse(tagArray)
                 For att As Integer = 0 To 4

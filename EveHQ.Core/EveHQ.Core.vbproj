@@ -217,7 +217,6 @@
     <Compile Include="Deprecated\PlugIn.vb" />
     <Compile Include="PriceGroup.vb" />
     <Compile Include="ProxyServerFunctions.vb" />
-    <Compile Include="Reports.vb" />
     <Compile Include="Requisitions\frmMergeRequisitions.Designer.vb">
       <DependentUpon>frmMergeRequisitions.vb</DependentUpon>
     </Compile>

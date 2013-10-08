@@ -166,7 +166,7 @@ Public Class SkillQueueFunctions
                 tagArray(a) = a
             Next
             ' Initialize the comparer and sort
-            Dim myComparer As New Reports.RectangularComparer(skillArray)
+            Dim myComparer As New CoreReports.Reports.RectangularComparer(skillArray)
             Array.Sort(tagArray, myComparer)
 
             ' Get a list of the skill names in the queue and their level

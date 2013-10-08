@@ -31,6 +31,7 @@ Imports System.Text
 Imports System.Threading
 Imports System.Threading.Tasks
 Imports System.Xml
+Imports EveHQ.Core.CoreReports
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 Imports EveHQ.Common
@@ -2954,6 +2955,18 @@ Namespace Forms
             DisplayReport(newReport, "Skill Levels - " & rPilot.Name)
         End Sub
 
+        Private Sub btnHTMLSkillRanks_Click(sender As Object, e As EventArgs)
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = Core.HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New frmReportViewer
+            Call Reports.GenerateSkillRanks(rPilot)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.reportFolder, "SkillRanks (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, "Skill Ranks - " & rPilot.Name)
+        End Sub
+
         Private Sub btnHTMLSkillsAvailable_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnHTMLSkillsAvailable.Click
             If cboReportPilot.SelectedItem Is Nothing Then
@@ -3007,6 +3020,71 @@ Namespace Forms
             Call Reports.GenerateSkillsCost(rPilot)
             newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
+        End Sub
+
+        Private Sub btnHTMLCertGrades1_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades1.Click
+            Const grade As Integer = 1
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New FrmReportViewer
+            Call Reports.GenerateCertGradeTimes(rPilot, grade)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.reportFolder, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+        End Sub
+
+        Private Sub btnHTMLCertGrades2_Click(sender As Object, e As EventArgs)
+            Const grade As Integer = 2
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New frmReportViewer
+            Call Reports.GenerateCertGradeTimes(rPilot, grade)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.reportFolder, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+        End Sub
+
+        Private Sub btnHTMLCertGrades3_Click(sender As Object, e As EventArgs)
+            Const grade As Integer = 3
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New frmReportViewer
+            Call Reports.GenerateCertGradeTimes(rPilot, grade)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.reportFolder, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+        End Sub
+
+        Private Sub btnHTMLCertGrades4_Click(sender As Object, e As EventArgs)
+            Const grade As Integer = 4
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New frmReportViewer
+            Call Reports.GenerateCertGradeTimes(rPilot, grade)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.reportFolder, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+        End Sub
+
+        Private Sub btnHTMLCertGrades5_Click(sender As Object, e As EventArgs)
+            Const grade As Integer = 5
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New frmReportViewer
+            Call Reports.GenerateCertGradeTimes(rPilot, grade)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.reportFolder, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(EveData.CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
 #End Region
@@ -3065,6 +3143,18 @@ Namespace Forms
             Call Reports.GenerateTextSkillLevels(rPilot)
             newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Skill Levels - " & rPilot.Name)
+        End Sub
+
+        Private Sub btnTextSkillRanks_Click(sender As Object, e As EventArgs) Handles btnTextSkillRanks.Click
+            If cboReportPilot.SelectedItem Is Nothing Then
+                MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
+            Dim newReport As New FrmReportViewer
+            Call Reports.GenerateTextSkillRanks(rPilot)
+            newReport.wbReport.Navigate(Path.Combine(Core.HQ.ReportFolder, "SkillRanks (" & rPilot.Name & ").txt"))
+            DisplayReport(newReport, "Skill Ranks - " & rPilot.Name)
         End Sub
 
         Private Sub btnTextSkillsAvailable_Click(ByVal sender As Object, ByVal e As EventArgs) _
@@ -3281,7 +3371,6 @@ Namespace Forms
 
 #End Region
 
-
 #Region "Theme Modification and Automatic Color Scheme creation based on the selected color table"
 
         Private m_ColorSelected As Boolean = False
@@ -3403,5 +3492,6 @@ Namespace Forms
             newIB.Dispose()
         End Sub
 
+     
     End Class
 End Namespace

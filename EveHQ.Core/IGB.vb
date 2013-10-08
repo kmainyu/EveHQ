@@ -23,6 +23,7 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports System.Reflection
 Imports System.Text
+Imports EveHQ.Core.CoreReports
 Imports EveHQ.EveData
 Imports EveHQ.Core.Requisitions
 
