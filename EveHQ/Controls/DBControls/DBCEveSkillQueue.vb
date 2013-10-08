@@ -17,89 +17,91 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class DBCEveSkillQueue
-    Public Sub New()
+Namespace Controls.DBControls
+    Public Class DBCEveSkillQueue
+        Public Sub New()
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
+            ' Add any initialization after the InitializeComponent() call.
 
-        ' Initialise configuration form name
-        Me.ControlConfigForm = "EveHQ.DBCEveSkillQueueInfoConfig"
+            ' Initialise configuration form name
+            Me.ControlConfigForm = "EveHQ.DBCEveSkillQueueInfoConfig"
 
-        ' Load the combo box with the pilot info
-        cboPilot.BeginUpdate()
-        cboPilot.Items.Clear()
-        For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
-            If pilot.Active = True Then
-                cboPilot.Items.Add(pilot.Name)
-            End If
-        Next
-        cboPilot.EndUpdate()
+            ' Load the combo box with the pilot info
+            cboPilot.BeginUpdate()
+            cboPilot.Items.Clear()
+            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+                If pilot.Active = True Then
+                    cboPilot.Items.Add(pilot.Name)
+                End If
+            Next
+            cboPilot.EndUpdate()
 
-    End Sub
+        End Sub
 
 #Region "Public Overriding Propeties"
 
-    Public Overrides ReadOnly Property ControlName() As String
-        Get
-            Return "Eve Skill Queue Information"
-        End Get
-    End Property
+        Public Overrides ReadOnly Property ControlName() As String
+            Get
+                Return "Eve Skill Queue Information"
+            End Get
+        End Property
 
 #End Region
 
 #Region "Custom Control Variables"
-    Dim cDefaultPilotName As String = ""
+        Dim cDefaultPilotName As String = ""
 #End Region
 
 #Region "Custom Control Properties"
-    Public Property DefaultPilotName() As String
-        Get
-            Return cDefaultPilotName
-        End Get
-        Set(ByVal value As String)
-            cDefaultPilotName = value
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
-                _pilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
-            End If
-            If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
-            If ReadConfig = False Then
-                Me.SetConfig("DefaultPilotName", value)
-                Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName)
-            End If
-        End Set
-    End Property
+        Public Property DefaultPilotName() As String
+            Get
+                Return cDefaultPilotName
+            End Get
+            Set(ByVal value As String)
+                cDefaultPilotName = value
+                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                    _pilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
+                End If
+                If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
+                If ReadConfig = False Then
+                    Me.SetConfig("DefaultPilotName", value)
+                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName)
+                End If
+            End Set
+        End Property
 
 #End Region
 
 #Region "Class Variables"
-    Dim _pilot As EveHQ.Core.EveHQPilot
+        Dim _pilot As EveHQ.Core.EveHQPilot
 #End Region
 
 #Region "Private Methods"
-    Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
-            _pilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
-            Call Me.UpdatePilotInfo()
-            ' Start the skill timer
-            tmrSkill.Enabled = True
-            tmrSkill.Start()
-        Else
-            tmrSkill.Stop()
-            tmrSkill.Enabled = False
-        End If
-    End Sub
+        Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+                _pilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
+                Call Me.UpdatePilotInfo()
+                ' Start the skill timer
+                tmrSkill.Enabled = True
+                tmrSkill.Start()
+            Else
+                tmrSkill.Stop()
+                tmrSkill.Enabled = False
+            End If
+        End Sub
 
-    Private Sub UpdatePilotInfo()
-        sqcEveQueue.PilotName = cboPilot.SelectedItem.ToString
-    End Sub
+        Private Sub UpdatePilotInfo()
+            sqcEveQueue.PilotName = cboPilot.SelectedItem.ToString
+        End Sub
 
-    Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
-        Forms.FrmPilot.DisplayPilotName = _pilot.Name
-        frmEveHQ.OpenPilotInfoForm()
-    End Sub
+        Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
+            Forms.FrmPilot.DisplayPilotName = _pilot.Name
+            Forms.frmEveHQ.OpenPilotInfoForm()
+        End Sub
 
 #End Region
-End Class
+    End Class
+End Namespace

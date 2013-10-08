@@ -1,5 +1,5 @@
 ﻿<Serializable()> Public Class EveHQSkillQueue
-    Implements System.ICloneable
+    Implements ICloneable
 
 #Region "Properties"
 
@@ -46,6 +46,13 @@
     ''' <remarks></remarks>
     Public Property QueueSkills() As Integer
 
+    ''' <summary>
+    ''' A boolean value indicating whether the current skill queue should show completed skills
+    ''' </summary>
+    ''' <value>Boolean value indicating whether the skill queue shows completed skills</value>
+    ''' <remarks></remarks>
+    Public Property ShowCompletedSkills() As Boolean
+       
 #End Region
 
     ''' <summary>
@@ -53,7 +60,7 @@
     ''' </summary>
     ''' <returns>A copy of the instance of EveHQ.Core.SkillQueue from where the function was called</returns>
     ''' <remarks></remarks>
-    Public Function Clone() As Object Implements System.ICloneable.Clone
+    Public Function Clone() As Object Implements ICloneable.Clone
         Dim newQueue As EveHQSkillQueue = CType(MemberwiseClone(), EveHQSkillQueue)
         Dim newQ As New Dictionary(Of String, EveHQSkillQueueItem)
         For Each qItem As EveHQSkillQueueItem In Queue.Values

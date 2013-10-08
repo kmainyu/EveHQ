@@ -228,7 +228,6 @@ Public Class EveHQSettings
     Public Property TrainingBarWidth() As Integer
     Public Property TrainingBarDockPosition() As Integer
     Public Property MdiTabPosition() As String
-    Public Property ShowCompletedSkills() As Boolean
     Public Property MarketRegionList() As ArrayList
         Get
             If _marketRegionList Is Nothing Then

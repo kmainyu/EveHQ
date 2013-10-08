@@ -1,5 +1,5 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmModifyQueues
+Partial Class FrmModifyQueues
     Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.
@@ -22,13 +22,13 @@ Partial Class frmModifyQueues
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblDescription = New System.Windows.Forms.Label
-        Me.btnCancel = New System.Windows.Forms.Button
-        Me.btnAccept = New System.Windows.Forms.Button
-        Me.txtQueueName = New System.Windows.Forms.TextBox
-        Me.lblQueueName = New System.Windows.Forms.Label
-        Me.Highlighter1 = New DevComponents.DotNetBar.Validator.Highlighter
-        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx
+        Me.lblDescription = New System.Windows.Forms.Label()
+        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.btnAccept = New System.Windows.Forms.Button()
+        Me.txtQueueName = New System.Windows.Forms.TextBox()
+        Me.lblQueueName = New System.Windows.Forms.Label()
+        Me.Highlighter1 = New DevComponents.DotNetBar.Validator.Highlighter()
+        Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
         Me.PanelEx1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -130,10 +130,10 @@ Partial Class frmModifyQueues
 
     End Sub
     Friend WithEvents lblDescription As System.Windows.Forms.Label
-    Friend WithEvents btnCancel As System.Windows.Forms.Button
-    Friend WithEvents btnAccept As System.Windows.Forms.Button
-    Friend WithEvents txtQueueName As System.Windows.Forms.TextBox
     Friend WithEvents lblQueueName As System.Windows.Forms.Label
     Friend WithEvents Highlighter1 As DevComponents.DotNetBar.Validator.Highlighter
     Friend WithEvents PanelEx1 As DevComponents.DotNetBar.PanelEx
+    Public WithEvents btnCancel As System.Windows.Forms.Button
+    Public WithEvents btnAccept As System.Windows.Forms.Button
+    Public WithEvents txtQueueName As System.Windows.Forms.TextBox
 End Class

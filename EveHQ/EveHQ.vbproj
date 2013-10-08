@@ -143,9 +143,6 @@
     <Compile Include="Classes\ListViewNoFlicker.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Classes\DragAndDropListView.vb">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\DBConfigs\DBCRSSFeedConfig.Designer.vb">
       <DependentUpon>DBCRSSFeedConfig.vb</DependentUpon>
     </Compile>
@@ -248,6 +245,12 @@
     <Compile Include="Controls\DBControls\DBCWSystem.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\EveHQTrainingQueue.Designer.vb">
+      <DependentUpon>EveHQTrainingQueue.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EveHQTrainingQueue.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\MarketItemMetrics.Designer.vb">
       <DependentUpon>MarketItemMetrics.vb</DependentUpon>
     </Compile>
@@ -270,12 +273,6 @@
       <DependentUpon>RSSFeedItem.vb</DependentUpon>
     </Compile>
     <Compile Include="Controls\RSSFeedItem.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TrainingQueue.Designer.vb">
-      <DependentUpon>TrainingQueue.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TrainingQueue.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\frmHelp.Designer.vb">
@@ -390,12 +387,6 @@
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmMarketPrices.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmModifyQueues.Designer.vb">
-      <DependentUpon>frmModifyQueues.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyQueues.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmNeuralRemap.Designer.vb">
@@ -563,6 +554,9 @@
     <EmbeddedResource Include="Controls\DBControls\DBCWSystem.resx">
       <DependentUpon>DBCWSystem.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EveHQTrainingQueue.resx">
+      <DependentUpon>EveHQTrainingQueue.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\MarketItemMetrics.resx">
       <DependentUpon>MarketItemMetrics.vb</DependentUpon>
     </EmbeddedResource>
@@ -574,9 +568,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RSSFeedItem.resx">
       <DependentUpon>RSSFeedItem.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TrainingQueue.resx">
-      <DependentUpon>TrainingQueue.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmHelp.resx">
       <DependentUpon>frmHelp.vb</DependentUpon>
@@ -647,10 +638,6 @@
     <EmbeddedResource Include="Forms\frmMarketPrices.resx">
       <DependentUpon>frmMarketPrices.vb</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyQueues.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>frmModifyQueues.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmNeuralRemap.resx">
       <DependentUpon>frmNeuralRemap.vb</DependentUpon>

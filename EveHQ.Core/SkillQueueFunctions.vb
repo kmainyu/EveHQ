@@ -614,11 +614,10 @@ Public Class SkillQueueFunctions
     End Sub
 
     Private Shared Sub CheckQueuePreReqs(ByVal qPilot As EveHQPilot, ByVal bQueue As EveHQSkillQueue)
-        ' Sub to ensure we have all the prerequisite skills we require for the queue
-        ' Skills are added if required
+        ' Create a clone of the queue to go through
+        Dim checkQueue As EveHQSkillQueue = CType(bQueue.Clone, EveHQSkillQueue)
 
-        Dim curSkill As EveHQSkillQueueItem
-        For Each curSkill In bQueue.Queue.Values
+        For Each curSkill As EveHQSkillQueueItem In checkQueue.Queue.Values
             ' Work out if Skill pre-requisites are needed and add them to the queue
             ' If skill is already injected no pre-reqs are needed
             If qPilot.PilotSkills.ContainsKey(curSkill.Name) = False Then

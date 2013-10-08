@@ -17,50 +17,52 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class frmModifyEvePilots
+Namespace Forms
+    Public Class frmModifyEvePilots
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        ' Check if the input is valid i.e. not blank
-        If txtPilotName.Text = "" Then
-            Dim reply As Integer = MessageBox.Show("Pilot name cannot be blank! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Retry Then
-                Exit Sub
-            Else
-                Me.Close()
-                Exit Sub
+        Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+            ' Check if the input is valid i.e. not blank
+            If txtPilotName.Text = "" Then
+                Dim reply As Integer = MessageBox.Show("Pilot name cannot be blank! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
+                If reply = Windows.Forms.DialogResult.Retry Then
+                    Exit Sub
+                Else
+                    Me.Close()
+                    Exit Sub
+                End If
             End If
-        End If
-        ' Check the pilot ID
-        If IsNumeric(txtPilotID.Text) = False Then
-            Dim reply As Integer = MessageBox.Show("Pilot ID must be numeric! Would you like to try again?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Retry Then
-                Exit Sub
-            Else
-                Me.Close()
-                Exit Sub
+            ' Check the pilot ID
+            If IsNumeric(txtPilotID.Text) = False Then
+                Dim reply As Integer = MessageBox.Show("Pilot ID must be numeric! Would you like to try again?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
+                If reply = Windows.Forms.DialogResult.Retry Then
+                    Exit Sub
+                Else
+                    Me.Close()
+                    Exit Sub
+                End If
             End If
-        End If
-        ' Add the pilot to the pilot collection
-        ' First check if the pilot already exists
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(txtPilotName.Text) Then
-            Dim reply As Integer = MessageBox.Show("Pilot name " & txtPilotName.Text & " already exists in EveHQ! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Retry Then
-                Exit Sub
-            Else
-                Me.Close()
-                Exit Sub
+            ' Add the pilot to the pilot collection
+            ' First check if the pilot already exists
+            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(txtPilotName.Text) Then
+                Dim reply As Integer = MessageBox.Show("Pilot name " & txtPilotName.Text & " already exists in EveHQ! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
+                If reply = Windows.Forms.DialogResult.Retry Then
+                    Exit Sub
+                Else
+                    Me.Close()
+                    Exit Sub
+                End If
             End If
-        End If
-        Dim newPilot As New EveHQ.Core.EveHQPilot
-        newPilot.Name = txtPilotName.Text
-        newPilot.ID = txtPilotID.Text
-        newPilot.Account = ""
-        newPilot.AccountPosition = "0"
-        EveHQ.Core.HQ.Settings.Pilots.Add(newPilot.Name, newPilot)
-        Me.Close()
-    End Sub
+            Dim newPilot As New EveHQ.Core.EveHQPilot
+            newPilot.Name = txtPilotName.Text
+            newPilot.ID = txtPilotID.Text
+            newPilot.Account = ""
+            newPilot.AccountPosition = "0"
+            EveHQ.Core.HQ.Settings.Pilots.Add(newPilot.Name, newPilot)
+            Me.Close()
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.Close()
-    End Sub
-End Class
+        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+            Me.Close()
+        End Sub
+    End Class
+End NameSpace

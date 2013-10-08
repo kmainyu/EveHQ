@@ -117,6 +117,12 @@
     <Compile Include="Corporation.vb" />
     <Compile Include="CustomDataFunctions.vb" />
     <Compile Include="DataFunctions.vb" />
+    <Compile Include="frmModifyQueues.Designer.vb">
+      <DependentUpon>frmModifyQueues.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmModifyQueues.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ItemBrowser\frmIB.Designer.vb">
       <DependentUpon>frmIB.vb</DependentUpon>
     </Compile>
@@ -298,6 +304,9 @@
     <EmbeddedResource Include="frmModifyPrice.resx">
       <DependentUpon>frmModifyPrice.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmModifyQueues.resx">
+      <DependentUpon>frmModifyQueues.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSelectQueue.resx">
       <DependentUpon>frmSelectQueue.vb</DependentUpon>

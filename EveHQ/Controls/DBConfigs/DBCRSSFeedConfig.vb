@@ -17,41 +17,45 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class DBCRSSFeedConfig
+Imports EveHQ.Controls.DBControls
+
+Namespace Controls.DBConfigs
+    Public Class DBCRSSFeedConfig
 
 #Region "Properties"
 
-    Dim cDBWidget As New DBCRSSFeed
-    Public Property DBWidget() As DBCRSSFeed
-        Get
-            Return cDBWidget
-        End Get
-        Set(ByVal value As DBCRSSFeed)
-            cDBWidget = value
-            Call SetControlInfo()
-        End Set
-    End Property
+        Dim cDBWidget As New DBCRSSFeed
+        Public Property DBWidget() As DBCRSSFeed
+            Get
+                Return cDBWidget
+            End Get
+            Set(ByVal value As DBCRSSFeed)
+                cDBWidget = value
+                Call SetControlInfo()
+            End Set
+        End Property
 
 #End Region
 
-    Private Sub SetControlInfo()
-        txtURL.Text = cDBWidget.RSSFeed
-    End Sub
+        Private Sub SetControlInfo()
+            txtURL.Text = cDBWidget.RSSFeed
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        ' Just close the form and do nothing
-        Me.Close()
-    End Sub
+        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+            ' Just close the form and do nothing
+            Me.Close()
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        ' Update the control properties
-        If txtURL.Text = "" Then
-            MessageBox.Show("You must enter a URL before adding this widget.", "URL Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-        cDBWidget.RSSFeed = txtURL.Text
-        ' Now close the form
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
-    End Sub
-End Class
+        Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+            ' Update the control properties
+            If txtURL.Text = "" Then
+                MessageBox.Show("You must enter a URL before adding this widget.", "URL Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            cDBWidget.RSSFeed = txtURL.Text
+            ' Now close the form
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        End Sub
+    End Class
+End NameSpace

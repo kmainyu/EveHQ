@@ -279,7 +279,6 @@ Public Class FileConverter
         _newSettings.TrainingBarWidth = oldSettings.TrainingBarWidth
         _newSettings.TrainingBarDockPosition = oldSettings.TrainingBarDockPosition
         _newSettings.MdiTabPosition = oldSettings.MDITabPosition
-        _newSettings.ShowCompletedSkills = oldSettings.ShowCompletedSkills
         _newSettings.MarketRegionList = oldSettings.MarketRegionList
         _newSettings.IgnoreBuyOrderLimit = oldSettings.IgnoreBuyOrderLimit
         _newSettings.IgnoreSellOrderLimit = oldSettings.IgnoreSellOrderLimit

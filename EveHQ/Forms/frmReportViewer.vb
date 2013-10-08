@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class frmReportViewer
+Namespace Forms
+    Public Class frmReportViewer
 
-End Class
+    End Class
+End NameSpace

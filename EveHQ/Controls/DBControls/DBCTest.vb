@@ -17,20 +17,22 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class DBCTest
-    Public Sub New()
+Namespace Controls.DBControls
+    Public Class DBCTest
+        Public Sub New()
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        Me.ControlConfigForm = ""
+            ' Add any initialization after the InitializeComponent() call.
+            Me.ControlConfigForm = ""
 
-    End Sub
+        End Sub
 
-    Public Overrides ReadOnly Property ControlName() As String
-        Get
-            Return "Test Widget"
-        End Get
-    End Property
-End Class
+        Public Overrides ReadOnly Property ControlName() As String
+            Get
+                Return "Test Widget"
+            End Get
+        End Property
+    End Class
+End NameSpace
