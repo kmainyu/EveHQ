@@ -17,56 +17,56 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Namespace Controls
+    Public Class PrismSelectionHostControl
 
-Public Class PrismSelectionHostControl
+        Public Event SelectionChanged()
 
-    Public Event SelectionChanged()
+        Public Sub New()
 
-    Public Sub New()
+            ' This call is required by the designer.
+            InitializeComponent()
 
-        ' This call is required by the designer.
-        InitializeComponent()
+            ' Add any initialization after the InitializeComponent() call.
+            cboHost.DropDownControl = New PrismSelectionControl(cListType, cAllowMultipleSelections, cboHost)
+            AddHandler CType(cboHost.DropDownControl, PrismSelectionControl).SelectionChanged, AddressOf HostSelectionChanged
 
-        ' Add any initialization after the InitializeComponent() call.
-        cboHost.DropDownControl = New PrismSelectionControl(cListType, cAllowMultipleSelections, cboHost)
-        AddHandler CType(cboHost.DropDownControl, PrismSelectionControl).SelectionChanged, AddressOf HostSelectionChanged
+        End Sub
 
-    End Sub
+        Dim cListType As PrismSelectionType
+        Public Property ListType As PrismSelectionType
+            Get
+                Return cListType
+            End Get
+            Set(ByVal value As PrismSelectionType)
+                cListType = value
+                If cboHost IsNot Nothing Then
+                    CType(cboHost.DropDownControl, PrismSelectionControl).ListType = value
+                End If
+            End Set
+        End Property
 
-    Dim cListType As PrismSelectionType
-    Public Property ListType As PrismSelectionType
-        Get
-            Return cListType
-        End Get
-        Set(ByVal value As PrismSelectionType)
-            cListType = value
-            If cboHost IsNot Nothing Then
-                CType(cboHost.DropDownControl, PrismSelectionControl).ListType = value
-            End If
-        End Set
-    End Property
+        Dim cAllowMultipleSelections As Boolean
+        Public Property AllowMultipleSelections As Boolean
+            Get
+                Return cAllowMultipleSelections
+            End Get
+            Set(ByVal value As Boolean)
+                cAllowMultipleSelections = value
+                If cboHost IsNot Nothing Then
+                    CType(cboHost.DropDownControl, PrismSelectionControl).AllowMultipleSelections = value
+                End If
+            End Set
+        End Property
 
-    Dim cAllowMultipleSelections As Boolean
-    Public Property AllowMultipleSelections As Boolean
-        Get
-            Return cAllowMultipleSelections
-        End Get
-        Set(ByVal value As Boolean)
-            cAllowMultipleSelections = value
-            If cboHost IsNot Nothing Then
-                CType(cboHost.DropDownControl, PrismSelectionControl).AllowMultipleSelections = value
-            End If
-        End Set
-    End Property
+        Public ReadOnly Property ItemList As DevComponents.DotNetBar.Controls.ListViewEx
+            Get
+                Return CType(cboHost.DropDownControl, PrismSelectionControl).lvwItems
+            End Get
+        End Property
 
-    Public ReadOnly Property ItemList As DevComponents.DotNetBar.Controls.ListViewEx
-        Get
-            Return CType(cboHost.DropDownControl, PrismSelectionControl).lvwItems
-        End Get
-    End Property
-
-    Private Sub HostSelectionChanged()
-        RaiseEvent SelectionChanged()
-    End Sub
-End Class
-
+        Private Sub HostSelectionChanged()
+            RaiseEvent SelectionChanged()
+        End Sub
+    End Class
+End NameSpace

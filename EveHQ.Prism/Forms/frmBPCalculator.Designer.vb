@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿Imports EveHQ.Prism.Controls
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Class frmBPCalculator
     Inherits DevComponents.DotNetBar.Office2007Form
 
@@ -128,8 +130,8 @@ Partial Class frmBPCalculator
         Me.nudRuns = New DevComponents.Editors.IntegerInput()
         Me.chkPOSProduction = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.cboPOSArrays = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.PACUnitValue = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PPRProduction = New EveHQ.Prism.PrismResources()
+        Me.PACUnitValue = New PriceAdjustmentControl()
+        Me.PPRProduction = New PrismResources()
         Me.tiProduction = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpResearch = New DevComponents.DotNetBar.TabControlPanel()
         Me.chkAdvancedLab = New DevComponents.DotNetBar.Controls.CheckBoxX()
@@ -189,10 +191,10 @@ Partial Class frmBPCalculator
         Me.cboMetaItem = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboDecryptor = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboInventions = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.PPRInvention = New EveHQ.Prism.PrismResources()
-        Me.PACDecryptor = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACSalesPrice = New EveHQ.Prism.PriceAdjustmentControl()
-        Me.PACMetaItem = New EveHQ.Prism.PriceAdjustmentControl()
+        Me.PPRInvention = New PrismResources()
+        Me.PACDecryptor = New PriceAdjustmentControl()
+        Me.PACSalesPrice = New PriceAdjustmentControl()
+        Me.PACMetaItem = New PriceAdjustmentControl()
         Me.tiInvention = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.nudPELevel = New DevComponents.Editors.IntegerInput()
         Me.btnSaveProductionJobAs = New DevComponents.DotNetBar.ButtonX()
@@ -2628,7 +2630,7 @@ Partial Class frmBPCalculator
 	Friend WithEvents nudInventionSkill2 As DevComponents.Editors.IntegerInput
 	Friend WithEvents nudInventionSkill3 As DevComponents.Editors.IntegerInput
 	Friend WithEvents nudInventionSkill1 As DevComponents.Editors.IntegerInput
-	Friend WithEvents PPRInvention As EveHQ.Prism.PrismResources
+	Friend WithEvents PPRInvention As PrismResources
 	Friend WithEvents lblBatchProductionCost As System.Windows.Forms.Label
 	Friend WithEvents lblBatchProductionCostLbl As System.Windows.Forms.Label
     Friend WithEvents lblUnitInventionProfit As System.Windows.Forms.Label
@@ -2637,12 +2639,12 @@ Partial Class frmBPCalculator
     Friend WithEvents lblInventionSalesPriceLbl As System.Windows.Forms.Label
     Friend WithEvents lblAvgInventionCost As System.Windows.Forms.Label
     Friend WithEvents lblAvgInventionCostLbl As System.Windows.Forms.Label
-    Friend WithEvents PPRProduction As EveHQ.Prism.PrismResources
+    Friend WithEvents PPRProduction As PrismResources
     Friend WithEvents lblTotalInventionProfit As System.Windows.Forms.Label
     Friend WithEvents lblTotalInventionProfitLbl As System.Windows.Forms.Label
-    Friend WithEvents PACDecryptor As EveHQ.Prism.PriceAdjustmentControl
-    Friend WithEvents PACSalesPrice As EveHQ.Prism.PriceAdjustmentControl
-    Friend WithEvents PACMetaItem As EveHQ.Prism.PriceAdjustmentControl
+    Friend WithEvents PACDecryptor As PriceAdjustmentControl
+    Friend WithEvents PACSalesPrice As PriceAdjustmentControl
+    Friend WithEvents PACMetaItem As PriceAdjustmentControl
     Friend WithEvents adtInventionProfits As DevComponents.AdvTree.AdvTree
     Friend WithEvents colIPDecryptor As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colIPProfit As DevComponents.AdvTree.ColumnHeader
@@ -2653,7 +2655,7 @@ Partial Class frmBPCalculator
     Friend WithEvents lblBatchSize As System.Windows.Forms.Label
     Friend WithEvents btnSaveProductionJob As DevComponents.DotNetBar.ButtonX
     Friend WithEvents btnSaveProductionJobAs As DevComponents.DotNetBar.ButtonX
-	Friend WithEvents PACUnitValue As EveHQ.Prism.PriceAdjustmentControl
+	Friend WithEvents PACUnitValue As PriceAdjustmentControl
 	Friend WithEvents lblToggleInvention As DevComponents.DotNetBar.LabelX
 	Friend WithEvents btnToggleInvention As DevComponents.DotNetBar.Controls.SwitchButton
 	Friend WithEvents lblBatchTotalCost As System.Windows.Forms.Label

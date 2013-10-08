@@ -123,7 +123,7 @@
     <Compile Include="Classes\PrismOwner.vb" />
     <Compile Include="Deprecated\ProductionJob.vb" />
     <Compile Include="Deprecated\ProductionJobs.vb" />
-    <Compile Include="Classes\Reports.vb" />
+    <Compile Include="Classes\PrismReports.vb" />
     <Compile Include="Classes\WalletJournalItem.vb" />
     <Compile Include="Controls\BPMEControl.Designer.vb">
       <DependentUpon>BPMEControl.vb</DependentUpon>

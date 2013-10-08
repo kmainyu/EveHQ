@@ -27,6 +27,7 @@ Imports System.IO
 Imports System.Diagnostics
 Imports System.Text
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports EveHQ.Prism.Controls
 Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports DevComponents.DotNetBar
@@ -37,6 +38,7 @@ Imports System.Data
 Imports System.Threading.Tasks
 Imports EveHQ.Core
 Imports EveHQ.Core.Requisitions
+Imports EveHQ.Prism.Classes
 
 Public Class frmPrism
 
@@ -835,7 +837,7 @@ Public Class frmPrism
 
                         ' Write the installerIDs to the database
                         If APIXML IsNot Nothing Then
-                            Call Prism.PrismDataFunctions.WriteInstallerIDsToDB(APIXML)
+                            Call Prism.PrismDataFunctions.WriteInstallerIdsToDB(APIXML)
                             Call Prism.PrismDataFunctions.WriteInventionResultsToDB(APIXML)
                         End If
 
@@ -1043,7 +1045,7 @@ Public Class frmPrism
 
                         ' Write the contractIDs to the database
                         If APIXML IsNot Nothing Then
-                            Call Prism.PrismDataFunctions.WriteContractIDsToDB(APIXML)
+                            Call Prism.PrismDataFunctions.WriteContractIdsToDB(APIXML)
                         End If
 
                         If APIXML IsNot Nothing Then
@@ -1219,7 +1221,7 @@ Public Class frmPrism
 
                             ' Write the installerIDs to the database
                             If APIXML IsNot Nothing Then
-                                Call Prism.PrismDataFunctions.WriteInstallerIDsToDB(APIXML)
+                                Call Prism.PrismDataFunctions.WriteInstallerIdsToDB(APIXML)
                                 Call Prism.PrismDataFunctions.WriteInventionResultsToDB(APIXML)
                             End If
 
@@ -1451,7 +1453,7 @@ Public Class frmPrism
 
                             ' Write the contractIDs to the database
                             If APIXML IsNot Nothing Then
-                                Call Prism.PrismDataFunctions.WriteContractIDsToDB(APIXML)
+                                Call Prism.PrismDataFunctions.WriteContractIdsToDB(APIXML)
                             End If
 
                             If APIXML IsNot Nothing Then
@@ -1852,7 +1854,7 @@ Public Class frmPrism
                                     sOrder.Cells(2).Text = price.ToString("N2")
                                     Dim loc As String = ""
                                     If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
-                                        loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                                        loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).StationName
                                     Else
                                         loc = "StationID: " & Order.Attributes.GetNamedItem("stationID").Value
                                     End If
@@ -1888,7 +1890,7 @@ Public Class frmPrism
                                     bOrder.Cells(2).Text = price.ToString("N2")
                                     Dim loc As String = ""
                                     If PlugInData.stations.Contains(Order.Attributes.GetNamedItem("stationID").Value) = True Then
-                                        loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).stationName
+                                        loc = CType(PlugInData.stations(Order.Attributes.GetNamedItem("stationID").Value), Station).StationName
                                     Else
                                         loc = "StationID: " & Order.Attributes.GetNamedItem("stationID").Value
                                     End If
@@ -3175,10 +3177,10 @@ Public Class frmPrism
                         transItem.Cells(3).Text = InstallerList(Job.InstallerID)
                         locationID = Job.InstalledItemLocationID.ToString
                         If PlugInData.stations.ContainsKey(locationID) = True Then
-                            transItem.Cells(4).Text = CType(PlugInData.stations(locationID), Station).stationName
+                            transItem.Cells(4).Text = CType(PlugInData.stations(locationID), Station).StationName
                         Else
                             If PlugInData.stations.ContainsKey(Job.OutputLocationID.ToString) = True Then
-                                transItem.Cells(4).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).stationName
+                                transItem.Cells(4).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).StationName
                             Else
                                 transItem.Cells(4).Text = "POS in " & CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem).Name
                             End If
@@ -3413,16 +3415,16 @@ Public Class frmPrism
         If PlugInData.stations.ContainsKey(RecyclerAssetLocation) = True Then
             If CDbl(RecyclerAssetLocation) >= 60000000 Then ' Is a station
                 Dim aLocation As Station = CType(PlugInData.stations(RecyclerAssetLocation), Station)
-                lblStation.Text = aLocation.stationName
-                lblCorp.Text = aLocation.corpID.ToString
-                If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
-                    lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.corpID.ToString))
-                    lblCorp.Tag = aLocation.corpID.ToString
+                lblStation.Text = aLocation.StationName
+                lblCorp.Text = aLocation.CorpId.ToString
+                If PlugInData.NPCCorps.ContainsKey(aLocation.CorpId.ToString) = True Then
+                    lblCorp.Text = CStr(PlugInData.NPCCorps(aLocation.CorpId.ToString))
+                    lblCorp.Tag = aLocation.CorpId.ToString
                     StationYield = aLocation.RefiningEfficiency
                     lblBaseYield.Text = (StationYield * 100).ToString("N2")
                 Else
-                    If PlugInData.NPCCorps.ContainsKey(aLocation.corpID.ToString) = True Then
-                        lblCorp.Text = CStr(PlugInData.Corps(aLocation.corpID.ToString))
+                    If PlugInData.NPCCorps.ContainsKey(aLocation.CorpId.ToString) = True Then
+                        lblCorp.Text = CStr(PlugInData.Corps(aLocation.CorpId.ToString))
                         lblBaseYield.Text = (aLocation.RefiningEfficiency * 100).ToString("N2")
                     Else
                         lblCorp.Text = "Unknown"
@@ -3535,7 +3537,7 @@ Public Class frmPrism
             newCLVItem = New Node
             For NewCell As Integer = 1 To adtRecycle.Columns.Count : newCLVItem.Cells.Add(New Cell) : Next
             newCLVItem.Text = itemInfo.Name
-            newCLVItem.Tag = itemInfo.ID
+            newCLVItem.Tag = itemInfo.Id
             adtRecycle.Nodes.Add(newCLVItem)
             price = Math.Round(prices(asset), 2, MidpointRounding.AwayFromZero)
             batches = CInt(Int(CLng(_recyclerAssetList(itemInfo.Id)) / itemInfo.PortionSize))
@@ -4313,7 +4315,7 @@ Public Class frmPrism
                                         locationDetails = ItemData.Name
                                     End If
                                 End If
-                                If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
+                                If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.Id) Then
                                     Dim newBP As New BlueprintAsset
                                     newBP.AssetID = CStr(AssetID)
                                     newBP.LocationID = locationID
@@ -4423,7 +4425,7 @@ Public Class frmPrism
                 Else
                     flagName = locationDetails & "/" & StaticData.Types(containerType).Name
                 End If
-                If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.ID) Then
+                If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or types.Contains(ItemData.Id) Then
                     Dim newBP As New BlueprintAsset
                     newBP.AssetID = CStr(AssetID)
                     newBP.LocationID = locationID
@@ -5181,7 +5183,7 @@ Public Class frmPrism
                 ' Add the current item
                 Orders.Add(KeyName, 1)
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New frmAddRequisition("Prism", Orders)
+                Dim newReq As New FrmAddRequisition("Prism", Orders)
                 newReq.ShowDialog()
                 newReq.Dispose()
             Case "Production"
@@ -5192,7 +5194,7 @@ Public Class frmPrism
                     Call Me.CreateRequisitionFromJob(Orders, PJob)
                 End If
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New frmAddRequisition("Prism", Orders)
+                Dim newReq As New FrmAddRequisition("Prism", Orders)
                 newReq.ShowDialog()
                 newReq.Dispose()
             Case "Batch"
@@ -5207,7 +5209,7 @@ Public Class frmPrism
                     Next
                 End If
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New frmAddRequisition("Prism", Orders)
+                Dim newReq As New FrmAddRequisition("Prism", Orders)
                 newReq.ShowDialog()
                 newReq.Dispose()
         End Select
@@ -5220,7 +5222,7 @@ Public Class frmPrism
     End Sub
 
     Private Sub CreateRequisitionFromJob(ByVal orders As SortedList(Of String, Integer), ByVal currentJob As Job)
-        If CurrentJob IsNot Nothing Then
+        If currentJob IsNot Nothing Then
             Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select r.TypeID)
             priceTask.Wait()
             For Each resource As JobResource In currentJob.Resources.Values
@@ -5647,6 +5649,8 @@ Public Class frmPrism
         cboReport.Items.Add("Transaction Sales Report")
         cboReport.Items.Add("Transaction Purchases Report")
         cboReport.Items.Add("Transaction Trading Report")
+        cboReport.Items.Add("Journal Income Type Analysis")
+        cboReport.Items.Add("Journal Expenditure Type Analysis")
 
         ' Finalise the report combobox update
         cboReport.EndUpdate()
@@ -5657,14 +5661,17 @@ Public Class frmPrism
 
         cboReportOwners.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalOwnersAll, True, cboReportOwners)
 
+        ' Update the ref types box
+        cboReportJournalType.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalRefTypes, False, cboReportJournalType)
+
     End Sub
 
     Private Sub cboReport_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboReport.SelectedIndexChanged
 
         ' Set the report name
-        Dim ReportName As String = cboReport.SelectedItem.ToString
+        Dim reportName As String = cboReport.SelectedItem.ToString
 
-        Select Case ReportName
+        Select Case reportName
 
             Case "Income Report"
                 If CType(cboReportOwners.DropDownControl, PrismSelectionControl).ListType <> PrismSelectionType.JournalOwnersAll Then
@@ -5708,17 +5715,42 @@ Public Class frmPrism
                     cboReportOwners.Text = ""
                 End If
 
+            Case "Journal Income Type Analysis"
+                If CType(cboReportOwners.DropDownControl, PrismSelectionControl).ListType <> PrismSelectionType.JournalOwnersAll Then
+                    cboReportOwners.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalOwnersAll, True, cboReportOwners)
+                    cboReportOwners.Text = ""
+                End If
+
+            Case "Journal Expenditure Type Analysis"
+                If CType(cboReportOwners.DropDownControl, PrismSelectionControl).ListType <> PrismSelectionType.JournalOwnersAll Then
+                    cboReportOwners.DropDownControl = New PrismSelectionControl(PrismSelectionType.JournalOwnersAll, True, cboReportOwners)
+                    cboReportOwners.Text = ""
+                End If
+
         End Select
 
     End Sub
 
     Private Sub btnGenerateReport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGenerateReport.Click
 
-        If CType(cboReportOwners.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems.Count > 0 Then
-            Call Me.GenerateReport()
-        Else
+        ' Check for selected items
+        If CType(cboReportOwners.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems.Count = 0 Then
             MessageBox.Show("You must select at least one owner before generating a report!", "Report Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Exit Sub
         End If
+
+        ' Check for selected journal type
+        ' Set the report name
+        Dim reportName As String = cboReport.SelectedItem.ToString
+        Select Case reportName
+            Case "Journal Income Type Analysis", "Journal Expenditure Type Analysis"
+                If CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems.Count = 0 Then
+                    MessageBox.Show("You must select a journal type before generating this type of report!", "Report Journal Type Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Exit Sub
+                End If
+        End Select
+
+        Call GenerateReport()
 
     End Sub
 
@@ -5738,7 +5770,7 @@ Public Class frmPrism
             Dim ReportTitle As String = ReportName & "<br />from " & StartDate.ToLongDateString & " to " & EndDate.AddDays(-1).ToLongDateString
 
             ' Create the report title
-            Dim strHTML As String = Reports.HTMLHeader("Prism Report - " & ReportName, ReportTitle)
+            Dim strHTML As String = PrismReports.HTMLHeader("Prism Report - " & ReportName, ReportTitle)
 
             ' Build the Owners List
             Dim OwnerNames As New List(Of String)
@@ -5751,47 +5783,73 @@ Public Class frmPrism
             Select Case ReportName
 
                 Case "Income Report"
-                    Dim ReportData As DataSet = Reports.GetJournalReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateIncomeReportBodyHTML(Reports.GenerateIncomeAnalysis(ReportData))
+                    Dim ReportData As DataSet = PrismReports.GetJournalReportData(StartDate, EndDate, OwnerNames)
+                    Dim Result As ReportResult = PrismReports.GenerateIncomeReportBodyHTML(PrismReports.GenerateIncomeAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Expenditure Report"
-                    Dim ReportData As DataSet = Reports.GetJournalReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateExpenseReportBodyHTML(Reports.GenerateExpenseAnalysis(ReportData))
+                    Dim ReportData As DataSet = PrismReports.GetJournalReportData(StartDate, EndDate, OwnerNames)
+                    Dim Result As ReportResult = PrismReports.GenerateExpenseReportBodyHTML(PrismReports.GenerateExpenseAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Income & Expenditure Report"
-                    Dim ReportData As DataSet = Reports.GetJournalReportData(StartDate, EndDate, OwnerNames)
-                    Dim IResult As ReportResult = Reports.GenerateIncomeReportBodyHTML(Reports.GenerateIncomeAnalysis(ReportData))
+                    Dim ReportData As DataSet = PrismReports.GetJournalReportData(StartDate, EndDate, OwnerNames)
+                    Dim IResult As ReportResult = PrismReports.GenerateIncomeReportBodyHTML(PrismReports.GenerateIncomeAnalysis(ReportData))
                     strHTML &= IResult.HTML
                     Dim IncomeTotal As Double = CDbl(IResult.Values("Total Income"))
-                    Dim EResult As ReportResult = Reports.GenerateExpenseReportBodyHTML(Reports.GenerateExpenseAnalysis(ReportData))
+                    Dim EResult As ReportResult = PrismReports.GenerateExpenseReportBodyHTML(PrismReports.GenerateExpenseAnalysis(ReportData))
                     strHTML &= EResult.HTML
                     Dim ExpenditureTotal As Double = CDbl(EResult.Values("Total Expenditure"))
-                    Dim CResult As ReportResult = Reports.GenerateCashFlowReportBodyHTML(IncomeTotal, ExpenditureTotal)
+                    Dim CResult As ReportResult = PrismReports.GenerateCashFlowReportBodyHTML(IncomeTotal, ExpenditureTotal)
                     strHTML &= CResult.HTML
-                    Dim MResult As ReportResult = Reports.GenerateMovementReportBodyHTML(Reports.GenerateOwnerMovements(ReportData))
+                    Dim MResult As ReportResult = PrismReports.GenerateMovementReportBodyHTML(PrismReports.GenerateOwnerMovements(ReportData))
                     strHTML &= MResult.HTML
 
                 Case "Corporation Tax Report"
-                    Dim ReportData As DataSet = Reports.GetJournalReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateCTReportBodyHTML(Reports.GenerateCTAnalysis(ReportData))
+                    Dim ReportData As DataSet = PrismReports.GetJournalReportData(StartDate, EndDate, OwnerNames)
+                    Dim Result As ReportResult = PrismReports.GenerateCorpTaxReportBodyHTML(PrismReports.GenerateCorpTaxAnalysis(ReportData))
                     strHTML &= Result.HTML
 
                 Case "Transaction Sales Report"
-                    Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateSalesReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
-                    strHTML &= Result.HTML
+                    Dim reportData As DataSet = PrismReports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
+                    Dim result As ReportResult = PrismReports.GenerateSalesReportBodyHTML(PrismReports.GenerateTransactionSalesAnalysis(reportData))
+                    strHTML &= result.HTML
 
                 Case "Transaction Purchases Report"
-                    Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GeneratePurchasesReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
-                    strHTML &= Result.HTML
+                    Dim reportData As DataSet = PrismReports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
+                    Dim result As ReportResult = PrismReports.GeneratePurchasesReportBodyHTML(PrismReports.GenerateTransactionPurchasesAnalysis(reportData))
+                    strHTML &= result.HTML
 
                 Case "Transaction Trading Report"
-                    Dim ReportData As DataSet = Reports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
-                    Dim Result As ReportResult = Reports.GenerateTradingProfitReportBodyHTML(Reports.GenerateTransactionProfitAnalysis(ReportData))
-                    strHTML &= Result.HTML
+                    Dim reportData As DataSet = PrismReports.GetTransactionReportData(StartDate, EndDate, OwnerNames)
+                    Dim result As ReportResult = PrismReports.GenerateTradingProfitReportBodyHTML(PrismReports.GenerateTransactionProfitAnalysis(reportData))
+                    strHTML &= result.HTML
+
+                Case "Journal Income Type Analysis"
+                    ' Get the RefTypeID
+                    Dim refTypeID As String = CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems(0).Name
+                    Dim reportData As DataSet = PrismReports.GetJournalReportData(StartDate, EndDate, OwnerNames)
+                    Dim result As ReportResult
+                    Select Case refTypeID
+                        Case "37"
+                            result = PrismReports.GenerateJournalTypeIncomeReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeIncomeAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName2))
+                        Case Else
+                            result = PrismReports.GenerateJournalTypeIncomeReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeIncomeAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName1))
+                    End Select
+                    strHTML &= result.HTML
+
+                Case "Journal Expenditure Type Analysis"
+                    ' Get the RefTypeID
+                    Dim refTypeID As String = CType(cboReportJournalType.DropDownControl, PrismSelectionControl).lvwItems.CheckedItems(0).Name
+                    Dim reportData As DataSet = PrismReports.GetJournalReportData(StartDate, EndDate, OwnerNames)
+                    Dim result As ReportResult
+                    Select Case refTypeID
+                        Case "37", "13"
+                            result = PrismReports.GenerateJournalTypeExpenditureReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeExpenditureAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName2))
+                        Case Else
+                            result = PrismReports.GenerateJournalTypeExpenditureReportBodyHTML(refTypeID, PrismReports.GenerateJournalTypeExpenditureAnalysis(reportData, refTypeID, JournalKeyTypes.OwnerName1))
+                    End Select
+                    strHTML &= result.HTML
 
             End Select
 

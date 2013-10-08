@@ -19,6 +19,7 @@
 '=========================================================================
 
 Imports System.Windows.Forms
+Imports EveHQ.Prism.Controls
 Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports DevComponents.AdvTree
