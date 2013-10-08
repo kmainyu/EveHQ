@@ -1652,7 +1652,7 @@ Namespace Forms
             Me.ctxQueues.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.ctxQueues.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddQueue, Me.mnuEditQueue, Me.mnuDeleteQueue, Me.ToolStripMenuItem5, Me.mnuMergeQueues, Me.mnuCopyQueue, Me.mnuCopyQueueToPilot, Me.ToolStripMenuItem6, Me.mnuSetPrimary})
             Me.ctxQueues.Name = "ctxQueues"
-            Me.ctxQueues.Size = New System.Drawing.Size(179, 170)
+            Me.ctxQueues.Size = New System.Drawing.Size(179, 192)
             '
             'mnuAddQueue
             '
