@@ -344,10 +344,9 @@ Public Class PilotParseFunctions
                         If HQ.Settings.Pilots.ContainsKey(newPilot.Name) = True Then
                             newPilot.TrainingNotifiedEarly = HQ.Settings.Pilots(newPilot.Name).TrainingNotifiedEarly
                             newPilot.TrainingNotifiedNow = HQ.Settings.Pilots(newPilot.Name).TrainingNotifiedNow
-                        Else
-                            ' New character - let's download the image for them automatically :)
-                            ImageHandler.DownloadPortrait(newPilot.ID)
                         End If
+                        ' Download any updated portrait for this character
+                        ImageHandler.DownloadPortrait(newPilot.ID)
                         If HQ.TPilots.ContainsKey(newPilot.Name) = False Then
                             HQ.TPilots.Add(newPilot.Name, newPilot)
                         End If
