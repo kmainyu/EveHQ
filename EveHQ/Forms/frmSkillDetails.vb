@@ -23,8 +23,6 @@ Imports EveHQ.EveData
 Public Class frmSkillDetails
 
     Dim _oldNodeIndex As Integer = -1
-    Private Const TrainingThreshold As Integer = 1600000
-    Dim _trainingBonus As Double = 1
     Dim _displayPilotName As String
     Dim _displayPilot As New Core.EveHQPilot
     Public Property DisplayPilotName() As String
@@ -38,10 +36,6 @@ Public Class frmSkillDetails
     End Property
 
     Public Sub ShowSkillDetails(ByVal skillID As Integer)
-
-        If _displayPilot.SkillPoints + _displayPilot.TrainingCurrentSP < TrainingThreshold Then
-            _trainingBonus = 2
-        End If
 
         Call PrepareDetails(skillID)
         Call PrepareTree(skillID)

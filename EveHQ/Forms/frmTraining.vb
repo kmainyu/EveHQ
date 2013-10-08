@@ -35,8 +35,6 @@ Public Class frmTraining
     Dim activeLVW As EveHQ.DragAndDropListView
     Dim startTime As DateTime
     Dim endTime As DateTime
-    Dim TrainingThreshold As Integer = 1600000
-    Dim TrainingBonus As Double = 1
     Dim usingFilter As Boolean = True
     Dim skillListNodes As New SortedList
     Dim certListNodes As New SortedList
@@ -1608,12 +1606,6 @@ Public Class frmTraining
 #Region "Skill Information Display"
 
     Private Sub ShowSkillDetails(ByVal skillID As Integer)
-
-        If displayPilot.SkillPoints + displayPilot.TrainingCurrentSP < TrainingThreshold Then
-            TrainingBonus = 2
-        Else
-            TrainingBonus = 1
-        End If
 
         Call PrepareDetails(skillID)
         Call PrepareTree(skillID)
