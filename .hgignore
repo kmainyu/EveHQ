@@ -5,8 +5,8 @@ Debug/*
 Release/*
 *.suo
 *.user
-AssemblyInfo.*
 _ReSharper.EveHQ/
 syntax: glob
+AssemblyInfo.*
 Utilities/EveHQ.Market.ProxyCollector/*
 Ref/EveCache.Net/EveCache.dll

@@ -3186,8 +3186,6 @@ Public Class ShipSlotControl
             Dim p As Point = adtSlots.PointToClient(New Point(e.X, e.Y))
             Dim nLVI As Node = adtSlots.GetNodeAt(p.X, p.Y)
             If nLVI IsNot Nothing Then
-                Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
-                Dim nMod As New ShipModule
                 Dim nSep As Integer = nLVI.Name.LastIndexOf("_")
                 Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, nSep))
                 Dim nslotNo As Integer = CInt(nLVI.Name.Substring(nSep + 1, 1))
@@ -3214,16 +3212,14 @@ Public Class ShipSlotControl
 
     Private Sub adtSlots_DragDrop(ByVal sender As Object, ByVal e As DragEventArgs) Handles adtSlots.DragDrop
         Dim oLVI As Node = CType(e.Data.GetData(GetType(Node)), Node)
-        Dim oModID As String = CStr(ModuleLists.moduleListName.Item(oLVI.Text))
-
+        
         Dim oSep As Integer = oLVI.Name.LastIndexOf("_")
         Dim oSlotType As Integer = CInt(oLVI.Name.Substring(0, oSep))
         Dim oslotNo As Integer = CInt(oLVI.Name.Substring(oSep + 1, 1))
 
         Dim p As Point = adtSlots.PointToClient(New Point(e.X, e.Y))
         Dim nLVI As Node = adtSlots.GetNodeAt(p.X, p.Y)
-        Dim nModID As String = CStr(ModuleLists.moduleListName.Item(nLVI.Text))
-
+       
         Dim nSep As Integer = nLVI.Name.LastIndexOf("_")
         Dim nSlotType As Integer = CInt(nLVI.Name.Substring(0, nSep))
         Dim nslotNo As Integer = CInt(nLVI.Name.Substring(nSep + 1, 1))
