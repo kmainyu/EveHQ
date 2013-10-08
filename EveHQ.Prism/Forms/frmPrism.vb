@@ -44,8 +44,7 @@ Public Class frmPrism
 
 #Region "Class Wide Variables"
 
-    Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Dim SQLTimeFormat As String = "yyyyMMdd HH:mm:ss"
+    Dim PrismTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
     Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
 
     Dim startup As Boolean = True
@@ -1859,7 +1858,7 @@ Public Class frmPrism
                                         loc = "StationID: " & Order.Attributes.GetNamedItem("stationID").Value
                                     End If
                                     sOrder.Cells(3).Text = loc
-                                    Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
+                                    Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, PrismTimeFormat, culture, Globalization.DateTimeStyles.None)
                                     Dim orderExpires As TimeSpan = issueDate - Now
                                     orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
                                     sOrder.Cells(4).Tag = orderExpires
@@ -1907,7 +1906,7 @@ Public Class frmPrism
                                             bOrder.Cells(4).Text = Order.Attributes.GetNamedItem("range").Value & " Jumps"
                                     End Select
                                     bOrder.Cells(5).Text = Double.Parse(Order.Attributes.GetNamedItem("minVolume").Value, culture).ToString("N0")
-                                    Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
+                                    Dim issueDate As Date = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, PrismTimeFormat, culture, Globalization.DateTimeStyles.None)
                                     Dim orderExpires As TimeSpan = issueDate - Now
                                     orderExpires = orderExpires.Add(New TimeSpan(CInt(Order.Attributes.GetNamedItem("duration").Value), 0, 0, 0))
                                     bOrder.Cells(6).Tag = orderExpires
@@ -2487,9 +2486,9 @@ Public Class frmPrism
     Private Function FetchWalletJournalData() As DataSet
         Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletJournal"
-        strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = STR(walletTransactions.transRef)"
+        strSQL &= " LEFT JOIN walletTransactions ON walletJournal.argName1 = walletTransactions.transRef"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(PrismTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(PrismTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -2532,7 +2531,7 @@ Public Class frmPrism
         Dim walletID As String = (1000 + cboWalletJournalDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletJournal"
         strSQL &= " WHERE (walletJournal.walletID = " & walletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & dtiJournalStartDate.Value.ToString(PrismTimeFormat, culture) & "' AND walletJournal.transDate <= '" & dtiJournalEndDate.Value.ToString(PrismTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -2657,10 +2656,10 @@ Public Class frmPrism
                 HeaderAtt.Value = System.Web.HttpUtility.HtmlEncode((1000 + cboWalletJournalDivision.SelectedIndex).ToString)
                 HeaderRow.Attributes.Append(HeaderAtt)
                 HeaderAtt = xmlDoc.CreateAttribute("startDate")
-                HeaderAtt.Value = System.Web.HttpUtility.HtmlEncode(dtiJournalStartDate.Value.ToString(IndustryTimeFormat, culture))
+                HeaderAtt.Value = System.Web.HttpUtility.HtmlEncode(dtiJournalStartDate.Value.ToString(PrismTimeFormat, culture))
                 HeaderRow.Attributes.Append(HeaderAtt)
                 HeaderAtt = xmlDoc.CreateAttribute("endDate")
-                HeaderAtt.Value = System.Web.HttpUtility.HtmlEncode(dtiJournalEndDate.Value.ToString(IndustryTimeFormat, culture))
+                HeaderAtt.Value = System.Web.HttpUtility.HtmlEncode(dtiJournalEndDate.Value.ToString(PrismTimeFormat, culture))
                 HeaderRow.Attributes.Append(HeaderAtt)
                 ' Add the header row
                 xmlRoot.AppendChild(HeaderRow)
@@ -2674,7 +2673,7 @@ Public Class frmPrism
                             XMLAtt.Value = System.Web.HttpUtility.HtmlEncode(CDbl(row.Item(col)).ToString(culture))
                         Else
                             If col.DataType() Is GetType(System.DateTime) Then
-                                XMLAtt.Value = System.Web.HttpUtility.HtmlEncode(CDate(row.Item(col)).ToString(IndustryTimeFormat, culture))
+                                XMLAtt.Value = System.Web.HttpUtility.HtmlEncode(CDate(row.Item(col)).ToString(PrismTimeFormat, culture))
                             Else
                                 XMLAtt.Value = System.Web.HttpUtility.HtmlEncode(row.Item(col).ToString)
                             End If
@@ -2737,8 +2736,8 @@ Public Class frmPrism
                                     OwnerID = ConfigNode.Attributes.GetNamedItem("ownerID").Value
                                     OwnerName = ConfigNode.Attributes.GetNamedItem("ownerName").Value
                                     WalletID = CInt(ConfigNode.Attributes.GetNamedItem("walletID").Value)
-                                    StartDate = DateTime.ParseExact(ConfigNode.Attributes.GetNamedItem("startDate").Value, IndustryTimeFormat, culture)
-                                    EndDate = DateTime.ParseExact(ConfigNode.Attributes.GetNamedItem("endDate").Value, IndustryTimeFormat, culture)
+                                    StartDate = DateTime.ParseExact(ConfigNode.Attributes.GetNamedItem("startDate").Value, PrismTimeFormat, culture)
+                                    EndDate = DateTime.ParseExact(ConfigNode.Attributes.GetNamedItem("endDate").Value, PrismTimeFormat, culture)
                                     If OwnerID = "" Then
                                         MessageBox.Show("The import configuration data for OwnerID cannot be blank. Please check the file is in the correct XML format.", "Import Wallet Journal", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                         Exit Sub
@@ -2783,7 +2782,7 @@ Public Class frmPrism
 
         ' Step 3: Ask for confirmation (because it potentially involves deleting stuff)
         Dim msg As New StringBuilder
-        msg.AppendLine("This procedure will first delete all wallet transactions in WalletID " & WalletID.ToString & " for " & OwnerName & " between the dates of " & StartDate.ToString(IndustryTimeFormat) & " and " & EndDate.ToString(IndustryTimeFormat) & ".")
+        msg.AppendLine("This procedure will first delete all wallet transactions in WalletID " & WalletID.ToString & " for " & OwnerName & " between the dates of " & StartDate.ToString(PrismTimeFormat) & " and " & EndDate.ToString(PrismTimeFormat) & ".")
         msg.AppendLine("")
         msg.AppendLine("Are you sure you wish to proceed?")
         Dim reply As DialogResult = MessageBox.Show(msg.ToString, "Confirm Wallet Import", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
@@ -2794,7 +2793,7 @@ Public Class frmPrism
         ' Step 4: Delete existing transactions
         Dim strSQL As String = "DELETE FROM walletJournal"
         strSQL &= " WHERE (walletJournal.walletID = " & WalletID & ")"
-        strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(SQLTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(SQLTimeFormat, culture) & "'"
+        strSQL &= " AND walletJournal.transDate >= '" & StartDate.ToString(PrismTimeFormat, culture) & "' AND walletJournal.transDate < '" & EndDate.ToString(PrismTimeFormat, culture) & "'"
         strSQL &= " AND walletJournal.charName IN ('" & OwnerName.Replace("'", "''") & "')"
         Try
             CustomDataFunctions.SetCustomData(strSQL)
@@ -2851,7 +2850,7 @@ Public Class frmPrism
         Dim walletID As String = (1000 + cboWalletTransDivision.SelectedIndex).ToString
         Dim strSQL As String = "SELECT * FROM walletTransactions"
         strSQL &= " WHERE (walletTransactions.walletID = " & walletID & ")"
-        strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
+        strSQL &= " AND walletTransactions.transDate >= '" & dtiTransStartDate.Value.ToString(PrismTimeFormat, culture) & "' AND walletTransactions.transDate <= '" & dtiTransEndDate.Value.ToString(PrismTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboJournalOwners.Text <> "<All>" Then
@@ -6163,7 +6162,7 @@ Public Class frmPrism
 
     Private Sub DisplayInventionResults()
         Dim strSQL As String = "SELECT * FROM inventionResults"
-        strSQL &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(SQLTimeFormat, culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(SQLTimeFormat, culture) & "'"
+        strSQL &= " WHERE inventionResults.resultDate >= '" & dtiInventionStartDate.Value.ToString(PrismTimeFormat, culture) & "' AND inventionResults.resultDate <= '" & dtiInventionEndDate.Value.ToString(PrismTimeFormat, culture) & "'"
 
         ' Build the Owners List
         If cboInventionInstallers.Text <> "<All>" Then
