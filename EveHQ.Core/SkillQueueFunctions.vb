@@ -446,15 +446,26 @@ Public Class SkillQueueFunctions
     End Sub
 
     Private Shared Sub CheckAlreadyTraining(ByVal qPilot As EveHQPilot, ByVal bQueue As EveHQSkillQueue)
-        Dim newQueue As New Dictionary(Of String, EveHQSkillQueueItem)
-        For Each curSkill As EveHQSkillQueueItem In bQueue.Queue.Values
-            If qPilot.PilotSkills.ContainsKey(curSkill.Name) Then
-                Dim mySkill As EveHQPilotSkill = qPilot.PilotSkills(curSkill.Name)
-                If mySkill.Level < curSkill.ToLevel Then
-                    If curSkill.FromLevel < mySkill.Level Then
-                        curSkill.FromLevel = mySkill.Level
+        If qPilot.Training = True Then
+            Dim newQueue As New Dictionary(Of String, EveHQSkillQueueItem)
+            Dim trainSkill As EveHQPilotSkill = qPilot.PilotSkills(qPilot.TrainingSkillName)
+            For Each curSkill As EveHQSkillQueueItem In bQueue.Queue.Values
+                If curSkill.Name = trainSkill.Name Then
+                    If qPilot.TrainingSkillLevel < curSkill.ToLevel And qPilot.TrainingSkillLevel - 1 = curSkill.FromLevel Then
+                        ' Create a new training queue item that covers the current training
+                        Dim newskill As New EveHQSkillQueueItem
+                        newskill.Name = curSkill.Name
+                        newskill.FromLevel = curSkill.FromLevel
+                        newskill.ToLevel = newskill.FromLevel + 1
+                        newskill.Notes = curSkill.Notes
+                        newskill.Priority = curSkill.Priority
+                        Dim newKey As String = newskill.Name & newskill.FromLevel & newskill.ToLevel
+                        ' Increase the from level of the existing skill
+                        'Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
+                        curSkill.FromLevel += 1
                         Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
                         newQueue.Add(keyName, curSkill)
+                        newQueue.Add(newKey, curSkill)
                     Else
                         ' Add in as standard
                         newQueue.Add(curSkill.Key, curSkill)
@@ -463,12 +474,9 @@ Public Class SkillQueueFunctions
                     ' Add in as standard
                     newQueue.Add(curSkill.Key, curSkill)
                 End If
-            Else
-                ' Not in the pilot skills therefore add to the queue as is
-                newQueue.Add(curSkill.Key, curSkill)
-            End If
-        Next
-        bQueue.Queue = newQueue
+            Next
+            bQueue.Queue = newQueue
+        End If
     End Sub
 
     Private Shared Sub CheckSkillFlow(ByVal qPilot As EveHQPilot, ByVal bQueue As EveHQSkillQueue)
