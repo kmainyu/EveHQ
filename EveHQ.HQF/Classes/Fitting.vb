@@ -1465,106 +1465,109 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyStackingPenalties()
-        Call Me.PrioritiseEffects()
-        Dim sTime, eTime As Date
-        sTime = Now
-        Dim baseEffectList As New List(Of FinalEffect)
-        Dim finalEffectList As New List(Of FinalEffect)
-        Dim tempPEffectList As New SortedList
-        Dim tempNEffectList As New SortedList
-        Dim groupPEffectList As New SortedList
-        Dim groupNEffectList As New SortedList
-        Dim group2PEffectList As New SortedList
-        Dim group2NEffectList As New SortedList
+        Call PrioritiseEffects()
+        Dim baseEffectList As List(Of FinalEffect)
+        Dim finalEffectList As List(Of FinalEffect)
+        Dim stackingGroupsP As New SortedList(Of Integer, SortedList(Of Integer, FinalEffect)) ' Positive Effect Stacking Groups
+        Dim stackingGroupsN As New SortedList(Of Integer, SortedList(Of Integer, FinalEffect)) ' Negative Effect Stacking Groups
+        Dim attOrder(,) As Double
         Dim att As String
         For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
             att = _moduleEffectsTable.Keys(attNumber)
             baseEffectList = _moduleEffectsTable(att)
-            tempPEffectList.Clear() : tempNEffectList.Clear()
-            groupPEffectList.Clear() : groupNEffectList.Clear()
-            group2PEffectList.Clear() : group2NEffectList.Clear()
+            stackingGroupsP.Clear()
+            stackingGroupsN.Clear()
             finalEffectList = New List(Of FinalEffect)
             For Each fEffect As FinalEffect In baseEffectList
                 Select Case fEffect.StackNerf
-                    Case EffectStackType.None
+                    Case 0
                         finalEffectList.Add(fEffect)
-                    Case EffectStackType.Standard
+                    Case Else
                         If fEffect.AffectedValue >= 0 Then
-                            tempPEffectList.Add(tempPEffectList.Count.ToString, fEffect)
+                            If stackingGroupsP.ContainsKey(fEffect.StackNerf) = False Then
+                                stackingGroupsP.Add(fEffect.StackNerf, New SortedList(Of Integer, FinalEffect))
+                            End If
+                            stackingGroupsP(fEffect.StackNerf).Add(stackingGroupsP(fEffect.StackNerf).Count, fEffect)
                         Else
-                            tempNEffectList.Add(tempNEffectList.Count.ToString, fEffect)
-                        End If
-                    Case EffectStackType.Group
-                        If fEffect.AffectedValue >= 0 Then
-                            groupPEffectList.Add(groupPEffectList.Count.ToString, fEffect)
-                        Else
-                            groupNEffectList.Add(groupNEffectList.Count.ToString, fEffect)
-                        End If
-                    Case EffectStackType.Group2
-                        If fEffect.AffectedValue >= 0 Then
-                            group2PEffectList.Add(group2PEffectList.Count.ToString, fEffect)
-                        Else
-                            group2NEffectList.Add(group2NEffectList.Count.ToString, fEffect)
+                            If stackingGroupsN.ContainsKey(fEffect.StackNerf) = False Then
+                                stackingGroupsN.Add(fEffect.StackNerf, New SortedList(Of Integer, FinalEffect))
+                            End If
+                            stackingGroupsN(fEffect.StackNerf).Add(stackingGroupsN(fEffect.StackNerf).Count, fEffect)
                         End If
                 End Select
             Next
-            If tempPEffectList.Count > 0 Then
-                Call ApplyGroupStackingPenalties(finalEffectList, tempPEffectList, True)
-            End If
-            If tempNEffectList.Count > 0 Then
-                Call ApplyGroupStackingPenalties(finalEffectList, tempNEffectList, False)
-            End If
-            If groupPEffectList.Count > 0 Then
-                Call ApplyGroupStackingPenalties(finalEffectList, groupPEffectList, True)
-            End If
-            If groupNEffectList.Count > 0 Then
-                Call ApplyGroupStackingPenalties(finalEffectList, groupNEffectList, False)
-            End If
-            If group2PEffectList.Count > 0 Then
-                Call ApplyGroupStackingPenalties(finalEffectList, group2PEffectList, True)
-            End If
-            If group2NEffectList.Count > 0 Then
-                Call ApplyGroupStackingPenalties(finalEffectList, group2NEffectList, False)
-            End If
+            For Each stackingGroup As SortedList(Of Integer, FinalEffect) In stackingGroupsP.Values
+                If stackingGroup.Count > 0 Then
+                    ReDim attOrder(stackingGroup.Count - 1, 1)
+                    Dim sEffect As FinalEffect
+                    For Each attNo As Integer In stackingGroup.Keys
+                        sEffect = stackingGroup(attNo)
+                        attOrder(attNo, 0) = attNo
+                        attOrder(attNo, 1) = sEffect.AffectedValue
+                    Next
+                    ' Create a tag array ready to sort the effects
+                    Dim tagArray(stackingGroup.Count - 1) As Integer
+                    For a As Integer = 0 To stackingGroup.Count - 1
+                        tagArray(a) = a
+                    Next
+                    ' Initialize the comparer and sort
+                    Dim myComparer As New FittingEffectComparer(attOrder)
+                    Array.Sort(tagArray, myComparer)
+                    Array.Reverse(tagArray)
+                    ' Go through the data and apply the stacking penalty
+                    Dim idx As Integer
+                    Dim penalty As Double
+                    For i As Integer = 0 To tagArray.Length - 1
+                        idx = tagArray(i)
+                        sEffect = stackingGroup(idx)
+                        penalty = Math.Exp(-(i ^ 2 / 7.1289))
+                        Select Case sEffect.CalcType
+                            Case EffectCalcType.Multiplier
+                                sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
+                            Case Else
+                                sEffect.AffectedValue = sEffect.AffectedValue * penalty
+                        End Select
+                        sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
+                        finalEffectList.Add(sEffect)
+                    Next
+                End If
+            Next
+            For Each stackingGroup As SortedList(Of Integer, FinalEffect) In stackingGroupsN.Values
+                If stackingGroup.Count > 0 Then
+                    ReDim attOrder(stackingGroup.Count - 1, 1)
+                    Dim sEffect As FinalEffect
+                    For Each attNo As Integer In stackingGroup.Keys
+                        sEffect = stackingGroup(attNo)
+                        attOrder(attNo, 0) = attNo
+                        attOrder(attNo, 1) = sEffect.AffectedValue
+                    Next
+                    ' Create a tag array ready to sort the effects
+                    Dim tagArray(stackingGroup.Count - 1) As Integer
+                    For a As Integer = 0 To stackingGroup.Count - 1
+                        tagArray(a) = a
+                    Next
+                    ' Initialize the comparer and sort
+                    Dim myComparer As New FittingEffectComparer(attOrder)
+                    Array.Sort(tagArray, myComparer)
+                    ' Go through the data and apply the stacking penalty
+                    Dim idx As Integer
+                    Dim penalty As Double
+                    For i As Integer = 0 To tagArray.Length - 1
+                        idx = tagArray(i)
+                        sEffect = stackingGroup(idx)
+                        penalty = Math.Exp(-(i ^ 2 / 7.1289))
+                        Select Case sEffect.CalcType
+                            Case EffectCalcType.Multiplier
+                                sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
+                            Case Else
+                                sEffect.AffectedValue = sEffect.AffectedValue * penalty
+                        End Select
+                        sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
+                        finalEffectList.Add(sEffect)
+                    Next
+                End If
+            Next
             _moduleEffectsTable(att) = finalEffectList
-        Next
-        eTime = Now
-        Dim dTime As TimeSpan = eTime - sTime
-    End Sub
-    Private Sub ApplyGroupStackingPenalties(ByRef finalEffectList As List(Of FinalEffect), ByVal group As SortedList, ByVal positive As Boolean)
-        Dim attOrder(group.Count - 1, 1) As Double
-        Dim sEffect As FinalEffect
-        For Each attNo As String In group.Keys
-            sEffect = CType(group(attNo), FinalEffect)
-            attOrder(CInt(attNo), 0) = CDbl(attNo)
-            attOrder(CInt(attNo), 1) = sEffect.AffectedValue
-        Next
-        ' Create a tag array ready to sort the skill times
-        Dim tagArray(group.Count - 1) As Integer
-        For a As Integer = 0 To group.Count - 1
-            tagArray(a) = a
-        Next
-        ' Initialize the comparer and sort
-        Dim myComparer As New EveHQ.Core.Reports.ArrayComparerDouble(attOrder)
-        Array.Sort(tagArray, myComparer)
-        If positive = True Then
-            Array.Reverse(tagArray)
-        End If
-        ' Go through the data and apply the stacking penalty
-        Dim idx As Integer = 0
-        Dim penalty As Double = 0
-        For i As Integer = 0 To tagArray.Length - 1
-            idx = tagArray(i)
-            sEffect = CType(group(idx.ToString), FinalEffect)
-            penalty = Math.Exp(-(i ^ 2 / 7.1289))
-            Select Case sEffect.CalcType
-                Case EffectCalcType.Multiplier
-                    sEffect.AffectedValue = ((sEffect.AffectedValue - 1) * penalty) + 1
-                Case Else
-                    sEffect.AffectedValue = sEffect.AffectedValue * penalty
-            End Select
-            sEffect.Cause &= " (Stacking - " & (penalty * 100).ToString("N4") & "%)"
-            finalEffectList.Add(sEffect)
         Next
     End Sub
     Private Sub PrioritiseEffects()
@@ -3628,5 +3631,22 @@ End Class
 
 End Class
 
+Class FittingEffectComparer
+    Implements IComparer
 
+    ' maintain a reference to the 2-dimensional array being sorted
+    Private ReadOnly _sortArray(,) As Double
 
+    ' constructor initializes the sortArray reference
+    Public Sub New(ByVal theArray(,) As Double)
+        _sortArray = theArray
+    End Sub
+
+    Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
+        ' x and y are integer row numbers into the sortArray
+        Dim i1 As Double = CDbl(DirectCast(x, Integer))
+        Dim i2 As Double = CDbl(DirectCast(y, Integer))
+        ' compare the items in the sortArray
+        Return _sortArray(CInt(i1), 1).CompareTo(_sortArray(CInt(i2), 1))
+    End Function
+End Class
