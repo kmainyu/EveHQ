@@ -23,8 +23,8 @@ Imports System.Runtime.Serialization
 
 Public Class Engine
 
-    Public Shared EffectsMap As New SortedList
-    Public Shared ShipEffectsMap As New SortedList
+    Public Shared EffectsMap As New SortedList(Of Integer, List(Of Effect))
+    Public Shared ShipEffectsMap As New SortedList(Of Integer, List(Of Effect))
     Public Shared ShipBonusesMap As New SortedList(Of Integer, List(Of ShipEffect)) ' ShipID, List(Of ShipEffect)
     Public Shared SubSystemEffectsMap As New SortedList(Of Integer, List(Of ShipEffect)) ' TypeID, List(Of ShipEffect)
     Public Shared FleetEffectsMap As New SortedList
@@ -130,7 +130,7 @@ Public Class Engine
         Dim effectData As New List(Of String)
         ' Build the map
         EffectsMap.Clear()
-        Dim effectClassList As ArrayList
+        Dim effectClassList As List(Of Effect)
         Dim newEffect As Effect
         Dim ids As List(Of String)
         Dim affectingIDs As List(Of String)
@@ -142,11 +142,11 @@ Public Class Engine
                 For Each affectingID As String In affectingIDs
 
                     newEffect = New Effect
-                    If EffectsMap.Contains((effectData(0))) = True Then
-                        effectClassList = CType(EffectsMap(effectData(0)), ArrayList)
+                    If EffectsMap.ContainsKey(CInt((effectData(0)))) = True Then
+                        effectClassList = EffectsMap(CInt(effectData(0)))
                     Else
-                        effectClassList = New ArrayList
-                        EffectsMap.Add(effectData(0), effectClassList)
+                        effectClassList = New List(Of Effect)
+                        EffectsMap.Add(CInt(effectData(0)), effectClassList)
                     End If
                     newEffect.AffectingAtt = CInt(effectData(0))
                     newEffect.AffectingType = CType(effectData(1), HQFEffectType)
@@ -183,18 +183,18 @@ Public Class Engine
         Dim effectData() As String
         ' Build the map
         ShipEffectsMap.Clear()
-        Dim effectClassList As ArrayList
+        Dim effectClassList As List(Of Effect)
         Dim newEffect As Effect
         Dim ids() As String
         For Each effectLine As String In effectLines
             If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 newEffect = New Effect
-                If ShipEffectsMap.Contains((effectData(0))) = True Then
-                    effectClassList = CType(ShipEffectsMap(effectData(0)), ArrayList)
+                If ShipEffectsMap.ContainsKey(CInt((effectData(0)))) = True Then
+                    effectClassList = ShipEffectsMap(CInt(effectData(0)))
                 Else
-                    effectClassList = New ArrayList
-                    ShipEffectsMap.Add(effectData(0), effectClassList)
+                    effectClassList = New List(Of Effect)
+                    ShipEffectsMap.Add(CInt(effectData(0)), effectClassList)
                 End If
                 newEffect.AffectingAtt = CInt(effectData(0))
                 newEffect.AffectingType = CType(effectData(1), HQFEffectType)

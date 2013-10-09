@@ -698,8 +698,8 @@ Imports EveHQ.Core
                     aSkill = SkillLists.SkillList(hSkill.ID)
                     Try
                         For Each att As Integer In aSkill.Attributes.Keys
-                            If Engine.EffectsMap.Contains(CStr(att)) = True Then
-                                For Each chkEffect As Effect In CType(Engine.EffectsMap(CStr(att)), ArrayList)
+                            If Engine.EffectsMap.ContainsKey(att) = True Then
+                                For Each chkEffect As Effect In Engine.EffectsMap(att)
                                     If chkEffect.AffectingType = HQFEffectType.Item And chkEffect.AffectingID = CInt(aSkill.ID) Then
                                         fEffect = New FinalEffect
                                         fEffect.AffectedAtt = chkEffect.AffectedAtt
@@ -892,8 +892,8 @@ Imports EveHQ.Core
             ' Get the ship effects
             Dim processData As Boolean
             For Each att As Integer In hShip.Attributes.Keys
-                If Engine.ShipEffectsMap.Contains(att) = True Then
-                    For Each chkEffect As Effect In CType(Engine.ShipEffectsMap(att), ArrayList)
+                If Engine.ShipEffectsMap.ContainsKey(att) = True Then
+                    For Each chkEffect As Effect In Engine.ShipEffectsMap(att)
                         processData = False
                         Select Case chkEffect.AffectingType
                             Case HQFEffectType.All
@@ -997,8 +997,8 @@ Imports EveHQ.Core
         For Each aModule As ShipModule In newShip.SlotCollection
             If aModule.LoadedCharge IsNot Nothing Then
                 For Each att As Integer In aModule.LoadedCharge.Attributes.Keys
-                    If Engine.EffectsMap.Contains(att) = True Then
-                        For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
+                    If Engine.EffectsMap.ContainsKey(att) = True Then
+                        For Each chkEffect As Effect In Engine.EffectsMap(att)
                             processData = False
                             Select Case chkEffect.AffectingType
                                 Case HQFEffectType.All
@@ -1066,8 +1066,8 @@ Imports EveHQ.Core
         Dim processData As Boolean = False
         For Each aModule As ShipModule In newShip.SlotCollection
             For Each att As Integer In aModule.Attributes.Keys
-                If Engine.EffectsMap.Contains(att) = True Then
-                    For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
+                If Engine.EffectsMap.ContainsKey(att) = True Then
+                    For Each chkEffect As Effect In Engine.EffectsMap(att)
                         processData = False
                         Select Case chkEffect.AffectingType
                             Case HQFEffectType.All
@@ -1157,8 +1157,8 @@ Imports EveHQ.Core
                 aModule = newShip.SubSlot(s)
                 If aModule IsNot Nothing Then
                     For Each att In aModule.Attributes.Keys
-                        If Engine.EffectsMap.Contains(att) = True Then
-                            For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
+                        If Engine.EffectsMap.ContainsKey(att) = True Then
+                            For Each chkEffect As Effect In Engine.EffectsMap(att)
                                 processData = False
                                 Select Case chkEffect.AffectingType
                                     Case HQFEffectType.All
