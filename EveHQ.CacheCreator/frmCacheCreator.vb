@@ -1645,7 +1645,11 @@ Public Class FrmCacheCreator
                             newShip.Description = shipRow.Item("description").ToString
                             newShip.DatabaseGroup = CInt(shipRow.Item("groupID"))
                             newShip.DatabaseCategory = CInt(shipRow.Item("categoryID"))
-                            newShip.MarketGroup = CInt(shipRow.Item("marketGroupID"))
+                            If IsDBNull(shipRow.Item("marketGroupID")) Then
+                                newShip.MarketGroup = 0
+                            Else
+                                newShip.MarketGroup = CInt(shipRow.Item("marketGroupID"))
+                            End If
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
                             newShip.MarketPrice = 0
                             newShip.Mass = CDbl(shipRow.Item("mass"))
