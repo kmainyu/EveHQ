@@ -101,7 +101,7 @@ Public Class Engine
                 If Boosters.BoosterEffects.ContainsKey(effectData(0)) = True Then
                     ' Get the current effects
                     If CInt(effectData(1)) = 1 Then
-                        effectList = CType(Boosters.BoosterEffects(effectData(0)), SortedList(Of String, BoosterEffect))
+                        effectList = Boosters.BoosterEffects(effectData(0))
                         ' Add the penalty to the list
                         Dim newEffect As New BoosterEffect
                         newEffect.AttributeID = effectData(2)
@@ -124,47 +124,55 @@ Public Class Engine
         Next
     End Sub
     Public Shared Sub BuildEffectsMap()
-        ' Fetch the Effects list
-        Dim effectFile As String = My.Resources.Effects.ToString
         ' Break the Effects down into separate lines
-        Dim effectLines() As String = effectFile.Split(ControlChars.CrLf.ToCharArray)
+        Dim effectLines As List(Of String) = My.Resources.Effects.ToString.Split(ControlChars.CrLf.ToCharArray).ToList
         ' Go through lines and break each one down
-        Dim effectData() As String
+        Dim effectData As New List(Of String)
         ' Build the map
         EffectsMap.Clear()
         Dim effectClassList As ArrayList
         Dim newEffect As Effect
-        Dim ids() As String
+        Dim ids As List(Of String)
+        Dim affectingIDs As List(Of String)
         For Each effectLine As String In effectLines
             If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
-                effectData = effectLine.Split(",".ToCharArray)
-                newEffect = New Effect
-                If EffectsMap.Contains((effectData(0))) = True Then
-                    effectClassList = CType(EffectsMap(effectData(0)), ArrayList)
-                Else
-                    effectClassList = New ArrayList
-                    EffectsMap.Add(effectData(0), effectClassList)
-                End If
-                newEffect.AffectingAtt = CInt(effectData(0))
-                newEffect.AffectingType = CType(effectData(1), HQFEffectType)
-                newEffect.AffectingID = CInt(effectData(2))
-                newEffect.AffectedAtt = CInt(effectData(3))
-                newEffect.AffectedType = CType(effectData(4), HQFEffectType)
-                If effectData(5).Contains(";") = True Then
-                    ids = effectData(5).Split(";".ToCharArray)
-                    For Each id As String In ids
-                        newEffect.AffectedID.Add(id)
-                    Next
-                Else
-                    newEffect.AffectedID.Add(effectData(5))
-                End If
-                newEffect.StackNerf = CType(effectData(6), EffectStackType)
-                newEffect.IsPerLevel = CBool(effectData(7))
-                newEffect.CalcType = CType(effectData(8), EffectCalcType)
-                newEffect.Status = CInt(effectData(9))
-                effectClassList.Add(newEffect)
+                effectData = effectLine.Split(",".ToCharArray).ToList
+                affectingIDs = effectData(2).Split(";".ToCharArray).ToList()
+
+                For Each affectingID As String In affectingIDs
+
+                    newEffect = New Effect
+                    If EffectsMap.Contains((effectData(0))) = True Then
+                        effectClassList = CType(EffectsMap(effectData(0)), ArrayList)
+                    Else
+                        effectClassList = New ArrayList
+                        EffectsMap.Add(effectData(0), effectClassList)
+                    End If
+                    newEffect.AffectingAtt = CInt(effectData(0))
+                    newEffect.AffectingType = CType(effectData(1), HQFEffectType)
+                    newEffect.AffectingID = CInt(affectingID)
+                    newEffect.AffectedAtt = CInt(effectData(3))
+                    newEffect.AffectedType = CType(effectData(4), HQFEffectType)
+                    If effectData(5).Contains(";") = True Then
+                        ids = effectData(5).Split(";".ToCharArray).ToList
+                        For Each id As String In ids
+                            newEffect.AffectedID.Add(id)
+                        Next
+                    Else
+                        newEffect.AffectedID.Add(effectData(5))
+                    End If
+                    newEffect.StackNerf = CType(effectData(6), EffectStackType)
+                    newEffect.IsPerLevel = CBool(effectData(7))
+                    newEffect.CalcType = CType(effectData(8), EffectCalcType)
+                    newEffect.Status = CInt(effectData(9))
+                    effectClassList.Add(newEffect)
+
+                Next
+
             End If
         Next
+        effectLines.Clear()
+        effectData.Clear()
     End Sub
     Public Shared Sub BuildShipEffectsMap()
         ' Fetch the Effects list
@@ -344,7 +352,7 @@ Public Class Engine
                         newEffect.AffectedID.Add(effectData(5))
                     End If
                     newEffect.CalcType = CType(effectData(6), EffectCalcType)
-                    Dim cImplant As ShipModule = CType(Implants.implantList(newEffect.ImplantName), ShipModule)
+                    Dim cImplant As ShipModule = Implants.ImplantList(newEffect.ImplantName)
                     newEffect.Value = CDbl(cImplant.Attributes(effectData(0)))
                     newEffect.IsGang = CBool(effectData(8))
                     If effectData(9).Contains(";") = True Then
