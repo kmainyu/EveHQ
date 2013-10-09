@@ -111,7 +111,7 @@ Public Class frmShipEditorAttributes
         Dim shipID As Integer = 1000000
         Do
             shipID += 1
-        Loop Until CustomHQFClasses.CustomShipIDs.ContainsKey(shipID.ToString) = False
+        Loop Until CustomHQFClasses.CustomShipIDs.ContainsKey(shipID) = False
         NewShipID = shipID
         lblShipID.Text = "New Custom Ship ID: " & NewShipID.ToString
     End Sub
@@ -192,7 +192,7 @@ Public Class frmShipEditorAttributes
                     ' Check the affectedIDs for the ship type
                     For idx As Integer = 0 To ShipBonus.AffectedID.Count - 1
                         If ShipBonus.AffectedID(idx) = BaseShip.ID Then
-                            ShipBonus.AffectedID(idx) = NewShipID.ToString
+                            ShipBonus.AffectedID(idx) = NewShipID
                         End If
                     Next
                 Next
@@ -207,8 +207,8 @@ Public Class frmShipEditorAttributes
             Call Me.UpdateDescription()
 
             ' Process the ship ID
-            CustomShip.ShipData.ID = NewShipID.ToString
-            CustomShip.ID = NewShipID.ToString
+            CustomShip.ShipData.ID = NewShipID
+            CustomShip.ID = NewShipID
 
             ' Process the ship name
             CustomShip.ShipData.Name = txtShipName.Text.Trim

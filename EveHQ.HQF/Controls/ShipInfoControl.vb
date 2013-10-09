@@ -222,14 +222,14 @@ Public Class ShipInfoControl
         epDefence.TitleText = "Defense (EHP: " & ParentFitting.FittedShip.EffectiveHP.ToString("N0") & ")"
 
         ' Tank Ability
-        lblTankAbility.Text = "Tank Ability: " & CDbl(ParentFitting.FittedShip.Attributes("10062")).ToString("N2") & " DPS"
-        ttt = "Passive Tank: " & CDbl(ParentFitting.FittedShip.Attributes("10069")).ToString("N2") & " DPS" & ControlChars.CrLf
-        ttt &= "Shield Tank: " & CDbl(ParentFitting.FittedShip.Attributes("10059")).ToString("N2") & " DPS" & ControlChars.CrLf
-        ttt &= "Armor Tank: " & CDbl(ParentFitting.FittedShip.Attributes("10060")).ToString("N2") & " DPS" & ControlChars.CrLf
-        ttt &= "Structure Tank: " & CDbl(ParentFitting.FittedShip.Attributes("10061")).ToString("N2") & " DPS" & ControlChars.CrLf
+        lblTankAbility.Text = "Tank Ability: " & CDbl(ParentFitting.FittedShip.Attributes(10062)).ToString("N2") & " DPS"
+        ttt = "Passive Tank: " & CDbl(ParentFitting.FittedShip.Attributes(10069)).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt &= "Shield Tank: " & CDbl(ParentFitting.FittedShip.Attributes(10059)).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt &= "Armor Tank: " & CDbl(ParentFitting.FittedShip.Attributes(10060)).ToString("N2") & " DPS" & ControlChars.CrLf
+        ttt &= "Structure Tank: " & CDbl(ParentFitting.FittedShip.Attributes(10061)).ToString("N2") & " DPS" & ControlChars.CrLf
         ttt &= ControlChars.CrLf
         ttt &= "Damage Profile DPS: " & ParentFitting.FittedShip.DamageProfile.DPS.ToString("N2") & " DPS" & ControlChars.CrLf
-        If CDbl(ParentFitting.FittedShip.Attributes("10062")) >= ParentFitting.FittedShip.DamageProfile.DPS Then
+        If CDbl(ParentFitting.FittedShip.Attributes(10062)) >= ParentFitting.FittedShip.DamageProfile.DPS Then
             ttt &= "Can tank damage profile"
             lblTankAbility.ForeColor = Drawing.Color.Green
         Else
@@ -242,8 +242,8 @@ Public Class ShipInfoControl
         lblCapacitor.Text = ParentFitting.FittedShip.CapCapacity.ToString("N2") & " GJ"
         lblCapRecharge.Text = ParentFitting.FittedShip.CapRecharge.ToString("N2") & " s"
         lblCapPeak.Text = (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge).ToString("N2")
-        Dim CapBalP As Double = (CDbl(ParentFitting.FittedShip.Attributes("10050")) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge)
-        Dim CapBalN As Double = ParentFitting.FittedShip.Attributes("10049")
+        Dim CapBalP As Double = (CDbl(ParentFitting.FittedShip.Attributes(10050)) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge)
+        Dim CapBalN As Double = ParentFitting.FittedShip.Attributes(10049)
         lblCapBalP.Text = "+" & CapBalP.ToString("N2")
         lblCapBalN.Text = "- " & CapBalN.ToString("N2")
         lblCapBal.Text = "Δ " & (CapBalP - CapBalN).ToString("N2")
@@ -252,7 +252,7 @@ Public Class ShipInfoControl
         If csr.CapIsDrained = False Then
             epCapacitor.TitleText = "Capacitor (Stable at " & (csr.MinimumCap / ParentFitting.FittedShip.CapCapacity * 100).ToString("N2") & "%)"
         Else
-            epCapacitor.TitleText = "Capacitor (Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False) & ")"
+            epCapacitor.TitleText = "Capacitor (Lasts " & Core.SkillFunctions.TimeToString(csr.TimeToDrain, False) & ")"
         End If
 
         ' Propulsion
@@ -270,9 +270,9 @@ Public Class ShipInfoControl
 
         ' Targeting
         lblTargetRange.Text = ParentFitting.FittedShip.MaxTargetRange.ToString("N0") & " m"
-        lblTargets.Text = ParentFitting.FittedShip.MaxLockedTargets.ToString("N0") & " / " & ParentFitting.FittedShip.Attributes("10064").ToString("N0")
+        lblTargets.Text = ParentFitting.FittedShip.MaxLockedTargets.ToString("N0") & " / " & ParentFitting.FittedShip.Attributes(10064).ToString("N0")
         ttt = "Max Ship Targets: " & ParentFitting.FittedShip.MaxLockedTargets.ToString("N0") & ControlChars.CrLf
-        ttt &= "Max Pilot Targets: " & ParentFitting.FittedShip.Attributes("10064").ToString("N0")
+        ttt &= "Max Pilot Targets: " & ParentFitting.FittedShip.Attributes(10064).ToString("N0")
         ToolTip1.SetToolTip(lblTargets, ttt)
         lblScanResolution.Text = ParentFitting.FittedShip.ScanResolution.ToString("N2") & " mm"
         Dim SensorStrength As Double = Math.Max(Math.Max(Math.Max(ParentFitting.FittedShip.GravSensorStrenth, ParentFitting.FittedShip.LadarSensorStrenth), ParentFitting.FittedShip.MagSensorStrenth), ParentFitting.FittedShip.RadarSensorStrenth)
@@ -303,43 +303,43 @@ Public Class ShipInfoControl
         ttt = "Cargo Bay Capacity: " & ParentFitting.FittedShip.CargoBay.ToString("N0") & " m3"
         ' Check for specialty bays
         Dim bays As Dictionary(Of String, Double) = New Dictionary(Of String, Double)()
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_FuelBay) Then
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_FuelBay), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_FuelBay))
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipFuelBay) Then
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipFuelBay), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipFuelBay))
         End If
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_FleetHangar) Then
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_FleetHangar), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_FleetHangar))
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipFleetHangar) Then
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipFleetHangar), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipFleetHangar))
         End If
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_OreHold) Then
-            If ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold) > mainBaySize Then
-                If ParentFitting.FittedShip.MarketGroup <> ShipModule.Marketgroup_ORECapitalIndustrials Then
-                    mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold)
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipOreHold) Then
+            If ParentFitting.FittedShip.Attributes(AttributeEnum.ShipOreHold) > mainBaySize Then
+                If ParentFitting.FittedShip.MarketGroup <> ModuleEnum.MarketgroupORECapitalIndustrials Then
+                    mainBaySize = ParentFitting.FittedShip.Attributes(AttributeEnum.ShipOreHold)
                 End If
             End If
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_OreHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_OreHold))
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipOreHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipOreHold))
         End If
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_MineralHold) Then
-            If ParentFitting.FittedShip.Attributes(Attributes.Ship_MineralHold) > mainBaySize Then
-                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_MineralHold)
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipMineralHold) Then
+            If ParentFitting.FittedShip.Attributes(AttributeEnum.ShipMineralHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(AttributeEnum.ShipMineralHold)
             End If
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_MineralHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_MineralHold))
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipMineralHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipMineralHold))
         End If
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_AmmoHold) Then
-            If ParentFitting.FittedShip.Attributes(Attributes.Ship_AmmoHold) > mainBaySize Then
-                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_AmmoHold)
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipAmmoHold) Then
+            If ParentFitting.FittedShip.Attributes(AttributeEnum.ShipAmmoHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(AttributeEnum.ShipAmmoHold)
             End If
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_AmmoHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_AmmoHold))
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipAmmoHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipAmmoHold))
         End If
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_PICommoditiesHold) Then
-            If ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold) > mainBaySize Then
-                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold)
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipPICommoditiesHold) Then
+            If ParentFitting.FittedShip.Attributes(AttributeEnum.ShipPICommoditiesHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(AttributeEnum.ShipPICommoditiesHold)
             End If
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_PICommoditiesHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_PICommoditiesHold))
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipPICommoditiesHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipPICommoditiesHold))
         End If
-        If ParentFitting.FittedShip.Attributes.ContainsKey(Attributes.Ship_CommandCenterHold) Then
-            If ParentFitting.FittedShip.Attributes(Attributes.Ship_CommandCenterHold) > mainBaySize Then
-                mainBaySize = ParentFitting.FittedShip.Attributes(Attributes.Ship_CommandCenterHold)
+        If ParentFitting.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipCommandCenterHold) Then
+            If ParentFitting.FittedShip.Attributes(AttributeEnum.ShipCommandCenterHold) > mainBaySize Then
+                mainBaySize = ParentFitting.FittedShip.Attributes(AttributeEnum.ShipCommandCenterHold)
             End If
-            bays.Add(CType(Attributes.AttributeList(Attributes.Ship_CommandCenterHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(Attributes.Ship_CommandCenterHold))
+            bays.Add(CType(Attributes.AttributeList(AttributeEnum.ShipCommandCenterHold), Attribute).DisplayName, ParentFitting.FittedShip.Attributes(AttributeEnum.ShipCommandCenterHold))
         End If
         If ParentFitting.FittedShip.ShipBay > 0 Then
             bays.Add("Ship Maintenance Bay Capacity", ParentFitting.FittedShip.ShipBay)
@@ -352,7 +352,7 @@ Public Class ShipInfoControl
         ' Drones
         lblDroneBay.Text = ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3"
         Select Case ParentFitting.FittedShip.DatabaseGroup
-            Case ShipModule.Group_Industrials, ShipModule.Group_DeepSpaceTransports, ShipModule.Group_MiningBarges, ShipModule.Group_Freighters, ShipModule.Group_Exhumers, ShipModule.Group_JumpFreighters, ShipModule.Group_IndustrialCommandShips, ShipModule.Group_BlockadeRunners
+            Case ModuleEnum.GroupIndustrials, ModuleEnum.GroupDeepSpaceTransports, ModuleEnum.GroupMiningBarges, ModuleEnum.GroupFreighters, ModuleEnum.GroupExhumers, ModuleEnum.GroupJumpFreighters, ModuleEnum.GroupIndustrialCommandShips, ModuleEnum.GroupBlockadeRunners
                 epCargo.TitleText = "Storage (Cargo: " & mainBaySize.ToString("N0") & " m3)"
             Case Else
                 epCargo.TitleText = "Storage (Drone: " & ParentFitting.FittedShip.DroneBay.ToString("N0") & " m3)"
@@ -486,12 +486,12 @@ Public Class ShipInfoControl
         ParentFitting.FittedShip.DroneBandwidthUsed = 0
         For Each DBI As DroneBayItem In ParentFitting.FittedShip.DroneBayItems.Values
             If DBI.IsActive = True Then
-                ParentFitting.FittedShip.DroneBandwidthUsed += CDbl(DBI.DroneType.Attributes("1272")) * DBI.Quantity
+                ParentFitting.FittedShip.DroneBandwidthUsed += CDbl(DBI.DroneType.Attributes(1272)) * DBI.Quantity
             End If
         Next
         lblDroneBandwidth.Text = ParentFitting.FittedShip.DroneBandwidthUsed.ToString("N0") & " / " & ParentFitting.FittedShip.DroneBandwidth.ToString("N0")
         lblDroneControl.Text = ParentFitting.FittedShip.UsedDrones & " / " & ParentFitting.FittedShip.MaxDrones
-        Dim ttt As String = "Drone Control Range: " & ParentFitting.FittedShip.Attributes("10007").ToString("N0") & "m"
+        Dim ttt As String = "Drone Control Range: " & ParentFitting.FittedShip.Attributes(10007).ToString("N0") & "m"
         ToolTip1.SetToolTip(lblDroneControl, ttt)
         ToolTip1.SetToolTip(pbDroneControl, ttt)
     End Sub

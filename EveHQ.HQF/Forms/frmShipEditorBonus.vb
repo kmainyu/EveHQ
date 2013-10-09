@@ -25,7 +25,7 @@ Imports EveHQ.EveData
 Public Class frmShipEditorBonus
 
     Dim cNewShipEffect As New ShipEffect
-    Dim cShipID As String = ""
+    Dim cShipID As Integer
     Dim FormIsInitialising As Boolean = False
     Dim FlashCount As Integer = 0
 
@@ -62,7 +62,7 @@ Public Class frmShipEditorBonus
         FormIsInitialising = True
 
         ' Setup the shipID
-        cShipID = shipID.ToString
+        cShipID = shipID
 
         ' Set the ship effect
         If OldShipEffect IsNot Nothing Then
@@ -128,7 +128,7 @@ Public Class frmShipEditorBonus
         ' Set up attributes
         cboAttribute.BeginUpdate()
         cboAttribute.Items.Clear()
-        For Each Att As String In Attributes.AttributeQuickList.Keys
+        For Each Att As Integer In Attributes.AttributeQuickList.Keys
             cboAttribute.Items.Add(Attributes.AttributeQuickList.Item(Att).ToString & " (" & Att & ")")
         Next
         cboAttribute.Sorted = True
@@ -170,7 +170,7 @@ Public Class frmShipEditorBonus
         End If
 
         ' Update the attribute
-        cboAttribute.SelectedItem = Attributes.AttributeQuickList.Item(cNewShipEffect.AffectedAtt.ToString).ToString & " (" & cNewShipEffect.AffectedAtt.ToString & ")"
+        cboAttribute.SelectedItem = Attributes.AttributeQuickList.Item(cNewShipEffect.AffectedAtt).ToString & " (" & cNewShipEffect.AffectedAtt.ToString & ")"
 
         ' Update the stacking type
         cboStackEffect.SelectedIndex = cNewShipEffect.StackNerf
@@ -212,9 +212,9 @@ Public Class frmShipEditorBonus
             ' Update the item lists
             lvwItems.BeginUpdate()
             lvwItems.Items.Clear()
-            For Each id As String In cNewShipEffect.AffectedID
+            For Each id As Integer In cNewShipEffect.AffectedID
                 Dim newItem As New ListViewItem
-                newItem.Name = id
+                newItem.Name = CStr(id)
                 Select Case cNewShipEffect.AffectedType
                     Case HQFEffectType.All
                         ' Nothing here?
@@ -366,8 +366,8 @@ Public Class frmShipEditorBonus
                 ' Add in the current ship ID if we have the Use Active Ship item checked
                 If chkUseActiveShip.Checked = True Then
                     Dim newItem As New ListViewItem
-                    newItem.Text = cShipID
-                    newItem.Name = cShipID
+                    newItem.Text = CStr(cShipID)
+                    newItem.Name = CStr(cShipID)
                     lvwItems.Items.Add(newItem)
                     ' Recalculate all IDs
                     Call RecalculateAffectedIDs()
@@ -443,11 +443,11 @@ Public Class frmShipEditorBonus
                 ' Show items
                 cboItems.SuspendLayout()
                 cboItems.Nodes.Clear()
-                For Each att As String In Attributes.AttributeQuickList.Keys
+                For Each att As Integer In Attributes.AttributeQuickList.Keys
                     Dim newNode As New DevComponents.AdvTree.Node
                     newNode.NodesIndent = 0
                     newNode.Text = Attributes.AttributeQuickList.Item(att).ToString & " (" & att & ")"
-                    newNode.Name = att
+                    newNode.Name = CStr(att)
                     cboItems.Nodes.Add(newNode)
                 Next
                 cboItems.Nodes.Sort()
@@ -545,7 +545,7 @@ Public Class frmShipEditorBonus
     Private Sub RecalculateAffectedIDs()
         cNewShipEffect.AffectedID.Clear()
         For Each item As ListViewItem In lvwItems.Items
-            cNewShipEffect.AffectedID.Add(item.Name)
+            cNewShipEffect.AffectedID.Add(CInt(item.Name))
         Next
     End Sub
 

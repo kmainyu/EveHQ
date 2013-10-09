@@ -25,8 +25,8 @@ Public Class Engine
 
     Public Shared EffectsMap As New SortedList
     Public Shared ShipEffectsMap As New SortedList
-    Public Shared ShipBonusesMap As New SortedList(Of String, List(Of ShipEffect))
-    Public Shared SubSystemEffectsMap As New SortedList(Of String, List(Of ShipEffect))
+    Public Shared ShipBonusesMap As New SortedList(Of Integer, List(Of ShipEffect)) ' ShipID, List(Of ShipEffect)
+    Public Shared SubSystemEffectsMap As New SortedList(Of Integer, List(Of ShipEffect)) ' TypeID, List(Of ShipEffect)
     Public Shared FleetEffectsMap As New SortedList
     Public Shared ImplantEffectsMap As New SortedList
     Public Shared PirateImplants As New SortedList(Of String, String)
@@ -156,10 +156,10 @@ Public Class Engine
                     If effectData(5).Contains(";") = True Then
                         ids = effectData(5).Split(";".ToCharArray).ToList
                         For Each id As String In ids
-                            newEffect.AffectedID.Add(id)
+                            newEffect.AffectedID.Add(CInt(id))
                         Next
                     Else
-                        newEffect.AffectedID.Add(effectData(5))
+                        newEffect.AffectedID.Add(CInt(effectData(5)))
                     End If
                     newEffect.StackNerf = CType(effectData(6), EffectStackType)
                     newEffect.IsPerLevel = CBool(effectData(7))
@@ -204,10 +204,10 @@ Public Class Engine
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
-                        newEffect.AffectedID.Add(id)
+                        newEffect.AffectedID.Add(CInt(id))
                     Next
                 Else
-                    newEffect.AffectedID.Add(effectData(5))
+                    newEffect.AffectedID.Add(CInt(effectData(5)))
                 End If
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
@@ -233,11 +233,11 @@ Public Class Engine
             If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
-                If ShipBonusesMap.ContainsKey((effectData(0))) = True Then
-                    shipEffectClassList = ShipBonusesMap(effectData(0))
+                If ShipBonusesMap.ContainsKey(CInt(effectData(0))) = True Then
+                    shipEffectClassList = ShipBonusesMap(CInt(effectData(0)))
                 Else
                     shipEffectClassList = New List(Of ShipEffect)
-                    ShipBonusesMap.Add(effectData(0), shipEffectClassList)
+                    ShipBonusesMap.Add(CInt(effectData(0)), shipEffectClassList)
                 End If
                 newEffect.ShipID = CInt(effectData(0))
                 newEffect.AffectingType = CType(effectData(1), HQFEffectType)
@@ -247,10 +247,10 @@ Public Class Engine
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
-                        newEffect.AffectedID.Add(id)
+                        newEffect.AffectedID.Add(CInt(id))
                     Next
                 Else
-                    newEffect.AffectedID.Add(effectData(5))
+                    newEffect.AffectedID.Add(CInt(effectData(5)))
                 End If
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
@@ -277,11 +277,11 @@ Public Class Engine
             If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
-                If SubSystemEffectsMap.ContainsKey((effectData(0))) = True Then
-                    shipEffectClassList = SubSystemEffectsMap(effectData(0))
+                If SubSystemEffectsMap.ContainsKey(CInt(effectData(0))) = True Then
+                    shipEffectClassList = SubSystemEffectsMap(CInt(effectData(0)))
                 Else
                     shipEffectClassList = New List(Of ShipEffect)
-                    SubSystemEffectsMap.Add(effectData(0), shipEffectClassList)
+                    SubSystemEffectsMap.Add(CInt(effectData(0)), shipEffectClassList)
                 End If
                 newEffect.ShipID = CInt(effectData(0))
                 newEffect.AffectingType = CType(effectData(1), HQFEffectType)
@@ -291,10 +291,10 @@ Public Class Engine
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
-                        newEffect.AffectedID.Add(id)
+                        newEffect.AffectedID.Add(CInt(id))
                     Next
                 Else
-                    newEffect.AffectedID.Add(effectData(5))
+                    newEffect.AffectedID.Add(CInt(effectData(5)))
                 End If
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
@@ -346,14 +346,14 @@ Public Class Engine
                     If effectData(5).Contains(";") = True Then
                         ids = effectData(5).Split(";".ToCharArray)
                         For Each id As String In ids
-                            newEffect.AffectedID.Add(id)
+                            newEffect.AffectedID.Add(CInt(id))
                         Next
                     Else
-                        newEffect.AffectedID.Add(effectData(5))
+                        newEffect.AffectedID.Add(CInt(effectData(5)))
                     End If
                     newEffect.CalcType = CType(effectData(6), EffectCalcType)
                     Dim cImplant As ShipModule = Implants.ImplantList(newEffect.ImplantName)
-                    newEffect.Value = CDbl(cImplant.Attributes(effectData(0)))
+                    newEffect.Value = CDbl(cImplant.Attributes(CInt(effectData(0))))
                     newEffect.IsGang = CBool(effectData(8))
                     If effectData(9).Contains(";") = True Then
                         ids = effectData(9).Split(";".ToCharArray)

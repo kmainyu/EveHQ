@@ -178,11 +178,11 @@ Public Class frmAddDamageProfile
                 newFit.ApplyFitting(BuildType.BuildEverything)
                 Dim profileShip As Ship = newFit.FittedShip
                 ' Place details of ship damage and DPS into text boxes
-                txtEMDamage.Text = profileShip.Attributes("10055").ToString("N2")
-                txtEXDamage.Text = profileShip.Attributes("10056").ToString("N2")
-                txtKIDamage.Text = profileShip.Attributes("10057").ToString("N2")
-                txtTHDamage.Text = profileShip.Attributes("10058").ToString("N2")
-                txtDPS.Text = profileShip.Attributes("10029").ToString("N2")
+                txtEMDamage.Text = profileShip.Attributes(10055).ToString("N2")
+                txtEXDamage.Text = profileShip.Attributes(10056).ToString("N2")
+                txtKIDamage.Text = profileShip.Attributes(10057).ToString("N2")
+                txtTHDamage.Text = profileShip.Attributes(10058).ToString("N2")
+                txtDPS.Text = profileShip.Attributes(10029).ToString("N2")
             Else
                 txtEMDamage.Text = CDbl(0).ToString("N2")
                 txtEXDamage.Text = CDbl(0).ToString("N2")

@@ -19,6 +19,6 @@
 '=========================================================================
 Public Class Charges
 
-    Public Shared Property ChargeGroups As New List(Of String)
+    Public Shared Property ChargeGroups As New Dictionary(Of Integer, String)
 
 End Class

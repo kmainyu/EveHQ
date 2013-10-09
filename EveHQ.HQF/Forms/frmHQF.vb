@@ -37,7 +37,7 @@ Public Class frmHQF
 
     Dim cActiveFitting As Fitting
     Dim LastSlotFitting As New ArrayList
-    Dim LastModuleResults As New SortedList(Of String, ShipModule)
+    Dim LastModuleResults As New SortedList(Of Integer, ShipModule)
     Dim ModuleListItems As New ArrayList
     Dim myPilotManager As New frmPilotManager
     Dim myBCBrowser As New frmBCBrowser
@@ -50,16 +50,8 @@ Public Class frmHQF
 
     Dim startUp As Boolean = False
 
-    Dim cModuleDisplay As String = ""
     Public Property ModuleDisplay() As String
-        Get
-            Return cModuleDisplay
-        End Get
-        Set(ByVal value As String)
-            cModuleDisplay = value
-        End Set
-    End Property
-
+       
     Private Property ActiveFitting() As Fitting
         Get
             Return cActiveFitting
@@ -892,8 +884,8 @@ Public Class frmHQF
     Private Sub CalculateFilteredModules(ByVal groupNode As Node)
         Cursor = Cursors.WaitCursor
         Dim sMod As ShipModule
-        Dim groupID As String
-        Dim results As New SortedList(Of String, ShipModule)
+        Dim groupID As Integer
+        Dim results As New SortedList(Of Integer, ShipModule)
         If groupNode.Name = "Favourites" Then
             ModuleDisplay = "Favourites"
             For Each modName As String In Settings.HQFSettings.Favourites
@@ -911,23 +903,23 @@ Public Class frmHQF
                             If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
                                     If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                        results.Add(sMod.Name, sMod)
+                                        results.Add(sMod.ID, sMod)
                                     End If
                                 Else
-                                    results.Add(sMod.Name, sMod)
+                                    results.Add(sMod.ID, sMod)
                                 End If
                             End If
                         Else
                             If chkOnlyShowFittable.Checked = True Then
                                 If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                    results.Add(sMod.Name, sMod)
+                                    results.Add(sMod.ID, sMod)
                                 End If
                             Else
-                                results.Add(sMod.Name, sMod)
+                                results.Add(sMod.ID, sMod)
                             End If
                         End If
                     Else
-                        results.Add(sMod.Name, sMod)
+                        results.Add(sMod.ID, sMod)
                     End If
                 End If
             Next
@@ -950,23 +942,23 @@ Public Class frmHQF
                             If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                 If chkOnlyShowFittable.Checked = True Then
                                     If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                        results.Add(sMod.Name, sMod)
+                                        results.Add(sMod.ID, sMod)
                                     End If
                                 Else
-                                    results.Add(sMod.Name, sMod)
+                                    results.Add(sMod.ID, sMod)
                                 End If
                             End If
                         Else
                             If chkOnlyShowFittable.Checked = True Then
                                 If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                    results.Add(sMod.Name, sMod)
+                                    results.Add(sMod.ID, sMod)
                                 End If
                             Else
-                                results.Add(sMod.Name, sMod)
+                                results.Add(sMod.ID, sMod)
                             End If
                         End If
                     Else
-                        results.Add(sMod.Name, sMod)
+                        results.Add(sMod.ID, sMod)
                     End If
                 End If
             Next
@@ -974,8 +966,8 @@ Public Class frmHQF
             LastModuleResults = results
         Else
             If groupNode.Nodes.Count = 0 Then
-                groupID = groupNode.Tag.ToString
-                ModuleDisplay = groupID
+                groupID = CInt(groupNode.Tag)
+                ModuleDisplay = CStr(groupID)
                 Call Me.AddGroupResults(HQF.ModuleLists.moduleList, groupID, results)
                 lblModuleDisplayType.Tag = Market.MarketGroupList(groupID).ToString
                 lblModuleDisplayType.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
@@ -985,7 +977,7 @@ Public Class frmHQF
                 If LastModuleResults.Count > 0 Then
                     groupID = LastModuleResults.Values(0).MarketGroup
                 Else
-                    groupID = "0"
+                    groupID = 0
                 End If
                 Call Me.AddGroupResults(LastModuleResults, groupID, results)
                 LastModuleResults = results
@@ -994,7 +986,7 @@ Public Class frmHQF
         Call Me.ShowFilteredModules()
         Me.Cursor = Cursors.Default
     End Sub
-    Private Sub AddGroupResults(ByVal moduleList As SortedList(Of String, ShipModule), ByVal groupID As String, ByRef results As SortedList(Of String, ShipModule))
+    Private Sub AddGroupResults(ByVal moduleList As SortedList(Of Integer, ShipModule), ByVal groupID As Integer, ByRef results As SortedList(Of Integer, ShipModule))
         Dim sMod As New ShipModule
         For Each shipMod As ShipModule In moduleList.Values
             If shipMod.MarketGroup = groupID Then
@@ -1011,23 +1003,23 @@ Public Class frmHQF
                         If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                             If chkOnlyShowFittable.Checked = True Then
                                 If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                    Results.Add(sMod.Name, sMod)
+                                    results.Add(sMod.ID, sMod)
                                 End If
                             Else
-                                Results.Add(sMod.Name, sMod)
+                                results.Add(sMod.ID, sMod)
                             End If
                         End If
                     Else
                         If chkOnlyShowFittable.Checked = True Then
                             If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                Results.Add(sMod.Name, sMod)
+                                results.Add(sMod.ID, sMod)
                             End If
                         Else
-                            Results.Add(sMod.Name, sMod)
+                            results.Add(sMod.ID, sMod)
                         End If
                     End If
                 Else
-                    Results.Add(sMod.Name, sMod)
+                    results.Add(sMod.ID, sMod)
                 End If
             End If
         Next
@@ -1041,7 +1033,7 @@ Public Class frmHQF
         Dim sMod As ShipModule
         If Len(txtSearchModules.Text) > 2 Then
             Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-            Dim results As New SortedList(Of String, ShipModule)
+            Dim results As New SortedList(Of Integer, ShipModule)
             For Each item As String In HQF.ModuleLists.moduleListName.Keys
                 If item.ToLower.Contains(strSearch) Then
                     ' Add results in by name, module
@@ -1059,29 +1051,29 @@ Public Class frmHQF
                                     If Engine.IsUsable(FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
                                         If chkOnlyShowFittable.Checked = True Then
                                             If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                                results.Add(sMod.Name, sMod)
+                                                results.Add(sMod.ID, sMod)
                                             End If
                                         Else
-                                            results.Add(sMod.Name, sMod)
+                                            results.Add(sMod.ID, sMod)
                                         End If
                                     End If
                                 Else
                                     If chkOnlyShowFittable.Checked = True Then
                                         If Engine.IsFittable(sMod, ActiveFitting.FittedShip) = True And ActiveFitting.IsModulePermitted(sMod, True) = True Then
-                                            results.Add(sMod.Name, sMod)
+                                            results.Add(sMod.ID, sMod)
                                         End If
                                     Else
-                                        results.Add(sMod.Name, sMod)
+                                        results.Add(sMod.ID, sMod)
                                     End If
                                 End If
                             Else
-                                results.Add(sMod.Name, sMod)
+                                results.Add(sMod.ID, sMod)
                             End If
                         Else
-                            results.Add(sMod.Name, sMod)
+                            results.Add(sMod.ID, sMod)
                         End If
                     Else
-                        results.Add(sMod.Name, sMod)
+                        results.Add(sMod.ID, sMod)
                     End If
                 End If
             Next
@@ -1110,7 +1102,7 @@ Public Class frmHQF
         Dim LauncherSlots As Integer = CInt(LastSlotFitting(4))
         Dim TurretSlots As Integer = CInt(LastSlotFitting(5))
         Dim strSearch As String = txtSearchModules.Text.Trim.ToLower
-        Dim results As New SortedList(Of String, ShipModule)
+        Dim results As New SortedList(Of Integer, ShipModule)
         Dim sMod As ShipModule
         For Each cMod As ShipModule In HQF.ModuleLists.moduleList.Values
             sMod = cMod
@@ -1128,19 +1120,19 @@ Public Class frmHQF
                             Case SlotTypes.Subsystem
                                 If chkOnlyShowUsable.Checked = True Then
                                     If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
-                                        results.Add(sMod.Name, sMod)
+                                        results.Add(sMod.ID, sMod)
                                     End If
                                 Else
-                                    results.Add(sMod.Name, sMod)
+                                    results.Add(sMod.ID, sMod)
                                 End If
                             Case SlotTypes.Rig
                                 If sMod.Calibration <= Calibration Then
                                     If chkOnlyShowUsable.Checked = True Then
                                         If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
-                                            results.Add(sMod.Name, sMod)
+                                            results.Add(sMod.ID, sMod)
                                         End If
                                     Else
-                                        results.Add(sMod.Name, sMod)
+                                        results.Add(sMod.ID, sMod)
                                     End If
                                 End If
                             Case SlotTypes.Low, SlotTypes.Mid
@@ -1148,10 +1140,10 @@ Public Class frmHQF
                                     If sMod.PG <= PG Then
                                         If chkOnlyShowUsable.Checked = True Then
                                             If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
-                                                results.Add(sMod.Name, sMod)
+                                                results.Add(sMod.ID, sMod)
                                             End If
                                         Else
-                                            results.Add(sMod.Name, sMod)
+                                            results.Add(sMod.ID, sMod)
                                         End If
                                     End If
                                 End If
@@ -1162,10 +1154,10 @@ Public Class frmHQF
                                             If TurretSlots >= Math.Abs(CInt(sMod.IsTurret)) Then
                                                 If chkOnlyShowUsable.Checked = True Then
                                                     If Engine.IsUsable(HQF.FittingPilots.HQFPilots(ActiveFitting.ShipInfoCtrl.cboPilots.SelectedItem.ToString), sMod) = True Then
-                                                        results.Add(sMod.Name, sMod)
+                                                        results.Add(sMod.ID, sMod)
                                                     End If
                                                 Else
-                                                    results.Add(sMod.Name, sMod)
+                                                    results.Add(sMod.ID, sMod)
                                                 End If
                                             End If
                                         End If
@@ -1209,7 +1201,7 @@ Public Class frmHQF
             If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
                 If (shipmod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
                     Dim newModule As New Node
-                    newModule.Name = shipmod.ID
+                    newModule.Name = CStr(shipmod.ID)
                     newModule.Text = shipmod.Name
                     newModule.Cells.Add(New Cell(shipmod.MetaLevel.ToString))
                     newModule.Cells.Add(New Cell(shipmod.CPU.ToString))
@@ -1221,7 +1213,7 @@ Public Class frmHQF
                     newModule.Style.Font = Me.Font
                     ' Create drone icons individually because drones have no iconID
                     If shipmod.IsDrone = True Then
-                        newModule.Image = ImageHandler.CreateIcon(shipmod.ID, shipmod.MetaType.ToString, 24, True)
+                        newModule.Image = ImageHandler.CreateIcon(CStr(shipmod.ID), shipmod.MetaType.ToString, 24, True)
                     Else
                         newModule.Image = ImageHandler.IconImage24(shipmod.Icon, shipmod.MetaType)
                     End If
@@ -1229,7 +1221,7 @@ Public Class frmHQF
                     stt.HeaderText = shipmod.Name
                     stt.BodyText = ""
                     If shipmod.SlotType = SlotTypes.Subsystem Then
-                        stt.BodyText &= "Slot Modifiers - High: " & shipmod.Attributes("1374") & ", Mid: " & shipmod.Attributes("1375") & ", Low: " & shipmod.Attributes("1376") & ControlChars.CrLf & ControlChars.CrLf
+                        stt.BodyText &= "Slot Modifiers - High: " & shipmod.Attributes(1374) & ", Mid: " & shipmod.Attributes(1375) & ", Low: " & shipmod.Attributes(1376) & ControlChars.CrLf & ControlChars.CrLf
                         stt.FooterText = "Subsystem Module Information"
                     Else
                         stt.FooterText = " Meta: " & shipmod.MetaLevel.ToString("N0") & ", CPU: " & shipmod.CPU.ToString("N0") & ", PG: " & shipmod.PG.ToString("N0")
@@ -1239,7 +1231,7 @@ Public Class frmHQF
                     'stt.FooterImage = CType(My.Resources.imgInfo1, Image)
                     ' Create drone icons individually because drones have no iconID
                     If shipmod.IsDrone = True Then
-                        stt.BodyImage = ImageHandler.CreateIcon(shipmod.ID, shipmod.MetaType.ToString, 48, True)
+                        stt.BodyImage = ImageHandler.CreateIcon(CStr(shipmod.ID), shipmod.MetaType.ToString, 48, True)
                     Else
                         stt.BodyImage = ImageHandler.IconImage48(shipmod.Icon, shipmod.MetaType)
                     End If
@@ -1326,8 +1318,8 @@ Public Class frmHQF
         If ActiveFitting IsNot Nothing Then
             If ActiveFitting.ShipSlotCtrl IsNot Nothing Then
                 If tvwModules.SelectedNodes.Count > 0 Then
-                    Dim moduleID As String = e.Node.Name
-                    Dim shipMod As ShipModule = CType(ModuleLists.moduleList(moduleID), ShipModule).Clone
+                    Dim moduleID As Integer = CInt(e.Node.Name)
+                    Dim shipMod As ShipModule = ModuleLists.ModuleList(moduleID).Clone
                     If shipMod.IsDrone = True Then
                         Dim active As Boolean = False
                         Call ActiveFitting.AddDrone(shipMod, 1, False, False)
@@ -1607,13 +1599,13 @@ Public Class frmHQF
             shipSlot.Dock = DockStyle.Fill
             pSS.Controls.Add(shipSlot)
             ' TODO: Check if a custom ship - this should be done in the constructor of the SSC
-            Dim baseID As String = ""
+            Dim baseID As Integer
             If CustomHQFClasses.CustomShipIDs.ContainsKey(NewFit.BaseShip.ID) Then
                 baseID = ShipLists.shipListKeyName(CustomHQFClasses.CustomShips(NewFit.BaseShip.Name).BaseShipName)
             Else
                 baseID = NewFit.BaseShip.ID
             End If
-            shipSlot.pbShip.Image = EveHQ.Core.ImageHandler.GetImage(CInt(baseID), 32)
+            shipSlot.pbShip.Image = Core.ImageHandler.GetImage(CInt(baseID), 32)
 
             ' Create a new Ship Info Control
             Dim shipInfo As New ShipInfoControl(NewFit)
@@ -2037,8 +2029,8 @@ Public Class frmHQF
 
     Private Sub ctxModuleList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxModuleList.Opening
         If tvwModules.SelectedNodes.Count > 0 Then
-            Dim moduleID As String = tvwModules.SelectedNodes(0).Name
-            Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+            Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
+            Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
             If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
                 mnuAddToFavourites_List.Visible = False
                 mnuRemoveFromFavourites.Visible = True
@@ -2059,8 +2051,8 @@ Public Class frmHQF
     End Sub
 
     Private Sub mnuShowModuleInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleInfo.Click
-        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
+        Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.EveHQPilot
         If ActiveFitting IsNot Nothing Then
@@ -2084,16 +2076,16 @@ Public Class frmHQF
     End Sub
 
     Private Sub mnuAddToFavourites_List_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToFavourites_List.Click
-        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
+        Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
         If Settings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
             Settings.HQFSettings.Favourites.Add(cModule.Name)
         End If
     End Sub
 
     Private Sub mnuRemoveFromFavourites_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveFromFavourites.Click
-        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
+        Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
         If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
             Settings.HQFSettings.Favourites.Remove(cModule.Name)
         End If
@@ -2101,8 +2093,8 @@ Public Class frmHQF
     End Sub
 
     Private Sub mnuShowModuleMarketGroup_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowModuleMarketGroup.Click
-        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
+        Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
         Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
         If pathLine IsNot Nothing Then
             HQFEvents.DisplayedMarketGroup = pathLine
@@ -2221,8 +2213,8 @@ Public Class frmHQF
 #Region "Meta Variations Code"
 
     Private Sub mnuShowMetaVariations_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuShowMetaVariations.Click
-        Dim moduleID As String = tvwModules.SelectedNodes(0).Name
-        Dim cModule As ShipModule = CType(ModuleLists.moduleList.Item(moduleID), ShipModule)
+        Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
+        Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
         Dim newComparison As New frmMetaVariations(ActiveFitting, cModule)
         newComparison.Size = HQF.Settings.HQFSettings.MetaVariationsFormSize
         newComparison.ShowDialog()

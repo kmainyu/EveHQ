@@ -354,7 +354,7 @@ Namespace Forms
 
         Private Sub btnOptimalRange_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnOptimalRange.Click
             If _tMod.Name <> "" Then
-                Dim r As Double = Math.Round(CDbl(_tMod.Attributes("54")) / 80000, 5)
+                Dim r As Double = Math.Round(CDbl(_tMod.Attributes(54)) / 80000, 5)
                 r = Math.Max(r, nudRange.Minimum)
                 nudRange.Value = CDec(r)
             End If
@@ -445,22 +445,22 @@ Namespace Forms
             _hTh = EveSpace1.TargetShip.Ship.StructureThResist
 
             If _tMod.Name <> "" And _tMod.Name IsNot Nothing Then
-                _tsr = CDbl(_tMod.Attributes("620"))
-                _tt = CDbl(_tMod.Attributes("160"))
-                _tor = CDbl(_tMod.Attributes("54"))
-                _tf = CDbl(_tMod.Attributes("158"))
-                _tvd = CDbl(_tMod.Attributes("10018"))
-                _tdps = CDbl(_tMod.Attributes("10019"))
+                _tsr = CDbl(_tMod.Attributes(620))
+                _tt = CDbl(_tMod.Attributes(160))
+                _tor = CDbl(_tMod.Attributes(54))
+                _tf = CDbl(_tMod.Attributes(158))
+                _tvd = CDbl(_tMod.Attributes(10018))
+                _tdps = CDbl(_tMod.Attributes(10019))
                 For att As Integer = 10011 To 10013
-                    If _tMod.Attributes.ContainsKey(att.ToString) = True Then
-                        _trof = _tMod.Attributes(att.ToString)
+                    If _tMod.Attributes.ContainsKey(att) = True Then
+                        _trof = _tMod.Attributes(att)
                         Exit For
                     End If
                 Next
-                _wEM = CDbl(_tMod.Attributes("10051"))
-                _wEx = CDbl(_tMod.Attributes("10052"))
-                _wKi = CDbl(_tMod.Attributes("10053"))
-                _wTh = CDbl(_tMod.Attributes("10054"))
+                _wEM = CDbl(_tMod.Attributes(10051))
+                _wEx = CDbl(_tMod.Attributes(10052))
+                _wKi = CDbl(_tMod.Attributes(10053))
+                _wTh = CDbl(_tMod.Attributes(10054))
 
                 ' Calculate weapon damage split
                 _sdEM = _wEM * (1 - _sEM / 100) : _sdEx = _wEx * (1 - _sEx / 100) : _sdKi = _wKi * (1 - _sKi / 100) : _sdTh = _wTh * (1 - _sTh / 100) : _sdT = _sdEM + _sdEx + _sdKi + _sdTh
@@ -483,9 +483,9 @@ Namespace Forms
                 _ehdT = _hdT * _edr
 
                 ' Calculate target recharge rates
-                _tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10065"))
-                _tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10066"))
-                _thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10067"))
+                _tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes(10065))
+                _tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes(10066))
+                _thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes(10067))
 
                 ' Calculate passive recharge rate
                 Dim prr As Double = (EveSpace1.TargetShip.Ship.ShieldCapacity / EveSpace1.TargetShip.Ship.ShieldRecharge) / 5
@@ -606,18 +606,18 @@ Namespace Forms
             _hTh = EveSpace1.TargetShip.Ship.StructureThResist
 
             If _mMod.Name <> "" And _mMod.Name IsNot Nothing Then
-                _mor = CDbl(_mMod.Attributes("54"))
-                _mvd = CDbl(_mMod.Attributes("10018"))
-                _mdps = CDbl(_mMod.Attributes("10019"))
-                _mrof = CDbl(_mMod.Attributes("51"))
-                _missileEr = CDbl(_mMod.LoadedCharge.Attributes("654"))
-                _missileEv = CDbl(_mMod.LoadedCharge.Attributes("653"))
-                _missileDrf = CDbl(_mMod.LoadedCharge.Attributes("1353"))
-                _missileDrs = CDbl(_mMod.LoadedCharge.Attributes("1354"))
-                _wEM = CDbl(_mMod.LoadedCharge.Attributes("114"))
-                _wEx = CDbl(_mMod.LoadedCharge.Attributes("116"))
-                _wKi = CDbl(_mMod.LoadedCharge.Attributes("117"))
-                _wTh = CDbl(_mMod.LoadedCharge.Attributes("118"))
+                _mor = CDbl(_mMod.Attributes(54))
+                _mvd = CDbl(_mMod.Attributes(10018))
+                _mdps = CDbl(_mMod.Attributes(10019))
+                _mrof = CDbl(_mMod.Attributes(51))
+                _missileEr = CDbl(_mMod.LoadedCharge.Attributes(654))
+                _missileEv = CDbl(_mMod.LoadedCharge.Attributes(653))
+                _missileDrf = CDbl(_mMod.LoadedCharge.Attributes(1353))
+                _missileDrs = CDbl(_mMod.LoadedCharge.Attributes(1354))
+                _wEM = CDbl(_mMod.LoadedCharge.Attributes(114))
+                _wEx = CDbl(_mMod.LoadedCharge.Attributes(116))
+                _wKi = CDbl(_mMod.LoadedCharge.Attributes(117))
+                _wTh = CDbl(_mMod.LoadedCharge.Attributes(118))
                 _wT = _wEM + _wEx + _wKi + _wTh
 
                 ' Calculate weapon damage split
@@ -639,9 +639,9 @@ Namespace Forms
                 _ehdT = _hdT * _edr
 
                 ' Calculate target recharge rates
-                _tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10065"))
-                _tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10066"))
-                _thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes("10067"))
+                _tsrr = CDbl(EveSpace1.TargetShip.Ship.Attributes(10065))
+                _tarr = CDbl(EveSpace1.TargetShip.Ship.Attributes(10066))
+                _thrr = CDbl(EveSpace1.TargetShip.Ship.Attributes(10067))
 
                 ' Calculate passive recharge rate
                 Dim prr As Double = (EveSpace1.TargetShip.Ship.ShieldCapacity / EveSpace1.TargetShip.Ship.ShieldRecharge) / 5

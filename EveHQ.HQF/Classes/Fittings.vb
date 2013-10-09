@@ -23,31 +23,31 @@
 
 #Region "Format Conversion Routines"
 
-    Public Shared Function ConvertOldFitToNewFit(ByVal FitName As String, ByVal Fit As ArrayList) As Fitting
+    Public Shared Function ConvertOldFitToNewFit(ByVal fitName As String, ByVal fit As ArrayList) As Fitting
 
-        Dim fittingSep As Integer = FitName.IndexOf(", ")
-        Dim shipName As String = FitName.Substring(0, fittingSep)
-        Dim fittingName As String = FitName.Substring(fittingSep + 2)
-        Dim tempShip As Ship = CType(ShipLists.shipList(shipName), Ship)
+        Dim fittingSep As Integer = fitName.IndexOf(", ", StringComparison.Ordinal)
+        Dim shipName As String = fitName.Substring(0, fittingSep)
+        Dim fittingName As String = fitName.Substring(fittingSep + 2)
+        Dim tempShip As Ship = ShipLists.ShipList(shipName)
 
-        Dim NewFit As New Fitting(shipName, fittingName)
-        NewFit.ShipName = shipName
-        NewFit.FittingName = fittingName
+        Dim newFit As New Fitting(shipName, fittingName)
+        newFit.ShipName = shipName
+        newFit.FittingName = fittingName
 
-        For Each Entry As String In Fit
+        For Each entry As String In fit
 
             ' Check if this is a pilot entry
-            If Entry.StartsWith("#Pilot#") = True Then
-                NewFit.PilotName = Entry.Remove(0, 7)
+            If entry.StartsWith("#Pilot#") = True Then
+                newFit.PilotName = entry.Remove(0, 7)
             End If
 
             ' Check for a booster entry
-            If Entry.StartsWith("#Booster#") = True Then
-                NewFit.Boosters.Add(New ModuleWithState(ModuleLists.moduleListName(Entry.Remove(0, 9)).ToString, Nothing, ModuleStates.Active))
+            If entry.StartsWith("#Booster#") = True Then
+                newFit.Boosters.Add(New ModuleWithState(ModuleLists.ModuleListName(entry.Remove(0, 9)).ToString, Nothing, ModuleStates.Active))
             End If
 
             ' Check for installed charges
-            Dim modData() As String = Entry.Split(",".ToCharArray)
+            Dim modData() As String = entry.Split(",".ToCharArray)
             Dim state As Integer = 4
             Dim itemQuantity As Integer = 1
             If modData(0).Length > 2 Then
@@ -64,14 +64,14 @@
             End If
 
             ' Check if the module exists
-            If ModuleLists.moduleListName.ContainsKey(modData(0)) = True Then
-                Dim modID As String = ModuleLists.moduleListName(modData(0)).ToString
-                Dim sMod As ShipModule = ModuleLists.ModuleList(modID).Clone
+            If ModuleLists.ModuleListName.ContainsKey(modData(0)) = True Then
+                Dim modID As String = ModuleLists.ModuleListName(modData(0)).ToString
+                Dim sMod As ShipModule = ModuleLists.ModuleList(CInt(modID)).Clone
                 If modData.GetUpperBound(0) > 0 Then
                     ' Check if a charge (will be a valid item)
                     If ModuleLists.ModuleListName.ContainsKey(modData(1).Trim) = True Then
                         Dim chgID As String = ModuleLists.ModuleListName(modData(1).Trim).ToString
-                        sMod.LoadedCharge = ModuleLists.ModuleList(chgID).Clone
+                        sMod.LoadedCharge = ModuleLists.ModuleList(CInt(chgID)).Clone
                     End If
                 End If
                 ' Check if module is nothing
@@ -92,9 +92,9 @@
                             End If
                         End If
                         If active = True Then
-                            NewFit.Drones.Add(New ModuleQWithState(sMod.ID, ModuleStates.Active, itemQuantity))
+                            newFit.Drones.Add(New ModuleQWithState(CStr(sMod.ID), ModuleStates.Active, itemQuantity))
                         Else
-                            NewFit.Drones.Add(New ModuleQWithState(sMod.ID, ModuleStates.Inactive, itemQuantity))
+                            newFit.Drones.Add(New ModuleQWithState(CStr(sMod.ID), ModuleStates.Inactive, itemQuantity))
                         End If
                     Else
                         ' Check if module is a charge
@@ -102,14 +102,14 @@
                             If modData.GetUpperBound(0) > 0 Then
                                 itemQuantity = CInt(modData(1))
                             End If
-                            NewFit.Items.Add(New ModuleQWithState(sMod.ID, ModuleStates.Active, itemQuantity))
+                            newFit.Items.Add(New ModuleQWithState(CStr(sMod.ID), ModuleStates.Active, itemQuantity))
                         Else
                             ' Must be a proper module then!
                             sMod.ModuleState = CType(state, ModuleStates)
                             If sMod.LoadedCharge Is Nothing Then
-                                NewFit.Modules.Add(New ModuleWithState(sMod.ID, Nothing, CType(sMod.ModuleState, ModuleStates)))
+                                newFit.Modules.Add(New ModuleWithState(CStr(sMod.ID), Nothing, sMod.ModuleState))
                             Else
-                                NewFit.Modules.Add(New ModuleWithState(sMod.ID, sMod.LoadedCharge.ID, CType(sMod.ModuleState, ModuleStates)))
+                                newFit.Modules.Add(New ModuleWithState(CStr(sMod.ID), CStr(sMod.LoadedCharge.ID), sMod.ModuleState))
                             End If
                         End If
                     End If
@@ -118,24 +118,24 @@
                 End If
             Else
                 ' Check if this is a ship from the maintenance bay
-                If ShipLists.shipList.ContainsKey(modData(0)) Then
-                    Dim sShip As Ship = CType(ShipLists.shipList(modData(0)), Ship).Clone
+                If ShipLists.ShipList.ContainsKey(modData(0)) Then
+                    Dim sShip As Ship = ShipLists.ShipList(modData(0)).Clone
                     If modData.GetUpperBound(0) > 0 Then
                         itemQuantity = CInt(modData(1))
                     End If
-                    NewFit.Ships.Add(New ModuleQWithState(sShip.ID, ModuleStates.Active, itemQuantity))
+                    newFit.Ships.Add(New ModuleQWithState(CStr(sShip.ID), ModuleStates.Active, itemQuantity))
                 Else
                     ' Check if this is a rig i.e. try putting large in front of it!
                     Dim testRig As String = "Large " & modData(0)
-                    If ModuleLists.moduleListName.ContainsKey(testRig) = True Then
-                        Dim modID As String = ModuleLists.moduleListName(testRig).ToString
-                        Dim sMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                    If ModuleLists.ModuleListName.ContainsKey(testRig) = True Then
+                        Dim modID As String = ModuleLists.ModuleListName(testRig).ToString
+                        Dim sMod As ShipModule = ModuleLists.ModuleList(CInt(modID)).Clone
                         If sMod.SlotType = 1 Then ' i.e. rig
-                            If CInt(sMod.Attributes("1547")) = CInt(tempShip.Attributes("1547")) Then
+                            If CInt(sMod.Attributes(1547)) = CInt(tempShip.Attributes(1547)) Then
                                 sMod.ModuleState = CType(state, ModuleStates)
-                                NewFit.Modules.Add(New ModuleWithState(sMod.ID, Nothing, CType(sMod.ModuleState, ModuleStates)))
+                                newFit.Modules.Add(New ModuleWithState(CStr(sMod.ID), Nothing, sMod.ModuleState))
                             Else
-                                Select Case CInt(tempShip.Attributes("1547"))
+                                Select Case CInt(tempShip.Attributes(1547))
                                     Case 1
                                         testRig = "Small " & modData(0)
                                     Case 2
@@ -145,10 +145,10 @@
                                     Case 4
                                         testRig = "Capital " & modData(0)
                                 End Select
-                                modID = ModuleLists.moduleListName(testRig).ToString
-                                sMod = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+                                modID = ModuleLists.ModuleListName(testRig).ToString
+                                sMod = ModuleLists.ModuleList(CInt(modID)).Clone
                                 sMod.ModuleState = CType(state, ModuleStates)
-                                NewFit.Modules.Add(New ModuleWithState(sMod.ID, Nothing, CType(sMod.ModuleState, ModuleStates)))
+                                newFit.Modules.Add(New ModuleWithState(CStr(sMod.ID), Nothing, sMod.ModuleState))
                             End If
                         End If
                     Else
@@ -159,12 +159,12 @@
         Next
 
         ' Check the pilot
-        If NewFit.PilotName = "" Then
+        If newFit.PilotName = "" Then
             ' Select a default pilot
-            NewFit.PilotName = HQF.Settings.HQFSettings.DefaultPilot
+            newFit.PilotName = Settings.HQFSettings.DefaultPilot
         End If
 
-        Return NewFit
+        Return newFit
 
     End Function
 

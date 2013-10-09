@@ -225,14 +225,14 @@ Public Class frmBCBrowser
         Dim loadoutList As XmlNodeList = loadoutXML.SelectNodes("/loadouts/race/ship/loadout/slot")
         If loadoutList.Count > 0 Then
             Call ClearShipSlots()
-            Dim moduleList, ammoList As New ArrayList
+            Dim moduleList, ammoList As New List(Of Integer)
             For Each loadout As XmlNode In loadoutList
                 If loadout.InnerText <> "0" Then
                     Select Case loadout.Attributes("type").Value
                         Case "high", "med", "lo", "rig", "subSystem", "drone"
-                            moduleList.Add(loadout.InnerText)
+                            moduleList.Add(CInt(loadout.InnerText))
                         Case "ammo"
-                            ammoList.Add(loadout.InnerText)
+                            ammoList.Add(CInt(loadout.InnerText))
                     End Select
                 End If
             Next
@@ -240,15 +240,15 @@ Public Class frmBCBrowser
             Dim BaseFit As String = ""
             Dim RevisedFit As String = ""
             currentFit = New ArrayList
-            For Each fittedMod As String In moduleList
-                Dim fModule As ShipModule = CType(ModuleLists.moduleList(fittedMod), ShipModule)
+            For Each fittedMod As Integer In moduleList
+                Dim fModule As ShipModule = ModuleLists.ModuleList(fittedMod)
                 If fModule IsNot Nothing Then
                     BaseFit = fModule.Name : RevisedFit = BaseFit
                     If fModule.Charges.Count <> 0 Then
-                        For Each ammo As String In ammoList
-                            If ModuleLists.moduleList.ContainsKey(ammo) = True Then
-                                If fModule.Charges.Contains(CType(ModuleLists.moduleList(ammo), ShipModule).DatabaseGroup) Then
-                                    RevisedFit = BaseFit & "," & CType(ModuleLists.moduleList(ammo), ShipModule).Name
+                        For Each ammo As Integer In ammoList
+                            If ModuleLists.ModuleList.ContainsKey(ammo) = True Then
+                                If fModule.Charges.Contains(ModuleLists.ModuleList(ammo).DatabaseGroup) Then
+                                    RevisedFit = BaseFit & "," & ModuleLists.ModuleList(ammo).Name
                                 End If
                             End If
                         Next
@@ -412,9 +412,9 @@ Public Class frmBCBrowser
                     Dim loadoutShip As Ship = currentFitting.FittedShip
 
                     lblEHP.Text = loadoutShip.EffectiveHP.ToString("N0")
-                    lblTank.Text = loadoutShip.Attributes("10062").ToString("N2") & " DPS"
-                    lblVolley.Text = loadoutShip.Attributes("10028").ToString("N2")
-                    lblDPS.Text = loadoutShip.Attributes("10029").ToString("N2")
+                    lblTank.Text = loadoutShip.Attributes(10062).ToString("N2") & " DPS"
+                    lblVolley.Text = loadoutShip.Attributes(10028).ToString("N2")
+                    lblDPS.Text = loadoutShip.Attributes(10029).ToString("N2")
                     lblShieldResists.Text = loadoutShip.ShieldEMResist.ToString("N0") & "/" & loadoutShip.ShieldExResist.ToString("N0") & "/" & loadoutShip.ShieldKiResist.ToString("N0") & "/" & loadoutShip.ShieldThResist.ToString("N0")
                     lblArmorResists.Text = loadoutShip.ArmorEMResist.ToString("N0") & "/" & loadoutShip.ArmorExResist.ToString("N0") & "/" & loadoutShip.ArmorKiResist.ToString("N0") & "/" & loadoutShip.ArmorThResist.ToString("N0")
                     Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
@@ -443,8 +443,8 @@ Public Class frmBCBrowser
                     For slot As Integer = 1 To loadoutShip.HiSlots
                         Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
                         If shipMod IsNot Nothing Then
-                            If shipMod.Attributes.ContainsKey("54") Then
-                                maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
+                            If shipMod.Attributes.ContainsKey(54) Then
+                                maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes(54)))
                             End If
                         End If
                     Next

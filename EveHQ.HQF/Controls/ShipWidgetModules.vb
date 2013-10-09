@@ -275,7 +275,7 @@ Public Class ShipWidgetModules
             slotNode.Text = shipMod.Name
             Dim Desc As String = ""
             If shipMod.SlotType = SlotTypes.Subsystem Then
-                Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
+                Desc &= "Slot Modifiers - High: " & shipMod.Attributes(AttributeEnum.ModuleHighSlotModifier) & ", Mid: " & shipMod.Attributes(AttributeEnum.ModuleMidSlotModifier) & ", Low: " & shipMod.Attributes(AttributeEnum.ModuleLowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
             End If
             Desc &= shipMod.Description
             SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(CInt(shipMod.ID), 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
@@ -304,7 +304,7 @@ Public Class ShipWidgetModules
         slotNode.Text = shipMod.Name
         Dim Desc As String = ""
         If shipMod.SlotType = SlotTypes.Subsystem Then
-            Desc &= "Slot Modifiers - High: " & shipMod.Attributes(Attributes.Module_HighSlotModifier) & ", Mid: " & shipMod.Attributes(Attributes.Module_MidSlotModifier) & ", Low: " & shipMod.Attributes(Attributes.Module_LowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
+            Desc &= "Slot Modifiers - High: " & shipMod.Attributes(AttributeEnum.ModuleHighSlotModifier) & ", Mid: " & shipMod.Attributes(AttributeEnum.ModuleMidSlotModifier) & ", Low: " & shipMod.Attributes(AttributeEnum.ModuleLowSlotModifier) & ControlChars.CrLf & ControlChars.CrLf
         End If
         Desc &= shipMod.Description
         SlotTip.SetSuperTooltip(slotNode, New SuperTooltipInfo(shipMod.Name, "Ship Module Information", Desc, EveHQ.Core.ImageHandler.GetImage(CInt(shipMod.ID), 64), My.Resources.imgInfo1, eTooltipColor.Yellow))
@@ -440,10 +440,10 @@ Public Class ShipWidgetModules
             Dim canDeactivate As Boolean = False
             Dim canOverload As Boolean = False
             ' Check for activation cost
-            If currentMod.Attributes.ContainsKey(Attributes.Module_CapacitorNeed) = True Or currentMod.Attributes.ContainsKey(Attributes.Module_ReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(Attributes.Module_ConsumptionType) Then
+            If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleConsumptionType) Then
                 canDeactivate = True
             End If
-            If currentMod.Attributes.ContainsKey(Attributes.Module_HeatDamage) = True Then
+            If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleHeatDamage) = True Then
                 canOverload = True
             End If
 
@@ -478,44 +478,44 @@ Public Class ShipWidgetModules
             ' Update only if the module state has changed
             If currentstate <> currentMod.ModuleState Then
                 ' Check for command processors as this affects the fitting!
-                If currentMod.ID = ShipModule.Item_CommandProcessorI Then
+                If currentMod.ID = ModuleEnum.ItemCommandProcessorI Then
                     If currentstate = ModuleStates.Offline Then
-                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) -= 1
+                        ParentFitting.BaseShip.Attributes(AttributeEnum.ShipMaxGangLinks) -= 1
                         ' Check if we need to deactivate a highslot ganglink
                         Dim ActiveGanglinks As New List(Of Integer)
                         For slot As Integer = 8 To 1 Step -1
                             If ParentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ShipModule.Group_GangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
+                                If ParentFitting.BaseShip.HiSlot(slot).DatabaseGroup = ModuleEnum.GroupGangLinks And ParentFitting.BaseShip.HiSlot(slot).ModuleState = ModuleStates.Active Then
                                     ActiveGanglinks.Add(slot)
                                 End If
                             End If
                         Next
-                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) Then
+                        If ActiveGanglinks.Count > ParentFitting.BaseShip.Attributes(AttributeEnum.ShipMaxGangLinks) Then
                             ParentFitting.BaseShip.HiSlot(ActiveGanglinks(0)).ModuleState = ModuleStates.Inactive
                         End If
                     Else
-                        ParentFitting.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) += 1
+                        ParentFitting.BaseShip.Attributes(AttributeEnum.ShipMaxGangLinks) += 1
                     End If
                 End If
                 Dim oldState As ModuleStates = currentMod.ModuleState
                 currentMod.ModuleState = CType(currentstate, ModuleStates)
                 ' Check for maxGroupActive flag
-                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
-                    If currentMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
+                If (currentstate = ModuleStates.Active Or currentstate = ModuleStates.Overloaded) And currentMod.Attributes.ContainsKey(AttributeEnum.ModuleMaxGroupActive) = True Then
+                    If currentMod.DatabaseGroup <> ModuleEnum.GroupGangLinks Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, AttributeEnum.ModuleMaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         End If
                     Else
-                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, Attributes.Module_MaxGroupActive) = True Then
+                        If ParentFitting.IsModuleGroupLimitExceeded(fittedMod, False, AttributeEnum.ModuleMaxGroupActive) = True Then
                             ' Set the module offline
                             MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this group.", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             currentMod.ModuleState = oldState
                             Exit Sub
                         Else
-                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive)) Then
+                            If ParentFitting.CountActiveTypeModules(fittedMod.ID) > CInt(fittedMod.Attributes(AttributeEnum.ModuleMaxGroupActive)) Then
                                 ' Set the module offline
                                 MessageBox.Show("You cannot activate the " & currentMod.Name & " due to a restriction on the maximum number permitted for this type.", "Module Type Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 currentMod.ModuleState = oldState

@@ -180,9 +180,9 @@ Public Class frmEveImport
 			Dim loadoutShip As Ship = currentFitting.FittedShip
 
             lblEHP.Text = loadoutShip.EffectiveHP.ToString("N0")
-            lblTank.Text = loadoutShip.Attributes("10062").ToString("N2") & " DPS"
-            lblVolley.Text = loadoutShip.Attributes("10028").ToString("N2")
-            lblDPS.Text = loadoutShip.Attributes("10029").ToString("N2")
+            lblTank.Text = loadoutShip.Attributes(10062).ToString("N2") & " DPS"
+            lblVolley.Text = loadoutShip.Attributes(10028).ToString("N2")
+            lblDPS.Text = loadoutShip.Attributes(10029).ToString("N2")
             lblShieldResists.Text = loadoutShip.ShieldEMResist.ToString("N0") & "/" & loadoutShip.ShieldExResist.ToString("N0") & "/" & loadoutShip.ShieldKiResist.ToString("N0") & "/" & loadoutShip.ShieldThResist.ToString("N0")
             lblArmorResists.Text = loadoutShip.ArmorEMResist.ToString("N0") & "/" & loadoutShip.ArmorExResist.ToString("N0") & "/" & loadoutShip.ArmorKiResist.ToString("N0") & "/" & loadoutShip.ArmorThResist.ToString("N0")
 			Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
@@ -212,9 +212,9 @@ Public Class frmEveImport
 			For slot As Integer = 1 To loadoutShip.HiSlots
 				Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
 				If shipMod IsNot Nothing Then
-					If shipMod.Attributes.ContainsKey("54") Then
-						maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes("54")))
-					End If
+                    If shipMod.Attributes.ContainsKey(54) Then
+                        maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes(54)))
+                    End If
 				End If
 			Next
             lblOptimalRange.Text = maxOpt.ToString("N0") & "m"

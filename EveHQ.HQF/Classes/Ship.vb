@@ -39,10 +39,10 @@ Imports ProtoBuf
 #Region "Property Variables"
 
     Private _cName As String
-    Private _cID As String
-    Private _cMarketGroup As String
-    Private _cDatabaseGroup As String
-    Private _cDatabaseCategory As String
+    Private _cID As Integer
+    Private _cMarketGroup As Integer
+    Private _cDatabaseGroup As Integer
+    Private _cDatabaseCategory As Integer
     Private _cDescription As String
     Private _cBasePrice As Double
     Private _cMarketPrice As Double
@@ -116,7 +116,7 @@ Imports ProtoBuf
     Private ReadOnly _cSubSlot(5) As ShipModule
     Private _cRequiredSkills As New SortedList(Of String, ItemSkills)
     Private _cRequiredSkillList As New SortedList(Of String, ItemSkills)
-    Private _cAttributes As New SortedList(Of String, Double)
+    Private _cAttributes As New SortedList(Of Integer, Double)
     Private _cHiSlotsUsed As Integer
     Private _cMidSlotsUsed As Integer
     Private _cLowSlotsUsed As Integer
@@ -197,41 +197,41 @@ Imports ProtoBuf
     End Property
 
     <ProtoMember(1)> <[ReadOnly](True)> _
-    <Description("The ID of the ship")> <Category("Database")> Public Property ID() As String
+    <Description("The ID of the ship")> <Category("Database")> Public Property ID() As Integer
         Get
             Return _cID
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             _cID = value
         End Set
     End Property
 
     <ProtoMember(2)> <[ReadOnly](True)> _
-    <Description("The market group ID of the ship")> <Category("Database")> Public Property MarketGroup() As String
+    <Description("The market group ID of the ship")> <Category("Database")> Public Property MarketGroup() As Integer
         Get
             Return _cMarketGroup
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             _cMarketGroup = value
         End Set
     End Property
 
     <ProtoMember(3)> <[ReadOnly](True)> _
-    <Description("The database group ID of the ship")> <Category("Database")> Public Property DatabaseGroup() As String
+    <Description("The database group ID of the ship")> <Category("Database")> Public Property DatabaseGroup() As Integer
         Get
             Return _cDatabaseGroup
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             _cDatabaseGroup = value
         End Set
     End Property
 
     <ProtoMember(4)> <[ReadOnly](True)> _
-    <Description("The database category ID of the ship")> <Category("Database")> Public Property DatabaseCategory() As String
+    <Description("The database category ID of the ship")> <Category("Database")> Public Property DatabaseCategory() As Integer
         Get
             Return _cDatabaseCategory
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             _cDatabaseCategory = value
         End Set
     End Property
@@ -1499,11 +1499,11 @@ Imports ProtoBuf
 
 #Region "Attribute Properties"
 
-    <ProtoMember(93)> <Description("The detailed attributes of the ship")> <Category("Attributes")> Public Property Attributes() As SortedList(Of String, Double)
+    <ProtoMember(93)> <Description("The detailed attributes of the ship")> <Category("Attributes")> Public Property Attributes() As SortedList(Of Integer, Double)
         Get
             Return _cAttributes
         End Get
-        Set(ByVal value As SortedList(Of String, Double))
+        Set(ByVal value As SortedList(Of Integer, Double))
             _cAttributes = value
         End Set
     End Property
@@ -2033,78 +2033,78 @@ Imports ProtoBuf
 #Region "Add Custom Attributes"
     Public Sub AddCustomShipAttributes()
         ' Add the custom attributes to the list
-        Attributes.Add("10002", Mass)
-        Attributes.Add("10003", Volume)
-        Attributes.Add("10004", CargoBay)
-        Attributes.Add("10005", 0)
-        Attributes.Add("10006", 0)
-        Attributes.Add("10007", 20000)
-        Attributes.Add("10008", 20000)
-        Attributes.Add("10009", 1)
-        Attributes.Add("10010", 0)
-        Attributes.Add("10020", 0)
-        Attributes.Add("10021", 0)
-        Attributes.Add("10022", 0)
-        Attributes.Add("10023", 0)
-        Attributes.Add("10024", 0)
-        Attributes.Add("10025", 0)
-        Attributes.Add("10026", 0)
-        Attributes.Add("10027", 0)
-        Attributes.Add("10028", 0)
-        Attributes.Add("10029", 0)
-        Attributes.Add("10031", 0)
-        Attributes.Add("10033", 0)
-        Attributes.Add("10034", 0)
-        Attributes.Add("10035", 0)
-        Attributes.Add("10036", 0)
-        Attributes.Add("10037", 0)
-        Attributes.Add("10038", 0)
-        Attributes.Add("10043", 0)
-        Attributes.Add("10044", 0)
-        Attributes.Add("10045", 0)
-        Attributes.Add("10046", 0)
-        Attributes.Add("10047", 0)
-        Attributes.Add("10048", 0)
-        Attributes.Add("10049", 0)
-        Attributes.Add("10050", 0)
-        Attributes.Add("10055", 0)
-        Attributes.Add("10056", 0)
-        Attributes.Add("10057", 0)
-        Attributes.Add("10058", 0)
-        Attributes.Add("10059", 0)
-        Attributes.Add("10060", 0)
-        Attributes.Add("10061", 0)
-        Attributes.Add("10062", 0)
-        Attributes.Add("10063", 1)
-        Attributes.Add("10064", 2)
-        Attributes.Add("10065", 0)
-        Attributes.Add("10066", 0)
-        Attributes.Add("10067", 0)
-        Attributes.Add("10068", 0)
-        Attributes.Add("10069", 0)
-        Attributes.Add("10070", 0)
-        Attributes.Add("10071", 0)
-        Attributes.Add("10072", 0)
-        Attributes.Add("10073", 0)
-        Attributes.Add("10075", 0)
-        Attributes.Add("10076", 0)
-        Attributes.Add("10077", 0)
-        Attributes.Add("10078", 0)
-        Attributes.Add("10079", 0)
-        Attributes.Add("10080", 0)
-        Attributes.Add("10081", 0)
-        Attributes.Add("10083", 0)
+        Attributes.Add(10002, Mass)
+        Attributes.Add(10003, Volume)
+        Attributes.Add(10004, CargoBay)
+        Attributes.Add(10005, 0)
+        Attributes.Add(10006, 0)
+        Attributes.Add(10007, 20000)
+        Attributes.Add(10008, 20000)
+        Attributes.Add(10009, 1)
+        Attributes.Add(10010, 0)
+        Attributes.Add(10020, 0)
+        Attributes.Add(10021, 0)
+        Attributes.Add(10022, 0)
+        Attributes.Add(10023, 0)
+        Attributes.Add(10024, 0)
+        Attributes.Add(10025, 0)
+        Attributes.Add(10026, 0)
+        Attributes.Add(10027, 0)
+        Attributes.Add(10028, 0)
+        Attributes.Add(10029, 0)
+        Attributes.Add(10031, 0)
+        Attributes.Add(10033, 0)
+        Attributes.Add(10034, 0)
+        Attributes.Add(10035, 0)
+        Attributes.Add(10036, 0)
+        Attributes.Add(10037, 0)
+        Attributes.Add(10038, 0)
+        Attributes.Add(10043, 0)
+        Attributes.Add(10044, 0)
+        Attributes.Add(10045, 0)
+        Attributes.Add(10046, 0)
+        Attributes.Add(10047, 0)
+        Attributes.Add(10048, 0)
+        Attributes.Add(10049, 0)
+        Attributes.Add(10050, 0)
+        Attributes.Add(10055, 0)
+        Attributes.Add(10056, 0)
+        Attributes.Add(10057, 0)
+        Attributes.Add(10058, 0)
+        Attributes.Add(10059, 0)
+        Attributes.Add(10060, 0)
+        Attributes.Add(10061, 0)
+        Attributes.Add(10062, 0)
+        Attributes.Add(10063, 1)
+        Attributes.Add(10064, 2)
+        Attributes.Add(10065, 0)
+        Attributes.Add(10066, 0)
+        Attributes.Add(10067, 0)
+        Attributes.Add(10068, 0)
+        Attributes.Add(10069, 0)
+        Attributes.Add(10070, 0)
+        Attributes.Add(10071, 0)
+        Attributes.Add(10072, 0)
+        Attributes.Add(10073, 0)
+        Attributes.Add(10075, 0)
+        Attributes.Add(10076, 0)
+        Attributes.Add(10077, 0)
+        Attributes.Add(10078, 0)
+        Attributes.Add(10079, 0)
+        Attributes.Add(10080, 0)
+        Attributes.Add(10081, 0)
+        Attributes.Add(10083, 0)
         ' Add unused attribute for calibration used
-        Attributes.Add("1152", 0)
+        Attributes.Add(1152, 0)
         ' Check for slot attributes (missing for T3)
-        If Attributes.ContainsKey("12") = False Then
-            Attributes.Add("12", 0)
-            Attributes.Add("13", 0)
-            Attributes.Add("14", 0)
+        If Attributes.ContainsKey(12) = False Then
+            Attributes.Add(12, 0)
+            Attributes.Add(13, 0)
+            Attributes.Add(14, 0)
         End If
         ' Check for cloak reactivation attribute
-        If Attributes.ContainsKey("1034") = False Then
-            Attributes.Add("1034", 30)
+        If Attributes.ContainsKey(1034) = False Then
+            Attributes.Add(1034, 30)
         End If
 
     End Sub
@@ -2113,7 +2113,7 @@ Imports ProtoBuf
 #Region "Map Attributes to Properties"
     Public Shared Sub MapShipAttributes(ByVal newShip As Ship)
         Dim attValue As Double
-        For Each att As String In newShip.Attributes.Keys
+        For Each att As Integer In newShip.Attributes.Keys
             attValue = CDbl(newShip.Attributes(att))
             Select Case CInt(CInt(att))
                 Case 12
@@ -2129,17 +2129,17 @@ Imports ProtoBuf
                 Case 1367
                     newShip.SubSlots = CInt(attValue)
                 Case 15
-                    newShip.PgUsed = attValue
+                    newShip.PGUsed = attValue
                 Case 1132
                     newShip.Calibration = CInt(attValue)
                 Case 1152
                     newShip.CalibrationUsed = CInt(attValue)
                 Case 11
-                    newShip.Pg = attValue
+                    newShip.PG = attValue
                 Case 48
-                    newShip.Cpu = attValue
+                    newShip.CPU = attValue
                 Case 49
-                    newShip.CpuUsed = attValue
+                    newShip.CPUUsed = attValue
                 Case 101
                     newShip.LauncherSlots = CInt(attValue)
                 Case 102
@@ -2213,10 +2213,10 @@ Imports ProtoBuf
                 Case 153
                     newShip.WarpCapNeed = attValue
                 Case 1281
-                    If newShip.Attributes.ContainsKey("600") = False Then
+                    If newShip.Attributes.ContainsKey(600) = False Then
                         newShip.WarpSpeed = attValue
                     Else
-                        newShip.WarpSpeed = attValue * CDbl(newShip.Attributes("600"))
+                        newShip.WarpSpeed = attValue * CDbl(newShip.Attributes(600))
                     End If
                 Case 283
                     newShip.DroneBay = attValue
@@ -2299,91 +2299,91 @@ Imports ProtoBuf
 
 #Region "Map Properties to Attributes"
     Public Sub MapShipProperties()
-        Attributes("12") = LowSlots
-        Attributes("13") = MidSlots
-        Attributes("14") = HiSlots
-        Attributes("1137") = RigSlots
-        Attributes("1367") = SubSlots
-        Attributes("15") = PgUsed
-        Attributes("1132") = Calibration
-        Attributes("1152") = CalibrationUsed
-        Attributes("11") = Pg
-        Attributes("48") = Cpu
-        Attributes("49") = CpuUsed
-        Attributes("101") = LauncherSlots
-        Attributes("102") = TurretSlots
-        Attributes("55") = CapRecharge
-        Attributes("482") = CapCapacity
-        Attributes("9") = StructureCapacity
-        Attributes("113") = StructureEMResist
-        Attributes("111") = StructureExResist
-        Attributes("109") = StructureKiResist
-        Attributes("110") = StructureThResist
-        Attributes("265") = ArmorCapacity
-        Attributes("267") = ArmorEMResist
-        Attributes("268") = ArmorExResist
-        Attributes("269") = ArmorKiResist
-        Attributes("270") = ArmorThResist
-        Attributes("263") = ShieldCapacity
-        Attributes("479") = ShieldRecharge
-        Attributes("271") = ShieldEMResist
-        Attributes("272") = ShieldExResist
-        Attributes("273") = ShieldKiResist
-        Attributes("274") = ShieldThResist
-        Attributes("76") = MaxTargetRange
-        Attributes("79") = TargetingSpeed
-        Attributes("192") = MaxLockedTargets
-        Attributes("552") = SigRadius
-        Attributes("564") = ScanResolution
-        Attributes("211") = GravSensorStrenth
-        Attributes("209") = LadarSensorStrenth
-        Attributes("210") = MagSensorStrenth
-        Attributes("208") = RadarSensorStrenth
-        Attributes("37") = MaxVelocity
-        Attributes("70") = Inertia
-        Attributes("153") = WarpCapNeed
-        If Attributes.ContainsKey("600") = False Then
-            Attributes("1281") = WarpSpeed
+        Attributes(12) = LowSlots
+        Attributes(13) = MidSlots
+        Attributes(14) = HiSlots
+        Attributes(1137) = RigSlots
+        Attributes(1367) = SubSlots
+        Attributes(15) = PGUsed
+        Attributes(1132) = Calibration
+        Attributes(1152) = CalibrationUsed
+        Attributes(11) = PG
+        Attributes(48) = CPU
+        Attributes(49) = CPUUsed
+        Attributes(101) = LauncherSlots
+        Attributes(102) = TurretSlots
+        Attributes(55) = CapRecharge
+        Attributes(482) = CapCapacity
+        Attributes(9) = StructureCapacity
+        Attributes(113) = StructureEMResist
+        Attributes(111) = StructureExResist
+        Attributes(109) = StructureKiResist
+        Attributes(110) = StructureThResist
+        Attributes(265) = ArmorCapacity
+        Attributes(267) = ArmorEMResist
+        Attributes(268) = ArmorExResist
+        Attributes(269) = ArmorKiResist
+        Attributes(270) = ArmorThResist
+        Attributes(263) = ShieldCapacity
+        Attributes(479) = ShieldRecharge
+        Attributes(271) = ShieldEMResist
+        Attributes(272) = ShieldExResist
+        Attributes(273) = ShieldKiResist
+        Attributes(274) = ShieldThResist
+        Attributes(76) = MaxTargetRange
+        Attributes(79) = TargetingSpeed
+        Attributes(192) = MaxLockedTargets
+        Attributes(552) = SigRadius
+        Attributes(564) = ScanResolution
+        Attributes(211) = GravSensorStrenth
+        Attributes(209) = LadarSensorStrenth
+        Attributes(210) = MagSensorStrenth
+        Attributes(208) = RadarSensorStrenth
+        Attributes(37) = MaxVelocity
+        Attributes(70) = Inertia
+        Attributes(153) = WarpCapNeed
+        If Attributes.ContainsKey(600) = False Then
+            Attributes(1281) = WarpSpeed
         Else
-            Attributes("1281") = WarpSpeed * CDbl(Attributes("600"))
+            Attributes(1281) = WarpSpeed * CDbl(Attributes(600))
         End If
-        Attributes("283") = DroneBay
-        Attributes("908") = ShipBay
-        Attributes("1271") = DroneBandwidth
-        Attributes("10002") = Mass
-        Attributes("10004") = CargoBay
-        Attributes("10005") = MaxDrones
-        Attributes("10006") = UsedDrones
-        Attributes("10020") = TurretVolley
-        Attributes("10021") = MissileVolley
-        Attributes("10022") = SmartbombVolley
-        Attributes("10023") = DroneVolley
-        Attributes("10024") = TurretDPS
-        Attributes("10025") = MissileDPS
-        Attributes("10026") = SmartbombDPS
-        Attributes("10027") = DroneDPS
-        Attributes("10028") = TotalVolley
-        Attributes("10029") = TotalDPS
-        Attributes("10033") = OreTotalAmount
-        Attributes("10034") = OreTurretAmount
-        Attributes("10035") = OreDroneAmount
-        Attributes("10036") = IceTotalAmount
-        Attributes("10037") = IceTurretAmount
-        Attributes("10038") = IceDroneAmount
-        Attributes("10043") = OreTurretRate
-        Attributes("10044") = OreDroneRate
-        Attributes("10045") = IceTurretRate
-        Attributes("10046") = IceDroneRate
-        Attributes("10047") = OreTotalRate
-        Attributes("10048") = IceTotalRate
-        Attributes("10075") = ModuleTransferAmount
-        Attributes("10076") = DroneTransferAmount
-        Attributes("10077") = ModuleTransferRate
-        Attributes("10078") = DroneTransferRate
-        Attributes("10079") = TransferAmount
-        Attributes("10080") = TransferRate
-        Attributes("10081") = GasTotalAmount
-        Attributes("10083") = GasTotalRate
+        Attributes(283) = DroneBay
+        Attributes(908) = ShipBay
+        Attributes(1271) = DroneBandwidth
+        Attributes(10002) = Mass
+        Attributes(10004) = CargoBay
+        Attributes(10005) = MaxDrones
+        Attributes(10006) = UsedDrones
+        Attributes(10020) = TurretVolley
+        Attributes(10021) = MissileVolley
+        Attributes(10022) = SmartbombVolley
+        Attributes(10023) = DroneVolley
+        Attributes(10024) = TurretDPS
+        Attributes(10025) = MissileDPS
+        Attributes(10026) = SmartbombDPS
+        Attributes(10027) = DroneDPS
+        Attributes(10028) = TotalVolley
+        Attributes(10029) = TotalDPS
+        Attributes(10033) = OreTotalAmount
+        Attributes(10034) = OreTurretAmount
+        Attributes(10035) = OreDroneAmount
+        Attributes(10036) = IceTotalAmount
+        Attributes(10037) = IceTurretAmount
+        Attributes(10038) = IceDroneAmount
+        Attributes(10043) = OreTurretRate
+        Attributes(10044) = OreDroneRate
+        Attributes(10045) = IceTurretRate
+        Attributes(10046) = IceDroneRate
+        Attributes(10047) = OreTotalRate
+        Attributes(10048) = IceTotalRate
+        Attributes(10075) = ModuleTransferAmount
+        Attributes(10076) = DroneTransferAmount
+        Attributes(10077) = ModuleTransferRate
+        Attributes(10078) = DroneTransferRate
+        Attributes(10079) = TransferAmount
+        Attributes(10080) = TransferRate
+        Attributes(10081) = GasTotalAmount
+        Attributes(10083) = GasTotalRate
     End Sub
 #End Region
 
@@ -2399,8 +2399,8 @@ End Enum
 
 <ProtoContract()> <Serializable()> Public Class ShipLists
 
-    <ProtoMember(1)> Public Shared ShipListKeyName As New SortedList(Of String, String)
-    <ProtoMember(2)> Public Shared ShipListKeyID As New SortedList(Of String, String)
+    <ProtoMember(1)> Public Shared ShipListKeyName As New SortedList(Of String, Integer) ' Ship.Name, Ship.Id
+    <ProtoMember(2)> Public Shared ShipListKeyID As New SortedList(Of Integer, String) ' Ship.Id, Ship.Name
     <ProtoMember(3)> Public Shared ShipList As New SortedList(Of String, Ship)   ' Key = ship name
     <ProtoMember(4)> Public Shared FittedShipList As New SortedList(Of String, Ship)   ' Key = fitting key
 

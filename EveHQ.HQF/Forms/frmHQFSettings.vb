@@ -630,93 +630,13 @@ Public Class frmHQFSettings
         Dim chargeGroupData() As String
         Dim chargeItems As New SortedList
         Dim groupName As String = ""
-        For Each chargeGroup As String In Charges.ChargeGroups
+        For Each chargeGroup As String In Charges.ChargeGroups.Values
             chargeGroupData = chargeGroup.Split("_".ToCharArray)
             If chargeGroupData(0) = "0" Then
                 MessageBox.Show(chargeGroupData(2))
             End If
         Next
     End Sub
-
-#Region "Data Checking From Main Form"
-
-    Private Sub ToolStripButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        ' Count number of items
-        Dim items As Integer = ModuleLists.moduleList.Count
-        ' Check MarketGroups
-        Dim marketError As Integer = 0
-        For Each item As ShipModule In ModuleLists.moduleList.Values
-            If Market.MarketGroupList.ContainsKey(item.MarketGroup) = False Then
-                marketError += 1
-                'MessageBox.Show(item.Name)
-            End If
-        Next
-        ' Check MetaGroups
-        Dim metaError As Integer = 0
-        For Each item As ShipModule In ModuleLists.moduleList.Values
-            If ModuleLists.moduleMetaGroups.ContainsKey(item.ID) = False Then
-                metaError += 1
-                'MessageBox.Show(item.Name)
-            End If
-        Next
-
-        Dim msg As String = ""
-        msg &= "Total items: " & items & ControlChars.CrLf
-        msg &= "Orphaned market items: " & marketError & ControlChars.CrLf
-        msg &= "Orphaned meta items: " & metaError & ControlChars.CrLf
-        MessageBox.Show(msg)
-
-        ' Traverse the tree, looking for goodies!
-        Dim itemCount As Integer = 0
-        Dim dataCheckList As New SortedList
-        'For Each rootNode As TreeNode In frmHQF.tvwItems.Nodes
-        '    SearchChildNodes(rootNode, itemCount, dataCheckList)
-        'Next
-
-        ' Write missing items to a file
-        Dim sw As New IO.StreamWriter(Path.Combine(My.Computer.FileSystem.SpecialDirectories.MyDocuments, "missingItems.csv"))
-        For Each shipMod As ShipModule In ModuleLists.moduleList.Values
-            If dataCheckList.Contains(shipMod.ID) = False Then
-                sw.WriteLine(shipMod.ID & "," & shipMod.Name)
-                dataCheckList.Add(shipMod.ID, shipMod.Name)
-            End If
-        Next
-        sw.Flush()
-        sw.Close()
-
-        MessageBox.Show("Total traversed items: " & itemCount, "Tree Walk Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
-
-    End Sub
-
-    Private Sub SearchChildNodes(ByRef parentNode As TreeNode, ByVal itemcount As Integer, ByVal datachecklist As SortedList)
-
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                SearchChildNodes(childNode, itemcount, datachecklist)
-            Else
-                Dim groupID As String = childNode.Tag.ToString
-                For Each shipMod As ShipModule In ModuleLists.moduleList.Values
-                    If shipMod.MarketGroup = groupID Then
-                        itemcount += 1
-                        datachecklist.Add(shipMod.ID, shipMod.Name)
-                    End If
-                Next
-            End If
-        Next
-    End Sub
-
-    Private Sub SearchChildNodes1(ByRef parentNode As TreeNode, ByVal sw As IO.StreamWriter)
-        For Each childNode As TreeNode In parentNode.Nodes
-            If childNode.Nodes.Count > 0 Then
-                SearchChildNodes1(childNode, sw)
-            Else
-                sw.Write(childNode.FullPath & ControlChars.CrLf)
-            End If
-        Next
-    End Sub
-
-
-#End Region
 
 #Region "Damage Profile Options"
 
@@ -989,11 +909,11 @@ Public Class frmHQFSettings
     Private Sub UpdateAttributeColumns()
         adtAttributeColumns.BeginUpdate()
         adtAttributeColumns.Nodes.Clear()
-        For Each attID As String In HQF.Settings.HQFSettings.IgnoredAttributeColumns
+        For Each attID As String In Settings.HQFSettings.IgnoredAttributeColumns
             Dim NewNode As New Node
             NewNode.Name = attID
             NewNode.Text = attID
-            NewNode.Cells.Add(New Cell(CStr(Attributes.AttributeQuickList(attID))))
+            NewNode.Cells.Add(New Cell(CStr(Attributes.AttributeQuickList(CInt(attID)))))
             adtAttributeColumns.Nodes.Add(NewNode)
         Next
         EveHQ.Core.AdvTreeSorter.Sort(adtAttributeColumns, 1, False, True)

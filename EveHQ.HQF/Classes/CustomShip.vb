@@ -30,7 +30,7 @@
     ''' <value></value>
     ''' <returns>A string containing the ID of the custom ship</returns>
     ''' <remarks></remarks>
-    Public Property ID() As String
+    Public Property ID() As Integer
       
     ''' <summary>
     ''' Gets or sets the name of the custom ship

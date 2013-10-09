@@ -27,7 +27,7 @@ Public Class frmMetaVariations
     Dim cBaseModule As New ShipModule
     Dim cActiveFitting As Fitting
     Dim itemVariations(,) As String
-    Dim _compItems As New SortedList
+    Dim _compItems As New SortedList(Of Integer, String)
     Dim ColumnIndexes As New SortedList(Of String, Integer)
     Dim CurrentColumnIndex As Integer = -1
     Dim Startup As Boolean = True
@@ -53,7 +53,7 @@ Public Class frmMetaVariations
 #End Region
 
     Private Sub GetVariations(ByVal startModule As ShipModule)
-        Dim metaTypeID As String = startModule.ID
+        Dim metaTypeID As Integer = startModule.ID
         Dim metaItems As List(Of Integer) = StaticData.GetVariationsForItem(CInt(metaTypeID))
 
         ' Generate Comparisons
@@ -66,17 +66,17 @@ Public Class frmMetaVariations
     End Sub
 
     Private Sub GetComparatives()
-        Dim ModuleList As New ArrayList
+        Dim moduleList As New List(Of ShipModule)
 
-        For Each modID As String In _compItems.Keys
+        For Each modID As Integer In _compItems.Keys
             If ModuleLists.ModuleList.ContainsKey(modID) = True Then
-                Dim sModule As ShipModule = CType(ModuleLists.ModuleList.Item(modID), ShipModule).Clone
+                Dim sModule As ShipModule = ModuleLists.ModuleList.Item(modID).Clone
                 If chkApplySkills.Checked = True Then
                     If cActiveFitting IsNot Nothing Then
                         cActiveFitting.ApplySkillEffectsToModule(sModule, True)
                     End If
                 End If
-                ModuleList.Add(sModule)
+                moduleList.Add(sModule)
             End If
         Next
 
@@ -85,31 +85,31 @@ Public Class frmMetaVariations
 
         ' Add columns
         adtComparisons.Columns.Clear()
-        Dim ItemColumn As New DevComponents.AdvTree.ColumnHeader("Item")
-        ItemColumn.SortingEnabled = False
-        ItemColumn.Width.Absolute = 275
-        ItemColumn.DisplayIndex = 1
-        Dim MetaColumn As New DevComponents.AdvTree.ColumnHeader("Meta")
-        MetaColumn.SortingEnabled = False
-        MetaColumn.Width.Absolute = 50
-        MetaColumn.DisplayIndex = 2
-        adtComparisons.Columns.Add(ItemColumn)
-        adtComparisons.Columns.Add(MetaColumn)
+        Dim itemColumn As New DevComponents.AdvTree.ColumnHeader("Item")
+        itemColumn.SortingEnabled = False
+        itemColumn.Width.Absolute = 275
+        itemColumn.DisplayIndex = 1
+        Dim metaColumn As New DevComponents.AdvTree.ColumnHeader("Meta")
+        metaColumn.SortingEnabled = False
+        metaColumn.Width.Absolute = 50
+        metaColumn.DisplayIndex = 2
+        adtComparisons.Columns.Add(itemColumn)
+        adtComparisons.Columns.Add(metaColumn)
 
         Dim noColumn As New ArrayList
-        Dim BaseModule As ShipModule = CType(ModuleList.Item(0), ShipModule)
+        Dim baseModule As ShipModule = CType(moduleList.Item(0), ShipModule)
 
         ' Check which columns are required
-        Dim SortColumn As Integer = 2 ' Defaults to the meta level
+        Dim sortColumn As Integer = 2 ' Defaults to the meta level
         ColumnIndexes.Clear()
         Dim ColumnIdx As Integer = 2
-        For Each att As String In BaseModule.Attributes.Keys
+        For Each att As Integer In baseModule.Attributes.Keys
             Dim colRequired As Boolean = False
-            If HQF.Settings.HQFSettings.IgnoredAttributeColumns.Contains(att) = False And att <> "633" Then
+            If HQF.Settings.HQFSettings.IgnoredAttributeColumns.Contains(CStr(att)) = False And att <> 633 Then
                 If Me.chkShowAllColumns.Checked = False Then
-                    For Each sMod As ShipModule In ModuleList
+                    For Each sMod As ShipModule In moduleList
                         If sMod.Attributes.ContainsKey(att) = True Then
-                            If CDbl(sMod.Attributes(att)) <> CDbl(BaseModule.Attributes(att)) Then
+                            If CDbl(sMod.Attributes(att)) <> CDbl(baseModule.Attributes(att)) Then
                                 colRequired = True
                                 Exit For
                             End If
@@ -126,7 +126,7 @@ Public Class frmMetaVariations
                 Dim newCol As New DevComponents.AdvTree.ColumnHeader
                 newCol.Text = CType(Attributes.AttributeList(att), Attribute).DisplayName
                 newCol.SortingEnabled = False
-                newCol.Name = att
+                newCol.Name = CStr(att)
                 newCol.Tag = CType(Attributes.AttributeList(att), Attribute).UnitName
                 newCol.Width.AutoSize = True
                 newCol.Width.AutoSizeMinHeader = True
@@ -135,17 +135,17 @@ Public Class frmMetaVariations
                     ColumnIdx += 1
                     newCol.DisplayIndex = ColumnIdx
                     adtComparisons.Columns.Add(newCol)
-                    ColumnIndexes.Add(att, ColumnIdx - 1)
+                    ColumnIndexes.Add(CStr(att), ColumnIdx - 1)
                     ' Check if this is our sorted column
-                    If HQF.Settings.HQFSettings.SortedAttributeColumn = att Then
-                        SortColumn = ColumnIdx
+                    If CInt(HQF.Settings.HQFSettings.SortedAttributeColumn) = att Then
+                        sortColumn = ColumnIdx
                     End If
                 End If
             End If
         Next
 
         ' Add the modules
-        For Each sMod As ShipModule In ModuleList
+        For Each sMod As ShipModule In moduleList
             Dim newMod As New Node
             newMod.Text = sMod.Name
             newMod.Name = sMod.Name
@@ -157,10 +157,10 @@ Public Class frmMetaVariations
                 newMod.Cells.Add(New Cell("", adtComparisons.Styles("RightAlign")))
             Next
             ' Now populate the list
-            Dim i As Integer = 0
-            For Each att As String In sMod.Attributes.Keys
-                If ColumnIndexes.ContainsKey(att) Then
-                    i = ColumnIndexes(att)
+            Dim i As Integer
+            For Each att As Integer In sMod.Attributes.Keys
+                If ColumnIndexes.ContainsKey(CStr(att)) Then
+                    i = ColumnIndexes(CStr(att))
                     ' Adjust for TypeIDs
                     Select Case adtComparisons.Columns(att).Tag.ToString
                         Case "typeID"
@@ -180,7 +180,7 @@ Public Class frmMetaVariations
             Next
             adtComparisons.Nodes.Add(newMod)
         Next
-        EveHQ.Core.AdvTreeSorter.Sort(adtComparisons, SortColumn, False, True)
+        EveHQ.Core.AdvTreeSorter.Sort(adtComparisons, sortColumn, False, True)
         adtComparisons.EndUpdate()
 
     End Sub
@@ -233,8 +233,8 @@ Public Class frmMetaVariations
             If cActiveFitting.ShipSlotCtrl IsNot Nothing Then
                 If adtComparisons.SelectedNodes.Count = 1 Then
                     Dim moduleName As String = adtComparisons.SelectedNodes(0).Name
-                    Dim moduleID As String = CStr(ModuleLists.ModuleListName(moduleName))
-                    Dim shipMod As ShipModule = CType(ModuleLists.ModuleList(moduleID), ShipModule).Clone
+                    Dim moduleID As Integer = ModuleLists.ModuleListName(moduleName)
+                    Dim shipMod As ShipModule = ModuleLists.ModuleList(moduleID).Clone
                     If shipMod.IsDrone = True Then
                         Dim active As Boolean = False
                         Call cActiveFitting.AddDrone(shipMod, 1, False, False)
@@ -262,22 +262,22 @@ Public Class frmMetaVariations
         If cActiveFitting IsNot Nothing Then
             If cActiveFitting.ShipSlotCtrl IsNot Nothing Then
                 Dim moduleName As String = adtComparisons.SelectedNodes(0).Name
-                Dim moduleID As String = CStr(ModuleLists.ModuleListName(moduleName))
-                Dim NewModule As ShipModule = CType(ModuleLists.ModuleList(moduleID), ShipModule).Clone
-                NewModule.ModuleState = cBaseModule.ModuleState
+                Dim moduleID As Integer = ModuleLists.ModuleListName(moduleName)
+                Dim newModule As ShipModule = ModuleLists.ModuleList(moduleID).Clone
+                newModule.ModuleState = cBaseModule.ModuleState
                 Dim OldChargeName As String = ""
                 Dim NewChargeName As String = ""
                 If cBaseModule.LoadedCharge IsNot Nothing Then
                     OldChargeName = cBaseModule.LoadedCharge.Name
-                    Dim CurrentChargeGroup As String = cBaseModule.LoadedCharge.DatabaseGroup
-                    If NewModule.Charges.Contains(CurrentChargeGroup) = False Then
-                        Dim reply As DialogResult = MessageBox.Show(cBaseModule.LoadedCharge.Name & " cannot be loaded into the " & NewModule.Name & ". Would you like to remove the charges and continue?", "Charge Incompatability", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Dim currentChargeGroup As Integer = cBaseModule.LoadedCharge.DatabaseGroup
+                    If newModule.Charges.Contains(currentChargeGroup) = False Then
+                        Dim reply As DialogResult = MessageBox.Show(cBaseModule.LoadedCharge.Name & " cannot be loaded into the " & newModule.Name & ". Would you like to remove the charges and continue?", "Charge Incompatability", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                         If reply = Windows.Forms.DialogResult.No Then
                             Exit Sub
                         End If
                     Else
-                        NewModule.LoadedCharge = cBaseModule.LoadedCharge.Clone
-                        NewChargeName = NewModule.LoadedCharge.Name
+                        newModule.LoadedCharge = cBaseModule.LoadedCharge.Clone
+                        NewChargeName = newModule.LoadedCharge.Name
                     End If
                 End If
 
@@ -286,7 +286,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.RigSlots
                             If cActiveFitting.BaseShip.RigSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.RigSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
+                                    cActiveFitting.AddModule(newModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -294,7 +294,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.LowSlots
                             If cActiveFitting.BaseShip.LowSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.LowSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
+                                    cActiveFitting.AddModule(newModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -302,7 +302,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.MidSlots
                             If cActiveFitting.BaseShip.MidSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.MidSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
+                                    cActiveFitting.AddModule(newModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -310,7 +310,7 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.HiSlots
                             If cActiveFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.HiSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
+                                    cActiveFitting.AddModule(newModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
@@ -318,13 +318,13 @@ Public Class frmMetaVariations
                         For slot As Integer = 1 To cActiveFitting.BaseShip.SubSlots
                             If cActiveFitting.BaseShip.SubSlot(slot) IsNot Nothing Then
                                 If cActiveFitting.BaseShip.SubSlot(slot).Name = cBaseModule.Name Then
-                                    cActiveFitting.AddModule(NewModule, slot, False, False, cBaseModule, False, False)
+                                    cActiveFitting.AddModule(newModule, slot, False, False, cBaseModule, False, False)
                                 End If
                             End If
                         Next
                 End Select
 
-                If cBaseModule.DatabaseCategory = ShipModule.Category_Subsystems Then
+                If cBaseModule.DatabaseCategory = ModuleEnum.CategorySubsystems Then
                     cActiveFitting.BaseShip = cActiveFitting.BuildSubSystemEffects(cActiveFitting.BaseShip)
                     If cActiveFitting.ShipSlotCtrl IsNot Nothing Then
                         Call cActiveFitting.ShipSlotCtrl.UpdateShipSlotLayout()
@@ -335,9 +335,9 @@ Public Class frmMetaVariations
                 End If
 
                 ' Update the base module
-                cBaseModule = NewModule
-                Me.Text = "HQF Meta Variations - " & NewModule.Name
-                btnReplaceModules.Text = "Replace " & NewModule.Name
+                cBaseModule = newModule
+                Me.Text = "HQF Meta Variations - " & newModule.Name
+                btnReplaceModules.Text = "Replace " & newModule.Name
                 ' Add it to the MRU
                 HQFEvents.StartUpdateMRUModuleList = moduleName
             End If

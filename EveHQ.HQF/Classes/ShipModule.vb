@@ -26,91 +26,17 @@ Imports ProtoBuf
 <Serializable()>
 Public Class ShipModule
 
-#Region "Constants"
-    ' itemIDs (see invTypes)
-    Public Const Item_CommandProcessorI As String = "11014"
-    Public Const Item_LegionCovertReconfiguration As String = "30120"
-    Public Const Item_LegionWarfareProcessor As String = "29967"
-    Public Const Item_LokiCovertReconfiguration As String = "30135"
-    Public Const Item_LokiWarfareProcessor As String = "29977"
-    Public Const Item_NaniteRepairPaste As String = "28668"
-    Public Const Item_ProteusCovertReconfiguration As String = "30130"
-    Public Const Item_ProteusWarfareProcessor As String = "29982"
-    Public Const Item_SiegeModuleI As String = "20280"
-    Public Const Item_SiegeModuleII As String = "4292"
-    Public Const Item_TenguCovertReconfiguration As String = "30125"
-    Public Const Item_TenguWarfareProcessor As String = "29972"
-    Public Const Item_TriageModuleI As String = "27951"
-    Public Const Item_TriageModuleII As String = "4294"
 
-    ' categoryIDs (see invCategories)
-    Public Const Category_Celestials As String = "2"
-    Public Const Category_Charges As String = "8"
-    Public Const Category_Drones As String = "18"
-    Public Const Category_Implants As String = "20"
-    Public Const Category_Subsystems As String = "32"
-
-    ' groupIDs (see invGroups)
-    Public Const Group_ArmorRepairers As String = "62"
-    Public Const Group_ArmorResistShiftHardener As String = "1150"
-    Public Const Group_BlockadeRunners As String = "1202"
-    Public Const Group_BombLaunchers As String = "862"
-    Public Const Group_Boosters As String = "303"
-    Public Const Group_CapBoosters As String = "76"
-    Public Const Group_CloakingDevices As String = "330"
-    Public Const Group_CynosuralFields As String = "658"
-    Public Const Group_DamageControls As String = "60"
-    Public Const Group_DeepSpaceTransports As String = "380"
-    Public Const Group_DNAMutators As String = "304"
-    Public Const Group_EnergyNeutralizers As String = "71"
-    Public Const Group_EnergyNeutralizerDrones As String = "544"
-    Public Const Group_EnergyTransfers As String = "67"
-    Public Const Group_EnergyTurrets As String = "53"
-    Public Const Group_EnergyVampires As String = "68"
-    Public Const Group_Exhumers As String = "543"
-    Public Const Group_Freighters As String = "513"
-    Public Const Group_FueledArmorRepairers As String = "1199"
-    Public Const Group_FueledShieldBoosters As String = "1156"
-    Public Const Group_GangLinks As String = "316"
-    Public Const Group_HullRepairers As String = "63"
-    Public Const Group_HybridTurrets As String = "74"
-    Public Const Group_IndustrialCommandShips As String = "941"
-    Public Const Group_Industrials As String = "28"
-    Public Const Group_JumpFreighters As String = "902"
-    Public Const Group_LogisticDrones As String = "640"
-    Public Const Group_MiningBarges As String = "463"
-    Public Const Group_MiningDrones As String = "101"
-    Public Const Group_ProbeLaunchers As String = "481"
-    Public Const Group_ProjectileTurrets As String = "55"
-    Public Const Group_RemoteArmorRepairers As String = "325"
-    Public Const Group_RemoteHullRepairers As String = "585"
-    Public Const Group_ShieldBoosters As String = "40"
-    Public Const Group_ShieldTransporters As String = "41"
-    Public Const Group_Smartbombs As String = "72"
-    Public Const Group_StrategicCruisers As String = "963"
-
-    ' marketGroupIDs (see invMarketGroups)
-    Public Const Marketgroup_GasHarvesters As String = "1037"
-    Public Const Marketgroup_IceHarvesters As String = "1038"
-    Public Const Marketgroup_MiningDrones As String = "158"
-    Public Const Marketgroup_MiningLasers As String = "1039"
-    Public Const Marketgroup_OrbitalEnergyAmmo As String = "1599"
-    Public Const Marketgroup_OrbitalHybridAmmo As String = "1600"
-    Public Const Marketgroup_OrbitalProjectileAmmo As String = "1598"
-    Public Const Marketgroup_ORECapitalIndustrials As String = "1048"
-    Public Const Marketgroup_StripMiners As String = "1040"
-
-#End Region
 
 #Region "Properties"
 
     ' Name and Classification
     <ProtoMember(1)> Public Property Name() As String
-    <ProtoMember(2)> Public Property ID() As String
+    <ProtoMember(2)> Public Property ID() As Integer
     <ProtoMember(3)> Public Property Description() As String
-    <ProtoMember(4)> Public Property MarketGroup() As String
-    <ProtoMember(5)> Public Property DatabaseGroup() As String
-    <ProtoMember(6)> Public Property DatabaseCategory() As String
+    <ProtoMember(4)> Public Property MarketGroup() As Integer
+    <ProtoMember(5)> Public Property DatabaseGroup() As Integer
+    <ProtoMember(6)> Public Property DatabaseCategory() As Integer
     <ProtoMember(7)> Public Property BasePrice() As Double
     <ProtoMember(8)> Public Property MarketPrice() As Double
     <ProtoMember(9)> Public Property MetaType() As Integer
@@ -146,10 +72,10 @@ Public Class ShipModule
     <ProtoMember(33)> Public Property ChargeSize() As Integer
 
     ' Attributes
-    <ProtoMember(34)> Public Property Attributes() As New SortedList(Of String, Double)
+    <ProtoMember(34)> Public Property Attributes() As New SortedList(Of Integer, Double) ' AttributeID, AttributeValue
 
     ' Charges
-    <ProtoMember(35)> Public Property Charges() As New List(Of String)
+    <ProtoMember(35)> Public Property Charges() As New List(Of Integer)
 
     <ProtoMember(36)> Public Property LoadedCharge() As ShipModule
 
@@ -181,63 +107,62 @@ Public Class ShipModule
 
 #Region "Map Attributes to Properties"
     Public Shared Sub MapModuleAttributes(ByVal newModule As ShipModule)
-        Dim attValue As Double 
-        Dim attributes As New Attributes
+        Dim attValue As Double
         ' Amend for remote effects capacitor use
         If (newModule.ModuleState And 16) = 16 Then
             Select Case newModule.DatabaseGroup
-                Case Group_EnergyTransfers
-                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_PowerTransferAmount)) * -1
-                Case Group_EnergyVampires
-                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_PowerTransferAmount))
-                Case Group_EnergyNeutralizers
-                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_EnergyNeutAmount))
-                Case Group_EnergyNeutralizerDrones
-                    newModule.Attributes(attributes.Module_CapacitorNeed) = CDbl(newModule.Attributes(attributes.Module_EnergyNeutAmount))
+                Case ModuleEnum.GroupEnergyTransfers
+                    newModule.Attributes(AttributeEnum.ModuleCapacitorNeed) = CDbl(newModule.Attributes(AttributeEnum.ModulePowerTransferAmount)) * -1
+                Case ModuleEnum.GroupEnergyVampires
+                    newModule.Attributes(AttributeEnum.ModuleCapacitorNeed) = CDbl(newModule.Attributes(AttributeEnum.ModulePowerTransferAmount))
+                Case ModuleEnum.GroupEnergyNeutralizers
+                    newModule.Attributes(AttributeEnum.ModuleCapacitorNeed) = CDbl(newModule.Attributes(AttributeEnum.ModuleEnergyNeutAmount))
+                Case ModuleEnum.GroupEnergyNeutralizerDrones
+                    newModule.Attributes(AttributeEnum.ModuleCapacitorNeed) = CDbl(newModule.Attributes(AttributeEnum.ModuleEnergyNeutAmount))
                 Case Else
-                    newModule.Attributes(attributes.Module_CapacitorNeed) = 0
+                    newModule.Attributes(AttributeEnum.ModuleCapacitorNeed) = 0
             End Select
         End If
         ' Parse values
-        For Each att As String In newModule.Attributes.Keys
+        For Each att As Integer In newModule.Attributes.Keys
             attValue = CDbl(newModule.Attributes(att))
             Select Case att
-                Case attributes.Module_CapacitorNeed
+                Case AttributeEnum.ModuleCapacitorNeed
                     newModule.CapUsage = attValue
-                Case attributes.Module_PowergridUsage
+                Case AttributeEnum.ModulePowergridUsage
                     newModule.PG = attValue
-                Case attributes.Module_CpuUsage
+                Case AttributeEnum.ModuleCpuUsage
                     newModule.CPU = attValue
-                Case attributes.Module_ActivationTime
+                Case AttributeEnum.ModuleActivationTime
                     newModule.ActivationTime = attValue
-                Case attributes.Module_ReactivationDelay
+                Case AttributeEnum.ModuleReactivationDelay
                     newModule.ReactivationDelay = attValue
-                Case attributes.Module_CalibrationCost
+                Case AttributeEnum.ModuleCalibrationCost
                     newModule.Calibration = CInt(attValue)
             End Select
         Next
-        If newModule.Attributes.ContainsKey(attributes.Module_CapUsageRate) = True Then
-            If newModule.Attributes.ContainsKey(attributes.Module_ROF) = True Then
-                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_ROF))
-            ElseIf newModule.Attributes.ContainsKey(attributes.Module_EnergyROF) = True Then
-                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_EnergyROF))
-            ElseIf newModule.Attributes.ContainsKey(attributes.Module_HybridROF) = True Then
-                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_HybridROF))
-            ElseIf newModule.Attributes.ContainsKey(attributes.Module_ProjectileROF) = True Then
-                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(attributes.Module_ProjectileROF))
+        If newModule.Attributes.ContainsKey(AttributeEnum.ModuleCapUsageRate) = True Then
+            If newModule.Attributes.ContainsKey(AttributeEnum.ModuleROF) = True Then
+                newModule.Attributes(AttributeEnum.ModuleCapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(AttributeEnum.ModuleROF))
+            ElseIf newModule.Attributes.ContainsKey(AttributeEnum.ModuleEnergyROF) = True Then
+                newModule.Attributes(AttributeEnum.ModuleCapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(AttributeEnum.ModuleEnergyROF))
+            ElseIf newModule.Attributes.ContainsKey(AttributeEnum.ModuleHybridROF) = True Then
+                newModule.Attributes(AttributeEnum.ModuleCapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(AttributeEnum.ModuleHybridROF))
+            ElseIf newModule.Attributes.ContainsKey(AttributeEnum.ModuleProjectileROF) = True Then
+                newModule.Attributes(AttributeEnum.ModuleCapUsageRate) = newModule.CapUsage / CDbl(newModule.Attributes(AttributeEnum.ModuleProjectileROF))
             Else
-                newModule.Attributes(attributes.Module_CapUsageRate) = newModule.CapUsage / (newModule.ActivationTime + newModule.ReactivationDelay)
+                newModule.Attributes(AttributeEnum.ModuleCapUsageRate) = newModule.CapUsage / (newModule.ActivationTime + newModule.ReactivationDelay)
             End If
-            newModule.CapUsageRate = CDbl(newModule.Attributes(attributes.Module_CapUsageRate))
+            newModule.CapUsageRate = CDbl(newModule.Attributes(AttributeEnum.ModuleCapUsageRate))
         End If
-        If newModule.Attributes.ContainsKey(attributes.Module_MiningAmount) = True Then
+        If newModule.Attributes.ContainsKey(AttributeEnum.ModuleMiningAmount) = True Then
             Select Case newModule.MarketGroup
-                Case Marketgroup_IceHarvesters
-                    newModule.Attributes(attributes.Module_TurretIceMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
-                Case Marketgroup_MiningLasers, Marketgroup_StripMiners
-                    newModule.Attributes(attributes.Module_TurretOreMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
-                Case Marketgroup_MiningDrones
-                    newModule.Attributes(attributes.Module_DroneOreMiningRate) = CDbl(newModule.Attributes(attributes.Module_MiningAmount)) / CDbl(newModule.Attributes(attributes.Module_ActivationTime))
+                Case ModuleEnum.MarketgroupIceHarvesters
+                    newModule.Attributes(AttributeEnum.ModuleTurretIceMiningRate) = CDbl(newModule.Attributes(AttributeEnum.ModuleMiningAmount)) / CDbl(newModule.Attributes(AttributeEnum.ModuleActivationTime))
+                Case ModuleEnum.MarketgroupMiningLasers, ModuleEnum.MarketgroupStripMiners
+                    newModule.Attributes(AttributeEnum.ModuleTurretOreMiningRate) = CDbl(newModule.Attributes(AttributeEnum.ModuleMiningAmount)) / CDbl(newModule.Attributes(AttributeEnum.ModuleActivationTime))
+                Case ModuleEnum.MarketgroupMiningDrones
+                    newModule.Attributes(AttributeEnum.ModuleDroneOreMiningRate) = CDbl(newModule.Attributes(AttributeEnum.ModuleMiningAmount)) / CDbl(newModule.Attributes(AttributeEnum.ModuleActivationTime))
             End Select
         End If
     End Sub
@@ -250,9 +175,9 @@ Public Class ShipModule
         Dim chargeGroupData() As String
         Dim chargeItems As New SortedList(Of String, String)
         Dim groupName As String = ""
-        For Each chargeGroup As String In HQF.Charges.ChargeGroups
+        For Each chargeGroup As String In HQF.Charges.ChargeGroups.Values
             chargeGroupData = chargeGroup.Split("_".ToCharArray)
-            If Charges.Contains(chargeGroupData(1)) = True Then
+            If Charges.Contains(CInt(chargeGroupData(1))) = True Then
                 If Market.MarketGroupList.ContainsKey(chargeGroupData(0)) = True Then
                     Select Case Market.MarketGroupList.Item(chargeGroupData(0)).ToString
                         Case "Small", "Medium", "Large", "Extra Large"
@@ -295,14 +220,88 @@ End Enum
 <ProtoContract()>
 <Serializable()>
 Public Class ModuleLists
-    <ProtoMember(1)> Public Shared ModuleMetaTypes As New SortedList(Of String, String)
-    <ProtoMember(2)> Public Shared ModuleMetaGroups As New SortedList(Of String, String)
-    <ProtoMember(3)> Public Shared ModuleList As New SortedList(Of String, ShipModule)   ' Key = module ID, Value = ShipModule
-    <ProtoMember(4)> Public Shared ModuleListName As New SortedList(Of String, String) ' Key = moduleName, Value = ID (for quick name to ID conversions)
+    <ProtoMember(1)> Public Shared ModuleMetaTypes As New SortedList(Of Integer, Integer) ' Key = typeID, Value = parentTypeID
+    <ProtoMember(2)> Public Shared ModuleMetaGroups As New SortedList(Of Integer, Integer) ' Key = typeID, Value = metaGroupID
+    <ProtoMember(3)> Public Shared ModuleList As New SortedList(Of Integer, ShipModule)   ' Key = module ID, Value = ShipModule
+    <ProtoMember(4)> Public Shared ModuleListName As New SortedList(Of String, Integer) ' Key = moduleName, Value = ID (for quick name to ID conversions)
     <ProtoMember(5)> Public Shared TypeGroups As New SortedList(Of Integer, String) ' groupID, groupName
     <ProtoMember(6)> Public Shared TypeCats As New SortedList(Of Integer, String) ' catID, catName
     <ProtoMember(7)> Public Shared GroupCats As New SortedList(Of Integer, Integer) ' groupID, catID
 End Class
 
+Public Enum ModuleEnum
 
+    ' itemIDs (see invTypes)
+    ItemCommandProcessorI = 11014
+    ItemLegionCovertReconfiguration = 30120
+    ItemLegionWarfareProcessor = 29967
+    ItemLokiCovertReconfiguration = 30135
+    ItemLokiWarfareProcessor = 29977
+    ItemNaniteRepairPaste = 28668
+    ItemProteusCovertReconfiguration = 30130
+    ItemProteusWarfareProcessor = 29982
+    ItemSiegeModuleI = 20280
+    ItemSiegeModuleII = 4292
+    ItemTenguCovertReconfiguration = 30125
+    ItemTenguWarfareProcessor = 29972
+    ItemTriageModuleI = 27951
+    ItemTriageModuleII = 4294
 
+    ' categoryIDs (see invCategories)
+    CategoryCelestials = 2
+    CategoryCharges = 8
+    CategoryDrones = 18
+    CategoryImplants = 20
+    CategorySubsystems = 32
+
+    ' groupIDs (see invGroups)
+    GroupArmorRepairers = 62
+    GroupArmorResistShiftHardener = 1150
+    GroupBlockadeRunners = 1202
+    GroupBombLaunchers = 862
+    GroupBoosters = 303
+    GroupCapBoosters = 76
+    GroupCloakingDevices = 330
+    GroupCynosuralFields = 658
+    GroupDamageControls = 60
+    GroupDeepSpaceTransports = 380
+    GroupDNAMutators = 304
+    GroupEnergyNeutralizers = 71
+    GroupEnergyNeutralizerDrones = 544
+    GroupEnergyTransfers = 67
+    GroupEnergyTurrets = 53
+    GroupEnergyVampires = 68
+    GroupExhumers = 543
+    GroupFreighters = 513
+    GroupFueledArmorRepairers = 1199
+    GroupFueledShieldBoosters = 1156
+    GroupGangLinks = 316
+    GroupHullRepairers = 63
+    GroupHybridTurrets = 74
+    GroupIndustrialCommandShips = 941
+    GroupIndustrials = 28
+    GroupJumpFreighters = 902
+    GroupLogisticDrones = 640
+    GroupMiningBarges = 463
+    GroupMiningDrones = 101
+    GroupProbeLaunchers = 481
+    GroupProjectileTurrets = 55
+    GroupRemoteArmorRepairers = 325
+    GroupRemoteHullRepairers = 585
+    GroupShieldBoosters = 40
+    GroupShieldTransporters = 41
+    GroupSmartbombs = 72
+    GroupStrategicCruisers = 963
+
+    ' marketGroupIDs (see invMarketGroups)
+    MarketgroupGasHarvesters = 1037
+    MarketgroupIceHarvesters = 1038
+    MarketgroupMiningDrones = 158
+    MarketgroupMiningLasers = 1039
+    MarketgroupOrbitalEnergyAmmo = 1599
+    MarketgroupOrbitalHybridAmmo = 1600
+    MarketgroupOrbitalProjectileAmmo = 1598
+    MarketgroupORECapitalIndustrials = 1048
+    MarketgroupStripMiners = 1040
+
+End Enum

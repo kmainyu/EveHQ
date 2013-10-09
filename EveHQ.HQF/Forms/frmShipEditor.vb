@@ -297,7 +297,7 @@ Public Class frmShipEditor
 
     Private Sub EditShip(ByVal NewShip As CustomShip)
         Dim oldName As String = NewShip.Name
-        Dim oldID As String = NewShip.ID
+        Dim oldID As Integer = NewShip.ID
         ' Add a new ShipClassEditor form
         Dim NewShipForm As New frmShipEditorAttributes(NewShip)
         NewShipForm.ShowDialog()

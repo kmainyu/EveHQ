@@ -75,15 +75,15 @@ Public Class frmShipComparisonWorker
             newShip.Fitting = NewFit.FittingName
             newShip.Modules = CopyForForums(profileShip)
             newShip.EHP = profileShip.EffectiveHP
-            newShip.Tank = CDbl(profileShip.Attributes("10062"))
+            newShip.Tank = CDbl(profileShip.Attributes(10062))
             Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(profileShip, False)
             If csr.CapIsDrained = False Then
                 newShip.Capacitor = csr.MinimumCap / profileShip.CapCapacity * 100
             Else
                 newShip.Capacitor = -csr.TimeToDrain
             End If
-            newShip.Volley = CDbl(profileShip.Attributes("10028"))
-            newShip.DPS = CDbl(profileShip.Attributes("10029"))
+            newShip.Volley = CDbl(profileShip.Attributes(10028))
+            newShip.DPS = CDbl(profileShip.Attributes(10029))
             newShip.SEM = profileShip.ShieldEMResist
             newShip.SEx = profileShip.ShieldExResist
             newShip.SKi = profileShip.ShieldKiResist

@@ -113,8 +113,8 @@ Public Class frmCapSim
         lblCapacity.Text = "Capacity: " & _capShip.CapCapacity & " GJ"
         lblRecharge.Text = "Recharge Time: " & _capShip.CapRecharge & " s"
         lblPeakRate.Text = "Peak Recharge Rate: " & (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge).ToString("N2") & " GJ/s"
-        Dim pi As Double = (CDbl(_capShip.Attributes("10050")) * -1) + (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge)
-        Dim po As Double = CDbl(_capShip.Attributes("10049"))
+        Dim pi As Double = (CDbl(_capShip.Attributes(10050)) * -1) + (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge)
+        Dim po As Double = CDbl(_capShip.Attributes(10049))
         lblPeakIn.Text = "Peak In: " & pi.ToString("N2") & " GJ"
         lblPeakOut.Text = "Peak Out: " & po.ToString("N2") & " GJ"
         lblPeakDelta.Text = "Peak Delta: " & (pi - po).ToString("N2") & " GJ"

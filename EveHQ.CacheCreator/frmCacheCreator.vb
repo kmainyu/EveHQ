@@ -1359,7 +1359,7 @@ Public Class FrmCacheCreator
                     Dim attData As Attribute
                     For Each row As DataRow In attributeData.Tables(0).Rows
                         attData = New Attribute
-                        attData.ID = row.Item("attributeID").ToString
+                        attData.ID = CInt(row.Item("attributeID"))
                         attData.Name = row.Item("attributeName").ToString
                         attData.DisplayName = row.Item("dgmAttributeTypes_displayName").ToString
                         attData.UnitName = row.Item("eveUnits_displayName").ToString
@@ -1392,7 +1392,7 @@ Public Class FrmCacheCreator
             If line.Trim <> "" And line.StartsWith("#") = False Then
                 att = line.Split(",".ToCharArray)
                 attData = New Attribute
-                attData.ID = att(0)
+                attData.ID = CInt(att(0))
                 attData.Name = att(1)
                 attData.DisplayName = att(2)
                 attData.UnitName = att(4)
@@ -1641,11 +1641,11 @@ Public Class FrmCacheCreator
                             End If
                             ' Create new ship type & non "attribute" data
                             newShip.Name = shipRow.Item("typeName").ToString
-                            newShip.ID = shipRow.Item("typeID").ToString
+                            newShip.ID = CInt(shipRow.Item("typeID"))
                             newShip.Description = shipRow.Item("description").ToString
-                            newShip.DatabaseGroup = shipRow.Item("groupID").ToString
-                            newShip.DatabaseCategory = shipRow.Item("categoryID").ToString
-                            newShip.MarketGroup = shipRow.Item("marketGroupID").ToString
+                            newShip.DatabaseGroup = CInt(shipRow.Item("groupID"))
+                            newShip.DatabaseCategory = CInt(shipRow.Item("categoryID"))
+                            newShip.MarketGroup = CInt(shipRow.Item("marketGroupID"))
                             newShip.BasePrice = CDbl(shipRow.Item("basePrice"))
                             newShip.MarketPrice = 0
                             newShip.Mass = CDbl(shipRow.Item("mass"))
@@ -1679,7 +1679,7 @@ Public Class FrmCacheCreator
                         End Select
 
                         ' Add the attribute to the ship.attributes list
-                        newShip.Attributes.Add(shipRow.Item("attributeID").ToString, attValue)
+                        newShip.Attributes.Add(CInt(shipRow.Item("attributeID")), attValue)
 
                         ' Map only the skill attributes
                         Select Case CInt(shipRow.Item("attributeID"))
@@ -1835,13 +1835,13 @@ Public Class FrmCacheCreator
                     ModuleLists.moduleMetaTypes.Clear()
                     ModuleLists.moduleMetaGroups.Clear()
                     For Each row As DataRow In metaTypeData.Tables(0).Rows
-                        If ModuleLists.moduleMetaTypes.ContainsKey(row.Item("invTypes_typeID").ToString) = False Then
-                            ModuleLists.moduleMetaTypes.Add(row.Item("invTypes_typeID").ToString, row.Item("parentTypeID").ToString)
-                            ModuleLists.moduleMetaGroups.Add(row.Item("invTypes_typeID").ToString, row.Item("invMetaGroups_metaGroupID").ToString)
+                        If ModuleLists.ModuleMetaTypes.ContainsKey(CInt(row.Item("invTypes_typeID"))) = False Then
+                            ModuleLists.ModuleMetaTypes.Add(CInt(row.Item("invTypes_typeID")), CInt(row.Item("parentTypeID")))
+                            ModuleLists.ModuleMetaGroups.Add(CInt(row.Item("invTypes_typeID")), CInt(row.Item("invMetaGroups_metaGroupID")))
                         End If
-                        If ModuleLists.moduleMetaTypes.ContainsKey(row.Item("parentTypeID").ToString) = False Then
-                            ModuleLists.moduleMetaTypes.Add(row.Item("parentTypeID").ToString, row.Item("parentTypeID").ToString)
-                            ModuleLists.moduleMetaGroups.Add(row.Item("parentTypeID").ToString, "0")
+                        If ModuleLists.ModuleMetaTypes.ContainsKey(CInt(row.Item("parentTypeID"))) = False Then
+                            ModuleLists.ModuleMetaTypes.Add(CInt(row.Item("parentTypeID")), CInt(row.Item("parentTypeID")))
+                            ModuleLists.ModuleMetaGroups.Add(CInt(row.Item("parentTypeID")), 0)
                         End If
                     Next
                     Return
@@ -1866,16 +1866,16 @@ Public Class FrmCacheCreator
             Boosters.BoosterList.Clear()
             For Each row As DataRow In _moduleData.Tables(0).Rows
                 Dim newModule As New ShipModule
-                newModule.ID = row.Item("typeID").ToString
+                newModule.ID = CInt(row.Item("typeID"))
                 newModule.Description = row.Item("description").ToString
                 newModule.Name = row.Item("typeName").ToString.Trim
-                newModule.DatabaseGroup = row.Item("groupID").ToString
-                newModule.DatabaseCategory = row.Item("categoryID").ToString
+                newModule.DatabaseGroup = CInt(row.Item("groupID"))
+                newModule.DatabaseCategory = CInt(row.Item("categoryID"))
                 newModule.BasePrice = CDbl(row.Item("baseprice"))
                 newModule.Volume = CDbl(row.Item("volume"))
                 newModule.Capacity = CDbl(row.Item("capacity"))
-                newModule.Attributes.Add("10004", CDbl(row.Item("capacity")))
-                newModule.Attributes.Add("10002", CDbl(row.Item("mass")))
+                newModule.Attributes.Add(AttributeEnum.ModuleCapacity, CDbl(row.Item("capacity")))
+                newModule.Attributes.Add(AttributeEnum.ModuleMass, CDbl(row.Item("mass")))
                 newModule.MarketPrice = 0
                 ' Get icon from the YAML parsing
                 'newModule.Icon = row.Item("iconFile").ToString
@@ -1883,9 +1883,9 @@ Public Class FrmCacheCreator
                     newModule.Icon = _yamlTypes(CInt(newModule.ID)).IconName
                 End If
                 If IsDBNull(row.Item("marketGroupID")) = False Then
-                    newModule.MarketGroup = row.Item("marketGroupID").ToString
+                    newModule.MarketGroup = CInt(row.Item("marketGroupID"))
                 Else
-                    newModule.MarketGroup = "0"
+                    newModule.MarketGroup = 0
                 End If
                 newModule.CPU = 0
                 newModule.PG = 0
@@ -1915,17 +1915,17 @@ Public Class FrmCacheCreator
             Next
 
             ' Fill in the blank market groups now the list is complete
-            Dim modID As String
-            Dim parentID As String
+            Dim modID As Integer
+            Dim parentID As Integer
             Dim nModule As ShipModule
             Dim eModule As ShipModule
             For setNo = 0 To 1
                 For Each row As DataRow In _moduleData.Tables(0).Rows
                     If IsDBNull(row.Item("marketGroupID")) = True Then
-                        modID = row.Item("typeID").ToString
+                        modID = CInt(row.Item("typeID"))
                         nModule = ModuleLists.ModuleList(modID)
                         If ModuleLists.moduleMetaTypes.ContainsKey(modID) = True Then
-                            parentID = ModuleLists.moduleMetaTypes(modID).ToString
+                            parentID = ModuleLists.ModuleMetaTypes(modID)
                             eModule = ModuleLists.ModuleList(parentID)
                             nModule.MarketGroup = eModule.MarketGroup
                         End If
@@ -1938,8 +1938,8 @@ Public Class FrmCacheCreator
             For Each marketChange As String In changeLines
                 If marketChange.Trim <> "" Then
                     Dim changeData() As String = marketChange.Split(",".ToCharArray)
-                    Dim typeID As String = changeData(0)
-                    Dim marketGroupID As String = changeData(1)
+                    Dim typeID As Integer = CInt(changeData(0))
+                    Dim marketGroupID As Integer = CInt(changeData(1))
                     Dim metaTypeID As Integer = CInt(changeData(2))
                     If ModuleLists.moduleList.ContainsKey(typeID) = True Then
                         Dim mModule As ShipModule = ModuleLists.ModuleList(typeID)
@@ -1961,7 +1961,7 @@ Public Class FrmCacheCreator
         Try
             ' Get details of module attributes from already retrieved dataset
             For Each modRow As DataRow In _moduleEffectData.Tables(0).Rows
-                Dim effMod As ShipModule = ModuleLists.ModuleList.Item(modRow.Item("typeID").ToString)
+                Dim effMod As ShipModule = ModuleLists.ModuleList.Item(CInt(modRow.Item("typeID")))
                 If effMod IsNot Nothing Then
                     Select Case CInt(modRow.Item("effectID"))
                         Case 11 ' Low slot
@@ -1975,43 +1975,43 @@ Public Class FrmCacheCreator
                         Case 3772 ' Sub slot
                             effMod.SlotType = SlotTypes.Subsystem
                         Case 40
-                            If effMod.DatabaseGroup <> "481" Then
+                            If effMod.DatabaseGroup <> 481 Then
                                 effMod.IsLauncher = True
                             End If
                         Case 10, 34, 42
                             effMod.IsTurret = True
                     End Select
                     ' Add custom attributes
-                    If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = "72" Or effMod.DatabaseGroup = "862" Then
-                        If effMod.Attributes.ContainsKey("10017") = False Then
-                            effMod.Attributes.Add("10017", 0)
-                            effMod.Attributes.Add("10018", 0)
-                            effMod.Attributes.Add("10019", 0)
-                            effMod.Attributes.Add("10030", 0)
-                            effMod.Attributes.Add("10051", 0)
-                            effMod.Attributes.Add("10052", 0)
-                            effMod.Attributes.Add("10053", 0)
-                            effMod.Attributes.Add("10054", 0)
+                    If effMod.IsDrone = True Or effMod.IsLauncher = True Or effMod.IsTurret = True Or effMod.DatabaseGroup = 72 Or effMod.DatabaseGroup = 862 Then
+                        If effMod.Attributes.ContainsKey(10017) = False Then
+                            effMod.Attributes.Add(10017, 0)
+                            effMod.Attributes.Add(10018, 0)
+                            effMod.Attributes.Add(10019, 0)
+                            effMod.Attributes.Add(10030, 0)
+                            effMod.Attributes.Add(10051, 0)
+                            effMod.Attributes.Add(10052, 0)
+                            effMod.Attributes.Add(10053, 0)
+                            effMod.Attributes.Add(10054, 0)
                         End If
                     End If
                     Select Case CInt(effMod.MarketGroup)
                         Case 1038 ' Ice Miners
-                            If effMod.Attributes.ContainsKey("10041") = False Then
-                                effMod.Attributes.Add("10041", 0)
+                            If effMod.Attributes.ContainsKey(10041) = False Then
+                                effMod.Attributes.Add(10041, 0)
                             End If
                         Case 1039, 1040 ' Ore Miners
-                            If effMod.Attributes.ContainsKey("10039") = False Then
-                                effMod.Attributes.Add("10039", 0)
+                            If effMod.Attributes.ContainsKey(10039) = False Then
+                                effMod.Attributes.Add(10039, 0)
                             End If
                         Case 158 ' Mining Drones
-                            If effMod.Attributes.ContainsKey("10040") = False Then
-                                effMod.Attributes.Add("10040", 0)
+                            If effMod.Attributes.ContainsKey(10040) = False Then
+                                effMod.Attributes.Add(10040, 0)
                             End If
                     End Select
                     Select Case CInt(effMod.DatabaseGroup)
                         Case 76
-                            If effMod.Attributes.ContainsKey("6") = False Then
-                                effMod.Attributes.Add("6", 0)
+                            If effMod.Attributes.ContainsKey(6) = False Then
+                                effMod.Attributes.Add(6, 0)
                             End If
                     End Select
                 End If
@@ -2033,7 +2033,7 @@ Public Class FrmCacheCreator
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
             Dim lastModName As String = ""
             For Each modRow As DataRow In _moduleAttributeData.Tables(0).Rows
-                Dim attMod As ShipModule = ModuleLists.ModuleList.Item(modRow.Item("typeID").ToString)
+                Dim attMod As ShipModule = ModuleLists.ModuleList.Item(CInt(modRow.Item("typeID")))
                 'If attMod IsNot Nothing Then
                 If lastModName <> modRow.Item("typeName").ToString And lastModName <> "" Then
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
@@ -2067,59 +2067,59 @@ Public Class FrmCacheCreator
                 End If
 
                 ' Do custom attribute changes here!
-                Select Case modRow.Item("attributeID").ToString
-                    Case "204"
+                Select Case CInt(modRow.Item("attributeID"))
+                    Case 204
                         If CInt(attValue) = -100 Then Exit Select
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
-                    Case "51" ' ROF
+                        attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
+                    Case 51 ' ROF
                         If CInt(attValue) = -100 Then Exit Select
                         Select Case attMod.DatabaseGroup
-                            Case "53" ' Energy Turret 
-                                attMod.Attributes.Add("10011", attValue)
-                            Case "74" ' Hybrid Turret
-                                attMod.Attributes.Add("10012", attValue)
-                            Case "55" ' Projectile Turret
-                                attMod.Attributes.Add("10013", attValue)
+                            Case 53 ' Energy Turret 
+                                attMod.Attributes.Add(10011, attValue)
+                            Case 74 ' Hybrid Turret
+                                attMod.Attributes.Add(10012, attValue)
+                            Case 55 ' Projectile Turret
+                                attMod.Attributes.Add(10013, attValue)
                             Case Else
-                                attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                                attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
                         End Select
-                    Case "64" ' Damage Modifier
+                    Case 64 ' Damage Modifier
                         If CInt(attValue) = 0 Then Exit Select
                         Select Case attMod.DatabaseGroup
-                            Case "53" ' Energy Turret 
-                                attMod.Attributes.Add("10014", attValue)
-                            Case "74" ' Hybrid Turret
-                                attMod.Attributes.Add("10015", attValue)
-                            Case "55" ' Projectile Turret
-                                attMod.Attributes.Add("10016", attValue)
+                            Case 53 ' Energy Turret 
+                                attMod.Attributes.Add(10014, attValue)
+                            Case 74 ' Hybrid Turret
+                                attMod.Attributes.Add(10015, attValue)
+                            Case 55 ' Projectile Turret
+                                attMod.Attributes.Add(10016, attValue)
                             Case Else
-                                attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                                attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
                         End Select
-                    Case "306" ' Max Velocity Penalty
+                    Case 306 ' Max Velocity Penalty
                         Select Case attMod.DatabaseGroup
-                            Case "653", "654", "655", "656", "657", "648" ' T2 Missiles
+                            Case 653, 654, 655, 656, 657, 648 ' T2 Missiles
                                 If CInt(attValue) = -100 Then
                                     attValue = 0
                                 End If
                         End Select
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
-                    Case "144" ' Cap Recharge Rate
+                        attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
+                    Case 144 ' Cap Recharge Rate
                         Select Case attMod.DatabaseGroup
-                            Case "653", "654", "655", "656", "657", "648" ' T2 Missiles
+                            Case 653, 654, 655, 656, 657, 648 ' T2 Missiles
                                 If CInt(attValue) = -100 Then
                                     attValue = 0
                                 End If
                         End Select
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
-                    Case "267", "268", "269", "270" ' Armor resistances
+                        attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
+                    Case 267, 268, 269, 270 ' Armor resistances
                         ' Invert Armor Resistance Shift Hardener values
                         Select Case attMod.DatabaseGroup
-                            Case "1150"
+                            Case 1150
                                 attValue = -attValue
                         End Select
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                        attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
                     Case Else
-                        attMod.Attributes.Add(modRow.Item("attributeID").ToString, attValue)
+                        attMod.Attributes.Add(CInt(modRow.Item("attributeID")), attValue)
                 End Select
 
                 Select Case CInt(modRow.Item("attributeID"))
@@ -2130,22 +2130,22 @@ Public Class FrmCacheCreator
                     Case 6
                         attMod.CapUsage = attValue
                     Case 51
-                        If attMod.Attributes.ContainsKey("6") = True Then
+                        If attMod.Attributes.ContainsKey(6) = True Then
                             attMod.CapUsageRate = attMod.CapUsage / attValue
-                            attMod.Attributes.Add("10032", attMod.CapUsageRate)
+                            attMod.Attributes.Add(10032, attMod.CapUsageRate)
                         End If
                     Case 73
                         attMod.ActivationTime = attValue
                         attMod.CapUsageRate = attMod.CapUsage / attMod.ActivationTime
-                        attMod.Attributes.Add("10032", attMod.CapUsageRate)
+                        attMod.Attributes.Add(10032, attMod.CapUsageRate)
                     Case 77
                         Select Case CInt(attMod.MarketGroup)
                             Case 1038 ' Ice Mining
-                                attMod.Attributes("10041") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                                attMod.Attributes(10041) = CDbl(attMod.Attributes(77)) / CDbl(attMod.Attributes(73))
                             Case 1039, 1040 ' Ore Mining
-                                attMod.Attributes("10039") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                                attMod.Attributes(10039) = CDbl(attMod.Attributes(77)) / CDbl(attMod.Attributes(73))
                             Case 158 ' Mining Drone
-                                attMod.Attributes("10040") = CDbl(attMod.Attributes("77")) / CDbl(attMod.Attributes("73"))
+                                attMod.Attributes(10040) = CDbl(attMod.Attributes(77)) / CDbl(attMod.Attributes(73))
                         End Select
                     Case 128
                         attMod.ChargeSize = CInt(attValue)
@@ -2210,7 +2210,7 @@ Public Class FrmCacheCreator
                             End If
                         End If
                     Case 604, 605, 606, 609, 610
-                        attMod.Charges.Add(CStr(attValue))
+                        attMod.Charges.Add(CInt(attValue))
                     Case 633 ' MetaLevel
                         attMod.MetaLevel = CInt(attValue)
                 End Select
@@ -2224,9 +2224,9 @@ Public Class FrmCacheCreator
             ' Build the metaType data
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                 If ModuleLists.moduleMetaGroups.ContainsKey(cMod.ID) = True Then
-                    If CStr(ModuleLists.moduleMetaGroups(cMod.ID)) = "0" Then
-                        If cMod.Attributes.ContainsKey("422") = True Then
-                            Select Case CInt(cMod.Attributes("422"))
+                    If ModuleLists.ModuleMetaGroups(cMod.ID) = 0 Then
+                        If cMod.Attributes.ContainsKey(422) = True Then
+                            Select Case CInt(cMod.Attributes(422))
                                 Case 1
                                     cMod.MetaType = CInt(2 ^ 0)
                                 Case 2
@@ -2240,7 +2240,7 @@ Public Class FrmCacheCreator
                             cMod.MetaType = 1
                         End If
                     Else
-                        cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.moduleMetaGroups(cMod.ID)) - 1))
+                        cMod.MetaType = CInt(2 ^ (CInt(ModuleLists.ModuleMetaGroups(cMod.ID)) - 1))
                     End If
                 Else
                     cMod.MetaType = 1
@@ -2249,15 +2249,15 @@ Public Class FrmCacheCreator
             ' Build charge data
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
                 If cMod.IsCharge = True Then
-                    If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
-                        Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
+                    If Charges.ChargeGroups.ContainsKey(cMod.MarketGroup) = False Then
+                        Charges.ChargeGroups.Add(cMod.MarketGroup, cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
                     End If
                 End If
             Next
             ' Check for drone missiles
             For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                If cMod.IsDrone = True And cMod.Attributes.ContainsKey("507") = True Then
-                    Dim chg As ShipModule = ModuleLists.ModuleList(CStr(cMod.Attributes("507")))
+                If cMod.IsDrone = True And cMod.Attributes.ContainsKey(507) = True Then
+                    Dim chg As ShipModule = ModuleLists.ModuleList(CInt(cMod.Attributes(507)))
                     cMod.LoadedCharge = chg
                 End If
             Next
@@ -2312,7 +2312,7 @@ Public Class FrmCacheCreator
     Private Sub BuildAttributeQuickList()
         Attributes.AttributeQuickList.Clear()
         Dim attData As Attribute
-        For Each att As String In Attributes.AttributeList.Keys
+        For Each att As Integer In Attributes.AttributeList.Keys
             attData = Attributes.AttributeList(att)
             If attData.DisplayName <> "" Then
                 Attributes.AttributeQuickList.Add(attData.ID, attData.DisplayName)
@@ -2346,10 +2346,10 @@ Public Class FrmCacheCreator
                     If effectData(5).Contains(";") = True Then
                         ids = effectData(5).Split(";".ToCharArray).ToList
                         For Each id As String In ids
-                            newEffect.AffectedID.Add(id)
+                            newEffect.AffectedID.Add(CInt(id))
                         Next
                     Else
-                        newEffect.AffectedID.Add(effectData(5))
+                        newEffect.AffectedID.Add(CInt(effectData(5)))
                     End If
                     newEffect.StackNerf = CType(effectData(6), EffectStackType)
                     newEffect.IsPerLevel = CBool(effectData(7))
@@ -2359,22 +2359,22 @@ Public Class FrmCacheCreator
                     Select Case newEffect.AffectingType
                         ' Setup the name as Item;Type;Attribute
                         Case HQFEffectType.All
-                            affectingName = "Global;Global;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            affectingName = "Global;Global;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                         Case HQFEffectType.Item
                             If newEffect.AffectingID > 0 Then
                                 affectingName = StaticData.Types(newEffect.AffectingID).Name
                                 If Core.HQ.SkillListName.ContainsKey(affectingName) = True Then
-                                    affectingName &= ";Skill;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                                    affectingName &= ";Skill;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                                 Else
-                                    affectingName &= ";Item;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                                    affectingName &= ";Item;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                                 End If
                             End If
                         Case HQFEffectType.Group
-                            affectingName = StaticData.TypeGroups(newEffect.AffectingID) & ";Group;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            affectingName = StaticData.TypeGroups(newEffect.AffectingID) & ";Group;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                         Case HQFEffectType.Category
-                            affectingName = StaticData.TypeCats(newEffect.AffectingID) & ";Category;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            affectingName = StaticData.TypeCats(newEffect.AffectingID) & ";Category;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                         Case HQFEffectType.MarketGroup
-                            affectingName = CStr(Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            affectingName = CStr(Market.MarketGroupList(newEffect.AffectingID.ToString)) & ";Market Group;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                     End Select
                     affectingName &= ";"
 
@@ -2401,7 +2401,7 @@ Public Class FrmCacheCreator
                                     cModule.Affects.Add(affectingName)
                                 End If
                             Case HQFEffectType.Skill
-                                If cModule.RequiredSkills.ContainsKey(StaticData.Types(CInt(newEffect.AffectedID(0))).Name) Then
+                                If cModule.RequiredSkills.ContainsKey(StaticData.Types(newEffect.AffectedID(0)).Name) Then
                                     cModule.Affects.Add(affectingName)
                                 End If
                             Case HQFEffectType.Attribute
@@ -2479,14 +2479,14 @@ Public Class FrmCacheCreator
                     If effectData(5).Contains(";") = True Then
                         ids = effectData(5).Split(";".ToCharArray)
                         For Each id As String In ids
-                            newEffect.AffectedID.Add(id)
+                            newEffect.AffectedID.Add(CInt(id))
                         Next
                     Else
-                        newEffect.AffectedID.Add(effectData(5))
+                        newEffect.AffectedID.Add(CInt(effectData(5)))
                     End If
                     newEffect.CalcType = CType(effectData(6), EffectCalcType)
                     Dim cImplant As ShipModule = Implants.ImplantList(newEffect.ImplantName)
-                    newEffect.Value = CDbl(cImplant.Attributes(effectData(0)))
+                    newEffect.Value = CDbl(cImplant.Attributes(CInt(effectData(0))))
                     newEffect.IsGang = CBool(effectData(8))
                     If effectData(9).Contains(";") = True Then
                         ids = effectData(9).Split(";".ToCharArray)
@@ -2497,7 +2497,7 @@ Public Class FrmCacheCreator
                         newEffect.Groups.Add(effectData(9))
                     End If
 
-                    affectingName = StaticData.Types(CInt(effectData(2))).Name & ";Implant;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString & ";"
+                    affectingName = StaticData.Types(CInt(effectData(2))).Name & ";Implant;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString & ";"
 
                     For Each cModule As ShipModule In ModuleLists.moduleList.Values
                         Select Case newEffect.AffectedType
@@ -2522,7 +2522,7 @@ Public Class FrmCacheCreator
                                     cModule.Affects.Add(affectingName)
                                 End If
                             Case HQFEffectType.Attribute
-                                If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
+                                If cModule.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                     cModule.Affects.Add(affectingName)
                                 End If
                         End Select
@@ -2555,10 +2555,10 @@ Public Class FrmCacheCreator
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
-                        newEffect.AffectedID.Add(id)
+                        newEffect.AffectedID.Add(CInt(id))
                     Next
                 Else
-                    newEffect.AffectedID.Add(effectData(5))
+                    newEffect.AffectedID.Add(CInt(effectData(5)))
                 End If
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
@@ -2573,7 +2573,7 @@ Public Class FrmCacheCreator
                 Else
                     affectingName &= ";Ship Bonus;"
                 End If
-                affectingName &= Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                affectingName &= Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                 If newEffect.IsPerLevel = False Then
                     affectingName &= ";"
                 Else
@@ -2604,7 +2604,7 @@ Public Class FrmCacheCreator
                                 cModule.Affects.Add(affectingName)
                             End If
                         Case HQFEffectType.Attribute
-                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
+                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                 cModule.Affects.Add(affectingName)
                             End If
                     End Select
@@ -2650,10 +2650,10 @@ Public Class FrmCacheCreator
                 If effectData(5).Contains(";") = True Then
                     ids = effectData(5).Split(";".ToCharArray)
                     For Each id As String In ids
-                        newEffect.AffectedID.Add(id)
+                        newEffect.AffectedID.Add(CInt(id))
                     Next
                 Else
-                    newEffect.AffectedID.Add(effectData(5))
+                    newEffect.AffectedID.Add(CInt(effectData(5)))
                 End If
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
@@ -2668,7 +2668,7 @@ Public Class FrmCacheCreator
                 Else
                     affectingName &= ";Subsystem;"
                 End If
-                affectingName &= Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                affectingName &= Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                 If newEffect.IsPerLevel = False Then
                     affectingName &= ";"
                 Else
@@ -2698,15 +2698,15 @@ Public Class FrmCacheCreator
                                 cModule.Affects.Add(affectingName)
                             End If
                         Case HQFEffectType.Attribute
-                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0).ToString) Then
+                            If cModule.Attributes.ContainsKey(newEffect.AffectedID(0)) Then
                                 cModule.Affects.Add(affectingName)
                             End If
                     End Select
                     ' Add the skill onto the subsystem
                     If newEffect.IsPerLevel = True Then
-                        If cModule.ID = newEffect.ShipID.ToString Then
+                        If cModule.ID = newEffect.ShipID Then
                             affectingName = StaticData.Types(newEffect.AffectingID).Name
-                            affectingName &= ";Skill;" & Attributes.AttributeQuickList(newEffect.AffectedAtt.ToString).ToString
+                            affectingName &= ";Skill;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString
                             If cModule.Affects.Contains(affectingName) = False Then
                                 cModule.Affects.Add(affectingName)
                             End If

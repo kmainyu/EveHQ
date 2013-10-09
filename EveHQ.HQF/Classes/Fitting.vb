@@ -439,9 +439,9 @@ Imports EveHQ.Core
 #End Region
 
 #Region "Fitting Mapping Collections"
-    Private ReadOnly _skillEffectsTable As New SortedList(Of String, List(Of FinalEffect))
-    Private ReadOnly _moduleEffectsTable As New SortedList(Of String, List(Of FinalEffect))
-    Private ReadOnly _chargeEffectsTable As New SortedList(Of String, List(Of FinalEffect))
+    Private ReadOnly _skillEffectsTable As New SortedList(Of Integer, List(Of FinalEffect))
+    Private ReadOnly _moduleEffectsTable As New SortedList(Of Integer, List(Of FinalEffect))
+    Private ReadOnly _chargeEffectsTable As New SortedList(Of Integer, List(Of FinalEffect))
 #End Region
 
 #Region "Class Methods"
@@ -715,11 +715,11 @@ Imports EveHQ.Core
                                         fEffect.Cause = hSkill.Name & " (Level " & hSkill.Level & ")"
                                         fEffect.CalcType = chkEffect.CalcType
                                         fEffect.Status = chkEffect.Status
-                                        If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                        If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                             fEffectList = New List(Of FinalEffect)
-                                            _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                            _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                                         Else
-                                            fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
+                                            fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
                                         End If
                                         fEffectList.Add(fEffect)
                                     End If
@@ -747,53 +747,53 @@ Imports EveHQ.Core
                 aImplant = ModuleLists.ModuleList(ModuleLists.ModuleListName(hImplant))
                 Select Case piGroup
                     Case "Centurion", "Low-grade Centurion"
-                        cPirateImplantGroups.Item("Centurion") = CDbl(cPirateImplantGroups.Item("Centurion")) * CDbl(aImplant.Attributes("1293"))
-                        cPirateImplantGroups.Item("Low-grade Centurion") = CDbl(cPirateImplantGroups.Item("Low-grade Centurion")) * CDbl(aImplant.Attributes("1293"))
+                        cPirateImplantGroups.Item("Centurion") = CDbl(cPirateImplantGroups.Item("Centurion")) * CDbl(aImplant.Attributes(1293))
+                        cPirateImplantGroups.Item("Low-grade Centurion") = CDbl(cPirateImplantGroups.Item("Low-grade Centurion")) * CDbl(aImplant.Attributes(1293))
                     Case "Crystal", "Low-grade Crystal"
-                        cPirateImplantGroups.Item("Crystal") = CDbl(cPirateImplantGroups.Item("Crystal")) * CDbl(aImplant.Attributes("838"))
-                        cPirateImplantGroups.Item("Low-grade Crystal") = CDbl(cPirateImplantGroups.Item("Low-grade Crystal")) * CDbl(aImplant.Attributes("838"))
+                        cPirateImplantGroups.Item("Crystal") = CDbl(cPirateImplantGroups.Item("Crystal")) * CDbl(aImplant.Attributes(838))
+                        cPirateImplantGroups.Item("Low-grade Crystal") = CDbl(cPirateImplantGroups.Item("Low-grade Crystal")) * CDbl(aImplant.Attributes(838))
                     Case "Edge", "Low-grade Edge"
-                        cPirateImplantGroups.Item("Edge") = CDbl(cPirateImplantGroups.Item("Edge")) * CDbl(aImplant.Attributes("1291"))
-                        cPirateImplantGroups.Item("Low-grade Edge") = CDbl(cPirateImplantGroups.Item("Low-grade Edge")) * CDbl(aImplant.Attributes("1291"))
+                        cPirateImplantGroups.Item("Edge") = CDbl(cPirateImplantGroups.Item("Edge")) * CDbl(aImplant.Attributes(1291))
+                        cPirateImplantGroups.Item("Low-grade Edge") = CDbl(cPirateImplantGroups.Item("Low-grade Edge")) * CDbl(aImplant.Attributes(1291))
                     Case "Grail"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1550"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1550))
                     Case "Low-grade Grail"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1569"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1569))
                     Case "Halo", "Low-grade Halo"
-                        cPirateImplantGroups.Item("Halo") = CDbl(cPirateImplantGroups.Item("Halo")) * CDbl(aImplant.Attributes("863"))
-                        cPirateImplantGroups.Item("Low-grade Halo") = CDbl(cPirateImplantGroups.Item("Low-grade Halo")) * CDbl(aImplant.Attributes("863"))
+                        cPirateImplantGroups.Item("Halo") = CDbl(cPirateImplantGroups.Item("Halo")) * CDbl(aImplant.Attributes(863))
+                        cPirateImplantGroups.Item("Low-grade Halo") = CDbl(cPirateImplantGroups.Item("Low-grade Halo")) * CDbl(aImplant.Attributes(863))
                     Case "Harvest", "Low-grade Harvest"
-                        cPirateImplantGroups.Item("Harvest") = CDbl(cPirateImplantGroups.Item("Harvest")) * CDbl(aImplant.Attributes("1292"))
-                        cPirateImplantGroups.Item("Low-grade Harvest") = CDbl(cPirateImplantGroups.Item("Low-grade Harvest")) * CDbl(aImplant.Attributes("1292"))
+                        cPirateImplantGroups.Item("Harvest") = CDbl(cPirateImplantGroups.Item("Harvest")) * CDbl(aImplant.Attributes(1292))
+                        cPirateImplantGroups.Item("Low-grade Harvest") = CDbl(cPirateImplantGroups.Item("Low-grade Harvest")) * CDbl(aImplant.Attributes(1292))
                     Case "Jackal"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1554"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1554))
                     Case "Low-grade Jackal"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1572"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1572))
                     Case "Nomad", "Low-grade Nomad"
-                        cPirateImplantGroups.Item("Nomad") = CDbl(cPirateImplantGroups.Item("Nomad")) * CDbl(aImplant.Attributes("1282"))
-                        cPirateImplantGroups.Item("Low-grade Nomad") = CDbl(cPirateImplantGroups.Item("Low-grade Nomad")) * CDbl(aImplant.Attributes("1282"))
+                        cPirateImplantGroups.Item("Nomad") = CDbl(cPirateImplantGroups.Item("Nomad")) * CDbl(aImplant.Attributes(1282))
+                        cPirateImplantGroups.Item("Low-grade Nomad") = CDbl(cPirateImplantGroups.Item("Low-grade Nomad")) * CDbl(aImplant.Attributes(1282))
                     Case "Slave", "Low-grade Slave"
-                        cPirateImplantGroups.Item("Slave") = CDbl(cPirateImplantGroups.Item("Slave")) * CDbl(aImplant.Attributes("864"))
-                        cPirateImplantGroups.Item("Low-grade Slave") = CDbl(cPirateImplantGroups.Item("Low-grade Slave")) * CDbl(aImplant.Attributes("864"))
+                        cPirateImplantGroups.Item("Slave") = CDbl(cPirateImplantGroups.Item("Slave")) * CDbl(aImplant.Attributes(864))
+                        cPirateImplantGroups.Item("Low-grade Slave") = CDbl(cPirateImplantGroups.Item("Low-grade Slave")) * CDbl(aImplant.Attributes(864))
                     Case "Snake", "Low-grade Snake"
-                        cPirateImplantGroups.Item("Snake") = CDbl(cPirateImplantGroups.Item("Snake")) * CDbl(aImplant.Attributes("802"))
-                        cPirateImplantGroups.Item("Low-grade Snake") = CDbl(cPirateImplantGroups.Item("Low-grade Snake")) * CDbl(aImplant.Attributes("802"))
+                        cPirateImplantGroups.Item("Snake") = CDbl(cPirateImplantGroups.Item("Snake")) * CDbl(aImplant.Attributes(802))
+                        cPirateImplantGroups.Item("Low-grade Snake") = CDbl(cPirateImplantGroups.Item("Low-grade Snake")) * CDbl(aImplant.Attributes(802))
                     Case "Spur"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1553"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1553))
                     Case "Low-grade Spur"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1570"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1570))
                     Case "Talisman", "Low-grade Talisman"
-                        cPirateImplantGroups.Item("Talisman") = CDbl(cPirateImplantGroups.Item("Talisman")) * CDbl(aImplant.Attributes("799"))
-                        cPirateImplantGroups.Item("Low-grade Talisman") = CDbl(cPirateImplantGroups.Item("Low-grade Talisman")) * CDbl(aImplant.Attributes("799"))
+                        cPirateImplantGroups.Item("Talisman") = CDbl(cPirateImplantGroups.Item("Talisman")) * CDbl(aImplant.Attributes(799))
+                        cPirateImplantGroups.Item("Low-grade Talisman") = CDbl(cPirateImplantGroups.Item("Low-grade Talisman")) * CDbl(aImplant.Attributes(799))
                     Case "Talon"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1552"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1552))
                     Case "Low-grade Talon"
-                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes("1571"))
+                        cPirateImplantGroups.Item(piGroup) = CDbl(cPirateImplantGroups.Item(piGroup)) * CDbl(aImplant.Attributes(1571))
                     Case "Virtue", "Low-grade Virtue"
-                        cPirateImplantGroups.Item("Virtue") = CDbl(cPirateImplantGroups.Item("Virtue")) * CDbl(aImplant.Attributes("1284"))
-                        cPirateImplantGroups.Item("Low-grade Virtue") = CDbl(cPirateImplantGroups.Item("Low-grade Virtue")) * CDbl(aImplant.Attributes("1284"))
+                        cPirateImplantGroups.Item("Virtue") = CDbl(cPirateImplantGroups.Item("Virtue")) * CDbl(aImplant.Attributes(1284))
+                        cPirateImplantGroups.Item("Low-grade Virtue") = CDbl(cPirateImplantGroups.Item("Low-grade Virtue")) * CDbl(aImplant.Attributes(1284))
                     Case "Genolution Core Augmentation"
-                        cPirateImplantGroups("Genolution Core Augmentation") = CDbl(cPirateImplantGroups.Item("Genolution Core Augmentation")) * CDbl(aImplant.Attributes("1799"))
+                        cPirateImplantGroups("Genolution Core Augmentation") = CDbl(cPirateImplantGroups.Item("Genolution Core Augmentation")) * CDbl(aImplant.Attributes(1799))
                 End Select
             End If
         Next
@@ -811,26 +811,26 @@ Imports EveHQ.Core
                     If Engine.ImplantEffectsMap.Contains(hImplant) = True Then
                         For Each chkEffect As ImplantEffect In CType(Engine.ImplantEffectsMap(hImplant), ArrayList)
                             If chkEffect.IsGang = False Then
-                                If aImplant.Attributes.ContainsKey(chkEffect.AffectingAtt.ToString) = True Then
+                                If aImplant.Attributes.ContainsKey(chkEffect.AffectingAtt) = True Then
                                     fEffect = New FinalEffect
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
                                     fEffect.AffectedID = chkEffect.AffectedID
                                     If Engine.PirateImplants.ContainsKey(aImplant.Name) = True Then
                                         piGroup = CStr(Engine.PirateImplants.Item(hImplant))
-                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString)) * CDbl(cPirateImplantGroups.Item(piGroup))
+                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt)) * CDbl(cPirateImplantGroups.Item(piGroup))
                                         fEffect.Cause = aImplant.Name & " (Set Bonus: " & CDbl(cPirateImplantGroups.Item(piGroup)).ToString("N3") & "x)"
                                     Else
-                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt.ToString))
+                                        fEffect.AffectedValue = CDbl(aImplant.Attributes(chkEffect.AffectingAtt))
                                         fEffect.Cause = aImplant.Name
                                     End If
                                     fEffect.StackNerf = 0
                                     fEffect.CalcType = chkEffect.CalcType
-                                    If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                    If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                         fEffectList = New List(Of FinalEffect)
-                                        _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                        _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                                     Else
-                                        fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
+                                        fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
                                     End If
                                     fEffectList.Add(fEffect)
                                 End If
@@ -878,11 +878,11 @@ Imports EveHQ.Core
                             fEffect.AffectedID = chkEffect.AffectedID
                             fEffect.StackNerf = chkEffect.StackNerf
                             fEffect.CalcType = chkEffect.CalcType
-                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                 fEffectList = New List(Of FinalEffect)
-                                _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                             Else
-                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
+                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
                             End If
                             fEffectList.Add(fEffect)
                         End If
@@ -891,7 +891,7 @@ Imports EveHQ.Core
             End If
             ' Get the ship effects
             Dim processData As Boolean
-            For Each att As String In hShip.Attributes.Keys
+            For Each att As Integer In hShip.Attributes.Keys
                 If Engine.ShipEffectsMap.Contains(att) = True Then
                     For Each chkEffect As Effect In CType(Engine.ShipEffectsMap(att), ArrayList)
                         processData = False
@@ -899,19 +899,19 @@ Imports EveHQ.Core
                             Case HQFEffectType.All
                                 processData = True
                             Case HQFEffectType.Item
-                                If chkEffect.AffectingID.ToString = hShip.ID Then
+                                If chkEffect.AffectingID = hShip.ID Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Group
-                                If chkEffect.AffectingID.ToString = hShip.DatabaseGroup Then
+                                If chkEffect.AffectingID = hShip.DatabaseGroup Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Category
-                                If chkEffect.AffectingID.ToString = hShip.DatabaseCategory Then
+                                If chkEffect.AffectingID = hShip.DatabaseCategory Then
                                     processData = True
                                 End If
                             Case HQFEffectType.MarketGroup
-                                If chkEffect.AffectingID.ToString = hShip.MarketGroup Then
+                                If chkEffect.AffectingID = hShip.MarketGroup Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Skill
@@ -921,7 +921,7 @@ Imports EveHQ.Core
                             Case HQFEffectType.Slot
                                 processData = True
                             Case HQFEffectType.Attribute
-                                If hShip.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
+                                If hShip.Attributes.ContainsKey(chkEffect.AffectingID) Then
                                     processData = True
                                 End If
                         End Select
@@ -934,11 +934,11 @@ Imports EveHQ.Core
                             fEffect.StackNerf = chkEffect.StackNerf
                             fEffect.Cause = hShip.Name
                             fEffect.CalcType = chkEffect.CalcType
-                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                            If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                 fEffectList = New List(Of FinalEffect)
-                                _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                             Else
-                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
+                                fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
                             End If
                             fEffectList.Add(fEffect)
                         End If
@@ -972,11 +972,11 @@ Imports EveHQ.Core
                                     fEffect.AffectedID = chkEffect.AffectedID
                                     fEffect.StackNerf = chkEffect.StackNerf
                                     fEffect.CalcType = chkEffect.CalcType
-                                    If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                    If _skillEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                         fEffectList = New List(Of FinalEffect)
-                                        _skillEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                        _skillEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                                     Else
-                                        fEffectList = _skillEffectsTable(fEffect.AffectedAtt.ToString)
+                                        fEffectList = _skillEffectsTable(fEffect.AffectedAtt)
                                     End If
                                     fEffectList.Add(fEffect)
                                 End If
@@ -996,7 +996,7 @@ Imports EveHQ.Core
         Dim processData As Boolean = False
         For Each aModule As ShipModule In newShip.SlotCollection
             If aModule.LoadedCharge IsNot Nothing Then
-                For Each att As String In aModule.LoadedCharge.Attributes.Keys
+                For Each att As Integer In aModule.LoadedCharge.Attributes.Keys
                     If Engine.EffectsMap.Contains(att) = True Then
                         For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
                             processData = False
@@ -1004,19 +1004,19 @@ Imports EveHQ.Core
                                 Case HQFEffectType.All
                                     processData = True
                                 Case HQFEffectType.Item
-                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.ID Then
+                                    If chkEffect.AffectingID = aModule.LoadedCharge.ID Then
                                         processData = True
                                     End If
                                 Case HQFEffectType.Group
-                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseGroup Then
+                                    If chkEffect.AffectingID = aModule.LoadedCharge.DatabaseGroup Then
                                         processData = True
                                     End If
                                 Case HQFEffectType.Category
-                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.DatabaseCategory Then
+                                    If chkEffect.AffectingID = aModule.LoadedCharge.DatabaseCategory Then
                                         processData = True
                                     End If
                                 Case HQFEffectType.MarketGroup
-                                    If chkEffect.AffectingID.ToString = aModule.LoadedCharge.MarketGroup Then
+                                    If chkEffect.AffectingID = aModule.LoadedCharge.MarketGroup Then
                                         processData = True
                                     End If
                                 Case HQFEffectType.Skill
@@ -1026,7 +1026,7 @@ Imports EveHQ.Core
                                 Case HQFEffectType.Slot
                                     processData = True
                                 Case HQFEffectType.Attribute
-                                    If aModule.LoadedCharge.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
+                                    If aModule.LoadedCharge.Attributes.ContainsKey(chkEffect.AffectingID) Then
                                         processData = True
                                     End If
                             End Select
@@ -1035,7 +1035,7 @@ Imports EveHQ.Core
                                 fEffect.AffectedAtt = chkEffect.AffectedAtt
                                 fEffect.AffectedType = chkEffect.AffectedType
                                 If chkEffect.AffectedType = HQFEffectType.Slot Then
-                                    fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
+                                    fEffect.AffectedID.Add(CInt(aModule.SlotType & aModule.SlotNo))
                                 Else
                                     fEffect.AffectedID = chkEffect.AffectedID
                                 End If
@@ -1043,11 +1043,11 @@ Imports EveHQ.Core
                                 fEffect.StackNerf = chkEffect.StackNerf
                                 fEffect.Cause = aModule.LoadedCharge.Name
                                 fEffect.CalcType = chkEffect.CalcType
-                                If _chargeEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                                If _chargeEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                     fEffectList = New List(Of FinalEffect)
-                                    _chargeEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    _chargeEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                                 Else
-                                    fEffectList = _chargeEffectsTable(fEffect.AffectedAtt.ToString)
+                                    fEffectList = _chargeEffectsTable(fEffect.AffectedAtt)
                                 End If
                                 fEffectList.Add(fEffect)
                             End If
@@ -1065,7 +1065,7 @@ Imports EveHQ.Core
         Dim fEffectList As New List(Of FinalEffect)
         Dim processData As Boolean = False
         For Each aModule As ShipModule In newShip.SlotCollection
-            For Each att As String In aModule.Attributes.Keys
+            For Each att As Integer In aModule.Attributes.Keys
                 If Engine.EffectsMap.Contains(att) = True Then
                     For Each chkEffect As Effect In CType(Engine.EffectsMap(att), ArrayList)
                         processData = False
@@ -1073,19 +1073,19 @@ Imports EveHQ.Core
                             Case HQFEffectType.All
                                 processData = True
                             Case HQFEffectType.Item
-                                If chkEffect.AffectingID.ToString = aModule.ID Then
+                                If chkEffect.AffectingID = aModule.ID Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Group
-                                If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
+                                If chkEffect.AffectingID = aModule.DatabaseGroup Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Category
-                                If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
+                                If chkEffect.AffectingID = aModule.DatabaseCategory Then
                                     processData = True
                                 End If
                             Case HQFEffectType.MarketGroup
-                                If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
+                                If chkEffect.AffectingID = aModule.MarketGroup Then
                                     processData = True
                                 End If
                             Case HQFEffectType.Skill
@@ -1095,13 +1095,13 @@ Imports EveHQ.Core
                             Case HQFEffectType.Slot
                                 processData = True
                             Case HQFEffectType.Attribute
-                                If aModule.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
+                                If aModule.Attributes.ContainsKey(chkEffect.AffectingID) Then
                                     processData = True
                                 End If
                         End Select
                         ' Check for Ancillary Armor Repairer charge because Nanite Repair Paste has no effect-mappable attribute
                         Dim cause As String = ""
-                        If aModule.DatabaseGroup = ShipModule.Group_FueledArmorRepairers And att = Attributes.Module_ArmorBoostedRepairMultiplier Then
+                        If aModule.DatabaseGroup = ModuleEnum.GroupFueledArmorRepairers And att = AttributeEnum.ModuleArmorBoostedRepairMultiplier Then
                             If aModule.LoadedCharge Is Nothing Then
                                 processData = False
                             Else
@@ -1113,7 +1113,7 @@ Imports EveHQ.Core
                             fEffect.AffectedAtt = chkEffect.AffectedAtt
                             fEffect.AffectedType = chkEffect.AffectedType
                             If chkEffect.AffectedType = HQFEffectType.Slot Then
-                                fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
+                                fEffect.AffectedID.Add(CInt(aModule.SlotType & aModule.SlotNo))
                             Else
                                 fEffect.AffectedID = chkEffect.AffectedID
                             End If
@@ -1121,11 +1121,11 @@ Imports EveHQ.Core
                             fEffect.StackNerf = chkEffect.StackNerf
                             fEffect.Cause = If(cause = "", aModule.Name, cause)
                             fEffect.CalcType = chkEffect.CalcType
-                            If _moduleEffectsTable.ContainsKey(fEffect.AffectedAtt.ToString) = False Then
+                            If _moduleEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
                                 fEffectList = New List(Of FinalEffect)
-                                _moduleEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                _moduleEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                             Else
-                                fEffectList = _moduleEffectsTable(fEffect.AffectedAtt.ToString)
+                                fEffectList = _moduleEffectsTable(fEffect.AffectedAtt)
                             End If
                             fEffectList.Add(fEffect)
                         End If
@@ -1147,7 +1147,7 @@ Imports EveHQ.Core
         ' Clear the Effects Table
         Dim ssEffectsTable As New SortedList
         ' Go through all the skills and see what needs to be mapped
-        Dim att As String
+        Dim att As Integer
         Dim fEffect As FinalEffect
         Dim fEffectList As ArrayList
         Dim aModule As ShipModule
@@ -1164,19 +1164,19 @@ Imports EveHQ.Core
                                     Case HQFEffectType.All
                                         processData = True
                                     Case HQFEffectType.Item
-                                        If chkEffect.AffectingID.ToString = aModule.ID Then
+                                        If chkEffect.AffectingID = aModule.ID Then
                                             processData = True
                                         End If
                                     Case HQFEffectType.Group
-                                        If chkEffect.AffectingID.ToString = aModule.DatabaseGroup Then
+                                        If chkEffect.AffectingID = aModule.DatabaseGroup Then
                                             processData = True
                                         End If
                                     Case HQFEffectType.Category
-                                        If chkEffect.AffectingID.ToString = aModule.DatabaseCategory Then
+                                        If chkEffect.AffectingID = aModule.DatabaseCategory Then
                                             processData = True
                                         End If
                                     Case HQFEffectType.MarketGroup
-                                        If chkEffect.AffectingID.ToString = aModule.MarketGroup Then
+                                        If chkEffect.AffectingID = aModule.MarketGroup Then
                                             processData = True
                                         End If
                                     Case HQFEffectType.Skill
@@ -1186,7 +1186,7 @@ Imports EveHQ.Core
                                     Case HQFEffectType.Slot
                                         processData = True
                                     Case HQFEffectType.Attribute
-                                        If aModule.Attributes.ContainsKey(chkEffect.AffectingID.ToString) Then
+                                        If aModule.Attributes.ContainsKey(chkEffect.AffectingID) Then
                                             processData = True
                                         End If
                                 End Select
@@ -1195,7 +1195,7 @@ Imports EveHQ.Core
                                     fEffect.AffectedAtt = chkEffect.AffectedAtt
                                     fEffect.AffectedType = chkEffect.AffectedType
                                     If chkEffect.AffectedType = HQFEffectType.Slot Then
-                                        fEffect.AffectedID.Add(aModule.SlotType & aModule.SlotNo)
+                                        fEffect.AffectedID.Add(CInt(aModule.SlotType & aModule.SlotNo))
                                     Else
                                         fEffect.AffectedID = chkEffect.AffectedID
                                     End If
@@ -1300,13 +1300,13 @@ Imports EveHQ.Core
                     modName = Me.cWHEffect & " Effect Beacon Class " & Me.cWHLevel
                 End If
             End If
-            Dim modID As String = CStr(ModuleLists.moduleListName(modName))
-            Dim eMod As ShipModule = CType(ModuleLists.moduleList(modID), ShipModule).Clone
+            Dim modID As Integer = ModuleLists.ModuleListName(modName)
+            Dim eMod As ShipModule = ModuleLists.ModuleList(modID).Clone
             Me.BaseShip.EnviroSlotCollection.Add(eMod)
         End If
 
     End Sub
-       Private Function CollectModules(ByVal newShip As Ship) As Ship
+    Private Function CollectModules(ByVal newShip As Ship) As Ship
         newShip.SlotCollection.Clear()
         For Each remoteObject As Object In newShip.RemoteSlotCollection
             If TypeOf remoteObject Is ShipModule Then
@@ -1342,11 +1342,11 @@ Imports EveHQ.Core
             If newShip.MidSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.MidSlot(slot))
                 ' Recalculate Cap Booster calcs if reload time is included
-                If Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = "76" Then
+                If Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = 76 Then
                     Dim cModule As ShipModule = newShip.MidSlot(slot)
                     If cModule.LoadedCharge IsNot Nothing Then
                         Dim reloadEffect As Double = 10 / (CInt(Int(cModule.Capacity / cModule.LoadedCharge.Volume)))
-                        cModule.Attributes("73") += reloadEffect
+                        cModule.Attributes(73) += reloadEffect
                     End If
                 End If
             End If
@@ -1362,11 +1362,11 @@ Imports EveHQ.Core
             End If
         Next
         ' Reset max gang links status
-        newShip.Attributes("10063") = 1
+        newShip.Attributes(10063) = 1
         Return newShip
     End Function
     Private Sub ApplySkillEffectsToShip(ByRef newShip As Ship)
-        Dim att As String = ""
+        Dim att As Integer
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
             If _skillEffectsTable.ContainsKey(att) = True Then
@@ -1385,7 +1385,7 @@ Imports EveHQ.Core
         Next
     End Sub
     Public Sub ApplySkillEffectsToModule(ByRef aModule As ShipModule, ByVal MapAttributes As Boolean)
-        Dim att As String = ""
+        Dim att As Integer
         If aModule.ModuleState < 16 Then
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = aModule.Attributes.Keys(attNo)
@@ -1416,7 +1416,7 @@ Imports EveHQ.Core
     End Sub
     Private Sub ApplySkillEffectsToDrones(ByRef newShip As Ship)
         Dim aModule As New ShipModule
-        Dim att As String = ""
+        Dim att As Integer
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             aModule = DBI.DroneType
             If aModule.ModuleState < 16 Then
@@ -1434,7 +1434,7 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyChargeEffectsToModules(ByRef newShip As Ship)
-        Dim att As String = ""
+        Dim att As Integer
         For Each aModule As ShipModule In newShip.SlotCollection
             If aModule.ModuleState < 16 Then
                 For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
@@ -1452,7 +1452,7 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyChargeEffectsToShip(ByRef newShip As Ship)
-        Dim att As String = ""
+        Dim att As Integer
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
             If _chargeEffectsTable.ContainsKey(att) = True Then
@@ -1471,7 +1471,7 @@ Imports EveHQ.Core
         Dim stackingGroupsP As New SortedList(Of Integer, SortedList(Of Integer, FinalEffect)) ' Positive Effect Stacking Groups
         Dim stackingGroupsN As New SortedList(Of Integer, SortedList(Of Integer, FinalEffect)) ' Negative Effect Stacking Groups
         Dim attOrder(,) As Double
-        Dim att As String
+        Dim att As Integer
         For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
             att = _moduleEffectsTable.Keys(attNumber)
             baseEffectList = _moduleEffectsTable(att)
@@ -1575,7 +1575,7 @@ Imports EveHQ.Core
         Dim HiPEffectList As New List(Of FinalEffect)
         Dim LowPEffectList As New List(Of FinalEffect)
         Dim finalEffectList As New List(Of FinalEffect)
-        Dim att As String = ""
+        Dim att As Integer
         For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
             att = _moduleEffectsTable.Keys(attNumber)
             baseEffectList = _moduleEffectsTable(att)
@@ -1599,7 +1599,7 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyModuleEffectsToCharges(ByRef newShip As Ship)
-        Dim att As String = ""
+        Dim att As Integer
         For Each aModule As ShipModule In newShip.SlotCollection
             If aModule.LoadedCharge IsNot Nothing Then
                 For attNo As Integer = 0 To aModule.LoadedCharge.Attributes.Keys.Count - 1
@@ -1616,7 +1616,7 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyModuleEffectsToModules(ByRef newShip As Ship)
-        Dim att As String = ""
+        Dim att As Integer
         For Each aModule As ShipModule In newShip.SlotCollection
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
                 att = aModule.Attributes.Keys(attNo)
@@ -1632,8 +1632,8 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyModuleEffectsToDrones(ByRef newShip As Ship)
-        Dim aModule As New ShipModule
-        Dim att As String = ""
+        Dim aModule As ShipModule
+        Dim att As Integer
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             aModule = DBI.DroneType
             For attNo As Integer = 0 To aModule.Attributes.Keys.Count - 1
@@ -1649,7 +1649,7 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyModuleEffectsToShip(ByRef newShip As Ship)
-        Dim att As String = ""
+        Dim att As Integer
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
             If _moduleEffectsTable.ContainsKey(att) = True Then
@@ -1662,94 +1662,94 @@ Imports EveHQ.Core
         Next
     End Sub
     Public Sub CalculateDamageStatistics(ByRef newShip As Ship)
-        Dim cModule As New ShipModule
+        Dim cModule As ShipModule
         Dim dmgMod As Double = 1
         Dim ROF As Double = 1
-        newShip.Attributes(Attributes.Ship_FighterControl) = 0
+        newShip.Attributes(AttributeEnum.ShipFighterControl) = 0
         For Each DBI As DroneBayItem In newShip.DroneBayItems.Values
             If DBI.IsActive = True Then
                 cModule = DBI.DroneType
-                newShip.Attributes(Attributes.Ship_FighterControl) += DBI.Quantity
+                newShip.Attributes(AttributeEnum.ShipFighterControl) += DBI.Quantity
                 Select Case cModule.DatabaseGroup
-                    Case ShipModule.Group_MiningDrones
-                        cModule.Attributes(Attributes.Module_DroneOreMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
-                        newShip.Attributes(Attributes.Ship_OreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_DroneOreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_DroneOreMiningRate) += cModule.Attributes(Attributes.Module_DroneOreMiningRate) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_OreMiningRate) += cModule.Attributes(Attributes.Module_DroneOreMiningRate) * DBI.Quantity
-                    Case ShipModule.Group_LogisticDrones
+                    Case ModuleEnum.GroupMiningDrones
+                        cModule.Attributes(AttributeEnum.ModuleDroneOreMiningRate) = cModule.Attributes(AttributeEnum.ModuleMiningAmount) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                        newShip.Attributes(AttributeEnum.ShipOreMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipDroneOreMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipDroneOreMiningRate) += cModule.Attributes(AttributeEnum.ModuleDroneOreMiningRate) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipOreMiningRate) += cModule.Attributes(AttributeEnum.ModuleDroneOreMiningRate) * DBI.Quantity
+                    Case ModuleEnum.GroupLogisticDrones
                         Dim repAmount As Double = 0
-                        If cModule.Attributes.ContainsKey(Attributes.Module_ShieldHPRepaired) = True Then
-                            repAmount = cModule.Attributes(Attributes.Module_ShieldHPRepaired)
+                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleShieldHPRepaired) = True Then
+                            repAmount = cModule.Attributes(AttributeEnum.ModuleShieldHPRepaired)
                         Else
-                            repAmount = cModule.Attributes(Attributes.Module_ArmorHPRepaired)
+                            repAmount = cModule.Attributes(AttributeEnum.ModuleArmorHPRepaired)
                         End If
-                        cModule.Attributes(Attributes.Module_TransferRate) = repAmount / cModule.Attributes(Attributes.Module_ActivationTime)
-                        newShip.Attributes(Attributes.Ship_DroneTransferRate) += cModule.Attributes(Attributes.Module_TransferRate) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_TransferRate) += cModule.Attributes(Attributes.Module_TransferRate) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_DroneTransferAmount) += repAmount * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_TransferAmount) += repAmount * DBI.Quantity
+                        cModule.Attributes(AttributeEnum.ModuleTransferRate) = repAmount / cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                        newShip.Attributes(AttributeEnum.ShipDroneTransferRate) += cModule.Attributes(AttributeEnum.ModuleTransferRate) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipTransferRate) += cModule.Attributes(AttributeEnum.ModuleTransferRate) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipDroneTransferAmount) += repAmount * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipTransferAmount) += repAmount * DBI.Quantity
                     Case Else
                         ' Not mining or logistic drone
-                        If cModule.Attributes.ContainsKey(Attributes.Module_ROF) = True Then
-                            ROF = cModule.Attributes(Attributes.Module_ROF)
-                            dmgMod = cModule.Attributes(Attributes.Module_DamageMod)
-                        ElseIf cModule.Attributes.ContainsKey(Attributes.Module_MissileROF) = True Then
-                            ROF = cModule.Attributes(Attributes.Module_MissileROF)
-                            dmgMod = cModule.Attributes(Attributes.Module_MissileDamageMod)
+                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleROF) = True Then
+                            ROF = cModule.Attributes(AttributeEnum.ModuleROF)
+                            dmgMod = cModule.Attributes(AttributeEnum.ModuleDamageMod)
+                        ElseIf cModule.Attributes.ContainsKey(AttributeEnum.ModuleMissileROF) = True Then
+                            ROF = cModule.Attributes(AttributeEnum.ModuleMissileROF)
+                            dmgMod = cModule.Attributes(AttributeEnum.ModuleMissileDamageMod)
                         Else
                             dmgMod = 0
                             ROF = 1
                         End If
                         If cModule.LoadedCharge IsNot Nothing Then
-                            cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
-                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
-                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
-                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
-                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
-                            cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                            cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
+                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseThermDamage)
+                            cModule.Attributes(AttributeEnum.ModuleEMDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) * dmgMod
+                            cModule.Attributes(AttributeEnum.ModuleExpDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) * dmgMod
+                            cModule.Attributes(AttributeEnum.ModuleKinDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) * dmgMod
+                            cModule.Attributes(AttributeEnum.ModuleThermDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseThermDamage) * dmgMod
+                            cModule.Attributes(AttributeEnum.ModuleVolleyDamage) = dmgMod * cModule.Attributes(AttributeEnum.ModuleBaseDamage)
+                            cModule.Attributes(AttributeEnum.ModuleDPS) = cModule.Attributes(AttributeEnum.ModuleVolleyDamage) / ROF
                         Else
-                            cModule.Attributes(Attributes.Module_BaseDamage) = 0
-                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) Then
-                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseEMDamage)
-                                cModule.Attributes(Attributes.Module_EMDamage) = cModule.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
+                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) = 0
+                            If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseEMDamage) Then
+                                cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseEMDamage)
+                                cModule.Attributes(AttributeEnum.ModuleEMDamage) = cModule.Attributes(AttributeEnum.ModuleBaseEMDamage) * dmgMod
                             Else
-                                cModule.Attributes(Attributes.Module_EMDamage) = 0
+                                cModule.Attributes(AttributeEnum.ModuleEMDamage) = 0
                             End If
-                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) Then
-                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseExpDamage)
-                                cModule.Attributes(Attributes.Module_ExpDamage) = cModule.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
+                            If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseExpDamage) Then
+                                cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseExpDamage)
+                                cModule.Attributes(AttributeEnum.ModuleExpDamage) = cModule.Attributes(AttributeEnum.ModuleBaseExpDamage) * dmgMod
                             Else
-                                cModule.Attributes(Attributes.Module_ExpDamage) = 0
+                                cModule.Attributes(AttributeEnum.ModuleExpDamage) = 0
                             End If
-                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) Then
-                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseKinDamage)
-                                cModule.Attributes(Attributes.Module_KinDamage) = cModule.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
+                            If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseKinDamage) Then
+                                cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseKinDamage)
+                                cModule.Attributes(AttributeEnum.ModuleKinDamage) = cModule.Attributes(AttributeEnum.ModuleBaseKinDamage) * dmgMod
                             Else
-                                cModule.Attributes(Attributes.Module_KinDamage) = 0
+                                cModule.Attributes(AttributeEnum.ModuleKinDamage) = 0
                             End If
-                            If cModule.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
-                                cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseThermDamage)
-                                cModule.Attributes(Attributes.Module_ThermDamage) = cModule.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
+                            If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseThermDamage) Then
+                                cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseThermDamage)
+                                cModule.Attributes(AttributeEnum.ModuleThermDamage) = cModule.Attributes(AttributeEnum.ModuleBaseThermDamage) * dmgMod
                             Else
-                                cModule.Attributes(Attributes.Module_ThermDamage) = 0
+                                cModule.Attributes(AttributeEnum.ModuleThermDamage) = 0
                             End If
-                            cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                            cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
+                            cModule.Attributes(AttributeEnum.ModuleVolleyDamage) = dmgMod * cModule.Attributes(AttributeEnum.ModuleBaseDamage)
+                            cModule.Attributes(AttributeEnum.ModuleDPS) = cModule.Attributes(AttributeEnum.ModuleVolleyDamage) / ROF
                         End If
-                        newShip.Attributes(Attributes.Ship_DroneVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_DroneDPS) += cModule.Attributes(Attributes.Module_DPS) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF) * DBI.Quantity
-                        newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipDroneVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipDroneDPS) += cModule.Attributes(AttributeEnum.ModuleDPS) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipEMDamage) += cModule.Attributes(AttributeEnum.ModuleEMDamage) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipExpDamage) += cModule.Attributes(AttributeEnum.ModuleExpDamage) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipKinDamage) += cModule.Attributes(AttributeEnum.ModuleKinDamage) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipThermDamage) += cModule.Attributes(AttributeEnum.ModuleThermDamage) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipEMDPS) += (cModule.Attributes(AttributeEnum.ModuleEMDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipExpDPS) += (cModule.Attributes(AttributeEnum.ModuleExpDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipKinDPS) += (cModule.Attributes(AttributeEnum.ModuleKinDamage) / ROF) * DBI.Quantity
+                        newShip.Attributes(AttributeEnum.ShipThermDPS) += (cModule.Attributes(AttributeEnum.ModuleThermDamage) / ROF) * DBI.Quantity
                 End Select
             End If
         Next
@@ -1758,40 +1758,40 @@ Imports EveHQ.Core
             If cModule IsNot Nothing Then
                 If (cModule.ModuleState Or 12) = 12 Then
                     Select Case cModule.MarketGroup
-                        Case ShipModule.Marketgroup_MiningLasers, ShipModule.Marketgroup_StripMiners
-                            newShip.Attributes(Attributes.Ship_TurretOreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount)
-                            newShip.Attributes(Attributes.Ship_OreMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount)
-                            cModule.Attributes(Attributes.Module_TurretOreMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
-                            newShip.Attributes(Attributes.Ship_TurretOreMiningRate) += cModule.Attributes(Attributes.Module_TurretOreMiningRate)
-                            newShip.Attributes(Attributes.Ship_OreMiningRate) += cModule.Attributes(Attributes.Module_TurretOreMiningRate)
-                        Case ShipModule.Marketgroup_IceHarvesters
-                            newShip.Attributes(Attributes.Ship_TurretIceMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount)
-                            newShip.Attributes(Attributes.Ship_IceMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount)
-                            cModule.Attributes(Attributes.Module_TurretIceMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
-                            newShip.Attributes(Attributes.Ship_TurretIceMiningRate) += cModule.Attributes(Attributes.Module_TurretIceMiningRate)
-                            newShip.Attributes(Attributes.Ship_IceMiningRate) += cModule.Attributes(Attributes.Module_TurretIceMiningRate)
-                        Case ShipModule.Marketgroup_GasHarvesters
-                            newShip.Attributes(Attributes.Ship_GasMiningAmount) += cModule.Attributes(Attributes.Module_MiningAmount)
-                            cModule.Attributes(Attributes.Module_TurretGasMiningRate) = cModule.Attributes(Attributes.Module_MiningAmount) / cModule.Attributes(Attributes.Module_ActivationTime)
-                            newShip.Attributes(Attributes.Ship_GasMiningRate) += cModule.Attributes(Attributes.Module_TurretGasMiningRate)
+                        Case ModuleEnum.MarketgroupMiningLasers, ModuleEnum.MarketgroupStripMiners
+                            newShip.Attributes(AttributeEnum.ShipTurretOreMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount)
+                            newShip.Attributes(AttributeEnum.ShipOreMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount)
+                            cModule.Attributes(AttributeEnum.ModuleTurretOreMiningRate) = cModule.Attributes(AttributeEnum.ModuleMiningAmount) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                            newShip.Attributes(AttributeEnum.ShipTurretOreMiningRate) += cModule.Attributes(AttributeEnum.ModuleTurretOreMiningRate)
+                            newShip.Attributes(AttributeEnum.ShipOreMiningRate) += cModule.Attributes(AttributeEnum.ModuleTurretOreMiningRate)
+                        Case ModuleEnum.MarketgroupIceHarvesters
+                            newShip.Attributes(AttributeEnum.ShipTurretIceMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount)
+                            newShip.Attributes(AttributeEnum.ShipIceMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount)
+                            cModule.Attributes(AttributeEnum.ModuleTurretIceMiningRate) = cModule.Attributes(AttributeEnum.ModuleMiningAmount) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                            newShip.Attributes(AttributeEnum.ShipTurretIceMiningRate) += cModule.Attributes(AttributeEnum.ModuleTurretIceMiningRate)
+                            newShip.Attributes(AttributeEnum.ShipIceMiningRate) += cModule.Attributes(AttributeEnum.ModuleTurretIceMiningRate)
+                        Case ModuleEnum.MarketgroupGasHarvesters
+                            newShip.Attributes(AttributeEnum.ShipGasMiningAmount) += cModule.Attributes(AttributeEnum.ModuleMiningAmount)
+                            cModule.Attributes(AttributeEnum.ModuleTurretGasMiningRate) = cModule.Attributes(AttributeEnum.ModuleMiningAmount) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                            newShip.Attributes(AttributeEnum.ShipGasMiningRate) += cModule.Attributes(AttributeEnum.ModuleTurretGasMiningRate)
                         Case Else
                             If cModule.IsTurret Or cModule.IsLauncher Then
                                 If cModule.LoadedCharge IsNot Nothing Then
-                                    cModule.Attributes(Attributes.Module_LoadedCharge) = CDbl(cModule.LoadedCharge.ID)
+                                    cModule.Attributes(AttributeEnum.ModuleLoadedCharge) = CDbl(cModule.LoadedCharge.ID)
                                     ' If LoadedCharge doesn't have damage attributes set damage to 0 (required for orbital bombardment and festival ammo)
                                     Dim noDamageAmmo As Boolean = False
-                                    If cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) And cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) And cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) And cModule.LoadedCharge.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
-                                        cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
+                                    If cModule.LoadedCharge.Attributes.ContainsKey(AttributeEnum.ModuleBaseEMDamage) And cModule.LoadedCharge.Attributes.ContainsKey(AttributeEnum.ModuleBaseExpDamage) And cModule.LoadedCharge.Attributes.ContainsKey(AttributeEnum.ModuleBaseKinDamage) And cModule.LoadedCharge.Attributes.ContainsKey(AttributeEnum.ModuleBaseThermDamage) Then
+                                        cModule.Attributes(AttributeEnum.ModuleBaseDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseThermDamage)
                                     Else
                                         noDamageAmmo = True
-                                        cModule.Attributes(Attributes.Module_BaseDamage) = 0
+                                        cModule.Attributes(AttributeEnum.ModuleBaseDamage) = 0
                                     End If
                                     If cModule.IsTurret = True Then
                                         ' Adjust for reload time if required
                                         Dim reloadEffect As Double = 0
                                         If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
-                                            If cModule.DatabaseGroup <> ShipModule.Group_EnergyTurrets Then
-                                                If cModule.DatabaseGroup = ShipModule.Group_HybridTurrets Then
+                                            If cModule.DatabaseGroup <> ModuleEnum.GroupEnergyTurrets Then
+                                                If cModule.DatabaseGroup = ModuleEnum.GroupHybridTurrets Then
                                                     reloadEffect = 5 / (cModule.Capacity / cModule.LoadedCharge.Volume)
                                                 Else
                                                     reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
@@ -1799,22 +1799,22 @@ Imports EveHQ.Core
                                             End If
                                         End If
                                         Select Case cModule.DatabaseGroup
-                                            Case ShipModule.Group_EnergyTurrets
-                                                dmgMod = cModule.Attributes(Attributes.Module_EnergyDmgMod)
-                                                ROF = cModule.Attributes(Attributes.Module_EnergyROF) + reloadEffect
-                                            Case ShipModule.Group_HybridTurrets
-                                                dmgMod = cModule.Attributes(Attributes.Module_HybridDmgMod)
-                                                ROF = cModule.Attributes(Attributes.Module_HybridROF) + reloadEffect
-                                            Case ShipModule.Group_ProjectileTurrets
-                                                dmgMod = cModule.Attributes(Attributes.Module_ProjectileDmgMod)
-                                                ROF = cModule.Attributes(Attributes.Module_ProjectileROF) + reloadEffect
+                                            Case ModuleEnum.GroupEnergyTurrets
+                                                dmgMod = cModule.Attributes(AttributeEnum.ModuleEnergyDmgMod)
+                                                ROF = cModule.Attributes(AttributeEnum.ModuleEnergyROF) + reloadEffect
+                                            Case ModuleEnum.GroupHybridTurrets
+                                                dmgMod = cModule.Attributes(AttributeEnum.ModuleHybridDmgMod)
+                                                ROF = cModule.Attributes(AttributeEnum.ModuleHybridROF) + reloadEffect
+                                            Case ModuleEnum.GroupProjectileTurrets
+                                                dmgMod = cModule.Attributes(AttributeEnum.ModuleProjectileDmgMod)
+                                                ROF = cModule.Attributes(AttributeEnum.ModuleProjectileROF) + reloadEffect
                                         End Select
-                                        cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                                        cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                                        newShip.Attributes(Attributes.Ship_TurretVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_TurretDPS) += cModule.Attributes(Attributes.Module_DPS)
-                                        newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
+                                        cModule.Attributes(AttributeEnum.ModuleVolleyDamage) = dmgMod * cModule.Attributes(AttributeEnum.ModuleBaseDamage)
+                                        cModule.Attributes(AttributeEnum.ModuleDPS) = cModule.Attributes(AttributeEnum.ModuleVolleyDamage) / ROF
+                                        newShip.Attributes(AttributeEnum.ShipTurretVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                        newShip.Attributes(AttributeEnum.ShipTurretDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
+                                        newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                        newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
                                     Else
                                         ' Adjust for reload time if required
                                         Dim reloadEffect As Double = 0
@@ -1822,117 +1822,117 @@ Imports EveHQ.Core
                                             reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
                                         End If
                                         dmgMod = 1
-                                        ROF = cModule.Attributes(Attributes.Module_ROF) + reloadEffect
-                                        cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                                        cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                                        newShip.Attributes(Attributes.Ship_MissileVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_MissileDPS) += cModule.Attributes(Attributes.Module_DPS)
-                                        newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
+                                        ROF = cModule.Attributes(AttributeEnum.ModuleROF) + reloadEffect
+                                        cModule.Attributes(AttributeEnum.ModuleVolleyDamage) = dmgMod * cModule.Attributes(AttributeEnum.ModuleBaseDamage)
+                                        cModule.Attributes(AttributeEnum.ModuleDPS) = cModule.Attributes(AttributeEnum.ModuleVolleyDamage) / ROF
+                                        newShip.Attributes(AttributeEnum.ShipMissileVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                        newShip.Attributes(AttributeEnum.ShipMissileDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
+                                        newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                        newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
                                         If cModule.LoadedCharge IsNot Nothing Then
-                                            cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                            cModule.Attributes(AttributeEnum.ModuleOptimalRange) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity) * cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
                                         End If
                                     End If
                                     If noDamageAmmo = False Then
-                                        cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
-                                        cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
-                                        cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
-                                        cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
+                                        cModule.Attributes(AttributeEnum.ModuleEMDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) * dmgMod
+                                        cModule.Attributes(AttributeEnum.ModuleExpDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) * dmgMod
+                                        cModule.Attributes(AttributeEnum.ModuleKinDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) * dmgMod
+                                        cModule.Attributes(AttributeEnum.ModuleThermDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseThermDamage) * dmgMod
                                     End If
-                                    newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage)
-                                    newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage)
-                                    newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage)
-                                    newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage)
-                                    newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF)
-                                    newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF)
-                                    newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF)
-                                    newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
+                                    newShip.Attributes(AttributeEnum.ShipEMDamage) += cModule.Attributes(AttributeEnum.ModuleEMDamage)
+                                    newShip.Attributes(AttributeEnum.ShipExpDamage) += cModule.Attributes(AttributeEnum.ModuleExpDamage)
+                                    newShip.Attributes(AttributeEnum.ShipKinDamage) += cModule.Attributes(AttributeEnum.ModuleKinDamage)
+                                    newShip.Attributes(AttributeEnum.ShipThermDamage) += cModule.Attributes(AttributeEnum.ModuleThermDamage)
+                                    newShip.Attributes(AttributeEnum.ShipEMDPS) += (cModule.Attributes(AttributeEnum.ModuleEMDamage) / ROF)
+                                    newShip.Attributes(AttributeEnum.ShipExpDPS) += (cModule.Attributes(AttributeEnum.ModuleExpDamage) / ROF)
+                                    newShip.Attributes(AttributeEnum.ShipKinDPS) += (cModule.Attributes(AttributeEnum.ModuleKinDamage) / ROF)
+                                    newShip.Attributes(AttributeEnum.ShipThermDPS) += (cModule.Attributes(AttributeEnum.ModuleThermDamage) / ROF)
                                 End If
                             Else
                                 Select Case cModule.DatabaseGroup
-                                    Case ShipModule.Group_Smartbombs
+                                    Case ModuleEnum.GroupSmartbombs
                                         ' Do smartbomb code
-                                        ROF = cModule.Attributes(Attributes.Module_ActivationTime)
-                                        cModule.Attributes(Attributes.Module_BaseDamage) = 0
-                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseEMDamage) Then
-                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseEMDamage)
-                                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.Attributes(Attributes.Module_BaseEMDamage)
+                                        ROF = cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                                        cModule.Attributes(AttributeEnum.ModuleBaseDamage) = 0
+                                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseEMDamage) Then
+                                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseEMDamage)
+                                            cModule.Attributes(AttributeEnum.ModuleEMDamage) = cModule.Attributes(AttributeEnum.ModuleBaseEMDamage)
                                         Else
-                                            cModule.Attributes(Attributes.Module_EMDamage) = 0
+                                            cModule.Attributes(AttributeEnum.ModuleEMDamage) = 0
                                         End If
-                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseExpDamage) Then
-                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseExpDamage)
-                                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.Attributes(Attributes.Module_BaseExpDamage)
+                                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseExpDamage) Then
+                                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseExpDamage)
+                                            cModule.Attributes(AttributeEnum.ModuleExpDamage) = cModule.Attributes(AttributeEnum.ModuleBaseExpDamage)
                                         Else
-                                            cModule.Attributes(Attributes.Module_ExpDamage) = 0
+                                            cModule.Attributes(AttributeEnum.ModuleExpDamage) = 0
                                         End If
-                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseKinDamage) Then
-                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseKinDamage)
-                                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.Attributes(Attributes.Module_BaseKinDamage)
+                                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseKinDamage) Then
+                                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseKinDamage)
+                                            cModule.Attributes(AttributeEnum.ModuleKinDamage) = cModule.Attributes(AttributeEnum.ModuleBaseKinDamage)
                                         Else
-                                            cModule.Attributes(Attributes.Module_KinDamage) = 0
+                                            cModule.Attributes(AttributeEnum.ModuleKinDamage) = 0
                                         End If
-                                        If cModule.Attributes.ContainsKey(Attributes.Module_BaseThermDamage) Then
-                                            cModule.Attributes(Attributes.Module_BaseDamage) += cModule.Attributes(Attributes.Module_BaseThermDamage)
-                                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.Attributes(Attributes.Module_BaseThermDamage)
+                                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleBaseThermDamage) Then
+                                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) += cModule.Attributes(AttributeEnum.ModuleBaseThermDamage)
+                                            cModule.Attributes(AttributeEnum.ModuleThermDamage) = cModule.Attributes(AttributeEnum.ModuleBaseThermDamage)
                                         Else
-                                            cModule.Attributes(Attributes.Module_ThermDamage) = 0
+                                            cModule.Attributes(AttributeEnum.ModuleThermDamage) = 0
                                         End If
-                                        cModule.Attributes(Attributes.Module_VolleyDamage) = cModule.Attributes(Attributes.Module_BaseDamage)
-                                        cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                                        newShip.Attributes(Attributes.Ship_SmartbombVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_SmartbombDPS) += cModule.Attributes(Attributes.Module_DPS)
-                                        newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                        newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
-                                        newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage)
-                                        newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage)
-                                        newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage)
-                                        newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage)
-                                        newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF)
-                                        newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF)
-                                        newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF)
-                                        newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
-                                    Case ShipModule.Group_BombLaunchers
+                                        cModule.Attributes(AttributeEnum.ModuleVolleyDamage) = cModule.Attributes(AttributeEnum.ModuleBaseDamage)
+                                        cModule.Attributes(AttributeEnum.ModuleDPS) = cModule.Attributes(AttributeEnum.ModuleVolleyDamage) / ROF
+                                        newShip.Attributes(AttributeEnum.ShipSmartbombVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                        newShip.Attributes(AttributeEnum.ShipSmartbombDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
+                                        newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                        newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
+                                        newShip.Attributes(AttributeEnum.ShipEMDamage) += cModule.Attributes(AttributeEnum.ModuleEMDamage)
+                                        newShip.Attributes(AttributeEnum.ShipExpDamage) += cModule.Attributes(AttributeEnum.ModuleExpDamage)
+                                        newShip.Attributes(AttributeEnum.ShipKinDamage) += cModule.Attributes(AttributeEnum.ModuleKinDamage)
+                                        newShip.Attributes(AttributeEnum.ShipThermDamage) += cModule.Attributes(AttributeEnum.ModuleThermDamage)
+                                        newShip.Attributes(AttributeEnum.ShipEMDPS) += (cModule.Attributes(AttributeEnum.ModuleEMDamage) / ROF)
+                                        newShip.Attributes(AttributeEnum.ShipExpDPS) += (cModule.Attributes(AttributeEnum.ModuleExpDamage) / ROF)
+                                        newShip.Attributes(AttributeEnum.ShipKinDPS) += (cModule.Attributes(AttributeEnum.ModuleKinDamage) / ROF)
+                                        newShip.Attributes(AttributeEnum.ShipThermDPS) += (cModule.Attributes(AttributeEnum.ModuleThermDamage) / ROF)
+                                    Case ModuleEnum.GroupBombLaunchers
                                         ' Do Bomb Launcher Code
                                         If cModule.LoadedCharge IsNot Nothing Then
                                             dmgMod = 1
                                             ' No ROF adjustment for reload time because reload happens during reactivation delay
-                                            ROF = cModule.Attributes(Attributes.Module_ROF) + cModule.Attributes(Attributes.Module_ReactivationDelay)
-                                            cModule.Attributes(Attributes.Module_BaseDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) + cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage)
-                                            cModule.Attributes(Attributes.Module_VolleyDamage) = dmgMod * cModule.Attributes(Attributes.Module_BaseDamage)
-                                            cModule.Attributes(Attributes.Module_DPS) = cModule.Attributes(Attributes.Module_VolleyDamage) / ROF
-                                            newShip.Attributes(Attributes.Ship_MissileVolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                            newShip.Attributes(Attributes.Ship_MissileDPS) += cModule.Attributes(Attributes.Module_DPS)
-                                            newShip.Attributes(Attributes.Ship_VolleyDamage) += cModule.Attributes(Attributes.Module_VolleyDamage)
-                                            newShip.Attributes(Attributes.Ship_DPS) += cModule.Attributes(Attributes.Module_DPS)
-                                            cModule.Attributes(Attributes.Module_OptimalRange) = cModule.LoadedCharge.Attributes(Attributes.Module_MaxVelocity) * cModule.LoadedCharge.Attributes(Attributes.Module_MaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
-                                            cModule.Attributes(Attributes.Module_EMDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseEMDamage) * dmgMod
-                                            cModule.Attributes(Attributes.Module_ExpDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseExpDamage) * dmgMod
-                                            cModule.Attributes(Attributes.Module_KinDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseKinDamage) * dmgMod
-                                            cModule.Attributes(Attributes.Module_ThermDamage) = cModule.LoadedCharge.Attributes(Attributes.Module_BaseThermDamage) * dmgMod
-                                            newShip.Attributes(Attributes.Ship_EMDamage) += cModule.Attributes(Attributes.Module_EMDamage)
-                                            newShip.Attributes(Attributes.Ship_ExpDamage) += cModule.Attributes(Attributes.Module_ExpDamage)
-                                            newShip.Attributes(Attributes.Ship_KinDamage) += cModule.Attributes(Attributes.Module_KinDamage)
-                                            newShip.Attributes(Attributes.Ship_ThermDamage) += cModule.Attributes(Attributes.Module_ThermDamage)
-                                            newShip.Attributes(Attributes.Ship_EMDPS) += (cModule.Attributes(Attributes.Module_EMDamage) / ROF)
-                                            newShip.Attributes(Attributes.Ship_ExpDPS) += (cModule.Attributes(Attributes.Module_ExpDamage) / ROF)
-                                            newShip.Attributes(Attributes.Ship_KinDPS) += (cModule.Attributes(Attributes.Module_KinDamage) / ROF)
-                                            newShip.Attributes(Attributes.Ship_ThermDPS) += (cModule.Attributes(Attributes.Module_ThermDamage) / ROF)
+                                            ROF = cModule.Attributes(AttributeEnum.ModuleROF) + cModule.Attributes(AttributeEnum.ModuleReactivationDelay)
+                                            cModule.Attributes(AttributeEnum.ModuleBaseDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) + cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseThermDamage)
+                                            cModule.Attributes(AttributeEnum.ModuleVolleyDamage) = dmgMod * cModule.Attributes(AttributeEnum.ModuleBaseDamage)
+                                            cModule.Attributes(AttributeEnum.ModuleDPS) = cModule.Attributes(AttributeEnum.ModuleVolleyDamage) / ROF
+                                            newShip.Attributes(AttributeEnum.ShipMissileVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                            newShip.Attributes(AttributeEnum.ShipMissileDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
+                                            newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
+                                            newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
+                                            cModule.Attributes(AttributeEnum.ModuleOptimalRange) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity) * cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                            cModule.Attributes(AttributeEnum.ModuleEMDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) * dmgMod
+                                            cModule.Attributes(AttributeEnum.ModuleExpDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) * dmgMod
+                                            cModule.Attributes(AttributeEnum.ModuleKinDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) * dmgMod
+                                            cModule.Attributes(AttributeEnum.ModuleThermDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseThermDamage) * dmgMod
+                                            newShip.Attributes(AttributeEnum.ShipEMDamage) += cModule.Attributes(AttributeEnum.ModuleEMDamage)
+                                            newShip.Attributes(AttributeEnum.ShipExpDamage) += cModule.Attributes(AttributeEnum.ModuleExpDamage)
+                                            newShip.Attributes(AttributeEnum.ShipKinDamage) += cModule.Attributes(AttributeEnum.ModuleKinDamage)
+                                            newShip.Attributes(AttributeEnum.ShipThermDamage) += cModule.Attributes(AttributeEnum.ModuleThermDamage)
+                                            newShip.Attributes(AttributeEnum.ShipEMDPS) += (cModule.Attributes(AttributeEnum.ModuleEMDamage) / ROF)
+                                            newShip.Attributes(AttributeEnum.ShipExpDPS) += (cModule.Attributes(AttributeEnum.ModuleExpDamage) / ROF)
+                                            newShip.Attributes(AttributeEnum.ShipKinDPS) += (cModule.Attributes(AttributeEnum.ModuleKinDamage) / ROF)
+                                            newShip.Attributes(AttributeEnum.ShipThermDPS) += (cModule.Attributes(AttributeEnum.ModuleThermDamage) / ROF)
                                         End If
-                                    Case ShipModule.Group_ShieldTransporters, ShipModule.Group_RemoteArmorRepairers, ShipModule.Group_RemoteHullRepairers
+                                    Case ModuleEnum.GroupShieldTransporters, ModuleEnum.GroupRemoteArmorRepairers, ModuleEnum.GroupRemoteHullRepairers
                                         Dim repAmount As Double = 0
-                                        If cModule.Attributes.ContainsKey(Attributes.Module_ShieldHPRepaired) = True Then
-                                            repAmount = cModule.Attributes(Attributes.Module_ShieldHPRepaired)
-                                        ElseIf cModule.Attributes.ContainsKey(Attributes.Module_ArmorHPRepaired) = True Then
-                                            repAmount = cModule.Attributes(Attributes.Module_ArmorHPRepaired)
+                                        If cModule.Attributes.ContainsKey(AttributeEnum.ModuleShieldHPRepaired) = True Then
+                                            repAmount = cModule.Attributes(AttributeEnum.ModuleShieldHPRepaired)
+                                        ElseIf cModule.Attributes.ContainsKey(AttributeEnum.ModuleArmorHPRepaired) = True Then
+                                            repAmount = cModule.Attributes(AttributeEnum.ModuleArmorHPRepaired)
                                         Else
-                                            repAmount = cModule.Attributes(Attributes.Module_HullHPRepaired)
+                                            repAmount = cModule.Attributes(AttributeEnum.ModuleHullHPRepaired)
                                         End If
-                                        cModule.Attributes(Attributes.Module_TransferRate) = repAmount / cModule.Attributes(Attributes.Module_ActivationTime)
-                                        newShip.Attributes(Attributes.Ship_ModuleTransferRate) += cModule.Attributes(Attributes.Module_TransferRate)
-                                        newShip.Attributes(Attributes.Ship_TransferRate) += cModule.Attributes(Attributes.Module_TransferRate)
-                                        newShip.Attributes(Attributes.Ship_ModuleTransferAmount) += repAmount
-                                        newShip.Attributes(Attributes.Ship_TransferAmount) += repAmount
+                                        cModule.Attributes(AttributeEnum.ModuleTransferRate) = repAmount / cModule.Attributes(AttributeEnum.ModuleActivationTime)
+                                        newShip.Attributes(AttributeEnum.ShipModuleTransferRate) += cModule.Attributes(AttributeEnum.ModuleTransferRate)
+                                        newShip.Attributes(AttributeEnum.ShipTransferRate) += cModule.Attributes(AttributeEnum.ModuleTransferRate)
+                                        newShip.Attributes(AttributeEnum.ShipModuleTransferAmount) += repAmount
+                                        newShip.Attributes(AttributeEnum.ShipTransferAmount) += repAmount
                                 End Select
                             End If
                     End Select
@@ -1946,24 +1946,24 @@ Imports EveHQ.Core
         Dim dp As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(Me.DefenceProfileName)
 
         If dp IsNot Nothing Then
-            Dim SEM As Double = newShip.Attributes(Attributes.Ship_EMDPS) * (1 - (dp.SEM / 100))
-            Dim SEx As Double = newShip.Attributes(Attributes.Ship_ExpDPS) * (1 - (dp.SExplosive / 100))
-            Dim SKi As Double = newShip.Attributes(Attributes.Ship_KinDPS) * (1 - (dp.SKinetic / 100))
-            Dim STh As Double = newShip.Attributes(Attributes.Ship_ThermDPS) * (1 - (dp.SThermal / 100))
+            Dim SEM As Double = newShip.Attributes(AttributeEnum.ShipEMDPS) * (1 - (dp.SEM / 100))
+            Dim SEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.SExplosive / 100))
+            Dim SKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.SKinetic / 100))
+            Dim STh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.SThermal / 100))
             Dim ST As Double = SEM + SEx + SKi + STh
             dpr.ShieldDPS = ST
 
-            Dim AEM As Double = newShip.Attributes(Attributes.Ship_EMDPS) * (1 - (dp.AEM / 100))
-            Dim AEx As Double = newShip.Attributes(Attributes.Ship_ExpDPS) * (1 - (dp.AExplosive / 100))
-            Dim AKi As Double = newShip.Attributes(Attributes.Ship_KinDPS) * (1 - (dp.AKinetic / 100))
-            Dim ATh As Double = newShip.Attributes(Attributes.Ship_ThermDPS) * (1 - (dp.AThermal / 100))
+            Dim AEM As Double = newShip.Attributes(AttributeEnum.ShipEMDPS) * (1 - (dp.AEM / 100))
+            Dim AEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.AExplosive / 100))
+            Dim AKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.AKinetic / 100))
+            Dim ATh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.AThermal / 100))
             Dim AT As Double = AEM + AEx + AKi + ATh
             dpr.ArmorDPS = AT
 
-            Dim HEM As Double = newShip.Attributes(Attributes.Ship_EMDPS) * (1 - (dp.HEM / 100))
-            Dim HEx As Double = newShip.Attributes(Attributes.Ship_ExpDPS) * (1 - (dp.HExplosive / 100))
-            Dim HKi As Double = newShip.Attributes(Attributes.Ship_KinDPS) * (1 - (dp.HKinetic / 100))
-            Dim HTh As Double = newShip.Attributes(Attributes.Ship_ThermDPS) * (1 - (dp.HThermal / 100))
+            Dim HEM As Double = newShip.Attributes(AttributeEnum.ShipEMDPS) * (1 - (dp.HEM / 100))
+            Dim HEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.HExplosive / 100))
+            Dim HKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.HKinetic / 100))
+            Dim HTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.HThermal / 100))
             Dim HT As Double = HEM + HEx + HKi + HTh
             dpr.HullDPS = HT
         End If
@@ -1975,40 +1975,40 @@ Imports EveHQ.Core
         Dim sRP, sRA, aR, hR As Double
         For Each cModule As ShipModule In newShip.SlotCollection
             ' Calculate shield boosting
-            If (cModule.DatabaseGroup = ShipModule.Group_ShieldBoosters Or cModule.DatabaseGroup = ShipModule.Group_FueledShieldBoosters) And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                sRA = sRA + cModule.Attributes(Attributes.Module_ShieldHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If (cModule.DatabaseGroup = ModuleEnum.GroupShieldBoosters Or cModule.DatabaseGroup = ModuleEnum.GroupFueledShieldBoosters) And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                sRA = sRA + cModule.Attributes(AttributeEnum.ModuleShieldHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
             ' Calculate remote shield boosting
-            If cModule.DatabaseGroup = ShipModule.Group_ShieldTransporters And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                sRA = sRA + cModule.Attributes(Attributes.Module_ShieldHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If cModule.DatabaseGroup = ModuleEnum.GroupShieldTransporters And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                sRA = sRA + cModule.Attributes(AttributeEnum.ModuleShieldHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
             ' Calculate shield maintenance drones
-            If cModule.DatabaseGroup = ShipModule.Group_LogisticDrones And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                If cModule.Attributes.ContainsKey(Attributes.Module_ShieldHPRepaired) Then
-                    sRA = sRA + cModule.Attributes(Attributes.Module_ShieldHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If cModule.DatabaseGroup = ModuleEnum.GroupLogisticDrones And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                If cModule.Attributes.ContainsKey(AttributeEnum.ModuleShieldHPRepaired) Then
+                    sRA = sRA + cModule.Attributes(AttributeEnum.ModuleShieldHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
                 End If
             End If
             ' Calculate armor repairing
-            If (cModule.DatabaseGroup = ShipModule.Group_ArmorRepairers Or cModule.DatabaseGroup = ShipModule.Group_FueledArmorRepairers) And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                aR = aR + cModule.Attributes(Attributes.Module_ArmorHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If (cModule.DatabaseGroup = ModuleEnum.GroupArmorRepairers Or cModule.DatabaseGroup = ModuleEnum.GroupFueledArmorRepairers) And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                aR = aR + cModule.Attributes(AttributeEnum.ModuleArmorHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
             ' Calculate remote armor repairing
-            If cModule.DatabaseGroup = ShipModule.Group_RemoteArmorRepairers And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                aR = aR + cModule.Attributes(Attributes.Module_ArmorHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If cModule.DatabaseGroup = ModuleEnum.GroupRemoteArmorRepairers And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                aR = aR + cModule.Attributes(AttributeEnum.ModuleArmorHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
             ' Calculate armor maintenance drones
-            If cModule.DatabaseGroup = ShipModule.Group_LogisticDrones And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                If cModule.Attributes.ContainsKey(Attributes.Module_ArmorHPRepaired) Then
-                    aR = aR + cModule.Attributes(Attributes.Module_ArmorHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If cModule.DatabaseGroup = ModuleEnum.GroupLogisticDrones And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                If cModule.Attributes.ContainsKey(AttributeEnum.ModuleArmorHPRepaired) Then
+                    aR = aR + cModule.Attributes(AttributeEnum.ModuleArmorHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
                 End If
             End If
             ' Calculate hull repairing
-            If cModule.DatabaseGroup = ShipModule.Group_HullRepairers And (cModule.ModuleState And 12) = cModule.ModuleState Then
-                hR = hR + cModule.Attributes(Attributes.Module_HullHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If cModule.DatabaseGroup = ModuleEnum.GroupHullRepairers And (cModule.ModuleState And 12) = cModule.ModuleState Then
+                hR = hR + cModule.Attributes(AttributeEnum.ModuleHullHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
             ' Calculate remote hull repairing
-            If cModule.DatabaseGroup = ShipModule.Group_RemoteHullRepairers And (cModule.ModuleState And 16) = cModule.ModuleState Then
-                hR = hR + cModule.Attributes(Attributes.Module_HullHPRepaired) / cModule.Attributes(Attributes.Module_ActivationTime)
+            If cModule.DatabaseGroup = ModuleEnum.GroupRemoteHullRepairers And (cModule.ModuleState And 16) = cModule.ModuleState Then
+                hR = hR + cModule.Attributes(AttributeEnum.ModuleHullHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
         Next
         sRP = (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
@@ -2017,15 +2017,15 @@ Imports EveHQ.Core
         Dim sTP As Double = sRP / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ShieldThResist / 100)))
         Dim aT As Double = aR / ((newShip.DamageProfileEM * (1 - newShip.ArmorEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ArmorExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ArmorKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ArmorThResist / 100)))
         Dim hT As Double = hR / ((newShip.DamageProfileEM * (1 - newShip.StructureEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.StructureExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.StructureKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.StructureThResist / 100)))
-        newShip.Attributes(Attributes.Ship_ShieldTankActive) = sTA
-        newShip.Attributes(Attributes.Ship_ArmorTank) = aT
-        newShip.Attributes(Attributes.Ship_HullTank) = hT
-        newShip.Attributes(Attributes.Ship_TankMax) = Math.Max(sTA + sTP, sTA + aT + hT)
-        newShip.Attributes(Attributes.Ship_ShieldTankPassive) = sTP
-        newShip.Attributes(Attributes.Ship_ShieldRepair) = sRA + sRP
-        newShip.Attributes(Attributes.Ship_ArmorRepair) = aR
-        newShip.Attributes(Attributes.Ship_HullRepair) = hR
-        newShip.Attributes(Attributes.Ship_RepairTotal) = sRA + sRP + aR + hR
+        newShip.Attributes(AttributeEnum.ShipShieldTankActive) = sTA
+        newShip.Attributes(AttributeEnum.ShipArmorTank) = aT
+        newShip.Attributes(AttributeEnum.ShipHullTank) = hT
+        newShip.Attributes(AttributeEnum.ShipTankMax) = Math.Max(sTA + sTP, sTA + aT + hT)
+        newShip.Attributes(AttributeEnum.ShipShieldTankPassive) = sTP
+        newShip.Attributes(AttributeEnum.ShipShieldRepair) = sRA + sRP
+        newShip.Attributes(AttributeEnum.ShipArmorRepair) = aR
+        newShip.Attributes(AttributeEnum.ShipHullRepair) = hR
+        newShip.Attributes(AttributeEnum.ShipRepairTotal) = sRA + sRP + aR + hR
     End Sub
 #End Region
 
@@ -2052,7 +2052,7 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case HQFEffectType.Skill
-                If NewShip.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
+                If NewShip.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(FEffect.AffectedID(0))) Then
                     Return True
                 End If
             Case HQFEffectType.Attribute
@@ -2072,7 +2072,7 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case HQFEffectType.Group
-                If NewModule.ModuleState = ModuleStates.Gang And FEffect.AffectedID.Contains(CStr(-CInt(NewModule.DatabaseGroup))) Then
+                If NewModule.ModuleState = ModuleStates.Gang And FEffect.AffectedID.Contains(-CInt(NewModule.DatabaseGroup)) Then
                     Return True
                 End If
                 If FEffect.AffectedID.Contains(NewModule.DatabaseGroup) Then
@@ -2087,22 +2087,22 @@ Imports EveHQ.Core
                     Return True
                 End If
             Case HQFEffectType.Skill
-                If NewModule.RequiredSkills.ContainsKey(EveHQ.Core.SkillFunctions.SkillIDToName(CInt(FEffect.AffectedID(0)))) Then
+                If NewModule.RequiredSkills.ContainsKey(SkillFunctions.SkillIDToName(FEffect.AffectedID(0))) Then
                     Return True
                 End If
             Case HQFEffectType.Slot
-                If FEffect.AffectedID.Contains(NewModule.SlotType & NewModule.SlotNo) Then
+                If FEffect.AffectedID.Contains(CInt(NewModule.SlotType & NewModule.SlotNo)) Then
                     Return True
                 End If
             Case HQFEffectType.Attribute
-                If NewModule.Attributes.ContainsKey(CStr(FEffect.AffectedID(0))) Then
+                If NewModule.Attributes.ContainsKey(FEffect.AffectedID(0)) Then
                     Return True
                 End If
         End Select
         Return False
     End Function
 
-    Private Sub ApplyFinalEffectToShip(ByVal NewShip As Ship, ByVal FEffect As FinalEffect, ByVal Att As String)
+    Private Sub ApplyFinalEffectToShip(ByVal NewShip As Ship, ByVal FEffect As FinalEffect, ByVal Att As Integer)
         Dim log As String = Attributes.AttributeQuickList(Att).ToString & "# " & FEffect.Cause
         If NewShip.Name = FEffect.Cause Then
             log &= " (Overloading)"
@@ -2121,7 +2121,7 @@ Imports EveHQ.Core
                     NewShip.Attributes(Att) = (NewShip.Attributes(Att) * (-FEffect.AffectedValue / 100)) + NewShip.Attributes(Att)
                 End If
             Case EffectCalcType.Velocity
-                NewShip.Attributes(Att) = CDbl(NewShip.Attributes(Att)) + (CDbl(NewShip.Attributes(Att)) * (CDbl(NewShip.Attributes("10010")) / CDbl(NewShip.Attributes("10002")) * (FEffect.AffectedValue / 100)))
+                NewShip.Attributes(Att) = CDbl(NewShip.Attributes(Att)) + (CDbl(NewShip.Attributes(Att)) * (CDbl(NewShip.Attributes(10010)) / CDbl(NewShip.Attributes(10002)) * (FEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
                 NewShip.Attributes(Att) = FEffect.AffectedValue
             Case EffectCalcType.Multiplier
@@ -2150,7 +2150,7 @@ Imports EveHQ.Core
                 NewShip.Attributes(Att) = Math.Min(NewShip.Attributes(Att) - FEffect.AffectedValue, 0)
         End Select
         ' Use only 2 decimal places of precision for PG and CPU output
-        If Att = Attributes.Ship_PowergridOutput Or Att = Attributes.Ship_CpuOutput Then
+        If Att = AttributeEnum.ShipPowergridOutput Or Att = AttributeEnum.ShipCpuOutput Then
             NewShip.Attributes(Att) = Math.Round(NewShip.Attributes(Att), 2, MidpointRounding.AwayFromZero)
         End If
         log &= "# " & NewShip.Attributes(Att).ToString
@@ -2159,7 +2159,7 @@ Imports EveHQ.Core
         End If
     End Sub
 
-    Private Sub ApplyFinalEffectToModule(ByVal NewModule As ShipModule, ByVal FEffect As FinalEffect, ByVal Att As String)
+    Private Sub ApplyFinalEffectToModule(ByVal NewModule As ShipModule, ByVal FEffect As FinalEffect, ByVal Att As Integer)
         Dim log As String = Attributes.AttributeQuickList(Att).ToString & ": " & FEffect.Cause
         If NewModule.Name = FEffect.Cause Then
             log &= " (Overloading)"
@@ -2178,7 +2178,7 @@ Imports EveHQ.Core
                     NewModule.Attributes(Att) = (NewModule.Attributes(Att) * (-FEffect.AffectedValue / 100)) + NewModule.Attributes(Att)
                 End If
             Case EffectCalcType.Velocity
-                NewModule.Attributes(Att) = CDbl(NewModule.Attributes(Att)) + (CDbl(NewModule.Attributes(Att)) * (CDbl(NewModule.Attributes("10010")) / CDbl(NewModule.Attributes("10002")) * (FEffect.AffectedValue / 100)))
+                NewModule.Attributes(Att) = CDbl(NewModule.Attributes(Att)) + (CDbl(NewModule.Attributes(Att)) * (CDbl(NewModule.Attributes(10010)) / CDbl(NewModule.Attributes(10002)) * (FEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
                 NewModule.Attributes(Att) = FEffect.AffectedValue
             Case EffectCalcType.Multiplier
@@ -2207,7 +2207,7 @@ Imports EveHQ.Core
                 NewModule.Attributes(Att) = Math.Min(NewModule.Attributes(Att) - FEffect.AffectedValue, 0)
         End Select
         ' Use only 2 decimal places of precision for PG and CPU usage
-        If Att = Attributes.Module_PowergridUsage Or Att = Attributes.Module_CpuUsage Then
+        If Att = AttributeEnum.ModulePowergridUsage Or Att = AttributeEnum.ModuleCpuUsage Then
             NewModule.Attributes(Att) = Math.Round(NewModule.Attributes(Att), 2, MidpointRounding.AwayFromZero)
         End If
         log &= " --> " & NewModule.Attributes(Att).ToString
@@ -2263,9 +2263,9 @@ Imports EveHQ.Core
 
         ' Add the modules
         For Each MWS As ModuleWithState In Me.Modules
-            Dim NewMod As ShipModule = CType(ModuleLists.moduleList(MWS.ID), ShipModule).Clone
+            Dim NewMod As ShipModule = ModuleLists.ModuleList(CInt(MWS.ID)).Clone
             If MWS.ChargeID <> "" Then
-                NewMod.LoadedCharge = CType(ModuleLists.moduleList(MWS.ChargeID), ShipModule).Clone
+                NewMod.LoadedCharge = ModuleLists.ModuleList(CInt(MWS.ChargeID)).Clone
             End If
             NewMod.ModuleState = MWS.State
             Call Me.AddModule(NewMod, 0, True, True, Nothing, False, False)
@@ -2275,7 +2275,7 @@ Imports EveHQ.Core
 
         ' Add the drones
         For Each MWS As ModuleQWithState In Me.Drones
-            Dim NewMod As ShipModule = CType(ModuleLists.moduleList(MWS.ID), ShipModule).Clone
+            Dim NewMod As ShipModule = ModuleLists.ModuleList(CInt(MWS.ID)).Clone
             NewMod.ModuleState = MWS.State
             If MWS.State = ModuleStates.Active Then
                 Call Me.AddDrone(NewMod, MWS.Quantity, True, True)
@@ -2286,21 +2286,21 @@ Imports EveHQ.Core
 
         ' Add items
         For Each MWS As ModuleQWithState In Me.Items
-            Dim NewMod As ShipModule = CType(ModuleLists.moduleList(MWS.ID), ShipModule).Clone
+            Dim NewMod As ShipModule = ModuleLists.ModuleList(CInt(MWS.ID)).Clone
             NewMod.ModuleState = MWS.State
             Call Me.AddItem(NewMod, MWS.Quantity, True)
         Next
 
         ' Add ships
         For Each MWS As ModuleQWithState In Me.Ships
-            Dim NewMod As Ship = CType(ShipLists.shipList(ShipLists.shipListKeyID(MWS.ID)), Ship).Clone
+            Dim NewMod As Ship = ShipLists.ShipList(ShipLists.ShipListKeyID(CInt(MWS.ID))).Clone
             Call Me.AddShip(NewMod, MWS.Quantity, True)
         Next
 
         ' Add Boosters
         Me.BaseShip.BoosterSlotCollection.Clear()
         For Each MWS As ModuleWithState In Me.Boosters
-            Dim sMod As ShipModule = CType(ModuleLists.moduleList(MWS.ID), ShipModule).Clone
+            Dim sMod As ShipModule = ModuleLists.ModuleList(CInt(MWS.ID)).Clone
             Me.BaseShip.BoosterSlotCollection.Add(sMod)
         Next
 
@@ -2326,9 +2326,9 @@ Imports EveHQ.Core
         For slot As Integer = 1 To Me.BaseShip.SubSlots
             If Me.BaseShip.SubSlot(slot) IsNot Nothing Then
                 If Me.BaseShip.SubSlot(slot).LoadedCharge IsNot Nothing Then
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.SubSlot(slot).ID, Me.BaseShip.SubSlot(slot).LoadedCharge.ID, Me.BaseShip.SubSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.SubSlot(slot).ID), CStr(Me.BaseShip.SubSlot(slot).LoadedCharge.ID), Me.BaseShip.SubSlot(slot).ModuleState))
                 Else
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.SubSlot(slot).ID, Nothing, Me.BaseShip.SubSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.SubSlot(slot).ID), Nothing, Me.BaseShip.SubSlot(slot).ModuleState))
                 End If
             End If
         Next
@@ -2337,9 +2337,9 @@ Imports EveHQ.Core
         For slot As Integer = 1 To Me.BaseShip.RigSlots
             If Me.BaseShip.RigSlot(slot) IsNot Nothing Then
                 If Me.BaseShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.RigSlot(slot).ID, Me.BaseShip.RigSlot(slot).LoadedCharge.ID, Me.BaseShip.RigSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.RigSlot(slot).ID), CStr(Me.BaseShip.RigSlot(slot).LoadedCharge.ID), Me.BaseShip.RigSlot(slot).ModuleState))
                 Else
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.RigSlot(slot).ID, Nothing, Me.BaseShip.RigSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.RigSlot(slot).ID), Nothing, Me.BaseShip.RigSlot(slot).ModuleState))
                 End If
             End If
         Next
@@ -2348,9 +2348,9 @@ Imports EveHQ.Core
         For slot As Integer = 1 To Me.BaseShip.LowSlots
             If Me.BaseShip.LowSlot(slot) IsNot Nothing Then
                 If Me.BaseShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.LowSlot(slot).ID, Me.BaseShip.LowSlot(slot).LoadedCharge.ID, Me.BaseShip.LowSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.LowSlot(slot).ID), CStr(Me.BaseShip.LowSlot(slot).LoadedCharge.ID), Me.BaseShip.LowSlot(slot).ModuleState))
                 Else
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.LowSlot(slot).ID, Nothing, Me.BaseShip.LowSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.LowSlot(slot).ID), Nothing, Me.BaseShip.LowSlot(slot).ModuleState))
                 End If
             End If
         Next
@@ -2359,9 +2359,9 @@ Imports EveHQ.Core
         For slot As Integer = 1 To Me.BaseShip.MidSlots
             If Me.BaseShip.MidSlot(slot) IsNot Nothing Then
                 If Me.BaseShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.MidSlot(slot).ID, Me.BaseShip.MidSlot(slot).LoadedCharge.ID, Me.BaseShip.MidSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.MidSlot(slot).ID), CStr(Me.BaseShip.MidSlot(slot).LoadedCharge.ID), Me.BaseShip.MidSlot(slot).ModuleState))
                 Else
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.MidSlot(slot).ID, Nothing, Me.BaseShip.MidSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.MidSlot(slot).ID), Nothing, Me.BaseShip.MidSlot(slot).ModuleState))
                 End If
             End If
         Next
@@ -2370,9 +2370,9 @@ Imports EveHQ.Core
         For slot As Integer = 1 To Me.BaseShip.HiSlots
             If Me.BaseShip.HiSlot(slot) IsNot Nothing Then
                 If Me.BaseShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.HiSlot(slot).ID, Me.BaseShip.HiSlot(slot).LoadedCharge.ID, Me.BaseShip.HiSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.HiSlot(slot).ID), CStr(Me.BaseShip.HiSlot(slot).LoadedCharge.ID), Me.BaseShip.HiSlot(slot).ModuleState))
                 Else
-                    Me.Modules.Add(New ModuleWithState(Me.BaseShip.HiSlot(slot).ID, Nothing, Me.BaseShip.HiSlot(slot).ModuleState))
+                    Me.Modules.Add(New ModuleWithState(CStr(Me.BaseShip.HiSlot(slot).ID), Nothing, Me.BaseShip.HiSlot(slot).ModuleState))
                 End If
             End If
         Next
@@ -2381,28 +2381,28 @@ Imports EveHQ.Core
         Me.Drones.Clear()
         For Each DBI As DroneBayItem In Me.BaseShip.DroneBayItems.Values
             If DBI.IsActive = True Then
-                Me.Drones.Add(New ModuleQWithState(DBI.DroneType.ID, ModuleStates.Active, DBI.Quantity))
+                Me.Drones.Add(New ModuleQWithState(CStr(DBI.DroneType.ID), ModuleStates.Active, DBI.Quantity))
             Else
-                Me.Drones.Add(New ModuleQWithState(DBI.DroneType.ID, ModuleStates.Inactive, DBI.Quantity))
+                Me.Drones.Add(New ModuleQWithState(CStr(DBI.DroneType.ID), ModuleStates.Inactive, DBI.Quantity))
             End If
         Next
 
         ' Add items
         Me.Items.Clear()
         For Each CBI As CargoBayItem In Me.BaseShip.CargoBayItems.Values
-            Me.Items.Add(New ModuleQWithState(CBI.ItemType.ID, ModuleStates.Active, CBI.Quantity))
+            Me.Items.Add(New ModuleQWithState(CStr(CBI.ItemType.ID), ModuleStates.Active, CBI.Quantity))
         Next
 
         ' Add ships
         Me.Ships.Clear()
         For Each SBI As ShipBayItem In Me.BaseShip.ShipBayItems.Values
-            Me.Ships.Add(New ModuleQWithState(SBI.ShipType.ID, ModuleStates.Active, SBI.Quantity))
+            Me.Ships.Add(New ModuleQWithState(CStr(SBI.ShipType.ID), ModuleStates.Active, SBI.Quantity))
         Next
 
         ' Add boosters
         Me.Boosters.Clear()
         For Each Booster As ShipModule In Me.BaseShip.BoosterSlotCollection
-            Me.Boosters.Add(New ModuleWithState(Booster.ID, Nothing, ModuleStates.Active))
+            Me.Boosters.Add(New ModuleWithState(CStr(Booster.ID), Nothing, ModuleStates.Active))
         Next
 
     End Sub
@@ -2414,8 +2414,8 @@ Imports EveHQ.Core
     Private Sub ReorderModules()
         Dim subs, mods As New ArrayList
         For Each MWS As ModuleWithState In Me.Modules
-            If ModuleLists.moduleList.ContainsKey(MWS.ID) = True Then
-                If CType(ModuleLists.moduleList(MWS.ID), ShipModule).SlotType = 16 Then
+            If ModuleLists.ModuleList.ContainsKey(CInt(MWS.ID)) = True Then
+                If ModuleLists.ModuleList(CInt(MWS.ID)).SlotType = 16 Then
                     subs.Add(MWS)
                 Else
                     mods.Add(MWS)
@@ -2442,8 +2442,8 @@ Imports EveHQ.Core
 
     Public Sub AddModule(ByVal shipMod As ShipModule, ByVal slotNo As Integer, ByVal UpdateShip As Boolean, ByVal UpdateAll As Boolean, ByVal repMod As ShipModule, ByVal SuppressUndo As Boolean, ByVal IsSwappingModules As Boolean)
         ' Check for command processors as this affects the fitting!
-        If shipMod.ID = ShipModule.Item_CommandProcessorI And shipMod.ModuleState = ModuleStates.Active Then
-            Me.BaseShip.Attributes(Attributes.Ship_MaxGangLinks) += 1
+        If shipMod.ID = ModuleEnum.ItemCommandProcessorI And shipMod.ModuleState = ModuleStates.Active Then
+            Me.BaseShip.Attributes(AttributeEnum.ShipMaxGangLinks) += 1
         End If
 
         ' Check slot availability (only if not adding in a specific slot?)
@@ -2496,7 +2496,7 @@ Imports EveHQ.Core
         If UpdateAll = False Then
             If UpdateShip = True Then
                 ' What sort of update do we need? Check for subsystems enabled
-                If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
+                If shipMod.DatabaseCategory = ModuleEnum.CategorySubsystems Then
                     Me.BaseShip = Me.BuildSubSystemEffects(Me.BaseShip)
                     If Me.ShipSlotCtrl IsNot Nothing Then
                         Call Me.ShipSlotCtrl.UpdateShipSlotLayout()
@@ -2523,7 +2523,7 @@ Imports EveHQ.Core
             End If
         Else
             ' Need to rebuild the ship in order to account for the new modules as they're being added
-            If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
+            If shipMod.DatabaseCategory = ModuleEnum.CategorySubsystems Then
                 Me.BaseShip = Me.BuildSubSystemEffects(Me.BaseShip)
             End If
         End If
@@ -2552,7 +2552,7 @@ Imports EveHQ.Core
             Next
             ' Put the drone into the drone bay if not grouped
             If grouped = False Then
-                Dim bw As Double = Drone.Attributes(Attributes.Module_DroneBandwidthNeeded)
+                Dim bw As Double = Drone.Attributes(AttributeEnum.ModuleDroneBandwidthNeeded)
                 Dim DBI As New DroneBayItem
                 DBI.DroneType = Drone
                 DBI.Quantity = Qty
@@ -2749,25 +2749,25 @@ Imports EveHQ.Core
     End Function
     Public Function IsModulePermitted(ByRef shipMod As ShipModule, ByVal search As Boolean, Optional ByVal repMod As ShipModule = Nothing) As Boolean
         ' Check for subsystem restrictions
-        If shipMod.DatabaseCategory = ShipModule.Category_Subsystems Then
+        If shipMod.DatabaseCategory = ModuleEnum.CategorySubsystems Then
             ' Check for subsystem type restriction
-            If CStr(shipMod.Attributes(Attributes.Module_FitsToShipType)) <> CStr(Me.BaseShip.ID) Then
+            If CStr(shipMod.Attributes(AttributeEnum.ModuleFitsToShipType)) <> CStr(Me.BaseShip.ID) Then
                 If search = False Then
-                    MessageBox.Show("You cannot fit a subsystem module designed for a " & StaticData.Types(CInt(shipMod.Attributes(Attributes.Module_FitsToShipType))).Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot fit a subsystem module designed for a " & StaticData.Types(CInt(shipMod.Attributes(AttributeEnum.ModuleFitsToShipType))).Name & " to your " & ShipName & " ('" & FittingName & "').", "Ship Type Conflict", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return False
             End If
             ' Check for subsystem group restriction
             Dim subReplace As Boolean = False
             If repMod IsNot Nothing Then
-                If repMod.Attributes(Attributes.Module_SubsystemSlot) = shipMod.Attributes(Attributes.Module_SubsystemSlot) Then
+                If repMod.Attributes(AttributeEnum.ModuleSubsystemSlot) = shipMod.Attributes(AttributeEnum.ModuleSubsystemSlot) Then
                     subReplace = True
                 End If
             End If
             If subReplace = False Then
                 For s As Integer = 1 To Me.BaseShip.SubSlots
                     If Me.BaseShip.SubSlot(s) IsNot Nothing Then
-                        If CStr(shipMod.Attributes(Attributes.Module_SubsystemSlot)) = CStr(Me.BaseShip.SubSlot(s).Attributes(Attributes.Module_SubsystemSlot)) Then
+                        If CStr(shipMod.Attributes(AttributeEnum.ModuleSubsystemSlot)) = CStr(Me.BaseShip.SubSlot(s).Attributes(AttributeEnum.ModuleSubsystemSlot)) Then
                             If search = False Then
                                 MessageBox.Show("You already have a subsystem of this group fitted to your " & ShipName & " ('" & FittingName & "').", "Subsystem Group Duplication", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
@@ -2780,10 +2780,10 @@ Imports EveHQ.Core
 
         ' Check for Rig restrictions
         If shipMod.SlotType = SlotTypes.Rig Then
-            If shipMod.Attributes.ContainsKey(Attributes.Module_RigSize) And Me.BaseShip.Attributes.ContainsKey(Attributes.Ship_RigSize) Then
-                If CInt(shipMod.Attributes(Attributes.Module_RigSize)) <> CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize)) Then
+            If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleRigSize) And Me.BaseShip.Attributes.ContainsKey(AttributeEnum.ShipRigSize) Then
+                If CInt(shipMod.Attributes(AttributeEnum.ModuleRigSize)) <> CInt(Me.BaseShip.Attributes(AttributeEnum.ShipRigSize)) Then
                     Dim requiredSize As String = ""
-                    Select Case CInt(Me.BaseShip.Attributes(Attributes.Ship_RigSize))
+                    Select Case CInt(Me.BaseShip.Attributes(AttributeEnum.ShipRigSize))
                         Case 1
                             requiredSize = "Small"
                         Case 2
@@ -2811,16 +2811,16 @@ Imports EveHQ.Core
 
         ' Check for ship group restrictions
         Dim ShipGroups As New ArrayList
-        Dim shipGroupAttributes() As String = {Attributes.Module_CanFitShipGroup1, Attributes.Module_CanFitShipGroup2, Attributes.Module_CanFitShipGroup3, Attributes.Module_CanFitShipGroup4, Attributes.Module_CanFitShipGroup5, Attributes.Module_CanFitShipGroup6, Attributes.Module_CanFitShipGroup7, Attributes.Module_CanFitShipGroup8}
-        For Each att As String In shipGroupAttributes
+        Dim shipGroupAttributes() As Integer = {AttributeEnum.ModuleCanFitShipGroup1, AttributeEnum.ModuleCanFitShipGroup2, AttributeEnum.ModuleCanFitShipGroup3, AttributeEnum.ModuleCanFitShipGroup4, AttributeEnum.ModuleCanFitShipGroup5, AttributeEnum.ModuleCanFitShipGroup6, AttributeEnum.ModuleCanFitShipGroup7, AttributeEnum.ModuleCanFitShipGroup8}
+        For Each att As Integer In shipGroupAttributes
             If shipMod.Attributes.ContainsKey(att) = True Then
                 ShipGroups.Add(CStr(shipMod.Attributes(att)))
             End If
         Next
         ' Check for ship type restrictions
         Dim ShipTypes As New ArrayList
-        Dim shipTypeAttributes() As String = {Attributes.Module_CanFitShipType1, Attributes.Module_CanFitShipType2, Attributes.Module_CanFitShipType3, Attributes.Module_CanFitShipType4}
-        For Each att As String In shipTypeAttributes
+        Dim shipTypeAttributes() As Integer = {AttributeEnum.ModuleCanFitShipType1, AttributeEnum.ModuleCanFitShipType2, AttributeEnum.ModuleCanFitShipType3, AttributeEnum.ModuleCanFitShipType4}
+        For Each att As Integer In shipTypeAttributes
             If shipMod.Attributes.ContainsKey(att) = True Then
                 ShipTypes.Add(CStr(shipMod.Attributes(att)))
             End If
@@ -2834,15 +2834,15 @@ Imports EveHQ.Core
                     End If
                     Return False
                 End If
-            ElseIf Me.BaseShip.DatabaseGroup = ShipModule.Group_StrategicCruisers Then
+            ElseIf Me.BaseShip.DatabaseGroup = ModuleEnum.GroupStrategicCruisers Then
                 ' Check for correct subsystems
                 Dim allowed As Boolean = False
-                Dim subID As String = ""
-                If shipMod.DatabaseGroup = ShipModule.Group_GangLinks Then
+                Dim subID As Integer
+                If shipMod.DatabaseGroup = ModuleEnum.GroupGangLinks Then
                     For slotNo As Integer = 1 To 5
                         If Me.BaseShip.SubSlot(slotNo) IsNot Nothing Then
                             subID = Me.BaseShip.SubSlot(slotNo).ID
-                            If subID = ShipModule.Item_LegionWarfareProcessor Or subID = ShipModule.Item_LokiWarfareProcessor Or subID = ShipModule.Item_ProteusWarfareProcessor Or subID = ShipModule.Item_TenguWarfareProcessor Then
+                            If subID = ModuleEnum.ItemLegionWarfareProcessor Or subID = ModuleEnum.ItemLokiWarfareProcessor Or subID = ModuleEnum.ItemProteusWarfareProcessor Or subID = ModuleEnum.ItemTenguWarfareProcessor Then
                                 allowed = True
                                 Exit For
                             End If
@@ -2854,11 +2854,11 @@ Imports EveHQ.Core
                         End If
                         Return False
                     End If
-                ElseIf shipMod.DatabaseGroup = ShipModule.Group_CloakingDevices Or shipMod.DatabaseGroup = ShipModule.Group_CynosuralFields Then
+                ElseIf shipMod.DatabaseGroup = ModuleEnum.GroupCloakingDevices Or shipMod.DatabaseGroup = ModuleEnum.GroupCynosuralFields Then
                     For slotNo As Integer = 1 To 5
                         If Me.BaseShip.SubSlot(slotNo) IsNot Nothing Then
                             subID = Me.BaseShip.SubSlot(slotNo).ID
-                            If subID = ShipModule.Item_LegionCovertReconfiguration Or subID = ShipModule.Item_LokiCovertReconfiguration Or subID = ShipModule.Item_ProteusCovertReconfiguration Or subID = ShipModule.Item_TenguCovertReconfiguration Then
+                            If subID = ModuleEnum.ItemLegionCovertReconfiguration Or subID = ModuleEnum.ItemLokiCovertReconfiguration Or subID = ModuleEnum.ItemProteusCovertReconfiguration Or subID = ModuleEnum.ItemTenguCovertReconfiguration Then
                                 allowed = True
                                 Exit For
                             End If
@@ -2881,37 +2881,37 @@ Imports EveHQ.Core
         ShipGroups.Clear()
 
         ' Check for maxGroupFitted flag
-        If shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupFitted) = True Then
+        If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleMaxGroupFitted) = True Then
             Dim groupReplace As Boolean = False
             If repMod IsNot Nothing AndAlso repMod.DatabaseGroup = shipMod.DatabaseGroup Then
                 groupReplace = True
             End If
-            If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, Attributes.Module_MaxGroupFitted) = True Then
+            If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, AttributeEnum.ModuleMaxGroupFitted) = True Then
                 If search = False Then
-                    MessageBox.Show("You cannot fit more than " & shipMod.Attributes(Attributes.Module_MaxGroupFitted) & " module(s) of this group to a ship ('" & FittingName & "', " & ShipName & ").", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("You cannot fit more than " & shipMod.Attributes(AttributeEnum.ModuleMaxGroupFitted) & " module(s) of this group to a ship ('" & FittingName & "', " & ShipName & ").", "Module Group Restriction", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
                 Return False
             End If
         End If
 
         ' Check for maxGroupActive flag
-        If search = False AndAlso shipMod.Attributes.ContainsKey(Attributes.Module_MaxGroupActive) = True Then
+        If search = False AndAlso shipMod.Attributes.ContainsKey(AttributeEnum.ModuleMaxGroupActive) = True Then
             Dim groupReplace As Boolean = False
             If repMod IsNot Nothing AndAlso repMod.DatabaseGroup = shipMod.DatabaseGroup Then
                 groupReplace = True
             End If
-            If shipMod.DatabaseGroup <> ShipModule.Group_GangLinks Then
-                If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, Attributes.Module_MaxGroupActive) = True Then
+            If shipMod.DatabaseGroup <> ModuleEnum.GroupGangLinks Then
+                If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, AttributeEnum.ModuleMaxGroupActive) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = ModuleStates.Inactive
                 End If
             Else
                 ' Check active command relay bonus (attID=435) on ship
-                If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, Attributes.Module_MaxGroupActive) = True Then
+                If IsModuleGroupLimitExceeded(shipMod, Not groupReplace, AttributeEnum.ModuleMaxGroupActive) = True Then
                     ' Set the module offline
                     shipMod.ModuleState = ModuleStates.Inactive
                 Else
-                    If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes(Attributes.Module_MaxGroupActive)) Then
+                    If CountActiveTypeModules(shipMod.ID) >= CInt(shipMod.Attributes(AttributeEnum.ModuleMaxGroupActive)) Then
                         ' Set the module offline
                         shipMod.ModuleState = ModuleStates.Inactive
                     End If
@@ -2921,23 +2921,23 @@ Imports EveHQ.Core
 
         Return True
     End Function
-    Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal includeTestMod As Boolean, ByVal attribute As String) As Boolean
+    Public Function IsModuleGroupLimitExceeded(ByVal testMod As ShipModule, ByVal includeTestMod As Boolean, ByVal attribute As Integer) As Boolean
         Dim count As Integer = 0
         Dim fittedMod As ShipModule = testMod.Clone
         Me.ApplySkillEffectsToModule(fittedMod, True)
         Dim maxAllowed As Integer = 1
         Dim moduleState As Integer = ModuleStates.Offline
         Select Case attribute
-            Case Attributes.Module_MaxGroupFitted
-                maxAllowed = CInt(fittedMod.Attributes(Attributes.Module_MaxGroupFitted))
-            Case Attributes.Module_MaxGroupActive
+            Case AttributeEnum.ModuleMaxGroupFitted
+                maxAllowed = CInt(fittedMod.Attributes(AttributeEnum.ModuleMaxGroupFitted))
+            Case AttributeEnum.ModuleMaxGroupActive
                 moduleState = ModuleStates.Active
-                If fittedMod.DatabaseGroup = ShipModule.Group_GangLinks Then
-                    If Me.FittedShip.Attributes.ContainsKey(Attributes.Ship_MaxGangLinks) = True Then
-                        maxAllowed = CInt(Me.FittedShip.Attributes(Attributes.Ship_MaxGangLinks))
+                If fittedMod.DatabaseGroup = ModuleEnum.GroupGangLinks Then
+                    If Me.FittedShip.Attributes.ContainsKey(AttributeEnum.ShipMaxGangLinks) = True Then
+                        maxAllowed = CInt(Me.FittedShip.Attributes(AttributeEnum.ShipMaxGangLinks))
                     End If
                 Else
-                    maxAllowed = CInt(fittedMod.Attributes(Attributes.Module_MaxGroupActive))
+                    maxAllowed = CInt(fittedMod.Attributes(AttributeEnum.ModuleMaxGroupActive))
                 End If
         End Select
 
@@ -2950,7 +2950,7 @@ Imports EveHQ.Core
         Next
         For slot As Integer = 1 To Me.BaseShip.MidSlots
             If Me.BaseShip.MidSlot(slot) IsNot Nothing Then
-                If Me.BaseShip.MidSlot(slot).ID <> ShipModule.Item_CommandProcessorI Then
+                If Me.BaseShip.MidSlot(slot).ID <> ModuleEnum.ItemCommandProcessorI Then
                     If Me.BaseShip.MidSlot(slot).DatabaseGroup = testMod.DatabaseGroup And Me.BaseShip.MidSlot(slot).ModuleState >= moduleState Then
                         count += 1
                     End If
@@ -2985,7 +2985,7 @@ Imports EveHQ.Core
             End If
         End If
     End Function
-    Public Function CountActiveTypeModules(ByVal typeID As String) As Integer
+    Public Function CountActiveTypeModules(ByVal typeID As Integer) As Integer
         Dim count As Integer = 0
         For slot As Integer = 1 To Me.BaseShip.HiSlots
             If Me.BaseShip.HiSlot(slot) IsNot Nothing Then

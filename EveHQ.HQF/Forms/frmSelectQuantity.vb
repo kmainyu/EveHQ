@@ -71,7 +71,7 @@ Public Class frmSelectQuantity
                     End If
                 End If
                 If DBI.IsActive = True Then
-                    If fittedShip.DroneBandwidthUsed + (reqQ * CDbl(DBI.DroneType.Attributes("1272"))) > fittedShip.DroneBandwidth Then
+                    If fittedShip.DroneBandwidthUsed + (reqQ * CDbl(DBI.DroneType.Attributes(1272))) > fittedShip.DroneBandwidth Then
                         ' Cannot do this because we don't have enough bandwidth
                         MessageBox.Show("You do not have the spare bandwidth to control this many drones. This drone group will be made inactive.", "Drone Bandwidth Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                         DBI.IsActive = False

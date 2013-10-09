@@ -1,7 +1,7 @@
 ﻿Public Class DNAFitting
-    Public ShipID As String
-    Public Modules As New List(Of String)
-    Public Charges As New List(Of String)
+    Public ShipID As Integer
+    Public Modules As New List(Of Integer)
+    Public Charges As New List(Of Integer)
     Public Arguments As New SortedList(Of String, String)
 
     Public Shared Function GetFittingFromEveDNA(ByVal dna As String, fittingName As String) As Fitting
@@ -15,13 +15,13 @@
         Dim parts() As String = dna.Split("?".ToCharArray)
         Dim mods() As String = parts(0).Split(":".ToCharArray)
 
-        shipDNA.ShipID = mods(0)
+        shipDNA.ShipID = CInt(mods(0))
         For modNo As Integer = 1 To mods.Length - 1
-            Dim modData() As String = mods(modNo).Split(";".ToCharArray)
-            If modData.Length > 1 Then
-                For modCount As Integer = 1 To CInt(modData(1))
-                    If ModuleLists.moduleList.ContainsKey(modData(0)) = True Then
-                        Dim fModule As ShipModule = ModuleLists.ModuleList(modData(0))
+            Dim modList As List(Of String) = mods(modNo).Split(";".ToCharArray).ToList
+            If modList.Count > 0 Then
+                For Each modID As String In modList
+                    If ModuleLists.ModuleList.ContainsKey(CInt(modID)) = True Then
+                        Dim fModule As ShipModule = ModuleLists.ModuleList(CInt(modID))
                         If fModule.IsCharge Then
                             shipDNA.Charges.Add(fModule.ID)
                         Else
@@ -29,15 +29,6 @@
                         End If
                     End If
                 Next
-            Else
-                If ModuleLists.moduleList.ContainsKey(modData(0)) = True Then
-                    Dim fModule As ShipModule = ModuleLists.ModuleList(modData(0))
-                    If fModule.IsCharge Then
-                        shipDNA.Charges.Add(fModule.ID)
-                    Else
-                        shipDNA.Modules.Add(fModule.ID)
-                    End If
-                End If
             End If
         Next
 
@@ -52,13 +43,13 @@
         Dim baseFit As String
         Dim revisedFit As String
         Dim currentFit As New ArrayList
-        For Each fittedMod As String In shipDNA.Modules
+        For Each fittedMod As Integer In shipDNA.Modules
             Dim fModule As ShipModule = ModuleLists.ModuleList(fittedMod)
             If fModule IsNot Nothing Then
                 baseFit = fModule.Name : revisedFit = baseFit
                 If fModule.Charges.Count <> 0 Then
-                    For Each ammo As String In shipDNA.Charges
-                        If ModuleLists.moduleList.ContainsKey(ammo) = True Then
+                    For Each ammo As Integer In shipDNA.Charges
+                        If ModuleLists.ModuleList.ContainsKey(ammo) = True Then
                             If fModule.Charges.Contains(ModuleLists.ModuleList(ammo).DatabaseGroup) Then
                                 revisedFit = baseFit & "," & ModuleLists.ModuleList(ammo).Name
                             End If

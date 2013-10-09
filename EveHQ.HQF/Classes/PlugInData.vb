@@ -78,7 +78,7 @@ Public Class PlugInData
             If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "attributes.dat")) = True Then
                 s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "attributes.dat"), FileMode.Open)
                 Try
-                    Attributes.AttributeList = Serializer.Deserialize(Of SortedList(Of String, Attribute))(s)
+                    Attributes.AttributeList = Serializer.Deserialize(Of SortedList(Of Integer, Attribute))(s)
                     s.Close()
                 Catch sex As Exception
                     s.Close()
@@ -104,13 +104,13 @@ Public Class PlugInData
             If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "modules.dat")) = True Then
                 s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "modules.dat"), FileMode.Open)
                 Try
-                    ModuleLists.ModuleList = Serializer.Deserialize(Of SortedList(Of String, ShipModule))(s)
+                    ModuleLists.ModuleList = Serializer.Deserialize(Of SortedList(Of Integer, ShipModule))(s)
                     s.Close()
                     For Each cMod As ShipModule In ModuleLists.ModuleList.Values
                         ModuleLists.ModuleListName.Add(cMod.Name.Trim, cMod.ID)
                         If cMod.IsCharge = True Then
-                            If Charges.ChargeGroups.Contains(cMod.MarketGroup) = False Then
-                                Charges.ChargeGroups.Add(cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
+                            If Charges.ChargeGroups.ContainsKey(cMod.MarketGroup) = False Then
+                                Charges.ChargeGroups.Add(cMod.MarketGroup, cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
                             End If
                         End If
                     Next
@@ -226,7 +226,7 @@ Public Class PlugInData
     Private Sub BuildAttributeQuickList()
         Attributes.AttributeQuickList.Clear()
         Dim attData As Attribute
-        For Each att As String In Attributes.AttributeList.Keys
+        For Each att As Integer In Attributes.AttributeList.Keys
             attData = Attributes.AttributeList(att)
             If attData.DisplayName <> "" Then
                 Attributes.AttributeQuickList.Add(attData.ID, attData.DisplayName)
@@ -254,7 +254,7 @@ Public Class PlugInData
         Return Classes.IGBData.Response(igbContext)
     End Function
 
-    Public Function RunEveHQPlugIn() As Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
+    Public Function RunEveHQPlugIn() As Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
         _activeForm = New frmHQF()
         Return _activeForm
     End Function
@@ -284,13 +284,13 @@ Public Class PlugInData
         Dim parts() As String = dna.Split("?".ToCharArray)
         Dim mods() As String = parts(0).Split(":".ToCharArray)
 
-        shipDNA.ShipID = mods(0)
+        shipDNA.ShipID = CInt(mods(0))
         For modNo As Integer = 1 To mods.Length - 1
-            Dim modData() As String = mods(modNo).Split("*".ToCharArray)
-            If modData.Length > 1 Then
-                For modCount As Integer = 1 To CInt(modData(1))
-                    If ModuleLists.ModuleList.ContainsKey(modData(0)) = True Then
-                        Dim fModule As ShipModule = ModuleLists.ModuleList(modData(0))
+            Dim modList As List(Of String) = mods(modNo).Split(";".ToCharArray).ToList
+            If modList.Count > 0 Then
+                For Each modID As String In modList
+                    If ModuleLists.ModuleList.ContainsKey(CInt(modID)) = True Then
+                        Dim fModule As ShipModule = ModuleLists.ModuleList(CInt(modID))
                         If fModule.IsCharge Then
                             shipDNA.Charges.Add(fModule.ID)
                         Else
@@ -298,15 +298,6 @@ Public Class PlugInData
                         End If
                     End If
                 Next
-            Else
-                If ModuleLists.ModuleList.ContainsKey(modData(0)) = True Then
-                    Dim fModule As ShipModule = ModuleLists.ModuleList(modData(0))
-                    If fModule.IsCharge Then
-                        shipDNA.Charges.Add(fModule.ID)
-                    Else
-                        shipDNA.Modules.Add(fModule.ID)
-                    End If
-                End If
             End If
         Next
 

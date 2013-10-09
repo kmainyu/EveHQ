@@ -51,7 +51,7 @@ Public Class ShipWidget
     End Sub
 
     Private Sub UpdateFitting()
-        Dim baseID As String = ""
+        Dim baseID As Integer
         If CustomHQFClasses.CustomShipIDs.ContainsKey(WidgetFit.BaseShip.ID) Then
             baseID = ShipLists.shipListKeyName(CustomHQFClasses.CustomShips(WidgetFit.BaseShip.Name).BaseShipName)
         Else

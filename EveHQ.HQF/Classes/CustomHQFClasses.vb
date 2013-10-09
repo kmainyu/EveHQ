@@ -88,7 +88,7 @@ Public Class CustomHQFClasses
     ''' A SortedList(Of ShipID, ShipName) containing the relationship of custom ship ID to name
     ''' </summary>
     ''' <remarks></remarks>
-    Public Shared CustomShipIDs As New SortedList(Of String, String)
+    Public Shared CustomShipIDs As New SortedList(Of Integer, String)
 
     ''' <summary>
     ''' Method for deserializing the custom ships into internal storage
@@ -187,7 +187,7 @@ Public Class CustomHQFClasses
                 Else
                     affectingName &= ";Ship Bonus;"
                 End If
-                affectingName &= Attributes.AttributeQuickList(neweffect.AffectedAtt.ToString).ToString
+                affectingName &= Attributes.AttributeQuickList(neweffect.AffectedAtt).ToString
                 If neweffect.IsPerLevel = False Then
                     affectingName &= ";"
                 Else
