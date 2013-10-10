@@ -291,6 +291,7 @@ namespace EveHQ.Market.MarketServices
                     var typesToRequest = new List<int>();
                     string cacheKey;
                     var dirtyCache = new Dictionary<int, ItemOrderStats>();
+                    includeRegions = includeRegions ?? new List<int>();
                     IList<int> regionList = includeRegions as IList<int> ?? includeRegions.ToList();
                     if (systemId.HasValue)
                     {

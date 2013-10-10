@@ -95,7 +95,19 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <returns>a collection of mailing lists</returns>
-        public Task<EveServiceResponse<IEnumerable<MailingList>>> MailingLists(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<MailingList>> MailingLists(string keyId, string vCode, int characterId)
+        {
+            var task = MailingListsAsync(keyId, vCode, characterId);
+            task.Wait();
+            return task.Result;
+        }
+
+        /// <summary>Gets a collection of mailing lists the user belongs to.</summary>
+        /// <param name="keyId">API Key ID to query</param>
+        /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="characterId">Character to query.</param>
+        /// <returns>a collection of mailing lists</returns>
+        public Task<EveServiceResponse<IEnumerable<MailingList>>> MailingListsAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
@@ -115,7 +127,20 @@ namespace EveHQ.EveApi
         /// <param name="characterId">Character to query.</param>
         /// <param name="ids">The id values to get the mail bodies for</param>
         /// <returns>a collection of mail bodies</returns>
-        public Task<EveServiceResponse<IEnumerable<MailBody>>> MailBodies(string keyId, string vCode, int characterId, IEnumerable<int> ids)
+        public EveServiceResponse<IEnumerable<MailBody>> MailBodies(string keyId, string vCode, int characterId, IEnumerable<int> ids)
+        {
+            var task = MailBodiesAsync(keyId, vCode, characterId, ids);
+            task.Wait();
+            return task.Result;
+        }
+
+        /// <summary>Retrieves the mail bodies for given IDs</summary>
+        /// <param name="keyId">API Key ID to query</param>
+        /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="characterId">Character to query.</param>
+        /// <param name="ids">The id values to get the mail bodies for</param>
+        /// <returns>a collection of mail bodies</returns>
+        public Task<EveServiceResponse<IEnumerable<MailBody>>> MailBodiesAsync(string keyId, string vCode, int characterId, IEnumerable<int> ids)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
@@ -123,7 +148,7 @@ namespace EveHQ.EveApi
             System.Diagnostics.Contracts.Contract.Requires(ids != null);
             System.Diagnostics.Contracts.Contract.Requires(ids.Any());
 
-            const string MethodPath = "{0}/MailBodies.xml.aspx";
+            const string MethodPath = "{0}/MailBodiesAsync.xml.aspx";
             const string CacheKeyFormat = "CharacterMailBodies{0}_{1}_[2}";
 
             // TODO: switch to using a hash value for making a unique key or a long batch of mail ids can cause a filename length issue.
@@ -140,7 +165,19 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <returns>A collection of mail headers </returns>
-        public Task<EveServiceResponse<IEnumerable<MailHeader>>> MailMessages(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<MailHeader>> MailMessages(string keyId, string vCode, int characterId)
+        {
+            var task = MailMessagesAsync(keyId, vCode, characterId);
+            task.Wait();
+            return task.Result;
+        }
+
+        /// <summary>Retrieves the collection of mail message headers from the eve web service</summary>
+        /// <param name="keyId">API Key ID to query</param>
+        /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="characterId">Character to query.</param>
+        /// <returns>A collection of mail headers </returns>
+        public Task<EveServiceResponse<IEnumerable<MailHeader>>> MailMessagesAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
@@ -159,7 +196,19 @@ namespace EveHQ.EveApi
         /// <param name="vCode"></param>
         /// <param name="characterId"></param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<IEnumerable<Notification>>> Notifications(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<Notification>> Notifications(string keyId, string vCode, int characterId)
+        {
+            var task = NotificationsAsync(keyId, vCode, characterId);
+            task.Wait();
+            return task.Result;
+        }
+
+        /// <summary>Gets the collection of notification for the user.</summary>
+        /// <param name="keyId"></param>
+        /// <param name="vCode"></param>
+        /// <param name="characterId"></param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<Notification>>> NotificationsAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());

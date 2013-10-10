@@ -48,7 +48,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                Task<EveServiceResponse<IEnumerable<AssetItem>>> task = client.Character.CharacterAssetList(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                Task<EveServiceResponse<IEnumerable<AssetItem>>> task = client.Character.AssetListAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
@@ -301,7 +301,7 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\Mailinglists.xml"));
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.MailingLists(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.MailingListsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
                 var result = task.Result;
@@ -325,7 +325,7 @@ namespace EveHQ.Tests.Api
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
 
-                var task = client.Character.MailMessages(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.MailMessagesAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
                 var result = task.Result;
@@ -345,7 +345,7 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\MarketOrders.xml"));
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.MarketOrders(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.MarketOrdersAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
                 var result = task.Result;
@@ -388,7 +388,7 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\Notifications.xml"));
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.Notifications(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.NotificationsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
                 var result = task.Result;

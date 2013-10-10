@@ -28,13 +28,13 @@ namespace EveHQ.EveApi
     public sealed class Notification
     {
         /// <summary>Gets or sets the notification id.</summary>
-        public int NotificationId { get; set; }
+        public long NotificationId { get; set; }
 
         /// <summary>Gets or sets the type id.</summary>
         public NotificationType TypeId { get; set; }
 
         /// <summary>Gets or sets the sender id.</summary>
-        public int SenderId { get; set; }
+        public long SenderId { get; set; }
 
         /// <summary>Gets or sets the sent date.</summary>
         public DateTimeOffset SentDate { get; set; }

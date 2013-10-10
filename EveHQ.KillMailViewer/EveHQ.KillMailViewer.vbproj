@@ -137,6 +137,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EveHQ.Common\EveHQ.Common.csproj">
+      <Project>{7cd9a34b-9635-4d69-b451-1ce93b8280d8}</Project>
+      <Name>EveHQ.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
       <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
       <Name>EveHQ.CoreControls</Name>
@@ -148,6 +152,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.NewEveAPI\EveHQ.NewEveAPI.csproj">
+      <Project>{7caaeb13-6eb8-482c-b63c-f78cb30b2289}</Project>
+      <Name>EveHQ.NewEveAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

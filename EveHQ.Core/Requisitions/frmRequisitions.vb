@@ -22,6 +22,7 @@ Imports System.Xml
 Imports System.Text
 Imports System.Threading.Tasks
 Imports DevComponents.AdvTree
+Imports EveHQ.EveApi
 Imports EveHQ.Market
 Imports EveHQ.Common.Extensions
 
@@ -527,66 +528,64 @@ Public Class frmRequisitions
 
             ' Fetch the resources owned
             ' Parse the Assets XML
-            Dim assetXML As New XmlDocument
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+            Dim assests As EveServiceResponse(Of IEnumerable(Of AssetItem))
             If IsCorp = True Then
-                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnStandard)
+                assests = HQ.ApiProvider.Corporation.AssetList(AssetAccount.userID, AssetAccount.APIKey, Integer.Parse(OwnerID))
             Else
-                assetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, AssetAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnStandard)
+                assests = HQ.ApiProvider.Character.AssetList(AssetAccount.userID, AssetAccount.APIKey, Integer.Parse(OwnerID))
             End If
-            If assetXML IsNot Nothing Then
-                Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                If locList.Count > 0 Then
+            If assests.ResultData IsNot Nothing Then
+                If assests.ResultData.Any() Then
                     ' Define what we want to obtain
                     Dim categories, groups As New ArrayList
-                    For Each loc As XmlNode In locList
-                        Call GetAssetQuantitesFromNode(loc, "", categories, groups, ownedAssets)
+                    For Each item As AssetItem In assests.ResultData
+                        Call GetAssetQuantitesFromNode(item, "", categories, groups, ownedAssets)
                     Next
                 End If
             End If
         End If
     End Sub
 
-    Private Sub GetAssetQuantitesFromNode(ByVal item As XmlNode, ByVal locationID As String, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, EveHQ.Core.RequisitionAsset))
+    Private Sub GetAssetQuantitesFromNode(ByVal item As AssetItem, ByVal locationID As String, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, EveHQ.Core.RequisitionAsset))
         Dim ItemData As New EveHQ.Core.EveItem
         Dim AssetID As String = ""
         Dim itemID As String = ""
-        AssetID = item.Attributes.GetNamedItem("itemID").Value
-        itemID = item.Attributes.GetNamedItem("typeID").Value
+        AssetID = item.ItemId.ToInvariantString()
+        itemID = item.TypeId.ToInvariantString()
         ' Check if the flag is excluded
-        If ExclusionFlags.Contains(CInt(item.Attributes.GetNamedItem("flag").Value)) = False Then
-            If item.Attributes.GetNamedItem("locationID") IsNot Nothing Then
-                locationID = item.Attributes.GetNamedItem("locationID").Value
+        If ExclusionFlags.Contains(item.Flag) = False Then
+            If item.LocationId > 0 Then
+                locationID = item.LocationId.ToInvariantString
             End If
             If EveHQ.Core.HQ.itemData.ContainsKey(itemID) Then
                 ItemData = EveHQ.Core.HQ.itemData(itemID)
                 If categories.Count > 0 Or groups.Count > 0 Then
                     ' Check if this is an excluded ship first
-                    If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And ItemData.Category = 6 And item.Attributes.GetNamedItem("singleton").Value = "1") Then
+                    If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And ItemData.Category = 6 And item.Singleton = True) Then
                         If categories.Contains(ItemData.Category) Or groups.Contains(ItemData.Group) Or groupResources.ContainsKey(CStr(ItemData.ID)) Then
                             ' Check if the item is in the list
                             If Assets.ContainsKey(CStr(ItemData.Name)) = False Then
-                                Assets.Add(CStr(ItemData.Name), New EveHQ.Core.RequisitionAsset(locationID, CLng(item.Attributes.GetNamedItem("quantity").Value)))
+                                Assets.Add(CStr(ItemData.Name), New EveHQ.Core.RequisitionAsset(locationID, item.Quantity))
                             Else
-                                Assets(CStr(ItemData.Name)).AddAsset(locationID, CLng(item.Attributes.GetNamedItem("quantity").Value))
+                                Assets(CStr(ItemData.Name)).AddAsset(locationID, item.Quantity)
                             End If
                         End If
                     End If
                 Else
                     ' Check if this is an excluded ship first
-                    If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And ItemData.Category = 6 And item.Attributes.GetNamedItem("singleton").Value = "1") Then
+                    If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And ItemData.Category = 6 And item.Singleton = True) Then
                         ' Check if the item is in the list
                         If Assets.ContainsKey(CStr(ItemData.Name)) = False Then
-                            Assets.Add(CStr(ItemData.Name), New EveHQ.Core.RequisitionAsset(locationID, CLng(item.Attributes.GetNamedItem("quantity").Value)))
+                            Assets.Add(CStr(ItemData.Name), New EveHQ.Core.RequisitionAsset(locationID, item.Quantity))
                         Else
-                            Assets(CStr(ItemData.Name)).AddAsset(locationID, CLng(item.Attributes.GetNamedItem("quantity").Value))
+                            Assets(CStr(ItemData.Name)).AddAsset(locationID, item.Quantity)
                         End If
                     End If
                 End If
             End If
             ' Check child items if they exist
-            If item.ChildNodes.Count > 0 Then
-                For Each subitem As XmlNode In item.ChildNodes(0).ChildNodes
+            If item.Contents.Count > 0 Then
+                For Each subitem As AssetItem In item.Contents
                     Call GetAssetQuantitesFromNode(subitem, locationID, categories, groups, Assets)
                 Next
             End If

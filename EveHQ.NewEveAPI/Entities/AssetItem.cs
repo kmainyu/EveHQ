@@ -47,7 +47,7 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets how many of this item there are.
         /// </summary>
-        public int Quantity { get; set; }
+        public long Quantity { get; set; }
 
         /// <summary>
         /// Gets the flag value for the item.

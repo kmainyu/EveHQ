@@ -24,6 +24,8 @@ Imports System.Text
 Imports System.IO
 Imports System.Net
 Imports DevComponents.AdvTree
+Imports EveHQ.EveAPI
+Imports EveHQ.Common.Extensions
 
 Public Class frmKMV
 
@@ -122,36 +124,35 @@ Public Class frmKMV
         KMAccount.APIKey = txtAPIKey.Text
         KMAccount.FriendlyName = "Killmail Viewing Account"
 
-        '  Create an instance of the API Request class
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
 
-        ' Create an XML document for retrieving characters
-        Dim CharactersXML As New XmlDocument
-        CharactersXML = APIReq.GetAPIXML(EveAPI.APITypes.Characters, KMAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+        Dim accountCharacters As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) = Core.HQ.ApiProvider.Account.Characters(KMAccount.userID, KMAccount.APIKey)
+
+        ''  Create an instance of the API Request class
+        'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+
+        '' Create an XML document for retrieving characters
+        'Dim CharactersXML As New XmlDocument
+        'CharactersXML = APIReq.GetAPIXML(EveAPI.APITypes.Characters, KMAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
 
         ' Check for errors
-        If APIReq.LastAPIErrorText <> "" Then
-            Select Case APIReq.LastAPIResult
-                Case EveAPI.APIResults.APIServerDownReturnedCached, EveAPI.APIResults.APIServerDownReturnedNull, EveAPI.APIResults.CCPError, EveAPI.APIResults.PageNotFound, EveAPI.APIResults.TimedOut, EveAPI.APIResults.UnknownError
-                    MessageBox.Show("There was an error retrieving character information from the API. The error was " & APIReq.LastAPIErrorText, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    lblAPIStatus.Text = "API Status: Character retrieval failed." : lblAPIStatus.Refresh()
-                    Exit Sub
-            End Select
+        If accountCharacters.IsFaulted Or accountCharacters.IsSuccessfulHttpStatus = False Or accountCharacters.EveErrorCode <> 0 Then
+
+            MessageBox.Show("There was an error retrieving character information from the API.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            lblAPIStatus.Text = "API Status: Character retrieval failed." : lblAPIStatus.Refresh()
+            Exit Sub
+
         End If
 
-        If CharactersXML IsNot Nothing Then
+        If accountCharacters.ResultData IsNot Nothing Then
             ' Seems ok so let's add the characters to the list
-            Dim CharacterList As XmlNodeList
-            Dim Character As XmlNode
 
             ' Get the list of characters and the character IDs
-            CharacterList = CharactersXML.SelectNodes("/eveapi/result/rowset/row")
             lvwCharacters.BeginUpdate()
             lvwCharacters.Items.Clear()
-            For Each Character In CharacterList
+            For Each character As AccountCharacter In accountCharacters.ResultData
                 Dim newPilot As New ListViewItem
-                newPilot.Text = Character.Attributes.GetNamedItem("name").Value
-                newPilot.Name = Character.Attributes.GetNamedItem("characterID").Value
+                newPilot.Text = character.Name
+                newPilot.Name = character.CharacterId.ToInvariantString()
                 lvwCharacters.Items.Add(newPilot)
             Next
             lvwCharacters.Sort()

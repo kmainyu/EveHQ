@@ -1908,21 +1908,15 @@ Public Class DataFunctions
         If accountName <> "" Then
             Dim mAccount As EveAccount = CType(HQ.EveHqSettings.Accounts.Item(accountName), EveAccount)
             ' Send this to the API
-            Dim _
-                APIReq As _
-                    New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.EveHqSettings.APIFileExtension,
-                                      HQ.cacheFolder)
-            Dim IDXML As XmlDocument = APIReq.GetAPIXML(APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID,
-                                                        APIReturnMethods.ReturnStandard)
-            ' Parse this XML
+           
+            Dim mailingLists As EveServiceResponse(Of IEnumerable(Of MailingList)) = HQ.ApiProvider.Character.MailingLists(mAccount.userID, mAccount.APIKey, Integer.Parse(mPilot.ID))            ' Parse this XML
             Dim IDList As XmlNodeList
             Dim eveID As Long = 0
             Dim eveName As String = ""
-            If IDXML IsNot Nothing Then
-                IDList = IDXML.SelectNodes("/eveapi/result/rowset/row")
-                For Each IDNode As XmlNode In IDList
-                    eveID = CLng(IDNode.Attributes.GetNamedItem("listID").Value)
-                    eveName = IDNode.Attributes.GetNamedItem("displayName").Value
+            If mailingLists.ResultData IsNot Nothing Then
+                For Each list As MailingList In mailingLists.ResultData
+                    eveID = list.ListId
+                    eveName = list.DisplayName
                     If FinalIDs.ContainsKey(eveID) = False Then
                         FinalIDs.Add(eveID, eveName)
                     End If

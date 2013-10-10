@@ -77,12 +77,20 @@ namespace EveHQ.EveApi
             return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseBalanceResponse);
         }
 
+
+        public EveServiceResponse<IEnumerable<AssetItem>> AssetList(string keyId, string vCode, int characterId)
+        {
+            var task = AssetListAsync(keyId, vCode, characterId);
+            task.Wait();
+            return task.Result;
+        }
+
         /// <summary>Retrieves the given character's asset list.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <returns>An enumerable collection of all items in the characters assets.</returns>
-        public Task<EveServiceResponse<IEnumerable<AssetItem>>> CharacterAssetList(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<AssetItem>>> AssetListAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
@@ -243,12 +251,23 @@ namespace EveHQ.EveApi
             return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseIndustryJobsResponse);
         }
 
+        public EveServiceResponse<IEnumerable<MarketOrder>> MarketOrders(string keyId, string vCode, int characterId)
+        {
+            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
+            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
+            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
+            var task = MarketOrdersAsync(keyId, vCode, characterId);
+            task.Wait();
+            return task.Result;
+        }
+
+
         /// <summary>Retrieves the market orders for the character.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <returns>a collection of market orders</returns>
-        public Task<EveServiceResponse<IEnumerable<MarketOrder>>> MarketOrders(string keyId, string vCode, int characterId)
+        public Task<EveServiceResponse<IEnumerable<MarketOrder>>> MarketOrdersAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());

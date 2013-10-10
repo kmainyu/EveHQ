@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Xml
+Imports EveHQ.EveAPI
 
 <Serializable()> Public Class EveAccount
 
@@ -184,32 +185,28 @@ Imports System.Xml
     Public Sub CheckAPIKey()
         Select Case Me.APIKeySystem
             Case APIKeySystems.Version2
-                ' New style system
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                Dim APIXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.APIKeyInfo, Me.ToAPIAccount, EveAPI.APIReturnMethods.BypassCache)
-                Select Case APIReq.LastAPIError
-                    Case -1
-                        ' Should be version 2 info, get Access mask
-                        Me.AccessMask = 0
-                        If APIXML IsNot Nothing Then
-                            Dim KeyList As XmlNodeList = APIXML.GetElementsByTagName("key")
-                            If KeyList.Count > 0 Then
-                                Me.AccessMask = CLng(KeyList(0).Attributes.GetNamedItem("accessMask").Value)
-                                Select Case KeyList(0).Attributes.GetNamedItem("type").Value
-                                    Case "Corporation"
-                                        Me.APIKeyType = APIKeyTypes.Corporation
-                                    Case "Character"
-                                        Me.APIKeyType = APIKeyTypes.Character
-                                    Case "Account"
-                                        Me.APIKeyType = APIKeyTypes.Account
-                                End Select
-                                Exit Select
-                            End If
-                        End If
-                    Case Else
-                        ' Still unknown!
-                        Me.AccessMask = 0
-                End Select
+                Dim apiResponse As EveServiceResponse(Of ApiKeyInfo) = HQ.ApiProvider.Account.ApiKeyInfo(Me.userID, Me.APIKey)
+
+                ' Should be version 2 info, get Access mask
+                Me.AccessMask = 0
+                If apiResponse.IsFaulted = False And apiResponse.EveErrorCode = 0 And apiResponse.IsSuccessfulHttpStatus = True And apiResponse.ResultData IsNot Nothing Then
+                    Select Case apiResponse.ResultData.ApiType
+                        Case EveAPI.ApiKeyType.Corporation
+                            Me.APIKeyType = APIKeyTypes.Corporation
+                        Case EveAPI.ApiKeyType.Character
+                            Me.APIKeyType = APIKeyTypes.Character
+                        Case EveAPI.ApiKeyType.Account
+                            Me.APIKeyType = APIKeyTypes.Account
+                        Case Else
+                            Me.APIKeyType = APIKeyTypes.Unknown
+                    End Select
+
+                    Me.AccessMask = apiResponse.ResultData.AccessMask
+                End If
+                'Case Else
+                ' Still unknown!
+                Me.AccessMask = 0
+                'End Select
             Case Else
                 ' Ignore
         End Select
@@ -218,24 +215,21 @@ Imports System.Xml
     Public Function GetCharactersOnAccount() As List(Of String)
 
         Dim CharList As New List(Of String)
+        Dim apiResponse As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) = HQ.ApiProvider.Account.Characters(Me.userID, Me.APIKey)
 
-        ' Fetch the characters on account XML file
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, Me.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
 
         ' Get characters
-        If accountXML IsNot Nothing Then
-            Dim CharacterList As XmlNodeList = accountXML.SelectNodes("/eveapi/result/rowset/row")
-            For Each Character As XmlNode In CharacterList
+        If apiResponse.ResultData IsNot Nothing And apiResponse.IsFaulted = False And apiResponse.IsSuccessfulHttpStatus = True And apiResponse.EveErrorCode = 0 Then
+            For Each character As AccountCharacter In apiResponse.ResultData
                 Select Case Me.APIKeySystem
                     Case APIKeySystems.Version2
                         If Me.APIKeyType = APIKeyTypes.Corporation Then
-                            If CharList.Contains(Character.Attributes.GetNamedItem("corporationName").Value) = False Then
-                                CharList.Add(Character.Attributes.GetNamedItem("corporationName").Value)
+                            If CharList.Contains(character.CorporationName) = False Then
+                                CharList.Add(character.CorporationName)
                             End If
                         Else
-                            If CharList.Contains(Character.Attributes.GetNamedItem("name").Value) = False Then
-                                CharList.Add(Character.Attributes.GetNamedItem("name").Value)
+                            If CharList.Contains(character.Name) = False Then
+                                CharList.Add(character.Name)
                             End If
                         End If
                     Case Else

@@ -272,6 +272,7 @@ Public Class EveAPIRequest
     ''' <param name="APIReturnMethod">The particular method used to obtain the XML file</param>
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
+    <Obsolete>
     Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String = ""
         Dim postdata As String = ""

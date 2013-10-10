@@ -37,6 +37,8 @@
     <AssemblyInfoTitle>EveHQ.Core</AssemblyInfoTitle>
     <AssemblyInfoDescription>Eve Online game tool</AssemblyInfoDescription>
     <AssemblyInfoGUID>982a7ada-9fbe-4192-9c9f-50619b1cc3b9</AssemblyInfoGUID>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -431,4 +433,5 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
