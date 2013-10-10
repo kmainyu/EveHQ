@@ -20,15 +20,15 @@
 
 Public Class frmEditBPDetails
 
-    Dim _assetIDs As New List(Of Integer)
+    Dim _assetIDs As New List(Of Long)
     Dim _ownerName As String
     Dim _currentBP As New BlueprintAsset
 
-    Public Property AssetIDs() As List(Of Integer)
+    Public Property AssetIDs() As List(Of Long)
         Get
             Return _assetIDs
         End Get
-        Set(ByVal value As List(Of Integer))
+        Set(ByVal value As List(Of Long))
             _assetIDs = value
             Call UpdateCurrentBP()
         End Set
@@ -54,7 +54,7 @@ Public Class frmEditBPDetails
         cboStatus.EndUpdate()
 
         ' Loads a single Blueprint
-        Dim cAssetID As Integer = _assetIDs(0)
+        Dim cAssetID As Long = _assetIDs(0)
 
         ' Fetch the ownerBPs if it exists
         _currentBP = PlugInData.BlueprintAssets(_ownerName).Item(cAssetID)
@@ -109,7 +109,7 @@ Public Class frmEditBPDetails
     End Sub
 
     Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
-        For Each cAssetID As Integer In _assetIDs
+        For Each cAssetID As Long In _assetIDs
             _currentBP = PlugInData.BlueprintAssets(_ownerName).Item(cAssetID)
             _currentBP.MELevel = CInt(nudMELevel.Value)
             _currentBP.PELevel = CInt(nudPELevel.Value)

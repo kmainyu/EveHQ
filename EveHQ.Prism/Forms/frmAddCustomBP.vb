@@ -53,7 +53,7 @@ Public Class frmAddCustomBP
 
     Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         ' Fetch the ownerBPs if it exists
-        Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
+        Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
         If PlugInData.BlueprintAssets.ContainsKey(_bpOwner) = True Then
             ownerBPs = PlugInData.BlueprintAssets(_bpOwner)
         Else

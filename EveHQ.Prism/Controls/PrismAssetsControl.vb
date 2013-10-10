@@ -33,7 +33,7 @@ Namespace Controls
     Public Class PrismAssetsControl
 
         Dim HQFShip As New ArrayList
-        Private _assetList As New SortedList(Of Integer, AssetItem)
+        Private _assetList As New SortedList(Of Long, AssetItem)
         Dim tempAssetList As New ArrayList
         Dim totalAssetValue As Double = 0
         Dim totalAssetCount As Long = 0
@@ -240,7 +240,6 @@ Namespace Controls
                     If IsBPO = True Then
                         AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Original)")
                     Else
-                        AssetData.Price = 0
                         AssetNode.Text = AssetNode.Text.Replace("Blueprint", "Blueprint (Copy)")
                     End If
                 End If
@@ -379,13 +378,10 @@ Namespace Controls
                 Call Me.DisplayContracts()
             End If
 
-
             lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant("Calculating...", "Calculating...")
 
             ' tree structure updated... start processing pricing data in background
             Task.Factory.TryRun(Sub() FetchPricingData())
-
-
 
             If adtAssets.Nodes.Count = 0 Then
                 adtAssets.Nodes.Add(New Node("No assets to display - check API and filters."))
@@ -435,7 +431,6 @@ Namespace Controls
 
         End Sub
 
-
         Private Sub UpdateAssetPricing(prices As Dictionary(Of Integer, Double))
 
             ' find the assests that need updating in this batch
@@ -444,12 +439,18 @@ Namespace Controls
             For Each itemTypeID As Integer In prices.Keys
                 testItem = itemTypeID
                 Dim updatedAssets As IEnumerable(Of AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = testItem Select ownedAsset.Value).Select(Function(a As AssetItem)
-                    a.Price = prices(testItem)
-                    'totalAssetValue += a.Price * a.Quantity
-                    totalAssetCount += a.Quantity
-                    Return a
-                                                                                                                                                                            End Function)
+                                                                                                                                                                             a.Price = prices(testItem)
+                                                                                                                                                                             Return a
+                                                                                                                                                                         End Function)
                 assetsUpdated.AddRange(updatedAssets)
+
+                For Each ownedAsset As AssetItem In assetsUpdated
+                    If ownedAsset.TypeID = itemTypeID Then
+                        If ownedAsset.RawQuantity = -2 Then
+                            ownedAsset.Price = CalculateBPCPrice(ownedAsset.Owner, ownedAsset.ItemID, ownedAsset.TypeID)
+                        End If
+                    End If
+                Next
 
             Next
 
@@ -458,8 +459,7 @@ Namespace Controls
             Dim testAsset As AssetItem
             For Each updatedAsset As AssetItem In assetsUpdated
                 testAsset = updatedAsset
-                Dim updateTarget As Node = (From assetNode In _assetNodes Where CInt(assetNode.Key) = testAsset.ItemID Select assetNode.Value).Single
-
+                Dim updateTarget As Node = (From assetNode In _assetNodes Where CLng(assetNode.Key) = testAsset.ItemID Select assetNode.Value).Single
 
                 assetNodesToUpdate.Add(New Tuple(Of Node, AssetItem)(updateTarget, updatedAsset))
 
@@ -469,74 +469,96 @@ Namespace Controls
             If IsHandleCreated Then
                 'cut to the ui thread for update
                 Invoke(Sub()
-                    'Check to see if system value filtering is enabled
-                    Dim minSysValue As Double
-                    Dim filteringEnabled As Boolean = chkMinSystemValue.Checked And Double.TryParse(txtMinSystemValue.Text, minSysValue)
+                           'Check to see if system value filtering is enabled
+                           Dim minSysValue As Double
+                           Dim filteringEnabled As Boolean = chkMinSystemValue.Checked And Double.TryParse(txtMinSystemValue.Text, minSysValue)
 
-                    For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
+                           For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
 
-                        'node value adjustment incase child nodes have updated the current value
-                        Dim nodeValue As Double = 0
-                        If (Double.TryParse(updateSet.Item1.Cells(_assetColumn("AssetValue")).Text, nodeValue)) Then
-                            updateSet.Item2.Price += nodeValue
-                          End If
-
-
-                        UpdateAssetColumnData(updateSet.Item2, updateSet.Item1)
-                        'updateSet.Item1.Cells(AssetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
-
-                        'updateSet.Item1.Cells(AssetColumn("AssetValue")).Text = (value).ToInvariantString("N2")
-                        ' update the parent and up the chain of nodes
-                        Dim value As Double = 0
-                        If (updateSet.Item2.RawQuantity > -2) Then
-                            value = (updateSet.Item2.Price * updateSet.Item2.Quantity)
-                          End If
+                               'node value adjustment incase child nodes have updated the current value
+                               Dim nodeValue As Double = 0
+                               If (Double.TryParse(updateSet.Item1.Cells(_assetColumn("AssetValue")).Text, nodeValue)) Then
+                                   updateSet.Item2.Price += nodeValue
+                               End If
 
 
-                        Dim parentNode As Node = updateSet.Item1.Parent
-                        Dim parentValue As Double = 0
+                               UpdateAssetColumnData(updateSet.Item2, updateSet.Item1)
+                               'updateSet.Item1.Cells(AssetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
 
-                        While parentNode IsNot Nothing
-                            If (Double.TryParse(parentNode.Cells(_assetColumn("AssetValue")).Text, parentValue)) Then
-                                parentValue += value
-                            Else
-                                parentValue = value
-                          End If
-                            parentNode.Cells(_assetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
+                               'updateSet.Item1.Cells(AssetColumn("AssetValue")).Text = (value).ToInvariantString("N2")
+                               ' update the parent and up the chain of nodes
+                               Dim value As Double = 0
+                               'If (updateSet.Item2.RawQuantity > -2) Then
+                               value = (updateSet.Item2.Price * updateSet.Item2.Quantity)
+                               'Else
 
-                            If (parentNode.Parent Is Nothing) And filteringEnabled = True Then
-                                If parentValue >= minSysValue Then
-                                    parentNode.Visible = True
-                                Else
-                                    parentNode.Visible = False
-                          End If
-                          End If
-
-                            parentNode = parentNode.Parent
-                          End While
+                               'End If
 
 
-                    Next
-                    ' Update totals
+                               Dim parentNode As Node = updateSet.Item1.Parent
+                               Dim parentValue As Double = 0
 
-                    ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
-                    ' aggregated into their values.
-                    totalAssetValue = 0
-                    Dim assetGroupTotal As Double = 0
-                    For Each assetGroup As Node In adtAssets.Nodes
-                        ' Check for non-existant columns in the case of zero items returned
-                        If _assetColumn("AssetValue") < assetGroup.Cells.Count Then
-                            If (Double.TryParse(assetGroup.Cells(_assetColumn("AssetValue")).Text, assetGroupTotal)) Then
-                                totalAssetValue += assetGroupTotal
-                          End If
-                          End If
-                    Next
+                               While parentNode IsNot Nothing
+                                   If (Double.TryParse(parentNode.Cells(_assetColumn("AssetValue")).Text, parentValue)) Then
+                                       parentValue += value
+                                   Else
+                                       parentValue = value
+                                   End If
+                                   parentNode.Cells(_assetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
 
-                    lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
-                          End Sub)
+                                   If (parentNode.Parent Is Nothing) And filteringEnabled = True Then
+                                       If parentValue >= minSysValue Then
+                                           parentNode.Visible = True
+                                       Else
+                                           parentNode.Visible = False
+                                       End If
+                                   End If
+
+                                   parentNode = parentNode.Parent
+                               End While
+
+                           Next
+                           ' Update totals
+
+                           ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
+                           ' aggregated into their values.
+                           totalAssetValue = 0
+                           Dim assetGroupTotal As Double = 0
+                           For Each assetGroup As Node In adtAssets.Nodes
+                               ' Check for non-existant columns in the case of zero items returned
+                               If _assetColumn("AssetValue") < assetGroup.Cells.Count Then
+                                   If (Double.TryParse(assetGroup.Cells(_assetColumn("AssetValue")).Text, assetGroupTotal)) Then
+                                       totalAssetValue += assetGroupTotal
+                                   End If
+                               End If
+                           Next
+
+                           lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
+                       End Sub)
             End If
         End Sub
 
+        Private Function CalculateBPCPrice(ownerName As String, assetID As Long, typeID As Integer) As Double
+            ' Check the blueprint costs for a matching type
+            If Settings.PrismSettings.BPCCosts.ContainsKey(typeID) Then
+                If PlugInData.BlueprintAssets.ContainsKey(ownerName) = True Then
+                    If PlugInData.BlueprintAssets(ownerName).ContainsKey(assetID) Then
+                        Dim runs As Integer = PlugInData.BlueprintAssets(ownerName)(assetID).Runs
+                        Dim bpc As BPCCostInfo = Settings.PrismSettings.BPCCosts(typeID)
+                        Dim maxRun As Integer = StaticData.Blueprints(typeID).MaxProductionLimit
+                        Dim perRunCost As Double = (bpc.MaxRunCost - bpc.MinRunCost) / (maxRun - 1)
+                        Dim basePrice As Double = bpc.MinRunCost - perRunCost
+                        Return Math.Round(basePrice + (perRunCost * runs), 2)
+                    Else
+                        Return 0
+                    End If
+                Else
+                    Return 0
+                End If
+            Else
+                Return 0
+            End If
+        End Function
 
         Private Sub ParseCorpSheets()
             ' Reset the lists of divisions and wallets
@@ -765,7 +787,7 @@ Namespace Controls
                                     CreateNodeCells(newAsset)
                                     newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
                                     Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
-                                    Dim flagName As String = PlugInData.itemFlags(flagID).ToString
+                                    Dim flagName As String = StaticData.ItemMarkers(flagID)
                                     Dim accountID As Integer = flagID + 885
                                     If accountID = 889 Then accountID = 1000
                                     If Owner.IsCorp = True And itemName <> "Office" Then
@@ -814,7 +836,7 @@ Namespace Controls
 
                                     ' Add the asset to the list of assets
                                     Dim newAssetList As New AssetItem
-                                    newAssetList.ItemID = CInt(newAsset.Tag)
+                                    newAssetList.ItemID = CLng(newAsset.Tag)
                                     newAssetList.CorpHangar = CorpHangarName
                                     newAssetList.Station = StationLocation
                                     newAssetList.System = locNode.Text
@@ -979,7 +1001,7 @@ Namespace Controls
                     CreateNodeCells(subAsset)
                     subAsset.Tag = subLoc.Attributes.GetNamedItem("itemID").Value
                     Dim subFlagID As Integer = CInt(subLoc.Attributes.GetNamedItem("flag").Value)
-                    Dim subFlagName As String = PlugInData.itemFlags(subFlagID).ToString
+                    Dim subFlagName As String = StaticData.ItemMarkers(subFlagID)
                     Dim accountID As Integer = subFlagID + 885
                     If accountID = 889 Then accountID = 1000
                     If Owner.IsCorp And itemName <> "Office" And accountID >= 1000 And accountID <= 1006 Then
@@ -1015,7 +1037,7 @@ Namespace Controls
 
                     ' Add the asset to the list of assets
                     Dim newAssetList As New AssetItem
-                    newAssetList.ItemID = CInt(subAsset.Tag)
+                    newAssetList.ItemID = CLng(subAsset.Tag)
                     newAssetList.CorpHangar = CorpHangarName
                     newAssetList.Station = StationLocation
                     newAssetList.System = location
@@ -1327,8 +1349,8 @@ Namespace Controls
                             orderNode.Cells(_assetColumn("AssetGroup")).Text = group
                             orderNode.Cells(_assetColumn("AssetCategory")).Text = category
                             If PlugInData.stations.Contains(ownerOrder.StationID) = True Then
-                                orderNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(ownerOrder.StationID), Station).stationName
-                                EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(ownerOrder.StationID), Station).systemID.ToString), SolarSystem)
+                                orderNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(ownerOrder.StationID), Station).StationName
+                                EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(ownerOrder.StationID), Station).SystemId.ToString), SolarSystem)
                             Else
                                 orderNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerOrder.StationID
                                 EveLocation = Nothing
@@ -1470,8 +1492,8 @@ Namespace Controls
                                 RNode.Cells(_assetColumn("AssetGroup")).Text = group
                                 RNode.Cells(_assetColumn("AssetCategory")).Text = category
                                 If PlugInData.stations.ContainsKey(Job.OutputLocationID.ToString) = True Then
-                                    RNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).stationName
-                                    EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).systemID.ToString), SolarSystem)
+                                    RNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).StationName
+                                    EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).SystemId.ToString), SolarSystem)
                                 Else
                                     RNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem).Name
                                     EveLocation = CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem)
@@ -1541,8 +1563,8 @@ Namespace Controls
                 RNode.Cells(_assetColumn("AssetGroup")).Text = group
                 RNode.Cells(_assetColumn("AssetCategory")).Text = category
                 If PlugInData.stations.ContainsKey(Job.OutputLocationID.ToString) = True Then
-                    RNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).stationName
-                    EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).systemID.ToString), SolarSystem)
+                    RNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).StationName
+                    EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).SystemId.ToString), SolarSystem)
                 Else
                     RNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem).Name
                     EveLocation = CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem)
@@ -1599,8 +1621,8 @@ Namespace Controls
                             ContractNode.Text &= " (" & OwnerContract.Type.ToString & ")"
                             ContractNode.Cells(_assetColumn("AssetOwner")).Text = owner
                             If PlugInData.stations.Contains(OwnerContract.StartStationID.ToString) = True Then
-                                ContractNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).stationName
-                                EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).systemID.ToString), SolarSystem)
+                                ContractNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).StationName
+                                EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).SystemId.ToString), SolarSystem)
                             Else
                                 ContractNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & OwnerContract.StartStationID.ToString
                                 EveLocation = Nothing
@@ -1650,8 +1672,8 @@ Namespace Controls
                                     ItemNode.Cells(_assetColumn("AssetGroup")).Text = group
                                     ItemNode.Cells(_assetColumn("AssetCategory")).Text = category
                                     If PlugInData.stations.Contains(OwnerContract.StartStationID.ToString) = True Then
-                                        ItemNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).stationName
-                                        EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).systemID.ToString), SolarSystem)
+                                        ItemNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).StationName
+                                        EveLocation = CType(PlugInData.stations(CType(PlugInData.stations(OwnerContract.StartStationID.ToString), Station).SystemId.ToString), SolarSystem)
                                     Else
                                         ItemNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & OwnerContract.StartStationID.ToString
                                         EveLocation = Nothing
@@ -1697,7 +1719,7 @@ Namespace Controls
                 If adtAssets.SelectedNodes.Count = 1 Then
                     If adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag IsNot Nothing Then
                         Dim itemName As String = adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag.ToString
-                        Dim itemID As Integer = CInt(adtAssets.SelectedNodes(0).Tag)
+                        Dim itemID As Long = CLng(adtAssets.SelectedNodes(0).Tag)
                         If itemName <> "Cash Balances" And itemName <> "Investments" Then
                             If StaticData.TypeNames.ContainsKey(itemName) = True And itemName <> "Office" And adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetQuantity")).Text <> "" Then
                                 mnuItemName.Text = itemName
@@ -2110,7 +2132,7 @@ Namespace Controls
                 newNode = New TreeNode
                 newNode.Name = CStr(group)
                 newNode.Text = CStr(StaticData.TypeGroups(group))
-                tvwFilter.Nodes(StaticData.GroupCats(CInt(newNode.Name))).Nodes.Add(newNode)
+                tvwFilter.Nodes(CStr(StaticData.GroupCats(CInt(newNode.Name)))).Nodes.Add(newNode)
             Next
             ' Update the filter
             tvwFilter.Sorted = True
@@ -2658,7 +2680,7 @@ Namespace Controls
             If sfd.FileName <> "" Then
                 Select Case sfd.FilterIndex
                     Case 1
-                        Call Me.ExportGroupedAssets(Assets, Core.HQ.Settings.CSVSeparatorChar, sfd.FileName)
+                        Call Me.ExportGroupedAssets(Assets, Core.HQ.Settings.CsvSeparatorChar, sfd.FileName)
                     Case 2
                         Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
                 End Select
@@ -2770,7 +2792,7 @@ Namespace Controls
             If sfd.FileName <> "" Then
                 Select Case sfd.FilterIndex
                     Case 1
-                        Call Me.ExportAssets(Assets, Core.HQ.Settings.CSVSeparatorChar, sfd.FileName)
+                        Call Me.ExportAssets(Assets, Core.HQ.Settings.CsvSeparatorChar, sfd.FileName)
                     Case 2
                         Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
                 End Select

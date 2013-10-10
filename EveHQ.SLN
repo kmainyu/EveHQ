@@ -31,6 +31,11 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.CacheCreator", "EveHQ
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "EveHQ.SettingsConverter", "EveHQ.SettingsConverter\EveHQ.SettingsConverter.vbproj", "{5998302B-2FD7-492E-87EB-0EC0618B2A6E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{20AC12D9-6957-4AA4-AE42-29C858F80874}"
+	ProjectSection(SolutionItems) = preProject
+		ToDo.txt = ToDo.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET

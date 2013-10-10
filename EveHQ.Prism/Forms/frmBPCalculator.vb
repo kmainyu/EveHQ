@@ -477,7 +477,7 @@ Public Class frmBPCalculator
         cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
         cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
         ' Fetch the ownerBPs if it exists
-        Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
+        Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
         If PlugInData.BlueprintAssets.ContainsKey(cBPOwnerName) = True Then
             ownerBPs = PlugInData.BlueprintAssets(cBPOwnerName)
         End If

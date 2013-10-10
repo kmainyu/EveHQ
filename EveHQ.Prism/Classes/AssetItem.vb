@@ -18,7 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Public Class AssetItem
-    Public ItemID As Integer
+    Public ItemID As Long
     Public Station As String
     Public System As String
     Public Constellation As String

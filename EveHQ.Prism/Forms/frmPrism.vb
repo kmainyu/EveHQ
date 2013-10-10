@@ -4165,7 +4165,7 @@ Public Class frmPrism
             adtBlueprints.Nodes.Clear()
             If prismOwner <> "" Then
                 ' Fetch the ownerBPs if it exists
-                Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
+                Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
                 If PlugInData.BlueprintAssets.ContainsKey(prismOwner) = True Then
                     ownerBPs = PlugInData.BlueprintAssets(prismOwner)
                 End If
@@ -4259,7 +4259,7 @@ Public Class frmPrism
                 Owner = PlugInData.PrismOwners(cboBPOwner.SelectedItem.ToString)
 
                 ' Fetch the ownerBPs if it exists
-                Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
+                Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
                 If PlugInData.BlueprintAssets.ContainsKey(Owner.Name) = True Then
                     ownerBPs = PlugInData.BlueprintAssets(Owner.Name)
                 Else
@@ -4278,7 +4278,7 @@ Public Class frmPrism
                 End If
 
                 If AssetXML IsNot Nothing Then
-                    Dim Assets As New SortedList(Of Integer, BlueprintAsset)
+                    Dim Assets As New SortedList(Of Long, BlueprintAsset)
                     Dim locList As XmlNodeList = AssetXML.SelectNodes("/eveapi/result/rowset/row")
                     If locList.Count > 0 Then
                         ' Define what we want to obtain
@@ -4287,13 +4287,13 @@ Public Class frmPrism
                         For Each loc As XmlNode In locList
                             Dim locationID As String = loc.Attributes.GetNamedItem("locationID").Value
                             Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
-                            Dim locationDetails As String = PlugInData.itemFlags(flagID).ToString
+                            Dim locationDetails As String = StaticData.ItemMarkers(flagID)
                             Dim BPCFlag As Boolean = False
                             ' Check the asset
                             Dim ItemData As EveType
-                            Dim AssetID As Integer
+                            Dim AssetID As Long
                             Dim itemID As Integer
-                            AssetID = CInt(loc.Attributes.GetNamedItem("itemID").Value)
+                            AssetID = CLng(loc.Attributes.GetNamedItem("itemID").Value)
                             itemID = CInt(loc.Attributes.GetNamedItem("typeID").Value)
                             If StaticData.Types.ContainsKey(itemID) Then
                                 ItemData = StaticData.Types(itemID)
@@ -4360,7 +4360,7 @@ Public Class frmPrism
                             End If
                         Next
                         ' Should have our list of assets now so let's compare them
-                        For Each assetID As Integer In Assets.Keys
+                        For Each assetID As Long In Assets.Keys
                             ' See if the assetID already exists for the owner
                             If ownerBPs.ContainsKey(assetID) = True Then
                                 ' We have it so set the status to present
@@ -4393,17 +4393,17 @@ Public Class frmPrism
         End If
 
     End Sub
-    Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of Integer, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal Owner As PrismOwner)
+    Private Sub GetAssetFromNode(ByVal loc As XmlNode, ByVal categories As ArrayList, ByVal groups As ArrayList, ByVal types As ArrayList, ByRef Assets As SortedList(Of Long, BlueprintAsset), ByVal locationID As String, ByVal locationDetails As String, ByVal Owner As PrismOwner)
         Dim itemList As XmlNodeList = loc.ChildNodes(0).ChildNodes
         Dim ItemData As EveType
-        Dim AssetID As Integer
+        Dim AssetID As Long
         Dim itemID As Integer
         Dim flagID As Integer = 0
         Dim flagName As String = ""
-        Dim containerID As Integer = CInt(loc.Attributes.GetNamedItem("itemID").Value)
+        Dim containerID As Long = CLng(loc.Attributes.GetNamedItem("itemID").Value)
         Dim containerType As Integer = CInt(loc.Attributes.GetNamedItem("typeID").Value)
         For Each item As XmlNode In itemList
-            AssetID = CInt(item.Attributes.GetNamedItem("itemID").Value)
+            AssetID = CLng(item.Attributes.GetNamedItem("itemID").Value)
             itemID = CInt(item.Attributes.GetNamedItem("typeID").Value)
             flagID = CInt(item.Attributes.GetNamedItem("flag").Value)
             Dim BPCFlag As Boolean = False
@@ -4462,7 +4462,7 @@ Public Class frmPrism
 
     Private Sub btnGetBPJobInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGetBPJobInfo.Click
         ' Get the owner BPs
-        Dim ownerBPs As New SortedList(Of Integer, BlueprintAsset)
+        Dim ownerBPs As New SortedList(Of Long, BlueprintAsset)
         If cboBPOwner.SelectedItem IsNot Nothing Then
             Dim owner As String = cboBPOwner.SelectedItem.ToString()
             ' Fetch the ownerBPs if it exists
@@ -4605,7 +4605,7 @@ Public Class frmPrism
             MessageBox.Show("There is no blueprint owner selected.", "Empty Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
-        Dim ownerBPAssets As SortedList(Of Integer, BlueprintAsset)
+        Dim ownerBPAssets As SortedList(Of Long, BlueprintAsset)
         If PlugInData.BlueprintAssets.ContainsKey(owner) Then
             ownerBPAssets = PlugInData.BlueprintAssets(owner)
         Else
@@ -4758,7 +4758,7 @@ Public Class frmPrism
             mnuSendToBPCalc.Enabled = True
             ' Get the blueprint info
             If chkShowOwnedBPs.Checked = True Then
-                Dim assetID As Integer = CInt(adtBlueprints.SelectedNodes(0).Tag)
+                Dim assetID As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
                 Dim bpOwner As String = cboBPOwner.SelectedItem.ToString
                 Dim asset As BlueprintAsset = PlugInData.BlueprintAssets(bpOwner).Item(assetID)
                 If asset.AssetID = asset.TypeID Then
@@ -4816,9 +4816,9 @@ Public Class frmPrism
     Private Sub EditBlueprintDetails()
         Dim BPForm As New frmEditBPDetails
         BPForm.OwnerName = cboBPOwner.SelectedItem.ToString
-        Dim BPs As New List(Of Integer)
+        Dim BPs As New List(Of Long)
         For Each selItem As Node In adtBlueprints.SelectedNodes
-            BPs.Add(CInt(selItem.Tag))
+            BPs.Add(CLng(selItem.Tag))
         Next
         If BPs.Count > 0 Then
             BPForm.AssetIDs = BPs
@@ -4827,7 +4827,7 @@ Public Class frmPrism
             Dim BP As New BlueprintAsset
             Dim locationName As String = ""
             For Each selitem As Node In adtBlueprints.SelectedNodes
-                BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(CInt(selitem.Tag))
+                BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(CLng(selitem.Tag))
                 locationName = Locations.GetLocationNameFromID(CInt(BP.LocationID))
                 Call Me.UpdateOwnerBPItem(BPForm.OwnerName, locationName, BP, selitem)
             Next

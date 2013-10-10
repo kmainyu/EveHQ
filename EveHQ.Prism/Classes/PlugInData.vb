@@ -36,9 +36,9 @@ Public Class PlugInData
     Public Shared NPCCorps As New SortedList
     Public Shared Corps As New SortedList
     Public Shared PackedVolumes As New SortedList(Of Integer, Double) ' groupID, volume
-    Public Shared AssetItemNames As New SortedList(Of Integer, String)
+    Public Shared AssetItemNames As New SortedList(Of Long, String)
     Public Shared Products As New SortedList(Of String, String)
-    Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of Integer, BlueprintAsset))
+    Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of Long, BlueprintAsset))
     Public Shared CorpList As New SortedList
     Public Shared CategoryNames As New SortedList(Of String, Integer) ' catName, catID
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
@@ -344,7 +344,7 @@ Public Class PlugInData
                 Try
                     Using s As New StreamReader(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json"))
                         Dim json As String = s.ReadToEnd
-                        BlueprintAssets = JsonConvert.DeserializeObject(Of SortedList(Of String, SortedList(Of Integer, BlueprintAsset)))(json)
+                        BlueprintAssets = JsonConvert.DeserializeObject(Of SortedList(Of String, SortedList(Of Long, BlueprintAsset)))(json)
                     End Using
                 Catch ex As Exception
                     Dim msg As String = "There was an error trying to load the Owner Blueprints and it appears that this file is corrupt." & ControlChars.CrLf & ControlChars.CrLf
