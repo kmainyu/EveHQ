@@ -279,10 +279,10 @@
     End Property
 
     ''' <summary>
-    ''' Gets or sets a collection of remote effects to be applied to the fitting
+    ''' Gets or sets a collection of remote effects to be applied to the fitting.
     ''' </summary>
     ''' <value></value>
-    ''' <returns>A collection of fleet effects to be applied to the fitting</returns>
+    ''' <returns>A collection of fleet effects to be applied to the fitting.</returns>
     ''' <remarks></remarks>
     Public Property RemoteEffects() As List(Of RemoteEffect)
         Get
@@ -292,6 +292,23 @@
             cRemoteEffects = value
         End Set
     End Property
+
+    ''' <summary>
+    ''' Gets or sets user notes specific to this fitting.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>A string containing user notes specific to the fitting.</returns>
+    ''' <remarks></remarks>
+    Public Property Notes As String
+
+    ''' <summary>
+    ''' Gets or sets a list of tags for the fitting.
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>A list of tags for the fitting.</returns>
+    ''' <remarks></remarks>
+    Public Property Tags As List(Of String)
+    
 
 #End Region
 

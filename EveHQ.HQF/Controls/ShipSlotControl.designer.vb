@@ -97,9 +97,34 @@ Partial Class ShipSlotControl
         Me.colChargeOnly = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.tcStorage = New DevComponents.DotNetBar.TabControl()
+        Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.lblTags = New DevComponents.DotNetBar.LabelX()
+        Me.txtAddTag = New DevComponents.DotNetBar.Controls.TextBoxX()
+        Me.lblAddTag = New DevComponents.DotNetBar.LabelX()
+        Me.lblTagLabel = New DevComponents.DotNetBar.LabelX()
+        Me.txtNotes = New DevComponents.DotNetBar.Controls.RichTextBoxEx()
+        Me.tiNotes = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpDroneBay = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnMergeDrones = New DevComponents.DotNetBar.ButtonX()
         Me.tiDroneBay = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpCargoBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.btnMergeCargo = New DevComponents.DotNetBar.ButtonX()
+        Me.tiCargoBay = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpRemoteEffects = New DevComponents.DotNetBar.TabControlPanel()
+        Me.cboPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.btnUpdateRemoteEffects = New DevComponents.DotNetBar.ButtonX()
+        Me.btnAddRemoteFitting = New DevComponents.DotNetBar.ButtonX()
+        Me.tiRemoteEffects = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpFleetEffects = New DevComponents.DotNetBar.TabControlPanel()
+        Me.cboFCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboWCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboSCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboFCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboWCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.cboSCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
+        Me.btnLeaveFleet = New DevComponents.DotNetBar.ButtonX()
+        Me.tiFleetEffects = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpBoosters = New DevComponents.DotNetBar.TabControlPanel()
         Me.btnBoosterSlot3 = New DevComponents.DotNetBar.ButtonX()
         Me.btnShowInfo3 = New DevComponents.DotNetBar.ButtonItem()
@@ -117,28 +142,6 @@ Partial Class ShipSlotControl
         Me.cboBoosterSlot3 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.cboBoosterSlot1 = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.tiBoosters = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpFleetEffects = New DevComponents.DotNetBar.TabControlPanel()
-        Me.cboFCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboWCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboSCShip = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboFCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboWCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboSCPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.btnLeaveFleet = New DevComponents.DotNetBar.ButtonX()
-        Me.tiFleetEffects = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpCargoBay = New DevComponents.DotNetBar.TabControlPanel()
-        Me.btnMergeCargo = New DevComponents.DotNetBar.ButtonX()
-        Me.tiCargoBay = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpRemoteEffects = New DevComponents.DotNetBar.TabControlPanel()
-        Me.cboPilot = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.cboFitting = New DevComponents.DotNetBar.Controls.ComboBoxEx()
-        Me.btnUpdateRemoteEffects = New DevComponents.DotNetBar.ButtonX()
-        Me.btnAddRemoteFitting = New DevComponents.DotNetBar.ButtonX()
-        Me.tiRemoteEffects = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpHistory = New DevComponents.DotNetBar.TabControlPanel()
-        Me.tiHistory = New DevComponents.DotNetBar.TabItem(Me.components)
-        Me.tcpShipBay = New DevComponents.DotNetBar.TabControlPanel()
-        Me.tiShipBay = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.tcpWHEffects = New DevComponents.DotNetBar.TabControlPanel()
         Me.cboWHClass = New DevComponents.DotNetBar.Controls.ComboBoxEx()
         Me.ComboItem1 = New DevComponents.Editors.ComboItem()
@@ -156,6 +159,10 @@ Partial Class ShipSlotControl
         Me.ComboItem12 = New DevComponents.Editors.ComboItem()
         Me.ComboItem13 = New DevComponents.Editors.ComboItem()
         Me.tiWHEffects = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpShipBay = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiShipBay = New DevComponents.DotNetBar.TabItem(Me.components)
+        Me.tcpHistory = New DevComponents.DotNetBar.TabControlPanel()
+        Me.tiHistory = New DevComponents.DotNetBar.TabItem(Me.components)
         Me.panelFunctions = New DevComponents.DotNetBar.PanelEx()
         Me.btnAutoSize = New DevComponents.DotNetBar.ButtonX()
         Me.btnRedo = New DevComponents.DotNetBar.ButtonX()
@@ -192,14 +199,15 @@ Partial Class ShipSlotControl
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tcStorage.SuspendLayout()
+        Me.TabControlPanel1.SuspendLayout()
         Me.tcpDroneBay.SuspendLayout()
-        Me.tcpBoosters.SuspendLayout()
-        Me.tcpFleetEffects.SuspendLayout()
         Me.tcpCargoBay.SuspendLayout()
         Me.tcpRemoteEffects.SuspendLayout()
-        Me.tcpHistory.SuspendLayout()
-        Me.tcpShipBay.SuspendLayout()
+        Me.tcpFleetEffects.SuspendLayout()
+        Me.tcpBoosters.SuspendLayout()
         Me.tcpWHEffects.SuspendLayout()
+        Me.tcpShipBay.SuspendLayout()
+        Me.tcpHistory.SuspendLayout()
         Me.panelFunctions.SuspendLayout()
         CType(Me.adtSlots, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -867,14 +875,15 @@ Partial Class ShipSlotControl
         'tcStorage
         '
         Me.tcStorage.CanReorderTabs = True
-        Me.tcStorage.Controls.Add(Me.tcpWHEffects)
+        Me.tcStorage.Controls.Add(Me.TabControlPanel1)
         Me.tcStorage.Controls.Add(Me.tcpDroneBay)
-        Me.tcStorage.Controls.Add(Me.tcpBoosters)
-        Me.tcStorage.Controls.Add(Me.tcpFleetEffects)
         Me.tcStorage.Controls.Add(Me.tcpCargoBay)
         Me.tcStorage.Controls.Add(Me.tcpRemoteEffects)
-        Me.tcStorage.Controls.Add(Me.tcpHistory)
+        Me.tcStorage.Controls.Add(Me.tcpFleetEffects)
+        Me.tcStorage.Controls.Add(Me.tcpBoosters)
+        Me.tcStorage.Controls.Add(Me.tcpWHEffects)
         Me.tcStorage.Controls.Add(Me.tcpShipBay)
+        Me.tcStorage.Controls.Add(Me.tcpHistory)
         Me.tcStorage.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.tcStorage.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tcStorage.Location = New System.Drawing.Point(0, 406)
@@ -893,7 +902,108 @@ Partial Class ShipSlotControl
         Me.tcStorage.Tabs.Add(Me.tiWHEffects)
         Me.tcStorage.Tabs.Add(Me.tiShipBay)
         Me.tcStorage.Tabs.Add(Me.tiHistory)
+        Me.tcStorage.Tabs.Add(Me.tiNotes)
         Me.tcStorage.Text = "TabControl1"
+        '
+        'TabControlPanel1
+        '
+        Me.TabControlPanel1.Controls.Add(Me.lblTags)
+        Me.TabControlPanel1.Controls.Add(Me.txtAddTag)
+        Me.TabControlPanel1.Controls.Add(Me.lblAddTag)
+        Me.TabControlPanel1.Controls.Add(Me.lblTagLabel)
+        Me.TabControlPanel1.Controls.Add(Me.txtNotes)
+        Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+        Me.TabControlPanel1.Name = "TabControlPanel1"
+        Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+        Me.TabControlPanel1.Size = New System.Drawing.Size(1061, 235)
+        Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.TabControlPanel1.Style.GradientAngle = 90
+        Me.TabControlPanel1.TabIndex = 9
+        Me.TabControlPanel1.TabItem = Me.tiNotes
+        '
+        'lblTags
+        '
+        Me.lblTags.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTags.BackColor = System.Drawing.Color.WhiteSmoke
+        '
+        '
+        '
+        Me.lblTags.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblTags.Location = New System.Drawing.Point(88, 4)
+        Me.lblTags.Name = "lblTags"
+        Me.lblTags.Size = New System.Drawing.Size(966, 23)
+        Me.lblTags.TabIndex = 4
+        '
+        'txtAddTag
+        '
+        '
+        '
+        '
+        Me.txtAddTag.Border.Class = "TextBoxBorder"
+        Me.txtAddTag.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.txtAddTag.Location = New System.Drawing.Point(88, 32)
+        Me.txtAddTag.Name = "txtAddTag"
+        Me.txtAddTag.PreventEnterBeep = True
+        Me.txtAddTag.Size = New System.Drawing.Size(152, 21)
+        Me.txtAddTag.TabIndex = 3
+        '
+        'lblAddTag
+        '
+        Me.lblAddTag.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.lblAddTag.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblAddTag.Location = New System.Drawing.Point(7, 29)
+        Me.lblAddTag.Name = "lblAddTag"
+        Me.lblAddTag.Size = New System.Drawing.Size(75, 23)
+        Me.lblAddTag.TabIndex = 2
+        Me.lblAddTag.Text = "Add Tag:"
+        '
+        'lblTagLabel
+        '
+        Me.lblTagLabel.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.lblTagLabel.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.lblTagLabel.Location = New System.Drawing.Point(7, 4)
+        Me.lblTagLabel.Name = "lblTagLabel"
+        Me.lblTagLabel.Size = New System.Drawing.Size(75, 23)
+        Me.lblTagLabel.TabIndex = 1
+        Me.lblTagLabel.Text = "Current Tags:"
+        '
+        'txtNotes
+        '
+        Me.txtNotes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        '
+        '
+        '
+        Me.txtNotes.BackgroundStyle.Class = "RichTextBoxBorder"
+        Me.txtNotes.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.txtNotes.Location = New System.Drawing.Point(4, 56)
+        Me.txtNotes.Name = "txtNotes"
+        Me.txtNotes.Rtf = "{\rtf1\ansi\ansicpg1252\deff0\deflang2057{\fonttbl{\f0\fnil\fcharset0 Tahoma;}}" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & _
+    "\viewkind4\uc1\pard\f0\fs17\par" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "}" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.txtNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
+        Me.txtNotes.ShowSelectionMargin = True
+        Me.txtNotes.Size = New System.Drawing.Size(1053, 176)
+        Me.txtNotes.TabIndex = 0
+        '
+        'tiNotes
+        '
+        Me.tiNotes.AttachedControl = Me.TabControlPanel1
+        Me.tiNotes.Name = "tiNotes"
+        Me.tiNotes.Text = "Notes && Tags"
         '
         'tcpDroneBay
         '
@@ -933,6 +1043,254 @@ Partial Class ShipSlotControl
         Me.tiDroneBay.AttachedControl = Me.tcpDroneBay
         Me.tiDroneBay.Name = "tiDroneBay"
         Me.tiDroneBay.Text = "Drone Bay"
+        '
+        'tcpCargoBay
+        '
+        Me.tcpCargoBay.Controls.Add(Me.btnMergeCargo)
+        Me.tcpCargoBay.Controls.Add(Me.pbCargoBay)
+        Me.tcpCargoBay.Controls.Add(Me.lblCargoBay)
+        Me.tcpCargoBay.Controls.Add(Me.lvwCargoBay)
+        Me.tcpCargoBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpCargoBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpCargoBay.Name = "tcpCargoBay"
+        Me.tcpCargoBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpCargoBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpCargoBay.Style.GradientAngle = 90
+        Me.tcpCargoBay.TabIndex = 2
+        Me.tcpCargoBay.TabItem = Me.tiCargoBay
+        '
+        'btnMergeCargo
+        '
+        Me.btnMergeCargo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnMergeCargo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnMergeCargo.Location = New System.Drawing.Point(977, 7)
+        Me.btnMergeCargo.Name = "btnMergeCargo"
+        Me.btnMergeCargo.Size = New System.Drawing.Size(80, 20)
+        Me.btnMergeCargo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnMergeCargo.TabIndex = 8
+        Me.btnMergeCargo.Text = "Merge Cargo"
+        '
+        'tiCargoBay
+        '
+        Me.tiCargoBay.AttachedControl = Me.tcpCargoBay
+        Me.tiCargoBay.Name = "tiCargoBay"
+        Me.tiCargoBay.Text = "Cargo Bay"
+        '
+        'tcpRemoteEffects
+        '
+        Me.tcpRemoteEffects.Controls.Add(Me.cboPilot)
+        Me.tcpRemoteEffects.Controls.Add(Me.cboFitting)
+        Me.tcpRemoteEffects.Controls.Add(Me.btnUpdateRemoteEffects)
+        Me.tcpRemoteEffects.Controls.Add(Me.btnAddRemoteFitting)
+        Me.tcpRemoteEffects.Controls.Add(Me.lblFitting)
+        Me.tcpRemoteEffects.Controls.Add(Me.lvwRemoteFittings)
+        Me.tcpRemoteEffects.Controls.Add(Me.lvwRemoteEffects)
+        Me.tcpRemoteEffects.Controls.Add(Me.lblPilot)
+        Me.tcpRemoteEffects.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpRemoteEffects.Location = New System.Drawing.Point(0, 23)
+        Me.tcpRemoteEffects.Name = "tcpRemoteEffects"
+        Me.tcpRemoteEffects.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpRemoteEffects.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpRemoteEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpRemoteEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpRemoteEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpRemoteEffects.Style.GradientAngle = 90
+        Me.tcpRemoteEffects.TabIndex = 3
+        Me.tcpRemoteEffects.TabItem = Me.tiRemoteEffects
+        '
+        'cboPilot
+        '
+        Me.cboPilot.DisplayMember = "Text"
+        Me.cboPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPilot.FormattingEnabled = True
+        Me.cboPilot.ItemHeight = 15
+        Me.cboPilot.Location = New System.Drawing.Point(289, 4)
+        Me.cboPilot.Name = "cboPilot"
+        Me.cboPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboPilot.TabIndex = 12
+        '
+        'cboFitting
+        '
+        Me.cboFitting.DisplayMember = "Text"
+        Me.cboFitting.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFitting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFitting.FormattingEnabled = True
+        Me.cboFitting.ItemHeight = 15
+        Me.cboFitting.Location = New System.Drawing.Point(59, 4)
+        Me.cboFitting.Name = "cboFitting"
+        Me.cboFitting.Size = New System.Drawing.Size(187, 21)
+        Me.cboFitting.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFitting.TabIndex = 11
+        '
+        'btnUpdateRemoteEffects
+        '
+        Me.btnUpdateRemoteEffects.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnUpdateRemoteEffects.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(552, 4)
+        Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
+        Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
+        Me.btnUpdateRemoteEffects.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnUpdateRemoteEffects.TabIndex = 10
+        Me.btnUpdateRemoteEffects.Text = "Update"
+        '
+        'btnAddRemoteFitting
+        '
+        Me.btnAddRemoteFitting.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddRemoteFitting.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(471, 4)
+        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
+        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
+        Me.btnAddRemoteFitting.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnAddRemoteFitting.TabIndex = 9
+        Me.btnAddRemoteFitting.Text = "Add"
+        '
+        'tiRemoteEffects
+        '
+        Me.tiRemoteEffects.AttachedControl = Me.tcpRemoteEffects
+        Me.tiRemoteEffects.Name = "tiRemoteEffects"
+        Me.tiRemoteEffects.Text = "Remote Effects"
+        '
+        'tcpFleetEffects
+        '
+        Me.tcpFleetEffects.Controls.Add(Me.cboFCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.cboWCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.cboSCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.cboFCPilot)
+        Me.tcpFleetEffects.Controls.Add(Me.cboWCPilot)
+        Me.tcpFleetEffects.Controls.Add(Me.cboSCPilot)
+        Me.tcpFleetEffects.Controls.Add(Me.btnLeaveFleet)
+        Me.tcpFleetEffects.Controls.Add(Me.chkFCActive)
+        Me.tcpFleetEffects.Controls.Add(Me.lblSC)
+        Me.tcpFleetEffects.Controls.Add(Me.chkWCActive)
+        Me.tcpFleetEffects.Controls.Add(Me.chkSCActive)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFleetStatusLabel)
+        Me.tcpFleetEffects.Controls.Add(Me.lblWCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFleetStatus)
+        Me.tcpFleetEffects.Controls.Add(Me.lblSCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.lblWC)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFCShip)
+        Me.tcpFleetEffects.Controls.Add(Me.lblFC)
+        Me.tcpFleetEffects.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpFleetEffects.Location = New System.Drawing.Point(0, 23)
+        Me.tcpFleetEffects.Name = "tcpFleetEffects"
+        Me.tcpFleetEffects.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpFleetEffects.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpFleetEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpFleetEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpFleetEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpFleetEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpFleetEffects.Style.GradientAngle = 90
+        Me.tcpFleetEffects.TabIndex = 4
+        Me.tcpFleetEffects.TabItem = Me.tiFleetEffects
+        '
+        'cboFCShip
+        '
+        Me.cboFCShip.DisplayMember = "Text"
+        Me.cboFCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFCShip.FormattingEnabled = True
+        Me.cboFCShip.ItemHeight = 15
+        Me.cboFCShip.Location = New System.Drawing.Point(290, 64)
+        Me.cboFCShip.Name = "cboFCShip"
+        Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboFCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFCShip.TabIndex = 33
+        '
+        'cboWCShip
+        '
+        Me.cboWCShip.DisplayMember = "Text"
+        Me.cboWCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWCShip.FormattingEnabled = True
+        Me.cboWCShip.ItemHeight = 15
+        Me.cboWCShip.Location = New System.Drawing.Point(290, 37)
+        Me.cboWCShip.Name = "cboWCShip"
+        Me.cboWCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboWCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWCShip.TabIndex = 32
+        '
+        'cboSCShip
+        '
+        Me.cboSCShip.DisplayMember = "Text"
+        Me.cboSCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboSCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSCShip.FormattingEnabled = True
+        Me.cboSCShip.ItemHeight = 15
+        Me.cboSCShip.Location = New System.Drawing.Point(290, 10)
+        Me.cboSCShip.Name = "cboSCShip"
+        Me.cboSCShip.Size = New System.Drawing.Size(187, 21)
+        Me.cboSCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboSCShip.TabIndex = 31
+        '
+        'cboFCPilot
+        '
+        Me.cboFCPilot.DisplayMember = "Text"
+        Me.cboFCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboFCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboFCPilot.FormattingEnabled = True
+        Me.cboFCPilot.ItemHeight = 15
+        Me.cboFCPilot.Location = New System.Drawing.Point(100, 64)
+        Me.cboFCPilot.Name = "cboFCPilot"
+        Me.cboFCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboFCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboFCPilot.TabIndex = 30
+        '
+        'cboWCPilot
+        '
+        Me.cboWCPilot.DisplayMember = "Text"
+        Me.cboWCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboWCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboWCPilot.FormattingEnabled = True
+        Me.cboWCPilot.ItemHeight = 15
+        Me.cboWCPilot.Location = New System.Drawing.Point(100, 37)
+        Me.cboWCPilot.Name = "cboWCPilot"
+        Me.cboWCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboWCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboWCPilot.TabIndex = 29
+        '
+        'cboSCPilot
+        '
+        Me.cboSCPilot.DisplayMember = "Text"
+        Me.cboSCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
+        Me.cboSCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboSCPilot.FormattingEnabled = True
+        Me.cboSCPilot.ItemHeight = 15
+        Me.cboSCPilot.Location = New System.Drawing.Point(100, 10)
+        Me.cboSCPilot.Name = "cboSCPilot"
+        Me.cboSCPilot.Size = New System.Drawing.Size(148, 21)
+        Me.cboSCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.cboSCPilot.TabIndex = 28
+        '
+        'btnLeaveFleet
+        '
+        Me.btnLeaveFleet.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnLeaveFleet.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+        Me.btnLeaveFleet.Location = New System.Drawing.Point(172, 91)
+        Me.btnLeaveFleet.Name = "btnLeaveFleet"
+        Me.btnLeaveFleet.Size = New System.Drawing.Size(75, 23)
+        Me.btnLeaveFleet.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.btnLeaveFleet.TabIndex = 27
+        Me.btnLeaveFleet.Text = "Leave Fleet"
+        '
+        'tiFleetEffects
+        '
+        Me.tiFleetEffects.AttachedControl = Me.tcpFleetEffects
+        Me.tiFleetEffects.Name = "tiFleetEffects"
+        Me.tiFleetEffects.Text = "Fleet Effects"
         '
         'tcpBoosters
         '
@@ -1101,304 +1459,6 @@ Partial Class ShipSlotControl
         Me.tiBoosters.Name = "tiBoosters"
         Me.tiBoosters.Text = "Boosters"
         '
-        'tcpFleetEffects
-        '
-        Me.tcpFleetEffects.Controls.Add(Me.cboFCShip)
-        Me.tcpFleetEffects.Controls.Add(Me.cboWCShip)
-        Me.tcpFleetEffects.Controls.Add(Me.cboSCShip)
-        Me.tcpFleetEffects.Controls.Add(Me.cboFCPilot)
-        Me.tcpFleetEffects.Controls.Add(Me.cboWCPilot)
-        Me.tcpFleetEffects.Controls.Add(Me.cboSCPilot)
-        Me.tcpFleetEffects.Controls.Add(Me.btnLeaveFleet)
-        Me.tcpFleetEffects.Controls.Add(Me.chkFCActive)
-        Me.tcpFleetEffects.Controls.Add(Me.lblSC)
-        Me.tcpFleetEffects.Controls.Add(Me.chkWCActive)
-        Me.tcpFleetEffects.Controls.Add(Me.chkSCActive)
-        Me.tcpFleetEffects.Controls.Add(Me.lblFleetStatusLabel)
-        Me.tcpFleetEffects.Controls.Add(Me.lblWCShip)
-        Me.tcpFleetEffects.Controls.Add(Me.lblFleetStatus)
-        Me.tcpFleetEffects.Controls.Add(Me.lblSCShip)
-        Me.tcpFleetEffects.Controls.Add(Me.lblWC)
-        Me.tcpFleetEffects.Controls.Add(Me.lblFCShip)
-        Me.tcpFleetEffects.Controls.Add(Me.lblFC)
-        Me.tcpFleetEffects.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpFleetEffects.Location = New System.Drawing.Point(0, 23)
-        Me.tcpFleetEffects.Name = "tcpFleetEffects"
-        Me.tcpFleetEffects.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpFleetEffects.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpFleetEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpFleetEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpFleetEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpFleetEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpFleetEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpFleetEffects.Style.GradientAngle = 90
-        Me.tcpFleetEffects.TabIndex = 4
-        Me.tcpFleetEffects.TabItem = Me.tiFleetEffects
-        '
-        'cboFCShip
-        '
-        Me.cboFCShip.DisplayMember = "Text"
-        Me.cboFCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboFCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFCShip.FormattingEnabled = True
-        Me.cboFCShip.ItemHeight = 15
-        Me.cboFCShip.Location = New System.Drawing.Point(290, 64)
-        Me.cboFCShip.Name = "cboFCShip"
-        Me.cboFCShip.Size = New System.Drawing.Size(187, 21)
-        Me.cboFCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboFCShip.TabIndex = 33
-        '
-        'cboWCShip
-        '
-        Me.cboWCShip.DisplayMember = "Text"
-        Me.cboWCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboWCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWCShip.FormattingEnabled = True
-        Me.cboWCShip.ItemHeight = 15
-        Me.cboWCShip.Location = New System.Drawing.Point(290, 37)
-        Me.cboWCShip.Name = "cboWCShip"
-        Me.cboWCShip.Size = New System.Drawing.Size(187, 21)
-        Me.cboWCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboWCShip.TabIndex = 32
-        '
-        'cboSCShip
-        '
-        Me.cboSCShip.DisplayMember = "Text"
-        Me.cboSCShip.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboSCShip.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboSCShip.FormattingEnabled = True
-        Me.cboSCShip.ItemHeight = 15
-        Me.cboSCShip.Location = New System.Drawing.Point(290, 10)
-        Me.cboSCShip.Name = "cboSCShip"
-        Me.cboSCShip.Size = New System.Drawing.Size(187, 21)
-        Me.cboSCShip.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboSCShip.TabIndex = 31
-        '
-        'cboFCPilot
-        '
-        Me.cboFCPilot.DisplayMember = "Text"
-        Me.cboFCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboFCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFCPilot.FormattingEnabled = True
-        Me.cboFCPilot.ItemHeight = 15
-        Me.cboFCPilot.Location = New System.Drawing.Point(100, 64)
-        Me.cboFCPilot.Name = "cboFCPilot"
-        Me.cboFCPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboFCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboFCPilot.TabIndex = 30
-        '
-        'cboWCPilot
-        '
-        Me.cboWCPilot.DisplayMember = "Text"
-        Me.cboWCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboWCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboWCPilot.FormattingEnabled = True
-        Me.cboWCPilot.ItemHeight = 15
-        Me.cboWCPilot.Location = New System.Drawing.Point(100, 37)
-        Me.cboWCPilot.Name = "cboWCPilot"
-        Me.cboWCPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboWCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboWCPilot.TabIndex = 29
-        '
-        'cboSCPilot
-        '
-        Me.cboSCPilot.DisplayMember = "Text"
-        Me.cboSCPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboSCPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboSCPilot.FormattingEnabled = True
-        Me.cboSCPilot.ItemHeight = 15
-        Me.cboSCPilot.Location = New System.Drawing.Point(100, 10)
-        Me.cboSCPilot.Name = "cboSCPilot"
-        Me.cboSCPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboSCPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboSCPilot.TabIndex = 28
-        '
-        'btnLeaveFleet
-        '
-        Me.btnLeaveFleet.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnLeaveFleet.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnLeaveFleet.Location = New System.Drawing.Point(172, 91)
-        Me.btnLeaveFleet.Name = "btnLeaveFleet"
-        Me.btnLeaveFleet.Size = New System.Drawing.Size(75, 23)
-        Me.btnLeaveFleet.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnLeaveFleet.TabIndex = 27
-        Me.btnLeaveFleet.Text = "Leave Fleet"
-        '
-        'tiFleetEffects
-        '
-        Me.tiFleetEffects.AttachedControl = Me.tcpFleetEffects
-        Me.tiFleetEffects.Name = "tiFleetEffects"
-        Me.tiFleetEffects.Text = "Fleet Effects"
-        '
-        'tcpCargoBay
-        '
-        Me.tcpCargoBay.Controls.Add(Me.btnMergeCargo)
-        Me.tcpCargoBay.Controls.Add(Me.pbCargoBay)
-        Me.tcpCargoBay.Controls.Add(Me.lblCargoBay)
-        Me.tcpCargoBay.Controls.Add(Me.lvwCargoBay)
-        Me.tcpCargoBay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpCargoBay.Location = New System.Drawing.Point(0, 23)
-        Me.tcpCargoBay.Name = "tcpCargoBay"
-        Me.tcpCargoBay.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpCargoBay.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpCargoBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpCargoBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpCargoBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpCargoBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpCargoBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpCargoBay.Style.GradientAngle = 90
-        Me.tcpCargoBay.TabIndex = 2
-        Me.tcpCargoBay.TabItem = Me.tiCargoBay
-        '
-        'btnMergeCargo
-        '
-        Me.btnMergeCargo.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnMergeCargo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnMergeCargo.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnMergeCargo.Location = New System.Drawing.Point(977, 7)
-        Me.btnMergeCargo.Name = "btnMergeCargo"
-        Me.btnMergeCargo.Size = New System.Drawing.Size(80, 20)
-        Me.btnMergeCargo.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnMergeCargo.TabIndex = 8
-        Me.btnMergeCargo.Text = "Merge Cargo"
-        '
-        'tiCargoBay
-        '
-        Me.tiCargoBay.AttachedControl = Me.tcpCargoBay
-        Me.tiCargoBay.Name = "tiCargoBay"
-        Me.tiCargoBay.Text = "Cargo Bay"
-        '
-        'tcpRemoteEffects
-        '
-        Me.tcpRemoteEffects.Controls.Add(Me.cboPilot)
-        Me.tcpRemoteEffects.Controls.Add(Me.cboFitting)
-        Me.tcpRemoteEffects.Controls.Add(Me.btnUpdateRemoteEffects)
-        Me.tcpRemoteEffects.Controls.Add(Me.btnAddRemoteFitting)
-        Me.tcpRemoteEffects.Controls.Add(Me.lblFitting)
-        Me.tcpRemoteEffects.Controls.Add(Me.lvwRemoteFittings)
-        Me.tcpRemoteEffects.Controls.Add(Me.lvwRemoteEffects)
-        Me.tcpRemoteEffects.Controls.Add(Me.lblPilot)
-        Me.tcpRemoteEffects.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpRemoteEffects.Location = New System.Drawing.Point(0, 23)
-        Me.tcpRemoteEffects.Name = "tcpRemoteEffects"
-        Me.tcpRemoteEffects.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpRemoteEffects.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpRemoteEffects.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpRemoteEffects.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpRemoteEffects.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpRemoteEffects.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpRemoteEffects.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpRemoteEffects.Style.GradientAngle = 90
-        Me.tcpRemoteEffects.TabIndex = 3
-        Me.tcpRemoteEffects.TabItem = Me.tiRemoteEffects
-        '
-        'cboPilot
-        '
-        Me.cboPilot.DisplayMember = "Text"
-        Me.cboPilot.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboPilot.FormattingEnabled = True
-        Me.cboPilot.ItemHeight = 15
-        Me.cboPilot.Location = New System.Drawing.Point(289, 4)
-        Me.cboPilot.Name = "cboPilot"
-        Me.cboPilot.Size = New System.Drawing.Size(148, 21)
-        Me.cboPilot.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboPilot.TabIndex = 12
-        '
-        'cboFitting
-        '
-        Me.cboFitting.DisplayMember = "Text"
-        Me.cboFitting.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed
-        Me.cboFitting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboFitting.FormattingEnabled = True
-        Me.cboFitting.ItemHeight = 15
-        Me.cboFitting.Location = New System.Drawing.Point(59, 4)
-        Me.cboFitting.Name = "cboFitting"
-        Me.cboFitting.Size = New System.Drawing.Size(187, 21)
-        Me.cboFitting.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.cboFitting.TabIndex = 11
-        '
-        'btnUpdateRemoteEffects
-        '
-        Me.btnUpdateRemoteEffects.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnUpdateRemoteEffects.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnUpdateRemoteEffects.Location = New System.Drawing.Point(552, 4)
-        Me.btnUpdateRemoteEffects.Name = "btnUpdateRemoteEffects"
-        Me.btnUpdateRemoteEffects.Size = New System.Drawing.Size(75, 23)
-        Me.btnUpdateRemoteEffects.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnUpdateRemoteEffects.TabIndex = 10
-        Me.btnUpdateRemoteEffects.Text = "Update"
-        '
-        'btnAddRemoteFitting
-        '
-        Me.btnAddRemoteFitting.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-        Me.btnAddRemoteFitting.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnAddRemoteFitting.Location = New System.Drawing.Point(471, 4)
-        Me.btnAddRemoteFitting.Name = "btnAddRemoteFitting"
-        Me.btnAddRemoteFitting.Size = New System.Drawing.Size(75, 23)
-        Me.btnAddRemoteFitting.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-        Me.btnAddRemoteFitting.TabIndex = 9
-        Me.btnAddRemoteFitting.Text = "Add"
-        '
-        'tiRemoteEffects
-        '
-        Me.tiRemoteEffects.AttachedControl = Me.tcpRemoteEffects
-        Me.tiRemoteEffects.Name = "tiRemoteEffects"
-        Me.tiRemoteEffects.Text = "Remote Effects"
-        '
-        'tcpHistory
-        '
-        Me.tcpHistory.Controls.Add(Me.lvwHistory)
-        Me.tcpHistory.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpHistory.Location = New System.Drawing.Point(0, 23)
-        Me.tcpHistory.Name = "tcpHistory"
-        Me.tcpHistory.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpHistory.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpHistory.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpHistory.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpHistory.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpHistory.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpHistory.Style.GradientAngle = 90
-        Me.tcpHistory.TabIndex = 8
-        Me.tcpHistory.TabItem = Me.tiHistory
-        '
-        'tiHistory
-        '
-        Me.tiHistory.AttachedControl = Me.tcpHistory
-        Me.tiHistory.Name = "tiHistory"
-        Me.tiHistory.Text = "History"
-        '
-        'tcpShipBay
-        '
-        Me.tcpShipBay.Controls.Add(Me.pbShipBay)
-        Me.tcpShipBay.Controls.Add(Me.lblShipBay)
-        Me.tcpShipBay.Controls.Add(Me.lvwShipBay)
-        Me.tcpShipBay.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tcpShipBay.Location = New System.Drawing.Point(0, 23)
-        Me.tcpShipBay.Name = "tcpShipBay"
-        Me.tcpShipBay.Padding = New System.Windows.Forms.Padding(1)
-        Me.tcpShipBay.Size = New System.Drawing.Size(1061, 235)
-        Me.tcpShipBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-        Me.tcpShipBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
-        Me.tcpShipBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-        Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.tcpShipBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-        Me.tcpShipBay.Style.GradientAngle = 90
-        Me.tcpShipBay.TabIndex = 7
-        Me.tcpShipBay.TabItem = Me.tiShipBay
-        '
-        'tiShipBay
-        '
-        Me.tiShipBay.AttachedControl = Me.tcpShipBay
-        Me.tiShipBay.Name = "tiShipBay"
-        Me.tiShipBay.Text = "Ship Maintenance Bay"
-        '
         'tcpWHEffects
         '
         Me.tcpWHEffects.Controls.Add(Me.cboWHClass)
@@ -1505,6 +1565,56 @@ Partial Class ShipSlotControl
         Me.tiWHEffects.AttachedControl = Me.tcpWHEffects
         Me.tiWHEffects.Name = "tiWHEffects"
         Me.tiWHEffects.Text = "Environment"
+        '
+        'tcpShipBay
+        '
+        Me.tcpShipBay.Controls.Add(Me.pbShipBay)
+        Me.tcpShipBay.Controls.Add(Me.lblShipBay)
+        Me.tcpShipBay.Controls.Add(Me.lvwShipBay)
+        Me.tcpShipBay.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpShipBay.Location = New System.Drawing.Point(0, 23)
+        Me.tcpShipBay.Name = "tcpShipBay"
+        Me.tcpShipBay.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpShipBay.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpShipBay.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpShipBay.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpShipBay.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpShipBay.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpShipBay.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpShipBay.Style.GradientAngle = 90
+        Me.tcpShipBay.TabIndex = 7
+        Me.tcpShipBay.TabItem = Me.tiShipBay
+        '
+        'tiShipBay
+        '
+        Me.tiShipBay.AttachedControl = Me.tcpShipBay
+        Me.tiShipBay.Name = "tiShipBay"
+        Me.tiShipBay.Text = "Ship Maintenance Bay"
+        '
+        'tcpHistory
+        '
+        Me.tcpHistory.Controls.Add(Me.lvwHistory)
+        Me.tcpHistory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tcpHistory.Location = New System.Drawing.Point(0, 23)
+        Me.tcpHistory.Name = "tcpHistory"
+        Me.tcpHistory.Padding = New System.Windows.Forms.Padding(1)
+        Me.tcpHistory.Size = New System.Drawing.Size(1061, 235)
+        Me.tcpHistory.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
+        Me.tcpHistory.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+        Me.tcpHistory.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+        Me.tcpHistory.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.tcpHistory.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+        Me.tcpHistory.Style.GradientAngle = 90
+        Me.tcpHistory.TabIndex = 8
+        Me.tcpHistory.TabItem = Me.tiHistory
+        '
+        'tiHistory
+        '
+        Me.tiHistory.AttachedControl = Me.tcpHistory
+        Me.tiHistory.Name = "tiHistory"
+        Me.tiHistory.Text = "History"
         '
         'panelFunctions
         '
@@ -1806,21 +1916,22 @@ Partial Class ShipSlotControl
         CType(Me.pbShipInfo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tcStorage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tcStorage.ResumeLayout(False)
+        Me.TabControlPanel1.ResumeLayout(False)
         Me.tcpDroneBay.ResumeLayout(False)
         Me.tcpDroneBay.PerformLayout()
-        Me.tcpBoosters.ResumeLayout(False)
-        Me.tcpBoosters.PerformLayout()
-        Me.tcpFleetEffects.ResumeLayout(False)
-        Me.tcpFleetEffects.PerformLayout()
         Me.tcpCargoBay.ResumeLayout(False)
         Me.tcpCargoBay.PerformLayout()
         Me.tcpRemoteEffects.ResumeLayout(False)
         Me.tcpRemoteEffects.PerformLayout()
-        Me.tcpHistory.ResumeLayout(False)
-        Me.tcpShipBay.ResumeLayout(False)
-        Me.tcpShipBay.PerformLayout()
+        Me.tcpFleetEffects.ResumeLayout(False)
+        Me.tcpFleetEffects.PerformLayout()
+        Me.tcpBoosters.ResumeLayout(False)
+        Me.tcpBoosters.PerformLayout()
         Me.tcpWHEffects.ResumeLayout(False)
         Me.tcpWHEffects.PerformLayout()
+        Me.tcpShipBay.ResumeLayout(False)
+        Me.tcpShipBay.PerformLayout()
+        Me.tcpHistory.ResumeLayout(False)
         Me.panelFunctions.ResumeLayout(False)
         Me.panelFunctions.PerformLayout()
         CType(Me.adtSlots, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1984,4 +2095,11 @@ Partial Class ShipSlotControl
     Friend WithEvents btnAlterSkills2 As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnRemoveBooster2 As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents btnAutoSize As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents TabControlPanel1 As DevComponents.DotNetBar.TabControlPanel
+    Friend WithEvents tiNotes As DevComponents.DotNetBar.TabItem
+    Friend WithEvents txtNotes As DevComponents.DotNetBar.Controls.RichTextBoxEx
+    Friend WithEvents txtAddTag As DevComponents.DotNetBar.Controls.TextBoxX
+    Friend WithEvents lblAddTag As DevComponents.DotNetBar.LabelX
+    Friend WithEvents lblTagLabel As DevComponents.DotNetBar.LabelX
+    Friend WithEvents lblTags As DevComponents.DotNetBar.LabelX
 End Class

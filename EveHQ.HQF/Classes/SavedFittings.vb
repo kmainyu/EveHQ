@@ -123,7 +123,9 @@ Imports Newtonsoft.Json
         savedFit.WHEffect = Fit.WHEffect
         savedFit.WHLevel = Fit.WHLevel
         savedFit.FleetEffects = Fit.FleetEffects
-        savedFit.RemoteEffects = Fit.RemoteEffects
+        savedFit.RemoteEffects = fit.RemoteEffects
+        savedFit.Notes = fit.Notes
+        savedFit.Tags = fit.Tags
         Return savedFit
     End Function
 
@@ -159,7 +161,9 @@ Imports Newtonsoft.Json
             newFit.WHEffect = Fit.WHEffect
             newFit.WHLevel = Fit.WHLevel
             newFit.FleetEffects = Fit.FleetEffects
-            newFit.RemoteEffects = Fit.RemoteEffects
+            newFit.RemoteEffects = fit.RemoteEffects
+            newFit.Notes = fit.Notes
+            newFit.Tags = fit.Tags
             Return newFit
         Else
             Return Nothing

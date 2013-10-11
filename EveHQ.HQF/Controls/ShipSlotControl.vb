@@ -192,6 +192,8 @@ Public Class ShipSlotControl
             Me.RedrawShipBay()
             Me.UpdateBoosterSlots()
             Me.UpdateWHUI()
+            UpdateNotes()
+            UpdateTags()
             Call UpdatePrices()
         Else
             MessageBox.Show("The fitting for " & Me.ParentFitting.KeyName & " failed to produce a calculated setup.",
@@ -4840,6 +4842,48 @@ Public Class ShipSlotControl
     End Sub
 
 #End Region
+
+#Region "Notes & Tags Methods"
+
+    Private Sub UpdateNotes()
+        txtNotes.Text = ParentFitting.Notes
+    End Sub
+
+    Private Sub UpdateTags()
+        If ParentFitting.Tags Is Nothing Then
+            ParentFitting.Tags = New List(Of String)
+        End If
+        lblTags.Text = ""
+        For Each shipTag As String In ParentFitting.Tags
+            lblTags.Text &= "<a href='" & shipTag & "'>" & shipTag & "</a>   "
+        Next
+    End Sub
+
+   Private Sub txtNotes_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtNotes.TextChanged
+        If ParentFitting IsNot Nothing Then
+            ParentFitting.Notes = txtNotes.Text
+        End If
+    End Sub
+
+    Private Sub txtAddTag_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles txtAddTag.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            If ParentFitting.Tags.Contains(txtAddTag.Text.Trim) = False Then
+                ParentFitting.Tags.Add(txtAddTag.Text.Trim)
+                txtAddTag.Text = ""
+                UpdateTags()
+            End If
+        End If
+    End Sub
+
+    Private Sub LinkClicked(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblTags.MarkupLinkClick
+        If ParentFitting.Tags.Contains(e.HRef) Then
+            ParentFitting.Tags.Remove(e.HRef)
+            UpdateTags()
+        End If
+    End Sub
+
+#End Region
+    
 End Class
 
 Public Class UndoInfo
