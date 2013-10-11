@@ -124,7 +124,11 @@ Public Class frmGunnery
             newAmmo = New ListViewItem
             newAmmo.Text = newMod.LoadedCharge.Name
             newAmmo.SubItems.Add(newMod.CapUsage.ToString("N2"))
-            newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleOptimalRange).ToString("N2"))
+            If newMod.Attributes.ContainsKey(AttributeEnum.ModuleFalloff) Then
+                newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleOptimalRange).ToString("N2"))
+            Else
+                newAmmo.SubItems.Add("0")
+            End If
             If newMod.Attributes.ContainsKey(AttributeEnum.ModuleFalloff) Then
                 newAmmo.SubItems.Add(newMod.Attributes(AttributeEnum.ModuleFalloff).ToString("N2"))
             Else
