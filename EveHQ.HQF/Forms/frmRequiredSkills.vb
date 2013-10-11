@@ -243,7 +243,13 @@ Public Class frmRequiredSkills
     Private Sub AddNeededSkillsToQueue()
         Dim neededSkills As New SortedList(Of String, Integer)
         For Each neededSkill As ReqSkill In _reqSkills
-            neededSkills.Add(neededSkill.Name, neededSkill.ReqLevel)
+            If neededSkills.ContainsKey(neededSkill.Name) = False Then
+                neededSkills.Add(neededSkill.Name, neededSkill.ReqLevel)
+            Else
+                If neededSkill.ReqLevel > neededSkills(neededSkill.Name) Then
+                    neededSkills(neededSkill.Name) = neededSkill.ReqLevel
+                End If
+            End If
         Next
         Dim selQ As New Core.frmSelectQueue(_reqPilot.Name, neededSkills, "HQF: " & _fittingName)
         selQ.ShowDialog()
