@@ -92,6 +92,7 @@ Partial Public Class frmPrismSettings
         Me.nudLabInstallCost = New DevComponents.Editors.DoubleInput()
         Me.nudLabRunningCost = New DevComponents.Editors.DoubleInput()
         Me.nudFactoryInstallCost = New DevComponents.Editors.DoubleInput()
+        Me.chkHideAPIDialog = New DevComponents.DotNetBar.Controls.CheckBoxX()
         Me.pnlSettings.SuspendLayout()
         Me.gpGeneral.SuspendLayout()
         Me.gpCorpReps.SuspendLayout()
@@ -159,6 +160,7 @@ Partial Public Class frmPrismSettings
         '
         Me.gpGeneral.CanvasColor = System.Drawing.SystemColors.Control
         Me.gpGeneral.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
+        Me.gpGeneral.Controls.Add(Me.chkHideAPIDialog)
         Me.gpGeneral.Controls.Add(Me.btnDeleteUndefinedJournals)
         Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateTransactions)
         Me.gpGeneral.Controls.Add(Me.btnDeleteDuplicateJournals)
@@ -188,7 +190,6 @@ Partial Public Class frmPrismSettings
         Me.gpGeneral.Style.BorderRightWidth = 1
         Me.gpGeneral.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpGeneral.Style.BorderTopWidth = 1
-        Me.gpGeneral.Style.Class = ""
         Me.gpGeneral.Style.CornerDiameter = 4
         Me.gpGeneral.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpGeneral.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -197,12 +198,10 @@ Partial Public Class frmPrismSettings
         '
         '
         '
-        Me.gpGeneral.StyleMouseDown.Class = ""
         Me.gpGeneral.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpGeneral.StyleMouseOver.Class = ""
         Me.gpGeneral.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpGeneral.TabIndex = 32
         Me.gpGeneral.Text = "General Settings"
@@ -374,7 +373,6 @@ Partial Public Class frmPrismSettings
         Me.gpCorpReps.Style.BorderRightWidth = 1
         Me.gpCorpReps.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpCorpReps.Style.BorderTopWidth = 1
-        Me.gpCorpReps.Style.Class = ""
         Me.gpCorpReps.Style.CornerDiameter = 4
         Me.gpCorpReps.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpCorpReps.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -383,12 +381,10 @@ Partial Public Class frmPrismSettings
         '
         '
         '
-        Me.gpCorpReps.StyleMouseDown.Class = ""
         Me.gpCorpReps.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpCorpReps.StyleMouseOver.Class = ""
         Me.gpCorpReps.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpCorpReps.TabIndex = 36
         Me.gpCorpReps.Text = "Corporate Representatives"
@@ -539,7 +535,6 @@ Partial Public Class frmPrismSettings
         '
         '
         '
-        Me.chkUseSamePilot.BackgroundStyle.Class = ""
         Me.chkUseSamePilot.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.chkUseSamePilot.Location = New System.Drawing.Point(295, 69)
         Me.chkUseSamePilot.Name = "chkUseSamePilot"
@@ -743,7 +738,6 @@ Partial Public Class frmPrismSettings
         '
         'ElementStyle1
         '
-        Me.ElementStyle1.Class = ""
         Me.ElementStyle1.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.ElementStyle1.Name = "ElementStyle1"
         Me.ElementStyle1.TextColor = System.Drawing.SystemColors.ControlText
@@ -774,7 +768,6 @@ Partial Public Class frmPrismSettings
         Me.gpAssetColumns.Style.BorderRightWidth = 1
         Me.gpAssetColumns.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpAssetColumns.Style.BorderTopWidth = 1
-        Me.gpAssetColumns.Style.Class = ""
         Me.gpAssetColumns.Style.CornerDiameter = 4
         Me.gpAssetColumns.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpAssetColumns.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -783,12 +776,10 @@ Partial Public Class frmPrismSettings
         '
         '
         '
-        Me.gpAssetColumns.StyleMouseDown.Class = ""
         Me.gpAssetColumns.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpAssetColumns.StyleMouseOver.Class = ""
         Me.gpAssetColumns.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpAssetColumns.TabIndex = 35
         Me.gpAssetColumns.Text = "Asset Column Layout"
@@ -869,7 +860,6 @@ Partial Public Class frmPrismSettings
         Me.gpCosts.Style.BorderRightWidth = 1
         Me.gpCosts.Style.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
         Me.gpCosts.Style.BorderTopWidth = 1
-        Me.gpCosts.Style.Class = ""
         Me.gpCosts.Style.CornerDiameter = 4
         Me.gpCosts.Style.CornerType = DevComponents.DotNetBar.eCornerType.Rounded
         Me.gpCosts.Style.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
@@ -878,12 +868,10 @@ Partial Public Class frmPrismSettings
         '
         '
         '
-        Me.gpCosts.StyleMouseDown.Class = ""
         Me.gpCosts.StyleMouseDown.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         '
         '
-        Me.gpCosts.StyleMouseOver.Class = ""
         Me.gpCosts.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.gpCosts.TabIndex = 33
         Me.gpCosts.Text = "Costs"
@@ -1030,6 +1018,19 @@ Partial Public Class frmPrismSettings
         Me.nudFactoryInstallCost.TabIndex = 0
         Me.nudFactoryInstallCost.Value = 1000.0R
         '
+        'chkHideAPIDialog
+        '
+        '
+        '
+        '
+        Me.chkHideAPIDialog.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.chkHideAPIDialog.Location = New System.Drawing.Point(15, 144)
+        Me.chkHideAPIDialog.Name = "chkHideAPIDialog"
+        Me.chkHideAPIDialog.Size = New System.Drawing.Size(224, 23)
+        Me.chkHideAPIDialog.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+        Me.chkHideAPIDialog.TabIndex = 9
+        Me.chkHideAPIDialog.Text = "Hide API Download Dialog"
+        '
         'frmPrismSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1132,4 +1133,5 @@ Partial Public Class frmPrismSettings
     Friend WithEvents cboContractsRep As DevComponents.DotNetBar.Controls.ComboBoxEx
     Friend WithEvents lblContractsRep As System.Windows.Forms.Label
     Friend WithEvents btnDeleteUndefinedJournals As DevComponents.DotNetBar.ButtonX
+    Friend WithEvents chkHideAPIDialog As DevComponents.DotNetBar.Controls.CheckBoxX
 End Class

@@ -149,6 +149,8 @@ Public Class frmPrismSettings
             cboDefaultBPCalcAssetOwner.SelectedItem = Settings.PrismSettings.DefaultBPCalcAssetOwner
         End If
 
+        chkHideAPIDialog.Checked = Settings.PrismSettings.HideAPIDownloadDialog
+
     End Sub
 
     Private Sub cboDefaultPrismCharacter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultPrismCharacter.SelectedIndexChanged
@@ -173,6 +175,10 @@ Public Class frmPrismSettings
         If cboDefaultBPCalcAssetOwner.SelectedItem IsNot Nothing Then
             Settings.PrismSettings.DefaultBPCalcAssetOwner = cboDefaultBPCalcAssetOwner.SelectedItem.ToString
         End If
+    End Sub
+
+    Private Sub chkHideAPIDialog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHideAPIDialog.CheckedChanged
+        Settings.PrismSettings.HideAPIDownloadDialog = chkHideAPIDialog.Checked
     End Sub
 
     Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteDuplicateJournals.Click

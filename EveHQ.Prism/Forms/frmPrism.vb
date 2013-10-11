@@ -663,15 +663,32 @@ Public Class frmPrism
     End Function
     Private Sub CompleteAPIUpdate()
         ' Populate the various Owner boxes
-        Call Me.UpdatePrismOwners()
-        'Call Me.UpdatePrismInfo()
+        Call UpdatePrismOwners()
         ' Set the label, enable the button and inform the user
         lblCurrentAPI.Text = "Cached APIs Loaded:"
         btnDownloadAPIData.Enabled = True
-        If startup = False Then
-            MessageBox.Show("Prism has completed the download of the API data. You may need to refresh your views to get updated information.", "API Download complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If startup = False And Settings.PrismSettings.HideAPIDownloadDialog = False Then
+            DisplayAPICompleteDialog()
         End If
     End Sub
+    Private Sub DisplayAPICompleteDialog()
+        TaskDialog.AntiAlias = True
+        TaskDialog.EnableGlass = True
+        Dim tdi As New TaskDialogInfo
+        tdi.TaskDialogIcon = eTaskDialogIcon.CheckMark2
+        tdi.DialogButtons = eTaskDialogButton.Ok
+        tdi.DefaultButton = eTaskDialogButton.Ok
+        tdi.Title = "API Download complete!"
+        tdi.Header = "API Download complete!"
+        tdi.Text = "Prism has completed the download of the API data. You may need to refresh your views to get updated information."
+        tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+        tdi.CheckBoxCommand = APIDownloadDialogCheckBox
+        TaskDialog.Show(tdi)
+    End Sub
+    Private Sub APIDownloadDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles APIDownloadDialogCheckBox.Executed
+        Settings.PrismSettings.HideAPIDownloadDialog = APIDownloadDialogCheckBox.Checked
+    End Sub
+
     Private Sub UpdatePrismOwners()
 
         ' Check for old items

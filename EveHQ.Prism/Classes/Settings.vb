@@ -39,8 +39,9 @@ Imports Newtonsoft.Json
     Private cUserSlotColumns As New List(Of UserSlotColumn)
 	Private cSlotNameWidth As Integer = 250
 	' CorpReps: SortedList (of <CorpName>, Sortedlist(Of CorpRepType, PilotName))
-	Private cCorpReps As New SortedList(Of String, SortedList(Of CorpRepType, String))
+    Private cCorpReps As New SortedList(Of String, SortedList(Of CorpRepType, String))
 
+    Public Property HideAPIDownloadDialog As Boolean = False
 	Public Property CorpReps As SortedList(Of String, SortedList(Of CorpRepType, String))
 		Get
 			If cCorpReps Is Nothing Then
