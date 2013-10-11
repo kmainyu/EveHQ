@@ -129,6 +129,7 @@ Public Class frmRequiredSkills
                 newSkill.Cells.Add(New Cell("0"))
             End If
             newSkill.Cells.Add(New Cell(rSkill.NeededFor))
+            newSkill.Cells.Add(New Cell(Core.SkillFunctions.TimeToString(Core.SkillFunctions.TimeBeforeCanTrain(_reqPilot, rSkill.ID, rSkill.ReqLevel))))
             Dim reqLevel As Integer = CInt(newSkill.Cells(1).Text)
             Dim actLevel As Integer = CInt(newSkill.Cells(2).Text)
             Dim hqfLevel As Integer = CInt(newSkill.Cells(3).Text)
@@ -142,6 +143,7 @@ Public Class frmRequiredSkills
                 End If
             End If
             adtSkills.Nodes.Add(newSkill)
+            newSkill.Tooltip = Core.SkillFunctions.TimeToString(Core.SkillFunctions.TimeBeforeCanTrain(_reqPilot, rSkill.ID, rSkill.ReqLevel))
             ' Check for sub skills
             Call DisplaySubSkills(newSkill, rSkill.ID)
         Next
@@ -189,7 +191,10 @@ Public Class frmRequiredSkills
                             newSkill.Style = _notTrainedSkillStyle
                         End If
                     End If
+                    newSkill.Cells.Add(New Cell(""))
+                    newSkill.Cells.Add(New Cell(Core.SkillFunctions.TimeToString(Core.SkillFunctions.TimeBeforeCanTrain(_reqPilot, rSkill.ID, reqLevel))))
                     parentSkill.Nodes.Add(newSkill)
+
                     Call DisplaySubSkills(newSkill, preReqSkill)
                 End If
 

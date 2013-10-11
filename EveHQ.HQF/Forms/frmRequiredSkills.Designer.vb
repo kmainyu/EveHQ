@@ -36,6 +36,7 @@ Partial Class frmRequiredSkills
         Me.Node1 = New DevComponents.AdvTree.Node()
         Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
         Me.Skill = New DevComponents.DotNetBar.ElementStyle()
+        Me.colTrainingTime = New DevComponents.AdvTree.ColumnHeader()
         CType(Me.adtSkills, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -54,9 +55,10 @@ Partial Class frmRequiredSkills
         'btnClose
         '
         Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
         Me.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnClose.Location = New System.Drawing.Point(678, 535)
+        Me.btnClose.Location = New System.Drawing.Point(816, 535)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(100, 23)
         Me.btnClose.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -66,8 +68,9 @@ Partial Class frmRequiredSkills
         'btnAddToQueue
         '
         Me.btnAddToQueue.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnAddToQueue.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnAddToQueue.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnAddToQueue.Location = New System.Drawing.Point(572, 535)
+        Me.btnAddToQueue.Location = New System.Drawing.Point(710, 535)
         Me.btnAddToQueue.Name = "btnAddToQueue"
         Me.btnAddToQueue.Size = New System.Drawing.Size(100, 23)
         Me.btnAddToQueue.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -78,8 +81,9 @@ Partial Class frmRequiredSkills
         'btnSetSkillsToRequirements
         '
         Me.btnSetSkillsToRequirements.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+        Me.btnSetSkillsToRequirements.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnSetSkillsToRequirements.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnSetSkillsToRequirements.Location = New System.Drawing.Point(466, 535)
+        Me.btnSetSkillsToRequirements.Location = New System.Drawing.Point(604, 535)
         Me.btnSetSkillsToRequirements.Name = "btnSetSkillsToRequirements"
         Me.btnSetSkillsToRequirements.Size = New System.Drawing.Size(100, 23)
         Me.btnSetSkillsToRequirements.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -96,6 +100,9 @@ Partial Class frmRequiredSkills
         '
         Me.adtSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
         Me.adtSkills.AllowDrop = True
+        Me.adtSkills.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.adtSkills.BackColor = System.Drawing.SystemColors.Window
         '
         '
@@ -107,6 +114,7 @@ Partial Class frmRequiredSkills
         Me.adtSkills.Columns.Add(Me.colActLevel)
         Me.adtSkills.Columns.Add(Me.colHQFLevel)
         Me.adtSkills.Columns.Add(Me.colReqdFor)
+        Me.adtSkills.Columns.Add(Me.colTrainingTime)
         Me.adtSkills.DragDropEnabled = False
         Me.adtSkills.DragDropNodeCopyEnabled = False
         Me.adtSkills.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
@@ -117,7 +125,7 @@ Partial Class frmRequiredSkills
         Me.adtSkills.NodesConnector = Me.NodeConnector1
         Me.adtSkills.NodeStyle = Me.Skill
         Me.adtSkills.PathSeparator = ";"
-        Me.adtSkills.Size = New System.Drawing.Size(766, 517)
+        Me.adtSkills.Size = New System.Drawing.Size(904, 517)
         Me.adtSkills.Styles.Add(Me.Skill)
         Me.adtSkills.TabIndex = 8
         Me.adtSkills.Text = "AdvTree1"
@@ -174,17 +182,24 @@ Partial Class frmRequiredSkills
         '
         'Skill
         '
-        Me.Skill.Class = ""
         Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.Skill.Name = "Skill"
         Me.Skill.TextColor = System.Drawing.SystemColors.ControlText
+        '
+        'colTrainingTime
+        '
+        Me.colTrainingTime.DisplayIndex = 6
+        Me.colTrainingTime.Name = "colTrainingTime"
+        Me.colTrainingTime.SortingEnabled = False
+        Me.colTrainingTime.Text = "Training Time"
+        Me.colTrainingTime.Width.Absolute = 150
         '
         'frmRequiredSkills
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnClose
-        Me.ClientSize = New System.Drawing.Size(790, 564)
+        Me.ClientSize = New System.Drawing.Size(928, 564)
         Me.Controls.Add(Me.adtSkills)
         Me.Controls.Add(Me.btnSetSkillsToRequirements)
         Me.Controls.Add(Me.btnAddToQueue)
@@ -219,4 +234,5 @@ Partial Class frmRequiredSkills
     Friend WithEvents colActLevel As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colHQFLevel As DevComponents.AdvTree.ColumnHeader
     Friend WithEvents colReqdFor As DevComponents.AdvTree.ColumnHeader
+    Friend WithEvents colTrainingTime As DevComponents.AdvTree.ColumnHeader
 End Class
