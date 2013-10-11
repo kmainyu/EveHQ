@@ -3122,7 +3122,7 @@ Public Class frmPrism
                 ' Parse the XML
                 Dim transItem As Node
                 Dim transTypeID As Integer
-                Dim locationID As String = ""
+                Dim locationID As Integer
                 Dim completed As String = ""
                 Dim DisplayJob As Boolean = False
 
@@ -3174,14 +3174,14 @@ Public Class frmPrism
                         transItem.Cells(1).Text = Job.ActivityID.ToString
                         transItem.Cells(2).Text = Job.Runs.ToString
                         transItem.Cells(3).Text = InstallerList(Job.InstallerID)
-                        locationID = Job.InstalledItemLocationID.ToString
-                        If PlugInData.stations.ContainsKey(locationID) = True Then
-                            transItem.Cells(4).Text = CType(PlugInData.stations(locationID), Station).StationName
+                        locationID = Job.InstalledItemLocationID
+                        If StaticData.Stations.ContainsKey(locationID) = True Then
+                            transItem.Cells(4).Text = StaticData.Stations(locationID).StationName
                         Else
-                            If PlugInData.stations.ContainsKey(Job.OutputLocationID.ToString) = True Then
-                                transItem.Cells(4).Text = CType(PlugInData.stations(Job.OutputLocationID.ToString), Station).StationName
+                            If StaticData.Stations.ContainsKey(Job.OutputLocationID) = True Then
+                                transItem.Cells(4).Text = StaticData.Stations(Job.OutputLocationID).StationName
                             Else
-                                transItem.Cells(4).Text = "POS in " & CType(PlugInData.stations(Job.InstalledInSolarSystemID.ToString), SolarSystem).Name
+                                transItem.Cells(4).Text = "POS in " & StaticData.SolarSystems(Job.InstalledInSolarSystemID).Name
                             End If
                         End If
                         transItem.Cells(5).Text = Job.EndProductionTime.ToString

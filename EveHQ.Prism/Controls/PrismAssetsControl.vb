@@ -35,8 +35,8 @@ Namespace Controls
         Dim HQFShip As New ArrayList
         Private _assetList As New SortedList(Of Long, AssetItem)
         Dim tempAssetList As New ArrayList
-        Dim totalAssetValue As Double = 0
-        Dim totalAssetCount As Long = 0
+        Dim _totalAssetValue As Double = 0
+        Dim _totalAssetCount As Long = 0
         Dim filters As New ArrayList
         Dim catFilters As New ArrayList
         Dim groupFilters As New ArrayList
@@ -269,7 +269,7 @@ Namespace Controls
                     Case "AssetVolume"
                         AssetNode.Cells(_assetColumn(UserCol.Name)).Text = AssetData.Volume
                     Case "AssetQuantity"
-                        AssetNode.Cells(_assetColumn(UserCol.Name)).Text = AssetData.Quantity.ToInvariantString()
+                        AssetNode.Cells(_assetColumn(UserCol.Name)).Text = AssetData.Quantity.ToInvariantString("N0")
                     Case "AssetPrice"
                         AssetNode.Cells(_assetColumn(UserCol.Name)).Text = AssetData.Price.ToInvariantString("N2")
                     Case "AssetValue"
@@ -349,8 +349,8 @@ Namespace Controls
             _assetNodes.Clear()
             adtAssets.BeginUpdate()
             adtAssets.Nodes.Clear()
-            totalAssetValue = 0
-            totalAssetCount = 0
+            _totalAssetValue = 0
+            _totalAssetCount = 0
             ' Initialise the user defined slot columns
             Call Me.UpdateAssetSlotColumns()
             ' Get the details of corp accounts
@@ -424,9 +424,9 @@ Namespace Controls
 
             If (IsHandleCreated) Then
                 Invoke(Sub()
-                    _updateInProgress.Visible = False
-                    Me.Enabled = True
-                          End Sub)
+                           _updateInProgress.Visible = False
+                           Me.Enabled = True
+                       End Sub)
             End If
 
         End Sub
@@ -444,6 +444,7 @@ Namespace Controls
                                                                                                                                                                          End Function)
                 assetsUpdated.AddRange(updatedAssets)
 
+                ' Update prices of BPCs
                 For Each ownedAsset As AssetItem In assetsUpdated
                     If ownedAsset.TypeID = itemTypeID Then
                         If ownedAsset.RawQuantity = -2 Then
@@ -475,65 +476,15 @@ Namespace Controls
 
                            For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
 
-                               'node value adjustment incase child nodes have updated the current value
-                               Dim nodeValue As Double = 0
-                               If (Double.TryParse(updateSet.Item1.Cells(_assetColumn("AssetValue")).Text, nodeValue)) Then
-                                   updateSet.Item2.Price += nodeValue
-                               End If
-
-
-                               UpdateAssetColumnData(updateSet.Item2, updateSet.Item1)
-                               'updateSet.Item1.Cells(AssetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
-
-                               'updateSet.Item1.Cells(AssetColumn("AssetValue")).Text = (value).ToInvariantString("N2")
-                               ' update the parent and up the chain of nodes
-                               Dim value As Double = 0
-                               'If (updateSet.Item2.RawQuantity > -2) Then
-                               value = (updateSet.Item2.Price * updateSet.Item2.Quantity)
-                               'Else
-
-                               'End If
-
-
-                               Dim parentNode As Node = updateSet.Item1.Parent
-                               Dim parentValue As Double = 0
-
-                               While parentNode IsNot Nothing
-                                   If (Double.TryParse(parentNode.Cells(_assetColumn("AssetValue")).Text, parentValue)) Then
-                                       parentValue += value
-                                   Else
-                                       parentValue = value
-                                   End If
-                                   parentNode.Cells(_assetColumn("AssetValue")).Text = (parentValue).ToInvariantString("N2")
-
-                                   If (parentNode.Parent Is Nothing) And filteringEnabled = True Then
-                                       If parentValue >= minSysValue Then
-                                           parentNode.Visible = True
-                                       Else
-                                           parentNode.Visible = False
-                                       End If
-                                   End If
-
-                                   parentNode = parentNode.Parent
-                               End While
+                               ' Update the price and value of each item
+                               updateSet.Item1.Cells(_assetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
+                               updateSet.Item1.Cells(_assetColumn("AssetValue")).Text = (updateSet.Item2.Price * updateSet.Item2.Quantity).ToInvariantString("N2")
 
                            Next
+
                            ' Update totals
+                           RecalcAllPrices()
 
-                           ' Enumerate the first level rows and get the sum for the grand total as each of the top level rows have had their child items (and fits)
-                           ' aggregated into their values.
-                           totalAssetValue = 0
-                           Dim assetGroupTotal As Double = 0
-                           For Each assetGroup As Node In adtAssets.Nodes
-                               ' Check for non-existant columns in the case of zero items returned
-                               If _assetColumn("AssetValue") < assetGroup.Cells.Count Then
-                                   If (Double.TryParse(assetGroup.Cells(_assetColumn("AssetValue")).Text, assetGroupTotal)) Then
-                                       totalAssetValue += assetGroupTotal
-                                   End If
-                               End If
-                           Next
-
-                           lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(totalAssetValue.ToInvariantString("N2"), totalAssetCount.ToInvariantString("N0"))
                        End Sub)
             End If
         End Sub
@@ -619,7 +570,9 @@ Namespace Controls
         End Sub
         Private Sub PopulateAssetTree()
 
-            Dim Owner As New PrismOwner
+            Dim Owner As PrismOwner
+            _totalAssetCount = 0
+            _totalAssetValue = 0
 
             For Each cOwner As ListViewItem In PSCAssetOwners.ItemList.CheckedItems
 
@@ -868,7 +821,7 @@ Namespace Controls
                                     Else
                                         newAssetList.RawQuantity = 0
                                     End If
-                                    totalAssetCount += newAssetList.Quantity
+                                    _totalAssetCount += newAssetList.Quantity
                                     If _assetList.ContainsKey(newAssetList.ItemID) = False Then
                                         _assetList.Add(newAssetList.ItemID, newAssetList)
                                     End If
@@ -927,7 +880,7 @@ Namespace Controls
                             locationVolume += CDbl(cLine.Cells(_assetColumn("AssetVolume")).Text)
                         End If
                     Next
-                    totalAssetValue += locationPrice
+                    _totalAssetValue += locationPrice
                     cLoc.Cells(_assetColumn("AssetValue")).Text = locationPrice.ToInvariantString("N2")
                     cLoc.Cells(_assetColumn("AssetVolume")).Text = locationVolume.ToInvariantString("N2")
                     ' Delete if no child nodes at the locations
@@ -1068,7 +1021,7 @@ Namespace Controls
                         newAssetList.RawQuantity = 0
                     End If
 
-                    totalAssetCount += newAssetList.Quantity
+                    _totalAssetCount += newAssetList.Quantity
 
                     If _assetList.ContainsKey(newAssetList.ItemID) = False Then
                         _assetList.Add(newAssetList.ItemID, newAssetList)
@@ -1284,7 +1237,7 @@ Namespace Controls
                 totalCash += corporateCash
             End If
             node.Cells(_assetColumn("AssetValue")).Text = totalCash.ToInvariantString("N2")
-            totalAssetValue += totalCash
+            _totalAssetValue += totalCash
             If totalCash > 0 Then
                 adtAssets.Nodes.Add(node)
             End If
@@ -1383,7 +1336,7 @@ Namespace Controls
             buyOrders.Cells(_assetColumn("AssetValue")).Text = buyValue.ToInvariantString("N2")
             sellOrders.Cells(_assetColumn("AssetValue")).Text = sellValue.ToInvariantString("N2")
             ordersNode.Cells(_assetColumn("AssetValue")).Text = (buyValue + sellValue).ToInvariantString("N2")
-            totalAssetValue += buyValue + sellValue
+            _totalAssetValue += buyValue + sellValue
             If buyOrders.Nodes.Count > 0 Then
                 ordersNode.Nodes.Add(buyOrders)
             End If
@@ -1543,7 +1496,7 @@ Namespace Controls
             If ResearchNode.Nodes.Count > 0 Then
                 adtAssets.Nodes.Add(ResearchNode)
             End If
-            totalAssetValue += ResearchValue
+            _totalAssetValue += ResearchValue
         End Sub
         Private Function DisplayResearchOutput(ByVal ResearchNode As Node, ByVal Job As IndustryJob, ByVal Owner As String) As Double
             Dim RNode As New Node
@@ -1705,7 +1658,7 @@ Namespace Controls
                 End If
             Next
             ContractsNode.Cells(_assetColumn("AssetValue")).Text = ContractsValue.ToInvariantString("N2")
-            totalAssetValue += ContractsValue
+            _totalAssetValue += ContractsValue
             If ContractsNode.Nodes.Count > 0 Then
                 adtAssets.Nodes.Add(ContractsNode)
             End If
@@ -2147,8 +2100,8 @@ Namespace Controls
                     If cLoc.Nodes.Count = 0 Then
                         If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(_assetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(_assetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                             adtAssets.Nodes.Remove(cLoc)
-                            _assetList.Remove(CInt(cLoc.Tag))
-                            totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                            _assetList.Remove(CLng(cLoc.Tag))
+                            _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                             cL -= 1
                         End If
                     Else
@@ -2157,7 +2110,7 @@ Namespace Controls
                             If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(_assetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(_assetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                                 adtAssets.Nodes.Remove(cLoc)
                                 If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
-                                    totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                                    _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                                 End If
                                 'assetList.Remove(cLoc.Tag)
                                 cL -= 1
@@ -2165,7 +2118,7 @@ Namespace Controls
                         Else
                             If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(_assetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(_assetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                                 If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
-                                    totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                                    _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                                 End If
                                 ' Remove quantity and price information
                                 cLoc.Cells(_assetColumn("AssetQuantity")).Text = ""
@@ -2188,10 +2141,10 @@ Namespace Controls
                     If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(_assetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(_assetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                         pLoc.Nodes.Remove(cLoc)
                         If cLoc.Tag IsNot Nothing Then
-                            _assetList.Remove(CInt(cLoc.Tag))
+                            _assetList.Remove(CLng(cLoc.Tag))
                         End If
                         If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                            _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                         End If
                         cL -= 1
                     End If
@@ -2201,23 +2154,23 @@ Namespace Controls
                         If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(_assetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(_assetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                             pLoc.Nodes.Remove(cLoc)
                             If cLoc.Tag IsNot Nothing Then
-                                _assetList.Remove(CInt(cLoc.Tag))
+                                _assetList.Remove(CLng(cLoc.Tag))
                             End If
                             If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
-                                totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                                _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                             End If
                             cL -= 1
                         End If
                     Else
                         If (filters.Count > 0 And catFilters.Contains(cLoc.Cells(_assetColumn("AssetCategory")).Text) = False And groupFilters.Contains(cLoc.Cells(_assetColumn("AssetGroup")).Text) = False) Or (searchText <> "" And cLoc.Text.ToLower.Contains(searchText.ToLower) = False) Then
                             If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
-                                totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                                _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                             End If
                             ' Remove quantity and price information
                             cLoc.Cells(_assetColumn("AssetQuantity")).Text = ""
                             cLoc.Cells(_assetColumn("AssetPrice")).Text = ""
                             If cLoc.Tag IsNot Nothing Then
-                                _assetList.Remove(CInt(cLoc.Tag))
+                                _assetList.Remove(CLng(cLoc.Tag))
                             End If
                         End If
                     End If
@@ -2226,14 +2179,14 @@ Namespace Controls
             Loop Until (cL = pLoc.Nodes.Count)
         End Sub
         Private Sub CalcFilteredPrices()
-            totalAssetValue = 0
+            _totalAssetValue = 0
             Dim locPrice As Double = 0
             For Each cLoc As Node In adtAssets.Nodes
                 ' Calculate cost of all the sub nodes
                 If cLoc.Nodes.Count > 0 Then
-                    locPrice = Me.CalcNodePrice(cLoc)
+                    locPrice = CalcNodePrice(cLoc)
                     cLoc.Cells(_assetColumn("AssetValue")).Text = locPrice.ToInvariantString("N2")
-                    totalAssetValue += locPrice
+                    _totalAssetValue += locPrice
                 End If
             Next
         End Sub
@@ -2362,7 +2315,7 @@ Namespace Controls
                     pLoc.Nodes.Remove(cLoc)
                     _assetList.Remove(CInt(cLoc.Tag))
                     If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) Then
-                        totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                        _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                     End If
                     cL -= 1
                 Else
@@ -2371,12 +2324,12 @@ Namespace Controls
                         pLoc.Nodes.Remove(cLoc)
                         _assetList.Remove(CInt(cLoc.Tag))
                         If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) Then
-                            totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                            _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                         End If
                         cL -= 1
                     Else
                         If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
-                            totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                            _totalAssetCount -= CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                         End If
                         ' Remove quantity and price information
                         cLoc.Cells(_assetColumn("AssetQuantity")).Text = ""
@@ -2388,28 +2341,57 @@ Namespace Controls
             Loop Until (cL = pLoc.Nodes.Count)
         End Sub
         Private Sub RecalcAllPrices()
-            totalAssetValue = 0
-            Dim locPrice As Double = 0
+
+            _totalAssetValue = 0
+            _totalAssetCount = 0
+            Dim minSysValue As Double
+            Dim filteringEnabled As Boolean = chkMinSystemValue.Checked And Double.TryParse(txtMinSystemValue.Text, minSysValue)
+            Dim locPrice As Double
+
             For Each cLoc As Node In adtAssets.Nodes
+
                 ' Calculate cost of all the sub nodes
-                If cLoc.Nodes.Count > 0 Then
-                    locPrice = Me.RecalcNodePrice(cLoc)
-                    cLoc.Cells(_assetColumn("AssetValue")).Text = locPrice.ToInvariantString("N2")
-                    totalAssetValue += locPrice
+                If IsNumeric(cLoc.Tag) Then
+                    If cLoc.Nodes.Count > 0 Then
+                        locPrice = RecalcNodePrice(cLoc)
+                        cLoc.Cells(_assetColumn("AssetValue")).Text = locPrice.ToInvariantString("N2")
+
+                        If filteringEnabled = True Then
+                            If locPrice >= minSysValue Then
+                                cLoc.Visible = True
+                                _totalAssetValue += locPrice
+                            Else
+                                cLoc.Visible = False
+                                _totalAssetCount -= GetLocationQuantity(cLoc)
+                            End If
+                        End If
+
+                    End If
+                Else
+                    If Double.TryParse(cLoc.Cells(_assetColumn("AssetValue")).Text, locPrice) = True Then
+                        _totalAssetValue += locPrice
+                    End If
                 End If
             Next
+
+            lblTotalAssetsLabel.Text = TotalValueText.FormatInvariant(_totalAssetValue.ToInvariantString("N2"), _totalAssetCount.ToInvariantString("N0"))
+
         End Sub
         Private Function RecalcNodePrice(ByVal pLoc As Node) As Double
-            Dim lineValue As Double = 0
+            Dim lineValue As Double
             Dim contValue As Double = 0
             For Each cLoc As Node In pLoc.Nodes
                 If cLoc.Nodes.Count > 0 Then
-                    Call Me.RecalcNodePrice(cLoc)
+                    If IsNumeric(cLoc.Cells(_assetColumn("AssetQuantity")).Text) = True Then
+                        _totalAssetCount += CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
+                    End If
+                    Call RecalcNodePrice(cLoc)
                     lineValue = CDbl(cLoc.Cells(_assetColumn("AssetValue")).Text)
                     contValue += lineValue
                 Else
                     If IsNumeric(cLoc.Cells(_assetColumn("AssetPrice")).Text) = True Then
                         lineValue = CDbl(cLoc.Cells(_assetColumn("AssetQuantity")).Text) * CDbl(cLoc.Cells(_assetColumn("AssetPrice")).Text)
+                        _totalAssetCount += CLng(cLoc.Cells(_assetColumn("AssetQuantity")).Text)
                     Else
                         lineValue = 0
                     End If
@@ -2422,6 +2404,16 @@ Namespace Controls
             End If
             pLoc.Cells(_assetColumn("AssetValue")).Text = contValue.ToInvariantString("N2")
             Return contValue
+        End Function
+        Private Function GetLocationQuantity(pNode As Node) As Long
+            Dim locQ As Long = 0
+            If IsNumeric(pNode.Cells(_assetColumn("AssetQuantity")).Text) = True Then
+                locQ += CLng(pNode.Cells(_assetColumn("AssetQuantity")).Text)
+            End If
+            For Each cNode As Node In pNode.Nodes
+                locQ += GetLocationQuantity(cNode)
+            Next
+            Return locQ
         End Function
         Private Sub mnuAddItemToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddItemToFilter.Click
             Dim ItemID As Integer = CInt(mnuItemName.Tag)
