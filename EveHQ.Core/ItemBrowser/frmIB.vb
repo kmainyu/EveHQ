@@ -42,6 +42,29 @@ Namespace ItemBrowser
 
 #End Region
 
+#Region "Constructors"
+
+        Public Sub New()
+
+            ' This call is required by the designer.
+            InitializeComponent()
+
+            ' Add any initialization after the InitializeComponent() call.
+
+        End Sub
+
+        Public Sub New(typeID As Integer)
+
+            ' This call is required by the designer.
+            InitializeComponent()
+
+            ' Add any initialization after the InitializeComponent() call.
+            DisplayItem(typeID, True)
+
+        End Sub
+
+#End Region
+
 #Region "Form Loading and Closing Routines"
 
         Private Sub frmItemBrowser_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -221,7 +244,7 @@ Namespace ItemBrowser
                             If item.Group = groupID Then
                                 itemNode = New Node
                                 itemNode.Text = item.Name ' Name
-                                itemNode.Name = item.ID.ToString ' ID
+                                itemNode.Name = item.Id.ToString ' ID
                                 e.Nodes.Add(itemNode)
                             End If
                         Next
@@ -250,7 +273,7 @@ Namespace ItemBrowser
         Private Sub cboAttSearch_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboAttSearch.SelectedIndexChanged
             ' Fetch attribute ID
             Dim attResults As IEnumerable(Of AttributeType) = From item In StaticData.AttributeTypes.Values Where item.AttributeName = cboAttSearch.SelectedItem.ToString
-            Dim attID As Integer = attResults(0).AttributeID
+            Dim attID As Integer = attResults(0).AttributeId
 
             ' Fetch types based on attribute ID
             Dim types As IEnumerable(Of TypeAttrib) = From item In StaticData.TypeAttributes Where item.AttributeId = attID
@@ -292,10 +315,10 @@ Namespace ItemBrowser
 
             ' Fetch effect ID
             Dim effectResults As IEnumerable(Of EffectType) = From item In StaticData.EffectTypes.Values Where item.EffectName = cboEffectSearch.SelectedItem.ToString
-            Dim effectID As Integer = effectResults(0).EffectID
+            Dim effectID As Integer = effectResults(0).EffectId
 
             ' Fetch types based on attribute ID
-            Dim types As IEnumerable(Of TypeEffect) = From item In StaticData.TypeEffects Where item.EffectID = effectID
+            Dim types As IEnumerable(Of TypeEffect) = From item In StaticData.TypeEffects Where item.EffectId = effectID
             adtEffectSearch.BeginUpdate()
             adtEffectSearch.Nodes.Clear()
             For Each results As TypeEffect In types

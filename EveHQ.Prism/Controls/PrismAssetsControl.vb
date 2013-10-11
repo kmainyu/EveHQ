@@ -1768,29 +1768,11 @@ Namespace Controls
             End If
         End Sub
         Private Sub mnuViewInIB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInIB.Click
-            ' This routine is shit hot!!
-            Dim PluginName As String = "EveHQ Item Browser"
-            Dim itemID As String = mnuItemName.Tag.ToString
-            Dim myPlugIn As Core.EveHQPlugIn = Core.HQ.Plugins(PluginName)
-            If myPlugIn.Status = Core.PlugIn.PlugInStatus.Active Then
-                Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-                Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMDITab(PluginName)
-                If tp IsNot Nothing Then
-                    mainTab.SelectedTab = tp
-                Else
-                    Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-                    plugInForm.MdiParent = Core.HQ.MainForm
-                    plugInForm.Show()
-                End If
-                myPlugIn.Instance.GetPlugInData(itemID, 0)
-            Else
-                ' Plug-in is not loaded so best not try to access it!
-                Dim msg As String = ""
-                msg &= "The " & myPlugIn.MainMenuText & " Plug-in is not currently active." & ControlChars.CrLf & ControlChars.CrLf
-                msg &= "Please load the plug-in before proceeding."
-                MessageBox.Show(msg, "Error Starting " & myPlugIn.MainMenuText & " Plug-in!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
 
+            Dim typeID As Integer = CInt(mnuItemName.Tag)
+            Dim myIB As New Core.ItemBrowser.FrmIB(typeID)
+            myIB.ShowDialog()
+            
         End Sub
         Private Sub mnuModifyPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuModifyPrice.Click
             Dim newPrice As New Core.frmModifyPrice(CInt(mnuItemName.Tag), 0)

@@ -186,27 +186,10 @@ Public Class Ticker
     End Sub
 
     Private Sub LaunchItemBrowser(ByVal itemID As Integer)
-        ' Try to launch the item browser
-        Dim PluginName As String = "EveHQ Item Browser"
-        Dim myPlugIn As EveHQPlugIn = HQ.Plugins(PluginName)
-        If myPlugIn.Status = EveHQPlugInStatus.Active Then
-            Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-            Dim tp As DevComponents.DotNetBar.TabItem = HQ.GetMDITab(PluginName)
-            If tp IsNot Nothing Then
-                mainTab.SelectedTab = tp
-            Else
-                Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-                plugInForm.MdiParent = HQ.MainForm
-                plugInForm.Show()
-            End If
-            myPlugIn.Instance.GetPlugInData(itemID, 0)
-        Else
-            ' Plug-in is not loaded so best not try to access it!
-            Dim msg As String = ""
-            msg &= "The " & myPlugIn.MainMenuText & " Plug-in is not currently active." & ControlChars.CrLf & ControlChars.CrLf
-            msg &= "Please load the plug-in before proceeding."
-            MessageBox.Show(msg, "Error Starting " & myPlugIn.MainMenuText & " Plug-in!", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+
+        Dim myIB As New Core.ItemBrowser.FrmIB(itemID)
+        myIB.ShowDialog()
+
     End Sub
 
     Private Sub Ticker_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint

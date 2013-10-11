@@ -1595,28 +1595,10 @@ Namespace Forms
         End Sub
         Private Sub mnuViewItemDetailsInIB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewItemDetailsInIB.Click
 
-            Const pluginName As String = "EveHQ Item Browser"
-            Dim itemID As String = mnuItemName.Tag.ToString
-            Dim myPlugIn As Core.EveHQPlugIn = Core.HQ.Plugins(pluginName)
-            Dim pluginFile As String = myPlugIn.FileName
-            Dim pluginType As String = myPlugIn.FileType
-            Dim runPlugIn As Core.IEveHQPlugIn
+            Dim typeID As Integer = CInt(mnuItemName.Tag)
+            Dim myIB As New Core.ItemBrowser.FrmIB(typeID)
+            myIB.ShowDialog()
 
-            Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMDITab(pluginName)
-            If tp Is Nothing Then
-                Dim myAssembly As Reflection.Assembly = Reflection.Assembly.LoadFrom(pluginFile)
-                Dim t As Type = myAssembly.GetType(pluginType)
-                myPlugIn.Instance = CType(Activator.CreateInstance(t), Core.IEveHQPlugIn)
-                runPlugIn = myPlugIn.Instance
-                Dim plugInForm As Form = runPlugIn.RunEveHQPlugIn
-                plugInForm.MdiParent = frmEveHQ
-                plugInForm.Show()
-            Else
-                runPlugIn = myPlugIn.Instance
-                frmEveHQ.tabEveHQMDI.SelectedTab = tp
-            End If
-
-            runPlugIn.GetPlugInData(itemID, 0)
         End Sub
         Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDepend.Opening
             If ctxDepend.SourceControl Is lvwDepend Then
