@@ -4853,6 +4853,7 @@ Public Class ShipSlotControl
         If ParentFitting.Tags Is Nothing Then
             ParentFitting.Tags = New List(Of String)
         End If
+        ParentFitting.Tags.Sort()
         lblTags.Text = ""
         For Each shipTag As String In ParentFitting.Tags
             lblTags.Text &= "<a href='" & shipTag & "'>" & shipTag & "</a>   "
@@ -4869,6 +4870,7 @@ Public Class ShipSlotControl
         If e.KeyCode = Keys.Enter Then
             If ParentFitting.Tags.Contains(txtAddTag.Text.Trim) = False Then
                 ParentFitting.Tags.Add(txtAddTag.Text.Trim)
+                ParentFitting.Tags.Sort()
                 txtAddTag.Text = ""
                 UpdateTags()
             End If
@@ -4878,12 +4880,13 @@ Public Class ShipSlotControl
     Private Sub LinkClicked(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblTags.MarkupLinkClick
         If ParentFitting.Tags.Contains(e.HRef) Then
             ParentFitting.Tags.Remove(e.HRef)
+            ParentFitting.Tags.Sort()
             UpdateTags()
         End If
     End Sub
 
 #End Region
-    
+   
 End Class
 
 Public Class UndoInfo
