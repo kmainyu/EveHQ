@@ -313,7 +313,11 @@ Namespace Classes
                             For Each slot As String In hiSlots.Keys
                                 Dim chargeList As SortedList(Of String, String) = ModuleLists.ModuleList(ModuleLists.ModuleListName(slot)).GetChargeList
                                 If chargeList.Count > 0 Then
-                                    strHTML.Append("<tr><td width=50% bgcolor=#333333>" & hiSlots(slot) & "x " & slot & "</td>")
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                        strHTML.Append("<tr><td width=50% bgcolor=#333333>" & hiSlots(slot) & "x " & slot & "</td>")
+                                    Else
+                                        strHTML.Append("<tr><td width=50% bgcolor=#333333><font color=""red"">" & hiSlots(slot) & "x " & slot & "</font></td>")
+                                    End If
                                     strHTML.Append("<td width=50% bgcolor=#333333>")
                                     strHTML.Append("<select name='" & slot & "' style='width: 100%; height:14px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                                     For Each charge As String In chargeList.Keys
@@ -325,7 +329,11 @@ Namespace Classes
                                     Next
                                     strHTML.Append("</select></td></tr>")
                                 Else
-                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & hiSlots(slot) & "x " & slot & "</td></tr>")
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & hiSlots(slot) & "x " & slot & "</td></tr>")
+                                    Else
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & hiSlots(slot) & "x " & slot & "</font></td></tr>")
+                                    End If
                                 End If
                                 modCount += hiSlots(slot)
                             Next
@@ -342,7 +350,11 @@ Namespace Classes
                             For Each slot As String In midSlots.Keys
                                 Dim chargeList As SortedList(Of String, String) = ModuleLists.ModuleList(ModuleLists.ModuleListName(slot)).GetChargeList
                                 If chargeList.Count > 0 Then
-                                    strHTML.Append("<tr><td width=50% bgcolor=#333333>" & midSlots(slot) & "x " & slot & "</td>")
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                        strHTML.Append("<tr><td width=50% bgcolor=#333333>" & midSlots(slot) & "x " & slot & "</td>")
+                                    Else
+                                        strHTML.Append("<tr><td width=50% bgcolor=#333333><font color=""red"">" & midSlots(slot) & "x " & slot & "</font></td>")
+                                    End If
                                     strHTML.Append("<td width=50% bgcolor=#333333>")
                                     strHTML.Append("<select name='" & slot & "' style='width: 100%; height:14px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                                     For Each charge As String In chargeList.Keys
@@ -354,7 +366,11 @@ Namespace Classes
                                     Next
                                     strHTML.Append("</select></td></tr>")
                                 Else
-                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & midSlots(slot) & "x " & slot & "</td></tr>")
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & midSlots(slot) & "x " & slot & "</td></tr>")
+                                        Else
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & midSlots(slot) & "x " & slot & "</font></td></tr>")
+                                    End If
                                 End If
                                 modCount += midSlots(slot)
                             Next
@@ -369,7 +385,11 @@ Namespace Classes
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Low Slots</b></td></tr>")
                             Dim modCount As Integer = 0
                             For Each slot As String In lowSlots.Keys
-                                strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & lowSlots(slot) & "x " & slot & "</td></tr>")
+                                If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & lowSlots(slot) & "x " & slot & "</td></tr>")
+                                Else
+                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & lowSlots(slot) & "x " & slot & "</font></td></tr>")
+                                End If
                                 modCount += lowSlots(slot)
                             Next
                             If modCount < _currentFitting.FittedShip.LowSlots Then
@@ -383,7 +403,11 @@ Namespace Classes
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Rig Slots</b></td></tr>")
                             Dim modCount As Integer = 0
                             For Each slot As String In rigSlots.Keys
-                                strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & rigSlots(slot) & "x " & slot & "</td></tr>")
+                                If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & rigSlots(slot) & "x " & slot & "</td></tr>")
+                                Else
+                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & rigSlots(slot) & "x " & slot & "</font></td></tr>")
+                                End If
                                 modCount += rigSlots(slot)
                             Next
                             If modCount < _currentFitting.FittedShip.RigSlots Then
@@ -397,7 +421,11 @@ Namespace Classes
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Subsystem Slots</b></td></tr>")
                             For slot As Integer = 1 To _currentFitting.FittedShip.SubSlots
                                 If _currentFitting.FittedShip.SubSlot(slot) IsNot Nothing Then
-                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & _currentFitting.FittedShip.SubSlot(slot).Name & "</td></tr>")
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), _currentFitting.FittedShip.SubSlot(slot)) Then
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & _currentFitting.FittedShip.SubSlot(slot).Name & "</td></tr>")
+                                    Else
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & _currentFitting.FittedShip.SubSlot(slot).Name & "</font></td></tr>")
+                                    End If
                                 Else
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 End If
@@ -407,7 +435,11 @@ Namespace Classes
                         If _currentFitting.FittedShip.DroneBayItems.Count > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Drone Bay</b></td></tr>")
                             For Each droneName As String In drones.Keys
-                                strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & drones(droneName).ToString("N0") & "x " & droneName & "</td></tr>")
+                                If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(droneName))) Then
+                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & drones(droneName).ToString("N0") & "x " & droneName & "</td></tr>")
+                                Else
+                                    strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & drones(droneName).ToString("N0") & "x " & droneName & "</font></td></tr>")
+                                End If
                             Next
                         End If
 
