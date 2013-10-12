@@ -1161,11 +1161,11 @@ Imports EveHQ.Core
         End If
 
         ' Clear the Effects Table
-        Dim ssEffectsTable As New SortedList
+        Dim ssEffectsTable As New SortedList(Of Integer, List(Of FinalEffect))
         ' Go through all the skills and see what needs to be mapped
         Dim att As Integer
         Dim fEffect As FinalEffect
-        Dim fEffectList As ArrayList
+        Dim fEffectList As List(Of FinalEffect)
         Dim aModule As ShipModule
         Dim processData As Boolean
         If newShip.SubSlots > 0 Then
@@ -1219,11 +1219,11 @@ Imports EveHQ.Core
                                     fEffect.StackNerf = chkEffect.StackNerf
                                     fEffect.Cause = aModule.Name
                                     fEffect.CalcType = chkEffect.CalcType
-                                    If ssEffectsTable.Contains(fEffect.AffectedAtt.ToString) = False Then
-                                        fEffectList = New ArrayList
-                                        ssEffectsTable.Add(fEffect.AffectedAtt.ToString, fEffectList)
+                                    If ssEffectsTable.ContainsKey(fEffect.AffectedAtt) = False Then
+                                        fEffectList = New List(Of FinalEffect)
+                                        ssEffectsTable.Add(fEffect.AffectedAtt, fEffectList)
                                     Else
-                                        fEffectList = CType(ssEffectsTable(fEffect.AffectedAtt.ToString), ArrayList)
+                                        fEffectList = ssEffectsTable(fEffect.AffectedAtt)
                                     End If
                                     fEffectList.Add(fEffect)
                                 End If
@@ -1236,8 +1236,8 @@ Imports EveHQ.Core
 
         For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
             att = newShip.Attributes.Keys(attNo)
-            If ssEffectsTable.Contains(att) = True Then
-                For Each fEffect In CType(ssEffectsTable(att), ArrayList)
+            If ssEffectsTable.ContainsKey(att) = True Then
+                For Each fEffect In ssEffectsTable(att)
                     If ProcessFinalEffectForShip(newShip, fEffect) = True Then
                         Call ApplyFinalEffectToShip(newShip, fEffect, att)
                     End If

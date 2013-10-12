@@ -34,6 +34,8 @@ Namespace Classes
             Select Case context.Request.Url.AbsolutePath.ToUpper
                 Case "/EVEHQFITTER", "/EVEHQFITTER/"
                     strHTML.Append(MainPage(context))
+                Case "/EVEHQFITTER/BROWSEFITTINGS", "/EVEHQFITTER/BROWSEFITTINGS/"
+                    strHTML.Append(BrowseFittings(context))
                 Case "/EVEHQFITTER/EVEFITTING", "/EVEHQFITTER/EVEFITTING/"
                     strHTML.Append(EveFitting(context))
                 Case "/EVEHQFITTER/SAVEEVEFITTING", "/EVEHQFITTER/SAVEEVEFITTING/"
@@ -47,7 +49,7 @@ Namespace Classes
 
         Shared Function HQFMenu(ByVal context As Net.HttpListenerContext) As String
             Dim strHTML As New StringBuilder
-            strHTML.Append("<a href=/EVEHQFitter>HQF Home</a>  |  <a href=/EVEHQFitter/Page1>HQF Page 1</a>  |  <a href=/EVEHQFitter/Page2>HQF Page 2</a><br /><hr>")
+            strHTML.Append("<a href=/EVEHQFitter>HQF Home</a>  |  <a href=/EVEHQFitter/BrowseFittings>Browse HQF Fittings</a>  |  <a href=/EVEHQFitter/Page2>HQF Page 2</a><br /><hr>")
             Return strHTML.ToString
         End Function
 
@@ -80,6 +82,41 @@ Namespace Classes
                     strHTML.Append("<input type=""submit"" value=""Submit""></form><hr><br>")
                 End If
             End If
+
+            Return strHTML.ToString
+        End Function
+
+        Shared Function BrowseFittings(ByVal context As Net.HttpListenerContext) As String
+            Dim strHTML As New StringBuilder
+
+            Dim shipName As String
+            Dim fittingName As String
+
+            strHTML.Append("<table width=100% border=1>")
+            Dim lastShip As String = ""
+            For Each fitting As String In Fittings.FittingList.Keys
+                shipName = Fittings.FittingList(fitting).ShipName
+                fittingName = Fittings.FittingList(fitting).FittingName
+
+                If shipName <> lastShip Then
+                    strHTML.Append("<tr>")
+                    strHTML.Append("<td width=20px>&nbsp;</td>")
+                    strHTML.Append("<td width=32px><img src='http://image.eveonline.com/Render/" & ShipLists.ShipListKeyName(shipName) & "_32.png' width=32px height=32px></td>")
+                    strHTML.Append("<td colspan=5><font size='3'>" & shipName & "</font></td>")
+                    strHTML.Append("</tr>")
+                End If
+
+                strHTML.Append("<tr>")
+                strHTML.Append("<td width=20px>&nbsp;</td>")
+                strHTML.Append("<td width=32px>&nbsp;</td>")
+                strHTML.Append("<td width=20px>&nbsp;</td>")
+                strHTML.Append("<td width=300px>" & fittingName & "</td>")
+                strHTML.Append("<td width=300px>" & Fittings.FittingList(fitting).PilotName & "</td>")
+                strHTML.Append("<td><a href='EveFitting?fitting=" & DNAFitting.GetDNAFromFitting(Fittings.FittingList(fitting), True) & "'>Display Stats</a></td>")
+                strHTML.Append("<td><button type=""button"" onclick=""CCPEVE.showFitting('" & DNAFitting.GetDNAFromFitting(Fittings.FittingList(fitting), False) & "')"">Show Fitting</button></td>")
+                strHTML.Append("</tr>")
+            Next
+            strHTML.Append("</table>")
 
             Return strHTML.ToString
         End Function
@@ -210,6 +247,7 @@ Namespace Classes
                         Dim midSlots As New SortedList(Of String, Integer)
                         Dim lowSlots As New SortedList(Of String, Integer)
                         Dim rigSlots As New SortedList(Of String, Integer)
+                        Dim drones As New SortedList(Of String, Integer)
                         For slot As Integer = 1 To _currentFitting.FittedShip.HiSlots
                             If _currentFitting.FittedShip.HiSlot(slot) IsNot Nothing Then
                                 If hiSlots.ContainsKey(_currentFitting.FittedShip.HiSlot(slot).Name) = False Then
@@ -244,6 +282,13 @@ Namespace Classes
                                 Else
                                     rigSlots(_currentFitting.FittedShip.RigSlot(slot).Name) += 1
                                 End If
+                            End If
+                        Next
+                        For Each dbi As DroneBayItem In _currentFitting.FittedShip.DroneBayItems.Values
+                            If drones.ContainsKey(dbi.DroneType.Name) = False Then
+                                drones.Add(dbi.DroneType.Name, dbi.Quantity)
+                            Else
+                                drones(dbi.DroneType.Name) += dbi.Quantity
                             End If
                         Next
 
@@ -361,8 +406,8 @@ Namespace Classes
 
                         If _currentFitting.FittedShip.DroneBayItems.Count > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Drone Bay</b></td></tr>")
-                            For Each dbi As DroneBayItem In _currentFitting.FittedShip.DroneBayItems.Values
-                                strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & dbi.Quantity.ToString("N0") & "x " & dbi.DroneType.Name & "</td></tr>")
+                            For Each droneName As String In drones.Keys
+                                strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & drones(droneName).ToString("N0") & "x " & droneName & "</td></tr>")
                             Next
                         End If
 
