@@ -26,7 +26,19 @@ Public Class HQFEvents
     Public Shared Event UpdateShipInfo(ByVal pilotName As String)
     Public Shared Event UpdateAllImplantLists()
     Public Shared Event ShowModuleMarketGroup(ByVal path As String)
+    Public Shared Event OpenFitting(fittingName As String)
+    Public Shared Event CreateFitting(shipName As String)
 
+    Shared WriteOnly Property StartCreateFitting As String
+        Set(value As String)
+            RaiseEvent CreateFitting(value)
+        End Set
+    End Property
+    Shared WriteOnly Property StartOpenFitting As String
+        Set(value As String)
+            RaiseEvent OpenFitting(value)
+        End Set
+    End Property
     Shared WriteOnly Property DisplayedMarketGroup() As String
         Set(ByVal value As String)
             RaiseEvent ShowModuleMarketGroup(value)

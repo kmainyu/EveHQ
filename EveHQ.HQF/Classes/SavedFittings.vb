@@ -126,6 +126,7 @@ Imports Newtonsoft.Json
         savedFit.RemoteEffects = fit.RemoteEffects
         savedFit.Notes = fit.Notes
         savedFit.Tags = fit.Tags
+        savedFit.Rating = fit.rating
         Return savedFit
     End Function
 
@@ -164,6 +165,7 @@ Imports Newtonsoft.Json
             newFit.RemoteEffects = fit.RemoteEffects
             newFit.Notes = fit.Notes
             newFit.Tags = fit.Tags
+            newFit.rating = fit.Rating
             Return newFit
         Else
             Return Nothing

@@ -452,6 +452,14 @@ Imports EveHQ.Core
     ''' <remarks></remarks>
     Public Property Tags As New List(Of String)
 
+    ''' <summary>
+    ''' Gets or sets the user rating of a fitting (0-10)
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>The rating for a fitting</returns>
+    ''' <remarks></remarks>
+    Public Property Rating As Integer
+
 #End Region
 
 #Region "Fitting Mapping Collections"
@@ -823,7 +831,7 @@ Imports EveHQ.Core
             If hImplant <> "" Then
                 ' Go through the attributes
                 If ModuleLists.moduleListName.ContainsKey(hImplant) = True Then
-                    aImplant = CType(ModuleLists.moduleList(ModuleLists.moduleListName(hImplant)), ShipModule)
+                    aImplant = ModuleLists.ModuleList(ModuleLists.ModuleListName(hImplant))
                     If Engine.ImplantEffectsMap.Contains(hImplant) = True Then
                         For Each chkEffect As ImplantEffect In CType(Engine.ImplantEffectsMap(hImplant), ArrayList)
                             If chkEffect.IsGang = False Then
@@ -1489,7 +1497,7 @@ Imports EveHQ.Core
         Dim attOrder(,) As Double
         Dim att As Integer
         For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
-            att = _moduleEffectsTable.Keys(attNumber)
+            att = CInt(_moduleEffectsTable.Keys(attNumber))
             baseEffectList = _moduleEffectsTable(att)
             stackingGroupsP.Clear()
             stackingGroupsN.Clear()
@@ -1593,7 +1601,7 @@ Imports EveHQ.Core
         Dim finalEffectList As New List(Of FinalEffect)
         Dim att As Integer
         For attNumber As Integer = 0 To _moduleEffectsTable.Keys.Count - 1
-            att = _moduleEffectsTable.Keys(attNumber)
+            att = CInt(_moduleEffectsTable.Keys(attNumber))
             baseEffectList = _moduleEffectsTable(att)
             HiPEffectList.Clear() : LowPEffectList.Clear()
             For Each fEffect As FinalEffect In baseEffectList
@@ -1665,13 +1673,15 @@ Imports EveHQ.Core
         Next
     End Sub
     Private Sub ApplyModuleEffectsToShip(ByRef newShip As Ship)
-        Dim att As Integer
-        For attNo As Integer = 0 To newShip.Attributes.Keys.Count - 1
-            att = newShip.Attributes.Keys(attNo)
-            If _moduleEffectsTable.ContainsKey(att) = True Then
-                For Each fEffect As FinalEffect In _moduleEffectsTable(att)
+        Dim tempAtts As New SortedList(Of String, Double)
+        For Each att As Integer In newShip.Attributes.Keys
+            tempAtts.Add(CStr(att), newShip.Attributes(att))
+        Next
+        For Each att As String In tempAtts.Keys
+            If _moduleEffectsTable.ContainsKey(CInt(att)) = True Then
+                For Each fEffect As FinalEffect In _moduleEffectsTable(CInt(att))
                     If ProcessFinalEffectForShip(newShip, fEffect) = True Then
-                        Call ApplyFinalEffectToShip(newShip, fEffect, att)
+                        Call ApplyFinalEffectToShip(newShip, fEffect, CInt(att))
                     End If
                 Next
             End If
@@ -2137,7 +2147,7 @@ Imports EveHQ.Core
                     NewShip.Attributes(Att) = (NewShip.Attributes(Att) * (-FEffect.AffectedValue / 100)) + NewShip.Attributes(Att)
                 End If
             Case EffectCalcType.Velocity
-                NewShip.Attributes(Att) = CDbl(NewShip.Attributes(Att)) + (CDbl(NewShip.Attributes(Att)) * (CDbl(NewShip.Attributes(10010)) / CDbl(NewShip.Attributes(10002)) * (FEffect.AffectedValue / 100)))
+                NewShip.Attributes(Att) = NewShip.Attributes(Att) + (NewShip.Attributes(Att) * (NewShip.Attributes(10010) / NewShip.Attributes(10002) * (FEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
                 NewShip.Attributes(Att) = FEffect.AffectedValue
             Case EffectCalcType.Multiplier
@@ -2194,7 +2204,7 @@ Imports EveHQ.Core
                     NewModule.Attributes(Att) = (NewModule.Attributes(Att) * (-FEffect.AffectedValue / 100)) + NewModule.Attributes(Att)
                 End If
             Case EffectCalcType.Velocity
-                NewModule.Attributes(Att) = CDbl(NewModule.Attributes(Att)) + (CDbl(NewModule.Attributes(Att)) * (CDbl(NewModule.Attributes(10010)) / CDbl(NewModule.Attributes(10002)) * (FEffect.AffectedValue / 100)))
+                NewModule.Attributes(Att) = NewModule.Attributes(Att) + (NewModule.Attributes(Att) * (NewModule.Attributes(10010) / NewModule.Attributes(10002) * (FEffect.AffectedValue / 100)))
             Case EffectCalcType.Absolute
                 NewModule.Attributes(Att) = FEffect.AffectedValue
             Case EffectCalcType.Multiplier

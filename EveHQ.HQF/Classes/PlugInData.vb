@@ -109,8 +109,8 @@ Public Class PlugInData
                     For Each cMod As ShipModule In ModuleLists.ModuleList.Values
                         ModuleLists.ModuleListName.Add(cMod.Name.Trim, cMod.ID)
                         If cMod.IsCharge = True Then
-                            If Charges.ChargeGroups.ContainsKey(cMod.MarketGroup) = False Then
-                                Charges.ChargeGroups.Add(cMod.MarketGroup, cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
+                            If Charges.ChargeGroups.ContainsKey(cMod.ID) = False Then
+                                Charges.ChargeGroups.Add(cMod.ID, cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
                             End If
                         End If
                     Next

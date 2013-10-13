@@ -98,6 +98,7 @@ Partial Class ShipSlotControl
         Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
         Me.tcStorage = New DevComponents.DotNetBar.TabControl()
         Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+        Me.rateFitting = New DevComponents.DotNetBar.Controls.RatingStar()
         Me.lblTags = New DevComponents.DotNetBar.LabelX()
         Me.txtAddTag = New DevComponents.DotNetBar.Controls.TextBoxX()
         Me.lblAddTag = New DevComponents.DotNetBar.LabelX()
@@ -907,6 +908,7 @@ Partial Class ShipSlotControl
         '
         'TabControlPanel1
         '
+        Me.TabControlPanel1.Controls.Add(Me.rateFitting)
         Me.TabControlPanel1.Controls.Add(Me.lblTags)
         Me.TabControlPanel1.Controls.Add(Me.txtAddTag)
         Me.TabControlPanel1.Controls.Add(Me.lblAddTag)
@@ -927,11 +929,28 @@ Partial Class ShipSlotControl
         Me.TabControlPanel1.TabIndex = 9
         Me.TabControlPanel1.TabItem = Me.tiNotes
         '
+        'rateFitting
+        '
+        Me.rateFitting.AverageRating = 5.0R
+        Me.rateFitting.BackColor = System.Drawing.Color.Transparent
+        '
+        '
+        '
+        Me.rateFitting.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+        Me.rateFitting.Location = New System.Drawing.Point(259, 31)
+        Me.rateFitting.Name = "rateFitting"
+        Me.rateFitting.NumberOfStars = 10
+        Me.rateFitting.Size = New System.Drawing.Size(218, 23)
+        Me.rateFitting.TabIndex = 5
+        Me.rateFitting.Text = "Fitting Rating "
+        Me.rateFitting.TextColor = System.Drawing.Color.Empty
+        Me.rateFitting.TextSpacing = 10
+        '
         'lblTags
         '
         Me.lblTags.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblTags.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.lblTags.BackColor = System.Drawing.Color.Transparent
         '
         '
         '
@@ -2102,4 +2121,5 @@ Partial Class ShipSlotControl
     Friend WithEvents lblAddTag As DevComponents.DotNetBar.LabelX
     Friend WithEvents lblTagLabel As DevComponents.DotNetBar.LabelX
     Friend WithEvents lblTags As DevComponents.DotNetBar.LabelX
+    Friend WithEvents rateFitting As DevComponents.DotNetBar.Controls.RatingStar
 End Class

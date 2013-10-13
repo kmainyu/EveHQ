@@ -103,6 +103,7 @@ Namespace Forms
             Me.btnTextTrainingTimes = New DevComponents.DotNetBar.ButtonItem()
             Me.btnTextTimeToLvl5 = New DevComponents.DotNetBar.ButtonItem()
             Me.btnTextSkillLevels = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnTextSkillRanks = New DevComponents.DotNetBar.ButtonItem()
             Me.btnTextTrainingQueue = New DevComponents.DotNetBar.ButtonItem()
             Me.btnTextQueueShoppingList = New DevComponents.DotNetBar.ButtonItem()
             Me.btnTextSkillsAvailable = New DevComponents.DotNetBar.ButtonItem()
@@ -114,12 +115,19 @@ Namespace Forms
             Me.btnHTMLTrainingTimes = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLTimeToLvl5 = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLSkillLevels = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLSkillRanks = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLTrainingQueue = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLQueueShoppingList = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLSkillsAvailable = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLSkillsNotTrained = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLPartiallyTrained = New DevComponents.DotNetBar.ButtonItem()
             Me.btnHTMLSkillsCost = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLCertGrades = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLCertGrades1 = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLCertGrades2 = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLCertGrades3 = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLCertGrades4 = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnHTMLCertGrades5 = New DevComponents.DotNetBar.ButtonItem()
             Me.rbStandard = New DevComponents.DotNetBar.RibbonBar()
             Me.btnStdCharSummary = New DevComponents.DotNetBar.ButtonItem()
             Me.btnStdSkillLevels = New DevComponents.DotNetBar.ButtonItem()
@@ -188,14 +196,6 @@ Namespace Forms
             Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
             Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
             Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
-            Me.btnHTMLSkillRanks = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnHTMLCertGrades = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnHTMLCertGrades1 = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnHTMLCertGrades2 = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnHTMLCertGrades3 = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnHTMLCertGrades4 = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnHTMLCertGrades5 = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnTextSkillRanks = New DevComponents.DotNetBar.ButtonItem()
             Me.rpPlugins.SuspendLayout()
             Me.EveIconMenu.SuspendLayout()
             Me.ctxTabbedMDI.SuspendLayout()
@@ -1254,6 +1254,15 @@ Namespace Forms
             Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillLevels, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (Text)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnTextSkillLevels.Text = "Skill Levels"
             '
+            'btnTextSkillRanks
+            '
+            Me.btnTextSkillRanks.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+            Me.btnTextSkillRanks.Image = Global.EveHQ.My.Resources.Resources.Document32
+            Me.btnTextSkillRanks.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+            Me.btnTextSkillRanks.Name = "btnTextSkillRanks"
+            Me.btnTextSkillRanks.SubItemsExpandWidth = 14
+            Me.btnTextSkillRanks.Text = "Skill Ranks"
+            '
             'btnTextTrainingQueue
             '
             Me.btnTextTrainingQueue.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
@@ -1396,6 +1405,16 @@ Namespace Forms
             Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillLevels, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (HTML)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnHTMLSkillLevels.Text = "Skill Levels"
             '
+            'btnHTMLSkillRanks
+            '
+            Me.btnHTMLSkillRanks.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+            Me.btnHTMLSkillRanks.Image = Global.EveHQ.My.Resources.Resources.Document32
+            Me.btnHTMLSkillRanks.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+            Me.btnHTMLSkillRanks.Name = "btnHTMLSkillRanks"
+            Me.btnHTMLSkillRanks.SubItemsExpandWidth = 14
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillRanks, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (HTML)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.btnHTMLSkillRanks.Text = "Skill Ranks"
+            '
             'btnHTMLTrainingQueue
             '
             Me.btnHTMLTrainingQueue.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
@@ -1464,6 +1483,42 @@ Namespace Forms
             Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsCost, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Cost Report (HTML)", "Displays a report showing the cost of acquiring all the skill books currently tra" & _
                 "ined by the pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The values are taken from ""base"" cost.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
             Me.btnHTMLSkillsCost.Text = "Skills Cost"
+            '
+            'btnHTMLCertGrades
+            '
+            Me.btnHTMLCertGrades.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+            Me.btnHTMLCertGrades.Image = Global.EveHQ.My.Resources.Resources.Document32
+            Me.btnHTMLCertGrades.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+            Me.btnHTMLCertGrades.Name = "btnHTMLCertGrades"
+            Me.btnHTMLCertGrades.SplitButton = True
+            Me.btnHTMLCertGrades.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnHTMLCertGrades1, Me.btnHTMLCertGrades2, Me.btnHTMLCertGrades3, Me.btnHTMLCertGrades4, Me.btnHTMLCertGrades5})
+            Me.btnHTMLCertGrades.SubItemsExpandWidth = 14
+            Me.btnHTMLCertGrades.Text = "Cert Grade Times"
+            '
+            'btnHTMLCertGrades1
+            '
+            Me.btnHTMLCertGrades1.Name = "btnHTMLCertGrades1"
+            Me.btnHTMLCertGrades1.Text = "Basic Certificates"
+            '
+            'btnHTMLCertGrades2
+            '
+            Me.btnHTMLCertGrades2.Name = "btnHTMLCertGrades2"
+            Me.btnHTMLCertGrades2.Text = "Standard Certificates"
+            '
+            'btnHTMLCertGrades3
+            '
+            Me.btnHTMLCertGrades3.Name = "btnHTMLCertGrades3"
+            Me.btnHTMLCertGrades3.Text = "Improved Certificates"
+            '
+            'btnHTMLCertGrades4
+            '
+            Me.btnHTMLCertGrades4.Name = "btnHTMLCertGrades4"
+            Me.btnHTMLCertGrades4.Text = "Advanced Certificates"
+            '
+            'btnHTMLCertGrades5
+            '
+            Me.btnHTMLCertGrades5.Name = "btnHTMLCertGrades5"
+            Me.btnHTMLCertGrades5.Text = "Elite Certificates"
             '
             'rbStandard
             '
@@ -1924,7 +1979,7 @@ Namespace Forms
             '
             Me.Bar1.AccessibleDescription = "DotNetBar Bar (Bar1)"
             Me.Bar1.AccessibleName = "DotNetBar Bar"
-            Me.Bar1.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar
+            Me.Bar1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
             Me.Bar1.AutoHideTabTextAlwaysVisible = True
             Me.Bar1.CloseSingleTab = True
             Me.Bar1.Controls.Add(Me.pdc1)
@@ -2166,61 +2221,6 @@ Namespace Forms
             Me.EveStatusIcon.ContextMenuStrip = Me.EveIconMenu
             Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
             Me.EveStatusIcon.Text = ""
-            '
-            'btnHTMLSkillRanks
-            '
-            Me.btnHTMLSkillRanks.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-            Me.btnHTMLSkillRanks.Image = Global.EveHQ.My.Resources.Resources.Document32
-            Me.btnHTMLSkillRanks.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-            Me.btnHTMLSkillRanks.Name = "btnHTMLSkillRanks"
-            Me.btnHTMLSkillRanks.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillRanks, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (HTML)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
-            Me.btnHTMLSkillRanks.Text = "Skill Ranks"
-            '
-            'btnHTMLCertGrades
-            '
-            Me.btnHTMLCertGrades.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-            Me.btnHTMLCertGrades.Image = Global.EveHQ.My.Resources.Resources.Document32
-            Me.btnHTMLCertGrades.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-            Me.btnHTMLCertGrades.Name = "btnHTMLCertGrades"
-            Me.btnHTMLCertGrades.SplitButton = True
-            Me.btnHTMLCertGrades.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnHTMLCertGrades1, Me.btnHTMLCertGrades2, Me.btnHTMLCertGrades3, Me.btnHTMLCertGrades4, Me.btnHTMLCertGrades5})
-            Me.btnHTMLCertGrades.SubItemsExpandWidth = 14
-            Me.btnHTMLCertGrades.Text = "Cert Grade Times"
-            '
-            'btnHTMLCertGrades1
-            '
-            Me.btnHTMLCertGrades1.Name = "btnHTMLCertGrades1"
-            Me.btnHTMLCertGrades1.Text = "Basic Certificates"
-            '
-            'btnHTMLCertGrades2
-            '
-            Me.btnHTMLCertGrades2.Name = "btnHTMLCertGrades2"
-            Me.btnHTMLCertGrades2.Text = "Standard Certificates"
-            '
-            'btnHTMLCertGrades3
-            '
-            Me.btnHTMLCertGrades3.Name = "btnHTMLCertGrades3"
-            Me.btnHTMLCertGrades3.Text = "Improved Certificates"
-            '
-            'btnHTMLCertGrades4
-            '
-            Me.btnHTMLCertGrades4.Name = "btnHTMLCertGrades4"
-            Me.btnHTMLCertGrades4.Text = "Advanced Certificates"
-            '
-            'btnHTMLCertGrades5
-            '
-            Me.btnHTMLCertGrades5.Name = "btnHTMLCertGrades5"
-            Me.btnHTMLCertGrades5.Text = "Elite Certificates"
-            '
-            'btnTextSkillRanks
-            '
-            Me.btnTextSkillRanks.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-            Me.btnTextSkillRanks.Image = Global.EveHQ.My.Resources.Resources.Document32
-            Me.btnTextSkillRanks.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-            Me.btnTextSkillRanks.Name = "btnTextSkillRanks"
-            Me.btnTextSkillRanks.SubItemsExpandWidth = 14
-            Me.btnTextSkillRanks.Text = "Skill Ranks"
             '
             'frmEveHQ
             '

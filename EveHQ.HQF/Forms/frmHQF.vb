@@ -25,6 +25,7 @@ Imports System.Runtime.Serialization
 Imports System.Xml
 Imports EveHQ.Market
 Imports EveHQ.Common.Extensions
+Imports EveHQ.HQF.Forms
 Imports Microsoft.Win32
 Imports DevComponents.AdvTree
 Imports System.Text
@@ -103,6 +104,8 @@ Public Class frmHQF
         RemoveHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         RemoveHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
         RemoveHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
+        RemoveHandler HQFEvents.OpenFitting, AddressOf Me.RemoteShowFitting
+        RemoveHandler HQFEvents.CreateFitting, AddressOf Me.CreateNewFitting
 
         If shutdownComplete = False Then
             ' Close any open windows
@@ -137,6 +140,8 @@ Public Class frmHQF
         AddHandler HQFEvents.UpdateModuleList, AddressOf Me.UpdateModuleList
         AddHandler HQFEvents.UpdateShipInfo, AddressOf Me.UpdateShipInfo
         AddHandler HQFEvents.UpdateAllImplantLists, AddressOf Me.UpdateAllImplantLists
+        AddHandler HQFEvents.OpenFitting, AddressOf Me.RemoteShowFitting
+        AddHandler HQFEvents.CreateFitting, AddressOf Me.CreateNewFitting
 
         ' Load the Profiles - stored separately from settings for distribution!
         Call HQFDamageProfiles.Load()
@@ -558,11 +563,11 @@ Public Class frmHQF
     Private Sub mnuCreateNewFitting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCreateNewFitting.Click
         ' Get the ship details
         Dim shipName As String = mnuShipBrowserShipName.Text
-        Call Me.CreateNewFitting(shipName)
+        Call CreateNewFitting(shipName)
     End Sub
     Private Sub mnuPreviewShip_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
-        Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+        Dim selShip As Ship = ShipLists.ShipList(shipName).Clone
         Dim showInfo As New frmShowInfo
         Dim hPilot As EveHQ.Core.EveHQPilot
         If ActiveFitting IsNot Nothing Then
@@ -578,7 +583,7 @@ Public Class frmHQF
     End Sub
     Private Sub mnuBattleClinicBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuBattleClinicBrowser.Click
         Dim shipName As String = mnuShipBrowserShipName.Text
-        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+        Dim bShip As Ship = ShipLists.ShipList(shipName).Clone
         If myBCBrowser.IsHandleCreated = True Then
             myBCBrowser.ShipType = bShip
             myBCBrowser.BringToFront()
@@ -587,10 +592,6 @@ Public Class frmHQF
             myBCBrowser.ShipType = bShip
             myBCBrowser.Show()
         End If
-    End Sub
-    Private Sub DisplayBCBrowser(ByVal bShip As Ship)
-        Dim URI As String = "http://eve.battleclinic.com/ship_loadout_feed.php?typeID=" & bShip.ID
-
     End Sub
     Private Sub CreateNewFitting(ByVal shipName As String)
         ' Check we have some valid characters
@@ -1275,8 +1276,10 @@ Public Class frmHQF
                                        Invoke(Sub()
                                                   For Each moduleNode As Node In tvwModules.Nodes
                                                       Dim price As Double
-                                                      If prices.TryGetValue(CInt(moduleNode.Name), price) Then
-                                                          moduleNode.Cells(4).Text = price.ToInvariantString("N2")
+                                                      If IsNumeric(moduleNode.Name) Then
+                                                          If prices.TryGetValue(CInt(moduleNode.Name), price) Then
+                                                              moduleNode.Cells(4).Text = price.ToInvariantString("N2")
+                                                          End If
                                                       End If
                                                   Next
 
@@ -1853,15 +1856,15 @@ Public Class frmHQF
             .ShowDialog()
             fittingName = .txtFittingName.Text
         End With
-        myNewFitting = Nothing
+        myNewFitting.Dispose()
 
         ' Add the Fitting
         If fittingName <> "" Then
-            Dim NewFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
-            Fittings.FittingList.Add(NewFit.KeyName, NewFit)
-            If Me.CreateNewFittingTab(NewFit) = True Then
+            Dim newFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
+            Fittings.FittingList.Add(newFit.KeyName, newFit)
+            If Me.CreateNewFittingTab(newFit) = True Then
                 Call Me.UpdateFilteredShips()
-                tabHQF.SelectedTab = tabHQF.Tabs(NewFit.KeyName)
+                tabHQF.SelectedTab = tabHQF.Tabs(newFit.KeyName)
                 If tabHQF.SelectedTabIndex = 0 Then Call Me.UpdateSelectedTab()
                 ActiveFitting.ShipSlotCtrl.UpdateEverything()
             End If
@@ -1870,7 +1873,7 @@ Public Class frmHQF
             'MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
-    Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
+   Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
         Dim curNode As Node = tvwFittings.SelectedNodes(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
@@ -1888,35 +1891,39 @@ Public Class frmHQF
         showInfo.ShowItemDetails(selShip, hPilot)
     End Sub
     Private Sub ShowFitting(ByVal fittingNode As Node)
+
+        ' Get the ship details
+        If fittingNode.Parent IsNot Nothing Then
+            Dim fitKey As String = fittingNode.Parent.Text & ", " & fittingNode.Text
+            ShowFitting(fitKey)
+        End If
+
+    End Sub
+    Private Sub ShowFitting(fitKey As String)
+
         ' Check we have some valid characters
-        If EveHQ.Core.HQ.Settings.Pilots.Count > 0 Then
-            ' Get the ship details
-            If fittingNode.Parent IsNot Nothing Then
-                Dim ShipName As String = fittingNode.Parent.Text
-                Dim FitName As String = fittingNode.Text
-                Dim FitKey As String = fittingNode.Parent.Text & ", " & fittingNode.Text
+        If Core.HQ.Settings.Pilots.Count > 0 Then
 
-                If Me.OpenFittingsContains(FitKey) = False Then
-                    If Fittings.FittingList.ContainsKey(FitKey) = True Then
-                        Dim newfit As Fitting = Fittings.FittingList(FitKey)
-                        Call Me.CreateNewFittingTab(newfit)
-                        newfit.ShipSlotCtrl.UpdateEverything()
+            If OpenFittingsContains(fitKey) = False Then
+                If Fittings.FittingList.ContainsKey(fitKey) = True Then
+                    Dim newfit As Fitting = Fittings.FittingList(fitKey)
+                    Call CreateNewFittingTab(newfit)
+                    newfit.ShipSlotCtrl.UpdateEverything()
 
-                        ' Set the newly opened fitting
-                        ' NB: Doesn't trigger the event if this is the first tab open
-                        ActiveFitting = newfit
-                        tabHQF.SelectedTab = tabHQF.Tabs(FitKey)
-                    Else
-                        MessageBox.Show("Can't load the '" & FitKey & "' fitting as it's not there!!", "Error locating fitting details", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
+                    ' Set the newly opened fitting
+                    ' NB: Doesn't trigger the event if this is the first tab open
+                    ActiveFitting = newfit
+                    tabHQF.SelectedTab = tabHQF.Tabs(fitKey)
                 Else
-                    tabHQF.SelectedTab = tabHQF.Tabs(FitKey)
+                    MessageBox.Show("Can't load the '" & fitKey & "' fitting as it's not there!!", "Error locating fitting details", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
+            Else
+                tabHQF.SelectedTab = tabHQF.Tabs(fitKey)
             End If
-            ' Check for user columns only being the default "Module Name"
+
             Dim colCount As Integer = 0
-            For Each UserCol As UserSlotColumn In HQF.Settings.HQFSettings.UserSlotColumns
-                If UserCol.Active = True Then
+            For Each userCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+                If userCol.Active = True Then
                     colCount += 1
                 End If
             Next
@@ -1932,8 +1939,8 @@ Public Class frmHQF
                     Dim mySettings As New frmHQFSettings
                     mySettings.Tag = "nodeSlotFormat"
                     mySettings.ShowDialog()
-                    mySettings = Nothing
-                    Call Me.UpdateFittingsTree(False)
+                    mySettings.Dispose()
+                    Call UpdateFittingsTree(False)
                 End If
             End If
         Else
@@ -1941,22 +1948,15 @@ Public Class frmHQF
             msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
             MessageBox.Show(msg, "Pilots Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
+
     End Sub
-    Public Sub RemoteShowFitting(ByVal FitKey As String)
-        If Fittings.FittingList.ContainsKey(FitKey) = True Then
-            ' Create the tab and display
-            If Me.OpenFittingsContains(FitKey) = False Then
-                Dim newfit As Fitting = Fittings.FittingList(FitKey)
-                Call Me.CreateNewFittingTab(newfit)
-                newfit.ShipSlotCtrl.UpdateEverything()
-            End If
-            tabHQF.SelectedTab = tabHQF.Tabs(FitKey)
-        End If
+    Private Sub RemoteShowFitting(ByVal fitKey As String)
+        ShowFitting(fitKey)
     End Sub
     Private Sub mnuFittingsBCBrowser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuFittingsBCBrowser.Click
         Dim curNode As Node = tvwFittings.SelectedNodes(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
-        Dim bShip As Ship = CType(ShipLists.shipList(shipName), Ship).Clone
+        Dim bShip As Ship = CType(ShipLists.ShipList(shipName), Ship).Clone
         If myBCBrowser.IsHandleCreated = True Then
             myBCBrowser.ShipType = bShip
             myBCBrowser.BringToFront()
@@ -2202,7 +2202,7 @@ Public Class frmHQF
 
             Next
 
-            Dim newReq As New frmAddRequisition("HQF", Orders)
+            Dim newReq As New FrmAddRequisition("HQF", Orders)
             newReq.ShowDialog()
 
         End If
@@ -2227,7 +2227,7 @@ Public Class frmHQF
         ' Get name of closed tab - DNB refuses to expose this information to us
         Dim ClosedTabName As String = ""
         Dim tp As New DevComponents.DotNetBar.TabItem
-        For Each fitting As String In ShipLists.fittedShipList.Keys
+        For Each fitting As String In ShipLists.FittedShipList.Keys
             tp = tabHQF.Tabs(fitting)
             If tp Is Nothing Then
                 ClosedTabName = fitting
@@ -2236,7 +2236,7 @@ Public Class frmHQF
         Next
         If ClosedTabName <> "" Then
             ' Remove data
-            ShipLists.fittedShipList.Remove(ClosedTabName)
+            ShipLists.FittedShipList.Remove(ClosedTabName)
             ActiveFitting.ShipInfoCtrl = Nothing
             ActiveFitting.ShipSlotCtrl = Nothing
         End If
@@ -2718,7 +2718,7 @@ Public Class frmHQF
         ' Add the current ship
         Orders.Add(ActiveFitting.BaseShip.Name, 1)
         ' Setup the Requisition form for HQF and open it
-        Dim newReq As New frmAddRequisition("HQF", Orders)
+        Dim newReq As New FrmAddRequisition("HQF", Orders)
         newReq.ShowDialog()
     End Sub
 
@@ -2882,8 +2882,8 @@ Public Class frmHQF
                     Dim ChargeName As String = ModuleMatch.Groups.Item("charge").Value
                     Dim Quantity As String = ModuleMatch.Groups.Item("quantity").Value
                     If IsNumeric(Quantity) = True Then
-                        If ModuleLists.moduleListName.ContainsKey(ModName) = True Then
-                            Dim TestMod As ShipModule = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(ModName)), ShipModule).Clone
+                        If ModuleLists.ModuleListName.ContainsKey(ModName) = True Then
+                            Dim TestMod As ShipModule = CType(HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(ModName)), ShipModule).Clone
                             If TestMod.IsDrone = True Then
                                 newFit.Add(ModName & ", " & Quantity)
                             Else
@@ -2907,8 +2907,8 @@ Public Class frmHQF
                         Dim ModName As String = DroneMatch.Groups.Item("module").Value
                         Dim Quantity As String = DroneMatch.Groups.Item("quantity").Value
                         If IsNumeric(Quantity) = True Then
-                            If ModuleLists.moduleListName.ContainsKey(ModName) = True Then
-                                Dim TestMod As ShipModule = CType(HQF.ModuleLists.moduleList(HQF.ModuleLists.moduleListName(ModName)), ShipModule).Clone
+                            If ModuleLists.ModuleListName.ContainsKey(ModName) = True Then
+                                Dim TestMod As ShipModule = CType(HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(ModName)), ShipModule).Clone
                                 If TestMod.IsDrone = True Then
                                     newFit.Add(ModName & ", " & Quantity)
                                 Else
@@ -2944,6 +2944,12 @@ Public Class frmHQF
         Next
         Return False
     End Function
+
+    Private Sub btnShipSelector_Click(sender As System.Object, e As System.EventArgs) Handles btnShipSelector.Click
+        Dim form As New frmShipSelection
+        form.ShowDialog()
+        form.Dispose()
+    End Sub
 
 #End Region
 

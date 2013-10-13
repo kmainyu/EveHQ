@@ -308,6 +308,15 @@
     ''' <returns>A list of tags for the fitting.</returns>
     ''' <remarks></remarks>
     Public Property Tags As List(Of String)
+
+    ''' <summary>
+    ''' Gets or sets the user rating of a fitting (0-10)
+    ''' </summary>
+    ''' <value></value>
+    ''' <returns>The rating for a fitting</returns>
+    ''' <remarks></remarks>
+    Public Property Rating As Integer
+
     
 
 #End Region

@@ -102,6 +102,12 @@
     <Compile Include="Classes\Charges.vb" />
     <Compile Include="Classes\DNAFitting.vb" />
     <Compile Include="Classes\IGBData.vb" />
+    <Compile Include="Forms\frmShipSelection.Designer.vb">
+      <DependentUpon>frmShipSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\frmShipSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="_New\FittingPilots.vb" />
     <Compile Include="_New\FittingSkill.vb" />
     <Compile Include="_New\FittingPilot.vb" />
@@ -477,6 +483,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmShipEditorBonus.resx">
       <DependentUpon>frmShipEditorBonus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmShipSelection.resx">
+      <DependentUpon>frmShipSelection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmShowInfo.RESX">
       <DependentUpon>frmShowInfo.vb</DependentUpon>

@@ -25,6 +25,7 @@ Imports System.Net
 Imports System.Text
 Imports System.IO
 Imports DevComponents.AdvTree
+Imports EveHQ.HQF.Forms
 
 Public Class frmBCBrowser
 

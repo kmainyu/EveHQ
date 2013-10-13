@@ -30,6 +30,7 @@ Imports EveHQ.Market
 Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
 Imports EveHQ.Core.Requisitions
+Imports EveHQ.HQF.Forms
 
 Public Class ShipSlotControl
     Dim UpdateAll As Boolean = False
@@ -2262,7 +2263,7 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As EventArgs) Handles pbShipInfo.MouseHover
-        ToolTip1.SetToolTip(pbShipInfo, SquishText(frmShowInfo.FormatDescriptionText(ParentFitting.BaseShip.Description)))
+        ToolTip1.SetToolTip(pbShipInfo, SquishText(ParentFitting.BaseShip.Description))
     End Sub
 
     Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
@@ -4847,6 +4848,7 @@ Public Class ShipSlotControl
 
     Private Sub UpdateNotes()
         txtNotes.Text = ParentFitting.Notes
+        rateFitting.Rating = ParentFitting.Rating
     End Sub
 
     Private Sub UpdateTags()
@@ -4868,12 +4870,17 @@ Public Class ShipSlotControl
 
     Private Sub txtAddTag_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles txtAddTag.KeyDown
         If e.KeyCode = Keys.Enter Then
-            If ParentFitting.Tags.Contains(txtAddTag.Text.Trim) = False Then
-                ParentFitting.Tags.Add(txtAddTag.Text.Trim)
-                ParentFitting.Tags.Sort()
-                txtAddTag.Text = ""
-                UpdateTags()
-            End If
+            Dim tagList As List(Of String) = txtAddTag.Text.Trim.Split(" ".ToCharArray).ToList
+            For Each shipTag As String In tagList
+                If String.IsNullOrWhiteSpace(shipTag.Trim) = False Then
+                    If ParentFitting.Tags.Contains(shipTag.Trim) = False Then
+                        ParentFitting.Tags.Add(shipTag.Trim)
+                    End If
+                End If
+            Next
+            txtAddTag.Text = ""
+            ParentFitting.Tags.Sort()
+            UpdateTags()
         End If
     End Sub
 
@@ -4883,6 +4890,10 @@ Public Class ShipSlotControl
             ParentFitting.Tags.Sort()
             UpdateTags()
         End If
+    End Sub
+
+    Private Sub rateFitting_RatingChanged(sender As System.Object, e As System.EventArgs) Handles rateFitting.RatingChanged
+        ParentFitting.Rating = rateFitting.Rating
     End Sub
 
 #End Region

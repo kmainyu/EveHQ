@@ -133,6 +133,7 @@ Partial Class frmHQF
         Me.btnOptions = New DevComponents.DotNetBar.ButtonItem()
         Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
         Me.STTShips = New DevComponents.DotNetBar.SuperTooltip()
+        Me.btnShipSelector = New DevComponents.DotNetBar.ButtonItem()
         Me.ctxFittings.SuspendLayout()
         CType(Me.tvwShips, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxShipBrowser.SuspendLayout()
@@ -1082,7 +1083,7 @@ Partial Class frmHQF
         Me.rbEditor.ContainerControlProcessDialogKey = True
         Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
         Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbEditor.Location = New System.Drawing.Point(722, 0)
+        Me.rbEditor.Location = New System.Drawing.Point(770, 0)
         Me.rbEditor.Name = "rbEditor"
         Me.rbEditor.Size = New System.Drawing.Size(53, 100)
         Me.rbEditor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1121,7 +1122,7 @@ Partial Class frmHQF
         Me.rbImport.ContainerControlProcessDialogKey = True
         Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
         Me.rbImport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbImport.Location = New System.Drawing.Point(524, 0)
+        Me.rbImport.Location = New System.Drawing.Point(572, 0)
         Me.rbImport.Name = "rbImport"
         Me.rbImport.Size = New System.Drawing.Size(196, 100)
         Me.rbImport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1146,6 +1147,10 @@ Partial Class frmHQF
         Me.ItemContainer2.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer2.Name = "ItemContainer2"
         Me.ItemContainer2.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnImportEve, Me.btnImportEFT})
+        '
+        '
+        '
+        Me.ItemContainer2.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnImportEve
         '
@@ -1188,7 +1193,7 @@ Partial Class frmHQF
         Me.rbExport.ContainerControlProcessDialogKey = True
         Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
         Me.rbExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-        Me.rbExport.Location = New System.Drawing.Point(222, 0)
+        Me.rbExport.Location = New System.Drawing.Point(270, 0)
         Me.rbExport.Name = "rbExport"
         Me.rbExport.Size = New System.Drawing.Size(300, 100)
         Me.rbExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1237,6 +1242,10 @@ Partial Class frmHQF
         Me.ItemContainer1.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
         Me.ItemContainer1.Name = "ItemContainer1"
         Me.ItemContainer1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnExportFitting, Me.btnExportDetails})
+        '
+        '
+        '
+        Me.ItemContainer1.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         '
         'btnExportFitting
         '
@@ -1306,11 +1315,11 @@ Partial Class frmHQF
         '
         Me.rbTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.rbTools.ContainerControlProcessDialogKey = True
-        Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnPilotManager, Me.btnImplantManager, Me.btnFleetManager})
+        Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShipSelector, Me.btnPilotManager, Me.btnImplantManager, Me.btnFleetManager})
         Me.rbTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
         Me.rbTools.Location = New System.Drawing.Point(59, 0)
         Me.rbTools.Name = "rbTools"
-        Me.rbTools.Size = New System.Drawing.Size(161, 100)
+        Me.rbTools.Size = New System.Drawing.Size(209, 100)
         Me.rbTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.rbTools.TabIndex = 1
         Me.rbTools.Text = "Tools"
@@ -1413,6 +1422,16 @@ Partial Class frmHQF
         Me.STTShips.MinimumTooltipSize = New System.Drawing.Size(300, 100)
         Me.STTShips.PositionBelowControl = False
         Me.STTShips.TooltipDuration = 0
+        '
+        'btnShipSelector
+        '
+        Me.btnShipSelector.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+        Me.btnShipSelector.Image = CType(resources.GetObject("btnShipSelector.Image"), System.Drawing.Image)
+        Me.btnShipSelector.ImageFixedSize = New System.Drawing.Size(36, 36)
+        Me.btnShipSelector.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+        Me.btnShipSelector.Name = "btnShipSelector"
+        Me.btnShipSelector.SubItemsExpandWidth = 14
+        Me.btnShipSelector.Text = "Ship Selector"
         '
         'frmHQF
         '
@@ -1560,4 +1579,5 @@ Partial Class frmHQF
     Friend WithEvents mnuExportToRequisitions As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnFleetManager As DevComponents.DotNetBar.ButtonItem
     Friend WithEvents STTShips As DevComponents.DotNetBar.SuperTooltip
+    Friend WithEvents btnShipSelector As DevComponents.DotNetBar.ButtonItem
 End Class
