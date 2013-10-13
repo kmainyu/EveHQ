@@ -40,7 +40,7 @@ Public Class frmShipSelection
         lblTagCloud.Text = ""
         For t As Integer = 0 To Math.Min(20, tagList.Count) - 1
             Dim s As Integer
-            If CInt(weight) <> 0 Then
+            If weight <> 0 Then
                 s = CInt((tagList.Values(t) - min) / weight)
             End If
             lblTagCloud.Text &= "<span><font size='+" & CStr(s) & "'><a href='" & tagList.Keys(t) & "'>" & tagList.Keys(t) & "</a></font></span>  "

@@ -875,7 +875,7 @@ Partial Class ShipSlotControl
         '
         'tcStorage
         '
-        Me.tcStorage.CanReorderTabs = True
+        Me.tcStorage.CanReorderTabs = False
         Me.tcStorage.Controls.Add(Me.TabControlPanel1)
         Me.tcStorage.Controls.Add(Me.tcpDroneBay)
         Me.tcStorage.Controls.Add(Me.tcpCargoBay)
@@ -931,7 +931,6 @@ Partial Class ShipSlotControl
         '
         'rateFitting
         '
-        Me.rateFitting.AverageRating = 5.0R
         Me.rateFitting.BackColor = System.Drawing.Color.Transparent
         '
         '
