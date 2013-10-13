@@ -2487,7 +2487,7 @@ Namespace Forms
             Call RefreshAllTraining()
         End Sub
 
-        Private Sub btnAddRequisition_Click(sender As System.Object, e As System.EventArgs) Handles btnAddRequisition.Click
+        Private Sub btnAddRequisition_Click(sender As System.Object, e As EventArgs) Handles btnAddRequisition.Click
             Dim requiredSkills As New List(Of String)
             For Each skill As Core.EveHQSkillQueueItem In _activeQueue.Queue.Values
                 If Core.SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
