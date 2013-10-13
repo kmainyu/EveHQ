@@ -370,7 +370,7 @@ Namespace Requisitions
                                                       For Each row As Node In adtOrders.Nodes
                                                           Dim price As Double
                                                           Dim quantity As Long
-                                                          If (priceData.TryGetValue(CInt(row.Name), price)) Then
+                                                          If (priceData.TryGetValue(StaticData.TypeNames(row.Name), price)) Then
                                                               row.Cells(4).Text = price.ToInvariantString("F2")
                                                               Long.TryParse(row.Cells(1).Text, quantity)
                                                               row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
@@ -521,9 +521,9 @@ Namespace Requisitions
                 Dim assetXML As XmlDocument
                 Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                 If isCorp = True Then
-                    assetXML = apiReq.GetAPIXML(APITypes.AssetsCorp, assetAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                    assetXML = apiReq.GetAPIXML(APITypes.AssetsCorp, assetAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
                 Else
-                    assetXML = apiReq.GetAPIXML(APITypes.AssetsChar, assetAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                    assetXML = apiReq.GetAPIXML(APITypes.AssetsChar, assetAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnStandard)
                 End If
                 If assetXML IsNot Nothing Then
                     Dim locList As XmlNodeList = assetXML.SelectNodes("/eveapi/result/rowset/row")

@@ -24,6 +24,8 @@ Namespace Controls
 
     Public Class EveHQTrainingQueue
 
+        Public Event QueueUpdated()
+
 #Region "Class Variables"
 
         Dim _queuePilotName As String
@@ -294,6 +296,8 @@ Namespace Controls
                 'End If
 
                 Call Core.SkillQueueFunctions.TidyQueue(_queuePilot, aq, sortedQueue)
+
+                RaiseEvent QueueUpdated()
 
             End If
         End Sub

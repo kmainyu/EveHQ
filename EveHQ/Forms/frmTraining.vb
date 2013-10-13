@@ -93,7 +93,7 @@ Namespace Forms
             Call SetupQueues()
             Call RefreshAllTrainingQueues()
             AddHandler Core.SkillQueueFunctions.RefreshQueue, AddressOf RefreshAllTraining
-
+           
             ' Disable the startup flag
             _startup = False
 
@@ -246,6 +246,7 @@ Namespace Forms
                         RemoveHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
                         RemoveHandler tq.adtQueue.ColumnHeaderMouseUp, AddressOf activeLVW_ColumnClick
                         RemoveHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
+                        RemoveHandler tq.QueueUpdated, AddressOf QueueUpdated
                     End If
                     tabQueues.Tabs.Remove(ti)
                     ti.Dispose()
@@ -272,6 +273,7 @@ Namespace Forms
                             AddHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
                             AddHandler tq.adtQueue.ColumnHeaderMouseUp, AddressOf activeLVW_ColumnClick
                             AddHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
+                            AddHandler tq.QueueUpdated, AddressOf QueueUpdated
 
                             Call tq.DrawColumnHeadings()
 
@@ -295,6 +297,11 @@ Namespace Forms
 
             tabQueues.Refresh()
 
+        End Sub
+
+        Private Sub QueueUpdated()
+            RedrawOptions()
+            DrawQueueSummary()
         End Sub
 
         Public Sub RefreshAllTrainingQueues()
@@ -688,6 +695,13 @@ Namespace Forms
                 btnRemap.Enabled = False
                 btnExportEMPFile.Enabled = False
             End If
+            btnAddRequisition.Enabled = False
+            For Each skill As Core.EveHQSkillQueueItem In _activeQueue.Queue.Values
+                If Core.SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
+                    btnAddRequisition.Enabled = True
+                    Exit For
+                End If
+            Next
             ' Reset the redraw flag
             _redrawingOptions = False
         End Sub
@@ -2473,7 +2487,28 @@ Namespace Forms
             Call RefreshAllTraining()
         End Sub
 
-#End Region
+        Private Sub btnAddRequisition_Click(sender As System.Object, e As System.EventArgs) Handles btnAddRequisition.Click
+            Dim requiredSkills As New List(Of String)
+            For Each skill As Core.EveHQSkillQueueItem In _activeQueue.Queue.Values
+                If Core.SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
+                    If requiredSkills.Contains(skill.Name) = False Then
+                        requiredSkills.Add(skill.Name)
+                    End If
+                End If
+            Next
+            ' Set up a new Sortedlist to store the required items
+            Dim orders As New SortedList(Of String, Integer)
+            For Each skill As String In requiredSkills
+                orders.Add(skill, 1)
+            Next
+            ' Setup the Requisition form for HQF and open it
+            Dim newReq As New Core.Requisitions.FrmAddRequisition("Skill Queue", orders)
+            newReq.ShowDialog()
+            newReq.Dispose()
+        End Sub
 
+#End Region
+        
     End Class
+
 End Namespace

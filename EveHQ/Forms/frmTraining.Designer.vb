@@ -22,18 +22,18 @@ Namespace Forms
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmTraining))
-            Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
-            Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
-            Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
-            Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
-            Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
-            Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Price", ""}, -1)
-            Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Primary Attribute", ""}, -1)
-            Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Secondary Attribute", ""}, -1)
-            Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current Level", ""}, -1)
-            Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
-            Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
-            Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
+            Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("General", System.Windows.Forms.HorizontalAlignment.Left)
+            Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Pilot Specific", System.Windows.Forms.HorizontalAlignment.Left)
+            Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Name", ""}, -1)
+            Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Rank", ""}, -1)
+            Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Group", ""}, -1)
+            Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Skill Price", ""}, -1)
+            Dim ListViewItem15 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Primary Attribute", ""}, -1)
+            Dim ListViewItem16 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Secondary Attribute", ""}, -1)
+            Dim ListViewItem17 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current Level", ""}, -1)
+            Dim ListViewItem18 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
+            Dim ListViewItem19 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
+            Dim ListViewItem20 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
             Me.ctxDetails = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.mnuSkillName2 = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator()
@@ -191,6 +191,7 @@ Namespace Forms
             Me.panelInfo = New DevComponents.DotNetBar.PanelEx()
             Me.cboPilots = New DevComponents.DotNetBar.Controls.ComboBoxEx()
             Me.ExpandableSplitter1 = New DevComponents.DotNetBar.ExpandableSplitter()
+            Me.btnAddRequisition = New DevComponents.DotNetBar.ButtonItem()
             Me.ctxDetails.SuspendLayout()
             Me.ctxReqs.SuspendLayout()
             Me.ctxDepend.SuspendLayout()
@@ -781,7 +782,7 @@ Namespace Forms
             Me.rbImportExport.ContainerControlProcessDialogKey = True
             Me.rbImportExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer1})
             Me.rbImportExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbImportExport.Location = New System.Drawing.Point(934, 0)
+            Me.rbImportExport.Location = New System.Drawing.Point(1001, 0)
             Me.rbImportExport.Name = "rbImportExport"
             Me.rbImportExport.Size = New System.Drawing.Size(134, 90)
             Me.rbImportExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
@@ -931,11 +932,11 @@ Namespace Forms
             '
             Me.rbQueueFunctions.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbQueueFunctions.ContainerControlProcessDialogKey = True
-            Me.rbQueueFunctions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnRBAddSkill, Me.btnRBDeleteSkill, Me.btnRBIncreaseLevel, Me.btnRBDecreaseLevel, Me.btnRBMoveUpQueue, Me.btnRBMoveDownQueue, Me.btnRBClearQueue, Me.btnRBSplitQueue})
+            Me.rbQueueFunctions.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnRBAddSkill, Me.btnRBDeleteSkill, Me.btnRBIncreaseLevel, Me.btnRBDecreaseLevel, Me.btnRBMoveUpQueue, Me.btnRBMoveDownQueue, Me.btnRBClearQueue, Me.btnRBSplitQueue, Me.btnAddRequisition})
             Me.rbQueueFunctions.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbQueueFunctions.Location = New System.Drawing.Point(543, 0)
             Me.rbQueueFunctions.Name = "rbQueueFunctions"
-            Me.rbQueueFunctions.Size = New System.Drawing.Size(389, 90)
+            Me.rbQueueFunctions.Size = New System.Drawing.Size(456, 90)
             Me.rbQueueFunctions.Style = DevComponents.DotNetBar.eDotNetBarStyle.Office2007
             Me.rbQueueFunctions.TabIndex = 4
             Me.rbQueueFunctions.Text = "Queue Functions"
@@ -1369,23 +1370,23 @@ Namespace Forms
             Me.lvwDetails.Dock = System.Windows.Forms.DockStyle.Fill
             Me.lvwDetails.FullRowSelect = True
             Me.lvwDetails.GridLines = True
-            ListViewGroup1.Header = "General"
-            ListViewGroup1.Name = "General"
-            ListViewGroup2.Header = "Pilot Specific"
-            ListViewGroup2.Name = "Specific"
-            Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+            ListViewGroup3.Header = "General"
+            ListViewGroup3.Name = "General"
+            ListViewGroup4.Header = "Pilot Specific"
+            ListViewGroup4.Name = "Specific"
+            Me.lvwDetails.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
             Me.lvwDetails.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-            ListViewItem1.Group = ListViewGroup1
-            ListViewItem2.Group = ListViewGroup1
-            ListViewItem3.Group = ListViewGroup1
-            ListViewItem4.Group = ListViewGroup1
-            ListViewItem5.Group = ListViewGroup1
-            ListViewItem6.Group = ListViewGroup1
-            ListViewItem7.Group = ListViewGroup2
-            ListViewItem8.Group = ListViewGroup2
-            ListViewItem9.Group = ListViewGroup2
-            ListViewItem10.Group = ListViewGroup2
-            Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10})
+            ListViewItem11.Group = ListViewGroup3
+            ListViewItem12.Group = ListViewGroup3
+            ListViewItem13.Group = ListViewGroup3
+            ListViewItem14.Group = ListViewGroup3
+            ListViewItem15.Group = ListViewGroup3
+            ListViewItem16.Group = ListViewGroup3
+            ListViewItem17.Group = ListViewGroup4
+            ListViewItem18.Group = ListViewGroup4
+            ListViewItem19.Group = ListViewGroup4
+            ListViewItem20.Group = ListViewGroup4
+            Me.lvwDetails.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14, ListViewItem15, ListViewItem16, ListViewItem17, ListViewItem18, ListViewItem19, ListViewItem20})
             Me.lvwDetails.Location = New System.Drawing.Point(1, 1)
             Me.lvwDetails.MultiSelect = False
             Me.lvwDetails.Name = "lvwDetails"
@@ -1652,7 +1653,7 @@ Namespace Forms
             Me.ctxQueues.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.ctxQueues.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuAddQueue, Me.mnuEditQueue, Me.mnuDeleteQueue, Me.ToolStripMenuItem5, Me.mnuMergeQueues, Me.mnuCopyQueue, Me.mnuCopyQueueToPilot, Me.ToolStripMenuItem6, Me.mnuSetPrimary})
             Me.ctxQueues.Name = "ctxQueues"
-            Me.ctxQueues.Size = New System.Drawing.Size(179, 192)
+            Me.ctxQueues.Size = New System.Drawing.Size(179, 170)
             '
             'mnuAddQueue
             '
@@ -1785,6 +1786,17 @@ Namespace Forms
             Me.ExpandableSplitter1.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
             Me.ExpandableSplitter1.TabIndex = 52
             Me.ExpandableSplitter1.TabStop = False
+            '
+            'btnAddRequisition
+            '
+            Me.btnAddRequisition.Enabled = False
+            Me.btnAddRequisition.Image = Global.EveHQ.My.Resources.Resources.Orders32
+            Me.btnAddRequisition.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+            Me.btnAddRequisition.Name = "btnAddRequisition"
+            Me.btnAddRequisition.SubItemsExpandWidth = 14
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnAddRequisition, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Requisitions", "Allows the creation, editing and viewing of requisitions (also known as Shopping " & _
+                "Lists)." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Requisitions created in other parts of EveHQ will be visible here.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Orders32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.btnAddRequisition.Text = "Add To Requisitions"
             '
             'FrmTraining
             '
@@ -1988,5 +2000,6 @@ Namespace Forms
         Friend WithEvents colSkillRank As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents NodeConnector2 As DevComponents.AdvTree.NodeConnector
         Friend WithEvents ElementStyle2 As DevComponents.DotNetBar.ElementStyle
+        Friend WithEvents btnAddRequisition As DevComponents.DotNetBar.ButtonItem
     End Class
 End Namespace

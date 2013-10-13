@@ -2720,6 +2720,7 @@ Public Class frmHQF
         ' Setup the Requisition form for HQF and open it
         Dim newReq As New FrmAddRequisition("HQF", Orders)
         newReq.ShowDialog()
+        newReq.Dispose()
     End Sub
 
     Private Function CollectModulesForExport(ByRef ModList As SortedList(Of String, Integer), ByVal ShipFitting As Fitting) As SortedList(Of String, Integer)
