@@ -42,7 +42,7 @@ Public Class frmPrismSettings
     Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
 
         ' Save the settings
-        Call Settings.PrismSettings.SavePrismSettings()
+        Call PrismSettings.UserSettings.SavePrismSettings()
 
     End Sub
 
@@ -136,49 +136,49 @@ Public Class frmPrismSettings
         cboDefaultBPCalcManufacturer.Sorted = True : cboDefaultBPCalcManufacturer.EndUpdate()
         cboDefaultBPCalcAssetOwner.Sorted = True : cboDefaultBPCalcAssetOwner.EndUpdate()
 
-        If cboDefaultPrismCharacter.Items.Contains(Settings.PrismSettings.DefaultCharacter) = True Then
-            cboDefaultPrismCharacter.SelectedItem = Settings.PrismSettings.DefaultCharacter
+        If cboDefaultPrismCharacter.Items.Contains(PrismSettings.UserSettings.DefaultCharacter) = True Then
+            cboDefaultPrismCharacter.SelectedItem = PrismSettings.UserSettings.DefaultCharacter
         End If
-        If cboDefaultBPCalcBPOwner.Items.Contains(Settings.PrismSettings.DefaultBPOwner) = True Then
-            cboDefaultBPCalcBPOwner.SelectedItem = Settings.PrismSettings.DefaultBPOwner
+        If cboDefaultBPCalcBPOwner.Items.Contains(PrismSettings.UserSettings.DefaultBPOwner) = True Then
+            cboDefaultBPCalcBPOwner.SelectedItem = PrismSettings.UserSettings.DefaultBPOwner
         End If
-        If cboDefaultBPCalcManufacturer.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
-            cboDefaultBPCalcManufacturer.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+        If cboDefaultBPCalcManufacturer.Items.Contains(PrismSettings.UserSettings.DefaultBPCalcManufacturer) = True Then
+            cboDefaultBPCalcManufacturer.SelectedItem = PrismSettings.UserSettings.DefaultBPCalcManufacturer
         End If
-        If cboDefaultBPCalcAssetOwner.Items.Contains(Settings.PrismSettings.DefaultBPCalcAssetOwner) = True Then
-            cboDefaultBPCalcAssetOwner.SelectedItem = Settings.PrismSettings.DefaultBPCalcAssetOwner
+        If cboDefaultBPCalcAssetOwner.Items.Contains(PrismSettings.UserSettings.DefaultBPCalcAssetOwner) = True Then
+            cboDefaultBPCalcAssetOwner.SelectedItem = PrismSettings.UserSettings.DefaultBPCalcAssetOwner
         End If
 
-        chkHideAPIDialog.Checked = Settings.PrismSettings.HideAPIDownloadDialog
+        chkHideAPIDialog.Checked = PrismSettings.UserSettings.HideAPIDownloadDialog
 
     End Sub
 
     Private Sub cboDefaultPrismCharacter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultPrismCharacter.SelectedIndexChanged
         If cboDefaultPrismCharacter.SelectedItem IsNot Nothing Then
-            Settings.PrismSettings.DefaultCharacter = cboDefaultPrismCharacter.SelectedItem.ToString
+            PrismSettings.UserSettings.DefaultCharacter = cboDefaultPrismCharacter.SelectedItem.ToString
         End If
     End Sub
 
     Private Sub cboDefaultBPOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultBPCalcBPOwner.SelectedIndexChanged
         If cboDefaultBPCalcBPOwner.SelectedItem IsNot Nothing Then
-            Settings.PrismSettings.DefaultBPOwner = cboDefaultBPCalcBPOwner.SelectedItem.ToString
+            PrismSettings.UserSettings.DefaultBPOwner = cboDefaultBPCalcBPOwner.SelectedItem.ToString
         End If
     End Sub
 
     Private Sub cboDefaultBPCalcManufacturer_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultBPCalcManufacturer.SelectedIndexChanged
         If cboDefaultBPCalcManufacturer.SelectedItem IsNot Nothing Then
-            Settings.PrismSettings.DefaultBPCalcManufacturer = cboDefaultBPCalcManufacturer.SelectedItem.ToString
+            PrismSettings.UserSettings.DefaultBPCalcManufacturer = cboDefaultBPCalcManufacturer.SelectedItem.ToString
         End If
     End Sub
 
     Private Sub cboDefaultBPCalcAssetOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultBPCalcAssetOwner.SelectedIndexChanged
         If cboDefaultBPCalcAssetOwner.SelectedItem IsNot Nothing Then
-            Settings.PrismSettings.DefaultBPCalcAssetOwner = cboDefaultBPCalcAssetOwner.SelectedItem.ToString
+            PrismSettings.UserSettings.DefaultBPCalcAssetOwner = cboDefaultBPCalcAssetOwner.SelectedItem.ToString
         End If
     End Sub
 
     Private Sub chkHideAPIDialog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHideAPIDialog.CheckedChanged
-        Settings.PrismSettings.HideAPIDownloadDialog = chkHideAPIDialog.Checked
+        PrismSettings.UserSettings.HideAPIDownloadDialog = chkHideAPIDialog.Checked
     End Sub
 
     Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteDuplicateJournals.Click
@@ -221,34 +221,34 @@ Public Class frmPrismSettings
 #Region "Costs Options"
 
     Private Sub UpdateCostsOptions()
-        nudFactoryInstallCost.Value = Settings.PrismSettings.FactoryInstallCost
-        nudFactoryRunningCost.Value = Settings.PrismSettings.FactoryRunningCost
-        nudLabInstallCost.Value = Settings.PrismSettings.LabInstallCost
-        nudLabRunningCost.Value = Settings.PrismSettings.LabRunningCost
+        nudFactoryInstallCost.Value = PrismSettings.UserSettings.FactoryInstallCost
+        nudFactoryRunningCost.Value = PrismSettings.UserSettings.FactoryRunningCost
+        nudLabInstallCost.Value = PrismSettings.UserSettings.LabInstallCost
+        nudLabRunningCost.Value = PrismSettings.UserSettings.LabRunningCost
         Call Me.PopulateBPCCostGrid()
     End Sub
 
     Private Sub nudFactoryInstallCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudFactoryInstallCost.ValueChanged
         If startUp = False Then
-            Settings.PrismSettings.FactoryInstallCost = nudFactoryInstallCost.Value
+            PrismSettings.UserSettings.FactoryInstallCost = nudFactoryInstallCost.Value
         End If
     End Sub
 
     Private Sub nudFactoryRunningCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudFactoryRunningCost.ValueChanged
         If startUp = False Then
-            Settings.PrismSettings.FactoryRunningCost = nudFactoryRunningCost.Value
+            PrismSettings.UserSettings.FactoryRunningCost = nudFactoryRunningCost.Value
         End If
     End Sub
 
     Private Sub nudLabInstallCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudLabInstallCost.ValueChanged
         If startUp = False Then
-            Settings.PrismSettings.LabInstallCost = nudLabInstallCost.Value
+            PrismSettings.UserSettings.LabInstallCost = nudLabInstallCost.Value
         End If
     End Sub
 
     Private Sub nudLabRunningCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudLabRunningCost.ValueChanged
         If startUp = False Then
-            Settings.PrismSettings.LabRunningCost = nudLabRunningCost.Value
+            PrismSettings.UserSettings.LabRunningCost = nudLabRunningCost.Value
         End If
     End Sub
 
@@ -259,9 +259,9 @@ Public Class frmPrismSettings
             Dim newBP As New ListViewItem
             newBP.Name = bp.Id.ToString
             newBP.Text = StaticData.Types(bp.Id).Name
-            If Settings.PrismSettings.BPCCosts.ContainsKey(bp.Id) Then
-                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id).MinRunCost.ToString("N2"))
-                newBP.SubItems.Add(Settings.PrismSettings.BPCCosts(bp.Id).MaxRunCost.ToString("N2"))
+            If PrismSettings.UserSettings.BPCCosts.ContainsKey(bp.Id) Then
+                newBP.SubItems.Add(PrismSettings.UserSettings.BPCCosts(bp.Id).MinRunCost.ToString("N2"))
+                newBP.SubItems.Add(PrismSettings.UserSettings.BPCCosts(bp.Id).MaxRunCost.ToString("N2"))
             Else
                 newBP.SubItems.Add(0.ToString("N2"))
                 newBP.SubItems.Add(0.ToString("N2"))
@@ -298,7 +298,7 @@ Public Class frmPrismSettings
         Dim newCol As New ListViewItem
         lvwColumns.BeginUpdate()
         lvwColumns.Items.Clear()
-        For Each UserSlot As UserSlotColumn In Settings.PrismSettings.UserSlotColumns
+        For Each UserSlot As UserSlotColumn In PrismSettings.UserSettings.UserSlotColumns
             newCol = New ListViewItem(UserSlot.Description)
             newCol.Name = UserSlot.Name
             newCol.Checked = UserSlot.Active
@@ -316,10 +316,10 @@ Public Class frmPrismSettings
         ' Find the index in the user column list
         Dim idx As Integer = lvwColumns.SelectedItems(0).Index
         If idx > 0 Then
-            Dim ColToMove As UserSlotColumn = Settings.PrismSettings.UserSlotColumns(idx)
-            Dim ColToSwitch As UserSlotColumn = Settings.PrismSettings.UserSlotColumns(idx - 1)
-            Settings.PrismSettings.UserSlotColumns.Item(idx) = ColToSwitch
-            Settings.PrismSettings.UserSlotColumns.Item(idx - 1) = ColToMove
+            Dim ColToMove As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(idx)
+            Dim ColToSwitch As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(idx - 1)
+            PrismSettings.UserSettings.UserSlotColumns.Item(idx) = ColToSwitch
+            PrismSettings.UserSettings.UserSlotColumns.Item(idx - 1) = ColToMove
             ' Redraw the list
             redrawColumns = True
             Call Me.RedrawSlotColumnList()
@@ -340,10 +340,10 @@ Public Class frmPrismSettings
         ' Find the index in the user column list
         Dim idx As Integer = lvwColumns.SelectedItems(0).Index
         If idx < lvwColumns.Items.Count - 1 Then
-            Dim ColToMove As UserSlotColumn = Settings.PrismSettings.UserSlotColumns(idx)
-            Dim ColToSwitch As UserSlotColumn = Settings.PrismSettings.UserSlotColumns(idx + 1)
-            Settings.PrismSettings.UserSlotColumns.Item(idx) = ColToSwitch
-            Settings.PrismSettings.UserSlotColumns.Item(idx + 1) = ColToMove
+            Dim ColToMove As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(idx)
+            Dim ColToSwitch As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(idx + 1)
+            PrismSettings.UserSettings.UserSlotColumns.Item(idx) = ColToSwitch
+            PrismSettings.UserSettings.UserSlotColumns.Item(idx + 1) = ColToMove
             ' Redraw the list
             redrawColumns = True
             Call Me.RedrawSlotColumnList()
@@ -358,7 +358,7 @@ Public Class frmPrismSettings
         If redrawColumns = False Then
             ' Find the index in the user column list
             Dim idx As Integer = e.Item.Index
-            Settings.PrismSettings.UserSlotColumns.Item(idx).Active = e.Item.Checked
+            PrismSettings.UserSettings.UserSlotColumns.Item(idx).Active = e.Item.Checked
             forceUpdate = True
         End If
     End Sub
@@ -432,10 +432,10 @@ Public Class frmPrismSettings
                 cbo.Sorted = True
             Next
             ' Set the comboboxes to the existing corp rep settings (or reset if not available)
-            If Settings.PrismSettings.CorpReps.ContainsKey(CorpName) = False Then
-                Settings.PrismSettings.CorpReps.Add(CorpName, New SortedList(Of CorpRepType, String))
+            If PrismSettings.UserSettings.CorpReps.ContainsKey(CorpName) = False Then
+                PrismSettings.UserSettings.CorpReps.Add(CorpName, New SortedList(Of CorpRepType, String))
             End If
-            SelectedCorpReps = Settings.PrismSettings.CorpReps(CorpName)
+            SelectedCorpReps = PrismSettings.UserSettings.CorpReps(CorpName)
             For idx As Integer = 0 To 7
                 If SelectedCorpReps.ContainsKey(CType(idx, CorpRepType)) = True Then
                     If CorpRepCombos(idx).Items.Contains(SelectedCorpReps(CType(idx, CorpRepType))) = True Then

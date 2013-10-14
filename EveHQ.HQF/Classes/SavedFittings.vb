@@ -36,9 +36,9 @@ Imports Newtonsoft.Json
     Public Shared Sub LoadFittings()
        
        ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "Fittings.json")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "Fittings.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "Fittings.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "Fittings.json"))
                     Dim json As String = s.ReadToEnd
                     SavedFittingList = JsonConvert.DeserializeObject(Of SortedList(Of String, SavedFitting))(json)
                 End Using
@@ -66,7 +66,7 @@ Imports Newtonsoft.Json
 
         ' Write the JSON version of the fittings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "Fittings.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "Fittings.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using

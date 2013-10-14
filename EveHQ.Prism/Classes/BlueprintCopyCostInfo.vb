@@ -1,4 +1,4 @@
-﻿<Serializable()> Public Class BPCCostInfo
+﻿<Serializable()> Public Class BlueprintCopyCostInfo
 
     Public ID As Integer
     Public MinRunCost As Double

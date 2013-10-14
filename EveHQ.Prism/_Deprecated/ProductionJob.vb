@@ -21,6 +21,7 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 Imports System.Threading.Tasks
+Imports EveHQ.Prism.BPCalc
 
 <Serializable()>
 Public Class ProductionJob

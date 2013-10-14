@@ -22,9 +22,9 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports Newtonsoft.Json
 
-<Serializable()> Public Class Settings
+<Serializable()> Public Class PluginSettings
 
-    Public Shared HQFSettings As New Settings
+    Public Shared HQFSettings As New PluginSettings
     Public Shared HQFFolder As String
     Public Shared HQFCacheFolder As String
 
@@ -58,7 +58,7 @@ Imports Newtonsoft.Json
     Private cUseLastPilot As Boolean = False
     Private cStorageBayHeight As Integer = 200
     Private cSlotNameWidth As Integer = 150
-    Private cImplantGroups As New SortedList(Of String, ImplantGroup)
+    Private cImplantGroups As New SortedList(Of String, ImplantCollection)
     Private cModuleListColWidths As New SortedList(Of Long, Integer)
     Private cIgnoredAttributeColumns As New List(Of String)
     Private cSortedAttributeColumn As String = ""
@@ -183,11 +183,11 @@ Imports Newtonsoft.Json
             cModuleListColWidths = value
         End Set
     End Property
-    Public Property ImplantGroups() As SortedList(Of String, ImplantGroup)
+    Public Property ImplantGroups() As SortedList(Of String, ImplantCollection)
         Get
             Return cImplantGroups
         End Get
-        Set(ByVal value As SortedList(Of String, ImplantGroup))
+        Set(ByVal value As SortedList(Of String, ImplantCollection))
             cImplantGroups = value
         End Set
     End Property
@@ -435,12 +435,12 @@ Imports Newtonsoft.Json
 
     Public Sub SaveHQFSettings()
 
-       ' Create a JSON string for writing
+        ' Create a JSON string for writing
         Dim json As String = JsonConvert.SerializeObject(HQFSettings, Newtonsoft.Json.Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "HQFSettings.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "HQFSettings.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using
@@ -453,11 +453,11 @@ Imports Newtonsoft.Json
         ' Initialise the standard slot columns
         Call InitialiseSlotColumns()
 
-       If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFSettings.json")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFSettings.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "HQFSettings.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "HQFSettings.json"))
                     Dim json As String = s.ReadToEnd
-                    HQFSettings = JsonConvert.DeserializeObject(Of Settings)(json)
+                    HQFSettings = JsonConvert.DeserializeObject(Of PluginSettings)(json)
                 End Using
             Catch ex As Exception
                 MessageBox.Show("There was an error loading the HQF Settings file. The file appears corrupt, so it cannot be loaded at this time.")
@@ -465,7 +465,7 @@ Imports Newtonsoft.Json
         End If
 
         ' Update implant names
-        For Each impGroup As ImplantGroup In HQFSettings.ImplantGroups.Values
+        For Each impGroup As ImplantCollection In HQFSettings.ImplantGroups.Values
             For slot As Integer = 1 To 10
                 If PlugInData.ModuleChanges.ContainsKey(impGroup.ImplantName(slot)) Then
                     impGroup.ImplantName(slot) = PlugInData.ModuleChanges(impGroup.ImplantName(slot))

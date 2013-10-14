@@ -70,17 +70,26 @@ Public Class DatabaseConverter
         ' Step 2 - Check the database connection
         _worker.ReportProgress(0, "Database Conversion Step 2/15: Checking database connections...")
         If CheckOldDatabaseConnection() = False Then
+            _worker.ReportProgress(0, "Unable to connect to the v2 database!")
             MessageBox.Show("Unable to connect to the v2 database!", "Database connection error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Exit Sub
         End If
 
         ' Step 3 - Create the SQLite database
         _worker.ReportProgress(0, "Database Conversion Step 3/15: Creating SQLite database...")
-        CustomDataFunctions.CreateCustomDB()
-
+        Try
+            CustomDataFunctions.CreateCustomDB()
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error creating SQLite database: " & e.Message)
+        End Try
+        
         ' Step 4 - Create the core database tables
         _worker.ReportProgress(0, "Database Conversion Step 4/15: Creating Core database tables...")
-        CustomDataFunctions.CheckCoreDBTables()
+        Try
+            CustomDataFunctions.CheckCoreDBTables()
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error creating Core database tables: " & e.Message)
+        End Try
 
         ' Step 5 - Convert the customPrices table
         _worker.ReportProgress(0, "Database Conversion Step 5/15: Converting Custom Prices database table...")
@@ -108,7 +117,11 @@ Public Class DatabaseConverter
 
         ' Step 11 - Create the Prism database tables
         _worker.ReportProgress(0, "Database Conversion Step 11/15: Creating Prism database tables...")
-        PrismDataFunctions.CheckDatabaseTables()
+        Try
+            PrismDataFunctions.CheckDatabaseTables()
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error creating Prism database tables: " & e.Message)
+        End Try
 
         ' Step 12 - Convert the assetItemNames tables
         _worker.ReportProgress(0, "Database Conversion Step 12/15: Converting Asset Item Names database table...")
@@ -173,7 +186,7 @@ Public Class DatabaseConverter
                 Return False
         End Select
     End Function
-    Public Shared Function GetData(ByVal strSQL As String, format As DBFormat, connectionString As String) As DataSet
+    Public Function GetData(ByVal strSQL As String, format As DBFormat, connectionString As String) As DataSet
 
         Dim evehqData As New DataSet
 
@@ -188,7 +201,8 @@ Public Class DatabaseConverter
                     conn.Close()
                     Return evehqData
                 Catch e As Exception
-                    MessageBox.Show(e.Message, "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    'MessageBox.Show(e.Message, "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    _worker.ReportProgress(0, "Error in SQLCE GetData: " & e.Message)
                     Return Nothing
                 Finally
                     If conn.State = ConnectionState.Open Then
@@ -205,7 +219,8 @@ Public Class DatabaseConverter
                     conn.Close()
                     Return evehqData
                 Catch e As Exception
-                    MessageBox.Show(e.Message, "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    'MessageBox.Show(e.Message, "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    _worker.ReportProgress(0, "Error in SQL GetData: " & e.Message)
                     Return Nothing
                 Finally
                     If conn.State = ConnectionState.Open Then
@@ -213,392 +228,432 @@ Public Class DatabaseConverter
                     End If
                 End Try
             Case Else
-                MessageBox.Show("Invalid database format!", "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                'MessageBox.Show("Invalid database format!", "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                _worker.ReportProgress(0, "Error in Database format!")
                 Return Nothing
         End Select
     End Function
 
     Private Sub ConvertCustomPricesTable()
-
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from customPrices;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO customPrices ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from customPrices;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO customPrices ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting custom prices table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertMarketPricesTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from marketPrices;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO marketPrices ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from marketPrices;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO marketPrices ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting market prices table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertEveIDToNameTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from eveIDToName;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO eveIDToName ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from eveIDToName;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO eveIDToName ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting EveID to Name table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertEveMailTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from eveMail;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO eveMail ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from eveMail;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO eveMail ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting Evemail table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertEveNotificationsTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from eveNotifications;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO eveNotifications ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from eveNotifications;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO eveNotifications ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting notifications table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertRequisitionsTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from requisitions;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO requisitions ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from requisitions;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO requisitions ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting requisitions table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertAssetItemNamesTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from assetItemNames;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO assetItemNames (itemID, itemName"
-                        cmd.CommandText &= ") VALUES(?,?)"
-                        ' Create the desired number of parameters
-                        For col As Integer = 1 To 2
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            cmd.Parameters(0).Value = row.Item("itemID")
-                            cmd.Parameters(1).Value = row.Item("itemName")
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from assetItemNames;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO assetItemNames (itemID, itemName"
+                            cmd.CommandText &= ") VALUES(?,?)"
+                            ' Create the desired number of parameters
+                            For col As Integer = 1 To 2
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                cmd.Parameters(0).Value = row.Item("itemID")
+                                cmd.Parameters(1).Value = row.Item("itemName")
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting asset item names table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertInventionResultsTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from inventionResults;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO inventionResults ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from inventionResults;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO inventionResults ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting invention results table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertWalletJournalTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from walletJournal;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO walletJournal ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from walletJournal;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO walletJournal ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting wallet journal table: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertWalletTransactionsTable()
 
-        ' Step 1 - Load all the v2 data
-        Using eveData As DataSet = GetData("SELECT * from walletTransactions;", _dbFormat, _sqlConn)
-            If eveData IsNot Nothing Then
-                ' Step 2 - Put all the v2 data into the v3 table
-                Dim conn As New SQLiteConnection(_sqLiteConn)
-                conn.Open()
-                Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
-                    Using cmd As SQLiteCommand = conn.CreateCommand
-                        ' Create the DB Command
-                        cmd.CommandText = "INSERT INTO walletTransactions ("
-                        ' Add the columns
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            cmd.CommandText &= col.ColumnName & ", "
-                        Next
-                        cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
-                        cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                        ' Create the desired number of parameters
-                        For Each col As DataColumn In eveData.Tables(0).Columns
-                            Dim field As SQLiteParameter = cmd.CreateParameter()
-                            cmd.Parameters.Add(field)
-                        Next
-                        ' Add the values
-                        For Each row As DataRow In eveData.Tables(0).Rows
-                            For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
-                                cmd.Parameters(col).Value = row.Item(col)
+        Try
+            ' Step 1 - Load all the v2 data
+            Using eveData As DataSet = GetData("SELECT * from walletTransactions;", _dbFormat, _sqlConn)
+                If eveData IsNot Nothing Then
+                    ' Step 2 - Put all the v2 data into the v3 table
+                    Dim conn As New SQLiteConnection(_sqLiteConn)
+                    conn.Open()
+                    Using dbTrans As SQLiteTransaction = conn.BeginTransaction()
+                        Using cmd As SQLiteCommand = conn.CreateCommand
+                            ' Create the DB Command
+                            cmd.CommandText = "INSERT INTO walletTransactions ("
+                            ' Add the columns
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                cmd.CommandText &= col.ColumnName & ", "
                             Next
-                            cmd.ExecuteNonQuery()
-                        Next
-                        dbTrans.Commit()
+                            cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 2, 2)
+                            cmd.CommandText &= ") VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+                            ' Create the desired number of parameters
+                            For Each col As DataColumn In eveData.Tables(0).Columns
+                                Dim field As SQLiteParameter = cmd.CreateParameter()
+                                cmd.Parameters.Add(field)
+                            Next
+                            ' Add the values
+                            For Each row As DataRow In eveData.Tables(0).Rows
+                                For col As Integer = 0 To eveData.Tables(0).Columns.Count - 1
+                                    cmd.Parameters(col).Value = row.Item(col)
+                                Next
+                                cmd.ExecuteNonQuery()
+                            Next
+                            dbTrans.Commit()
+                        End Using
                     End Using
-                End Using
-                conn.Close()
-            End If
-        End Using
+                    conn.Close()
+                End If
+            End Using
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting wallet transactions table: " & e.Message)
+        End Try
 
     End Sub
 

@@ -40,15 +40,15 @@ Public Class frmHQFSettings
 
         ' Save Widths
         Dim Cols As New SortedList(Of String, UserSlotColumn)
-        For Each UserCol As UserSlotColumn In HQF.Settings.HQFSettings.UserSlotColumns
+        For Each UserCol As UserSlotColumn In HQF.PluginSettings.HQFSettings.UserSlotColumns
             Cols.Add(UserCol.Name, UserCol)
         Next
 
         ' Process the slot selection
-        Settings.HQFSettings.UserSlotColumns.Clear()
+        PluginSettings.HQFSettings.UserSlotColumns.Clear()
         For Each slotItem As ListViewItem In lvwColumns.Items
             Dim OldSlot As UserSlotColumn = Cols(slotItem.Name)
-            Settings.HQFSettings.UserSlotColumns.Add(New UserSlotColumn(OldSlot.Name, OldSlot.Description, OldSlot.Width, slotItem.Checked))
+            PluginSettings.HQFSettings.UserSlotColumns.Add(New UserSlotColumn(OldSlot.Name, OldSlot.Description, OldSlot.Width, slotItem.Checked))
         Next
 
         ' Save the profiles
@@ -56,7 +56,7 @@ Public Class frmHQFSettings
         Call HQFDefenceProfiles.Save()
 
         ' Save the settings
-        Call Settings.HQFSettings.SaveHQFSettings()
+        Call PluginSettings.HQFSettings.SaveHQFSettings()
         If forceUpdate = True Then
             HQFEvents.StartUpdateFitting = True
         End If
@@ -107,22 +107,22 @@ Public Class frmHQFSettings
 #Region "General Options"
     Private Sub UpdateGeneralOptions()
         cboStartupPilot.Items.Clear()
-       For Each myPilot As Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        For Each myPilot As Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
             If myPilot.Active = True Then
                 cboStartupPilot.Items.Add(myPilot.Name)
             End If
         Next
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(Settings.HQFSettings.DefaultPilot) = False Then
+        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(PluginSettings.HQFSettings.DefaultPilot) = False Then
             If EveHQ.Core.HQ.Settings.Pilots.Count > 0 Then
                 cboStartupPilot.SelectedIndex = 0
             End If
         Else
-            cboStartupPilot.SelectedItem = Settings.HQFSettings.DefaultPilot
+            cboStartupPilot.SelectedItem = PluginSettings.HQFSettings.DefaultPilot
         End If
-        chkRestoreLastSession.Checked = Settings.HQFSettings.RestoreLastSession
-        chkAutoUpdateHQFSkills.Checked = Settings.HQFSettings.AutoUpdateHQFSkills
-        chkShowPerformance.Checked = Settings.HQFSettings.ShowPerformanceData
-        chkUseLastPilot.Checked = Settings.HQFSettings.UseLastPilot
+        chkRestoreLastSession.Checked = PluginSettings.HQFSettings.RestoreLastSession
+        chkAutoUpdateHQFSkills.Checked = PluginSettings.HQFSettings.AutoUpdateHQFSkills
+        chkShowPerformance.Checked = PluginSettings.HQFSettings.ShowPerformanceData
+        chkUseLastPilot.Checked = PluginSettings.HQFSettings.UseLastPilot
         ' Check for protocol
         If IsProtocolInstalled(EveHQ.Core.HQ.FittingProtocol) = False Then
             lblFittingProtocolStatus.Text = "Disabled"
@@ -135,35 +135,35 @@ Public Class frmHQFSettings
         End If
     End Sub
     Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboStartupPilot.SelectedIndexChanged
-        Settings.HQFSettings.DefaultPilot = CStr(cboStartupPilot.SelectedItem)
+        PluginSettings.HQFSettings.DefaultPilot = CStr(cboStartupPilot.SelectedItem)
     End Sub
     Private Sub chkRestoreLastSession_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRestoreLastSession.CheckedChanged
-        Settings.HQFSettings.RestoreLastSession = chkRestoreLastSession.Checked
+        PluginSettings.HQFSettings.RestoreLastSession = chkRestoreLastSession.Checked
     End Sub
     Private Sub chkAutoUpdateHQFSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAutoUpdateHQFSkills.CheckedChanged
-        Settings.HQFSettings.AutoUpdateHQFSkills = chkAutoUpdateHQFSkills.Checked
+        PluginSettings.HQFSettings.AutoUpdateHQFSkills = chkAutoUpdateHQFSkills.Checked
     End Sub
     Private Sub chkShowPerformance_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowPerformance.CheckedChanged
-        Settings.HQFSettings.ShowPerformanceData = chkShowPerformance.Checked
+        PluginSettings.HQFSettings.ShowPerformanceData = chkShowPerformance.Checked
     End Sub
     Private Sub chkUseLastPilot_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseLastPilot.CheckedChanged
-        Settings.HQFSettings.UseLastPilot = chkUseLastPilot.Checked
+        PluginSettings.HQFSettings.UseLastPilot = chkUseLastPilot.Checked
     End Sub
 #End Region
 
 #Region "Slot Format Options"
 
     Private Sub UpdateSlotFormatOptions()
-        chkAutoResizeColumns.Checked = Settings.HQFSettings.AutoResizeColumns
-        Dim HColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.HiSlotColour))
+        chkAutoResizeColumns.Checked = PluginSettings.HQFSettings.AutoResizeColumns
+        Dim HColor As Color = Color.FromArgb(CInt(PluginSettings.HQFSettings.HiSlotColour))
         Me.pbHiSlotColour.BackColor = HColor
-        Dim MColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.MidSlotColour))
+        Dim MColor As Color = Color.FromArgb(CInt(PluginSettings.HQFSettings.MidSlotColour))
         Me.pbMidSlotColour.BackColor = MColor
-        Dim LColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.LowSlotColour))
+        Dim LColor As Color = Color.FromArgb(CInt(PluginSettings.HQFSettings.LowSlotColour))
         Me.pbLowSlotColour.BackColor = LColor
-        Dim RColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.RigSlotColour))
+        Dim RColor As Color = Color.FromArgb(CInt(PluginSettings.HQFSettings.RigSlotColour))
         Me.pbRigSlotColour.BackColor = RColor
-        Dim SColor As Color = Color.FromArgb(CInt(Settings.HQFSettings.SubSlotColour))
+        Dim SColor As Color = Color.FromArgb(CInt(PluginSettings.HQFSettings.SubSlotColour))
         Me.pbSubSlotColour.BackColor = SColor
         redrawColumns = True
         Call Me.RedrawSlotColumnList()
@@ -174,7 +174,7 @@ Public Class frmHQFSettings
         Dim newCol As New ListViewItem
         lvwColumns.BeginUpdate()
         lvwColumns.Items.Clear()
-        For Each UserSlot As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+        For Each UserSlot As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
             newCol = New ListViewItem(UserSlot.Description)
             newCol.Name = UserSlot.Name
             newCol.Checked = UserSlot.Active
@@ -191,10 +191,10 @@ Public Class frmHQFSettings
         ' Find the index in the user column list
         Dim idx As Integer = lvwColumns.SelectedItems(0).Index
         If idx > 0 Then
-            Dim ColToMove As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx)
-            Dim ColToSwitch As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx - 1)
-            Settings.HQFSettings.UserSlotColumns.Item(idx) = ColToSwitch
-            Settings.HQFSettings.UserSlotColumns.Item(idx - 1) = ColToMove
+            Dim ColToMove As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(idx)
+            Dim ColToSwitch As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(idx - 1)
+            PluginSettings.HQFSettings.UserSlotColumns.Item(idx) = ColToSwitch
+            PluginSettings.HQFSettings.UserSlotColumns.Item(idx - 1) = ColToMove
             ' Redraw the list
             redrawColumns = True
             Call Me.RedrawSlotColumnList()
@@ -214,10 +214,10 @@ Public Class frmHQFSettings
         ' Find the index in the user column list
         Dim idx As Integer = lvwColumns.SelectedItems(0).Index
         If idx < lvwColumns.Items.Count - 1 Then
-            Dim ColToMove As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx)
-            Dim ColToSwitch As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(idx + 1)
-            Settings.HQFSettings.UserSlotColumns.Item(idx) = ColToSwitch
-            Settings.HQFSettings.UserSlotColumns.Item(idx + 1) = ColToMove
+            Dim ColToMove As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(idx)
+            Dim ColToSwitch As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(idx + 1)
+            PluginSettings.HQFSettings.UserSlotColumns.Item(idx) = ColToSwitch
+            PluginSettings.HQFSettings.UserSlotColumns.Item(idx + 1) = ColToMove
             ' Redraw the list
             redrawColumns = True
             Call Me.RedrawSlotColumnList()
@@ -231,7 +231,7 @@ Public Class frmHQFSettings
         If redrawColumns = False Then
             ' Find the index in the user column list
             Dim idx As Integer = e.Item.Index
-            HQF.Settings.HQFSettings.UserSlotColumns.Item(idx).Active = e.Item.Checked
+            HQF.PluginSettings.HQFSettings.UserSlotColumns.Item(idx).Active = e.Item.Checked
             forceUpdate = True
         End If
     End Sub
@@ -248,7 +248,7 @@ Public Class frmHQFSettings
             Exit Sub
         Else
             Me.pbHiSlotColour.BackColor = cd1.Color
-            Settings.HQFSettings.HiSlotColour = cd1.Color.ToArgb
+            PluginSettings.HQFSettings.HiSlotColour = cd1.Color.ToArgb
         End If
     End Sub
 
@@ -264,7 +264,7 @@ Public Class frmHQFSettings
             Exit Sub
         Else
             Me.pbMidSlotColour.BackColor = cd1.Color
-            Settings.HQFSettings.MidSlotColour = cd1.Color.ToArgb
+            PluginSettings.HQFSettings.MidSlotColour = cd1.Color.ToArgb
         End If
     End Sub
 
@@ -280,7 +280,7 @@ Public Class frmHQFSettings
             Exit Sub
         Else
             Me.pbLowSlotColour.BackColor = cd1.Color
-            Settings.HQFSettings.LowSlotColour = cd1.Color.ToArgb
+            PluginSettings.HQFSettings.LowSlotColour = cd1.Color.ToArgb
         End If
     End Sub
 
@@ -296,7 +296,7 @@ Public Class frmHQFSettings
             Exit Sub
         Else
             Me.pbRigSlotColour.BackColor = cd1.Color
-            Settings.HQFSettings.RigSlotColour = cd1.Color.ToArgb
+            PluginSettings.HQFSettings.RigSlotColour = cd1.Color.ToArgb
         End If
     End Sub
 
@@ -312,12 +312,12 @@ Public Class frmHQFSettings
             Exit Sub
         Else
             Me.pbSubSlotColour.BackColor = cd1.Color
-            Settings.HQFSettings.SubSlotColour = cd1.Color.ToArgb
+            PluginSettings.HQFSettings.SubSlotColour = cd1.Color.ToArgb
         End If
     End Sub
 
     Private Sub chkAutoResizeColumns_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkAutoResizeColumns.CheckedChanged
-        Settings.HQFSettings.AutoResizeColumns = chkAutoResizeColumns.Checked
+        PluginSettings.HQFSettings.AutoResizeColumns = chkAutoResizeColumns.Checked
         forceUpdate = True
     End Sub
 
@@ -350,9 +350,9 @@ Public Class frmHQFSettings
 
 #Region "Data Cache Options"
     Private Sub btnDeleteCache_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDeleteCache.Click
-        If My.Computer.FileSystem.DirectoryExists(Settings.HQFFolder) = True Then
+        If My.Computer.FileSystem.DirectoryExists(PluginSettings.HQFFolder) = True Then
             Try
-                My.Computer.FileSystem.DeleteDirectory(Settings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                My.Computer.FileSystem.DeleteDirectory(PluginSettings.HQFCacheFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
                 MessageBox.Show("HQF Cache Directory successfully deleted. Please restart EveHQ to reload the latest data.", "Cache Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Catch ex As Exception
                 MessageBox.Show("Unable to delete Cache Directory: " & ex.Message, "Unable to Delete Cache", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -365,8 +365,8 @@ Public Class frmHQFSettings
             Dim cResponse As Integer = MessageBox.Show("Are you really, really sure you wish to proceed?", "Confirm Delete ALL Fittings", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
-                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
-                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFFittings.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFFittings.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
                     Fittings.FittingList.Clear()
                     MessageBox.Show("All fittings successfully deleted", "All Fittings Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -385,60 +385,60 @@ Public Class frmHQFSettings
 
 #Region "Constants Options"
     Private Sub UpdateConstantsOptions()
-        If HQF.Settings.HQFSettings.CapRechargeConstant > nudCapRecharge.Maximum Then
-            HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Maximum
-        ElseIf HQF.Settings.HQFSettings.CapRechargeConstant < nudCapRecharge.Minimum Then
-            HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Minimum
+        If HQF.PluginSettings.HQFSettings.CapRechargeConstant > nudCapRecharge.Maximum Then
+            HQF.PluginSettings.HQFSettings.CapRechargeConstant = nudCapRecharge.Maximum
+        ElseIf HQF.PluginSettings.HQFSettings.CapRechargeConstant < nudCapRecharge.Minimum Then
+            HQF.PluginSettings.HQFSettings.CapRechargeConstant = nudCapRecharge.Minimum
         End If
-        If HQF.Settings.HQFSettings.ShieldRechargeConstant > nudShieldRecharge.Maximum Then
-            HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Maximum
-        ElseIf HQF.Settings.HQFSettings.ShieldRechargeConstant < nudShieldRecharge.Minimum Then
-            HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Minimum
+        If HQF.PluginSettings.HQFSettings.ShieldRechargeConstant > nudShieldRecharge.Maximum Then
+            HQF.PluginSettings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Maximum
+        ElseIf HQF.PluginSettings.HQFSettings.ShieldRechargeConstant < nudShieldRecharge.Minimum Then
+            HQF.PluginSettings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Minimum
         End If
-        If HQF.Settings.HQFSettings.MissileRangeConstant > nudMissileRange.Maximum Then
-            HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Maximum
-        ElseIf HQF.Settings.HQFSettings.MissileRangeConstant < nudMissileRange.Minimum Then
-            HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Minimum
+        If HQF.PluginSettings.HQFSettings.MissileRangeConstant > nudMissileRange.Maximum Then
+            HQF.PluginSettings.HQFSettings.MissileRangeConstant = nudMissileRange.Maximum
+        ElseIf HQF.PluginSettings.HQFSettings.MissileRangeConstant < nudMissileRange.Minimum Then
+            HQF.PluginSettings.HQFSettings.MissileRangeConstant = nudMissileRange.Minimum
         End If
-        nudCapRecharge.Value = CDec(HQF.Settings.HQFSettings.CapRechargeConstant)
-        nudShieldRecharge.Value = CDec(HQF.Settings.HQFSettings.ShieldRechargeConstant)
-        nudMissileRange.Value = CDec(HQF.Settings.HQFSettings.MissileRangeConstant)
-        chkCapBoosterReloadTime.Checked = HQF.Settings.HQFSettings.IncludeCapReloadTime
-        chkAmmoLoadTime.Checked = HQF.Settings.HQFSettings.IncludeAmmoReloadTime
+        nudCapRecharge.Value = CDec(HQF.PluginSettings.HQFSettings.CapRechargeConstant)
+        nudShieldRecharge.Value = CDec(HQF.PluginSettings.HQFSettings.ShieldRechargeConstant)
+        nudMissileRange.Value = CDec(HQF.PluginSettings.HQFSettings.MissileRangeConstant)
+        chkCapBoosterReloadTime.Checked = HQF.PluginSettings.HQFSettings.IncludeCapReloadTime
+        chkAmmoLoadTime.Checked = HQF.PluginSettings.HQFSettings.IncludeAmmoReloadTime
     End Sub
     Private Sub nudCapRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.HandleDestroyed
-        HQF.Settings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
+        HQF.PluginSettings.HQFSettings.CapRechargeConstant = nudCapRecharge.Value
     End Sub
     Private Sub nudShieldRecharge_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.HandleDestroyed
-        HQF.Settings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Value
+        HQF.PluginSettings.HQFSettings.ShieldRechargeConstant = nudShieldRecharge.Value
     End Sub
     Private Sub nudMissileRange_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudMissileRange.HandleDestroyed
-        HQF.Settings.HQFSettings.MissileRangeConstant = nudMissileRange.Value
+        HQF.PluginSettings.HQFSettings.MissileRangeConstant = nudMissileRange.Value
     End Sub
     Private Sub nudCapRecharge_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudCapRecharge.ValueChanged
         If startUp = False Then
-            HQF.Settings.HQFSettings.CapRechargeConstant = CDbl(nudCapRecharge.Value)
+            HQF.PluginSettings.HQFSettings.CapRechargeConstant = CDbl(nudCapRecharge.Value)
             forceUpdate = True
         End If
     End Sub
     Private Sub nudShieldRecharge_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudShieldRecharge.ValueChanged
         If startUp = False Then
-            HQF.Settings.HQFSettings.ShieldRechargeConstant = CDbl(nudShieldRecharge.Value)
+            HQF.PluginSettings.HQFSettings.ShieldRechargeConstant = CDbl(nudShieldRecharge.Value)
             forceUpdate = True
         End If
     End Sub
     Private Sub nudMissileRange_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMissileRange.ValueChanged
         If startUp = False Then
-            HQF.Settings.HQFSettings.MissileRangeConstant = CDbl(nudMissileRange.Value)
+            HQF.PluginSettings.HQFSettings.MissileRangeConstant = CDbl(nudMissileRange.Value)
             forceUpdate = True
         End If
     End Sub
     Private Sub chkCapBoosterReloadTime_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCapBoosterReloadTime.CheckedChanged
-        HQF.Settings.HQFSettings.IncludeCapReloadTime = chkCapBoosterReloadTime.Checked
+        HQF.PluginSettings.HQFSettings.IncludeCapReloadTime = chkCapBoosterReloadTime.Checked
         forceUpdate = True
     End Sub
     Private Sub chkAmmoLoadTime_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAmmoLoadTime.CheckedChanged
-        HQF.Settings.HQFSettings.IncludeAmmoReloadTime = chkAmmoLoadTime.Checked
+        HQF.PluginSettings.HQFSettings.IncludeAmmoReloadTime = chkAmmoLoadTime.Checked
         forceUpdate = True
     End Sub
 #End Region
@@ -511,7 +511,7 @@ Public Class frmHQFSettings
     End Sub
 
     Private Sub btnCheckAttributeIntFloat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheckAttributeIntFloat.Click
-       
+
     End Sub
 #End Region
 
@@ -591,7 +591,7 @@ Public Class frmHQFSettings
 
     Private Sub btnExportEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportEffects.Click
         Try
-            Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFEffects.csv")
+            Dim sw As New StreamWriter(PluginSettings.HQFFolder & "/HQFEffects.csv")
             sw.Write(My.Resources.Effects.ToString)
             sw.Flush()
             sw.Close()
@@ -603,7 +603,7 @@ Public Class frmHQFSettings
 
     Private Sub btnExportImplantEffects_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportImplantEffects.Click
         Try
-            Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFImplantEffects.csv")
+            Dim sw As New StreamWriter(PluginSettings.HQFFolder & "/HQFImplantEffects.csv")
             sw.Write(My.Resources.ImplantEffects.ToString)
             sw.Flush()
             sw.Close()
@@ -615,7 +615,7 @@ Public Class frmHQFSettings
 
     Private Sub btnExportShipBonuses_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportShipBonuses.Click
         Try
-            Dim sw As New StreamWriter(Settings.HQFFolder & "/HQFShipEffects.csv")
+            Dim sw As New StreamWriter(PluginSettings.HQFFolder & "/HQFShipEffects.csv")
             sw.Write(My.Resources.ShipBonuses.ToString)
             sw.Flush()
             sw.Close()
@@ -748,8 +748,8 @@ Public Class frmHQFSettings
             Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
-                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin")) = True Then
-                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFProfiles.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
                     HQFDamageProfiles.Reset()
                     Call UpdateDamageProfileOptions()
@@ -864,8 +864,8 @@ Public Class frmHQFSettings
             Dim cResponse As Integer = MessageBox.Show("Are you really sure you wish to proceed?", "Confirm Reset ALL Profiles", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If cResponse = Windows.Forms.DialogResult.Yes Then
                 Try
-                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
-                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
+                    If My.Computer.FileSystem.FileExists(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin"), FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin)
                     End If
                     HQFDefenceProfiles.Reset()
                     Call UpdateDefenceProfileOptions()
@@ -909,7 +909,7 @@ Public Class frmHQFSettings
     Private Sub UpdateAttributeColumns()
         adtAttributeColumns.BeginUpdate()
         adtAttributeColumns.Nodes.Clear()
-        For Each attID As String In Settings.HQFSettings.IgnoredAttributeColumns
+        For Each attID As String In PluginSettings.HQFSettings.IgnoredAttributeColumns
             Dim NewNode As New Node
             NewNode.Name = attID
             NewNode.Text = attID
@@ -931,8 +931,8 @@ Public Class frmHQFSettings
     Private Sub btnRemoveAttribute_Click(sender As System.Object, e As System.EventArgs) Handles btnRemoveAttribute.Click
         If adtAttributeColumns.SelectedNodes.Count > 0 Then
             Dim attID As String = adtAttributeColumns.SelectedNodes(0).Name
-            If HQF.Settings.HQFSettings.IgnoredAttributeColumns.Contains(attID) = True Then
-                HQF.Settings.HQFSettings.IgnoredAttributeColumns.Remove(attID)
+            If HQF.PluginSettings.HQFSettings.IgnoredAttributeColumns.Contains(attID) = True Then
+                HQF.PluginSettings.HQFSettings.IgnoredAttributeColumns.Remove(attID)
                 Call Me.UpdateAttributeColumns()
             End If
         End If
@@ -941,7 +941,7 @@ Public Class frmHQFSettings
     Private Sub btnClearAttributes_Click(sender As System.Object, e As System.EventArgs) Handles btnClearAttributes.Click
         Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to clear all the ignored attribute columns?", "Confirm Clear Columns", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
         If reply = Windows.Forms.DialogResult.Yes Then
-            HQF.Settings.HQFSettings.IgnoredAttributeColumns.Clear()
+            HQF.PluginSettings.HQFSettings.IgnoredAttributeColumns.Clear()
             Call Me.UpdateAttributeColumns()
         Else
             Exit Sub

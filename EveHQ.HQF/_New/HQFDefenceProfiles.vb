@@ -64,9 +64,9 @@ Public Class HQFDefenceProfiles
     Public Shared Sub Load()
 
         ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFDefenceProfiles.json")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFDefenceProfiles.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "HQFDefenseProfiles.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "HQFDefenseProfiles.json"))
                     Dim json As String = s.ReadToEnd
                     ProfileList = JsonConvert.DeserializeObject(Of SortedList(Of String, HQFDefenceProfile))(json)
                 End Using
@@ -89,7 +89,7 @@ Public Class HQFDefenceProfiles
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "HQFDefenseProfiles.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "HQFDefenseProfiles.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using

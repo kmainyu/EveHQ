@@ -63,13 +63,13 @@ Public Class frmCapSim
             Select Case cm.SlotType
                 Case SlotTypes.High
                     newMod.Style = hiSlotStyle
-                    newMod.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.HiSlotColour))
+                    newMod.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.HiSlotColour))
                 Case SlotTypes.Mid
                     newMod.Style = midSlotStyle
-                    newMod.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.MidSlotColour))
+                    newMod.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.MidSlotColour))
                 Case SlotTypes.Low
                     newMod.Style = lowSlotStyle
-                    newMod.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.LowSlotColour))
+                    newMod.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.LowSlotColour))
             End Select
             newMod.Style.BackColor = Color.FromArgb(255, 255, 255)
             newMod.StyleSelected = newMod.Style
@@ -112,8 +112,8 @@ Public Class frmCapSim
         ' Populate the Summary Labels
         lblCapacity.Text = "Capacity: " & _capShip.CapCapacity & " GJ"
         lblRecharge.Text = "Recharge Time: " & _capShip.CapRecharge & " s"
-        lblPeakRate.Text = "Peak Recharge Rate: " & (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge).ToString("N2") & " GJ/s"
-        Dim pi As Double = (CDbl(_capShip.Attributes(10050)) * -1) + (Settings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge)
+        lblPeakRate.Text = "Peak Recharge Rate: " & (PluginSettings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge).ToString("N2") & " GJ/s"
+        Dim pi As Double = (CDbl(_capShip.Attributes(10050)) * -1) + (PluginSettings.HQFSettings.CapRechargeConstant * _capShip.CapCapacity / _capShip.CapRecharge)
         Dim po As Double = CDbl(_capShip.Attributes(10049))
         lblPeakIn.Text = "Peak In: " & pi.ToString("N2") & " GJ"
         lblPeakOut.Text = "Peak Out: " & po.ToString("N2") & " GJ"

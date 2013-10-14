@@ -68,8 +68,8 @@ Public Class ShipInfoControl
             cboPilots.SelectedItem = ShipFit.PilotName
         Else
             ' Look at the settings for default pilot
-            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
-                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+            If cboPilots.Items.Contains(HQF.PluginSettings.HQFSettings.DefaultPilot) = True Then
+                cboPilots.SelectedItem = HQF.PluginSettings.HQFSettings.DefaultPilot
 
             ElseIf cboPilots.Items.Count > 0 Then 'There are pilots, but not the default pilot
                 cboPilots.SelectedItem = cboPilots.Items(0) ' select the first pilot.
@@ -93,12 +93,12 @@ Public Class ShipInfoControl
         cboDefenceProfiles.SelectedItem = "<No Resists>"
 
         ' Set collapsed panels
-        epDefence.Expanded = Not HQF.Settings.HQFSettings.DefensePanelIsCollapsed
-        epCapacitor.Expanded = Not HQF.Settings.HQFSettings.CapacitorPanelIsCollapsed
-        epDamage.Expanded = Not HQF.Settings.HQFSettings.DamagePanelIsCollapsed
-        epTargeting.Expanded = Not HQF.Settings.HQFSettings.TargetingPanelIsCollapsed
-        epPropulsion.Expanded = Not HQF.Settings.HQFSettings.PropulsionPanelIsCollapsed
-        epCargo.Expanded = Not HQF.Settings.HQFSettings.CargoPanelIsCollapsed
+        epDefence.Expanded = Not HQF.PluginSettings.HQFSettings.DefensePanelIsCollapsed
+        epCapacitor.Expanded = Not HQF.PluginSettings.HQFSettings.CapacitorPanelIsCollapsed
+        epDamage.Expanded = Not HQF.PluginSettings.HQFSettings.DamagePanelIsCollapsed
+        epTargeting.Expanded = Not HQF.PluginSettings.HQFSettings.TargetingPanelIsCollapsed
+        epPropulsion.Expanded = Not HQF.PluginSettings.HQFSettings.PropulsionPanelIsCollapsed
+        epCargo.Expanded = Not HQF.PluginSettings.HQFSettings.CargoPanelIsCollapsed
 
         ' Reset the startup flag
         StartUp = False
@@ -191,7 +191,7 @@ Public Class ShipInfoControl
         ttt &= "Effective Hitpoints: " & ParentFitting.FittedShip.EffectiveShieldHP.ToString("N0") & ControlChars.CrLf
         ttt &= "Recharge Time: " & ParentFitting.FittedShip.ShieldRecharge.ToString("N2") & " s" & ControlChars.CrLf
         ttt &= "Average Recharge Rate: " & (ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge).ToString("N2") & " HP/s" & ControlChars.CrLf
-        ttt &= "Peak Recharge Rate: " & (HQF.Settings.HQFSettings.ShieldRechargeConstant * ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge).ToString("N2") & " HP/s"
+        ttt &= "Peak Recharge Rate: " & (HQF.PluginSettings.HQFSettings.ShieldRechargeConstant * ParentFitting.FittedShip.ShieldCapacity / ParentFitting.FittedShip.ShieldRecharge).ToString("N2") & " HP/s"
         ToolTip1.SetToolTip(pbShieldHP, ttt)
         ToolTip1.SetToolTip(lblShieldHP, ttt)
 
@@ -241,8 +241,8 @@ Public Class ShipInfoControl
         ' Capacitor
         lblCapacitor.Text = ParentFitting.FittedShip.CapCapacity.ToString("N2") & " GJ"
         lblCapRecharge.Text = ParentFitting.FittedShip.CapRecharge.ToString("N2") & " s"
-        lblCapPeak.Text = (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge).ToString("N2")
-        Dim CapBalP As Double = (CDbl(ParentFitting.FittedShip.Attributes(10050)) * -1) + (HQF.Settings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge)
+        lblCapPeak.Text = (HQF.PluginSettings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge).ToString("N2")
+        Dim CapBalP As Double = (CDbl(ParentFitting.FittedShip.Attributes(10050)) * -1) + (HQF.PluginSettings.HQFSettings.CapRechargeConstant * ParentFitting.FittedShip.CapCapacity / ParentFitting.FittedShip.CapRecharge)
         Dim CapBalN As Double = ParentFitting.FittedShip.Attributes(10049)
         lblCapBalP.Text = "+" & CapBalP.ToString("N2")
         lblCapBalN.Text = "- " & CapBalN.ToString("N2")
@@ -471,7 +471,7 @@ Public Class ShipInfoControl
             cboImplants.BeginUpdate()
             cboImplants.Items.Clear()
             cboImplants.Items.Add("*Custom*")
-            For Each cImplantSet As String In HQF.Settings.HQFSettings.ImplantGroups.Keys
+            For Each cImplantSet As String In HQF.PluginSettings.HQFSettings.ImplantGroups.Keys
                 cboImplants.Items.Add(cImplantSet)
             Next
             If cboImplants.Items.Contains(oldImplants) Then
@@ -615,8 +615,8 @@ Public Class ShipInfoControl
         shipPilot.ImplantName(0) = cboImplants.SelectedItem.ToString
         Dim implantList As New Text.StringBuilder
         If cboImplants.SelectedItem.ToString <> "*Custom*" Then
-            If Settings.HQFSettings.ImplantGroups.ContainsKey(cboImplants.SelectedItem.ToString) Then
-                Dim currentImplantGroup As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(cboImplants.SelectedItem.ToString), ImplantGroup)
+            If PluginSettings.HQFSettings.ImplantGroups.ContainsKey(cboImplants.SelectedItem.ToString) Then
+                Dim currentImplantGroup As ImplantCollection = CType(HQF.PluginSettings.HQFSettings.ImplantGroups(cboImplants.SelectedItem.ToString), ImplantCollection)
                 For imp As Integer = 1 To 10
                     If currentImplantGroup.ImplantName(imp) = "" Then
                         implantList.AppendLine("Slot " & imp.ToString & ": <Empty>")
@@ -700,42 +700,42 @@ Public Class ShipInfoControl
 
     Private Sub epDefence_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epDefence.ExpandedChanged
         If StartUp = False Then
-            Settings.HQFSettings.DefensePanelIsCollapsed = Not epDefence.Expanded
+            PluginSettings.HQFSettings.DefensePanelIsCollapsed = Not epDefence.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epCapacitor_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epCapacitor.ExpandedChanged
         If StartUp = False Then
-            HQF.Settings.HQFSettings.CapacitorPanelIsCollapsed = Not epCapacitor.Expanded
+            HQF.PluginSettings.HQFSettings.CapacitorPanelIsCollapsed = Not epCapacitor.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epDamage_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epDamage.ExpandedChanged
         If StartUp = False Then
-            HQF.Settings.HQFSettings.DamagePanelIsCollapsed = Not epDamage.Expanded
+            HQF.PluginSettings.HQFSettings.DamagePanelIsCollapsed = Not epDamage.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epTargeting_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epTargeting.ExpandedChanged
         If StartUp = False Then
-            HQF.Settings.HQFSettings.TargetingPanelIsCollapsed = Not epTargeting.Expanded
+            HQF.PluginSettings.HQFSettings.TargetingPanelIsCollapsed = Not epTargeting.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epPropulsion_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epPropulsion.ExpandedChanged
         If StartUp = False Then
-            HQF.Settings.HQFSettings.PropulsionPanelIsCollapsed = Not epPropulsion.Expanded
+            HQF.PluginSettings.HQFSettings.PropulsionPanelIsCollapsed = Not epPropulsion.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub
 
     Private Sub epCargo_ExpandedChanged(sender As Object, e As DevComponents.DotNetBar.ExpandedChangeEventArgs) Handles epCargo.ExpandedChanged
         If StartUp = False Then
-            HQF.Settings.HQFSettings.CargoPanelIsCollapsed = Not epCargo.Expanded
+            HQF.PluginSettings.HQFSettings.CargoPanelIsCollapsed = Not epCargo.Expanded
             pnlInfo.Invalidate()
         End If
     End Sub

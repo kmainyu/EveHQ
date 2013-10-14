@@ -203,17 +203,17 @@ Namespace BPCalc
 
 
             ' Calculate lab cost
-            invCost += Settings.PrismSettings.LabInstallCost
-            invCost += Math.Round(Settings.PrismSettings.LabRunningCost * (ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
+            invCost += PrismSettings.UserSettings.LabInstallCost
+            invCost += Math.Round(PrismSettings.UserSettings.LabRunningCost * (ResearchTechTime / 3600), 2, MidpointRounding.AwayFromZero)
 
             ' Calculate BPC cost
-            If Settings.PrismSettings.BPCCosts.ContainsKey(Id) Then
-                Dim pricerange As Double = Settings.PrismSettings.BPCCosts(Id).MaxRunCost - Settings.PrismSettings.BPCCosts(Id).MinRunCost
+            If PrismSettings.UserSettings.BPCCosts.ContainsKey(Id) Then
+                Dim pricerange As Double = PrismSettings.UserSettings.BPCCosts(Id).MaxRunCost - PrismSettings.UserSettings.BPCCosts(Id).MinRunCost
                 Dim runrange As Integer = MaxProductionLimit - 1
                 If runrange = 0 Then
-                    invCost += Settings.PrismSettings.BPCCosts(Id).MinRunCost
+                    invCost += PrismSettings.UserSettings.BPCCosts(Id).MinRunCost
                 Else
-                    invCost += Settings.PrismSettings.BPCCosts(Id).MinRunCost + Math.Round((pricerange / runrange) * (bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
+                    invCost += PrismSettings.UserSettings.BPCCosts(Id).MinRunCost + Math.Round((pricerange / runrange) * (bpcRuns - 1), 2, MidpointRounding.AwayFromZero)
                 End If
             End If
 

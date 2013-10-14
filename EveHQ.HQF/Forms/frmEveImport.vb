@@ -50,134 +50,134 @@ Public Class frmEveImport
 		cboPilots.EndUpdate()
 		' Look at the settings for default pilot
 		If cboPilots.Items.Count > 0 Then
-			If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
-				cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
-			Else
-				cboPilots.SelectedIndex = 0
-			End If
-		End If
+            If cboPilots.Items.Contains(HQF.PluginSettings.HQFSettings.DefaultPilot) = True Then
+                cboPilots.SelectedItem = HQF.PluginSettings.HQFSettings.DefaultPilot
+            Else
+                cboPilots.SelectedIndex = 0
+            End If
+        End If
 
-		' Add the profiles
-		cboProfiles.BeginUpdate()
-		cboProfiles.Items.Clear()
+        ' Add the profiles
+        cboProfiles.BeginUpdate()
+        cboProfiles.Items.Clear()
         For Each newProfile As HQFDamageProfile In HQFDamageProfiles.ProfileList.Values
             cboProfiles.Items.Add(newProfile.Name)
         Next
-		cboProfiles.EndUpdate()
-		' Select the default profile
-		cboProfiles.SelectedItem = "<Omni-Damage>"
+        cboProfiles.EndUpdate()
+        ' Select the default profile
+        cboProfiles.SelectedItem = "<Omni-Damage>"
 
-	End Sub
+    End Sub
 
-	Private Sub frmEveImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-		Call GetEveFittings()
-	End Sub
+    Private Sub frmEveImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Call GetEveFittings()
+    End Sub
 
 #Region "Ship Fitting routines"
 
-	Private Sub UpdateSlotColumns()
-		' Clear the columns
-		lvwSlots.Columns.Clear()
-		' Add the module name column
-		lvwSlots.Columns.Add("colName", "Module Name", 350, HorizontalAlignment.Left, "")
-	End Sub
-	Private Sub UpdateSlotLayout()
-		If currentShip IsNot Nothing Then
-			lvwSlots.BeginUpdate()
-			lvwSlots.Items.Clear()
-			' Produce high slots
-			For slot As Integer = 1 To currentShip.HiSlots
-				Dim newSlot As New ListViewItem
-				newSlot.Name = "8_" & slot
-				newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
-				newSlot.ForeColor = Color.Black
-				newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
-				Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
-				lvwSlots.Items.Add(newSlot)
-			Next
-			For slot As Integer = 1 To currentShip.MidSlots
-				Dim newSlot As New ListViewItem
-				newSlot.Name = "4_" & slot
-				newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
-				newSlot.ForeColor = Color.Black
-				newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
-				Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
-				lvwSlots.Items.Add(newSlot)
-			Next
-			For slot As Integer = 1 To currentShip.LowSlots
-				Dim newSlot As New ListViewItem
-				newSlot.Name = "2_" & slot
-				newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
-				newSlot.ForeColor = Color.Black
-				newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
-				Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
-				lvwSlots.Items.Add(newSlot)
-			Next
-			For slot As Integer = 1 To currentShip.RigSlots
-				Dim newSlot As New ListViewItem
-				newSlot.Name = "1_" & slot
-				newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
-				newSlot.ForeColor = Color.Black
-				newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
-				Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
-				lvwSlots.Items.Add(newSlot)
-			Next
-			' Produce sub slots
-			For slot As Integer = 1 To currentShip.SubSlots
-				Dim newSlot As New ListViewItem
-				newSlot.Name = "16_" & slot
-				newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
-				newSlot.ForeColor = Color.Black
-				newSlot.Group = lvwSlots.Groups.Item("lvwgSubSlots")
-				Call Me.AddUserColumns(currentShip.SubSlot(slot), newSlot)
-				lvwSlots.Items.Add(newSlot)
-			Next
-			lvwSlots.EndUpdate()
-		End If
-	End Sub
-	Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
-		' Add subitems based on the user selected columns
-		If shipMod IsNot Nothing Then
-			Dim colName As String = ""
-			' Add in the module name
-			slotName.Text = shipMod.Name
-		Else
-			slotName.Text = "<Empty>"
-		End If
-	End Sub
-	Private Sub ClearShipSlots()
-		If currentShip IsNot Nothing Then
-			For slot As Integer = 1 To currentShip.HiSlots
-				currentShip.HiSlot(slot) = Nothing
-			Next
-			For slot As Integer = 1 To currentShip.MidSlots
-				currentShip.MidSlot(slot) = Nothing
-			Next
-			For slot As Integer = 1 To currentShip.LowSlots
-				currentShip.LowSlot(slot) = Nothing
-			Next
-			For slot As Integer = 1 To currentShip.RigSlots
-				currentShip.RigSlot(slot) = Nothing
-			Next
-			For slot As Integer = 1 To currentShip.SubSlots
-				currentShip.SubSlot(slot) = Nothing
-			Next
-			currentShip.DroneBayItems.Clear()
+    Private Sub UpdateSlotColumns()
+        ' Clear the columns
+        lvwSlots.Columns.Clear()
+        ' Add the module name column
+        lvwSlots.Columns.Add("colName", "Module Name", 350, HorizontalAlignment.Left, "")
+    End Sub
+    Private Sub UpdateSlotLayout()
+        If currentShip IsNot Nothing Then
+            lvwSlots.BeginUpdate()
+            lvwSlots.Items.Clear()
+            ' Produce high slots
+            For slot As Integer = 1 To currentShip.HiSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "8_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.HiSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
+                Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.MidSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "4_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.MidSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
+                Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.LowSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "2_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.LowSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
+                Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            For slot As Integer = 1 To currentShip.RigSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "1_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.RigSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
+                Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            ' Produce sub slots
+            For slot As Integer = 1 To currentShip.SubSlots
+                Dim newSlot As New ListViewItem
+                newSlot.Name = "16_" & slot
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.SubSlotColour))
+                newSlot.ForeColor = Color.Black
+                newSlot.Group = lvwSlots.Groups.Item("lvwgSubSlots")
+                Call Me.AddUserColumns(currentShip.SubSlot(slot), newSlot)
+                lvwSlots.Items.Add(newSlot)
+            Next
+            lvwSlots.EndUpdate()
+        End If
+    End Sub
+    Private Sub AddUserColumns(ByVal shipMod As ShipModule, ByVal slotName As ListViewItem)
+        ' Add subitems based on the user selected columns
+        If shipMod IsNot Nothing Then
+            Dim colName As String = ""
+            ' Add in the module name
+            slotName.Text = shipMod.Name
+        Else
+            slotName.Text = "<Empty>"
+        End If
+    End Sub
+    Private Sub ClearShipSlots()
+        If currentShip IsNot Nothing Then
+            For slot As Integer = 1 To currentShip.HiSlots
+                currentShip.HiSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.MidSlots
+                currentShip.MidSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.LowSlots
+                currentShip.LowSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.RigSlots
+                currentShip.RigSlot(slot) = Nothing
+            Next
+            For slot As Integer = 1 To currentShip.SubSlots
+                currentShip.SubSlot(slot) = Nothing
+            Next
+            currentShip.DroneBayItems.Clear()
             currentShip.DroneBayUsed = 0
-			currentShip.CargoBayItems.Clear()
+            currentShip.CargoBayItems.Clear()
             currentShip.CargoBayUsed = 0
-		End If
-	End Sub
-	Private Sub GenerateFittingData()
-		' Let's try and generate a fitting and get some damage info
-		If currentShip IsNot Nothing Then
+        End If
+    End Sub
+    Private Sub GenerateFittingData()
+        ' Let's try and generate a fitting and get some damage info
+        If currentShip IsNot Nothing Then
             Dim loadoutPilot As FittingPilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
             Dim loadoutProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
 
-			currentFitting.PilotName = loadoutPilot.PilotName
-			currentFitting.BaseShip.DamageProfile = loadoutProfile
-			currentFitting.ApplyFitting()
-			Dim loadoutShip As Ship = currentFitting.FittedShip
+            currentFitting.PilotName = loadoutPilot.PilotName
+            currentFitting.BaseShip.DamageProfile = loadoutProfile
+            currentFitting.ApplyFitting()
+            Dim loadoutShip As Ship = currentFitting.FittedShip
 
             lblEHP.Text = loadoutShip.EffectiveHP.ToString("N0")
             lblTank.Text = loadoutShip.Attributes(10062).ToString("N2") & " DPS"
@@ -185,80 +185,80 @@ Public Class frmEveImport
             lblDPS.Text = loadoutShip.Attributes(10029).ToString("N2")
             lblShieldResists.Text = loadoutShip.ShieldEMResist.ToString("N0") & "/" & loadoutShip.ShieldExResist.ToString("N0") & "/" & loadoutShip.ShieldKiResist.ToString("N0") & "/" & loadoutShip.ShieldThResist.ToString("N0")
             lblArmorResists.Text = loadoutShip.ArmorEMResist.ToString("N0") & "/" & loadoutShip.ArmorExResist.ToString("N0") & "/" & loadoutShip.ArmorKiResist.ToString("N0") & "/" & loadoutShip.ArmorThResist.ToString("N0")
-			Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
-			If csr.CapIsDrained = False Then
+            Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(loadoutShip, False)
+            If csr.CapIsDrained = False Then
                 lblCapacitor.Text = "Stable at " & (csr.MinimumCap / loadoutShip.CapCapacity * 100).ToString("N0") & "%"
-			Else
-				lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
-			End If
+            Else
+                lblCapacitor.Text = "Lasts " & EveHQ.Core.SkillFunctions.TimeToString(csr.TimeToDrain, False)
+            End If
             lblVelocity.Text = loadoutShip.MaxVelocity.ToString("N2") & " m/s"
             lblMaxRange.Text = loadoutShip.MaxTargetRange.ToString("N0") & "m"
             Dim CPU As Double = loadoutShip.CpuUsed / loadoutShip.CPU * 100
             lblCPU.Text = CPU.ToString("N2") & "%"
-			If CPU > 100 Then
-				lblCPU.ForeColor = Color.Red
-			Else
-				lblCPU.ForeColor = Color.Black
-			End If
+            If CPU > 100 Then
+                lblCPU.ForeColor = Color.Red
+            Else
+                lblCPU.ForeColor = Color.Black
+            End If
             Dim PG As Double = loadoutShip.PgUsed / loadoutShip.PG * 100
             lblPG.Text = PG.ToString("N2") & "%"
-			If PG > 100 Then
-				lblPG.ForeColor = Color.Red
-			Else
-				lblPG.ForeColor = Color.Black
-			End If
+            If PG > 100 Then
+                lblPG.ForeColor = Color.Red
+            Else
+                lblPG.ForeColor = Color.Black
+            End If
 
-			Dim maxOpt As Double = 0
-			For slot As Integer = 1 To loadoutShip.HiSlots
-				Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
-				If shipMod IsNot Nothing Then
+            Dim maxOpt As Double = 0
+            For slot As Integer = 1 To loadoutShip.HiSlots
+                Dim shipMod As ShipModule = loadoutShip.HiSlot(slot)
+                If shipMod IsNot Nothing Then
                     If shipMod.Attributes.ContainsKey(54) Then
                         maxOpt = Math.Max(maxOpt, CDbl(shipMod.Attributes(54)))
                     End If
-				End If
-			Next
+                End If
+            Next
             lblOptimalRange.Text = maxOpt.ToString("N0") & "m"
 
-		End If
+        End If
 
-	End Sub
+    End Sub
 
-	Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
-		Call GenerateFittingData()
-	End Sub
+    Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilots.SelectedIndexChanged
+        Call GenerateFittingData()
+    End Sub
 
-	Private Sub cboProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProfiles.SelectedIndexChanged
-		Call GenerateFittingData()
-	End Sub
+    Private Sub cboProfiles_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProfiles.SelectedIndexChanged
+        Call GenerateFittingData()
+    End Sub
 
-	Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
-		If currentShip IsNot Nothing Then
-			Dim shipName As String = currentShip.Name
-			Dim fittingName As String = currentFitName
-			' If the fitting exists, add a number onto the end
-			If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
-				Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-				If response = Windows.Forms.DialogResult.Yes Then
-					Dim newFittingName As String = ""
-					Dim revision As Integer = 1
-					Do
-						revision += 1
-						newFittingName = fittingName & " " & revision.ToString
-					Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
-					fittingName = newFittingName
-					MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
-				Else
-					Exit Sub
-				End If
-			End If
-			' Lets create the fitting
-			Dim NewFit As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
-			Fittings.FittingList.Add(NewFit.KeyName, NewFit)
-			HQFEvents.StartUpdateFittingList = True
-		Else
-			MessageBox.Show("Please select a fitting before importing.", "Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-		End If
-	End Sub
+    Private Sub btnImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnImport.Click
+        If currentShip IsNot Nothing Then
+            Dim shipName As String = currentShip.Name
+            Dim fittingName As String = currentFitName
+            ' If the fitting exists, add a number onto the end
+            If Fittings.FittingList.ContainsKey(shipName & ", " & fittingName) = True Then
+                Dim response As Integer = MessageBox.Show("Fitting name already exists. Are you sure you wish to import the fitting?", "Confirm Import for " & shipName, MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If response = Windows.Forms.DialogResult.Yes Then
+                    Dim newFittingName As String = ""
+                    Dim revision As Integer = 1
+                    Do
+                        revision += 1
+                        newFittingName = fittingName & " " & revision.ToString
+                    Loop Until Fittings.FittingList.ContainsKey(shipName & ", " & newFittingName) = False
+                    fittingName = newFittingName
+                    MessageBox.Show("New fitting name is '" & fittingName & "'.", "New Fitting Imported", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Else
+                    Exit Sub
+                End If
+            End If
+            ' Lets create the fitting
+            Dim NewFit As Fitting = Fittings.ConvertOldFitToNewFit(shipName & ", " & fittingName, currentFit)
+            Fittings.FittingList.Add(NewFit.KeyName, NewFit)
+            HQFEvents.StartUpdateFittingList = True
+        Else
+            MessageBox.Show("Please select a fitting before importing.", "Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+    End Sub
 
 #End Region
 

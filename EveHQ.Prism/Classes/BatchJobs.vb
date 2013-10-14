@@ -32,8 +32,8 @@ Public Class BatchJobs
     Public Shared Sub SaveBatchJobs()
 
         SyncLock LockObj
-            Dim newFile As String = Path.Combine(Settings.PrismFolder, MainFileName)
-            Dim tempFile As String = Path.Combine(Settings.PrismFolder, MainFileName & ".temp")
+            Dim newFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName)
+            Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName & ".temp")
 
             ' Create a JSON string for writing
             Dim json As String = JsonConvert.SerializeObject(Jobs, Newtonsoft.Json.Formatting.Indented)
@@ -62,9 +62,9 @@ Public Class BatchJobs
     Public Shared Function LoadBatchJobs() As Boolean
         SyncLock LockObj
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, mainFileName)) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, MainFileName)) = True Then
                 Try
-                    Using s As New StreamReader(Path.Combine(Settings.PrismFolder, mainFileName))
+                    Using s As New StreamReader(Path.Combine(PrismSettings.PrismFolder, MainFileName))
                         Dim json As String = s.ReadToEnd
                         Jobs = JsonConvert.DeserializeObject(Of SortedList(Of String, BatchJob))(json)
                         PrismEvents.StartUpdateBatchJobs()

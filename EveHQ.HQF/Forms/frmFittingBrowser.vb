@@ -51,8 +51,8 @@ Public Class frmFittingBrowser
         cboPilots.EndUpdate()
         ' Look at the settings for default pilot
         If cboPilots.Items.Count > 0 Then
-            If cboPilots.Items.Contains(HQF.Settings.HQFSettings.DefaultPilot) = True Then
-                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+            If cboPilots.Items.Contains(HQF.PluginSettings.HQFSettings.DefaultPilot) = True Then
+                cboPilots.SelectedItem = HQF.PluginSettings.HQFSettings.DefaultPilot
             Else
                 cboPilots.SelectedIndex = 0
             End If
@@ -102,7 +102,7 @@ Public Class frmFittingBrowser
             For slot As Integer = 1 To currentShip.HiSlots
                 Dim newSlot As New ListViewItem
                 newSlot.Name = "8_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.HiSlotColour))
                 newSlot.ForeColor = Color.Black
                 newSlot.Group = lvwSlots.Groups.Item("lvwgHighSlots")
                 Call Me.AddUserColumns(currentShip.HiSlot(slot), newSlot)
@@ -111,7 +111,7 @@ Public Class frmFittingBrowser
             For slot As Integer = 1 To currentShip.MidSlots
                 Dim newSlot As New ListViewItem
                 newSlot.Name = "4_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.MidSlotColour))
                 newSlot.ForeColor = Color.Black
                 newSlot.Group = lvwSlots.Groups.Item("lvwgMidSlots")
                 Call Me.AddUserColumns(currentShip.MidSlot(slot), newSlot)
@@ -120,7 +120,7 @@ Public Class frmFittingBrowser
             For slot As Integer = 1 To currentShip.LowSlots
                 Dim newSlot As New ListViewItem
                 newSlot.Name = "2_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.LowSlotColour))
                 newSlot.ForeColor = Color.Black
                 newSlot.Group = lvwSlots.Groups.Item("lvwgLowSlots")
                 Call Me.AddUserColumns(currentShip.LowSlot(slot), newSlot)
@@ -129,7 +129,7 @@ Public Class frmFittingBrowser
             For slot As Integer = 1 To currentShip.RigSlots
                 Dim newSlot As New ListViewItem
                 newSlot.Name = "1_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.RigSlotColour))
                 newSlot.ForeColor = Color.Black
                 newSlot.Group = lvwSlots.Groups.Item("lvwgRigSlots")
                 Call Me.AddUserColumns(currentShip.RigSlot(slot), newSlot)
@@ -138,7 +138,7 @@ Public Class frmFittingBrowser
             For slot As Integer = 1 To currentShip.SubSlots
                 Dim newSlot As New ListViewItem
                 newSlot.Name = "16_" & slot
-                newSlot.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                newSlot.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.SubSlotColour))
                 newSlot.ForeColor = Color.Black
                 newSlot.Group = lvwSlots.Groups.Item("lvwgSubSlots")
                 Call Me.AddUserColumns(currentShip.SubSlot(slot), newSlot)
@@ -317,7 +317,7 @@ Public Class frmFittingBrowser
         Try
             Process.Start(SourceURL)
         Catch ex As Exception
-            MessageBox.Show("Unable to start default web browser. Please check your browser settings.", "Error Starting Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("Unable to start default web browser. Please check your browser PluginSettings.", "Error Starting Web Browser", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End Try
     End Sub
 

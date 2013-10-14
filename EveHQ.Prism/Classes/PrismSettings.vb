@@ -21,38 +21,38 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports Newtonsoft.Json
 
-<Serializable()> Public Class Settings
+<Serializable()> Public Class PrismSettings
 
-    Public Shared PrismSettings As New Prism.Settings
+    Public Shared UserSettings As New PrismSettings
     Public Shared PrismFolder As String
 
     Private cFactoryInstallCost As Double = 1000
     Private cFactoryRunningCost As Double = 333
     Private cLabInstallCost As Double = 1000
     Private cLabRunningCost As Double = 333
-    Private cBPCCosts As New SortedList(Of Integer, BPCCostInfo)
+    Private cBPCCosts As New SortedList(Of Integer, BlueprintCopyCostInfo)
     Private cDefaultCharacter As String
     Private cDefaultBPOwner As String
     Private cDefaultBPCalcManufacturer As String
     Private cDefaultBPCalcAssetOwner As String
     Private cStandardSlotColumns As New List(Of UserSlotColumn)
     Private cUserSlotColumns As New List(Of UserSlotColumn)
-	Private cSlotNameWidth As Integer = 250
-	' CorpReps: SortedList (of <CorpName>, Sortedlist(Of CorpRepType, PilotName))
+    Private cSlotNameWidth As Integer = 250
+    ' CorpReps: SortedList (of <CorpName>, Sortedlist(Of CorpRepType, PilotName))
     Private cCorpReps As New SortedList(Of String, SortedList(Of CorpRepType, String))
 
     Public Property HideAPIDownloadDialog As Boolean = False
-	Public Property CorpReps As SortedList(Of String, SortedList(Of CorpRepType, String))
-		Get
-			If cCorpReps Is Nothing Then
-				cCorpReps = New SortedList(Of String, SortedList(Of CorpRepType, String))
-			End If
-			Return cCorpReps
-		End Get
-		Set(ByVal value As SortedList(Of String, SortedList(Of CorpRepType, String)))
-			cCorpReps = value
-		End Set
-	End Property
+    Public Property CorpReps As SortedList(Of String, SortedList(Of CorpRepType, String))
+        Get
+            If cCorpReps Is Nothing Then
+                cCorpReps = New SortedList(Of String, SortedList(Of CorpRepType, String))
+            End If
+            Return cCorpReps
+        End Get
+        Set(ByVal value As SortedList(Of String, SortedList(Of CorpRepType, String)))
+            cCorpReps = value
+        End Set
+    End Property
     Public Property SlotNameWidth() As Integer
         Get
             If cSlotNameWidth = 0 Then cSlotNameWidth = 250
@@ -128,14 +128,14 @@ Imports Newtonsoft.Json
             cDefaultCharacter = value
         End Set
     End Property
-    Public Property BPCCosts() As SortedList(Of Integer, BPCCostInfo)
+    Public Property BPCCosts() As SortedList(Of Integer, BlueprintCopyCostInfo)
         Get
             If cBPCCosts Is Nothing Then
-                cBPCCosts = New SortedList(Of Integer, BPCCostInfo)
+                cBPCCosts = New SortedList(Of Integer, BlueprintCopyCostInfo)
             End If
             Return cBPCCosts
         End Get
-        Set(ByVal value As SortedList(Of Integer, BPCCostInfo))
+        Set(ByVal value As SortedList(Of Integer, BlueprintCopyCostInfo))
             cBPCCosts = value
         End Set
     End Property
@@ -178,11 +178,11 @@ Imports Newtonsoft.Json
 
         SyncLock LockObj
 
-            Dim newFile As String = Path.Combine(Settings.PrismFolder, MainFileName)
-            Dim tempFile As String = Path.Combine(Settings.PrismFolder, MainFileName & ".temp")
+            Dim newFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName)
+            Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName & ".temp")
 
             ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(PrismSettings, Newtonsoft.Json.Formatting.Indented)
+            Dim json As String = JsonConvert.SerializeObject(UserSettings, Newtonsoft.Json.Formatting.Indented)
 
             ' Write the JSON version of the settings
             Try
@@ -208,12 +208,12 @@ Imports Newtonsoft.Json
     Public Function LoadPrismSettings() As Boolean
         SyncLock LockObj
 
-            If File.Exists(Path.Combine(Settings.PrismFolder, MainFileName)) = True Then
+            If File.Exists(Path.Combine(PrismSettings.PrismFolder, MainFileName)) = True Then
 
                 Try
-                    Using s As New StreamReader(Path.Combine(Settings.PrismFolder, MainFileName))
+                    Using s As New StreamReader(Path.Combine(PrismSettings.PrismFolder, MainFileName))
                         Dim json As String = s.ReadToEnd
-                        PrismSettings = JsonConvert.DeserializeObject(Of Settings)(json)
+                        UserSettings = JsonConvert.DeserializeObject(Of PrismSettings)(json)
                     End Using
 
                 Catch ex As Exception
@@ -222,7 +222,7 @@ Imports Newtonsoft.Json
                     msg &= "Press OK to reset the settings." & ControlChars.CrLf
                     MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Try
-                        My.Computer.FileSystem.DeleteFile(Path.Combine(Settings.PrismFolder, MainFileName))
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(PrismSettings.PrismFolder, MainFileName))
                     Catch e As Exception
                         MessageBox.Show("Unable to delete the PrismSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Return False
@@ -234,18 +234,18 @@ Imports Newtonsoft.Json
         Call InitialiseSlotColumns()
 
         ' Check if the standard columns have changed and we need to add columns
-        If Settings.PrismSettings.UserSlotColumns.Count <> Settings.PrismSettings.StandardSlotColumns.Count Then
+        If PrismSettings.UserSettings.UserSlotColumns.Count <> PrismSettings.UserSettings.StandardSlotColumns.Count Then
             Dim MissingFlag As Boolean = True
-            For Each StdCol As UserSlotColumn In Settings.PrismSettings.StandardSlotColumns
+            For Each StdCol As UserSlotColumn In PrismSettings.UserSettings.StandardSlotColumns
                 MissingFlag = True
-                For Each TestUserCol As UserSlotColumn In Settings.PrismSettings.UserSlotColumns
+                For Each TestUserCol As UserSlotColumn In PrismSettings.UserSettings.UserSlotColumns
                     If StdCol.Name = TestUserCol.Name Then
                         MissingFlag = False
                         Exit For
                     End If
                 Next
                 If MissingFlag = True Then
-                    Settings.PrismSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
+                    PrismSettings.UserSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
                 End If
             Next
         End If
@@ -254,20 +254,20 @@ Imports Newtonsoft.Json
     End Function
 
     Public Sub InitialiseSlotColumns()
-        Settings.PrismSettings.StandardSlotColumns.Clear()
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetOwner", "Owner", 150, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetGroup", "Group", 100, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetCategory", "Category", 100, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystem", "System", 100, False))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetConstellation", "Constellation", 100, False))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetRegion", "EveGalaticRegion", 100, False))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystemSec", "Sec", 50, False))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetLocation", "Specific Location", 250, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetMeta", "Meta", 50, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetVolume", "Volume", 100, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetQuantity", "Quantity", 100, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetPrice", "Price", 100, True))
-        Settings.PrismSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetValue", "Value", 100, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Clear()
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetOwner", "Owner", 150, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetGroup", "Group", 100, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetCategory", "Category", 100, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystem", "System", 100, False))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetConstellation", "Constellation", 100, False))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetRegion", "EveGalaticRegion", 100, False))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystemSec", "Sec", 50, False))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetLocation", "Specific Location", 250, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetMeta", "Meta", 50, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetVolume", "Volume", 100, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetQuantity", "Quantity", 100, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetPrice", "Price", 100, True))
+        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetValue", "Value", 100, True))
     End Sub
 End Class
 

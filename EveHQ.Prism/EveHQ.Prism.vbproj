@@ -98,19 +98,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BPCalc\BPAssetComboBoxItem.vb" />
+    <Compile Include="BPCalc\InventionCost.vb" />
+    <Compile Include="BPCalc\InventionJob.vb" />
     <Compile Include="BPCalc\Job.vb" />
     <Compile Include="BPCalc\JobResource.vb" />
     <Compile Include="BPCalc\OwnedBlueprint.vb" />
     <Compile Include="BPCalc\SwapResource.vb" />
     <Compile Include="Classes\BlueprintAsset.vb" />
-    <Compile Include="Classes\BPCCostInfo.vb" />
+    <Compile Include="BPCalc\BPCCostInfo.vb" />
+    <Compile Include="Classes\BlueprintCopyCostInfo.vb" />
     <Compile Include="Classes\BPStatus.vb" />
     <Compile Include="Classes\BPType.vb" />
-    <Compile Include="Deprecated\AssemblyArray.vb" />
+    <Compile Include="Classes\PrismSettings.vb" />
+    <Compile Include="_Deprecated\AssemblyArray.vb" />
     <Compile Include="Classes\AssetItem.vb" />
     <Compile Include="Classes\BatchJob.vb" />
     <Compile Include="Classes\BatchJobs.vb" />
-    <Compile Include="Deprecated\Blueprint.vb" />
+    <Compile Include="_Deprecated\Blueprint.vb" />
     <Compile Include="BPCalc\Jobs.vb" />
     <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
@@ -118,11 +122,11 @@
     <Compile Include="Classes\PrismDataFunctions.vb" />
     <Compile Include="Classes\IndustryJob.vb" />
     <Compile Include="Classes\Invention.vb" />
-    <Compile Include="Classes\InventionJob.vb" />
     <Compile Include="Classes\PrismEvents.vb" />
     <Compile Include="Classes\PrismOwner.vb" />
-    <Compile Include="Deprecated\ProductionJob.vb" />
-    <Compile Include="Deprecated\ProductionJobs.vb" />
+    <Compile Include="_Deprecated\InventionJob.vb" />
+    <Compile Include="_Deprecated\ProductionJob.vb" />
+    <Compile Include="_Deprecated\ProductionJobs.vb" />
     <Compile Include="Classes\PrismReports.vb" />
     <Compile Include="Classes\WalletJournalItem.vb" />
     <Compile Include="Controls\BPMEControl.Designer.vb">
@@ -269,11 +273,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Classes\PlugInData.vb" />
-    <Compile Include="Classes\Settings.vb" />
+    <Compile Include="_Deprecated\Settings.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\BPMEControl.resx">
       <DependentUpon>BPMEControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PriceAdjustmentControl.resx">
       <DependentUpon>PriceAdjustmentControl.vb</DependentUpon>

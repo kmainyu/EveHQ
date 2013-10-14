@@ -105,7 +105,7 @@ Public Class frmMetaVariations
         Dim ColumnIdx As Integer = 2
         For Each att As Integer In baseModule.Attributes.Keys
             Dim colRequired As Boolean = False
-            If HQF.Settings.HQFSettings.IgnoredAttributeColumns.Contains(CStr(att)) = False And att <> 633 Then
+            If HQF.PluginSettings.HQFSettings.IgnoredAttributeColumns.Contains(CStr(att)) = False And att <> 633 Then
                 If Me.chkShowAllColumns.Checked = False Then
                     For Each sMod As ShipModule In moduleList
                         If sMod.Attributes.ContainsKey(att) = True Then
@@ -137,7 +137,7 @@ Public Class frmMetaVariations
                     adtComparisons.Columns.Add(newCol)
                     ColumnIndexes.Add(CStr(att), ColumnIdx - 1)
                     ' Check if this is our sorted column
-                    If CInt(HQF.Settings.HQFSettings.SortedAttributeColumn) = att Then
+                    If CInt(HQF.PluginSettings.HQFSettings.SortedAttributeColumn) = att Then
                         sortColumn = ColumnIdx
                     End If
                 End If
@@ -193,7 +193,7 @@ Public Class frmMetaVariations
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
         ' Set the last forced sort
-        HQF.Settings.HQFSettings.SortedAttributeColumn = CH.Name
+        HQF.PluginSettings.HQFSettings.SortedAttributeColumn = CH.Name
     End Sub
 
     Private Sub chkApplySkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkApplySkills.CheckedChanged
@@ -393,8 +393,8 @@ Public Class frmMetaVariations
                     IgnoredAtt = att
                 End If
             Next
-            If HQF.Settings.HQFSettings.IgnoredAttributeColumns.Contains(IgnoredAtt) = False Then
-                HQF.Settings.HQFSettings.IgnoredAttributeColumns.Add(IgnoredAtt)
+            If HQF.PluginSettings.HQFSettings.IgnoredAttributeColumns.Contains(IgnoredAtt) = False Then
+                HQF.PluginSettings.HQFSettings.IgnoredAttributeColumns.Add(IgnoredAtt)
                 ' Rebuild the column list
                 Call Me.GetComparatives()
             End If
@@ -403,7 +403,7 @@ Public Class frmMetaVariations
 
     Private Sub frmMetaVariations_Resize(sender As Object, e As System.EventArgs) Handles Me.Resize
         If Startup = False Then
-            HQF.Settings.HQFSettings.MetaVariationsFormSize = Me.Size
+            HQF.PluginSettings.HQFSettings.MetaVariationsFormSize = Me.Size
         End If
     End Sub
 

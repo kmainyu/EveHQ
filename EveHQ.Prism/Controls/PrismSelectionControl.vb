@@ -323,9 +323,9 @@ Namespace Controls
         End Sub
 
         Private Sub CheckDefaultCharacter()
-            If Settings.PrismSettings.DefaultCharacter <> "" Then
-                If lvwItems.Items.Item(Settings.PrismSettings.DefaultCharacter) IsNot Nothing Then
-                    lvwItems.Items.Item(Settings.PrismSettings.DefaultCharacter).Checked = True
+            If PrismSettings.UserSettings.DefaultCharacter <> "" Then
+                If lvwItems.Items.Item(PrismSettings.UserSettings.DefaultCharacter) IsNot Nothing Then
+                    lvwItems.Items.Item(PrismSettings.UserSettings.DefaultCharacter).Checked = True
                 End If
                 UpdateOwnerList()
             End If

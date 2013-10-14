@@ -36,9 +36,9 @@ Public Class frmAddBPCPrice
         pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(BlueprintID)
         lblBPName.Text = EveData.StaticData.Types(BlueprintID).Name
 
-        If Settings.PrismSettings.BPCCosts.ContainsKey(BlueprintID) = True Then
-            nudMinRunCost.Value = Settings.PrismSettings.BPCCosts(BlueprintID).MinRunCost
-            nudMaxRunCost.Value = Settings.PrismSettings.BPCCosts(BlueprintID).MaxRunCost
+        If PrismSettings.UserSettings.BPCCosts.ContainsKey(BlueprintID) = True Then
+            nudMinRunCost.Value = PrismSettings.UserSettings.BPCCosts(BlueprintID).MinRunCost
+            nudMaxRunCost.Value = PrismSettings.UserSettings.BPCCosts(BlueprintID).MaxRunCost
         End If
 
     End Sub
@@ -55,11 +55,11 @@ Public Class frmAddBPCPrice
         End If
 
         ' Save the value
-        If Settings.PrismSettings.BPCCosts.ContainsKey(BlueprintID) = False Then
-            Dim BPCInfo As New BPCCostInfo(BlueprintID, nudMinRunCost.Value, nudMaxRunCost.Value)
-            Settings.PrismSettings.BPCCosts.Add(BlueprintID, BPCInfo)
+        If PrismSettings.UserSettings.BPCCosts.ContainsKey(BlueprintID) = False Then
+            Dim BPCInfo As New BlueprintCopyCostInfo(BlueprintID, nudMinRunCost.Value, nudMaxRunCost.Value)
+            PrismSettings.UserSettings.BPCCosts.Add(BlueprintID, BPCInfo)
         Else
-            Dim BPCinfo As BPCCostInfo = Settings.PrismSettings.BPCCosts(BlueprintID)
+            Dim BPCinfo As BlueprintCopyCostInfo = PrismSettings.UserSettings.BPCCosts(BlueprintID)
             BPCinfo.MinRunCost = nudMinRunCost.Value
             BPCinfo.MaxRunCost = nudMaxRunCost.Value
         End If

@@ -87,10 +87,10 @@ Public Class frmHQF
         ' Add any initialization after the InitializeComponent() call.
         
         ' Set the panel widths
-        panelShips.Width = Settings.HQFSettings.ShipPanelWidth
-        panelModules.Width = Settings.HQFSettings.ModPanelWidth
-        panelFittings.Height = Settings.HQFSettings.ShipSplitterWidth
-        panelModFilters.Height = Settings.HQFSettings.ModSplitterWidth
+        panelShips.Width = PluginSettings.HQFSettings.ShipPanelWidth
+        panelModules.Width = PluginSettings.HQFSettings.ModPanelWidth
+        panelFittings.Height = PluginSettings.HQFSettings.ShipSplitterWidth
+        panelModFilters.Height = PluginSettings.HQFSettings.ModSplitterWidth
 
     End Sub
 
@@ -162,11 +162,11 @@ Public Class frmHQF
 
         startUp = False
         ' Temporarily disable the performance setting
-        HQF.Settings.HQFSettings.ShowPerformanceData = False
+        HQF.PluginSettings.HQFSettings.ShowPerformanceData = False
 
         ' Check if we need to restore tabs from the previous setup
-        If HQF.Settings.HQFSettings.RestoreLastSession = True Then
-            For Each FitKey As String In HQF.Settings.HQFSettings.OpenFittingList
+        If HQF.PluginSettings.HQFSettings.RestoreLastSession = True Then
+            For Each FitKey As String In HQF.PluginSettings.HQFSettings.OpenFittingList
                 If Fittings.FittingList.ContainsKey(FitKey) = True Then
                     ' Create the tab and display
                     Dim newfit As Fitting = Fittings.FittingList(FitKey)
@@ -183,16 +183,16 @@ Public Class frmHQF
 
         ' Set default widths of module list
         Dim ModuleListColumns As Integer = 5
-        If HQF.Settings.HQFSettings.ModuleListColWidths.Count <> ModuleListColumns Then
-            HQF.Settings.HQFSettings.ModuleListColWidths.Clear()
-            HQF.Settings.HQFSettings.ModuleListColWidths.Add(0, 150)
-            HQF.Settings.HQFSettings.ModuleListColWidths.Add(1, 40)
-            HQF.Settings.HQFSettings.ModuleListColWidths.Add(2, 40)
-            HQF.Settings.HQFSettings.ModuleListColWidths.Add(3, 40)
-            HQF.Settings.HQFSettings.ModuleListColWidths.Add(4, 80)
+        If HQF.PluginSettings.HQFSettings.ModuleListColWidths.Count <> ModuleListColumns Then
+            HQF.PluginSettings.HQFSettings.ModuleListColWidths.Clear()
+            HQF.PluginSettings.HQFSettings.ModuleListColWidths.Add(0, 150)
+            HQF.PluginSettings.HQFSettings.ModuleListColWidths.Add(1, 40)
+            HQF.PluginSettings.HQFSettings.ModuleListColWidths.Add(2, 40)
+            HQF.PluginSettings.HQFSettings.ModuleListColWidths.Add(3, 40)
+            HQF.PluginSettings.HQFSettings.ModuleListColWidths.Add(4, 80)
         End If
         For col As Integer = 0 To ModuleListColumns - 1
-            tvwModules.Columns(col).Width.Absolute = HQF.Settings.HQFSettings.ModuleListColWidths(CLng(col))
+            tvwModules.Columns(col).Width.Absolute = HQF.PluginSettings.HQFSettings.ModuleListColWidths(CLng(col))
         Next
 
         Me.ResumeLayout()
@@ -208,10 +208,10 @@ Public Class frmHQF
 
     Public Sub SaveAll()
         ' Save the panel widths
-        Settings.HQFSettings.ShipPanelWidth = panelShips.Width
-        Settings.HQFSettings.ModPanelWidth = panelModules.Width
-        Settings.HQFSettings.ShipSplitterWidth = panelFittings.Height
-        Settings.HQFSettings.ModSplitterWidth = panelModFilters.Height
+        PluginSettings.HQFSettings.ShipPanelWidth = panelShips.Width
+        PluginSettings.HQFSettings.ModPanelWidth = panelModules.Width
+        PluginSettings.HQFSettings.ShipSplitterWidth = panelFittings.Height
+        PluginSettings.HQFSettings.ModSplitterWidth = panelModFilters.Height
 
         ' Save fittings
         'MessageBox.Show("HQF is about to enter the routine to save the fittings file. There are " & Fittings.FittingList.Count & " fittings detected.", "Save Fittings Initialisation", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -221,17 +221,17 @@ Public Class frmHQF
         Call FittingPilots.SaveHQFPilotData()
 
         ' Save the open fittings
-        Settings.HQFSettings.OpenFittingList.Clear()
+        PluginSettings.HQFSettings.OpenFittingList.Clear()
         For Each fitting As String In ShipLists.fittedShipList.Keys
-            Settings.HQFSettings.OpenFittingList.Add(fitting)
+            PluginSettings.HQFSettings.OpenFittingList.Add(fitting)
         Next
 
         ' Save the Settings
-        Call Settings.HQFSettings.SaveHQFSettings()
+        Call PluginSettings.HQFSettings.SaveHQFSettings()
     End Sub
 
     Private Sub ShowShipGroups()
-        Dim sr As New StreamReader(Path.Combine(Settings.HQFCacheFolder, "ShipGroups.bin"))
+        Dim sr As New StreamReader(Path.Combine(PluginSettings.HQFCacheFolder, "ShipGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
@@ -338,7 +338,7 @@ Public Class frmHQF
         Loop Until cNodeIdx = pNode.Nodes.Count
     End Sub
     Private Sub ShowMarketGroups()
-        Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ItemGroups.bin"))
+        Dim sr As New StreamReader(Path.Combine(HQF.PluginSettings.HQFCacheFolder, "ItemGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim nodes() As String
@@ -408,7 +408,7 @@ Public Class frmHQF
     Private Sub LoadPilots()
         ' Loads the skills for the selected pilots
         ' Check for a valid HQFPilotSettings.xml file
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.bin")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.bin")) = True Then
             Call FittingPilots.LoadHQFPilotData()
             ' Check we have all the available pilots!
             Dim morePilots As Boolean = False
@@ -440,7 +440,7 @@ Public Class frmHQF
             Next
 
             ' Check if we need to update the HQFPilot skills to actuals
-            If Settings.HQFSettings.AutoUpdateHQFSkills = True Then
+            If PluginSettings.HQFSettings.AutoUpdateHQFSkills = True Then
                 morePilots = True
                 For Each hPilot As FittingPilot In FittingPilots.HQFPilots.Values
                     Call FittingPilots.UpdateHQFSkillsToActual(hPilot)
@@ -484,9 +484,9 @@ Public Class frmHQF
         End If
 
         'Update the default pilot if it is null or set to a non-existing pilot
-        If (String.IsNullOrEmpty(Settings.HQFSettings.DefaultPilot) = True Or FittingPilots.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) = False) And FittingPilots.HQFPilots.Count > 0 Then
+        If (String.IsNullOrEmpty(PluginSettings.HQFSettings.DefaultPilot) = True Or FittingPilots.HQFPilots.ContainsKey(PluginSettings.HQFSettings.DefaultPilot) = False) And FittingPilots.HQFPilots.Count > 0 Then
             ' default to first pilot in the collection
-            Settings.HQFSettings.DefaultPilot = FittingPilots.HQFPilots.Values(0).PilotName
+            PluginSettings.HQFSettings.DefaultPilot = FittingPilots.HQFPilots.Values(0).PilotName
         End If
 
         ' Update the ship filter
@@ -509,7 +509,7 @@ Public Class frmHQF
         Dim filters() As Integer = {1, 2, 4, 8, 16, 32, 8192}
         For Each filter As Integer In filters
             Dim chkBox As CheckBox = CType(Me.panelModFilters.Controls.Item("chkFilter" & filter.ToString), CheckBox)
-            If (HQF.Settings.HQFSettings.ModuleFilter And filter) = filter Then
+            If (HQF.PluginSettings.HQFSettings.ModuleFilter And filter) = filter Then
                 chkBox.Checked = True
             Else
                 chkBox.Checked = False
@@ -612,7 +612,7 @@ Public Class frmHQF
                 'MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 If fittingName <> "" Then
-                    Dim NewFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
+                    Dim NewFit As New Fitting(shipName, fittingName, HQF.PluginSettings.HQFSettings.DefaultPilot)
                     Fittings.FittingList.Add(NewFit.KeyName, NewFit)
                     If Me.CreateNewFittingTab(NewFit) = True Then
                         Call Me.UpdateFilteredShips()
@@ -840,7 +840,7 @@ Public Class frmHQF
         If startUp = False Then
             Dim chkBox As CheckBox = CType(sender, CheckBox)
             Dim changedFilter As Integer = CInt(chkBox.Tag)
-            HQF.Settings.HQFSettings.ModuleFilter = HQF.Settings.HQFSettings.ModuleFilter Xor changedFilter
+            HQF.PluginSettings.HQFSettings.ModuleFilter = HQF.PluginSettings.HQFSettings.ModuleFilter Xor changedFilter
             If ModuleDisplay <> "" Then
                 Select Case ModuleDisplay
                     Case "Search"
@@ -889,7 +889,7 @@ Public Class frmHQF
         Dim results As New SortedList(Of Integer, ShipModule)
         If groupNode.Name = "Favourites" Then
             ModuleDisplay = "Favourites"
-            For Each modName As String In Settings.HQFSettings.Favourites
+            For Each modName As String In PluginSettings.HQFSettings.Favourites
                 If HQF.ModuleLists.ModuleListName.ContainsKey(modName) = True Then
                     sMod = HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(modName))
                     ' Add results in by name, module
@@ -928,7 +928,7 @@ Public Class frmHQF
             LastModuleResults = results
         ElseIf groupNode.Name = "Recently Used" Then
             ModuleDisplay = "Recently Used"
-            For Each modName As String In Settings.HQFSettings.MRUModules
+            For Each modName As String In PluginSettings.HQFSettings.MRUModules
                 If HQF.ModuleLists.ModuleListName.ContainsKey(modName) = True Then
                     sMod = HQF.ModuleLists.ModuleList(HQF.ModuleLists.ModuleListName(modName))
                     ' Add results in by name, module
@@ -1200,7 +1200,7 @@ Public Class frmHQF
 
         For Each shipmod As ShipModule In LastModuleResults.Values
             If shipmod.SlotType <> 0 Or (shipmod.SlotType = 0 And (shipmod.IsBooster Or shipmod.IsCharge Or shipmod.IsDrone)) Then
-                If (shipmod.MetaType And HQF.Settings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
+                If (shipmod.MetaType And HQF.PluginSettings.HQFSettings.ModuleFilter) = shipmod.MetaType Then
                     Dim newModule As New Node
                     newModule.Name = CStr(shipmod.ID)
                     newModule.Text = shipmod.Name
@@ -1239,15 +1239,15 @@ Public Class frmHQF
                     SuperTooltip1.SetSuperTooltip(newModule, stt)
                     Select Case shipmod.SlotType
                         Case SlotTypes.Subsystem
-                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.SubSlotColour))
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.SubSlotColour))
                         Case SlotTypes.High
-                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.HiSlotColour))
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.HiSlotColour))
                         Case SlotTypes.Mid
-                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.MidSlotColour))
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.MidSlotColour))
                         Case SlotTypes.Low
-                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.LowSlotColour))
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.LowSlotColour))
                         Case SlotTypes.Rig
-                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.Settings.HQFSettings.RigSlotColour))
+                            newModule.Style.BackColor = Color.FromArgb(CInt(HQF.PluginSettings.HQFSettings.RigSlotColour))
                     End Select
                     Dim chkFilter As CheckBox = CType(Me.panelModFilters.Controls("chkFilter" & shipmod.MetaType), CheckBox)
                     If chkFilter IsNot Nothing Then
@@ -1297,7 +1297,7 @@ Public Class frmHQF
             tvwModules.Enabled = True
             lblModuleDisplayType.Text = lblModuleDisplayType.Tag.ToString & " (" & tvwModules.Nodes.Count & " items)"
         End If
-        EveHQ.Core.AdvTreeSorter.Sort(tvwModules, HQF.Settings.HQFSettings.SortedModuleListInfo, False)
+        EveHQ.Core.AdvTreeSorter.Sort(tvwModules, HQF.PluginSettings.HQFSettings.SortedModuleListInfo, False)
         tvwModules.EndUpdate()
         tvwModules.Nodes(0).EnsureVisible()
         'endTime = Now
@@ -1310,12 +1310,12 @@ Public Class frmHQF
 
     Private Sub tvwModules_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles tvwModules.ColumnHeaderMouseUp
         Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-        HQF.Settings.HQFSettings.SortedModuleListInfo = EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+        HQF.PluginSettings.HQFSettings.SortedModuleListInfo = EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
     End Sub
     Private Sub tvwModules_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles tvwModules.ColumnResized
         Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         Dim idx As Integer = ch.DisplayIndex - 1
-        HQF.Settings.HQFSettings.ModuleListColWidths(CLng(idx)) = ch.Width.Absolute
+        HQF.PluginSettings.HQFSettings.ModuleListColWidths(CLng(idx)) = ch.Width.Absolute
     End Sub
     Private Sub tvwModules_NodeDoubleClick(ByVal sender As Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles tvwModules.NodeDoubleClick
         If ActiveFitting IsNot Nothing Then
@@ -1342,27 +1342,27 @@ Public Class frmHQF
         End If
     End Sub
     Private Sub UpdateMRUModules(ByVal modName As String)
-        If HQF.Settings.HQFSettings.MRUModules.Count < HQF.Settings.HQFSettings.MRULimit Then
+        If HQF.PluginSettings.HQFSettings.MRUModules.Count < HQF.PluginSettings.HQFSettings.MRULimit Then
             ' If the MRU list isn't full
-            If HQF.Settings.HQFSettings.MRUModules.Contains(modName) = False Then
+            If HQF.PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
                 ' If the module isn't already in the list
-                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+                HQF.PluginSettings.HQFSettings.MRUModules.Add(modName)
             Else
                 ' If it is in the list, remove it and add it at the end
-                HQF.Settings.HQFSettings.MRUModules.Remove(modName)
-                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+                HQF.PluginSettings.HQFSettings.MRUModules.Remove(modName)
+                HQF.PluginSettings.HQFSettings.MRUModules.Add(modName)
             End If
         Else
-            If HQF.Settings.HQFSettings.MRUModules.Contains(modName) = False Then
-                For m As Integer = 0 To HQF.Settings.HQFSettings.MRULimit - 2
-                    HQF.Settings.HQFSettings.MRUModules(m) = HQF.Settings.HQFSettings.MRUModules(m + 1)
+            If HQF.PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
+                For m As Integer = 0 To HQF.PluginSettings.HQFSettings.MRULimit - 2
+                    HQF.PluginSettings.HQFSettings.MRUModules(m) = HQF.PluginSettings.HQFSettings.MRUModules(m + 1)
                 Next
-                HQF.Settings.HQFSettings.MRUModules.RemoveAt(HQF.Settings.HQFSettings.MRULimit - 1)
-                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+                HQF.PluginSettings.HQFSettings.MRUModules.RemoveAt(HQF.PluginSettings.HQFSettings.MRULimit - 1)
+                HQF.PluginSettings.HQFSettings.MRUModules.Add(modName)
             Else
                 ' If it is in the list, remove it and add it at the end
-                HQF.Settings.HQFSettings.MRUModules.Remove(modName)
-                HQF.Settings.HQFSettings.MRUModules.Add(modName)
+                HQF.PluginSettings.HQFSettings.MRUModules.Remove(modName)
+                HQF.PluginSettings.HQFSettings.MRUModules.Add(modName)
             End If
         End If
     End Sub
@@ -1860,7 +1860,7 @@ Public Class frmHQF
 
         ' Add the Fitting
         If fittingName <> "" Then
-            Dim newFit As New Fitting(shipName, fittingName, HQF.Settings.HQFSettings.DefaultPilot)
+            Dim newFit As New Fitting(shipName, fittingName, HQF.PluginSettings.HQFSettings.DefaultPilot)
             Fittings.FittingList.Add(newFit.KeyName, newFit)
             If Me.CreateNewFittingTab(newFit) = True Then
                 Call Me.UpdateFilteredShips()
@@ -1873,7 +1873,7 @@ Public Class frmHQF
             'MessageBox.Show("Unable to Create New Fitting!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
     End Sub
-   Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
+    Private Sub mnuPreviewShip2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPreviewShip2.Click
         Dim curNode As Node = tvwFittings.SelectedNodes(0)
         Dim shipName As String = mnuFittingsFittingName.Tag.ToString
         Dim selShip As Ship = CType(ShipLists.shipList(shipName), Ship)
@@ -1922,7 +1922,7 @@ Public Class frmHQF
             End If
 
             Dim colCount As Integer = 0
-            For Each userCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+            For Each userCol As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
                 If userCol.Active = True Then
                     colCount += 1
                 End If
@@ -2031,7 +2031,7 @@ Public Class frmHQF
         If tvwModules.SelectedNodes.Count > 0 Then
             Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
             Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-            If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
+            If PluginSettings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
                 mnuAddToFavourites_List.Visible = False
                 mnuRemoveFromFavourites.Visible = True
             Else
@@ -2078,16 +2078,16 @@ Public Class frmHQF
     Private Sub mnuAddToFavourites_List_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddToFavourites_List.Click
         Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
         Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-        If Settings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
-            Settings.HQFSettings.Favourites.Add(cModule.Name)
+        If PluginSettings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
+            PluginSettings.HQFSettings.Favourites.Add(cModule.Name)
         End If
     End Sub
 
     Private Sub mnuRemoveFromFavourites_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveFromFavourites.Click
         Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
         Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-        If Settings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
-            Settings.HQFSettings.Favourites.Remove(cModule.Name)
+        If PluginSettings.HQFSettings.Favourites.Contains(cModule.Name) = True Then
+            PluginSettings.HQFSettings.Favourites.Remove(cModule.Name)
         End If
         Call CalculateFilteredModules(tvwItems.SelectedNode)
     End Sub
@@ -2216,7 +2216,7 @@ Public Class frmHQF
         Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
         Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
         Dim newComparison As New frmMetaVariations(ActiveFitting, cModule)
-        newComparison.Size = HQF.Settings.HQFSettings.MetaVariationsFormSize
+        newComparison.Size = HQF.PluginSettings.HQFSettings.MetaVariationsFormSize
         newComparison.ShowDialog()
     End Sub
 
@@ -2691,8 +2691,8 @@ Public Class frmHQF
 
     Private Sub btnExportImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportImplants.Click
         Dim implantSetName As String = ActiveFitting.ShipInfoCtrl.cboImplants.SelectedItem.ToString
-        If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(implantSetName) = True Then
-            Dim implantSet As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups(implantSetName), ImplantGroup)
+        If HQF.PluginSettings.HQFSettings.ImplantGroups.ContainsKey(implantSetName) = True Then
+            Dim implantSet As ImplantCollection = HQF.PluginSettings.HQFSettings.ImplantGroups(implantSetName)
             Dim stats As New System.Text.StringBuilder
             stats.AppendLine("[Implants - " & implantSet.GroupName & "]")
             stats.AppendLine("")

@@ -47,15 +47,15 @@ Public Class PlugInData
         Try
             ' Check for existance of HQF folder & create if not existing
             If Core.HQ.IsUsingLocalFolders = False Then
-                Settings.HQFFolder = Path.Combine(Core.HQ.AppDataFolder, "HQF")
+                PluginSettings.HQFFolder = Path.Combine(Core.HQ.AppDataFolder, "HQF")
             Else
-                Settings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
+                PluginSettings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
             End If
-            If My.Computer.FileSystem.DirectoryExists(Settings.HQFFolder) = False Then
-                My.Computer.FileSystem.CreateDirectory(Settings.HQFFolder)
+            If My.Computer.FileSystem.DirectoryExists(PluginSettings.HQFFolder) = False Then
+                My.Computer.FileSystem.CreateDirectory(PluginSettings.HQFFolder)
             End If
 
-            Settings.HQFCacheFolder = Core.HQ.coreCacheFolder
+            PluginSettings.HQFCacheFolder = Core.HQ.coreCacheFolder
 
             Dim mods() As String = My.Resources.ModuleChanges.Split(ControlChars.CrLf.ToCharArray)
             ModuleChanges.Clear()
@@ -75,8 +75,8 @@ Public Class PlugInData
             ' Load the HQF cache data
             Dim s As FileStream
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "attributes.dat")) = True Then
-                s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "attributes.dat"), FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "attributes.dat")) = True Then
+                s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "attributes.dat"), FileMode.Open)
                 Try
                     Attributes.AttributeList = Serializer.Deserialize(Of SortedList(Of Integer, Attribute))(s)
                     s.Close()
@@ -86,8 +86,8 @@ Public Class PlugInData
                 s.Dispose()
             End If
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "ships.dat")) = True Then
-                s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "ships.dat"), FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "ships.dat")) = True Then
+                s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ships.dat"), FileMode.Open)
                 Try
                     ShipLists.ShipList = Serializer.Deserialize(Of SortedList(Of String, Ship))(s)
                     s.Close()
@@ -101,8 +101,8 @@ Public Class PlugInData
                 s.Dispose()
             End If
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "modules.dat")) = True Then
-                s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "modules.dat"), FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "modules.dat")) = True Then
+                s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "modules.dat"), FileMode.Open)
                 Try
                     ModuleLists.ModuleList = Serializer.Deserialize(Of SortedList(Of Integer, ShipModule))(s)
                     s.Close()
@@ -120,8 +120,8 @@ Public Class PlugInData
                 s.Dispose()
             End If
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "implants.dat")) = True Then
-                s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "implants.dat"), FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "implants.dat")) = True Then
+                s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "implants.dat"), FileMode.Open)
                 Try
                     Implants.ImplantList = Serializer.Deserialize(Of SortedList(Of String, ShipModule))(s)
                     s.Close()
@@ -131,8 +131,8 @@ Public Class PlugInData
                 s.Dispose()
             End If
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "boosters.dat")) = True Then
-                s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "boosters.dat"), FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "boosters.dat")) = True Then
+                s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "boosters.dat"), FileMode.Open)
                 Try
                     Boosters.BoosterList = Serializer.Deserialize(Of SortedList(Of String, ShipModule))(s)
                     s.Close()
@@ -142,8 +142,8 @@ Public Class PlugInData
                 s.Dispose()
             End If
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "skills.dat")) = True Then
-                s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "skills.dat"), FileMode.Open)
+            If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "skills.dat")) = True Then
+                s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "skills.dat"), FileMode.Open)
                 Try
                     SkillLists.SkillList = Serializer.Deserialize(Of SortedList(Of Integer, Skill))(s)
                     s.Close()
@@ -154,19 +154,19 @@ Public Class PlugInData
             End If
 
             ' Load Item Groups (from Core data)
-            s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "ItemGroups.dat"), FileMode.Open)
+            s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ItemGroups.dat"), FileMode.Open)
             ModuleLists.TypeGroups = Serializer.Deserialize(Of SortedList(Of Integer, String))(s)
             s.Close()
             s.Dispose()
 
             ' Load Items Cats (from Core data)
-            s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "ItemCats.dat"), FileMode.Open)
+            s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ItemCats.dat"), FileMode.Open)
             ModuleLists.TypeCats = Serializer.Deserialize(Of SortedList(Of Integer, String))(s)
             s.Close()
             s.Dispose()
 
             ' Load Group Cats (from Core data)
-            s = New FileStream(Path.Combine(Settings.HQFCacheFolder, "GroupCats.dat"), FileMode.Open)
+            s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "GroupCats.dat"), FileMode.Open)
             ModuleLists.GroupCats = Serializer.Deserialize(Of SortedList(Of Integer, Integer))(s)
             s.Close()
             s.Dispose()
@@ -178,7 +178,7 @@ Public Class PlugInData
             Call GenerateIcons()
 
             ' Load the settings!
-            Call Settings.HQFSettings.LoadHQFSettings()
+            Call PluginSettings.HQFSettings.LoadHQFSettings()
 
             ' Load the Profiles - stored separately from settings for distribution!
             Call HQFDamageProfiles.Load()

@@ -154,9 +154,9 @@ Imports EveHQ.Core
         Set(ByVal value As String)
             If FittingPilots.HQFPilots.ContainsKey(value) = False Then
                 '  MessageBox.Show("The pilot '" & value & "' is not a listed pilot. The system will now try to use your configured default pilot instead for this fit (" & Me.FittingName & ").", "Unknown Pilot", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                If FittingPilots.HQFPilots.ContainsKey(Settings.HQFSettings.DefaultPilot) Then
+                If FittingPilots.HQFPilots.ContainsKey(PluginSettings.HQFSettings.DefaultPilot) Then
                     'Fall back to the configured default pilot if they are valid.
-                    cPilotName = Settings.HQFSettings.DefaultPilot
+                    cPilotName = PluginSettings.HQFSettings.DefaultPilot
                 Else
                     ' Even the configured default isn't valid... fallback to the first valid pilot in the collection
                     If FittingPilots.HQFPilots.Count > 0 Then
@@ -674,7 +674,7 @@ Imports EveHQ.Core
                 Me.CalculateDefenceStatistics(newShip)
                 pStageTime(23) = Now
         End Select
-        If Settings.HQFSettings.ShowPerformanceData = True Then
+        If PluginSettings.HQFSettings.ShowPerformanceData = True Then
             Dim dTime As TimeSpan
             Dim perfMsg As String = ""
             For stage As Integer = 1 To stages
@@ -1366,7 +1366,7 @@ Imports EveHQ.Core
             If newShip.MidSlot(slot) IsNot Nothing Then
                 newShip.SlotCollection.Add(newShip.MidSlot(slot))
                 ' Recalculate Cap Booster calcs if reload time is included
-                If Settings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = 76 Then
+                If PluginSettings.HQFSettings.IncludeCapReloadTime = True And newShip.MidSlot(slot).DatabaseGroup = 76 Then
                     Dim cModule As ShipModule = newShip.MidSlot(slot)
                     If cModule.LoadedCharge IsNot Nothing Then
                         Dim reloadEffect As Double = 10 / (CInt(Int(cModule.Capacity / cModule.LoadedCharge.Volume)))
@@ -1815,7 +1815,7 @@ Imports EveHQ.Core
                                     If cModule.IsTurret = True Then
                                         ' Adjust for reload time if required
                                         Dim reloadEffect As Double = 0
-                                        If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
+                                        If HQF.PluginSettings.HQFSettings.IncludeAmmoReloadTime = True Then
                                             If cModule.DatabaseGroup <> ModuleEnum.GroupEnergyTurrets Then
                                                 If cModule.DatabaseGroup = ModuleEnum.GroupHybridTurrets Then
                                                     reloadEffect = 5 / (cModule.Capacity / cModule.LoadedCharge.Volume)
@@ -1844,7 +1844,7 @@ Imports EveHQ.Core
                                     Else
                                         ' Adjust for reload time if required
                                         Dim reloadEffect As Double = 0
-                                        If HQF.Settings.HQFSettings.IncludeAmmoReloadTime = True Then
+                                        If HQF.PluginSettings.HQFSettings.IncludeAmmoReloadTime = True Then
                                             reloadEffect = 10 / (cModule.Capacity / cModule.LoadedCharge.Volume)
                                         End If
                                         dmgMod = 1
@@ -1856,7 +1856,7 @@ Imports EveHQ.Core
                                         newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
                                         newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
                                         If cModule.LoadedCharge IsNot Nothing Then
-                                            cModule.Attributes(AttributeEnum.ModuleOptimalRange) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity) * cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                            cModule.Attributes(AttributeEnum.ModuleOptimalRange) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity) * cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * HQF.PluginSettings.HQFSettings.MissileRangeConstant
                                         End If
                                     End If
                                     If noDamageAmmo = False Then
@@ -1931,7 +1931,7 @@ Imports EveHQ.Core
                                             newShip.Attributes(AttributeEnum.ShipMissileDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
                                             newShip.Attributes(AttributeEnum.ShipVolleyDamage) += cModule.Attributes(AttributeEnum.ModuleVolleyDamage)
                                             newShip.Attributes(AttributeEnum.ShipDPS) += cModule.Attributes(AttributeEnum.ModuleDPS)
-                                            cModule.Attributes(AttributeEnum.ModuleOptimalRange) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity) * cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * HQF.Settings.HQFSettings.MissileRangeConstant
+                                            cModule.Attributes(AttributeEnum.ModuleOptimalRange) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxVelocity) * cModule.LoadedCharge.Attributes(AttributeEnum.ModuleMaxFlightTime) * HQF.PluginSettings.HQFSettings.MissileRangeConstant
                                             cModule.Attributes(AttributeEnum.ModuleEMDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseEMDamage) * dmgMod
                                             cModule.Attributes(AttributeEnum.ModuleExpDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseExpDamage) * dmgMod
                                             cModule.Attributes(AttributeEnum.ModuleKinDamage) = cModule.LoadedCharge.Attributes(AttributeEnum.ModuleBaseKinDamage) * dmgMod
@@ -2037,7 +2037,7 @@ Imports EveHQ.Core
                 hR = hR + cModule.Attributes(AttributeEnum.ModuleHullHPRepaired) / cModule.Attributes(AttributeEnum.ModuleActivationTime)
             End If
         Next
-        sRP = (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.Settings.HQFSettings.ShieldRechargeConstant)
+        sRP = (newShip.ShieldCapacity / newShip.ShieldRecharge * HQF.PluginSettings.HQFSettings.ShieldRechargeConstant)
         ' Calculate the actual tanking ability
         Dim sTA As Double = sRA / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ShieldThResist / 100)))
         Dim sTP As Double = sRP / ((newShip.DamageProfileEM * (1 - newShip.ShieldEMResist / 100)) + (newShip.DamageProfileEx * (1 - newShip.ShieldExResist / 100)) + (newShip.DamageProfileKi * (1 - newShip.ShieldKiResist / 100)) + (newShip.DamageProfileTh * (1 - newShip.ShieldThResist / 100)))

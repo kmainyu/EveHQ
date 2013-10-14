@@ -44,8 +44,8 @@
             ' Check if we can set the implants from the group listing
             If index = 0 Then
                 If value <> "*Custom*" Then
-                    If Settings.HQFSettings.ImplantGroups.ContainsKey(value) Then
-                        Dim implantSet As ImplantGroup = Settings.HQFSettings.ImplantGroups(value)
+                    If PluginSettings.HQFSettings.ImplantGroups.ContainsKey(value) Then
+                        Dim implantSet As ImplantCollection = PluginSettings.HQFSettings.ImplantGroups(value)
                         For slot As Integer = 1 To 10
                             _implantName(slot) = implantSet.ImplantName(slot)
                         Next

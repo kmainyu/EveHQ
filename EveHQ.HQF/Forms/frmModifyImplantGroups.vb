@@ -37,7 +37,7 @@ Public Class frmModifyImplantGroups
             Case "Add"
                 ' Add the group to the group collection
                 ' First check if the group already exists
-                If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(txtGroupName.Text) Then
+                If HQF.PluginSettings.HQFSettings.ImplantGroups.ContainsKey(txtGroupName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Group Name '" & txtGroupName.Text & "' already exists!" & ControlChars.CrLf & "Would you like to try another Group Name?", "Error Creating Implant Group", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -46,15 +46,15 @@ Public Class frmModifyImplantGroups
                         Exit Sub
                     End If
                 End If
-                Dim newGroup As New ImplantGroup
+                Dim newGroup As New ImplantCollection(True)
                 newGroup.GroupName = txtGroupName.Text
                 For imp As Integer = 1 To 10
                     newGroup.ImplantName(imp) = ""
                 Next
-                HQF.Settings.HQFSettings.ImplantGroups.Add(newGroup.GroupName, newGroup)
+                HQF.PluginSettings.HQFSettings.ImplantGroups.Add(newGroup.GroupName, newGroup)
                 txtGroupName.Tag = newGroup.GroupName
             Case "Edit"
-                If HQF.Settings.HQFSettings.ImplantGroups.ContainsKey(txtGroupName.Text) Then
+                If HQF.PluginSettings.HQFSettings.ImplantGroups.ContainsKey(txtGroupName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Group Name " & txtGroupName.Text & " already exists!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Editing Implant Group", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
                     If reply = Windows.Forms.DialogResult.Retry Then
                         Exit Sub
@@ -64,12 +64,12 @@ Public Class frmModifyImplantGroups
                     End If
                 End If
                 ' Fetch the group from the collection
-                Dim oldGroup As ImplantGroup = CType(HQF.Settings.HQFSettings.ImplantGroups.Item(txtGroupName.Tag.ToString), ImplantGroup)
+                Dim oldGroup As ImplantCollection = HQF.PluginSettings.HQFSettings.ImplantGroups.Item(txtGroupName.Tag.ToString)
                 oldGroup.GroupName = txtGroupName.Text
                 ' Remove the old group
-                HQF.Settings.HQFSettings.ImplantGroups.Remove(txtGroupName.Tag.ToString)
+                HQF.PluginSettings.HQFSettings.ImplantGroups.Remove(txtGroupName.Tag.ToString)
                 ' Add the new group
-                HQF.Settings.HQFSettings.ImplantGroups.Add(oldGroup.GroupName, oldGroup)
+                HQF.PluginSettings.HQFSettings.ImplantGroups.Add(oldGroup.GroupName, oldGroup)
                 txtGroupName.Tag = oldGroup.GroupName
         End Select
         Me.Close()

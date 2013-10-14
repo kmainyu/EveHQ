@@ -42,9 +42,9 @@ Public Class CustomHQFClasses
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShipClasses()
        
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShipClasses.json")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "CustomShipClasses.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "CustomShipClasses.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "CustomShipClasses.json"))
                     Dim json As String = s.ReadToEnd
                     CustomShipClasses = JsonConvert.DeserializeObject(Of SortedList(Of String, CustomShipClass))(json)
                 End Using
@@ -60,19 +60,19 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub SaveCustomShipClasses()
-       
+
         ' Create a JSON string for writing
         Dim json As String = JsonConvert.SerializeObject(CustomShipClasses, Newtonsoft.Json.Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "CustomShipClasses.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "CustomShipClasses.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using
         Catch e As Exception
         End Try
-        
+
     End Sub
 #End Region
 
@@ -95,10 +95,10 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShips()
-       
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "CustomShips.json")) = True Then
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "CustomShips.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "CustomShips.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "CustomShips.json"))
                     Dim json As String = s.ReadToEnd
                     CustomShips = JsonConvert.DeserializeObject(Of SortedList(Of String, CustomShip))(json)
                     CustomShipIDs.Clear()
@@ -118,13 +118,13 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub SaveCustomShips()
-       
+
         ' Create a JSON string for writing
         Dim json As String = JsonConvert.SerializeObject(CustomShips, Newtonsoft.Json.Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "CustomShips.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "CustomShips.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using
@@ -146,8 +146,8 @@ Public Class CustomHQFClasses
         ' Rebuild the ship lists
         ShipLists.ShipListKeyID.Clear()
         ShipLists.ShipListKeyName.Clear()
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFCacheFolder, "ships.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(Settings.HQFCacheFolder, "ships.bin"), FileMode.Open)
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "ships.bin")) = True Then
+            Dim s As New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ships.bin"), FileMode.Open)
             Try
                 Dim f As BinaryFormatter = New BinaryFormatter
                 ShipLists.ShipList = CType(f.Deserialize(s), SortedList(Of String, Ship))

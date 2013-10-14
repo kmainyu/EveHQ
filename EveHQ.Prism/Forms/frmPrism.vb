@@ -113,7 +113,7 @@ Public Class frmPrism
         AddHandler PrismEvents.RecyclingInfoAvailable, AddressOf RecycleInfoFromAssets
 
         ' Load the settings!
-        Call Settings.PrismSettings.LoadPrismSettings()
+        Call PrismSettings.UserSettings.LoadPrismSettings()
 
         ' Load the Production Jobs
         Call Jobs.Load()
@@ -206,7 +206,7 @@ Public Class frmPrism
         Call Me.ScanForExistingXMLs()
 
         ' Initialise default Prism character
-        If Settings.PrismSettings.DefaultCharacter <> "" And PlugInData.PrismOwners.ContainsKey(Settings.PrismSettings.DefaultCharacter) Then
+        If PrismSettings.UserSettings.DefaultCharacter <> "" And PlugInData.PrismOwners.ContainsKey(PrismSettings.UserSettings.DefaultCharacter) Then
             ' Wallet Journal
             CType(cboJournalOwners.DropDownControl, PrismSelectionControl).UpdateList()
             ' Wallet Transactions
@@ -214,13 +214,13 @@ Public Class frmPrism
             ' Assets
             CType(PAC.PSCAssetOwners.cboHost.DropDownControl, PrismSelectionControl).UpdateList()
             ' Market Orders
-            cboOrdersOwner.SelectedItem = Settings.PrismSettings.DefaultCharacter
+            cboOrdersOwner.SelectedItem = PrismSettings.UserSettings.DefaultCharacter
             ' Research Jobs
-            cboJobOwner.SelectedItem = Settings.PrismSettings.DefaultCharacter
+            cboJobOwner.SelectedItem = PrismSettings.UserSettings.DefaultCharacter
             ' BP Manager
-            cboBPOwner.SelectedItem = Settings.PrismSettings.DefaultCharacter
+            cboBPOwner.SelectedItem = PrismSettings.UserSettings.DefaultCharacter
             ' Contracts
-            cboContractOwner.SelectedItem = Settings.PrismSettings.DefaultCharacter
+            cboContractOwner.SelectedItem = PrismSettings.UserSettings.DefaultCharacter
         End If
 
         ' Set the refining info
@@ -396,9 +396,9 @@ Public Class frmPrism
                 Call CheckXML(apiXML, Owner, CorpRepType.Contracts)
 
                 ' Check for corp sheets
-                If Settings.PrismSettings.CorpReps.ContainsKey(SelPilot.Corp) Then
-                    If Settings.PrismSettings.CorpReps(SelPilot.Corp).ContainsKey(CorpRepType.CorpSheet) Then
-                        If Settings.PrismSettings.CorpReps(SelPilot.Corp).Item(CorpRepType.CorpSheet) = SelPilot.Name Then
+                If PrismSettings.UserSettings.CorpReps.ContainsKey(SelPilot.Corp) Then
+                    If PrismSettings.UserSettings.CorpReps(SelPilot.Corp).ContainsKey(CorpRepType.CorpSheet) Then
+                        If PrismSettings.UserSettings.CorpReps(SelPilot.Corp).Item(CorpRepType.CorpSheet) = SelPilot.Name Then
                             apiXML = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, PilotAccount.ToAPIAccount, SelPilot.ID, ReturnMethod)
                             Call CheckXML(apiXML, Owner, CorpRepType.CorpSheet)
                         Else
@@ -501,7 +501,7 @@ Public Class frmPrism
         Call BatchJobs.SaveBatchJobs()
 
         ' Save the settings
-        Call Settings.PrismSettings.SavePrismSettings()
+        Call PrismSettings.UserSettings.SavePrismSettings()
 
     End Sub
 
@@ -667,7 +667,7 @@ Public Class frmPrism
         ' Set the label, enable the button and inform the user
         lblCurrentAPI.Text = "Cached APIs Loaded:"
         btnDownloadAPIData.Enabled = True
-        If startup = False And Settings.PrismSettings.HideAPIDownloadDialog = False Then
+        If startup = False And PrismSettings.UserSettings.HideAPIDownloadDialog = False Then
             DisplayAPICompleteDialog()
         End If
     End Sub
@@ -686,7 +686,7 @@ Public Class frmPrism
         TaskDialog.Show(tdi)
     End Sub
     Private Sub APIDownloadDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles APIDownloadDialogCheckBox.Executed
-        Settings.PrismSettings.HideAPIDownloadDialog = APIDownloadDialogCheckBox.Checked
+        PrismSettings.UserSettings.HideAPIDownloadDialog = APIDownloadDialogCheckBox.Checked
     End Sub
 
     Private Sub UpdatePrismOwners()
@@ -4091,7 +4091,7 @@ Public Class frmPrism
                 ' Start an owned BPCalc
                 If adtBlueprints.SelectedNodes(0).Tag IsNot Nothing Then
                     Dim BPID As Long = CLng(adtBlueprints.SelectedNodes(0).Tag)
-                    Dim BPCalc As New frmBPCalculator(EveHQ.Prism.Settings.PrismSettings.DefaultBPOwner, BPID)
+                    Dim BPCalc As New frmBPCalculator(EveHQ.Prism.PrismSettings.UserSettings.DefaultBPOwner, BPID)
                     Call OpenBPCalculator(BPCalc)
                 End If
             Else
@@ -5018,8 +5018,8 @@ Public Class frmPrism
             Dim OwnerName As String = Owner.Text
             For si As Integer = 0 To 7
                 'If Owner.SubItems(1).Text = "Corporation" = True Then
-                '    If Settings.PrismSettings.CorpReps.ContainsKey(OwnerName) = True Then
-                '        If Settings.PrismSettings.CorpReps(OwnerName).ContainsKey(CType(si, CorpRepType)) = True Then
+                '    If PrismSettings.UserSettings.CorpReps.ContainsKey(OwnerName) = True Then
+                '        If PrismSettings.UserSettings.CorpReps(OwnerName).ContainsKey(CType(si, CorpRepType)) = True Then
                 '            Owner.SubItems(si + 2).Text = ""
                 '        Else
                 '            Owner.SubItems(si + 2).Text = "No Corp Rep"
@@ -5379,7 +5379,7 @@ Public Class frmPrism
             newJob.Cells.Add(New Cell(cJob.TypeName))
             If cJob.CurrentBlueprint IsNot Nothing Then
                 Dim product As EveType = StaticData.Types(cJob.CurrentBlueprint.ProductId)
-                Dim totalcosts As Double = cJob.Cost + Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+                Dim totalcosts As Double = cJob.Cost + Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * cJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                 Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
                 Dim value As Double = prices(cJob.CurrentBlueprint.ProductId)
                 Dim profit As Double = value - unitcosts
@@ -5601,7 +5601,7 @@ Public Class frmPrism
                     Dim InventionSuccessCost As Double = InventionAttempts * InvCost.TotalCost
 
                     ' Calculate Production Cost of invented item
-                    Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+                    Dim FactoryCost As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * cJob.InventionJob.ProductionJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                     Dim AvgCost As Double = (Math.Round(InventionSuccessCost / IBP.Runs, 2, MidpointRounding.AwayFromZero) + cJob.InventionJob.ProductionJob.Cost + FactoryCost) / BatchQty
                     Dim SalesPrice As Double = prices(IBP.ProductId)
                     Dim UnitProfit As Double = SalesPrice - AvgCost

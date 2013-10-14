@@ -108,6 +108,7 @@
     <Compile Include="Forms\frmShipSelection.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="_Deprecated\ImplantGroup.vb" />
     <Compile Include="_New\FittingPilots.vb" />
     <Compile Include="_New\FittingSkill.vb" />
     <Compile Include="_New\FittingPilot.vb" />
@@ -131,7 +132,7 @@
     <Compile Include="Classes\NPCs.vb" />
     <Compile Include="Classes\PlugInData.vb" />
     <Compile Include="Classes\SavedFittings.vb" />
-    <Compile Include="Classes\Settings.vb" />
+    <Compile Include="_Deprecated\Settings.vb" />
     <Compile Include="Classes\Fittings.vb" />
     <Compile Include="Controls\EveSpace.Designer.vb">
       <DependentUpon>EveSpace.vb</DependentUpon>
@@ -325,7 +326,7 @@
     <Compile Include="Forms\frmShowInfo.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Implant.vb" />
+    <Compile Include="Classes\ImplantCollection.vb" />
     <Compile Include="Forms\frmTargetSpeed.Designer.vb">
       <DependentUpon>frmTargetSpeed.vb</DependentUpon>
     </Compile>
@@ -376,6 +377,7 @@
     <Compile Include="_New\HQFDefenceProfiles.vb" />
     <Compile Include="_New\HQFDefenseProfileResults.vb" />
     <Compile Include="_New\ProfileTypes.vb" />
+    <Compile Include="_New\PluginSettings.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\EveSpace.resx">

@@ -19,6 +19,9 @@ Public Class frmShipSelection
     Private Sub DisplayTagCloud()
         Dim tagList As New SortedList(Of String, Integer) ' tagName, occurences
         For Each fit As Fitting In Fittings.FittingList.Values
+            If fit.Tags Is Nothing Then
+                fit.Tags = New List(Of String)
+            End If
             For Each fittingTag As String In fit.Tags
                 If tagList.ContainsKey(fittingTag) Then
                     tagList(fittingTag) += 1
@@ -269,8 +272,8 @@ Public Class frmShipSelection
         Dim selShip As Ship = ShipLists.ShipList(shipName)
         Dim showInfo As New FrmShowInfo
         Dim hPilot As Core.EveHQPilot
-        If Settings.HQFSettings.DefaultPilot <> "" Then
-            hPilot = Core.HQ.Settings.Pilots(Settings.HQFSettings.DefaultPilot)
+        If PluginSettings.HQFSettings.DefaultPilot <> "" Then
+            hPilot = Core.HQ.Settings.Pilots(PluginSettings.HQFSettings.DefaultPilot)
         Else
             hPilot = Core.HQ.Settings.Pilots.Values(0)
         End If

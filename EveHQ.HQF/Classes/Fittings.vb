@@ -161,7 +161,7 @@
         ' Check the pilot
         If newFit.PilotName = "" Then
             ' Select a default pilot
-            newFit.PilotName = Settings.HQFSettings.DefaultPilot
+            newFit.PilotName = PluginSettings.HQFSettings.DefaultPilot
         End If
 
         Return newFit

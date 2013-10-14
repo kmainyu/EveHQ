@@ -108,12 +108,12 @@ Public Class PlugInData
     Private Function LoadPlugIndata() As Boolean
         ' Setup the Prism Folder
         If Core.HQ.IsUsingLocalFolders = False Then
-            Settings.PrismFolder = Path.Combine(Core.HQ.AppDataFolder, "Prism")
+            PrismSettings.PrismFolder = Path.Combine(Core.HQ.AppDataFolder, "Prism")
         Else
-            Settings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
+            PrismSettings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
         End If
-        If My.Computer.FileSystem.DirectoryExists(Settings.PrismFolder) = False Then
-            My.Computer.FileSystem.CreateDirectory(Settings.PrismFolder)
+        If My.Computer.FileSystem.DirectoryExists(PrismSettings.PrismFolder) = False Then
+            My.Computer.FileSystem.CreateDirectory(PrismSettings.PrismFolder)
         End If
         Call PrismDataFunctions.CheckDatabaseTables()
         Call LoadStatuses()
@@ -340,9 +340,9 @@ Public Class PlugInData
 
         SyncLock frmPrism.LockObj
 
-            If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.json")) = True Then
                 Try
-                    Using s As New StreamReader(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json"))
+                    Using s As New StreamReader(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.json"))
                         Dim json As String = s.ReadToEnd
                         BlueprintAssets = JsonConvert.DeserializeObject(Of SortedList(Of String, SortedList(Of Long, BlueprintAsset)))(json)
                     End Using
@@ -352,7 +352,7 @@ Public Class PlugInData
                     msg &= "Press OK to reset the Owner Blueprints file." & ControlChars.CrLf
                     MessageBox.Show(msg, "Invalid Owner Blueprints file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Try
-                        File.Move(Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json"), Path.Combine(Settings.PrismFolder, "OwnerBlueprints.json" & ".bad"))
+                        File.Move(Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.json"), Path.Combine(PrismSettings.PrismFolder, "OwnerBlueprints.json" & ".bad"))
                     Catch e As Exception
                         MessageBox.Show("Unable to delete the OwnerBlueprints.json file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End Try
@@ -366,8 +366,8 @@ Public Class PlugInData
     Public Shared Sub SaveOwnerBlueprints()
 
         SyncLock LockObj
-            Dim newFile As String = Path.Combine(Settings.PrismFolder, OwnerBlueprintsFileName)
-            Dim tempFile As String = Path.Combine(Settings.PrismFolder, OwnerBlueprintsFileName & ".temp")
+            Dim newFile As String = Path.Combine(PrismSettings.PrismFolder, OwnerBlueprintsFileName)
+            Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, OwnerBlueprintsFileName & ".temp")
 
             ' Create a JSON string for writing
             Dim json As String = JsonConvert.SerializeObject(BlueprintAssets, Newtonsoft.Json.Formatting.Indented)

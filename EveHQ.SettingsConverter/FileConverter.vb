@@ -52,7 +52,7 @@ Public Class FileConverter
         _newSettings = New EveHQSettings
 
         ' Load in the old EveHQ Settings
-
+        _worker.ReportProgress(0, "Attempting to load original EveHQ Core Settings file...")
         If My.Computer.FileSystem.FileExists(Path.Combine(settingsFolder, "EveHQSettings.bin")) = True Then
             Try
                 Using s As New FileStream(Path.Combine(settingsFolder, "EveHQSettings.bin"), FileMode.Open)
@@ -60,7 +60,7 @@ Public Class FileConverter
                     oldSettings = CType(f.Deserialize(s), EveSettings)
                 End Using
             Catch e As Exception
-                MessageBox.Show(e.Message)
+                _worker.ReportProgress(0, "Error loading EveHQ Settings file: " & e.Message)
             End Try
 
             _worker.ReportProgress(0, "Core Settings Conversion Step 1/8: Loading training queues...")
@@ -97,13 +97,16 @@ Public Class FileConverter
                     s.Flush()
                 End Using
             Catch e As Exception
-                MessageBox.Show("Unable to write JSON file")
+                _worker.ReportProgress(0, "Error writing new settings file: " & e.Message)
             End Try
 
             ' Rename the old settings file
             _worker.ReportProgress(0, "Core Settings Conversion Step 8/8: Archiving old settings...")
-            My.Computer.FileSystem.RenameFile(Path.Combine(settingsFolder, "EveHQSettings.bin"), "OldEveHQSettings.bin")
-
+            Try
+                My.Computer.FileSystem.RenameFile(Path.Combine(settingsFolder, "EveHQSettings.bin"), "OldEveHQSettings.bin")
+            Catch e As Exception
+                _worker.ReportProgress(0, "Error archiving old settings file: " & e.Message)
+            End Try
             'MessageBox.Show("Successfully converted settings in " & timeTaken.TotalMilliseconds.ToString("N2") & "ms", "Settings conversion complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
         End If
@@ -224,8 +227,8 @@ Public Class FileConverter
                     ' Iterate through the relevant nodes
 
                 Catch e As Exception
-                    MessageBox.Show(
-                        "Error importing Training data for " & currentPilot.Name & "." & ControlChars.CrLf &
+                    _worker.ReportProgress(0, "Error loading training for " & currentPilot.Name & ": " & e.Message)
+                    MessageBox.Show("Error importing Training data for " & currentPilot.Name & "." & ControlChars.CrLf &
                         "The error reported was " & e.Message, "Training Data Error", MessageBoxButtons.OK,
                         MessageBoxIcon.Error)
                 End Try
@@ -235,301 +238,313 @@ Public Class FileConverter
 
     Private Sub ConvertMainSettings(oldSettings As EveSettings)
 
-        _newSettings.MarketDataProvider = oldSettings.MarketDataProvider
-        _newSettings.MaxUpdateThreads = oldSettings.MaxUpdateThreads
-        _newSettings.MarketDataSource = oldSettings.MarketDataSource
-        _newSettings.Corporations = oldSettings.Corporations
-        _newSettings.PriceGroups = oldSettings.PriceGroups
-        _newSettings.SkillQueuePanelWidth = oldSettings.SkillQueuePanelWidth
-        _newSettings.AccountTimeLimit = oldSettings.AccountTimeLimit
-        _newSettings.NotifyAccountTime = oldSettings.NotifyAccountTime
-        _newSettings.NotifyInsuffClone = oldSettings.NotifyInsuffClone
-        _newSettings.StartWithPrimaryQueue = oldSettings.StartWithPrimaryQueue
-        _newSettings.IgnoreLastMessage = oldSettings.IgnoreLastMessage
-        _newSettings.LastMessageDate = oldSettings.LastMessageDate
-        _newSettings.DisableTrainingBar = oldSettings.DisableTrainingBar
-        _newSettings.EnableAutomaticSave = oldSettings.EnableAutomaticSave
-        _newSettings.AutomaticSaveTime = oldSettings.AutomaticSaveTime
-        _newSettings.RibbonMinimised = oldSettings.RibbonMinimised
-        _newSettings.ThemeSetByUser = oldSettings.ThemeSetByUser
-        _newSettings.ThemeTint = oldSettings.ThemeTint
-        _newSettings.ThemeStyle = oldSettings.ThemeStyle
-        _newSettings.SQLQueries = oldSettings.SQLQueries
-        _newSettings.BackupBeforeUpdate = oldSettings.BackupBeforeUpdate
-        _newSettings.QatLayout = oldSettings.QATLayout
-        _newSettings.NotifyEveNotification = oldSettings.NotifyEveNotification
-        _newSettings.NotifyEveMail = oldSettings.NotifyEveMail
-        _newSettings.AutoMailAPI = oldSettings.AutoMailAPI
-        _newSettings.EveHqBackupWarnFreq = oldSettings.EveHQBackupWarnFreq
-        _newSettings.EveHqBackupMode = oldSettings.EveHQBackupMode
-        _newSettings.EveHqBackupStart = oldSettings.EveHQBackupStart
-        _newSettings.EveHqBackupFreq = oldSettings.EveHQBackupFreq
-        _newSettings.EveHqBackupLast = oldSettings.EveHQBackupLast
-        _newSettings.EveHqBackupLastResult = oldSettings.EveHQBackupLastResult
-        _newSettings.IbShowAllItems = oldSettings.IBShowAllItems
-        _newSettings.EmailSenderAddress = oldSettings.EmailSenderAddress
-        _newSettings.UserQueueColumns = oldSettings.UserQueueColumns
-        _newSettings.StandardQueueColumns = oldSettings.StandardQueueColumns
-        _newSettings.DBTickerLocation = oldSettings.DBTickerLocation
-        _newSettings.DBTicker = oldSettings.DBTicker
-        _newSettings.CsvSeparatorChar = oldSettings.CSVSeparatorChar
-        _newSettings.DisableVisualStyles = oldSettings.DisableVisualStyles
-        _newSettings.DisableAutoWebConnections = oldSettings.DisableAutoWebConnections
-        _newSettings.TrainingBarHeight = oldSettings.TrainingBarHeight
-        _newSettings.TrainingBarWidth = oldSettings.TrainingBarWidth
-        _newSettings.TrainingBarDockPosition = oldSettings.TrainingBarDockPosition
-        _newSettings.MdiTabPosition = oldSettings.MDITabPosition
-        _newSettings.MarketRegionList = oldSettings.MarketRegionList
-        _newSettings.IgnoreBuyOrderLimit = oldSettings.IgnoreBuyOrderLimit
-        _newSettings.IgnoreSellOrderLimit = oldSettings.IgnoreSellOrderLimit
-        For i As Integer = 0 To 11
-            _newSettings.PriceCriteria(i) = oldSettings.PriceCriteria(i)
-        Next
-        _newSettings.MarketLogUpdateData = oldSettings.MarketLogUpdateData
-        _newSettings.MarketLogUpdatePrice = oldSettings.MarketLogUpdatePrice
-        _newSettings.MarketLogPopupConfirm = oldSettings.MarketLogPopupConfirm
-        _newSettings.MarketLogToolTipConfirm = oldSettings.MarketLogToolTipConfirm
-        _newSettings.IgnoreBuyOrders = oldSettings.IgnoreBuyOrders
-        _newSettings.IgnoreSellOrders = oldSettings.IgnoreSellOrders
-        _newSettings.DBTimeout = oldSettings.DBTimeout
-        _newSettings.PilotSkillHighlightColor = oldSettings.PilotSkillHighlightColor
-        _newSettings.PilotSkillTextColor = oldSettings.PilotSkillTextColor
-        _newSettings.PilotGroupTextColor = oldSettings.PilotGroupTextColor
-        _newSettings.PilotGroupBackgroundColor = oldSettings.PilotGroupBackgroundColor
-        _newSettings.ErrorReportingEmail = oldSettings.ErrorReportingEmail
-        _newSettings.ErrorReportingName = oldSettings.ErrorReportingName
-        _newSettings.ErrorReportingEnabled = oldSettings.ErrorReportingEnabled
-        _newSettings.TaskbarIconMode = oldSettings.TaskbarIconMode
-        _newSettings.EcmDefaultLocation = oldSettings.ECMDefaultLocation
-        _newSettings.APIFileExtension = oldSettings.APIFileExtension
-        _newSettings.UseAppDirectoryForDB = oldSettings.UseAppDirectoryForDB
-        _newSettings.OmitCurrentSkill = oldSettings.OmitCurrentSkill
-        _newSettings.UpdateUrl = oldSettings.UpdateURL
-        _newSettings.UseCcpapiBackup = oldSettings.UseCCPAPIBackup
-        _newSettings.UseApirs = oldSettings.UseAPIRS
-        _newSettings.ApirsAddress = oldSettings.APIRSAddress
-        _newSettings.CcpapiServerAddress = oldSettings.CCPAPIServerAddress
-        For i As Integer = 1 To 4
-            _newSettings.EveFolderLabel(i) = oldSettings.EveFolderLabel(i)
-        Next
-        _newSettings.PilotCurrentTrainSkillColor = oldSettings.PilotCurrentTrainSkillColor
-        _newSettings.PilotPartTrainedSkillColor = oldSettings.PilotPartTrainedSkillColor
-        _newSettings.PilotLevel5SkillColor = oldSettings.PilotLevel5SkillColor
-        _newSettings.PilotStandardSkillColor = oldSettings.PilotStandardSkillColor
-        _newSettings.PanelHighlightColor = oldSettings.PanelHighlightColor
-        _newSettings.PanelTextColor = oldSettings.PanelTextColor
-        _newSettings.PanelRightColor = oldSettings.PanelRightColor
-        _newSettings.PanelLeftColor = oldSettings.PanelLeftColor
-        _newSettings.PanelBottomRightColor = oldSettings.PanelBottomRightColor
-        _newSettings.PanelTopLeftColor = oldSettings.PanelTopLeftColor
-        _newSettings.PanelOutlineColor = oldSettings.PanelOutlineColor
-        _newSettings.PanelBackgroundColor = oldSettings.PanelBackgroundColor
-        _newSettings.LastMarketPriceUpdate = oldSettings.LastMarketPriceUpdate
-        _newSettings.LastFactionPriceUpdate = oldSettings.LastFactionPriceUpdate
-        For i As Integer = 1 To 4
-            _newSettings.EveFolderLua(i) = oldSettings.EveFolderLUA(i)
-        Next
-        _newSettings.CycleG15Time = oldSettings.CycleG15Time
-        _newSettings.CycleG15Pilots = oldSettings.CycleG15Pilots
-        _newSettings.ActivateG15 = oldSettings.ActivateG15
-        _newSettings.AutoAPI = oldSettings.AutoAPI
-        _newSettings.MainFormWindowState = CType(oldSettings.MainFormPosition(4), FormWindowState)
-        _newSettings.MainFormLocation = New Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
-        _newSettings.MainFormSize = New Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
-        _newSettings.DeleteSkills = oldSettings.DeleteSkills
-        _newSettings.PartialTrainColor = oldSettings.PartialTrainColor
-        _newSettings.ReadySkillColor = oldSettings.ReadySkillColor
-        _newSettings.IsPreReqColor = oldSettings.IsPreReqColor
-        _newSettings.HasPreReqColor = oldSettings.HasPreReqColor
-        _newSettings.BothPreReqColor = oldSettings.BothPreReqColor
-        _newSettings.DtClashColor = oldSettings.DTClashColor
-        _newSettings.ColorHighlightQueuePreReq = oldSettings.ColorHighlightQueuePreReq
-        _newSettings.ColorHighlightQueueTraining = oldSettings.ColorHighlightQueueTraining
-        _newSettings.ColorHighlightPilotTraining = oldSettings.ColorHighlightPilotTraining
-        _newSettings.ContinueTraining = oldSettings.ContinueTraining
-        _newSettings.EMailPassword = oldSettings.EMailPassword
-        _newSettings.EMailUsername = oldSettings.EMailUsername
-        _newSettings.UseSsl = oldSettings.UseSSL
-        _newSettings.UseSmtpAuth = oldSettings.UseSMTPAuth
-        _newSettings.EMailAddress = oldSettings.EMailAddress
-        _newSettings.EMailPort = oldSettings.EMailPort
-        _newSettings.EMailServer = oldSettings.EMailServer
-        _newSettings.NotifySoundFile = oldSettings.NotifySoundFile
-        _newSettings.NotifyOffset = oldSettings.NotifyOffset
-        _newSettings.NotifyEarly = oldSettings.NotifyEarly
-        _newSettings.NotifyNow = oldSettings.NotifyNow
-        _newSettings.NotifySound = oldSettings.NotifySound
-        _newSettings.NotifyEMail = oldSettings.NotifyEMail
-        _newSettings.NotifyDialog = oldSettings.NotifyDialog
-        _newSettings.NotifyToolTip = oldSettings.NotifyToolTip
-        _newSettings.ShutdownNotifyPeriod = oldSettings.ShutdownNotifyPeriod
-        _newSettings.ShutdownNotify = oldSettings.ShutdownNotify
-        _newSettings.ServerOffset = oldSettings.ServerOffset
-        _newSettings.EnableEveStatus = oldSettings.EnableEveStatus
-        _newSettings.ProxyUseDefault = oldSettings.ProxyUseDefault
-        _newSettings.ProxyUseBasic = oldSettings.ProxyUseBasic
-        _newSettings.ProxyPassword = oldSettings.ProxyPassword
-        _newSettings.ProxyUsername = oldSettings.ProxyUsername
-        _newSettings.ProxyPort = oldSettings.ProxyPort
-        _newSettings.ProxyServer = oldSettings.ProxyServer
-        _newSettings.ProxyRequired = oldSettings.ProxyRequired
-        _newSettings.IgbPort = oldSettings.IGBPort
-        _newSettings.IgbAutoStart = oldSettings.IGBAutoStart
-        _newSettings.IgbFullMode = oldSettings.IGBFullMode
-        _newSettings.IgbAllowedData = oldSettings.IGBAllowedData
-        _newSettings.AutoHide = oldSettings.AutoHide
-        _newSettings.AutoStart = oldSettings.AutoStart
-        _newSettings.AutoCheck = oldSettings.AutoCheck
-        _newSettings.MinimiseExit = oldSettings.MinimiseExit
-        _newSettings.AutoMinimise = oldSettings.AutoMinimise
-        _newSettings.StartupPilot = oldSettings.StartupPilot
-        _newSettings.StartupView = oldSettings.StartupView
-        For i As Integer = 1 To 4
-            _newSettings.EveFolder(i) = oldSettings.EveFolder(i)
-        Next
-        _newSettings.BackupAuto = oldSettings.BackupAuto
-        _newSettings.BackupStart = oldSettings.BackupStart
-        _newSettings.BackupFreq = oldSettings.BackupFreq
-        _newSettings.BackupLast = oldSettings.BackupLast
-        _newSettings.BackupLastResult = oldSettings.BackupLastResult
-        _newSettings.QColumnsSet = oldSettings.QColumnsSet
-        For i As Integer = 0 To 20
-            For j As Integer = 0 To 1
-                _newSettings.QColumns(i, j) = oldSettings.QColumns(i, j)
+        Try
+            _newSettings.MarketDataProvider = oldSettings.MarketDataProvider
+            _newSettings.MaxUpdateThreads = oldSettings.MaxUpdateThreads
+            _newSettings.MarketDataSource = oldSettings.MarketDataSource
+            _newSettings.Corporations = oldSettings.Corporations
+            _newSettings.PriceGroups = oldSettings.PriceGroups
+            _newSettings.SkillQueuePanelWidth = oldSettings.SkillQueuePanelWidth
+            _newSettings.AccountTimeLimit = oldSettings.AccountTimeLimit
+            _newSettings.NotifyAccountTime = oldSettings.NotifyAccountTime
+            _newSettings.NotifyInsuffClone = oldSettings.NotifyInsuffClone
+            _newSettings.StartWithPrimaryQueue = oldSettings.StartWithPrimaryQueue
+            _newSettings.IgnoreLastMessage = oldSettings.IgnoreLastMessage
+            _newSettings.LastMessageDate = oldSettings.LastMessageDate
+            _newSettings.DisableTrainingBar = oldSettings.DisableTrainingBar
+            _newSettings.EnableAutomaticSave = oldSettings.EnableAutomaticSave
+            _newSettings.AutomaticSaveTime = oldSettings.AutomaticSaveTime
+            _newSettings.RibbonMinimised = oldSettings.RibbonMinimised
+            _newSettings.ThemeSetByUser = oldSettings.ThemeSetByUser
+            _newSettings.ThemeTint = oldSettings.ThemeTint
+            _newSettings.ThemeStyle = oldSettings.ThemeStyle
+            _newSettings.SQLQueries = oldSettings.SQLQueries
+            _newSettings.BackupBeforeUpdate = oldSettings.BackupBeforeUpdate
+            _newSettings.QatLayout = oldSettings.QATLayout
+            _newSettings.NotifyEveNotification = oldSettings.NotifyEveNotification
+            _newSettings.NotifyEveMail = oldSettings.NotifyEveMail
+            _newSettings.AutoMailAPI = oldSettings.AutoMailAPI
+            _newSettings.EveHqBackupWarnFreq = oldSettings.EveHQBackupWarnFreq
+            _newSettings.EveHqBackupMode = oldSettings.EveHQBackupMode
+            _newSettings.EveHqBackupStart = oldSettings.EveHQBackupStart
+            _newSettings.EveHqBackupFreq = oldSettings.EveHQBackupFreq
+            _newSettings.EveHqBackupLast = oldSettings.EveHQBackupLast
+            _newSettings.EveHqBackupLastResult = oldSettings.EveHQBackupLastResult
+            _newSettings.IbShowAllItems = oldSettings.IBShowAllItems
+            _newSettings.EmailSenderAddress = oldSettings.EmailSenderAddress
+            _newSettings.UserQueueColumns = oldSettings.UserQueueColumns
+            _newSettings.StandardQueueColumns = oldSettings.StandardQueueColumns
+            _newSettings.DBTickerLocation = oldSettings.DBTickerLocation
+            _newSettings.DBTicker = oldSettings.DBTicker
+            _newSettings.CsvSeparatorChar = oldSettings.CSVSeparatorChar
+            _newSettings.DisableVisualStyles = oldSettings.DisableVisualStyles
+            _newSettings.DisableAutoWebConnections = oldSettings.DisableAutoWebConnections
+            _newSettings.TrainingBarHeight = oldSettings.TrainingBarHeight
+            _newSettings.TrainingBarWidth = oldSettings.TrainingBarWidth
+            _newSettings.TrainingBarDockPosition = oldSettings.TrainingBarDockPosition
+            _newSettings.MdiTabPosition = oldSettings.MDITabPosition
+            _newSettings.MarketRegionList = oldSettings.MarketRegionList
+            _newSettings.IgnoreBuyOrderLimit = oldSettings.IgnoreBuyOrderLimit
+            _newSettings.IgnoreSellOrderLimit = oldSettings.IgnoreSellOrderLimit
+            For i As Integer = 0 To 11
+                _newSettings.PriceCriteria(i) = oldSettings.PriceCriteria(i)
             Next
-        Next
-        _newSettings.MarketRegions = oldSettings.MarketRegions
-        _newSettings.MarketSystem = oldSettings.MarketSystem
-        _newSettings.MarketUseRegionMarket = oldSettings.MarketUseRegionMarket
-        _newSettings.MarketDefaultMetric = oldSettings.MarketDefaultMetric
-        _newSettings.MarketDataUploadEnabled = oldSettings.MarketDataUploadEnabled
-        _newSettings.MarketStatOverrides = oldSettings.MarketStatOverrides
-        _newSettings.MarketDefaultTransactionType = oldSettings.MarketDefaultTransactionType
+            _newSettings.MarketLogUpdateData = oldSettings.MarketLogUpdateData
+            _newSettings.MarketLogUpdatePrice = oldSettings.MarketLogUpdatePrice
+            _newSettings.MarketLogPopupConfirm = oldSettings.MarketLogPopupConfirm
+            _newSettings.MarketLogToolTipConfirm = oldSettings.MarketLogToolTipConfirm
+            _newSettings.IgnoreBuyOrders = oldSettings.IgnoreBuyOrders
+            _newSettings.IgnoreSellOrders = oldSettings.IgnoreSellOrders
+            _newSettings.DBTimeout = oldSettings.DBTimeout
+            _newSettings.PilotSkillHighlightColor = oldSettings.PilotSkillHighlightColor
+            _newSettings.PilotSkillTextColor = oldSettings.PilotSkillTextColor
+            _newSettings.PilotGroupTextColor = oldSettings.PilotGroupTextColor
+            _newSettings.PilotGroupBackgroundColor = oldSettings.PilotGroupBackgroundColor
+            _newSettings.ErrorReportingEmail = oldSettings.ErrorReportingEmail
+            _newSettings.ErrorReportingName = oldSettings.ErrorReportingName
+            _newSettings.ErrorReportingEnabled = oldSettings.ErrorReportingEnabled
+            _newSettings.TaskbarIconMode = oldSettings.TaskbarIconMode
+            _newSettings.EcmDefaultLocation = oldSettings.ECMDefaultLocation
+            _newSettings.APIFileExtension = oldSettings.APIFileExtension
+            _newSettings.UseAppDirectoryForDB = oldSettings.UseAppDirectoryForDB
+            _newSettings.OmitCurrentSkill = oldSettings.OmitCurrentSkill
+            _newSettings.UpdateUrl = oldSettings.UpdateURL
+            _newSettings.UseCcpapiBackup = oldSettings.UseCCPAPIBackup
+            _newSettings.UseApirs = oldSettings.UseAPIRS
+            _newSettings.ApirsAddress = oldSettings.APIRSAddress
+            _newSettings.CcpapiServerAddress = oldSettings.CCPAPIServerAddress
+            For i As Integer = 1 To 4
+                _newSettings.EveFolderLabel(i) = oldSettings.EveFolderLabel(i)
+            Next
+            _newSettings.PilotCurrentTrainSkillColor = oldSettings.PilotCurrentTrainSkillColor
+            _newSettings.PilotPartTrainedSkillColor = oldSettings.PilotPartTrainedSkillColor
+            _newSettings.PilotLevel5SkillColor = oldSettings.PilotLevel5SkillColor
+            _newSettings.PilotStandardSkillColor = oldSettings.PilotStandardSkillColor
+            _newSettings.PanelHighlightColor = oldSettings.PanelHighlightColor
+            _newSettings.PanelTextColor = oldSettings.PanelTextColor
+            _newSettings.PanelRightColor = oldSettings.PanelRightColor
+            _newSettings.PanelLeftColor = oldSettings.PanelLeftColor
+            _newSettings.PanelBottomRightColor = oldSettings.PanelBottomRightColor
+            _newSettings.PanelTopLeftColor = oldSettings.PanelTopLeftColor
+            _newSettings.PanelOutlineColor = oldSettings.PanelOutlineColor
+            _newSettings.PanelBackgroundColor = oldSettings.PanelBackgroundColor
+            _newSettings.LastMarketPriceUpdate = oldSettings.LastMarketPriceUpdate
+            _newSettings.LastFactionPriceUpdate = oldSettings.LastFactionPriceUpdate
+            For i As Integer = 1 To 4
+                _newSettings.EveFolderLua(i) = oldSettings.EveFolderLUA(i)
+            Next
+            _newSettings.CycleG15Time = oldSettings.CycleG15Time
+            _newSettings.CycleG15Pilots = oldSettings.CycleG15Pilots
+            _newSettings.ActivateG15 = oldSettings.ActivateG15
+            _newSettings.AutoAPI = oldSettings.AutoAPI
+            _newSettings.MainFormWindowState = CType(oldSettings.MainFormPosition(4), FormWindowState)
+            _newSettings.MainFormLocation = New Point(oldSettings.MainFormPosition(0), oldSettings.MainFormPosition(1))
+            _newSettings.MainFormSize = New Size(oldSettings.MainFormPosition(2), oldSettings.MainFormPosition(3))
+            _newSettings.DeleteSkills = oldSettings.DeleteSkills
+            _newSettings.PartialTrainColor = oldSettings.PartialTrainColor
+            _newSettings.ReadySkillColor = oldSettings.ReadySkillColor
+            _newSettings.IsPreReqColor = oldSettings.IsPreReqColor
+            _newSettings.HasPreReqColor = oldSettings.HasPreReqColor
+            _newSettings.BothPreReqColor = oldSettings.BothPreReqColor
+            _newSettings.DtClashColor = oldSettings.DTClashColor
+            _newSettings.ColorHighlightQueuePreReq = oldSettings.ColorHighlightQueuePreReq
+            _newSettings.ColorHighlightQueueTraining = oldSettings.ColorHighlightQueueTraining
+            _newSettings.ColorHighlightPilotTraining = oldSettings.ColorHighlightPilotTraining
+            _newSettings.ContinueTraining = oldSettings.ContinueTraining
+            _newSettings.EMailPassword = oldSettings.EMailPassword
+            _newSettings.EMailUsername = oldSettings.EMailUsername
+            _newSettings.UseSsl = oldSettings.UseSSL
+            _newSettings.UseSmtpAuth = oldSettings.UseSMTPAuth
+            _newSettings.EMailAddress = oldSettings.EMailAddress
+            _newSettings.EMailPort = oldSettings.EMailPort
+            _newSettings.EMailServer = oldSettings.EMailServer
+            _newSettings.NotifySoundFile = oldSettings.NotifySoundFile
+            _newSettings.NotifyOffset = oldSettings.NotifyOffset
+            _newSettings.NotifyEarly = oldSettings.NotifyEarly
+            _newSettings.NotifyNow = oldSettings.NotifyNow
+            _newSettings.NotifySound = oldSettings.NotifySound
+            _newSettings.NotifyEMail = oldSettings.NotifyEMail
+            _newSettings.NotifyDialog = oldSettings.NotifyDialog
+            _newSettings.NotifyToolTip = oldSettings.NotifyToolTip
+            _newSettings.ShutdownNotifyPeriod = oldSettings.ShutdownNotifyPeriod
+            _newSettings.ShutdownNotify = oldSettings.ShutdownNotify
+            _newSettings.ServerOffset = oldSettings.ServerOffset
+            _newSettings.EnableEveStatus = oldSettings.EnableEveStatus
+            _newSettings.ProxyUseDefault = oldSettings.ProxyUseDefault
+            _newSettings.ProxyUseBasic = oldSettings.ProxyUseBasic
+            _newSettings.ProxyPassword = oldSettings.ProxyPassword
+            _newSettings.ProxyUsername = oldSettings.ProxyUsername
+            _newSettings.ProxyPort = oldSettings.ProxyPort
+            _newSettings.ProxyServer = oldSettings.ProxyServer
+            _newSettings.ProxyRequired = oldSettings.ProxyRequired
+            _newSettings.IgbPort = oldSettings.IGBPort
+            _newSettings.IgbAutoStart = oldSettings.IGBAutoStart
+            _newSettings.IgbFullMode = oldSettings.IGBFullMode
+            _newSettings.IgbAllowedData = oldSettings.IGBAllowedData
+            _newSettings.AutoHide = oldSettings.AutoHide
+            _newSettings.AutoStart = oldSettings.AutoStart
+            _newSettings.AutoCheck = oldSettings.AutoCheck
+            _newSettings.MinimiseExit = oldSettings.MinimiseExit
+            _newSettings.AutoMinimise = oldSettings.AutoMinimise
+            _newSettings.StartupPilot = oldSettings.StartupPilot
+            _newSettings.StartupView = oldSettings.StartupView
+            For i As Integer = 1 To 4
+                _newSettings.EveFolder(i) = oldSettings.EveFolder(i)
+            Next
+            _newSettings.BackupAuto = oldSettings.BackupAuto
+            _newSettings.BackupStart = oldSettings.BackupStart
+            _newSettings.BackupFreq = oldSettings.BackupFreq
+            _newSettings.BackupLast = oldSettings.BackupLast
+            _newSettings.BackupLastResult = oldSettings.BackupLastResult
+            _newSettings.QColumnsSet = oldSettings.QColumnsSet
+            For i As Integer = 0 To 20
+                For j As Integer = 0 To 1
+                    _newSettings.QColumns(i, j) = oldSettings.QColumns(i, j)
+                Next
+            Next
+            _newSettings.MarketRegions = oldSettings.MarketRegions
+            _newSettings.MarketSystem = oldSettings.MarketSystem
+            _newSettings.MarketUseRegionMarket = oldSettings.MarketUseRegionMarket
+            _newSettings.MarketDefaultMetric = oldSettings.MarketDefaultMetric
+            _newSettings.MarketDataUploadEnabled = oldSettings.MarketDataUploadEnabled
+            _newSettings.MarketStatOverrides = oldSettings.MarketStatOverrides
+            _newSettings.MarketDefaultTransactionType = oldSettings.MarketDefaultTransactionType
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting main settings: " & e.Message)
+        End Try
     End Sub
 
     Private Sub ConvertAccounts(ByVal oldSettings As EveSettings)
-        _newSettings.Accounts.Clear()
-        For Each account As EveAccount In oldSettings.Accounts
-            Dim newAccount As New EveHQAccount
-            newAccount.AccessMask = account.AccessMask
-            newAccount.APIAccountStatus = account.APIAccountStatus
-            newAccount.APIKey = account.APIKey
-            newAccount.ApiKeyExpiryDate = account.APIKeyExpiryDate
-            newAccount.ApiKeySystem = account.APIKeySystem
-            newAccount.APIKeyType = account.APIKeyType
-            newAccount.Characters.Clear()
-            For Each name As String In account.Characters
-                newAccount.Characters.Add(name)
+        Try
+            _newSettings.Accounts.Clear()
+            For Each account As EveAccount In oldSettings.Accounts
+                Dim newAccount As New EveHQAccount
+                newAccount.AccessMask = account.AccessMask
+                newAccount.APIAccountStatus = account.APIAccountStatus
+                newAccount.APIKey = account.APIKey
+                newAccount.ApiKeyExpiryDate = account.APIKeyExpiryDate
+                newAccount.ApiKeySystem = account.APIKeySystem
+                newAccount.APIKeyType = account.APIKeyType
+                newAccount.Characters.Clear()
+                For Each name As String In account.Characters
+                    newAccount.Characters.Add(name)
+                Next
+                newAccount.CorpApiAccountKey = account.CorpAPIAccountKey
+                newAccount.CreateDate = account.CreateDate
+                newAccount.FailedAttempts = account.FailedAttempts
+                newAccount.FriendlyName = account.FriendlyName
+                newAccount.LastAccountStatusCheck = account.LastAccountStatusCheck
+                newAccount.LogonCount = account.LogonCount
+                newAccount.LogonMinutes = account.LogonMinutes
+                newAccount.PaidUntil = account.PaidUntil
+                newAccount.UserID = account.userID
+                _newSettings.Accounts.Add(newAccount.UserID, newAccount)
             Next
-            newAccount.CorpApiAccountKey = account.CorpAPIAccountKey
-            newAccount.CreateDate = account.CreateDate
-            newAccount.FailedAttempts = account.FailedAttempts
-            newAccount.FriendlyName = account.FriendlyName
-            newAccount.LastAccountStatusCheck = account.LastAccountStatusCheck
-            newAccount.LogonCount = account.LogonCount
-            newAccount.LogonMinutes = account.LogonMinutes
-            newAccount.PaidUntil = account.PaidUntil
-            newAccount.UserID = account.userID
-            _newSettings.Accounts.Add(newAccount.UserID, newAccount)
-        Next
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting API account settings: " & e.Message)
+        End Try
     End Sub
 
     Private Sub ConvertPilots(ByVal oldSettings As EveSettings)
 
-        _newSettings.Pilots.Clear()
-        For Each pilot As Pilot In oldSettings.Pilots
-            Dim newPilot As New EveHQPilot
+        Try
+            _newSettings.Pilots.Clear()
+            For Each pilot As Pilot In oldSettings.Pilots
+                Dim newPilot As New EveHQPilot
 
-            newPilot.Name = pilot.Name
-            newPilot.ID = pilot.ID
-            newPilot.Account = pilot.Account
-            newPilot.AccountPosition = pilot.AccountPosition
-            newPilot.Race = pilot.Race
-            newPilot.Blood = pilot.Blood
-            newPilot.Gender = pilot.Gender
-            newPilot.Corp = pilot.Corp
-            newPilot.CorpID = pilot.CorpID
-            newPilot.Isk = pilot.Isk
-            newPilot.CloneName = pilot.CloneName
-            If IsNumeric(pilot.CloneSP) Then
-                newPilot.CloneSP = CInt(pilot.CloneSP)
-            Else
-                newPilot.CloneSP = 0
-            End If
-            newPilot.SkillPoints = pilot.SkillPoints
-            newPilot.Training = pilot.Training
-            newPilot.TrainingStartTime = pilot.TrainingStartTime
-            newPilot.TrainingStartTimeActual = pilot.TrainingStartTimeActual
-            newPilot.TrainingEndTime = pilot.TrainingEndTime
-            newPilot.TrainingEndTimeActual = pilot.TrainingEndTimeActual
-            If IsNumeric(pilot.TrainingSkillID) Then
-                newPilot.TrainingSkillID = CInt(pilot.TrainingSkillID)
-            Else
-                newPilot.TrainingSkillID = 0
-            End If
-            newPilot.TrainingSkillName = pilot.TrainingSkillName
-            newPilot.TrainingStartSP = pilot.TrainingStartSP
-            newPilot.TrainingEndSP = pilot.TrainingEndSP
-            newPilot.TrainingCurrentSP = pilot.TrainingCurrentSP
-            newPilot.TrainingCurrentTime = pilot.TrainingCurrentTime
-            newPilot.TrainingSkillLevel = pilot.TrainingSkillLevel
-            newPilot.TrainingNotifiedNow = pilot.TrainingNotifiedNow
-            newPilot.TrainingNotifiedEarly = pilot.TrainingNotifiedEarly
-            newPilot.CAtt = pilot.CAtt
-            newPilot.IAtt = pilot.IAtt
-            newPilot.MAtt = pilot.MAtt
-            newPilot.PAtt = pilot.PAtt
-            newPilot.WAtt = pilot.WAtt
-            newPilot.CImplant = pilot.CImplant
-            newPilot.IImplant = pilot.IImplant
-            newPilot.MImplant = pilot.MImplant
-            newPilot.PImplant = pilot.PImplant
-            newPilot.WImplant = pilot.WImplant
-            newPilot.CImplantA = pilot.CImplantA
-            newPilot.IImplantA = pilot.IImplantA
-            newPilot.MImplantA = pilot.MImplantA
-            newPilot.PImplantA = pilot.PImplantA
-            newPilot.WImplantA = pilot.WImplantA
-            newPilot.CImplantM = pilot.CImplantM
-            newPilot.IImplantM = pilot.IImplantM
-            newPilot.MImplantM = pilot.MImplantM
-            newPilot.PImplantM = pilot.PImplantM
-            newPilot.WImplantM = pilot.WImplantM
-            newPilot.UseManualImplants = pilot.UseManualImplants
-            newPilot.CAttT = pilot.CAttT
-            newPilot.IAttT = pilot.IAttT
-            newPilot.MAttT = pilot.MAttT
-            newPilot.PAttT = pilot.PAttT
-            newPilot.WAttT = pilot.WAttT
-            ConvertPilotSkills(pilot, newPilot)
-            ConvertPilotQueuedSkills(pilot, newPilot)
-            newPilot.QueuedSkillTime = pilot.QueuedSkillTime
-            newPilot.Certificates.Clear()
-            For Each c As String In pilot.Certificates
-                newPilot.Certificates.Add(CInt(c))
+                newPilot.Name = pilot.Name
+                newPilot.ID = pilot.ID
+                newPilot.Account = pilot.Account
+                newPilot.AccountPosition = pilot.AccountPosition
+                newPilot.Race = pilot.Race
+                newPilot.Blood = pilot.Blood
+                newPilot.Gender = pilot.Gender
+                newPilot.Corp = pilot.Corp
+                newPilot.CorpID = pilot.CorpID
+                newPilot.Isk = pilot.Isk
+                newPilot.CloneName = pilot.CloneName
+                If IsNumeric(pilot.CloneSP) Then
+                    newPilot.CloneSP = CInt(pilot.CloneSP)
+                Else
+                    newPilot.CloneSP = 0
+                End If
+                newPilot.SkillPoints = pilot.SkillPoints
+                newPilot.Training = pilot.Training
+                newPilot.TrainingStartTime = pilot.TrainingStartTime
+                newPilot.TrainingStartTimeActual = pilot.TrainingStartTimeActual
+                newPilot.TrainingEndTime = pilot.TrainingEndTime
+                newPilot.TrainingEndTimeActual = pilot.TrainingEndTimeActual
+                If IsNumeric(pilot.TrainingSkillID) Then
+                    newPilot.TrainingSkillID = CInt(pilot.TrainingSkillID)
+                Else
+                    newPilot.TrainingSkillID = 0
+                End If
+                newPilot.TrainingSkillName = pilot.TrainingSkillName
+                newPilot.TrainingStartSP = pilot.TrainingStartSP
+                newPilot.TrainingEndSP = pilot.TrainingEndSP
+                newPilot.TrainingCurrentSP = pilot.TrainingCurrentSP
+                newPilot.TrainingCurrentTime = pilot.TrainingCurrentTime
+                newPilot.TrainingSkillLevel = pilot.TrainingSkillLevel
+                newPilot.TrainingNotifiedNow = pilot.TrainingNotifiedNow
+                newPilot.TrainingNotifiedEarly = pilot.TrainingNotifiedEarly
+                newPilot.CAtt = pilot.CAtt
+                newPilot.IAtt = pilot.IAtt
+                newPilot.MAtt = pilot.MAtt
+                newPilot.PAtt = pilot.PAtt
+                newPilot.WAtt = pilot.WAtt
+                newPilot.CImplant = pilot.CImplant
+                newPilot.IImplant = pilot.IImplant
+                newPilot.MImplant = pilot.MImplant
+                newPilot.PImplant = pilot.PImplant
+                newPilot.WImplant = pilot.WImplant
+                newPilot.CImplantA = pilot.CImplantA
+                newPilot.IImplantA = pilot.IImplantA
+                newPilot.MImplantA = pilot.MImplantA
+                newPilot.PImplantA = pilot.PImplantA
+                newPilot.WImplantA = pilot.WImplantA
+                newPilot.CImplantM = pilot.CImplantM
+                newPilot.IImplantM = pilot.IImplantM
+                newPilot.MImplantM = pilot.MImplantM
+                newPilot.PImplantM = pilot.PImplantM
+                newPilot.WImplantM = pilot.WImplantM
+                newPilot.UseManualImplants = pilot.UseManualImplants
+                newPilot.CAttT = pilot.CAttT
+                newPilot.IAttT = pilot.IAttT
+                newPilot.MAttT = pilot.MAttT
+                newPilot.PAttT = pilot.PAttT
+                newPilot.WAttT = pilot.WAttT
+                ConvertPilotSkills(pilot, newPilot)
+                ConvertPilotQueuedSkills(pilot, newPilot)
+                newPilot.QueuedSkillTime = pilot.QueuedSkillTime
+                newPilot.Certificates.Clear()
+                For Each c As String In pilot.Certificates
+                    newPilot.Certificates.Add(CInt(c))
+                Next
+                newPilot.PrimaryQueue = pilot.PrimaryQueue
+                ConvertTrainingQueues(pilot, newPilot)
+                newPilot.ActiveQueue = ConvertPilotSkillQueue(pilot.ActiveQueue)
+                newPilot.ActiveQueueName = pilot.ActiveQueueName
+                newPilot.CacheFileTime = pilot.CacheFileTime
+                newPilot.CacheExpirationTime = pilot.CacheExpirationTime
+                newPilot.TrainingFileTime = pilot.TrainingFileTime
+                newPilot.TrainingExpirationTime = pilot.TrainingExpirationTime
+                newPilot.Updated = pilot.Updated
+                newPilot.LastUpdate = pilot.LastUpdate
+                newPilot.Active = pilot.Active
+                For index As Integer = 0 To 53
+                    newPilot.KeySkills(CType(index, KeySkill)) = CInt(pilot.KeySkills(index))
+                Next
+                newPilot.Standings = pilot.Standings
+                newPilot.CorpRoles = pilot.CorpRoles
+                _newSettings.Pilots.Add(newPilot.Name, newPilot)
             Next
-            newPilot.PrimaryQueue = pilot.PrimaryQueue
-            ConvertTrainingQueues(pilot, newPilot)
-            newPilot.ActiveQueue = ConvertPilotSkillQueue(pilot.ActiveQueue)
-            newPilot.ActiveQueueName = pilot.ActiveQueueName
-            newPilot.CacheFileTime = pilot.CacheFileTime
-            newPilot.CacheExpirationTime = pilot.CacheExpirationTime
-            newPilot.TrainingFileTime = pilot.TrainingFileTime
-            newPilot.TrainingExpirationTime = pilot.TrainingExpirationTime
-            newPilot.Updated = pilot.Updated
-            newPilot.LastUpdate = pilot.LastUpdate
-            newPilot.Active = pilot.Active
-            For index As Integer = 0 To 53
-                newPilot.KeySkills(CType(index, KeySkill)) = CInt(pilot.KeySkills(index))
-            Next
-            newPilot.Standings = pilot.Standings
-            newPilot.CorpRoles = pilot.CorpRoles
-            _newSettings.Pilots.Add(newPilot.Name, newPilot)
-        Next
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting pilot settings: " & e.Message)
+        End Try
     End Sub
 
     Private Sub ConvertPilotSkills(ByVal pilot As Pilot, ByVal newPilot As EveHQPilot)
-        newPilot.PilotSkills.Clear()
+      newPilot.PilotSkills.Clear()
         For Each oldskill As PilotSkill In pilot.PilotSkills
             Dim newSkill As New EveHQPilotSkill
             newSkill.ID = CInt(oldskill.ID)
@@ -586,20 +601,28 @@ Public Class FileConverter
     End Function
 
     Private Sub ConvertPlugins(ByVal oldSettings As EveSettings)
-        _newSettings.Plugins.Clear()
-        For Each plugin As PlugIn In oldSettings.Plugins.Values
-            Dim newPlugin As New EveHQPlugInConfig
-            newPlugin.Name = plugin.Name
-            newPlugin.Disabled = plugin.Disabled
-            _newSettings.Plugins.Add(newPlugin.Name, newPlugin)
-        Next
+        Try
+            _newSettings.Plugins.Clear()
+            For Each plugin As PlugIn In oldSettings.Plugins.Values
+                Dim newPlugin As New EveHQPlugInConfig
+                newPlugin.Name = plugin.Name
+                newPlugin.Disabled = plugin.Disabled
+                _newSettings.Plugins.Add(newPlugin.Name, newPlugin)
+            Next
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting plug-in settings: " & e.Message)
+        End Try
     End Sub
 
     Private Sub ConvertDashboard(ByVal oldSettings As EveSettings)
-        _newSettings.DashboardConfiguration.Clear()
-        For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
-            _newSettings.DashboardConfiguration.Add(config)
-        Next
+        Try
+            _newSettings.DashboardConfiguration.Clear()
+            For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+                _newSettings.DashboardConfiguration.Add(config)
+            Next
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting dashboard settings: " & e.Message)
+        End Try
     End Sub
 
 #End Region
@@ -626,173 +649,254 @@ Public Class FileConverter
 
     Private Sub ConvertSettings(prismFolder As String)
 
-        Dim oldPrismSettings As Prism.Settings
+        Try
+            Dim oldSettings As Prism.Settings
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "PrismSettings.bin")) = True Then
-            Using s As New FileStream(Path.Combine(prismFolder, "PrismSettings.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                oldPrismSettings = CType(f.Deserialize(s), Prism.Settings)
-            End Using
-
-            Dim json As String = JsonConvert.SerializeObject(oldPrismSettings, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write a JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(prismFolder, "PrismSettings.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "PrismSettings.bin")) = True Then
+                Using s As New FileStream(Path.Combine(prismFolder, "PrismSettings.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldSettings = CType(f.Deserialize(s), Prism.Settings)
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "PrismSettings.bin"), "OldPrismSettings.bin")
+                Dim newSettings As New PrismSettings
 
-        End If
+                newSettings.CorpReps = oldSettings.CorpReps
+                newSettings.SlotNameWidth = oldSettings.SlotNameWidth
+                newSettings.UserSlotColumns = oldSettings.UserSlotColumns
+                newSettings.StandardSlotColumns = oldSettings.StandardSlotColumns
+                newSettings.DefaultBPCalcAssetOwner = oldSettings.DefaultBPCalcAssetOwner
+                newSettings.DefaultBPCalcManufacturer = oldSettings.DefaultBPCalcManufacturer
+                newSettings.DefaultBPOwner = oldSettings.DefaultBPOwner
+                newSettings.DefaultCharacter = oldSettings.DefaultCharacter
+                newSettings.BPCCosts.Clear()
+                For Each bpc As BPCCostInfo In oldSettings.BPCCosts.Values
+                    Dim newBPC As New BlueprintCopyCostInfo(CInt(bpc.ID), bpc.MaxRunCost, bpc.MinRunCost)
+                    newSettings.BPCCosts.Add(newBPC.ID, newBPC)
+                Next
+                newSettings.LabRunningCost = oldSettings.LabRunningCost
+                newSettings.LabInstallCost = oldSettings.LabInstallCost
+                newSettings.FactoryRunningCost = oldSettings.FactoryRunningCost
+                newSettings.FactoryInstallCost = oldSettings.FactoryInstallCost
+
+                Dim json As String = JsonConvert.SerializeObject(newSettings, Newtonsoft.Json.Formatting.Indented)
+
+                ' Write a JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(prismFolder, "PrismSettings.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old settings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "PrismSettings.bin"), "OldPrismSettings.bin")
+
+            End If
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting Prism main settings: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertBlueprintAssets(prismFolder As String)
 
-        Dim ownerBlueprints As SortedList(Of String, SortedList(Of String, BlueprintAsset))
+        Try
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "OwnerBlueprints.bin")) = True Then
-            Using s As New FileStream(Path.Combine(prismFolder, "OwnerBlueprints.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                ownerBlueprints = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
-            End Using
+            Dim ownerBlueprints As SortedList(Of String, SortedList(Of String, BlueprintAsset))
 
-            Dim json As String = JsonConvert.SerializeObject(ownerBlueprints, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write a JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(prismFolder, "OwnerBlueprints.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "OwnerBlueprints.bin")) = True Then
+                Using s As New FileStream(Path.Combine(prismFolder, "OwnerBlueprints.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    ownerBlueprints = CType(f.Deserialize(s), SortedList(Of String, SortedList(Of String, BlueprintAsset)))
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "OwnerBlueprints.bin"), "OldOwnerBlueprints.bin")
+                Dim json As String = JsonConvert.SerializeObject(ownerBlueprints, Newtonsoft.Json.Formatting.Indented)
 
-        End If
+                ' Write a JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(prismFolder, "OwnerBlueprints.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old settings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "OwnerBlueprints.bin"), "OldOwnerBlueprints.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting Prism blueprint assets: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertProductionJobs(prismFolder As String)
 
-        Dim oldJobs As SortedList(Of String, ProductionJob)
+        Try
+            Dim oldJobs As SortedList(Of String, ProductionJob)
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "ProductionJobs.bin")) = True Then
-            Using s As New FileStream(Path.Combine(prismFolder, "ProductionJobs.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                oldJobs = CType(f.Deserialize(s), SortedList(Of String, ProductionJob))
-            End Using
-
-            ' Convert the old jobs into the new format
-            Dim newJobs As New SortedList(Of String, Job)
-            For Each job As ProductionJob In oldJobs.Values
-                newJobs.Add(job.JobName, ConvertProductionJob(job))
-            Next
-
-            ' Create the JSON string
-            Dim json As String = JsonConvert.SerializeObject(newJobs, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write a JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(prismFolder, "ProductionJobs.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "ProductionJobs.bin")) = True Then
+                Using s As New FileStream(Path.Combine(prismFolder, "ProductionJobs.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldJobs = CType(f.Deserialize(s), SortedList(Of String, ProductionJob))
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "ProductionJobs.bin"), "OldProductionJobs.bin")
+                ' Convert the old jobs into the new format
+                Dim newJobs As New SortedList(Of String, Job)
+                For Each job As ProductionJob In oldJobs.Values
+                    newJobs.Add(job.JobName, ConvertProductionJob(job))
+                Next
 
-        End If
+                ' Create the JSON string
+                Dim json As String = JsonConvert.SerializeObject(newJobs, Newtonsoft.Json.Formatting.Indented)
+
+                ' Write a JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(prismFolder, "ProductionJobs.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old settings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "ProductionJobs.bin"), "OldProductionJobs.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting Prism production jobs: " & e.Message)
+        End Try
 
     End Sub
 
     Private Function ConvertProductionJob(oldJob As ProductionJob) As Job
-        Dim newJob As New Job
-        newJob.JobName = oldJob.JobName
-        newJob.BlueprintId = oldJob.BPID
-        newJob.TypeID = oldJob.TypeID
-        newJob.TypeName = oldJob.TypeName
-        newJob.PerfectUnits = oldJob.PerfectUnits
-        newJob.WasteUnits = oldJob.WasteUnits
-        newJob.Runs = oldJob.Runs
-        newJob.Manufacturer = oldJob.Manufacturer
-        newJob.BlueprintOwner = oldJob.BPOwner
-        newJob.PESkill = oldJob.PESkill
-        newJob.IndSkill = oldJob.IndSkill
-        newJob.ProdImplant = oldJob.ProdImplant
-        newJob.OverridingME = oldJob.OverridingME
-        newJob.OverridingPE = oldJob.OverridingPE
-        newJob.StartTime = oldJob.StartTime
-        newJob.RunTime = oldJob.RunTime
-        newJob.Cost = oldJob.Cost
-        newJob.HasInventionJob = oldJob.HasInventionJob
-        newJob.ProduceSubJob = oldJob.ProduceSubJob
-        newJob.InventionJob = oldJob.InventionJob
-        newJob.AssemblyArray = EveData.StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
-        For Each key As String In oldJob.SubJobMEs.Keys
-            newJob.SubJobMEs.Add(CInt(key), oldJob.SubJobMEs(key))
-        Next
-        newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(oldJob.BPID))
-        newJob.CurrentBlueprint.MELevel = oldJob.CurrentBP.MELevel
-        newJob.CurrentBlueprint.PELevel = oldJob.CurrentBP.PELevel
-        newJob.CurrentBlueprint.Runs = oldJob.CurrentBP.Runs
-        For Each resource As Object In oldJob.RequiredResources.Values
-            If TypeOf (resource) Is RequiredResource Then
-                Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                Dim newResource As New JobResource
-                newResource.TypeID = rResource.TypeID
-                newResource.TypeName = rResource.TypeName
-                newResource.TypeGroup = rResource.TypeGroup
-                newResource.TypeCategory = rResource.TypeCategory
-                newResource.PerfectUnits = rResource.PerfectUnits
-                newResource.BaseUnits = rResource.BaseUnits
-                newResource.WasteUnits = rResource.WasteUnits
-                newJob.Resources.Add(newResource.TypeID, newResource)
+        If oldJob Is Nothing Then
+            Return Nothing
+        Else
+            Dim newJob As New Job
+            newJob.JobName = oldJob.JobName
+            newJob.BlueprintId = oldJob.BPID
+            newJob.TypeID = oldJob.TypeID
+            newJob.TypeName = oldJob.TypeName
+            newJob.PerfectUnits = oldJob.PerfectUnits
+            newJob.WasteUnits = oldJob.WasteUnits
+            newJob.Runs = oldJob.Runs
+            newJob.Manufacturer = oldJob.Manufacturer
+            newJob.BlueprintOwner = oldJob.BPOwner
+            newJob.PESkill = oldJob.PESkill
+            newJob.IndSkill = oldJob.IndSkill
+            newJob.ProdImplant = oldJob.ProdImplant
+            newJob.OverridingME = oldJob.OverridingME
+            newJob.OverridingPE = oldJob.OverridingPE
+            newJob.StartTime = oldJob.StartTime
+            newJob.RunTime = oldJob.RunTime
+            newJob.Cost = oldJob.Cost
+            newJob.HasInventionJob = oldJob.HasInventionJob
+            newJob.ProduceSubJob = oldJob.ProduceSubJob
+            newJob.InventionJob = ConvertInventionJob(oldJob.InventionJob)
+            If oldJob.AssemblyArray Is Nothing Then
+                newJob.AssemblyArray = Nothing
             Else
-                ' This is another production job
-                Dim subJob As ProductionJob = CType(resource, ProductionJob)
-                newJob.SubJobs.Add(subJob.TypeID, ConvertProductionJob(subJob))
+                newJob.AssemblyArray = EveData.StaticData.AssemblyArrays(oldJob.AssemblyArray.ID)
             End If
-        Next
+            For Each key As String In oldJob.SubJobMEs.Keys
+                newJob.SubJobMEs.Add(CInt(key), oldJob.SubJobMEs(key))
+            Next
+            If EveData.StaticData.Blueprints.ContainsKey(oldJob.CurrentBP.ID) Then
+                newJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(oldJob.CurrentBP.ID))
+                newJob.CurrentBlueprint.MELevel = oldJob.CurrentBP.MELevel
+                newJob.CurrentBlueprint.PELevel = oldJob.CurrentBP.PELevel
+                newJob.CurrentBlueprint.Runs = oldJob.CurrentBP.Runs
+            Else
+                newJob.CurrentBlueprint = Nothing
+            End If
+            For Each resource As Object In oldJob.RequiredResources.Values
+                If TypeOf (resource) Is RequiredResource Then
+                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
+                    Dim newResource As New JobResource
+                    newResource.TypeID = rResource.TypeID
+                    newResource.TypeName = rResource.TypeName
+                    newResource.TypeGroup = rResource.TypeGroup
+                    newResource.TypeCategory = rResource.TypeCategory
+                    newResource.PerfectUnits = rResource.PerfectUnits
+                    newResource.BaseUnits = rResource.BaseUnits
+                    newResource.WasteUnits = rResource.WasteUnits
+                    newJob.Resources.Add(newResource.TypeID, newResource)
+                Else
+                    ' This is another production job
+                    Dim subJob As ProductionJob = CType(resource, ProductionJob)
+                    newJob.SubJobs.Add(subJob.TypeID, ConvertProductionJob(subJob))
+                End If
+            Next
 
-        Return newJob
+            Return newJob
+        End If
+
+    End Function
+
+    Private Function ConvertInventionJob(oldJob As Prism.InventionJob) As BPCalc.InventionJob
+
+        If oldJob Is Nothing Then
+
+            Return Nothing
+
+        Else
+
+            Dim newJob As New BPCalc.InventionJob
+            newJob.InventedBpid = oldJob.InventedBpid
+            newJob.BaseChance = oldJob.BaseChance
+            newJob.DecryptorUsed = oldJob.DecryptorUsed
+            newJob.MetaItemId = oldJob.MetaItemId
+            newJob.MetaItemLevel = oldJob.MetaItemLevel
+            newJob.OverrideBpcRuns = oldJob.OverrideBpcRuns
+            newJob.BpcRuns = oldJob.BpcRuns
+            newJob.OverrideEncSkill = oldJob.OverrideEncSkill
+            newJob.OverrideDcSkill1 = oldJob.OverrideDcSkill1
+            newJob.OverrideDcSkill2 = oldJob.OverrideDcSkill2
+            newJob.EncryptionSkill = oldJob.EncryptionSkill
+            newJob.DatacoreSkill1 = oldJob.DatacoreSkill1
+            newJob.DatacoreSkill2 = oldJob.DatacoreSkill2
+            newJob.ProductionJob = ConvertProductionJob(oldJob.ProductionJob)
+            Return newJob
+
+        End If
 
     End Function
 
     Private Sub ConvertBatchJobs(prismFolder As String)
 
-        Dim oldJobs As SortedList(Of String, BatchJob)
+        Try
+            Dim oldJobs As SortedList(Of String, BatchJob)
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "BatchJobs.bin")) = True Then
-            Using s As New FileStream(Path.Combine(prismFolder, "BatchJobs.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                oldJobs = CType(f.Deserialize(s), SortedList(Of String, BatchJob))
-            End Using
-
-            Dim json As String = JsonConvert.SerializeObject(oldJobs, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write a JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(prismFolder, "BatchJobs.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            If My.Computer.FileSystem.FileExists(Path.Combine(prismFolder, "BatchJobs.bin")) = True Then
+                Using s As New FileStream(Path.Combine(prismFolder, "BatchJobs.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldJobs = CType(f.Deserialize(s), SortedList(Of String, BatchJob))
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "BatchJobs.bin"), "OldBatchJobs.bin")
+                Dim json As String = JsonConvert.SerializeObject(oldJobs, Newtonsoft.Json.Formatting.Indented)
 
-        End If
+                ' Write a JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(prismFolder, "BatchJobs.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old settings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(prismFolder, "BatchJobs.bin"), "OldBatchJobs.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting Prism batch jobs: " & e.Message)
+        End Try
 
     End Sub
 
@@ -827,169 +931,285 @@ Public Class FileConverter
 
     End Sub
 
+    Private Sub ConvertMainHQFSettings(hqfFolder As String)
+
+        Try
+
+            Dim oldSettings As HQF.Settings
+
+            ' Check for the fittings file so we can load it
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFSettings.bin")) = True Then
+                Using s As New FileStream(Path.Combine(hqfFolder, "HQFSettings.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldSettings = CType(f.Deserialize(s), HQF.Settings)
+                End Using
+
+                Dim newSettings As New PluginSettings
+
+                newSettings.HiSlotColour = oldSettings.HiSlotColour
+                newSettings.MidSlotColour = oldSettings.MidSlotColour
+                newSettings.LowSlotColour = oldSettings.LowSlotColour
+                newSettings.RigSlotColour = oldSettings.RigSlotColour
+                newSettings.SubSlotColour = oldSettings.SubSlotColour
+                newSettings.DefaultPilot = oldSettings.DefaultPilot
+                newSettings.RestoreLastSession = oldSettings.RestoreLastSession
+                newSettings.LastPriceUpdate = oldSettings.LastPriceUpdate
+                newSettings.ModuleFilter = oldSettings.ModuleFilter
+                newSettings.AutoUpdateHQFSkills = oldSettings.AutoUpdateHQFSkills
+                newSettings.OpenFittingList = oldSettings.OpenFittingList
+                newSettings.ShowPerformanceData = oldSettings.ShowPerformanceData
+                newSettings.CloseInfoPanel = oldSettings.CloseInfoPanel
+                newSettings.CapRechargeConstant = oldSettings.CapRechargeConstant
+                newSettings.ShieldRechargeConstant = oldSettings.ShieldRechargeConstant
+                newSettings.StandardSlotColumns = oldSettings.StandardSlotColumns
+                newSettings.UserSlotColumns = oldSettings.UserSlotColumns
+                newSettings.Favourites = oldSettings.Favourites
+                newSettings.MRULimit = oldSettings.MRULimit
+                newSettings.MRUModules = oldSettings.MRUModules
+                newSettings.ShipPanelWidth = oldSettings.ShipPanelWidth
+                newSettings.ModPanelWidth = oldSettings.ModPanelWidth
+                newSettings.ShipSplitterWidth = oldSettings.ShipSplitterWidth
+                newSettings.ModSplitterWidth = oldSettings.ModSplitterWidth
+                newSettings.MissileRangeConstant = oldSettings.MissileRangeConstant
+                newSettings.IncludeCapReloadTime = oldSettings.IncludeCapReloadTime
+                newSettings.IncludeAmmoReloadTime = oldSettings.IncludeAmmoReloadTime
+                newSettings.UseLastPilot = oldSettings.UseLastPilot
+                newSettings.StorageBayHeight = oldSettings.StorageBayHeight
+                newSettings.SlotNameWidth = oldSettings.SlotNameWidth
+                For Each ig As ImplantGroup In oldSettings.ImplantGroups.Values
+                    Dim ic As New ImplantCollection(True)
+                    ic.GroupName = ig.GroupName
+                    For slot As Integer = 0 To 10
+                        ic.ImplantName(slot) = ig.ImplantName(slot)
+                    Next
+                    newSettings.ImplantGroups.Add(ic.GroupName, ic)
+                Next
+                newSettings.ModuleListColWidths = oldSettings.ModuleListColWidths
+                newSettings.IgnoredAttributeColumns = oldSettings.IgnoredAttributeColumns
+                newSettings.SortedAttributeColumn = oldSettings.SortedAttributeColumn
+                newSettings.MetaVariationsFormSize = oldSettings.MetaVariationsFormSize
+                newSettings.DefensePanelIsCollapsed = oldSettings.DefensePanelIsCollapsed
+                newSettings.CapacitorPanelIsCollapsed = oldSettings.CapacitorPanelIsCollapsed
+                newSettings.DamagePanelIsCollapsed = oldSettings.DamagePanelIsCollapsed
+                newSettings.TargetingPanelIsCollapsed = oldSettings.TargetingPanelIsCollapsed
+                newSettings.PropulsionPanelIsCollapsed = oldSettings.PropulsionPanelIsCollapsed
+                newSettings.CargoPanelIsCollapsed = oldSettings.CargoPanelIsCollapsed
+                newSettings.SortedModuleListInfo = oldSettings.SortedModuleListInfo
+                newSettings.AutoResizeColumns = oldSettings.AutoResizeColumns
+
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(newSettings, Newtonsoft.Json.Formatting.Indented)
+
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFSettings.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFSettings.bin"), "OldHQFSettings.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF main settings: " & e.Message)
+        End Try
+
+
+    End Sub
+
     Private Sub ConvertDefenceProfiles(hqfFolder As String)
 
-        Dim oldProfiles As SortedList
+        Try
 
-        ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin")) = True Then
-            Using s As New FileStream(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                oldProfiles = CType(f.Deserialize(s), SortedList)
-            End Using
+            Dim oldProfiles As SortedList
 
-            Dim newProfiles As New SortedList(Of String, HQFDefenceProfile)
-            For Each profile As DefenceProfile In oldProfiles
-                Dim newProfile As New HQFDefenceProfile
-                newProfile.Name = profile.Name
-                newProfile.Type = CType(profile.Type, ProfileTypes)
-                newProfile.SEM = profile.SEM
-                newProfile.SExplosive = profile.SExplosive
-                newProfile.SKinetic = profile.SKinetic
-                newProfile.SThermal = profile.SThermal
-                newProfile.AEM = profile.AEM
-                newProfile.AExplosive = profile.AExplosive
-                newProfile.AKinetic = profile.AKinetic
-                newProfile.AThermal = profile.AThermal
-                newProfile.HEM = profile.HEM
-                newProfile.HExplosive = profile.HExplosive
-                newProfile.HKinetic = profile.HKinetic
-                newProfile.HThermal = profile.HThermal
-                newProfile.DPS = profile.DPS
-                newProfile.Fitting = profile.Fitting
-                newProfile.Pilot = profile.Pilot
-                newProfiles.Add(newProfile.Name, newProfile)
-            Next
-
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(newProfiles, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDefenseProfiles.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            ' Check for the profiles file so we can load it
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin")) = True Then
+                Using s As New FileStream(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldProfiles = CType(f.Deserialize(s), SortedList)
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), "OldHQFDefenceProfiles.bin")
+                Dim newProfiles As New SortedList(Of String, HQFDefenceProfile)
+                For Each profile As DefenceProfile In oldProfiles
+                    Dim newProfile As New HQFDefenceProfile
+                    newProfile.Name = profile.Name
+                    newProfile.Type = CType(profile.Type, ProfileTypes)
+                    newProfile.SEM = profile.SEM
+                    newProfile.SExplosive = profile.SExplosive
+                    newProfile.SKinetic = profile.SKinetic
+                    newProfile.SThermal = profile.SThermal
+                    newProfile.AEM = profile.AEM
+                    newProfile.AExplosive = profile.AExplosive
+                    newProfile.AKinetic = profile.AKinetic
+                    newProfile.AThermal = profile.AThermal
+                    newProfile.HEM = profile.HEM
+                    newProfile.HExplosive = profile.HExplosive
+                    newProfile.HKinetic = profile.HKinetic
+                    newProfile.HThermal = profile.HThermal
+                    newProfile.DPS = profile.DPS
+                    newProfile.Fitting = profile.Fitting
+                    newProfile.Pilot = profile.Pilot
+                    newProfiles.Add(newProfile.Name, newProfile)
+                Next
 
-        End If
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(newProfiles, Newtonsoft.Json.Formatting.Indented)
+
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDefenseProfiles.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old settings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDefenceProfiles.bin"), "OldHQFDefenceProfiles.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF defence profiles: " & e.Message)
+        End Try
 
     End Sub
 
     Private Sub ConvertDamageProfiles(hqfFolder As String)
 
-        Dim oldProfiles As SortedList
+        Try
 
-        ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFDamageProfiles.bin")) = True Then
-            Using s As New FileStream(Path.Combine(hqfFolder, "HQFDamageProfiles.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                oldProfiles = CType(f.Deserialize(s), SortedList)
-            End Using
+            Dim oldProfiles As SortedList
 
-            Dim newProfiles As New SortedList(Of String, HQFDamageProfile)
-            For Each profile As DamageProfile In oldProfiles
-                Dim newProfile As New HQFDamageProfile
-                newProfile.Name = profile.Name
-                newProfile.Type = CType(profile.Type, ProfileTypes)
-                newProfile.EM = profile.EM
-                newProfile.Explosive = profile.Explosive
-                newProfile.Kinetic = profile.Kinetic
-                newProfile.Thermal = profile.Thermal
-                newProfile.DPS = profile.DPS
-                newProfile.Fitting = profile.Fitting
-                newProfile.Pilot = profile.Pilot
-                newProfiles.Add(newProfile.Name, newProfile)
-            Next
-
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(newProfiles, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDamageProfiles.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            ' Check for the profiles file so we can load it
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFProfiles.bin")) = True Then
+                Using s As New FileStream(Path.Combine(hqfFolder, "HQFProfiles.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    oldProfiles = CType(f.Deserialize(s), SortedList)
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old settings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFDamageProfiles.bin"), "OldHQFDamageProfiles.bin")
+                Dim newProfiles As New SortedList(Of String, HQFDamageProfile)
+                For Each profile As DamageProfile In oldProfiles.Values
+                    Dim newProfile As New HQFDamageProfile
+                    newProfile.Name = profile.Name
+                    newProfile.Type = CType(profile.Type, ProfileTypes)
+                    newProfile.EM = profile.EM
+                    newProfile.Explosive = profile.Explosive
+                    newProfile.Kinetic = profile.Kinetic
+                    newProfile.Thermal = profile.Thermal
+                    newProfile.DPS = profile.DPS
+                    newProfile.Fitting = profile.Fitting
+                    newProfile.Pilot = profile.Pilot
+                    newProfiles.Add(newProfile.Name, newProfile)
+                Next
 
-        End If
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(newProfiles, Newtonsoft.Json.Formatting.Indented)
+
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDamageProfiles.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old settings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFProfiles.bin"), "OldHQFProfiles.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF damage profiles: " & e.Message)
+        End Try
+
 
     End Sub
 
     Private Sub ConvertSavedFittings(hqfFolder As String)
 
-        Dim fittings As SortedList(Of String, SavedFitting)
+        Try
 
-        ' Check for the fittings file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "Fittings.bin")) = True Then
-            Using s As New FileStream(Path.Combine(hqfFolder, "Fittings.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                fittings = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
-            End Using
+            Dim fittings As SortedList(Of String, SavedFitting)
 
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(fittings, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "Fittings.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            ' Check for the fittings file so we can load it
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "Fittings.bin")) = True Then
+                Using s As New FileStream(Path.Combine(hqfFolder, "Fittings.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    fittings = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old fittings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "Fittings.bin"), "OldFittings.bin")
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(fittings, Newtonsoft.Json.Formatting.Indented)
 
-        End If
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "Fittings.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old fittings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "Fittings.bin"), "OldFittings.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF fittings: " & e.Message)
+        End Try
+
 
     End Sub
 
     Private Sub ConvertPilots(hqfFolder As String)
 
-        Dim oldPilots As New SortedList
+        Try
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFPilotSettings.bin")) = True Then
-            Try
-                Using s As New FileStream(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), FileMode.Open)
-                    Dim f As BinaryFormatter = New BinaryFormatter
-                    oldPilots = CType(f.Deserialize(s), SortedList)
-                End Using
-            Catch ex As Exception
-            End Try
+            Dim oldPilots As New SortedList
+
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFPilotSettings.bin")) = True Then
+                Try
+                    Using s As New FileStream(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), FileMode.Open)
+                        Dim f As BinaryFormatter = New BinaryFormatter
+                        oldPilots = CType(f.Deserialize(s), SortedList)
+                    End Using
+                Catch ex As Exception
+                End Try
 
 
-            Dim newPilots As New SortedList(Of String, FittingPilot)
-            For Each pilot As HQFPilot In oldPilots
-                newPilots.Add(pilot.PilotName, ConvertPilot(pilot))
-            Next
+                Dim newPilots As New SortedList(Of String, FittingPilot)
+                For Each pilot As HQFPilot In oldPilots.Values
+                    newPilots.Add(pilot.PilotName, ConvertPilot(pilot))
+                Next
 
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(newPilots, Newtonsoft.Json.Formatting.Indented)
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(newPilots, Newtonsoft.Json.Formatting.Indented)
 
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFPilotSettings.json"), False)
-                    s.Write(json)
-                    s.Flush()
-                End Using
-            Catch e As Exception
-            End Try
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFPilotSettings.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
 
-            ' Rename the old fittings file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), "OldHQFPilotSettings.bin")
+                ' Rename the old fittings file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFPilotSettings.bin"), "OldHQFPilotSettings.bin")
 
-        End If
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF pilots: " & e.Message)
+        End Try
 
     End Sub
 
@@ -1011,87 +1231,75 @@ Public Class FileConverter
     End Function
 
     Private Sub ConvertCustomShipClasses(hqfFolder As String)
-        Dim custom As SortedList(Of String, CustomShipClass)
 
-        ' Check for the fittings file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "CustomShipClasses.bin")) = True Then
-            Using s As New FileStream(Path.Combine(hqfFolder, "CustomShipClasses.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                custom = CType(f.Deserialize(s), SortedList(Of String, CustomShipClass))
-            End Using
+        Try
+            Dim custom As SortedList(Of String, CustomShipClass)
 
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(custom, Newtonsoft.Json.Formatting.Indented)
-
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "CustomShipClasses.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            ' Check for the fittings file so we can load it
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "CustomShipClasses.bin")) = True Then
+                Using s As New FileStream(Path.Combine(hqfFolder, "CustomShipClasses.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    custom = CType(f.Deserialize(s), SortedList(Of String, CustomShipClass))
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "CustomShipClasses.bin"), "OldCustomShipClasses.bin")
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(custom, Newtonsoft.Json.Formatting.Indented)
 
-        End If
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "CustomShipClasses.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
+
+                ' Rename the old file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "CustomShipClasses.bin"), "OldCustomShipClasses.bin")
+
+            End If
+
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF custom ship classes: " & e.Message)
+        End Try
+
+
     End Sub
 
     Private Sub ConvertCustomShips(hqfFolder As String)
-        Dim custom As SortedList(Of String, CustomShip)
 
-        ' Check for the fittings file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "CustomShips.bin")) = True Then
-            Using s As New FileStream(Path.Combine(hqfFolder, "CustomShips.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                custom = CType(f.Deserialize(s), SortedList(Of String, CustomShip))
-            End Using
+        Try
 
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(custom, Newtonsoft.Json.Formatting.Indented)
+            Dim custom As SortedList(Of String, CustomShip)
 
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "CustomShips.json"), False)
-                    s.Write(json)
-                    s.Flush()
+            ' Check for the fittings file so we can load it
+            If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "CustomShips.bin")) = True Then
+                Using s As New FileStream(Path.Combine(hqfFolder, "CustomShips.bin"), FileMode.Open)
+                    Dim f As BinaryFormatter = New BinaryFormatter
+                    custom = CType(f.Deserialize(s), SortedList(Of String, CustomShip))
                 End Using
-            Catch e As Exception
-            End Try
 
-            ' Rename the old file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "CustomShips.bin"), "OldCustomShips.bin")
+                ' Create a JSON string for writing
+                Dim json As String = JsonConvert.SerializeObject(custom, Newtonsoft.Json.Formatting.Indented)
 
-        End If
-    End Sub
+                ' Write the JSON version of the settings
+                Try
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "CustomShips.json"), False)
+                        s.Write(json)
+                        s.Flush()
+                    End Using
+                Catch e As Exception
+                End Try
 
-    Private Sub ConvertMainHQFSettings(hqfFolder As String)
-        Dim settings As HQF.Settings
+                ' Rename the old file
+                My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "CustomShips.bin"), "OldCustomShips.bin")
 
-        ' Check for the fittings file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(hqfFolder, "HQFSettings.bin")) = True Then
-            Using s As New FileStream(Path.Combine(hqfFolder, "HQFSettings.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                settings = CType(f.Deserialize(s), HQF.Settings)
-            End Using
+            End If
 
-            ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(settings, Newtonsoft.Json.Formatting.Indented)
+        Catch e As Exception
+            _worker.ReportProgress(0, "Error converting HQF custom ships: " & e.Message)
+        End Try
 
-            ' Write the JSON version of the settings
-            Try
-                Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFSettings.json"), False)
-                    s.Write(json)
-                    s.Flush()
-                End Using
-            Catch e As Exception
-            End Try
-
-            ' Rename the old file
-            My.Computer.FileSystem.RenameFile(Path.Combine(hqfFolder, "HQFSettings.bin"), "OldHQFSettings.bin")
-
-        End If
     End Sub
 
 #End Region

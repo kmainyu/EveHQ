@@ -50,6 +50,7 @@ Partial Class FrmConverter
         Me.txtSQLPassword = New System.Windows.Forms.TextBox()
         Me.lblSQLUsername = New System.Windows.Forms.Label()
         Me.chkUseSQLSecurity = New System.Windows.Forms.CheckBox()
+        Me.txtLog = New System.Windows.Forms.RichTextBox()
         Me.gbConversion.SuspendLayout()
         Me.gbApplicationSettings.SuspendLayout()
         Me.gbDatabaseSettings.SuspendLayout()
@@ -328,11 +329,22 @@ Partial Class FrmConverter
         Me.chkUseSQLSecurity.Text = "Use SQL Security?"
         Me.chkUseSQLSecurity.UseVisualStyleBackColor = True
         '
+        'txtLog
+        '
+        Me.txtLog.Location = New System.Drawing.Point(12, 418)
+        Me.txtLog.Name = "txtLog"
+        Me.txtLog.ReadOnly = True
+        Me.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
+        Me.txtLog.Size = New System.Drawing.Size(685, 215)
+        Me.txtLog.TabIndex = 18
+        Me.txtLog.Text = ""
+        '
         'FrmConverter
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(709, 419)
+        Me.ClientSize = New System.Drawing.Size(709, 645)
+        Me.Controls.Add(Me.txtLog)
         Me.Controls.Add(Me.gbDatabaseSettings)
         Me.Controls.Add(Me.gbApplicationSettings)
         Me.Controls.Add(Me.gbConversion)
@@ -381,5 +393,6 @@ Partial Class FrmConverter
     Friend WithEvents btnRefreshServers As System.Windows.Forms.Button
     Friend WithEvents lblSettingsFolder As System.Windows.Forms.Label
     Friend WithEvents txtSettingsFolder As System.Windows.Forms.TextBox
+    Friend WithEvents txtLog As System.Windows.Forms.RichTextBox
 
 End Class

@@ -42,7 +42,7 @@ Public Class frmShipEditor
     End Sub
 
     Private Sub LoadShipInformation()
-        Dim sr As New StreamReader(Path.Combine(HQF.Settings.HQFCacheFolder, "ShipGroups.bin"))
+        Dim sr As New StreamReader(Path.Combine(HQF.PluginSettings.HQFCacheFolder, "ShipGroups.bin"))
         Dim ShipGroups As String = sr.ReadToEnd
         Dim PathLines() As String = ShipGroups.Split(ControlChars.CrLf.ToCharArray)
         Dim data() As String

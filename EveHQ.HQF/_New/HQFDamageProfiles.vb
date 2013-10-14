@@ -32,9 +32,9 @@ Public Class HQFDamageProfiles
     Public Shared Sub Load()
 
         ' Check for the profiles file so we can load it
-        If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFDamageProfiles.json")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFDamageProfiles.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "HQFDamageProfiles.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "HQFDamageProfiles.json"))
                     Dim json As String = s.ReadToEnd
                     ProfileList = JsonConvert.DeserializeObject(Of SortedList(Of String, HQFDamageProfile))(json)
                 End Using
@@ -57,7 +57,7 @@ Public Class HQFDamageProfiles
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "HQFDamageProfiles.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "HQFDamageProfiles.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using

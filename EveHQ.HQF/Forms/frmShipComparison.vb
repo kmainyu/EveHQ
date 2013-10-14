@@ -43,8 +43,8 @@ Public Class frmShipComparison
 
         ' Look at the settings for default pilot
         If cboPilots.Items.Count > 0 Then
-            If HQF.Settings.HQFSettings.DefaultPilot <> "" Then
-                cboPilots.SelectedItem = HQF.Settings.HQFSettings.DefaultPilot
+            If HQF.PluginSettings.HQFSettings.DefaultPilot <> "" Then
+                cboPilots.SelectedItem = HQF.PluginSettings.HQFSettings.DefaultPilot
             Else
                 cboPilots.SelectedIndex = 0
             End If

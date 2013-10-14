@@ -94,7 +94,7 @@ Public Class frmBPCalculator
         ' This is for a default blank BPCalc
         cUsingOwnedBPs = False
         StartMode = BPCalcStartMode.None
-        cBPOwnerName = Settings.PrismSettings.DefaultBPOwner
+        cBPOwnerName = PrismSettings.UserSettings.DefaultBPOwner
 
     End Sub
 
@@ -106,7 +106,7 @@ Public Class frmBPCalculator
         ' This is for a default blank BPCalc
         cUsingOwnedBPs = UsingOwnedBPs
         StartMode = BPCalcStartMode.None
-        cBPOwnerName = Settings.PrismSettings.DefaultBPOwner
+        cBPOwnerName = PrismSettings.UserSettings.DefaultBPOwner
 
     End Sub
 
@@ -118,7 +118,7 @@ Public Class frmBPCalculator
         ' This is for a non-owned BP
         cBPName = BPName
         cUsingOwnedBPs = False
-        cBPOwnerName = Settings.PrismSettings.DefaultBPOwner
+        cBPOwnerName = PrismSettings.UserSettings.DefaultBPOwner
         StartMode = BPCalcStartMode.StandardBP
 
     End Sub
@@ -260,11 +260,11 @@ Public Class frmBPCalculator
             End If
         End If
 
-        If CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(Settings.PrismSettings.DefaultBPCalcAssetOwner) = True Then
-            CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items(Settings.PrismSettings.DefaultBPCalcAssetOwner).Checked = True
+        If CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(PrismSettings.UserSettings.DefaultBPCalcAssetOwner) = True Then
+            CType(PPRProduction.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items(PrismSettings.UserSettings.DefaultBPCalcAssetOwner).Checked = True
         End If
-        If CType(PPRInvention.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(Settings.PrismSettings.DefaultBPCalcAssetOwner) = True Then
-            CType(PPRInvention.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items(Settings.PrismSettings.DefaultBPCalcAssetOwner).Checked = True
+        If CType(PPRInvention.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items.ContainsKey(PrismSettings.UserSettings.DefaultBPCalcAssetOwner) = True Then
+            CType(PPRInvention.cboAssetSelection.DropDownControl, PrismSelectionControl).lvwItems.Items(PrismSettings.UserSettings.DefaultBPCalcAssetOwner).Checked = True
         End If
 
         ' Select data depending on our startup routine
@@ -273,8 +273,8 @@ Public Class frmBPCalculator
             Case BPCalcStartMode.None
 
                 ' Set the Prism pilot as selected owner
-                If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
-                    cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                If cboPilot.Items.Contains(PrismSettings.UserSettings.DefaultBPCalcManufacturer) = True Then
+                    cboPilot.SelectedItem = PrismSettings.UserSettings.DefaultBPCalcManufacturer
                 Else
                     cboPilot.SelectedIndex = 0
                 End If
@@ -305,8 +305,8 @@ Public Class frmBPCalculator
             Case BPCalcStartMode.StandardBP
 
                 ' Set the Prism pilot as selected owner
-                If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
-                    cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                If cboPilot.Items.Contains(PrismSettings.UserSettings.DefaultBPCalcManufacturer) = True Then
+                    cboPilot.SelectedItem = PrismSettings.UserSettings.DefaultBPCalcManufacturer
                 Else
                     cboPilot.SelectedIndex = 0
                 End If
@@ -324,8 +324,8 @@ Public Class frmBPCalculator
             Case BPCalcStartMode.OwnerBP
 
                 ' Set the Prism pilot as selected owner
-                If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
-                    cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+                If cboPilot.Items.Contains(PrismSettings.UserSettings.DefaultBPCalcManufacturer) = True Then
+                    cboPilot.SelectedItem = PrismSettings.UserSettings.DefaultBPCalcManufacturer
                 Else
                     cboPilot.SelectedIndex = 0
                 End If
@@ -363,8 +363,8 @@ Public Class frmBPCalculator
         If cboPilot.Items.Contains(currentJob.Manufacturer) Then
             cboPilot.SelectedItem = currentJob.Manufacturer
         Else
-            If cboPilot.Items.Contains(Settings.PrismSettings.DefaultBPCalcManufacturer) = True Then
-                cboPilot.SelectedItem = Settings.PrismSettings.DefaultBPCalcManufacturer
+            If cboPilot.Items.Contains(PrismSettings.UserSettings.DefaultBPCalcManufacturer) = True Then
+                cboPilot.SelectedItem = PrismSettings.UserSettings.DefaultBPCalcManufacturer
             Else
                 cboPilot.SelectedIndex = 0
             End If
@@ -398,7 +398,7 @@ Public Class frmBPCalculator
     Private Sub DisplayInventionDetails()
 
         If currentJob.InventionJob Is Nothing Then
-            currentJob.InventionJob = New InventionJob
+            currentJob.InventionJob = New BPCalc.InventionJob
         End If
 
         ' Set InventionBP
@@ -970,7 +970,7 @@ Public Class frmBPCalculator
         If currentJob.JobName <> "" Then
             OldJobName = currentJob.JobName
         End If
-        Dim TIJ As InventionJob = currentJob.InventionJob
+        Dim TIJ As BPCalc.InventionJob = currentJob.InventionJob
         currentJob = CurrentBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, ProdImplant, nudMELevel.Value.ToString, nudPELevel.Value.ToString, Runs, ProductionArray, False)
         currentJob.InventionJob = TIJ
         If OldJobName <> "" Then
@@ -1182,7 +1182,7 @@ Public Class frmBPCalculator
         lblBatchSize.Text = product.PortionSize.ToString("N0")
         lblProdQuantity.Text = (product.PortionSize * currentJob.Runs).ToString("N0")
         ' Calculate the factory costs
-        Dim FactoryCosts As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+        Dim FactoryCosts As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
         ' Display Build Time Information
         lblUnitBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime / currentJob.Runs, False)
         lblTotalBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime, False)
@@ -1511,46 +1511,46 @@ Public Class frmBPCalculator
 
     Private Sub SetInventionJobData()
         ' Set the relevant parts of the current job
-        Dim CurrentInventionJob As InventionJob = currentJob.InventionJob
-        CurrentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
-        CurrentInventionJob.BpcRuns = nudInventionBPCRuns.Value
+        Dim currentInventionJob As BPCalc.InventionJob = currentJob.InventionJob
+        currentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
+        currentInventionJob.BpcRuns = nudInventionBPCRuns.Value
         If nudInventionBPCRuns.LockUpdateChecked = False Then
             ' Use current BP Runs, replacing max for unlimited
             If CurrentBP.Runs = -1 Then
                 ' Use max runs
-                If CurrentInventionJob.InventedBpid <> 0 Then
-                    CurrentInventionJob.BpcRuns = CurrentInventionJob.GetBaseBP.MaxProductionLimit
+                If currentInventionJob.InventedBpid <> 0 Then
+                    currentInventionJob.BpcRuns = currentInventionJob.GetBaseBP.MaxProductionLimit
                 End If
             End If
         End If
         If PlugInData.Decryptors.ContainsKey(InventionDecryptorName) Then
-            CurrentInventionJob.DecryptorUsed = PlugInData.Decryptors(InventionDecryptorName)
+            currentInventionJob.DecryptorUsed = PlugInData.Decryptors(InventionDecryptorName)
         Else
-            CurrentInventionJob.DecryptorUsed = Nothing
+            currentInventionJob.DecryptorUsed = Nothing
         End If
-        CurrentInventionJob.InventedBpid = InventionBPID
-        CurrentInventionJob.EncryptionSkill = InventionSkill1
-        CurrentInventionJob.DatacoreSkill1 = InventionSkill2
-        CurrentInventionJob.DatacoreSkill2 = InventionSkill3
-        CurrentInventionJob.MetaItemId = InventionMetaItemID
-        CurrentInventionJob.MetaItemLevel = InventionMetaLevel
-        CurrentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
-        CurrentInventionJob.BaseChance = InventionBaseChance
-        CurrentInventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
-        CurrentInventionJob.OverrideDcSkill1 = nudInventionSkill2.LockUpdateChecked
-        CurrentInventionJob.OverrideDcSkill2 = nudInventionSkill3.LockUpdateChecked
-        CurrentInventionJob.EncryptionSkill = nudInventionSkill1.Value
-        CurrentInventionJob.DatacoreSkill1 = nudInventionSkill2.Value
-        CurrentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
+        currentInventionJob.InventedBpid = InventionBPID
+        currentInventionJob.EncryptionSkill = InventionSkill1
+        currentInventionJob.DatacoreSkill1 = InventionSkill2
+        currentInventionJob.DatacoreSkill2 = InventionSkill3
+        currentInventionJob.MetaItemId = InventionMetaItemID
+        currentInventionJob.MetaItemLevel = InventionMetaLevel
+        currentInventionJob.OverrideBpcRuns = nudInventionBPCRuns.LockUpdateChecked
+        currentInventionJob.BaseChance = InventionBaseChance
+        currentInventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
+        currentInventionJob.OverrideDcSkill1 = nudInventionSkill2.LockUpdateChecked
+        currentInventionJob.OverrideDcSkill2 = nudInventionSkill3.LockUpdateChecked
+        currentInventionJob.EncryptionSkill = nudInventionSkill1.Value
+        currentInventionJob.DatacoreSkill1 = nudInventionSkill2.Value
+        currentInventionJob.DatacoreSkill2 = nudInventionSkill3.Value
         InventedBP = currentJob.InventionJob.CalculateInventedBPC
-        If CurrentInventionJob.ProductionJob Is Nothing Then
-            CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
+        If currentInventionJob.ProductionJob Is Nothing Then
+            currentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
         Else
             If ResetInventedBP = True Then
-                CurrentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
+                currentInventionJob.ProductionJob = InventedBP.CreateProductionJob(cBPOwnerName, cboPilot.SelectedItem.ToString, cboProdEffSkill.SelectedIndex, cboIndustrySkill.SelectedIndex, CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%"))), "", "", 1, ProductionArray, False)
                 ResetInventedBP = False
             Else
-                InventedBP.UpdateProductionJob(CurrentInventionJob.ProductionJob)
+                InventedBP.UpdateProductionJob(currentInventionJob.ProductionJob)
             End If
         End If
     End Sub
@@ -1559,7 +1559,7 @@ Public Class frmBPCalculator
         ' Show Production Cost
 
         Dim BatchQty As Integer = StaticData.Types(InventedBP.ProductId).PortionSize
-        Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * currentJob.InventionJob.ProductionJob.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+        Dim FactoryCost As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * currentJob.InventionJob.ProductionJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
         Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2, MidpointRounding.AwayFromZero) + PPRInvention.ProductionJob.Cost + FactoryCost) / BatchQty
         Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(InventedBP.ProductId)
         Dim UnitProfit As Double = SalesPrice - AvgCost
@@ -1639,7 +1639,7 @@ Public Class frmBPCalculator
             Dim ISC As Double = IA * ICost
             IBP.UpdateProductionJob(PJ)
             Dim BatchQty As Integer = StaticData.Types(InventedBP.ProductId).PortionSize
-            Dim FactoryCost As Double = Math.Round((Settings.PrismSettings.FactoryRunningCost / 3600 * PJ.RunTime) + Settings.PrismSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
+            Dim FactoryCost As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * PJ.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
             Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2, MidpointRounding.AwayFromZero) + PJ.Cost + FactoryCost) / BatchQty
             Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductId)
             Dim UnitProfit As Double = SalesPrice - AvgCost

@@ -25,34 +25,33 @@ Imports ProtoBuf
 
 End Class
 
-<ProtoContract()> <Serializable()> Public Class ImplantGroup
+<Serializable()> Public Class ImplantCollection
 
 #Region "Property Variables"
 
-    Private _groupName As String
-    Private ReadOnly _implantName(10) As String
+    ''' <summary>
+    ''' Constructor for a new ImplantCollection
+    ''' </summary>
+    ''' <param name="autoPopulate">Set to true if declaring from code to add in the required 11 elements</param>
+    ''' <remarks></remarks>
+    Public Sub New(autoPopulate As Boolean)
+        ImplantName.Clear()
+        If autoPopulate = True Then
+            For slot As Integer = 0 To 10
+                ImplantName.Add("")
+            Next
+        End If
+    End Sub
 
 #End Region
 
 #Region "Properties"
 
-    <ProtoMember(1)> Public Property GroupName() As String
-        Get
-            Return _groupName
-        End Get
-        Set(ByVal value As String)
-            _groupName = value
-        End Set
-    End Property
-    <ProtoMember(2)> Public Property ImplantName(ByVal index As Integer) As String
-        Get
-            Return _implantName(index)
-        End Get
-        Set(ByVal value As String)
-            _implantName(index) = value
-        End Set
-    End Property
-
+    Public Property GroupName() As String
+       
+    Public Property ImplantName As New List(Of String)
+       
 #End Region
 
 End Class
+

@@ -2,6 +2,8 @@
 Imports Microsoft.Win32
 Imports System.IO
 Imports System.Text
+Imports System.Data.SqlServerCe
+Imports System.Data.SqlClient
 
 Public Class FrmConverter
 
@@ -174,14 +176,61 @@ Public Class FrmConverter
         Else
             conn &= "; Integrated Security = SSPI;"
         End If
-        Using eveData As DataSet = DatabaseConverter.GetData(strSQL, DBFormat.Sql, conn)
-            For Each row As DataRow In eveData.Tables(0).Rows
-                cboSQLDatabase.Items.Add(row.Item(0).ToString)
-            Next
+        Using eveData As DataSet = GetData(strSQL, DBFormat.Sql, conn)
+            If eveData IsNot Nothing Then
+                For Each row As DataRow In eveData.Tables(0).Rows
+                    cboSQLDatabase.Items.Add(row.Item(0).ToString)
+                Next
+            End If
         End Using
         cboSQLDatabase.Sorted = True
         cboSQLDatabase.EndUpdate()
     End Sub
+
+    Public Function GetData(ByVal strSQL As String, format As DBFormat, connectionString As String) As DataSet
+
+        Dim evehqData As New DataSet
+
+        Select Case format
+            Case DBFormat.Sqlce  ' SQL CE
+                Dim conn As New SqlCeConnection
+                conn.ConnectionString = connectionString
+                Try
+                    conn.Open()
+                    Dim da As New SqlCeDataAdapter(strSQL, conn)
+                    da.Fill(evehqData, "EveHQData")
+                    conn.Close()
+                    Return evehqData
+                Catch e As Exception
+                    'MessageBox.Show(e.Message, "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case DBFormat.Sql  ' MSSQL
+                Dim conn As New SqlConnection
+                conn.ConnectionString = connectionString
+                Try
+                    conn.Open()
+                    Dim da As New SqlDataAdapter(strSQL, conn)
+                    da.Fill(evehqData, "EveHQData")
+                    conn.Close()
+                    Return evehqData
+                Catch e As Exception
+                    'MessageBox.Show(e.Message, "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    Return Nothing
+                Finally
+                    If conn.State = ConnectionState.Open Then
+                        conn.Close()
+                    End If
+                End Try
+            Case Else
+                'MessageBox.Show("Invalid database format!", "GetData Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Return Nothing
+        End Select
+    End Function
 
     Private Sub SetUi()
 
@@ -336,6 +385,8 @@ Public Class FrmConverter
     Private Sub _conversionWorker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles _conversionWorker.ProgressChanged
         Dim progressText As String = e.UserState.ToString
         lblConversion.Text = progressText : gbConversion.Refresh()
+        txtLog.Text = progressText & ControlChars.CrLf & txtLog.Text
+        txtLog.Refresh()
     End Sub
 
     Private Sub _conversionWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles _conversionWorker.RunWorkerCompleted

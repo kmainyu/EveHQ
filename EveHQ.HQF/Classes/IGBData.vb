@@ -222,7 +222,7 @@ Namespace Classes
                         strHTML.Append("</select></td>")
                         strHTML.Append("<td width=30%>Implants:")
                         strHTML.Append("<select name=implants style='width: 100%; height:16px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
-                        For Each implant As String In Settings.HQFSettings.ImplantGroups.Keys
+                        For Each implant As String In PluginSettings.HQFSettings.ImplantGroups.Keys
                             strHTML.Append("<option ")
                             If implant = _currentFitting.ImplantGroup Then
                                 strHTML.Append("selected='selected'")
@@ -475,7 +475,7 @@ Namespace Classes
                         strHTML.Append("<tr bgcolor=#111111><td colspan=4><b>Capacitor</b></td></tr>")
                         strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Capacity</b></td><td width=30%>" & _currentFitting.FittedShip.CapCapacity.ToString("N2") & " GJ</td>")
                         strHTML.Append("<td width=20%><b>Recharge</b></td><td width=30%>" & _currentFitting.FittedShip.CapRecharge.ToString("N2") & " s</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Peak Recharge</b></td><td width=30%>" & (Settings.HQFSettings.CapRechargeConstant * _currentFitting.FittedShip.CapCapacity / _currentFitting.FittedShip.CapRecharge).ToString("N2") & " GJ/s</td>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Peak Recharge</b></td><td width=30%>" & (PluginSettings.HQFSettings.CapRechargeConstant * _currentFitting.FittedShip.CapCapacity / _currentFitting.FittedShip.CapRecharge).ToString("N2") & " GJ/s</td>")
                         strHTML.Append("<td width=20%><b>Stability</b></td><td width=30%>")
                         Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(_currentFitting.FittedShip, False)
                         If csr.CapIsDrained = False Then

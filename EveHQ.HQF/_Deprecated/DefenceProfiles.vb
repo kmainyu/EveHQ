@@ -78,10 +78,10 @@ End Class
 
 '    Public Shared Sub LoadProfiles()
 '        ' Check for the profiles file so we can load it
-'        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
+'        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
 '            Dim s As FileStream = Nothing
 '            Try
-'                s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
+'                s = New FileStream(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
 '                Dim f As BinaryFormatter = New BinaryFormatter
 '                DefenceProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
 '            Catch ex As Exception
@@ -100,7 +100,7 @@ End Class
 
 '    Public Shared Sub SaveProfiles()
 '        ' Save the Profiles
-'        Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Create)
+'        Dim s As New FileStream(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Create)
 '        Dim f As New BinaryFormatter
 '        f.Serialize(s, DefenceProfiles.ProfileList)
 '        s.Flush()

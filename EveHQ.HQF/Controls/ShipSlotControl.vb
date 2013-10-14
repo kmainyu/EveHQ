@@ -111,7 +111,7 @@ Public Class ShipSlotControl
         currentInfo = ParentFitting.ShipInfoCtrl
 
         ' Add any initialization after the InitializeComponent() call.
-        tcStorage.Height = Settings.HQFSettings.StorageBayHeight
+        tcStorage.Height = PluginSettings.HQFSettings.StorageBayHeight
         rigGroups.Add(773)
         rigGroups.Add(782)
         rigGroups.Add(778)
@@ -368,7 +368,7 @@ Public Class ShipSlotControl
         eTime = Now
         'MessageBox.Show((eTime - sTime).TotalMilliseconds.ToString & "ms", "Ship Slot Control Update")
         Call UpdateShipDetails()
-        If Settings.HQFSettings.AutoResizeColumns = True Then
+        If PluginSettings.HQFSettings.AutoResizeColumns = True Then
             Call Me.AutoSizeAllColumns()
         End If
     End Sub
@@ -416,11 +416,11 @@ Public Class ShipSlotControl
         Dim MainCol As New DevComponents.AdvTree.ColumnHeader("Module Name")
         MainCol.Name = "colName"
         MainCol.SortingEnabled = False
-        MainCol.Width.Absolute = Settings.HQFSettings.SlotNameWidth
+        MainCol.Width.Absolute = PluginSettings.HQFSettings.SlotNameWidth
         MainCol.Width.AutoSizeMinHeader = True
         adtSlots.Columns.Add(MainCol)
         ' Iterate through the user selected columns and add them in
-        For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+        For Each UserCol As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
             If UserCol.Active = True Then
                 Dim SubCol As New DevComponents.AdvTree.ColumnHeader(UserCol.Name)
                 SubCol.SortingEnabled = False
@@ -466,7 +466,7 @@ Public Class ShipSlotControl
                 Dim SlotNode As New Node("", HiSlotStyle)
                 SlotNode.Name = "8_" & slot
                 SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
-                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.HiSlotColour))
+                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.HiSlotColour))
                 SlotNode.StyleSelected = SelSlotStyle
                 Call Me.AddUserColumnData(ParentFitting.BaseShip.HiSlot(slot), SlotNode)
                 ParentNode.Nodes.Add(SlotNode)
@@ -485,7 +485,7 @@ Public Class ShipSlotControl
                 Dim SlotNode As New Node("", MidSlotStyle)
                 SlotNode.Name = "4_" & slot
                 SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
-                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.MidSlotColour))
+                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.MidSlotColour))
                 SlotNode.StyleSelected = SelSlotStyle
                 Call Me.AddUserColumnData(ParentFitting.BaseShip.MidSlot(slot), SlotNode)
                 ParentNode.Nodes.Add(SlotNode)
@@ -504,7 +504,7 @@ Public Class ShipSlotControl
                 Dim SlotNode As New Node("", LowSlotStyle)
                 SlotNode.Name = "2_" & slot
                 SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
-                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.LowSlotColour))
+                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.LowSlotColour))
                 SlotNode.StyleSelected = SelSlotStyle
                 Call Me.AddUserColumnData(ParentFitting.BaseShip.LowSlot(slot), SlotNode)
                 ParentNode.Nodes.Add(SlotNode)
@@ -523,7 +523,7 @@ Public Class ShipSlotControl
                 Dim SlotNode As New Node("", RigSlotStyle)
                 SlotNode.Name = "1_" & slot
                 SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
-                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.RigSlotColour))
+                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.RigSlotColour))
                 SlotNode.StyleSelected = SelSlotStyle
                 Call Me.AddUserColumnData(ParentFitting.BaseShip.RigSlot(slot), SlotNode)
                 ParentNode.Nodes.Add(SlotNode)
@@ -542,7 +542,7 @@ Public Class ShipSlotControl
                 Dim SlotNode As New Node("", SubSlotStyle)
                 SlotNode.Name = "16_" & slot
                 SlotNode.Style.BackColor = Color.FromArgb(255, 255, 255)
-                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(Settings.HQFSettings.SubSlotColour))
+                SlotNode.Style.BackColor2 = Color.FromArgb(CInt(PluginSettings.HQFSettings.SubSlotColour))
                 SlotNode.StyleSelected = SelSlotStyle
                 Call Me.AddUserColumnData(ParentFitting.BaseShip.SubSlot(slot), SlotNode)
                 ParentNode.Nodes.Add(SlotNode)
@@ -581,7 +581,7 @@ Public Class ShipSlotControl
                                                          ImageHandler.IconImage48(shipMod.Icon, shipMod.MetaType),
                                                          My.Resources.imgInfo1, eTooltipColor.Yellow))
             ' Add the additional columns
-            For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+            For Each UserCol As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
                 If UserCol.Active = True Then
                     Select Case UserCol.Name
                         Case "Charge"
@@ -722,7 +722,7 @@ Public Class ShipSlotControl
             slotNode.Text = "<Empty>"
             slotNode.Image = CType(My.Resources.ResourceManager.GetObject("Mod01"), Image)
             SlotTip.SetSuperTooltip(slotNode, Nothing)
-            For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+            For Each UserCol As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
                 If UserCol.Active = True Then
                     slotNode.Cells.Add(New Cell(""))
                 End If
@@ -755,7 +755,7 @@ Public Class ShipSlotControl
                                                      ImageHandler.IconImage48(shipMod.Icon, shipMod.MetaType),
                                                      My.Resources.imgInfo1, eTooltipColor.Yellow))
         ' Add the additional columns
-        For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+        For Each UserCol As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
             If UserCol.Active = True Then
                 Select Case UserCol.Name
                     Case "Charge"
@@ -927,11 +927,11 @@ Public Class ShipSlotControl
         Dim EndColName As String = adtSlots.Columns(ea.NewColumnDisplayIndex).Name
         Dim StartIdx As Integer = 0
         Dim EndIdx As Integer = 0
-        For idx As Integer = 1 To Settings.HQFSettings.UserSlotColumns.Count - 1
-            If Settings.HQFSettings.UserSlotColumns(idx).Name = StartColName Then
+        For idx As Integer = 1 To PluginSettings.HQFSettings.UserSlotColumns.Count - 1
+            If PluginSettings.HQFSettings.UserSlotColumns(idx).Name = StartColName Then
                 StartIdx = idx
             End If
-            If Settings.HQFSettings.UserSlotColumns(idx).Name = EndColName Then
+            If PluginSettings.HQFSettings.UserSlotColumns(idx).Name = EndColName Then
                 EndIdx = idx
             End If
         Next
@@ -939,22 +939,22 @@ Public Class ShipSlotControl
         If StartIdx = 0 Then
             ' Ignore stuff
         Else
-            Dim SCol As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(StartIdx)
+            Dim SCol As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(StartIdx)
             Dim StartUserCol As New UserSlotColumn(SCol.Name, SCol.Description, SCol.Width, SCol.Active)
             If EndIdx > StartIdx Then
                 For Idx As Integer = StartIdx To EndIdx - 1
-                    Dim MCol As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(Idx + 1)
-                    Settings.HQFSettings.UserSlotColumns(Idx) = New UserSlotColumn(MCol.Name, MCol.Description,
+                    Dim MCol As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(Idx + 1)
+                    PluginSettings.HQFSettings.UserSlotColumns(Idx) = New UserSlotColumn(MCol.Name, MCol.Description,
                                                                                    MCol.Width, MCol.Active)
                 Next
-                Settings.HQFSettings.UserSlotColumns(EndIdx) = StartUserCol
+                PluginSettings.HQFSettings.UserSlotColumns(EndIdx) = StartUserCol
             Else
                 For Idx As Integer = StartIdx - 1 To EndIdx Step -1
-                    Dim MCol As UserSlotColumn = Settings.HQFSettings.UserSlotColumns(Idx)
-                    Settings.HQFSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description,
+                    Dim MCol As UserSlotColumn = PluginSettings.HQFSettings.UserSlotColumns(Idx)
+                    PluginSettings.HQFSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description,
                                                                                        MCol.Width, MCol.Active)
                 Next
-                Settings.HQFSettings.UserSlotColumns(EndIdx) = StartUserCol
+                PluginSettings.HQFSettings.UserSlotColumns(EndIdx) = StartUserCol
             End If
         End If
 
@@ -965,14 +965,14 @@ Public Class ShipSlotControl
     Private Sub adtSlots_ColumnResized(ByVal sender As Object, ByVal e As EventArgs) Handles adtSlots.ColumnResized
         Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
         If ch.Name <> "colName" Then
-            For Each UserCol As UserSlotColumn In Settings.HQFSettings.UserSlotColumns
+            For Each UserCol As UserSlotColumn In PluginSettings.HQFSettings.UserSlotColumns
                 If UserCol.Name = ch.Name Then
                     UserCol.Width = ch.Width.Absolute
                     Exit Sub
                 End If
             Next
         Else
-            Settings.HQFSettings.SlotNameWidth = ch.Width.Absolute
+            PluginSettings.HQFSettings.SlotNameWidth = ch.Width.Absolute
         End If
     End Sub
 
@@ -1016,27 +1016,27 @@ Public Class ShipSlotControl
     End Sub
 
     Private Sub UpdateMRUModules(ByVal modName As String)
-        If Settings.HQFSettings.MRUModules.Count < Settings.HQFSettings.MRULimit Then
+        If PluginSettings.HQFSettings.MRUModules.Count < PluginSettings.HQFSettings.MRULimit Then
             ' If the MRU list isn't full
-            If Settings.HQFSettings.MRUModules.Contains(modName) = False Then
+            If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
                 ' If the module isn't already in the list
-                Settings.HQFSettings.MRUModules.Add(modName)
+                PluginSettings.HQFSettings.MRUModules.Add(modName)
             Else
                 ' If it is in the list, remove it and add it at the end
-                Settings.HQFSettings.MRUModules.Remove(modName)
-                Settings.HQFSettings.MRUModules.Add(modName)
+                PluginSettings.HQFSettings.MRUModules.Remove(modName)
+                PluginSettings.HQFSettings.MRUModules.Add(modName)
             End If
         Else
-            If Settings.HQFSettings.MRUModules.Contains(modName) = False Then
-                For m As Integer = 0 To Settings.HQFSettings.MRULimit - 2
-                    Settings.HQFSettings.MRUModules(m) = Settings.HQFSettings.MRUModules(m + 1)
+            If PluginSettings.HQFSettings.MRUModules.Contains(modName) = False Then
+                For m As Integer = 0 To PluginSettings.HQFSettings.MRULimit - 2
+                    PluginSettings.HQFSettings.MRUModules(m) = PluginSettings.HQFSettings.MRUModules(m + 1)
                 Next
-                Settings.HQFSettings.MRUModules.RemoveAt(Settings.HQFSettings.MRULimit - 1)
-                Settings.HQFSettings.MRUModules.Add(modName)
+                PluginSettings.HQFSettings.MRUModules.RemoveAt(PluginSettings.HQFSettings.MRULimit - 1)
+                PluginSettings.HQFSettings.MRUModules.Add(modName)
             Else
                 ' If it is in the list, remove it and add it at the end
-                Settings.HQFSettings.MRUModules.Remove(modName)
-                Settings.HQFSettings.MRUModules.Add(modName)
+                PluginSettings.HQFSettings.MRUModules.Remove(modName)
+                PluginSettings.HQFSettings.MRUModules.Add(modName)
             End If
         End If
     End Sub
@@ -1589,7 +1589,7 @@ Public Class ShipSlotControl
                             Dim AddToFavourtiesMenuItem As New ToolStripMenuItem
                             AddToFavourtiesMenuItem.Name = currentMod.Name
                             AddToFavourtiesMenuItem.Text = "Add To Favourites"
-                            If Settings.HQFSettings.Favourites.Contains(currentMod.Name) = True Then
+                            If PluginSettings.HQFSettings.Favourites.Contains(currentMod.Name) = True Then
                                 AddToFavourtiesMenuItem.Enabled = False
                             Else
                                 AddToFavourtiesMenuItem.Enabled = True
@@ -2247,7 +2247,7 @@ Public Class ShipSlotControl
             cModule = ModuleLists.ModuleList.Item(moduleID)
         End If
         Dim newComparison As New frmMetaVariations(Me.ParentFitting, cModule)
-        newComparison.Size = Settings.HQFSettings.MetaVariationsFormSize
+        newComparison.Size = PluginSettings.HQFSettings.MetaVariationsFormSize
         newComparison.ShowDialog()
     End Sub
 
@@ -2256,8 +2256,8 @@ Public Class ShipSlotControl
         Dim moduleName As String = ShowMarketMenu.Name
         Dim moduleID As Integer = ModuleLists.ModuleListName(moduleName)
         Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-        If Settings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
-            Settings.HQFSettings.Favourites.Add(cModule.Name)
+        If PluginSettings.HQFSettings.Favourites.Contains(cModule.Name) = False Then
+            PluginSettings.HQFSettings.Favourites.Add(cModule.Name)
             HQFEvents.StartUpdateModuleList = True
         End If
     End Sub
@@ -2302,7 +2302,7 @@ Public Class ShipSlotControl
     End Function
 
     Private Sub ExpandableSplitter1_SplitterMoved(ByVal sender As Object, ByVal e As SplitterEventArgs) Handles ExpandableSplitter1.SplitterMoved
-        Settings.HQFSettings.StorageBayHeight = tcStorage.Height
+        PluginSettings.HQFSettings.StorageBayHeight = tcStorage.Height
     End Sub
 
     Private Sub CopyModule(ByVal sender As Object, ByVal e As EventArgs)

@@ -27,7 +27,7 @@ Public Class frmPilotManager
     Public pilotName As String = ""
     Dim currentPilotName As String = ""
     Dim currentPilot As FittingPilot
-    Dim currentGroup As ImplantGroup
+    Dim currentGroup As ImplantCollection
     Dim StartUp As Boolean = False
     Dim QueueSkills As New SortedList(Of String, Integer)
     Dim StandardSkillStyle As ElementStyle
@@ -473,7 +473,7 @@ Public Class frmPilotManager
         End If
         currentPilot.ImplantName(0) = cboImplantGroup.SelectedItem.ToString
         If cboImplantGroup.SelectedItem.ToString <> "*Custom*" Then
-            Dim currentImplantGroup As ImplantGroup = CType(Settings.HQFSettings.ImplantGroups(cboImplantGroup.SelectedItem.ToString), ImplantGroup)
+            Dim currentImplantGroup As ImplantCollection = PluginSettings.HQFSettings.ImplantGroups(cboImplantGroup.SelectedItem.ToString)
             For imp As Integer = 1 To 10
                 currentPilot.ImplantName(imp) = currentImplantGroup.ImplantName(imp)
             Next
@@ -595,7 +595,7 @@ Public Class frmPilotManager
         ' Set the implant group name is successful
         If myGroup.txtGroupName.Tag IsNot Nothing Then
             Dim implantGroupName As String = myGroup.txtGroupName.Tag.ToString
-            Dim implantgroup As ImplantGroup = CType(Settings.HQFSettings.ImplantGroups.Item(implantGroupName), ImplantGroup)
+            Dim implantgroup As ImplantCollection = PluginSettings.HQFSettings.ImplantGroups.Item(implantGroupName)
             ' Add the implants to the implant group
             For Each impNode As TreeNode In tvwImplants.Nodes
                 If impNode.Text <> "No Implant" And impNode.Text.StartsWith("Slot") = False Then
@@ -625,7 +625,7 @@ Public Class frmPilotManager
         cboImplantGroup.BeginUpdate()
         cboImplantGroup.Items.Clear()
         cboImplantGroup.Items.Add("*Custom*")
-        For Each iG As ImplantGroup In Settings.HQFSettings.ImplantGroups.Values
+        For Each iG As ImplantCollection In PluginSettings.HQFSettings.ImplantGroups.Values
             cboImplantGroup.Items.Add(iG.GroupName)
         Next
         cboImplantGroup.EndUpdate()
@@ -649,7 +649,7 @@ Public Class frmPilotManager
     Private Sub ShowImplantManagerGroups()
         lstImplantGroups.BeginUpdate()
         lstImplantGroups.Items.Clear()
-        For Each iG As ImplantGroup In Settings.HQFSettings.ImplantGroups.Values
+        For Each iG As ImplantCollection In PluginSettings.HQFSettings.ImplantGroups.Values
             lstImplantGroups.Items.Add(iG.GroupName)
         Next
         lstImplantGroups.EndUpdate()
@@ -801,7 +801,7 @@ Public Class frmPilotManager
             ' Redraw implant groups in the implant selection combobox
             Dim newImplantGroup As String = myGroup.txtGroupName.Tag.ToString
             Call Me.LoadImplantGroups()
-            If Settings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
+            If PluginSettings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
                 cboImplantGroup.SelectedItem = oldImplantGroup
             Else
                 cboImplantGroup.SelectedItem = newImplantGroup
@@ -824,11 +824,11 @@ Public Class frmPilotManager
             Dim confirm As Integer = MessageBox.Show(msg, "Confirm Delete?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If confirm = Windows.Forms.DialogResult.Yes Then
                 ' Delete the queue the accounts collection
-                Settings.HQFSettings.ImplantGroups.Remove(selGroup)
+                PluginSettings.HQFSettings.ImplantGroups.Remove(selGroup)
                 Call Me.ShowImplantManagerGroups()
                 ' Redraw implant groups in the implant selection combobox
                 Call Me.LoadImplantGroups()
-                If Settings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
+                If PluginSettings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
                     cboImplantGroup.SelectedItem = oldImplantGroup
                 Else
                     cboImplantGroup.SelectedItem = "*Custom*"
@@ -846,7 +846,7 @@ Public Class frmPilotManager
             If cboImplantFilterM.SelectedItem Is Nothing Then
                 cboImplantFilterM.SelectedIndex = 0
             End If
-            currentGroup = CType(Settings.HQFSettings.ImplantGroups(lstImplantGroups.SelectedItem.ToString), ImplantGroup)
+            currentGroup = PluginSettings.HQFSettings.ImplantGroups(lstImplantGroups.SelectedItem.ToString)
             lblCurrentGroup.Text = "Current Group: " & currentGroup.GroupName
             Call DrawImplantManagerTree()
         End If

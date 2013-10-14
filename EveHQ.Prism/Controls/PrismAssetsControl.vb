@@ -141,13 +141,13 @@ Namespace Controls
             MainCol.SortingEnabled = False
             MainCol.Name = "AssetName"
             MainCol.DisplayIndex = 1
-            MainCol.Width.Absolute = Settings.PrismSettings.SlotNameWidth
+            MainCol.Width.Absolute = PrismSettings.UserSettings.SlotNameWidth
             MainCol.Width.AutoSizeMinHeader = True
             adtAssets.Columns.Add(MainCol)
             _assetColumn.Add(MainCol.Name, 0)
             ' Iterate through the user selected columns and add them in
             Dim ColumnDisplayIDX As Integer = 1
-            For Each UserCol As UserSlotColumn In Settings.PrismSettings.UserSlotColumns
+            For Each UserCol As UserSlotColumn In PrismSettings.UserSettings.UserSlotColumns
                 ColumnDisplayIDX += 1
                 Dim SubCol As New DevComponents.AdvTree.ColumnHeader(UserCol.Description)
                 SubCol.SortingEnabled = False
@@ -246,7 +246,7 @@ Namespace Controls
             End If
 
             ' Add the additional columns
-            For Each UserCol As UserSlotColumn In Settings.PrismSettings.UserSlotColumns
+            For Each UserCol As UserSlotColumn In PrismSettings.UserSettings.UserSlotColumns
                 Select Case UserCol.Name
                     Case "AssetOwner"
                         AssetNode.Cells(_assetColumn(UserCol.Name)).Text = AssetData.Owner
@@ -292,11 +292,11 @@ Namespace Controls
             Dim EndColName As String = adtAssets.Columns(ea.NewColumnDisplayIndex).Name
             Dim StartIdx As Integer = 0
             Dim EndIdx As Integer = 0
-            For idx As Integer = 1 To Prism.Settings.PrismSettings.UserSlotColumns.Count - 1
-                If Prism.Settings.PrismSettings.UserSlotColumns(idx).Name = StartColName Then
+            For idx As Integer = 1 To Prism.PrismSettings.UserSettings.UserSlotColumns.Count - 1
+                If Prism.PrismSettings.UserSettings.UserSlotColumns(idx).Name = StartColName Then
                     StartIdx = idx
                 End If
-                If Prism.Settings.PrismSettings.UserSlotColumns(idx).Name = EndColName Then
+                If Prism.PrismSettings.UserSettings.UserSlotColumns(idx).Name = EndColName Then
                     EndIdx = idx
                 End If
             Next
@@ -305,20 +305,20 @@ Namespace Controls
                 ' Ignore stuff
             Else
                 ' We shouldn't overwrite the main column!
-                Dim SCol As UserSlotColumn = Prism.Settings.PrismSettings.UserSlotColumns(StartIdx)
+                Dim SCol As UserSlotColumn = Prism.PrismSettings.UserSettings.UserSlotColumns(StartIdx)
                 Dim StartUserCol As New UserSlotColumn(SCol.Name, SCol.Description, SCol.Width, SCol.Active)
                 If EndIdx > StartIdx Then
                     For Idx As Integer = StartIdx To EndIdx - 1
-                        Dim MCol As UserSlotColumn = Prism.Settings.PrismSettings.UserSlotColumns(Idx + 1)
-                        Prism.Settings.PrismSettings.UserSlotColumns(Idx) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
+                        Dim MCol As UserSlotColumn = Prism.PrismSettings.UserSettings.UserSlotColumns(Idx + 1)
+                        Prism.PrismSettings.UserSettings.UserSlotColumns(Idx) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
                     Next
-                    Prism.Settings.PrismSettings.UserSlotColumns(EndIdx) = StartUserCol
+                    Prism.PrismSettings.UserSettings.UserSlotColumns(EndIdx) = StartUserCol
                 Else
                     For Idx As Integer = StartIdx - 1 To EndIdx Step -1
-                        Dim MCol As UserSlotColumn = Prism.Settings.PrismSettings.UserSlotColumns(Idx)
-                        Prism.Settings.PrismSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
+                        Dim MCol As UserSlotColumn = Prism.PrismSettings.UserSettings.UserSlotColumns(Idx)
+                        Prism.PrismSettings.UserSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
                     Next
-                    Prism.Settings.PrismSettings.UserSlotColumns(EndIdx) = StartUserCol
+                    Prism.PrismSettings.UserSettings.UserSlotColumns(EndIdx) = StartUserCol
                 End If
             End If
             Me.RefreshAssets()
@@ -327,14 +327,14 @@ Namespace Controls
         Private Sub adtAssets_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtAssets.ColumnResized
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             If ch.Name <> "AssetName" Then
-                For Each UserCol As UserSlotColumn In Prism.Settings.PrismSettings.UserSlotColumns
+                For Each UserCol As UserSlotColumn In Prism.PrismSettings.UserSettings.UserSlotColumns
                     If UserCol.Name = ch.Name Then
                         UserCol.Width = ch.Width.Absolute
                         Exit Sub
                     End If
                 Next
             Else
-                Prism.Settings.PrismSettings.SlotNameWidth = ch.Width.Absolute
+                Prism.PrismSettings.UserSettings.SlotNameWidth = ch.Width.Absolute
             End If
         End Sub
 
@@ -491,11 +491,11 @@ Namespace Controls
 
         Private Function CalculateBPCPrice(ownerName As String, assetID As Long, typeID As Integer) As Double
             ' Check the blueprint costs for a matching type
-            If Settings.PrismSettings.BPCCosts.ContainsKey(typeID) Then
+            If PrismSettings.UserSettings.BPCCosts.ContainsKey(typeID) Then
                 If PlugInData.BlueprintAssets.ContainsKey(ownerName) = True Then
                     If PlugInData.BlueprintAssets(ownerName).ContainsKey(assetID) Then
                         Dim runs As Integer = PlugInData.BlueprintAssets(ownerName)(assetID).Runs
-                        Dim bpc As BPCCostInfo = Settings.PrismSettings.BPCCosts(typeID)
+                        Dim bpc As BlueprintCopyCostInfo = PrismSettings.UserSettings.BPCCosts(typeID)
                         Dim maxRun As Integer = StaticData.Blueprints(typeID).MaxProductionLimit
                         Dim perRunCost As Double = (bpc.MaxRunCost - bpc.MinRunCost) / (maxRun - 1)
                         Dim basePrice As Double = bpc.MinRunCost - perRunCost
@@ -1468,13 +1468,13 @@ Namespace Controls
                                 Dim price As Double = 0
                                 If Job.ActivityID = 8 Then
                                     ' Calculate BPC cost
-                                    If Settings.PrismSettings.BPCCosts.ContainsKey(Job.InstalledItemTypeID) Then
-                                        Dim pricerange As Double = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID).MaxRunCost - Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID).MinRunCost
+                                    If PrismSettings.UserSettings.BPCCosts.ContainsKey(Job.InstalledItemTypeID) Then
+                                        Dim pricerange As Double = PrismSettings.UserSettings.BPCCosts(Job.InstalledItemTypeID).MaxRunCost - PrismSettings.UserSettings.BPCCosts(Job.InstalledItemTypeID).MinRunCost
                                         Dim runrange As Integer = StaticData.Blueprints(Job.InstalledItemTypeID).MaxProductionLimit - 1
                                         If runrange = 0 Then
-                                            price = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID).MinRunCost
+                                            price = PrismSettings.UserSettings.BPCCosts(Job.InstalledItemTypeID).MinRunCost
                                         Else
-                                            price = Settings.PrismSettings.BPCCosts(Job.InstalledItemTypeID).MinRunCost + Math.Round((pricerange / runrange) * (Job.InstalledRuns - 1), 2, MidpointRounding.AwayFromZero)
+                                            price = PrismSettings.UserSettings.BPCCosts(Job.InstalledItemTypeID).MinRunCost + Math.Round((pricerange / runrange) * (Job.InstalledRuns - 1), 2, MidpointRounding.AwayFromZero)
                                         End If
                                     End If
                                 Else

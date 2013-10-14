@@ -122,7 +122,7 @@ Imports Newtonsoft.Json
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.json"), False)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using
@@ -132,10 +132,10 @@ Imports Newtonsoft.Json
     End Sub
 
     Public Shared Sub LoadHQFPilotData()
-       
-       If My.Computer.FileSystem.FileExists(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.json")) = True Then
+
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(Settings.HQFFolder, "HQFPilotSettings.json"))
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "HQFPilotSettings.json"))
                     Dim json As String = s.ReadToEnd
                     HQFPilots = JsonConvert.DeserializeObject(Of SortedList(Of String, FittingPilot))(json)
                 End Using
@@ -143,7 +143,7 @@ Imports Newtonsoft.Json
                 MessageBox.Show("There was an error loading the HQF Pilots file. The file appears corrupt, so it cannot be loaded at this time.")
             End Try
         End If
-        
+
     End Sub
 
 End Class

@@ -26,14 +26,14 @@ Namespace BPCalc
     Public Class Jobs
         Public Shared JobList As New SortedList(Of String, Job)
 
-        Private Const MainFileName As String = "ProductionJobs.bin"
+        Private Const MainFileName As String = "ProductionJobs.json"
         Private Shared ReadOnly LockObj As New Object
 
         Public Shared Sub Save()
 
             SyncLock LockObj
-                Dim newFile As String = Path.Combine(Settings.PrismFolder, MainFileName)
-                Dim tempFile As String = Path.Combine(Settings.PrismFolder, MainFileName & ".temp")
+                Dim newFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName)
+                Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName & ".temp")
 
                 ' Create a JSON string for writing
                 Dim json As String = JsonConvert.SerializeObject(JobList, Newtonsoft.Json.Formatting.Indented)
@@ -63,10 +63,10 @@ Namespace BPCalc
 
             SyncLock LockObj
 
-                If My.Computer.FileSystem.FileExists(Path.Combine(Settings.PrismFolder, MainFileName)) = True Then
+                If My.Computer.FileSystem.FileExists(Path.Combine(PrismSettings.PrismFolder, MainFileName)) = True Then
 
                     Try
-                        Using s As New StreamReader(Path.Combine(Settings.PrismFolder, MainFileName))
+                        Using s As New StreamReader(Path.Combine(PrismSettings.PrismFolder, MainFileName))
                             Dim json As String = s.ReadToEnd
                             JobList = JsonConvert.DeserializeObject(Of SortedList(Of String, Job))(json)
                         End Using
@@ -84,9 +84,9 @@ Namespace BPCalc
                         msg &= "Press OK to reset the Production Jobs file." & ControlChars.CrLf
                         MessageBox.Show(msg, "Invalid Production Jobs file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Try
-                            File.Move(Path.Combine(Settings.PrismFolder, MainFileName), Path.Combine(Settings.PrismFolder, MainFileName & ".bad"))
+                            File.Move(Path.Combine(PrismSettings.PrismFolder, MainFileName), Path.Combine(PrismSettings.PrismFolder, MainFileName & ".bad"))
                         Catch e As Exception
-                            MessageBox.Show("Unable to delete the ProductionJobs.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show("Unable to delete the ProductionJobs.json file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Return False
                         End Try
                     End Try
