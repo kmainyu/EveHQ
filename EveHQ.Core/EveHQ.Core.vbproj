@@ -189,7 +189,6 @@
     <Compile Include="frmSelectQueue.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="G15LCDB.vb" />
     <Compile Include="G15LCDv2.vb" />
     <Compile Include="HQ.vb" />
     <Compile Include="IEveHQPlugIn.vb" />
