@@ -1,3 +1,5 @@
+Imports EveHQ.Classes
+
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class FrmTraining
@@ -150,12 +152,12 @@ Namespace Forms
             Me.tiCertPLanning = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tabSkillDetails = New DevComponents.DotNetBar.TabControl()
             Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lvwDetails = New EveHQ.ListViewNoFlicker()
+            Me.lvwDetails = New ListViewNoFlicker()
             Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.tiGeneral = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel7 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lvwTimes = New EveHQ.ListViewNoFlicker()
+            Me.lvwTimes = New ListViewNoFlicker()
             Me.ColumnHeader6 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.Standard = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.Current = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
@@ -171,7 +173,7 @@ Namespace Forms
             Me.TabItem1 = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tabQueues = New DevComponents.DotNetBar.TabControl()
             Me.tcpQueue = New DevComponents.DotNetBar.TabControlPanel()
-            Me.lvQueues = New EveHQ.ListViewNoFlicker()
+            Me.lvQueues = New ListViewNoFlicker()
             Me.colQName = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.colQSkills = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.colQTimeLeft = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)

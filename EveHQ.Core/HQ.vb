@@ -60,7 +60,7 @@ Public Class HQ
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
     Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs
-    Public Shared EveHQLCD As New G15LCDv2
+    Public Shared EveHQLCD As New G15Lcd
     Public Shared IsG15LCDActive As Boolean = False
     Public Shared lcdPilot As String = ""
     Public Shared lcdCharMode As Integer = 0

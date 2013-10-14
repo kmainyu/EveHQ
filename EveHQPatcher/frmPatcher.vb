@@ -17,43 +17,35 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Net
-Imports System.IO
-Imports System.Net.Sockets
 Imports System.Threading
+Imports System.IO
+Imports Microsoft.VisualBasic.FileIO
 Imports ICSharpCode.SharpZipLib.Zip
-Imports Microsoft.Win32
-Imports System.Text
-Imports System.Diagnostics
-Imports System.Runtime.InteropServices
-Imports System.Security
-Imports System.Security.AccessControl
-Imports System.Security.Cryptography
+Imports SearchOption = Microsoft.VisualBasic.FileIO.SearchOption
 
-Public Class frmPatcher
+Public Class FrmPatcher
 
-    Dim isLocal As Boolean = False
-    Dim DBFileName As String = ""
-    Dim EveHQFolder As String = ""
-    Dim BaseLocation As String = ""
-    Dim updateFolder As String = ""
+    Dim _isLocal As Boolean = False
+    Dim _dbFileName As String = ""
+    Dim _eveHQFolder As String = ""
+    Dim _baseLocation As String = ""
+    Dim _updateFolder As String = ""
 
-    Private Sub tmrDownload_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrDownload.Tick
+    Private Sub tmrDownload_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrDownload.Tick
         tmrDownload.Enabled = False
         lblCurrentStatus.Text = "Waiting for EveHQ Shutdown..."
-        Me.Refresh()
-        Me.Refresh()
+        Refresh()
         lblCurrentStatus.Text = "Confirming EveHQ Shutdown..."
-        Me.Refresh()
+        Refresh()
         If KillEveHQ() = True Then
             Call UpdateEveHQ()
-            If isLocal = False Then
-                Dim msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
-                If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If _isLocal = False Then
+                Const msg As String = "The EveHQ update is complete. Would you like to start EveHQ now?"
+                If MessageBox.Show(msg, "Start EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
                     Call StartEveHQ()
                 End If
             Else
-                Dim msg As String = "The EveHQ update is complete. Due to using the /local switch, please restart EveHQ manually."
+                Const msg As String = "The EveHQ update is complete. Due to using the /local switch, please restart EveHQ manually."
                 MessageBox.Show(msg, "Manual Restart required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End If
@@ -63,24 +55,24 @@ Public Class frmPatcher
     Private Function KillEveHQ() As Boolean
 
         Try
-            For Each proc As Process In System.Diagnostics.Process.GetProcessesByName("EveHQ")
+            For Each proc As Process In Process.GetProcessesByName("EveHQ")
                 'proc.CloseMainWindow()
                 'proc.WaitForExit()
-                Dim MaxAttempts As Integer = 10
-                Dim Attempts As Integer = 0
+                Const maxAttempts As Integer = 10
+                Dim attempts As Integer = 0
                 proc.CloseMainWindow()
                 Do
-                    Attempts += 1
-                    lblCurrentStatus.Text = "Checking for EveHQ Shutdown...Attempt " & Attempts.ToString & " of " & MaxAttempts.ToString
-                    Me.Refresh()
+                    attempts += 1
+                    lblCurrentStatus.Text = "Checking for EveHQ Shutdown...Attempt " & attempts.ToString & " of " & maxAttempts.ToString
+                    Refresh()
                     Application.DoEvents()
                     Thread.Sleep(2000)
-                Loop Until proc.HasExited = True Or Attempts >= MaxAttempts
+                Loop Until proc.HasExited = True Or attempts >= maxAttempts
                 If proc.HasExited = False Then
-                    lblCurrentStatus.Text = "Killing EveHQ..?" & Attempts.ToString
-                    Me.Refresh()
+                    lblCurrentStatus.Text = "Killing EveHQ..?" & attempts.ToString
+                    Refresh()
                     Dim reply As DialogResult = MessageBox.Show("EveHQ has failed to exit in a timely manner. Would you like to force EveHQ closed to continue the update?", "Confirm Kill Process", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.Yes Then
+                    If reply = DialogResult.Yes Then
                         proc.Kill()
                         proc.WaitForExit()
                     Else
@@ -96,21 +88,20 @@ Public Class frmPatcher
 
     End Function
 
-    Private Function UpdateEveHQ() As Boolean
+    Private Sub UpdateEveHQ()
 
         lblCurrentStatus.Text = "Updating Files..."
         lblCurrentStatus.Refresh()
 
-        updateFolder = Path.Combine(BaseLocation, "Updates")
+        _updateFolder = Path.Combine(_baseLocation, "Updates")
 
-        Dim oldFile As String = ""
-        For Each updateFile As String In My.Computer.FileSystem.GetFiles(updateFolder, FileIO.SearchOption.SearchTopLevelOnly)
+        For Each updateFile As String In My.Computer.FileSystem.GetFiles(_updateFolder, SearchOption.SearchTopLevelOnly)
             Try
-                Dim ufi As New IO.FileInfo(updateFile)
+                Dim ufi As New FileInfo(updateFile)
                 lblCurrentStatus.Text = "Updating File..." & ufi.Name
                 lblCurrentStatus.Refresh()
-                Dim newFile As String = Path.Combine(EveHQFolder, ufi.Name)
-                Dim nfi As New IO.FileInfo(newFile)
+                Dim newFile As String = Path.Combine(_eveHQFolder, ufi.Name)
+                Dim nfi As New FileInfo(newFile)
                 ' Copy the new file as the old one
                 My.Computer.FileSystem.CopyFile(ufi.FullName, nfi.FullName, True)
             Catch e As Exception
@@ -123,69 +114,69 @@ Public Class frmPatcher
 
         ' Check for a database upgrade
         lblCurrentStatus.Text = "Checking for database upgrade..."
-        Me.Refresh()
+        Refresh()
         ' See if we have the EveHQ.sdf.zip file
-        Dim DBZipLocation As String = Path.Combine(updateFolder, "EveHQ.sdf.zip")
-        If My.Computer.FileSystem.FileExists(DBZipLocation) = True Then
+        Dim dbZipLocation As String = Path.Combine(_updateFolder, "EveHQ.sdf.zip")
+        If My.Computer.FileSystem.FileExists(dbZipLocation) = True Then
             ' We have the file, let's try extracting it
             lblCurrentStatus.Text = "Extracting new database..."
-            Me.Refresh()
+            Refresh()
             Try
                 Dim unzip As FastZip = New FastZip()
-                unzip.ExtractZip(DBZipLocation, updateFolder, "")
+                unzip.ExtractZip(dbZipLocation, _updateFolder, "")
                 ' See if we have the EveHQ.sdf file
-                Dim DBLocation As String = Path.Combine(updateFolder, "EveHQ.sdf")
-                If My.Computer.FileSystem.FileExists(DBLocation) = True Then
+                Dim dbLocation As String = Path.Combine(_updateFolder, "EveHQ.sdf")
+                If My.Computer.FileSystem.FileExists(dbLocation) = True Then
                     ' Copy to existing DB Location
                     lblCurrentStatus.Text = "Copying new database..."
-                    Me.Refresh()
-                    My.Computer.FileSystem.CopyFile(DBLocation, DBFileName, True)
+                    Refresh()
+                    My.Computer.FileSystem.CopyFile(dbLocation, _dbFileName, True)
                 End If
             Catch ex As Exception
                 ' Failed extraction
-                Return False
+                Return
             End Try
         End If
 
         lblCurrentStatus.Text = "Clearing cache files..."
         ' Clear any known cache files/folders ... except for image cache
         Dim dataFolder As String
-        If isLocal = True Then
-            dataFolder = EveHQFolder
+        If _isLocal = True Then
+            dataFolder = _eveHQFolder
         Else
             dataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "evehq")
         End If
 
         Dim cacheFolder As String = Path.Combine(dataFolder, "cache")
         Dim coreCacheFolder As String = Path.Combine(dataFolder, "coreCache")
-        Dim HQFfolder As String = Path.Combine(dataFolder, "hqf")
-        Dim HQFCacheFolder As String = Path.Combine(HQFfolder, "cache")
-        Dim MarketCache As String = Path.Combine(dataFolder, "marketCache")
+        Dim hqfFolder As String = Path.Combine(dataFolder, "hqf")
+        Dim hqfCacheFolder As String = Path.Combine(hqfFolder, "cache")
+        Dim marketCache As String = Path.Combine(dataFolder, "marketCache")
         Try
 
-        If Directory.Exists(cacheFolder) = True Then
-            For Each File As String In Directory.GetFiles(cacheFolder)
-                System.IO.File.Delete(File)
-            Next
-        End If
+            If Directory.Exists(cacheFolder) = True Then
+                For Each file As String In Directory.GetFiles(cacheFolder)
+                    IO.File.Delete(file)
+                Next
+            End If
 
-        If Directory.Exists(coreCacheFolder) = True Then
-            For Each File As String In Directory.GetFiles(coreCacheFolder)
-                System.IO.File.Delete(File)
-            Next
-        End If
+            If Directory.Exists(coreCacheFolder) = True Then
+                For Each file As String In Directory.GetFiles(coreCacheFolder)
+                    IO.File.Delete(file)
+                Next
+            End If
 
-        If Directory.Exists(HQFfolder) = True And Directory.Exists(HQFCacheFolder) = True Then
-            For Each File As String In Directory.GetFiles(HQFCacheFolder)
-                System.IO.File.Delete(File)
-            Next
-        End If
+            If Directory.Exists(hqfFolder) = True And Directory.Exists(hqfCacheFolder) = True Then
+                For Each file As String In Directory.GetFiles(hqfCacheFolder)
+                    IO.File.Delete(file)
+                Next
+            End If
 
-        If Directory.Exists(MarketCache) = True Then
-            For Each File As String In Directory.GetFiles(MarketCache)
-                System.IO.File.Delete(File)
-            Next
-        End If
+            If Directory.Exists(marketCache) = True Then
+                For Each file As String In Directory.GetFiles(marketCache)
+                    IO.File.Delete(file)
+                Next
+            End If
 
         Catch ex As Exception
             ' proposely supressing the errors.
@@ -193,60 +184,59 @@ Public Class frmPatcher
 
         ' Delete All Upgrades
         Try
-            My.Computer.FileSystem.DeleteDirectory(updateFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+            My.Computer.FileSystem.DeleteDirectory(_updateFolder, DeleteDirectoryOption.DeleteAllContents)
         Catch ex As Exception
             ' Failed delete - meh, cleanup can occur in the main app if need be
         End Try
 
-        Return True
+        Return
+    End Sub
 
-    End Function
-
-    Private Function StartEveHQ() As Boolean
+    Private Sub StartEveHQ()
         Try
             Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
             startInfo.UseShellExecute = False
-            startInfo.WorkingDirectory = EveHQFolder
-            startInfo.FileName = Path.Combine(EveHQFolder, "EveHQ.exe")
-            If isLocal = True Then
+            startInfo.WorkingDirectory = _eveHQFolder
+            startInfo.FileName = Path.Combine(_eveHQFolder, "EveHQ.exe")
+            If _isLocal = True Then
                 startInfo.Arguments = " /local"
             End If
             Process.Start(startInfo)
-            Return True
+            Return
         Catch e As Exception
-            Return False
+            Return
         End Try
-    End Function
+    End Sub
 
-    Private Sub frmPatcher_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmPatcher_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         ' Check for any commandline parameters that we need to account for
-        For Each param As String In System.Environment.GetCommandLineArgs
+        For Each param As String In Environment.GetCommandLineArgs
             If param = "/wait" Then
-                Threading.Thread.Sleep(2000)
+                Thread.Sleep(2000)
             End If
             If param.StartsWith("/App") Then
                 Dim paramData As String() = param.Split(CChar(";"))
-                EveHQFolder = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
-                lblEveHQLocation.Text = "EveHQ Location: " & EveHQFolder
+                _eveHQFolder = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
+                lblEveHQLocation.Text = "EveHQ Location: " & _eveHQFolder
             End If
             If param.StartsWith("/Base") Then
                 Dim paramData As String() = param.Split(CChar(";"))
-                BaseLocation = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
-                lblUpdateLocation.Text = BaseLocation
+                _baseLocation = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
+                lblUpdateLocation.Text = _baseLocation
             End If
             If param.StartsWith("/Local") Then
                 Dim paramData As String() = param.Split(CChar(";"))
                 If paramData(1) = "True" Then
-                    isLocal = True
+                    _isLocal = True
                 Else
-                    isLocal = False
+                    _isLocal = False
                 End If
                 lblLocalFolders.Text = "Using Local Folders?  " & paramData(1)
             End If
             If param.StartsWith("/DB") Then
                 Dim paramData As String() = param.Split(CChar(";"))
                 If paramData(1) <> "None" Then
-                    DBFileName = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
+                    _dbFileName = paramData(1).TrimStart(CChar(ControlChars.Quote)).TrimEnd(CChar(ControlChars.Quote))
                 End If
                 lblDatabaseLocation.Text = "Database Location: " & paramData(1)
             End If

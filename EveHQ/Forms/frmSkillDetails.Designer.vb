@@ -1,3 +1,5 @@
+Imports EveHQ.Classes
+
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class frmSkillDetails
@@ -53,13 +55,13 @@ Namespace Forms
             Me.ColumnHeader3 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ColumnHeader4 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ColumnHeader5 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
-            Me.lvwTimes = New EveHQ.ListViewNoFlicker()
+            Me.lvwTimes = New ListViewNoFlicker()
             Me.ToLevel = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.Standard = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.Current = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.Cumulative = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.SkillToolTip = New System.Windows.Forms.ToolTip(Me.components)
-            Me.lvwDetails = New EveHQ.ListViewNoFlicker()
+            Me.lvwDetails = New ListViewNoFlicker()
             Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ColumnHeader2 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.TabControl2 = New DevComponents.DotNetBar.TabControl()
@@ -536,7 +538,7 @@ Namespace Forms
 
         End Sub
         Friend WithEvents tvwReqs As System.Windows.Forms.TreeView
-        Friend WithEvents lvwDetails As EveHQ.ListViewNoFlicker
+        Friend WithEvents lvwDetails As ListViewNoFlicker
         Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
         Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
         Friend WithEvents lvwDepend As System.Windows.Forms.ListView
@@ -547,7 +549,7 @@ Namespace Forms
         Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents mnuViewItemDetailsInIB As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents lblDescription As System.Windows.Forms.Label
-        Friend WithEvents lvwTimes As EveHQ.ListViewNoFlicker
+        Friend WithEvents lvwTimes As ListViewNoFlicker
         Friend WithEvents ToLevel As System.Windows.Forms.ColumnHeader
         Friend WithEvents Standard As System.Windows.Forms.ColumnHeader
         Friend WithEvents Current As System.Windows.Forms.ColumnHeader
@@ -580,4 +582,4 @@ Namespace Forms
         Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
         Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader
     End Class
-End NameSpace
+End Namespace

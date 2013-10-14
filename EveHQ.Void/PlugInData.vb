@@ -119,7 +119,7 @@ Public Class PlugInData
         whAttributes.Clear()
     End Sub
 
-    Private Sub LoadWHSystemData()
+    Private Shared Sub LoadWhSystemData()
         ' Parse the location classes
         Dim whClasses As New SortedList(Of String, String)
         Dim classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
@@ -168,7 +168,7 @@ Public Class PlugInData
 
     End Sub
 
-    Private Sub LoadWHAttributeData()
+    Private Shared Sub LoadWhAttributeData()
         ' Load the data
         Dim taqs As IEnumerable = (From item In StaticData.Types.Values Join ta In StaticData.TypeAttributes On item.Id Equals ta.TypeId Join at In StaticData.AttributeTypes.Values On ta.AttributeId Equals at.AttributeId
                 Where item.Group = 920

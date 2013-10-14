@@ -1614,11 +1614,11 @@ Namespace Forms
                     HQ.Settings.ActivateG15 = True
                     'Init the LCD
                     Try
-                        G15LCDv2.InitLCD()
+                        G15Lcd.InitLCD()
                         ' Check if the LCD will cycle chars
                         If HQ.IsG15LCDActive = True And HQ.Settings.CycleG15Pilots = True Then
-                            G15LCDv2.tmrLCDChar.Interval = (1000 * HQ.Settings.CycleG15Time)
-                            G15LCDv2.tmrLCDChar.Enabled = True
+                            G15Lcd.tmrLCDChar.Interval = (1000 * HQ.Settings.CycleG15Time)
+                            G15Lcd.tmrLCDChar.Enabled = True
                         End If
                     Catch ex As Exception
                         MessageBox.Show(
@@ -1632,7 +1632,7 @@ Namespace Forms
                     HQ.Settings.ActivateG15 = False
                     ' Close the LCD
                     Try
-                        G15LCDv2.CloseLCD()
+                        G15Lcd.CloseLCD()
                     Catch ex As Exception
                         MessageBox.Show("Unable to close G15 Display: " & ex.Message, "Error Closing G15",
                                         MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1645,13 +1645,13 @@ Namespace Forms
             Handles chkCyclePilots.CheckedChanged
             If chkCyclePilots.Checked = True Then
                 HQ.Settings.CycleG15Pilots = True
-                G15LCDv2.tmrLCDChar.Interval = (1000 * HQ.Settings.CycleG15Time)
+                G15Lcd.tmrLCDChar.Interval = (1000 * HQ.Settings.CycleG15Time)
                 If HQ.Settings.ActivateG15 = True Then
-                    G15LCDv2.tmrLCDChar.Enabled = True
+                    G15Lcd.tmrLCDChar.Enabled = True
                 End If
             Else
                 HQ.Settings.CycleG15Pilots = False
-                G15LCDv2.tmrLCDChar.Enabled = False
+                G15Lcd.tmrLCDChar.Enabled = False
             End If
         End Sub
 
@@ -1659,9 +1659,9 @@ Namespace Forms
             Handles nudCycleTime.ValueChanged
             HQ.Settings.CycleG15Time = CInt(nudCycleTime.Value)
             If HQ.Settings.CycleG15Time > 0 Then
-                G15LCDv2.tmrLCDChar.Interval = CInt((nudCycleTime.Value * 1000))
+                G15Lcd.tmrLCDChar.Interval = CInt((nudCycleTime.Value * 1000))
             Else
-                G15LCDv2.tmrLCDChar.Interval = CInt(1000)
+                G15Lcd.tmrLCDChar.Interval = CInt(1000)
             End If
         End Sub
 

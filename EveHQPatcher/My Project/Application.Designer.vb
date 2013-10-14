@@ -32,7 +32,7 @@ Namespace My
         
         <Global.System.Diagnostics.DebuggerStepThroughAttribute()>  _
         Protected Overrides Sub OnCreateMainForm()
-            Me.MainForm = Global.EveHQPatcher.frmPatcher
+            Me.MainForm = Global.EveHQPatcher.FrmPatcher
         End Sub
     End Class
 End Namespace

@@ -285,7 +285,7 @@ Namespace Forms
             If Core.HQ.Settings.ActivateG15 = True Then
                 'Init the LCD
                 Try
-                    Core.G15LCDv2.InitLCD()
+                    Core.G15Lcd.InitLCD()
                 Catch ex As Exception
                 End Try
                 If Core.HQ.IsG15LCDActive = False Then
@@ -293,8 +293,8 @@ Namespace Forms
                 Else
                     ' Check if the LCD will cycle chars
                     If Core.HQ.Settings.CycleG15Pilots = True Then
-                        Core.G15LCDv2.tmrLCDChar.Interval = (1000 * Core.HQ.Settings.CycleG15Time)
-                        Core.G15LCDv2.tmrLCDChar.Enabled = True
+                        Core.G15Lcd.tmrLCDChar.Interval = (1000 * Core.HQ.Settings.CycleG15Time)
+                        Core.G15Lcd.tmrLCDChar.Enabled = True
                     End If
                 End If
             End If
@@ -399,7 +399,7 @@ Namespace Forms
             Core.HQ.WriteLogEvent("Start: Initialise main form")
             lblStatus.Text = "> Initialising EveHQ..."
             lblStatus.Refresh()
-            Core.G15LCDv2.SplashFlag = False
+            Core.G15Lcd.SplashFlag = False
             Core.HQ.MainForm = frmEveHQ
             Core.HQ.WriteLogEvent("End: Initialise main form")
 
