@@ -19,14 +19,15 @@
 '=========================================================================
 Imports System.ComponentModel
 Imports EveHQ.Core.RSS
+Imports System.Text.RegularExpressions
 
 Namespace Controls.DBControls
 
     Public Class DBCRSSFeed
-        Private ReadOnly feedItems As New ArrayList
-        Private ReadOnly feedIDs As New ArrayList
+        Private ReadOnly _feedItems As New ArrayList
+        Private ReadOnly _feedIDs As New ArrayList
         Public Feeds As New List(Of String)()
-        Dim WithEvents FeedWorker As New BackgroundWorker
+        Dim WithEvents _rssFeedWorker As New BackgroundWorker
 
         Public Sub New()
 
@@ -36,8 +37,8 @@ Namespace Controls.DBControls
             ' Add any initialization after the InitializeComponent() call.
 
             ' Initialise configuration form name
-            Me.ControlConfigForm = "EveHQ.DBCRSSFeedConfig"
-            FeedWorker = New BackgroundWorker
+            ControlConfigForm = "EveHQ.Controls.DBConfigs.DBCRSSFeedConfig"
+            _rssFeedWorker = New BackgroundWorker
 
         End Sub
 
@@ -52,22 +53,22 @@ Namespace Controls.DBControls
 #End Region
 
 #Region "Custom Control Variables"
-        Dim cRSSFeed As String = ""
+        Dim _rssSFeed As String = ""
 #End Region
 
 #Region "Custom Control Properties"
         Public Property RSSFeed() As String
             Get
-                Return cRSSFeed
+                Return _rssSFeed
             End Get
             Set(ByVal value As String)
-                cRSSFeed = value
+                _rssSFeed = value
                 If ReadConfig = False Then
-                    Me.SetConfig("RSSFeed", value)
-                    Me.SetConfig("ControlConfigInfo", "RSS Feed: " & Me.RSSFeed)
+                    SetConfig("RSSFeed", value)
+                    SetConfig("ControlConfigInfo", "RSS Feed: " & RSSFeed)
                 End If
                 cpFeed.IsRunning = True
-                FeedWorker.RunWorkerAsync()
+                _rssFeedWorker.RunWorkerAsync()
             End Set
         End Property
 #End Region
@@ -75,18 +76,18 @@ Namespace Controls.DBControls
         Private Sub UpdateFeedDisplay()
             pnlFeedItems.SuspendLayout()
             pnlFeedItems.Controls.Clear()
-            If feedItems.Count > 0 Then
+            If _feedItems.Count > 0 Then
                 pnlFeedItems.Text = ""
-                For Each item As FeedItem In feedItems
-                    Dim RSSItem As New RSSFeedItem
-                    RSSItem.lblFeedItemTitle.Text = item.Title
-                    RSSItem.lblFeedItemTitle.Tag = item.Link
+                For Each item As FeedItem In _feedItems
+                    Dim rssItem As New RSSFeedItem
+                    rssItem.lblFeedItemTitle.Text = item.Title
+                    rssItem.lblFeedItemTitle.Tag = item.Link
                     Dim itemDate As Date
                     Date.TryParse(item.PubDate, itemDate)
-                    RSSItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
-                    pnlFeedItems.Controls.Add(RSSItem)
-                    RSSItem.Dock = DockStyle.Top
-                    RSSItem.BringToFront()
+                    rssItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
+                    pnlFeedItems.Controls.Add(rssItem)
+                    rssItem.Dock = DockStyle.Top
+                    rssItem.BringToFront()
                     lblHeader.Text = "RSS Feed: " & item.Source
                 Next
             Else
@@ -97,19 +98,19 @@ Namespace Controls.DBControls
 
 #Region "Background Worker Routines"
 
-        Private Sub FeedWorker_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles FeedWorker.DoWork
-            Call Me.ParseFeed(cRSSFeed)
+        Private Sub FeedWorker_DoWork(sender As Object, e As DoWorkEventArgs) Handles _rssFeedWorker.DoWork
+            Call ParseFeed(_rssSFeed)
         End Sub
 
-        Private Sub FeedWorker_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles FeedWorker.RunWorkerCompleted
-            Call Me.UpdateFeedDisplay()
+        Private Sub FeedWorker_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _rssFeedWorker.RunWorkerCompleted
+            Call UpdateFeedDisplay()
         End Sub
 
 #End Region
 
 #Region "Feed Parsing Routines"
 
-        Private Sub ParseFeed(ByVal URL As String)
+        Private Sub ParseFeed(ByVal url As String)
             Try
 
                 Dim parser As IFeedParser = ParserFactory.GetParser(URL)
@@ -125,15 +126,15 @@ Namespace Controls.DBControls
                 End If
 
                 For Each item As FeedItem In parse
-                    If feedIDs.Contains(item.GUID) Then
+                    If _feedIDs.Contains(item.GUID) Then
                         Continue For
                     End If
 
                     item.Title = Clean(item.Title).Replace(vbCr, "").Replace(vbLf, "")
                     item.Description = Clean(item.Description)
 
-                    feedItems.Add(item)
-                    feedIDs.Add(item.GUID)
+                    _feedItems.Add(item)
+                    _feedIDs.Add(item.GUID)
 
                 Next
             Catch
@@ -155,9 +156,9 @@ Namespace Controls.DBControls
         End Function
 
         Private Shared Function RemoveHTMLTags(ByVal text As String) As String
-            Dim regularExpressionString As String = "<.+?>"
+            Const regularExpressionString As String = "<.+?>"
 
-            Dim r As New System.Text.RegularExpressions.Regex(regularExpressionString, System.Text.RegularExpressions.RegexOptions.Singleline)
+            Dim r As New Regex(regularExpressionString, RegexOptions.Singleline)
             Return r.Replace(text, "")
         End Function
 

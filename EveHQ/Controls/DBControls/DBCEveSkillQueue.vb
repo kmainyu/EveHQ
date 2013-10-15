@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
+
 Namespace Controls.DBControls
     Public Class DBCEveSkillQueue
         Public Sub New()
@@ -27,12 +29,12 @@ Namespace Controls.DBControls
             ' Add any initialization after the InitializeComponent() call.
 
             ' Initialise configuration form name
-            Me.ControlConfigForm = "EveHQ.DBCEveSkillQueueInfoConfig"
+            ControlConfigForm = "EveHQ.Controls.DBConfigs.DBCEveSkillQueueInfoConfig"
 
             ' Load the combo box with the pilot info
             cboPilot.BeginUpdate()
             cboPilot.Items.Clear()
-            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If pilot.Active = True Then
                     cboPilot.Items.Add(pilot.Name)
                 End If
@@ -52,23 +54,23 @@ Namespace Controls.DBControls
 #End Region
 
 #Region "Custom Control Variables"
-        Dim cDefaultPilotName As String = ""
+        Dim _defaultPilotName As String = ""
 #End Region
 
 #Region "Custom Control Properties"
         Public Property DefaultPilotName() As String
             Get
-                Return cDefaultPilotName
+                Return _defaultPilotName
             End Get
             Set(ByVal value As String)
-                cDefaultPilotName = value
-                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
-                    _pilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
+                _defaultPilotName = value
+                If HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                    _pilot = HQ.Settings.Pilots(DefaultPilotName)
                 End If
                 If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
                 If ReadConfig = False Then
-                    Me.SetConfig("DefaultPilotName", value)
-                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName)
+                    SetConfig("DefaultPilotName", value)
+                    SetConfig("ControlConfigInfo", "Default Pilot: " & DefaultPilotName)
                 End If
             End Set
         End Property
@@ -76,14 +78,14 @@ Namespace Controls.DBControls
 #End Region
 
 #Region "Class Variables"
-        Dim _pilot As EveHQ.Core.EveHQPilot
+        Dim _pilot As EveHQPilot
 #End Region
 
 #Region "Private Methods"
-        Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
-                _pilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
-                Call Me.UpdatePilotInfo()
+        Private Sub cboPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilot.SelectedIndexChanged
+            If HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+                _pilot = HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
+                Call UpdatePilotInfo()
                 ' Start the skill timer
                 tmrSkill.Enabled = True
                 tmrSkill.Start()
@@ -97,7 +99,7 @@ Namespace Controls.DBControls
             sqcEveQueue.PilotName = cboPilot.SelectedItem.ToString
         End Sub
 
-        Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
+        Private Sub lblPilot_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
             Forms.FrmPilot.DisplayPilotName = _pilot.Name
             Forms.frmEveHQ.OpenPilotInfoForm()
         End Sub

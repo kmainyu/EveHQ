@@ -30,11 +30,11 @@ Namespace Controls
             ' Add any initialization after the InitializeComponent() call.
 
             ' Get pilot
-            Dim dPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(pilotName)
+            Dim dPilot As Core.EveHQPilot = Core.HQ.Settings.Pilots(pilotName)
 
             ' Draw image
             pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
-            Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, dPilot.ID & ".png")
+            Dim imgFilename As String = Path.Combine(Core.HQ.imageCacheFolder, dPilot.ID & ".png")
             If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                 pbPilot.ImageLocation = imgFilename
             Else
@@ -43,9 +43,9 @@ Namespace Controls
 
             ' Add labels
             lblPilotName.Text = dPilot.Name
-            lblSkill.Text = dPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel)
-            Dim currentDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
-            lblTime.Text = Format(currentDate, "ddd") & " " & currentDate & " (" & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime) & ")"
+            lblSkill.Text = dPilot.TrainingSkillName & " " & Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel)
+            Dim currentDate As Date = Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
+            lblTime.Text = Format(currentDate, "ddd") & " " & currentDate & " (" & Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime) & ")"
             lblIsk.Text = "Isk: " & dPilot.Isk.ToString("N2")
 
         End Sub

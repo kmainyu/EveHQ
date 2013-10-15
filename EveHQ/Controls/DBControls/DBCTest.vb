@@ -25,7 +25,7 @@ Namespace Controls.DBControls
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            Me.ControlConfigForm = ""
+            ControlConfigForm = ""
 
         End Sub
 

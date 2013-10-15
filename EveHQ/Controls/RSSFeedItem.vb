@@ -19,12 +19,12 @@
 '=========================================================================
 Namespace Controls
     Public Class RSSFeedItem
-        Private Sub lblFeedItemTitle_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblFeedItemTitle.LinkClicked
+        Private Sub lblFeedItemTitle_LinkClicked(ByVal sender As System.Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblFeedItemTitle.LinkClicked
             Try
                 If lblFeedItemTitle.Tag IsNot Nothing Then
-                    Dim URL As String = lblFeedItemTitle.Tag.ToString
-                    If URL <> "" Then
-                        Process.Start(URL)
+                    Dim url As String = lblFeedItemTitle.Tag.ToString
+                    If url <> "" Then
+                        Process.Start(url)
                     End If
                 End If
             Catch ex As Exception

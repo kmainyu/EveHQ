@@ -1,6 +1,6 @@
 ﻿Namespace Controls
-    Public Class MarketItemMetrics
 
+    Public Class MarketItemMetrics
 
         Public Property Title() As String
             Get
@@ -65,8 +65,6 @@
             End Set
         End Property
 
-
-
         Public Property Percentile() As String
             Get
                 Return _percentilePrice.Text
@@ -76,6 +74,6 @@
             End Set
         End Property
 
-
     End Class
-End NameSpace
+
+End Namespace

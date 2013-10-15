@@ -24,13 +24,13 @@ Namespace Controls.DBConfigs
 
 #Region "Properties"
 
-        Dim cDBWidget As New DBCRSSFeed
+        Dim _dbWidget As New DBCRSSFeed
         Public Property DBWidget() As DBCRSSFeed
             Get
-                Return cDBWidget
+                Return _dbWidget
             End Get
             Set(ByVal value As DBCRSSFeed)
-                cDBWidget = value
+                _dbWidget = value
                 Call SetControlInfo()
             End Set
         End Property
@@ -38,24 +38,24 @@ Namespace Controls.DBConfigs
 #End Region
 
         Private Sub SetControlInfo()
-            txtURL.Text = cDBWidget.RSSFeed
+            txtURL.Text = _dbWidget.RSSFeed
         End Sub
 
-        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Just close the form and do nothing
-            Me.Close()
+            Close()
         End Sub
 
-        Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
             ' Update the control properties
             If txtURL.Text = "" Then
                 MessageBox.Show("You must enter a URL before adding this widget.", "URL Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            cDBWidget.RSSFeed = txtURL.Text
+            _dbWidget.RSSFeed = txtURL.Text
             ' Now close the form
-            Me.DialogResult = Windows.Forms.DialogResult.OK
-            Me.Close()
+            DialogResult = DialogResult.OK
+            Close()
         End Sub
     End Class
 End NameSpace

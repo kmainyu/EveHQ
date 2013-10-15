@@ -136,7 +136,7 @@ Namespace Controls
             ' Add subitems based on the user selected columns
             Dim colName As String
             For Each col As String In Core.HQ.Settings.UserQueueColumns
-                If col.EndsWith("1") = True Then
+                If col.EndsWith("1", StringComparison.Ordinal) = True Then
                     colName = col.Substring(0, col.Length - 1)
                     ' Define a new column header
                     Dim ach As New ColumnHeader
@@ -306,7 +306,7 @@ Namespace Controls
             ' Add subitems based on the user selected columns
             Dim colName As String
             For Each col As String In Core.HQ.Settings.UserQueueColumns
-                If col.EndsWith("1") = True Then
+                If col.EndsWith("1", StringComparison.Ordinal) = True Then
                     colName = col.Substring(0, col.Length - 1)
                     Dim newSi As New Cell
                     Select Case colName

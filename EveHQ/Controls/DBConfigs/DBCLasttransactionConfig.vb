@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
 Imports EveHQ.Controls.DBControls
 
 Namespace Controls.DBConfigs
@@ -32,7 +33,7 @@ Namespace Controls.DBConfigs
             cboPilots.BeginUpdate()
             cboPilots.Items.Clear()
 
-            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If pilot.Active = True Then
                     cboPilots.Items.Add(pilot.Name)
                 End If
@@ -44,13 +45,13 @@ Namespace Controls.DBConfigs
 
 #Region "Properties"
 
-        Dim cDBWidget As New DBCLastTransactions
+        Dim _dbWidget As New DBCLastTransactions
         Public Property DBWidget() As DBCLastTransactions
             Get
-                Return cDBWidget
+                Return _dbWidget
             End Get
             Set(ByVal value As DBCLastTransactions)
-                cDBWidget = value
+                _dbWidget = value
                 Call SetControlInfo()
             End Set
         End Property
@@ -58,33 +59,33 @@ Namespace Controls.DBConfigs
 #End Region
 
         Private Sub SetControlInfo()
-            If cboPilots.Items.Contains(cDBWidget.DBCDefaultPilotName) = True Then
-                cboPilots.SelectedItem = cDBWidget.DBCDefaultPilotName
+            If cboPilots.Items.Contains(_dbWidget.DBCDefaultPilotName) = True Then
+                cboPilots.SelectedItem = _dbWidget.DBCDefaultPilotName
             Else
                 If cboPilots.Items.Count > 0 Then
                     cboPilots.SelectedIndex = 0
                 End If
             End If
-            spinDefaultTransactions.Value = CInt(cDBWidget.DBCDefaultTransactionsCount)
+            spinDefaultTransactions.Value = CInt(_dbWidget.DBCDefaultTransactionsCount)
 
         End Sub
 
-        Private Sub btnCancelForm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-            Me.Close()
+        Private Sub btnCancelForm_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
         End Sub
 
-        Private Sub btnAcceptForm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+        Private Sub btnAcceptForm_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
             ' Update the control properties
             If cboPilots.SelectedItem IsNot Nothing Then
-                cDBWidget.DBCDefaultPilotName = cboPilots.SelectedItem.ToString
+                _dbWidget.DBCDefaultPilotName = cboPilots.SelectedItem.ToString
             Else
                 MessageBox.Show("You must select a valid Pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            cDBWidget.DBCDefaultTransactionsCount = CInt(spinDefaultTransactions.Value)
+            _dbWidget.DBCDefaultTransactionsCount = CInt(spinDefaultTransactions.Value)
             ' Now close the form
-            Me.DialogResult = Windows.Forms.DialogResult.OK
-            Me.Close()
+            DialogResult = DialogResult.OK
+            Close()
         End Sub
     End Class
 End NameSpace

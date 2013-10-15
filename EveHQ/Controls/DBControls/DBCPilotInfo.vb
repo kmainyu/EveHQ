@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
+
 Namespace Controls.DBControls
     Public Class DBCPilotInfo
         Public Sub New()
@@ -27,12 +29,12 @@ Namespace Controls.DBControls
             ' Add any initialization after the InitializeComponent() call.
 
             ' Initialise configuration form name
-            Me.ControlConfigForm = "EveHQ.DBCPilotInfoConfig"
+            ControlConfigForm = "EveHQ.Controls.DBConfigs.DBCPilotInfoConfig"
 
             ' Load the combo box with the pilot info
             cboPilot.BeginUpdate()
             cboPilot.Items.Clear()
-            For Each pilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If pilot.Active = True Then
                     cboPilot.Items.Add(pilot.Name)
                 End If
@@ -52,23 +54,23 @@ Namespace Controls.DBControls
 #End Region
 
 #Region "Custom Control Variables"
-        Dim cDefaultPilotName As String = ""
+        Dim _defaultPilotName As String = ""
 #End Region
 
 #Region "Custom Control Properties"
         Public Property DefaultPilotName() As String
             Get
-                Return cDefaultPilotName
+                Return _defaultPilotName
             End Get
             Set(ByVal value As String)
-                cDefaultPilotName = value
-                If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
-                    cPilot = EveHQ.Core.HQ.Settings.Pilots(DefaultPilotName)
+                _defaultPilotName = value
+                If HQ.Settings.Pilots.ContainsKey(DefaultPilotName) Then
+                    _pilot = HQ.Settings.Pilots(DefaultPilotName)
                 End If
                 If cboPilot.Items.Contains(DefaultPilotName) = True Then cboPilot.SelectedItem = DefaultPilotName
                 If ReadConfig = False Then
-                    Me.SetConfig("DefaultPilotName", value)
-                    Me.SetConfig("ControlConfigInfo", "Default Pilot: " & Me.DefaultPilotName)
+                    SetConfig("DefaultPilotName", value)
+                    SetConfig("ControlConfigInfo", "Default Pilot: " & DefaultPilotName)
                 End If
             End Set
         End Property
@@ -76,14 +78,14 @@ Namespace Controls.DBControls
 #End Region
 
 #Region "Class Variables"
-        Dim cPilot As EveHQ.Core.EveHQPilot
+        Dim _pilot As EveHQPilot
 #End Region
 
 #Region "Private Methods"
-        Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
-                cPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
-                Call Me.UpdatePilotInfo()
+        Private Sub cboPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilot.SelectedIndexChanged
+            If HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+                _pilot = HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
+                Call UpdatePilotInfo()
                 ' Start the skill timer
                 tmrSkill.Enabled = True
                 tmrSkill.Start()
@@ -94,12 +96,12 @@ Namespace Controls.DBControls
         End Sub
 
         Private Sub UpdatePilotInfo()
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+            If HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
                 ' Update the info
-                pbPilot.Image = EveHQ.Core.ImageHandler.GetPortraitImage(cPilot.ID)
-                lblCorp.Text = "Member of " & cPilot.Corp
-                lblIsk.Text = "Balance: " & cPilot.Isk.ToString("N2")
-                Call Me.UpdateTrainingInfo()
+                pbPilot.Image = ImageHandler.GetPortraitImage(_pilot.ID)
+                lblCorp.Text = "Member of " & _pilot.Corp
+                lblIsk.Text = "Balance: " & _pilot.Isk.ToString("N2")
+                Call UpdateTrainingInfo()
             Else
                 ' Clear the info
                 lblCorp.Text = ""
@@ -115,32 +117,32 @@ Namespace Controls.DBControls
         End Sub
 
         Private Sub UpdateTrainingInfo()
-            If cPilot IsNot Nothing Then
-                If cPilot.Training = True Then
+            If _pilot IsNot Nothing Then
+                If _pilot.Training = True Then
                     ' Training
-                    lblSP.Text = "Skillpoints: " & (cPilot.SkillPoints + cPilot.TrainingCurrentSP).ToString("N0")
-                    Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
-                    lblTraining.Text = "Training: " & cPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(cPilot.TrainingSkillLevel)
+                    lblSP.Text = "Skillpoints: " & (_pilot.SkillPoints + _pilot.TrainingCurrentSP).ToString("N0")
+                    Dim localdate As Date = SkillFunctions.ConvertEveTimeToLocal(_pilot.TrainingEndTime)
+                    lblTraining.Text = "Training: " & _pilot.TrainingSkillName & " " & SkillFunctions.Roman(_pilot.TrainingSkillLevel)
                     lblTrainingEnd.Text = "Training Ends: " & Format(localdate, "ddd") & " " & localdate
-                    lblTrainingTime.Text = "Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+                    lblTrainingTime.Text = "Time Remaining: " & SkillFunctions.TimeToString(_pilot.TrainingCurrentTime)
                 Else
                     ' Not training
-                    lblSP.Text = "Skillpoints: " & cPilot.SkillPoints.ToString("N0")
+                    lblSP.Text = "Skillpoints: " & _pilot.SkillPoints.ToString("N0")
                     lblTraining.Text = "Not currently training"
                     lblTrainingEnd.Text = "Training Ends: n/a"
                     lblTrainingTime.Text = "Time Remaining: n/a"
                 End If
-                If cPilot.QueuedSkills IsNot Nothing Then
-                    If cPilot.QueuedSkills.Count > 0 Then
-                        If cPilot.QueuedSkills.Count = 1 Then
-                            Dim skillDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
+                If _pilot.QueuedSkills IsNot Nothing Then
+                    If _pilot.QueuedSkills.Count > 0 Then
+                        If _pilot.QueuedSkills.Count = 1 Then
+                            Dim skillDate As Date = SkillFunctions.ConvertEveTimeToLocal(_pilot.TrainingEndTime)
                             lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
-                            lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
+                            lblSkillQueueTime.Text = "Queue Time Remaining: " & SkillFunctions.TimeToString(_pilot.TrainingCurrentTime)
                         Else
-                            Dim lastSkill As EveHQ.Core.EveHQPilotQueuedSkill = cPilot.QueuedSkills(cPilot.QueuedSkills.Keys(cPilot.QueuedSkills.Count - 1))
-                            Dim skillDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(lastSkill.EndTime)
+                            Dim lastSkill As EveHQPilotQueuedSkill = _pilot.QueuedSkills(_pilot.QueuedSkills.Keys(_pilot.QueuedSkills.Count - 1))
+                            Dim skillDate As Date = SkillFunctions.ConvertEveTimeToLocal(lastSkill.EndTime)
                             lblSkillQueueEnd.Text = "Skill Queue Ends: " & Format(skillDate, "ddd") & " " & skillDate
-                            lblSkillQueueTime.Text = "Queue Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(CType(skillDate - Now, TimeSpan).TotalSeconds)
+                            lblSkillQueueTime.Text = "Queue Time Remaining: " & SkillFunctions.TimeToString((skillDate - Now).TotalSeconds)
                         End If
                     Else
                         lblSkillQueueEnd.Text = "Skill Queue Ends: n/a"
@@ -153,17 +155,17 @@ Namespace Controls.DBControls
             End If
         End Sub
 
-        Private Sub tmrSkill_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrSkill.Tick
-            Call Me.UpdateTrainingInfo()
+        Private Sub tmrSkill_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrSkill.Tick
+            Call UpdateTrainingInfo()
         End Sub
 
-        Private Sub lblTraining_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblTraining.LinkClicked
-            Forms.FrmTraining.DisplayPilotName = cPilot.Name
+        Private Sub lblTraining_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblTraining.LinkClicked
+            Forms.FrmTraining.DisplayPilotName = _pilot.Name
             Forms.frmEveHQ.OpenSkillTrainingForm()
         End Sub
 
-        Private Sub lblPilot_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
-            Forms.FrmPilot.DisplayPilotName = cPilot.Name
+        Private Sub lblPilot_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblPilot.LinkClicked
+            Forms.FrmPilot.DisplayPilotName = _pilot.Name
             Forms.frmEveHQ.OpenPilotInfoForm()
         End Sub
 

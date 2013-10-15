@@ -19,25 +19,13 @@
 '=========================================================================
 Namespace Controls
     Public Class RSSTwitterItem
-        Private Sub lblFeedItemTitle_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
-            Try
-                If lblFeedItemTitle.Tag IsNot Nothing Then
-                    Dim URL As String = lblFeedItemTitle.Tag.ToString
-                    If URL <> "" Then
-                        Process.Start(URL)
-                    End If
-                End If
-            Catch ex As Exception
-                ' Suppress any error message and do nothing
-            End Try
-        End Sub
-
+       
         Private Sub lblFeedItemTitle_MarkupLinkClick(sender As Object, e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblFeedItemTitle.MarkupLinkClick
             Try
                 If lblFeedItemTitle.Tag IsNot Nothing Then
-                    Dim URL As String = e.HRef
-                    If URL <> "" Then
-                        Process.Start(URL)
+                    Dim url As String = e.HRef
+                    If url <> "" Then
+                        Process.Start(url)
                     End If
                 End If
             Catch ex As Exception

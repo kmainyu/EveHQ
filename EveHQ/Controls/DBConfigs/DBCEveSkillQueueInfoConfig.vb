@@ -24,13 +24,13 @@ Namespace Controls.DBConfigs
 
 #Region "Properties"
 
-        Dim cDBWidget As New DBCEveSkillQueue
+        Dim _dbWidget As New DBCEveSkillQueue
         Public Property DBWidget() As DBCEveSkillQueue
             Get
-                Return cDBWidget
+                Return _dbWidget
             End Get
             Set(ByVal value As DBCEveSkillQueue)
-                cDBWidget = value
+                _dbWidget = value
                 Call SetControlInfo()
             End Set
         End Property
@@ -38,8 +38,8 @@ Namespace Controls.DBConfigs
 #End Region
 
         Private Sub SetControlInfo()
-            If cboPilots.Items.Contains(cDBWidget.DefaultPilotName) = True Then
-                cboPilots.SelectedItem = cDBWidget.DefaultPilotName
+            If cboPilots.Items.Contains(_dbWidget.DefaultPilotName) = True Then
+                cboPilots.SelectedItem = _dbWidget.DefaultPilotName
             Else
                 If cboPilots.Items.Count > 0 Then
                     cboPilots.SelectedIndex = 0
@@ -47,23 +47,23 @@ Namespace Controls.DBConfigs
             End If
         End Sub
 
-        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Just close the form and do nothing
-            Me.Close()
+            Close()
         End Sub
 
-        Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
             ' Update the control properties
             If cboPilots.SelectedItem Is Nothing Then
                 MessageBox.Show("You must select a valid pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             If cboPilots.SelectedItem IsNot Nothing Then
-                cDBWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
+                _dbWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
             End If
             ' Now close the form
-            Me.DialogResult = Windows.Forms.DialogResult.OK
-            Me.Close()
+            DialogResult = DialogResult.OK
+            Close()
         End Sub
     End Class
 End NameSpace

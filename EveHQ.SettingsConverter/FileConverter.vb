@@ -637,6 +637,12 @@ Public Class FileConverter
         Try
             _newSettings.DashboardConfiguration.Clear()
             For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+                For Each configProperty As String In config.Keys
+                    Select Case configProperty
+                        Case "ControlLocation", "ControlSize"
+                            config(configProperty) = config(configProperty).ToString
+                    End Select
+                Next
                 _newSettings.DashboardConfiguration.Add(config)
             Next
         Catch e As Exception
