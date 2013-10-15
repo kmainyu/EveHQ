@@ -17,20 +17,20 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.IO
-Imports System.Net
 Imports System.Text
+Imports EveHQ.Core
+Imports System.Net.Mail
 
 Namespace Forms
 
-    Public Class frmException
+    Public Class FrmException
 
-        Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-            Me.DialogResult = Windows.Forms.DialogResult.Cancel
-            Me.Close()
+        Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+            DialogResult = DialogResult.Cancel
+            Close()
         End Sub
 
-        Private Sub btnCopyText_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopyText.Click
+        Private Sub btnCopyText_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCopyText.Click
             Dim errReport As New StringBuilder
             errReport.AppendLine("*EveHQ Error Report*")
             errReport.AppendLine("")
@@ -46,31 +46,23 @@ Namespace Forms
             End Try
         End Sub
 
-        Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
+        Private Sub btnSend_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSend.Click
 
-            Dim reportingUser As String = EveHQ.Core.HQ.Settings.ErrorReportingName
-            Dim reportingEmail As String = EveHQ.Core.HQ.Settings.ErrorReportingEmail
+            Dim reportingUser As String = HQ.Settings.ErrorReportingName
+            Dim reportingEmail As String = HQ.Settings.ErrorReportingEmail
 
             If (String.IsNullOrEmpty(reportingEmail) Or String.IsNullOrEmpty(reportingUser)) Then
                 MessageBox.Show("Your bug report cannot be filed as you have not set an email address and/or name in the Error Reporting settings.", "Submission Unsuccessful", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
 
             Try
-                Dim bugEmailAddress As String = "bugs@evehq.net"
-                Dim bugSMTPServer As String = "mail.evehq.net"
-
-
-
+                Const bugEmailAddress As String = "bugs@evehq.net"
+                Const bugSMTPServer As String = "mail.evehq.net"
+                
                 Dim subject As String = "EveHQ v" & My.Application.Info.Version.ToString & " Error! - " & lblError.Text
-
-
                 Dim message As String = "Error Message : " & lblError.Text & "\r\n" & "StackTrace :\r\n" & txtStackTrace.Text
-
-
-                Dim payload As New System.Net.Mail.MailMessage(reportingEmail, bugEmailAddress, subject, message)
-
-                Dim client As New System.Net.Mail.SmtpClient(bugSMTPServer)
-
+                Dim payload As New MailMessage(reportingEmail, bugEmailAddress, subject, message)
+                Dim client As New SmtpClient(bugSMTPServer)
                 client.Send(payload)
 
                 MessageBox.Show("Your bug report was successfully submitted and will be reviewed shortly.", "Submission Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -80,17 +72,16 @@ Namespace Forms
                 MessageBox.Show(msg, "Submission Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
             End Try
-
-
+            
         End Sub
 
-        Private Sub frmException_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Private Sub frmException_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
             btnSend.Visible = False
             btnSend.Enabled = False
         End Sub
 
-        Private Sub btnContinue_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnContinue.Click
-            Me.DialogResult = Windows.Forms.DialogResult.Ignore
+        Private Sub btnContinue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnContinue.Click
+            DialogResult = DialogResult.Ignore
         End Sub
     End Class
 End NameSpace

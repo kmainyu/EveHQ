@@ -17,145 +17,149 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core.CoreReports
+Imports EveHQ.Core
+
 Namespace Forms
-    Public Class frmImplants
-        Dim iPilot As New EveHQ.Core.EveHQPilot
-        Dim nPilot As New EveHQ.Core.EveHQPilot
-        Dim cPilotName As String = ""
-        Dim cQueueName As String = ""
-        Dim SkillQueue As New EveHQ.Core.EveHQSkillQueue
-        Dim UpdateAllBases As Boolean = False
+    Public Class FrmImplants
+
+        Dim _iPilot As New EveHQPilot
+        ReadOnly _nPilot As New EveHQPilot
+        Dim _cPilotName As String = ""
+        Dim _queueName As String = ""
+        Dim _skillQueue As New EveHQSkillQueue
+        Dim _updateAllBases As Boolean = False
 
         Public Property PilotName() As String
             Get
-                Return cPilotName
+                Return _cPilotName
             End Get
             Set(ByVal value As String)
-                cPilotName = value
-                iPilot = EveHQ.Core.HQ.Settings.Pilots(cPilotName)
-                Call Me.InitialiseForm()
+                _cPilotName = value
+                _iPilot = HQ.Settings.Pilots(_cPilotName)
+                Call InitialiseForm()
             End Set
         End Property
         Public Property QueueName() As String
             Get
-                Return cQueueName
+                Return _queueName
             End Get
             Set(ByVal value As String)
-                cQueueName = value
-                SkillQueue = iPilot.TrainingQueues(cQueueName)
-                nPilot.TrainingQueues.Clear()
-                Call Me.DisplayQueueInfo()
+                _queueName = value
+                _skillQueue = _iPilot.TrainingQueues(_queueName)
+                _nPilot.TrainingQueues.Clear()
+                Call DisplayQueueInfo()
             End Set
         End Property
 
-        Private Sub frmNeuralRemap_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Private Sub frmNeuralRemap_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
-            Call Me.InitialiseForm()
+            Call InitialiseForm()
 
         End Sub
 
         Private Sub InitialiseForm()
-            Me.Text = "Implants - " & iPilot.Name
+            Text = "Implants - " & _iPilot.Name
             ' Create a dummy pilot with which to check new attributes & skill queues
 
-            nPilot.PilotSkills = iPilot.PilotSkills
-            nPilot.SkillPoints = iPilot.SkillPoints
-            EveHQ.Core.PilotParseFunctions.LoadKeySkillsForPilot(nPilot)
-            nPilot.IAtt = iPilot.IAtt : nPilot.IImplant = iPilot.IImplant : nPilot.IAttT = iPilot.IAttT
-            nPilot.PAtt = iPilot.PAtt : nPilot.PImplant = iPilot.PImplant : nPilot.PAttT = iPilot.PAttT
-            nPilot.CAtt = iPilot.CAtt : nPilot.CImplant = iPilot.CImplant : nPilot.CAttT = iPilot.CAttT
-            nPilot.WAtt = iPilot.WAtt : nPilot.WImplant = iPilot.WImplant : nPilot.WAttT = iPilot.WAttT
-            nPilot.MAtt = iPilot.MAtt : nPilot.MImplant = iPilot.MImplant : nPilot.MAttT = iPilot.MAttT
+            _nPilot.PilotSkills = _iPilot.PilotSkills
+            _nPilot.SkillPoints = _iPilot.SkillPoints
+            PilotParseFunctions.LoadKeySkillsForPilot(_nPilot)
+            _nPilot.IAtt = _iPilot.IAtt : _nPilot.IImplant = _iPilot.IImplant : _nPilot.IAttT = _iPilot.IAttT
+            _nPilot.PAtt = _iPilot.PAtt : _nPilot.PImplant = _iPilot.PImplant : _nPilot.PAttT = _iPilot.PAttT
+            _nPilot.CAtt = _iPilot.CAtt : _nPilot.CImplant = _iPilot.CImplant : _nPilot.CAttT = _iPilot.CAttT
+            _nPilot.WAtt = _iPilot.WAtt : _nPilot.WImplant = _iPilot.WImplant : _nPilot.WAttT = _iPilot.WAttT
+            _nPilot.MAtt = _iPilot.MAtt : _nPilot.MImplant = _iPilot.MImplant : _nPilot.MAttT = _iPilot.MAttT
 
             Call RecalcAttributes()
             Call DisplayAtributes()
         End Sub
         Private Sub RecalcAttributes()
 
-            nPilot.WAttT = nPilot.WAtt + nPilot.WImplant
+            _nPilot.WAttT = _nPilot.WAtt + _nPilot.WImplant
 
-            nPilot.CAttT = nPilot.CAtt + nPilot.CImplant
+            _nPilot.CAttT = _nPilot.CAtt + _nPilot.CImplant
 
-            nPilot.IAttT = nPilot.IAtt + nPilot.IImplant
+            _nPilot.IAttT = _nPilot.IAtt + _nPilot.IImplant
 
-            nPilot.MAttT = nPilot.MAtt + nPilot.MImplant
+            _nPilot.MAttT = _nPilot.MAtt + _nPilot.MImplant
 
-            nPilot.PAttT = nPilot.PAtt + nPilot.PImplant
+            _nPilot.PAttT = _nPilot.PAtt + _nPilot.PImplant
 
         End Sub
         Private Sub DisplayAtributes()
             ' Display Intelligence Info
-            lblIBase.Text = nPilot.IAtt.ToString
-            nudIImplant.Value = nPilot.IImplant
-            lblIBase.Text = "Implant: " & nPilot.IImplant.ToString
-            lblITotal.Text = "Total: " & nPilot.IAttT.ToString
+            lblIBase.Text = _nPilot.IAtt.ToString
+            nudIImplant.Value = _nPilot.IImplant
+            lblIBase.Text = "Implant: " & _nPilot.IImplant.ToString
+            lblITotal.Text = "Total: " & _nPilot.IAttT.ToString
 
             ' Display Perception Info
-            nudPImplant.Value = nPilot.PImplant
-            lblPBase.Text = nPilot.PAtt.ToString
-            lblPBase.Text = "Implant: " & nPilot.PImplant.ToString
-            lblPTotal.Text = "Total: " & nPilot.PAttT.ToString
+            nudPImplant.Value = _nPilot.PImplant
+            lblPBase.Text = _nPilot.PAtt.ToString
+            lblPBase.Text = "Implant: " & _nPilot.PImplant.ToString
+            lblPTotal.Text = "Total: " & _nPilot.PAttT.ToString
 
             ' Display Charisma Info
-            nudCImplant.Value = nPilot.CImplant
-            lblCBase.Text = nPilot.CAtt.ToString
-            lblCBase.Text = "Implant: " & nPilot.CImplant.ToString
-            lblCTotal.Text = "Total: " & nPilot.CAttT.ToString
+            nudCImplant.Value = _nPilot.CImplant
+            lblCBase.Text = _nPilot.CAtt.ToString
+            lblCBase.Text = "Implant: " & _nPilot.CImplant.ToString
+            lblCTotal.Text = "Total: " & _nPilot.CAttT.ToString
 
             ' Display Willpower Info
-            nudWImplant.Value = nPilot.WImplant
-            lblWBase.Text = nPilot.WAtt.ToString
-            lblWBase.Text = "Implant: " & nPilot.WImplant.ToString
-            lblWTotal.Text = "Total: " & nPilot.WAttT.ToString
+            nudWImplant.Value = _nPilot.WImplant
+            lblWBase.Text = _nPilot.WAtt.ToString
+            lblWBase.Text = "Implant: " & _nPilot.WImplant.ToString
+            lblWTotal.Text = "Total: " & _nPilot.WAttT.ToString
 
             ' Display Memory Info
-            nudMImplant.Value = nPilot.MImplant
-            lblMBase.Text = nPilot.MAtt.ToString
-            lblMBase.Text = "Implant: " & nPilot.MImplant.ToString
-            lblMTotal.Text = "Total: " & nPilot.MAttT.ToString
+            nudMImplant.Value = _nPilot.MImplant
+            lblMBase.Text = _nPilot.MAtt.ToString
+            lblMBase.Text = "Implant: " & _nPilot.MImplant.ToString
+            lblMTotal.Text = "Total: " & _nPilot.MAttT.ToString
 
         End Sub
 
         Private Sub DisplayQueueInfo()
-            If cQueueName <> "" Then
+            If _queueName <> "" Then
                 ' Display basic queue name and time remaining
                 lblActiveSkillQueue.Text = "No Queue Selected"
                 lblSkillQueuePointsAnalysis.Text = "Skill Queue Points Analysis"
-                lblActiveSkillQueue.Text = SkillQueue.Name
-                Dim iQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(iPilot, iPilot.TrainingQueues(cQueueName), False, True)
-                Dim iTime As Long = iPilot.TrainingQueues(cQueueName).QueueTime
-                If iPilot.TrainingQueues(cQueueName).IncCurrentTraining = True Then
-                    iTime += iPilot.TrainingCurrentTime
+                lblActiveSkillQueue.Text = _skillQueue.Name
+                SkillQueueFunctions.BuildQueue(_iPilot, _iPilot.TrainingQueues(_queueName), False, True)
+                Dim iTime As Long = _iPilot.TrainingQueues(_queueName).QueueTime
+                If _iPilot.TrainingQueues(_queueName).IncCurrentTraining = True Then
+                    iTime += _iPilot.TrainingCurrentTime
                 End If
-                lblActiveQueueTime.Text = "Time Remaining: " & EveHQ.Core.SkillFunctions.TimeToString(iTime)
-                If nPilot.TrainingQueues.ContainsKey(cQueueName) = False Then
-                    nPilot.TrainingQueues.Add(cQueueName, CType(SkillQueue.Clone, Core.EveHQSkillQueue))
+                lblActiveQueueTime.Text = "Time Remaining: " & SkillFunctions.TimeToString(iTime)
+                If _nPilot.TrainingQueues.ContainsKey(_queueName) = False Then
+                    _nPilot.TrainingQueues.Add(_queueName, CType(_skillQueue.Clone, EveHQSkillQueue))
                 End If
-                Call Me.SyncTraining()
+                Call SyncTraining()
                 ' Add the pilot training info!
-                Dim nQueue As ArrayList = EveHQ.Core.SkillQueueFunctions.BuildQueue(nPilot, nPilot.TrainingQueues(cQueueName), False, False)
-                Dim nTime As Long = nPilot.TrainingQueues(cQueueName).QueueTime
-                If nPilot.TrainingQueues(cQueueName).IncCurrentTraining = True Then
-                    If iPilot.CAttT = nPilot.CAttT And iPilot.IAttT = nPilot.IAttT And iPilot.MAttT = nPilot.MAttT And iPilot.PAttT = nPilot.PAttT And iPilot.WAttT = nPilot.WAttT Then
-                        nTime += nPilot.TrainingCurrentTime
+                Dim nQueue As ArrayList = SkillQueueFunctions.BuildQueue(_nPilot, _nPilot.TrainingQueues(_queueName), False, False)
+                Dim nTime As Long = _nPilot.TrainingQueues(_queueName).QueueTime
+                If _nPilot.TrainingQueues(_queueName).IncCurrentTraining = True Then
+                    If _iPilot.CAttT = _nPilot.CAttT And _iPilot.IAttT = _nPilot.IAttT And _iPilot.MAttT = _nPilot.MAttT And _iPilot.PAttT = _nPilot.PAttT And _iPilot.WAttT = _nPilot.WAttT Then
+                        nTime += _nPilot.TrainingCurrentTime
                     Else
-                        If EveHQ.Core.HQ.SkillListID.ContainsKey(nPilot.TrainingSkillID) = True Then
-                            Dim mySkill As EveHQ.Core.EveSkill = EveHQ.Core.HQ.SkillListID(nPilot.TrainingSkillID)
-                            Dim ctime As Integer = CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(nPilot, mySkill, nPilot.TrainingSkillLevel, -1))
-                            If Math.Abs(ctime - nPilot.TrainingCurrentTime) > 5 Then
-                                nTime += CInt(EveHQ.Core.SkillFunctions.CalcTimeToLevel(nPilot, mySkill, nPilot.TrainingSkillLevel, -1))
+                        If HQ.SkillListID.ContainsKey(_nPilot.TrainingSkillID) = True Then
+                            Dim mySkill As EveSkill = HQ.SkillListID(_nPilot.TrainingSkillID)
+                            Dim ctime As Integer = CInt(SkillFunctions.CalcTimeToLevel(_nPilot, mySkill, _nPilot.TrainingSkillLevel, -1))
+                            If Math.Abs(ctime - _nPilot.TrainingCurrentTime) > 5 Then
+                                nTime += CInt(SkillFunctions.CalcTimeToLevel(_nPilot, mySkill, _nPilot.TrainingSkillLevel, -1))
                             Else
-                                nTime += nPilot.TrainingCurrentTime
+                                nTime += _nPilot.TrainingCurrentTime
                             End If
                         End If
                     End If
                 End If
-                lblRevisedQueueTime.Text = "Revised Time: " & EveHQ.Core.SkillFunctions.TimeToString(nTime)
+                lblRevisedQueueTime.Text = "Revised Time: " & SkillFunctions.TimeToString(nTime)
                 Dim pointScores(4, 1) As Long
                 For a As Integer = 0 To 4
                     pointScores(a, 0) = a
                 Next
-                For Each skill As EveHQ.Core.SortedQueueItem In nQueue
+                For Each skill As SortedQueueItem In nQueue
                     Select Case skill.PAtt
                         Case "Charisma"
                             pointScores(0, 1) += CLng(skill.SPTrained) * 2
@@ -188,36 +192,36 @@ Namespace Forms
                     tagArray(a) = a
                 Next
                 ' Initialize the comparer and sort
-                Dim myComparer As New Core.CoreReports.Reports.RectangularComparer(pointScores)
+                Dim myComparer As New Reports.RectangularComparer(pointScores)
                 Array.Sort(tagArray, myComparer)
                 Array.Reverse(tagArray)
                 For att As Integer = 0 To 4
                     Select Case tagArray(att)
                         Case 0
-                            Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Charisma:"
+                            gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Charisma:"
                         Case 1
-                            Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Intelligence:"
+                            gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Intelligence:"
                         Case 2
-                            Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Memory:"
+                            gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Memory:"
                         Case 3
-                            Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Perception:"
+                            gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Perception:"
                         Case 4
-                            Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
+                            gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = "Willpower:"
                     End Select
-                    Me.gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = pointScores(tagArray(att), 1).ToString("N2")
+                    gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = pointScores(tagArray(att), 1).ToString("N2")
                 Next
                 If nTime <= iTime Then
-                    lblTimeSaving.Text = "Time Saving: " & EveHQ.Core.SkillFunctions.TimeToString(iTime - nTime, False)
+                    lblTimeSaving.Text = "Time Saving: " & SkillFunctions.TimeToString(iTime - nTime, False)
                 Else
-                    lblTimeSaving.Text = "Time Loss: " & EveHQ.Core.SkillFunctions.TimeToString(nTime - iTime, False)
+                    lblTimeSaving.Text = "Time Loss: " & SkillFunctions.TimeToString(nTime - iTime, False)
                 End If
             Else
-                If Me.IsHandleCreated = True Then
+                If IsHandleCreated = True Then
                     lblActiveSkillQueue.Text = "No Queue Selected"
                     lblSkillQueuePointsAnalysis.Text = ""
                     For att As Integer = 0 To 4
-                        Me.gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = ""
-                        Me.gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = ""
+                        gpSkillQueue.Controls("lblAttribute" & (att + 1).ToString).Text = ""
+                        gpSkillQueue.Controls("lblAttributePoints" & (att + 1).ToString).Text = ""
                     Next
                     lblActiveQueueTime.Text = ""
                     lblRevisedQueueTime.Text = ""
@@ -227,84 +231,84 @@ Namespace Forms
         End Sub
 
         Private Sub SyncTraining()
-            nPilot.Training = iPilot.Training
-            nPilot.TrainingCurrentSP = iPilot.TrainingCurrentSP
-            nPilot.TrainingCurrentTime = iPilot.TrainingCurrentTime
-            nPilot.TrainingSkillID = iPilot.TrainingSkillID
-            nPilot.TrainingSkillName = iPilot.TrainingSkillName
-            nPilot.TrainingSkillLevel = iPilot.TrainingSkillLevel
-            nPilot.TrainingStartSP = iPilot.TrainingStartSP
-            nPilot.TrainingEndSP = iPilot.TrainingEndSP
-            nPilot.TrainingStartTime = iPilot.TrainingStartTime
-            nPilot.TrainingEndTime = iPilot.TrainingEndTime
+            _nPilot.Training = _iPilot.Training
+            _nPilot.TrainingCurrentSP = _iPilot.TrainingCurrentSP
+            _nPilot.TrainingCurrentTime = _iPilot.TrainingCurrentTime
+            _nPilot.TrainingSkillID = _iPilot.TrainingSkillID
+            _nPilot.TrainingSkillName = _iPilot.TrainingSkillName
+            _nPilot.TrainingSkillLevel = _iPilot.TrainingSkillLevel
+            _nPilot.TrainingStartSP = _iPilot.TrainingStartSP
+            _nPilot.TrainingEndSP = _iPilot.TrainingEndSP
+            _nPilot.TrainingStartTime = _iPilot.TrainingStartTime
+            _nPilot.TrainingEndTime = _iPilot.TrainingEndTime
         End Sub
 
-        Private Sub nudIImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudIImplant.ValueChanged
-            If UpdateAllBases = False Then
-                nPilot.IImplant = CInt(nudIImplant.Value)
+        Private Sub nudIImplant_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudIImplant.ValueChanged
+            If _updateAllBases = False Then
+                _nPilot.IImplant = CInt(nudIImplant.Value)
                 Call RecalcAttributes()
                 Call DisplayAtributes()
                 Call DisplayQueueInfo()
             Else
-                nPilot.IImplant = CInt(nudIImplant.Value)
+                _nPilot.IImplant = CInt(nudIImplant.Value)
             End If
         End Sub
 
-        Private Sub nudPImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPImplant.ValueChanged
-            If UpdateAllBases = False Then
-                nPilot.PImplant = CInt(nudPImplant.Value)
+        Private Sub nudPImplant_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudPImplant.ValueChanged
+            If _updateAllBases = False Then
+                _nPilot.PImplant = CInt(nudPImplant.Value)
                 Call RecalcAttributes()
                 Call DisplayAtributes()
                 Call DisplayQueueInfo()
             Else
-                nPilot.PImplant = CInt(nudPImplant.Value)
+                _nPilot.PImplant = CInt(nudPImplant.Value)
             End If
         End Sub
 
-        Private Sub nudCImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCImplant.ValueChanged
-            If UpdateAllBases = False Then
-                nPilot.CImplant = CInt(nudCImplant.Value)
+        Private Sub nudCImplant_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudCImplant.ValueChanged
+            If _updateAllBases = False Then
+                _nPilot.CImplant = CInt(nudCImplant.Value)
                 Call RecalcAttributes()
                 Call DisplayAtributes()
                 Call DisplayQueueInfo()
             Else
-                nPilot.CImplant = CInt(nudCImplant.Value)
+                _nPilot.CImplant = CInt(nudCImplant.Value)
             End If
         End Sub
 
-        Private Sub nudWImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudWImplant.ValueChanged
-            If UpdateAllBases = False Then
-                nPilot.WImplant = CInt(nudWImplant.Value)
+        Private Sub nudWImplant_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudWImplant.ValueChanged
+            If _updateAllBases = False Then
+                _nPilot.WImplant = CInt(nudWImplant.Value)
                 Call RecalcAttributes()
                 Call DisplayAtributes()
                 Call DisplayQueueInfo()
             Else
-                nPilot.WImplant = CInt(nudWImplant.Value)
+                _nPilot.WImplant = CInt(nudWImplant.Value)
             End If
         End Sub
 
-        Private Sub nudMImplant_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMImplant.ValueChanged
-            If UpdateAllBases = False Then
-                nPilot.MImplant = CInt(nudMImplant.Value)
+        Private Sub nudMImplant_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudMImplant.ValueChanged
+            If _updateAllBases = False Then
+                _nPilot.MImplant = CInt(nudMImplant.Value)
                 Call RecalcAttributes()
                 Call DisplayAtributes()
                 Call DisplayQueueInfo()
             Else
-                nPilot.MImplant = CInt(nudMImplant.Value)
+                _nPilot.MImplant = CInt(nudMImplant.Value)
             End If
         End Sub
 
-        Private Sub btnResetImplants_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetImplants.Click
-            UpdateAllBases = True
-            nPilot.IImplant = iPilot.IImplant
-            nPilot.PImplant = iPilot.PImplant
-            nPilot.CImplant = iPilot.CImplant
-            nPilot.WImplant = iPilot.WImplant
-            nPilot.MImplant = iPilot.MImplant
+        Private Sub btnResetImplants_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnResetImplants.Click
+            _updateAllBases = True
+            _nPilot.IImplant = _iPilot.IImplant
+            _nPilot.PImplant = _iPilot.PImplant
+            _nPilot.CImplant = _iPilot.CImplant
+            _nPilot.WImplant = _iPilot.WImplant
+            _nPilot.MImplant = _iPilot.MImplant
             Call RecalcAttributes()
             Call DisplayAtributes()
             Call DisplayQueueInfo()
-            UpdateAllBases = False
+            _updateAllBases = False
         End Sub
     End Class
-End NameSpace
+End Namespace

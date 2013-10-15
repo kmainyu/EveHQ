@@ -17,50 +17,50 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.IO
-Imports System.Runtime.InteropServices
 Imports EveHQ.Controls
+Imports EveHQ.Core
+Imports System.Runtime.InteropServices
 
 Namespace Forms
 
-    Public Class frmToolTrayIconPopup
-   
-        Dim currentLabel As New Label
-        Dim currentPilot As EveHQ.Core.EveHQPilot
-        Dim currentDate As Date
+    Public Class FrmToolTrayIconPopup
 
-        Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
+        Dim _currentLabel As New Label
+        Dim _currentPilot As EveHQPilot
+        Dim _currentDate As Date
+
+        Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
             MyBase.OnPaint(e)
         End Sub
 
         Protected Overrides Sub OnClosed(ByVal e As EventArgs)
-            Me.displayTimer.Stop()
+            displayTimer.Stop()
             MyBase.OnClosed(e)
         End Sub
 
         Protected Overrides Sub OnLoad(ByVal e As EventArgs)
             MyBase.OnLoad(e)
-            Me.displayTimer.Start()
-            Me.UpdateForm()
+            displayTimer.Start()
+            UpdateForm()
         End Sub
 
         Protected Overrides Sub OnShown(ByVal e As EventArgs)
             MyBase.OnShown(e)
-            NativeMethods.SetWindowPos(MyBase.Handle, -1, 0, 0, 0, 0, &H13)
-            NativeMethods.ShowWindow(MyBase.Handle, 4)
+            NativeMethods.SetWindowPos(Handle, -1, 0, 0, 0, 0, &H13)
+            NativeMethods.ShowWindow(Handle, 4)
         End Sub
 
         Private Sub displayTimer_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles displayTimer.Tick
-            Me.UpdateSkillTimes()
+            UpdateSkillTimes()
         End Sub
 
         Private Sub UpdateForm()
-            EveHQ.Core.EveHQIcon.SetToolTipLocation(Me)
+            EveHQIcon.SetToolTipLocation(Me)
         End Sub
 
         Private Sub ConfigureForm()
             Dim count As Integer = 0
-            For Each dPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            For Each dPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If dPilot.Training = True And dPilot.Active = True Then
                     count += 1
                     Dim newCharBlock As New CharacterBlock(dPilot.Name)
@@ -72,11 +72,11 @@ Namespace Forms
         End Sub
 
         Public Sub UpdateSkillTimes()
-            For Each currentPilot In EveHQ.Core.HQ.Settings.Pilots.Values
-                If AGP1.Controls.ContainsKey(currentPilot.Name) Then
-                    currentLabel = CType(AGP1.Controls(currentPilot.Name), CharacterBlock).lblTime
-                    currentDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(currentPilot.TrainingEndTime)
-                    currentLabel.Text = Format(currentDate, "ddd") & " " & currentDate & " (" & EveHQ.Core.SkillFunctions.TimeToString(currentPilot.TrainingCurrentTime) & ")"
+            For Each _currentPilot In HQ.Settings.Pilots.Values
+                If AGP1.Controls.ContainsKey(_currentPilot.Name) Then
+                    _currentLabel = CType(AGP1.Controls(_currentPilot.Name), CharacterBlock).lblTime
+                    _currentDate = SkillFunctions.ConvertEveTimeToLocal(_currentPilot.TrainingEndTime)
+                    _currentLabel.Text = Format(_currentDate, "ddd") & " " & _currentDate & " (" & SkillFunctions.TimeToString(_currentPilot.TrainingCurrentTime) & ")"
                 End If
             Next
         End Sub
@@ -87,9 +87,9 @@ Namespace Forms
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            Me.SuspendLayout()
-            Me.ConfigureForm()
-            Me.ResumeLayout()
+            SuspendLayout()
+            ConfigureForm()
+            ResumeLayout()
 
         End Sub
     End Class
@@ -97,7 +97,7 @@ Namespace Forms
     Friend Class NativeMethods
         ' Methods
         <DllImport("user32.dll")> _
-        Public Shared Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As Integer, ByVal X As Integer, ByVal Y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInt32) As Boolean
+        Public Shared Function SetWindowPos(ByVal hWnd As IntPtr, ByVal hWndInsertAfter As Integer, ByVal x As Integer, ByVal y As Integer, ByVal cx As Integer, ByVal cy As Integer, ByVal uFlags As UInt32) As Boolean
         End Function
 
         <DllImport("user32.dll")> _
@@ -105,10 +105,12 @@ Namespace Forms
         End Function
 
         ' Fields
+        ' ReSharper disable InconsistentNaming - best leave native items alone!
         Public Const HWND_TOPMOST As Integer = -1
         Public Const SW_SHOWNOACTIVATE As Integer = 4
         Public Const SWP_NOACTIVATE As Integer = &H10
         Public Const SWP_NOMOVE As Integer = 2
         Public Const SWP_NOSIZE As Integer = 1
+        ' ReSharper restore InconsistentNaming
     End Class
 End NameSpace

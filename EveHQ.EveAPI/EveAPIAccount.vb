@@ -24,9 +24,9 @@
 ''' <remarks></remarks>
 Public Class EveAPIAccount
 
-    Private cUserID As String
-    Private cAPIkey As String
-    Private cAPIVersion As APIKeyVersions
+    Private _userID As String
+    Private _apiKey As String
+    Private _apiVersion As APIKeyVersions
 
     ''' <summary>
     ''' Holds the userID element of the API account data
@@ -34,12 +34,12 @@ Public Class EveAPIAccount
     ''' <value></value>
     ''' <returns>The userID of the API Account</returns>
     ''' <remarks></remarks>
-    Public Property userID() As String
+    Public Property UserID() As String
         Get
-            Return cUserID
+            Return _userID
         End Get
         Set(ByVal value As String)
-            cUserID = value
+            _userID = value
         End Set
     End Property
 
@@ -51,10 +51,10 @@ Public Class EveAPIAccount
     ''' <remarks></remarks>
     Public Property APIKey() As String
         Get
-            Return cAPIkey
+            Return _apiKey
         End Get
         Set(ByVal value As String)
-            cAPIkey = value
+            _apiKey = value
         End Set
     End Property
 
@@ -66,10 +66,10 @@ Public Class EveAPIAccount
     ''' <remarks></remarks>
     Public Property APIVersion As APIKeyVersions
         Get
-            Return cAPIVersion
+            Return _apiVersion
         End Get
         Set(value As APIKeyVersions)
-            cAPIVersion = value
+            _apiVersion = value
         End Set
     End Property
 
@@ -86,14 +86,14 @@ Public Class EveAPIAccount
     ''' <summary>
     ''' Creates a new EveAPIAccount using the userID and APIKey specified
     ''' </summary>
-    ''' <param name="InitialUserID">The userID of the API account</param>
-    ''' <param name="InitialAPIKey">The APIKey of the API account</param>
-    ''' <param name="InitialVersion">The initial version of the API key</param>
+    ''' <param name="initialUserID">The userID of the API account</param>
+    ''' <param name="initialAPIKey">The APIKey of the API account</param>
+    ''' <param name="initialVersion">The initial version of the API key</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal InitialUserID As String, ByVal InitialAPIKey As String, ByVal InitialVersion As APIKeyVersions)
-        Me.userID = InitialUserID
-        Me.APIKey = InitialAPIKey
-        Me.cAPIVersion = InitialVersion
+    Public Sub New(ByVal initialUserID As String, ByVal initialAPIKey As String, ByVal initialVersion As APIKeyVersions)
+        UserID = initialUserID
+        APIKey = initialAPIKey
+        _apiVersion = initialVersion
     End Sub
 
 End Class

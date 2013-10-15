@@ -1,6 +1,6 @@
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmEditImplants
+    Partial Class FrmEditImplants
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -20,7 +20,7 @@ Namespace Forms
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEditImplants))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEditImplants))
             Me.lblDescription = New System.Windows.Forms.Label
             Me.lblC = New System.Windows.Forms.Label
             Me.nudC = New System.Windows.Forms.NumericUpDown

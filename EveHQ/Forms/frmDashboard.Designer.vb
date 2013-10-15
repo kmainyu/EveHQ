@@ -1,6 +1,6 @@
 ﻿Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmDashboard
+    Partial Class FrmDashboard
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -24,7 +24,7 @@
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDashboard))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmDashboard))
             Me.ctxDashboard = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.mnuConfigureDB = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()

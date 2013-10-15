@@ -18,23 +18,25 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Data
-Imports System.Text
-Imports System.Text.RegularExpressions
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
+Imports EveHQ.Core
+Imports System.Threading
+Imports System.Text
+Imports System.Text.RegularExpressions
 
 Namespace Forms
 
-    Public Class frmMail
-        Dim _displayPilot As New Core.EveHQPilot
+    Public Class FrmMail
+        Dim _displayPilot As New EveHQPilot
         Dim _cDisplayPilotName As String = ""
         Dim _mailStatus As String = ""
         ReadOnly _groupStyle As New ElementStyle()
         ReadOnly _subItemStyle As New ElementStyle()
         ReadOnly _readItemStyle As New ElementStyle()
         ReadOnly _unreadItemStyle As New ElementStyle()
-        ReadOnly _allMails As New SortedList(Of Long, Core.EveMailMessage)
-        ReadOnly _allNotices As New SortedList(Of Long, Core.EveNotification)
+        ReadOnly _allMails As New SortedList(Of Long, EveMailMessage)
+        ReadOnly _allNotices As New SortedList(Of Long, EveNotification)
 
         Dim _currentUnreadMails As Integer = 0
         Dim _currentUnreadNotices As Integer = 0
@@ -53,14 +55,14 @@ Namespace Forms
 
         Private Sub frmMail_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
             ' Adds handlers for the external mail events
-            RemoveHandler Core.EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
-            RemoveHandler Core.EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
+            RemoveHandler EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
+            RemoveHandler EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
         End Sub
 
         Private Sub frmMail_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
             ' Adds handlers for the external mail events
-            AddHandler Core.EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
-            AddHandler Core.EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
+            AddHandler EveMailEvents.MailUpdateStarted, AddressOf MailUpdateStarted
+            AddHandler EveMailEvents.MailUpdateCompleted, AddressOf MailUpdateCompleted
             Call UpdatePilots()
         End Sub
 
@@ -75,7 +77,7 @@ Namespace Forms
             ' Update the pilots combo box
             cboPilots.BeginUpdate()
             cboPilots.Items.Clear()
-            For Each cPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If cPilot.Active = True Then
                     cboPilots.Items.Add(cPilot.Name)
                 End If
@@ -92,8 +94,8 @@ Namespace Forms
             Else
                 If oldPilot = "" Then
                     If cboPilots.Items.Count > 0 Then
-                        If cboPilots.Items.Contains(Core.HQ.Settings.StartupPilot) = True Then
-                            cboPilots.SelectedItem = Core.HQ.Settings.StartupPilot
+                        If cboPilots.Items.Contains(HQ.Settings.StartupPilot) = True Then
+                            cboPilots.SelectedItem = HQ.Settings.StartupPilot
                         Else
                             cboPilots.SelectedIndex = 0
                         End If
@@ -112,28 +114,28 @@ Namespace Forms
         End Sub
 
         Private Sub btnDownloadMail_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDownloadMail.Click
-            If Core.EveMailEvents.MailIsBeingProcessed = False Then
-                Threading.ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread)
+            If EveMailEvents.MailIsBeingProcessed = False Then
+                ThreadPool.QueueUserWorkItem(AddressOf MailUpdateThread)
             Else
                 MessageBox.Show("EveMail and Notifications are currently being downloaded automatically. Please wait until this has finished before checking again.", "EveMail Update In Progress", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End Sub
 
         Private Sub MailUpdateThread(ByVal state As Object)
-            Dim myMail As New Core.EveMail
+            Dim myMail As New EveMail
             AddHandler myMail.MailProgress, AddressOf DisplayMailProgress
             Try
-                Core.EveMailEvents.MailIsBeingProcessed = True
+                EveMailEvents.MailIsBeingProcessed = True
                 Invoke(New MethodInvoker(AddressOf MailUpdateStarted))
                 Call myMail.GetMail()
                 Invoke(New MethodInvoker(AddressOf MailUpdateCompleted))
-                Core.EveMailEvents.UpdateMailNumbers()
+                EveMailEvents.UpdateMailNumbers()
             Catch e As Exception
                 ' Handles cases where application is sluggish due to plug-in loading etc
                 ' Simply abort
             Finally
                 RemoveHandler myMail.MailProgress, AddressOf DisplayMailProgress
-                Core.EveMailEvents.MailIsBeingProcessed = False
+                EveMailEvents.MailIsBeingProcessed = False
             End Try
         End Sub
 
@@ -160,18 +162,18 @@ Namespace Forms
         End Sub
 
         Public Sub UpdateMailNumbers()
-            Core.EveMailEvents.UpdateMailNumbers()
+            EveMailEvents.UpdateMailNumbers()
         End Sub
 
         Private Sub btnGetEveIDs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetEveIDs.Click
             ' Fetch all the emails in the database
             Try
                 Dim mailingListIDs As New SortedList(Of Long, String)
-                For Each mPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+                For Each mPilot As EveHQPilot In HQ.Settings.Pilots.Values
                     ' Stage 1: Download the latest EveMail API using the standard API method
                     Dim newMailingListIDs As New SortedList(Of Long, String)
                     If mPilot.Active = True Then
-                        newMailingListIDs = Core.CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
+                        newMailingListIDs = CustomDataFunctions.WriteMailingListIDsToDatabase(mPilot)
                     End If
                     If newMailingListIDs.Count > 0 Then
                         For Each id As Long In newMailingListIDs.Keys
@@ -182,17 +184,17 @@ Namespace Forms
                     End If
                 Next
                 Const strSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
-                Dim mailData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                Dim mailData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
                 If mailData IsNot Nothing Then
                     If mailData.Tables(0).Rows.Count > 0 Then
                         Dim ids As New List(Of String)
                         For Each mailRow As DataRow In mailData.Tables(0).Rows
                             ' Get Sender IDs
-                            Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("senderID")))
+                            CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("senderID")))
                             ' Get Character IDs
-                            Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCharacterIDs")))
+                            CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCharacterIDs")))
                             ' Get Corp/Alliance IDs
-                            Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCorpOrAllianceID")))
+                            CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCorpOrAllianceID")))
                         Next
                         ' Remove any mailing list IDs
                         For Each mailingListID As Long In mailingListIDs.Keys
@@ -200,7 +202,7 @@ Namespace Forms
                                 ids.Remove(mailingListID.ToString)
                             End If
                         Next
-                        Call Core.CustomDataFunctions.WriteEveIDsToDatabase(ids)
+                        Call CustomDataFunctions.WriteEveIDsToDatabase(ids)
                     End If
                 End If
                 MessageBox.Show("Successfully fetched Eve IDs!", "ID Retrieval Completed", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -210,8 +212,8 @@ Namespace Forms
         End Sub
 
         Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilots.SelectedIndexChanged
-            If Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
-                _displayPilot = Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+            If HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+                _displayPilot = HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
                 Call UpdateMailInfo()
             End If
         End Sub
@@ -225,7 +227,7 @@ Namespace Forms
         Private Sub UpdateMails()
             ' Get the mails for the selected pilot and the corp
             Dim strSQL As String = "SELECT * FROM eveMAIL WHERE originatorID=" & _displayPilot.ID & " ORDER BY messageID DESC;"
-            Dim mailData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim mailData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
 
             Dim finalIDs As New SortedList(Of Long, String)
             _allMails.Clear()
@@ -233,7 +235,7 @@ Namespace Forms
                 If mailData.Tables(0).Rows.Count > 0 Then
                     Dim ids As New List(Of String)
                     For Each mailRow As DataRow In mailData.Tables(0).Rows
-                        Dim newMail As New Core.EveMailMessage
+                        Dim newMail As New EveMailMessage
                         newMail.MessageKey = CStr(mailRow.Item("messageKey"))
                         newMail.MessageID = CLng(mailRow.Item("messageID"))
                         newMail.OriginatorID = CLng(mailRow.Item("originatorID"))
@@ -251,13 +253,13 @@ Namespace Forms
                         End If
                         _allMails.Add(-newMail.MessageID, newMail)
                         ' Get Sender IDs
-                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("senderID")))
+                        CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("senderID")))
                         ' Get Character IDs
-                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCharacterIDs")))
+                        CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCharacterIDs")))
                         ' Get Corp/Alliance IDs
-                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCorpOrAllianceID")))
+                        CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toCorpOrAllianceID")))
                         ' Get Mailing List IDs
-                        Core.CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toListIDs")))
+                        CustomDataFunctions.ParseIDs(ids, CStr(mailRow.Item("toListIDs")))
                     Next
                     Dim strID As New StringBuilder
                     For Each id As String In ids
@@ -268,7 +270,7 @@ Namespace Forms
                     strID.Append("0")
                     ' Get the name data from the DB
                     strSQL = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-                    Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
                     If idData IsNot Nothing Then
                         If idData.Tables(0).Rows.Count > 0 Then
                             For Each idRow As DataRow In idData.Tables(0).Rows
@@ -292,14 +294,14 @@ Namespace Forms
             adtMails.Nodes.Add(sentNode)
 
             _currentUnreadMails = 0
-            For Each newMail As Core.EveMailMessage In _allMails.Values
+            For Each newMail As EveMailMessage In _allMails.Values
                 If newMail.SenderID = CDbl(_displayPilot.ID) Then
                     ' Sent Items
                     Dim strTo As String
                     If newMail.ToListIDs = "" Or newMail.ToListIDs = "0" Then
                         strTo = newMail.ToCharacterIDs & ", " & newMail.ToCorpAllianceIDs
                         Dim ids As New List(Of String)
-                        Core.CustomDataFunctions.ParseIDs(ids, strTo)
+                        CustomDataFunctions.ParseIDs(ids, strTo)
                         strTo = ""
                         For Each id As String In ids
                             If finalIDs.ContainsKey(CLng(id)) = True Then
@@ -353,7 +355,7 @@ Namespace Forms
         Private Sub UpdateNotifications()
             ' Get the notifications for the selected pilot and the corp
             Dim strSQL As String = "SELECT * FROM eveNotifications WHERE originatorID=" & _displayPilot.ID & " ORDER BY messageID DESC;"
-            Dim noticeData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim noticeData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
 
             Dim finalIDs As New SortedList(Of Long, String)
             _allNotices.Clear()
@@ -361,7 +363,7 @@ Namespace Forms
                 If noticeData.Tables(0).Rows.Count > 0 Then
                     Dim ids As New List(Of String)
                     For Each noticeRow As DataRow In noticeData.Tables(0).Rows
-                        Dim newNotice As New Core.EveNotification
+                        Dim newNotice As New EveNotification
                         newNotice.MessageKey = CStr(noticeRow.Item("messageKey"))
                         newNotice.MessageID = CLng(noticeRow.Item("messageID"))
                         newNotice.OriginatorID = CLng(noticeRow.Item("originatorID"))
@@ -376,7 +378,7 @@ Namespace Forms
                         End If
                         _allNotices.Add(-newNotice.MessageID, newNotice)
                         ' Get Sender IDs
-                        Core.CustomDataFunctions.ParseIDs(ids, CStr(noticeRow.Item("senderID")))
+                        CustomDataFunctions.ParseIDs(ids, CStr(noticeRow.Item("senderID")))
                     Next
                     Dim strID As New StringBuilder
                     For Each id As String In ids
@@ -387,7 +389,7 @@ Namespace Forms
                     strID.Append("0")
                     ' Get the name data from the DB
                     strSQL = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-                    Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
                     If idData IsNot Nothing Then
                         If idData.Tables(0).Rows.Count > 0 Then
                             For Each idRow As DataRow In idData.Tables(0).Rows
@@ -406,10 +408,10 @@ Namespace Forms
             adtMails.Nodes.Add(noticeNode)
 
             _currentUnreadNotices = 0
-            For Each newNotice As Core.EveNotification In _allNotices.Values
+            For Each newNotice As EveNotification In _allNotices.Values
                 Dim strNotice As String
-                If [Enum].IsDefined(GetType(Core.EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
-                    strNotice = [Enum].GetName(GetType(Core.EveNotificationTypes), newNotice.TypeID)
+                If [Enum].IsDefined(GetType(EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
+                    strNotice = [Enum].GetName(GetType(EveNotificationTypes), newNotice.TypeID)
                 Else
                     strNotice = "Unknown Notification"
                 End If
@@ -436,8 +438,8 @@ Namespace Forms
                 Exit Sub
             Else
                 Const updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
-                If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                    MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                    MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
                 Call UpdateMails()
                 Call MailUpdateCompleted()
@@ -451,8 +453,8 @@ Namespace Forms
                 Exit Sub
             Else
                 Const updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
-                If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                    MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                    MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
                 Call UpdateNotifications()
                 Call MailUpdateCompleted()
@@ -510,13 +512,13 @@ Namespace Forms
                             _currentUnreadMails -= 1
                             keyNode.Parent.Text = "EveMail Inbox (" & _currentUnreadMails.ToString & ")"
                             Dim updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE messageKey='" & _allMails(-CLng(key)).MessageKey & "';"
-                            If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                                MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                                MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             End If
                             Call frmEveHQ.UpdateEveMailButton()
                         End If
                     Else
-                        Dim newnotice As Core.EveNotification = _allNotices(-CLng(key))
+                        Dim newnotice As EveNotification = _allNotices(-CLng(key))
                         txtMail.Text = CleanMessage(newnotice.MessageBody)
                         'If [Enum].IsDefined(GetType(Core.EveNotificationTypes), CInt(newnotice.TypeID)) = True Then
                         '   lblMail.Text = CleanMessage(newnotice.MessageBody)
@@ -528,8 +530,8 @@ Namespace Forms
                             _currentUnreadNotices -= 1
                             keyNode.Parent.Text = "Eve Notifications (" & _currentUnreadNotices.ToString & ")"
                             Dim updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE messageKey='" & _allNotices(-CLng(key)).MessageKey & "';"
-                            If Core.CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                                MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                            If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
+                                MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             End If
                             Call frmEveHQ.UpdateEveMailButton()
                         End If

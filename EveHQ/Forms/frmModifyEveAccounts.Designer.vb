@@ -1,6 +1,6 @@
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmModifyEveAccounts
+    Partial Class FrmModifyEveAccounts
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -20,7 +20,7 @@ Namespace Forms
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmModifyEveAccounts))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmModifyEveAccounts))
             Me.Highlighter1 = New DevComponents.DotNetBar.Validator.Highlighter()
             Me.txtUserIDV2 = New System.Windows.Forms.TextBox()
             Me.btnCancelV2 = New System.Windows.Forms.Button()

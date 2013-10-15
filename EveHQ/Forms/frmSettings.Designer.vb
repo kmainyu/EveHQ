@@ -1,6 +1,6 @@
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Public Class frmSettings
+    Partial Public Class FrmSettings
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -38,7 +38,7 @@ Namespace Forms
             Dim TreeNode15 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Training Queue")
             Dim TreeNode16 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Item Overrides")
             Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode16})
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSettings))
             Me.gbGeneral = New System.Windows.Forms.GroupBox()
             Me.lblAutomaticSaveTime = New System.Windows.Forms.Label()
             Me.nudAutomaticSaveTime = New System.Windows.Forms.NumericUpDown()

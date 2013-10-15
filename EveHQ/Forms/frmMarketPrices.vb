@@ -18,68 +18,57 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.ComponentModel
-Imports System.Data
-Imports System.IO
-Imports System.Net
-Imports System.Text
-Imports System.Threading.Tasks
-Imports System.Xml
-Imports DevComponents.AdvTree
-Imports DevComponents.DotNetBar
-Imports EveHQ.Common.Extensions
 Imports EveHQ.Core
+Imports DevComponents.AdvTree
 Imports EveHQ.EveData
 Imports EveHQ.Market
+Imports System.IO
+Imports EveHQ.Common.Extensions
+Imports System.Threading.Tasks
 
 Namespace Forms
 
-    Public Class frmMarketPrices
-        Dim marketCacheFolder As String = ""
-        Dim startUp As Boolean = True
+    Public Class FrmMarketPrices
+        Dim _marketCacheFolder As String = ""
         Private Const MarketCacheFolderName As String = "MarketCache"
         Private Const Expired As String = "Expired!"
- 
+
 #Region "Form Opening and Closing Routines"
 
-        Private Sub frmMarketPrices_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Private Sub frmMarketPrices_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
             ' Initialize Price check item list
             If (ComboBox1.Items.Count = 0) Then
                 ComboBox1.Items.AddRange((From item In StaticData.Types.Values Where item.MarketGroupId <> 0 Select item.Name).ToArray())
             End If
 
-            startUp = True
-
             ' Check for the market cache folder
             If My.Computer.FileSystem.DirectoryExists(Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)) = False Then
                 Try
-                    marketCacheFolder = Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)
-                    My.Computer.FileSystem.CreateDirectory(marketCacheFolder)
+                    _marketCacheFolder = Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)
+                    My.Computer.FileSystem.CreateDirectory(_marketCacheFolder)
                 Catch ex As Exception
                     MessageBox.Show("An error occured while attempting to create the Market Cache folder: " & ex.Message, "Error Creating Market Cache Folder", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                     Exit Sub
                 End Try
             Else
-                marketCacheFolder = Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)
+                _marketCacheFolder = Path.Combine(HQ.AppDataFolder, MarketCacheFolderName)
             End If
 
             ' Update the Custom Price Grid
             Call UpdatePriceMatrix()
-
-            startUp = False
-
         End Sub
-    
+
 #End Region
-    
+
 #Region "Custom Prices Functions"
-        Private Sub txtSearchPrices_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearchPrices.TextChanged
+        Private Sub txtSearchPrices_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtSearchPrices.TextChanged
             If Len(txtSearchPrices.Text) > 2 Then
                 Dim strSearch As String = txtSearchPrices.Text.Trim.ToLower
                 Call UpdatePriceMatrix(strSearch)
             End If
         End Sub
-        Private Sub btnResetGrid_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnResetGrid.Click
+        Private Sub btnResetGrid_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnResetGrid.Click
             txtSearchPrices.Text = ""
             Call UpdatePriceMatrix("")
         End Sub
@@ -152,39 +141,7 @@ Namespace Forms
             adtPrices.EndUpdate()
         End Sub
 
-        Private Sub GetItemPrices(itemCells As Dictionary(Of Integer, Cell))
-            Dim items As List(Of Integer) = (From item As Integer In itemCells.Keys Select item).Where(Function(item As Integer) As Boolean
-                Return StaticData.Types(item).MarketGroupId <> 0
-                                                                                                          End Function).ToList()
-            Dim counter As Integer = 0
-            Dim max As Integer = items.Count
-            Const subSetSize As Integer = 50
-            While (counter < max)
-                Dim subitems As IEnumerable(Of Integer) = items.Skip(counter).Take(subSetSize)
-
-                Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(subitems, MarketMetric.Default, MarketTransactionKind.Sell)
-
-                priceTask.ContinueWith(Sub(finishedTask As Task(Of Dictionary(Of Integer, Double)))
-                    'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
-                    If IsHandleCreated Then
-                        Invoke(Sub()
-                            For Each item As Integer In From item1 In finishedTask.Result.Keys Where itemCells.ContainsKey(item1)
-                                itemCells(item).Text = finishedTask.Result(item).ToInvariantString("N2")
-                            Next
-                                  End Sub)
-                                          End If
-                                          End Sub)
-
-                counter += subSetSize
-
-                priceTask.Wait()  ' waiting... this is particularly nice to ad-hoc webservices like eve-central so we don't spam them.
-
-            End While
-
-        End Sub
-
-
-        Private Sub ctxPrices_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxPrices.Opening
+        Private Sub ctxPrices_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxPrices.Opening
             Select Case adtPrices.SelectedNodes.Count
                 Case 0
                     e.Cancel = True
@@ -212,7 +169,7 @@ Namespace Forms
                     mnuPriceEdit.Enabled = False
             End Select
         End Sub
-        Private Sub mnuPriceDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceDelete.Click
+        Private Sub mnuPriceDelete_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuPriceDelete.Click
             For Each selitem As Node In adtPrices.SelectedNodes
                 Dim selItemID As Integer = CInt(selitem.Name)
                 If HQ.CustomPriceList.ContainsKey(selItemID) = True Then
@@ -223,7 +180,7 @@ Namespace Forms
                 selitem.Cells(3).Text = ""
             Next
         End Sub
-        Private Sub mnuPriceAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceAdd.Click
+        Private Sub mnuPriceAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuPriceAdd.Click
             Dim selItem As Node = adtPrices.SelectedNodes(0)
             Dim itemID As Integer = CInt(selItem.Name)
             Dim newPrice As New frmModifyPrice(itemID, 0)
@@ -232,7 +189,7 @@ Namespace Forms
                 selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
             End If
         End Sub
-        Private Sub mnuPriceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuPriceEdit.Click
+        Private Sub mnuPriceEdit_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuPriceEdit.Click
             Dim selItem As Node = adtPrices.SelectedNodes(0)
             Dim itemID As Integer = CInt(selItem.Name)
             Dim newPrice As New frmModifyPrice(itemID, 0)
@@ -241,22 +198,22 @@ Namespace Forms
                 selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
             End If
         End Sub
-        Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkShowOnlyCustom.CheckedChanged
+        Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkShowOnlyCustom.CheckedChanged
             If Len(txtSearchPrices.Text) > 2 Then
                 Dim strSearch As String = txtSearchPrices.Text.Trim.ToLower
-                Call Me.UpdatePriceMatrix(strSearch)
+                Call UpdatePriceMatrix(strSearch)
             Else
-                Call Me.UpdatePriceMatrix()
+                Call UpdatePriceMatrix()
             End If
         End Sub
-        Private Sub adtPrices_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtPrices.ColumnHeaderMouseDown
-            Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            AdvTreeSorter.Sort(CH, True, False)
+        Private Sub adtPrices_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtPrices.ColumnHeaderMouseDown
+            Dim ch As ColumnHeader = CType(sender, ColumnHeader)
+            AdvTreeSorter.Sort(ch, True, False)
         End Sub
 #End Region
 
 
-        Private Sub OnGetMarketOrdersClick(sender As System.Object, e As System.EventArgs) Handles _getMarketOrders.Click
+        Private Sub OnGetMarketOrdersClick(sender As Object, e As EventArgs) Handles _getMarketOrders.Click
             ' check that an item is selected in the drop down
             If ComboBox1.SelectedItem Is Nothing Then
                 MessageBox.Show("You must first select an item from the drop down list before retrieving market information.")
@@ -279,25 +236,25 @@ Namespace Forms
             End If
 
             Dim orderContinuation As Action(Of Task(Of ItemMarketOrders)) = Sub(dataTask As Task(Of ItemMarketOrders))
-                'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
-                If IsHandleCreated Then
-                    If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Exception Is Nothing And dataTask.Result IsNot Nothing Then
-                        Me.Invoke(Sub() UpdateMarketDisplayWithNewData(dataTask.Result))
-                        'TODO: this is where display of an error message should go.
-                    End If
-                    'Return result
-                    End If
-                    End Sub
+                                                                                'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                                                                If IsHandleCreated Then
+                                                                                    If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Exception Is Nothing And dataTask.Result IsNot Nothing Then
+                                                                                        Invoke(Sub() UpdateMarketDisplayWithNewData(dataTask.Result))
+                                                                                        'TODO: this is where display of an error message should go.
+                                                                                    End If
+                                                                                    'Return result
+                                                                                End If
+                                                                            End Sub
 
             Dim statsContinuation As Action(Of Task(Of IEnumerable(Of ItemOrderStats))) = Sub(dataTask As Task(Of IEnumerable(Of ItemOrderStats)))
-                'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
-                If IsHandleCreated Then
-                    If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Exception Is Nothing And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
-                        Me.Invoke(Sub() UpdateItemOrderMetrics(dataTask.Result))
-                        'TODO: this is where display of an error message should go.
-                    End If
-                    End If
-                    End Sub
+                                                                                              'Bug EVEHQ-169 : this is called even after the window is destroyed but not GC'd. check the handle boolean first.
+                                                                                              If IsHandleCreated Then
+                                                                                                  If dataTask.IsCanceled = False And dataTask.IsFaulted = False And dataTask.Exception Is Nothing And dataTask.Result IsNot Nothing And dataTask.Result.Any() Then
+                                                                                                      Invoke(Sub() UpdateItemOrderMetrics(dataTask.Result))
+                                                                                                      'TODO: this is where display of an error message should go.
+                                                                                                  End If
+                                                                                              End If
+                                                                                          End Sub
 
 
             orderTask.ContinueWith(orderContinuation)
@@ -406,15 +363,15 @@ Namespace Forms
         End Sub
 
 
-        Private Sub OnMarketSettingsClick(sender As System.Object, e As System.EventArgs) Handles Button2.Click
+        Private Sub OnMarketSettingsClick(sender As Object, e As EventArgs) Handles Button2.Click
             ShowMarketSettings()
         End Sub
 
         Private Sub ShowMarketSettings()
-            Dim EveHQSettings As New frmSettings
-            EveHQSettings.Tag = "nodeMarket"
-            EveHQSettings.ShowDialog()
-            EveHQSettings.Dispose()
+            Dim eveHQSettings As New FrmSettings
+            eveHQSettings.Tag = "nodeMarket"
+            eveHQSettings.ShowDialog()
+            eveHQSettings.Dispose()
         End Sub
     End Class
 End NameSpace

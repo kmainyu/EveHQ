@@ -1,6 +1,6 @@
 ﻿Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmExtraStandings
+    Partial Class FrmExtraStandings
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -23,7 +23,7 @@
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmExtraStandings))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmExtraStandings))
             Me.lblCurrentStandingLbl = New System.Windows.Forms.Label()
             Me.lblRequiredStanding = New System.Windows.Forms.Label()
             Me.nudReqStanding = New System.Windows.Forms.NumericUpDown()

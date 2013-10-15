@@ -17,52 +17,54 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Namespace Forms
-    Public Class frmEditImplants
+Imports EveHQ.Core
 
-        Dim cDisplayPilotName As String
-        Dim DisplayPilot As EveHQ.Core.EveHQPilot
+Namespace Forms
+    Public Class FrmEditImplants
+
+        Dim _displayPilotName As String
+        Dim _displayPilot As EveHQPilot
 
         Public Property DisplayPilotName() As String
             Get
-                Return cDisplayPilotName
+                Return _displayPilotName
             End Get
             Set(ByVal value As String)
-                cDisplayPilotName = value
-                DisplayPilot = EveHQ.Core.HQ.Settings.Pilots(value)
+                _displayPilotName = value
+                _displayPilot = HQ.Settings.Pilots(value)
             End Set
         End Property
 
-        Private Sub nudC_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudC.ValueChanged
-            DisplayPilot.CImplantM = CInt(nudC.Value)
+        Private Sub nudC_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudC.ValueChanged
+            _displayPilot.CImplantM = CInt(nudC.Value)
         End Sub
 
-        Private Sub nudI_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudI.ValueChanged
-            DisplayPilot.IImplantM = CInt(nudI.Value)
+        Private Sub nudI_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudI.ValueChanged
+            _displayPilot.IImplantM = CInt(nudI.Value)
         End Sub
 
-        Private Sub nudM_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudM.ValueChanged
-            DisplayPilot.MImplantM = CInt(nudM.Value)
+        Private Sub nudM_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudM.ValueChanged
+            _displayPilot.MImplantM = CInt(nudM.Value)
         End Sub
 
-        Private Sub nudP_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudP.ValueChanged
-            DisplayPilot.PImplantM = CInt(nudP.Value)
+        Private Sub nudP_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudP.ValueChanged
+            _displayPilot.PImplantM = CInt(nudP.Value)
         End Sub
 
-        Private Sub nudW_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudW.ValueChanged
-            DisplayPilot.WImplantM = CInt(nudW.Value)
+        Private Sub nudW_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudW.ValueChanged
+            _displayPilot.WImplantM = CInt(nudW.Value)
         End Sub
 
-        Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-            Me.Close()
+        Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+            Close()
         End Sub
 
-        Private Sub frmEditImplants_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-            nudC.Value = DisplayPilot.CImplantM
-            nudI.Value = DisplayPilot.IImplantM
-            nudM.Value = DisplayPilot.MImplantM
-            nudP.Value = DisplayPilot.PImplantM
-            nudW.Value = DisplayPilot.WImplantM
+        Private Sub frmEditImplants_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+            nudC.Value = _displayPilot.CImplantM
+            nudI.Value = _displayPilot.IImplantM
+            nudM.Value = _displayPilot.MImplantM
+            nudP.Value = _displayPilot.PImplantM
+            nudW.Value = _displayPilot.WImplantM
         End Sub
     End Class
 End NameSpace

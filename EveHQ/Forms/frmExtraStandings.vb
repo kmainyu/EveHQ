@@ -17,60 +17,60 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
+
 
 Namespace Forms
 
-    Public Class frmExtraStandings
+    Public Class FrmExtraStandings
 
-        Dim cPilot As String = ""
-        Dim cParty As String = ""
-        Dim cStanding As Double = 0
-        Dim cBaseStanding As Double = 0
+        Dim _pilot As String = ""
+        Dim _party As String = ""
+        Dim _standing As Double = 0
+        Dim _baseStanding As Double = 0
 
         Public Property Pilot() As String
             Get
-                Return cPilot
+                Return _pilot
             End Get
             Set(ByVal value As String)
-                cPilot = value
+                _pilot = value
             End Set
         End Property
         Public Property Party() As String
             Get
-                Return cParty
+                Return _party
             End Get
             Set(ByVal value As String)
-                cParty = value
+                _party = value
             End Set
         End Property
         Public Property Standing() As Double
             Get
-                Return cStanding
+                Return _standing
             End Get
             Set(ByVal value As Double)
-                cStanding = value
+                _standing = value
             End Set
         End Property
         Public Property BaseStanding() As Double
             Get
-                Return cBaseStanding
+                Return _baseStanding
             End Get
             Set(ByVal value As Double)
-                cBaseStanding = value
+                _baseStanding = value
             End Set
         End Property
 
         Private Sub CalculateMissions()
-            Dim curStanding As Double = 0
+            Dim curStanding As Double
             If chkUseBaseOnly.Checked = True Then
-                curStanding = cBaseStanding
+                curStanding = _baseStanding
             Else
-                curStanding = cStanding
+                curStanding = _standing
             End If
             Dim newStanding As Double = 0
             Dim reqStanding As Double = CDbl(nudReqStanding.Value)
-            Dim missionGain As Double = 0
+            Dim missionGain As Double
 
             ' Calculate Average
             If radDirect.Checked = True Then
@@ -98,7 +98,7 @@ Namespace Forms
             Dim missionCount As Integer = 0
             lvwStandings.BeginUpdate()
             lvwStandings.Items.Clear()
-            Dim newStand As New ListViewItem
+            Dim newStand As ListViewItem
             If missionGain <> 0 Then
                 Do While curStanding < reqStanding And curStanding > -10
                     missionCount += 1
@@ -110,7 +110,7 @@ Namespace Forms
                     If newStanding <= -10 Then newStanding = -10
                     newStand.SubItems.Add(newStanding.ToString("N10"))
                     If Int(curStanding) <> Int(newStanding) Then
-                        newStand.BackColor = Drawing.Color.LightSteelBlue
+                        newStand.BackColor = Color.LightSteelBlue
                     End If
                     lvwStandings.Items.Add(newStand)
                     curStanding = newStanding
@@ -127,26 +127,26 @@ Namespace Forms
 
         End Sub
 
-        Private Sub frmExtraStandings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-            Me.Text = "Standings Extrapolation - " & Party
-            Me.lblCurrentStanding.Text = cStanding.ToString("N10")
-            Me.lblCurrentBaseStanding.Text = cBaseStanding.ToString("N10")
-            Me.CalculateMissions()
+        Private Sub frmExtraStandings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+            Text = "Standings Extrapolation - " & Party
+            lblCurrentStanding.Text = _standing.ToString("N10")
+            lblCurrentBaseStanding.Text = _baseStanding.ToString("N10")
+            CalculateMissions()
         End Sub
 
-        Private Sub nudReqStanding_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudReqStanding.ValueChanged
-            Call Me.CalculateMissions()
-        End Sub
-
-        Private Sub nudMissionGain_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMissionGain.ValueChanged
-            Call Me.CalculateMissions()
-        End Sub
-
-        Private Sub txtGains_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtGains.TextChanged
+        Private Sub nudReqStanding_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudReqStanding.ValueChanged
             Call CalculateMissions()
         End Sub
 
-        Private Sub radDirect_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radDirect.CheckedChanged
+        Private Sub nudMissionGain_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudMissionGain.ValueChanged
+            Call CalculateMissions()
+        End Sub
+
+        Private Sub txtGains_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtGains.TextChanged
+            Call CalculateMissions()
+        End Sub
+
+        Private Sub radDirect_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles radDirect.CheckedChanged
             If radDirect.Checked = True Then
                 lblAvgMission.Enabled = True
                 nudMissionGain.Enabled = True
@@ -161,7 +161,7 @@ Namespace Forms
             CalculateMissions()
         End Sub
 
-        Private Sub chkUseBaseOnly_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseBaseOnly.CheckedChanged
+        Private Sub chkUseBaseOnly_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkUseBaseOnly.CheckedChanged
             Call CalculateMissions()
         End Sub
     End Class

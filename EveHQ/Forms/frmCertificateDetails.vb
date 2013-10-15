@@ -17,23 +17,25 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Text
+Imports System.ComponentModel
 Imports EveHQ.EveData
+Imports EveHQ.Core
+Imports System.Text
 
 Namespace Forms
 
-    Public Class frmCertificateDetails
+    Public Class FrmCertificateDetails
 
         ReadOnly _certGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
         Dim _displayPilotName As String
-        Dim _displayPilot As New Core.EveHQPilot
+        Dim _displayPilot As New EveHQPilot
         Public Property DisplayPilotName() As String
             Get
                 Return _displayPilotName
             End Get
             Set(ByVal value As String)
                 _displayPilotName = value
-                _displayPilot = Core.HQ.Settings.Pilots(value)
+                _displayPilot = HQ.Settings.Pilots(value)
             End Set
         End Property
 
@@ -94,7 +96,7 @@ Namespace Forms
                 pointer(level) = 1
                 parentItem(level) = CInt(skillID)
 
-                Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+                Dim cSkill As EveSkill = HQ.SkillListID(skillID)
                 Dim curLevel As Integer = CInt(cCert.RequiredSkills(skillID))
                 Dim curNode As TreeNode = New TreeNode
 
@@ -103,9 +105,9 @@ Namespace Forms
                 Dim skillTrained As Boolean
                 Dim myLevel As Integer
                 skillTrained = False
-                If Core.HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+                If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
                     If _displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
-                        Dim mySkill As Core.EveHQPilotSkill
+                        Dim mySkill As EveHQPilotSkill
                         mySkill = _displayPilot.PilotSkills(cSkill.Name)
                         myLevel = CInt(mySkill.Level)
                         If myLevel >= curLevel Then skillTrained = True
@@ -113,7 +115,7 @@ Namespace Forms
                             curNode.ForeColor = Color.LimeGreen
                             curNode.ToolTipText = "Already Trained"
                         Else
-                            Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                            Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
                             If planLevel = 0 Then
                                 curNode.ForeColor = Color.Red
                                 curNode.ToolTipText = "Not trained & no planned training"
@@ -127,7 +129,7 @@ Namespace Forms
                             End If
                         End If
                     Else
-                        Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
@@ -144,9 +146,9 @@ Namespace Forms
                 tvwReqs.Nodes.Add(curNode)
 
                 If cSkill.PreReqSkills.Count > 0 Then
-                    Dim subSkill As Core.EveSkill
+                    Dim subSkill As EveSkill
                     For Each subSkillID As Integer In cSkill.PreReqSkills.Keys
-                        subSkill = Core.HQ.SkillListID(subSkillID)
+                        subSkill = HQ.SkillListID(subSkillID)
                         Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                     Next
                 End If
@@ -155,17 +157,17 @@ Namespace Forms
             tvwReqs.EndUpdate()
         End Sub
 
-        Private Sub AddPreReqsToTree(ByVal newSkill As Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
+        Private Sub AddPreReqsToTree(ByVal newSkill As EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
             Dim skillTrained As Boolean
             Dim newNode As TreeNode = New TreeNode
             newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
             newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
             ' Check status of this skill
-            If Core.HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+            If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
                 skillTrained = False
                 Dim myLevel As Integer
                 If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) Then
-                    Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
+                    Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                 End If
@@ -173,7 +175,7 @@ Namespace Forms
                     newNode.ForeColor = Color.LimeGreen
                     newNode.ToolTipText = "Already Trained"
                 Else
-                    Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_displayPilot, newSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, newSkill.Name, curLevel)
                     If planLevel = 0 Then
                         newNode.ForeColor = Color.Red
                         newNode.ToolTipText = "Not trained & no planned training"
@@ -188,11 +190,11 @@ Namespace Forms
                 End If
             End If
             curNode.Nodes.Add(newNode)
-     
+
             If newSkill.PreReqSkills.Count > 0 Then
-                Dim subSkill As Core.EveSkill
+                Dim subSkill As EveSkill
                 For Each subSkillID As Integer In newSkill.PreReqSkills.Keys
-                    subSkill = Core.HQ.SkillListID(subSkillID)
+                    subSkill = HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
                 Next
             End If
@@ -224,7 +226,7 @@ Namespace Forms
                         If toolTipText.Length > 0 Then
                             toolTipText.Insert(0, "Also Requires: ")
 
-                            If (toolTipText.ToString().EndsWith(", ")) Then
+                            If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
                                 toolTipText.Remove(toolTipText.Length - 2, 2)
                             End If
                         End If
@@ -247,7 +249,7 @@ Namespace Forms
             lvwDepend.EndUpdate()
         End Sub
 
-        Private Sub ctxSkills_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxSkills.Opening
+        Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxSkills.Opening
             Dim curNode As TreeNode
             curNode = tvwReqs.SelectedNode
             Dim skillName As String
@@ -256,7 +258,7 @@ Namespace Forms
             If InStr(skillName, "(Level") <> 0 Then
                 skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
             End If
-            skillID = Core.SkillFunctions.SkillNameToID(skillName)
+            skillID = SkillFunctions.SkillNameToID(skillName)
             mnuSkillName.Text = skillName
             mnuSkillName.Tag = skillID
         End Sub
@@ -267,11 +269,11 @@ Namespace Forms
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End Sub
 
-        Private Sub tvwReqs_NodeMouseClick(ByVal sender As Object, ByVal e As Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwReqs.NodeMouseClick
+        Private Sub tvwReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwReqs.NodeMouseClick
             tvwReqs.SelectedNode = e.Node
         End Sub
 
-        Private Sub ctxCerts_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCerts.Opening
+        Private Sub ctxCerts_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxCerts.Opening
             If ctxCerts.SourceControl.Name = "lvwCerts" Then
                 If lvwCerts.SelectedItems.Count > 0 Then
                     mnuCertName.Text = lvwCerts.SelectedItems(0).Text & " (" & lvwCerts.SelectedItems(0).SubItems(1).Text & ")"

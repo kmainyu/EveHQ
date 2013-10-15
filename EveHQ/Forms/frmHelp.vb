@@ -19,34 +19,36 @@
 '=========================================================================
 Imports System.ComponentModel
 Imports EveHQ.Controls
+Imports EveHQ.Core.RSS
+Imports System.Text.RegularExpressions
 
 Namespace Forms
 
-    Public Class frmHelp
+    Public Class FrmHelp
 
-        Private ReadOnly BlogItems As New ArrayList
-        Private ReadOnly TwitterItems As New ArrayList
-        Private ReadOnly feedIDs As New ArrayList
-        Dim WithEvents BlogUpdater As New BackgroundWorker
-        Dim WithEvents TwitterUpdater As New BackgroundWorker
+        Private ReadOnly _blogItems As New ArrayList
+        Private ReadOnly _twitterItems As New ArrayList
+        Private ReadOnly _feedIDs As New ArrayList
+        Dim WithEvents _blogUpdateWorker As New BackgroundWorker
+        Dim WithEvents _twitterUpdateWorker As New BackgroundWorker
 
-        Private Sub frmHelp_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown
+        Private Sub frmHelp_Shown(sender As Object, e As EventArgs) Handles Me.Shown
             tmrUpdate.Start()
         End Sub
 
         Private Sub UpdateBlogFeedDisplay()
             pnlBlogFeedItems.SuspendLayout()
             pnlBlogFeedItems.Controls.Clear()
-            For Each item As EveHQ.Core.RSS.FeedItem In BlogItems
-                Dim RSSItem As New RSSFeedItem
-                RSSItem.lblFeedItemTitle.Text = item.Title
-                RSSItem.lblFeedItemTitle.Tag = item.Link
+            For Each item As FeedItem In _blogItems
+                Dim rssItem As New RSSFeedItem
+                rssItem.lblFeedItemTitle.Text = item.Title
+                rssItem.lblFeedItemTitle.Tag = item.Link
                 Dim itemDate As Date
                 Date.TryParse(item.PubDate, itemDate)
-                RSSItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
-                pnlBlogFeedItems.Controls.Add(RSSItem)
-                RSSItem.Dock = DockStyle.Top
-                RSSItem.BringToFront()
+                rssItem.lblFeeItemDate.Text = itemDate.ToLongDateString & " " & itemDate.ToLongTimeString
+                pnlBlogFeedItems.Controls.Add(rssItem)
+                rssItem.Dock = DockStyle.Top
+                rssItem.BringToFront()
             Next
             pnlBlogFeedItems.ResumeLayout()
         End Sub
@@ -54,41 +56,41 @@ Namespace Forms
         Private Sub UpdateTwitterFeedDisplay()
             pnlTwitterFeedItems.SuspendLayout()
             pnlTwitterFeedItems.Controls.Clear()
-            For Each item As EveHQ.Core.RSS.FeedItem In TwitterItems
-                Dim RSSItem As New RSSTwitterItem
-                RSSItem.lblFeedItemTitle.Text = item.Title.Replace("EveHQ", "<b><a href='" & item.Link & "'>EveHQ</a></b>")
-                RSSItem.lblFeedItemTitle.Tag = item.Link
+            For Each item As FeedItem In _twitterItems
+                Dim rssItem As New RSSTwitterItem
+                rssItem.lblFeedItemTitle.Text = item.Title.Replace("EveHQ", "<b><a href='" & item.Link & "'>EveHQ</a></b>")
+                rssItem.lblFeedItemTitle.Tag = item.Link
                 Dim itemDate As Date
                 Date.TryParse(item.PubDate, itemDate)
-                RSSItem.lblFeeItemDate.Text = Format(itemDate, "d MMM")
-                pnlTwitterFeedItems.Controls.Add(RSSItem)
-                RSSItem.Dock = DockStyle.Top
-                RSSItem.BringToFront()
+                rssItem.lblFeeItemDate.Text = Format(itemDate, "d MMM")
+                pnlTwitterFeedItems.Controls.Add(rssItem)
+                rssItem.Dock = DockStyle.Top
+                rssItem.BringToFront()
             Next
             pnlTwitterFeedItems.ResumeLayout()
         End Sub
 
 #Region "Feed Parsing Routines"
 
-        Private Sub ParseFeed(ByVal URL As String, ByRef FeedItems As ArrayList)
+        Private Sub ParseFeed(ByVal url As String, ByRef feedItems As ArrayList)
             Try
 
                 FeedItems.Clear()
 
-                Dim parser As EveHQ.Core.RSS.IFeedParser = EveHQ.Core.RSS.ParserFactory.GetParser(URL)
+                Dim parser As IFeedParser = ParserFactory.GetParser(url)
 
                 If parser Is Nothing Then
                     Exit Sub
                 End If
 
-                Dim parse As List(Of EveHQ.Core.RSS.FeedItem) = parser.Parse(URL)
+                Dim parse As List(Of FeedItem) = parser.Parse(url)
 
                 If parse Is Nothing Then
                     Exit Sub
                 End If
 
-                For Each item As EveHQ.Core.RSS.FeedItem In parse
-                    If feedIDs.Contains(item.GUID) Then
+                For Each item As FeedItem In parse
+                    If _feedIDs.Contains(item.GUID) Then
                         Continue For
                     End If
 
@@ -119,50 +121,50 @@ Namespace Forms
         End Function
 
         Private Shared Function RemoveHTMLTags(ByVal text As String) As String
-            Dim regularExpressionString As String = "<.+?>"
+            Const regularExpressionString As String = "<.+?>"
 
-            Dim r As New System.Text.RegularExpressions.Regex(regularExpressionString, System.Text.RegularExpressions.RegexOptions.Singleline)
+            Dim r As New Regex(regularExpressionString, RegexOptions.Singleline)
             Return r.Replace(text, "")
         End Function
 
 #End Region
 
-        Private Sub tmrUpdate_Tick(sender As System.Object, e As System.EventArgs) Handles tmrUpdate.Tick
+        Private Sub tmrUpdate_Tick(sender As Object, e As EventArgs) Handles tmrUpdate.Tick
             tmrUpdate.Stop()
             tmrUpdate.Enabled = False
             pbBlogUpdate.Visible = True
-            BlogUpdater.RunWorkerAsync()
+            _blogUpdateWorker.RunWorkerAsync()
             pbTwitterUpdate.Visible = True
-            TwitterUpdater.RunWorkerAsync()
+            _twitterUpdateWorker.RunWorkerAsync()
             wbHelp.Navigate("http://evehq.net/wiki")
         End Sub
 
-        Private Sub BlogUpdater_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles BlogUpdater.DoWork
-            Call Me.ParseFeed("http://evehq.net/feed/", BlogItems)
+        Private Sub BlogUpdater_DoWork(sender As Object, e As DoWorkEventArgs) Handles _blogUpdateWorker.DoWork
+            Call ParseFeed("http://evehq.net/feed/", _blogItems)
         End Sub
 
-        Private Sub BlogUpdater_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles BlogUpdater.RunWorkerCompleted
-            Call Me.UpdateBlogFeedDisplay()
+        Private Sub BlogUpdater_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _blogUpdateWorker.RunWorkerCompleted
+            Call UpdateBlogFeedDisplay()
             pbBlogUpdate.Visible = False
         End Sub
 
-        Private Sub TwitterUpdater_DoWork(sender As Object, e As System.ComponentModel.DoWorkEventArgs) Handles TwitterUpdater.DoWork
-            Call Me.ParseFeed("http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=EveHQToolkit", TwitterItems)
+        Private Sub TwitterUpdater_DoWork(sender As Object, e As DoWorkEventArgs) Handles _twitterUpdateWorker.DoWork
+            Call ParseFeed("http://api.twitter.com/1/statuses/user_timeline.rss?screen_name=EveHQToolkit", _twitterItems)
         End Sub
 
-        Private Sub TwitterUpdater_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles TwitterUpdater.RunWorkerCompleted
-            Call Me.UpdateTwitterFeedDisplay()
+        Private Sub TwitterUpdater_RunWorkerCompleted(sender As Object, e As RunWorkerCompletedEventArgs) Handles _twitterUpdateWorker.RunWorkerCompleted
+            Call UpdateTwitterFeedDisplay()
             pbTwitterUpdate.Visible = False
         End Sub
 
-        Private Sub lblBlogFeed_DoubleClick(sender As Object, e As System.EventArgs) Handles lblBlogFeed.DoubleClick
+        Private Sub lblBlogFeed_DoubleClick(sender As Object, e As EventArgs) Handles lblBlogFeed.DoubleClick
             pbBlogUpdate.Visible = True
-            BlogUpdater.RunWorkerAsync()
+            _blogUpdateWorker.RunWorkerAsync()
         End Sub
 
-        Private Sub lblTwitterFeed_DoubleClick(sender As Object, e As System.EventArgs) Handles lblTwitterFeed.DoubleClick
+        Private Sub lblTwitterFeed_DoubleClick(sender As Object, e As EventArgs) Handles lblTwitterFeed.DoubleClick
             pbTwitterUpdate.Visible = True
-            TwitterUpdater.RunWorkerAsync()
+            _twitterUpdateWorker.RunWorkerAsync()
         End Sub
     End Class
 End NameSpace

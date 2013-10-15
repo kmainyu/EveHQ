@@ -95,7 +95,7 @@ Public Class FrmConverter
             End If
 
             ' Check for database format parameter
-            If param.StartsWith("/dbformat") Then
+            If param.StartsWith("/dbformat", StringComparison.Ordinal) Then
                 Dim format As Integer
                 If Integer.TryParse(param.TrimStart("/dbformat;".ToCharArray), format) = True Then
                     If [Enum].IsDefined(GetType(DBFormat), format) Then
@@ -109,17 +109,17 @@ Public Class FrmConverter
             End If
 
             ' Check for SQL Server Name
-            If param.StartsWith("/dbserver") Then
+            If param.StartsWith("/dbserver", StringComparison.Ordinal) Then
                 _dbServerName = param.TrimStart("/dbserver;".ToCharArray)
             End If
 
             ' Check for SQL Server Database
-            If param.StartsWith("/dbname") Then
+            If param.StartsWith("/dbname", StringComparison.Ordinal) Then
                 _dbDatabase = param.TrimStart("/dbname;".ToCharArray)
             End If
 
             ' Check for SQL security
-            If param.StartsWith("/dbsqlsec") Then
+            If param.StartsWith("/dbsqlsec", StringComparison.Ordinal) Then
                 Dim sqlsec As Integer
                 If Integer.TryParse(param.TrimStart("/dbsqlsec;".ToCharArray), sqlsec) = True Then
                     If sqlsec = 1 Then
@@ -133,12 +133,12 @@ Public Class FrmConverter
             End If
 
             ' Check for SQL username
-            If param.StartsWith("/dbusername") Then
+            If param.StartsWith("/dbusername", StringComparison.Ordinal) Then
                 _dbUsername = param.TrimStart("/dbusername;".ToCharArray)
             End If
 
             ' Check for SQL password
-            If param.StartsWith("/dbpassword") Then
+            If param.StartsWith("/dbpassword", StringComparison.Ordinal) Then
                 _dbPassword = param.TrimStart("/dbpassword;".ToCharArray)
             End If
 

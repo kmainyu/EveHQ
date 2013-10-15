@@ -1,6 +1,6 @@
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmHelp
+    Partial Class FrmHelp
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -24,7 +24,7 @@ Namespace Forms
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHelp))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmHelp))
             Me.pnlHelp = New DevComponents.DotNetBar.PanelEx()
             Me.wbHelp = New System.Windows.Forms.WebBrowser()
             Me.pnlFeedItems = New DevComponents.DotNetBar.PanelEx()

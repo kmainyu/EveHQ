@@ -17,41 +17,42 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
 Imports System.Reflection
 
 Namespace Forms
 
-    Public Class frmDashboard
-        Dim IsDragging As Boolean = False
-        Dim IsResizing As Boolean = False
-        Dim IsResizable As Boolean = False
-        Dim ResizeDirection As ResizeDirections
-        Dim ResizePosition As ResizePositions
-        Dim controlBorder As Integer = 4
-        Dim borderOffset As Integer = 1
-        Dim initialCoords As Point
-        Dim initialLocation As Point
-        Dim initialSize As Size
-        Dim endPoint As Point
-        Dim sourceControl As Control
-        Dim parentControl As Control
-        Friend ticker1 As New EveHQ.Core.Ticker
+    Public Class FrmDashboard
+        Dim _isDragging As Boolean = False
+        Dim _isResizing As Boolean = False
+        Dim _isResizable As Boolean = False
+        Dim _resizeDirection As ResizeDirections
+        Dim _resizePosition As ResizePositions
+        Private Const ControlBorder As Integer = 4
+        Private Const BorderOffset As Integer = 1
+        Dim _initialCoords As Point
+        Dim _initialLocation As Point
+        Dim _initialSize As Size
+        Dim _endPoint As Point
+        Dim _sourceControl As Control
+        Dim _parentControl As Control
+        Friend Ticker1 As New Ticker
 
 #Region "Form Loading Routines"
 
-        Private Sub frmDashboard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Private Sub frmDashboard_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
             ' Set the options
-            Me.Ticker1.Visible = EveHQ.Core.HQ.Settings.DBTicker
-            Select Case EveHQ.Core.HQ.Settings.DBTickerLocation
+            Ticker1.Visible = HQ.Settings.DBTicker
+            Select Case HQ.Settings.DBTickerLocation
                 Case "Top"
-                    Me.ticker1.Dock = DockStyle.Top
+                    Ticker1.Dock = DockStyle.Top
                 Case "Bottom"
-                    Me.ticker1.Dock = DockStyle.Bottom
+                    Ticker1.Dock = DockStyle.Bottom
             End Select
 
             ' Add the controls to the panel
-            Call Me.UpdateWidgets()
+            Call UpdateWidgets()
 
         End Sub
 #End Region
@@ -81,7 +82,7 @@ Namespace Forms
 
             ' Clear Controls
             panelDB.Controls.Clear()
-            For Each config As SortedList(Of String, Object) In EveHQ.Core.HQ.Settings.DashboardConfiguration
+            For Each config As SortedList(Of String, Object) In HQ.Settings.DashboardConfiguration
                 Call AddWidget(config)
             Next
 
@@ -96,14 +97,14 @@ Namespace Forms
         End Sub
 
         Private Sub AddWidget(config As SortedList(Of String, Object))
-            Dim WidgetName As String = CStr(config("ControlName"))
-            If EveHQ.Core.HQ.Widgets.ContainsKey(WidgetName) = True Then
-                Dim ClassName As String = EveHQ.Core.HQ.Widgets(WidgetName)
-                Dim myType As Type = Assembly.GetExecutingAssembly.GetType(ClassName)
+            Dim widgetName As String = CStr(config("ControlName"))
+            If HQ.Widgets.ContainsKey(widgetName) = True Then
+                Dim className As String = HQ.Widgets(widgetName)
+                Dim myType As Type = Assembly.GetExecutingAssembly.GetType(className)
                 Dim newWidget As Object = Activator.CreateInstance(myType)
-                Dim pi As System.Reflection.PropertyInfo = myType.GetProperty("ControlConfiguration")
+                Dim pi As PropertyInfo = myType.GetProperty("ControlConfiguration")
                 pi.SetValue(newWidget, config, Nothing)
-                Dim control As Control = CType(newWidget, Windows.Forms.Control)
+                Dim control As Control = CType(newWidget, Control)
                 panelDB.Controls.Add(control)
                 AddHandler control.Controls("AGPContent").MouseDown, AddressOf MyMouseDown
                 AddHandler control.Controls("AGPContent").MouseUp, AddressOf MyMouseUp
@@ -134,29 +135,29 @@ Namespace Forms
 
         Private Sub MyMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
             ' Get the source control
-            sourceControl = CType(sender, Control)
-            parentControl = sourceControl
+            _sourceControl = CType(sender, Control)
+            _parentControl = _sourceControl
             Do
-                parentControl = parentControl.Parent
-            Loop Until parentControl.Parent Is Me.panelDB
-            parentControl.BringToFront()
+                _parentControl = _parentControl.Parent
+            Loop Until _parentControl.Parent Is panelDB
+            _parentControl.BringToFront()
             ' Establish cursor position to determine routine
-            If IsResizable = True Then
-                IsResizing = True
-                initialCoords = e.Location
-                initialLocation = parentControl.Location
-                initialSize = parentControl.Size
-                endPoint = New Point(initialLocation.X + initialSize.Width, initialLocation.Y + initialSize.Height)
+            If _isResizable = True Then
+                _isResizing = True
+                _initialCoords = e.Location
+                _initialLocation = _parentControl.Location
+                _initialSize = _parentControl.Size
+                _endPoint = New Point(_initialLocation.X + _initialSize.Width, _initialLocation.Y + _initialSize.Height)
                 'lblStatus.Text = "Status: Resizing " & parentControl.Name & " (" & ResizePosition.ToString & ") from (" & initialSize.Width.ToString & "," & initialSize.Height.ToString & ") to (" & parentControl.Width.ToString & "," & parentControl.Height.ToString & ")"
             Else
                 ' Disable dragging from the AGPContent panel, only allow from the Header
-                If sourceControl.Name = "lblHeader" Then
-                    IsDragging = True
-                    parentControl.Cursor = Cursors.SizeAll
-                    initialCoords = e.Location
-                    initialLocation = parentControl.Location
-                    initialSize = parentControl.Size
-                    endPoint = New Point(initialLocation.X + initialSize.Width, initialLocation.Y + initialSize.Height)
+                If _sourceControl.Name = "lblHeader" Then
+                    _isDragging = True
+                    _parentControl.Cursor = Cursors.SizeAll
+                    _initialCoords = e.Location
+                    _initialLocation = _parentControl.Location
+                    _initialSize = _parentControl.Size
+                    _endPoint = New Point(_initialLocation.X + _initialSize.Width, _initialLocation.Y + _initialSize.Height)
                     'lblStatus.Text = "Status: Dragging " & parentControl.Name & " from (" & initialLocation.X.ToString & "," & initialLocation.Y.ToString & ") to (" & parentControl.Location.X.ToString & "," & parentControl.Location.Y.ToString & ")"
                 End If
             End If
@@ -164,141 +165,141 @@ Namespace Forms
 
         Private Sub MyMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs)
             ' Get the source control
-            sourceControl = CType(sender, Control)
-            parentControl = sourceControl
+            _sourceControl = CType(sender, Control)
+            _parentControl = _sourceControl
             Do
-                parentControl = parentControl.Parent
-            Loop Until parentControl.Parent Is Me.panelDB
-            If IsDragging = True Then
+                _parentControl = _parentControl.Parent
+            Loop Until _parentControl.Parent Is panelDB
+            If _isDragging = True Then
                 ' Dragging code
-                Dim pi As System.Reflection.PropertyInfo = parentControl.GetType().GetProperty("ControlLocation")
-                pi.SetValue(parentControl, parentControl.Location, Nothing)
-                IsDragging = False
-            ElseIf IsResizing = True Then
+                Dim pi As PropertyInfo = _parentControl.GetType().GetProperty("ControlLocation")
+                pi.SetValue(_parentControl, _parentControl.Location, Nothing)
+                _isDragging = False
+            ElseIf _isResizing = True Then
                 ' Resizing Code
-                Dim pi As System.Reflection.PropertyInfo = parentControl.GetType().GetProperty("ControlSize")
-                pi.SetValue(parentControl, parentControl.Size, Nothing)
-                IsResizing = False
+                Dim pi As PropertyInfo = _parentControl.GetType().GetProperty("ControlSize")
+                pi.SetValue(_parentControl, _parentControl.Size, Nothing)
+                _isResizing = False
             End If
             'lblStatus.Text = "Status: Waiting..."
-            parentControl.Cursor = Cursors.Default
+            _parentControl.Cursor = Cursors.Default
         End Sub
 
         Private Sub MyMouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
             ' Get the source control
-            sourceControl = CType(sender, Control)
-            parentControl = sourceControl
+            _sourceControl = CType(sender, Control)
+            _parentControl = _sourceControl
             Do
-                parentControl = parentControl.Parent
-            Loop Until parentControl.Parent Is Me.panelDB
-            If IsDragging = True Then
+                _parentControl = _parentControl.Parent
+            Loop Until _parentControl.Parent Is panelDB
+            If _isDragging = True Then
                 ' Dragging code
-                Dim cx As Integer = parentControl.Location.X - initialCoords.X + e.Location.X
-                Dim cy As Integer = parentControl.Location.Y - initialCoords.Y + e.Location.Y
-                parentControl.Location = New Point(Math.Max(0, Math.Min(cx, panelDB.Width - 32)), Math.Max(0, Math.Min(cy, panelDB.Height - 32)))
+                Dim cx As Integer = _parentControl.Location.X - _initialCoords.X + e.Location.X
+                Dim cy As Integer = _parentControl.Location.Y - _initialCoords.Y + e.Location.Y
+                _parentControl.Location = New Point(Math.Max(0, Math.Min(cx, panelDB.Width - 32)), Math.Max(0, Math.Min(cy, panelDB.Height - 32)))
                 panelDB.Update()
             Else
-                If IsResizing = True Then
+                If _isResizing = True Then
                     ' Resizing code
-                    Dim Direction As ResizeDirections = ResizeDirection
-                    Select Case Direction
+                    Dim direction As ResizeDirections = _resizeDirection
+                    Select Case direction
                         Case ResizeDirections.None
                             ' Do nothing!
                         Case ResizeDirections.Horizontal
-                            Select Case ResizePosition
+                            Select Case _resizePosition
                                 Case ResizePositions.Left
-                                    parentControl.Left = Math.Min(parentControl.Location.X - initialCoords.X + e.Location.X, endPoint.X - parentControl.MinimumSize.Width)
-                                    parentControl.Width = endPoint.X - parentControl.Left
+                                    _parentControl.Left = Math.Min(_parentControl.Location.X - _initialCoords.X + e.Location.X, _endPoint.X - _parentControl.MinimumSize.Width)
+                                    _parentControl.Width = _endPoint.X - _parentControl.Left
                                 Case ResizePositions.Right
-                                    parentControl.Width = initialSize.Width + (e.Location.X - initialCoords.X)
+                                    _parentControl.Width = _initialSize.Width + (e.Location.X - _initialCoords.X)
                             End Select
                         Case ResizeDirections.Vertical
-                            Select Case ResizePosition
+                            Select Case _resizePosition
                                 Case ResizePositions.Top
-                                    parentControl.Top = Math.Min(parentControl.Location.Y - initialCoords.Y + e.Location.Y, endPoint.Y - parentControl.MinimumSize.Height)
-                                    parentControl.Height = endPoint.Y - parentControl.Top
+                                    _parentControl.Top = Math.Min(_parentControl.Location.Y - _initialCoords.Y + e.Location.Y, _endPoint.Y - _parentControl.MinimumSize.Height)
+                                    _parentControl.Height = _endPoint.Y - _parentControl.Top
                                 Case ResizePositions.Bottom
-                                    parentControl.Height = initialSize.Height + (e.Location.Y - initialCoords.Y)
+                                    _parentControl.Height = _initialSize.Height + (e.Location.Y - _initialCoords.Y)
                             End Select
                         Case ResizeDirections.Both
-                            Select Case ResizePosition
+                            Select Case _resizePosition
                                 Case ResizePositions.BottomRight
-                                    parentControl.Height = initialSize.Height + (e.Location.Y - initialCoords.Y)
-                                    parentControl.Width = initialSize.Width + (e.Location.X - initialCoords.X)
+                                    _parentControl.Height = _initialSize.Height + (e.Location.Y - _initialCoords.Y)
+                                    _parentControl.Width = _initialSize.Width + (e.Location.X - _initialCoords.X)
                                 Case ResizePositions.BottomLeft
-                                    parentControl.Height = initialSize.Height + (e.Location.Y - initialCoords.Y)
-                                    parentControl.Left = Math.Min(parentControl.Location.X - initialCoords.X + e.Location.X, endPoint.X - parentControl.MinimumSize.Width)
-                                    parentControl.Width = endPoint.X - parentControl.Left
+                                    _parentControl.Height = _initialSize.Height + (e.Location.Y - _initialCoords.Y)
+                                    _parentControl.Left = Math.Min(_parentControl.Location.X - _initialCoords.X + e.Location.X, _endPoint.X - _parentControl.MinimumSize.Width)
+                                    _parentControl.Width = _endPoint.X - _parentControl.Left
                                 Case ResizePositions.TopRight
-                                    parentControl.Top = Math.Min(parentControl.Location.Y - initialCoords.Y + e.Location.Y, endPoint.Y - parentControl.MinimumSize.Height)
-                                    parentControl.Height = endPoint.Y - parentControl.Top
-                                    parentControl.Width = initialSize.Width + (e.Location.X - initialCoords.X)
+                                    _parentControl.Top = Math.Min(_parentControl.Location.Y - _initialCoords.Y + e.Location.Y, _endPoint.Y - _parentControl.MinimumSize.Height)
+                                    _parentControl.Height = _endPoint.Y - _parentControl.Top
+                                    _parentControl.Width = _initialSize.Width + (e.Location.X - _initialCoords.X)
                                 Case ResizePositions.TopLeft
-                                    parentControl.Top = Math.Min(parentControl.Location.Y - initialCoords.Y + e.Location.Y, endPoint.Y - parentControl.MinimumSize.Height)
-                                    parentControl.Height = endPoint.Y - parentControl.Top
-                                    parentControl.Left = Math.Min(parentControl.Location.X - initialCoords.X + e.Location.X, endPoint.X - parentControl.MinimumSize.Width)
-                                    parentControl.Width = endPoint.X - parentControl.Left
+                                    _parentControl.Top = Math.Min(_parentControl.Location.Y - _initialCoords.Y + e.Location.Y, _endPoint.Y - _parentControl.MinimumSize.Height)
+                                    _parentControl.Height = _endPoint.Y - _parentControl.Top
+                                    _parentControl.Left = Math.Min(_parentControl.Location.X - _initialCoords.X + e.Location.X, _endPoint.X - _parentControl.MinimumSize.Width)
+                                    _parentControl.Width = _endPoint.X - _parentControl.Left
                             End Select
                     End Select
                     panelDB.Update()
                 Else
                     ' We should just be moving above the control
                     ' get co-ords of parent
-                    Dim cPos As Point = New Point(sourceControl.Location.X + e.Location.X, sourceControl.Location.Y + e.Location.Y)
+                    Dim cPos As Point = New Point(_sourceControl.Location.X + e.Location.X, _sourceControl.Location.Y + e.Location.Y)
                     Select Case cPos.X
-                        Case Is <= controlBorder - borderOffset ' Left 
+                        Case Is <= ControlBorder - BorderOffset ' Left 
                             Select Case cPos.Y
-                                Case Is <= controlBorder - borderOffset ' Top left
-                                    parentControl.Cursor = Cursors.SizeNWSE
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Both
-                                    ResizePosition = ResizePositions.Top Or ResizePositions.Left
-                                Case Is > parentControl.Height - borderOffset - controlBorder ' Bottom left
-                                    parentControl.Cursor = Cursors.SizeNESW
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Both
-                                    ResizePosition = ResizePositions.Bottom Or ResizePositions.Left
+                                Case Is <= ControlBorder - BorderOffset ' Top left
+                                    _parentControl.Cursor = Cursors.SizeNWSE
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Both
+                                    _resizePosition = ResizePositions.Top Or ResizePositions.Left
+                                Case Is > _parentControl.Height - BorderOffset - ControlBorder ' Bottom left
+                                    _parentControl.Cursor = Cursors.SizeNESW
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Both
+                                    _resizePosition = ResizePositions.Bottom Or ResizePositions.Left
                                 Case Else ' Left only
-                                    parentControl.Cursor = Cursors.SizeWE
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Horizontal
-                                    ResizePosition = ResizePositions.Left
+                                    _parentControl.Cursor = Cursors.SizeWE
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Horizontal
+                                    _resizePosition = ResizePositions.Left
                             End Select
-                        Case Is > parentControl.Width - borderOffset - controlBorder ' right hand 
+                        Case Is > _parentControl.Width - BorderOffset - ControlBorder ' right hand 
                             Select Case cPos.Y
-                                Case Is <= controlBorder - borderOffset ' Top right 
-                                    parentControl.Cursor = Cursors.SizeNESW
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Both
-                                    ResizePosition = ResizePositions.Top Or ResizePositions.Right
-                                Case Is > parentControl.Height - borderOffset - controlBorder ' Bottom right
-                                    parentControl.Cursor = Cursors.SizeNWSE
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Both
-                                    ResizePosition = ResizePositions.Bottom Or ResizePositions.Right
+                                Case Is <= ControlBorder - BorderOffset ' Top right 
+                                    _parentControl.Cursor = Cursors.SizeNESW
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Both
+                                    _resizePosition = ResizePositions.Top Or ResizePositions.Right
+                                Case Is > _parentControl.Height - BorderOffset - ControlBorder ' Bottom right
+                                    _parentControl.Cursor = Cursors.SizeNWSE
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Both
+                                    _resizePosition = ResizePositions.Bottom Or ResizePositions.Right
                                 Case Else ' Right only
-                                    parentControl.Cursor = Cursors.SizeWE
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Horizontal
-                                    ResizePosition = ResizePositions.Right
+                                    _parentControl.Cursor = Cursors.SizeWE
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Horizontal
+                                    _resizePosition = ResizePositions.Right
                             End Select
                         Case Else ' Inbetween
                             Select Case cPos.Y
-                                Case Is <= controlBorder - borderOffset ' Top only
-                                    parentControl.Cursor = Cursors.SizeNS
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Vertical
-                                    ResizePosition = ResizePositions.Top
-                                Case Is > parentControl.Height - borderOffset - controlBorder ' Bottom only
-                                    parentControl.Cursor = Cursors.SizeNS
-                                    IsResizable = True
-                                    ResizeDirection = ResizeDirections.Vertical
-                                    ResizePosition = ResizePositions.Bottom
+                                Case Is <= ControlBorder - BorderOffset ' Top only
+                                    _parentControl.Cursor = Cursors.SizeNS
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Vertical
+                                    _resizePosition = ResizePositions.Top
+                                Case Is > _parentControl.Height - BorderOffset - ControlBorder ' Bottom only
+                                    _parentControl.Cursor = Cursors.SizeNS
+                                    _isResizable = True
+                                    _resizeDirection = ResizeDirections.Vertical
+                                    _resizePosition = ResizePositions.Bottom
                                 Case Else ' In the middle
-                                    parentControl.Cursor = Cursors.Default
-                                    IsResizable = False
-                                    ResizeDirection = ResizeDirections.None
-                                    ResizePosition = ResizePositions.None
+                                    _parentControl.Cursor = Cursors.Default
+                                    _isResizable = False
+                                    _resizeDirection = ResizeDirections.None
+                                    _resizePosition = ResizePositions.None
                             End Select
                     End Select
                 End If
@@ -311,15 +312,15 @@ Namespace Forms
 
 #End Region
 
-        Private Sub mnuConfigureDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConfigureDB.Click
-            Dim EveHQSettings As New frmSettings
-            EveHQSettings.Tag = "nodeDashboard"
-            EveHQSettings.ShowDialog()
-            EveHQSettings.Dispose()
+        Private Sub mnuConfigureDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuConfigureDB.Click
+            Dim eveHQSettings As New FrmSettings
+            eveHQSettings.Tag = "nodeDashboard"
+            eveHQSettings.ShowDialog()
+            eveHQSettings.Dispose()
         End Sub
 
-        Private Sub mnuRefreshDB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRefreshDB.Click
-            Call Me.UpdateWidgets()
+        Private Sub mnuRefreshDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRefreshDB.Click
+            Call UpdateWidgets()
         End Sub
 
         Private Enum ResizeDirections As Integer
@@ -341,31 +342,31 @@ Namespace Forms
             BottomRight = 10
         End Enum
 
-        Private Sub mnuClearDashboard_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuClearDashboard.Click
+        Private Sub mnuClearDashboard_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuClearDashboard.Click
             Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to clear the dashboard of all configured widgets?", "Confirm Dashboard Reset", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Yes Then
-                EveHQ.Core.HQ.Settings.DashboardConfiguration.Clear()
-                Call Me.UpdateWidgets()
+            If reply = DialogResult.Yes Then
+                HQ.Settings.DashboardConfiguration.Clear()
+                Call UpdateWidgets()
             End If
         End Sub
 
     End Class
 
-'Public Class MyWrapper
-'    Dim cControl As New Control
+    'Public Class MyWrapper
+    '    Dim cControl As New Control
 
-'    Public Sub New(ByVal control As Control)
-'        Me.Control = control
-'    End Sub
+    '    Public Sub New(ByVal control As Control)
+    '        Me.Control = control
+    '    End Sub
 
-'    Public Property Control() As Control
-'        Get
-'            Return cControl
-'        End Get
-'        Set(ByVal value As Control)
-'            cControl = value
-'        End Set
-'    End Property
+    '    Public Property Control() As Control
+    '        Get
+    '            Return cControl
+    '        End Get
+    '        Set(ByVal value As Control)
+    '            cControl = value
+    '        End Set
+    '    End Property
 
-'End Class
-End NameSpace
+    'End Class
+End Namespace

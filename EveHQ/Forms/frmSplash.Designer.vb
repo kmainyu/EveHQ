@@ -4,7 +4,7 @@ Imports EveHQ.Common.Logging
 Namespace Forms
 
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmSplash
+    Partial Class FrmSplash
         Inherits System.Windows.Forms.Form
 
         'Form overrides dispose to clean up the component list.
@@ -15,7 +15,7 @@ Namespace Forms
             End If
 
             If disposing Then
-    
+
             End If
             MyBase.Dispose(disposing)
         End Sub
@@ -28,7 +28,7 @@ Namespace Forms
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSplash))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSplash))
             Me.Panel1 = New System.Windows.Forms.Panel()
             Me.lblDate = New DevComponents.DotNetBar.LabelX()
             Me.lblCopyright = New DevComponents.DotNetBar.LabelX()
@@ -153,7 +153,7 @@ Namespace Forms
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-        
+
 
         End Sub
     End Class

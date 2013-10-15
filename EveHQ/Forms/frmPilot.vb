@@ -17,18 +17,21 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System
-Imports System.IO
-Imports DevComponents.AdvTree
+Imports System.ComponentModel
 Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
+Imports EveHQ.EveAPI
+Imports EveHQ.Core
+Imports DevComponents.AdvTree
+Imports System.IO
+Imports SearchOption = Microsoft.VisualBasic.FileIO.SearchOption
 
 Namespace Forms
 
     Public Class FrmPilot
         Dim _trainingSkill As Node
         Dim _trainingGroup As Node
-        Dim _displayPilot As New Core.EveHQPilot
+        Dim _displayPilot As New EveHQPilot
         Dim _displayPilotName As String = ""
 
         Public Property DisplayPilotName() As String
@@ -61,7 +64,7 @@ Namespace Forms
             ' Update the pilots combo box
             cboPilots.BeginUpdate()
             cboPilots.Items.Clear()
-            For Each cPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If cPilot.Active = True Then
                     cboPilots.Items.Add(cPilot.Name)
                 End If
@@ -80,8 +83,8 @@ Namespace Forms
             Else
                 If oldPilot = "" Then
                     If cboPilots.Items.Count > 0 Then
-                        If cboPilots.Items.Contains(Core.HQ.Settings.StartupPilot) = True Then
-                            cboPilots.SelectedItem = Core.HQ.Settings.StartupPilot
+                        If cboPilots.Items.Contains(HQ.Settings.StartupPilot) = True Then
+                            cboPilots.SelectedItem = HQ.Settings.StartupPilot
                         Else
                             cboPilots.SelectedIndex = 0
                         End If
@@ -106,9 +109,9 @@ Namespace Forms
 
                 ' Get image from cache
                 Try
-                    picPilot.Image = Core.ImageHandler.GetPortraitImage(_displayPilot.ID)
+                    picPilot.Image = ImageHandler.GetPortraitImage(_displayPilot.ID)
 
-                    Call Core.PilotParseFunctions.SwitchImplants(_displayPilot)
+                    Call PilotParseFunctions.SwitchImplants(_displayPilot)
 
                 Catch e As Exception
                     Dim msg As String = "An error has occurred:" & ControlChars.CrLf & ControlChars.CrLf & e.Message & ControlChars.CrLf & ControlChars.CrLf
@@ -127,7 +130,7 @@ Namespace Forms
                     lblPilotID.Text = _displayPilot.ID
                     lblPilotCorp.Text = _displayPilot.Corp
                     lblPilotIsk.Text = _displayPilot.Isk.ToString("N2")
-                    lblPilotSP.Text = (_displayPilot.SkillPoints + Core.SkillFunctions.CalcCurrentSkillPoints(_displayPilot)).ToString("N0")
+                    lblPilotSP.Text = (_displayPilot.SkillPoints + SkillFunctions.CalcCurrentSkillPoints(_displayPilot)).ToString("N0")
                     lblPilotClone.Text = _displayPilot.CloneName & " (" & CLng(_displayPilot.CloneSP).ToString("N0") & " SP)"
                     ' Check Clone
                     If (_displayPilot.SkillPoints + _displayPilot.TrainingCurrentSP) > CLng(_displayPilot.CloneSP) Then
@@ -173,30 +176,30 @@ Namespace Forms
                     If _displayPilot.Training = True Then
 
                         ' Establish which skill is training
-                        Dim currentQueuedSkill As New Core.EveHQPilotQueuedSkill
-                        For Each queuedSkill As Core.EveHQPilotQueuedSkill In _displayPilot.QueuedSkills.Values
-                            If Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now And Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) <= Now Then
+                        Dim currentQueuedSkill As New EveHQPilotQueuedSkill
+                        For Each queuedSkill As EveHQPilotQueuedSkill In _displayPilot.QueuedSkills.Values
+                            If SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now And SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) <= Now Then
                                 currentQueuedSkill = queuedSkill
                             End If
                         Next
 
-                        Dim currentSkill As Core.EveHQPilotSkill
+                        Dim currentSkill As EveHQPilotSkill
                         Dim endTime As Long
                         If currentQueuedSkill.SkillID <> 0 Then
-                            currentSkill = _displayPilot.PilotSkills.Item(Core.SkillFunctions.SkillIDToName(currentQueuedSkill.SkillID))
-                            lblTrainingSkill.Text = Core.SkillFunctions.SkillIDToName(currentQueuedSkill.SkillID) & " (Level " & Core.SkillFunctions.Roman(currentQueuedSkill.Level) & ")"
-                            Dim localdate As Date = Core.SkillFunctions.ConvertEveTimeToLocal(currentQueuedSkill.EndTime)
+                            currentSkill = _displayPilot.PilotSkills.Item(SkillFunctions.SkillIDToName(currentQueuedSkill.SkillID))
+                            lblTrainingSkill.Text = SkillFunctions.SkillIDToName(currentQueuedSkill.SkillID) & " (Level " & SkillFunctions.Roman(currentQueuedSkill.Level) & ")"
+                            Dim localdate As Date = SkillFunctions.ConvertEveTimeToLocal(currentQueuedSkill.EndTime)
                             lblTrainingEnds.Text = Format(localdate, "ddd") & " " & localdate
                             endTime = CLng((currentQueuedSkill.EndTime - Now).TotalSeconds)
                         Else
-                            currentSkill = _displayPilot.PilotSkills.Item(Core.SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID))
-                            lblTrainingSkill.Text = Core.SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID) & " (Level " & Core.SkillFunctions.Roman(_displayPilot.TrainingSkillLevel) & ")"
-                            Dim localdate As Date = Core.SkillFunctions.ConvertEveTimeToLocal(_displayPilot.TrainingEndTime)
+                            currentSkill = _displayPilot.PilotSkills.Item(SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID))
+                            lblTrainingSkill.Text = SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID) & " (Level " & SkillFunctions.Roman(_displayPilot.TrainingSkillLevel) & ")"
+                            Dim localdate As Date = SkillFunctions.ConvertEveTimeToLocal(_displayPilot.TrainingEndTime)
                             lblTrainingEnds.Text = Format(localdate, "ddd") & " " & localdate
                             endTime = _displayPilot.TrainingCurrentTime
                         End If
-                        lblTrainingRate.Text = "Rank " & currentSkill.Rank & " @ " & Core.SkillFunctions.CalculateSPRate(_displayPilot, Core.HQ.SkillListID(currentSkill.ID)).ToString("N0") & " SP/Hr"
-                        lblTrainingTime.Text = Core.SkillFunctions.TimeToString(endTime)
+                        lblTrainingRate.Text = "Rank " & currentSkill.Rank & " @ " & SkillFunctions.CalculateSPRate(_displayPilot, HQ.SkillListID(currentSkill.ID)).ToString("N0") & " SP/Hr"
+                        lblTrainingTime.Text = SkillFunctions.TimeToString(endTime)
                         Select Case endTime
                             Case 0 To 86400
                                 lblTrainingTime.ForeColor = Color.Red
@@ -216,14 +219,14 @@ Namespace Forms
 
                 ' Display Account Info
                 lblAccountExpiry.ForeColor = Color.Black
-                If Core.HQ.Settings.Accounts.ContainsKey(_displayPilot.Account) = True Then
-                    Dim dAccount As Core.EveHQAccount = Core.HQ.Settings.Accounts(_displayPilot.Account)
-                    If (dAccount.ApiKeySystem = Core.APIKeySystems.Version2 And dAccount.CanUseCharacterAPI(EveAPI.CharacterAccessMasks.AccountStatus)) Then
-                        lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
-                        lblAccountLogins.Text = "Login Count: " & dAccount.LogonCount & " (" & Core.SkillFunctions.TimeToString(dAccount.LogonMinutes * 60, False) & ")"
-                        If Core.HQ.Settings.NotifyAccountTime = True Then
+                If HQ.Settings.Accounts.ContainsKey(_displayPilot.Account) = True Then
+                    Dim dAccount As EveHQAccount = HQ.Settings.Accounts(_displayPilot.Account)
+                    If (dAccount.ApiKeySystem = APIKeySystems.Version2 And dAccount.CanUseCharacterAPI(CharacterAccessMasks.AccountStatus)) Then
+                        lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
+                        lblAccountLogins.Text = "Login Count: " & dAccount.LogonCount & " (" & SkillFunctions.TimeToString(dAccount.LogonMinutes * 60, False) & ")"
+                        If HQ.Settings.NotifyAccountTime = True Then
                             Dim accountTime As Date = dAccount.PaidUntil
-                            If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= Core.HQ.Settings.AccountTimeLimit Then
+                            If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= HQ.Settings.AccountTimeLimit Then
                                 lblAccountExpiry.ForeColor = Color.Red
                             End If
                         End If
@@ -258,7 +261,7 @@ Namespace Forms
         End Sub
 
         Private Sub DisplaySkills()
-            Dim maxGroups As Integer = 21
+            Const maxGroups As Integer = 21
             Dim groupHeaders(maxGroups, 3) As String
             groupHeaders(0, 0) = "Armor"
             groupHeaders(1, 0) = "Corporation Management"
@@ -307,27 +310,27 @@ Namespace Forms
 
             ' Set Styles
             Dim skillGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-            skillGroupStyle.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotGroupBackgroundColor))
+            skillGroupStyle.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupBackgroundColor))
             skillGroupStyle.BackColor2 = Color.Black
-            skillGroupStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotGroupTextColor))
+            skillGroupStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupTextColor))
             Dim normalSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            normalSkillStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotStandardSkillColor))
+            normalSkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotStandardSkillColor))
             normalSkillStyle.BackColor = Color.FromArgb(128, normalSkillStyle.BackColor2)
-            normalSkillStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillTextColor))
+            normalSkillStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim partialSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            partialSkillStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotPartTrainedSkillColor))
+            partialSkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotPartTrainedSkillColor))
             partialSkillStyle.BackColor = Color.FromArgb(128, partialSkillStyle.BackColor2)
-            partialSkillStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillTextColor))
+            partialSkillStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim level5SkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            level5SkillStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotLevel5SkillColor))
+            level5SkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotLevel5SkillColor))
             level5SkillStyle.BackColor = Color.FromArgb(128, level5SkillStyle.BackColor2)
-            level5SkillStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillTextColor))
+            level5SkillStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim trainingSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            trainingSkillStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotCurrentTrainSkillColor))
+            trainingSkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotCurrentTrainSkillColor))
             trainingSkillStyle.BackColor = Color.FromArgb(128, trainingSkillStyle.BackColor2)
-            trainingSkillStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillTextColor))
+            trainingSkillStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim selSkillStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            selSkillStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillHighlightColor))
+            selSkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotSkillHighlightColor))
             selSkillStyle.BackColor = Color.FromArgb(32, selSkillStyle.BackColor2)
 
             ' Set up Groups
@@ -353,7 +356,7 @@ Namespace Forms
 
             ' Parse in-game skill queue
             Dim eveSkillsQueued As New SortedList(Of Integer, Integer)
-            For Each queuedSkill As Core.EveHQPilotQueuedSkill In _displayPilot.QueuedSkills.Values
+            For Each queuedSkill As EveHQPilotQueuedSkill In _displayPilot.QueuedSkills.Values
                 If eveSkillsQueued.ContainsKey(queuedSkill.SkillID) = False Then
                     eveSkillsQueued.Add(queuedSkill.SkillID, queuedSkill.Level)
                 Else
@@ -364,8 +367,8 @@ Namespace Forms
             Next
 
             ' Set up items
-            For Each cSkill As Core.EveHQPilotSkill In _displayPilot.PilotSkills.Values
-                Dim baseSkill As Core.EveSkill = Core.HQ.SkillListName(cSkill.Name)
+            For Each cSkill As EveHQPilotSkill In _displayPilot.PilotSkills.Values
+                Dim baseSkill As EveSkill = HQ.SkillListName(cSkill.Name)
                 Try
                     Dim groupClv As Node = CType(groupStructure(CStr(cSkill.GroupID)), Node)
                     Dim newClvItem As New Node
@@ -449,13 +452,13 @@ Namespace Forms
                     Dim timeSubItem As New ListViewItem.ListViewSubItem
                     Dim currentTime As Long
                     If _displayPilot.TrainingSkillID = cSkill.ID Then
-                        timeSubItem.Text = Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                        timeSubItem.Text = SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
                         currentTime = _displayPilot.TrainingCurrentTime
                         _trainingSkill = newClvItem
                         _trainingGroup = groupClv
                     Else
-                        currentTime = CLng(Core.SkillFunctions.CalcTimeToLevel(_displayPilot, Core.HQ.SkillListID(cSkill.ID), 0, ))
-                        timeSubItem.Text = Core.SkillFunctions.TimeToString(currentTime)
+                        currentTime = CLng(SkillFunctions.CalcTimeToLevel(_displayPilot, HQ.SkillListID(cSkill.ID), 0, ))
+                        timeSubItem.Text = SkillFunctions.TimeToString(currentTime)
                     End If
                     If currentTime = 0 Then currentTime = 9999999999
                     newClvItem.Cells.Add(New Cell(timeSubItem.Text))
@@ -498,7 +501,7 @@ Namespace Forms
                 Loop Until sgNo = adtSkills.Nodes.Count
             End If
 
-            Core.AdvTreeSorter.Sort(adtSkills, 1, True, True)
+            AdvTreeSorter.Sort(adtSkills, 1, True, True)
             adtSkills.EndUpdate()
             If chkGroupSkills.Checked = True Then
                 If _trainingGroup IsNot Nothing Then
@@ -531,15 +534,15 @@ Namespace Forms
 
             ' Set Styles
             Dim certGroupStyle As ElementStyle = adtSkills.Styles("SkillGroup").Copy
-            certGroupStyle.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotGroupBackgroundColor))
+            certGroupStyle.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupBackgroundColor))
             certGroupStyle.BackColor2 = Color.Black
-            certGroupStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotGroupTextColor))
+            certGroupStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupTextColor))
             Dim normalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            normalCertStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotStandardSkillColor))
+            normalCertStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotStandardSkillColor))
             normalCertStyle.BackColor = Color.FromArgb(128, normalCertStyle.BackColor2)
-            normalCertStyle.TextColor = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillTextColor))
+            normalCertStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim selCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            selCertStyle.BackColor2 = Color.FromArgb(CInt(Core.HQ.Settings.PilotSkillHighlightColor))
+            selCertStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotSkillHighlightColor))
             selCertStyle.BackColor = Color.FromArgb(32, selCertStyle.BackColor2)
 
             'Set up Groups
@@ -613,7 +616,7 @@ Namespace Forms
                 Loop Until sgNo = adtCerts.Nodes.Count
             End If
 
-            Core.AdvTreeSorter.Sort(adtCerts, 1, True, True)
+            AdvTreeSorter.Sort(adtCerts, 1, True, True)
             adtCerts.EndUpdate()
         End Sub
 
@@ -622,9 +625,9 @@ Namespace Forms
             If _displayPilot.PilotSkills.Count <> 0 Then
                 If _displayPilot.Training = True Then
                     lblPilotSP.Text = (_displayPilot.SkillPoints + _displayPilot.TrainingCurrentSP).ToString("N0")
-                    If _displayPilot.PilotSkills.ContainsKey(Core.SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID)) = True Then
-                        Dim cSkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(Core.SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID))
-                        Dim baseSkill As Core.EveSkill = Core.HQ.SkillListName(cSkill.Name)
+                    If _displayPilot.PilotSkills.ContainsKey(SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID)) = True Then
+                        Dim cSkill As EveHQPilotSkill = _displayPilot.PilotSkills(SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID))
+                        Dim baseSkill As EveSkill = HQ.SkillListName(cSkill.Name)
                         Dim percent As Double
                         If cSkill.Level = 5 Then
                             percent = 100
@@ -640,7 +643,7 @@ Namespace Forms
                             _trainingSkill.Cells(3).Tag = percent
                             _trainingSkill.Cells(4).Text = (cSkill.SP + _displayPilot.TrainingCurrentSP).ToString("N0")
                             _trainingSkill.Cells(4).Tag = cSkill.SP
-                            _trainingSkill.Cells(5).Text = Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                            _trainingSkill.Cells(5).Text = SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
                             _trainingSkill.Cells(5).Tag = _displayPilot.TrainingCurrentTime
                         End If
                         'TrainingSkill.Cells(2).HostedControl.Refresh()
@@ -649,7 +652,7 @@ Namespace Forms
                             _trainingGroup.Text = _trainingGroup.Tag.ToString & "<font color=""#FFD700"">  - Training</font>"
                             'TrainingGroup.Font = New Font(TrainingGroup.Font, FontStyle.Bold)
                         End If
-                        lblTrainingTime.Text = Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                        lblTrainingTime.Text = SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
                         Select Case _displayPilot.TrainingCurrentTime
                             Case 0 To 86400
                                 lblTrainingTime.ForeColor = Color.Red
@@ -671,11 +674,11 @@ Namespace Forms
 
                 ' Display Account Info
                 If grpAccount.Visible = True Then
-                    Dim dAccount As Core.EveHQAccount = Core.HQ.Settings.Accounts(_displayPilot.Account)
-                    lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & Core.SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
-                    If Core.HQ.Settings.NotifyAccountTime = True Then
+                    Dim dAccount As EveHQAccount = HQ.Settings.Accounts(_displayPilot.Account)
+                    lblAccountExpiry.Text = "Expiry: " & dAccount.PaidUntil.ToString & " (" & SkillFunctions.TimeToString((dAccount.PaidUntil - Now).TotalSeconds) & ")"
+                    If HQ.Settings.NotifyAccountTime = True Then
                         Dim accountTime As Date = dAccount.PaidUntil
-                        If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= Core.HQ.Settings.AccountTimeLimit Then
+                        If accountTime.Year > 2000 And (accountTime - Now).TotalHours <= HQ.Settings.AccountTimeLimit Then
                             lblAccountExpiry.ForeColor = Color.Red
                         Else
                             lblAccountExpiry.ForeColor = Color.Black
@@ -684,16 +687,16 @@ Namespace Forms
                 End If
 
                 ' Check Cache details!
-                Dim cacheDate As Date = Core.SkillFunctions.ConvertEveTimeToLocal(_displayPilot.CacheExpirationTime)
+                Dim cacheDate As Date = SkillFunctions.ConvertEveTimeToLocal(_displayPilot.CacheExpirationTime)
                 Dim cacheTimeLeft As TimeSpan = cacheDate - Now
-                Dim cacheText As String = Format(cacheDate, "ddd") & " " & cacheDate & ControlChars.CrLf & Core.SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds)
+                Dim cacheText As String = Format(cacheDate, "ddd") & " " & cacheDate & ControlChars.CrLf & SkillFunctions.CacheTimeToString(cacheTimeLeft.TotalSeconds)
                 If cacheDate < Now Then
                     lblCharacterXML.ForeColor = Color.Green
-                    Core.HQ.APIUpdateAvailable = True
+                    HQ.APIUpdateAvailable = True
                     btnUpdateAPI.Enabled = True
                 Else
                     lblCharacterXML.ForeColor = Color.Red
-                    Core.HQ.APIUpdateAvailable = False
+                    HQ.APIUpdateAvailable = False
                     btnUpdateAPI.Enabled = False
                 End If
                 lblCharacterXML.Text = cacheText
@@ -704,17 +707,17 @@ Namespace Forms
 
 #Region "UI Routines"
 
-        Private Sub mnuViewDetails_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuViewDetails.Click
+        Private Sub mnuViewDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewDetails.Click
             Dim skillID As Integer = CInt(mnuSkillName.Tag)
             frmSkillDetails.DisplayPilotName = _displayPilot.Name
             Call frmSkillDetails.ShowSkillDetails(skillID)
         End Sub
 
-        Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As ComponentModel.CancelEventArgs) Handles ctxSkills.Opening
+        Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxSkills.Opening
             If adtSkills.SelectedNodes.Count <> 0 Then
                 If adtSkills.SelectedNodes(0).Nodes.Count = 0 Then
                     Dim skillName As String = adtSkills.SelectedNodes(0).Text
-                    Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(skillName)
+                    Dim skillID As Integer = SkillFunctions.SkillNameToID(skillName)
                     mnuSkillName.Text = skillName
                     mnuSkillName.Tag = skillID
                 Else
@@ -727,7 +730,7 @@ Namespace Forms
 
         Private Sub adtSkills_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtSkills.ColumnHeaderMouseDown
             Dim ch As ColumnHeader = CType(sender, ColumnHeader)
-            Core.AdvTreeSorter.Sort(ch, True, False)
+            AdvTreeSorter.Sort(ch, True, False)
         End Sub
 
         Private Sub adtSkills_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles adtSkills.NodeDoubleClick
@@ -743,7 +746,7 @@ Namespace Forms
             End If
 
             If openSkillDetails = True Then
-                Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(e.Node.Text)
+                Dim skillID As Integer = SkillFunctions.SkillNameToID(e.Node.Text)
                 frmSkillDetails.DisplayPilotName = _displayPilot.Name
                 Call frmSkillDetails.ShowSkillDetails(skillID)
             End If
@@ -753,17 +756,17 @@ Namespace Forms
 
 #Region "Portrait Related Routines"
 
-        Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
+        Private Sub mnuCtxPicGetPortraitFromServer_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuCtxPicGetPortraitFromServer.Click
             If _displayPilot.ID <> "" Then
                 picPilot.ImageLocation = "http://image.eveonline.com/Character/" & _displayPilot.ID & "_256.jpg"
             End If
         End Sub
-        Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
+        Private Sub mnuCtxPicGetPortraitFromLocal_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuCtxPicGetPortraitFromLocal.Click
             ' If double-clicked, see if we can get it from the eve portrait folder
             For folder As Integer = 1 To 4
                 Dim folderName As String
-                If Core.HQ.Settings.EveFolderLua(folder) = False Then
-                    Dim eveSettingsFolder As String = Core.HQ.Settings.EveFolder(folder)
+                If HQ.Settings.EveFolderLua(folder) = False Then
+                    Dim eveSettingsFolder As String = HQ.Settings.EveFolder(folder)
                     If eveSettingsFolder IsNot Nothing Then
                         eveSettingsFolder = eveSettingsFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower & "_tranquility"
                         Dim eveFolder As String = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CCP"), "EVE")
@@ -772,16 +775,16 @@ Namespace Forms
                         folderName = ""
                     End If
                 Else
-                    folderName = Path.Combine(Path.Combine(Path.Combine(Core.HQ.Settings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
+                    folderName = Path.Combine(Path.Combine(Path.Combine(HQ.Settings.EveFolder(folder), "cache"), "Pictures"), "Portraits")
                 End If
                 If My.Computer.FileSystem.DirectoryExists(folderName) = True Then
-                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, FileIO.SearchOption.SearchTopLevelOnly, "*.png")
+                    For Each foundFile As String In My.Computer.FileSystem.GetFiles(folderName, SearchOption.SearchTopLevelOnly, "*.png")
                         If foundFile.Contains(_displayPilot.ID & "_") = True Then
                             ' Get the dimensions of the file
                             Dim myFile As New FileInfo(foundFile)
                             Dim fileData As String() = myFile.Name.Split(New Char() {CChar("_"), CChar(".")})
                             If CInt(fileData(1)) >= 128 And CInt(fileData(1)) <= 256 Then
-                                picPilot.Image = Core.ImageHandler.GetPortraitImage(_displayPilot.ID)
+                                picPilot.Image = ImageHandler.GetPortraitImage(_displayPilot.ID)
                                 Exit Sub
                             End If
                         End If
@@ -790,20 +793,20 @@ Namespace Forms
             Next
             MessageBox.Show("The requested portrait was not found within the Eve cache locations.", "Portrait Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Sub
-        Private Sub mnuSavePortrait_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuSavePortrait.Click
+        Private Sub mnuSavePortrait_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSavePortrait.Click
             Dim imgFilename As String = _displayPilot.ID & ".png"
-            picPilot.Image.Save(Path.Combine(Core.HQ.imageCacheFolder, imgFilename))
+            picPilot.Image.Save(Path.Combine(HQ.imageCacheFolder, imgFilename))
         End Sub
 #End Region
 
-        Private Sub chkGroupSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles chkGroupSkills.CheckedChanged
+        Private Sub chkGroupSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkGroupSkills.CheckedChanged
             If DisplayPilotName <> "" Then
                 Call DisplaySkills()
                 Call DisplayCertificates()
             End If
         End Sub
 
-        Private Sub ctxCerts_Opening(ByVal sender As System.Object, ByVal e As ComponentModel.CancelEventArgs) Handles ctxCerts.Opening
+        Private Sub ctxCerts_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxCerts.Opening
             If adtCerts.SelectedNodes.Count <> 0 Then
                 If adtCerts.SelectedNodes(0).Nodes.Count = 0 Then
                     Dim certName As String = adtCerts.SelectedNodes(0).Text
@@ -819,48 +822,48 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub mnuViewCertDetails_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuViewCertDetails.Click
+        Private Sub mnuViewCertDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewCertDetails.Click
             Dim certID As Integer = CInt(mnuCertName.Tag)
             frmCertificateDetails.Text = mnuCertName.Text
             frmCertificateDetails.DisplayPilotName = _displayPilot.Name
             frmCertificateDetails.ShowCertDetails(certID)
         End Sub
 
-        Private Sub cboPilots_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles cboPilots.SelectedIndexChanged
-            If Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
-                _displayPilot = Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+        Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilots.SelectedIndexChanged
+            If HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+                _displayPilot = HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
                 Call UpdatePilotInfo()
             End If
         End Sub
 
 #Region "Standings Routines"
 
-        Private Sub btnGetStandings_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles btnGetStandings.Click
+        Private Sub btnGetStandings_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetStandings.Click
 
             ' Establish which pilot we are talking about
             If DisplayPilotName <> "" Then
                 Cursor = Cursors.WaitCursor
                 btnGetStandings.Enabled = False
-                Core.Standings.GetStandings(DisplayPilotName)
+                Standings.GetStandings(DisplayPilotName)
                 Call UpdateStandingsList()
                 Cursor = Cursors.Default
                 btnGetStandings.Enabled = True
             End If
 
         End Sub
-        Private Sub btExportStandings_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles btExportStandings.Click
+        Private Sub btExportStandings_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btExportStandings.Click
             Try
                 If cboPilots.SelectedItem IsNot Nothing Then
                     If adtStandings.Nodes.Count > 0 Then
                         ' Export the current list of standings
-                        Dim sw As New StreamWriter(Path.Combine(Core.HQ.reportFolder, "Standings (" & cboPilots.SelectedItem.ToString & ").csv"))
+                        Dim sw As New StreamWriter(Path.Combine(HQ.reportFolder, "Standings (" & cboPilots.SelectedItem.ToString & ").csv"))
                         sw.WriteLine("Standings Export for " & cboPilots.SelectedItem.ToString & " (dated: " & Now.ToString & ")")
                         sw.WriteLine("Entity Name,Entity ID,Entity Type,Raw Standing Value,Actual Standing Value")
                         For Each iStanding As Node In adtStandings.Nodes
-                            sw.Write(iStanding.Text & Core.HQ.Settings.CsvSeparatorChar)
-                            sw.Write(iStanding.Cells(1).Text & Core.HQ.Settings.CsvSeparatorChar)
-                            sw.Write(iStanding.Cells(2).Text & Core.HQ.Settings.CsvSeparatorChar)
-                            sw.WriteLine(iStanding.Cells(3).Text & Core.HQ.Settings.CsvSeparatorChar & iStanding.Cells(4).Text)
+                            sw.Write(iStanding.Text & HQ.Settings.CsvSeparatorChar)
+                            sw.Write(iStanding.Cells(1).Text & HQ.Settings.CsvSeparatorChar)
+                            sw.Write(iStanding.Cells(2).Text & HQ.Settings.CsvSeparatorChar)
+                            sw.WriteLine(iStanding.Cells(3).Text & HQ.Settings.CsvSeparatorChar & iStanding.Cells(4).Text)
                         Next
                         sw.Flush()
                         sw.Close()
@@ -875,7 +878,7 @@ Namespace Forms
                 MessageBox.Show("Export of CSV Standings file failed:" & ControlChars.CrLf & ex.Message, "Export Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
-        Private Sub cboFilter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles cboFilter.SelectedIndexChanged
+        Private Sub cboFilter_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboFilter.SelectedIndexChanged
             If cboFilter.Tag.ToString <> "0" Then
                 Call UpdateStandingsList()
             End If
@@ -889,7 +892,7 @@ Namespace Forms
             Dim effStanding As Double = 0
 
             ' Check if this is a character and whether we need to get the Connections and Diplomacy skills
-            For Each cSkill As Core.EveHQPilotSkill In _displayPilot.PilotSkills.Values
+            For Each cSkill As EveHQPilotSkill In _displayPilot.PilotSkills.Values
                 If cSkill.Name = "Diplomacy" Then
                     diplomacyLevel = cSkill.Level
                 End If
@@ -901,20 +904,20 @@ Namespace Forms
             adtStandings.BeginUpdate()
             adtStandings.Nodes.Clear()
 
-            For Each standing As Core.PilotStanding In _displayPilot.Standings.Values
+            For Each standing As PilotStanding In _displayPilot.Standings.Values
 
                 If standing.Standing <> 0 Then
 
                     rawStanding = standing.Standing
 
                     Select Case standing.Type
-                        Case Core.StandingType.Agent, Core.StandingType.Faction, Core.StandingType.NPCCorporation
+                        Case StandingType.Agent, StandingType.Faction, StandingType.NPCCorporation
                             If rawStanding < 0 Then
                                 effStanding = rawStanding + ((10 - rawStanding) * (diplomacyLevel * 4 / 100))
                             Else
                                 effStanding = rawStanding + ((10 - rawStanding) * (connectionsLevel * 4 / 100))
                             End If
-                        Case Core.StandingType.PlayerCorp, Core.StandingType.Unknown
+                        Case StandingType.PlayerCorp, StandingType.Unknown
                             effStanding = rawStanding
                     End Select
 
@@ -923,19 +926,19 @@ Namespace Forms
                         Case "<All>"
                             show = True
                         Case "Agent"
-                            If standing.Type = Core.StandingType.Agent Then
+                            If standing.Type = StandingType.Agent Then
                                 show = True
                             End If
                         Case "Corporation"
-                            If standing.Type = Core.StandingType.NPCCorporation Then
+                            If standing.Type = StandingType.NPCCorporation Then
                                 show = True
                             End If
                         Case "Faction"
-                            If standing.Type = Core.StandingType.Faction Then
+                            If standing.Type = StandingType.Faction Then
                                 show = True
                             End If
                         Case "Player/Corp"
-                            If standing.Type = Core.StandingType.PlayerCorp Then
+                            If standing.Type = StandingType.PlayerCorp Then
                                 show = True
                             End If
                     End Select
@@ -964,15 +967,15 @@ Namespace Forms
                 End If
 
             Next
-            Core.AdvTreeSorter.Sort(adtStandings, New Core.AdvTreeSortResult(5, Core.AdvTreeSortOrder.Descending), False)
+            AdvTreeSorter.Sort(adtStandings, New AdvTreeSortResult(5, AdvTreeSortOrder.Descending), False)
             adtStandings.EndUpdate()
         End Sub
-        Private Sub ctxStandings_Opening(ByVal sender As System.Object, ByVal e As ComponentModel.CancelEventArgs) Handles ctxStandings.Opening
+        Private Sub ctxStandings_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxStandings.Opening
             If adtStandings.SelectedNodes.Count = 0 Then
                 e.Cancel = True
             End If
         End Sub
-        Private Sub mnuExtrapolateStandings_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles mnuExtrapolateStandings.Click
+        Private Sub mnuExtrapolateStandings_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuExtrapolateStandings.Click
             If adtStandings.SelectedNodes.Count >= 1 Then
                 Dim standingsLine As Node = adtStandings.SelectedNodes(0)
                 Dim extraStandings As New frmExtraStandings
@@ -985,12 +988,12 @@ Namespace Forms
         End Sub
         Private Sub adtStandings_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtStandings.ColumnHeaderMouseUp
             Dim ch As ColumnHeader = CType(sender, ColumnHeader)
-            Core.AdvTreeSorter.Sort(ch, True, False)
+            AdvTreeSorter.Sort(ch, True, False)
         End Sub
 
 #End Region
 
-        Private Sub chkManImplants_CheckedChanged(ByVal sender As System.Object, ByVal e As EventArgs) Handles chkManImplants.CheckedChanged
+        Private Sub chkManImplants_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkManImplants.CheckedChanged
             If chkManImplants.Checked = True Then
                 _displayPilot.UseManualImplants = True
                 btnEditManualImplants.Enabled = True
@@ -1001,20 +1004,20 @@ Namespace Forms
             Call UpdatePilotInfo()
         End Sub
 
-        Private Sub btnEditManualImplants_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles btnEditManualImplants.Click
+        Private Sub btnEditManualImplants_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditManualImplants.Click
             frmEditImplants.DisplayPilotName = _displayPilot.Name
             frmEditImplants.ShowDialog()
             Call UpdatePilotInfo()
         End Sub
 
-        Private Sub btnUpdateAPI_Click(ByVal sender As System.Object, ByVal e As EventArgs) Handles btnUpdateAPI.Click
+        Private Sub btnUpdateAPI_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpdateAPI.Click
             btnUpdateAPI.Enabled = False
             Call frmEveHQ.QueryMyEveServer()
         End Sub
 
         Private Sub adtCerts_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtCerts.ColumnHeaderMouseDown
             Dim ch As ColumnHeader = CType(sender, ColumnHeader)
-            Core.AdvTreeSorter.Sort(ch, True, False)
+            AdvTreeSorter.Sort(ch, True, False)
         End Sub
 
         Private Sub adtSkills_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtSkills.SelectionChanged

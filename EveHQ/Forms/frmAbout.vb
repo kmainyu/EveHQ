@@ -17,17 +17,19 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Namespace Forms
-    Public Class frmAbout
+Imports System.Text
 
-        Private Sub frmAbout_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+Namespace Forms
+    Public Class FrmAbout
+
+        Private Sub frmAbout_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
             ' Insert the version number to the splash screen
             lblVersion.Text = "Version " & My.Application.Info.Version.ToString
             lblCopyright.Text = My.Application.Info.Copyright
             lblDate.Text = My.Application.Info.Trademark
             ' Add the credits to the WBControl
-            Dim credits As New System.Text.StringBuilder
+            Dim credits As New StringBuilder
             credits.Append("<html><body>")
             credits.Append("<table style='font-family: Tahoma; font-size: 10px;'>")
             credits.Append("<tr><td colspan=2 style='font-family: Tahoma; font-size: 12px;'><b><u>EveHQ Credits</u></b></td></tr>")
@@ -51,7 +53,7 @@ Namespace Forms
             wbCredits.DocumentText = credits.ToString
         End Sub
 
-        Private Sub lblEveHQLink_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblEveHQLink.LinkClicked
+        Private Sub lblEveHQLink_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblEveHQLink.LinkClicked
             Try
                 Process.Start("http://www.evehq.net")
             Catch ex As Exception

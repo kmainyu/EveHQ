@@ -2,7 +2,7 @@
 
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmMarketPrices
+    Partial Class FrmMarketPrices
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -26,7 +26,7 @@ Namespace Forms
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMarketPrices))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmMarketPrices))
             Me.ofd1 = New System.Windows.Forms.OpenFileDialog()
             Me.ctxMarketExport = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.mnuViewOrders = New System.Windows.Forms.ToolStripMenuItem()

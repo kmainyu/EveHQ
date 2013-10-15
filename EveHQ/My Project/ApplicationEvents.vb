@@ -44,7 +44,7 @@ Namespace My
             End Try
         End Sub
 
-        Private Sub MyApplication_Shutdown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shutdown
+        Private Sub MyApplication_Shutdown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shutdown
 
         End Sub
 
@@ -57,25 +57,25 @@ Namespace My
             ' Can we get /params?
             For Each param As String In e.CommandLine
                 ' Check for the fitting protocol
-                If param.StartsWith(EveHQ.Core.HQ.FittingProtocol) Then
+                If param.StartsWith(Core.HQ.FittingProtocol, StringComparison.Ordinal) Then
                     ' Now see if HQF is available
-                    Dim PluginName As String = "EveHQ Fitter"
-                    Dim myPlugIn As EveHQ.Core.EveHQPlugIn = EveHQ.Core.HQ.Plugins(PluginName)
+                    Const pluginName As String = "EveHQ Fitter"
+                    Dim myPlugIn As Core.EveHQPlugIn = Core.HQ.Plugins(pluginName)
                     myPlugIn.PostStartupData = param
-                    If myPlugIn.Status = EveHQ.Core.EveHQPlugInStatus.Active Then
-                        Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
-                        Dim tp As DevComponents.DotNetBar.TabItem = EveHQ.Core.HQ.GetMDITab(PluginName)
+                    If myPlugIn.Status = Core.EveHQPlugInStatus.Active Then
+                        Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+                        Dim tp As DevComponents.DotNetBar.TabItem = Core.HQ.GetMDITab(pluginName)
                         If tp IsNot Nothing Then
                             mainTab.SelectedTab = tp
                         Else
                             Dim plugInForm As Form = myPlugIn.Instance.RunEveHQPlugIn
-                            plugInForm.MdiParent = EveHQ.Core.HQ.MainForm
+                            plugInForm.MdiParent = Core.HQ.MainForm
                             plugInForm.Show()
                         End If
                         myPlugIn.Instance.GetPlugInData(myPlugIn.PostStartupData, 0)
                     Else
                         ' Try to load an open the plug-in here
-                        Threading.ThreadPool.QueueUserWorkItem(AddressOf frmEveHQ.LoadAndOpenPlugIn, myPlugIn)
+                        Threading.ThreadPool.QueueUserWorkItem(AddressOf FrmEveHQ.LoadAndOpenPlugIn, myPlugIn)
                     End If
                 End If
             Next
@@ -90,14 +90,14 @@ Namespace My
         Private Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs) Handles Me.UnhandledException
             Try
                 Dim myException As New frmException
-                myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+                myException.lblVersion.Text = "Version: " & Application.Info.Version.ToString
                 myException.lblError.Text = e.Exception.Message
                 Dim trace As New System.Text.StringBuilder
                 trace.AppendLine(e.Exception.StackTrace.ToString)
                 trace.AppendLine("")
                 trace.AppendLine("========== Plug-ins ==========")
                 trace.AppendLine("")
-                For Each myPlugIn As EveHQ.Core.EveHQPlugIn In EveHQ.Core.HQ.Plugins.Values
+                For Each myPlugIn As Core.EveHQPlugIn In Core.HQ.Plugins.Values
                     If myPlugIn.ShortFileName IsNot Nothing Then
                         trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
                     End If
@@ -108,8 +108,8 @@ Namespace My
                 trace.AppendLine("")
                 trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
                 trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
-                trace.AppendLine("EveHQ Location: " & EveHQ.Core.HQ.appFolder)
-                trace.AppendLine("EveHQ Cache Locations: " & EveHQ.Core.HQ.AppDataFolder)
+                trace.AppendLine("EveHQ Location: " & Core.HQ.appFolder)
+                trace.AppendLine("EveHQ Cache Locations: " & Core.HQ.AppDataFolder)
                 myException.txtStackTrace.Text = trace.ToString
                 Dim result As Integer = myException.ShowDialog()
                 If result = DialogResult.Ignore Then

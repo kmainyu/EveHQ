@@ -18,9 +18,11 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Data
-Imports System.IO
+Imports EveHQ.Core
 Imports System.Text
+Imports System.IO
 Imports System.Xml
+Imports System.Web
 
 Namespace Forms
 
@@ -55,14 +57,14 @@ Namespace Forms
             End If
             If writeQuery = True Then
                 dgvQuery.DataSource = Nothing
-                recordsAffected = Core.CustomDataFunctions.SetCustomData(strSQL)
+                recordsAffected = CustomDataFunctions.SetCustomData(strSQL)
                 If recordsAffected <> -2 Then
                     lblRowCount.Text = "Records Affected: " & recordsAffected.ToString("N0")
                 Else
                     lblRowCount.Text = "Write Query: Failed - Check SQL syntax and available data."
                 End If
             Else
-                sqlData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                sqlData = CustomDataFunctions.GetCustomData(strSQL)
                 If sqlData IsNot Nothing Then
                     If sqlData.Tables.Count > 0 Then
                         dgvQuery.DataSource = sqlData.Tables(0)
@@ -80,7 +82,7 @@ Namespace Forms
             ' Update Saved SQL Queries 
             lvwQueries.BeginUpdate()
             lvwQueries.Items.Clear()
-            For Each query As String In Core.HQ.Settings.SQLQueries.Keys
+            For Each query As String In HQ.Settings.SQLQueries.Keys
                 lvwQueries.Items.Add(query)
             Next
             lvwQueries.EndUpdate()
@@ -92,7 +94,7 @@ Namespace Forms
             ' Set the SQL query text
             _queryIsUpdating = True
             _currentQuery = query
-            txtQuery.Text = Core.HQ.Settings.SQLQueries(query)
+            txtQuery.Text = HQ.Settings.SQLQueries(query)
             lblQueryText.Text = "SQL Query String: " & query
             panelText.Refresh()
             QueryAmended = False
@@ -108,7 +110,7 @@ Namespace Forms
                 textForm.lblDescription.Text = "Please enter a name for this SQL query"
                 textForm.ShowDialog()
                 If textForm.DialogResult = DialogResult.OK Then
-                    Core.HQ.Settings.SQLQueries.Add(textForm.TextData, txtQuery.Text)
+                    HQ.Settings.SQLQueries.Add(textForm.TextData, txtQuery.Text)
                     Call UpdateQueries()
                     Call UpdateQuery(textForm.TextData)
                     QueryAmended = False
@@ -118,7 +120,7 @@ Namespace Forms
                 textForm.Dispose()
             Else
                 ' Save the query into the list
-                Core.HQ.Settings.SQLQueries(_currentQuery) = txtQuery.Text
+                HQ.Settings.SQLQueries(_currentQuery) = txtQuery.Text
                 QueryAmended = False
             End If
         End Sub
@@ -132,9 +134,9 @@ Namespace Forms
             textForm.ShowDialog()
             If textForm.DialogResult = DialogResult.OK Then
                 ' Remove the old data
-                Dim sql As String = Core.HQ.Settings.SQLQueries(oldQuery)
-                Core.HQ.Settings.SQLQueries.Remove(oldQuery)
-                Core.HQ.Settings.SQLQueries.Add(textForm.TextData, sql)
+                Dim sql As String = HQ.Settings.SQLQueries(oldQuery)
+                HQ.Settings.SQLQueries.Remove(oldQuery)
+                HQ.Settings.SQLQueries.Add(textForm.TextData, sql)
                 Call UpdateQueries()
                 Call UpdateQuery(textForm.TextData)
                 QueryAmended = False
@@ -190,7 +192,7 @@ Namespace Forms
                     Case DialogResult.No
                         Exit Sub
                     Case DialogResult.Yes
-                        Core.HQ.Settings.SQLQueries.Remove(query)
+                        HQ.Settings.SQLQueries.Remove(query)
                         Call UpdateQueries()
                         ' Check if we need to reset the current query
                         If _currentQuery = query Then
@@ -279,7 +281,7 @@ Namespace Forms
                 sb = New StringBuilder
                 For col As Integer = 0 To dt.Columns.Count - 1
                     If col <> 0 Then
-                        sb.Append(Core.HQ.Settings.CsvSeparatorChar)
+                        sb.Append(HQ.Settings.CsvSeparatorChar)
                     End If
                     If IsNumeric(row.Item(col)) = True Then
                         sb.Append(row.Item(col).ToString)
@@ -338,7 +340,7 @@ Namespace Forms
                 xmlRoot.AppendChild(xmlRow)
                 For Each col As DataColumn In dt.Columns
                     Dim xmlCol As XmlNode = xmlDoc.CreateElement(col.ColumnName)
-                    xmlCol.InnerText = Web.HttpUtility.HtmlEncode(row.Item(col).ToString)
+                    xmlCol.InnerText = HttpUtility.HtmlEncode(row.Item(col).ToString)
                     xmlRow.AppendChild(xmlCol)
                 Next
             Next

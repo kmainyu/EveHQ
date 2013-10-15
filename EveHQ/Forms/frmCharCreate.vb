@@ -17,10 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
-Imports System.IO
 Imports EveHQ.Core.CoreReports
 Imports EveHQ.EveAPI
+Imports EveHQ.Core
+Imports System.IO
 
 Namespace Forms
 
@@ -114,8 +114,8 @@ Namespace Forms
                 Dim raceSkillData() As String = raceskill.Split(",".ToCharArray)
                 skillID = raceSkillData(0)
                 skillLevel = CInt(raceSkillData(1))
-                skillName = Core.SkillFunctions.SkillIDToName(CInt(skillID))
-                skillPoints = CLng(Math.Ceiling(Core.SkillFunctions.CalculateSkillSPLevel(CInt(skillID), skillLevel)))
+                skillName = SkillFunctions.SkillIDToName(CInt(skillID))
+                skillPoints = CLng(Math.Ceiling(SkillFunctions.CalculateSkillSPLevel(CInt(skillID), skillLevel)))
                 Dim skillItem As New ListViewItem
                 skillItem.Text = skillName
                 skillItem.Name = skillID
@@ -138,7 +138,7 @@ Namespace Forms
         Private Sub btnAddPilot_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddPilot.Click
 
             ' Create a new pilot
-            Dim nPilot As New Core.EveHQPilot
+            Dim nPilot As New EveHQPilot
             nPilot.ID = lblCharID.Text
             ' Check name isn't blank
             If txtCharName.Text.Trim = "" Then
@@ -148,7 +148,7 @@ Namespace Forms
                 nPilot.Name = txtCharName.Text
             End If
             ' Check if name exists
-            If Core.HQ.Settings.Pilots.ContainsKey(nPilot.Name) = True Then
+            If HQ.Settings.Pilots.ContainsKey(nPilot.Name) = True Then
                 MessageBox.Show("Pilot name already exists. Please choose an alternative name.", "Pilot Already Exists", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
@@ -167,7 +167,7 @@ Namespace Forms
             nPilot.CloneName = "Clone Grade Alpha"
             nPilot.CloneSP = 900000
             For Each skillItem As ListViewItem In lvwSkills.Items
-                Dim pilotSkill As New Core.EveHQPilotSkill
+                Dim pilotSkill As New EveHQPilotSkill
                 pilotSkill.ID = CInt(skillItem.Name)
                 pilotSkill.Name = skillItem.Text
                 pilotSkill.Level = CInt(skillItem.SubItems(1).Text)
@@ -177,8 +177,8 @@ Namespace Forms
             nPilot.Updated = True
 
             ' Write the XML files
-            Dim xmlFile As String = Path.Combine(Core.HQ.CacheFolder, "EveHQAPI_" & APITypes.CharacterSheet.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
-            Dim txmlFile As String = Path.Combine(Core.HQ.CacheFolder, "EveHQAPI_" & APITypes.SkillQueue.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
+            Dim xmlFile As String = Path.Combine(HQ.CacheFolder, "EveHQAPI_" & APITypes.CharacterSheet.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
+            Dim txmlFile As String = Path.Combine(HQ.CacheFolder, "EveHQAPI_" & APITypes.SkillQueue.ToString & "_" & nPilot.Account & "_" & nPilot.ID & ".xml")
             Dim strXML As String
             Dim writer As StreamWriter
 
@@ -199,10 +199,10 @@ Namespace Forms
             writer.Close()
 
             ' Import the data!
-            Call Core.PilotParseFunctions.ImportPilotFromXML(xmlFile, txmlFile)
+            Call PilotParseFunctions.ImportPilotFromXML(xmlFile, txmlFile)
 
             ' Refresh the list of pilots in EveHQ
-            Core.PilotParseFunctions.StartPilotRefresh = True
+            PilotParseFunctions.StartPilotRefresh = True
 
             ' Close the form
             Close()

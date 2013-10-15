@@ -18,7 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Namespace Forms
-    Public Class frmReportViewer
+    Public Class FrmReportViewer
 
     End Class
 End NameSpace

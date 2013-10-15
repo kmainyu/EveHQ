@@ -2,7 +2,7 @@ Imports EveHQ.Classes
 
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmSkillDetails
+    Partial Class FrmSkillDetails
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -35,7 +35,7 @@ Namespace Forms
             Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Current SP", ""}, -1)
             Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Time to Next Level", ""}, -1)
             Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem(New String() {"Training Rate (SP/Hr)", ""}, -1)
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSkillDetails))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSkillDetails))
             Me.tvwReqs = New System.Windows.Forms.TreeView()
             Me.ctxReqs = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem()

@@ -17,52 +17,54 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Namespace Forms
-    Public Class frmModifyEvePilots
+Imports EveHQ.Core
 
-        Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+Namespace Forms
+    Public Class FrmModifyEvePilots
+
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
             ' Check if the input is valid i.e. not blank
             If txtPilotName.Text = "" Then
                 Dim reply As Integer = MessageBox.Show("Pilot name cannot be blank! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                If reply = Windows.Forms.DialogResult.Retry Then
+                If reply = DialogResult.Retry Then
                     Exit Sub
                 Else
-                    Me.Close()
+                    Close()
                     Exit Sub
                 End If
             End If
             ' Check the pilot ID
             If IsNumeric(txtPilotID.Text) = False Then
                 Dim reply As Integer = MessageBox.Show("Pilot ID must be numeric! Would you like to try again?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                If reply = Windows.Forms.DialogResult.Retry Then
+                If reply = DialogResult.Retry Then
                     Exit Sub
                 Else
-                    Me.Close()
+                    Close()
                     Exit Sub
                 End If
             End If
             ' Add the pilot to the pilot collection
             ' First check if the pilot already exists
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(txtPilotName.Text) Then
+            If HQ.Settings.Pilots.ContainsKey(txtPilotName.Text) Then
                 Dim reply As Integer = MessageBox.Show("Pilot name " & txtPilotName.Text & " already exists in EveHQ! Would you like to try another Pilot name?", "Error Creating Pilot", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                If reply = Windows.Forms.DialogResult.Retry Then
+                If reply = DialogResult.Retry Then
                     Exit Sub
                 Else
-                    Me.Close()
+                    Close()
                     Exit Sub
                 End If
             End If
-            Dim newPilot As New EveHQ.Core.EveHQPilot
+            Dim newPilot As New EveHQPilot
             newPilot.Name = txtPilotName.Text
             newPilot.ID = txtPilotID.Text
             newPilot.Account = ""
             newPilot.AccountPosition = "0"
-            EveHQ.Core.HQ.Settings.Pilots.Add(newPilot.Name, newPilot)
-            Me.Close()
+            HQ.Settings.Pilots.Add(newPilot.Name, newPilot)
+            Close()
         End Sub
 
-        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-            Me.Close()
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
         End Sub
     End Class
 End NameSpace

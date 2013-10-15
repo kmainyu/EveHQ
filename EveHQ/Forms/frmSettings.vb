@@ -17,28 +17,28 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.IO
-Imports System.Net
-Imports System.Net.Mail
-Imports System.Reflection
-Imports System.Windows.Forms.VisualStyles
+Imports EveHQ.EveData
 Imports EveHQ.Controls.DBConfigs
 Imports EveHQ.Controls.DBControls
-Imports DevComponents.AdvTree
-Imports DevComponents.DotNetBar
-Imports EveHQ.Common.Extensions
 Imports EveHQ.Controls
+Imports DevComponents.DotNetBar
 Imports EveHQ.Core
-Imports EveHQ.EveData
+Imports DevComponents.AdvTree
 Imports EveHQ.Market
+Imports System.Net.Mail
+Imports System.IO
 Imports EveHQ.Market.MarketServices
+Imports EveHQ.Common.Extensions
 Imports Microsoft.Win32
+Imports System.Windows.Forms.VisualStyles
+Imports System.Net
+Imports System.Reflection
 
 Namespace Forms
 
-    Public Class frmSettings
-        Dim redrawColumns As Boolean = False
-        Dim startup As Boolean = True
+    Public Class FrmSettings
+        Dim _redrawColumns As Boolean = False
+        Dim _startup As Boolean = True
         Public Property DoNotRecalculatePilots As Boolean = False
 
 #Region "Form Opening & Closing"
@@ -47,21 +47,21 @@ Namespace Forms
             Call SaveMarketSettings()
             Call HQ.Settings.Save()
             If DoNotRecalculatePilots = False Then
-                If frmTraining.IsHandleCreated = True And redrawColumns = True Then
-                    redrawColumns = False
-                    Call frmTraining.RefreshAllTrainingQueues()
+                If FrmTraining.IsHandleCreated = True And _redrawColumns = True Then
+                    _redrawColumns = False
+                    Call FrmTraining.RefreshAllTrainingQueues()
                 End If
                 Call frmEveHQ.UpdatePilotInfo()
             End If
         End Sub
 
         Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
-            Me.Close()
+            Close()
         End Sub
 
         Private Sub frmSettings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
             ' Set the startup flag
-            startup = True
+            _startup = True
 
             Call UpdateGeneralSettings()
             Call UpdateColourOptions()
@@ -81,22 +81,22 @@ Namespace Forms
             Call UpdateMarketSettings()
 
             ' Set the flag to indicate end of the startup
-            startup = False
+            _startup = False
 
             ' Switch to the right tab
-            Me.tvwSettings.Select()
-            If Me.Tag IsNot Nothing Then
-                If Me.Tag.ToString = "" Then
-                    Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+            tvwSettings.Select()
+            If Tag IsNot Nothing Then
+                If Tag.ToString = "" Then
+                    tvwSettings.SelectedNode = tvwSettings.Nodes("nodeGeneral")
                 Else
-                    If Me.tvwSettings.Nodes.ContainsKey(Me.Tag.ToString) = True Then
-                        Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes(Me.Tag.ToString)
+                    If tvwSettings.Nodes.ContainsKey(Tag.ToString) = True Then
+                        tvwSettings.SelectedNode = tvwSettings.Nodes(Tag.ToString)
                     Else
-                        Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+                        tvwSettings.SelectedNode = tvwSettings.Nodes("nodeGeneral")
                     End If
                 End If
             Else
-                Me.tvwSettings.SelectedNode = Me.tvwSettings.Nodes("nodeGeneral")
+                tvwSettings.SelectedNode = tvwSettings.Nodes("nodeGeneral")
             End If
         End Sub
 
@@ -110,15 +110,15 @@ Namespace Forms
             Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
             gbName = "gb" & gbName
 
-            For Each setControl As Control In Me.panelSettings.Controls
+            For Each setControl As Control In panelSettings.Controls
                 If _
                     setControl.Name = "gpNav" Or setControl.Name = "tvwSettings" Or setControl.Name = "btnClose" Or
                     setControl.Name = gbName Then
-                    Me.panelSettings.Controls(gbName).Top = 12
-                    Me.panelSettings.Controls(gbName).Left = 195
-                    Me.panelSettings.Controls(gbName).Width = 700
-                    Me.panelSettings.Controls(gbName).Height = 500
-                    Me.panelSettings.Controls(gbName).Visible = True
+                    panelSettings.Controls(gbName).Top = 12
+                    panelSettings.Controls(gbName).Left = 195
+                    panelSettings.Controls(gbName).Width = 700
+                    panelSettings.Controls(gbName).Height = 500
+                    panelSettings.Controls(gbName).Visible = True
                 Else
                     setControl.Visible = False
                 End If
@@ -127,7 +127,7 @@ Namespace Forms
 
         Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) _
             Handles tvwSettings.NodeMouseClick
-            Me.tvwSettings.SelectedNode = e.Node
+            tvwSettings.SelectedNode = e.Node
         End Sub
 
 #End Region
@@ -141,21 +141,21 @@ Namespace Forms
             chkMinimiseOnExit.Checked = HQ.Settings.MinimiseExit
             chkDisableAutoConnections.Checked = HQ.Settings.DisableAutoWebConnections
             chkDisableTrainingBar.Checked = HQ.Settings.DisableTrainingBar
-            chkEnableAutomaticSave.Checked = EveHQ.Core.HQ.Settings.EnableAutomaticSave
-            nudAutomaticSaveTime.Enabled = EveHQ.Core.HQ.Settings.EnableAutomaticSave
-            nudAutomaticSaveTime.Value = EveHQ.Core.HQ.Settings.AutomaticSaveTime
+            chkEnableAutomaticSave.Checked = HQ.Settings.EnableAutomaticSave
+            nudAutomaticSaveTime.Enabled = HQ.Settings.EnableAutomaticSave
+            nudAutomaticSaveTime.Value = HQ.Settings.AutomaticSaveTime
             If cboStartupView.Items.Contains(HQ.Settings.StartupView) = True Then
                 cboStartupView.SelectedItem = HQ.Settings.StartupView
             Else
                 cboStartupView.SelectedIndex = 0
             End If
-            txtUpdateLocation.Text = HQ.Settings.UpdateURL
+            txtUpdateLocation.Text = HQ.Settings.UpdateUrl
             txtUpdateLocation.Enabled = False
             chkErrorReporting.Checked = HQ.Settings.ErrorReportingEnabled
             txtErrorRepName.Text = HQ.Settings.ErrorReportingName
             txtErrorRepEmail.Text = HQ.Settings.ErrorReportingEmail
-            If HQ.Settings.MDITabPosition IsNot Nothing Then
-                cboMDITabPosition.SelectedItem = HQ.Settings.MDITabPosition
+            If HQ.Settings.MdiTabPosition IsNot Nothing Then
+                cboMDITabPosition.SelectedItem = HQ.Settings.MdiTabPosition
             Else
                 cboMDITabPosition.SelectedItem = "Top"
             End If
@@ -169,18 +169,18 @@ Namespace Forms
         Private Sub chkAutoRun_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkAutoRun.CheckedChanged
             If chkAutoRun.Checked = True Then
-                Dim RegKey As RegistryKey =
+                Dim regKey As RegistryKey =
                         Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", True)
                 If HQ.IsUsingLocalFolders = False Then
-                    RegKey.SetValue(Application.ProductName, """" & Application.ExecutablePath.ToString & """")
+                    regKey.SetValue(Application.ProductName, """" & Application.ExecutablePath.ToString & """")
                 Else
-                    RegKey.SetValue(Application.ProductName, """" & Application.ExecutablePath.ToString & """" & " /local")
+                    regKey.SetValue(Application.ProductName, """" & Application.ExecutablePath.ToString & """" & " /local")
                 End If
                 HQ.Settings.AutoStart = True
             Else
-                Dim RegKey As RegistryKey =
+                Dim regKey As RegistryKey =
                         Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", True)
-                RegKey.DeleteValue(Application.ProductName, False)
+                regKey.DeleteValue(Application.ProductName, False)
                 HQ.Settings.AutoStart = False
             End If
         End Sub
@@ -234,8 +234,8 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub chkEnableAutomaticSave_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEnableAutomaticSave.CheckedChanged
-            EveHQ.Core.HQ.Settings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
+        Private Sub chkEnableAutomaticSave_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkEnableAutomaticSave.CheckedChanged
+            HQ.Settings.EnableAutomaticSave = chkEnableAutomaticSave.Checked
             nudAutomaticSaveTime.Enabled = chkEnableAutomaticSave.Checked
             If chkEnableAutomaticSave.Checked = True Then
                 frmEveHQ.tmrSave.Start()
@@ -244,18 +244,18 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub nudAutomaticSaveTime_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.Click
-            EveHQ.Core.HQ.Settings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        Private Sub nudAutomaticSaveTime_Click(ByVal sender As Object, ByVal e As EventArgs) Handles nudAutomaticSaveTime.Click
+            HQ.Settings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
             frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
         End Sub
 
-        Private Sub nudAutomaticSaveTime_HandleDestroyed(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudAutomaticSaveTime.HandleDestroyed
-            EveHQ.Core.HQ.Settings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        Private Sub nudAutomaticSaveTime_HandleDestroyed(ByVal sender As Object, ByVal e As EventArgs) Handles nudAutomaticSaveTime.HandleDestroyed
+            HQ.Settings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
             frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
         End Sub
 
-        Private Sub nudAutomaticSaveTime_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles nudAutomaticSaveTime.KeyUp
-            EveHQ.Core.HQ.Settings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
+        Private Sub nudAutomaticSaveTime_KeyUp(ByVal sender As Object, ByVal e As KeyEventArgs) Handles nudAutomaticSaveTime.KeyUp
+            HQ.Settings.AutomaticSaveTime = CInt(nudAutomaticSaveTime.Value)
             frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
         End Sub
 
@@ -292,7 +292,7 @@ Namespace Forms
 
         Private Sub txtUpdateLocation_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles txtUpdateLocation.TextChanged
-            HQ.Settings.UpdateURL = txtUpdateLocation.Text
+            HQ.Settings.UpdateUrl = txtUpdateLocation.Text
         End Sub
 
         Private Sub chkErrorReporting_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -323,8 +323,8 @@ Namespace Forms
 
         Private Sub cboMDITabPosition_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles cboMDITabPosition.SelectedIndexChanged
-            HQ.Settings.MDITabPosition = cboMDITabPosition.SelectedItem.ToString
-            Select Case HQ.Settings.MDITabPosition
+            HQ.Settings.MdiTabPosition = cboMDITabPosition.SelectedItem.ToString
+            Select Case HQ.Settings.MdiTabPosition
                 Case "Top"
                     frmEveHQ.tabEveHQMDI.Dock = DockStyle.Top
                     frmEveHQ.tabEveHQMDI.TabAlignment = eTabStripAlignment.Top
@@ -340,9 +340,9 @@ Namespace Forms
 
         Private Sub UpdateColourOptions()
             ' Update the pilot colours
-            Call Me.UpdatePBPilotColours()
+            Call UpdatePBPilotColours()
             chkDisableVisualStyles.Checked = HQ.Settings.DisableVisualStyles
-            txtCSVSeparator.Text = HQ.Settings.CSVSeparatorChar
+            txtCSVSeparator.Text = HQ.Settings.CsvSeparatorChar
         End Sub
 
         Private Sub UpdatePBPilotColours()
@@ -360,7 +360,7 @@ Namespace Forms
             Handles pbPilotGroupBG.Click, pbPilotGroupText.Click, pbPilotSkillText.Click, pbPilotSkillHighlight.Click,
                     pbPilotCurrent.Click, pbPilotLevel5.Click, pbPilotPartial.Click, pbPilotStandard.Click
             Dim thisPB As PictureBox = CType(sender, PictureBox)
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -408,7 +408,7 @@ Namespace Forms
                         HQ.Settings.PilotSkillHighlightColor = cd1.Color.ToArgb
                 End Select
                 ' Update the colours
-                Forms.FrmPilot.adtSkills.Refresh()
+                FrmPilot.adtSkills.Refresh()
             End If
         End Sub
 
@@ -424,9 +424,9 @@ Namespace Forms
             HQ.Settings.PilotSkillTextColor = Color.Black.ToArgb
             HQ.Settings.PilotSkillHighlightColor = Color.DodgerBlue.ToArgb
             ' Update the colours
-            Forms.FrmPilot.adtSkills.Refresh()
+            FrmPilot.adtSkills.Refresh()
             ' Update the PBPilot Colours
-            Call Me.UpdatePBPilotColours()
+            Call UpdatePBPilotColours()
         End Sub
 
         Private Sub chkDisableVisualStyles_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -441,7 +441,7 @@ Namespace Forms
 
         Private Sub txtCSVSeparator_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles txtCSVSeparator.TextChanged
-            HQ.Settings.CSVSeparatorChar = txtCSVSeparator.Text
+            HQ.Settings.CsvSeparatorChar = txtCSVSeparator.Text
         End Sub
 
 #End Region
@@ -463,7 +463,7 @@ Namespace Forms
                 .Text = "Add New Account"
                 .ShowDialog()
             End With
-            Me.UpdateAccounts()
+            UpdateAccounts()
         End Sub
 
         Private Sub btnEditAccount_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditAccount.Click
@@ -481,9 +481,9 @@ Namespace Forms
                 With myAccounts
                     ' Load the account details into the text boxes
                     Dim selAccount As EveHQAccount = HQ.Settings.Accounts(adtAccounts.SelectedNodes(0).Name)
-                    Select Case selAccount.APIKeySystem
+                    Select Case selAccount.ApiKeySystem
                         Case APIKeySystems.Version2
-                            .txtUserIDV2.Text = selAccount.userID
+                            .txtUserIDV2.Text = selAccount.UserID
                             .txtUserIDV2.Enabled = False
                             .txtAPIKeyV2.Text = selAccount.APIKey
                             .txtAPIKeyV2.Enabled = True
@@ -492,15 +492,13 @@ Namespace Forms
                             .lblAPIKeyTypeV2.Text = selAccount.APIKeyType.ToString
                             .lblAPIAccessMask.Text = selAccount.AccessMask.ToString
                             .btnAcceptV2.Text = "OK"
-                        Case Else
-                            ' Ignore
                     End Select
                     .Tag = "Edit"
                     .Text = "Edit '" & selAccount.FriendlyName & "' Account Details"
                     ' Disable the username text box (cannot edit this by design!!)
                     .ShowDialog()
                 End With
-                Me.UpdateAccounts()
+                UpdateAccounts()
             End If
         End Sub
 
@@ -545,7 +543,7 @@ Namespace Forms
                         End If
                     Next
                     Call frmEveHQ.UpdatePilotInfo()
-                    Call Me.UpdatePilots()
+                    Call UpdatePilots()
                 Else
                     adtAccounts.Select()
                     Exit Sub
@@ -560,9 +558,9 @@ Namespace Forms
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 adtAccounts.Select()
             Else
-                Dim SI As Node = adtAccounts.SelectedNodes(0)
-                Dim UserID As String = SI.Name
-                Dim cAccount As EveHQAccount = HQ.Settings.Accounts(UserID)
+                Dim si As Node = adtAccounts.SelectedNodes(0)
+                Dim userID As String = si.Name
+                Dim cAccount As EveHQAccount = HQ.Settings.Accounts(userID)
                 Select Case cAccount.APIAccountStatus
                     Case APIAccountStatuses.Active, APIAccountStatuses.Disabled
                         cAccount.APIAccountStatus = APIAccountStatuses.ManualDisabled
@@ -571,7 +569,7 @@ Namespace Forms
                         cAccount.APIAccountStatus = APIAccountStatuses.Active
                         btnDisableAccount.Text = "Disable Account"
                 End Select
-                SI.Cells(4).Text = cAccount.APIAccountStatus.ToString
+                si.Cells(4).Text = cAccount.APIAccountStatus.ToString
             End If
         End Sub
 
@@ -592,29 +590,25 @@ Namespace Forms
                 newLine.Cells.Add(New Cell(newAccount.APIAccountStatus.ToString))
                 Select Case newAccount.APIKeyType
                     Case APIKeyTypes.Unknown, APIKeyTypes.Limited
-                        Dim TTT As String = ""
-                        TTT &= "Account Creation Date: <Unknown>" & ControlChars.CrLf
-                        TTT &= "Account Expiry Date: <Unknown>" & ControlChars.CrLf
-                        TTT &= "Logon Count: <Unknown>" & ControlChars.CrLf
-                        TTT &= "Time Online: <Unknown>"
-                        Dim _
-                            STI As _
-                                New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName,
-                                                     "Eve API Account Information", TTT, Nothing, My.Resources.Info32,
+                        Dim ttt As String = ""
+                        ttt &= "Account Creation Date: <Unknown>" & ControlChars.CrLf
+                        ttt &= "Account Expiry Date: <Unknown>" & ControlChars.CrLf
+                        ttt &= "Logon Count: <Unknown>" & ControlChars.CrLf
+                        ttt &= "Time Online: <Unknown>"
+                        Dim sti As New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName,
+                                                     "Eve API Account Information", ttt, Nothing, My.Resources.Info32,
                                                      eTooltipColor.Yellow)
-                        STT.SetSuperTooltip(newLine, STI)
+                        STT.SetSuperTooltip(newLine, sti)
                     Case APIKeyTypes.Full, APIKeyTypes.Character, APIKeyTypes.Corporation
-                        Dim TTT As String = ""
-                        TTT &= "Account Creation Date: " & newAccount.CreateDate.ToString & ControlChars.CrLf
-                        TTT &= "Account Expiry Date: " & newAccount.PaidUntil.ToString & ControlChars.CrLf
-                        TTT &= "Logon Count: " & newAccount.LogonCount.ToString("N0") & ControlChars.CrLf
-                        TTT &= "Time Online: " & SkillFunctions.TimeToString(newAccount.LogonMinutes * 60, False)
-                        Dim _
-                            STI As _
-                                New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName,
-                                                     "Eve API Account Information", TTT, Nothing, My.Resources.Info32,
+                        Dim ttt As String = ""
+                        ttt &= "Account Creation Date: " & newAccount.CreateDate.ToString & ControlChars.CrLf
+                        ttt &= "Account Expiry Date: " & newAccount.PaidUntil.ToString & ControlChars.CrLf
+                        ttt &= "Logon Count: " & newAccount.LogonCount.ToString("N0") & ControlChars.CrLf
+                        ttt &= "Time Online: " & SkillFunctions.TimeToString(newAccount.LogonMinutes * 60, False)
+                        Dim sti As New SuperTooltipInfo("Account Name: " & newAccount.FriendlyName,
+                                                     "Eve API Account Information", ttt, Nothing, My.Resources.Info32,
                                                      eTooltipColor.Yellow)
-                        STT.SetSuperTooltip(newLine, STI)
+                        STT.SetSuperTooltip(newLine, sti)
                 End Select
                 adtAccounts.Nodes.Add(newLine)
             Next
@@ -631,7 +625,7 @@ Namespace Forms
             For Each cAccount As EveHQAccount In HQ.Settings.Accounts.Values
                 Call cAccount.CheckAPIKey()
             Next
-            Call Me.UpdateAccounts()
+            Call UpdateAccounts()
         End Sub
 
         Private Sub adtAccounts_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) _
@@ -641,9 +635,9 @@ Namespace Forms
 
         Private Sub adtAccounts_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtAccounts.SelectionChanged
             If adtAccounts.SelectedNodes.Count = 1 Then
-                Dim SI As Node = adtAccounts.SelectedNodes(0)
-                Dim UserID As String = SI.Name
-                Dim cAccount As EveHQAccount = HQ.Settings.Accounts(UserID)
+                Dim si As Node = adtAccounts.SelectedNodes(0)
+                Dim userID As String = si.Name
+                Dim cAccount As EveHQAccount = HQ.Settings.Accounts(userID)
                 Select Case cAccount.APIAccountStatus
                     Case APIAccountStatuses.Active, APIAccountStatuses.Disabled
                         btnDisableAccount.Text = "Disable Account"
@@ -714,11 +708,11 @@ Namespace Forms
             For Each plugin As String In removePlugIns
                 HQ.Settings.Plugins.Remove(plugin)
             Next
-            Call Me.UpdatePlugIns()
+            Call UpdatePlugIns()
         End Sub
 
         Private Sub btnRefreshPlugins_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRefreshPlugins.Click
-            Call Me.UpdatePlugIns()
+            Call UpdatePlugIns()
         End Sub
 
         Private Sub lvwPlugins_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwPlugins.ItemChecked
@@ -746,18 +740,18 @@ Namespace Forms
                 .Text = "Add New Pilot"
                 .ShowDialog()
             End With
-            Me.UpdatePilots()
+            UpdatePilots()
             Call frmEveHQ.UpdatePilotInfo()
         End Sub
 
         Private Sub btnAddPilotFromXML_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddPilotFromXML.Click
             Call PilotParseFunctions.LoadPilotFromXML()
             Call frmEveHQ.UpdatePilotInfo()
-            Call Me.UpdatePilots()
+            Call UpdatePilots()
         End Sub
 
         Private Sub btnCreateBlankPilot_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCreateBlankPilot.Click
-            Dim newCharForm As New Forms.FrmCharCreate
+            Dim newCharForm As New FrmCharCreate
             newCharForm.ShowDialog()
             Call UpdatePilots()
             newCharForm.Dispose()
@@ -804,7 +798,7 @@ Namespace Forms
                     ' Delete the account from the accounts collection
                     HQ.Settings.Pilots.Remove(selPilot)
                     ' Update the settings view
-                    Call Me.UpdatePilots()
+                    Call UpdatePilots()
                     ' Update the list of pilots in the main form
                     Call frmEveHQ.UpdatePilotInfo()
                 Else
@@ -817,10 +811,10 @@ Namespace Forms
         Private Sub lvwPilots_ColumnClick(ByVal sender As Object, ByVal e As ColumnClickEventArgs) _
             Handles lvwPilots.ColumnClick
             If CInt(lvwPilots.Tag) = e.Column Then
-                Me.lvwPilots.ListViewItemSorter = New ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+                lvwPilots.ListViewItemSorter = New ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
                 lvwPilots.Tag = -1
             Else
-                Me.lvwPilots.ListViewItemSorter = New ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+                lvwPilots.ListViewItemSorter = New ListViewItemComparer_Text(e.Column, SortOrder.Descending)
                 lvwPilots.Tag = e.Column
             End If
             ' Call the sort method to manually sort.
@@ -829,7 +823,7 @@ Namespace Forms
 
         Private Sub lvwPilots_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) Handles lvwPilots.ItemCheck
             Dim pilotIndex As Integer = e.Index
-            Dim newpilot As New EveHQPilot
+            Dim newpilot As EveHQPilot
             newpilot = HQ.Settings.Pilots(lvwPilots.Items(pilotIndex).Text)
             If lvwPilots.Items(pilotIndex).Checked = False Then
                 newpilot.Active = True
@@ -843,13 +837,13 @@ Namespace Forms
 #Region "IGB Settings"
 
         Private Sub UpdateIGBSettings()
-            Dim sp As Boolean = False
+            Dim sp As Boolean
 
-            nudIGBPort.Value = HQ.Settings.IGBPort
-            chkStartIGBonLoad.Checked = HQ.Settings.IGBAutoStart
+            nudIGBPort.Value = HQ.Settings.IgbPort
+            chkStartIGBonLoad.Checked = HQ.Settings.IgbAutoStart
             Call IGB.CheckAllIGBAccessRights()
 
-            If HQ.Settings.IGBFullMode = False Then
+            If HQ.Settings.IgbFullMode = False Then
                 rb_IGBCfgAccessMode.Checked = True
             Else
                 rb_IGBFullAccessMode.Checked = True
@@ -866,43 +860,43 @@ Namespace Forms
             Next
 
             clb_IGBAllowedDisplay.Items.Clear()
-            For Each allowed As String In HQ.Settings.IGBAllowedData.Keys
-                sp = HQ.Settings.IGBAllowedData(allowed)
+            For Each allowed As String In HQ.Settings.IgbAllowedData.Keys
+                sp = HQ.Settings.IgbAllowedData(allowed)
                 clb_IGBAllowedDisplay.Items.Add(allowed, sp)
             Next
         End Sub
 
         Private Sub nudIGBPort_Click(ByVal sender As Object, ByVal e As EventArgs) Handles nudIGBPort.Click
-            HQ.Settings.IGBPort = CInt(nudIGBPort.Value)
+            HQ.Settings.IgbPort = CInt(nudIGBPort.Value)
         End Sub
 
         Private Sub nudIGBPort_HandleDestroyed(ByVal sender As Object, ByVal e As EventArgs) _
             Handles nudIGBPort.HandleDestroyed
-            HQ.Settings.IGBPort = CInt(nudIGBPort.Value)
+            HQ.Settings.IgbPort = CInt(nudIGBPort.Value)
         End Sub
 
         Private Sub nudIGBPort_KeyUp(ByVal sender As Object, ByVal e As KeyEventArgs) Handles nudIGBPort.KeyUp
             If e.KeyCode = Keys.Enter Then
-                HQ.Settings.IGBPort = CInt(nudIGBPort.Value)
+                HQ.Settings.IgbPort = CInt(nudIGBPort.Value)
             End If
         End Sub
 
         Private Sub chkStartIGBOnLoad_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkStartIGBonLoad.CheckedChanged
             If chkStartIGBonLoad.Checked = True Then
-                HQ.Settings.IGBAutoStart = True
+                HQ.Settings.IgbAutoStart = True
             Else
-                HQ.Settings.IGBAutoStart = False
+                HQ.Settings.IgbAutoStart = False
             End If
         End Sub
 
         Private Sub rb_IGBInPublicMode_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles rb_IGBCfgAccessMode.CheckedChanged, rb_IGBFullAccessMode.CheckedChanged
-            If startup = False Then
+            If _startup = False Then
                 If rb_IGBCfgAccessMode.Checked = True Then
-                    HQ.Settings.IGBFullMode = False
+                    HQ.Settings.IgbFullMode = False
                 Else
-                    HQ.Settings.IGBFullMode = True
+                    HQ.Settings.IgbFullMode = True
                 End If
             End If
         End Sub
@@ -910,21 +904,6 @@ Namespace Forms
 #End Region
 
 #Region "Training Queue Options"
-
-        Private Sub clbColumns_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
-            If e.Index > 5 Then
-                If e.CurrentValue = CheckState.Checked Then
-                    HQ.Settings.QColumns(e.Index, 1) = CStr(False)
-                Else
-                    HQ.Settings.QColumns(e.Index, 1) = CStr(True)
-                End If
-            Else
-                e.NewValue = CheckState.Checked
-            End If
-            If startup = False Then
-                redrawColumns = True
-            End If
-        End Sub
 
         Private Sub chkDeleteCompletedSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkDeleteCompletedSkills.CheckedChanged
@@ -938,25 +917,25 @@ Namespace Forms
 
         Private Sub UpdateTrainingQueueOptions()
             ' Add the Queue columns
-            Call Me.RedrawQueueColumnList()
-            Me.chkDeleteCompletedSkills.Checked = HQ.Settings.DeleteSkills
-            Me.chkStartWithPrimaryQueue.Checked = HQ.Settings.StartWithPrimaryQueue
-            Dim IColor As Color = Color.FromArgb(CInt(HQ.Settings.IsPreReqColor))
-            Me.pbIsPreReqColour.BackColor = IColor
-            Dim HColor As Color = Color.FromArgb(CInt(HQ.Settings.HasPreReqColor))
-            Me.pbHasPreReqColour.BackColor = HColor
-            Dim BColor As Color = Color.FromArgb(CInt(HQ.Settings.BothPreReqColor))
-            Me.pbBothPreReqColour.BackColor = BColor
-            Dim CColor As Color = Color.FromArgb(CInt(HQ.Settings.DTClashColor))
-            Me.pbDowntimeClashColour.BackColor = CColor
-            Dim RColor As Color = Color.FromArgb(CInt(HQ.Settings.ReadySkillColor))
-            Me.pbReadySkillColour.BackColor = RColor
-            Dim PColor As Color = Color.FromArgb(CInt(HQ.Settings.PartialTrainColor))
-            Me.pbPartiallyTrainedColour.BackColor = PColor
+            Call RedrawQueueColumnList()
+            chkDeleteCompletedSkills.Checked = HQ.Settings.DeleteSkills
+            chkStartWithPrimaryQueue.Checked = HQ.Settings.StartWithPrimaryQueue
+            Dim prereqColor As Color = Color.FromArgb(CInt(HQ.Settings.IsPreReqColor))
+            pbIsPreReqColour.BackColor = prereqColor
+            Dim hColor As Color = Color.FromArgb(CInt(HQ.Settings.HasPreReqColor))
+            pbHasPreReqColour.BackColor = hColor
+            Dim bColor As Color = Color.FromArgb(CInt(HQ.Settings.BothPreReqColor))
+            pbBothPreReqColour.BackColor = bColor
+            Dim cColor As Color = Color.FromArgb(CInt(HQ.Settings.DtClashColor))
+            pbDowntimeClashColour.BackColor = cColor
+            Dim rColor As Color = Color.FromArgb(CInt(HQ.Settings.ReadySkillColor))
+            pbReadySkillColour.BackColor = rColor
+            Dim pColor As Color = Color.FromArgb(CInt(HQ.Settings.PartialTrainColor))
+            pbPartiallyTrainedColour.BackColor = pColor
         End Sub
 
         Private Sub pbIsPreReqColour_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pbIsPreReqColour.Click
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -966,14 +945,14 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                Me.pbIsPreReqColour.BackColor = cd1.Color
+                pbIsPreReqColour.BackColor = cd1.Color
                 HQ.Settings.IsPreReqColor = cd1.Color.ToArgb
-                redrawColumns = True
+                _redrawColumns = True
             End If
         End Sub
 
         Private Sub pbHasPreReqColour_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pbHasPreReqColour.Click
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -983,14 +962,14 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                Me.pbHasPreReqColour.BackColor = cd1.Color
+                pbHasPreReqColour.BackColor = cd1.Color
                 HQ.Settings.HasPreReqColor = cd1.Color.ToArgb
-                redrawColumns = True
+                _redrawColumns = True
             End If
         End Sub
 
         Private Sub pbBothPreReqColour_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pbBothPreReqColour.Click
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -1000,15 +979,15 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                Me.pbBothPreReqColour.BackColor = cd1.Color
+                pbBothPreReqColour.BackColor = cd1.Color
                 HQ.Settings.BothPreReqColor = cd1.Color.ToArgb
-                redrawColumns = True
+                _redrawColumns = True
             End If
         End Sub
 
         Private Sub pbDowntimeClashColour_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles pbDowntimeClashColour.Click
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -1018,14 +997,14 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                Me.pbDowntimeClashColour.BackColor = cd1.Color
-                HQ.Settings.DTClashColor = cd1.Color.ToArgb
-                redrawColumns = True
+                pbDowntimeClashColour.BackColor = cd1.Color
+                HQ.Settings.DtClashColor = cd1.Color.ToArgb
+                _redrawColumns = True
             End If
         End Sub
 
         Private Sub pbReadySkillColour_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pbReadySkillColour.Click
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -1035,15 +1014,15 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                Me.pbReadySkillColour.BackColor = cd1.Color
+                pbReadySkillColour.BackColor = cd1.Color
                 HQ.Settings.ReadySkillColor = cd1.Color.ToArgb
-                redrawColumns = True
+                _redrawColumns = True
             End If
         End Sub
 
         Private Sub pbPartiallyTrainedColour_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles pbPartiallyTrainedColour.Click
-            Dim dlgResult As Integer = 0
+            Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
@@ -1053,9 +1032,9 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                Me.pbPartiallyTrainedColour.BackColor = cd1.Color
+                pbPartiallyTrainedColour.BackColor = cd1.Color
                 HQ.Settings.PartialTrainColor = cd1.Color.ToArgb
-                redrawColumns = True
+                _redrawColumns = True
             End If
         End Sub
 
@@ -1100,7 +1079,7 @@ Namespace Forms
                 txtProxyUsername.Enabled = False
                 txtProxyPassword.Enabled = False
                 chkProxyUseBasic.Enabled = False
-                If startup = False Then
+                If _startup = False Then
                     HQ.Settings.ProxyUseDefault = True
                 End If
             End If
@@ -1114,7 +1093,7 @@ Namespace Forms
                 txtProxyUsername.Enabled = True
                 txtProxyPassword.Enabled = True
                 chkProxyUseBasic.Enabled = True
-                If startup = False Then
+                If _startup = False Then
                     HQ.Settings.ProxyUseDefault = False
                 End If
             End If
@@ -1143,11 +1122,11 @@ Namespace Forms
             chkEnableEveStatus.Checked = HQ.Settings.EnableEveStatus
             chkAutoAPI.Checked = HQ.Settings.AutoAPI
             chkAutoMailAPI.Checked = HQ.Settings.AutoMailAPI
-            txtCCPAPIServer.Text = HQ.Settings.CCPAPIServerAddress
-            txtAPIRSServer.Text = HQ.Settings.APIRSAddress
-            chkUseAPIRSServer.Checked = HQ.Settings.UseAPIRS
-            chkUseCCPBackup.Checked = HQ.Settings.UseCCPAPIBackup
-            If HQ.Settings.UseAPIRS = False Then
+            txtCCPAPIServer.Text = HQ.Settings.CcpapiServerAddress
+            txtAPIRSServer.Text = HQ.Settings.ApirsAddress
+            chkUseAPIRSServer.Checked = HQ.Settings.UseApirs
+            chkUseCCPBackup.Checked = HQ.Settings.UseCcpapiBackup
+            If HQ.Settings.UseApirs = False Then
                 chkUseCCPBackup.Enabled = False
                 txtAPIRSServer.Enabled = False
             Else
@@ -1209,11 +1188,11 @@ Namespace Forms
         Private Sub chkUseAPIRSServer_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkUseAPIRSServer.CheckedChanged
             If chkUseAPIRSServer.Checked = True Then
-                HQ.Settings.UseAPIRS = True
+                HQ.Settings.UseApirs = True
                 chkUseCCPBackup.Enabled = True
                 txtAPIRSServer.Enabled = True
             Else
-                HQ.Settings.UseAPIRS = False
+                HQ.Settings.UseApirs = False
                 chkUseCCPBackup.Enabled = False
                 txtAPIRSServer.Enabled = False
             End If
@@ -1222,20 +1201,20 @@ Namespace Forms
         Private Sub chkUseCCPBackup_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkUseCCPBackup.CheckedChanged
             If chkUseCCPBackup.Checked = True Then
-                HQ.Settings.UseCCPAPIBackup = True
+                HQ.Settings.UseCcpapiBackup = True
             Else
-                HQ.Settings.UseCCPAPIBackup = False
+                HQ.Settings.UseCcpapiBackup = False
             End If
         End Sub
 
         Private Sub txtCCPAPIServer_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles txtCCPAPIServer.TextChanged
-            HQ.Settings.CCPAPIServerAddress = txtCCPAPIServer.Text
+            HQ.Settings.CcpapiServerAddress = txtCCPAPIServer.Text
         End Sub
 
         Private Sub txtAPIRSServer_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles txtAPIRSServer.TextChanged
-            HQ.Settings.APIRSAddress = txtAPIRSServer.Text
+            HQ.Settings.ApirsAddress = txtAPIRSServer.Text
         End Sub
 
         Private Sub txtAPIFileExtension_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -1248,53 +1227,53 @@ Namespace Forms
 #Region "Notification Options"
 
         Public Sub UpdateNotificationOptions()
-            Me.chkShutdownNotify.Checked = HQ.Settings.ShutdownNotify
-            Me.chkNotifyToolTip.Checked = HQ.Settings.NotifyToolTip
-            Me.chkNotifyDialog.Checked = HQ.Settings.NotifyDialog
-            Me.chkNotifyNow.Checked = HQ.Settings.NotifyNow
-            Me.chkNotifyEarly.Checked = HQ.Settings.NotifyEarly
-            Me.chkNotifyEmail.Checked = HQ.Settings.NotifyEMail
-            Me.chkNotifyEveMail.Checked = HQ.Settings.NotifyEveMail
-            Me.chkNotifyNotification.Checked = HQ.Settings.NotifyEveNotification
+            chkShutdownNotify.Checked = HQ.Settings.ShutdownNotify
+            chkNotifyToolTip.Checked = HQ.Settings.NotifyToolTip
+            chkNotifyDialog.Checked = HQ.Settings.NotifyDialog
+            chkNotifyNow.Checked = HQ.Settings.NotifyNow
+            chkNotifyEarly.Checked = HQ.Settings.NotifyEarly
+            chkNotifyEmail.Checked = HQ.Settings.NotifyEMail
+            chkNotifyEveMail.Checked = HQ.Settings.NotifyEveMail
+            chkNotifyNotification.Checked = HQ.Settings.NotifyEveNotification
             If HQ.Settings.NotifySound = True Then
-                Me.chkNotifySound.Checked = True
+                chkNotifySound.Checked = True
                 btnSelectSoundFile.Enabled = True
                 btnSoundTest.Enabled = True
             Else
-                Me.chkNotifySound.Checked = False
+                chkNotifySound.Checked = False
                 btnSelectSoundFile.Enabled = False
                 btnSoundTest.Enabled = False
             End If
-            Me.lblSoundFile.Text = HQ.Settings.NotifySoundFile
-            If HQ.Settings.UseSMTPAuth = True Then
-                Me.chkSMTPAuthentication.Checked = True
+            lblSoundFile.Text = HQ.Settings.NotifySoundFile
+            If HQ.Settings.UseSmtpAuth = True Then
+                chkSMTPAuthentication.Checked = True
                 lblEmailUsername.Enabled = True
                 lblEmailPassword.Enabled = True
                 txtEmailUsername.Enabled = True
                 txtEmailPassword.Enabled = True
             Else
-                Me.chkSMTPAuthentication.Checked = False
+                chkSMTPAuthentication.Checked = False
                 lblEmailUsername.Enabled = False
                 lblEmailPassword.Enabled = False
                 txtEmailUsername.Enabled = False
                 txtEmailPassword.Enabled = False
             End If
-            Me.chkUseSSL.Checked = HQ.Settings.UseSSL
-            Me.txtSMTPServer.Text = HQ.Settings.EMailServer
-            Me.txtSMTPPort.Text = CStr(HQ.Settings.EMailPort)
-            Me.txtEmailAddress.Text = HQ.Settings.EMailAddress
-            Me.txtEmailUsername.Text = HQ.Settings.EMailUsername
-            Me.txtEmailPassword.Text = HQ.Settings.EMailPassword
-            Me.txtSenderAddress.Text = HQ.Settings.EmailSenderAddress
-            Me.sldNotifyOffset.Value = HQ.Settings.NotifyOffset
+            chkUseSSL.Checked = HQ.Settings.UseSsl
+            txtSMTPServer.Text = HQ.Settings.EMailServer
+            txtSMTPPort.Text = CStr(HQ.Settings.EMailPort)
+            txtEmailAddress.Text = HQ.Settings.EMailAddress
+            txtEmailUsername.Text = HQ.Settings.EMailUsername
+            txtEmailPassword.Text = HQ.Settings.EMailPassword
+            txtSenderAddress.Text = HQ.Settings.EmailSenderAddress
+            sldNotifyOffset.Value = HQ.Settings.NotifyOffset
             Dim offset As String = SkillFunctions.TimeToStringAll(sldNotifyOffset.Value)
             lblNotifyOffset.Text = "Early Notification Offset: " & offset
-            Me.nudShutdownNotifyPeriod.Value = HQ.Settings.ShutdownNotifyPeriod
-            Me.chkIgnoreLastMessage.Checked = HQ.Settings.IgnoreLastMessage
-            Me.chkNotifyAccountTime.Checked = HQ.Settings.NotifyAccountTime
-            Me.chkNotifyInsuffClone.Checked = EveHQ.Core.HQ.Settings.NotifyInsuffClone
-            Me.nudAccountTimeLimit.Enabled = HQ.Settings.NotifyAccountTime
-            Me.nudAccountTimeLimit.Value = HQ.Settings.AccountTimeLimit
+            nudShutdownNotifyPeriod.Value = HQ.Settings.ShutdownNotifyPeriod
+            chkIgnoreLastMessage.Checked = HQ.Settings.IgnoreLastMessage
+            chkNotifyAccountTime.Checked = HQ.Settings.NotifyAccountTime
+            chkNotifyInsuffClone.Checked = HQ.Settings.NotifyInsuffClone
+            nudAccountTimeLimit.Enabled = HQ.Settings.NotifyAccountTime
+            nudAccountTimeLimit.Value = HQ.Settings.AccountTimeLimit
         End Sub
 
         Private Sub chkShutdownNotify_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -1379,13 +1358,13 @@ Namespace Forms
         Private Sub chkSMTPAuthentication_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkSMTPAuthentication.CheckedChanged
             If chkSMTPAuthentication.Checked = True Then
-                HQ.Settings.UseSMTPAuth = True
+                HQ.Settings.UseSmtpAuth = True
                 lblEmailUsername.Enabled = True
                 lblEmailPassword.Enabled = True
                 txtEmailUsername.Enabled = True
                 txtEmailPassword.Enabled = True
             Else
-                HQ.Settings.UseSMTPAuth = False
+                HQ.Settings.UseSmtpAuth = False
                 lblEmailUsername.Enabled = False
                 lblEmailPassword.Enabled = False
                 txtEmailUsername.Enabled = False
@@ -1394,7 +1373,7 @@ Namespace Forms
         End Sub
 
         Private Sub chkUseSSL_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkUseSSL.CheckedChanged
-            HQ.Settings.UseSSL = chkUseSSL.Checked
+            HQ.Settings.UseSsl = chkUseSSL.Checked
         End Sub
 
         Private Sub txtSMTPServer_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -1425,11 +1404,11 @@ Namespace Forms
         Private Sub btnTestEmail_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnTestEmail.Click
 
             ' Only do this if at least one notification is enabled
-            Dim notifyText As String = ""
+            Dim notifyText As String
             For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If cPilot.Active = True And cPilot.Training = True Then
                     notifyText = ""
-                    Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
+                    SkillFunctions.CalcCurrentSkillTime(cPilot)
                     Dim strTime As String = SkillFunctions.TimeToString(cPilot.TrainingCurrentTime)
                     strTime = strTime.Replace("s", " seconds").Replace("m", " minutes")
                     notifyText &= cPilot.Name & " has approximately " & strTime & " before training of " &
@@ -1495,8 +1474,8 @@ Namespace Forms
                         Try
                             eveHQMail.Host = HQ.Settings.EMailServer
                             eveHQMail.Port = HQ.Settings.EMailPort
-                            eveHQMail.EnableSsl = HQ.Settings.UseSSL
-                            If HQ.Settings.UseSMTPAuth = True Then
+                            eveHQMail.EnableSsl = HQ.Settings.UseSsl
+                            If HQ.Settings.UseSmtpAuth = True Then
                                 Dim newCredentials As New NetworkCredential
                                 newCredentials.UserName = HQ.Settings.EMailUsername
                                 newCredentials.Password = HQ.Settings.EMailPassword
@@ -1564,8 +1543,8 @@ Namespace Forms
             HQ.Settings.IgnoreLastMessage = chkIgnoreLastMessage.Checked
         End Sub
 
-        Private Sub chkNotifyInsuffClone_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkNotifyInsuffClone.CheckedChanged
-            EveHQ.Core.HQ.Settings.NotifyInsuffClone = chkNotifyInsuffClone.Checked
+        Private Sub chkNotifyInsuffClone_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkNotifyInsuffClone.CheckedChanged
+            HQ.Settings.NotifyInsuffClone = chkNotifyInsuffClone.Checked
         End Sub
 
         Private Sub chkNotifyAccountTime_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -1614,11 +1593,11 @@ Namespace Forms
                     HQ.Settings.ActivateG15 = True
                     'Init the LCD
                     Try
-                        G15Lcd.InitLCD()
+                        G15Lcd.InitLcd()
                         ' Check if the LCD will cycle chars
                         If HQ.IsG15LCDActive = True And HQ.Settings.CycleG15Pilots = True Then
-                            G15Lcd.tmrLCDChar.Interval = (1000 * HQ.Settings.CycleG15Time)
-                            G15Lcd.tmrLCDChar.Enabled = True
+                            G15Lcd.TmrLcdChar.Interval = (1000 * HQ.Settings.CycleG15Time)
+                            G15Lcd.TmrLcdChar.Enabled = True
                         End If
                     Catch ex As Exception
                         MessageBox.Show(
@@ -1632,7 +1611,7 @@ Namespace Forms
                     HQ.Settings.ActivateG15 = False
                     ' Close the LCD
                     Try
-                        G15Lcd.CloseLCD()
+                        G15Lcd.CloseLcd()
                     Catch ex As Exception
                         MessageBox.Show("Unable to close G15 Display: " & ex.Message, "Error Closing G15",
                                         MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -1645,13 +1624,13 @@ Namespace Forms
             Handles chkCyclePilots.CheckedChanged
             If chkCyclePilots.Checked = True Then
                 HQ.Settings.CycleG15Pilots = True
-                G15Lcd.tmrLCDChar.Interval = (1000 * HQ.Settings.CycleG15Time)
+                G15Lcd.TmrLcdChar.Interval = (1000 * HQ.Settings.CycleG15Time)
                 If HQ.Settings.ActivateG15 = True Then
-                    G15Lcd.tmrLCDChar.Enabled = True
+                    G15Lcd.TmrLcdChar.Enabled = True
                 End If
             Else
                 HQ.Settings.CycleG15Pilots = False
-                G15Lcd.tmrLCDChar.Enabled = False
+                G15Lcd.TmrLcdChar.Enabled = False
             End If
         End Sub
 
@@ -1659,9 +1638,9 @@ Namespace Forms
             Handles nudCycleTime.ValueChanged
             HQ.Settings.CycleG15Time = CInt(nudCycleTime.Value)
             If HQ.Settings.CycleG15Time > 0 Then
-                G15Lcd.tmrLCDChar.Interval = CInt((nudCycleTime.Value * 1000))
+                G15Lcd.TmrLcdChar.Interval = CInt((nudCycleTime.Value * 1000))
             Else
-                G15Lcd.tmrLCDChar.Interval = CInt(1000)
+                G15Lcd.TmrLcdChar.Interval = CInt(1000)
             End If
         End Sub
 
@@ -1670,13 +1649,12 @@ Namespace Forms
 #Region "Eve Folder Options"
 
         Private Sub UpdateEveFolderOptions()
-            Dim lblEveDir As New Label
-            Dim chkLUA As New CheckBox
-            Dim lblCacheSize As New Label
-            Dim gbFolderHost As New GroupBox
-            Dim txtFName As New TextBox
+            Dim lblEveDir As Label
+            Dim chkLUA As CheckBox
+            Dim gbFolderHost As GroupBox
+            Dim txtFName As TextBox
             For folder As Integer = 1 To 4
-                gbFolderHost = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
+                gbFolderHost = CType(gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
                 lblEveDir = CType(gbFolderHost.Controls("lblEveDir" & CStr(folder).Trim), Label)
                 chkLUA = CType(gbFolderHost.Controls("chkLUA" & CStr(folder).Trim), CheckBox)
                 txtFName = CType(gbFolderHost.Controls("txtFriendlyName" & CStr(folder).Trim), TextBox)
@@ -1690,7 +1668,7 @@ Namespace Forms
                     txtFName.Enabled = False
                     txtFName.Text = ""
                 End If
-                If HQ.Settings.EveFolderLUA(folder) = True Then
+                If HQ.Settings.EveFolderLua(folder) = True Then
                     chkLUA.Checked = True
                 Else
                     chkLUA.Checked = False
@@ -1704,7 +1682,7 @@ Namespace Forms
 
         Private Sub btnEveDirClick(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnEveDir1.Click, btnEveDir2.Click, btnEveDir3.Click, btnEveDir4.Click
-            Dim btnEveDir As New Button
+            Dim btnEveDir As Button
             btnEveDir = CType(sender, Button)
             Dim folder As Integer = CInt(btnEveDir.Name.Remove(0, 9))
             With fbd1
@@ -1712,7 +1690,7 @@ Namespace Forms
                 .ShowNewFolderButton = False
                 .RootFolder = Environment.SpecialFolder.Desktop
                 .ShowDialog()
-                Dim gbFolderHost As GroupBox = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
+                Dim gbFolderHost As GroupBox = CType(gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
                 Dim lblEveDir As Label = CType(gbFolderHost.Controls("lblEveDir" & CStr(folder).Trim), Label)
                 If My.Computer.FileSystem.FileExists(Path.Combine(.SelectedPath, "eve.exe")) = False Then
                     MessageBox.Show("This folder does not contain the Eve.exe file.", "Directory Error",
@@ -1724,7 +1702,6 @@ Namespace Forms
                     chkLUA.Enabled = True
                     Dim txtFName As TextBox = CType(gbFolderHost.Controls("txtFriendlyName" & CStr(folder).Trim), TextBox)
                     txtFName.Enabled = True
-                    Dim lblCacheSize As Label = CType(gbFolderHost.Controls("lblCacheSize" & CStr(folder).Trim), Label)
                     If chkLUA.Checked = False Then
                         'lblCacheSize.Text &= " (shared)"
                     End If
@@ -1734,10 +1711,10 @@ Namespace Forms
 
         Private Sub btnClearClick(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnClear1.Click, btnClear2.Click, btnClear3.Click, btnClear4.Click
-            Dim btnEveDir As New Button
+            Dim btnEveDir As Button
             btnEveDir = CType(sender, Button)
             Dim folder As Integer = CInt(btnEveDir.Name.Remove(0, 8))
-            Dim gbFolderHost As GroupBox = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
+            Dim gbFolderHost As GroupBox = CType(gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
             Dim lblEveDir As Label = CType(gbFolderHost.Controls("lblEveDir" & CStr(folder).Trim), Label)
             lblEveDir.Text = ""
             Dim chkLUA As CheckBox = CType(gbFolderHost.Controls("chkLUA" & CStr(folder).Trim), CheckBox)
@@ -1750,11 +1727,11 @@ Namespace Forms
 
         Private Sub chkLUA_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkLUA1.CheckedChanged, chkLUA2.CheckedChanged, chkLUA3.CheckedChanged, chkLUA4.CheckedChanged
-            Dim chkLUA As New CheckBox
+            Dim chkLUA As CheckBox
             chkLUA = CType(sender, CheckBox)
             Dim folder As Integer = CInt(chkLUA.Name.Remove(0, 6))
             Call CheckLUA(chkLUA, folder)
-            Dim gbFolderHost As GroupBox = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
+            Dim gbFolderHost As GroupBox = CType(gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
             Dim lblCacheSize As Label = CType(gbFolderHost.Controls("lblCacheSize" & CStr(folder).Trim), Label)
             If chkLUA.Checked = False Then
                 lblCacheSize.Text &= " (shared)"
@@ -1764,16 +1741,12 @@ Namespace Forms
         Private Sub CheckLUA(ByVal chkLUA As CheckBox, ByVal folder As Integer)
             ' If selected, check the program files directory for the settings, otherwise check the user directory
             If chkLUA.Checked = True Then
-                HQ.Settings.EveFolderLUA(folder) = True
+                HQ.Settings.EveFolderLua(folder) = True
                 ' Check program files
-                If startup = False Then
+                If _startup = False Then
                     Dim cacheDir As String = Path.Combine(HQ.Settings.EveFolder(folder), "cache")
-                    Dim settingsDir As String = Path.Combine(cacheDir, "settings")
                     Dim prefsFile As String = Path.Combine(cacheDir, "prefs.ini")
-                    Dim browserDir As String = Path.Combine(cacheDir, "browser")
-                    Dim machoDIR As String = Path.Combine(cacheDir, "machonet")
-                    If _
-                        My.Computer.FileSystem.DirectoryExists(cacheDir) = True And
+                    If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And
                         My.Computer.FileSystem.FileExists(prefsFile) = True Then
                         MessageBox.Show("Confirmed /LUA:off active on this folder.", "LUA Result", MessageBoxButtons.OK,
                                         MessageBoxIcon.Information)
@@ -1783,24 +1756,21 @@ Namespace Forms
                     End If
                 End If
             Else
-                HQ.Settings.EveFolderLUA(folder) = False
+                HQ.Settings.EveFolderLua(folder) = False
                 ' Check the application directory for the user
-                If startup = False Then
-                    Dim EveAppFolder As String = HQ.Settings.EveFolder(folder)
-                    EveAppFolder = EveAppFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower
-                    EveAppFolder &= "_tranquility"
+                If _startup = False Then
+                    Dim eveAppFolder As String = HQ.Settings.EveFolder(folder)
+                    eveAppFolder = eveAppFolder.Replace("\", "_").Replace(":", "").Replace(" ", "_").ToLower
+                    eveAppFolder &= "_tranquility"
                     Dim eveDir As String =
                             Path.Combine(
                                 Path.Combine(
                                     Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                                                 "CCP"), "Eve"), EveAppFolder)
+                                                 "CCP"), "Eve"), eveAppFolder)
                     Dim cacheDir As String = Path.Combine(eveDir, "cache")
                     Dim settingsDir As String = Path.Combine(eveDir, "settings")
                     Dim prefsFile As String = Path.Combine(settingsDir, "prefs.ini")
-                    Dim browserDir As String = Path.Combine(cacheDir, "browser")
-                    Dim machoDIR As String = Path.Combine(cacheDir, "prefs.machonet")
-                    If _
-                        My.Computer.FileSystem.DirectoryExists(cacheDir) = True And
+                    If My.Computer.FileSystem.DirectoryExists(cacheDir) = True And
                         My.Computer.FileSystem.FileExists(prefsFile) = True Then
                         MessageBox.Show("Confirmed shared settings are active.", "LUA Result", MessageBoxButtons.OK,
                                         MessageBoxIcon.Information)
@@ -1818,7 +1788,7 @@ Namespace Forms
             Dim txtFName As TextBox = CType(sender, TextBox)
             Dim idx As Integer = CInt(txtFName.Name.Substring(txtFName.Name.Length - 1, 1))
             HQ.Settings.EveFolderLabel(idx) = txtFName.Text
-            Dim gbFolderHost As GroupBox = CType(Me.gbEveFolders.Controls("gbLocation" & CStr(idx).Trim), GroupBox)
+            Dim gbFolderHost As GroupBox = CType(gbEveFolders.Controls("gbLocation" & CStr(idx).Trim), GroupBox)
             If HQ.Settings.EveFolderLabel(idx) <> "" Then
                 gbFolderHost.Text = "Eve Location " & idx & " (" & HQ.Settings.EveFolderLabel(idx) & ")"
             Else
@@ -1903,9 +1873,9 @@ Namespace Forms
 
         Private Sub UpdateDashboardOptions()
             ' Update the dashboard colours
-            Call Me.UpdateWidgetNames()
-            Call Me.UpdateWidgets()
-            Call Me.UpdateDBOptions()
+            Call UpdateWidgetNames()
+            Call UpdateWidgets()
+            Call UpdateDBOptions()
         End Sub
 
         Private Sub UpdateWidgetNames()
@@ -1925,10 +1895,10 @@ Namespace Forms
                     config.Add("ControlConfigInfo", "<Not Configurable>")
                 End If
                 Try
-                    Dim newWidgetLVI As New ListViewItem
-                    newWidgetLVI.Text = CStr(config("ControlName"))
-                    newWidgetLVI.SubItems.Add(CStr(config("ControlConfigInfo")))
-                    lvWidgets.Items.Add(newWidgetLVI)
+                    Dim newWidgetLvi As New ListViewItem
+                    newWidgetLvi.Text = CStr(config("ControlName"))
+                    newWidgetLvi.SubItems.Add(CStr(config("ControlConfigInfo")))
+                    lvWidgets.Items.Add(newWidgetLvi)
                 Catch e As Exception
                     ' presumably it's an old Widget, therefore discount it
                 End Try
@@ -1947,26 +1917,26 @@ Namespace Forms
         Private Sub btnAddWidget_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddWidget.Click
             ' Check we have a selected widget type
             If cboWidgets.SelectedItem IsNot Nothing Then
-                Dim WidgetName As String = cboWidgets.SelectedItem.ToString
+                Dim widgetName As String = cboWidgets.SelectedItem.ToString
                 ' Determine the type of control to add
-                Dim ClassName As String = HQ.Widgets(WidgetName)
-                Dim myType As Type = Assembly.GetExecutingAssembly.GetType(ClassName)
+                Dim className As String = HQ.Widgets(widgetName)
+                Dim myType As Type = Assembly.GetExecutingAssembly.GetType(className)
                 Dim newWidget As Object = Activator.CreateInstance(myType)
                 Dim pi As PropertyInfo = myType.GetProperty("ControlConfigForm")
                 Dim myConfigFormName As String = pi.GetValue(newWidget, Nothing).ToString
                 If myConfigFormName <> "" Then
-                    Dim ConfigType As Type = Assembly.GetExecutingAssembly.GetType(myConfigFormName)
-                    Dim ConfigForm As Form = CType(Activator.CreateInstance(ConfigType), Form)
-                    Dim fi As PropertyInfo = ConfigForm.GetType().GetProperty("DBWidget")
-                    fi.SetValue(ConfigForm, newWidget, Nothing)
-                    ConfigForm.ShowDialog()
-                    If ConfigForm.DialogResult = DialogResult.OK Then
+                    Dim configType As Type = Assembly.GetExecutingAssembly.GetType(myConfigFormName)
+                    Dim configForm As Form = CType(Activator.CreateInstance(configType), Form)
+                    Dim fi As PropertyInfo = configForm.GetType().GetProperty("DBWidget")
+                    fi.SetValue(configForm, newWidget, Nothing)
+                    configForm.ShowDialog()
+                    If configForm.DialogResult = DialogResult.OK Then
                         ' Save the Widget
                         Dim ci As PropertyInfo = myType.GetProperty("ControlConfiguration")
                         Dim myConfig As SortedList(Of String, Object) = CType(ci.GetValue(newWidget, Nothing), 
                                                                               SortedList(Of String, Object))
                         HQ.Settings.DashboardConfiguration.Add(myConfig)
-                        Call Me.UpdateWidgets()
+                        Call UpdateWidgets()
                         ' Update the dashboard
                         frmDashboard.UpdateWidgets()
                     Else
@@ -1974,14 +1944,14 @@ Namespace Forms
                         MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled",
                                         MessageBoxButtons.OK, MessageBoxIcon.Information)
                     End If
-                    ConfigForm.Dispose()
+                    configForm.Dispose()
                 Else
                     ' Save the Widget
                     Dim ci As PropertyInfo = myType.GetProperty("ControlConfiguration")
                     Dim myConfig As SortedList(Of String, Object) = CType(ci.GetValue(newWidget, Nothing), 
                                                                           SortedList(Of String, Object))
                     HQ.Settings.DashboardConfiguration.Add(myConfig)
-                    Call Me.UpdateWidgets()
+                    Call UpdateWidgets()
                     ' Update the dashboard
                     frmDashboard.UpdateWidgets()
                 End If
@@ -2012,13 +1982,12 @@ Namespace Forms
             ' Edit a widget
             If lvWidgets.SelectedItems.Count > 0 Then
                 Dim index As Integer = lvWidgets.SelectedItems(0).Index
-                Dim WidgetName As String = lvWidgets.SelectedItems(0).Text
+                Dim widgetName As String = lvWidgets.SelectedItems(0).Text
                 ' Determine the type of control to add
-                Select Case WidgetName
+                Select Case widgetName
                     Case "Pilot Information"
                         Dim newWidget As New DBCPilotInfo
-                        newWidget.ControlConfiguration = CType(HQ.Settings.DashboardConfiguration.Item(index), 
-                                                               SortedList(Of String, Object))
+                        newWidget.ControlConfiguration = HQ.Settings.DashboardConfiguration.Item(index)
                         Dim newWidgetConfig As New DBCPilotInfoConfig
                         newWidgetConfig.DBWidget = newWidget
                         newWidgetConfig.ShowDialog()
@@ -2026,8 +1995,7 @@ Namespace Forms
                                                                   CStr(newWidget.ControlConfiguration("DefaultPilotName"))
                     Case "Skill Queue Information"
                         Dim newWidget As New DBCSkillQueueInfo
-                        newWidget.ControlConfiguration = CType(HQ.Settings.DashboardConfiguration.Item(index), 
-                                                               SortedList(Of String, Object))
+                        newWidget.ControlConfiguration = HQ.Settings.DashboardConfiguration.Item(index)
                         Dim newWidgetConfig As New DBCSkillQueueInfoConfig
                         newWidgetConfig.DBWidget = newWidget
                         newWidgetConfig.ShowDialog()
@@ -2051,7 +2019,7 @@ Namespace Forms
         Private Sub chkShowPriceTicker_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles chkShowPriceTicker.CheckedChanged
             HQ.Settings.DBTicker = chkShowPriceTicker.Checked
-            frmDashboard.Ticker1.Visible = HQ.Settings.DBTicker
+            frmDashboard.ticker1.Visible = HQ.Settings.DBTicker
         End Sub
 
         Private Sub cboTickerLocation_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -2061,9 +2029,9 @@ Namespace Forms
                 Try
                     Select Case HQ.Settings.DBTickerLocation
                         Case "Top"
-                            frmDashboard.Ticker1.Dock = DockStyle.Top
+                            frmDashboard.ticker1.Dock = DockStyle.Top
                         Case "Bottom"
-                            frmDashboard.Ticker1.Dock = DockStyle.Bottom
+                            frmDashboard.ticker1.Dock = DockStyle.Bottom
                     End Select
 
                 Catch ex As Exception
@@ -2086,7 +2054,7 @@ Namespace Forms
 
         Private Sub UpdateMarketProviderList()
 
-            _marketDataProvider.Items.Add(EveHqMarketDataProvider.Name)
+            _marketDataProvider.Items.Add(EveHQMarketDataProvider.Name)
             _marketDataProvider.Items.Add(EveCentralMarketDataProvider.Name)
 
 
@@ -2184,7 +2152,7 @@ Namespace Forms
                     _systemList.Enabled = False
 
                     'Get the selected regions from settings and find them in the collection
-                    For Each regionID As Integer In Core.HQ.Settings.MarketRegions
+                    For Each regionID As Integer In HQ.Settings.MarketRegions
                         If StaticData.Regions.ContainsKey(regionID) Then
                             _regionList.SelectedItems.Add(StaticData.Regions(regionID))
                         End If
@@ -2205,12 +2173,12 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub OnUseSystemPriceChecked(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _useSystemPrice.Click
+        Private Sub OnUseSystemPriceChecked(ByVal sender As Object, ByVal e As EventArgs) Handles _useSystemPrice.Click
             _regionList.Enabled = False
             _systemList.Enabled = True
         End Sub
 
-        Private Sub OnUseRegionPriceChecked(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _useRegionData.Click
+        Private Sub OnUseRegionPriceChecked(ByVal sender As Object, ByVal e As EventArgs) Handles _useRegionData.Click
             _regionList.Enabled = True
             _systemList.Enabled = False
         End Sub
@@ -2326,9 +2294,9 @@ Namespace Forms
             End Select
         End Sub
 
-        Private Sub OnOverrideItemListIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
+        Private Sub OnOverrideItemListIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
 
-            Dim item As String = ""
+            Const item As String = ""
             Dim itemId As Integer
             Dim activeStat As MarketMetric = HQ.Settings.MarketDefaultMetric
             Dim activeTransactionType As MarketTransactionKind = HQ.Settings.MarketDefaultTransactionType
@@ -2349,14 +2317,12 @@ Namespace Forms
 
             SetOverrideTransactionTypeRadioButton(activeTransactionType)
 
-
-
         End Sub
 
-        Private Sub OnAddUpdateItemOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideAddOverride.Click
-            Dim item As String = ""
+        Private Sub OnAddUpdateItemOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideAddOverride.Click
+            Const item As String = ""
             Dim itemID As Integer
-        
+
             If _itemOverrideItemList Is Nothing Then
                 Return
             End If
@@ -2371,7 +2337,7 @@ Namespace Forms
 
             Dim override As New ItemMarketOverride()
             override.ItemId = itemID
-        
+
             If (_itemOverrideAllOrders.Checked) Then
                 override.TransactionType = MarketTransactionKind.All
             ElseIf _itemOverrideBuyOrders.Checked Then
@@ -2402,7 +2368,7 @@ Namespace Forms
             UpdateActiveOverrides()
         End Sub
 
-        Private Sub OnOverrideGridNodeClick(ByVal sender As System.Object, ByVal e As DevComponents.AdvTree.TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
+        Private Sub OnOverrideGridNodeClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles _itemOverridesActiveGrid.NodeClick
 
 
             If (e.Node IsNot Nothing) Then
@@ -2437,10 +2403,8 @@ Namespace Forms
 
         End Sub
 
-
-
-        Private Sub OnRemoveOverrideClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _itemOverrideRemoveOverride.Click
-            Dim item As String = ""
+        Private Sub OnRemoveOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideRemoveOverride.Click
+            Const item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2460,9 +2424,7 @@ Namespace Forms
 
         End Sub
 
-
-
-        Private Sub OnMarketProviderChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles _marketDataProvider.SelectedIndexChanged
+        Private Sub OnMarketProviderChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _marketDataProvider.SelectedIndexChanged
             ChangeMarketProvider(_marketDataProvider.SelectedItem.ToString())
             UpdateDataSourceList()
         End Sub
@@ -2477,10 +2439,9 @@ Namespace Forms
 
 #End Region
 
-
         Private Sub RedrawQueueColumnList()
             ' Setup the listview
-            Dim newCol As New ListViewItem
+            Dim newCol As ListViewItem
             lvwColumns.BeginUpdate()
             lvwColumns.Items.Clear()
             For Each slot As String In HQ.Settings.UserQueueColumns
@@ -2488,7 +2449,7 @@ Namespace Forms
                     If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
                         newCol = CType(stdSlot.Clone, ListViewItem)
                         newCol.Name = stdSlot.Name
-                        If slot.EndsWith("0") = True Then
+                        If slot.EndsWith("0", StringComparison.Ordinal) = True Then
                             newCol.Checked = False
                         Else
                             newCol.Checked = True
@@ -2522,9 +2483,9 @@ Namespace Forms
                 HQ.Settings.UserQueueColumns(idx - 1) = HQ.Settings.UserQueueColumns(idx)
                 HQ.Settings.UserQueueColumns(idx) = slotName
                 ' Redraw the list
-                redrawColumns = True
-                Call Me.RedrawQueueColumnList()
-                redrawColumns = False
+                _redrawColumns = True
+                Call RedrawQueueColumnList()
+                _redrawColumns = False
                 lvwColumns.Items(selName).Selected = True
                 lvwColumns.Select()
             End If
@@ -2551,17 +2512,16 @@ Namespace Forms
                 HQ.Settings.UserQueueColumns(idx + 1) = HQ.Settings.UserQueueColumns(idx)
                 HQ.Settings.UserQueueColumns(idx) = slotName
                 ' Redraw the list
-                redrawColumns = True
-                Call Me.RedrawQueueColumnList()
-                redrawColumns = False
+                _redrawColumns = True
+                Call RedrawQueueColumnList()
+                _redrawColumns = False
                 lvwColumns.Items(selName).Selected = True
                 lvwColumns.Select()
             End If
         End Sub
 
-        Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) _
-            Handles lvwColumns.ItemChecked
-            If redrawColumns = False Then
+        Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
+            If _redrawColumns = False Then
                 ' Get the slot name of the ticked item
                 Dim slotName As String = e.Item.Name
                 ' Find the index in the user column list
@@ -2579,12 +2539,12 @@ Namespace Forms
 
         Public Sub FinaliseAPIServerUpdate()
             btnGetData.Enabled = True
-            Call Me.UpdatePilots()
+            Call UpdatePilots()
         End Sub
 
         Private Sub clb_IGBAllowedDisplay_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
             Handles clb_IGBAllowedDisplay.ItemCheck
-            If startup = False Then
+            If _startup = False Then
                 Dim cbx As String = clb_IGBAllowedDisplay.SelectedItem.ToString()
                 Dim chkSt As Boolean
 
@@ -2594,7 +2554,7 @@ Namespace Forms
                     chkSt = False
                 End If
 
-                HQ.Settings.IGBAllowedData(cbx) = chkSt
+                HQ.Settings.IgbAllowedData(cbx) = chkSt
             End If
         End Sub
 

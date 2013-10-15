@@ -1,6 +1,6 @@
 ﻿Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class frmBackupEveHQ
+    Partial Class FrmBackupEveHQ
         Inherits DevComponents.DotNetBar.Office2007Form
 
         'Form overrides dispose to clean up the component list.
@@ -24,7 +24,7 @@
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBackupEveHQ))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmBackupEveHQ))
             Me.btnRestore = New System.Windows.Forms.Button()
             Me.lvwBackups = New DevComponents.DotNetBar.Controls.ListViewEx()
             Me.BackupData = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)

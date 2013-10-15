@@ -17,12 +17,18 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================#
-Imports System.Text
-Imports System.IO
-Imports System.Xml
+Imports System.ComponentModel
+Imports System.IO.Compression
+Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
 Imports EveHQ.Controls
-Imports DevComponents.AdvTree
+Imports EveHQ.Core
+Imports System.Text
+Imports EveHQ.Core.ItemBrowser
+Imports System.IO
+Imports System.Xml
+Imports EveHQ.Core.Requisitions
 
 Namespace Forms
 
@@ -33,14 +39,14 @@ Namespace Forms
         Dim _omitQueuedSkills As Boolean = False
         Dim _selQTime As Double = 0
         Dim _activeQueueName As String = ""
-        Dim _activeQueue As New Core.EveHQSkillQueue
+        Dim _activeQueue As New EveHQSkillQueue
         Dim _activeQueueControl As EveHQTrainingQueue
         Dim _activeQueueTree As AdvTree
         Dim _usingFilter As Boolean = True
         ReadOnly _skillListNodes As New SortedList(Of String, Node)
         ReadOnly _certListNodes As New SortedList
         ReadOnly _certGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
-        Dim _displayPilot As New Core.EveHQPilot
+        Dim _displayPilot As New EveHQPilot
         Dim _cDisplayPilotName As String = ""
         Dim _startup As Boolean = False
         Dim _redrawingOptions As Boolean = False
@@ -72,8 +78,8 @@ Namespace Forms
 
         End Sub
         Private Sub frmTraining_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
-            Core.HQ.Settings.SkillQueuePanelWidth = panelInfo.Width
-            RemoveHandler Core.SkillQueueFunctions.RefreshQueue, AddressOf RefreshAllTraining
+            HQ.Settings.SkillQueuePanelWidth = panelInfo.Width
+            RemoveHandler SkillQueueFunctions.RefreshQueue, AddressOf RefreshAllTraining
         End Sub
 
         Private Sub frmTraining_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
@@ -81,7 +87,7 @@ Namespace Forms
             ' Set the startup flag
             _startup = True
 
-            panelInfo.Width = Core.HQ.Settings.SkillQueuePanelWidth
+            panelInfo.Width = HQ.Settings.SkillQueuePanelWidth
 
             ' Load the pilots
             Call UpdatePilots()
@@ -92,7 +98,7 @@ Namespace Forms
             Call SetupReqsAndDepends()
             Call SetupQueues()
             Call RefreshAllTrainingQueues()
-            AddHandler Core.SkillQueueFunctions.RefreshQueue, AddressOf RefreshAllTraining
+            AddHandler SkillQueueFunctions.RefreshQueue, AddressOf RefreshAllTraining
            
             ' Disable the startup flag
             _startup = False
@@ -107,29 +113,29 @@ Namespace Forms
 
         Private Sub SetupReqsAndDepends()
             ' Reset data
-            Core.SkillQueueFunctions.SkillDepends.Clear()
-            Core.SkillQueueFunctions.SkillPrereqs.Clear()
+            SkillQueueFunctions.SkillDepends.Clear()
+            SkillQueueFunctions.SkillPrereqs.Clear()
             Dim depends As SortedList(Of String, Integer)
             Dim preReqs As SortedList(Of String, Integer)
             Dim preReqID As Integer
             Dim preReqName As String
             ' Cycle through each skill and extract pre-req and build dependancy information
-            For Each cSkill As Core.EveSkill In Core.HQ.SkillListID.Values
+            For Each cSkill As EveSkill In HQ.SkillListID.Values
                 preReqs = New SortedList(Of String, Integer)
                 For Each preReqID In cSkill.PreReqSkills.Keys
                     If StaticData.Types.ContainsKey(preReqID) = True Then
                         preReqName = StaticData.Types(preReqID).Name
                         preReqs.Add(preReqName, cSkill.PreReqSkills(preReqID))
-                        If Core.SkillQueueFunctions.SkillDepends.ContainsKey(preReqName) = True Then
-                            depends = Core.SkillQueueFunctions.SkillDepends(preReqName)
+                        If SkillQueueFunctions.SkillDepends.ContainsKey(preReqName) = True Then
+                            depends = SkillQueueFunctions.SkillDepends(preReqName)
                         Else
                             depends = New SortedList(Of String, Integer)
-                            Core.SkillQueueFunctions.SkillDepends.Add(preReqName, depends)
+                            SkillQueueFunctions.SkillDepends.Add(preReqName, depends)
                         End If
                         depends.Add(cSkill.Name, cSkill.PreReqSkills(preReqID))
                     End If
                 Next
-                Core.SkillQueueFunctions.SkillPrereqs.Add(cSkill.Name, preReqs)
+                SkillQueueFunctions.SkillPrereqs.Add(cSkill.Name, preReqs)
             Next
             ' Add the category groups into the listview
             lvwDepend.Groups.Clear()
@@ -152,7 +158,7 @@ Namespace Forms
             ' Update the pilots combo box
             cboPilots.BeginUpdate()
             cboPilots.Items.Clear()
-            For Each cPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If cPilot.Active = True Then
                     cboPilots.Items.Add(cPilot.Name)
                 End If
@@ -172,8 +178,8 @@ Namespace Forms
             Else
                 If oldPilot = "" Then
                     If cboPilots.Items.Count > 0 Then
-                        If cboPilots.Items.Contains(Core.HQ.Settings.StartupPilot) = True Then
-                            cboPilots.SelectedItem = Core.HQ.Settings.StartupPilot
+                        If cboPilots.Items.Contains(HQ.Settings.StartupPilot) = True Then
+                            cboPilots.SelectedItem = HQ.Settings.StartupPilot
                         Else
                             cboPilots.SelectedIndex = 0
                         End If
@@ -195,7 +201,7 @@ Namespace Forms
             ' Select a queue
             If oldQueue <> "" Then
                 If tabQueues.Controls.ContainsKey(oldQueue) = True Then
-                    Dim ti As DevComponents.DotNetBar.TabItem = tabQueues.Tabs.Item(oldQueue)
+                    Dim ti As TabItem = tabQueues.Tabs.Item(oldQueue)
                     tabQueues.SelectedTab = ti
                 End If
             End If
@@ -203,8 +209,8 @@ Namespace Forms
         End Sub
 
         Private Sub cboPilots_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilots.SelectedIndexChanged
-            If Core.HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
-                _displayPilot = Core.HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+            If HQ.Settings.Pilots.ContainsKey(cboPilots.SelectedItem.ToString) = True Then
+                _displayPilot = HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
                 _cDisplayPilotName = _displayPilot.Name
                 ' Only update if we are not starting up
                 If _startup = False Then
@@ -234,7 +240,7 @@ Namespace Forms
             _retainQueue = False
 
             ' Remove all but the summary tab on the tabQueues
-            Dim ti As DevComponents.DotNetBar.TabItem
+            Dim ti As TabItem
             For tidx As Integer = tabQueues.Tabs.Count - 1 To 1 Step -1
                 ti = tabQueues.Tabs(tidx)
                 If ti.Name <> "tabSummary" Then
@@ -255,10 +261,10 @@ Namespace Forms
 
             If _displayPilot IsNot Nothing Then
                 If _displayPilot.TrainingQueues IsNot Nothing Then
-                    For Each newQ As Core.EveHQSkillQueue In _displayPilot.TrainingQueues.Values
-                        Dim newQTab As DevComponents.DotNetBar.TabItem
+                    For Each newQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                        Dim newQTab As TabItem
                         If Not tabQueues.Controls.ContainsKey(newQ.Name) Then
-                            newQTab = New DevComponents.DotNetBar.TabItem
+                            newQTab = New TabItem
                             newQTab.Name = newQ.Name
                             newQTab.Text = newQ.Name.Replace("&", "&&")
 
@@ -284,8 +290,8 @@ Namespace Forms
                 End If
             End If
 
-            Dim oldTab As DevComponents.DotNetBar.TabItem = tabQueues.Tabs(_oldTabName)
-            If Core.HQ.Settings.StartWithPrimaryQueue = True And _oldTabName = "tabSummary" Then
+            Dim oldTab As TabItem = tabQueues.Tabs(_oldTabName)
+            If HQ.Settings.StartWithPrimaryQueue = True And _oldTabName = "tabSummary" Then
                 oldTab = tabQueues.Tabs(_displayPilot.PrimaryQueue)
             End If
 
@@ -305,7 +311,7 @@ Namespace Forms
         End Sub
 
         Public Sub RefreshAllTrainingQueues()
-            For Each newQ As Core.EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+            For Each newQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
                 Call RefreshTraining(newQ.Name)
             Next
             Call DrawQueueSummary()
@@ -316,7 +322,7 @@ Namespace Forms
                 If _displayPilot.TrainingQueues.ContainsKey(tabQueues.SelectedTab.Name) = True Then
                     _activeQueueName = tabQueues.SelectedTab.Name
                     _displayPilot.ActiveQueueName = _activeQueueName
-                    Dim aq As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(_activeQueueName)
+                    Dim aq As EveHQSkillQueue = _displayPilot.TrainingQueues(_activeQueueName)
                     _activeQueue = aq
                     _displayPilot.ActiveQueue = _activeQueue
                     _activeQueueControl = CType(tabQueues.Tabs.Item(_activeQueueName).AttachedControl, EveHQTrainingQueue)
@@ -384,14 +390,14 @@ Namespace Forms
                     adtSkillList.FindNodeByName(oNode).Expand()
                 End If
             Next
-            Core.AdvTreeSorter.Sort(adtSkillList, New Core.AdvTreeSortResult(1, Core.AdvTreeSortOrder.Ascending), True)
+            AdvTreeSorter.Sort(adtSkillList, New AdvTreeSortResult(1, AdvTreeSortOrder.Ascending), True)
             adtSkillList.EndUpdate()
             adtSkillList.Refresh()
         End Sub
         Private Sub LoadSkillGroups()
             _skillListNodes.Clear()
-            Dim newSkillGroup As Core.SkillGroup
-            For Each newSkillGroup In Core.HQ.SkillGroups.Values
+            Dim newSkillGroup As SkillGroup
+            For Each newSkillGroup In HQ.SkillGroups.Values
                 If newSkillGroup.ID <> 505 Then
                     Dim groupNode As New Node
                     groupNode.Name = CStr(newSkillGroup.ID)
@@ -402,9 +408,9 @@ Namespace Forms
             Next
         End Sub
         Private Sub LoadFilteredSkills(ByVal filter As Integer)
-            Dim newSkill As Core.EveSkill
+            Dim newSkill As EveSkill
             Dim groupNode As Node
-            For Each newSkill In Core.HQ.SkillListID.Values
+            For Each newSkill In HQ.SkillListID.Values
                 Dim gID As Integer = newSkill.GroupID
                 If gID <> 505 Then
                     groupNode = _skillListNodes(CStr(gID))
@@ -413,7 +419,7 @@ Namespace Forms
                     skillNode.Name = CStr(newSkill.ID)
                     skillNode.Cells.Add(New Cell(newSkill.Rank.ToString))
                     If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
-                        Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
+                        Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
                         skillNode.ImageIndex = mySkill.Level
                     Else
                         skillNode.ImageIndex = 10
@@ -445,9 +451,9 @@ Namespace Forms
                                     trainable = True
                                     For Each preReq As Integer In newSkill.PreReqSkills.Keys
                                         If newSkill.PreReqSkills(preReq) <> 0 Then
-                                            Dim ps As Core.EveSkill = Core.HQ.SkillListID(preReq)
+                                            Dim ps As EveSkill = HQ.SkillListID(preReq)
                                             If _displayPilot.PilotSkills.ContainsKey(ps.Name) = True Then
-                                                Dim psp As Core.EveHQPilotSkill = _displayPilot.PilotSkills(ps.Name)
+                                                Dim psp As EveHQPilotSkill = _displayPilot.PilotSkills(ps.Name)
                                                 If psp.Level < newSkill.PreReqSkills(preReq) Then
                                                     trainable = False
                                                     Exit For
@@ -466,7 +472,7 @@ Namespace Forms
                             Case 6 To 7
                                 ' 6 = exact level, 7 = partially trained
                                 If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
-                                    Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
+                                    Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
                                     Dim partTrained As Boolean = True
                                     For level As Integer = 0 To 5
                                         If mySkill.SP = newSkill.LevelUp(level) Or mySkill.SP = newSkill.LevelUp(level) + 1 Then
@@ -481,7 +487,7 @@ Namespace Forms
                             Case 8 To 12
                                 Dim requiredLevel As Integer = filter - 8
                                 If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
-                                    Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
+                                    Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
                                     If requiredLevel = mySkill.Level Then
                                         addSkill = True
                                     End If
@@ -538,10 +544,10 @@ Namespace Forms
                                 End If
                             Else
                                 Dim inQ As Boolean = False
-                                For Each skillQ As Core.EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                                For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
                                     If inQ = True Then Exit For
-                                    Dim sQ As Dictionary(Of String, Core.EveHQSkillQueueItem) = skillQ.Queue
-                                    For Each skillQueueItem As Core.EveHQSkillQueueItem In sQ.Values
+                                    Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
+                                    For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
                                         If newSkill.Name = skillQueueItem.Name Then
                                             inQ = True
                                             Exit For
@@ -568,7 +574,7 @@ Namespace Forms
         End Sub
         Public Sub RefreshTraining(ByVal queueName As String)
 
-            Dim ti As DevComponents.DotNetBar.TabItem = tabQueues.Tabs.Item(queueName)
+            Dim ti As TabItem = tabQueues.Tabs.Item(queueName)
             If ti Is Nothing Then
                 Exit Sub
             End If
@@ -609,7 +615,7 @@ Namespace Forms
 
                             Dim curLevel As Integer
 
-                            Dim mySkill As Core.EveHQPilotSkill
+                            Dim mySkill As EveHQPilotSkill
                             If _displayPilot.PilotSkills.ContainsKey(skillName) = False Then
                                 curLevel = 0
                             Else
@@ -696,8 +702,8 @@ Namespace Forms
                 btnExportEMPFile.Enabled = False
             End If
             btnAddRequisition.Enabled = False
-            For Each skill As Core.EveHQSkillQueueItem In _activeQueue.Queue.Values
-                If Core.SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
+            For Each skill As EveHQSkillQueueItem In _activeQueue.Queue.Values
+                If SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
                     btnAddRequisition.Enabled = True
                     Exit For
                 End If
@@ -710,22 +716,22 @@ Namespace Forms
             If _startup = False Then
                 If _displayPilot.Training = True Then
                     If tabQueues.Tabs.Count > 1 Then
-                        For Each ti As DevComponents.DotNetBar.TabItem In tabQueues.Tabs
+                        For Each ti As TabItem In tabQueues.Tabs
                             If ti.Name <> "tabSummary" Then
                                 Dim tq As EveHQTrainingQueue = CType(tabQueues.Tabs.Item(ti.Name).AttachedControl, EveHQTrainingQueue)
                                 Dim cLabel As Label = tq.lblQueueTime
                                 Dim cQueue As AdvTree = tq.adtQueue
-                                Dim newQ As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(ti.Name)
+                                Dim newQ As EveHQSkillQueue = _displayPilot.TrainingQueues(ti.Name)
                                 If newQ IsNot Nothing Then
                                     Dim bIncludeSkill As Boolean = newQ.IncCurrentTraining
                                     If bIncludeSkill Then
                                         If cQueue.Nodes.Count > 0 Then
-                                            If Core.HQ.SkillListID.ContainsKey(_displayPilot.TrainingSkillID) = True Then
-                                                Dim myCurSkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(Core.SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID))
-                                                Dim baseSkill As Core.EveSkill = Core.HQ.SkillListID(myCurSkill.ID)
+                                            If HQ.SkillListID.ContainsKey(_displayPilot.TrainingSkillID) = True Then
+                                                Dim myCurSkill As EveHQPilotSkill = _displayPilot.PilotSkills(SkillFunctions.SkillIDToName(_displayPilot.TrainingSkillID))
+                                                Dim baseSkill As EveSkill = HQ.SkillListID(myCurSkill.ID)
                                                 Dim clevel As Integer = _displayPilot.TrainingSkillLevel
                                                 Dim cTime As Double = _displayPilot.TrainingCurrentTime
-                                                Dim strTime As String = Core.SkillFunctions.TimeToString(cTime)
+                                                Dim strTime As String = SkillFunctions.TimeToString(cTime)
                                                 Dim percent As Integer
                                                 percent = CInt(Int((myCurSkill.SP + _displayPilot.TrainingCurrentSP - baseSkill.LevelUp(clevel - 1)) / (baseSkill.LevelUp(clevel) - baseSkill.LevelUp(clevel - 1)) * 100))
                                                 If (percent > 100) Then
@@ -756,7 +762,7 @@ Namespace Forms
                                                         End If
                                                     Next
                                                     cLabel.Tag = totalTime.ToString
-                                                    cLabel.Text = Core.SkillFunctions.TimeToString(totalTime)
+                                                    cLabel.Text = SkillFunctions.TimeToString(totalTime)
                                                 End If
                                             End If
                                         End If
@@ -765,11 +771,11 @@ Namespace Forms
                             End If
                         Next
                     End If
-                    If Core.HQ.SkillListID.ContainsKey(_displayPilot.TrainingSkillID) = True Then
-                        Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(_displayPilot.TrainingSkillID)
+                    If HQ.SkillListID.ContainsKey(_displayPilot.TrainingSkillID) = True Then
+                        Dim cSkill As EveSkill = HQ.SkillListID(_displayPilot.TrainingSkillID)
                         If _displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = _displayPilot.TrainingSkillName Then
-                            lvwDetails.Items(8).SubItems(1).Text = Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
-                            Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(cSkill.Name)
+                            lvwDetails.Items(8).SubItems(1).Text = SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                            Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(cSkill.Name)
                             lvwDetails.Items(7).SubItems(1).Text = (mySkill.SP + _displayPilot.TrainingCurrentSP).ToString("N0")
                             Dim totalTime As Long = 0
                             For toLevel As Integer = 1 To 5
@@ -777,27 +783,27 @@ Namespace Forms
                                     Case _displayPilot.TrainingSkillLevel
                                         totalTime += _displayPilot.TrainingCurrentTime
                                     Case Is > _displayPilot.TrainingSkillLevel
-                                        totalTime = totalTime + Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, toLevel, toLevel - 1)
+                                        totalTime = totalTime + SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, toLevel, toLevel - 1)
                                 End Select
-                                lvwTimes.Items(toLevel - 1).SubItems(3).Text = Core.SkillFunctions.TimeToString(totalTime)
+                                lvwTimes.Items(toLevel - 1).SubItems(3).Text = SkillFunctions.TimeToString(totalTime)
                             Next
                         End If
                     End If
 
                     ' Update the queue summary data
-                    For Each newQ As Core.EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                    For Each newQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
                         Try
                             Dim tq As EveHQTrainingQueue = CType(tabQueues.Tabs(newQ.Name).AttachedControl, EveHQTrainingQueue)
                             Dim tTime As Double = CDbl(tq.lblQueueTime.Tag)
                             lvQueues.Items(newQ.Name).SubItems(2).Tag = tTime
-                            lvQueues.Items(newQ.Name).SubItems(2).Text = (Core.SkillFunctions.TimeToString(tTime))
+                            lvQueues.Items(newQ.Name).SubItems(2).Text = (SkillFunctions.TimeToString(tTime))
                             Dim qTime As Double = tTime
                             Dim bIncludeSkill As Boolean = newQ.IncCurrentTraining
                             If bIncludeSkill Then
                                 qTime = tTime - _displayPilot.TrainingCurrentTime
                             End If
                             lvQueues.Items(newQ.Name).SubItems(3).Tag = qTime
-                            lvQueues.Items(newQ.Name).SubItems(3).Text = Core.SkillFunctions.TimeToString(qTime)
+                            lvQueues.Items(newQ.Name).SubItems(3).Text = SkillFunctions.TimeToString(qTime)
                             Dim eTime As Date = Now.AddSeconds(tTime)
                             lvQueues.Items(newQ.Name).SubItems(4).Text = (Format(eTime, "ddd") & " " & eTime.ToString)
                         Catch e As Exception
@@ -805,7 +811,7 @@ Namespace Forms
                         End Try
                     Next
                     If _selQTime > 0 Then
-                        lblTotalQueueTime.Text = "Selected Queue Time: " & Core.SkillFunctions.TimeToString(_selQTime + _displayPilot.TrainingCurrentTime) & " (" & Core.SkillFunctions.TimeToString(_selQTime) & ")"
+                        lblTotalQueueTime.Text = "Selected Queue Time: " & SkillFunctions.TimeToString(_selQTime + _displayPilot.TrainingCurrentTime) & " (" & SkillFunctions.TimeToString(_selQTime) & ")"
                     Else
                         lblTotalQueueTime.Text = "No Queue Selected"
                     End If
@@ -872,8 +878,8 @@ Namespace Forms
             If Len(cboFilter.Text) > 1 Then
                 Dim strSearch As String = cboFilter.Text.Trim.ToLower
                 Dim results As New SortedList(Of String, String)
-                Dim newSkill As Core.EveSkill
-                For Each newSkill In Core.HQ.SkillListID.Values
+                Dim newSkill As EveSkill
+                For Each newSkill In HQ.SkillListID.Values
                     If newSkill.Name.ToLower.Contains(strSearch) Or newSkill.Description.ToLower.Contains(strSearch) Then
                         results.Add(newSkill.Name, newSkill.Name)
                     End If
@@ -882,14 +888,14 @@ Namespace Forms
                 adtSkillList.BeginUpdate()
                 adtSkillList.Nodes.Clear()
                 For Each item As String In results.Values
-                    newSkill = Core.HQ.SkillListName(item)
+                    newSkill = HQ.SkillListName(item)
                     If newSkill.GroupID <> 505 And newSkill.Published = True Then
                         Dim skillNode As New Node
                         skillNode.Text = newSkill.Name
                         skillNode.Name = CStr(newSkill.ID)
                         skillNode.Cells.Add(New Cell(newSkill.Rank.ToString))
                         If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) = True Then
-                            Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
+                            Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(newSkill.Name)
                             skillNode.ImageIndex = mySkill.Level
                         Else
                             skillNode.ImageIndex = 10
@@ -898,10 +904,10 @@ Namespace Forms
                             adtSkillList.Nodes.Add(skillNode)
                         Else
                             Dim inQ As Boolean = False
-                            For Each skillQ As Core.EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                            For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
                                 If inQ = True Then Exit For
-                                Dim sQ As Dictionary(Of String, Core.EveHQSkillQueueItem) = skillQ.Queue
-                                For Each skillQueueItem As Core.EveHQSkillQueueItem In sQ.Values
+                                Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
+                                For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
                                     If newSkill.Name = skillQueueItem.Name Then
                                         inQ = True
                                         Exit For
@@ -956,7 +962,7 @@ Namespace Forms
             End Select
         End Sub
         Private Sub activeLVW_DoubleClick(ByVal sender As Object, ByVal e As EventArgs)
-            Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(_activeQueueTree.SelectedNodes(0).Text)
+            Dim skillID As Integer = SkillFunctions.SkillNameToID(_activeQueueTree.SelectedNodes(0).Text)
             FrmSkillDetails.DisplayPilotName = _displayPilot.Name
             Call FrmSkillDetails.ShowSkillDetails(skillID)
         End Sub
@@ -975,12 +981,12 @@ Namespace Forms
             Dim ch As ColumnHeader = CType(sender, ColumnHeader)
 
             ' Establish the sort direction and store it for later comparison and use
-            Dim sortDirection As Core.SortDirection
+            Dim sortDirection As SortDirection
             If ch.SortDirection = eSortDirection.None Or ch.SortDirection = eSortDirection.Descending Then
-                sortDirection = Core.SortDirection.Ascending
+                sortDirection = SortDirection.Ascending
                 ch.SortDirection = eSortDirection.Ascending
             Else
-                sortDirection = Core.SortDirection.Descending
+                sortDirection = SortDirection.Descending
                 ch.SortDirection = eSortDirection.Descending
             End If
             ' We are going to get the column text and base the sort on this!
@@ -1022,21 +1028,21 @@ Namespace Forms
                 Call RedrawOptions()
                 _activeQueueControl.RedrawMenuOptions()
                 Dim skillName As String = _activeQueueTree.SelectedNodes(0).Text
-                Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(skillName)
+                Dim skillID As Integer = SkillFunctions.SkillNameToID(skillName)
                 Call ShowSkillDetails(skillID)
             End If
         End Sub
-        Private Sub SortQueue(ByVal primarySortColumn As String, ByVal sortDirection As Core.SortDirection)
+        Private Sub SortQueue(ByVal primarySortColumn As String, ByVal sortDirection As SortDirection)
             ' Get the sorted queue list from the list of saved sorted queues
             Dim testQueue As ArrayList = _sortedQueues(_activeQueueName)
             ' Initialise a new ClassSorter instance and add a standard SortClass (i.e. sort method)
-            Dim myClassSorter As New Core.ClassSorter(primarySortColumn, sortDirection)
+            Dim myClassSorter As New ClassSorter(primarySortColumn, sortDirection)
             ' Always sort by name to handle similarly ranked items in the first sort
-            myClassSorter.SortClasses.Add(New Core.SortClass("Name", sortDirection))
+            myClassSorter.SortClasses.Add(New SortClass("Name", sortDirection))
             ' Sort the class
             testQueue.Sort(myClassSorter)
             ' Call the TidyQueue function to set the pre-built queue to the revised sorted one
-            Core.SkillQueueFunctions.TidyQueue(_displayPilot, _activeQueue, testQueue)
+            SkillQueueFunctions.TidyQueue(_displayPilot, _activeQueue, testQueue)
             ' Now we need to refresh the queue again to calculate the correct skill orders and pre-reqs
             Call RefreshTraining(_activeQueueName)
         End Sub
@@ -1121,7 +1127,7 @@ Namespace Forms
                         ' Check if we have the pre-reqs for the certificate
                         Dim canClaimCert As Boolean = True
                         For Each reqSkill As Integer In newCert.RequiredSkills.Keys
-                            If Core.SkillFunctions.IsSkillTrained(_displayPilot, Core.SkillFunctions.SkillIDToName(reqSkill), newCert.RequiredSkills(reqSkill)) = False Then
+                            If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkill), newCert.RequiredSkills(reqSkill)) = False Then
                                 canClaimCert = False
                                 Exit For
                             End If
@@ -1158,7 +1164,7 @@ Namespace Forms
             tvwCertList.SelectedNode = e.Node
         End Sub
 
-        Private Sub ctxCertDetails_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxCertDetails.Opening
+        Private Sub ctxCertDetails_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxCertDetails.Opening
             Dim curNode As TreeNode
             curNode = tvwCertList.SelectedNode
             If curNode IsNot Nothing Then
@@ -1230,7 +1236,7 @@ Namespace Forms
         Private Sub AddCertSkills(ByVal cert As Certificate)
             Dim reqSkills As SortedList(Of Integer, Integer) = cert.RequiredSkills
             For Each reqSkill As Integer In reqSkills.Keys
-                Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(Core.SkillFunctions.SkillIDToName(reqSkill)), _activeQueue.Queue.Count + 1, _activeQueue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
+                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueue.Queue.Count + 1, _activeQueue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
             Next
             ' Get a list of the certs that are required
             For Each reqCertID As Integer In cert.RequiredCertificates.Keys
@@ -1269,16 +1275,16 @@ Namespace Forms
         End Sub
         Private Sub PrepareDetails(ByVal skillID As Integer)
 
-            Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+            Dim cSkill As EveSkill = HQ.SkillListID(skillID)
             lvwDetails.Groups(1).Header = "Pilot Specific - " & _displayPilot.Name
 
             With lvwDetails
-                Dim mySkill As Core.EveHQPilotSkill
-                Dim myGroup As Core.SkillGroup
+                Dim mySkill As EveHQPilotSkill
+                Dim myGroup As SkillGroup
                 If StaticData.TypeGroups.ContainsKey(CInt(cSkill.GroupID)) = True Then
                     Dim groupName As String = StaticData.TypeGroups(CInt(cSkill.GroupID))
-                    If Core.HQ.SkillGroups.ContainsKey(groupName) = True Then
-                        myGroup = Core.HQ.SkillGroups(groupName)
+                    If HQ.SkillGroups.ContainsKey(groupName) = True Then
+                        myGroup = HQ.SkillGroups(groupName)
                     Else
                         myGroup = Nothing
                     End If
@@ -1286,24 +1292,24 @@ Namespace Forms
                     myGroup = Nothing
                 End If
                 Dim cLevel, cSP, cTime, cRate As String
-                If Core.HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+                If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
                     If _displayPilot.PilotSkills.ContainsKey(cSkill.Name) = False Then
-                        cLevel = "0" : cSP = "0" : cTime = Core.SkillFunctions.TimeToString(Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, 1, ))
-                        cRate = CStr(Core.SkillFunctions.CalculateSPRate(_displayPilot, cSkill))
+                        cLevel = "0" : cSP = "0" : cTime = SkillFunctions.TimeToString(SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, 1, ))
+                        cRate = CStr(SkillFunctions.CalculateSPRate(_displayPilot, cSkill))
                     Else
                         mySkill = _displayPilot.PilotSkills(cSkill.Name)
                         cLevel = mySkill.Level.ToString
-                        If _displayPilot.Training = True And _displayPilot.TrainingSkillID = Core.SkillFunctions.SkillNameToID(cSkill.Name) Then
+                        If _displayPilot.Training = True And _displayPilot.TrainingSkillID = SkillFunctions.SkillNameToID(cSkill.Name) Then
                             cSP = CStr(mySkill.SP + _displayPilot.TrainingCurrentSP)
                         Else
                             cSP = mySkill.SP.ToString
                         End If
                         If _displayPilot.Training = True And _displayPilot.TrainingSkillName = cSkill.Name Then
-                            cTime = Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                            cTime = SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
                         Else
-                            cTime = Core.SkillFunctions.TimeToString(Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, 0, ))
+                            cTime = SkillFunctions.TimeToString(SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, 0, ))
                         End If
-                        cRate = CStr(Core.SkillFunctions.CalculateSPRate(_displayPilot, cSkill))
+                        cRate = CStr(SkillFunctions.CalculateSPRate(_displayPilot, cSkill))
                     End If
                 Else
                     cLevel = "n/a" : cSP = "0" : cTime = "n/a" : cRate = "0"
@@ -1330,7 +1336,7 @@ Namespace Forms
             tvwReqs.BeginUpdate()
             tvwReqs.Nodes.Clear()
 
-            Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+            Dim cSkill As EveSkill = HQ.SkillListID(skillID)
             Const curLevel As Integer = 0
             Dim curNode As TreeNode = New TreeNode
 
@@ -1338,9 +1344,9 @@ Namespace Forms
             curNode.Text = cSkill.Name
             Dim skillTrained As Boolean = False
             Dim myLevel As Integer
-            If Core.HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+            If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
                 If _displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
-                    Dim mySkill As Core.EveHQPilotSkill
+                    Dim mySkill As EveHQPilotSkill
                     mySkill = _displayPilot.PilotSkills(cSkill.Name)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
@@ -1348,7 +1354,7 @@ Namespace Forms
                         curNode.ForeColor = Color.LimeGreen
                         curNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
@@ -1362,7 +1368,7 @@ Namespace Forms
                         End If
                     End If
                 Else
-                    Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
@@ -1379,26 +1385,26 @@ Namespace Forms
             tvwReqs.Nodes.Add(curNode)
 
             If cSkill.PreReqSkills.Count > 0 Then
-                Dim subSkill As Core.EveSkill
+                Dim subSkill As EveSkill
                 For Each subSkillID As Integer In cSkill.PreReqSkills.Keys
-                    subSkill = Core.HQ.SkillListID(subSkillID)
+                    subSkill = HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                 Next
             End If
             tvwReqs.ExpandAll()
             tvwReqs.EndUpdate()
         End Sub
-        Private Sub AddPreReqsToTree(ByVal newSkill As Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
+        Private Sub AddPreReqsToTree(ByVal newSkill As EveSkill, ByVal curLevel As Integer, ByVal curNode As TreeNode)
             Dim skillTrained As Boolean
             Dim myLevel As Integer
             Dim newNode As TreeNode = New TreeNode
             newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
             newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
             ' Check status of this skill
-            If Core.HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+            If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
                 skillTrained = False
                 If _displayPilot.PilotSkills.ContainsKey(newSkill.Name) Then
-                    Dim mySkill As Core.EveHQPilotSkill
+                    Dim mySkill As EveHQPilotSkill
                     mySkill = _displayPilot.PilotSkills(newSkill.Name)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
@@ -1407,7 +1413,7 @@ Namespace Forms
                     newNode.ForeColor = Color.LimeGreen
                     newNode.ToolTipText = "Already Trained"
                 Else
-                    Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_displayPilot, newSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, newSkill.Name, curLevel)
                     If planLevel = 0 Then
                         newNode.ForeColor = Color.Red
                         newNode.ToolTipText = "Not trained & no planned training"
@@ -1424,9 +1430,9 @@ Namespace Forms
             curNode.Nodes.Add(newNode)
 
             If newSkill.PreReqSkills.Count > 0 Then
-                Dim subSkill As Core.EveSkill
+                Dim subSkill As EveSkill
                 For Each subSkillID As Integer In newSkill.PreReqSkills.Keys
-                    subSkill = Core.HQ.SkillListID(subSkillID)
+                    subSkill = HQ.SkillListID(subSkillID)
                     If subSkill.ID <> newSkill.ID Then
                         Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
                     End If
@@ -1458,21 +1464,21 @@ Namespace Forms
                         Dim allTrained As Boolean = True
                         For Each skillPair As String In skillUnlocked
                             skillData = skillPair.Split(CChar("."))
-                            skillName = Core.SkillFunctions.SkillIDToName(CInt(skillData(0)))
+                            skillName = SkillFunctions.SkillIDToName(CInt(skillData(0)))
                             If CInt(skillData(0)) <> skillID Then
                                 toolTipText.Append(skillName)
                                 toolTipText.Append(" (Level ")
                                 toolTipText.Append(skillData(1))
                                 toolTipText.Append("), ")
                             End If
-                            If Core.SkillFunctions.IsSkillTrained(_displayPilot, skillName, CInt(skillData(1))) = False Then
+                            If SkillFunctions.IsSkillTrained(_displayPilot, skillName, CInt(skillData(1))) = False Then
                                 allTrained = False
                             End If
                         Next
                         If toolTipText.Length > 0 Then
                             toolTipText.Insert(0, "Also Requires: ")
 
-                            If (toolTipText.ToString().EndsWith(", ")) Then
+                            If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
                                 toolTipText.Remove(toolTipText.Length - 2, 2)
                             End If
                         End If
@@ -1544,18 +1550,18 @@ Namespace Forms
             lvwDepend.EndUpdate()
         End Sub
         Private Sub PrepareDescription(ByVal skillID As Integer)
-            Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+            Dim cSkill As EveSkill = HQ.SkillListID(skillID)
             lblDescription.Text = cSkill.Description
         End Sub
         Private Sub PrepareSPs(ByVal skillID As Integer)
             lvwSPs.BeginUpdate()
             lvwSPs.Items.Clear()
-            Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+            Dim cSkill As EveSkill = HQ.SkillListID(skillID)
             Dim lastSP As Long = 0
             For toLevel As Integer = 1 To 5
                 Dim newGroup As ListViewItem = New ListViewItem
                 newGroup.Text = toLevel.ToString
-                Dim sp As Long = CLng(Math.Ceiling(Core.SkillFunctions.CalculateSPLevel(cSkill.Rank, toLevel)))
+                Dim sp As Long = CLng(Math.Ceiling(SkillFunctions.CalculateSPLevel(cSkill.Rank, toLevel)))
                 newGroup.SubItems.Add(sp.ToString("N0"))
                 newGroup.SubItems.Add((sp - lastSP).ToString("N0"))
                 lastSP = sp
@@ -1567,15 +1573,15 @@ Namespace Forms
             lvwTimes.BeginUpdate()
             lvwTimes.Items.Clear()
 
-            If Core.HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
-                Dim cskill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+            If HQ.Settings.Pilots.Count > 0 And _displayPilot.Updated = True Then
+                Dim cskill As EveSkill = HQ.SkillListID(skillID)
 
                 For toLevel As Integer = 1 To 5
                     Dim newGroup As ListViewItem = New ListViewItem
                     newGroup.Text = toLevel.ToString
-                    newGroup.SubItems.Add(Core.SkillFunctions.TimeToString(Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cskill, toLevel, toLevel - 1)))
-                    newGroup.SubItems.Add(Core.SkillFunctions.TimeToString(Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cskill, toLevel, 0)))
-                    newGroup.SubItems.Add(Core.SkillFunctions.TimeToString(Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cskill, toLevel, -1)))
+                    newGroup.SubItems.Add(SkillFunctions.TimeToString(SkillFunctions.CalcTimeToLevel(_displayPilot, cskill, toLevel, toLevel - 1)))
+                    newGroup.SubItems.Add(SkillFunctions.TimeToString(SkillFunctions.CalcTimeToLevel(_displayPilot, cskill, toLevel, 0)))
+                    newGroup.SubItems.Add(SkillFunctions.TimeToString(SkillFunctions.CalcTimeToLevel(_displayPilot, cskill, toLevel, -1)))
                     lvwTimes.Items.Add(newGroup)
                 Next
             Else
@@ -1610,11 +1616,11 @@ Namespace Forms
         Private Sub mnuViewItemDetailsInIB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewItemDetailsInIB.Click
 
             Dim typeID As Integer = CInt(mnuItemName.Tag)
-            Dim myIB As New Core.ItemBrowser.FrmIB(typeID)
+            Dim myIB As New FrmIB(typeID)
             myIB.ShowDialog()
 
         End Sub
-        Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDepend.Opening
+        Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxDepend.Opening
             If ctxDepend.SourceControl Is lvwDepend Then
                 If lvwDepend.SelectedItems.Count <> 0 Then
                     Dim item As ListViewItem = lvwDepend.SelectedItems(0)
@@ -1640,10 +1646,10 @@ Namespace Forms
         End Sub
         Public Sub UpdateSkillDetails()
             If _displayPilot.Training = True Then
-                Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(_displayPilot.TrainingSkillID)
+                Dim cSkill As EveSkill = HQ.SkillListID(_displayPilot.TrainingSkillID)
                 If _displayPilot.Training = True And lvwDetails.Items(0).SubItems(1).Text = _displayPilot.TrainingSkillName Then
-                    lvwDetails.Items(8).SubItems(1).Text = Core.SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
-                    Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(cSkill.Name)
+                    lvwDetails.Items(8).SubItems(1).Text = SkillFunctions.TimeToString(_displayPilot.TrainingCurrentTime)
+                    Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(cSkill.Name)
                     lvwDetails.Items(7).SubItems(1).Text = (mySkill.SP + _displayPilot.TrainingCurrentSP).ToString("N0")
                     Dim totalTime As Long = 0
                     For toLevel As Integer = 1 To 5
@@ -1651,9 +1657,9 @@ Namespace Forms
                             Case _displayPilot.TrainingSkillLevel
                                 totalTime += _displayPilot.TrainingCurrentTime
                             Case Is > _displayPilot.TrainingSkillLevel
-                                totalTime = totalTime + Core.SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, toLevel, toLevel - 1)
+                                totalTime = totalTime + SkillFunctions.CalcTimeToLevel(_displayPilot, cSkill, toLevel, toLevel - 1)
                         End Select
-                        lvwTimes.Items(toLevel - 1).SubItems(3).Text = Core.SkillFunctions.TimeToString(totalTime)
+                        lvwTimes.Items(toLevel - 1).SubItems(3).Text = SkillFunctions.TimeToString(totalTime)
                     Next
                 End If
             End If
@@ -1664,7 +1670,7 @@ Namespace Forms
 #Region "Skill Queue Modification Functions"
 
         Private Sub AddSkillToQueueOption()
-            _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 0, False, False, "")
+            _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 0, False, False, "")
             Call RefreshTraining(_activeQueueName)
         End Sub
 
@@ -1677,14 +1683,14 @@ Namespace Forms
             If _displayPilot.TrainingQueues.Count > 0 Then
                 If _displayPilot.PrimaryQueue = "" Then
                     _displayPilot.PrimaryQueue = _displayPilot.TrainingQueues.Keys(0).ToString
-                    Dim selQueue As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
+                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
                     selQueue.Primary = True
                 End If
             End If
             ' Setup the summary column
             lvQueues.BeginUpdate()
             lvQueues.Items.Clear()
-            For Each newQ As Core.EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+            For Each newQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
                 Dim newItem As New ListViewItem
                 Dim primaryFont As Font = New Font(newItem.Font, FontStyle.Bold)
                 newItem.Name = newQ.Name
@@ -1697,7 +1703,7 @@ Namespace Forms
                 Dim tTime As Double = CDbl(tq.lblQueueTime.Tag)
                 Dim tTimeItem As New ListViewItem.ListViewSubItem
                 tTimeItem.Tag = tTime
-                tTimeItem.Text = Core.SkillFunctions.TimeToString(tTime)
+                tTimeItem.Text = SkillFunctions.TimeToString(tTime)
                 newItem.SubItems.Add(tTimeItem)
                 Dim qTime As Double
                 If _displayPilot.Training = True And newQ.IncCurrentTraining = True Then
@@ -1707,7 +1713,7 @@ Namespace Forms
                 End If
                 Dim qTimeItem As New ListViewItem.ListViewSubItem
                 qTimeItem.Tag = tTime
-                qTimeItem.Text = Core.SkillFunctions.TimeToString(qTime)
+                qTimeItem.Text = SkillFunctions.TimeToString(qTime)
                 newItem.SubItems.Add(qTimeItem)
                 Dim eTime As Date = Now.AddSeconds(tTime)
                 newItem.SubItems.Add(Format(eTime, "ddd") & " " & eTime.ToString)
@@ -1718,27 +1724,27 @@ Namespace Forms
 
         Private Sub GetSelectedQueueTimes()
             Try
-                Dim newQueue As New Core.EveHQSkillQueue
+                Dim newQueue As New EveHQSkillQueue
                 newQueue.Name = "tempMerge"
                 newQueue.IncCurrentTraining = True
                 newQueue.Primary = False
-                newQueue.Queue = New Dictionary(Of String, Core.EveHQSkillQueueItem)
+                newQueue.Queue = New Dictionary(Of String, EveHQSkillQueueItem)
                 For Each item As ListViewItem In lvQueues.SelectedItems
                     Dim queueName As String = item.Name
-                    Dim oldQueue As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(queueName)
+                    Dim oldQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(queueName)
                     If oldQueue.Primary = True Then newQueue.Primary = True
-                    For Each queueItem As Core.EveHQSkillQueueItem In oldQueue.Queue.Values
+                    For Each queueItem As EveHQSkillQueueItem In oldQueue.Queue.Values
                         Dim keyName As String = queueItem.Name & queueItem.FromLevel & queueItem.ToLevel
                         If newQueue.Queue.ContainsKey(keyName) = False Then
                             newQueue.Queue.Add(keyName, queueItem)
                         End If
                     Next
                 Next
-                Dim curSkill As Core.EveHQSkillQueueItem
+                Dim curSkill As EveHQSkillQueueItem
                 For Each curSkill In newQueue.Queue.Values
                     If _displayPilot.PilotSkills.ContainsKey(curSkill.Name) Then
                         Dim toLevel As Integer = curSkill.ToLevel
-                        Dim mySkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(curSkill.Name)
+                        Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(curSkill.Name)
                         Dim pilotLevel As Integer = mySkill.Level
                         If pilotLevel >= toLevel Then
                             Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
@@ -1746,14 +1752,14 @@ Namespace Forms
                         End If
                     End If
                 Next
-                Dim arrQueue As ArrayList = Core.SkillQueueFunctions.BuildQueue(_displayPilot, newQueue, True, True)
-                Dim qItem As Core.SortedQueueItem
+                Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, newQueue, True, True)
+                Dim qItem As SortedQueueItem
                 Dim qTime As Double = 0
                 For Each qItem In arrQueue
                     qTime += CLng(qItem.TrainTime)
                 Next
                 _selQTime = qTime - _displayPilot.TrainingCurrentTime
-                lblTotalQueueTime.Text = "Selected Queue Time: " & Core.SkillFunctions.TimeToString(_selQTime + _displayPilot.TrainingCurrentTime) & " (" & Core.SkillFunctions.TimeToString(_selQTime) & ")"
+                lblTotalQueueTime.Text = "Selected Queue Time: " & SkillFunctions.TimeToString(_selQTime + _displayPilot.TrainingCurrentTime) & " (" & SkillFunctions.TimeToString(_selQTime) & ")"
             Catch e As Exception
                 MessageBox.Show("There was an error calculating the selected queue times.", "Calculation Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End Try
@@ -1783,7 +1789,7 @@ Namespace Forms
                     mnuSetPrimary.Enabled = True
                     ' Display queue times
                     _selQTime = CDbl(lvQueues.Items(lvQueues.SelectedIndices(0)).SubItems(2).Tag) - _displayPilot.TrainingCurrentTime
-                    lblTotalQueueTime.Text = "Selected Queue Time: " & Core.SkillFunctions.TimeToString(_selQTime + _displayPilot.TrainingCurrentTime) & " (" & Core.SkillFunctions.TimeToString(_selQTime) & ")"
+                    lblTotalQueueTime.Text = "Selected Queue Time: " & SkillFunctions.TimeToString(_selQTime + _displayPilot.TrainingCurrentTime) & " (" & SkillFunctions.TimeToString(_selQTime) & ")"
                 Case Is > 1
                     ' Set Buttons
                     btnRBAddQueue.Enabled = True
@@ -1807,7 +1813,7 @@ Namespace Forms
         End Sub
         Private Sub lvQueues_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles lvQueues.DoubleClick
             Dim selQ As String = lvQueues.SelectedItems(0).Text
-            Dim ti As DevComponents.DotNetBar.TabItem = tabQueues.Tabs.Item(selQ)
+            Dim ti As TabItem = tabQueues.Tabs.Item(selQ)
             tabQueues.SelectedTab = ti
         End Sub
         Public Sub ResetQueueOptions()
@@ -1833,14 +1839,14 @@ Namespace Forms
 #End Region
 
 #Region "Skill Tree Context Menu Functions"
-        Private Sub ctxDetails_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxDetails.Opening
+        Private Sub ctxDetails_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxDetails.Opening
             Dim curNode As Node
             curNode = adtSkillList.SelectedNode
             If curNode IsNot Nothing Then
                 Dim skillName As String
                 Dim skillID As Integer
                 skillName = curNode.Text
-                skillID = Core.SkillFunctions.SkillNameToID(skillName)
+                skillID = SkillFunctions.SkillNameToID(skillName)
                 mnuSkillName2.Text = skillName
                 mnuSkillName2.Tag = skillID
                 ' Determine if this is a parent node or not
@@ -1862,7 +1868,7 @@ Namespace Forms
                     ' Determine enabled menu items of adding to queue
                     Dim currentLevel As Integer = 0
                     If _displayPilot.PilotSkills.ContainsKey(skillName) = True Then
-                        Dim cSkill As Core.EveHQPilotSkill = _displayPilot.PilotSkills(skillName)
+                        Dim cSkill As EveHQPilotSkill = _displayPilot.PilotSkills(skillName)
                         currentLevel = cSkill.Level
                     End If
                     For a As Integer = 1 To 5
@@ -1895,7 +1901,7 @@ Namespace Forms
         Private Sub mnuAddToQueue1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue1.Click
             If _activeQueue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
-                    _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 1, False, False, "")
+                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 1, False, False, "")
                     Call RefreshTraining(_activeQueueName)
                 End If
             End If
@@ -1903,7 +1909,7 @@ Namespace Forms
         Private Sub mnuAddToQueue2_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue2.Click
             If _activeQueue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
-                    _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 2, False, False, "")
+                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 2, False, False, "")
                     Call RefreshTraining(_activeQueueName)
                 End If
             End If
@@ -1911,7 +1917,7 @@ Namespace Forms
         Private Sub mnuAddToQueue3_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue3.Click
             If _activeQueue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
-                    _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 3, False, False, "")
+                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 3, False, False, "")
                     Call RefreshTraining(_activeQueueName)
                 End If
             End If
@@ -1919,7 +1925,7 @@ Namespace Forms
         Private Sub mnuAddToQueue4_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue4.Click
             If adtSkillList.SelectedNode IsNot Nothing Then
                 If _activeQueue IsNot Nothing Then
-                    _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 4, False, False, "")
+                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 4, False, False, "")
                     Call RefreshTraining(_activeQueueName)
                 End If
             End If
@@ -1927,7 +1933,7 @@ Namespace Forms
         Private Sub mnuAddToQueue5_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue5.Click
             If adtSkillList.SelectedNode IsNot Nothing Then
                 If _activeQueue IsNot Nothing Then
-                    _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 5, False, False, "")
+                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 5, False, False, "")
                     Call RefreshTraining(_activeQueueName)
                 End If
             End If
@@ -1941,7 +1947,7 @@ Namespace Forms
                 If adtSkillList.SelectedNode IsNot Nothing Then
                     parentNode = adtSkillList.SelectedNode
                     For Each curNode In parentNode.Nodes
-                        _activeQueue = Core.SkillQueueFunctions.AddSkillToQueue(_displayPilot, curNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, level, True, True, "")
+                        _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, curNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, level, True, True, "")
                     Next
                     Call RefreshTraining(_activeQueueName)
                 End If
@@ -1960,7 +1966,7 @@ Namespace Forms
 #End Region
 
 #Region "Skill Info Context Menu Functions"
-        Private Sub ctxReqs_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxReqs.Opening
+        Private Sub ctxReqs_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxReqs.Opening
             Dim curNode As TreeNode = tvwReqs.SelectedNode
             If curNode IsNot Nothing Then
                 Dim skillName As String
@@ -1968,7 +1974,7 @@ Namespace Forms
                 If InStr(skillName, "(Level") <> 0 Then
                     skillName = skillName.Substring(0, InStr(skillName, "(Level") - 1).Trim(Chr(32))
                 End If
-                Dim skillID As Integer = Core.SkillFunctions.SkillNameToID(skillName)
+                Dim skillID As Integer = SkillFunctions.SkillNameToID(skillName)
                 mnuReqsSkillName.Text = skillName
                 mnuReqsSkillName.Tag = skillID
             Else
@@ -2053,16 +2059,16 @@ Namespace Forms
                         Dim planOwner As String = planNode.Attributes.GetNamedItem("owner").Value
                         If emPilots.ContainsKey(planOwner) = True Then
                             Dim pilotName As String = CStr(emPilots(planOwner))
-                            If Core.HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
+                            If HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
                                 Dim planName As String = planNode.Attributes.GetNamedItem("name").Value
                                 planInfo(count, 0) = pilotName : planInfo(count, 1) = planName
-                                Dim sq As New Dictionary(Of String, Core.EveHQSkillQueueItem)
+                                Dim sq As New Dictionary(Of String, EveHQSkillQueueItem)
                                 Dim sqCount As Integer = 0
                                 Dim planItems As XmlNodeList = planNode.SelectNodes("entry")
                                 If planItems.Count > 0 Then
                                     For Each plansItemNode In planItems
                                         sqCount += 1
-                                        Dim sqi As New Core.EveHQSkillQueueItem
+                                        Dim sqi As New EveHQSkillQueueItem
                                         sqi.Name = plansItemNode.Attributes.GetNamedItem("skill").Value
                                         sqi.ToLevel = CInt(plansItemNode.Attributes.GetNamedItem("level").Value)
                                         sqi.FromLevel = sqi.ToLevel - 1
@@ -2073,12 +2079,12 @@ Namespace Forms
                                     planInfo(count, 2) = sq.Count.ToString
 
                                     ' Ok, load up the plan
-                                    Dim newSq As New Core.EveHQSkillQueue
+                                    Dim newSq As New EveHQSkillQueue
                                     newSq.Name = planInfo(count, 1)
                                     newSq.IncCurrentTraining = True
                                     newSq.Primary = False
                                     newSq.Queue = sq
-                                    Dim qPilot As Core.EveHQPilot = Core.HQ.Settings.Pilots(planInfo(count, 0))
+                                    Dim qPilot As EveHQPilot = HQ.Settings.Pilots(planInfo(count, 0))
                                     If qPilot.TrainingQueues.ContainsKey(planInfo(count, 1)) = False Then
                                         qPilot.TrainingQueues.Add(newSq.Name, newSq)
                                         recalcQueues = True
@@ -2119,7 +2125,7 @@ Namespace Forms
                         Try
                             ' UnGZip the file
                             Dim fs As FileStream = New FileStream(.FileName, FileMode.Open, FileAccess.Read)
-                            Dim compstream As New Compression.GZipStream(fs, Compression.CompressionMode.Decompress)
+                            Dim compstream As New GZipStream(fs, CompressionMode.Decompress)
                             Dim sr As New StreamReader(compstream)
                             Dim strEmp As String = sr.ReadToEnd()
                             sr.Close()
@@ -2137,7 +2143,7 @@ Namespace Forms
                             planSkills.Add(skillName, skillLevel)
                         Next
                         ' Get a dialog for the new skills
-                        Dim selectQueue As New Core.FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
+                        Dim selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
                         selectQueue.ShowDialog()
                         Call RefreshAllTraining()
                     End If
@@ -2147,8 +2153,8 @@ Namespace Forms
 
         Private Sub ExportEveMonPlan()
             If _activeQueue IsNot Nothing Then
-                Dim arrQueue As ArrayList = Core.SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueue, False, True)
-                Dim qItem As Core.SortedQueueItem
+                Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueue, False, True)
+                Dim qItem As SortedQueueItem
                 If arrQueue IsNot Nothing Then
                     Dim empAtt As XmlAttribute
                     ' Create XML Document
@@ -2244,10 +2250,10 @@ Namespace Forms
                             If .FileName <> "" Then
                                 ' Output the file as GZip
                                 Dim buffer() As Byte
-                                Dim enc As New System.Text.ASCIIEncoding
+                                Dim enc As New ASCIIEncoding
                                 buffer = enc.GetBytes(strXML)
                                 Dim outfile As FileStream = File.Create(.FileName)
-                                Dim gzipStream As New Compression.GZipStream(outfile, Compression.CompressionMode.Compress)
+                                Dim gzipStream As New GZipStream(outfile, CompressionMode.Compress)
                                 gzipStream.Write(buffer, 0, buffer.Length)
                                 gzipStream.Flush()
                                 gzipStream.Close()
@@ -2297,7 +2303,7 @@ Namespace Forms
 
         Private Sub btnRBAddQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRBAddQueue.Click, mnuAddQueue.Click
             ' Clear the text boxes
-            Dim myQueue As New Core.FrmModifyQueues
+            Dim myQueue As New FrmModifyQueues
             With myQueue
                 .txtQueueName.Text = "" : .txtQueueName.Enabled = True
                 .btnAccept.Text = "Add" : .Tag = "Add"
@@ -2315,10 +2321,10 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to edit!", "Cannot Edit Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As New Core.FrmModifyQueues
+                Dim myQueue As New FrmModifyQueues
                 With myQueue
                     ' Load the account details into the text boxes
-                    Dim selQueue As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
                     .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
                     .btnAccept.Text = "Edit" : .Tag = "Edit"
                     .Text = "Edit '" & selQueue.Name & "' Queue Details"
@@ -2368,13 +2374,13 @@ Namespace Forms
                 lvQueues.Select()
             Else
                 ' Remove the current primary queue (if exists!)
-                Dim oldPq As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
+                Dim oldPq As EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
                 If oldPq IsNot Nothing Then
                     oldPq.Primary = False
                 End If
                 _displayPilot.PrimaryQueue = ""
                 ' Select the new primary queue
-                Dim selQueue As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
                 selQueue.Primary = True
                 _displayPilot.PrimaryQueue = selQueue.Name
                 Call DrawQueueSummary()
@@ -2386,7 +2392,7 @@ Namespace Forms
                 MessageBox.Show("Please select 2 or more Queues to merge!", "Cannot Merge Queues", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As New Core.FrmModifyQueues
+                Dim myQueue As New FrmModifyQueues
                 With myQueue
                     .txtQueueName.Text = "" : .txtQueueName.Tag = lvQueues.SelectedItems
                     .btnAccept.Text = "Merge" : .Tag = "Merge"
@@ -2404,10 +2410,10 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to copy!", "Cannot Copy Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As New Core.FrmModifyQueues
+                Dim myQueue As New FrmModifyQueues
                 With myQueue
                     ' Load the account details into the text boxes
-                    Dim selQueue As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
                     .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
                     .btnAccept.Text = "Copy" : .Tag = "Copy"
                     .Text = "Copy '" & selQueue.Name & "' Queue Details"
@@ -2427,7 +2433,7 @@ Namespace Forms
                 Dim myQueue As FrmSelectQueuePilot = New FrmSelectQueuePilot
                 With myQueue
                     ' Load the account details into the text boxes
-                    Dim selQueue As Core.EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
                     .DisplayPilotName = _displayPilot.Name
                     .cboPilots.Tag = selQueue.Name
                     .ShowDialog()
@@ -2487,10 +2493,10 @@ Namespace Forms
             Call RefreshAllTraining()
         End Sub
 
-        Private Sub btnAddRequisition_Click(sender As System.Object, e As EventArgs) Handles btnAddRequisition.Click
+        Private Sub btnAddRequisition_Click(sender As Object, e As EventArgs) Handles btnAddRequisition.Click
             Dim requiredSkills As New List(Of String)
-            For Each skill As Core.EveHQSkillQueueItem In _activeQueue.Queue.Values
-                If Core.SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
+            For Each skill As EveHQSkillQueueItem In _activeQueue.Queue.Values
+                If SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
                     If requiredSkills.Contains(skill.Name) = False Then
                         requiredSkills.Add(skill.Name)
                     End If
@@ -2502,7 +2508,7 @@ Namespace Forms
                 orders.Add(skill, 1)
             Next
             ' Setup the Requisition form for HQF and open it
-            Dim newReq As New Core.Requisitions.FrmAddRequisition("Skill Queue", orders)
+            Dim newReq As New FrmAddRequisition("Skill Queue", orders)
             newReq.ShowDialog()
             newReq.Dispose()
         End Sub

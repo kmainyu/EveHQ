@@ -281,12 +281,6 @@
     <Compile Include="Forms\frmHelp.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmModifyPriceGroup.Designer.vb">
-      <DependentUpon>frmModifyPriceGroup.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroup.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Forms\frmCharCreate.Designer.vb">
       <DependentUpon>frmCharCreate.vb</DependentUpon>
     </Compile>
@@ -297,12 +291,6 @@
       <DependentUpon>frmEveHQMessage.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmEveHQMessage.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroupItem.Designer.vb">
-      <DependentUpon>frmModifyPriceGroupItem.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmModifyPriceGroupItem.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmModifyText.Designer.vb">
@@ -473,10 +461,10 @@
     <Compile Include="Forms\frmSplash.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\newUpdater.Designer.vb">
-      <DependentUpon>newUpdater.vb</DependentUpon>
+    <Compile Include="Forms\NewUpdater.Designer.vb">
+      <DependentUpon>NewUpdater.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\newUpdater.vb">
+    <Compile Include="Forms\NewUpdater.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -573,18 +561,11 @@
       <DependentUpon>frmHelp.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyPriceGroup.resx">
-      <DependentUpon>frmModifyPriceGroup.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCharCreate.resx">
       <DependentUpon>frmCharCreate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmEveHQMessage.resx">
       <DependentUpon>frmEveHQMessage.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmModifyPriceGroupItem.resx">
-      <DependentUpon>frmModifyPriceGroupItem.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmModifyText.resx">
       <DependentUpon>frmModifyText.vb</DependentUpon>
@@ -693,8 +674,8 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmSplash.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\newUpdater.resx">
-      <DependentUpon>newUpdater.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\NewUpdater.resx">
+      <DependentUpon>NewUpdater.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

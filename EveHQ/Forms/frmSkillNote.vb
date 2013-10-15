@@ -18,14 +18,14 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Namespace Forms
-    Public Class frmSkillNote
+    Public Class FrmSkillNote
 
-        Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-            Me.Close()
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
         End Sub
 
-        Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-            Me.DialogResult = Windows.Forms.DialogResult.OK
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            DialogResult = DialogResult.OK
         End Sub
 
     End Class

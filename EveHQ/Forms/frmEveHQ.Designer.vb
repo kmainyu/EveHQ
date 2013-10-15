@@ -1,6 +1,6 @@
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Public Class frmEveHQ
+    Partial Public Class FrmEveHQ
         Inherits DevComponents.DotNetBar.Office2007RibbonForm
 
         'Form overrides dispose to clean up the component list.
@@ -22,7 +22,7 @@ Namespace Forms
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEveHQ))
+            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEveHQ))
             Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
             Me.rpPlugins = New DevComponents.DotNetBar.RibbonPanel()
             Me.rbPlugins = New DevComponents.DotNetBar.RibbonBar()
