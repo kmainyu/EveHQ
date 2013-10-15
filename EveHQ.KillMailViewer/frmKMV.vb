@@ -355,11 +355,11 @@ Public Class FrmKmv
     Private Sub DrawKillmailDetail(ByVal selKillmail As KillMail)
 
         ' Write the killmail text to the label
-        txtKillMailDetails.Text = BuildKMDetails(selKillmail)
+        txtKillMailDetails.Text = BuildKillmailDetails(selKillmail)
 
     End Sub
 
-    Private Function BuildKMDetails(ByVal selKillmail As KillMail) As String
+    Private Function BuildKillmailDetails(ByVal selKillmail As KillMail) As String
         Dim killmailText As New StringBuilder
 
         ' Write the time
@@ -527,7 +527,7 @@ Public Class FrmKmv
                 MessageBox.Show("There does not appear to be any valid Attackers on this killmail other than NPCs. The killmail will therefore not be uploaded.", "Non-NPC Attackers Required.", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 ' Write the killmail detail
-                Call UploadKillmail(uri, BuildKMDetails(selKillmail))
+                Call UploadKillmail(uri, BuildKillmailDetails(selKillmail))
             End If
         End If
 
