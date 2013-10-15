@@ -20,12 +20,13 @@
 Imports System.Net
 Imports System.ComponentModel
 Imports System.IO
-Imports System.Windows.Forms
+Imports EveHQ.EveData
+Imports EveHQ.Core.CoreReports
+Imports EveHQ.Core.Requisitions
 Imports System.Reflection
 Imports System.Text
-Imports EveHQ.Core.CoreReports
-Imports EveHQ.EveData
-Imports EveHQ.Core.Requisitions
+Imports System.Windows.Forms
+Imports System.Web
 
 Public Class IGB
     Shared _context As HttpListenerContext
@@ -466,7 +467,7 @@ Public Class IGB
             strHTML &= "<p>Please enter a valid search parameter</p>"
         Else
             Try
-                Dim searchFor As String = (Web.HttpUtility.UrlDecode(_context.Request.QueryString.Item("str"))).Trim
+                Dim searchFor As String = (HttpUtility.UrlDecode(_context.Request.QueryString.Item("str"))).Trim
                 Dim strSearch As String = searchFor.ToLower
                 Dim results As New SortedList(Of String, Integer)
                 For Each item As String In StaticData.TypeNames.Keys

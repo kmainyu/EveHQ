@@ -17,13 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Data.SQLite
-Imports System.Text
-Imports System.Windows.Forms
-Imports System.Xml
 Imports EveHQ.EveAPI
 Imports EveHQ.Core.Requisitions
+Imports System.Data.SQLite
+Imports System.Windows.Forms
+Imports System.Text
+Imports System.Xml
 
 ''' <summary>
 ''' Class for handling the custom database - based on SQLite format
@@ -171,8 +170,8 @@ Public Class CustomDataFunctions
     ''' <remarks></remarks>
     Public Shared Function CheckCoreDBTables() As Boolean
 
-        Dim success As Boolean = True
-
+        Dim success As Boolean
+        success = True
         If CheckMarketOrdersTable() = False Then success = False
         If CheckMarketHistoryTable() = False Then success = False
         If CheckCustomPricesTable() = False Then success = False
@@ -708,6 +707,7 @@ Public Class CustomDataFunctions
                     sqlCmd.CommandText = "INSERT OR REPLACE INTO customPrices (typeID, price, priceDate) VALUES (?,?,?)"
 
                     ' Create the desired number of parameters
+                    ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                     For col As Integer = 1 To 3
                         sqlCmd.Parameters.Add(sqlCmd.CreateParameter)
                     Next
@@ -939,6 +939,7 @@ Public Class CustomDataFunctions
                 ' Break the ID list into groups of 200
                 Const maxIDs As Integer = 200
                 Dim reqIDList As New List(Of String)
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For idx As Integer = 0 To Math.Min(mainIDList.Count, maxIDs) - 1
                     reqIDList.Add(mainIDList.Item(0))
                     mainIDList.RemoveAt(0)
@@ -1092,6 +1093,7 @@ Public Class CustomDataFunctions
                     sqlCmd.CommandText = "INSERT OR REPLACE INTO eveIDToName (eveID, eveName) VALUES (?,?)"
 
                     ' Create the desired number of parameters
+                    ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                     For col As Integer = 1 To 2
                         sqlCmd.Parameters.Add(sqlCmd.CreateParameter)
                     Next

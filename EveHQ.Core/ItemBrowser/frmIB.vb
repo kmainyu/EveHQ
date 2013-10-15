@@ -17,14 +17,15 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports DevComponents.DotNetBar
 Imports DevComponents.AdvTree
-Imports System.Windows.Forms
+Imports DevComponents.DotNetBar
 Imports System.Drawing
-Imports System.Text
 Imports EveHQ.EveData
-Imports EveHQ.Core.Requisitions
+Imports System.Windows.Forms
+Imports System.Text
 Imports System.Text.RegularExpressions
+Imports EveHQ.Core.Requisitions
+Imports MarkupLinkClickEventArgs = DevComponents.DotNetBar.MarkupLinkClickEventArgs
 
 Namespace ItemBrowser
 
@@ -293,7 +294,7 @@ Namespace ItemBrowser
             lblAttSearchCount.Text = adtAttSearch.Nodes.Count & " items found"
         End Sub
 
-        Private Sub adtAttSearch_ColumnHeaderMouseUp(sender As Object, e As Windows.Forms.MouseEventArgs) Handles adtAttSearch.ColumnHeaderMouseUp
+        Private Sub adtAttSearch_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAttSearch.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -335,7 +336,7 @@ Namespace ItemBrowser
 
         End Sub
 
-        Private Sub adtEffectSearch_ColumnHeaderMouseUp(sender As Object, e As Windows.Forms.MouseEventArgs) Handles adtEffectSearch.ColumnHeaderMouseUp
+        Private Sub adtEffectSearch_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtEffectSearch.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -1031,7 +1032,7 @@ Namespace ItemBrowser
             If _recentItems.Count = 0 Then
                 btnNavRecent.Enabled = False
             Else
-                For Each mnuItem As DevComponents.DotNetBar.ButtonItem In btnNavRecent.SubItems
+                For Each mnuItem As ButtonItem In btnNavRecent.SubItems
                     RemoveHandler mnuItem.Click, AddressOf NavMenuClickHandler
                 Next
                 ' Sort items by name
@@ -1042,7 +1043,7 @@ Namespace ItemBrowser
                 ' Display sorted recent items
                 btnNavRecent.SubItems.Clear()
                 For Each itemName As String In sortedItems.Keys
-                    Dim mnuItem As New DevComponents.DotNetBar.ButtonItem
+                    Dim mnuItem As New ButtonItem
                     mnuItem.Name = sortedItems(itemName).ToString
                     mnuItem.Text = itemName
                     AddHandler mnuItem.Click, AddressOf NavMenuClickHandler
@@ -1053,7 +1054,7 @@ Namespace ItemBrowser
         End Sub
 
         Private Sub NavMenuClickHandler(sender As Object, e As EventArgs)
-            Dim mnuItem As DevComponents.DotNetBar.ButtonItem = CType(sender, ButtonItem)
+            Dim mnuItem As ButtonItem = CType(sender, ButtonItem)
             Dim itemID As Integer = CInt(mnuItem.Name)
             DisplayItem(itemID, True)
         End Sub
@@ -1110,7 +1111,7 @@ Namespace ItemBrowser
             adtSkills.DisplaySkills(_item.Id, _itemSkills, HQ.Settings.Pilots(pilotName))
         End Sub
 
-        Private Sub lblDescription_MarkupLinkClick(sender As Object, e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
+        Private Sub lblDescription_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
             Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
             If StaticData.TypeNames.ContainsValue(CInt(typeID)) = True Then
                 Call DisplayItem(CInt(typeID), True)

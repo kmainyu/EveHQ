@@ -5,7 +5,7 @@
 ''' </summary>
 ''' <remarks></remarks>
 <Serializable()> Public Class EveHQSkillQueueItem
-    Implements System.ICloneable
+    Implements ICloneable
 
 #Region "Property Variables"
     Dim _key As String

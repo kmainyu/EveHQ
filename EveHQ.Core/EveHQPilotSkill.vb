@@ -1,8 +1,6 @@
 ﻿<Serializable()> Public Class EveHQPilotSkill
     Implements ICloneable
 
-    Private ReadOnly _levelUp(5) As Integer
-
     Public Property ID As Integer
 
     Public Property Name As String

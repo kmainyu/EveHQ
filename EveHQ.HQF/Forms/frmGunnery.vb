@@ -171,14 +171,14 @@ Public Class frmGunnery
     Private Sub lvGuns_ColumnClick(ByVal sender As Object, ByVal e As System.Windows.Forms.ColumnClickEventArgs) Handles lvGuns.ColumnClick
         If lvGuns.Tag IsNot Nothing Then
             If CDbl(lvGuns.Tag.ToString) = e.Column Then
-                Me.lvGuns.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+                Me.lvGuns.ListViewItemSorter = New EveHQ.Core.ListViewItemComparerText(e.Column, SortOrder.Ascending)
                 lvGuns.Tag = -1
             Else
-                Me.lvGuns.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+                Me.lvGuns.ListViewItemSorter = New EveHQ.Core.ListViewItemComparerText(e.Column, SortOrder.Descending)
                 lvGuns.Tag = e.Column
             End If
         Else
-            Me.lvGuns.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+            Me.lvGuns.ListViewItemSorter = New EveHQ.Core.ListViewItemComparerText(e.Column, SortOrder.Descending)
             lvGuns.Tag = e.Column
         End If
         ' Call the sort method to manually sort.

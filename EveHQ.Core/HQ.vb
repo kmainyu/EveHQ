@@ -21,49 +21,46 @@ Imports System.Windows.Forms
 Imports EveHQ.Common
 Imports DevComponents.DotNetBar
 Imports EveHQ.EveAPI
-Imports System.IO
-Imports System.Linq
 Imports EveHQ.Market
-Imports EveHQ.Market.MarketServices
+Imports System.IO
 Imports EveHQ.Common.Logging
+Imports EveHQ.Market.MarketServices
 
 Public Class HQ
-    Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr,
-                                                                              ByVal min As Int32, ByVal max As Int32) _
-        As Boolean
+    Private Declare Auto Function SetProcessWorkingSetSize Lib "kernel32.dll" (ByVal procHandle As IntPtr, ByVal min As Int32, ByVal max As Int32) As Boolean
 
     Public Shared MainForm As Form
-    Public Shared TPilots As New SortedList(Of String, EveHQPilot)
-    Public Shared TCorps As New SortedList(Of String, Corporation)
-    Public Shared myIGB As New IGB
-    Public Shared myTQServer As EveServer = New EveServer
+    Public Shared TempPilots As New SortedList(Of String, EveHQPilot)
+    Public Shared TempCorps As New SortedList(Of String, Corporation)
+    Public Shared MyIGB As New IGB
+    Public Shared MyTqServer As EveServer = New EveServer
     Public Shared SkillListName As New SortedList(Of String, EveSkill) ' SkillName, EveSkill
     Public Shared SkillListID As New SortedList(Of Integer, EveSkill) ' SkillID, EveSkill
     Public Shared SkillGroups As New SortedList(Of String, SkillGroup)
     Public Shared IsUsingLocalFolders As Boolean = False
     Public Shared IsSplashFormDisabled As Boolean = False
     Private Shared _appDataFolder As String = ""
-    Public Shared appFolder As String = ""
-    Public Shared cacheFolder As String = ""
-    Public Shared coreCacheFolder As String = ""
-    Public Shared imageCacheFolder As String = ""
-    Public Shared reportFolder As String = ""
-    Public Shared dataFolder As String = ""
-    Public Shared backupFolder As String = ""
+    Public Shared AppFolder As String = ""
+    Public Shared CacheFolder As String = ""
+    Public Shared CoreCacheFolder As String = ""
+    Public Shared ImageCacheFolder As String = ""
+    Public Shared ReportFolder As String = ""
+    Public Shared DataFolder As String = ""
+    Public Shared BackupFolder As String = ""
     Public Shared EveHQBackupFolder As String = ""
-    Public Shared itemDBConnectionString As String = ""
+    Public Shared ItemDBConnectionString As String = ""
     Public Shared EveHQDataConnectionString As String = ""
-    Public Shared dataError As String = ""
+    Public Shared DataError As String = ""
     Public Shared IGBActive As Boolean = False
     Public Shared APIResults As New SortedList
     Public Shared APIErrors As New SortedList
     Public Shared LastAutoAPIResult As Boolean = True
     Public Shared NextAutoAPITime As DateTime = Now.AddMinutes(60)
     Public Shared AutoRetryAPITime As DateTime = Now.AddMinutes(5) ' Minimum retry time if an error occurs
-    Public Shared EveHQLCD As New G15Lcd
-    Public Shared IsG15LCDActive As Boolean = False
-    Public Shared lcdPilot As String = ""
-    Public Shared lcdCharMode As Integer = 0
+    Public Shared EveHqlcd As New G15Lcd
+    Public Shared IsG15LcdActive As Boolean = False
+    Public Shared LcdPilot As String = ""
+    Public Shared LcdCharMode As Integer = 0
     Public Shared CustomPriceList As New SortedList(Of Integer, Double) ' TypeID, Price
     Public Shared APIUpdateAvailable As Boolean = False
     Public Shared AppUpdateAvailable As Boolean = False
@@ -76,18 +73,18 @@ Public Class HQ
     Public Shared APIUpdateInProgress As Boolean = False
     Public Shared EveHQServerMessage As EveHQMessage
     Public Shared RestoredSettings As Boolean = False
-    Public Shared BCAppKey As String = "B23079B49E1FCBB9C224C9D9CC591DF9904C193F"
-    Public Shared EveHQAPIServerInfo As New APIServerInfo
+    Public Shared BcAppKey As String = "B23079B49E1FCBB9C224C9D9CC591DF9904C193F"
+    Public Shared EveHqapiServerInfo As New APIServerInfo
     Public Shared EveHQIsUpdating As Boolean = False
     Private Shared _marketStatDataProvider As IMarketStatDataProvider
     Private Shared _marketOrderDataProvider As IMarketOrderDataProvider
-    Private Shared _marketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
+    Private Shared ReadOnly MarketCacheProcessorMinTime As DateTime = DateTime.Now.AddHours(-1)
     Private Shared _marketDataReceivers As IEnumerable(Of IMarketDataReceiver)
     Private Shared _marketCacheUploader As MarketUploader
     Private Shared _tickerItemList As New List(Of Integer)
     Private Shared _loggingStream As Stream
     Private Shared _eveHqTracer As EveHQTraceLogger
-    
+
     Shared Sub New()
 
     End Sub
@@ -109,7 +106,7 @@ Public Class HQ
     End Property
 
     'Public Shared Property EveHqSettings As EveSettings
-       
+
     Shared Property StartShutdownEveHQ() As Boolean
         Get
         End Get
@@ -133,10 +130,10 @@ Public Class HQ
         Get
             If _marketStatDataProvider Is Nothing Then
                 ' Initialize based on settings
-                If (Core.HQ.Settings.MarketDataProvider = EveCentralMarketDataProvider.Name) Then
-                    _marketStatDataProvider = GetEveCentralMarketInstance(HQ.AppDataFolder)
+                If (Settings.MarketDataProvider = EveCentralMarketDataProvider.Name) Then
+                    _marketStatDataProvider = GetEveCentralMarketInstance()
                 Else
-                    _marketStatDataProvider = GetEveHqMarketInstance(HQ.AppDataFolder)
+                    _marketStatDataProvider = GetEveHqMarketInstance()
                 End If
             End If
             Return _marketStatDataProvider
@@ -149,8 +146,8 @@ Public Class HQ
     Public Shared Property MarketCacheUploader As MarketUploader
         Get
             If _marketCacheUploader Is Nothing Then
-                _marketDataReceivers = {CType(GetEveCentralMarketInstance(HQ.AppDataFolder), IMarketDataReceiver), New EveMarketDataRelayProvider(HttpRequestProvider.Default)}
-                _marketCacheUploader = New MarketUploader(_marketCacheProcessorMinTime, _marketDataReceivers, Nothing)
+                _marketDataReceivers = {CType(GetEveCentralMarketInstance(), IMarketDataReceiver), New EveMarketDataRelayProvider(HttpRequestProvider.Default)}
+                _marketCacheUploader = New MarketUploader(MarketCacheProcessorMinTime, _marketDataReceivers, Nothing)
             End If
 
             Return _marketCacheUploader
@@ -183,7 +180,7 @@ Public Class HQ
     Public Shared Property MarketOrderDataProvider As IMarketOrderDataProvider
         Get
             If _marketOrderDataProvider Is Nothing Then
-                _marketOrderDataProvider = GetEveCentralMarketInstance(HQ.AppDataFolder)
+                _marketOrderDataProvider = GetEveCentralMarketInstance()
             End If
             Return _marketOrderDataProvider
         End Get
@@ -234,94 +231,94 @@ Public Class HQ
         End Try
     End Sub
 
-    Public Shared Function GetMDITab(ByVal tabName As String) As TabItem
+    Public Shared Function GetMdiTab(ByVal tabName As String) As TabItem
 
         Dim mainTab As TabStrip = CType(MainForm.Controls("tabEveHQMDI"), TabStrip)
         For Each tp As TabItem In mainTab.Tabs
-            If tp.Text = TabName Then
+            If tp.Text = tabName Then
                 Return tp
             End If
         Next
         Return Nothing
     End Function
 
-    Private Shared EveCentralProvider As EveCentralMarketDataProvider
-    Public Shared Function GetEveCentralMarketInstance(appDataFolder As String) As EveCentralMarketDataProvider
-        If EveCentralProvider Is Nothing Then
-            If (EveHQ.Core.HQ.Settings.ProxyRequired) Then
-                EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), HttpRequestProvider.Default, New UriBuilder(EveHQ.Core.HQ.Settings.ProxyServer).Uri, EveHQ.Core.HQ.Settings.ProxyUseDefault, EveHQ.Core.HQ.Settings.ProxyUsername, EveHQ.Core.HQ.Settings.ProxyPassword, EveHQ.Core.HQ.Settings.ProxyUseBasic)
+    Private Shared _eveCentralProvider As EveCentralMarketDataProvider
+    Public Shared Function GetEveCentralMarketInstance() As EveCentralMarketDataProvider
+        If _eveCentralProvider Is Nothing Then
+            If (Settings.ProxyRequired) Then
+                _eveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), HttpRequestProvider.Default, New UriBuilder(Settings.ProxyServer).Uri, Settings.ProxyUseDefault, Settings.ProxyUsername, Settings.ProxyPassword, Settings.ProxyUseBasic)
             Else
-                EveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), HttpRequestProvider.Default)
+                _eveCentralProvider = New EveCentralMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveCentral"), HttpRequestProvider.Default)
             End If
         End If
-        Return EveCentralProvider
+        Return _eveCentralProvider
     End Function
 
-    Private Shared EveHqProvider As EveHqMarketDataProvider
+    Private Shared _eveHqProvider As EveHQMarketDataProvider
     Private Shared _plugins As Dictionary(Of String, EveHQPlugIn)
 
-    Public Shared Function GetEveHqMarketInstance(appDataFolder As String) As EveHqMarketDataProvider
-        If EveHqProvider Is Nothing Then
-            If (EveHQ.Core.HQ.Settings.ProxyRequired) Then
-                EveHqProvider = New EveHqMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveHq"), HttpRequestProvider.Default, New UriBuilder(EveHQ.Core.HQ.Settings.ProxyServer).Uri, EveHQ.Core.HQ.Settings.ProxyUseDefault, EveHQ.Core.HQ.Settings.ProxyUsername, EveHQ.Core.HQ.Settings.ProxyPassword, EveHQ.Core.HQ.Settings.ProxyUseBasic)
+    Public Shared Function GetEveHqMarketInstance() As EveHQMarketDataProvider
+        If _eveHqProvider Is Nothing Then
+            If (Settings.ProxyRequired) Then
+                _eveHqProvider = New EveHQMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveHq"), HttpRequestProvider.Default, New UriBuilder(Settings.ProxyServer).Uri, Settings.ProxyUseDefault, Settings.ProxyUsername, Settings.ProxyPassword, Settings.ProxyUseBasic)
             Else
-                EveHqProvider = New EveHqMarketDataProvider(Path.Combine(appDataFolder, "MarketCache\EveHq"), HttpRequestProvider.Default)
+                _eveHqProvider = New EveHQMarketDataProvider(Path.Combine(AppDataFolder, "MarketCache\EveHq"), HttpRequestProvider.Default)
             End If
         End If
-        Return EveHqProvider
+        Return _eveHqProvider
     End Function
 
 End Class
 
 Class ListViewItemComparerA
     Implements IComparer
-    Private col As Integer
+    Private ReadOnly _col As Integer
 
     Public Sub New()
-        col = 0
+        _col = 0
     End Sub
 
     Public Sub New(ByVal column As Integer)
-        col = column
+        _col = column
     End Sub
 
     Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer _
         Implements IComparer.Compare
-        Return [String].Compare(CType(x, ListViewItem).SubItems(col).Text, CType(y, ListViewItem).SubItems(col).Text)
+        Return [String].Compare(CType(x, ListViewItem).SubItems(_col).Text, CType(y, ListViewItem).SubItems(_col).Text)
     End Function
 End Class
 
 Class ListViewItemComparerD
     Implements IComparer
-    Private col As Integer
+    Private ReadOnly _col As Integer
 
     Public Sub New()
-        col = 0
+        _col = 0
     End Sub
 
     Public Sub New(ByVal column As Integer)
-        col = column
+        _col = column
     End Sub
 
     Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer _
         Implements IComparer.Compare
-        Return [String].Compare(CType(y, ListViewItem).SubItems(col).Text, CType(x, ListViewItem).SubItems(col).Text)
+        Return [String].Compare(CType(y, ListViewItem).SubItems(_col).Text, CType(x, ListViewItem).SubItems(_col).Text)
     End Function
 End Class
 
-Public Class ListViewItemComparer_Text
+Public Class ListViewItemComparerText
     Implements IComparer
-    Private col As Integer
-    Private order As SortOrder
+    Private ReadOnly _col As Integer
+    Private ReadOnly _order As SortOrder
 
     Public Sub New()
-        col = 0
-        order = SortOrder.Ascending
+        _col = 0
+        _order = SortOrder.Ascending
     End Sub
 
     Public Sub New(ByVal column As Integer, ByVal order As SortOrder)
-        col = column
-        Me.order = order
+        _col = column
+        _order = order
     End Sub
 
     Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
@@ -329,25 +326,25 @@ Public Class ListViewItemComparer_Text
 
         Try
             If _
-                IsNumeric(CType(x, ListViewItem).SubItems(col).Text) = True And
-                IsNumeric(CType(y, ListViewItem).SubItems(col).Text) = True Then
+                IsNumeric(CType(x, ListViewItem).SubItems(_col).Text) = True And
+                IsNumeric(CType(y, ListViewItem).SubItems(_col).Text) = True Then
                 ' Parse the two objects passed as a parameter as a DateTime.
-                Dim firstNum As Double = CDbl((CType(x, ListViewItem).SubItems(col).Text))
-                Dim secondNum As Double = CDbl((CType(y, ListViewItem).SubItems(col).Text))
+                Dim firstNum As Double = CDbl((CType(x, ListViewItem).SubItems(_col).Text))
+                Dim secondNum As Double = CDbl((CType(y, ListViewItem).SubItems(_col).Text))
                 ' Compare the two numbers
                 returnVal = Decimal.Compare(CDec(firstNum), CDec(secondNum))
                 ' If neither compared object has a valid date format, 
                 ' compare as a string.
             Else
-                returnVal = [String].Compare(CType(x, ListViewItem).SubItems(col).Text,
-                                             CType(y, ListViewItem).SubItems(col).Text)
+                returnVal = [String].Compare(CType(x, ListViewItem).SubItems(_col).Text,
+                                             CType(y, ListViewItem).SubItems(_col).Text)
             End If
         Catch
             ' Compare the two items as a string.
         End Try
 
         ' Determine whether the sort order is descending.
-        If order = SortOrder.Descending Then
+        If _order = SortOrder.Descending Then
             ' Invert the value returned by String.Compare.
             returnVal *= -1
         End If
@@ -355,19 +352,19 @@ Public Class ListViewItemComparer_Text
     End Function
 End Class
 
-Public Class ListViewItemComparer_Name
+Public Class ListViewItemComparerName
     Implements IComparer
-    Private col As Integer
-    Private order As SortOrder
+    Private ReadOnly _col As Integer
+    Private ReadOnly _order As SortOrder
 
     Public Sub New()
-        col = 0
-        order = SortOrder.Ascending
+        _col = 0
+        _order = SortOrder.Ascending
     End Sub
 
     Public Sub New(ByVal column As Integer, ByVal order As SortOrder)
-        col = column
-        Me.order = order
+        _col = column
+        _order = order
     End Sub
 
     Public Function Compare(ByVal x As Object, ByVal y As Object) As Integer Implements IComparer.Compare
@@ -375,25 +372,25 @@ Public Class ListViewItemComparer_Name
 
         Try
             If _
-                IsNumeric(CType(x, ListViewItem).SubItems(col).Name) = True And
-                IsNumeric(CType(y, ListViewItem).SubItems(col).Name) = True Then
+                IsNumeric(CType(x, ListViewItem).SubItems(_col).Name) = True And
+                IsNumeric(CType(y, ListViewItem).SubItems(_col).Name) = True Then
                 ' Parse the two objects passed as a parameter as a DateTime.
-                Dim firstNum As Double = CDbl((CType(x, ListViewItem).SubItems(col).Name))
-                Dim secondNum As Double = CDbl((CType(y, ListViewItem).SubItems(col).Name))
+                Dim firstNum As Double = CDbl((CType(x, ListViewItem).SubItems(_col).Name))
+                Dim secondNum As Double = CDbl((CType(y, ListViewItem).SubItems(_col).Name))
                 ' Compare the two numbers
                 returnVal = Decimal.Compare(CDec(firstNum), CDec(secondNum))
                 ' If neither compared object has a valid date format, 
                 ' compare as a string.
             Else
-                returnVal = [String].Compare(CType(x, ListViewItem).SubItems(col).Name,
-                                             CType(y, ListViewItem).SubItems(col).Name)
+                returnVal = [String].Compare(CType(x, ListViewItem).SubItems(_col).Name,
+                                             CType(y, ListViewItem).SubItems(_col).Name)
             End If
         Catch
             ' Compare the two items as a string.
         End Try
 
         ' Determine whether the sort order is descending.
-        If order = SortOrder.Descending Then
+        If _order = SortOrder.Descending Then
             ' Invert the value returned by String.Compare.
             returnVal *= -1
         End If

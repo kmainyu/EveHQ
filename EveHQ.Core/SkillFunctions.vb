@@ -17,10 +17,9 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Xml
 Imports EveHQ.EveAPI
 Imports EveHQ.EveData
+Imports System.Xml
 
 Public Class SkillFunctions
 
@@ -469,7 +468,7 @@ Public Class SkillFunctions
             Case "C"
                 pa = cPilot.CAttT
             Case "I"
-                pa = cPilot.IAttT
+                pa = cPilot.IntAttT
             Case "M"
                 pa = cPilot.MAttT
             Case "P"
@@ -483,7 +482,7 @@ Public Class SkillFunctions
             Case "C"
                 sa = cPilot.CAttT
             Case "I"
-                sa = cPilot.IAttT
+                sa = cPilot.IntAttT
             Case "M"
                 sa = cPilot.MAttT
             Case "P"
@@ -582,7 +581,7 @@ Public Class SkillFunctions
                 Case "C"
                     pa = cPilot.CAttT
                 Case "I"
-                    pa = cPilot.IAttT
+                    pa = cPilot.IntAttT
                 Case "M"
                     pa = cPilot.MAttT
                 Case "P"
@@ -596,7 +595,7 @@ Public Class SkillFunctions
                 Case "C"
                     sa = cPilot.CAttT
                 Case "I"
-                    sa = cPilot.IAttT
+                    sa = cPilot.IntAttT
                 Case "M"
                     sa = cPilot.MAttT
                 Case "P"

@@ -18,89 +18,92 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Drawing
+Imports System.Windows.Forms
 
-Public Class SkillQueueTimeControl
+Namespace SkillQueueControl
 
-    ''' <summary>
-    ''' Creates a new Skill Queue Time Control for the required pilot
-    ''' </summary>
-    ''' <param name="PilotName"></param>
-    ''' <remarks></remarks>
-    Public Sub New(ByVal PilotName As String)
+    Public Class SkillQueueTimeControl
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        ''' <summary>
+        ''' Creates a new Skill Queue Time Control for the required pilot
+        ''' </summary>
+        ''' <param name="pilotName"></param>
+        ''' <remarks></remarks>
+        Public Sub New(ByVal pilotName As String)
 
-        Me.DoubleBuffered = True
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        CurrentPilotName = PilotName
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(currentPilotName) = True Then
-            QueuedSkills = EveHQ.Core.HQ.Settings.Pilots(currentPilotName).QueuedSkills
-        End If
+            DoubleBuffered = True
 
-    End Sub
+            ' Add any initialization after the InitializeComponent() call.
+            _currentPilotName = pilotName
+            If HQ.Settings.Pilots.ContainsKey(_currentPilotName) = True Then
+                _queuedSkills = HQ.Settings.Pilots(_currentPilotName).QueuedSkills
+            End If
 
-    Dim QueuedSkills As New SortedList(Of Integer, EveHQ.Core.EveHQPilotQueuedSkill)
-    Dim currentPilotName As String = ""
-    Dim lastTime As Date
+        End Sub
 
-    Private Sub DrawTimeBar()
-        Dim g As Graphics = panelSQT.CreateGraphics
-        Dim sx As Integer = 2
-        Dim sy As Integer = 16
-        ' Calculate number of seconds from now till start
-        For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In QueuedSkills.Values
-            If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
-                Dim startSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) - Now
-                Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
-                Dim endSpan As TimeSpan = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) - Now
-                Dim endSec As Double = Math.Min(endSpan.TotalSeconds, 86400)
-                Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQT.Width - 4)), 0)
-                Dim endMark As Integer = CInt(endSec / 86400 * (panelSQT.Width - 4))
-                If Math.IEEERemainder(queuedSkill.Position, 2) = 0 Then
-                    g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
-                Else
-                    g.FillRectangle(Brushes.SkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
+        ReadOnly _queuedSkills As New SortedList(Of Integer, EveHQPilotQueuedSkill)
+        ReadOnly _currentPilotName As String = ""
+        Dim _lastTime As Date
+
+        Private Sub DrawTimeBar()
+            Dim g As Graphics = panelSQT.CreateGraphics
+            Const sx As Integer = 2
+            Const sy As Integer = 16
+            ' Calculate number of seconds from now till start
+            For Each queuedSkill As EveHQPilotQueuedSkill In _queuedSkills.Values
+                If SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
+                    Dim startSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(queuedSkill.StartTime) - Now
+                    Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
+                    Dim endSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) - Now
+                    Dim endSec As Double = Math.Min(endSpan.TotalSeconds, 86400)
+                    Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQT.Width - 4)), 0)
+                    Dim endMark As Integer = CInt(endSec / 86400 * (panelSQT.Width - 4))
+                    If Math.IEEERemainder(queuedSkill.Position, 2) = 0 Then
+                        g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
+                    Else
+                        g.FillRectangle(Brushes.SkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
+                    End If
                 End If
-            End If
-            lastTime = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime)
-        Next
-        lblQueueEnds.Text = "Finishes: " & lastTime.ToString
-        lblQueueRemaining.Text = EveHQ.Core.SkillFunctions.TimeToString((lastTime - Now).TotalSeconds)
-        Call Me.DrawMarks()
-    End Sub
+                _lastTime = SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime)
+            Next
+            lblQueueEnds.Text = "Finishes: " & _lastTime.ToString
+            lblQueueRemaining.Text = SkillFunctions.TimeToString((_lastTime - Now).TotalSeconds)
+            Call DrawMarks()
+        End Sub
 
-    Private Sub DrawMarks()
-        Dim g As Graphics = panelSQT.CreateGraphics
-        Dim sx As Integer = 2
-        Dim sy As Integer = 34
-        Dim cx As Integer = 0
-        Dim cy As Integer = 3
-        g.DrawLine(Pens.Silver, sx, sy, sx, sy + 6)
-        g.DrawLine(Pens.Silver, panelSQT.Width - 4, sy, panelSQT.Width - 4, sy + 6)
-        For timeMark As Integer = 1 To 23
-            cx = (panelSQT.Width - 4)
-            If Math.IEEERemainder(timeMark, 6) = 0 Then
-                g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), sy, CInt(cx / 24 * timeMark), sy + 6)
-            Else
-                g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), sy, CInt(cx / 24 * timeMark), sy + 3)
-            End If
-        Next
-        Dim gFont As New Font("Tahoma", 6)
-        g.DrawString("0", gFont, Brushes.Silver, sx + 2, 35)
-        g.DrawString("24", gFont, Brushes.Silver, panelSQT.Width - 15, 35)
-    End Sub
+        Private Sub DrawMarks()
+            Dim g As Graphics = panelSQT.CreateGraphics
+            Const sx As Integer = 2
+            Const sy As Integer = 34
+            Dim cx As Integer
+            g.DrawLine(Pens.Silver, sx, sy, sx, sy + 6)
+            g.DrawLine(Pens.Silver, panelSQT.Width - 4, sy, panelSQT.Width - 4, sy + 6)
+            For timeMark As Integer = 1 To 23
+                cx = (panelSQT.Width - 4)
+                If Math.IEEERemainder(timeMark, 6) = 0 Then
+                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), sy, CInt(cx / 24 * timeMark), sy + 6)
+                Else
+                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), sy, CInt(cx / 24 * timeMark), sy + 3)
+                End If
+            Next
+            Dim gFont As New Font("Tahoma", 6)
+            g.DrawString("0", gFont, Brushes.Silver, sx + 2, 35)
+            g.DrawString("24", gFont, Brushes.Silver, panelSQT.Width - 15, 35)
+        End Sub
 
-    Private Sub panelSQT_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles panelSQT.Paint
-        Call Me.DrawTimeBar()
-    End Sub
+        Private Sub panelSQT_Paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles panelSQT.Paint
+            Call DrawTimeBar()
+        End Sub
 
-    Private Sub tmrUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrUpdate.Tick
-        Call Me.UpdateTime()
-    End Sub
+        Private Sub tmrUpdate_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrUpdate.Tick
+            Call UpdateTime()
+        End Sub
 
-    Private Sub UpdateTime()
-        lblQueueRemaining.Text = EveHQ.Core.SkillFunctions.TimeToString((lastTime - Now).TotalSeconds)
-    End Sub
-End Class
+        Private Sub UpdateTime()
+            lblQueueRemaining.Text = SkillFunctions.TimeToString((_lastTime - Now).TotalSeconds)
+        End Sub
+    End Class
+End NameSpace

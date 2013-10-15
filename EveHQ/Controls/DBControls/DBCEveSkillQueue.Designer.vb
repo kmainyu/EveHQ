@@ -1,4 +1,6 @@
-﻿Namespace Controls.DBControls
+﻿Imports EveHQ.Core.SkillQueueControl
+
+Namespace Controls.DBControls
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Class DBCEveSkillQueue
         Inherits Widget
@@ -26,7 +28,7 @@
             Me.components = New System.ComponentModel.Container
             Me.lblPilot = New System.Windows.Forms.LinkLabel
             Me.cboPilot = New System.Windows.Forms.ComboBox
-            Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl
+            Me.sqcEveQueue = New SkillQueueControl
             Me.tmrSkill = New System.Windows.Forms.Timer(Me.components)
             Me.AGPContent.SuspendLayout()
             CType(Me.pbConfig, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -119,7 +121,7 @@
         End Sub
         Friend WithEvents lblPilot As System.Windows.Forms.LinkLabel
         Friend WithEvents cboPilot As System.Windows.Forms.ComboBox
-        Friend WithEvents sqcEveQueue As EveHQ.Core.SkillQueueControl
+        Friend WithEvents sqcEveQueue As SkillQueueControl
         Friend WithEvents tmrSkill As System.Windows.Forms.Timer
 
     End Class

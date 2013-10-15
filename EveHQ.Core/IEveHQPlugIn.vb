@@ -17,12 +17,15 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Net
+Imports System.Windows.Forms
+
 Public Interface IEveHQPlugIn
 
-    Function GetEveHQPlugInInfo() As EveHQ.Core.EveHQPlugIn
+    Function GetEveHQPlugInInfo() As EveHQPlugIn
     Function EveHQStartUp() As Boolean
-    Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String
-    Function RunEveHQPlugIn() As Windows.Forms.Form
+    Function IGBService(ByVal igbContext As HttpListenerContext) As String
+    Function RunEveHQPlugIn() As Form
     Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object
     Function SaveAll() As Boolean
 

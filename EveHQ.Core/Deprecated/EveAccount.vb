@@ -17,10 +17,11 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Xml
 
+' ReSharper disable once CheckNamespace
 <Serializable()> Public Class EveAccount
 
+    ' ReSharper disable InconsistentNaming
     Private cUserID As String
     Private cAPIkey As String
     Private cFriendlyName As String
@@ -171,95 +172,95 @@ Imports System.Xml
         End Set
     End Property
 
-    Public Function ToAPIAccount() As EveHQ.EveAPI.EveAPIAccount
-        Dim APIAccount As New EveHQ.EveAPI.EveAPIAccount
-        APIAccount.userID = Me.userID
-        APIAccount.APIKey = Me.APIKey
-        APIAccount.APIVersion = CType(Me.APIKeySystem, EveAPI.APIKeyVersions)
-        Return APIAccount
-    End Function
+    'Public Function ToAPIAccount() As EveAPIAccount
+    '    Dim APIAccount As New EveAPIAccount
+    '    APIAccount.UserID = Me.userID
+    '    APIAccount.APIKey = Me.APIKey
+    '    APIAccount.APIVersion = CType(Me.APIKeySystem, APIKeyVersions)
+    '    Return APIAccount
+    'End Function
 
-    Public Sub CheckAPIKey()
-        Select Case Me.APIKeySystem
-            Case APIKeySystems.Version2
-                ' New style system
-                Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                Dim APIXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.APIKeyInfo, Me.ToAPIAccount, EveAPI.APIReturnMethods.BypassCache)
-                Select Case APIReq.LastAPIError
-                    Case -1
-                        ' Should be version 2 info, get Access mask
-                        Me.AccessMask = 0
-                        If APIXML IsNot Nothing Then
-                            Dim KeyList As XmlNodeList = APIXML.GetElementsByTagName("key")
-                            If KeyList.Count > 0 Then
-                                Me.AccessMask = CLng(KeyList(0).Attributes.GetNamedItem("accessMask").Value)
-                                Select Case KeyList(0).Attributes.GetNamedItem("type").Value
-                                    Case "Corporation"
-                                        Me.APIKeyType = APIKeyTypes.Corporation
-                                    Case "Character"
-                                        Me.APIKeyType = APIKeyTypes.Character
-                                    Case "Account"
-                                        Me.APIKeyType = APIKeyTypes.Account
-                                End Select
-                                Exit Select
-                            End If
-                        End If
-                    Case Else
-                        ' Still unknown!
-                        Me.AccessMask = 0
-                End Select
-            Case Else
-                ' Ignore
-        End Select
-    End Sub
+    'Public Sub CheckAPIKey()
+    '    Select Case Me.APIKeySystem
+    '        Case APIKeySystems.Version2
+    '            ' New style system
+    '            Dim APIReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+    '            Dim APIXML As XmlDocument = APIReq.GetAPIXML(APITypes.APIKeyInfo, Me.ToAPIAccount, APIReturnMethods.BypassCache)
+    '            Select Case APIReq.LastAPIError
+    '                Case -1
+    '                    ' Should be version 2 info, get Access mask
+    '                    Me.AccessMask = 0
+    '                    If APIXML IsNot Nothing Then
+    '                        Dim KeyList As XmlNodeList = APIXML.GetElementsByTagName("key")
+    '                        If KeyList.Count > 0 Then
+    '                            Me.AccessMask = CLng(KeyList(0).Attributes.GetNamedItem("accessMask").Value)
+    '                            Select Case KeyList(0).Attributes.GetNamedItem("type").Value
+    '                                Case "Corporation"
+    '                                    Me.APIKeyType = APIKeyTypes.Corporation
+    '                                Case "Character"
+    '                                    Me.APIKeyType = APIKeyTypes.Character
+    '                                Case "Account"
+    '                                    Me.APIKeyType = APIKeyTypes.Account
+    '                            End Select
+    '                            Exit Select
+    '                        End If
+    '                    End If
+    '                Case Else
+    '                    ' Still unknown!
+    '                    Me.AccessMask = 0
+    '            End Select
+    '        Case Else
+    '            ' Ignore
+    '    End Select
+    'End Sub
 
-    Public Function GetCharactersOnAccount() As List(Of String)
+    'Public Function GetCharactersOnAccount() As List(Of String)
 
-        Dim CharList As New List(Of String)
+    '    Dim CharList As New List(Of String)
 
-        ' Fetch the characters on account XML file
-        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, Me.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+    '    ' Fetch the characters on account XML file
+    '    Dim APIReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+    '    Dim accountXML As XmlDocument = APIReq.GetAPIXML(APITypes.Characters, Me.ToAPIAccount, APIReturnMethods.ReturnStandard)
 
-        ' Get characters
-        If accountXML IsNot Nothing Then
-            Dim CharacterList As XmlNodeList = accountXML.SelectNodes("/eveapi/result/rowset/row")
-            For Each Character As XmlNode In CharacterList
-                Select Case Me.APIKeySystem
-                    Case APIKeySystems.Version2
-                        If Me.APIKeyType = APIKeyTypes.Corporation Then
-                            If CharList.Contains(Character.Attributes.GetNamedItem("corporationName").Value) = False Then
-                                CharList.Add(Character.Attributes.GetNamedItem("corporationName").Value)
-                            End If
-                        Else
-                            If CharList.Contains(Character.Attributes.GetNamedItem("name").Value) = False Then
-                                CharList.Add(Character.Attributes.GetNamedItem("name").Value)
-                            End If
-                        End If
-                    Case Else
-                        ' Ignore
-                End Select
-            Next
-        End If
+    '    ' Get characters
+    '    If accountXML IsNot Nothing Then
+    '        Dim CharacterList As XmlNodeList = accountXML.SelectNodes("/eveapi/result/rowset/row")
+    '        For Each Character As XmlNode In CharacterList
+    '            Select Case Me.APIKeySystem
+    '                Case APIKeySystems.Version2
+    '                    If Me.APIKeyType = APIKeyTypes.Corporation Then
+    '                        If CharList.Contains(Character.Attributes.GetNamedItem("corporationName").Value) = False Then
+    '                            CharList.Add(Character.Attributes.GetNamedItem("corporationName").Value)
+    '                        End If
+    '                    Else
+    '                        If CharList.Contains(Character.Attributes.GetNamedItem("name").Value) = False Then
+    '                            CharList.Add(Character.Attributes.GetNamedItem("name").Value)
+    '                        End If
+    '                    End If
+    '                Case Else
+    '                    ' Ignore
+    '            End Select
+    '        Next
+    '    End If
 
-        Return CharList
+    '    Return CharList
 
-    End Function
+    'End Function
 
-    Public Function CanUseCharacterAPI(CharacterAPIToCheck As EveAPI.CharacterAccessMasks) As Boolean
-        If (Me.AccessMask And CLng(Math.Pow(2, CDbl(CharacterAPIToCheck)))) = Math.Pow(2, CharacterAPIToCheck) Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
+    'Public Function CanUseCharacterAPI(CharacterAPIToCheck As CharacterAccessMasks) As Boolean
+    '    If (Me.AccessMask And CLng(Math.Pow(2, CDbl(CharacterAPIToCheck)))) = Math.Pow(2, CharacterAPIToCheck) Then
+    '        Return True
+    '    Else
+    '        Return False
+    '    End If
+    'End Function
 
-    Public Function CanUseCorporateAPI(CorporateAPIToCheck As EveAPI.CorporateAccessMasks) As Boolean
-        If (Me.AccessMask And CLng(Math.Pow(2, CDbl(CorporateAPIToCheck)))) = Math.Pow(2, CorporateAPIToCheck) Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
+    'Public Function CanUseCorporateAPI(CorporateAPIToCheck As CorporateAccessMasks) As Boolean
+    '    If (Me.AccessMask And CLng(Math.Pow(2, CDbl(CorporateAPIToCheck)))) = Math.Pow(2, CorporateAPIToCheck) Then
+    '        Return True
+    '    Else
+    '        Return False
+    '    End If
+    'End Function
 
 End Class

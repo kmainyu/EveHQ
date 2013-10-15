@@ -155,7 +155,7 @@ Namespace Forms
             nPilot.Race = _sRaceName
             nPilot.Blood = _sBloodName
             nPilot.CAtt = CInt(nudC.Value)
-            nPilot.IAtt = CInt(nudI.Value)
+            nPilot.IntAtt = CInt(nudI.Value)
             nPilot.MAtt = CInt(nudM.Value)
             nPilot.PAtt = CInt(nudP.Value)
             nPilot.WAtt = CInt(nudW.Value)

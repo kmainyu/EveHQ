@@ -17,11 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
 Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
+Imports System.Windows.Forms
 
-Public Class frmModifyPrices
+Public Class FrmModifyPrices
 
 #Region "Class Variables"
 
@@ -55,8 +56,8 @@ Public Class frmModifyPrices
     Private Sub UpdatePriceMatrix()
 
         ' Set style for the price list
-        Dim numberStyle As New DevComponents.DotNetBar.ElementStyle
-        numberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
+        Dim numberStyle As New ElementStyle
+        numberStyle.TextAlignment = eStyleTextAlignment.Far
 
         adtPrices.BeginUpdate()
         adtPrices.Nodes.Clear()
@@ -114,14 +115,14 @@ Public Class frmModifyPrices
         If _pricesChanged = True Then
             Const msg As String = "At least one price has changed. Are you sure you wish to cancel the changes?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Yes Then
-                DialogResult = Windows.Forms.DialogResult.Cancel
+            If reply = DialogResult.Yes Then
+                DialogResult = DialogResult.Cancel
                 Close()
             Else
                 Exit Sub
             End If
         Else
-            DialogResult = Windows.Forms.DialogResult.Cancel
+            DialogResult = DialogResult.Cancel
             Close()
         End If
     End Sub
@@ -129,17 +130,17 @@ Public Class frmModifyPrices
     Private Sub btnAccept_Click(sender As Object, e As EventArgs) Handles btnAccept.Click
         ' Check if anything has changed first
         If _pricesChanged = False Then
-            DialogResult = Windows.Forms.DialogResult.Cancel
+            DialogResult = DialogResult.Cancel
             Close()
         Else
             ' Check we really want to save the prices
             Const msg As String = "Are you sure you wish to save the changes to the price databases?"
             Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Price Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Yes Then
+            If reply = DialogResult.Yes Then
                 ' Update the prices
                 Call UpdatePrices()
                 ' Close the form
-                DialogResult = Windows.Forms.DialogResult.OK
+                DialogResult = DialogResult.OK
                 Close()
             Else
                 Exit Sub
@@ -193,6 +194,6 @@ Public Class frmModifyPrices
 
     End Sub
 
-   
+
 
 End Class

@@ -345,7 +345,7 @@ Namespace Forms
             txtCSVSeparator.Text = HQ.Settings.CsvSeparatorChar
         End Sub
 
-        Private Sub UpdatePBPilotColours()
+        Private Sub UpdatePbPilotColours()
             pbPilotCurrent.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotCurrentTrainSkillColor))
             pbPilotLevel5.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotLevel5SkillColor))
             pbPilotPartial.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotPartTrainedSkillColor))
@@ -359,13 +359,13 @@ Namespace Forms
         Private Sub pbPilotColours_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles pbPilotGroupBG.Click, pbPilotGroupText.Click, pbPilotSkillText.Click, pbPilotSkillHighlight.Click,
                     pbPilotCurrent.Click, pbPilotLevel5.Click, pbPilotPartial.Click, pbPilotStandard.Click
-            Dim thisPB As PictureBox = CType(sender, PictureBox)
+            Dim thisPb As PictureBox = CType(sender, PictureBox)
             Dim dlgResult As Integer
             With cd1
                 .AllowFullOpen = True
                 .AnyColor = True
                 .FullOpen = True
-                Select Case thisPB.Name
+                Select Case thisPb.Name
                     Case "pbPilotCurrent"
                         .Color = Color.FromArgb(CInt(HQ.Settings.PilotCurrentTrainSkillColor))
                     Case "pbPilotLevel5"
@@ -388,8 +388,8 @@ Namespace Forms
             If dlgResult = DialogResult.Cancel Then
                 Exit Sub
             Else
-                thisPB.BackColor = cd1.Color
-                Select Case thisPB.Name
+                thisPb.BackColor = cd1.Color
+                Select Case thisPb.Name
                     Case "pbPilotCurrent"
                         HQ.Settings.PilotCurrentTrainSkillColor = cd1.Color.ToArgb
                     Case "pbPilotLevel5"
@@ -811,10 +811,10 @@ Namespace Forms
         Private Sub lvwPilots_ColumnClick(ByVal sender As Object, ByVal e As ColumnClickEventArgs) _
             Handles lvwPilots.ColumnClick
             If CInt(lvwPilots.Tag) = e.Column Then
-                lvwPilots.ListViewItemSorter = New ListViewItemComparer_Text(e.Column, SortOrder.Ascending)
+                lvwPilots.ListViewItemSorter = New ListViewItemComparerText(e.Column, SortOrder.Ascending)
                 lvwPilots.Tag = -1
             Else
-                lvwPilots.ListViewItemSorter = New ListViewItemComparer_Text(e.Column, SortOrder.Descending)
+                lvwPilots.ListViewItemSorter = New ListViewItemComparerText(e.Column, SortOrder.Descending)
                 lvwPilots.Tag = e.Column
             End If
             ' Call the sort method to manually sort.
@@ -1650,29 +1650,29 @@ Namespace Forms
 
         Private Sub UpdateEveFolderOptions()
             Dim lblEveDir As Label
-            Dim chkLUA As CheckBox
+            Dim chkLua As CheckBox
             Dim gbFolderHost As GroupBox
             Dim txtFName As TextBox
             For folder As Integer = 1 To 4
                 gbFolderHost = CType(gbEveFolders.Controls("gbLocation" & CStr(folder).Trim), GroupBox)
                 lblEveDir = CType(gbFolderHost.Controls("lblEveDir" & CStr(folder).Trim), Label)
-                chkLUA = CType(gbFolderHost.Controls("chkLUA" & CStr(folder).Trim), CheckBox)
+                chkLua = CType(gbFolderHost.Controls("chkLUA" & CStr(folder).Trim), CheckBox)
                 txtFName = CType(gbFolderHost.Controls("txtFriendlyName" & CStr(folder).Trim), TextBox)
                 lblEveDir.Text = HQ.Settings.EveFolder(folder)
                 If My.Computer.FileSystem.DirectoryExists(HQ.Settings.EveFolder(folder)) = True Then
-                    chkLUA.Enabled = True
+                    chkLua.Enabled = True
                     txtFName.Enabled = True
                     txtFName.Text = HQ.Settings.EveFolderLabel(folder)
                 Else
-                    chkLUA.Enabled = False
+                    chkLua.Enabled = False
                     txtFName.Enabled = False
                     txtFName.Text = ""
                 End If
                 If HQ.Settings.EveFolderLua(folder) = True Then
-                    chkLUA.Checked = True
+                    chkLua.Checked = True
                 Else
-                    chkLUA.Checked = False
-                    If chkLUA.Enabled = True Then
+                    chkLua.Checked = False
+                    If chkLua.Enabled = True Then
                         'lblCacheSize.Text &= " (shared)"
                     End If
                 End If
@@ -1680,7 +1680,7 @@ Namespace Forms
             Next
         End Sub
 
-        Private Sub btnEveDirClick(ByVal sender As Object, ByVal e As EventArgs) _
+        Private Sub BtnEveDirClick(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnEveDir1.Click, btnEveDir2.Click, btnEveDir3.Click, btnEveDir4.Click
             Dim btnEveDir As Button
             btnEveDir = CType(sender, Button)
@@ -1709,7 +1709,7 @@ Namespace Forms
             End With
         End Sub
 
-        Private Sub btnClearClick(ByVal sender As Object, ByVal e As EventArgs) _
+        Private Sub BtnClearClick(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnClear1.Click, btnClear2.Click, btnClear3.Click, btnClear4.Click
             Dim btnEveDir As Button
             btnEveDir = CType(sender, Button)
@@ -2431,9 +2431,9 @@ Namespace Forms
 
         Private Sub ChangeMarketProvider(ByVal providerName As String)
             If providerName = EveCentralMarketDataProvider.Name Then
-                HQ.MarketStatDataProvider = HQ.GetEveCentralMarketInstance(HQ.AppDataFolder)
+                HQ.MarketStatDataProvider = HQ.GetEveCentralMarketInstance
             Else
-                HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance(HQ.AppDataFolder)
+                HQ.MarketStatDataProvider = HQ.GetEveHqMarketInstance
             End If
         End Sub
 

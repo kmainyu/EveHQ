@@ -17,10 +17,13 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Text
+Imports System.Globalization
 Imports System.Xml
-Imports System.Windows.Forms
 Imports EveHQ.EveAPI
+Imports System.Text
+Imports System.Windows.Forms
+Imports System.Net.Mail
+Imports System.Net
 
 Public Class EveMailEvents
     Public Shared Event MailUpdateStarted()
@@ -40,7 +43,7 @@ End Class
 
 Public Class EveMail
     Private Const MailTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    ReadOnly _culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+    ReadOnly _culture As CultureInfo = New CultureInfo("en-GB")
     Public Event MailProgress(ByVal status As String)
 
     Public Sub GetMail()
@@ -86,7 +89,7 @@ Public Class EveMail
                                     nMail.OriginatorID = CLng(mPilot.ID)
                                     nMail.MessageID = CLng(mail.Attributes.GetNamedItem("messageID").Value)
                                     nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
-                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
+                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, DateTimeStyles.None)
                                     nMail.MessageTitle = mail.Attributes.GetNamedItem("title").Value
                                     nMail.ToCharacterIDs = mail.Attributes.GetNamedItem("toCharacterIDs").Value
                                     nMail.ToCorpAllianceIDs = mail.Attributes.GetNamedItem("toCorpOrAllianceID").Value
@@ -137,7 +140,7 @@ Public Class EveMail
                             Dim cache As XmlNode
                             cacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
                             cache = cacheList(0)
-                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
+                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, DateTimeStyles.None)
                             If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
                                 HQ.NextAutoMailAPITime = cacheTime
                             End If
@@ -274,7 +277,7 @@ Public Class EveMail
                                     nMail.OriginatorID = CLng(mPilot.ID)
                                     nMail.MessageID = CLng(mail.Attributes.GetNamedItem("notificationID").Value)
                                     nMail.SenderID = CLng(mail.Attributes.GetNamedItem("senderID").Value)
-                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
+                                    nMail.MessageDate = DateTime.ParseExact(mail.Attributes.GetNamedItem("sentDate").Value, MailTimeFormat, _culture, DateTimeStyles.None)
                                     nMail.TypeID = CLng(mail.Attributes.GetNamedItem("typeID").Value)
                                     nMail.ReadFlag = CBool(mail.Attributes.GetNamedItem("read").Value)
                                     nMail.MessageKey = nMail.MessageID.ToString & "_" & nMail.OriginatorID.ToString
@@ -318,7 +321,7 @@ Public Class EveMail
                             Dim cache As XmlNode
                             cacheList = mailXML.SelectNodes("/eveapi/cachedUntil")
                             cache = cacheList(0)
-                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, Globalization.DateTimeStyles.None)
+                            Dim cacheTime As Date = DateTime.ParseExact(cache.InnerText, MailTimeFormat, _culture, DateTimeStyles.None)
                             If cacheTime < HQ.NextAutoMailAPITime And cacheTime > Now Then
                                 HQ.NextAutoMailAPITime = cacheTime
                             End If
@@ -497,19 +500,19 @@ Public Class EveMail
     End Sub
 
     Private Sub SendEveHQMail(ByVal mailSubject As String, ByVal mailText As String)
-        Dim evehqMail As New Net.Mail.SmtpClient
+        Dim evehqMail As New SmtpClient
         Try
             evehqMail.Host = HQ.Settings.EMailServer
             evehqMail.Port = HQ.Settings.EMailPort
             evehqMail.EnableSsl = HQ.Settings.UseSsl
             If HQ.Settings.UseSmtpAuth = True Then
-                Dim newCredentials As New Net.NetworkCredential
+                Dim newCredentials As New NetworkCredential
                 newCredentials.UserName = HQ.Settings.EMailUsername
                 newCredentials.Password = HQ.Settings.EMailPassword
                 evehqMail.Credentials = newCredentials
             End If
             Dim recList As String = HQ.Settings.EMailAddress.Replace(ControlChars.CrLf, "").Replace(" ", "").Replace(";", ",")
-            Dim evehqMsg As New Net.Mail.MailMessage(HQ.Settings.EmailSenderAddress, recList)
+            Dim evehqMsg As New MailMessage(HQ.Settings.EmailSenderAddress, recList)
             evehqMsg.Subject = mailSubject
             evehqMsg.Body = mailText
             evehqMail.Send(evehqMsg)
@@ -551,6 +554,7 @@ End Class
 ''' </summary>
 ''' <remarks></remarks>
 Public Enum EveNotificationTypes As Integer
+    ' ReSharper disable InconsistentNaming
     Character_Deleted = 2
     Give_Medal_To_Character = 3
     Alliance_Maintenance_Bill = 4
@@ -639,4 +643,5 @@ Public Enum EveNotificationTypes As Integer
     Sovereignty_Blockade_Unit_Under_Attack = 87
     Infrastructure_Hub_Under_Attack = 88
     Contact_Notification = 89
+    ' ReSharper restore InconsistentNaming
 End Enum

@@ -34,8 +34,8 @@ Public Class frmShipAudit
 
     Private Sub frmShipAudit_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
         ' Sorts the audit logs by attribute followed by old value (sort on old value first!)
-        Me.lvwAudit.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(2, Windows.Forms.SortOrder.Ascending)
-        Me.lvwAudit.ListViewItemSorter = New EveHQ.Core.ListViewItemComparer_Text(0, Windows.Forms.SortOrder.Ascending)
+        Me.lvwAudit.ListViewItemSorter = New EveHQ.Core.ListViewItemComparerText(2, Windows.Forms.SortOrder.Ascending)
+        Me.lvwAudit.ListViewItemSorter = New EveHQ.Core.ListViewItemComparerText(0, Windows.Forms.SortOrder.Ascending)
         lvwAudit.Sort()
         lvwAudit.Items(0).Selected = True
         lvwAudit.Items(0).Focused = True

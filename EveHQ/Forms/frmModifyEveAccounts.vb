@@ -118,19 +118,19 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub CheckAPIV2Key(ByVal state As Object)
-            Dim testAccount As EveAccount = New EveAccount
-            testAccount.userID = txtUserIDV2.Text.Trim
+        Private Sub CheckApiv2Key(ByVal state As Object)
+            Dim testAccount As New EveHQAccount
+            testAccount.UserID = txtUserIDV2.Text.Trim
             testAccount.APIKey = txtAPIKeyV2.Text.Trim
             testAccount.FriendlyName = txtAccountNameV2.Text.Trim
-            testAccount.APIKeySystem = APIKeySystems.Version2
+            testAccount.ApiKeySystem = APIKeySystems.Version2
             testAccount.CheckAPIKey()
             _testV2APIKeyType = testAccount.APIKeyType.ToString
             _testV2APIAccessMask = testAccount.AccessMask
             Invoke(New MethodInvoker(AddressOf UpdateAPIV2KeyType))
         End Sub
 
-        Private Sub UpdateAPIV2KeyType()
+        Private Sub UpdateApiv2KeyType()
             lblAPIKeyTypeV2.Text = _testV2APIKeyType
             lblAPIAccessMask.Text = _testV2APIAccessMask.ToString
         End Sub

@@ -65,7 +65,7 @@ Namespace Forms
             _nPilot.PilotSkills = _iPilot.PilotSkills
             _nPilot.SkillPoints = _iPilot.SkillPoints
             PilotParseFunctions.LoadKeySkillsForPilot(_nPilot)
-            _nPilot.IAtt = _iPilot.IAtt : _nPilot.IImplant = _iPilot.IImplant : _nPilot.IAttT = _iPilot.IAttT
+            _nPilot.IntAtt = _iPilot.IntAtt : _nPilot.IntImplant = _iPilot.IntImplant : _nPilot.IntAttT = _iPilot.IntAttT
             _nPilot.PAtt = _iPilot.PAtt : _nPilot.PImplant = _iPilot.PImplant : _nPilot.PAttT = _iPilot.PAttT
             _nPilot.CAtt = _iPilot.CAtt : _nPilot.CImplant = _iPilot.CImplant : _nPilot.CAttT = _iPilot.CAttT
             _nPilot.WAtt = _iPilot.WAtt : _nPilot.WImplant = _iPilot.WImplant : _nPilot.WAttT = _iPilot.WAttT
@@ -80,7 +80,7 @@ Namespace Forms
 
             _nPilot.CAttT = _nPilot.CAtt + _nPilot.CImplant
 
-            _nPilot.IAttT = _nPilot.IAtt + _nPilot.IImplant
+            _nPilot.IntAttT = _nPilot.IntAtt + _nPilot.IntImplant
 
             _nPilot.MAttT = _nPilot.MAtt + _nPilot.MImplant
 
@@ -89,10 +89,10 @@ Namespace Forms
         End Sub
         Private Sub DisplayAtributes()
             ' Display Intelligence Info
-            lblIBase.Text = _nPilot.IAtt.ToString
-            nudIImplant.Value = _nPilot.IImplant
-            lblIBase.Text = "Implant: " & _nPilot.IImplant.ToString
-            lblITotal.Text = "Total: " & _nPilot.IAttT.ToString
+            lblIBase.Text = _nPilot.IntAtt.ToString
+            nudIImplant.Value = _nPilot.IntImplant
+            lblIBase.Text = "Implant: " & _nPilot.IntImplant.ToString
+            lblITotal.Text = "Total: " & _nPilot.IntAttT.ToString
 
             ' Display Perception Info
             nudPImplant.Value = _nPilot.PImplant
@@ -140,7 +140,7 @@ Namespace Forms
                 Dim nQueue As ArrayList = SkillQueueFunctions.BuildQueue(_nPilot, _nPilot.TrainingQueues(_queueName), False, False)
                 Dim nTime As Long = _nPilot.TrainingQueues(_queueName).QueueTime
                 If _nPilot.TrainingQueues(_queueName).IncCurrentTraining = True Then
-                    If _iPilot.CAttT = _nPilot.CAttT And _iPilot.IAttT = _nPilot.IAttT And _iPilot.MAttT = _nPilot.MAttT And _iPilot.PAttT = _nPilot.PAttT And _iPilot.WAttT = _nPilot.WAttT Then
+                    If _iPilot.CAttT = _nPilot.CAttT And _iPilot.IntAttT = _nPilot.IntAttT And _iPilot.MAttT = _nPilot.MAttT And _iPilot.PAttT = _nPilot.PAttT And _iPilot.WAttT = _nPilot.WAttT Then
                         nTime += _nPilot.TrainingCurrentTime
                     Else
                         If HQ.SkillListID.ContainsKey(_nPilot.TrainingSkillID) = True Then
@@ -245,12 +245,12 @@ Namespace Forms
 
         Private Sub nudIImplant_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudIImplant.ValueChanged
             If _updateAllBases = False Then
-                _nPilot.IImplant = CInt(nudIImplant.Value)
+                _nPilot.IntImplant = CInt(nudIImplant.Value)
                 Call RecalcAttributes()
                 Call DisplayAtributes()
                 Call DisplayQueueInfo()
             Else
-                _nPilot.IImplant = CInt(nudIImplant.Value)
+                _nPilot.IntImplant = CInt(nudIImplant.Value)
             End If
         End Sub
 
@@ -300,7 +300,7 @@ Namespace Forms
 
         Private Sub btnResetImplants_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnResetImplants.Click
             _updateAllBases = True
-            _nPilot.IImplant = _iPilot.IImplant
+            _nPilot.IntImplant = _iPilot.IntImplant
             _nPilot.PImplant = _iPilot.PImplant
             _nPilot.CImplant = _iPilot.CImplant
             _nPilot.WImplant = _iPilot.WImplant

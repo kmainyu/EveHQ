@@ -135,17 +135,17 @@
     <Compile Include="ItemBrowser\IBSkillTree.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Settings\APIAccountStatuses.vb" />
-    <Compile Include="Settings\APIKeySystems.vb" />
-    <Compile Include="Settings\APIKeyTypes.vb" />
-    <Compile Include="Settings\CorporationRoles.vb" />
-    <Compile Include="Settings\EveHQAccount.vb" />
-    <Compile Include="Settings\EveHQPilot.vb" />
-    <Compile Include="Settings\EveHQPilotQueuedSkill.vb" />
-    <Compile Include="Settings\EveHQPilotSkill.vb" />
-    <Compile Include="Settings\EveHQPlugin.vb" />
-    <Compile Include="Settings\EveHQPluginStatus.vb" />
-    <Compile Include="Settings\EveHQSettings.vb" />
+    <Compile Include="APIAccountStatuses.vb" />
+    <Compile Include="APIKeySystems.vb" />
+    <Compile Include="APIKeyTypes.vb" />
+    <Compile Include="CorporationRoles.vb" />
+    <Compile Include="EveHQAccount.vb" />
+    <Compile Include="EveHQPilot.vb" />
+    <Compile Include="EveHQPilotQueuedSkill.vb" />
+    <Compile Include="EveHQPilotSkill.vb" />
+    <Compile Include="EveHQPlugin.vb" />
+    <Compile Include="EveHQPluginStatus.vb" />
+    <Compile Include="EveHQSettings.vb" />
     <Compile Include="frmModifyPrices.Designer.vb">
       <DependentUpon>frmModifyPrices.vb</DependentUpon>
     </Compile>
@@ -154,7 +154,7 @@
     </Compile>
     <Compile Include="EveHQBackup.vb" />
     <Compile Include="ClassSorter.vb" />
-    <Compile Include="EveAccount.vb" />
+    <Compile Include="Deprecated\EveAccount.vb" />
     <Compile Include="EveAPIStatusForm.Designer.vb">
       <DependentUpon>EveAPIStatusForm.vb</DependentUpon>
     </Compile>
@@ -251,11 +251,11 @@
     <Compile Include="Requisitions\RequisitionIGB.vb" />
     <Compile Include="Requisitions\RequisitionOrder.vb" />
     <Compile Include="RSSFeed.vb" />
-    <Compile Include="Settings\EveHQSkillQueue.vb" />
-    <Compile Include="Settings\EveHQSkillQueueItem.vb" />
-    <Compile Include="Settings\PilotSortTrainingTime.vb" />
-    <Compile Include="Settings\EveHQPilotStanding.vb" />
-    <Compile Include="Settings\StandingType.vb" />
+    <Compile Include="EveHQSkillQueue.vb" />
+    <Compile Include="EveHQSkillQueueItem.vb" />
+    <Compile Include="PilotSortTrainingTime.vb" />
+    <Compile Include="EveHQPilotStanding.vb" />
+    <Compile Include="StandingType.vb" />
     <Compile Include="SkillFunctions.vb" />
     <Compile Include="Deprecated\SkillQueue.vb" />
     <Compile Include="SkillQueueControl\SkillQueueBlock.Designer.vb">

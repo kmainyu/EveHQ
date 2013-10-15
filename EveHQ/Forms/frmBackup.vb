@@ -151,7 +151,7 @@ Namespace Forms
             Next
 
             ' Do an initial sort of the first column
-            lvwBackups.ListViewItemSorter = New ListViewItemComparer_Name(0, SortOrder.Ascending)
+            lvwBackups.ListViewItemSorter = New ListViewItemComparerName(0, SortOrder.Ascending)
             lvwBackups.Tag = -1
             lvwBackups.Sort()
             lvwBackups.EndUpdate()
@@ -179,10 +179,10 @@ Namespace Forms
 
         Private Sub lvwBackups_ColumnClick(ByVal sender As Object, ByVal e As ColumnClickEventArgs) Handles lvwBackups.ColumnClick
             If CInt(lvwBackups.Tag) = e.Column Then
-                lvwBackups.ListViewItemSorter = New ListViewItemComparer_Name(e.Column, SortOrder.Ascending)
+                lvwBackups.ListViewItemSorter = New ListViewItemComparerName(e.Column, SortOrder.Ascending)
                 lvwBackups.Tag = -1
             Else
-                lvwBackups.ListViewItemSorter = New ListViewItemComparer_Name(e.Column, SortOrder.Descending)
+                lvwBackups.ListViewItemSorter = New ListViewItemComparerName(e.Column, SortOrder.Descending)
                 lvwBackups.Tag = e.Column
             End If
             ' Call the sort method to manually sort.

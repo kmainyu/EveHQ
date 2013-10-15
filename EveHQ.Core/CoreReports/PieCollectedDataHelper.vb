@@ -1,7 +1,6 @@
-Imports System
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Drawing.Drawing2D
 
 Namespace CoreReports
 
@@ -85,9 +84,11 @@ Namespace CoreReports
         Public Sub ShowSmallSegmentsAsSupplementalPie(ByVal seriesName As String)
             ' Validate input
             If _chartControl Is Nothing Then
+                ' ReSharper disable once NotResolvedInText
                 Throw (New ArgumentNullException("_chartControl"))
             End If
             If CollectedPercentage > 100.0 OrElse CollectedPercentage < 0.0 Then
+                ' ReSharper disable once NotResolvedInText
                 Throw (New ArgumentException("Value must be in range from 0 to 100 percent.", "CollectedPercentage"))
             End If
 
@@ -277,7 +278,7 @@ Namespace CoreReports
         ''' </summary>
         ''' <param name="sender">Event sender.</param>
         ''' <param name="e">Event arguments.</param>
-        Private Sub chart_PostPaint(ByVal sender As Object, ByVal e As Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs)
+        Private Sub chart_PostPaint(ByVal sender As Object, ByVal e As ChartPaintEventArgs)
             Dim area As ChartArea = TryCast(sender, ChartArea)
             If (area IsNot Nothing) Then
                 If Not _supplementalChartArea Is Nothing AndAlso area.Name = _supplementalChartArea.Name Then

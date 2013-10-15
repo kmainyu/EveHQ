@@ -154,13 +154,13 @@ Namespace Forms
                 ' Display Attribute & Implant Information
                 Try
                     lblCharismaTotal.Text = _displayPilot.CAttT.ToString("N1")
-                    lblIntelligenceTotal.Text = _displayPilot.IAttT.ToString("N1")
+                    lblIntelligenceTotal.Text = _displayPilot.IntAttT.ToString("N1")
                     lblMemoryTotal.Text = _displayPilot.MAttT.ToString("N1")
                     lblPerceptionTotal.Text = _displayPilot.PAttT.ToString("N1")
                     lblWillpowerTotal.Text = _displayPilot.WAttT.ToString("N1")
 
                     lblCharismaDetail.Text = "( " & _displayPilot.CAtt.ToString & " Base +  " & _displayPilot.CImplant.ToString & " Implant)"
-                    lblIntelligenceDetail.Text = "( " & _displayPilot.IAtt.ToString & " Base +  " & _displayPilot.IImplant.ToString & " Implant)"
+                    lblIntelligenceDetail.Text = "( " & _displayPilot.IntAtt.ToString & " Base +  " & _displayPilot.IntImplant.ToString & " Implant)"
                     lblMemoryDetail.Text = "( " & _displayPilot.MAtt.ToString & " Base +  " & _displayPilot.MImplant.ToString & " Implant)"
                     lblPerceptionDetail.Text = "( " & _displayPilot.PAtt.ToString & " Base +  " & _displayPilot.PImplant.ToString & " Implant)"
                     lblWillpowerDetail.Text = "( " & _displayPilot.WAtt.ToString & " Base +  " & _displayPilot.WImplant.ToString & " Implant)"

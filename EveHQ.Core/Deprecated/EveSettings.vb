@@ -18,23 +18,17 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Drawing
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports DevComponents.DotNetBar
-Imports EveHQ.EveAPI
 Imports EveHQ.Market
-Imports System.IO
-Imports System.Windows.Forms
-Imports System.Xml
-Imports System.Web
-Imports System.Globalization
-Imports System.Text
 Imports EveHQ.Common.Extensions
-Imports Newtonsoft.Json
+Imports System.Windows.Forms
 
+' ReSharper disable InconsistentNaming
+' ReSharper disable once CheckNamespace
 <Serializable()>
 Public Class EveSettings
     Private Const OfficalApiLocation As String = "https://api.eveonline.com"
-
+    
     Private cAccounts As New Collection
     Private cPilots As New Collection
     Private cPlugins As New SortedList
@@ -148,7 +142,6 @@ Public Class EveSettings
     Private cIgnoreBuyOrderLimit As Double = 1
     Private cMarketRegionList As New ArrayList
     Private cPriceCriteria(11) As Boolean
-
     Private cMarketLogToolTipConfirm As Boolean = False
     Private cMarketLogPopupConfirm As Boolean = False
     Private cMarketLogUpdatePrice As Boolean = False
@@ -197,7 +190,6 @@ Public Class EveSettings
     Private cPriceGroups As New SortedList(Of String, PriceGroup)
     Private cCorporations As New SortedList(Of String, Corporation)
     Private cMarketDataSource As MarketSite = MarketSite.EveMarketeer
-
     Private _marketDataProvider As String
     Private _marketRegions As New List(Of Int32) 'Will be initialized to a safe default of The Forge
     Private _marketSystem As Integer = 30000142 'Safe Default of Jita
@@ -205,12 +197,7 @@ Public Class EveSettings
     Private _marketDefaultMetric As MarketMetric
     Private _marketDefaultTransactionType As MarketTransactionKind
     Private _marketDataUploadEnabled As Boolean = False
-
     Private _marketStatOverrides As New Dictionary(Of Integer, ItemMarketOverride)
-
-
-
-
     Private cMaxUpdateThreads As Integer = 5
 
 

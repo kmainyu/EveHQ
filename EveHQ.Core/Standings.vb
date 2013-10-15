@@ -17,62 +17,64 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Globalization
 Imports System.Xml
+Imports EveHQ.EveAPI
 
 Public Class Standings
 
     Public Shared Sub GetStandings(ByVal pilotName As String)
 
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
-            Dim pilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(pilotName)
+        If HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
+            Dim pilot As EveHQPilot = HQ.Settings.Pilots(pilotName)
 
             ' Clear the existing standings
             pilot.Standings.Clear()
 
             ' Set culture info
-            Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+            Dim culture As CultureInfo = New CultureInfo("en-GB")
 
             ' Get Account info for the API
             Dim accountName As String = pilot.Account
-            If EveHQ.Core.HQ.Settings.Accounts.ContainsKey(accountName) = True Then
-                Dim pilotAccount As EveHQ.Core.EveHQAccount = EveHQ.Core.HQ.Settings.Accounts.Item(accountName)
+            If HQ.Settings.Accounts.ContainsKey(accountName) = True Then
+                Dim pilotAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
 
                 ' Stage 1 - Get the NPC Standings
                 Try
-                    Dim StandingsList As XmlNodeList
-                    Dim StandingsNode As XmlNode
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                    Dim StandingsXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.StandingsChar, pilotAccount.ToAPIAccount, pilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
-                    If StandingsXML IsNot Nothing Then
+                    Dim standingsList As XmlNodeList
+                    Dim standingsNode As XmlNode
+                    Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    Dim standingsXML As XmlDocument = apiReq.GetAPIXML(APITypes.StandingsChar, pilotAccount.ToAPIAccount, pilot.ID, APIReturnMethods.ReturnStandard)
+                    If standingsXML IsNot Nothing Then
 
-                        Dim errlist As XmlNodeList = StandingsXML.SelectNodes("/eveapi/error")
+                        Dim errlist As XmlNodeList = standingsXML.SelectNodes("/eveapi/error")
                         If errlist.Count = 0 Then
-                            StandingsList = StandingsXML.SelectNodes("/eveapi/result/characterNPCStandings/rowset")
-                            If StandingsList IsNot Nothing Then
-                                If StandingsList.Count > 0 Then
+                            standingsList = standingsXML.SelectNodes("/eveapi/result/characterNPCStandings/rowset")
+                            If standingsList IsNot Nothing Then
+                                If standingsList.Count > 0 Then
 
-                                    For Each StandingsNode In StandingsList
+                                    For Each standingsNode In standingsList
 
-                                        Dim CurrentStandingsType As StandingType = StandingType.Unknown
+                                        Dim currentStandingsType As StandingType = StandingType.Unknown
 
-                                        Select Case StandingsNode.Attributes.GetNamedItem("name").Value
+                                        Select Case standingsNode.Attributes.GetNamedItem("name").Value
                                             Case "agents"
-                                                CurrentStandingsType = StandingType.Agent
+                                                currentStandingsType = StandingType.Agent
                                             Case "NPCCorporations"
-                                                CurrentStandingsType = StandingType.NPCCorporation
+                                                currentStandingsType = StandingType.NPCCorporation
                                             Case "factions"
-                                                CurrentStandingsType = StandingType.Faction
+                                                currentStandingsType = StandingType.Faction
                                         End Select
 
-                                        If StandingsNode.ChildNodes.Count > 0 Then
-                                            For Each Entity As XmlNode In StandingsNode.ChildNodes
-                                                Dim NewStanding As New PilotStanding
-                                                NewStanding.ID = CLng(Entity.Attributes.GetNamedItem("fromID").Value)
-                                                NewStanding.Name = Entity.Attributes.GetNamedItem("fromName").Value
-                                                NewStanding.Type = CurrentStandingsType
-                                                NewStanding.Standing = Double.Parse(Entity.Attributes.GetNamedItem("standing").Value, culture)
-                                                If pilot.Standings.ContainsKey(NewStanding.ID) = False Then
-                                                    pilot.Standings.Add(NewStanding.ID, NewStanding)
+                                        If standingsNode.ChildNodes.Count > 0 Then
+                                            For Each entity As XmlNode In standingsNode.ChildNodes
+                                                Dim newStanding As New PilotStanding
+                                                newStanding.ID = CLng(entity.Attributes.GetNamedItem("fromID").Value)
+                                                newStanding.Name = entity.Attributes.GetNamedItem("fromName").Value
+                                                newStanding.Type = currentStandingsType
+                                                newStanding.Standing = Double.Parse(entity.Attributes.GetNamedItem("standing").Value, culture)
+                                                If pilot.Standings.ContainsKey(newStanding.ID) = False Then
+                                                    pilot.Standings.Add(newStanding.ID, newStanding)
                                                 End If
                                             Next
                                         End If
@@ -89,28 +91,28 @@ Public Class Standings
 
                 ' Stage 2 - Get the player and corp standings
                 Try
-                    Dim StandingsList As XmlNodeList
-                    Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-                    Dim StandingsXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.ContactListChar, pilotAccount.ToAPIAccount, pilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
-                    If StandingsXML IsNot Nothing Then
+                    Dim standingsList As XmlNodeList
+                    Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                    Dim standingsXML As XmlDocument = apiReq.GetAPIXML(APITypes.ContactListChar, pilotAccount.ToAPIAccount, pilot.ID, APIReturnMethods.ReturnStandard)
+                    If standingsXML IsNot Nothing Then
 
-                        Dim errlist As XmlNodeList = StandingsXML.SelectNodes("/eveapi/error")
+                        Dim errlist As XmlNodeList = standingsXML.SelectNodes("/eveapi/error")
                         If errlist.Count = 0 Then
-                            StandingsList = StandingsXML.SelectNodes("/eveapi/result/rowset/row")
-                            If StandingsList IsNot Nothing Then
-                                If StandingsList.Count > 0 Then
+                            standingsList = standingsXML.SelectNodes("/eveapi/result/rowset/row")
+                            If standingsList IsNot Nothing Then
+                                If standingsList.Count > 0 Then
 
-                                    Dim CurrentStandingsType As StandingType = StandingType.PlayerCorp
+                                    Const currentStandingsType As StandingType = StandingType.PlayerCorp
 
-                                    For Each Entity As XmlNode In StandingsList
+                                    For Each entity As XmlNode In standingsList
 
-                                        Dim NewStanding As New PilotStanding
-                                        NewStanding.ID = CLng(Entity.Attributes.GetNamedItem("contactID").Value)
-                                        NewStanding.Name = Entity.Attributes.GetNamedItem("contactName").Value
-                                        NewStanding.Type = CurrentStandingsType
-                                        NewStanding.Standing = Double.Parse(Entity.Attributes.GetNamedItem("standing").Value, culture)
-                                        If pilot.Standings.ContainsKey(NewStanding.ID) = False Then
-                                            pilot.Standings.Add(NewStanding.ID, NewStanding)
+                                        Dim newStanding As New PilotStanding
+                                        newStanding.ID = CLng(entity.Attributes.GetNamedItem("contactID").Value)
+                                        newStanding.Name = entity.Attributes.GetNamedItem("contactName").Value
+                                        newStanding.Type = currentStandingsType
+                                        newStanding.Standing = Double.Parse(entity.Attributes.GetNamedItem("standing").Value, culture)
+                                        If pilot.Standings.ContainsKey(newStanding.ID) = False Then
+                                            pilot.Standings.Add(newStanding.ID, newStanding)
                                         End If
 
                                     Next
@@ -131,21 +133,21 @@ Public Class Standings
 
     Public Shared Function GetStanding(ByVal pilotName As String, ByVal entityID As String, ByVal returnEffectiveStanding As Boolean) As Double
         ' Try and get the standings data
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
+        If HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
 
-            Dim sPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(pilotName)
+            Dim sPilot As EveHQPilot = HQ.Settings.Pilots(pilotName)
 
             ' Get the Connections and Diplomacy skills
-            Dim diplomacyLevel As Integer = sPilot.KeySkills(EveHQ.Core.KeySkill.Diplomacy)
-            Dim connectionsLevel As Integer = sPilot.KeySkills(EveHQ.Core.KeySkill.Connections)
+            Dim diplomacyLevel As Integer = sPilot.KeySkills(KeySkill.Diplomacy)
+            Dim connectionsLevel As Integer = sPilot.KeySkills(KeySkill.Connections)
 
             If sPilot.Standings.ContainsKey(CLng(entityID)) = True Then
                 If ReturnEffectiveStanding = True Then
-                    Dim RawStanding As Double = sPilot.Standings(CLng(entityID)).Standing
-                    If RawStanding < 0 Then
-                        Return RawStanding + ((10 - RawStanding) * (diplomacyLevel * 4 / 100))
+                    Dim rawStanding As Double = sPilot.Standings(CLng(entityID)).Standing
+                    If rawStanding < 0 Then
+                        Return rawStanding + ((10 - rawStanding) * (diplomacyLevel * 4 / 100))
                     Else
-                        Return RawStanding + ((10 - RawStanding) * (connectionsLevel * 4 / 100))
+                        Return rawStanding + ((10 - rawStanding) * (connectionsLevel * 4 / 100))
                     End If
                 Else
                     Return sPilot.Standings(CLng(entityID)).Standing

@@ -17,13 +17,17 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Drawing
+
+' ReSharper disable InconsistentNaming
+' ReSharper disable once CheckNamespace
 <Serializable()> Public Class PlugIn
 
     Public Name As String
     <NonSerialized()> Public Description As String
     <NonSerialized()> Public Author As String
     <NonSerialized()> Public MainMenuText As String
-    <NonSerialized()> Public MenuImage As Drawing.Image
+    <NonSerialized()> Public MenuImage As Image
     <NonSerialized()> Public RunAtStartup As Boolean
     <NonSerialized()> Public RunInIGB As Boolean
     <NonSerialized()> Public FileName As String

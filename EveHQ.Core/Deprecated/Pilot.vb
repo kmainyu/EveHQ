@@ -17,8 +17,9 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Xml
 
+' ReSharper disable InconsistentNaming
+' ReSharper disable once CheckNamespace
 <Serializable()> Public Class Pilot
 
     Public Name As String = ""
@@ -79,7 +80,7 @@ Imports System.Xml
     Public QueuedSkillTime As Long
     Public Certificates As New ArrayList
     Public PrimaryQueue As String = ""
-    Public ActiveQueue As New EveHQ.Core.SkillQueue
+    Public ActiveQueue As New SkillQueue
     Public ActiveQueueName As String = ""
     <NonSerialized()> Public TrainingQueues As New SortedList
     Public Blueprints As New Collection
@@ -151,7 +152,7 @@ Imports System.Xml
 End Class
 
 <Serializable()> Public Class PilotSkill
-    Implements System.ICloneable
+    Implements ICloneable
     Public ID As String
     Public Name As String
     Public GroupID As String
@@ -160,8 +161,8 @@ End Class
     Public SP As Integer
     Public Level As Integer
     Public LevelUp(5) As Integer
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim R As EveHQ.Core.PilotSkill = CType(Me.MemberwiseClone, EveHQ.Core.PilotSkill)
+    Public Function Clone() As Object Implements ICloneable.Clone
+        Dim R As PilotSkill = CType(MemberwiseClone(), PilotSkill)
         Return R
     End Function
 End Class

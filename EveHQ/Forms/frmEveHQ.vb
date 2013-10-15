@@ -48,7 +48,7 @@ Namespace Forms
 
     Public Class FrmEveHQ
 
-        Dim WithEvents _eveTQWorker As BackgroundWorker = New BackgroundWorker
+        Dim WithEvents _eveTqWorker As BackgroundWorker = New BackgroundWorker
         Dim WithEvents _igbWorker As BackgroundWorker = New BackgroundWorker
         Dim WithEvents _skillWorker As BackgroundWorker = New BackgroundWorker
         Dim WithEvents _backupWorker As BackgroundWorker = New BackgroundWorker
@@ -185,7 +185,7 @@ Namespace Forms
 
         Private Sub eveTQWorker_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _eveTQWorker.DoWork
             ' Defines what work the thread has to do
-            Call HQ.myTQServer.GetServerStatus()
+            Call HQ.MyTqServer.GetServerStatus()
         End Sub
 
         Private Sub eveTQWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) _
@@ -193,48 +193,48 @@ Namespace Forms
             ' Sub raised on the completion of a call to read the Eve TQ data
 
             ' Check if the server status has changed since the last result and notify user
-            If HQ.myTQServer.Status <> HQ.myTQServer.LastStatus Then
+            If HQ.MyTqServer.Status <> HQ.MyTqServer.LastStatus Then
 
                 ' Depending on server status, set the notify icon text and the statusbar text
-                Select Case HQ.myTQServer.Status
+                Select Case HQ.MyTqServer.Status
                     Case EveServer.ServerStatus.Down
                         'EveStatusIcon.Text = EveHQ.Core.HQ.myTQServer.StatusText
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": Unable to connect to server"
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": Unable to connect to server"
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_offline IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ_offline
                         End If
                     Case EveServer.ServerStatus.Starting
-                        EveStatusIcon.Text = HQ.myTQServer.StatusText
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": " & HQ.myTQServer.StatusText
+                        EveStatusIcon.Text = HQ.MyTqServer.StatusText
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": " & HQ.MyTqServer.StatusText
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_starting IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ_starting
                         End If
                     Case EveServer.ServerStatus.Shutting
-                        EveStatusIcon.Text = HQ.myTQServer.StatusText
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": " & HQ.myTQServer.StatusText
+                        EveStatusIcon.Text = HQ.MyTqServer.StatusText
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": " & HQ.MyTqServer.StatusText
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_starting IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ_starting
                         End If
                     Case EveServer.ServerStatus.Full
-                        EveStatusIcon.Text = HQ.myTQServer.StatusText
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": " & HQ.myTQServer.StatusText
+                        EveStatusIcon.Text = HQ.MyTqServer.StatusText
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": " & HQ.MyTqServer.StatusText
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_online IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ_online
                         End If
                     Case EveServer.ServerStatus.ProxyDown
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": " & HQ.myTQServer.StatusText
-                        EveStatusIcon.Text = HQ.myTQServer.StatusText
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": " & HQ.MyTqServer.StatusText
+                        EveStatusIcon.Text = HQ.MyTqServer.StatusText
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_offline IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ_offline
                         End If
                     Case EveServer.ServerStatus.Unknown
-                        EveStatusIcon.Text = HQ.myTQServer.StatusText
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": Status unknown"
+                        EveStatusIcon.Text = HQ.MyTqServer.StatusText
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": Status unknown"
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ
                         End If
                     Case EveServer.ServerStatus.Up
-                        lblTQStatus.Text = HQ.myTQServer.ServerName & ": Online (" & HQ.myTQServer.Players & " Players)"
+                        lblTQStatus.Text = HQ.MyTqServer.ServerName & ": Online (" & HQ.MyTqServer.Players & " Players)"
                         If EveStatusIcon IsNot Nothing And My.Resources.EveHQ_online IsNot Nothing Then
                             EveStatusIcon.Icon = My.Resources.EveHQ_online
                         End If
@@ -242,27 +242,27 @@ Namespace Forms
 
                 If EveStatusIcon IsNot Nothing Then
                     EveStatusIcon.BalloonTipIcon = ToolTipIcon.Info
-                    EveStatusIcon.BalloonTipTitle = HQ.myTQServer.ServerName & " Status Notification"
-                    Select Case HQ.myTQServer.Status
+                    EveStatusIcon.BalloonTipTitle = HQ.MyTqServer.ServerName & " Status Notification"
+                    Select Case HQ.MyTqServer.Status
                         Case EveServer.ServerStatus.Down
-                            EveStatusIcon.BalloonTipText = HQ.myTQServer.ServerName & " is Down"
+                            EveStatusIcon.BalloonTipText = HQ.MyTqServer.ServerName & " is Down"
                         Case EveServer.ServerStatus.Starting
-                            EveStatusIcon.BalloonTipText = HQ.myTQServer.ServerName & " is Starting Up"
+                            EveStatusIcon.BalloonTipText = HQ.MyTqServer.ServerName & " is Starting Up"
                         Case EveServer.ServerStatus.Unknown
-                            EveStatusIcon.BalloonTipText = HQ.myTQServer.ServerName & " status is Unknown"
+                            EveStatusIcon.BalloonTipText = HQ.MyTqServer.ServerName & " status is Unknown"
                         Case EveServer.ServerStatus.Up
-                            EveStatusIcon.BalloonTipText = HQ.myTQServer.ServerName & " is Up"
+                            EveStatusIcon.BalloonTipText = HQ.MyTqServer.ServerName & " is Up"
                     End Select
                     EveStatusIcon.ShowBalloonTip(3000)
                 End If
             Else
                 ' Report the players regardless
-                If HQ.myTQServer.Status = EveServer.ServerStatus.Up Then
-                    lblTQStatus.Text = HQ.myTQServer.ServerName & ": Online (" & HQ.myTQServer.Players & " Players)"
+                If HQ.MyTqServer.Status = EveServer.ServerStatus.Up Then
+                    lblTQStatus.Text = HQ.MyTqServer.ServerName & ": Online (" & HQ.MyTqServer.Players & " Players)"
                 End If
             End If
             ' Update last status
-            HQ.myTQServer.LastStatus = HQ.myTQServer.Status
+            HQ.MyTqServer.LastStatus = HQ.MyTqServer.Status
         End Sub
 
 #End Region
@@ -1106,8 +1106,8 @@ Namespace Forms
                     lblAPIStatus.Text = "API Status: Fetching Character Data..."
                     barStatus.Refresh()
                     ' Clear the current list of pilots
-                    HQ.TPilots.Clear()
-                    HQ.TCorps.Clear()
+                    HQ.TempPilots.Clear()
+                    HQ.TempCorps.Clear()
                     HQ.APIResults.Clear()
                     ' get the details for the account
                     For Each currentAccount As EveHQAccount In HQ.Settings.Accounts.Values
@@ -1989,8 +1989,8 @@ Namespace Forms
                 Try
                     HQ.Settings.Pilots.Clear()
                     HQ.Settings.Corporations.Clear()
-                    HQ.TPilots.Clear()
-                    HQ.TCorps.Clear()
+                    HQ.TempPilots.Clear()
+                    HQ.TempCorps.Clear()
                 Catch ex As Exception
                 End Try
 
@@ -2187,14 +2187,14 @@ Namespace Forms
             ' Set a default policy level for the "http:" and "https" schemes.
             Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
 
-            Dim httpURI As String = HQ.Settings.UpdateUrl & fileNeeded
+            Dim httpUri As String = HQ.Settings.UpdateUrl & fileNeeded
             Dim localFile As String = Path.Combine(HQ.AppDataFolder, fileNeeded)
 
             ' Create the request to access the server and set credentials
             ServicePointManager.DefaultConnectionLimit = 10
             ServicePointManager.Expect100Continue = False
-            ServicePointManager.FindServicePoint(New Uri(httpURI))
-            Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpURI), HttpWebRequest)
+            ServicePointManager.FindServicePoint(New Uri(httpUri))
+            Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpUri), HttpWebRequest)
             request.CachePolicy = policy
             ' Setup proxy server (if required)
             Call ProxyServerFunctions.SetupWebProxy(request)
@@ -2323,7 +2323,7 @@ Namespace Forms
 
 #End Region
 
-        Public Shared Sub CatchUIThreadException(ByVal sender As Object, ByVal t As ThreadExceptionEventArgs)
+        Public Shared Sub CatchUiThreadException(ByVal sender As Object, ByVal t As ThreadExceptionEventArgs)
             Trace.TraceWarning("Unhandled Exception was caught from AppDomain.")
             CatchGeneralException(t.Exception)
         End Sub
@@ -2511,8 +2511,8 @@ Namespace Forms
                     Try
                         HQ.Settings.Pilots.Clear()
                         HQ.Settings.Corporations.Clear()
-                        HQ.TPilots.Clear()
-                        HQ.TCorps.Clear()
+                        HQ.TempPilots.Clear()
+                        HQ.TempCorps.Clear()
                     Catch ex As Exception
                     End Try
 
@@ -2602,8 +2602,8 @@ Namespace Forms
                     Try
                         HQ.Settings.Pilots.Clear()
                         HQ.Settings.Corporations.Clear()
-                        HQ.TPilots.Clear()
-                        HQ.TCorps.Clear()
+                        HQ.TempPilots.Clear()
+                        HQ.TempCorps.Clear()
                     Catch ex As Exception
                     End Try
 

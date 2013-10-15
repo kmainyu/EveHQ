@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports DevComponents.AdvTree
+Imports DevComponents.Editors
 Imports System.Windows.Forms
 
 Namespace Requisitions
@@ -78,21 +80,21 @@ Namespace Requisitions
             adtOrders.BeginUpdate()
             adtOrders.Nodes.Clear()
             For Each newOrder As RequisitionOrder In _newReq.Orders.Values
-                Dim tn As New DevComponents.AdvTree.Node
+                Dim tn As New Node
                 tn.Text = newOrder.ItemName
                 tn.Name = newOrder.ItemName
-                Dim tc As New DevComponents.AdvTree.Cell
-                Dim ii As New DevComponents.Editors.IntegerInput
+                Dim tc As New Cell
+                Dim ii As New IntegerInput
                 ii.Name = newOrder.ItemName
                 ii.ShowUpDown = True
                 ii.Value = newOrder.ItemQuantity
                 AddHandler ii.ValueChanged, AddressOf ItemQuantityChanged
                 tc.HostedControl = ii
                 tn.Cells.Add(tc)
-                Dim tc2 As New DevComponents.AdvTree.Cell
+                Dim tc2 As New Cell
                 tc2.Text = newOrder.Source
                 tn.Cells.Add(tc2)
-                Dim tc3 As New DevComponents.AdvTree.Cell
+                Dim tc3 As New Cell
                 tc3.Text = newOrder.RequestDate.ToString
                 tn.Cells.Add(tc3)
                 adtOrders.Nodes.Add(tn)
@@ -107,7 +109,7 @@ Namespace Requisitions
         ''' <param name="e"></param>
         ''' <remarks></remarks>
         Private Sub ItemQuantityChanged(ByVal sender As Object, ByVal e As EventArgs)
-            Dim intInput As DevComponents.Editors.IntegerInput = CType(sender, DevComponents.Editors.IntegerInput)
+            Dim intInput As IntegerInput = CType(sender, IntegerInput)
             _newReq.Orders(intInput.Name).ItemQuantity = intInput.Value
         End Sub
 
@@ -130,7 +132,7 @@ Namespace Requisitions
             End If
             Dim newOrder As New FrmAddRequisitionItem("Requisitions")
             newOrder.ShowDialog()
-            If newOrder.DialogResult = Windows.Forms.DialogResult.OK Then
+            If newOrder.DialogResult = DialogResult.OK Then
                 ' Check if this is an existing requisition
                 If _newReq.Orders.ContainsKey(newOrder.ItemName) = False Then
                     ' Create a new order
@@ -155,7 +157,7 @@ Namespace Requisitions
             If adtOrders.Nodes.Count > 0 Then
                 If adtOrders.SelectedNodes.Count > 0 Then
                     ' Remove all the selected items
-                    For Each selNode As DevComponents.AdvTree.Node In adtOrders.SelectedNodes
+                    For Each selNode As Node In adtOrders.SelectedNodes
                         _newReq.Orders.Remove(selNode.Text)
                     Next
                     ' Update the list
@@ -191,7 +193,7 @@ Namespace Requisitions
             ' Set the property variable to the new requistion in case we want to access this after the form has closed
             _cRequisition = CType(_newReq.Clone, Requisition)
             ' Set the form result and close
-            DialogResult = Windows.Forms.DialogResult.OK
+            DialogResult = DialogResult.OK
             Close()
         End Sub
 
@@ -203,7 +205,7 @@ Namespace Requisitions
 
         Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Set the form result and close (retains the value of the default requisition)
-            DialogResult = Windows.Forms.DialogResult.Cancel
+            DialogResult = DialogResult.Cancel
             Close()
         End Sub
 
@@ -258,8 +260,8 @@ Namespace Requisitions
             Dim oldValue As Integer = _currentMultiplier
             Dim newValue As Integer = nudMultiplier.Value
             For idx As Integer = 0 To adtOrders.Nodes.Count - 1
-                Dim oldQ As Integer = CType(adtOrders.Nodes(idx).Cells(1).HostedControl, DevComponents.Editors.IntegerInput).Value
-                CType(adtOrders.Nodes(idx).Cells(1).HostedControl, DevComponents.Editors.IntegerInput).Value = CInt(oldQ / oldValue * newValue)
+                Dim oldQ As Integer = CType(adtOrders.Nodes(idx).Cells(1).HostedControl, IntegerInput).Value
+                CType(adtOrders.Nodes(idx).Cells(1).HostedControl, IntegerInput).Value = CInt(oldQ / oldValue * newValue)
             Next
             _currentMultiplier = nudMultiplier.Value
         End Sub

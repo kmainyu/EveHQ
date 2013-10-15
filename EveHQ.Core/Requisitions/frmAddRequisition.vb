@@ -167,7 +167,7 @@ Namespace Requisitions
         Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Set the dialog result, then close
             _cRequisition = Nothing
-            DialogResult = Windows.Forms.DialogResult.Cancel
+            DialogResult = DialogResult.Cancel
             Close()
         End Sub
 
@@ -188,11 +188,11 @@ Namespace Requisitions
             If _currentReqs.ContainsKey(cboReqName.Text) = True Then
                 Dim reply As DialogResult = MessageBox.Show("There is already a Requisition with this name. Would you like to add this to the existing Requisition?", "Edit Existing Requisition?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 Select Case reply
-                    Case Windows.Forms.DialogResult.Cancel
+                    Case DialogResult.Cancel
                         Exit Sub
-                    Case Windows.Forms.DialogResult.No
+                    Case DialogResult.No
                         Exit Sub
-                    Case Windows.Forms.DialogResult.Yes
+                    Case DialogResult.Yes
                         ' Get the existing requisition
                         _cRequisition = _currentReqs(cboReqName.Text)
                         ' Clone ready for update
@@ -221,7 +221,7 @@ Namespace Requisitions
             End If
 
             ' Set the form result and close
-            DialogResult = Windows.Forms.DialogResult.OK
+            DialogResult = DialogResult.OK
             Close()
 
         End Sub

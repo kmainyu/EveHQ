@@ -37,7 +37,7 @@ Public Class FrmModifyQueues
         ' Check if the input is valid i.e. not blank
         If txtQueueName.Text = "" Then
             Dim reply As Integer = MessageBox.Show("Queue name cannot be blank! Would you like to try again?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Retry Then
+            If reply = DialogResult.Retry Then
                 Exit Sub
             Else
                 Close()
@@ -51,7 +51,7 @@ Public Class FrmModifyQueues
                 ' First check if the account already exists
                 If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.Retry Then
+                    If reply = DialogResult.Retry Then
                         Exit Sub
                     Else
                         Close()
@@ -71,7 +71,7 @@ Public Class FrmModifyQueues
             Case "Edit"
                 If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Editing Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.Retry Then
+                    If reply = DialogResult.Retry Then
                         Exit Sub
                     Else
                         Close()
@@ -92,7 +92,7 @@ Public Class FrmModifyQueues
             Case "Copy"
                 If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Copying Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.Retry Then
+                    If reply = DialogResult.Retry Then
                         Exit Sub
                     Else
                         Close()
@@ -121,7 +121,7 @@ Public Class FrmModifyQueues
             Case "Merge"
                 If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Copying Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.Retry Then
+                    If reply = DialogResult.Retry Then
                         Exit Sub
                     Else
                         Close()
@@ -149,7 +149,7 @@ Public Class FrmModifyQueues
             Case "Split"
                 If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                     Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Copying Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                    If reply = Windows.Forms.DialogResult.Retry Then
+                    If reply = DialogResult.Retry Then
                         Exit Sub
                     Else
                         Close()

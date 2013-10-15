@@ -17,14 +17,15 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.IO
+Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Drawing
+Imports EveHQ.EveAPI
+Imports EveHQ.EveData
+Imports System.Globalization
 Imports System.Text
+Imports System.IO
 Imports System.Xml
 Imports System.Windows.Forms
-Imports System.Windows.Forms.DataVisualization.Charting
-Imports EveHQ.EveData
-Imports EveHQ.EveAPI
 
 Namespace CoreReports
 
@@ -66,7 +67,7 @@ Namespace CoreReports
             strHTML &= "<td width=200px>"
             strHTML &= "<table width=100%><tr><td class=thead align=center valign=middle colspan=2><b>Attributes</b></td></tr>"
             strHTML &= "<tr><td>Charisma</td><td>" & Format(CDbl(rpilot.CAttT), "##.00") & "</td></tr>"
-            strHTML &= "<tr><td>Intelligence</td><td>" & Format(CDbl(rpilot.IAttT), "##.00") & "</td></tr>"
+            strHTML &= "<tr><td>Intelligence</td><td>" & Format(CDbl(rpilot.IntAttT), "##.00") & "</td></tr>"
             strHTML &= "<tr><td>Memory</td><td>" & Format(CDbl(rpilot.MAttT), "##.00") & "</td></tr>"
             strHTML &= "<tr><td>Perception</td><td>" & Format(CDbl(rpilot.PAttT), "##.00") & "</td></tr>"
             strHTML &= "<tr><td>Willpower</td><td>" & Format(CDbl(rpilot.WAttT), "##.00") & "</td></tr>"
@@ -81,7 +82,7 @@ Namespace CoreReports
 
         Public Shared Function HTMLHeader(ByVal browserHeader As String) As String
             Dim strHTML As String = "<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd"">"
-            strHTML &= "<html lang=""" & Globalization.CultureInfo.CurrentCulture.ToString & """>"
+            strHTML &= "<html lang=""" & CultureInfo.CurrentCulture.ToString & """>"
             strHTML &= "<head>"
             strHTML &= "<META http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">"
             strHTML &= "<title>" & browserHeader & "</title>" & CharacterCSS() & "</head>"
@@ -156,7 +157,7 @@ Namespace CoreReports
             strText.AppendLine(String.Format("{0,16} {1,-18}", "Skills:", rpilot.PilotSkills.Count))
             strText.AppendLine()
             strText.AppendLine(String.Format("{0,16} {1,-18}", "Charisma:", Format(CDbl(rpilot.CAttT), "##.00")))
-            strText.AppendLine(String.Format("{0,16} {1,-18}", "Intelligence:", Format(CDbl(rpilot.IAttT), "##.00")))
+            strText.AppendLine(String.Format("{0,16} {1,-18}", "Intelligence:", Format(CDbl(rpilot.IntAttT), "##.00")))
             strText.AppendLine(String.Format("{0,16} {1,-18}", "Memory:", Format(CDbl(rpilot.MAttT), "##.00")))
             strText.AppendLine(String.Format("{0,16} {1,-18}", "Perception:", Format(CDbl(rpilot.PAttT), "##.00")))
             strText.AppendLine(String.Format("{0,16} {1,-18}", "Willpower:", Format(CDbl(rpilot.WAttT), "##.00")))
@@ -189,7 +190,7 @@ Namespace CoreReports
             strText.AppendLine("Skills: " & rpilot.PilotSkills.Count)
             strText.AppendLine()
             strText.AppendLine("Charisma: " & Format(CDbl(rpilot.CAttT), "##.00"))
-            strText.AppendLine("Intelligence: " & Format(CDbl(rpilot.IAttT), "##.00"))
+            strText.AppendLine("Intelligence: " & Format(CDbl(rpilot.IntAttT), "##.00"))
             strText.AppendLine("Memory: " & Format(CDbl(rpilot.MAttT), "##.00"))
             strText.AppendLine("Perception: " & Format(CDbl(rpilot.PAttT), "##.00"))
             strText.AppendLine("Willpower: " & Format(CDbl(rpilot.WAttT), "##.00"))
@@ -205,6 +206,7 @@ Namespace CoreReports
             Dim strXML As String = ""
             Dim tabs(10) As String
             For tab As Integer = 1 To 10
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For tab2 As Integer = 1 To tab
                     tabs(tab) &= Chr(9)
                 Next
@@ -233,8 +235,8 @@ Namespace CoreReports
             If rpilot.PImplantA > 0 Then
                 strXML &= AddImplantToXML(rpilot.PImplantA, implants(2, 0), implants(2, 1), implantStyles(rpilot.PImplantA - 1, 0), implantStyles(rpilot.PImplantA - 1, 1))
             End If
-            If rpilot.IImplantA > 0 Then
-                strXML &= AddImplantToXML(rpilot.IImplantA, implants(3, 0), implants(3, 1), implantStyles(rpilot.IImplantA - 1, 0), implantStyles(rpilot.IImplantA - 1, 1))
+            If rpilot.IntImplantA > 0 Then
+                strXML &= AddImplantToXML(rpilot.IntImplantA, implants(3, 0), implants(3, 1), implantStyles(rpilot.IntImplantA - 1, 0), implantStyles(rpilot.IntImplantA - 1, 1))
             End If
             If rpilot.CImplantA > 0 Then
                 strXML &= AddImplantToXML(rpilot.CImplantA, implants(4, 0), implants(4, 1), implantStyles(rpilot.CImplantA - 1, 0), implantStyles(rpilot.CImplantA - 1, 1))
@@ -1348,7 +1350,7 @@ Namespace CoreReports
                 Dim i2 As String = CStr(DirectCast(y, Integer))
 
                 ' compare the items in the sortArray
-                Return System.String.Compare(_sortArray(CInt(i1), 1), _sortArray(CInt(i2), 1), StringComparison.Ordinal)
+                Return String.Compare(_sortArray(CInt(i1), 1), _sortArray(CInt(i2), 1), StringComparison.Ordinal)
             End Function
         End Class
 
@@ -1481,6 +1483,7 @@ Namespace CoreReports
         Public Shared Function CurrentPilotXML_Old(ByVal rpilot As EveHQPilot) As String
             Dim tabs(10) As String
             For tab As Integer = 1 To 10
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For tab2 As Integer = 1 To tab
                     tabs(tab) &= Chr(9)
                 Next
@@ -1498,7 +1501,7 @@ Namespace CoreReports
             strXML &= tabs(3) & "<balance>" & rpilot.Isk & "</balance>" & vbCrLf
             strXML &= XMLImplantDetails(rpilot)
             strXML &= tabs(3) & "<attributes>" & vbCrLf
-            strXML &= tabs(4) & "<intelligence>" & rpilot.IAtt & "</intelligence>" & vbCrLf
+            strXML &= tabs(4) & "<intelligence>" & rpilot.IntAtt & "</intelligence>" & vbCrLf
             strXML &= tabs(4) & "<charisma>" & rpilot.CAtt & "</charisma>" & vbCrLf
             strXML &= tabs(4) & "<perception>" & rpilot.PAtt & "</perception>" & vbCrLf
             strXML &= tabs(4) & "<memory>" & rpilot.MAtt & "</memory>" & vbCrLf
@@ -1569,6 +1572,7 @@ Namespace CoreReports
         Public Shared Function CurrentTrainingXML_Old(ByVal rpilot As EveHQPilot) As String
             Dim tabs(10) As String
             For tab As Integer = 1 To 10
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For tab2 As Integer = 1 To tab
                     tabs(tab) &= Chr(9)
                 Next
@@ -1585,7 +1589,7 @@ Namespace CoreReports
             strXML &= tabs(3) & "<balance>" & rpilot.Isk & "</balance>" & vbCrLf
             strXML &= tabs(3) & "<attributeEnhancers timeInCache=""0"" timeLeftInCache=""1000"" />" & vbCrLf
             strXML &= tabs(3) & "<attributes>" & vbCrLf
-            strXML &= tabs(4) & "<intelligence>" & rpilot.IAtt & "</intelligence>" & vbCrLf
+            strXML &= tabs(4) & "<intelligence>" & rpilot.IntAtt & "</intelligence>" & vbCrLf
             strXML &= tabs(4) & "<charisma>" & rpilot.CAtt & "</charisma>" & vbCrLf
             strXML &= tabs(4) & "<perception>" & rpilot.PAtt & "</perception>" & vbCrLf
             strXML &= tabs(4) & "<memory>" & rpilot.MAtt & "</memory>" & vbCrLf
@@ -1627,6 +1631,7 @@ Namespace CoreReports
         Public Shared Function CurrentPilotXML_New(ByVal rpilot As EveHQPilot) As String
             Dim tabs(10) As String
             For tab As Integer = 1 To 10
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For tab2 As Integer = 1 To tab
                     tabs(tab) &= Chr(9)
                 Next
@@ -1647,11 +1652,11 @@ Namespace CoreReports
             strXML &= tabs(2) & "<cloneName>" & rpilot.CloneName & "</cloneName>" & vbCrLf
             strXML &= tabs(2) & "<cloneSkillPoints>" & rpilot.CloneSP & "</cloneSkillPoints>" & vbCrLf
             ' Make the isk value non-culture specfic using en-GB
-            Dim culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+            Dim culture As CultureInfo = New CultureInfo("en-GB")
             strXML &= tabs(2) & "<balance>" & rpilot.Isk.ToString(culture.NumberFormat) & "</balance>" & vbCrLf
             strXML &= XMLImplantDetails(rpilot)
             strXML &= tabs(2) & "<attributes>" & vbCrLf
-            strXML &= tabs(3) & "<intelligence>" & rpilot.IAtt & "</intelligence>" & vbCrLf
+            strXML &= tabs(3) & "<intelligence>" & rpilot.IntAtt & "</intelligence>" & vbCrLf
             strXML &= tabs(3) & "<charisma>" & rpilot.CAtt & "</charisma>" & vbCrLf
             strXML &= tabs(3) & "<perception>" & rpilot.PAtt & "</perception>" & vbCrLf
             strXML &= tabs(3) & "<memory>" & rpilot.MAtt & "</memory>" & vbCrLf
@@ -1686,6 +1691,7 @@ Namespace CoreReports
         Public Shared Function CurrentTrainingXML_New(ByVal rpilot As EveHQPilot) As String
             Dim tabs(10) As String
             For tab As Integer = 1 To 10
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For tab2 As Integer = 1 To tab
                     tabs(tab) &= Chr(9)
                 Next

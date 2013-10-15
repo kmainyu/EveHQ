@@ -38,8 +38,8 @@ Namespace Controls.DBControls
             ControlConfigForm = ""
 
             ' Try and load the wormhole information
-            Call LoadWHSystemData()
-            Call LoadWHAttributeData()
+            Call LoadWormholeSystemData()
+            Call LoadWormholeAttributeData()
 
         End Sub
 
@@ -58,7 +58,7 @@ Namespace Controls.DBControls
 
 #End Region
 
-        Private Sub LoadWHSystemData()
+        Private Sub LoadWormholeSystemData()
             ' Parse the location classes
             Dim whClasses As New SortedList(Of String, String)
             Dim classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
@@ -107,7 +107,7 @@ Namespace Controls.DBControls
 
         End Sub
 
-        Private Sub LoadWHAttributeData()
+        Private Sub LoadWormholeAttributeData()
             ' Load the data
             Dim taqs As IEnumerable = (From item In StaticData.Types.Values Join ta In StaticData.TypeAttributes On item.Id Equals ta.TypeId Join at In StaticData.AttributeTypes.Values On ta.AttributeId Equals at.AttributeId
                     Where item.Group = 920

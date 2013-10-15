@@ -18,13 +18,10 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-''' <summary>
-''' Class representing a single EveHQ skill queue
-''' The Queue property contains a collection of EveHQ.Core.SkillQueue items that make up the individual entries in the queue
-''' </summary>
-''' <remarks></remarks>
+' ReSharper disable InconsistentNaming
+' ReSharper disable once CheckNamespace
 <Serializable()> Public Class SkillQueue
-    Implements System.ICloneable
+    Implements ICloneable
 
 #Region "Property variables"
     Dim mName As String
@@ -129,11 +126,11 @@
     ''' </summary>
     ''' <returns>A copy of the instance of EveHQ.Core.SkillQueue from where the function was called</returns>
     ''' <remarks></remarks>
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim newQueue As SkillQueue = CType(Me.MemberwiseClone, SkillQueue)
+    Public Function Clone() As Object Implements ICloneable.Clone
+        Dim newQueue As SkillQueue = CType(MemberwiseClone(), SkillQueue)
         Dim newQ As New Collection
-        For Each qItem As EveHQ.Core.SkillQueueItem In Me.mQueue
-            Dim nItem As New EveHQ.Core.SkillQueueItem
+        For Each qItem As SkillQueueItem In mQueue
+            Dim nItem As New SkillQueueItem
             nItem.ToLevel = qItem.ToLevel
             nItem.FromLevel = qItem.FromLevel
             nItem.Name = qItem.Name

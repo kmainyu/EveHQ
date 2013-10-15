@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.Windows.Forms
 Imports System.Drawing
+Imports EveHQ.Core.CoreReports
 Imports EveHQ.Common.Extensions
 
 Public Class SkillQueueFunctions
@@ -166,7 +167,7 @@ Public Class SkillQueueFunctions
                 tagArray(a) = a
             Next
             ' Initialize the comparer and sort
-            Dim myComparer As New CoreReports.Reports.RectangularComparer(skillArray)
+            Dim myComparer As New Reports.RectangularComparer(skillArray)
             Array.Sort(tagArray, myComparer)
 
             ' Get a list of the skill names in the queue and their level
@@ -947,7 +948,7 @@ Public Class SkillQueueFunctions
     Public Shared Function GetSkillReqs(ByVal qPilot As EveHQPilot, ByVal skillID As Integer) As String
         Dim strReqs As String = ""
 
-        Dim level As Integer = 1
+        Const level As Integer = 1
         Dim pointer(20) As Integer
         Dim parent(20) As Integer
         pointer(level) = 1

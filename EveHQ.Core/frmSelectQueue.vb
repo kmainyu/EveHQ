@@ -50,7 +50,7 @@ Public Class FrmSelectQueue
             End If
             If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                 Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                If reply = Windows.Forms.DialogResult.Retry Then
+                If reply = DialogResult.Retry Then
                     Exit Sub
                 Else
                     Close()

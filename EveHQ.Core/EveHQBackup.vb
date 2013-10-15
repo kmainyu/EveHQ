@@ -17,7 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.IO
 Imports System.Windows.Forms
+Imports DevComponents.DotNetBar
+Imports Microsoft.VisualBasic.FileIO
 Imports ICSharpCode.SharpZipLib.Zip
 
 ''' <summary>
@@ -32,11 +35,11 @@ Public Class EveHQBackup
     ''' <returns>A date indicating the time of the next backup</returns>
     ''' <remarks></remarks>
     Public Shared Function CalcNextBackup() As Date
-        Dim nextBackup As Date = EveHQ.Core.HQ.Settings.EveHQBackupStart
-        If EveHQ.Core.HQ.Settings.EveHQBackupLast > nextBackup Then
-            nextBackup = EveHQ.Core.HQ.Settings.EveHQBackupLast
+        Dim nextBackup As Date = HQ.Settings.EveHQBackupStart
+        If HQ.Settings.EveHQBackupLast > nextBackup Then
+            nextBackup = HQ.Settings.EveHQBackupLast
         End If
-        nextBackup = DateAdd(DateInterval.Day, EveHQ.Core.HQ.Settings.EveHQBackupFreq, nextBackup)
+        nextBackup = DateAdd(DateInterval.Day, HQ.Settings.EveHQBackupFreq, nextBackup)
         Return nextBackup
     End Function
 
@@ -48,14 +51,13 @@ Public Class EveHQBackup
     Public Shared Function BackupEveHQSettings() As Boolean
         Dim backupTime As Date = Now
         Dim timeStamp As String = Format(backupTime, "yyyy-MM-dd-HH-mm-ss")
-        Dim zipFolder As String = System.IO.Path.Combine(EveHQ.Core.HQ.EveHQBackupFolder, "EveHQBackup " & timeStamp)
-        Dim zipFileName As String = System.IO.Path.Combine(zipFolder, "EveHQBackup " & timeStamp & ".zip")
-        Dim oldTime As Date = EveHQ.Core.HQ.Settings.EveHQBackupLast
-        Dim oldResult As Integer = EveHQ.Core.HQ.Settings.EveHQBackupLastResult
+        Dim zipFolder As String = Path.Combine(HQ.EveHQBackupFolder, "EveHQBackup " & timeStamp)
+        Dim zipFileName As String = Path.Combine(zipFolder, "EveHQBackup " & timeStamp & ".zip")
+        Dim oldTime As Date = HQ.Settings.EveHqBackupLast
         Try
             ' Save the settings file
-            EveHQ.Core.HQ.WriteLogEvent("Backup: Request to save EveHQ Settings before backup")
-            Call EveHQ.Core.HQ.Settings.Save()
+            HQ.WriteLogEvent("Backup: Request to save EveHQ Settings before backup")
+            Call HQ.Settings.Save()
 
            ' Create the zip folder
             If My.Computer.FileSystem.DirectoryExists(zipFolder) = False Then
@@ -63,18 +65,15 @@ Public Class EveHQBackup
             End If
 
             ' Backup the data
-            EveHQ.Core.HQ.WriteLogEvent("Backup: Backup EveHQ settings")
-            Dim fileFilter As String = "-\.config$;-\.dll$;-\.exe$;-\.manifest$;-\.log$;-\.sdf$;-\.mdb$;-\.pdb;-\.sdf$;-\.zip$"
+            HQ.WriteLogEvent("Backup: Backup EveHQ settings")
+            Const fileFilter As String = "-\.config$;-\.dll$;-\.exe$;-\.manifest$;-\.log$;-\.sdf$;-\.mdb$;-\.pdb;-\.sdf$;-\.zip$"
             Dim zipSettings As FastZip = New FastZip()
-            zipSettings.CreateZip(zipFileName, EveHQ.Core.HQ.AppDataFolder, True, fileFilter, "^(?:(?!cache).)*$")
+            zipSettings.CreateZip(zipFileName, HQ.AppDataFolder, True, fileFilter, "^(?:(?!cache).)*$")
 
             ' Update backup details
-            EveHQ.Core.HQ.WriteLogEvent("Backup: Store EveHQ backup results")
-            EveHQ.Core.HQ.Settings.EveHQBackupLast = backupTime
-            EveHQ.Core.HQ.Settings.EveHQBackupLastResult = -1
-
-            zipSettings = Nothing
-
+            HQ.WriteLogEvent("Backup: Store EveHQ backup results")
+            HQ.Settings.EveHQBackupLast = backupTime
+            HQ.Settings.EveHQBackupLastResult = -1
             Return True
         Catch e As Exception
             ' Report the error
@@ -84,12 +83,12 @@ Public Class EveHQBackup
                 msg &= "Inner Exception: " & e.InnerException.Message & ControlChars.CrLf
             End If
             MessageBox.Show(msg, "EveHQ Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            EveHQ.Core.HQ.Settings.EveHQBackupLastResult = 0
-            EveHQ.Core.HQ.Settings.EveHQBackupLast = oldTime
+            HQ.Settings.EveHQBackupLastResult = 0
+            HQ.Settings.EveHQBackupLast = oldTime
             ' Try and delete the zip folder
             Try
                 If My.Computer.FileSystem.DirectoryExists(zipFolder) = True Then
-                    My.Computer.FileSystem.DeleteDirectory(zipFolder, FileIO.DeleteDirectoryOption.DeleteAllContents)
+                    My.Computer.FileSystem.DeleteDirectory(zipFolder, DeleteDirectoryOption.DeleteAllContents)
                 End If
             Catch ex As Exception
                 ' Delete failed - ignore!
@@ -103,10 +102,10 @@ Public Class EveHQBackup
     ''' </summary>
     ''' <returns>A boolean value indicating if the restore procedure was successful</returns>
     ''' <remarks></remarks>
-    Public Shared Function RestoreEveHQSettings(ByVal BackupFile As String) As Boolean
+    Public Shared Function RestoreEveHQSettings(ByVal backupFile As String) As Boolean
 
         ' Close all the open tabs first
-        Dim mainTab As DevComponents.DotNetBar.TabStrip = CType(EveHQ.Core.HQ.MainForm.Controls("tabEveHQMDI"), DevComponents.DotNetBar.TabStrip)
+        Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
         If mainTab.Tabs.Count > 0 Then
             For tab As Integer = mainTab.Tabs.Count - 1 To 0 Step -1
                 CType(mainTab.Tabs(tab).AttachedControl, Form).Close()
@@ -115,14 +114,14 @@ Public Class EveHQBackup
 
         ' Try and unzip the backup file
         Try
-            Dim ZipSettings As FastZip = New FastZip()
-            ZipSettings.ExtractZip(BackupFile, EveHQ.Core.HQ.AppDataFolder, "")
+            Dim zipSettings As FastZip = New FastZip()
+            zipSettings.ExtractZip(backupFile, HQ.AppDataFolder, "")
 
-           ' Report success
+            ' Report success
             MessageBox.Show("Restore successful! EveHQ needs to be restarted for the new settings to apply - Click OK to close EveHQ.", "Restore Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             ' If all is good, set the exit flag
-            EveHQ.Core.HQ.RestoredSettings = True
+            HQ.RestoredSettings = True
 
             ' Exit EveHQ
             Application.Exit()

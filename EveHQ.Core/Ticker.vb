@@ -17,64 +17,67 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.Threading.Tasks
+Imports System.Drawing.Imaging
+Imports System.Drawing.Drawing2D
+Imports EveHQ.EveData
+Imports EveHQ.Core.ItemBrowser
 
 Public Class Ticker
-    Dim WithEvents scrollTimer As New Timer
-    Dim img As Bitmap
-    Dim scrollImages As New Queue
-    Dim lastItem As Integer = 0
-    Private cScrollSpeed As Integer = 5
-    Dim r As New Random(Now.Millisecond)
+    Dim WithEvents _tmrScrollTimer As New Timer
+    Dim _img As Bitmap
+    ReadOnly _scrollImages As New Queue
+    ReadOnly _lastItem As Integer = 0
+    Private _cScrollSpeed As Integer = 5
+    ReadOnly _r As New Random(Now.Millisecond)
 
     Public Property ScrollSpeed() As Integer
         Get
-            Return cScrollSpeed
+            Return _cScrollSpeed
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then
-                cScrollSpeed = 1
+                _cScrollSpeed = 1
             ElseIf value > 100 Then
-                cScrollSpeed = 100
+                _cScrollSpeed = 100
             Else
-                cScrollSpeed = value
+                _cScrollSpeed = value
             End If
-            scrollTimer.Interval = cScrollSpeed
+            _tmrScrollTimer.Interval = _cScrollSpeed
             Invalidate()
         End Set
     End Property
 
-    Private cScrollDistance As Integer = 1
+    Private _cScrollDistance As Integer = 1
     Public Property ScrollDistance() As Integer
         Get
-            Return cScrollDistance
+            Return _cScrollDistance
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then
-                cScrollDistance = 1
+                _cScrollDistance = 1
             ElseIf value > 5 Then
-                cScrollDistance = 5
+                _cScrollDistance = 5
             Else
-                cScrollDistance = value
+                _cScrollDistance = value
             End If
             Invalidate()
         End Set
     End Property
-    Private cScrollNumberOfImages As Integer = 5
+    Private _cScrollNumberOfImages As Integer = 5
     Public Property ScrollNumberOfImages() As Integer
         Get
-            Return cScrollNumberOfImages
+            Return _cScrollNumberOfImages
         End Get
         Set(ByVal value As Integer)
             If value < 0 Then
-                cScrollNumberOfImages = 1
+                _cScrollNumberOfImages = 1
             ElseIf value > 20 Then
-                cScrollNumberOfImages = 20
+                _cScrollNumberOfImages = 20
             Else
-                cScrollNumberOfImages = value
+                _cScrollNumberOfImages = value
             End If
             SetupImages()
         End Set
@@ -87,24 +90,25 @@ Public Class Ticker
 
         ' Add any initialization after the InitializeComponent() call.
         SetStyle(ControlStyles.AllPaintingInWmPaint Or ControlStyles.DoubleBuffer Or ControlStyles.ResizeRedraw Or ControlStyles.UserPaint, True)
-        scrollTimer.Interval = 5
-        scrollTimer.Enabled = False
-        Me.DoubleBuffered = True
-        r = New Random(Now.Millisecond)
-        lastItem = EveHQ.Core.HQ.TickerItemList.Count
+        _tmrScrollTimer.Interval = 5
+        _tmrScrollTimer.Enabled = False
+        DoubleBuffered = True
+        _r = New Random(Now.Millisecond)
+        _lastItem = HQ.TickerItemList.Count
         Call SetupImages()
     End Sub
 
     Private Sub SetupImages()
-        scrollImages.Clear()
-        For i As Integer = 0 To cScrollNumberOfImages
-            Call Me.SetupImage()
+        _scrollImages.Clear()
+        ' ReSharper disable once RedundantAssignment - Warning incorrectly reported by R#
+        For i As Integer = 0 To _cScrollNumberOfImages
+            Call SetupImage()
         Next
     End Sub
 
     Private Sub SetupImage()
         If HQ.TickerItemList.Count > 0 Then
-            Dim itemID As Integer = HQ.TickerItemList(r.Next(0, lastItem))
+            Dim itemID As Integer = HQ.TickerItemList(_r.Next(0, _lastItem))
             Dim items As New List(Of Integer)
             items.Add(itemID)
 
@@ -142,16 +146,16 @@ Public Class Ticker
         Dim mainFont As New Font("Tahoma", 10, FontStyle.Regular)
         Dim smallFont As New Font("Tahoma", 7, FontStyle.Regular)
 
-        Dim itemName As String = ""
-        Dim imgText As String = ""
+        Dim itemName As String
+        Dim imgText As String
 
 
-        img = New Bitmap(600, 30, Imaging.PixelFormat.Format32bppArgb)
-        Dim g As Graphics = Graphics.FromImage(img)
+        _img = New Bitmap(600, 30, PixelFormat.Format32bppArgb)
+        Dim g As Graphics = Graphics.FromImage(_img)
         g.SmoothingMode = SmoothingMode.HighQuality
         Dim strWidth As Integer
 
-        itemName = EveData.StaticData.Types(itemID).Name
+        itemName = StaticData.Types(itemID).Name
 
         imgText = itemName & " - " & itemPrice.ToString("N2")
 
@@ -160,23 +164,23 @@ Public Class Ticker
         g.DrawString(imgText, mainFont, New SolidBrush(Color.White), 0, 2)
         g.DrawString("(+" & itemID & ")", smallFont, New SolidBrush(Color.LawnGreen), strWidth - 5, 1)
         strWidth += CInt(g.MeasureString("(+" & itemID & ")", smallFont).Width)
-        Dim finalImage As Bitmap = img.Clone(New Rectangle(0, 0, strWidth + 10, 30), img.PixelFormat)
+        Dim finalImage As Bitmap = _img.Clone(New Rectangle(0, 0, strWidth + 10, 30), _img.PixelFormat)
         Dim si As New ScrollImage
         si.img = finalImage
         si.imgX = 0
         si.imgID = itemID
-        scrollImages.Enqueue(si)
+        _scrollImages.Enqueue(si)
     End Sub
 
-    Private Sub scrollTimer_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles scrollTimer.Tick
+    Private Sub scrollTimer_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles _tmrScrollTimer.Tick
         Invalidate()
     End Sub
 
-    Private Sub Ticker_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Me.MouseDoubleClick
+    Private Sub Ticker_MouseDoubleClick(ByVal sender As Object, ByVal e As MouseEventArgs) Handles Me.MouseDoubleClick
         ' Get co-ords of click
         Dim x As Integer = e.X
         Dim itemID As Integer
-        For Each si As ScrollImage In scrollImages
+        For Each si As ScrollImage In _scrollImages
             If x >= si.imgX And x <= si.imgX + si.img.Width Then
                 itemID = si.imgID
                 Exit For
@@ -187,45 +191,45 @@ Public Class Ticker
 
     Private Sub LaunchItemBrowser(ByVal itemID As Integer)
 
-        Dim myIB As New Core.ItemBrowser.FrmIB(itemID)
+        Dim myIB As New FrmIB(itemID)
         myIB.ShowDialog()
 
     End Sub
 
-    Private Sub Ticker_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
-        If (scrollImages Is Nothing Or scrollImages.Count = 0) Then
+    Private Sub Ticker_Paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles Me.Paint
+        If (_scrollImages Is Nothing Or _scrollImages.Count = 0) Then
             Return ' No data to scroll.
         End If
 
-        Dim startPosition As Integer = CType(scrollImages.Peek, ScrollImage).imgX - cScrollDistance
+        Dim startPosition As Integer = CType(_scrollImages.Peek, ScrollImage).imgX - _cScrollDistance
         Dim si As ScrollImage
-        For Each si In scrollImages
+        For Each si In _scrollImages
             Dim g As Graphics = e.Graphics
-            If startPosition < Me.Width Then
+            If startPosition < Width Then
                 g.DrawImage(si.img, startPosition, 0)
             End If
             si.imgX = startPosition
             startPosition += si.img.Width - 1
         Next
         ' Check for non-displayed items & queue up another (look at the first item only)
-        si = CType(scrollImages.Peek, Global.EveHQ.Core.Ticker.ScrollImage)
+        si = CType(_scrollImages.Peek, ScrollImage)
         If si.imgX + si.img.Width < 0 Then
-            si = CType(scrollImages.Dequeue, Global.EveHQ.Core.Ticker.ScrollImage)
+            'si = CType(_scrollImages.Dequeue, ScrollImage)
             SetupImage()
         End If
     End Sub
 
     Private Class ScrollImage
-        Public img As Bitmap
-        Public imgX As Integer
-        Public imgID As Integer
+        Public Property Img As Bitmap
+        Public Property ImgX As Integer
+        Public Property ImgID As Integer
     End Class
 
-    Private Sub Ticker_VisibleChanged(sender As System.Object, e As System.EventArgs) Handles MyBase.VisibleChanged
+    Private Sub Ticker_VisibleChanged(sender As Object, e As EventArgs) Handles MyBase.VisibleChanged
         If Visible Then
-            scrollTimer.Enabled = True
+            _tmrScrollTimer.Enabled = True
         Else
-            scrollTimer.Enabled = False
+            _tmrScrollTimer.Enabled = False
         End If
     End Sub
 End Class

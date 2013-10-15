@@ -268,8 +268,8 @@ Namespace Forms
 
 #Region "Export Routines"
 
-        Private Sub ExportCSV(ByVal filename As String)
-            Dim sw As New StreamWriter(Filename)
+        Private Sub ExportCsv(ByVal filename As String)
+            Dim sw As New StreamWriter(filename)
             Dim sb As New StringBuilder
             Dim dt As DataTable = CType(dgvQuery.DataSource, DataTable)
             For Each col As DataColumn In dt.Columns
@@ -296,7 +296,7 @@ Namespace Forms
             sw.Dispose()
         End Sub
 
-        Private Sub ExportTSV(ByVal filename As String)
+        Private Sub ExportTsv(ByVal filename As String)
             Dim sw As New StreamWriter(filename)
             Dim sb As New StringBuilder
             Dim dt As DataTable = CType(dgvQuery.DataSource, DataTable)

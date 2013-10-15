@@ -1,14 +1,14 @@
 ﻿
 Imports System.Drawing
 Imports DevComponents.DotNetBar
+Imports System.Windows.Forms
 Imports EveHQ.EveAPI
 Imports EveHQ.Market
-Imports System.IO
-Imports System.Windows.Forms
-Imports System.Globalization
-Imports System.Text
 Imports EveHQ.Common.Extensions
+Imports System.Globalization
+Imports System.IO
 Imports Newtonsoft.Json
+Imports System.Text
 
 ''' <summary>
 ''' Class for the new EveHQ settings.
@@ -686,7 +686,7 @@ Public Class EveHQSettings
         HQ.WriteLogEvent("Settings: Saving EveHQ settings to " & fileName)
 
         ' Convert the current settings to a JSON formatted string
-        Dim json As String = JsonConvert.SerializeObject(Me, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(Me, Formatting.Indented)
 
         ' Write the JSON string to the file
         Try
@@ -767,8 +767,8 @@ Public Class EveHQSettings
 
             ' Set Theme stuff
             If HQ.Settings.ThemeSetByUser = False Then
-                HQ.Settings.ThemeStyle = DevComponents.DotNetBar.eStyle.Office2007Black
-                HQ.Settings.ThemeTint = Drawing.Color.Empty
+                HQ.Settings.ThemeStyle = eStyle.Office2007Black
+                HQ.Settings.ThemeTint = Color.Empty
             End If
 
             ' Set Global APIServerInfo

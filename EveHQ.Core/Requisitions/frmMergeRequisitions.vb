@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Windows.Forms
+
 Namespace Requisitions
 
     Public Class FrmMergeRequisitions
@@ -65,18 +67,18 @@ Namespace Requisitions
                 mergedReq.UpdateDatabase(_reqList(newReqName))
 
                 ' Set the result and close the form
-                DialogResult = Windows.Forms.DialogResult.OK
+                DialogResult = DialogResult.OK
                 Close()
             Else
                 ' Set the result and close the form
-                DialogResult = Windows.Forms.DialogResult.Cancel
+                DialogResult = DialogResult.Cancel
                 Close()
             End If
         End Sub
 
         Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Set the result and close the form
-            DialogResult = Windows.Forms.DialogResult.Cancel
+            DialogResult = DialogResult.Cancel
             Close()
         End Sub
 

@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Net
+Imports EveHQ.EveAPI
 
 ''' <summary>
 ''' Class for handling proxy server functions
@@ -32,10 +33,10 @@ Public Class ProxyServerFunctions
     ''' <param name="request">The HTTPWebRequest for which a WebProxy needs configuring</param>
     ''' <remarks></remarks>
     Public Shared Sub SetupWebProxy(ByRef request As HttpWebRequest)
-        Dim ProxyServer As EveHQ.EveAPI.RemoteProxyServer = EveHQ.Core.HQ.RemoteProxy
-        If ProxyServer IsNot Nothing Then
-            If ProxyServer.ProxyRequired = True Then
-                request.Proxy = ProxyServer.SetupWebProxy
+        Dim proxyServer As RemoteProxyServer = HQ.RemoteProxy
+        If proxyServer IsNot Nothing Then
+            If proxyServer.ProxyRequired = True Then
+                request.Proxy = proxyServer.SetupWebProxy
             End If
         End If
     End Sub

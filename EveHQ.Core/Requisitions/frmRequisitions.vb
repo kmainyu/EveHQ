@@ -17,14 +17,15 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports DevComponents.AdvTree
 Imports System.Windows.Forms
 Imports System.Xml
-Imports System.Text
+Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
 Imports EveHQ.EveAPI
 Imports System.Threading.Tasks
-Imports DevComponents.AdvTree
 Imports EveHQ.Common.Extensions
+Imports System.Text
 
 Namespace Requisitions
 
@@ -109,7 +110,7 @@ Namespace Requisitions
             ' Save the current selected Requisition
             Dim myReq As New FrmEditRequisition
             myReq.ShowDialog()
-            If myReq.DialogResult = Windows.Forms.DialogResult.OK Then
+            If myReq.DialogResult = DialogResult.OK Then
                 Call ApplyFilter()
                 Call UpdateFilters()
             End If
@@ -133,7 +134,7 @@ Namespace Requisitions
                 Dim req As Requisition = _currentReqs(reqName)
                 Dim myReq As New FrmEditRequisition(req)
                 myReq.ShowDialog()
-                If myReq.DialogResult = Windows.Forms.DialogResult.OK Then
+                If myReq.DialogResult = DialogResult.OK Then
                     Call ApplyFilter()
                     Call UpdateFilters()
                 End If
@@ -287,8 +288,8 @@ Namespace Requisitions
             Dim totalVolume As Double = 0 : Dim totalVolumeReqd As Double = 0
             Dim totalCost As Double = 0 : Dim totalCostReqd As Double = 0
             ' Set style
-            Dim numberStyle As New DevComponents.DotNetBar.ElementStyle
-            numberStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Far
+            Dim numberStyle As New ElementStyle
+            numberStyle.TextAlignment = eStyleTextAlignment.Far
             adtOrders.BeginUpdate()
             adtOrders.Nodes.Clear()
             Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From o In req.Orders.Values Select CInt(o.ItemID))
@@ -411,7 +412,7 @@ Namespace Requisitions
                 Exit Sub
             Else
                 Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to delete the selected Requisitions?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                If reply = Windows.Forms.DialogResult.No Then
+                If reply = DialogResult.No Then
                     Exit Sub
                 Else
                     For Each selNode As Node In adtReqs.SelectedNodes
@@ -483,7 +484,7 @@ Namespace Requisitions
             End If
         End Sub
 
-        Private Sub adtOrders_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As Windows.Forms.MouseEventArgs) Handles adtOrders.ColumnHeaderMouseDown
+        Private Sub adtOrders_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtOrders.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -663,7 +664,7 @@ Namespace Requisitions
                     .Filter = "EveHQ Requisition Export Files (*.xml)|*.xml|All Files (*.*)|*.*"
                     .FilterIndex = 1
                     .RestoreDirectory = True
-                    If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    If .ShowDialog() = DialogResult.OK Then
                         If .FileName <> "" Then
                             reqXML.Save(.FileName)
                         End If
@@ -733,7 +734,7 @@ Namespace Requisitions
                 .Filter = "EveHQ Requisition Export Files (*.xml)|*.xml|All Files (*.*)|*.*"
                 .FilterIndex = 1
                 .RestoreDirectory = True
-                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                If .ShowDialog() = DialogResult.OK Then
                     If My.Computer.FileSystem.FileExists(.FileName) = False Then
                         MessageBox.Show("Specified file does not exist. Please try again.", "Error Finding File", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Exit Sub

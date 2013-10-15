@@ -17,9 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Text
-Imports System.Windows.Forms
+Imports System.Globalization
 Imports EveHQ.EveData
+Imports System.Windows.Forms
+Imports System.Text
 
 Namespace Requisitions
 
@@ -36,7 +37,7 @@ Namespace Requisitions
         Dim _cOrders As New SortedList(Of String, RequisitionOrder) ' Collection of items
 
         Private Const SQLTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-        ReadOnly _culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+        ReadOnly _culture As CultureInfo = New CultureInfo("en-GB")
 
         ''' <summary>
         ''' Holds the name of the Requisition

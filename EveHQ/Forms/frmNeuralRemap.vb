@@ -80,14 +80,14 @@ Namespace Forms
             _nPilot.PilotSkills = _iPilot.PilotSkills
             _nPilot.SkillPoints = _iPilot.SkillPoints
             PilotParseFunctions.LoadKeySkillsForPilot(_nPilot)
-            _nPilot.IAtt = _iPilot.IAtt : _nPilot.IImplant = _iPilot.IImplant : _nPilot.IAttT = _iPilot.IAttT
+            _nPilot.IntAtt = _iPilot.IntAtt : _nPilot.IntImplant = _iPilot.IntImplant : _nPilot.IntAttT = _iPilot.IntAttT
             _nPilot.PAtt = _iPilot.PAtt : _nPilot.PImplant = _iPilot.PImplant : _nPilot.PAttT = _iPilot.PAttT
             _nPilot.CAtt = _iPilot.CAtt : _nPilot.CImplant = _iPilot.CImplant : _nPilot.CAttT = _iPilot.CAttT
             _nPilot.WAtt = _iPilot.WAtt : _nPilot.WImplant = _iPilot.WImplant : _nPilot.WAttT = _iPilot.WAttT
             _nPilot.MAtt = _iPilot.MAtt : _nPilot.MImplant = _iPilot.MImplant : _nPilot.MAttT = _iPilot.MAttT
 
             ' Check for the maximum allowable base units - API errors
-            If _nPilot.IAtt > maxAtt Or _nPilot.PAtt > maxAtt Or _nPilot.CAtt > maxAtt Or _nPilot.WAtt > maxAtt Or _nPilot.MAtt > maxAtt Then
+            If _nPilot.IntAtt > maxAtt Or _nPilot.PAtt > maxAtt Or _nPilot.CAtt > maxAtt Or _nPilot.WAtt > maxAtt Or _nPilot.MAtt > maxAtt Then
                 MessageBox.Show("It would appear that your base attributes contain incorrect values. The Neural Remapper cannot continue until these have been resolved.", "Base Attributes Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
@@ -108,9 +108,9 @@ Namespace Forms
 
             ' Check if any base attributes are less than 5 as this is not permitted under the remapping rules
             _unused = 0
-            If _nPilot.IAtt < minAtt Then
-                _unused += minAtt - _nPilot.IAtt
-                _nPilot.IAtt = minAtt
+            If _nPilot.IntAtt < minAtt Then
+                _unused += minAtt - _nPilot.IntAtt
+                _nPilot.IntAtt = minAtt
             End If
             If _nPilot.PAtt < minAtt Then
                 _unused += minAtt - _nPilot.PAtt
@@ -131,13 +131,13 @@ Namespace Forms
 
             ' Now reallocate the unused against larger items
             Dim available As Integer
-            If _unused > 0 And _nPilot.IAtt > minAtt Then
-                available = _nPilot.IAtt - minAtt
+            If _unused > 0 And _nPilot.IntAtt > minAtt Then
+                available = _nPilot.IntAtt - minAtt
                 If available >= _unused Then
-                    _nPilot.IAtt = _nPilot.IAtt - _unused
+                    _nPilot.IntAtt = _nPilot.IntAtt - _unused
                     _unused = 0
                 Else
-                    _nPilot.IAtt = minAtt
+                    _nPilot.IntAtt = minAtt
                     _unused = _unused - available
                 End If
             End If
@@ -191,17 +191,17 @@ Namespace Forms
         Private Sub RecalcAttributes()
             _nPilot.WAttT = _nPilot.WAtt + _nPilot.WImplant
             _nPilot.CAttT = _nPilot.CAtt + _nPilot.CImplant
-            _nPilot.IAttT = _nPilot.IAtt + _nPilot.IImplant
+            _nPilot.IntAttT = _nPilot.IntAtt + _nPilot.IntImplant
             _nPilot.MAttT = _nPilot.MAtt + _nPilot.MImplant
             _nPilot.PAttT = _nPilot.PAtt + _nPilot.PImplant
-            _unused = 99 - (_nPilot.IAtt + _nPilot.PAtt + _nPilot.CAtt + _nPilot.WAtt + _nPilot.MAtt)
+            _unused = 99 - (_nPilot.IntAtt + _nPilot.PAtt + _nPilot.CAtt + _nPilot.WAtt + _nPilot.MAtt)
         End Sub
         Private Sub DisplayAtributes()
             ' Display Intelligence Info
-            lblIntelligence.Text = "Intelligence (Default Base: " & _iPilot.IAtt.ToString & ")"
-            nudIBase.Value = _nPilot.IAtt
-            lblIImplant.Text = "Implant: " & _nPilot.IImplant.ToString
-            lblITotal.Text = "Total: " & _nPilot.IAttT.ToString
+            lblIntelligence.Text = "Intelligence (Default Base: " & _iPilot.IntAtt.ToString & ")"
+            nudIBase.Value = _nPilot.IntAtt
+            lblIImplant.Text = "Implant: " & _nPilot.IntImplant.ToString
+            lblITotal.Text = "Total: " & _nPilot.IntAttT.ToString
 
             ' Display Perception Info
             lblPerception.Text = "Perception (Default Base: " & _iPilot.PAtt.ToString & ")"
@@ -252,7 +252,7 @@ Namespace Forms
                 Dim nQueue As ArrayList = SkillQueueFunctions.BuildQueue(_nPilot, _nPilot.TrainingQueues(_cQueueName), False, True)
                 Dim nTime As Long = _nPilot.TrainingQueues(_cQueueName).QueueTime
                 If _nPilot.TrainingQueues(_cQueueName).IncCurrentTraining = True Then
-                    If _iPilot.CAttT = _nPilot.CAttT And _iPilot.IAttT = _nPilot.IAttT And _iPilot.MAttT = _nPilot.MAttT And _iPilot.PAttT = _nPilot.PAttT And _iPilot.WAttT = _nPilot.WAttT Then
+                    If _iPilot.CAttT = _nPilot.CAttT And _iPilot.IntAttT = _nPilot.IntAttT And _iPilot.MAttT = _nPilot.MAttT And _iPilot.PAttT = _nPilot.PAttT And _iPilot.WAttT = _nPilot.WAttT Then
                         nTime += _nPilot.TrainingCurrentTime
                     Else
                         If HQ.SkillListID.ContainsKey(_nPilot.TrainingSkillID) = True Then
@@ -359,16 +359,16 @@ Namespace Forms
 
         Private Sub nudIBase_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudIBase.ValueChanged
             If _updateAllBases = False Then
-                If _nPilot.IAtt - nudIBase.Value + _unused >= 0 Then
-                    _nPilot.IAtt = CInt(nudIBase.Value)
+                If _nPilot.IntAtt - nudIBase.Value + _unused >= 0 Then
+                    _nPilot.IntAtt = CInt(nudIBase.Value)
                     Call RecalcAttributes()
                     Call DisplayAtributes()
                     Call DisplayQueueInfo()
                 Else
-                    nudIBase.Value = _nPilot.IAtt
+                    nudIBase.Value = _nPilot.IntAtt
                 End If
             Else
-                _nPilot.IAtt = CInt(nudIBase.Value)
+                _nPilot.IntAtt = CInt(nudIBase.Value)
             End If
         End Sub
 
@@ -436,7 +436,7 @@ Namespace Forms
             Cursor = Cursors.WaitCursor
             Dim bestTime As Long = _skillQueue.QueueTime * 2
             Dim calcTime As Long
-            Dim bestI As Integer = _nPilot.IAtt
+            Dim bestI As Integer = _nPilot.IntAtt
             Dim bestP As Integer = _nPilot.PAtt
             Dim bestC As Integer = _nPilot.CAtt
             Dim bestW As Integer = _nPilot.WAtt
@@ -445,7 +445,7 @@ Namespace Forms
             Const maxAtt As Integer = 27 ' Max = 27
 
             For intAtt As Integer = _intMin To maxAtt
-                _nPilot.IAtt = intAtt
+                _nPilot.IntAtt = intAtt
                 For pAtt As Integer = _pMin To maxAtt
                     _nPilot.PAtt = pAtt
                     For cAtt As Integer = _cMin To maxAtt
@@ -472,7 +472,7 @@ Namespace Forms
                 Next
             Next
             _updateAllBases = True
-            _nPilot.IAtt = bestI
+            _nPilot.IntAtt = bestI
             _nPilot.PAtt = bestP
             _nPilot.CAtt = bestC
             _nPilot.WAtt = bestW

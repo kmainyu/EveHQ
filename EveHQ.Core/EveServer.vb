@@ -17,21 +17,17 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Net
-Imports System.Text
-Imports System.IO
-Imports System.Net.Sockets
-Imports System.Threading
+Imports EveHQ.EveAPI
 Imports System.Xml
 
 Public Class EveServer
-    Public Server As Integer = EveServer.Servers.Tranquility
+    Public Server As Integer = Servers.Tranquility
     Public ServerName As String = "Tranquility"
     Public Version As String
     Public Players As Integer
     Public Codename As String
-    Public Status As Integer = EveServer.ServerStatus.Unknown
-    Public LastStatus As Integer = EveServer.ServerStatus.Unknown
+    Public Status As Integer = ServerStatus.Unknown
+    Public LastStatus As Integer = ServerStatus.Unknown
     Public StatusText As String
     Public LastChecked As Date
 
@@ -52,24 +48,24 @@ Public Class EveServer
 
     Public Sub GetServerStatus()
         Try
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-            Dim StatusXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.ServerStatus, EveAPI.APIReturnMethods.BypassCache)
-            If StatusXML IsNot Nothing Then
-                Dim StatusDetails As XmlNodeList = StatusXML.SelectNodes("/eveapi/result")
-                Dim ServerIsUp As Boolean = CBool(StatusDetails(0).ChildNodes(0).InnerText)
-                Dim ServerPlayers As Integer = CInt(StatusDetails(0).ChildNodes(1).InnerText)
-                If ServerIsUp = True Then
-                    Status = EveServer.ServerStatus.Up
-                    Players = ServerPlayers
+            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+            Dim statusXML As XmlDocument = apiReq.GetAPIXML(APITypes.ServerStatus, APIReturnMethods.BypassCache)
+            If statusXML IsNot Nothing Then
+                Dim statusDetails As XmlNodeList = statusXML.SelectNodes("/eveapi/result")
+                Dim serverIsUp As Boolean = CBool(statusDetails(0).ChildNodes(0).InnerText)
+                Dim serverPlayers As Integer = CInt(statusDetails(0).ChildNodes(1).InnerText)
+                If serverIsUp = True Then
+                    Status = ServerStatus.Up
+                    Players = serverPlayers
                 Else
-                    Status = EveServer.ServerStatus.Down
+                    Status = ServerStatus.Down
                     Players = 0
                 End If
             Else
                 Version = ""
                 Players = 0
                 Codename = ""
-                Status = EveServer.ServerStatus.Unknown
+                Status = ServerStatus.Unknown
                 StatusText = "Server Status Unknown"
             End If
             LastChecked = Now
@@ -77,7 +73,7 @@ Public Class EveServer
             Version = ""
             Players = 0
             Codename = ""
-            Status = EveServer.ServerStatus.Unknown
+            Status = ServerStatus.Unknown
             StatusText = "Server Status Unknown"
             LastChecked = Now
         End Try

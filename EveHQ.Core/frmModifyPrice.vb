@@ -17,11 +17,11 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
 Imports EveHQ.EveData
 Imports EveHQ.Common.Extensions
+Imports System.Windows.Forms
 
-Public Class frmModifyPrice
+Public Class FrmModifyPrice
 
     ReadOnly _itemID As Integer
     ReadOnly _previousPrice As Double = 0
@@ -36,7 +36,7 @@ Public Class frmModifyPrice
 
         ' Setup the defaults
         _itemID = defaultItemID
-       
+
         If HQ.CustomPriceList.ContainsKey(_itemID) Then
             _editingPrice = True
             _previousPrice = HQ.CustomPriceList(_itemID)
@@ -98,7 +98,7 @@ Public Class frmModifyPrice
         Close()
     End Sub
 
-    Private Sub txtNewPrice_TextChanged(sender As System.Object, e As EventArgs) Handles txtNewPrice.TextChanged
+    Private Sub txtNewPrice_TextChanged(sender As Object, e As EventArgs) Handles txtNewPrice.TextChanged
         ' Check if the original value is non-zero and therefore if the price should be removed
         If IsNumeric(txtNewPrice.Text) = True Then
             If _previousPrice <> 0 And CDbl(txtNewPrice.Text) = 0 Then

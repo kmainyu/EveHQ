@@ -1,4 +1,5 @@
-﻿Imports System.Xml
+﻿Imports EveHQ.EveAPI
+Imports System.Xml
 
 <Serializable()>
 Public Class EveHQAccount
@@ -48,11 +49,11 @@ Public Class EveHQAccount
 
     Public Property APIAccountStatus() As APIAccountStatuses
 
-    Public Function ToAPIAccount() As EveAPI.EveAPIAccount
-        Dim apiAccount As New EveAPI.EveAPIAccount
+    Public Function ToAPIAccount() As EveAPIAccount
+        Dim apiAccount As New EveAPIAccount
         apiAccount.userID = UserID
         apiAccount.APIKey = APIKey
-        apiAccount.APIVersion = CType(ApiKeySystem, EveAPI.APIKeyVersions)
+        apiAccount.APIVersion = CType(ApiKeySystem, APIKeyVersions)
         Return apiAccount
     End Function
 
@@ -60,8 +61,8 @@ Public Class EveHQAccount
         Select Case ApiKeySystem
             Case APIKeySystems.Version2
                 ' New style system
-                Dim apiReq As New EveAPI.EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                Dim apixml As XmlDocument = apiReq.GetAPIXML(EveAPI.APITypes.APIKeyInfo, ToAPIAccount, EveAPI.APIReturnMethods.BypassCache)
+                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                Dim apixml As XmlDocument = apiReq.GetAPIXML(APITypes.APIKeyInfo, ToAPIAccount, APIReturnMethods.BypassCache)
                 Select Case apiReq.LastAPIError
                     Case -1
                         ' Should be version 2 info, get Access mask
@@ -93,8 +94,8 @@ Public Class EveHQAccount
         Dim charList As New List(Of String)
 
         ' Fetch the characters on account XML file
-        Dim apiReq As New EveAPI.EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-        Dim accountXML As XmlDocument = apiReq.GetAPIXML(EveAPI.APITypes.Characters, ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
+        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        Dim accountXML As XmlDocument = apiReq.GetAPIXML(APITypes.Characters, ToAPIAccount, APIReturnMethods.ReturnStandard)
 
         ' Get characters
         If accountXML IsNot Nothing Then
@@ -119,7 +120,7 @@ Public Class EveHQAccount
 
     End Function
 
-    Public Function CanUseCharacterAPI(characterAPIToCheck As EveAPI.CharacterAccessMasks) As Boolean
+    Public Function CanUseCharacterAPI(characterAPIToCheck As CharacterAccessMasks) As Boolean
         If Math.Abs((AccessMask And CLng(Math.Pow(2, CDbl(characterAPIToCheck)))) - Math.Pow(2, characterAPIToCheck)) < 0.01 Then
             Return True
         Else
@@ -127,7 +128,7 @@ Public Class EveHQAccount
         End If
     End Function
 
-    Public Function CanUseCorporateAPI(corporateAPIToCheck As EveAPI.CorporateAccessMasks) As Boolean
+    Public Function CanUseCorporateAPI(corporateAPIToCheck As CorporateAccessMasks) As Boolean
         If Math.Abs((AccessMask And CLng(Math.Pow(2, CDbl(corporateAPIToCheck)))) - Math.Pow(2, corporateAPIToCheck)) < 0.01 Then
             Return True
         Else

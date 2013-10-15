@@ -1,3 +1,5 @@
+Imports EveHQ.Core.SkillQueueControl
+
 Namespace Forms
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
     Partial Public Class FrmPilot
@@ -111,7 +113,7 @@ Namespace Forms
             Me.ElementStyle3 = New DevComponents.DotNetBar.ElementStyle()
             Me.tiStandings = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tcpSkillQueue = New DevComponents.DotNetBar.TabControlPanel()
-            Me.sqcEveQueue = New EveHQ.Core.SkillQueueControl()
+            Me.sqcEveQueue = New SkillQueueControl()
             Me.tiSkillQueue = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.tcpCerts = New DevComponents.DotNetBar.TabControlPanel()
             Me.adtCerts = New DevComponents.AdvTree.AdvTree()
@@ -1732,7 +1734,7 @@ Namespace Forms
         Friend WithEvents tiSkillQueue As DevComponents.DotNetBar.TabItem
         Friend WithEvents tcpStandings As DevComponents.DotNetBar.TabControlPanel
         Friend WithEvents tiStandings As DevComponents.DotNetBar.TabItem
-        Friend WithEvents sqcEveQueue As EveHQ.Core.SkillQueueControl
+        Friend WithEvents sqcEveQueue As SkillQueueControl
         Friend WithEvents pnlInfo As System.Windows.Forms.FlowLayoutPanel
         Friend WithEvents grpAccount As DevComponents.DotNetBar.Controls.GroupPanel
         Friend WithEvents LabelX2 As DevComponents.DotNetBar.LabelX

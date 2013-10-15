@@ -17,8 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
 Imports EveHQ.EveData
+Imports System.Windows.Forms
 
 Namespace Requisitions
 
@@ -131,7 +131,7 @@ Namespace Requisitions
 
         Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
             ' Set the dialog result, then close
-            DialogResult = Windows.Forms.DialogResult.Cancel
+            DialogResult = DialogResult.Cancel
             Close()
         End Sub
 
@@ -142,7 +142,7 @@ Namespace Requisitions
                 Exit Sub
             End If
             ' Set the dialog result, then close
-            DialogResult = Windows.Forms.DialogResult.OK
+            DialogResult = DialogResult.OK
             Close()
         End Sub
     End Class

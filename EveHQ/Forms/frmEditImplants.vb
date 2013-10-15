@@ -40,7 +40,7 @@ Namespace Forms
         End Sub
 
         Private Sub nudI_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudI.ValueChanged
-            _displayPilot.IImplantM = CInt(nudI.Value)
+            _displayPilot.IntImplantM = CInt(nudI.Value)
         End Sub
 
         Private Sub nudM_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudM.ValueChanged
@@ -61,7 +61,7 @@ Namespace Forms
 
         Private Sub frmEditImplants_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
             nudC.Value = _displayPilot.CImplantM
-            nudI.Value = _displayPilot.IImplantM
+            nudI.Value = _displayPilot.IntImplantM
             nudM.Value = _displayPilot.MImplantM
             nudP.Value = _displayPilot.PImplantM
             nudW.Value = _displayPilot.WImplantM

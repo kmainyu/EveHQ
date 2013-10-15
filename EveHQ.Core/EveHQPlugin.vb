@@ -1,10 +1,12 @@
-﻿Public Class EveHQPlugIn
+﻿Imports System.Drawing
+
+Public Class EveHQPlugIn
 
     Public Property Name As String
     Public Property Description As String
     Public Property Author As String
     Public Property MainMenuText As String
-    Public Property MenuImage As Drawing.Image
+    Public Property MenuImage As Image
     Public Property RunAtStartup As Boolean
     Public Property RunInIGB As Boolean
     Public Property FileName As String

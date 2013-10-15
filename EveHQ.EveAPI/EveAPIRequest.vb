@@ -1052,7 +1052,7 @@ Public Class APIServerInfo
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    Public Property UseCCPAPIBackup As Boolean
+    Public Property UseCcpapiBackup As Boolean
 
     Public Sub New()
         CCPServer = ""

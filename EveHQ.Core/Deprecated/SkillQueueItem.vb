@@ -18,14 +18,10 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-''' <summary>
-''' A class representing individual items in a EveHQ.Core.SkillQueue.Queue collection
-''' The SkillQueueItem contains the externally saved data that is used to calculate the actual skill queue
-''' The processed skill queue items are stored in the SortedQueueItem class
-''' </summary>
-''' <remarks></remarks>
+' ReSharper disable InconsistentNaming
+' ReSharper disable once CheckNamespace
 <Serializable()> Public Class SkillQueueItem
-    Implements System.ICloneable
+    Implements ICloneable
 
 #Region "Property Variables"
     Dim mKey As String
@@ -150,9 +146,9 @@
     ''' </summary>
     ''' <returns>A copy of the instance of EveHQ.Core.SkillQueueItem from where the function was called</returns>
     ''' <remarks></remarks>
-    Public Function Clone() As Object Implements System.ICloneable.Clone
-        Dim ClonedQueueItem As SkillQueueItem = CType(Me.MemberwiseClone, SkillQueueItem)
-        Return ClonedQueueItem
+    Public Function Clone() As Object Implements ICloneable.Clone
+        Dim clonedQueueItem As SkillQueueItem = CType(MemberwiseClone(), SkillQueueItem)
+        Return clonedQueueItem
     End Function
 
 End Class

@@ -17,96 +17,99 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Drawing
+Imports System.Windows.Forms
 
-''' <summary>
-''' User control to house a QueueTimeDisplay control and mulitple instances
-''' of the SkillQueueBlock control.
-''' </summary>
-''' <remarks></remarks>
-Public Class SkillQueueControl
+Namespace SkillQueueControl
 
     ''' <summary>
-    ''' Gets or sets the name of the pilot that is being used in the skill queue
+    ''' User control to house a QueueTimeDisplay control and mulitple instances
+    ''' of the SkillQueueBlock control.
     ''' </summary>
-    ''' <value></value>
-    ''' <returns>The name of the pilot represented in the skill queue</returns>
     ''' <remarks></remarks>
-    Public Property PilotName() As String
-        Get
-            Return cPilotName
-        End Get
-        Set(ByVal value As String)
-            cPilotName = value
-            If Me.CheckUpdateRequired = False Then
-                Call Me.RedrawSkillQueue()
-            End If
-        End Set
-    End Property
+    Public Class SkillQueueControl
 
-    Dim cPilotName As String = ""
-    Dim currentSkill As Integer = 0
-    Dim currentLevel As Integer = 0
+        Dim _cPilotName As String = ""
+        Dim _currentSkill As Integer = 0
+        Dim _currentLevel As Integer = 0
 
-    Public Sub New()
+        ''' <summary>
+        ''' Gets or sets the name of the pilot that is being used in the skill queue
+        ''' </summary>
+        ''' <value></value>
+        ''' <returns>The name of the pilot represented in the skill queue</returns>
+        ''' <remarks></remarks>
+        Public Property PilotName() As String
+            Get
+                Return _cPilotName
+            End Get
+            Set(ByVal value As String)
+                _cPilotName = value
+                If CheckUpdateRequired() = False Then
+                    Call RedrawSkillQueue()
+                End If
+            End Set
+        End Property
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        Public Sub New()
 
-        ' Add any initialization after the InitializeComponent() call.
-        Call Me.RedrawSkillQueue()
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-    End Sub
+            ' Add any initialization after the InitializeComponent() call.
+            Call RedrawSkillQueue()
 
-    Private Sub RedrawSkillQueue()
-        If cPilotName = "" Then
-            Exit Sub
-        Else
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cPilotName) = False Then
+        End Sub
+
+        Private Sub RedrawSkillQueue()
+            If _cPilotName = "" Then
                 Exit Sub
             Else
-                Me.panelSkillQueue.Controls.Clear()
-                Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cPilotName)
-                Dim newSQT As New EveHQ.Core.SkillQueueTimeControl(cPilot.Name)
-                panelSkillQueue.Controls.Add(newSQT)
-                newSQT.Dock = Windows.Forms.DockStyle.Top
-                newSQT.BringToFront()
-                For Each queuedSkill As EveHQ.Core.EveHQPilotQueuedSkill In cPilot.QueuedSkills.Values
-                    If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
-                        Dim newSQB As New EveHQ.Core.SkillQueueBlock(cPilot.Name, queuedSkill)
-                        panelSkillQueue.Controls.Add(newSQB)
-                        newSQB.Dock = Windows.Forms.DockStyle.Top
-                        newSQB.BringToFront()
-                    End If
-                Next
-            End If
-        End If
-        Me.Refresh()
-    End Sub
-
-    Private Sub tmrUpdate_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tmrUpdate.Tick
-        Call CheckUpdateRequired()
-    End Sub
-
-    Private Function CheckUpdateRequired() As Boolean
-        If cPilotName <> "" Then
-            If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cPilotName) = True Then
-                Dim cPilot As EveHQ.Core.EveHQPilot = EveHQ.Core.HQ.Settings.Pilots(cPilotName)
-                For Each QueuedSkillNo As Integer In cPilot.QueuedSkills.Keys
-                    Dim QueuedSkill As EveHQ.Core.EveHQPilotQueuedSkill = cPilot.QueuedSkills(QueuedSkillNo)
-                    If EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(QueuedSkill.EndTime) >= Now Then
-                        ' This should be our first valid skill
-                        If Not (QueuedSkill.SkillID = currentSkill And QueuedSkill.Level = currentLevel) Then
-                            currentSkill = QueuedSkill.SkillID
-                            currentLevel = QueuedSkill.Level
-                            Call RedrawSkillQueue()
-                            Return True
-                        Else
-                            Return False
+                If HQ.Settings.Pilots.ContainsKey(_cPilotName) = False Then
+                    Exit Sub
+                Else
+                    panelSkillQueue.Controls.Clear()
+                    Dim cPilot As EveHQPilot = HQ.Settings.Pilots(_cPilotName)
+                    Dim newSqt As New SkillQueueTimeControl(cPilot.Name)
+                    panelSkillQueue.Controls.Add(newSqt)
+                    newSqt.Dock = DockStyle.Top
+                    newSqt.BringToFront()
+                    For Each queuedSkill As EveHQPilotQueuedSkill In cPilot.QueuedSkills.Values
+                        If SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
+                            Dim newSqb As New SkillQueueBlock(cPilot.Name, queuedSkill)
+                            panelSkillQueue.Controls.Add(newSqb)
+                            newSqb.Dock = DockStyle.Top
+                            newSqb.BringToFront()
                         End If
-                    End If
-                Next
+                    Next
+                End If
             End If
-        End If
-    End Function
-End Class
+            Refresh()
+        End Sub
+
+        Private Sub tmrUpdate_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrUpdate.Tick
+            Call CheckUpdateRequired()
+        End Sub
+
+        Private Function CheckUpdateRequired() As Boolean
+            If _cPilotName <> "" Then
+                If HQ.Settings.Pilots.ContainsKey(_cPilotName) = True Then
+                    Dim cPilot As EveHQPilot = HQ.Settings.Pilots(_cPilotName)
+                    For Each queuedSkillNo As Integer In cPilot.QueuedSkills.Keys
+                        Dim queuedSkill As EveHQPilotQueuedSkill = cPilot.QueuedSkills(queuedSkillNo)
+                        If SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
+                            ' This should be our first valid skill
+                            If Not (queuedSkill.SkillID = _currentSkill And queuedSkill.Level = _currentLevel) Then
+                                _currentSkill = queuedSkill.SkillID
+                                _currentLevel = queuedSkill.Level
+                                Call RedrawSkillQueue()
+                                Return True
+                            Else
+                                Return False
+                            End If
+                        End If
+                    Next
+                End If
+            End If
+        End Function
+    End Class
+End NameSpace

@@ -18,8 +18,8 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.ComponentModel
+Imports EveHQ.Core
 Imports EveHQ.Controls
-Imports EveHQ.Core.RSS
 Imports System.Text.RegularExpressions
 
 Namespace Forms
