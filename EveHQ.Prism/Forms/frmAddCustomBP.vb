@@ -17,8 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.Windows.Forms
+Imports EveHQ.Core
 Imports EveHQ.EveData
 
 Public Class frmAddCustomBP
@@ -69,12 +69,12 @@ Public Class frmAddCustomBP
         ' Add the custom BPO into the owner's assets
         ownerBPs.Add(CInt(_currentBP.AssetID), _currentBP)
 
-        DialogResult = Windows.Forms.DialogResult.OK
+        DialogResult = DialogResult.OK
         Close()
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
-        DialogResult = Windows.Forms.DialogResult.Cancel
+        DialogResult = DialogResult.Cancel
         Close()
     End Sub
 
@@ -91,7 +91,7 @@ Public Class frmAddCustomBP
             _currentBP.BPType = BPType.User
             _currentBP.Status = BPStatus.Present
             ' First get the image
-            pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(bpID)
+            pbBP.ImageLocation = ImageHandler.GetImageLocation(bpID)
         End If
     End Sub
 

@@ -17,7 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
+Imports EveHQ.EveData
+Imports EveHQ.Core
 Imports System.Windows.Forms
 
 Public Class frmAddBPCPrice
@@ -33,8 +34,8 @@ Public Class frmAddBPCPrice
 
         ' Add any initialization after the InitializeComponent() call.
         BlueprintID = BPID
-        pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(BlueprintID)
-        lblBPName.Text = EveData.StaticData.Types(BlueprintID).Name
+        pbBP.ImageLocation = ImageHandler.GetImageLocation(BlueprintID)
+        lblBPName.Text = StaticData.Types(BlueprintID).Name
 
         If PrismSettings.UserSettings.BPCCosts.ContainsKey(BlueprintID) = True Then
             nudMinRunCost.Value = PrismSettings.UserSettings.BPCCosts(BlueprintID).MinRunCost
@@ -45,7 +46,7 @@ Public Class frmAddBPCPrice
 
 #End Region
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
 
         ' Check the min cost isn't greater than the max cost
 
@@ -65,14 +66,14 @@ Public Class frmAddBPCPrice
         End If
 
         ' Close the form
-        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.DialogResult = DialogResult.OK
         Me.Close()
 
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
 
-        Me.DialogResult = Windows.Forms.DialogResult.Cancel
+        Me.DialogResult = DialogResult.Cancel
         Me.Close()
 
     End Sub

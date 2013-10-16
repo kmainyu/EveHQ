@@ -17,16 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Xml
-Imports System.IO
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports System.Net
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports DevComponents.AdvTree
+Imports EveHQ.EveData
+Imports EveHQ.Core
 Imports DevComponents.DotNetBar.Controls
 Imports DevComponents.DotNetBar
-Imports EveHQ.EveData
+Imports System.Windows.Forms
 
 Public Class frmPrismSettings
     Dim startUp As Boolean = True
@@ -39,14 +35,14 @@ Public Class frmPrismSettings
 
 #Region "Form Opening & Closing"
 
-    Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmSettings_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
 
         ' Save the settings
         Call PrismSettings.UserSettings.SavePrismSettings()
 
     End Sub
 
-    Private Sub frmSettings_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmSettings_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
         startUp = True
 
@@ -75,7 +71,7 @@ Public Class frmPrismSettings
 
     End Sub
 
-    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+    Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
 
@@ -83,7 +79,7 @@ Public Class frmPrismSettings
 
 #Region "Treeview Routines"
 
-    Private Sub tvwSettings_AfterSelect(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeViewEventArgs) Handles tvwSettings.AfterSelect
+    Private Sub tvwSettings_AfterSelect(ByVal sender As Object, ByVal e As TreeViewEventArgs) Handles tvwSettings.AfterSelect
         Dim nodeName As String = e.Node.Name
         Dim gbName As String = nodeName.TrimStart("node".ToCharArray)
         gbName = "gp" & gbName
@@ -100,7 +96,7 @@ Public Class frmPrismSettings
         Next
     End Sub
 
-    Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwSettings.NodeMouseClick
+    Private Sub tvwSettings_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwSettings.NodeMouseClick
         Me.tvwSettings.SelectedNode = e.Node
     End Sub
 
@@ -118,7 +114,7 @@ Public Class frmPrismSettings
         For Each prismOwner As String In PlugInData.PrismOwners.Keys
             cboDefaultPrismCharacter.Items.Add(prismOwner)
         Next
-        For Each selpilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        For Each selpilot As EveHQPilot In HQ.Settings.Pilots.Values
             If selpilot.Active = True Then
                 cboDefaultBPCalcBPOwner.Items.Add(selpilot.Name)
                 If cboDefaultBPCalcBPOwner.Items.Contains(selpilot.Corp) = False Then
@@ -153,31 +149,31 @@ Public Class frmPrismSettings
 
     End Sub
 
-    Private Sub cboDefaultPrismCharacter_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultPrismCharacter.SelectedIndexChanged
+    Private Sub cboDefaultPrismCharacter_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDefaultPrismCharacter.SelectedIndexChanged
         If cboDefaultPrismCharacter.SelectedItem IsNot Nothing Then
             PrismSettings.UserSettings.DefaultCharacter = cboDefaultPrismCharacter.SelectedItem.ToString
         End If
     End Sub
 
-    Private Sub cboDefaultBPOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultBPCalcBPOwner.SelectedIndexChanged
+    Private Sub cboDefaultBPOwner_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDefaultBPCalcBPOwner.SelectedIndexChanged
         If cboDefaultBPCalcBPOwner.SelectedItem IsNot Nothing Then
             PrismSettings.UserSettings.DefaultBPOwner = cboDefaultBPCalcBPOwner.SelectedItem.ToString
         End If
     End Sub
 
-    Private Sub cboDefaultBPCalcManufacturer_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultBPCalcManufacturer.SelectedIndexChanged
+    Private Sub cboDefaultBPCalcManufacturer_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDefaultBPCalcManufacturer.SelectedIndexChanged
         If cboDefaultBPCalcManufacturer.SelectedItem IsNot Nothing Then
             PrismSettings.UserSettings.DefaultBPCalcManufacturer = cboDefaultBPCalcManufacturer.SelectedItem.ToString
         End If
     End Sub
 
-    Private Sub cboDefaultBPCalcAssetOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDefaultBPCalcAssetOwner.SelectedIndexChanged
+    Private Sub cboDefaultBPCalcAssetOwner_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDefaultBPCalcAssetOwner.SelectedIndexChanged
         If cboDefaultBPCalcAssetOwner.SelectedItem IsNot Nothing Then
             PrismSettings.UserSettings.DefaultBPCalcAssetOwner = cboDefaultBPCalcAssetOwner.SelectedItem.ToString
         End If
     End Sub
 
-    Private Sub chkHideAPIDialog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHideAPIDialog.CheckedChanged
+    Private Sub chkHideAPIDialog_CheckedChanged(sender As Object, e As EventArgs) Handles chkHideAPIDialog.CheckedChanged
         PrismSettings.UserSettings.HideAPIDownloadDialog = chkHideAPIDialog.Checked
     End Sub
 
@@ -192,7 +188,7 @@ Public Class frmPrismSettings
         strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletJournal.transKey = Dupes.transKey AND walletJournal.transID <> Dupes.MinTransID)"
         ' Old SQL code - may come in useful!
         'strSQL = "DELETE T1 FROM walletJournal T1, walletJournal T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
-        If Core.CustomDataFunctions.SetCustomData(strSQL) = -2 Then
+        If CustomDataFunctions.SetCustomData(strSQL) = -2 Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Journal table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted duplicate entries from the Wallet Journal table!", "Delete Duplicates Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -210,7 +206,7 @@ Public Class frmPrismSettings
         strSQL &= " HAVING COUNT(*) > 1) AS Dupes ON walletTransactions.transKey = Dupes.transKey AND walletTransactions.transID <> Dupes.MinTransID)"
         ' Old SQL code - may come in useful!
         'strSQL = "DELETE T1 FROM walletTransactions T1, walletTransactions T2 WHERE (T1.transKey = T2.transKey) AND T1.importDate > T2.importDate"
-        If Core.CustomDataFunctions.SetCustomData(strSQL) = -2 Then
+        If CustomDataFunctions.SetCustomData(strSQL) = -2 Then
             MessageBox.Show("Error deleting duplicate entries from the Wallet Transactions table!", "Delete Duplicates Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted duplicate entries from the Wallet Transactions table!", "Delete Duplicates Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -228,25 +224,25 @@ Public Class frmPrismSettings
         Call Me.PopulateBPCCostGrid()
     End Sub
 
-    Private Sub nudFactoryInstallCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudFactoryInstallCost.ValueChanged
+    Private Sub nudFactoryInstallCost_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudFactoryInstallCost.ValueChanged
         If startUp = False Then
             PrismSettings.UserSettings.FactoryInstallCost = nudFactoryInstallCost.Value
         End If
     End Sub
 
-    Private Sub nudFactoryRunningCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudFactoryRunningCost.ValueChanged
+    Private Sub nudFactoryRunningCost_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudFactoryRunningCost.ValueChanged
         If startUp = False Then
             PrismSettings.UserSettings.FactoryRunningCost = nudFactoryRunningCost.Value
         End If
     End Sub
 
-    Private Sub nudLabInstallCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudLabInstallCost.ValueChanged
+    Private Sub nudLabInstallCost_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudLabInstallCost.ValueChanged
         If startUp = False Then
             PrismSettings.UserSettings.LabInstallCost = nudLabInstallCost.Value
         End If
     End Sub
 
-    Private Sub nudLabRunningCost_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudLabRunningCost.ValueChanged
+    Private Sub nudLabRunningCost_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudLabRunningCost.ValueChanged
         If startUp = False Then
             PrismSettings.UserSettings.LabRunningCost = nudLabRunningCost.Value
         End If
@@ -273,7 +269,7 @@ Public Class frmPrismSettings
         lvwBPCCosts.EndUpdate()
     End Sub
 
-    Private Sub lvwBPCCosts_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvwBPCCosts.DoubleClick
+    Private Sub lvwBPCCosts_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles lvwBPCCosts.DoubleClick
         If lvwBPCCosts.SelectedItems.Count = 1 Then
             Dim bpid As Integer = CInt(lvwBPCCosts.SelectedItems(0).Name)
             Dim priceForm As New frmAddBPCPrice(bpid)
@@ -307,7 +303,7 @@ Public Class frmPrismSettings
         lvwColumns.EndUpdate()
     End Sub
 
-    Private Sub btnMoveUp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveUp.Click
+    Private Sub btnMoveUp_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMoveUp.Click
         ' Check we have something selected
         If lvwColumns.SelectedItems.Count = 0 Then
             MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -331,7 +327,7 @@ Public Class frmPrismSettings
 
     End Sub
 
-    Private Sub btnMoveDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnMoveDown.Click
+    Private Sub btnMoveDown_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMoveDown.Click
         ' Check we have something selected
         If lvwColumns.SelectedItems.Count = 0 Then
             MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -354,7 +350,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
+    Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
         If redrawColumns = False Then
             ' Find the index in the user column list
             Dim idx As Integer = e.Item.Index
@@ -374,7 +370,7 @@ Public Class frmPrismSettings
 
         Dim PlayerCorps As New List(Of String)
         ' Get a list of Corps
-        For Each selpilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        For Each selpilot As EveHQPilot In HQ.Settings.Pilots.Values
             If PlugInData.NPCCorps.ContainsKey(selpilot.CorpID) = False Then
                 If PlayerCorps.Contains(selpilot.Corp) = False Then
                     PlayerCorps.Add(selpilot.Corp)
@@ -412,7 +408,7 @@ Public Class frmPrismSettings
 
     End Sub
 
-    Private Sub adtCorpReps_SelectionChanged(sender As Object, e As System.EventArgs) Handles adtCorpReps.SelectionChanged
+    Private Sub adtCorpReps_SelectionChanged(sender As Object, e As EventArgs) Handles adtCorpReps.SelectionChanged
         CorpRepUpdate = True
         If adtCorpReps.SelectedNodes.Count = 1 Then
             Dim CorpName As String = adtCorpReps.SelectedNodes(0).Text
@@ -421,7 +417,7 @@ Public Class frmPrismSettings
             For Each cbo As ComboBoxEx In CorpRepCombos
                 cbo.Items.Clear()
             Next
-            For Each selpilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+            For Each selpilot As EveHQPilot In HQ.Settings.Pilots.Values
                 If selpilot.Corp = CorpName Then
                     For Each cbo As ComboBoxEx In CorpRepCombos
                         cbo.Items.Add(selpilot.Name)
@@ -475,7 +471,7 @@ Public Class frmPrismSettings
         CorpRepUpdate = False
     End Sub
 
-    Private Sub cboAssetsRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboAssetsRep.SelectedIndexChanged
+    Private Sub cboAssetsRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboAssetsRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboAssetsRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.Assets) = False Then
@@ -494,7 +490,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboBalancesRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboBalancesRep.SelectedIndexChanged
+    Private Sub cboBalancesRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboBalancesRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboBalancesRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.Balances) = False Then
@@ -507,7 +503,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboJobsRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboJobsRep.SelectedIndexChanged
+    Private Sub cboJobsRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboJobsRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboJobsRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.Jobs) = False Then
@@ -520,7 +516,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboJournalRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboJournalRep.SelectedIndexChanged
+    Private Sub cboJournalRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboJournalRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboJournalRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.WalletJournal) = False Then
@@ -533,7 +529,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboOrdersRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboOrdersRep.SelectedIndexChanged
+    Private Sub cboOrdersRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboOrdersRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboOrdersRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.Orders) = False Then
@@ -546,7 +542,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboTransactionsRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboTransactionsRep.SelectedIndexChanged
+    Private Sub cboTransactionsRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTransactionsRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboTransactionsRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.WalletTransactions) = False Then
@@ -559,7 +555,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboContractsRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboContractsRep.SelectedIndexChanged
+    Private Sub cboContractsRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboContractsRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboContractsRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.Contracts) = False Then
@@ -572,7 +568,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub cboCorpSheetRep_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboCorpSheetRep.SelectedIndexChanged
+    Private Sub cboCorpSheetRep_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboCorpSheetRep.SelectedIndexChanged
         If CorpRepUpdate = False Then
             If cboCorpSheetRep.SelectedIndex > -1 Then
                 If SelectedCorpReps.ContainsKey(CorpRepType.CorpSheet) = False Then
@@ -585,7 +581,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub chkUseSamePilot_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkUseSamePilot.CheckedChanged
+    Private Sub chkUseSamePilot_CheckedChanged(sender As Object, e As EventArgs) Handles chkUseSamePilot.CheckedChanged
         If chkUseSamePilot.Checked = True Then
             For Each cbo As ComboBoxEx In CorpRepCombos
                 cbo.Enabled = False
@@ -609,7 +605,7 @@ Public Class frmPrismSettings
         End If
     End Sub
 
-    Private Sub btnNoRepAll_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepAll.Click
+    Private Sub btnNoRepAll_Click(sender As Object, e As EventArgs) Handles btnNoRepAll.Click
         Call btnNoRepAssets_Click(sender, e)
         Call btnNoRepCorpSheet_Click(sender, e)
         Call btnNoRepTransactions_Click(sender, e)
@@ -620,49 +616,49 @@ Public Class frmPrismSettings
         Call btnNoRepContracts_Click(sender, e)
     End Sub
 
-    Private Sub btnNoRepAssets_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepAssets.Click
+    Private Sub btnNoRepAssets_Click(sender As Object, e As EventArgs) Handles btnNoRepAssets.Click
         Call ResetCorpRep(CorpRepType.Assets)
         cboAssetsRep.SelectedIndex = -1
         btnNoRepAssets.Enabled = False
     End Sub
 
-    Private Sub btnNoRepCorpSheet_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepCorpSheet.Click
+    Private Sub btnNoRepCorpSheet_Click(sender As Object, e As EventArgs) Handles btnNoRepCorpSheet.Click
         Call ResetCorpRep(CorpRepType.CorpSheet)
         cboCorpSheetRep.SelectedIndex = -1
         btnNoRepCorpSheet.Enabled = False
     End Sub
 
-    Private Sub btnNoRepTransactions_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepTransactions.Click
+    Private Sub btnNoRepTransactions_Click(sender As Object, e As EventArgs) Handles btnNoRepTransactions.Click
         Call ResetCorpRep(CorpRepType.WalletTransactions)
         cboTransactionsRep.SelectedIndex = -1
         btnNoRepTransactions.Enabled = False
     End Sub
 
-    Private Sub btnNoRepOrders_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepOrders.Click
+    Private Sub btnNoRepOrders_Click(sender As Object, e As EventArgs) Handles btnNoRepOrders.Click
         Call ResetCorpRep(CorpRepType.Orders)
         cboOrdersRep.SelectedIndex = -1
         btnNoRepOrders.Enabled = False
     End Sub
 
-    Private Sub btnNoRepJournal_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepJournal.Click
+    Private Sub btnNoRepJournal_Click(sender As Object, e As EventArgs) Handles btnNoRepJournal.Click
         Call ResetCorpRep(CorpRepType.WalletJournal)
         cboJournalRep.SelectedIndex = -1
         btnNoRepJournal.Enabled = False
     End Sub
 
-    Private Sub btnNoRepJobs_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepJobs.Click
+    Private Sub btnNoRepJobs_Click(sender As Object, e As EventArgs) Handles btnNoRepJobs.Click
         Call ResetCorpRep(CorpRepType.Jobs)
         cboJobsRep.SelectedIndex = -1
         btnNoRepJobs.Enabled = False
     End Sub
 
-    Private Sub btnNoRepBalances_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepBalances.Click
+    Private Sub btnNoRepBalances_Click(sender As Object, e As EventArgs) Handles btnNoRepBalances.Click
         Call ResetCorpRep(CorpRepType.Balances)
         cboBalancesRep.SelectedIndex = -1
         btnNoRepBalances.Enabled = False
     End Sub
 
-    Private Sub btnNoRepContracts_Click(sender As System.Object, e As System.EventArgs) Handles btnNoRepContracts.Click
+    Private Sub btnNoRepContracts_Click(sender As Object, e As EventArgs) Handles btnNoRepContracts.Click
         Call ResetCorpRep(CorpRepType.Contracts)
         cboContractsRep.SelectedIndex = -1
         btnNoRepContracts.Enabled = False
@@ -676,9 +672,9 @@ Public Class frmPrismSettings
 
 #End Region
 
-    Private Sub btnDeleteUndefinedJournals_Click(sender As System.Object, e As System.EventArgs) Handles btnDeleteUndefinedJournals.Click
+    Private Sub btnDeleteUndefinedJournals_Click(sender As Object, e As EventArgs) Handles btnDeleteUndefinedJournals.Click
         Const strSQL As String = "DELETE FROM walletJournal WHERE refTypeID = 0;"
-        If Core.CustomDataFunctions.SetCustomData(strSQL) = -2 Then
+        If CustomDataFunctions.SetCustomData(strSQL) = -2 Then
             MessageBox.Show("Error deleting undefined entries from the Wallet Journal table!", "Delete Undefined Entries Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Else
             MessageBox.Show("Successfully deleted undefined entries from the Wallet Journal table!", "Delete Undefined Entries Success", MessageBoxButtons.OK, MessageBoxIcon.Information)

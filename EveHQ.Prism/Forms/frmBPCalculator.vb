@@ -17,18 +17,18 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Windows.Forms
-Imports EveHQ.Prism.Controls
-Imports EveHQ.EveData
-Imports EveHQ.Prism.BPCalc
+Imports System.Drawing
 Imports DevComponents.AdvTree
+Imports EveHQ.EveData
+Imports EveHQ.Prism.Controls
+Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Core
+Imports System.Windows.Forms
 
 Public Class frmBPCalculator
 
 #Region "Class Variables"
-    Dim BPPilot As EveHQ.Core.EveHQPilot
+    Dim BPPilot As EveHQPilot
     Dim UpdateBPInfo As Boolean = False
     Dim StartUp As Boolean = False
     Dim InventionStartUp As Boolean = True
@@ -162,15 +162,15 @@ Public Class frmBPCalculator
 
 #Region "Form Loading Routines"
 
-    Private Sub frmBPCalculator_FormClosing(ByVal sender As Object, ByVal e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub frmBPCalculator_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
 
         ' Check for changed production values
         If ProductionChanged = True Then
             Dim reply As DialogResult = MessageBox.Show("There are unsaved changes to this Production Job. Would you like to save these now?", "Save Job Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-            If reply = Windows.Forms.DialogResult.Cancel Then
+            If reply = DialogResult.Cancel Then
                 e.Cancel = True
             Else
-                If reply = Windows.Forms.DialogResult.Yes Then
+                If reply = DialogResult.Yes Then
                     ' Save the current job before exiting
                     Call SaveCurrentProductionJob()
                 End If
@@ -191,7 +191,7 @@ Public Class frmBPCalculator
             End If
         End If
     End Sub
-    Private Sub frmBPCalculator_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmBPCalculator_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
         ' Set up the event handlers from the PrismProductionResources controls
         AddHandler PPRInvention.ProductionResourcesChanged, AddressOf InventionResourcesChanged
@@ -234,7 +234,7 @@ Public Class frmBPCalculator
         'Load the characters into the comboboxes
         cboPilot.BeginUpdate() : cboPilot.Items.Clear()
         cboOwner.BeginUpdate() : cboOwner.Items.Clear()
-        For Each cPilot As EveHQ.Core.EveHQPilot In EveHQ.Core.HQ.Settings.Pilots.Values
+        For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
             If cPilot.Active = True Then
                 cboPilot.Items.Add(cPilot.Name)
                 cboOwner.Items.Add(cPilot.Name)
@@ -354,7 +354,7 @@ Public Class frmBPCalculator
 
     End Sub
 
-    Private Sub frmBPCalculator_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+    Private Sub frmBPCalculator_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
         StartUp = False
     End Sub
 
@@ -518,17 +518,17 @@ Public Class frmBPCalculator
 
 #Region "Pilot & Owner Selection Routines"
 
-    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboOwner.SelectedIndexChanged
+    Private Sub cboOwner_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboOwner.SelectedIndexChanged
         If cboOwner.SelectedItem IsNot Nothing Then
             cBPOwnerName = cboOwner.SelectedItem.ToString
             Call DisplayOwnedBlueprints()
         End If
     End Sub
 
-    Private Sub cboPilot_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPilot.SelectedIndexChanged
+    Private Sub cboPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPilot.SelectedIndexChanged
         ' Set the pilot
-        If EveHQ.Core.HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
-            BPPilot = EveHQ.Core.HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
+        If HQ.Settings.Pilots.ContainsKey(cboPilot.SelectedItem.ToString) Then
+            BPPilot = HQ.Settings.Pilots(cboPilot.SelectedItem.ToString)
             ' Update skills and stuff
             currentJob.UpdateManufacturer(BPPilot.Name)
             Call UpdatePilotSkills()
@@ -538,7 +538,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub chkOverrideSkills_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOverrideSkills.CheckedChanged
+    Private Sub chkOverrideSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkOverrideSkills.CheckedChanged
 
         ' Toggle the enabled status of the skill combo boxes
         cboResearchSkill.Enabled = chkOverrideSkills.Checked
@@ -728,7 +728,7 @@ Public Class frmBPCalculator
         For Each resource As EveData.BlueprintResource In CurrentInventionBP.Resources(8).Values
             ' Add the resource to the list
             Dim resName As String = StaticData.Types(resource.TypeId).Name
-            If resName.EndsWith("Interface", System.StringComparison.Ordinal) = True Then
+            If resName.EndsWith("Interface", StringComparison.Ordinal) = True Then
                 Select Case resName.Substring(0, 1)
                     Case "O"
                         ' Amarr
@@ -892,9 +892,9 @@ Public Class frmBPCalculator
         ' Load the Assembly Array Data
         cboPOSArrays.BeginUpdate()
         cboPOSArrays.Items.Clear()
-        For Each newArray As EveData.AssemblyArray In EveData.StaticData.AssemblyArrays.Values
+        For Each newArray As EveData.AssemblyArray In StaticData.AssemblyArrays.Values
             If newArray.AllowableCategories.Contains(product.Category) Or newArray.AllowableGroups.Contains(product.Group) Then
-                If newArray.Name.EndsWith("Array", System.StringComparison.Ordinal) = True Then
+                If newArray.Name.EndsWith("Array", StringComparison.Ordinal) = True Then
                     cboPOSArrays.Items.Add(newArray.Name)
                 End If
             End If
@@ -934,18 +934,18 @@ Public Class frmBPCalculator
         End If
         ' Display the ME Time
         If nudMELevel.Value > 0 Then
-            lblMETime.Text = EveHQ.Core.SkillFunctions.TimeToString(METime * (nudMELevel.Value - CurrentBP.MELevel), False)
+            lblMETime.Text = SkillFunctions.TimeToString(METime * (nudMELevel.Value - CurrentBP.MELevel), False)
         Else
-            lblMETime.Text = EveHQ.Core.SkillFunctions.TimeToString(0, False)
+            lblMETime.Text = SkillFunctions.TimeToString(0, False)
         End If
         ' Display the PE Time
         If nudPELevel.Value > 0 Then
-            lblPETime.Text = EveHQ.Core.SkillFunctions.TimeToString(PETime * (nudPELevel.Value - CurrentBP.PELevel), False)
+            lblPETime.Text = SkillFunctions.TimeToString(PETime * (nudPELevel.Value - CurrentBP.PELevel), False)
         Else
-            lblPETime.Text = EveHQ.Core.SkillFunctions.TimeToString(0, False)
+            lblPETime.Text = SkillFunctions.TimeToString(0, False)
         End If
         ' Display the Copy Time
-        lblCopyTime.Text = EveHQ.Core.SkillFunctions.TimeToString(CopyTime * nudCopyRuns.Value, False)
+        lblCopyTime.Text = SkillFunctions.TimeToString(CopyTime * nudCopyRuns.Value, False)
     End Sub
 
     Private Sub CalculateProductionResources()
@@ -984,7 +984,7 @@ Public Class frmBPCalculator
 
 #Region "Production UI Routines"
 
-    Private Sub chkOwnedBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOwnedBPOs.CheckedChanged
+    Private Sub chkOwnedBPOs_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkOwnedBPOs.CheckedChanged
         cboOwner.Enabled = chkOwnedBPOs.Checked
         If chkOwnedBPOs.Checked = True Then
             If cboOwner.SelectedItem IsNot Nothing Then
@@ -997,7 +997,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub chkPOSProduction_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPOSProduction.CheckedChanged
+    Private Sub chkPOSProduction_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkPOSProduction.CheckedChanged
         cboPOSArrays.Enabled = chkPOSProduction.Checked
         If UpdateBPInfo = True Then
             If chkPOSProduction.Checked = True Then
@@ -1016,7 +1016,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboPOSArrays_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboPOSArrays.SelectedIndexChanged
+    Private Sub cboPOSArrays_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboPOSArrays.SelectedIndexChanged
         If UpdateBPInfo = True Then
             ProductionArray = StaticData.AssemblyArrays(cboPOSArrays.SelectedItem.ToString)
             currentJob.AssemblyArray = ProductionArray
@@ -1026,7 +1026,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudMELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudMELevel.ValueChanged
+    Private Sub nudMELevel_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudMELevel.ValueChanged
         If StartUp = False And UpdateBPInfo = True Then
             currentJob.OverridingME = CStr(nudMELevel.Value)
             PPRProduction.ProductionJob = currentJob
@@ -1035,7 +1035,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudPELevel_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudPELevel.ValueChanged
+    Private Sub nudPELevel_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudPELevel.ValueChanged
         If StartUp = False And UpdateBPInfo = True Then
             currentJob.OverridingPE = CStr(nudPELevel.Value)
             PPRProduction.ProductionJob = currentJob
@@ -1044,7 +1044,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudCopyRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudCopyRuns.ValueChanged
+    Private Sub nudCopyRuns_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudCopyRuns.ValueChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
@@ -1053,7 +1053,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub chkResearchAtPOS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkResearchAtPOS.CheckedChanged
+    Private Sub chkResearchAtPOS_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkResearchAtPOS.CheckedChanged
         chkAdvancedLab.Enabled = chkResearchAtPOS.Checked
         If chkResearchAtPOS.Checked = True Then
             If chkAdvancedLab.Checked = True Then
@@ -1070,7 +1070,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudRuns.ValueChanged
+    Private Sub nudRuns_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudRuns.ValueChanged
         If StartUp = False And UpdateBPInfo = True Then
             currentJob.Runs = CInt(nudRuns.Value)
             PPRProduction.ProductionJob = currentJob
@@ -1079,28 +1079,28 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboResearchSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboResearchSkill.SelectedIndexChanged
+    Private Sub cboResearchSkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboResearchSkill.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub cboMetallurgySkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetallurgySkill.SelectedIndexChanged
+    Private Sub cboMetallurgySkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboMetallurgySkill.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub cboScienceSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboScienceSkill.SelectedIndexChanged
+    Private Sub cboScienceSkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboScienceSkill.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub cboIndustrySkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboIndustrySkill.SelectedIndexChanged
+    Private Sub cboIndustrySkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboIndustrySkill.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             currentJob.UpdateJobIndSkill(cboIndustrySkill.SelectedIndex)
@@ -1110,7 +1110,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboProdEffSkill_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboProdEffSkill.SelectedIndexChanged
+    Private Sub cboProdEffSkill_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboProdEffSkill.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             currentJob.UpdateJobPESkill(cboProdEffSkill.SelectedIndex)
             PPRProduction.ProductionJob = currentJob
@@ -1119,28 +1119,28 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboResearchImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboResearchImplant.SelectedIndexChanged
+    Private Sub cboResearchImplant_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboResearchImplant.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub cboMetallurgyImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetallurgyImplant.SelectedIndexChanged
+    Private Sub cboMetallurgyImplant_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboMetallurgyImplant.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub cboScienceImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboScienceImplant.SelectedIndexChanged
+    Private Sub cboScienceImplant_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboScienceImplant.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Call UpdateBlueprintInformation()
         End If
     End Sub
 
-    Private Sub cboIndustryImplant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboIndustryImplant.SelectedIndexChanged
+    Private Sub cboIndustryImplant_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboIndustryImplant.SelectedIndexChanged
         If StartUp = False And UpdateBPInfo = True Then
             ' Update the Blueprint information
             Dim ProdImplant As Integer = CInt(cboIndustryImplant.SelectedItem.ToString.TrimEnd(CChar("%")))
@@ -1151,19 +1151,19 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs)
         If StartUp = False Then
             Call CalculateProductionResources()
         End If
     End Sub
 
-    Private Sub chkUseStandardBPCosting_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub chkUseStandardBPCosting_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
         If StartUp = False Then
             Call CalculateProductionResources()
         End If
     End Sub
 
-    Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAdvancedLab.CheckedChanged
+    Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAdvancedLab.CheckedChanged
         If chkAdvancedLab.Checked = True Then
             CopyTimeMod = 0.65
         Else
@@ -1184,8 +1184,8 @@ Public Class frmBPCalculator
         ' Calculate the factory costs
         Dim FactoryCosts As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * currentJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
         ' Display Build Time Information
-        lblUnitBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime / currentJob.Runs, False)
-        lblTotalBuildTime.Text = EveHQ.Core.SkillFunctions.TimeToString(currentJob.RunTime, False)
+        lblUnitBuildTime.Text = SkillFunctions.TimeToString(currentJob.RunTime / currentJob.Runs, False)
+        lblTotalBuildTime.Text = SkillFunctions.TimeToString(currentJob.RunTime, False)
         ' Display Materials costs
         lblUnitBuildCost.Text = (currentJob.Cost / currentJob.Runs).ToString("N2") & " isk"
         lblTotalBuildCost.Text = currentJob.Cost.ToString("N2") & " isk"
@@ -1193,7 +1193,7 @@ Public Class frmBPCalculator
         lblFactoryCosts.Text = FactoryCosts.ToString("N2") & " isk"
         Dim totalCosts As Double = currentJob.Cost + FactoryCosts
         Dim unitcosts As Double = Math.Round(totalCosts / (currentJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)
-        Dim value As Double = Core.DataFunctions.GetPrice(productID)
+        Dim value As Double = DataFunctions.GetPrice(productID)
         Dim profit As Double = value - unitcosts
         PACUnitValue.TypeID = productID
         lblTotalCosts.Text = totalCosts.ToString("N2") & " isk"
@@ -1204,20 +1204,20 @@ Public Class frmBPCalculator
         lblProfitMargin.Text = CDbl(profit / value * 100).ToString("N2") & " %"
         lblProfitMarkup.Text = CDbl(profit / unitcosts * 100).ToString("N2") & " %"
         If profit > 0 Then
-            lblUnitProfit.ForeColor = Drawing.Color.Green
-            lblProfitRate.ForeColor = Drawing.Color.Green
+            lblUnitProfit.ForeColor = Color.Green
+            lblProfitRate.ForeColor = Color.Green
         Else
             If profit < 0 Then
-                lblUnitProfit.ForeColor = Drawing.Color.Red
-                lblProfitRate.ForeColor = Drawing.Color.Red
+                lblUnitProfit.ForeColor = Color.Red
+                lblProfitRate.ForeColor = Color.Red
             Else
-                lblUnitProfit.ForeColor = Drawing.Color.Black
-                lblProfitRate.ForeColor = Drawing.Color.Black
+                lblUnitProfit.ForeColor = Color.Black
+                lblProfitRate.ForeColor = Color.Black
             End If
         End If
     End Sub
 
-    Private Sub btnSaveProductionJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJob.Click
+    Private Sub btnSaveProductionJob_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSaveProductionJob.Click
         Call SaveCurrentProductionJob()
     End Sub
 
@@ -1242,7 +1242,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub btnSaveProductionJobAs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveProductionJobAs.Click
+    Private Sub btnSaveProductionJobAs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSaveProductionJobAs.Click
         Dim NewJobName As New frmAddProductionJob
         NewJobName.ShowDialog()
         If NewJobName.DialogResult = DialogResult.OK Then
@@ -1260,7 +1260,7 @@ Public Class frmBPCalculator
 
 #Region "Invention UI Routines"
 
-    Private Sub chkInventBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkInventBPOs.CheckedChanged
+    Private Sub chkInventBPOs_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkInventBPOs.CheckedChanged
         cboOwner.Enabled = chkOwnedBPOs.Checked
         btnToggleInvention.Enabled = chkInventBPOs.Checked
         If chkOwnedBPOs.Checked = True Then
@@ -1270,7 +1270,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub btnToggleInvention_ValueChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnToggleInvention.ValueChanged
+    Private Sub btnToggleInvention_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles btnToggleInvention.ValueChanged
         If chkOwnedBPOs.Checked = True Then
             Call DisplayOwnedBlueprints()
         Else
@@ -1278,7 +1278,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboInventions_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboInventions.SelectedIndexChanged
+    Private Sub cboInventions_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboInventions.SelectedIndexChanged
         InventionBPID = CInt(StaticData.TypeNames(Me.cboInventions.SelectedItem.ToString))
         If InventionStartUp = False Then
             Call CalculateInvention()
@@ -1286,7 +1286,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDecryptor.SelectedIndexChanged
+    Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDecryptor.SelectedIndexChanged
 
         If cboDecryptor.SelectedItem IsNot Nothing Then
             Dim Didx As Integer = cboDecryptor.SelectedItem.ToString.IndexOf("(")
@@ -1314,7 +1314,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub cboMetaItem_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboMetaItem.SelectedIndexChanged
+    Private Sub cboMetaItem_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboMetaItem.SelectedIndexChanged
         If cboMetaItem.SelectedItem IsNot Nothing Then
             If cboMetaItem.SelectedItem.ToString <> "<None>" Then
                 InventionMetaLevel = CInt(cboMetaItem.SelectedItem.ToString.Substring(0, 1))
@@ -1331,31 +1331,31 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudInventionBPCRuns_LockUpdateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.LockUpdateChanged
+    Private Sub nudInventionBPCRuns_LockUpdateChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionBPCRuns.LockUpdateChanged
         If InventionStartUp = False Then
             Call CalculateInvention()
             ProductionChanged = True
         End If
     End Sub
 
-    Private Sub nudInventionBPCRuns_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ValueChanged
+    Private Sub nudInventionBPCRuns_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionBPCRuns.ValueChanged
         If InventionStartUp = False Then
             Call CalculateInvention()
             ProductionChanged = True
         End If
     End Sub
 
-    Private Sub nudInventionBPCRuns_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ButtonCustomClick
+    Private Sub nudInventionBPCRuns_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionBPCRuns.ButtonCustomClick
         ' Set max runs
         nudInventionBPCRuns.Value = CurrentInventionBP.MaxProductionLimit
     End Sub
 
-    Private Sub nudInventionBPCRuns_ButtonCustom2Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionBPCRuns.ButtonCustom2Click
+    Private Sub nudInventionBPCRuns_ButtonCustom2Click(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionBPCRuns.ButtonCustom2Click
         ' Set single run
         nudInventionBPCRuns.Value = 1
     End Sub
 
-    Private Sub lblFactoryCostsLbl_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblFactoryCostsLbl.LinkClicked
+    Private Sub lblFactoryCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblFactoryCostsLbl.LinkClicked
         Dim newSettingsForm As New frmPrismSettings
         newSettingsForm.Tag = "nodeCosts"
         newSettingsForm.ShowDialog()
@@ -1364,7 +1364,7 @@ Public Class frmBPCalculator
         newSettingsForm.Dispose()
     End Sub
 
-    Private Sub lblInventionLabCostsLbl_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblInventionLabCostsLbl.LinkClicked
+    Private Sub lblInventionLabCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionLabCostsLbl.LinkClicked
         Dim newSettingsForm As New frmPrismSettings
         newSettingsForm.Tag = "nodeCosts"
         newSettingsForm.ShowDialog()
@@ -1373,7 +1373,7 @@ Public Class frmBPCalculator
         newSettingsForm.Dispose()
     End Sub
 
-    Private Sub lblInventionBPCCostLbl_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCostLbl.LinkClicked
+    Private Sub lblInventionBPCCostLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCostLbl.LinkClicked
         Dim newSettingsForm As New frmPrismSettings
         newSettingsForm.Tag = "nodeCosts"
         newSettingsForm.ShowDialog()
@@ -1382,7 +1382,7 @@ Public Class frmBPCalculator
         newSettingsForm.Dispose()
     End Sub
 
-    Private Sub lblInventionBPCCost_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCost.LinkClicked
+    Private Sub lblInventionBPCCost_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCost.LinkClicked
         Dim priceForm As New frmAddBPCPrice(CurrentBP.Id)
         priceForm.ShowDialog()
         Call UpdateBlueprintInformation()
@@ -1390,7 +1390,7 @@ Public Class frmBPCalculator
         priceForm.Dispose()
     End Sub
 
-    Private Sub nudInventionSkill1_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ButtonCustomClick
+    Private Sub nudInventionSkill1_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill1.ButtonCustomClick
         If BPPilot.PilotSkills.ContainsKey(lblInvSkill1.Tag.ToString) = True Then
             nudInventionSkill1.Value = BPPilot.PilotSkills(lblInvSkill1.Tag.ToString).Level
         Else
@@ -1402,14 +1402,14 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudInventionSkill1_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill1.LockUpdateChanged
+    Private Sub nudInventionSkill1_LockUpdateChanged(sender As Object, e As EventArgs) Handles nudInventionSkill1.LockUpdateChanged
         currentJob.InventionJob.OverrideEncSkill = nudInventionSkill1.LockUpdateChecked
         If InventionStartUp = False Then
             ProductionChanged = True
         End If
     End Sub
 
-    Private Sub nudInventionSkill1_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill1.ValueChanged
+    Private Sub nudInventionSkill1_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill1.ValueChanged
         InventionSkill1 = nudInventionSkill1.Value
         If InventionStartUp = False Then
             Call CalculateInvention()
@@ -1417,7 +1417,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudInventionSkill2_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ButtonCustomClick
+    Private Sub nudInventionSkill2_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill2.ButtonCustomClick
         If BPPilot.PilotSkills.ContainsKey(lblInvSkill2.Tag.ToString) = True Then
             nudInventionSkill2.Value = BPPilot.PilotSkills(lblInvSkill2.Tag.ToString).Level
         Else
@@ -1429,14 +1429,14 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudInventionSkill2_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill2.LockUpdateChanged
+    Private Sub nudInventionSkill2_LockUpdateChanged(sender As Object, e As EventArgs) Handles nudInventionSkill2.LockUpdateChanged
         currentJob.InventionJob.OverrideDcSkill1 = nudInventionSkill2.LockUpdateChecked
         If InventionStartUp = False Then
             ProductionChanged = True
         End If
     End Sub
 
-    Private Sub nudInventionSkill2_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill2.ValueChanged
+    Private Sub nudInventionSkill2_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill2.ValueChanged
         InventionSkill2 = nudInventionSkill2.Value
         If InventionStartUp = False Then
             Call CalculateInvention()
@@ -1444,7 +1444,7 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudInventionSkill3_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ButtonCustomClick
+    Private Sub nudInventionSkill3_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill3.ButtonCustomClick
         If BPPilot.PilotSkills.ContainsKey(lblInvSkill3.Tag.ToString) = True Then
             nudInventionSkill3.Value = BPPilot.PilotSkills(lblInvSkill3.Tag.ToString).Level
         Else
@@ -1456,14 +1456,14 @@ Public Class frmBPCalculator
         End If
     End Sub
 
-    Private Sub nudInventionSkill3_LockUpdateChanged(sender As Object, e As System.EventArgs) Handles nudInventionSkill3.LockUpdateChanged
+    Private Sub nudInventionSkill3_LockUpdateChanged(sender As Object, e As EventArgs) Handles nudInventionSkill3.LockUpdateChanged
         currentJob.InventionJob.OverrideDcSkill2 = nudInventionSkill3.LockUpdateChecked
         If InventionStartUp = False Then
             ProductionChanged = True
         End If
     End Sub
 
-    Private Sub nudInventionSkill3_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudInventionSkill3.ValueChanged
+    Private Sub nudInventionSkill3_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill3.ValueChanged
         If InventionStartUp = False Then
             InventionSkill3 = nudInventionSkill3.Value
             Call CalculateInvention()
@@ -1496,7 +1496,7 @@ Public Class frmBPCalculator
             InventionSuccessCost = InventionAttempts * InvCost.TotalCost
 
             lblInventedBP.Text = "ME:" & InventedBP.MELevel.ToString & "  PE:" & InventedBP.PELevel.ToString & "  Runs: " & InventedBP.Runs.ToString("N0")
-            lblInventionTime.Text = EveHQ.Core.SkillFunctions.TimeToString(CurrentInventionBP.ResearchTechTime, False)
+            lblInventionTime.Text = SkillFunctions.TimeToString(CurrentInventionBP.ResearchTechTime, False)
             lblAvgAttempts.Text = "Average Attempts Until Success: " & InventionAttempts.ToString("N4")
             lblSuccessCost.Text = InventionSuccessCost.ToString("N2") & " Isk"
             PACSalesPrice.TypeID = InventedBP.ProductID
@@ -1561,7 +1561,7 @@ Public Class frmBPCalculator
         Dim BatchQty As Integer = StaticData.Types(InventedBP.ProductId).PortionSize
         Dim FactoryCost As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * currentJob.InventionJob.ProductionJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
         Dim AvgCost As Double = (Math.Round(InventionSuccessCost / InventedBP.Runs, 2, MidpointRounding.AwayFromZero) + PPRInvention.ProductionJob.Cost + FactoryCost) / BatchQty
-        Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(InventedBP.ProductId)
+        Dim SalesPrice As Double = DataFunctions.GetPrice(InventedBP.ProductId)
         Dim UnitProfit As Double = SalesPrice - AvgCost
         Dim TotalProfit As Double = UnitProfit * InventedBP.Runs * BatchQty
 
@@ -1574,14 +1574,14 @@ Public Class frmBPCalculator
 
         If UnitProfit >= 0 Then
             lblUnitInventionProfitLbl.Text = "Profit per Unit:"
-            lblUnitInventionProfit.ForeColor = Drawing.Color.Green
+            lblUnitInventionProfit.ForeColor = Color.Green
             lblTotalInventionProfitLbl.Text = "Total Profit:"
-            lblTotalInventionProfit.ForeColor = Drawing.Color.Green
+            lblTotalInventionProfit.ForeColor = Color.Green
         Else
             lblUnitInventionProfitLbl.Text = "Loss per Unit:"
-            lblUnitInventionProfit.ForeColor = Drawing.Color.Red
+            lblUnitInventionProfit.ForeColor = Color.Red
             lblTotalInventionProfitLbl.Text = "Total Loss:"
-            lblTotalInventionProfit.ForeColor = Drawing.Color.Red
+            lblTotalInventionProfit.ForeColor = Color.Red
         End If
 
         Call DisplayProfitTable()
@@ -1641,7 +1641,7 @@ Public Class frmBPCalculator
             Dim BatchQty As Integer = StaticData.Types(InventedBP.ProductId).PortionSize
             Dim FactoryCost As Double = Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * PJ.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
             Dim AvgCost As Double = (Math.Round(ISC / IBP.Runs, 2, MidpointRounding.AwayFromZero) + PJ.Cost + FactoryCost) / BatchQty
-            Dim SalesPrice As Double = EveHQ.Core.DataFunctions.GetPrice(IBP.ProductId)
+            Dim SalesPrice As Double = DataFunctions.GetPrice(IBP.ProductId)
             Dim UnitProfit As Double = SalesPrice - AvgCost
             Dim TotalProfit As Double = (UnitProfit * IBP.Runs) * BatchQty
 
@@ -1658,7 +1658,7 @@ Public Class frmBPCalculator
         adtInventionProfits.EndUpdate()
     End Sub
 
-    Private Sub chkInventionFlag_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkInventionFlag.CheckedChanged
+    Private Sub chkInventionFlag_CheckedChanged(sender As Object, e As EventArgs) Handles chkInventionFlag.CheckedChanged
         currentJob.HasInventionJob = chkInventionFlag.Checked
         If InventionStartUp = False Then
             ProductionChanged = True

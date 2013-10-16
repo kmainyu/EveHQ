@@ -17,11 +17,11 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Windows.Forms
+Imports DevComponents.AdvTree
+Imports EveHQ.Core
 Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
-Imports DevComponents.AdvTree
+Imports System.Windows.Forms
 Imports System.Threading.Tasks
 
 Public Class frmQuickProduction
@@ -81,7 +81,7 @@ Public Class frmQuickProduction
         adtResources.BeginUpdate()
         adtResources.Nodes.Clear()
         If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select r.TypeID)
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select r.TypeID)
             priceTask.Wait()
             For Each resource As JobResource In CurrentJob.Resources.Values
                 ' This is a resource so add it
@@ -102,7 +102,7 @@ Public Class frmQuickProduction
                 End If
             Next
         End If
-        Core.AdvTreeSorter.Sort(adtResources, 2, False, True)
+        AdvTreeSorter.Sort(adtResources, 2, False, True)
         adtResources.EndUpdate()
     End Sub
 

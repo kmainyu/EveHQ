@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.EveData
+Imports EveHQ.Core
 
 Public Class frmEditBPDetails
 
@@ -60,13 +62,13 @@ Public Class frmEditBPDetails
         _currentBP = PlugInData.BlueprintAssets(_ownerName).Item(cAssetID)
 
         ' Get the image
-        pbBP.ImageLocation = Core.ImageHandler.GetImageLocation(CInt(_currentBP.TypeID))
+        pbBP.ImageLocation = ImageHandler.GetImageLocation(CInt(_currentBP.TypeID))
 
         If _assetIDs.Count = 1 Then
 
             ' Update the name and assetID details
             lblAssetID.Text = "AssetID: " & cAssetID
-            lblBPName.Text = EveData.StaticData.Types(CInt(_currentBP.TypeID)).Name
+            lblBPName.Text = StaticData.Types(CInt(_currentBP.TypeID)).Name
 
             ' Update the current BP Info
             lblCurrentME.Text = _currentBP.MELevel.ToString

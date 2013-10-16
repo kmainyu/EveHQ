@@ -18,7 +18,6 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-Imports System.Windows.Forms
 
 Public Class frmSelectQuantity
 
@@ -47,15 +46,15 @@ Public Class frmSelectQuantity
         End Set
     End Property
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
         Me.Close()
     End Sub
 
-    Private Sub frmSelectQuantity_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
+    Private Sub frmSelectQuantity_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
         nudQuantity.Value = cQuantity
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         cQuantity = nudQuantity.Value
         Me.Close()
     End Sub

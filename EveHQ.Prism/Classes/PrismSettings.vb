@@ -178,11 +178,11 @@ Imports Newtonsoft.Json
 
         SyncLock LockObj
 
-            Dim newFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName)
-            Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName & ".temp")
+            Dim newFile As String = Path.Combine(PrismFolder, MainFileName)
+            Dim tempFile As String = Path.Combine(PrismFolder, MainFileName & ".temp")
 
             ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(UserSettings, Newtonsoft.Json.Formatting.Indented)
+            Dim json As String = JsonConvert.SerializeObject(UserSettings, Formatting.Indented)
 
             ' Write the JSON version of the settings
             Try
@@ -208,10 +208,10 @@ Imports Newtonsoft.Json
     Public Function LoadPrismSettings() As Boolean
         SyncLock LockObj
 
-            If File.Exists(Path.Combine(PrismSettings.PrismFolder, MainFileName)) = True Then
+            If File.Exists(Path.Combine(PrismFolder, MainFileName)) = True Then
 
                 Try
-                    Using s As New StreamReader(Path.Combine(PrismSettings.PrismFolder, MainFileName))
+                    Using s As New StreamReader(Path.Combine(PrismFolder, MainFileName))
                         Dim json As String = s.ReadToEnd
                         UserSettings = JsonConvert.DeserializeObject(Of PrismSettings)(json)
                     End Using
@@ -222,7 +222,7 @@ Imports Newtonsoft.Json
                     msg &= "Press OK to reset the settings." & ControlChars.CrLf
                     MessageBox.Show(msg, "Invalid Settings file detected", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Try
-                        My.Computer.FileSystem.DeleteFile(Path.Combine(PrismSettings.PrismFolder, MainFileName))
+                        My.Computer.FileSystem.DeleteFile(Path.Combine(PrismFolder, MainFileName))
                     Catch e As Exception
                         MessageBox.Show("Unable to delete the PrismSettings.bin file. Please delete this manually before proceeding", "Delete File Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Return False
@@ -234,18 +234,18 @@ Imports Newtonsoft.Json
         Call InitialiseSlotColumns()
 
         ' Check if the standard columns have changed and we need to add columns
-        If PrismSettings.UserSettings.UserSlotColumns.Count <> PrismSettings.UserSettings.StandardSlotColumns.Count Then
+        If UserSettings.UserSlotColumns.Count <> UserSettings.StandardSlotColumns.Count Then
             Dim MissingFlag As Boolean = True
-            For Each StdCol As UserSlotColumn In PrismSettings.UserSettings.StandardSlotColumns
+            For Each StdCol As UserSlotColumn In UserSettings.StandardSlotColumns
                 MissingFlag = True
-                For Each TestUserCol As UserSlotColumn In PrismSettings.UserSettings.UserSlotColumns
+                For Each TestUserCol As UserSlotColumn In UserSettings.UserSlotColumns
                     If StdCol.Name = TestUserCol.Name Then
                         MissingFlag = False
                         Exit For
                     End If
                 Next
                 If MissingFlag = True Then
-                    PrismSettings.UserSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
+                    UserSettings.UserSlotColumns.Add(New UserSlotColumn(StdCol.Name, StdCol.Description, StdCol.Width, StdCol.Active))
                 End If
             Next
         End If
@@ -254,20 +254,20 @@ Imports Newtonsoft.Json
     End Function
 
     Public Sub InitialiseSlotColumns()
-        PrismSettings.UserSettings.StandardSlotColumns.Clear()
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetOwner", "Owner", 150, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetGroup", "Group", 100, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetCategory", "Category", 100, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystem", "System", 100, False))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetConstellation", "Constellation", 100, False))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetRegion", "EveGalaticRegion", 100, False))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystemSec", "Sec", 50, False))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetLocation", "Specific Location", 250, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetMeta", "Meta", 50, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetVolume", "Volume", 100, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetQuantity", "Quantity", 100, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetPrice", "Price", 100, True))
-        PrismSettings.UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetValue", "Value", 100, True))
+        UserSettings.StandardSlotColumns.Clear()
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetOwner", "Owner", 150, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetGroup", "Group", 100, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetCategory", "Category", 100, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystem", "System", 100, False))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetConstellation", "Constellation", 100, False))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetRegion", "EveGalaticRegion", 100, False))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetSystemSec", "Sec", 50, False))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetLocation", "Specific Location", 250, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetMeta", "Meta", 50, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetVolume", "Volume", 100, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetQuantity", "Quantity", 100, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetPrice", "Price", 100, True))
+        UserSettings.StandardSlotColumns.Add(New UserSlotColumn("AssetValue", "Value", 100, True))
     End Sub
 End Class
 

@@ -17,6 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
+Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
 
 Namespace Controls
@@ -32,9 +34,9 @@ Namespace Controls
             Set(ByVal value As Integer)
                 _typeID = value
                 If value > 0 And StaticData.Types.ContainsKey(_typeID) = True Then
-                    STT.SetSuperTooltip(pbPAC, New DevComponents.DotNetBar.SuperTooltipInfo("Modify Price", StaticData.Types(_typeID).Name, "Click here to modify the price of this item", My.Resources.pound32, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                    STT.SetSuperTooltip(pbPAC, New SuperTooltipInfo("Modify Price", StaticData.Types(_typeID).Name, "Click here to modify the price of this item", My.Resources.pound32, Nothing, eTooltipColor.Yellow))
                 Else
-                    STT.SetSuperTooltip(pbPAC, New DevComponents.DotNetBar.SuperTooltipInfo("Modify Price", "", "An item has not been allocated for price modification. Make sure a relevant item is selected first.", My.Resources.pound32, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                    STT.SetSuperTooltip(pbPAC, New SuperTooltipInfo("Modify Price", "", "An item has not been allocated for price modification. Make sure a relevant item is selected first.", My.Resources.pound32, Nothing, eTooltipColor.Yellow))
                 End If
             End Set
         End Property
@@ -56,13 +58,13 @@ Namespace Controls
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            STT.SetSuperTooltip(pbPAC, New DevComponents.DotNetBar.SuperTooltipInfo("Modify Price", "", "An item has not been allocated for price modification. Make sure a relevant item is selected first.", My.Resources.pound32, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            STT.SetSuperTooltip(pbPAC, New SuperTooltipInfo("Modify Price", "", "An item has not been allocated for price modification. Make sure a relevant item is selected first.", My.Resources.pound32, Nothing, eTooltipColor.Yellow))
 
         End Sub
 
         Private Sub pbPAC_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pbPAC.Click
             If _typeID > 0 And StaticData.Types.ContainsKey(_typeID) = True Then
-                Dim newPriceForm As New Core.frmModifyPrice(_typeID, _price)
+                Dim newPriceForm As New FrmModifyPrice(_typeID, _price)
                 newPriceForm.ShowDialog()
                 RaiseEvent PriceUpdated()
                 newPriceForm.Dispose()

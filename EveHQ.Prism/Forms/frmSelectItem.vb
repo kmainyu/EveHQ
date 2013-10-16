@@ -29,18 +29,18 @@ Public Class frmSelectItem
         End Get
     End Property
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
         Me.Close()
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         If cboItems.SelectedItem IsNot Nothing Then
             cItem = cboItems.SelectedItem.ToString
         End If
         Me.Close()
     End Sub
 
-    Private Sub frmSelectItem_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmSelectItem_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
         ' Load recyclable items
         cboItems.BeginUpdate()

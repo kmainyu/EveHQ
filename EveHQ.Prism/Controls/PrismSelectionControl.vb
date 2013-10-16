@@ -17,22 +17,24 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Text
+Imports EveHQ.Core
+Imports DevComponents.DotNetBar.Controls
 Imports System.Windows.Forms
+Imports System.Text
 
 Namespace Controls
 
     Public Class PrismSelectionControl
 
         Dim _startup As Boolean = True
-        ReadOnly _host As DevComponents.DotNetBar.Controls.TextBoxDropDown
+        ReadOnly _host As TextBoxDropDown
         Dim _cListType As PrismSelectionType
         Dim _cAllowMultipleSelections As Boolean = True
         Dim _cExtraData As String = ""
         Dim _updateAll As Boolean = False
         Public Event SelectionChanged()
 
-        Public Sub New(ByVal selectionType As PrismSelectionType, ByVal allowMultiSelection As Boolean, ByVal hostingControl As DevComponents.DotNetBar.Controls.TextBoxDropDown)
+        Public Sub New(ByVal selectionType As PrismSelectionType, ByVal allowMultiSelection As Boolean, ByVal hostingControl As TextBoxDropDown)
 
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
@@ -46,7 +48,7 @@ Namespace Controls
             _startup = False
         End Sub
 
-        Public Sub New(ByVal selectionType As PrismSelectionType, ByVal allowMultiSelection As Boolean, ByVal hostingControl As DevComponents.DotNetBar.Controls.TextBoxDropDown, ByVal additionalData As String)
+        Public Sub New(ByVal selectionType As PrismSelectionType, ByVal allowMultiSelection As Boolean, ByVal hostingControl As TextBoxDropDown, ByVal additionalData As String)
 
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
@@ -177,7 +179,7 @@ Namespace Controls
 
                 Case PrismSelectionType.JournalOwnersAll
                     Const strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -189,7 +191,7 @@ Namespace Controls
 
                 Case PrismSelectionType.JournalOwnersChars
                     Const strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = False Then
@@ -203,7 +205,7 @@ Namespace Controls
 
                 Case PrismSelectionType.JournalOwnersCorps
                     Const strSQL As String = "SELECT DISTINCT charName from walletJournal;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = True Then
@@ -216,7 +218,7 @@ Namespace Controls
 
                 Case PrismSelectionType.JournalRefTypes
                     Const strSQL As String = "SELECT DISTINCT refTypeID from walletJournal;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(PlugInData.RefTypes(dr.Item(0).ToString))
@@ -227,7 +229,7 @@ Namespace Controls
 
                 Case PrismSelectionType.TransactionOwnersAll
                     Const strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -239,7 +241,7 @@ Namespace Controls
 
                 Case PrismSelectionType.TransactionOwnersChars
                     Const strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = False Then
@@ -253,7 +255,7 @@ Namespace Controls
 
                 Case PrismSelectionType.TransactionOwnersCorps
                     Const strSQL As String = "SELECT DISTINCT charName from walletTransactions;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             If PlugInData.CorpList.ContainsKey(dr.Item(0).ToString.Trim) = True Then
@@ -271,7 +273,7 @@ Namespace Controls
                     Else
                         strSQL = "SELECT DISTINCT typeName from walletTransactions WHERE charName='" & _cExtraData.Replace("'", "''") & "';"
                     End If
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -282,7 +284,7 @@ Namespace Controls
 
                 Case PrismSelectionType.InventionInstallers
                     Const strSQL As String = "SELECT DISTINCT installerName from inventionResults;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)
@@ -294,7 +296,7 @@ Namespace Controls
 
                 Case PrismSelectionType.InventionItems
                     Const strSQL As String = "SELECT DISTINCT typeName from inventionResults;"
-                    itemData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    itemData = CustomDataFunctions.GetCustomData(strSQL)
                     If itemData IsNot Nothing Then
                         For Each dr As DataRow In itemData.Tables(0).Rows
                             Dim newItem As New ListViewItem(dr.Item(0).ToString.Trim)

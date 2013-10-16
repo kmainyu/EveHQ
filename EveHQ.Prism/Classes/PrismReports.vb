@@ -17,23 +17,24 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
+Imports System.Globalization
 Imports System.Text
-Imports System.Xml
 Imports EveHQ.EveAPI
+Imports EveHQ.Core
+Imports System.Xml
 
 Namespace Classes
 
     Public Class PrismReports
         Private Const PrismTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-        Shared ReadOnly Culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+        Shared ReadOnly Culture As CultureInfo = New CultureInfo("en-GB")
 
 #Region "Standard Report Functions"
 
         Public Shared Function HTMLHeader(ByVal browserHeader As String, reportTitle As String) As String
             Dim html As New StringBuilder
             html.AppendLine("<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd"">")
-            html.AppendLine("<html lang=""" & Globalization.CultureInfo.CurrentCulture.ToString & """>")
+            html.AppendLine("<html lang=""" & CultureInfo.CurrentCulture.ToString & """>")
             html.AppendLine("<head>")
             html.AppendLine("<META http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">")
             html.AppendLine("<title>" & browserHeader & "</title>" & ReportCSS() & "</head>")
@@ -106,7 +107,7 @@ Namespace Classes
             strSQL &= " ORDER BY walletJournal.transKey ASC;"
 
             ' Fetch the data
-            Dim walletData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
 
             Return walletData
         End Function
@@ -634,13 +635,13 @@ Namespace Classes
             If PlugInData.PrismOwners.ContainsKey(ownerName) = True Then
 
                 owner = PlugInData.PrismOwners(ownerName)
-                Dim ownerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Balances)
+                Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Balances)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Balances)
 
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
-                        Dim apiReq As New EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+                        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                         Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                         If corpXML IsNot Nothing Then
                             ' Check response string for any error codes?
@@ -714,7 +715,7 @@ Namespace Classes
             strSQL &= " ORDER BY walletTransactions.transKey ASC;"
 
             ' Fetch the data
-            Dim walletData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim walletData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
 
             Return walletData
         End Function
@@ -733,7 +734,7 @@ Namespace Classes
 
                             ' Determine if this is a valid item
                             addTransaction = False
-                            If Core.HQ.Settings.Pilots.ContainsKey(walletItem.Item("charName").ToString) = True Then
+                            If HQ.Settings.Pilots.ContainsKey(walletItem.Item("charName").ToString) = True Then
                                 If walletItem.Item("transFor").ToString = "personal" Then
                                     addTransaction = True
                                 End If
@@ -775,7 +776,7 @@ Namespace Classes
 
                             ' Determine if this is a valid item
                             addTransaction = False
-                            If Core.HQ.Settings.Pilots.ContainsKey(walletItem.Item("charName").ToString) = True Then
+                            If HQ.Settings.Pilots.ContainsKey(walletItem.Item("charName").ToString) = True Then
                                 If walletItem.Item("transFor").ToString = "personal" Then
                                     addTransaction = True
                                 End If
@@ -815,7 +816,7 @@ Namespace Classes
 
                         ' Determine if this is a valid item
                         addTransaction = False
-                        If Core.HQ.Settings.Pilots.ContainsKey(walletItem.Item("charName").ToString) = True Then
+                        If HQ.Settings.Pilots.ContainsKey(walletItem.Item("charName").ToString) = True Then
                             If walletItem.Item("transFor").ToString = "personal" Then
                                 addTransaction = True
                             End If

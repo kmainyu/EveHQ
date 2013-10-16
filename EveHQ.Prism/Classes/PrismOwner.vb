@@ -17,11 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Core
 
 Public Class PrismOwner
     Public Name As String
     Public ID As String
-    Public Account As New EveHQ.Core.EveHQAccount
+    Public Account As New EveHQAccount
     Public IsCorp As Boolean
-    Public APIVersion As EveHQ.Core.APIKeySystems
+    Public APIVersion As APIKeySystems
 End Class

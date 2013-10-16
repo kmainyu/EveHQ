@@ -17,9 +17,11 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Globalization
 Imports System.Xml
-Imports System.Text
+Imports EveHQ.Core
 Imports EveHQ.EveData
+Imports System.Text
 
 <Serializable()> Public Class InventionAPIJob
     Public JobID As Long
@@ -32,7 +34,7 @@ Imports EveHQ.EveData
     Public result As Integer
 
     Private Shared IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Private Shared culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+    Private Shared culture As CultureInfo = New CultureInfo("en-GB")
 
     Public Shared Function ParseInventionJobsFromAPI(JobXML As XmlDocument) As SortedList(Of Long, InventionAPIJob)
 
@@ -45,7 +47,7 @@ Imports EveHQ.EveData
             Dim JobList As New SortedList(Of Long, InventionAPIJob)
             For Each Tran As XmlNode In JobNodes
                 ' Check for invention jobs
-                If CType(Tran.Attributes.GetNamedItem("activityID").Value, EveData.BlueprintActivity) = EveData.BlueprintActivity.Invention Then
+                If CType(Tran.Attributes.GetNamedItem("activityID").Value, BlueprintActivity) = BlueprintActivity.Invention Then
                     ' Check the job is actually completed first!
                     If CInt(Tran.Attributes.GetNamedItem("completed").Value) = 1 Then
                         Dim NewJob As New InventionAPIJob
@@ -62,7 +64,7 @@ Imports EveHQ.EveData
                 End If
             Next
             ' Get Installer Names
-            Dim IDList As SortedList(Of Long, String) = InventionAPIJob.GetInstallerList(JobList)
+            Dim IDList As SortedList(Of Long, String) = GetInstallerList(JobList)
             ' Add installer names
             For Each Job As InventionAPIJob In JobList.Values
                 If IDList.ContainsKey(Job.InstallerID) Then
@@ -83,7 +85,7 @@ Imports EveHQ.EveData
         Try
             If strSQL <> "" Then
                 ' Fetch the data
-                Dim JobData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                Dim JobData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
                 If JobData IsNot Nothing Then
                     If JobData.Tables(0).Rows.Count > 0 Then
                         For Each JE As DataRow In JobData.Tables(0).Rows
@@ -129,7 +131,7 @@ Imports EveHQ.EveData
             strID.Remove(0, 1)
             ' Get the name data from the DB
             Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-            Dim IDData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim IDData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             If IDData IsNot Nothing Then
                 If IDData.Tables(0).Rows.Count > 0 Then
                     For Each IDRow As DataRow In IDData.Tables(0).Rows

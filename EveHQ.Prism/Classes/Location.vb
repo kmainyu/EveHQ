@@ -1,4 +1,4 @@
-Imports EveHQ.EveData
+
 
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
@@ -19,6 +19,7 @@ Imports EveHQ.EveData
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.EveData
 
 Public Class Locations
     Public Shared Function GetLocationNameFromID(ByVal locID As Integer) As String

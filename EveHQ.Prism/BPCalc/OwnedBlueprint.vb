@@ -1,4 +1,6 @@
 ﻿Imports System.Collections.ObjectModel
+Imports EveHQ.Core
+Imports EveHQ.EveData
 Imports System.Threading.Tasks
 
 Namespace BPCalc
@@ -13,7 +15,7 @@ Namespace BPCalc
             ' Check if the Inventions are null
             If OriginalBlueprint.Inventions Is Nothing Then
                 OriginalBlueprint.Inventions = New Collection(Of Integer)
-                Dim baseBP As EveData.Blueprint = EveData.StaticData.Blueprints(OriginalBlueprint.Id)
+                Dim baseBP As EveData.Blueprint = StaticData.Blueprints(OriginalBlueprint.Id)
                 For Each invention As Integer In baseBP.Inventions
                     OriginalBlueprint.Inventions.Add(invention)
                 Next
@@ -21,7 +23,7 @@ Namespace BPCalc
             ' Check if the Inventeds are null
             If OriginalBlueprint.InventFrom Is Nothing Then
                 OriginalBlueprint.InventFrom = New Collection(Of Integer)
-                Dim baseBP As EveData.Blueprint = EveData.StaticData.Blueprints(OriginalBlueprint.Id)
+                Dim baseBP As EveData.Blueprint = StaticData.Blueprints(OriginalBlueprint.Id)
                 For Each invention As Integer In baseBP.InventFrom
                     OriginalBlueprint.InventFrom.Add(invention)
                 Next
@@ -53,7 +55,7 @@ Namespace BPCalc
             ' Check if the Inventions are null
             If OriginalBlueprint.Inventions Is Nothing Then
                 originalBlueprint.Inventions = New Collection(Of Integer)
-                Dim baseBP As EveData.Blueprint = EveData.StaticData.Blueprints(originalBlueprint.Id)
+                Dim baseBP As EveData.Blueprint = StaticData.Blueprints(originalBlueprint.Id)
                 For Each invention As Integer In baseBP.Inventions
                     originalBlueprint.Inventions.Add(invention)
                 Next
@@ -65,7 +67,7 @@ Namespace BPCalc
             ' Check if the Inventeds are null
             If OriginalBlueprint.InventFrom Is Nothing Then
                 originalBlueprint.InventFrom = New Collection(Of Integer)
-                Dim baseBP As EveData.Blueprint = EveData.StaticData.Blueprints(originalBlueprint.Id)
+                Dim baseBP As EveData.Blueprint = StaticData.Blueprints(originalBlueprint.Id)
                 For Each invention As Integer In baseBP.InventFrom
                     originalBlueprint.InventFrom.Add(invention)
                 Next
@@ -86,7 +88,7 @@ Namespace BPCalc
             Dim newPj As New Job
             newPj.CurrentBlueprint = Me
             newPj.TypeID = Id
-            newPj.TypeName = EveData.StaticData.Types(Id).Name
+            newPj.TypeName = StaticData.Types(Id).Name
             newPj.Runs = bpRuns
             newPj.StartTime = Now
             newPj.Manufacturer = manufacturer
@@ -113,7 +115,7 @@ Namespace BPCalc
         Public Sub UpdateProductionJob(ByRef job As Job)
             job.CurrentBlueprint = Me
             job.TypeID = Id
-            job.TypeName = EveData.StaticData.Types(Id).Name
+            job.TypeName = StaticData.Types(Id).Name
             job.RecalculateResourceRequirements()
         End Sub
 
@@ -165,7 +167,7 @@ Namespace BPCalc
             Dim quantityTable As New Dictionary(Of Integer, Integer)
 
             ' Gather a list of resources and quantities
-            For Each resource As EveData.BlueprintResource In Resources(EveData.BlueprintActivity.Invention).Values
+            For Each resource As EveData.BlueprintResource In Resources(BlueprintActivity.Invention).Values
                 ' Only include datacores
                 If resource.TypeGroup = 333 Then
                     Dim idKey As Integer = resource.TypeId
@@ -196,7 +198,7 @@ Namespace BPCalc
             End If
 
             ' Total the item costs
-            Dim prices As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+            Dim prices As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(quantityTable.Keys)
             prices.Wait()
             Dim itemCost As Dictionary(Of Integer, Double) = prices.Result
             Dim invCost As Double = itemCost.Keys.Sum(Function(key) itemCost(key) * quantityTable(key))
@@ -221,13 +223,13 @@ Namespace BPCalc
         End Function
 
         Public Function CalculateInventedBpc(ByVal inventedBpid As Integer, ByVal decryptorID As Integer, ByVal bpcRuns As Integer) As OwnedBlueprint
-            Dim ibp As OwnedBlueprint = CopyFromBlueprint(EveData.StaticData.Blueprints(inventedBpid))
+            Dim ibp As OwnedBlueprint = CopyFromBlueprint(StaticData.Blueprints(inventedBpid))
 
             Dim ime As Integer = -4
             Dim ipe As Integer = -4
             Dim irc As Integer
 
-            Dim decryptorName As String = EveData.StaticData.Types(decryptorID).Name
+            Dim decryptorName As String = StaticData.Types(decryptorID).Name
 
             If decryptorName <> "" Then
                 If PlugInData.Decryptors.ContainsKey(decryptorName) Then

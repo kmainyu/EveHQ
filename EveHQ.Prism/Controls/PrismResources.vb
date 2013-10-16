@@ -17,15 +17,17 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Text
-Imports System.Threading.Tasks
-Imports System.Windows.Forms
-Imports System.Xml
-Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
-Imports EveHQ.Core.Requisitions
+Imports EveHQ.EveAPI
+Imports EveHQ.Core
+Imports DevComponents.AdvTree
 Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
+Imports System.Windows.Forms
+Imports System.Xml
+Imports System.Threading.Tasks
+Imports System.Text
+Imports EveHQ.Core.Requisitions
 
 Namespace Controls
 
@@ -78,11 +80,11 @@ Namespace Controls
             End Set
         End Property
 
-        Public Property BatchJob() As Prism.BatchJob
+        Public Property BatchJob() As BatchJob
             Get
                 Return CurrentBatch
             End Get
-            Set(ByVal value As Prism.BatchJob)
+            Set(ByVal value As BatchJob)
                 CurrentBatch = value
                 Call Me.DisplayOwnedResources()
             End Set
@@ -115,7 +117,7 @@ Namespace Controls
         Public Sub DisplayInventionResources()
             adtInventionResources.BeginUpdate()
             adtInventionResources.Nodes.Clear()
-            Dim priceData As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r As EveData.BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values Select r.TypeId)
+            Dim priceData As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r As EveData.BlueprintResource In CurrentBP.Resources(BlueprintActivity.Invention).Values Select r.TypeId)
             priceData.Wait()
             Dim prices As Dictionary(Of Integer, Double) = priceData.Result
 
@@ -134,7 +136,7 @@ Namespace Controls
                     newIr.Cells(c).TextDisplayFormat = "N0"
                 Next
             Next
-            EveHQ.Core.AdvTreeSorter.Sort(adtInventionResources, 1, True, True)
+            AdvTreeSorter.Sort(adtInventionResources, 1, True, True)
             adtInventionResources.EndUpdate()
             ' Hide the invention tab if we don't have invention resources
             If adtInventionResources.Nodes.Count = 0 Then
@@ -144,9 +146,9 @@ Namespace Controls
             End If
         End Sub
 
-        Private Sub adtInventionResources_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As Windows.Forms.MouseEventArgs) Handles adtInventionResources.ColumnHeaderMouseDown
+        Private Sub adtInventionResources_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionResources.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            Core.AdvTreeSorter.Sort(ch, True, False)
+            AdvTreeSorter.Sort(ch, True, False)
         End Sub
 
 #End Region
@@ -175,8 +177,8 @@ Namespace Controls
             Dim maxProducableUnits As Long = -1
 
             If CurrentJob IsNot Nothing Then
-                Dim priceData As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.Resources.Values Where TypeOf (r) Is JobResource Let res = r Select res.TypeID)
-                Dim jobCostTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.SubJobs.Values Where TypeOf (r) Is Job Let res = r Select res.TypeID)
+                Dim priceData As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r In CurrentJob.Resources.Values Where TypeOf (r) Is JobResource Let res = r Select res.TypeID)
+                Dim jobCostTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r In CurrentJob.SubJobs.Values Where TypeOf (r) Is Job Let res = r Select res.TypeID)
                 Task.WaitAll(priceData, jobCostTask)
                 ' resource costs
                 Dim resourceCosts As Dictionary(Of Integer, Double) = priceData.Result
@@ -199,9 +201,9 @@ Namespace Controls
                                 ' Not a skill
                             Else
                                 ' A skill
-                                newRes.Text &= " (Lvl " & Core.SkillFunctions.Roman(perfectRaw) & ")"
+                                newRes.Text &= " (Lvl " & SkillFunctions.Roman(perfectRaw) & ")"
                                 ' Check for skill of recycler
-                                If Core.SkillFunctions.IsSkillTrained(Core.HQ.Settings.Pilots(CurrentJob.Manufacturer), resource.TypeName, perfectRaw) = True Then
+                                If SkillFunctions.IsSkillTrained(HQ.Settings.Pilots(CurrentJob.Manufacturer), resource.TypeName, perfectRaw) = True Then
                                     ' TODO - add colour and alignment styles
                                     'newRes.BackColor = Drawing.Color.LightGreen
                                 Else
@@ -309,7 +311,7 @@ Namespace Controls
                     adtResources.Columns(c).Image = Nothing
                 Next
             End If
-            Core.AdvTreeSorter.Sort(adtResources, 5, True, True)
+            AdvTreeSorter.Sort(adtResources, 5, True, True)
             adtResources.EndUpdate()
 
             ' Display owned resources
@@ -318,8 +320,8 @@ Namespace Controls
         End Sub
 
         Private Sub DisplayJob(ByVal parentJob As Job, ByVal BaseRuns As Integer, ByVal parentRes As Node, ByRef maxProducableUnits As Long)
-            Dim resourceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.Resources.Values Where TypeOf (r) Is JobResource Let res = r Select res.TypeID)
-            Dim jobTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From r In parentJob.SubJobs.Values Where TypeOf (r) Is Job Let res = r Select res.TypeID)
+            Dim resourceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r In parentJob.Resources.Values Where TypeOf (r) Is JobResource Let res = r Select res.TypeID)
+            Dim jobTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r In parentJob.SubJobs.Values Where TypeOf (r) Is Job Let res = r Select res.TypeID)
             Task.WaitAll(resourceTask, jobTask)
             ' resource costs
             Dim resourceCosts As Dictionary(Of Integer, Double) = resourceTask.Result
@@ -341,9 +343,9 @@ Namespace Controls
                         ' Not a skill
                     Else
                         ' A skill
-                        newRes.Text &= " (Lvl " & EveHQ.Core.SkillFunctions.Roman(CInt(resource.PerfectUnits)) & ")"
+                        newRes.Text &= " (Lvl " & SkillFunctions.Roman(CInt(resource.PerfectUnits)) & ")"
                         ' Check for skill of recycler
-                        If EveHQ.Core.SkillFunctions.IsSkillTrained(EveHQ.Core.HQ.Settings.Pilots(parentJob.Manufacturer), resource.TypeName, CInt(resource.PerfectUnits)) = True Then
+                        If SkillFunctions.IsSkillTrained(HQ.Settings.Pilots(parentJob.Manufacturer), resource.TypeName, CInt(resource.PerfectUnits)) = True Then
                             ' TODO - add colour and alignment styles
                             'newRes.BackColor = Drawing.Color.LightGreen
                         Else
@@ -438,9 +440,9 @@ Namespace Controls
             Next
         End Sub
 
-        Private Sub adtResources_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtResources.ColumnHeaderMouseDown
+        Private Sub adtResources_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtResources.ColumnHeaderMouseDown
             Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+            AdvTreeSorter.Sort(CH, True, False)
         End Sub
 
 #End Region
@@ -515,7 +517,7 @@ Namespace Controls
                     Next
                 End If
             Next
-            EveHQ.Core.AdvTreeSorter.Sort(adtOwnedResources, 1, True, True)
+            AdvTreeSorter.Sort(adtOwnedResources, 1, True, True)
             adtOwnedResources.EndUpdate()
 
             If MaxProducableUnits = -1 Then
@@ -632,17 +634,17 @@ Namespace Controls
 
                 If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                     Owner = PlugInData.PrismOwners(cOwner.Text)
-                    Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                    Dim OwnerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                     If OwnerAccount IsNot Nothing Then
 
                         Dim AssetXML As New XmlDocument
-                        Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                         If Owner.IsCorp = True Then
-                            AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            AssetXML = APIReq.GetAPIXML(APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                         Else
-                            AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            AssetXML = APIReq.GetAPIXML(APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                         End If
 
                         If AssetXML IsNot Nothing Then
@@ -693,20 +695,20 @@ Namespace Controls
             End If
         End Sub
 
-        Private Sub adtOwnedResources_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtOwnedResources.ColumnHeaderMouseDown
+        Private Sub adtOwnedResources_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtOwnedResources.ColumnHeaderMouseDown
             Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+            AdvTreeSorter.Sort(CH, True, False)
         End Sub
 
-        Private Sub cboAssetSelection_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboAssetSelection.TextChanged
+        Private Sub cboAssetSelection_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboAssetSelection.TextChanged
             Call Me.DisplayOwnedResources()
         End Sub
 
-        Private Sub btnExportToCSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToCSV.Click
-            Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, EveHQ.Core.HQ.Settings.CSVSeparatorChar)
+        Private Sub btnExportToCSV_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportToCSV.Click
+            Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, HQ.Settings.CSVSeparatorChar)
         End Sub
 
-        Private Sub btnExportToTSV_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportToTSV.Click
+        Private Sub btnExportToTSV_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportToTSV.Click
             Call Me.ExportToClipboard("Resource Availability for " & CurrentJob.TypeName & " (" & CurrentJob.Runs & " runs)", adtOwnedResources, ControlChars.Tab)
         End Sub
 
@@ -735,7 +737,7 @@ Namespace Controls
             End Try
         End Sub
 
-        Private Sub btnAddShortfallToReq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddShortfallToReq.Click
+        Private Sub btnAddShortfallToReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddShortfallToReq.Click
             ' Set up a new Sortedlist to store the required items
             Dim Orders As SortedList(Of String, Integer) = GetAmountsForRequisition(True)
             ' Setup the Requisition form for HQF and open it
@@ -743,7 +745,7 @@ Namespace Controls
             newReq.ShowDialog()
         End Sub
 
-        Private Sub btnAddAllToReq_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddAllToReq.Click
+        Private Sub btnAddAllToReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddAllToReq.Click
             ' Set up a new Sortedlist to store the required items
             Dim Orders As SortedList(Of String, Integer) = GetAmountsForRequisition(False)
             ' Setup the Requisition form for HQF and open it
@@ -778,7 +780,7 @@ Namespace Controls
             Return reqOrders
         End Function
 
-        Private Sub chkAdvancedResourceAllocation_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAdvancedResourceAllocation.CheckedChanged
+        Private Sub chkAdvancedResourceAllocation_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAdvancedResourceAllocation.CheckedChanged
             Call DisplayOwnedResources()
         End Sub
 
@@ -821,7 +823,7 @@ Namespace Controls
             adtBatchResources.BeginUpdate()
             adtBatchResources.Nodes.Clear()
             ' batch price request ... yes it goes through the collection more than once, but 1 possible web request is better than dozens.
-            Dim costTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From items In GroupResources.Keys)
+            Dim costTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From items In GroupResources.Keys)
             costTask.Wait()
             Dim costs As Dictionary(Of Integer, Double) = costTask.Result
             For Each itemID As Integer In GroupResources.Keys
@@ -845,7 +847,7 @@ Namespace Controls
                     'End If
                 End If
             Next
-            EveHQ.Core.AdvTreeSorter.Sort(adtBatchResources, 1, True, True)
+            AdvTreeSorter.Sort(adtBatchResources, 1, True, True)
             adtBatchResources.EndUpdate()
             lblBatchTotals.Text = "Batch Value: " & batchValue.ToString("N2") & " isk  ,  Batch Volume: " & batchVolume.ToString("N2") & " m³"
             Call Me.DisplayProductionList()
@@ -855,7 +857,7 @@ Namespace Controls
             Dim itemData As EveType
             adtProductionList.BeginUpdate()
             adtProductionList.Nodes.Clear()
-            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From pi In ProductionList.Values Select CInt(pi.ItemID))
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From pi In ProductionList.Values Select CInt(pi.ItemID))
             priceTask.Wait()
             Dim prices As Dictionary(Of Integer, Double) = priceTask.Result
             For Each PI As ProductionItem In ProductionList.Values
@@ -871,13 +873,13 @@ Namespace Controls
                     End If
                 End If
             Next
-            EveHQ.Core.AdvTreeSorter.Sort(adtProductionList, 1, True, True)
+            AdvTreeSorter.Sort(adtProductionList, 1, True, True)
             adtProductionList.EndUpdate()
         End Sub
 
-        Private Sub adtProductionList_ColumnHeaderMouseUp(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseUp
+        Private Sub adtProductionList_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseUp
             Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            EveHQ.Core.AdvTreeSorter.Sort(CH, True, False)
+            AdvTreeSorter.Sort(CH, True, False)
         End Sub
 
 #End Region
@@ -893,13 +895,13 @@ Namespace Controls
 
 #Region "Pricing Update Routines"
 
-        Private Sub btnAlterResourcePrices_Click(sender As System.Object, e As System.EventArgs) Handles btnAlterResourcePrices.Click
+        Private Sub btnAlterResourcePrices_Click(sender As Object, e As EventArgs) Handles btnAlterResourcePrices.Click
 
             Call Me.ModifyPrices()
 
         End Sub
 
-        Private Sub btnUpdateBatchPrices_Click(sender As System.Object, e As System.EventArgs) Handles btnUpdateBatchPrices.Click
+        Private Sub btnUpdateBatchPrices_Click(sender As Object, e As EventArgs) Handles btnUpdateBatchPrices.Click
 
             Call Me.ModifyPrices()
 
@@ -913,7 +915,7 @@ Namespace Controls
             Call AddPricingResources(CurrentJob, itemIDs)
 
             ' Create a new price form instance
-            Dim modifyPrices As New Core.frmModifyPrices(itemIDs)
+            Dim modifyPrices As New FrmModifyPrices(itemIDs)
 
             ' Show the form
             modifyPrices.ShowDialog()

@@ -17,8 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
+Imports System.Globalization
 Imports System.Xml
+Imports EveHQ.EveAPI
+Imports EveHQ.Core
 Imports System.Text
 
 Public Class Contract
@@ -53,7 +55,7 @@ End Class
 
 Public Class Contracts
     Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Private Shared ReadOnly Culture As New Globalization.CultureInfo("en-GB")
+    Private Shared ReadOnly Culture As New CultureInfo("en-GB")
     Public Shared Contracts As SortedList(Of Long, Contract)
 
     Public Shared Function ParseContracts(orderOwner As String) As SortedList(Of Long, Contract)
@@ -63,17 +65,17 @@ Public Class Contracts
         If PlugInData.PrismOwners.ContainsKey(OrderOwner) = True Then
 
             owner = PlugInData.PrismOwners(OrderOwner)
-            Dim ownerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Contracts)
+            Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Contracts)
             Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Contracts)
             Dim contractXML As XmlDocument
-            Dim apiReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+            Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
 
             If ownerAccount IsNot Nothing Then
 
                 If owner.IsCorp = True Then
-                    contractXML = apiReq.GetAPIXML(EveAPI.APITypes.ContractsCorp, ownerAccount.ToAPIAccount, ownerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    contractXML = apiReq.GetAPIXML(APITypes.ContractsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                 Else
-                    contractXML = apiReq.GetAPIXML(EveAPI.APITypes.ContractsChar, ownerAccount.ToAPIAccount, ownerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    contractXML = apiReq.GetAPIXML(APITypes.ContractsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                 End If
 
                 If contractXML IsNot Nothing Then
@@ -125,17 +127,17 @@ Public Class Contracts
                         newContract.DateAccepted = contract.Attributes.GetNamedItem("dateAccepted").Value
                         newContract.NumDays = CInt(contract.Attributes.GetNamedItem("numDays").Value)
                         newContract.DateCompleted = contract.Attributes.GetNamedItem("dateCompleted").Value
-                        newContract.Price = Double.Parse(contract.Attributes.GetNamedItem("price").Value, Globalization.NumberStyles.Any, Culture)
-                        newContract.Reward = Double.Parse(contract.Attributes.GetNamedItem("reward").Value, Globalization.NumberStyles.Any, Culture)
-                        newContract.Collateral = Double.Parse(contract.Attributes.GetNamedItem("collateral").Value, Globalization.NumberStyles.Any, Culture)
-                        newContract.Buyout = Double.Parse(contract.Attributes.GetNamedItem("buyout").Value, Globalization.NumberStyles.Any, Culture)
-                        newContract.Volume = Double.Parse(contract.Attributes.GetNamedItem("volume").Value, Globalization.NumberStyles.Any, Culture)
+                        newContract.Price = Double.Parse(contract.Attributes.GetNamedItem("price").Value, NumberStyles.Any, Culture)
+                        newContract.Reward = Double.Parse(contract.Attributes.GetNamedItem("reward").Value, NumberStyles.Any, Culture)
+                        newContract.Collateral = Double.Parse(contract.Attributes.GetNamedItem("collateral").Value, NumberStyles.Any, Culture)
+                        newContract.Buyout = Double.Parse(contract.Attributes.GetNamedItem("buyout").Value, NumberStyles.Any, Culture)
+                        newContract.Volume = Double.Parse(contract.Attributes.GetNamedItem("volume").Value, NumberStyles.Any, Culture)
 
                         ' Check for items
                         If owner.IsCorp = True Then
-                            contractXML = apiReq.GetAPIXML(EveAPI.APITypes.ContractItemsCorp, ownerAccount.ToAPIAccount, ownerID, newContract.ContractID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            contractXML = apiReq.GetAPIXML(APITypes.ContractItemsCorp, ownerAccount.ToAPIAccount, ownerID, newContract.ContractID, APIReturnMethods.ReturnCacheOnly)
                         Else
-                            contractXML = apiReq.GetAPIXML(EveAPI.APITypes.ContractItemsChar, ownerAccount.ToAPIAccount, ownerID, newContract.ContractID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            contractXML = apiReq.GetAPIXML(APITypes.ContractItemsChar, ownerAccount.ToAPIAccount, ownerID, newContract.ContractID, APIReturnMethods.ReturnCacheOnly)
                         End If
                         If contractXML IsNot Nothing Then
                             newContract.Items = ParseContractItems(contractXML)
@@ -205,7 +207,7 @@ Public Class Contracts
             strID.Remove(0, 1)
             ' Get the name data from the DB
             Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-            Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             If idData IsNot Nothing Then
                 If idData.Tables(0).Rows.Count > 0 Then
                     For Each idRow As DataRow In idData.Tables(0).Rows

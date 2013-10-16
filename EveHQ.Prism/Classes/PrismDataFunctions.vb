@@ -17,17 +17,17 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
-Imports System.Windows.Forms
-Imports System.Text
+Imports System.Globalization
 Imports System.Xml
 Imports System.Data.SQLite
-Imports EveHQ.Core
 Imports EveHQ.EveData
+Imports EveHQ.Core
+Imports System.Windows.Forms
+Imports System.Text
 
 Public Class PrismDataFunctions
     Private Const PrismTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Private Shared ReadOnly Culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+    Private Shared ReadOnly Culture As CultureInfo = New CultureInfo("en-GB")
 
     Public Shared Function CheckDatabaseTables() As Boolean
         If CheckAssetItemNameDBTable() = True Then

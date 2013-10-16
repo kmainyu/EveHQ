@@ -56,7 +56,7 @@ Namespace Controls
             End Set
         End Property
 
-        Private Sub nudME_ButtonCustomClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudME.ButtonCustomClick
+        Private Sub nudME_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudME.ButtonCustomClick
             If cAssignedTypeID <> "" Then
                 If cAssignedJob IsNot Nothing Then
                     cAssignedJob.CurrentBlueprint.MELevel = nudME.Value
@@ -71,7 +71,7 @@ Namespace Controls
             End If
         End Sub
 
-        Private Sub nudME_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudME.ValueChanged
+        Private Sub nudME_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudME.ValueChanged
             nudME.ButtonCustom.Enabled = False
             If cAssignedTypeID <> "" Then
                 If cAssignedJob IsNot Nothing Then
@@ -84,7 +84,7 @@ Namespace Controls
             End If
         End Sub
 
-        Private Sub nudME_LockUpdateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles nudME.LockUpdateChanged
+        Private Sub nudME_LockUpdateChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudME.LockUpdateChanged
             If cAssignedTypeID <> "" Then
                 If nudME.LockUpdateChecked = True Then
                     ParentJob.ReplaceResourceWithJob(CInt(AssignedTypeID))

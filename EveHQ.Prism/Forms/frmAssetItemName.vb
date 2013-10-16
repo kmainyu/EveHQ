@@ -17,8 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.Windows.Forms
+Imports EveHQ.Core
 
 Public Class frmAssetItemName
 
@@ -59,18 +59,18 @@ Public Class frmAssetItemName
         End Set
     End Property
 
-    Private Sub frmAssetItemName_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmAssetItemName_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         lblDescription.Text = "Please enter a name for the " & AssetName & " (assetID #" & cAssetID & ")"
         If cEditMode = True Then
             txtAssetItemName.Text = PlugInData.AssetItemNames(cAssetID)
         End If
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
         Me.Close()
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         If txtAssetItemName.Text = "" Then
             MessageBox.Show("You must enter some valid text to set a name", "Text Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -98,8 +98,8 @@ Public Class frmAssetItemName
 
     Private Function AddAssetItemName(ByVal assetID As Integer, ByVal assetName As String) As Boolean
         Dim assetSQL As String = "INSERT INTO assetItemNames (itemID, itemName) VALUES (" & assetID & ", '" & assetName & "');"
-        If Core.CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-            MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
+            MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else
             Return True
@@ -108,8 +108,8 @@ Public Class frmAssetItemName
 
     Private Function EditAssetItemName(ByVal assetID As Integer, ByVal assetName As String) As Boolean
         Dim assetSQL As String = "UPDATE assetItemNames SET itemName='" & assetName & "' WHERE itemID=" & assetID & ";"
-        If Core.CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-            MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & EveHQ.Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+        If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
+            MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Return False
         Else
             Return True

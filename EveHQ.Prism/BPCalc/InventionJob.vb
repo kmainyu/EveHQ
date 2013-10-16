@@ -1,5 +1,6 @@
-﻿Imports System.Threading.Tasks
+﻿Imports EveHQ.Core
 Imports EveHQ.EveData
+Imports System.Threading.Tasks
 
 Namespace BPCalc
 
@@ -205,7 +206,7 @@ Namespace BPCalc
 
             ' Total the item costs
 
-            Dim prices As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(quantityTable.Keys)
+            Dim prices As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(quantityTable.Keys)
             prices.Wait()
             Dim itemCost As Dictionary(Of Integer, Double) = prices.Result
 

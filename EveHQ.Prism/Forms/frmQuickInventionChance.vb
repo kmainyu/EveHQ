@@ -23,7 +23,7 @@ Public Class frmQuickInventionChance
     Dim FormStartup As Boolean = True
     Dim InventionChance As Double = 0
 
-    Private Sub frmQuickInventionChance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmQuickInventionChance_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
         ' Set the startup flag
         FormStartup = True
@@ -43,37 +43,37 @@ Public Class frmQuickInventionChance
 
     End Sub
 
-    Private Sub cboBaseChance_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBaseChance.SelectedIndexChanged
+    Private Sub cboBaseChance_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboBaseChance.SelectedIndexChanged
         If FormStartup = False Then
             Call Me.RecalculateInventionChance()
         End If
     End Sub
 
-    Private Sub cboSkill1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkill1.SelectedIndexChanged
+    Private Sub cboSkill1_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkill1.SelectedIndexChanged
         If FormStartup = False Then
             Call Me.RecalculateInventionChance()
         End If
     End Sub
 
-    Private Sub cboSkill2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkill2.SelectedIndexChanged
+    Private Sub cboSkill2_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkill2.SelectedIndexChanged
         If FormStartup = False Then
             Call Me.RecalculateInventionChance()
         End If
     End Sub
 
-    Private Sub cboSkill3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkill3.SelectedIndexChanged
+    Private Sub cboSkill3_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkill3.SelectedIndexChanged
         If FormStartup = False Then
             Call Me.RecalculateInventionChance()
         End If
     End Sub
 
-    Private Sub cboItemMetaLevel_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboItemMetaLevel.SelectedIndexChanged
+    Private Sub cboItemMetaLevel_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboItemMetaLevel.SelectedIndexChanged
         If FormStartup = False Then
             Call Me.RecalculateInventionChance()
         End If
     End Sub
 
-    Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDecryptor.SelectedIndexChanged
+    Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDecryptor.SelectedIndexChanged
         If FormStartup = False Then
             Call Me.RecalculateInventionChance()
         End If
@@ -182,12 +182,12 @@ Public Class frmQuickInventionChance
         End If
     End Function
 
-    Private Sub nudAttempts_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudAttempts.ValueChanged
+    Private Sub nudAttempts_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudAttempts.ValueChanged
         nudSuccess.MaxValue = nudAttempts.Value
         Call Me.RecalculateProbability()
     End Sub
 
-    Private Sub nudSuccess_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudSuccess.ValueChanged
+    Private Sub nudSuccess_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudSuccess.ValueChanged
         Call Me.RecalculateProbability()
     End Sub
 End Class

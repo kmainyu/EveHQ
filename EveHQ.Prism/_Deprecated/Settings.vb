@@ -20,7 +20,7 @@
 
 <Serializable()> Public Class Settings
 
-    Public Shared PrismSettings As New Prism.Settings
+    Public Shared PrismSettings As New Settings
     Public Shared PrismFolder As String
 
     Private cFactoryInstallCost As Double = 1000

@@ -36,7 +36,7 @@ Namespace BPCalc
                 Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName & ".temp")
 
                 ' Create a JSON string for writing
-                Dim json As String = JsonConvert.SerializeObject(JobList, Newtonsoft.Json.Formatting.Indented)
+                Dim json As String = JsonConvert.SerializeObject(JobList, Formatting.Indented)
 
                 ' Write the JSON version of the settings
                 Try

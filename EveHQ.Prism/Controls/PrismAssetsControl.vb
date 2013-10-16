@@ -17,16 +17,19 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.IO
-Imports System.Text
-Imports System.Threading.Tasks
+Imports System.Globalization
+Imports System.ComponentModel
+Imports EveHQ.EveAPI
+Imports EveHQ.Core
+Imports DevComponents.AdvTree
 Imports System.Windows.Forms
 Imports System.Xml
-Imports DevComponents.AdvTree
-Imports DevComponents.DotNetBar
-Imports EveHQ.Common.Extensions
 Imports EveHQ.EveData
-Imports EveHQ.Market
+Imports EveHQ.Common.Extensions
+Imports System.Threading.Tasks
+Imports EveHQ.Core.ItemBrowser
+Imports System.Text
+Imports System.IO
 
 Namespace Controls
 
@@ -49,7 +52,7 @@ Namespace Controls
         Dim totalAssetBatch As Long = 0
         Dim assetCorpMode As Boolean = False
         Dim IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-        Dim culture As System.Globalization.CultureInfo = New System.Globalization.CultureInfo("en-GB")
+        Dim culture As CultureInfo = New CultureInfo("en-GB")
         Dim cRecyclingAssetList As New SortedList(Of Integer, Long)
         Dim cRecyclingAssetLocation As New Node
         Dim NumberOfActiveColumns As Integer = 0
@@ -81,7 +84,7 @@ Namespace Controls
 
         End Sub
 
-        Private Sub btnRefreshAssets_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefreshAssets.Click
+        Private Sub btnRefreshAssets_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRefreshAssets.Click
             Dim minValue As Double = 0
             If chkMinSystemValue.Checked = True Then
                 ' Check for null value and reset
@@ -109,12 +112,12 @@ Namespace Controls
             End If
         End Sub
 
-        Private Sub txtSearch_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearch.KeyDown
+        Private Sub txtSearch_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles txtSearch.KeyDown
             If e.KeyCode = Keys.Enter Then
                 Call Me.RefreshAssets()
             End If
         End Sub
-        Private Sub txtMinSystemValue_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtMinSystemValue.KeyDown
+        Private Sub txtMinSystemValue_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs) Handles txtMinSystemValue.KeyDown
             If e.KeyCode = Keys.Enter Then
                 Dim minValue As Double
                 If Double.TryParse(txtMinSystemValue.Text, minValue) = True Then
@@ -282,7 +285,7 @@ Namespace Controls
 
 #Region "Asset Column UI Routines"
 
-        Private Sub adtAssets_ColumnMoved(ByVal sender As Object, ByVal ea As DevComponents.AdvTree.ColumnMovedEventArgs) Handles adtAssets.ColumnMoved
+        Private Sub adtAssets_ColumnMoved(ByVal sender As Object, ByVal ea As ColumnMovedEventArgs) Handles adtAssets.ColumnMoved
 
             If ea.NewColumnDisplayIndex = 0 Then
                 ea.Column.DisplayIndex = 2
@@ -292,11 +295,11 @@ Namespace Controls
             Dim EndColName As String = adtAssets.Columns(ea.NewColumnDisplayIndex).Name
             Dim StartIdx As Integer = 0
             Dim EndIdx As Integer = 0
-            For idx As Integer = 1 To Prism.PrismSettings.UserSettings.UserSlotColumns.Count - 1
-                If Prism.PrismSettings.UserSettings.UserSlotColumns(idx).Name = StartColName Then
+            For idx As Integer = 1 To PrismSettings.UserSettings.UserSlotColumns.Count - 1
+                If PrismSettings.UserSettings.UserSlotColumns(idx).Name = StartColName Then
                     StartIdx = idx
                 End If
-                If Prism.PrismSettings.UserSettings.UserSlotColumns(idx).Name = EndColName Then
+                If PrismSettings.UserSettings.UserSlotColumns(idx).Name = EndColName Then
                     EndIdx = idx
                 End If
             Next
@@ -305,36 +308,36 @@ Namespace Controls
                 ' Ignore stuff
             Else
                 ' We shouldn't overwrite the main column!
-                Dim SCol As UserSlotColumn = Prism.PrismSettings.UserSettings.UserSlotColumns(StartIdx)
+                Dim SCol As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(StartIdx)
                 Dim StartUserCol As New UserSlotColumn(SCol.Name, SCol.Description, SCol.Width, SCol.Active)
                 If EndIdx > StartIdx Then
                     For Idx As Integer = StartIdx To EndIdx - 1
-                        Dim MCol As UserSlotColumn = Prism.PrismSettings.UserSettings.UserSlotColumns(Idx + 1)
-                        Prism.PrismSettings.UserSettings.UserSlotColumns(Idx) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
+                        Dim MCol As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(Idx + 1)
+                        PrismSettings.UserSettings.UserSlotColumns(Idx) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
                     Next
-                    Prism.PrismSettings.UserSettings.UserSlotColumns(EndIdx) = StartUserCol
+                    PrismSettings.UserSettings.UserSlotColumns(EndIdx) = StartUserCol
                 Else
                     For Idx As Integer = StartIdx - 1 To EndIdx Step -1
-                        Dim MCol As UserSlotColumn = Prism.PrismSettings.UserSettings.UserSlotColumns(Idx)
-                        Prism.PrismSettings.UserSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
+                        Dim MCol As UserSlotColumn = PrismSettings.UserSettings.UserSlotColumns(Idx)
+                        PrismSettings.UserSettings.UserSlotColumns(Idx + 1) = New UserSlotColumn(MCol.Name, MCol.Description, MCol.Width, MCol.Active)
                     Next
-                    Prism.PrismSettings.UserSettings.UserSlotColumns(EndIdx) = StartUserCol
+                    PrismSettings.UserSettings.UserSlotColumns(EndIdx) = StartUserCol
                 End If
             End If
             Me.RefreshAssets()
         End Sub
 
-        Private Sub adtAssets_ColumnResized(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtAssets.ColumnResized
+        Private Sub adtAssets_ColumnResized(ByVal sender As Object, ByVal e As EventArgs) Handles adtAssets.ColumnResized
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             If ch.Name <> "AssetName" Then
-                For Each UserCol As UserSlotColumn In Prism.PrismSettings.UserSettings.UserSlotColumns
+                For Each UserCol As UserSlotColumn In PrismSettings.UserSettings.UserSlotColumns
                     If UserCol.Name = ch.Name Then
                         UserCol.Width = ch.Width.Absolute
                         Exit Sub
                     End If
                 Next
             Else
-                Prism.PrismSettings.UserSettings.SlotNameWidth = ch.Width.Absolute
+                PrismSettings.UserSettings.SlotNameWidth = ch.Width.Absolute
             End If
         End Sub
 
@@ -390,7 +393,7 @@ Namespace Controls
                 adtAssets.Enabled = True
             End If
 
-            Core.AdvTreeSorter.Sort(adtAssets, 1, True, True)
+            AdvTreeSorter.Sort(adtAssets, 1, True, True)
             adtAssets.EndUpdate()
         End Sub
 
@@ -412,7 +415,7 @@ Namespace Controls
 
             For Each batch As IEnumerable(Of Integer) In requestBatches
 
-                Dim batchTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(batch)
+                Dim batchTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(batch)
                 batchTask.Wait() ' purposely serializing these requests to be a good citizen with eve-central.
                 If batchTask.IsCompleted And batchTask.IsFaulted = False And batchTask.Exception Is Nothing And batchTask.Result IsNot Nothing Then
                     UpdateAssetPricing(batchTask.Result)
@@ -522,14 +525,14 @@ Namespace Controls
                 If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
 
                     Owner = PlugInData.PrismOwners(cOwner.Text)
-                    Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
+                    Dim OwnerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.CorpSheet)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.CorpSheet)
 
                     If OwnerAccount IsNot Nothing Then
 
                         If Owner.IsCorp = True Then
-                            Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
-                            Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                            Dim corpXML As XmlDocument = APIReq.GetAPIXML(APITypes.CorpSheet, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                             If corpXML IsNot Nothing Then
                                 ' Check response string for any error codes?
                                 Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
@@ -578,19 +581,19 @@ Namespace Controls
 
                 If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                     Owner = PlugInData.PrismOwners(cOwner.Text)
-                    Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                    Dim OwnerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                     If OwnerAccount IsNot Nothing Then
 
                         Dim AssetXML As New XmlDocument
-                        Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+                        Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                         If Owner.IsCorp = True Then
                             assetCorpMode = chkCorpHangarMode.Checked
-                            AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            AssetXML = APIReq.GetAPIXML(APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                         Else
                             assetCorpMode = False
-                            AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            AssetXML = APIReq.GetAPIXML(APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                         End If
 
                         If AssetXML IsNot Nothing Then
@@ -1113,15 +1116,15 @@ Namespace Controls
                 If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
 
                     Owner = PlugInData.PrismOwners(cOwner.Text)
-                    Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
+                    Dim OwnerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Balances)
                     Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Balances)
 
                     If OwnerAccount IsNot Nothing Then
 
                         If Owner.IsCorp = True Then
                             ' Check for corp wallets
-                            Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
-                            Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                            Dim corpXML As XmlDocument = APIReq.GetAPIXML(APITypes.AccountBalancesCorp, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                             If corpXML IsNot Nothing Then
                                 ' Check response string for any error codes?
                                 Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
@@ -1133,7 +1136,7 @@ Namespace Controls
                                         corpWallets.Add(Owner.Name, Owner.ID)
                                         accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                                         For Each account In accountList
-                                            Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Any, culture)
+                                            Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, NumberStyles.Any, culture)
                                             Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
                                             If corpWalletDivisions.ContainsKey(Owner.ID & "_" & accountKey) = False Then
                                                 corpWalletDivisions.Add(Owner.ID & "_" & accountKey, isk)
@@ -1150,8 +1153,8 @@ Namespace Controls
                             End If
                         Else
                             ' Check for character wallets
-                            Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
-                            Dim corpXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountBalancesChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                            Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                            Dim corpXML As XmlDocument = APIReq.GetAPIXML(APITypes.AccountBalancesChar, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                             If corpXML IsNot Nothing Then
                                 ' Check response string for any error codes?
                                 Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
@@ -1161,7 +1164,7 @@ Namespace Controls
                                     Dim account As XmlNode
                                     accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
                                     For Each account In accountList
-                                        Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, Globalization.NumberStyles.Any, culture)
+                                        Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, NumberStyles.Any, culture)
                                         If charWallets.ContainsKey(Owner.Name) = False Then
                                             charWallets.Add(Owner.Name, isk)
                                         End If
@@ -1355,17 +1358,17 @@ Namespace Controls
             If PlugInData.PrismOwners.ContainsKey(OrderOwner) = True Then
 
                 Owner = PlugInData.PrismOwners(OrderOwner)
-                Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
+                Dim OwnerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Orders)
                 Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Orders)
                 Dim OrderXML As New XmlDocument
-                Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+                Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
 
                 If OwnerAccount IsNot Nothing Then
 
                     If Owner.IsCorp = True Then
-                        OrderXML = APIReq.GetAPIXML(EveAPI.APITypes.OrdersCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                        OrderXML = APIReq.GetAPIXML(APITypes.OrdersCorp, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                     Else
-                        OrderXML = APIReq.GetAPIXML(EveAPI.APITypes.OrdersChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                        OrderXML = APIReq.GetAPIXML(APITypes.OrdersChar, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
 
                     End If
                     If OrderXML IsNot Nothing Then
@@ -1386,7 +1389,7 @@ Namespace Controls
                             newOrder.Escrow = Double.Parse(Order.Attributes.GetNamedItem("escrow").Value, culture) / newOrder.VolRemaining
                             newOrder.Price = Double.Parse(Order.Attributes.GetNamedItem("price").Value, culture)
                             newOrder.Bid = CInt(Order.Attributes.GetNamedItem("bid").Value)
-                            newOrder.Issued = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, Globalization.DateTimeStyles.None)
+                            newOrder.Issued = DateTime.ParseExact(Order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, culture, DateTimeStyles.None)
                             newOrderCollection.MarketOrders.Add(newOrder)
                             If newOrder.Bid = 0 Then ' Sell Order
                                 newOrderCollection.SellOrders += 1
@@ -1536,7 +1539,7 @@ Namespace Controls
                 RNode.Cells(_assetColumn("AssetMeta")).Text = ResearchItem.MetaLevel.ToInvariantString("N0")
                 RNode.Cells(_assetColumn("AssetVolume")).Text = ResearchItem.Volume.ToInvariantString("N2")
                 RNode.Cells(_assetColumn("AssetQuantity")).Text = (Job.Runs * ResearchItem.PortionSize).ToInvariantString("N0")
-                Dim price As Double = Core.DataFunctions.GetPrice(Job.OutputTypeID)
+                Dim price As Double = DataFunctions.GetPrice(Job.OutputTypeID)
                 Dim value As Double = Job.Runs * ResearchItem.PortionSize * price
                 RNode.Cells(_assetColumn("AssetPrice")).Text = price.ToInvariantString("N2")
                 RNode.Cells(_assetColumn("AssetValue")).Text = value.ToInvariantString("N2")
@@ -1595,7 +1598,7 @@ Namespace Controls
                             Dim ContractValue As Double = 0
 
                             ' batch request price data for the collection
-                            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(From item In OwnerContract.Items.Keys Select item)
+                            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From item In OwnerContract.Items.Keys Select item)
                             priceTask.Wait()
                             Dim prices As Dictionary(Of Integer, Double) = priceTask.Result
                             For Each typeID As Integer In OwnerContract.Items.Keys
@@ -1667,7 +1670,7 @@ Namespace Controls
 #End Region
 
 #Region "Asset Context Menu & UI Routines"
-        Private Sub ctxAssets_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxAssets.Opening
+        Private Sub ctxAssets_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxAssets.Opening
             If adtAssets.SelectedNodes.Count > 0 Then
                 If adtAssets.SelectedNodes.Count = 1 Then
                     If adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag IsNot Nothing Then
@@ -1767,18 +1770,18 @@ Namespace Controls
                 e.Cancel = True
             End If
         End Sub
-        Private Sub mnuViewInIB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInIB.Click
+        Private Sub mnuViewInIB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewInIB.Click
 
             Dim typeID As Integer = CInt(mnuItemName.Tag)
-            Dim myIB As New Core.ItemBrowser.FrmIB(typeID)
+            Dim myIB As New FrmIB(typeID)
             myIB.ShowDialog()
             
         End Sub
-        Private Sub mnuModifyPrice_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuModifyPrice.Click
-            Dim newPrice As New Core.frmModifyPrice(CInt(mnuItemName.Tag), 0)
+        Private Sub mnuModifyPrice_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuModifyPrice.Click
+            Dim newPrice As New FrmModifyPrice(CInt(mnuItemName.Tag), 0)
             newPrice.ShowDialog()
         End Sub
-        Private Sub mnuViewInHQF_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewInHQF.Click
+        Private Sub mnuViewInHQF_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewInHQF.Click
             If adtAssets.SelectedNodes.Count > 0 Then
                 Dim assetID As String = adtAssets.SelectedNodes(0).Tag.ToString
                 Dim shipName As String = adtAssets.SelectedNodes(0).Text
@@ -1859,17 +1862,17 @@ Namespace Controls
                 If cOwner.Text = ShipOwner Then
                     If PlugInData.PrismOwners.ContainsKey(cOwner.Text) = True Then
                         Owner = PlugInData.PrismOwners(cOwner.Text)
-                        Dim OwnerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
+                        Dim OwnerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(Owner, CorpRepType.Assets)
                         Dim OwnerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(Owner, CorpRepType.Assets)
 
                         If OwnerAccount IsNot Nothing Then
 
                             Dim AssetXML As New XmlDocument
-                            Dim APIReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+                            Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
                             If Owner.IsCorp = True Then
-                                AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                                AssetXML = APIReq.GetAPIXML(APITypes.AssetsCorp, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                             Else
-                                AssetXML = APIReq.GetAPIXML(EveAPI.APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                                AssetXML = APIReq.GetAPIXML(APITypes.AssetsChar, OwnerAccount.ToAPIAccount, OwnerID, APIReturnMethods.ReturnCacheOnly)
                             End If
 
                             If AssetXML IsNot Nothing Then
@@ -1976,7 +1979,7 @@ Namespace Controls
                 End Try
             Next
         End Sub
-        Private Sub adtAssets_SelectionChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles adtAssets.SelectionChanged
+        Private Sub adtAssets_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtAssets.SelectionChanged
             If adtAssets.SelectedNodes.Count > 0 Then
                 Dim volume, lineValue, value As Double
                 Dim chkParent As New Node
@@ -2014,7 +2017,7 @@ Namespace Controls
                 lblTotalSelectedAssetValue.Text = "Total Selected Assets: n/a"
             End If
         End Sub
-        Private Sub mnuAddCustomName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCustomName.Click
+        Private Sub mnuAddCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCustomName.Click
             Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
             Dim assetName As String = mnuItemName.Text
             Dim newCustomName As New frmAssetItemName
@@ -2033,20 +2036,20 @@ Namespace Controls
             End If
             newCustomName.Dispose()
         End Sub
-        Private Sub mnuRemoveCustomName_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRemoveCustomName.Click
+        Private Sub mnuRemoveCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRemoveCustomName.Click
             Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
             Dim itemName As String = mnuItemName.Text
             Dim assetSQL As String = "DELETE FROM assetItemNames WHERE itemID=" & assetID & ";"
-            If Core.CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-                MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & Core.HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
+                MessageBox.Show("There was an error deleting the record from the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             Else
                 PlugInData.AssetItemNames.Remove(assetID)
                 adtAssets.SelectedNodes(0).Text = itemName
             End If
         End Sub
-        Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
+        Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
             Dim CH As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            Core.AdvTreeSorter.Sort(CH, True, False)
+            AdvTreeSorter.Sort(CH, True, False)
         End Sub
 #End Region
 
@@ -2225,19 +2228,19 @@ Namespace Controls
                 Call Me.SetGroupFilterLabel()
             End If
         End Sub
-        Private Sub tvwFilter_NodeMouseClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFilter.NodeMouseClick
+        Private Sub tvwFilter_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwFilter.NodeMouseClick
             tvwFilter.SelectedNode = e.Node
         End Sub
-        Private Sub AddToFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddToFilterToolStripMenuItem.Click
+        Private Sub AddToFilterToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles AddToFilterToolStripMenuItem.Click
             Call Me.AddFilter()
         End Sub
-        Private Sub RemoveFilterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RemoveFilterToolStripMenuItem.Click
+        Private Sub RemoveFilterToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles RemoveFilterToolStripMenuItem.Click
             Call Me.RemoveFilter()
         End Sub
-        Private Sub lstFilters_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lstFilters.MouseDoubleClick
+        Private Sub lstFilters_MouseDoubleClick(ByVal sender As Object, ByVal e As MouseEventArgs) Handles lstFilters.MouseDoubleClick
             Call Me.RemoveFilter()
         End Sub
-        Private Sub tvwFilter_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.TreeNodeMouseClickEventArgs) Handles tvwFilter.NodeMouseDoubleClick
+        Private Sub tvwFilter_NodeMouseDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwFilter.NodeMouseDoubleClick
             Call Me.AddFilter()
         End Sub
         Private Sub SetGroupFilterLabel()
@@ -2252,7 +2255,7 @@ Namespace Controls
             End If
             lblGroupFilters.Text = filter
         End Sub
-        Private Sub btnClearGroupFilters_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearGroupFilters.Click
+        Private Sub btnClearGroupFilters_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClearGroupFilters.Click
             ' Remove all items from the list of filters
             lstFilters.Items.Clear()
             ' Remove all items from the group and cat filters
@@ -2261,7 +2264,7 @@ Namespace Controls
             filters.Clear()
             Call Me.SetGroupFilterLabel()
         End Sub
-        Private Sub ctxFilterList_Opening(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxFilterList.Opening
+        Private Sub ctxFilterList_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxFilterList.Opening
             If lstFilters.SelectedItems.Count = 0 Then
                 e.Cancel = True
             End If
@@ -2397,7 +2400,7 @@ Namespace Controls
             Next
             Return locQ
         End Function
-        Private Sub mnuAddItemToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddItemToFilter.Click
+        Private Sub mnuAddItemToFilter_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddItemToFilter.Click
             Dim ItemID As Integer = CInt(mnuItemName.Tag)
             Dim ItemData As EveType = StaticData.Types(ItemID)
             txtSearch.Text = ItemData.Name
@@ -2408,7 +2411,7 @@ Namespace Controls
                 MessageBox.Show("Minimum System Value is not a valid number. Please try again!", "Error in Minimum Value", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         End Sub
-        Private Sub mnuAddGroupToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddGroupToFilter.Click
+        Private Sub mnuAddGroupToFilter_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddGroupToFilter.Click
             Dim ItemID As Integer = CInt(mnuItemName.Tag)
             Dim ItemData As EveType = StaticData.Types(ItemID)
             Dim groupName As String = StaticData.TypeGroups(ItemData.Group)
@@ -2416,7 +2419,7 @@ Namespace Controls
             Dim FullPath As String = catName & "\" & groupName
             Call SetFilterFromMenu(FullPath, True, groupName)
         End Sub
-        Private Sub mnuAddCategoryToFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAddCategoryToFilter.Click
+        Private Sub mnuAddCategoryToFilter_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCategoryToFilter.Click
             Dim ItemID As Integer = CInt(mnuItemName.Tag)
             Dim ItemData As EveType = StaticData.Types(ItemID)
             Dim FullPath As String = StaticData.TypeCats(ItemData.Category)
@@ -2440,7 +2443,7 @@ Namespace Controls
 
 #Region "Item Recycler Routines"
 
-        Private Sub mnuRecycleItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleItem.Click
+        Private Sub mnuRecycleItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRecycleItem.Click
             Dim recycleList As New SortedList(Of Integer, Long)
             Dim assetName As String = ""
             tempAssetList.Clear()
@@ -2469,7 +2472,7 @@ Namespace Controls
             PrismEvents.StartRecyclingInfoAvailable()
         End Sub
 
-        Private Sub mnuRecycleContained_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleContained.Click
+        Private Sub mnuRecycleContained_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRecycleContained.Click
             Dim recycleList As New SortedList(Of Integer, Long)
             tempAssetList.Clear()
             For Each asset As Node In adtAssets.SelectedNodes
@@ -2482,7 +2485,7 @@ Namespace Controls
             PrismEvents.StartRecyclingInfoAvailable()
         End Sub
 
-        Private Sub mnuRecycleAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuRecycleAll.Click
+        Private Sub mnuRecycleAll_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRecycleAll.Click
             Dim recycleList As New SortedList(Of Integer, Long)
             Dim assetName As String = ""
             tempAssetList.Clear()
@@ -2543,16 +2546,16 @@ Namespace Controls
 
 #End Region
 
-        Private Sub btnFilters_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFilters.Click
+        Private Sub btnFilters_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnFilters.Click
             splitterAssets.Expanded = Not splitterAssets.Expanded
         End Sub
 
-        Private Sub PrismAssetsControl_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Private Sub PrismAssetsControl_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
             ' Initialise the user defined slot columns
             Call Me.UpdateAssetSlotColumns()
         End Sub
 
-        Private Sub mnuConfigureColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuConfigureColumns.Click
+        Private Sub mnuConfigureColumns_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuConfigureColumns.Click
             ' Open options form
             Dim mySettings As New frmPrismSettings
             mySettings.Tag = "nodeAssetColumns"
@@ -2561,7 +2564,7 @@ Namespace Controls
             Call Me.RefreshAssets()
         End Sub
 
-        Private Sub mnuViewAssetID_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuViewAssetID.Click
+        Private Sub mnuViewAssetID_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewAssetID.Click
             Dim itemName As String = adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag.ToString
             Dim itemText As String = adtAssets.SelectedNodes(0).Text
             Dim itemID As String = adtAssets.SelectedNodes(0).Tag.ToString
@@ -2577,23 +2580,23 @@ Namespace Controls
 
 #Region "Grouped Export"
 
-        Private Sub btiItemName_Click(sender As System.Object, e As System.EventArgs) Handles btiItemNameG.Click
+        Private Sub btiItemName_Click(sender As Object, e As EventArgs) Handles btiItemNameG.Click
             Call ExportGroupedAssets(ExportTypes.TypeName)
         End Sub
 
-        Private Sub btiQuantity_Click(sender As System.Object, e As System.EventArgs) Handles btiQuantityG.Click
+        Private Sub btiQuantity_Click(sender As Object, e As EventArgs) Handles btiQuantityG.Click
             Call ExportGroupedAssets(ExportTypes.Quantity)
         End Sub
 
-        Private Sub btiPrice_Click(sender As System.Object, e As System.EventArgs) Handles btiPriceG.Click
+        Private Sub btiPrice_Click(sender As Object, e As EventArgs) Handles btiPriceG.Click
             Call ExportGroupedAssets(ExportTypes.Price)
         End Sub
 
-        Private Sub btiValue_Click(sender As System.Object, e As System.EventArgs) Handles btiValueG.Click
+        Private Sub btiValue_Click(sender As Object, e As EventArgs) Handles btiValueG.Click
             Call ExportGroupedAssets(ExportTypes.Value)
         End Sub
 
-        Private Sub btiVolume_Click(sender As System.Object, e As System.EventArgs) Handles btiVolumeG.Click
+        Private Sub btiVolume_Click(sender As Object, e As EventArgs) Handles btiVolumeG.Click
             Call ExportGroupedAssets(ExportTypes.Volume)
         End Sub
 
@@ -2624,26 +2627,26 @@ Namespace Controls
             Next
 
             ' Sort our result depending on the ExportType
-            Dim ResultsSorter As New Core.ClassSorter
+            Dim ResultsSorter As New ClassSorter
             Select Case ExportType
                 Case ExportTypes.TypeName
-                    ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
+                    ResultsSorter.SortClasses.Add(New SortClass("TypeName", SortDirection.Ascending))
                 Case ExportTypes.Quantity
-                    ResultsSorter.SortClasses.Add(New Core.SortClass("Quantity", Core.SortDirection.Ascending))
+                    ResultsSorter.SortClasses.Add(New SortClass("Quantity", SortDirection.Ascending))
                 Case ExportTypes.Price
-                    ResultsSorter.SortClasses.Add(New Core.SortClass("Price", Core.SortDirection.Ascending))
+                    ResultsSorter.SortClasses.Add(New SortClass("Price", SortDirection.Ascending))
                 Case ExportTypes.Value
-                    ResultsSorter.SortClasses.Add(New Core.SortClass("Value", Core.SortDirection.Ascending))
+                    ResultsSorter.SortClasses.Add(New SortClass("Value", SortDirection.Ascending))
                 Case ExportTypes.Volume
-                    ResultsSorter.SortClasses.Add(New Core.SortClass("Volume", Core.SortDirection.Ascending))
+                    ResultsSorter.SortClasses.Add(New SortClass("Volume", SortDirection.Ascending))
             End Select
-            ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
+            ResultsSorter.SortClasses.Add(New SortClass("TypeName", SortDirection.Ascending))
             Assets.Sort(ResultsSorter)
 
             ' Select a location for the export
             Dim sfd As New SaveFileDialog
             sfd.Title = "Export Assets"
-            sfd.InitialDirectory = Core.HQ.reportFolder
+            sfd.InitialDirectory = HQ.reportFolder
             Dim filterText As String = "Comma Separated Variable files (*.csv)|*.csv"
             filterText &= "|Tab Separated Variable files (*.txt)|*.txt"
             sfd.Filter = filterText
@@ -2654,7 +2657,7 @@ Namespace Controls
             If sfd.FileName <> "" Then
                 Select Case sfd.FilterIndex
                     Case 1
-                        Call Me.ExportGroupedAssets(Assets, Core.HQ.Settings.CsvSeparatorChar, sfd.FileName)
+                        Call Me.ExportGroupedAssets(Assets, HQ.Settings.CsvSeparatorChar, sfd.FileName)
                     Case 2
                         Call Me.ExportGroupedAssets(Assets, ControlChars.Tab, sfd.FileName)
                 End Select
@@ -2707,7 +2710,7 @@ Namespace Controls
 
 #Region "Full Export"
 
-        Private Sub btnExport_Click(sender As System.Object, e As System.EventArgs) Handles btnExport.Click
+        Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
             Call Me.ExportAssets()
         End Sub
 
@@ -2736,7 +2739,7 @@ Namespace Controls
             Next
 
             ' Sort our result depending on the ExportType
-            Dim ResultsSorter As New Core.ClassSorter
+            Dim ResultsSorter As New ClassSorter
             'Select Case ExportType
             '    Case ExportTypes.TypeName
             '        ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
@@ -2749,13 +2752,13 @@ Namespace Controls
             '    Case ExportTypes.Volume
             '        ResultsSorter.SortClasses.Add(New Core.SortClass("Volume", Core.SortDirection.Ascending))
             'End Select
-            ResultsSorter.SortClasses.Add(New Core.SortClass("TypeName", Core.SortDirection.Ascending))
+            ResultsSorter.SortClasses.Add(New SortClass("TypeName", SortDirection.Ascending))
             Assets.Sort(ResultsSorter)
 
             ' Select a location for the export
             Dim sfd As New SaveFileDialog
             sfd.Title = "Export Assets"
-            sfd.InitialDirectory = Core.HQ.reportFolder
+            sfd.InitialDirectory = HQ.reportFolder
             Dim filterText As String = "Comma Separated Variable files (*.csv)|*.csv"
             filterText &= "|Tab Separated Variable files (*.txt)|*.txt"
             sfd.Filter = filterText
@@ -2766,7 +2769,7 @@ Namespace Controls
             If sfd.FileName <> "" Then
                 Select Case sfd.FilterIndex
                     Case 1
-                        Call Me.ExportAssets(Assets, Core.HQ.Settings.CsvSeparatorChar, sfd.FileName)
+                        Call Me.ExportAssets(Assets, HQ.Settings.CsvSeparatorChar, sfd.FileName)
                     Case 2
                         Call Me.ExportAssets(Assets, ControlChars.Tab, sfd.FileName)
                 End Select

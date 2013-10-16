@@ -17,7 +17,6 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.Windows.Forms
 Imports EveHQ.Prism.BPCalc
 
@@ -58,12 +57,12 @@ Public Class frmAddProductionJob
 
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.DialogResult = Windows.Forms.DialogResult.Cancel
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+        Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         If txtJobName.Text = "" Then
             MessageBox.Show("You must enter some valid text to set a name!", "Job Name Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Exit Sub
@@ -87,7 +86,7 @@ Public Class frmAddProductionJob
                 End If
             End If
         End If
-        Me.DialogResult = Windows.Forms.DialogResult.OK
+        Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
 

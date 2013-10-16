@@ -17,7 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
+Imports EveHQ.EveAPI
+Imports EveHQ.Core
+Imports EveHQ.EveData
+Imports System.Globalization
 Imports System.Xml
 Imports System.Text
 
@@ -25,7 +28,7 @@ Imports System.Text
     Public JobID As Long
     Public InstalledItemLocationID As Integer
     Public InstallerID As Long
-    Public ActivityID As EveData.BlueprintActivity
+    Public ActivityID As BlueprintActivity
     Public InstalledItemTypeID As Integer
     Public OutputTypeID As Integer
     Public Runs As Integer
@@ -44,7 +47,7 @@ Imports System.Text
     Public TimeMultiplier As Double
 
     Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-    Private Shared ReadOnly Culture As New Globalization.CultureInfo("en-GB")
+    Private Shared ReadOnly Culture As New CultureInfo("en-GB")
 
     Public Shared Function ParseIndustryJobs(ByVal jobOwner As String) As List(Of IndustryJob)
 
@@ -53,17 +56,17 @@ Imports System.Text
         If PlugInData.PrismOwners.ContainsKey(jobOwner) = True Then
 
             owner = PlugInData.PrismOwners(jobOwner)
-            Dim ownerAccount As Core.EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Jobs)
+            Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Jobs)
             Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Jobs)
-            Dim apiReq As New EveAPI.EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+            Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
             Dim transXML As XmlDocument
 
             If ownerAccount IsNot Nothing Then
 
                 If owner.IsCorp = True Then
-                    transXML = apiReq.GetAPIXML(EveAPI.APITypes.IndustryCorp, ownerAccount.ToAPIAccount, ownerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    transXML = apiReq.GetAPIXML(APITypes.IndustryCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                 Else
-                    transXML = apiReq.GetAPIXML(EveAPI.APITypes.IndustryChar, ownerAccount.ToAPIAccount, ownerID, EveAPI.APIReturnMethods.ReturnCacheOnly)
+                    transXML = apiReq.GetAPIXML(APITypes.IndustryChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                 End If
 
                 If transXML IsNot Nothing Then
@@ -78,7 +81,7 @@ Imports System.Text
                         newJob.JobID = CLng(tran.Attributes.GetNamedItem("jobID").Value)
                         newJob.InstalledItemLocationID = CInt(tran.Attributes.GetNamedItem("installedItemLocationID").Value)
                         newJob.InstallerID = CLng(tran.Attributes.GetNamedItem("installerID").Value)
-                        newJob.ActivityID = CType(tran.Attributes.GetNamedItem("activityID").Value, EveData.BlueprintActivity)
+                        newJob.ActivityID = CType(tran.Attributes.GetNamedItem("activityID").Value, BlueprintActivity)
                         newJob.InstalledItemTypeID = CInt(tran.Attributes.GetNamedItem("installedItemTypeID").Value)
                         newJob.OutputTypeID = CInt(tran.Attributes.GetNamedItem("outputTypeID").Value)
                         newJob.Runs = CInt(tran.Attributes.GetNamedItem("runs").Value)
@@ -128,7 +131,7 @@ Imports System.Text
             strID.Remove(0, 1)
             ' Get the name data from the DB
             Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-            Dim idData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             If idData IsNot Nothing Then
                 If idData.Tables(0).Rows.Count > 0 Then
                     For Each idRow As DataRow In idData.Tables(0).Rows

@@ -18,8 +18,10 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.IO
-Imports System.Runtime.Serialization
 Imports System.Runtime.Serialization.Formatters.Binary
+Imports System.Runtime.Serialization
+Imports EveHQ.Core
+Imports EveHQ.EveData
 Imports System.Threading.Tasks
 
 Namespace BPCalc
@@ -49,7 +51,7 @@ Namespace BPCalc
         Public Property SubJobs As New SortedList(Of Integer, Job)
         'Public Property RequiredResources As New SortedList(Of String, Object)
         Public Property HasInventionJob As Boolean
-        Public Property InventionJob As New BPCalc.InventionJob
+        Public Property InventionJob As New InventionJob
         Public Property SubJobMEs As New SortedList(Of Integer, Integer)
         Public Property ProduceSubJob As Boolean = False
 
@@ -90,7 +92,7 @@ Namespace BPCalc
 
             Resources.Clear()
             SubJobs.Clear()
-            For Each resource As EveData.BlueprintResource In CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).Values
+            For Each resource As EveData.BlueprintResource In CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Values
                 If resource.Quantity >= 0 Then
                     Dim subBP As BlueprintAsset = Nothing
 
@@ -136,7 +138,7 @@ Namespace BPCalc
                     ' See if we need to examine the BP
                     If componentIteration = True And subBP IsNot Nothing Then
                         ' Convert the BP to a BlueprintSelection ready for processing
-                        Dim subBps As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(CInt(subBP.TypeID)))
+                        Dim subBps As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(CInt(subBP.TypeID)))
                         subBps.MELevel = subBP.MELevel
                         subBps.PELevel = subBP.PELevel
                         subBps.Runs = subBP.Runs
@@ -144,7 +146,7 @@ Namespace BPCalc
                         Dim subJob As New Job
                         subJob.CurrentBlueprint = subBps
                         subJob.TypeID = resource.TypeId
-                        subJob.TypeName = EveData.StaticData.Types(resource.TypeId).Name
+                        subJob.TypeName = StaticData.Types(resource.TypeId).Name
                         subJob.PerfectUnits = perfectRaw
                         subJob.WasteUnits = waste
                         subJob.Runs = (perfectRaw + waste) * Runs
@@ -168,7 +170,7 @@ Namespace BPCalc
                     Else
                         Dim newResource As New JobResource
                         newResource.TypeID = resource.TypeId
-                        newResource.TypeName = EveData.StaticData.Types(resource.TypeId).Name
+                        newResource.TypeName = StaticData.Types(resource.TypeId).Name
                         newResource.TypeGroup = resource.TypeGroup
                         newResource.TypeCategory = resource.TypeCategory
                         newResource.PerfectUnits = perfectRaw
@@ -190,7 +192,7 @@ Namespace BPCalc
 
             'Get the prices for the resource
             Dim enumerable As IEnumerable(Of JobResource) = If(TryCast(resourceList, JobResource()), resourceList.ToArray())
-            Dim prices As Task(Of Dictionary(Of Integer, Double)) = Core.DataFunctions.GetMarketPrices(enumerable.Select(Function(r) r.TypeID))
+            Dim prices As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(enumerable.Select(Function(r) r.TypeID))
             prices.Wait()
             Dim resourceCost As Dictionary(Of Integer, Double) = prices.Result
             costs += enumerable.Select(Function(r) ((r.PerfectUnits + r.WasteUnits) * resourceCost(r.TypeID)) * Runs).Sum()
@@ -205,7 +207,7 @@ Namespace BPCalc
 
             If SubJobs.ContainsKey(itemID) Then
 
-                If CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).ContainsKey(itemID) = True Then
+                If CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).ContainsKey(itemID) = True Then
 
                     Dim matMod As Double = 1
                     If AssemblyArray IsNot Nothing Then
@@ -225,7 +227,7 @@ Namespace BPCalc
                         bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME), PESkill), 6)
                     End If
 
-                    Dim resource As EveData.BlueprintResource = CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).Item(itemID)
+                    Dim resource As EveData.BlueprintResource = CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Item(itemID)
                     ' Calculate the current perfect and waste resources
                     Dim waste As Integer
                     Dim perfectRaw As Integer = resource.Quantity
@@ -239,7 +241,7 @@ Namespace BPCalc
                     ' Add the new resource
                     Dim newResource As New JobResource
                     newResource.TypeID = resource.TypeId
-                    newResource.TypeName = EveData.StaticData.Types(resource.TypeId).Name
+                    newResource.TypeName = StaticData.Types(resource.TypeId).Name
                     newResource.TypeGroup = resource.TypeGroup
                     newResource.TypeCategory = resource.TypeCategory
                     newResource.PerfectUnits = perfectRaw
@@ -259,7 +261,7 @@ Namespace BPCalc
 
             If Resources.ContainsKey(itemID) Then
 
-                If CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).ContainsKey(itemID) = True Then
+                If CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).ContainsKey(itemID) = True Then
 
                     Dim matMod As Double = 1
                     If AssemblyArray IsNot Nothing Then
@@ -279,7 +281,7 @@ Namespace BPCalc
                         bpwf = Math.Round(CurrentBlueprint.CalculateWasteFactor(CInt(OverridingME), PESkill), 6, MidpointRounding.AwayFromZero)
                     End If
 
-                    Dim resource As EveData.BlueprintResource = CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).Item(itemID)
+                    Dim resource As EveData.BlueprintResource = CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Item(itemID)
                     ' Calculate the current perfect and waste resources
                     Dim waste As Integer
                     Dim perfectRaw As Integer = resource.Quantity
@@ -291,7 +293,7 @@ Namespace BPCalc
                     Resources.Remove(itemID)
 
                     Dim bpsID As String = PlugInData.Products(itemID.ToString)
-                    Dim subBps As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(CInt(bpsID)))
+                    Dim subBps As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(CInt(bpsID)))
 
                     If SubJobMEs.ContainsKey(resource.TypeId) = True Then
                         subBps.MELevel = SubJobMEs(resource.TypeId)
@@ -305,7 +307,7 @@ Namespace BPCalc
                     Dim subJob As New Job
                     subJob.CurrentBlueprint = subBps
                     subJob.TypeID = resource.TypeId
-                    subJob.TypeName = EveData.StaticData.Types(resource.TypeId).Name
+                    subJob.TypeName = StaticData.Types(resource.TypeId).Name
                     subJob.PerfectUnits = perfectRaw
                     subJob.WasteUnits = waste
                     subJob.Runs = (perfectRaw + waste) * Runs
@@ -359,14 +361,14 @@ Namespace BPCalc
             For Each resource As JobResource In Resources.Values
                 ' Get the resource
                 Dim newResource As JobResource = resource
-                Dim bpResource As EveData.BlueprintResource = CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).Item(newResource.TypeID)
+                Dim bpResource As EveData.BlueprintResource = CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Item(newResource.TypeID)
                 ' Calculate Waste - Mark II!
                 waste = CalculateWasteUnits(bpResource, wasteFactor, matMod)
                 newResource.WasteUnits = waste
             Next
             For Each subJob As Job In SubJobs.Values
                 ' Get the production job
-                Dim bpResource As EveData.BlueprintResource = CurrentBlueprint.Resources(EveData.BlueprintActivity.Manufacturing).Item(subJob.TypeID)
+                Dim bpResource As EveData.BlueprintResource = CurrentBlueprint.Resources(BlueprintActivity.Manufacturing).Item(subJob.TypeID)
                 ' Set SubJob ME
                 If SubJobMEs.ContainsKey(bpResource.TypeId) = False Then
                     SubJobMEs.Add(bpResource.TypeId, subJob.CurrentBlueprint.MELevel)

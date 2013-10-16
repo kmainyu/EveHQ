@@ -17,8 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.ComponentModel
+Imports EveHQ.Core
 Imports DevComponents.AdvTree
 Imports System.Windows.Forms
 
@@ -87,7 +87,7 @@ Public Class frmJournalCheck
     Private Sub CheckJournals()
         ' Check the number of records we have (no point doing this if no records, and we need the count)
         Dim strSQL As String = "SELECT COUNT(*) AS TR FROM walletJournal;"
-        Dim sqlData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+        Dim sqlData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
         If sqlData IsNot Nothing Then
             If sqlData.Tables(0).Rows.Count > 0 Then
                 _rc = CInt(sqlData.Tables(0).Rows(0).Item("TR"))
@@ -99,7 +99,7 @@ Public Class frmJournalCheck
                     ' Check for a list of owners which we need to check specific journals for
                     _owners.Clear()
                     strSQL = "SELECT DISTINCT charName FROM walletJournal;"
-                    sqlData = Core.CustomDataFunctions.GetCustomData(strSQL)
+                    sqlData = CustomDataFunctions.GetCustomData(strSQL)
                     If sqlData IsNot Nothing Then
                         If sqlData.Tables(0).Rows.Count > 0 Then
                             For Each sqlRow As DataRow In sqlData.Tables(0).Rows
@@ -126,7 +126,7 @@ Public Class frmJournalCheck
                 ' Get the wallet data for this owner and wallet
                 _journalDiffWorker.ReportProgress(100, "Checking Wallet Journal for " & prismOwner & " (WalletID: " & walletID.ToString & ")...")
                 Dim strSQL As String = "SELECT * FROM walletJournal WHERE charName='" & prismOwner.Replace("'", "''") & "' AND walletID=" & walletID.ToString & " ORDER BY transKey;"
-                Dim sqlData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+                Dim sqlData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
                 If sqlData IsNot Nothing Then
                     If sqlData.Tables(0).Rows.Count > 0 Then
                         ' Set up variables for the check

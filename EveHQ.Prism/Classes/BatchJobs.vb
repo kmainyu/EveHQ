@@ -17,7 +17,6 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.IO
 Imports System.Windows.Forms
 Imports Newtonsoft.Json
@@ -36,7 +35,7 @@ Public Class BatchJobs
             Dim tempFile As String = Path.Combine(PrismSettings.PrismFolder, MainFileName & ".temp")
 
             ' Create a JSON string for writing
-            Dim json As String = JsonConvert.SerializeObject(Jobs, Newtonsoft.Json.Formatting.Indented)
+            Dim json As String = JsonConvert.SerializeObject(Jobs, Formatting.Indented)
 
             ' Write the JSON version of the settings
             Try

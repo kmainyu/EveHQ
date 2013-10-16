@@ -17,17 +17,18 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
+Imports EveHQ.EveAPI
+Imports EveHQ.EveData
+Imports EveHQ.Core
+Imports System.Net
 Imports System.Windows.Forms
 Imports System.Xml
-Imports System.Reflection
 Imports System.IO
-Imports EveHQ.EveData
-Imports EveHQ.EveAPI
+Imports System.Reflection
 Imports Newtonsoft.Json
 
 Public Class PlugInData
-    Implements EveHQ.Core.IEveHQPlugIn
+    Implements IEveHQPlugIn
     Public Shared itemFlags As New SortedList
     Public Shared RefTypes As New SortedList(Of String, String)
     Public Shared Activities As New SortedList(Of String, String)
@@ -49,7 +50,7 @@ Public Class PlugInData
 
 #Region "Plug-in Interface Properties and Functions"
 
-    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements IEveHQPlugIn.GetPlugInData
         Select Case dataType
             Case 0 ' Return a location
                 ' Check the data is Long return the station name
@@ -62,18 +63,18 @@ Public Class PlugInData
         Return Nothing
     End Function
 
-    Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
+    Public Function EveHQStartUp() As Boolean Implements IEveHQPlugIn.EveHQStartUp
         Try
             Return Me.LoadPlugIndata
         Catch ex As Exception
-            Windows.Forms.MessageBox.Show(ex.Message)
+            MessageBox.Show(ex.Message)
             Return False
         End Try
     End Function
 
-    Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
+    Public Function GetEveHQPlugInInfo() As EveHQPlugIn Implements IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQ.Core.EveHQPlugIn
+        Dim EveHQPlugIn As New EveHQPlugIn
         EveHQPlugIn.Name = "EveHQ Prism"
         EveHQPlugIn.Description = "EveHQ Production, Research, Industry and Science Module"
         EveHQPlugIn.Author = "EveHQ Team"
@@ -85,16 +86,16 @@ Public Class PlugInData
         Return EveHQPlugIn
     End Function
 
-    Public Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
+    Public Function IGBService(ByVal igbContext As HttpListenerContext) As String Implements IEveHQPlugIn.IGBService
         Return ""
     End Function
 
-    Public Function RunEveHQPlugIn() As System.Windows.Forms.Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
+    Public Function RunEveHQPlugIn() As Form Implements IEveHQPlugIn.RunEveHQPlugIn
         activeForm = New frmPrism()
         Return activeForm
     End Function
 
-    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+    Public Function SaveAll() As Boolean Implements IEveHQPlugIn.SaveAll
         If activeForm IsNot Nothing Then
             activeForm.SaveAll()
             Return True
@@ -107,8 +108,8 @@ Public Class PlugInData
 #Region "Plug-in Startup Routines"
     Private Function LoadPlugIndata() As Boolean
         ' Setup the Prism Folder
-        If Core.HQ.IsUsingLocalFolders = False Then
-            PrismSettings.PrismFolder = Path.Combine(Core.HQ.AppDataFolder, "Prism")
+        If HQ.IsUsingLocalFolders = False Then
+            PrismSettings.PrismFolder = Path.Combine(HQ.AppDataFolder, "Prism")
         Else
             PrismSettings.PrismFolder = Path.Combine(Application.StartupPath, "Prism")
         End If
@@ -150,7 +151,7 @@ Public Class PlugInData
     Private Sub LoadAssetItemNames()
         Try
             Dim strSQL As String = "SELECT * FROM assetItemNames;"
-            Dim nameData As DataSet = Core.CustomDataFunctions.GetCustomData(strSQL)
+            Dim nameData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             AssetItemNames.Clear()
             If nameData IsNot Nothing Then
                 If nameData.Tables(0).Rows.Count > 0 Then
@@ -219,8 +220,8 @@ Public Class PlugInData
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
             Dim fileName As String = ""
-            Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.Settings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-            Dim refXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.RefTypes, EveAPI.APIReturnMethods.ReturnStandard)
+            Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+            Dim refXML As XmlDocument = APIReq.GetAPIXML(APITypes.RefTypes, APIReturnMethods.ReturnStandard)
             If refXML Is Nothing Then
                 ' Problem with the API server so let's use our resources to populate it
                 Try
@@ -256,7 +257,7 @@ Public Class PlugInData
         End Try
     End Function
    Private Function CheckVersion() As Boolean
-        Dim thisAssembly As [Assembly] = System.Reflection.Assembly.GetExecutingAssembly()
+        Dim thisAssembly As Assembly = Assembly.GetExecutingAssembly()
         ' Display the set of assemblies our assemblies references.
         Dim refAssemblies As AssemblyName
         For Each refAssemblies In thisAssembly.GetReferencedAssemblies()
@@ -292,7 +293,7 @@ Public Class PlugInData
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
         Dim stationXML As XmlDocument
-        Dim apiReq As New EveAPIRequest(Core.HQ.EveHQAPIServerInfo, Core.HQ.RemoteProxy, Core.HQ.Settings.APIFileExtension, Core.HQ.cacheFolder)
+        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
         stationXML = apiReq.GetAPIXML(APITypes.Conquerables, APIReturnMethods.ReturnStandard)
         If stationXML IsNot Nothing Then
             Call ParseConquerableXML(stationXML)
@@ -397,10 +398,10 @@ Public Class PlugInData
 
 #Region "API Helper Methods"
 
-    Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQ.Core.EveHQAccount
+    Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQAccount
         If Owner.IsCorp = True Then
             Select Case Owner.APIVersion
-                Case Core.APIKeySystems.Version2
+                Case APIKeySystems.Version2
                     Return Owner.Account
                 Case Else
                     Return Nothing
@@ -413,7 +414,7 @@ Public Class PlugInData
     Public Shared Function GetAccountOwnerIDForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As String
         If Owner.IsCorp = True Then
             Select Case Owner.APIVersion
-                Case Core.APIKeySystems.Version2
+                Case APIKeySystems.Version2
                     Return Owner.ID
                 Case Else
                     Return ""

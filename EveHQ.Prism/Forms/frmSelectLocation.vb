@@ -18,7 +18,6 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
-Imports System.Windows.Forms
 
 Public Class frmSelectLocation
 
@@ -47,22 +46,22 @@ Public Class frmSelectLocation
         End Get
     End Property
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
         Me.Close()
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
         If cboLocations.SelectedItem IsNot Nothing Then
             cLocation = cboLocations.SelectedItem.ToString
         End If
         Me.Close()
     End Sub
 
-    Private Sub chkIncludeBPOs_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkIncludeBPOs.CheckedChanged
+    Private Sub chkIncludeBPOs_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkIncludeBPOs.CheckedChanged
         cIncludeBPOs = chkIncludeBPOs.Checked
     End Sub
 
-    Private Sub frmSelectLocation_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmSelectLocation_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         ' List all locations of blueprints
         cboLocations.Items.Clear()
         BPLocations.Sort()

@@ -20,8 +20,6 @@
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
-Imports System.Threading.Tasks
-Imports EveHQ.Prism.BPCalc
 
 <Serializable()>
 Public Class ProductionJob
@@ -40,7 +38,7 @@ Public Class ProductionJob
     Public ProdImplant As Integer
     Public OverridingME As String
     Public OverridingPE As String
-    Public AssemblyArray As Prism.AssemblyArray
+    Public AssemblyArray As AssemblyArray
     Public StartTime As Date
     Public RunTime As Long
     Public Cost As Double
