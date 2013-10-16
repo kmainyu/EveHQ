@@ -17,14 +17,15 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Drawing
 
 ' Based on the Blitterchip class by Adam "wossname" Ward
+Imports System.Drawing
 
 Public NotInheritable Class ScreenGrab
 
-    'Define API Functions
+    ' ReSharper disable InconsistentNaming - leave for native methods!
     Private Declare Auto Function BitBlt Lib "gdi32" Alias "BitBlt" (ByVal hDestDC As Integer, ByVal x As Integer, ByVal y As Integer, ByVal nWidth As Integer, ByVal nHeight As Integer, ByVal hSrcDC As Integer, ByVal xSrc As Integer, ByVal ySrc As Integer, ByVal dwRop As Integer) As Integer
+
     Declare Function GetDC Lib "user32" Alias "GetDC" (ByVal hwnd As Integer) As Integer
 
     Public Shared Function GrabScreen(ByVal GrabRect As Rectangle) As Bitmap
@@ -42,4 +43,7 @@ Public NotInheritable Class ScreenGrab
         Return destBMP
 
     End Function
+
+    ' ReSharper restore InconsistentNaming
+
 End Class

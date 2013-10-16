@@ -17,10 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
-Imports System.Text
 Imports System.Drawing
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports EveHQ.HQF.Controls
+Imports EveHQ.Core
+Imports System.Windows.Forms
+Imports System.Text
 
 Namespace Forms
 
@@ -114,7 +116,7 @@ Namespace Forms
                 cboAttackerFitting.SelectedItem = _cFittingName
             End If
             ' Add the pilots
-            For Each cPilot As Core.EveHQPilot In Core.HQ.Settings.Pilots.Values
+            For Each cPilot As EveHQPilot In HQ.Settings.Pilots.Values
                 cboAttackerPilot.Items.Add(cPilot.Name)
                 cboTargetPilot.Items.Add(cPilot.Name)
             Next
@@ -563,8 +565,8 @@ Namespace Forms
                 stats.AppendLine("Expected Total Damage (S/A/H): " & (_esdT * _tc).ToString("N2") & " / " & (_eadT * _tc).ToString("N2") & " / " & (_ehdT * _tc).ToString("N2"))
                 stats.AppendLine("Expected Total DPS (S/A/H): " & (_esdT / _trof * _tc).ToString("N2") & " / " & (_eadT / _trof * _tc).ToString("N2") & " / " & (_ehdT / _trof * _tc).ToString("N2"))
                 stats.AppendLine("Target HP Recharge Rates (S/A/H): " & _tsrr.ToString("N2") & " / " & _tarr.ToString("N2") & " / " & _thrr.ToString("N2"))
-                stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(_estNr >= 86400, "Stable", Core.SkillFunctions.TimeToString(_estNr))) & " / " & CStr(IIf(_eatNr >= 86400, "Stable", Core.SkillFunctions.TimeToString(_eatNr))) & " / " & CStr(IIf(_ehtNr >= 86400, "Stable", Core.SkillFunctions.TimeToString(_ehtNr))))
-                stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(_estR >= 86400, "Stable", Core.SkillFunctions.TimeToString(_estR))) & " / " & CStr(IIf(_eatR >= 86400, "Stable", Core.SkillFunctions.TimeToString(_eatR))) & " / " & CStr(IIf(_ehtR >= 86400, "Stable", Core.SkillFunctions.TimeToString(_ehtR))))
+                stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(_estNr >= 86400, "Stable", SkillFunctions.TimeToString(_estNr))) & " / " & CStr(IIf(_eatNr >= 86400, "Stable", SkillFunctions.TimeToString(_eatNr))) & " / " & CStr(IIf(_ehtNr >= 86400, "Stable", SkillFunctions.TimeToString(_ehtNr))))
+                stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(_estR >= 86400, "Stable", SkillFunctions.TimeToString(_estR))) & " / " & CStr(IIf(_eatR >= 86400, "Stable", SkillFunctions.TimeToString(_eatR))) & " / " & CStr(IIf(_ehtR >= 86400, "Stable", SkillFunctions.TimeToString(_ehtR))))
                 'stats.AppendLine("Average Turret Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
                 'stats.AppendLine("Average Turret DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
 
@@ -708,8 +710,8 @@ Namespace Forms
                 stats.AppendLine("Expected Total Damage (S/A/H): " & (_esdT * _mc).ToString("N2") & " / " & (_eadT * _mc).ToString("N2") & " / " & (_ehdT * _mc).ToString("N2"))
                 stats.AppendLine("Expected Total DPS (S/A/H): " & (_esdT / _mrof * _mc).ToString("N2") & " / " & (_eadT / _mrof * _mc).ToString("N2") & " / " & (_ehdT / _mrof * _mc).ToString("N2"))
                 stats.AppendLine("Target HP Recharge Rates (S/A/H): " & _tsrr.ToString("N2") & " / " & _tarr.ToString("N2") & " / " & _thrr.ToString("N2"))
-                stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(_estNr >= 86400, "Stable", Core.SkillFunctions.TimeToString(_estNr))) & " / " & CStr(IIf(_eatNr >= 86400, "Stable", Core.SkillFunctions.TimeToString(_eatNr))) & " / " & CStr(IIf(_ehtNr >= 86400, "Stable", Core.SkillFunctions.TimeToString(_ehtNr))))
-                stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(_estR >= 86400, "Stable", Core.SkillFunctions.TimeToString(_estR))) & " / " & CStr(IIf(_eatR >= 86400, "Stable", Core.SkillFunctions.TimeToString(_eatR))) & " / " & CStr(IIf(_ehtR >= 86400, "Stable", Core.SkillFunctions.TimeToString(_ehtR))))
+                stats.AppendLine("Depletion Times NR (S/A/H): " & CStr(IIf(_estNr >= 86400, "Stable", SkillFunctions.TimeToString(_estNr))) & " / " & CStr(IIf(_eatNr >= 86400, "Stable", SkillFunctions.TimeToString(_eatNr))) & " / " & CStr(IIf(_ehtNr >= 86400, "Stable", SkillFunctions.TimeToString(_ehtNr))))
+                stats.AppendLine("Depletion Times WR (S/A/H): " & CStr(IIf(_estR >= 86400, "Stable", SkillFunctions.TimeToString(_estR))) & " / " & CStr(IIf(_eatR >= 86400, "Stable", SkillFunctions.TimeToString(_eatR))) & " / " & CStr(IIf(_ehtR >= 86400, "Stable", SkillFunctions.TimeToString(_ehtR))))
                 'stats.AppendLine("Average Missile Shot (S/A/H/T): " & ash.ToString("N2") & " / " & aah.ToString("N2") & " / " & ahh.ToString("N2") & " / " & atth.ToString("N2"))
                 'stats.AppendLine("Average Missile DPS (S/A/H/T): " & srrd.ToString("N2") & " / " & arrd.ToString("N2") & " / " & hrrd.ToString("N2") & " / " & trrd.ToString("N2"))
 

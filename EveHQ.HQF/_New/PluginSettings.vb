@@ -17,7 +17,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System
+Imports System.Drawing
+Imports EveHQ.Core
 Imports System.IO
 Imports System.Windows.Forms
 Imports Newtonsoft.Json
@@ -28,419 +29,426 @@ Imports Newtonsoft.Json
     Public Shared HQFFolder As String
     Public Shared HQFCacheFolder As String
 
-    Private cHiSlotColour As Long = Drawing.Color.PeachPuff.ToArgb
-    Private cMidSlotColour As Long = Drawing.Color.LightSteelBlue.ToArgb
-    Private cLowSlotColour As Long = Drawing.Color.Thistle.ToArgb
-    Private cRigSlotColour As Long = Drawing.Color.LightGreen.ToArgb
-    Private cSubSlotColour As Long = Drawing.Color.DarkSeaGreen.ToArgb
-    Private cDefaultPilot As String = ""
-    Private cRestoreLastSession As Boolean = False
-    Private cLastPriceUpdate As DateTime
-    Private cModuleFilter As Integer = 63
-    Private cAutoUpdateHQFSkills As Boolean = True
-    Private cOpenFittingList As New ArrayList
-    Private cShowPerformanceData As Boolean = False
-    Private cCloseInfoPanel As Boolean = False
-    Private cCapRechargeConstant As Double = 2.5
-    Private cShieldRechargeConstant As Double = 2.5
-    Private cStandardSlotColumns As New List(Of UserSlotColumn)
-    Private cUserSlotColumns As New List(Of UserSlotColumn)
-    Private cFavourites As New ArrayList
-    Private cMRULimit As Integer = 15
-    Private cMRUModules As New ArrayList
-    Private cShipPanelWidth As Integer = 200
-    Private cModPanelWidth As Integer = 300
-    Private cShipSplitterWidth As Integer = 300
-    Private cModSplitterWidth As Integer = 300
-    Private cMissileRangeConstant As Double = 1.0
-    Private cIncludeCapReloadTime As Boolean = False
-    Private cIncludeAmmoReloadTime As Boolean = False
-    Private cUseLastPilot As Boolean = False
-    Private cStorageBayHeight As Integer = 200
-    Private cSlotNameWidth As Integer = 150
-    Private cImplantGroups As New SortedList(Of String, ImplantCollection)
-    Private cModuleListColWidths As New SortedList(Of Long, Integer)
-    Private cIgnoredAttributeColumns As New List(Of String)
-    Private cSortedAttributeColumn As String = ""
-    Private cMetaVariationsFormSize As New Drawing.Size
-    Private cDefensePanelIsCollapsed As Boolean = False
-    Private cCapacitorPanelIsCollapsed As Boolean = False
-    Private cDamagePanelIsCollapsed As Boolean = False
-    Private cTargetingPanelIsCollapsed As Boolean = False
-    Private cPropulsionPanelIsCollapsed As Boolean = False
-    Private cCargoPanelIsCollapsed As Boolean = False
-    Private cSortedModuleListInfo As New EveHQ.Core.AdvTreeSortResult
-    Private cAutoResizeColumns As Boolean = False
+#Region "Property Fields"
+
+    Private _hiSlotColour As Long = Color.PeachPuff.ToArgb
+    Private _midSlotColour As Long = Color.LightSteelBlue.ToArgb
+    Private _lowSlotColour As Long = Color.Thistle.ToArgb
+    Private _rigSlotColour As Long = Color.LightGreen.ToArgb
+    Private _subSlotColour As Long = Color.DarkSeaGreen.ToArgb
+    Private _defaultPilot As String = ""
+    Private _restoreLastSession As Boolean = False
+    Private _lastPriceUpdate As DateTime
+    Private _moduleFilter As Integer = 63
+    Private _autoUpdateHQFSkills As Boolean = True
+    Private _openFittingList As New ArrayList
+    Private _showPerformanceData As Boolean = False
+    Private _closeInfoPanel As Boolean = False
+    Private _capRechargeConstant As Double = 2.5
+    Private _shieldRechargeConstant As Double = 2.5
+    Private _standardSlotColumns As New List(Of UserSlotColumn)
+    Private _userSlotColumns As New List(Of UserSlotColumn)
+    Private _favourites As New ArrayList
+    Private _mruLimit As Integer = 15
+    Private _mruModules As New ArrayList
+    Private _shipPanelWidth As Integer = 200
+    Private _modPanelWidth As Integer = 300
+    Private _shipSplitterWidth As Integer = 300
+    Private _modSplitterWidth As Integer = 300
+    Private _missileRangeConstant As Double = 1.0
+    Private _includeCapReloadTime As Boolean = False
+    Private _includeAmmoReloadTime As Boolean = False
+    Private _useLastPilot As Boolean = False
+    Private _storageBayHeight As Integer = 200
+    Private _slotNameWidth As Integer = 150
+    Private _implantGroups As New SortedList(Of String, ImplantCollection)
+    Private _moduleListColWidths As New SortedList(Of Long, Integer)
+    Private _ignoredAttributeColumns As New List(Of String)
+    Private _sortedAttributeColumn As String = ""
+    Private _metaVariationsFormSize As New Size
+    Private _defensePanelIsCollapsed As Boolean = False
+    Private _capacitorPanelIsCollapsed As Boolean = False
+    Private _damagePanelIsCollapsed As Boolean = False
+    Private _targetingPanelIsCollapsed As Boolean = False
+    Private _propulsionPanelIsCollapsed As Boolean = False
+    Private _cargoPanelIsCollapsed As Boolean = False
+    Private _sortedModuleListInfo As New AdvTreeSortResult
+    Private _autoResizeColumns As Boolean = False
+
+#End Region
+
+#Region "Properties"
 
     Public Property AutoResizeColumns As Boolean
         Get
-            Return cAutoResizeColumns
+            Return _AutoResizeColumns
         End Get
         Set(ByVal value As Boolean)
-            cAutoResizeColumns = value
+            _AutoResizeColumns = value
         End Set
     End Property
-    Public Property SortedModuleListInfo As Core.AdvTreeSortResult
+    Public Property SortedModuleListInfo As AdvTreeSortResult
         Get
-            If cSortedModuleListInfo Is Nothing Then
-                cSortedModuleListInfo = New Core.AdvTreeSortResult
+            If _SortedModuleListInfo Is Nothing Then
+                _SortedModuleListInfo = New AdvTreeSortResult
             End If
-            Return cSortedModuleListInfo
+            Return _SortedModuleListInfo
         End Get
-        Set(ByVal value As Core.AdvTreeSortResult)
-            cSortedModuleListInfo = value
+        Set(ByVal value As AdvTreeSortResult)
+            _SortedModuleListInfo = value
         End Set
     End Property
     Public Property CargoPanelIsCollapsed As Boolean
         Get
-            Return cCargoPanelIsCollapsed
+            Return _CargoPanelIsCollapsed
         End Get
         Set(ByVal value As Boolean)
-            cCargoPanelIsCollapsed = value
+            _CargoPanelIsCollapsed = value
         End Set
     End Property
     Public Property PropulsionPanelIsCollapsed As Boolean
         Get
-            Return cPropulsionPanelIsCollapsed
+            Return _PropulsionPanelIsCollapsed
         End Get
         Set(value As Boolean)
-            cPropulsionPanelIsCollapsed = value
+            _PropulsionPanelIsCollapsed = value
         End Set
     End Property
     Public Property TargetingPanelIsCollapsed As Boolean
         Get
-            Return cTargetingPanelIsCollapsed
+            Return _TargetingPanelIsCollapsed
         End Get
         Set(value As Boolean)
-            cTargetingPanelIsCollapsed = value
+            _TargetingPanelIsCollapsed = value
         End Set
     End Property
     Public Property DamagePanelIsCollapsed As Boolean
         Get
-            Return cDamagePanelIsCollapsed
+            Return _DamagePanelIsCollapsed
         End Get
         Set(value As Boolean)
-            cDamagePanelIsCollapsed = value
+            _DamagePanelIsCollapsed = value
         End Set
     End Property
     Public Property CapacitorPanelIsCollapsed As Boolean
         Get
-            Return cCapacitorPanelIsCollapsed
+            Return _CapacitorPanelIsCollapsed
         End Get
         Set(value As Boolean)
-            cCapacitorPanelIsCollapsed = value
+            _CapacitorPanelIsCollapsed = value
         End Set
     End Property
     Public Property DefensePanelIsCollapsed As Boolean
         Get
-            Return cDefensePanelIsCollapsed
+            Return _DefensePanelIsCollapsed
         End Get
         Set(value As Boolean)
-            cDefensePanelIsCollapsed = value
+            _DefensePanelIsCollapsed = value
         End Set
     End Property
-    Public Property MetaVariationsFormSize As Drawing.Size
+    Public Property MetaVariationsFormSize As Size
         Get
-            If cMetaVariationsFormSize.Width = 0 Then
-                cMetaVariationsFormSize.Width = 900
+            If _MetaVariationsFormSize.Width = 0 Then
+                _MetaVariationsFormSize.Width = 900
             End If
-            If cMetaVariationsFormSize.Height = 0 Then
-                cMetaVariationsFormSize.Height = 550
+            If _MetaVariationsFormSize.Height = 0 Then
+                _MetaVariationsFormSize.Height = 550
             End If
-            Return cMetaVariationsFormSize
+            Return _MetaVariationsFormSize
         End Get
-        Set(value As Drawing.Size)
-            cMetaVariationsFormSize = value
+        Set(value As Size)
+            _MetaVariationsFormSize = value
         End Set
     End Property
     Public Property SortedAttributeColumn As String
         Get
-            Return cSortedAttributeColumn
+            Return _SortedAttributeColumn
         End Get
         Set(value As String)
-            cSortedAttributeColumn = value
+            _SortedAttributeColumn = value
         End Set
     End Property
     Public Property IgnoredAttributeColumns As List(Of String)
         Get
-            If cIgnoredAttributeColumns Is Nothing Then
-                cIgnoredAttributeColumns = New List(Of String)
+            If _IgnoredAttributeColumns Is Nothing Then
+                _IgnoredAttributeColumns = New List(Of String)
             End If
-            Return cIgnoredAttributeColumns
+            Return _IgnoredAttributeColumns
         End Get
         Set(value As List(Of String))
-            cIgnoredAttributeColumns = value
+            _IgnoredAttributeColumns = value
         End Set
     End Property
     Public Property ModuleListColWidths() As SortedList(Of Long, Integer)
         Get
-            If cModuleListColWidths Is Nothing Then
-                cModuleListColWidths = New SortedList(Of Long, Integer)
+            If _ModuleListColWidths Is Nothing Then
+                _ModuleListColWidths = New SortedList(Of Long, Integer)
             End If
-            Return cModuleListColWidths
+            Return _ModuleListColWidths
         End Get
         Set(ByVal value As SortedList(Of Long, Integer))
-            cModuleListColWidths = value
+            _ModuleListColWidths = value
         End Set
     End Property
     Public Property ImplantGroups() As SortedList(Of String, ImplantCollection)
         Get
-            Return cImplantGroups
+            Return _ImplantGroups
         End Get
         Set(ByVal value As SortedList(Of String, ImplantCollection))
-            cImplantGroups = value
+            _ImplantGroups = value
         End Set
     End Property
-
     Public Property SlotNameWidth() As Integer
         Get
-            Return cSlotNameWidth
+            Return _SlotNameWidth
         End Get
         Set(ByVal value As Integer)
-            cSlotNameWidth = value
+            _SlotNameWidth = value
         End Set
     End Property
     Public Property StorageBayHeight() As Integer
         Get
-            Return cStorageBayHeight
+            Return _StorageBayHeight
         End Get
         Set(ByVal value As Integer)
-            cStorageBayHeight = value
+            _StorageBayHeight = value
         End Set
     End Property
     Public Property UseLastPilot() As Boolean
         Get
-            Return cUseLastPilot
+            Return _UseLastPilot
         End Get
         Set(ByVal value As Boolean)
-            cUseLastPilot = value
+            _UseLastPilot = value
         End Set
     End Property
     Public Property IncludeAmmoReloadTime() As Boolean
         Get
-            Return cIncludeAmmoReloadTime
+            Return _IncludeAmmoReloadTime
         End Get
         Set(ByVal value As Boolean)
-            cIncludeAmmoReloadTime = value
+            _IncludeAmmoReloadTime = value
         End Set
     End Property
     Public Property IncludeCapReloadTime() As Boolean
         Get
-            Return cIncludeCapReloadTime
+            Return _IncludeCapReloadTime
         End Get
         Set(ByVal value As Boolean)
-            cIncludeCapReloadTime = value
+            _IncludeCapReloadTime = value
         End Set
     End Property
     Public Property MissileRangeConstant() As Double
         Get
-            Return cMissileRangeConstant
+            Return _MissileRangeConstant
         End Get
         Set(ByVal value As Double)
-            cMissileRangeConstant = value
+            _MissileRangeConstant = value
         End Set
     End Property
     Public Property ModSplitterWidth() As Integer
         Get
-            Return cModSplitterWidth
+            Return _ModSplitterWidth
         End Get
         Set(ByVal value As Integer)
-            cModSplitterWidth = value
+            _ModSplitterWidth = value
         End Set
     End Property
     Public Property ShipSplitterWidth() As Integer
         Get
-            Return cShipSplitterWidth
+            Return _ShipSplitterWidth
         End Get
         Set(ByVal value As Integer)
-            cShipSplitterWidth = value
+            _ShipSplitterWidth = value
         End Set
     End Property
     Public Property ModPanelWidth() As Integer
         Get
-            Return cModPanelWidth
+            Return _ModPanelWidth
         End Get
         Set(ByVal value As Integer)
-            cModPanelWidth = value
+            _ModPanelWidth = value
         End Set
     End Property
     Public Property ShipPanelWidth() As Integer
         Get
-            Return cShipPanelWidth
+            Return _ShipPanelWidth
         End Get
         Set(ByVal value As Integer)
-            cShipPanelWidth = value
+            _ShipPanelWidth = value
         End Set
     End Property
-    Public Property MRUModules() As ArrayList
+    Public Property MruModules() As ArrayList
         Get
-            Return cMRUModules
+            Return _MruModules
         End Get
         Set(ByVal value As ArrayList)
-            cMRUModules = value
+            _MruModules = value
         End Set
     End Property
-    Public Property MRULimit() As Integer
+    Public Property MruLimit() As Integer
         Get
-            Return cMRULimit
+            Return _MruLimit
         End Get
         Set(ByVal value As Integer)
-            cMRULimit = value
+            _MruLimit = value
         End Set
     End Property
     Public Property Favourites() As ArrayList
         Get
-            Return cFavourites
+            Return _Favourites
         End Get
         Set(ByVal value As ArrayList)
-            cFavourites = value
+            _Favourites = value
         End Set
     End Property
     Public Property UserSlotColumns() As List(Of UserSlotColumn)
         Get
-            Return cUserSlotColumns
+            Return _UserSlotColumns
         End Get
         Set(ByVal value As List(Of UserSlotColumn))
-            cUserSlotColumns = value
+            _UserSlotColumns = value
         End Set
     End Property
     Public Property StandardSlotColumns() As List(Of UserSlotColumn)
         Get
-            Return cStandardSlotColumns
+            Return _StandardSlotColumns
         End Get
         Set(ByVal value As List(Of UserSlotColumn))
-            cStandardSlotColumns = value
+            _StandardSlotColumns = value
         End Set
     End Property
     Public Property ShieldRechargeConstant() As Double
         Get
-            Return cShieldRechargeConstant
+            Return _ShieldRechargeConstant
         End Get
         Set(ByVal value As Double)
-            cShieldRechargeConstant = value
+            _ShieldRechargeConstant = value
         End Set
     End Property
     Public Property CapRechargeConstant() As Double
         Get
-            Return cCapRechargeConstant
+            Return _CapRechargeConstant
         End Get
         Set(ByVal value As Double)
-            cCapRechargeConstant = value
+            _CapRechargeConstant = value
         End Set
     End Property
     Public Property CloseInfoPanel() As Boolean
         Get
-            Return cCloseInfoPanel
+            Return _CloseInfoPanel
         End Get
         Set(ByVal value As Boolean)
-            cCloseInfoPanel = value
+            _CloseInfoPanel = value
         End Set
     End Property
     Public Property ShowPerformanceData() As Boolean
         Get
-            Return cShowPerformanceData
+            Return _ShowPerformanceData
         End Get
         Set(ByVal value As Boolean)
-            cShowPerformanceData = value
+            _ShowPerformanceData = value
         End Set
     End Property
     Public Property OpenFittingList() As ArrayList
         Get
-            Return cOpenFittingList
+            Return _OpenFittingList
         End Get
         Set(ByVal value As ArrayList)
-            cOpenFittingList = value
+            _OpenFittingList = value
         End Set
     End Property
     Public Property AutoUpdateHQFSkills() As Boolean
         Get
-            Return cAutoUpdateHQFSkills
+            Return _AutoUpdateHQFSkills
         End Get
         Set(ByVal value As Boolean)
-            cAutoUpdateHQFSkills = value
+            _AutoUpdateHQFSkills = value
         End Set
     End Property
     Public Property ModuleFilter() As Integer
         Get
-            Return cModuleFilter
+            Return _ModuleFilter
         End Get
         Set(ByVal value As Integer)
-            cModuleFilter = value
+            _ModuleFilter = value
         End Set
     End Property
     Public Property LastPriceUpdate() As DateTime
         Get
-            Return cLastPriceUpdate
+            Return _LastPriceUpdate
         End Get
         Set(ByVal value As DateTime)
-            cLastPriceUpdate = value
+            _LastPriceUpdate = value
         End Set
     End Property
     Public Property RestoreLastSession() As Boolean
         Get
-            Return cRestoreLastSession
+            Return _RestoreLastSession
         End Get
         Set(ByVal value As Boolean)
-            cRestoreLastSession = value
+            _RestoreLastSession = value
         End Set
     End Property
     Public Property DefaultPilot() As String
         Get
-            Return cDefaultPilot
+            Return _DefaultPilot
         End Get
         Set(ByVal value As String)
-            cDefaultPilot = value
+            _DefaultPilot = value
         End Set
     End Property
     Public Property HiSlotColour() As Long
         Get
-            Return cHiSlotColour
+            Return _HiSlotColour
         End Get
         Set(ByVal value As Long)
-            cHiSlotColour = value
+            _HiSlotColour = value
         End Set
     End Property
     Public Property MidSlotColour() As Long
         Get
-            Return cMidSlotColour
+            Return _MidSlotColour
         End Get
         Set(ByVal value As Long)
-            cMidSlotColour = value
+            _MidSlotColour = value
         End Set
     End Property
     Public Property LowSlotColour() As Long
         Get
-            Return cLowSlotColour
+            Return _LowSlotColour
         End Get
         Set(ByVal value As Long)
-            cLowSlotColour = value
+            _LowSlotColour = value
         End Set
     End Property
     Public Property RigSlotColour() As Long
         Get
-            Return cRigSlotColour
+            Return _RigSlotColour
         End Get
         Set(ByVal value As Long)
-            cRigSlotColour = value
+            _RigSlotColour = value
         End Set
     End Property
     Public Property SubSlotColour() As Long
         Get
-            Return cSubSlotColour
+            Return _SubSlotColour
         End Get
         Set(ByVal value As Long)
-            cSubSlotColour = value
+            _SubSlotColour = value
         End Set
     End Property
+
+#End Region
 
     Public Sub SaveHQFSettings()
 
         ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(HQFSettings, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(HQFSettings, Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try
-            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "HQFSettings.json"), False)
+            Using s As New StreamWriter(Path.Combine(HQFFolder, "HQFSettings.json"), False)
                 s.Write(json)
                 s.Flush()
             End Using
@@ -453,9 +461,9 @@ Imports Newtonsoft.Json
         ' Initialise the standard slot columns
         Call InitialiseSlotColumns()
 
-        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "HQFSettings.json")) = True Then
+        If My.Computer.FileSystem.FileExists(Path.Combine(HQFFolder, "HQFSettings.json")) = True Then
             Try
-                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "HQFSettings.json"))
+                Using s As New StreamReader(Path.Combine(HQFFolder, "HQFSettings.json"))
                     Dim json As String = s.ReadToEnd
                     HQFSettings = JsonConvert.DeserializeObject(Of PluginSettings)(json)
                 End Using
@@ -483,7 +491,7 @@ Imports Newtonsoft.Json
         ' Check if the standard columns have changed and we need to add columns
         If HQFSettings.UserSlotColumns.Count <> HQFSettings.StandardSlotColumns.Count Then
             Dim missingFlag As Boolean
-            For Each stdCol As UserSlotColumn In cStandardSlotColumns
+            For Each stdCol As UserSlotColumn In _StandardSlotColumns
                 missingFlag = True
                 For Each testUserCol As UserSlotColumn In HQFSettings.UserSlotColumns
                     If stdCol.Name = testUserCol.Name Then
@@ -500,32 +508,34 @@ Imports Newtonsoft.Json
 
     End Function
     Public Sub InitialiseSlotColumns()
-        cStandardSlotColumns.Clear()
-        cStandardSlotColumns.Add(New UserSlotColumn("Charge", "Module Charge", 150, True))
-        cStandardSlotColumns.Add(New UserSlotColumn("CPU", "CPU", 75, True))
-        cStandardSlotColumns.Add(New UserSlotColumn("PG", "PG", 75, True))
-        cStandardSlotColumns.Add(New UserSlotColumn("Calib", "Calibration", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("Price", "Price", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("ActCost", "Activation Cost", 75, True))
-        cStandardSlotColumns.Add(New UserSlotColumn("ActTime", "Activation Time", 75, True))
-        cStandardSlotColumns.Add(New UserSlotColumn("CapRate", "Cap Usage Rate", 75, True))
-        cStandardSlotColumns.Add(New UserSlotColumn("OptRange", "Optimal Range", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("ROF", "ROF", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("Damage", "Damage", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("DPS", "DPS", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("Falloff", "Falloff", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("Tracking", "Tracking", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("ExpRad", "Explosion Radius", 75, False))
-        cStandardSlotColumns.Add(New UserSlotColumn("ExpVel", "Explosion Velocity", 75, False))
+        _StandardSlotColumns.Clear()
+        _StandardSlotColumns.Add(New UserSlotColumn("Charge", "Module Charge", 150, True))
+        _StandardSlotColumns.Add(New UserSlotColumn("CPU", "CPU", 75, True))
+        _StandardSlotColumns.Add(New UserSlotColumn("PG", "PG", 75, True))
+        _StandardSlotColumns.Add(New UserSlotColumn("Calib", "Calibration", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("Price", "Price", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("ActCost", "Activation Cost", 75, True))
+        _StandardSlotColumns.Add(New UserSlotColumn("ActTime", "Activation Time", 75, True))
+        _StandardSlotColumns.Add(New UserSlotColumn("CapRate", "Cap Usage Rate", 75, True))
+        _StandardSlotColumns.Add(New UserSlotColumn("OptRange", "Optimal Range", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("ROF", "ROF", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("Damage", "Damage", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("DPS", "DPS", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("Falloff", "Falloff", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("Tracking", "Tracking", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("ExpRad", "Explosion Radius", 75, False))
+        _StandardSlotColumns.Add(New UserSlotColumn("ExpVel", "Explosion Velocity", 75, False))
     End Sub
 
 End Class
 
 <Serializable()> Public Class UserSlotColumn
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
     Dim cName As String = ""
     Dim cDescription As String = ""
     Dim cWidth As Integer = 75
     Dim cActive As Boolean = False
+    ' ReSharper restore InconsistentNaming
 
     Public Property Name() As String
         Get
@@ -563,10 +573,10 @@ End Class
         End Set
     End Property
 
-    Public Sub New(ByVal ColumnName As String, ByVal Description As String, ByVal ColumnWidth As Integer, ByVal IsActive As Boolean)
-        cName = ColumnName
-        cDescription = Description
-        cWidth = ColumnWidth
+    Public Sub New(ByVal columnName As String, ByVal desc As String, ByVal columnWidth As Integer, ByVal isActive As Boolean)
+        cName = columnName
+        cDescription = desc
+        cWidth = columnWidth
         cActive = IsActive
     End Sub
 

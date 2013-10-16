@@ -17,10 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
 Imports System.Text
-Imports System.Text.RegularExpressions
 Imports EveHQ.EveData
+Imports System.Globalization
+Imports System.Text.RegularExpressions
 
 Public Class EffectFunctions
 
@@ -121,8 +121,8 @@ Public Class EffectFunctions
                 End Select
 
                 ' Display attribute
-                Dim culture As New Globalization.CultureInfo("en-GB")
-                Dim textInfo As Globalization.TextInfo = culture.TextInfo
+                Dim culture As New CultureInfo("en-GB")
+                Dim textInfo As TextInfo = culture.TextInfo
                 If Attributes.AttributeList.ContainsKey(bonus.AffectedAtt) = True Then
                     desc.Append(textInfo.ToTitleCase(Attributes.AttributeList(bonus.AffectedAtt).DisplayName))
                 Else

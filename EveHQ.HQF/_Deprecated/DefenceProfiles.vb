@@ -17,11 +17,11 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-'Imports System.Runtime.Serialization.Formatters.Binary
-'Imports System.IO
-'Imports System.Windows.Forms
 
+' ReSharper disable once CheckNamespace - for MS serialization compatability
 <Serializable()> Public Class DefenceProfile
+
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
     Public Name As String
     Public Type As Integer ' = DefenceProfileTypes
     Public SEM As Double
@@ -39,83 +39,6 @@
     Public DPS As Double
     Public Fitting As String
     Public Pilot As String
+    ' ReSharper restore InconsistentNaming
+
 End Class
-
-'<Serializable()> Public Class DefenceProfiles
-'    Public Shared ProfileList As New SortedList
-
-'    Public Shared Sub ResetDefenceProfiles()
-'        DefenceProfiles.ProfileList.Clear()
-'        Dim ProfileList As String = My.Resources.DefenceProfiles.ToString
-'        Dim Profiles() As String = ProfileList.Split(ControlChars.CrLf.ToCharArray)
-'        Dim ProfileData() As String
-'        For Each Profile As String In Profiles
-'            If Profile.Trim <> "" Then
-'                ProfileData = Profile.Split(",".ToCharArray)
-'                Dim newProfile As New DefenceProfile
-'                newProfile.Name = ProfileData(0)
-'                newProfile.Type = 0
-'                newProfile.SEM = CDbl(ProfileData(1)) / 100
-'                newProfile.SExplosive = CDbl(ProfileData(2)) / 100
-'                newProfile.SKinetic = CDbl(ProfileData(3)) / 100
-'                newProfile.SThermal = CDbl(ProfileData(4)) / 100
-'                newProfile.AEM = CDbl(ProfileData(5)) / 100
-'                newProfile.AExplosive = CDbl(ProfileData(6)) / 100
-'                newProfile.AKinetic = CDbl(ProfileData(7)) / 100
-'                newProfile.AThermal = CDbl(ProfileData(8)) / 100
-'                newProfile.HEM = CDbl(ProfileData(9)) / 100
-'                newProfile.HExplosive = CDbl(ProfileData(10)) / 100
-'                newProfile.HKinetic = CDbl(ProfileData(11)) / 100
-'                newProfile.HThermal = CDbl(ProfileData(12)) / 100
-'                newProfile.DPS = 0
-'                newProfile.Fitting = ""
-'                newProfile.Pilot = ""
-'                DefenceProfiles.ProfileList.Add(newProfile.Name, newProfile)
-'            End If
-'        Next
-'        DefenceProfiles.SaveProfiles()
-'    End Sub
-
-'    Public Shared Sub LoadProfiles()
-'        ' Check for the profiles file so we can load it
-'        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin")) = True Then
-'            Dim s As FileStream = Nothing
-'            Try
-'                s = New FileStream(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Open)
-'                Dim f As BinaryFormatter = New BinaryFormatter
-'                DefenceProfiles.ProfileList = CType(f.Deserialize(s), SortedList)
-'            Catch ex As Exception
-'                MessageBox.Show("There was a problem reading the DefenceProfiles data file. It appears to be corrupt. A new file will be created, however any customizations to the current one are lost.")
-'                ' Need to create the profiles file and the standard custom profile (omni-damage)
-'                Call DamageProfiles.ResetDamageProfiles()
-'            Finally
-'                s.Close()
-'            End Try
-
-'        Else
-'            ' Need to create the profiles file and the standard custom profile (omni-damage)
-'            Call DamageProfiles.ResetDamageProfiles()
-'        End If
-'    End Sub
-
-'    Public Shared Sub SaveProfiles()
-'        ' Save the Profiles
-'        Dim s As New FileStream(Path.Combine(HQF.PluginSettings.HQFFolder, "HQFDefenceProfiles.bin"), FileMode.Create)
-'        Dim f As New BinaryFormatter
-'        f.Serialize(s, DefenceProfiles.ProfileList)
-'        s.Flush()
-'        s.Close()
-'    End Sub
-'End Class
-
-'Public Enum DefenceProfileTypes
-'    Manual = 0
-'    Fitting = 1
-'    NPCs = 2
-'End Enum
-
-'Public Class DefenceProfileResults
-'    Public ShieldDPS As Double
-'    Public ArmorDPS As Double
-'    Public HullDPS As Double
-'End Class

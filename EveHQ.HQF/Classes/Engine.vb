@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Globalization
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
@@ -32,7 +33,7 @@ Public Class Engine
     Public Shared PirateImplants As New SortedList(Of String, String)
     Public Shared PirateImplantGroups As New SortedList
 
-    Shared ReadOnly Culture As Globalization.CultureInfo = New Globalization.CultureInfo("en-GB")
+    Shared ReadOnly Culture As CultureInfo = New CultureInfo("en-GB")
 
 #Region "Fitting Routines"
 
@@ -255,7 +256,7 @@ Public Class Engine
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
                 newEffect.CalcType = CType(effectData(8), EffectCalcType)
-                newEffect.Value = Double.Parse(effectData(9), Globalization.NumberStyles.Any, culture)
+                newEffect.Value = Double.Parse(effectData(9), NumberStyles.Any, culture)
                 newEffect.Status = CInt(effectData(10))
                 shipEffectClassList.Add(newEffect)
             End If
@@ -299,7 +300,7 @@ Public Class Engine
                 newEffect.StackNerf = CType(effectData(6), EffectStackType)
                 newEffect.IsPerLevel = CBool(effectData(7))
                 newEffect.CalcType = CType(effectData(8), EffectCalcType)
-                newEffect.Value = Double.Parse(effectData(9), Globalization.NumberStyles.Any, culture)
+                newEffect.Value = Double.Parse(effectData(9), NumberStyles.Any, culture)
                 newEffect.Status = CInt(effectData(10))
                 shipEffectClassList.Add(newEffect)
             End If

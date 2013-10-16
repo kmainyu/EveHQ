@@ -23,9 +23,11 @@
 ''' </summary>
 ''' <remarks></remarks>
 <Serializable()> Public Class ModuleWithState
+    ' ReSharper disable InconsistentNaming - For MS serialization compatability
     Dim cID As String
     Dim cChargeID As String
     Dim cState As ModuleStates
+    ' ReSharper restore InconsistentNaming
 
     ''' <summary>
     ''' Gets or sets the ID of the module
@@ -77,14 +79,14 @@
     ''' <summary>
     ''' Creates a new ModuleWithState with the complete data
     ''' </summary>
-    ''' <param name="ModuleID">The ID of the module</param>
-    ''' <param name="ModuleChargeID">The ID of the loaded charge</param>
-    ''' <param name="ModuleState">The state of the module</param>
+    ''' <param name="moduleID">The ID of the module</param>
+    ''' <param name="moduleChargeID">The ID of the loaded charge</param>
+    ''' <param name="moduleState">The state of the module</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ModuleID As String, ByVal ModuleChargeID As String, ByVal ModuleState As ModuleStates)
+    Public Sub New(ByVal moduleID As String, ByVal moduleChargeID As String, ByVal moduleState As ModuleStates)
         ' Parse the data
-        cID = ModuleID
-        cChargeID = ModuleChargeID
+        cID = moduleID
+        cChargeID = moduleChargeID
         cState = ModuleState
     End Sub
 
@@ -95,9 +97,11 @@ End Class
 ''' </summary>
 ''' <remarks></remarks>
 <Serializable()> Public Class ModuleQWithState
+    ' ReSharper disable InconsistentNaming - For MS serialization compatability
     Dim cID As String
     Dim cState As ModuleStates
     Dim cQuantity As Integer
+    ' ReSharper restore InconsistentNaming
 
     ''' <summary>
     ''' Gets or sets the ID of the module
@@ -155,14 +159,14 @@ End Class
     ''' <summary>
     ''' Creates a new ModuleQState with the complete data
     ''' </summary>
-    ''' <param name="ModuleID">The ID of the module</param>
-    ''' <param name="ModuleState">The state of the module</param>
-    ''' <param name="ModuleQuantity">The quantity of the modules in the group</param>
+    ''' <param name="moduleID">The ID of the module</param>
+    ''' <param name="moduleState">The state of the module</param>
+    ''' <param name="moduleQuantity">The quantity of the modules in the group</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal ModuleID As String, ByVal ModuleState As ModuleStates, ByVal ModuleQuantity As Integer)
+    Public Sub New(ByVal moduleID As String, ByVal moduleState As ModuleStates, ByVal moduleQuantity As Integer)
         ' Parse the data
-        cID = ModuleID
-        cState = ModuleState
+        cID = moduleID
+        cState = moduleState
         cQuantity = ModuleQuantity
     End Sub
 
@@ -186,11 +190,13 @@ End Enum
 ''' </summary>
 ''' <remarks></remarks>
 <Serializable()> Public Class FleetEffect
+    ' ReSharper disable InconsistentNaming - For MS serialization compatability
     Dim cFleetPosition As FleetPositions
     Dim cFittingName As String
     Dim cPilotName As String
     Dim cImplants As List(Of ModuleWithState)
     Dim cIsActive As Boolean
+    ' ReSharper restore InconsistentNaming
 
     ''' <summary>
     ''' Gets or sets the position in the fleet of the effect
@@ -284,11 +290,13 @@ End Enum
 ''' </summary>
 ''' <remarks></remarks>
 <Serializable()> Public Class RemoteEffect
+    ' ReSharper disable InconsistentNaming - For MS serialization compatability
     Dim cFittingName As String
     Dim cPilotName As String
     Dim cImplants As List(Of ModuleWithState)
     Dim cModules As List(Of ModuleWithState)
     Dim cIsActive As Boolean
+    ' ReSharper restore InconsistentNaming
 
     ''' <summary>
     ''' Gets or sets the name of the fitting for the remote effect

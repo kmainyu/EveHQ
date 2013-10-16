@@ -40,15 +40,15 @@ Public Class HQFDefenceProfiles
                 Dim newProfile As New HQFDefenceProfile
                 newProfile.Name = profileData(0)
                 newProfile.Type = 0
-                newProfile.SEM = CDbl(profileData(1)) / 100
+                newProfile.SEm = CDbl(profileData(1)) / 100
                 newProfile.SExplosive = CDbl(profileData(2)) / 100
                 newProfile.SKinetic = CDbl(profileData(3)) / 100
                 newProfile.SThermal = CDbl(profileData(4)) / 100
-                newProfile.AEM = CDbl(profileData(5)) / 100
+                newProfile.AEm = CDbl(profileData(5)) / 100
                 newProfile.AExplosive = CDbl(profileData(6)) / 100
                 newProfile.AKinetic = CDbl(profileData(7)) / 100
                 newProfile.AThermal = CDbl(profileData(8)) / 100
-                newProfile.HEM = CDbl(profileData(9)) / 100
+                newProfile.HEm = CDbl(profileData(9)) / 100
                 newProfile.HExplosive = CDbl(profileData(10)) / 100
                 newProfile.HKinetic = CDbl(profileData(11)) / 100
                 newProfile.HThermal = CDbl(profileData(12)) / 100
@@ -85,7 +85,7 @@ Public Class HQFDefenceProfiles
     Public Shared Sub Save()
 
         ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(ProfileList, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(ProfileList, Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try

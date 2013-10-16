@@ -37,6 +37,7 @@ End Class
     Public Sub New(autoPopulate As Boolean)
         ImplantName.Clear()
         If autoPopulate = True Then
+            ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
             For slot As Integer = 0 To 10
                 ImplantName.Add("")
             Next

@@ -17,156 +17,161 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Windows.Forms
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports System.Windows.Forms
 
-Public Class FleetDashboard
-    Dim IsDragging As Boolean = False
-    Dim initialCoords As Point
-    Dim sourceControl As Control
-    Dim parentControl As Control
-    Dim LinkPen As New Pen(Color.FromArgb(16, Color.Black), 2)
-    Dim RLinkPen As New Pen(Color.FromArgb(64, Color.Red), 2)
-    Dim GLinkPen As New Pen(Color.FromArgb(255, Color.LightGreen), 2)
+Namespace Controls
+
+    Public Class FleetDashboard
+        Dim _isDragging As Boolean = False
+        Dim _initialCoords As Point
+        Dim _sourceControl As Control
+        Dim _parentControl As Control
+        ReadOnly _linkPen As New Pen(Color.FromArgb(16, Color.Black), 2)
+        ReadOnly _rLinkPen As New Pen(Color.FromArgb(64, Color.Red), 2)
+        ReadOnly _gLinkPen As New Pen(Color.FromArgb(255, Color.LightGreen), 2)
 
 #Region "Form Loading Routines"
 
-    Private Sub FleetDashboard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Private Sub FleetDashboard_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
-        Me.DoubleBuffered = True
+            DoubleBuffered = True
 
-        ' Add the controls to the panel
-        Me.SuspendLayout()
+            ' Add the controls to the panel
+            SuspendLayout()
 
-        For a As Integer = 1 To 10
-            Call Me.AddShipWidget()
-        Next
+            ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
+            For a As Integer = 1 To 10
+                Call AddShipWidget()
+            Next
 
-        Me.ResumeLayout()
+            ResumeLayout()
 
-    End Sub
+        End Sub
 #End Region
 
 #Region "Widget Update Routines"
 
-    Private Sub AddShipWidget()
+        Private Sub AddShipWidget()
 
-        If Fittings.FittingList.ContainsKey("Guardian, Test") Then
-            Dim ShipFit As Fitting = Fittings.FittingList("Guardian, Test").Clone
-            Dim NewSW As New ShipWidget(ShipFit)
-            NewSW.Name = Now.Ticks.ToString
+            If Fittings.FittingList.ContainsKey("Guardian, Test") Then
+                Dim shipFit As Fitting = Fittings.FittingList("Guardian, Test").Clone
+                Dim newSw As New ShipWidget(shipFit)
+                newSw.Name = Now.Ticks.ToString
 
-            AddHandler NewSW.Controls("pnlHeader").MouseDown, AddressOf MyMouseDown
-            AddHandler NewSW.Controls("pnlHeader").MouseUp, AddressOf MyMouseUp
-            AddHandler NewSW.Controls("pnlHeader").MouseMove, AddressOf MyMouseMove
-            AddHandler NewSW.Controls("pnlHeader").MouseLeave, AddressOf MyMouseLeave
-            Me.Controls.Add(NewSW)
-        End If
-    End Sub
+                AddHandler newSw.Controls("pnlHeader").MouseDown, AddressOf MyMouseDown
+                AddHandler newSw.Controls("pnlHeader").MouseUp, AddressOf MyMouseUp
+                AddHandler newSw.Controls("pnlHeader").MouseMove, AddressOf MyMouseMove
+                AddHandler newSw.Controls("pnlHeader").MouseLeave, AddressOf MyMouseLeave
+                Controls.Add(newSw)
+            End If
+        End Sub
 
 #End Region
 
 #Region "Panel Drag/Drop Routines"
 
-    Private Sub MyMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
-        ' Get the source control
-        sourceControl = CType(sender, Control)
-        parentControl = sourceControl
-        Do
-            parentControl = parentControl.Parent
-        Loop Until parentControl.Parent Is Me
-        parentControl.BringToFront()
-        ' Disable dragging from the AGPContent panel, only allow from the Header
-        If sourceControl.Name = "pnlHeader" Then
-            IsDragging = True
-            parentControl.Cursor = Cursors.SizeAll
-            initialCoords = e.Location
-        End If
-    End Sub
+        Private Sub MyMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
+            ' Get the source control
+            _sourceControl = CType(sender, Control)
+            _parentControl = _sourceControl
+            Do
+                _parentControl = _parentControl.Parent
+            Loop Until _parentControl.Parent Is Me
+            _parentControl.BringToFront()
+            ' Disable dragging from the AGPContent panel, only allow from the Header
+            If _sourceControl.Name = "pnlHeader" Then
+                _isDragging = True
+                _parentControl.Cursor = Cursors.SizeAll
+                _initialCoords = e.Location
+            End If
+        End Sub
 
-    Private Sub MyMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs)
-        ' Get the source control
-        sourceControl = CType(sender, Control)
-        parentControl = sourceControl
-        Do
-            parentControl = parentControl.Parent
-        Loop Until parentControl.Parent Is Me
-        If IsDragging = True Then
-            ' Dragging code
-            IsDragging = False
-            Me.Invalidate()
-        End If
-        'lblStatus.Text = "Status: Waiting..."
-        parentControl.Cursor = Cursors.Default
-    End Sub
+        Private Sub MyMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs)
+            ' Get the source control
+            _sourceControl = CType(sender, Control)
+            _parentControl = _sourceControl
+            Do
+                _parentControl = _parentControl.Parent
+            Loop Until _parentControl.Parent Is Me
+            If _isDragging = True Then
+                ' Dragging code
+                _isDragging = False
+                Invalidate()
+            End If
+            'lblStatus.Text = "Status: Waiting..."
+            _parentControl.Cursor = Cursors.Default
+        End Sub
 
-    Private Sub MyMouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
-        ' Get the source control
-        sourceControl = CType(sender, Control)
-        parentControl = sourceControl
-        Do
-            parentControl = parentControl.Parent
-        Loop Until parentControl.Parent Is Me
-        If IsDragging = True Then
-            ' Dragging code
-            Dim cx As Integer = parentControl.Location.X - initialCoords.X + e.Location.X
-            Dim cy As Integer = parentControl.Location.Y - initialCoords.Y + e.Location.Y
-            parentControl.Location = New Point(Math.Max(0, Math.Min(cx, Me.Width - 32)), Math.Max(0, Math.Min(cy, Me.Height - 32)))
-            Me.Invalidate()
-        End If
-    End Sub
+        Private Sub MyMouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
+            ' Get the source control
+            _sourceControl = CType(sender, Control)
+            _parentControl = _sourceControl
+            Do
+                _parentControl = _parentControl.Parent
+            Loop Until _parentControl.Parent Is Me
+            If _isDragging = True Then
+                ' Dragging code
+                Dim cx As Integer = _parentControl.Location.X - _initialCoords.X + e.Location.X
+                Dim cy As Integer = _parentControl.Location.Y - _initialCoords.Y + e.Location.Y
+                _parentControl.Location = New Point(Math.Max(0, Math.Min(cx, Width - 32)), Math.Max(0, Math.Min(cy, Height - 32)))
+                Invalidate()
+            End If
+        End Sub
 
-    Private Sub MyMouseLeave(ByVal sender As Object, ByVal e As EventArgs)
-        Me.Cursor = Cursors.Default
-    End Sub
+        Private Sub MyMouseLeave(ByVal sender As Object, ByVal e As EventArgs)
+            Cursor = Cursors.Default
+        End Sub
 
-    Protected Overrides Sub OnPaint(e As System.Windows.Forms.PaintEventArgs)
-        'MyBase.OnPaint(e)
+        Protected Overrides Sub OnPaint(e As PaintEventArgs)
+            'MyBase.OnPaint(e)
 
-        Call PaintShipLinks(e.Graphics)
+            Call PaintShipLinks(e.Graphics)
 
-    End Sub
+        End Sub
 
-    Private Sub PaintShipLinks(ByVal e As Graphics)
+        Private Sub PaintShipLinks(ByVal e As Graphics)
 
-        If IsDragging = True Then
-            e.SmoothingMode = Drawing2D.SmoothingMode.HighSpeed
-        Else
-            e.SmoothingMode = Drawing2D.SmoothingMode.HighQuality
-        End If
+            If _isDragging = True Then
+                e.SmoothingMode = SmoothingMode.HighSpeed
+            Else
+                e.SmoothingMode = SmoothingMode.HighQuality
+            End If
 
-        ' Draw from the right hand edge to the left
-        For Each c As Control In Me.Controls
-            For Each c2 As Control In Me.Controls
-                If c.Name <> c2.Name Then
-                    Dim SX As Integer = c.Location.X + c.Width
-                    Dim SY As Integer = c.Location.Y + 81
-                    Dim FX As Integer = c2.Location.X
-                    Dim FY As Integer = c2.Location.Y + 10
+            ' Draw from the right hand edge to the left
+            For Each c As Control In Controls
+                For Each c2 As Control In Controls
+                    If c.Name <> c2.Name Then
+                        Dim sx As Integer = c.Location.X + c.Width
+                        Dim sy As Integer = c.Location.Y + 81
+                        Dim fx As Integer = c2.Location.X
+                        Dim fy As Integer = c2.Location.Y + 10
 
-                    If parentControl IsNot Nothing Then
-                        If c.Name = parentControl.Name Then
-                            e.DrawLine(GLinkPen, SX, SY, FX, FY)
-                        ElseIf c2.Name = parentControl.Name Then
-                            e.DrawLine(RLinkPen, SX, SY, FX, FY)
+                        If _parentControl IsNot Nothing Then
+                            If c.Name = _parentControl.Name Then
+                                e.DrawLine(_gLinkPen, sx, sy, fx, fy)
+                            ElseIf c2.Name = _parentControl.Name Then
+                                e.DrawLine(_rLinkPen, sx, sy, fx, fy)
+                            Else
+                                e.DrawLine(_linkPen, sx, sy, fx, fy)
+                            End If
                         Else
-                            e.DrawLine(LinkPen, SX, SY, FX, FY)
+                            e.DrawLine(_linkPen, sx, sy, fx, fy)
                         End If
-                    Else
-                        e.DrawLine(LinkPen, SX, SY, FX, FY)
+
                     End If
-
-                End If
+                Next
             Next
-        Next
 
-        'For Each c As Control In Me.Controls
+            'For Each c As Control In Me.Controls
 
-        'Next
+            'Next
 
-        Me.Update()
+            Update()
 
-    End Sub
+        End Sub
 
 #End Region
-End Class
+    End Class
+End NameSpace

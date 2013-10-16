@@ -17,7 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Net
 Imports System.Text
+Imports EveHQ.Core
+Imports System.Web
 Imports System.Text.RegularExpressions
 
 Namespace Classes
@@ -27,9 +30,9 @@ Namespace Classes
         Shared _currentFitting As Fitting
         Shared _hqfPilotName As String
 
-        Shared Function Response(ByVal context As Net.HttpListenerContext) As String
+        Shared Function Response(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
-            strHTML.Append(Core.IGB.IGBHTMLHeader(context, "EveHQFitter", 0))
+            strHTML.Append(IGB.IGBHTMLHeader(context, "EveHQFitter", 0))
             strHTML.Append(HQFMenu(context))
             Select Case context.Request.Url.AbsolutePath.ToUpper
                 Case "/EVEHQFITTER", "/EVEHQFITTER/"
@@ -43,17 +46,17 @@ Namespace Classes
                 Case "/EVEHQFITTER/PAGE2", "/EVEHQFITTER/PAGE2/"
                     strHTML.Append(HQFPage2(context))
             End Select
-            strHTML.Append(Core.IGB.IGBHTMLFooter(context))
+            strHTML.Append(IGB.IGBHTMLFooter(context))
             Return strHTML.ToString
         End Function
 
-        Shared Function HQFMenu(ByVal context As Net.HttpListenerContext) As String
+        Shared Function HQFMenu(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
             strHTML.Append("<a href=/EVEHQFitter>HQF Home</a>  |  <a href=/EVEHQFitter/BrowseFittings>Browse HQF Fittings</a>  |  <a href=/EVEHQFitter/Page2>HQF Page 2</a><br /><hr>")
             Return strHTML.ToString
         End Function
 
-        Shared Function MainPage(ByVal context As Net.HttpListenerContext) As String
+        Shared Function MainPage(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
             ' Check if we are trusted and get the Eve system name
             If context.Request.Headers("EVE_TRUSTED") = Nothing Then
@@ -86,14 +89,14 @@ Namespace Classes
             Return strHTML.ToString
         End Function
 
-        Shared Function BrowseFittings(ByVal context As Net.HttpListenerContext) As String
+        Shared Function BrowseFittings(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
 
             Dim shipName As String
             Dim fittingName As String
 
             strHTML.Append("<table width=100% border=1>")
-            Dim lastShip As String = ""
+            Const lastShip As String = ""
             For Each fitting As String In Fittings.FittingList.Keys
                 shipName = Fittings.FittingList(fitting).ShipName
                 fittingName = Fittings.FittingList(fitting).FittingName
@@ -121,7 +124,7 @@ Namespace Classes
             Return strHTML.ToString
         End Function
 
-        Shared Function EveFitting(ByVal context As Net.HttpListenerContext) As String
+        Shared Function EveFitting(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
 
             If context.Request.QueryString.Count = 0 Or context.Request.QueryString.Item("fitting") = "" Then
@@ -130,9 +133,9 @@ Namespace Classes
                 Try
 
                     ' Try and establish some form parameters for the fitting
-                    Dim fittingURL As String = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("fitting"))
-                    If Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("fitting2")) <> "" Then
-                        fittingURL = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("fitting2"))
+                    Dim fittingURL As String = HttpUtility.UrlDecode(context.Request.QueryString.Item("fitting"))
+                    If HttpUtility.UrlDecode(context.Request.QueryString.Item("fitting2")) <> "" Then
+                        fittingURL = HttpUtility.UrlDecode(context.Request.QueryString.Item("fitting2"))
                     End If
 
                     '   "\S+=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?>(.*?)\<\/url\>"
@@ -152,22 +155,22 @@ Namespace Classes
                         ' Set the fitting details and apply it
                         _currentFitting = DNAFitting.GetFittingFromEveDNA(fittingDNA, fittingName)
 
-                        If Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot")) <> "" Then
-                            _currentFitting.PilotName = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot"))
+                        If HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot")) <> "" Then
+                            _currentFitting.PilotName = HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot"))
                         Else
                             _currentFitting.PilotName = _hqfPilotName
                         End If
                         _currentFitting.UpdateBaseShipFromFitting()
 
-                        If Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("implants")) <> "" Then
-                            _currentFitting.ImplantGroup = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("implants"))
+                        If HttpUtility.UrlDecode(context.Request.QueryString.Item("implants")) <> "" Then
+                            _currentFitting.ImplantGroup = HttpUtility.UrlDecode(context.Request.QueryString.Item("implants"))
                         Else
                             _currentFitting.ImplantGroup = FittingPilots.HQFPilots(_currentFitting.PilotName).ImplantName(0)
                         End If
                         FittingPilots.HQFPilots(_currentFitting.PilotName).ImplantName(0) = _currentFitting.ImplantGroup
 
-                        If Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")) <> "" Then
-                            _currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList(Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")))
+                        If HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")) <> "" Then
+                            _currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList(HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")))
                         Else
                             _currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
                         End If
@@ -175,7 +178,7 @@ Namespace Classes
                         ' Check for charges
                         For slot As Integer = 1 To _currentFitting.BaseShip.HiSlots
                             If _currentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                Dim chargeName As String = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item(_currentFitting.BaseShip.HiSlot(slot).Name))
+                                Dim chargeName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item(_currentFitting.BaseShip.HiSlot(slot).Name))
                                 If chargeName <> "" Then
                                     ' Load the charge
                                     Dim charge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(chargeName)).Clone
@@ -190,7 +193,7 @@ Namespace Classes
                         Next
                         For slot As Integer = 1 To _currentFitting.BaseShip.MidSlots
                             If _currentFitting.BaseShip.MidSlot(slot) IsNot Nothing Then
-                                Dim chargeName As String = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item(_currentFitting.BaseShip.MidSlot(slot).Name))
+                                Dim chargeName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item(_currentFitting.BaseShip.MidSlot(slot).Name))
                                 If chargeName <> "" Then
                                     ' Load the charge
                                     Dim charge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(chargeName)).Clone
@@ -237,7 +240,7 @@ Namespace Classes
                             If profile = _currentFitting.BaseShip.DamageProfile.Name Then
                                 strHTML.Append("selected='selected'")
                             End If
-                            strHTML.Append(">" & Web.HttpUtility.HtmlEncode(profile) & "</option>")
+                            strHTML.Append(">" & HttpUtility.HtmlEncode(profile) & "</option>")
                         Next
                         strHTML.Append("</select></td>")
                         strHTML.Append("</tr></table>")
@@ -322,7 +325,7 @@ Namespace Classes
                                     strHTML.Append("<select name='" & slot & "' style='width: 100%; height:14px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                                     For Each charge As String In chargeList.Keys
                                         strHTML.Append("<option ")
-                                        If charge = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item(slot)) Then
+                                        If charge = HttpUtility.UrlDecode(context.Request.QueryString.Item(slot)) Then
                                             strHTML.Append("selected='selected'")
                                         End If
                                         strHTML.Append(">" & charge & "</option>")
@@ -338,6 +341,7 @@ Namespace Classes
                                 modCount += hiSlots(slot)
                             Next
                             If modCount < _currentFitting.FittedShip.HiSlots Then
+                                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                                 For emptySlot As Integer = 1 To _currentFitting.FittedShip.HiSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
@@ -359,7 +363,7 @@ Namespace Classes
                                     strHTML.Append("<select name='" & slot & "' style='width: 100%; height:14px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                                     For Each charge As String In chargeList.Keys
                                         strHTML.Append("<option ")
-                                        If charge = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item(slot)) Then
+                                        If charge = HttpUtility.UrlDecode(context.Request.QueryString.Item(slot)) Then
                                             strHTML.Append("selected='selected'")
                                         End If
                                         strHTML.Append(">" & charge & "</option>")
@@ -375,6 +379,7 @@ Namespace Classes
                                 modCount += midSlots(slot)
                             Next
                             If modCount < _currentFitting.FittedShip.MidSlots Then
+                                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                                 For emptySlot As Integer = 1 To _currentFitting.FittedShip.MidSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
@@ -393,6 +398,7 @@ Namespace Classes
                                 modCount += lowSlots(slot)
                             Next
                             If modCount < _currentFitting.FittedShip.LowSlots Then
+                                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                                 For emptySlot As Integer = 1 To _currentFitting.FittedShip.LowSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
@@ -411,6 +417,7 @@ Namespace Classes
                                 modCount += rigSlots(slot)
                             Next
                             If modCount < _currentFitting.FittedShip.RigSlots Then
+                                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                                 For emptySlot As Integer = 1 To _currentFitting.FittedShip.RigSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
@@ -481,7 +488,7 @@ Namespace Classes
                         If csr.CapIsDrained = False Then
                             strHTML.Append("Stable at " & (csr.MinimumCap / _currentFitting.FittedShip.CapCapacity * 100).ToString("N2") & "%")
                         Else
-                            strHTML.Append("Lasts " & Core.SkillFunctions.TimeToString(csr.TimeToDrain, False))
+                            strHTML.Append("Lasts " & SkillFunctions.TimeToString(csr.TimeToDrain, False))
                         End If
                         strHTML.Append("</td></tr>")
                         strHTML.Append("</table>")
@@ -531,14 +538,14 @@ Namespace Classes
             Return strHTML.ToString
         End Function
 
-        Shared Function SaveEveFitting(ByVal context As Net.HttpListenerContext) As String
+        Shared Function SaveEveFitting(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
-            If context.Request.QueryString.Count = 0 Or Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname")) = "" Then
+            If context.Request.QueryString.Count = 0 Or HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname")) = "" Then
                 strHTML.Append("<p>Fitting name is not permitted - go back and re-enter an appropriate name.</p>")
             Else
                 Try
                     Dim fittingNameExists As Boolean = False
-                    Dim fittingName As String = Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname"))
+                    Dim fittingName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname"))
                     If Fittings.FittingList.ContainsKey(_currentFitting.ShipName & ", " & fittingName) = True Then
                         fittingNameExists = True
                         Dim newFittingName As String
@@ -558,7 +565,7 @@ Namespace Classes
                     If fittingNameExists = False Then
                         strHTML.Append("<p>Fitting successfully saved as " & newFitting.FittingName & "!</p>")
                     Else
-                        strHTML.Append("<p>The fitting '" & Web.HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname")) & "' already exists, so the new fitting has been saved as '" & newFitting.FittingName & "'</p>")
+                        strHTML.Append("<p>The fitting '" & HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname")) & "' already exists, so the new fitting has been saved as '" & newFitting.FittingName & "'</p>")
                     End If
                     strHTML.Append("Click <a href=""javascript:history.go(-1)"">here</a> to go back to the fitting screen.")
                 Catch ex As Exception
@@ -568,7 +575,7 @@ Namespace Classes
             Return strHTML.ToString
         End Function
 
-        Shared Function HQFPage2(ByVal context As Net.HttpListenerContext) As String
+        Shared Function HQFPage2(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
             Return strHTML.ToString
         End Function

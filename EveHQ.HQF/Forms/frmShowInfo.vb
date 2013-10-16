@@ -19,22 +19,25 @@
 '=========================================================================
 Option Strict Off
 
-Imports System.Windows.Forms
-Imports System.Drawing
-Imports System.IO
 Imports DevComponents.AdvTree
+Imports DevComponents.DotNetBar
+Imports System.Drawing
+Imports EveHQ.Core
+Imports System.Windows.Forms
+Imports System.IO
 Imports System.Text.RegularExpressions
+Imports MarkupLinkClickEventArgs = DevComponents.DotNetBar.MarkupLinkClickEventArgs
 
 Namespace Forms
     
     Public Class FrmShowInfo
         Dim _itemType As Object
         Dim _itemName As String = ""
-        Dim _hPilot As Core.EveHQPilot
+        Dim _hPilot As EveHQPilot
         ReadOnly _skillsNeeded As New SortedList(Of String, Integer)
         Dim _itemUsable As Boolean = True
 
-        Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As Core.EveHQPilot)
+        Public Sub ShowItemDetails(ByVal itemObject As Object, ByVal iPilot As EveHQPilot)
 
             _hPilot = iPilot
 
@@ -57,7 +60,7 @@ Namespace Forms
             End If
 
             ' Get image from cache 
-            Dim imgFilename As String = Path.Combine(Core.HQ.imageCacheFolder, _hPilot.ID & ".png")
+            Dim imgFilename As String = Path.Combine(HQ.imageCacheFolder, _hPilot.ID & ".png")
             If My.Computer.FileSystem.FileExists(imgFilename) = True Then
                 pbPilot.ImageLocation = imgFilename
             Else
@@ -88,37 +91,37 @@ Namespace Forms
                     If itemSkill.Level <> 0 Then
                         skillsRequired = True
                         Dim skillID As String = itemSkill.ID
-                        Dim cSkill As Core.EveSkill = Core.HQ.SkillListID(skillID)
+                        Dim cSkill As EveSkill = HQ.SkillListID(skillID)
                         Dim curLevel As Integer = itemSkill.Level
                         Dim curNode As New Node
-                        curNode.Style = New DevComponents.DotNetBar.ElementStyle()
+                        curNode.Style = New ElementStyle()
 
                         ' Write the skill we are querying as the first (parent) node
                         curNode.Text = cSkill.Name & " (Level " & curLevel & ")"
                         Dim skillTrained As Boolean
                         Dim myLevel As Integer
                         skillTrained = False
-                        If Core.HQ.Settings.Pilots.Count > 0 And _hPilot.Updated = True Then
+                        If HQ.Settings.Pilots.Count > 0 And _hPilot.Updated = True Then
                             If _hPilot.PilotSkills.ContainsKey(cSkill.Name) Then
-                                Dim mySkill As Core.EveHQPilotSkill
+                                Dim mySkill As EveHQPilotSkill
                                 mySkill = _hPilot.PilotSkills(cSkill.Name)
                                 myLevel = CInt(mySkill.Level)
                                 If myLevel >= curLevel Then skillTrained = True
                                 If skillTrained = True Then
                                     curNode.Style.TextColor = Color.LimeGreen
-                                    SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Already Trained", cSkill.Name, "This skill has already been trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                    SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Already Trained", cSkill.Name, "This skill has already been trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                 Else
-                                    Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_hPilot, cSkill.Name, curLevel)
+                                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_hPilot, cSkill.Name, curLevel)
                                     If planLevel = 0 Then
                                         curNode.Style.TextColor = Color.Red
-                                        SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill has not been trained to the required level and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                        SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill has not been trained to the required level and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                     Else
                                         If planLevel >= curLevel Then
                                             curNode.Style.TextColor = Color.Blue
-                                            SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained but is in a skill queue to be trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                            SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained but is in a skill queue to be trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                         Else
                                             curNode.Style.TextColor = Color.Orange
-                                            SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                            SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                         End If
                                     End If
                                     If _skillsNeeded.ContainsKey(cSkill.Name) = False Then
@@ -131,17 +134,17 @@ Namespace Forms
                                     _itemUsable = False
                                 End If
                             Else
-                                Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_hPilot, cSkill.Name, curLevel)
+                                Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_hPilot, cSkill.Name, curLevel)
                                 If planLevel = 0 Then
                                     curNode.Style.TextColor = Color.Red
-                                    SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill has not been trained and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                    SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill has not been trained and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                 Else
                                     If planLevel >= curLevel Then
                                         curNode.Style.TextColor = Color.Blue
-                                        SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained but is in a skill queue to be trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                        SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained but is in a skill queue to be trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                     Else
                                         curNode.Style.TextColor = Color.Orange
-                                        SuperTooltip1.SetSuperTooltip(curNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                                        SuperTooltip1.SetSuperTooltip(curNode, New SuperTooltipInfo("Skill Not Trained", cSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                                     End If
                                 End If
                                 If _skillsNeeded.ContainsKey(cSkill.Name) = False Then
@@ -157,9 +160,9 @@ Namespace Forms
                         tvwReqs.Nodes.Add(curNode)
 
                         If cSkill.PreReqSkills.Count > 0 Then
-                            Dim subSkill As Core.EveSkill
+                            Dim subSkill As EveSkill
                             For Each subSkillID As String In cSkill.PreReqSkills.Keys
-                                subSkill = Core.HQ.SkillListID(subSkillID)
+                                subSkill = HQ.SkillListID(subSkillID)
                                 Call AddPreReqsToTree(subSkill, cSkill.PreReqSkills(subSkillID), curNode)
                             Next
                         End If
@@ -205,11 +208,11 @@ Namespace Forms
                         _skillsNeeded.Reverse()
                         For Each skillName As String In _skillsNeeded.Keys
                             Dim skillLvl As Integer = _skillsNeeded(skillName)
-                            Dim cSkill As Core.EveSkill = Core.HQ.SkillListName(skillName)
-                            usableTime += Core.SkillFunctions.CalcTimeToLevel(_hPilot, cSkill, skillLvl)
+                            Dim cSkill As EveSkill = HQ.SkillListName(skillName)
+                            usableTime += SkillFunctions.CalcTimeToLevel(_hPilot, cSkill, skillLvl)
                         Next
                         lblUsable.Text = _hPilot.Name & " doesn't have the skills to use this item."
-                        lblUsableTime.Text = "Training Time: " & Core.SkillFunctions.TimeToString(usableTime)
+                        lblUsableTime.Text = "Training Time: " & SkillFunctions.TimeToString(usableTime)
                     End If
                 Else
                     lblUsable.Text = "No pilot selected to calculate skill time."
@@ -221,37 +224,37 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub AddPreReqsToTree(ByVal newSkill As Core.EveSkill, ByVal curLevel As Integer, ByVal curNode As Node)
+        Private Sub AddPreReqsToTree(ByVal newSkill As EveSkill, ByVal curLevel As Integer, ByVal curNode As Node)
             Dim skillTrained As Boolean
             Dim myLevel As Integer
             Dim newNode As New Node
-            newNode.Style = New DevComponents.DotNetBar.ElementStyle()
+            newNode.Style = New ElementStyle()
             newNode.Name = newSkill.Name & " (Level " & curLevel & ")"
             newNode.Text = newSkill.Name & " (Level " & curLevel & ")"
             ' Check status of this skill
-            If Core.HQ.Settings.Pilots.Count > 0 And _hPilot.Updated = True Then
+            If HQ.Settings.Pilots.Count > 0 And _hPilot.Updated = True Then
                 skillTrained = False
                 If _hPilot.PilotSkills.ContainsKey(newSkill.Name) Then
-                    Dim mySkill As Core.EveHQPilotSkill
+                    Dim mySkill As EveHQPilotSkill
                     mySkill = _hPilot.PilotSkills(newSkill.Name)
                     myLevel = CInt(mySkill.Level)
                     If myLevel >= curLevel Then skillTrained = True
                 End If
                 If skillTrained = True Then
                     newNode.Style.TextColor = Color.LimeGreen
-                    SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Already Trained", newSkill.Name, "This skill has already been trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                    SuperTooltip1.SetSuperTooltip(newNode, New SuperTooltipInfo("Skill Already Trained", newSkill.Name, "This skill has already been trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                 Else
-                    Dim planLevel As Integer = Core.SkillQueueFunctions.IsPlanned(_hPilot, newSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_hPilot, newSkill.Name, curLevel)
                     If planLevel = 0 Then
                         newNode.Style.TextColor = Color.Red
-                        SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill has not been trained and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                        SuperTooltip1.SetSuperTooltip(newNode, New SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill has not been trained and it is not part of a skill queue.", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                     Else
                         If planLevel >= curLevel Then
                             newNode.Style.TextColor = Color.Blue
-                            SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill is not trained but is in a skill queue to be trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                            SuperTooltip1.SetSuperTooltip(newNode, New SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill is not trained but is in a skill queue to be trained to the required level of " & curLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                         Else
                             newNode.Style.TextColor = Color.Orange
-                            SuperTooltip1.SetSuperTooltip(newNode, New DevComponents.DotNetBar.SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+                            SuperTooltip1.SetSuperTooltip(newNode, New SuperTooltipInfo("Skill Not Trained", newSkill.Name, "This skill is not trained and is in a skill queue but is only planned to be trained to level " & planLevel.ToString & ".", My.Resources.SkillBook64, Nothing, eTooltipColor.Yellow))
                         End If
                     End If
                     If _skillsNeeded.ContainsKey(newSkill.Name) = False Then
@@ -267,9 +270,9 @@ Namespace Forms
             curNode.Nodes.Add(newNode)
 
             If newSkill.PreReqSkills.Count > 0 Then
-                Dim subSkill As Core.EveSkill
+                Dim subSkill As EveSkill
                 For Each subSkillID As String In newSkill.PreReqSkills.Keys
-                    subSkill = Core.HQ.SkillListID(subSkillID)
+                    subSkill = HQ.SkillListID(subSkillID)
                     Call AddPreReqsToTree(subSkill, newSkill.PreReqSkills(subSkillID), newNode)
                 Next
             End If
@@ -296,12 +299,6 @@ Namespace Forms
             lblDescription.Text = description
 
         End Sub
-
-        Private Function CleanMessage(ByVal message As String) As String
-            Dim output As String = message.Trim()
-            output = System.Text.RegularExpressions.Regex.Replace(output, "<[^<>]+>", "")
-            Return output
-        End Function
 
         Private Sub tvwReqs_NodeClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles tvwReqs.NodeClick
             tvwReqs.SelectedNode = e.Node
@@ -471,14 +468,14 @@ Namespace Forms
         End Sub
 
         Private Sub lblUsableTime_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblUsableTime.LinkClicked
-            Dim selQ As New Core.FrmSelectQueue(_hPilot.Name, _skillsNeeded, "HQF: " & _itemName)
+            Dim selQ As New FrmSelectQueue(_hPilot.Name, _skillsNeeded, "HQF: " & _itemName)
             selQ.TopMost = True
             selQ.ShowDialog()
-            Core.SkillQueueFunctions.StartQueueRefresh = True
+            SkillQueueFunctions.StartQueueRefresh = True
             Call GenerateSkills(_itemType)
         End Sub
 
-        Private Sub lblDescription_MarkupLinkClick(sender As Object, e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
+        Private Sub lblDescription_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
             'Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
             'If StaticData.TypeNames.ContainsValue(typeID) = True Then
             '    Call DisplayItem(CInt(typeID), True)
@@ -487,7 +484,7 @@ Namespace Forms
 
         Private Sub adtAffects_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAffects.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
-            Core.AdvTreeSorter.Sort(ch, True, False)
+            AdvTreeSorter.Sort(ch, True, False)
         End Sub
     End Class
 

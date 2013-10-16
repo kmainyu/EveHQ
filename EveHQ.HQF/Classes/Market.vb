@@ -17,11 +17,13 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports DevComponents.AdvTree
+
 Public Class Market
 
     Public Shared MarketGroupList As New SortedList
     Public Shared MarketGroupPath As New SortedList
-    Public Shared MarketNodeList As New List(Of DevComponents.AdvTree.Node)
+    Public Shared MarketNodeList As New List(Of Node)
     Public Shared MarketShipList As New List(Of String)
     Public Shared ShipClasses As New SortedList(Of String, String)
 

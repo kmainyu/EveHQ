@@ -17,10 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Windows.Forms
+
 Namespace Forms
     Public Class FrmChartViewer
 
-        Private Sub frmChartViewer_FormClosed(ByVal sender As Object, ByVal e As Windows.Forms.FormClosedEventArgs) Handles Me.FormClosed
+        Private Sub frmChartViewer_FormClosed(ByVal sender As Object, ByVal e As FormClosedEventArgs) Handles Me.FormClosed
             Dispose()
         End Sub
 

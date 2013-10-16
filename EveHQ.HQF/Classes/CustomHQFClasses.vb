@@ -18,10 +18,10 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
 Imports EveHQ.EveData
 Imports Newtonsoft.Json
+Imports ProtoBuf
 
 ''' <summary>
 ''' Class for holding and handling the collection of custom classes for the HQF Editors
@@ -41,7 +41,7 @@ Public Class CustomHQFClasses
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadCustomShipClasses()
-       
+
         If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "CustomShipClasses.json")) = True Then
             Try
                 Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "CustomShipClasses.json"))
@@ -62,7 +62,7 @@ Public Class CustomHQFClasses
     Public Shared Sub SaveCustomShipClasses()
 
         ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(CustomShipClasses, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(CustomShipClasses, Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try
@@ -120,7 +120,7 @@ Public Class CustomHQFClasses
     Public Shared Sub SaveCustomShips()
 
         ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(CustomShips, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(CustomShips, Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try
@@ -146,11 +146,11 @@ Public Class CustomHQFClasses
         ' Rebuild the ship lists
         ShipLists.ShipListKeyID.Clear()
         ShipLists.ShipListKeyName.Clear()
-        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "ships.bin")) = True Then
-            Dim s As New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ships.bin"), FileMode.Open)
+        Dim s As FileStream
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFCacheFolder, "ships.dat")) = True Then
+            s = New FileStream(Path.Combine(PluginSettings.HQFCacheFolder, "ships.dat"), FileMode.Open)
             Try
-                Dim f As BinaryFormatter = New BinaryFormatter
-                ShipLists.ShipList = CType(f.Deserialize(s), SortedList(Of String, Ship))
+                ShipLists.ShipList = Serializer.Deserialize(Of SortedList(Of String, Ship))(s)
                 s.Close()
                 For Each cShip As Ship In ShipLists.ShipList.Values
                     ShipLists.ShipListKeyID.Add(cShip.ID, cShip.Name)
@@ -158,12 +158,8 @@ Public Class CustomHQFClasses
                 Next
             Catch sex As Exception
                 s.Close()
-                MessageBox.Show("Unable to rebuild ship data. The error was: " & sex.Message, "Error Rebuilding Ship Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                Exit Sub
             End Try
-        Else
-            MessageBox.Show("Unable to rebuild ship data. The ship cache file could not be found.", "Error Rebuilding Ship Data", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Exit Sub
+            s.Dispose()
         End If
 
         ' Then add in all the data from the custom ships

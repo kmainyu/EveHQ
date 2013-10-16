@@ -28,95 +28,90 @@ Public Class Capacitor
     ''' Method for providing capacitor results by performing a simulation on an instance of the Ship class
     ''' </summary>
     ''' <param name="baseShip">The Ship to be used for the calculations</param>
-    ''' <param name="RecordCapEvents">A boolean value indicating whether events should be recorded in the results</param>
+    ''' <param name="recordCapEvents">A boolean value indicating whether events should be recorded in the results</param>
     ''' <returns>An instance of the CapSimResults class containing the simulation results</returns>
     ''' <remarks></remarks>
-    Public Shared Function CalculateCapStatistics(ByVal baseShip As Ship, ByVal RecordCapEvents As Boolean) As CapSimResults
-        Dim CapacitorCapacity As Double = baseShip.CapCapacity
-        Dim Capacitor As Double = CapacitorCapacity
+    Public Shared Function CalculateCapStatistics(ByVal baseShip As Ship, ByVal recordCapEvents As Boolean) As CapSimResults
+        Dim capacitorCapacity As Double = baseShip.CapCapacity
+        Dim capacitor As Double = capacitorCapacity
         Dim currentTime, nextTime As Double
-        Dim RechargeRate As Double = baseShip.CapRecharge
-        Dim capConstant As Double = (RechargeRate / 5.0)
-        Dim maxTime As Double = 43200 ' 12 hour
-        Dim minCap As Double = Capacitor
-        Dim minCapTime As Double = 0
+        Dim rechargeRate As Double = baseShip.CapRecharge
+        Dim capConstant As Double = (rechargeRate / 5.0)
+        Const maxTime As Double = 43200 ' 12 hour
+        Dim minCap As Double = capacitor
 
         ' Create a new instance of the cap results class
-        Dim ShipCapResults As New CapSimResults(maxTime)
+        Dim shipCapResults As New CapSimResults(maxTime)
 
         ' Populate the module list
-        Dim stagger As Double = 0
-        Dim modCount As Integer = 0
-
         For Each slotMod As ShipModule In baseShip.SlotCollection
             If slotMod.CapUsage <> 0 Then
                 Dim totalTime As Double = slotMod.ActivationTime + slotMod.ReactivationDelay
-                If slotMod.Attributes.ContainsKey(AttributeEnum.ModuleEnergyROF) Then
-                    totalTime += slotMod.Attributes(AttributeEnum.ModuleEnergyROF)
+                If slotMod.Attributes.ContainsKey(AttributeEnum.ModuleEnergyRof) Then
+                    totalTime += slotMod.Attributes(AttributeEnum.ModuleEnergyRof)
                 End If
-                If slotMod.Attributes.ContainsKey(AttributeEnum.ModuleHybridROF) Then
-                    totalTime += slotMod.Attributes(AttributeEnum.ModuleHybridROF)
+                If slotMod.Attributes.ContainsKey(AttributeEnum.ModuleHybridRof) Then
+                    totalTime += slotMod.Attributes(AttributeEnum.ModuleHybridRof)
                 End If
                 If (slotMod.ModuleState Or 28) = 28 Then
-                    ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, True))
+                    shipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, True))
                 Else
-                    ShipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, False))
+                    shipCapResults.Modules.Add(New CapacitorModule(slotMod.Name, slotMod.SlotType, slotMod.CapUsage, totalTime, False))
                 End If
             End If
         Next
 
         ' Reset Data
-        ShipCapResults.Events.Clear()
-        For Each cm As CapacitorModule In ShipCapResults.Modules
+        shipCapResults.Events.Clear()
+        For Each cm As CapacitorModule In shipCapResults.Modules
             cm.NextTime = 0
         Next
 
         ' Do the calculations
         Dim rate As Double = 0
-        Dim Cap As Double = 0
-        Dim OldCap As Double = CapacitorCapacity
-        While ((Capacitor > 0.0) And (nextTime < maxTime))
-            OldCap = Capacitor
-            Capacitor = (((1.0 + ((Math.Sqrt((Capacitor / CapacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * CapacitorCapacity)
-            If RecordCapEvents = True Then
-                Cap = Capacitor - OldCap
-                rate = Cap / (nextTime - currentTime)
-                ShipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", OldCap, -Cap, rate))
+        Dim cap As Double
+        Dim oldCap As Double
+        While ((capacitor > 0.0) And (nextTime < maxTime))
+            oldCap = capacitor
+            capacitor = (((1.0 + ((Math.Sqrt((capacitor / capacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * capacitorCapacity)
+            If recordCapEvents = True Then
+                cap = capacitor - oldCap
+                rate = cap / (nextTime - currentTime)
+                shipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", oldCap, -cap, rate))
             End If
             currentTime = nextTime
             nextTime = maxTime
-            For Each cm As CapacitorModule In ShipCapResults.Modules
+            For Each cm As CapacitorModule In shipCapResults.Modules
                 If cm.IsActive = True Then
                     If cm.NextTime = currentTime Then
                         cm.NextTime += cm.CycleTime
-                        If RecordCapEvents = True Then
-                            ShipCapResults.Events.Add(New CapacitorEvent(currentTime, cm.Name, Capacitor, cm.CapAmount, rate))
+                        If recordCapEvents = True Then
+                            shipCapResults.Events.Add(New CapacitorEvent(currentTime, cm.Name, capacitor, cm.CapAmount, rate))
                         End If
-                        Capacitor -= cm.CapAmount
-                        Capacitor = Math.Min(Capacitor, CapacitorCapacity)
+                        capacitor -= cm.CapAmount
+                        capacitor = Math.Min(capacitor, capacitorCapacity)
                     End If
                     nextTime = Math.Min(nextTime, cm.NextTime)
                 End If
             Next
-            If Capacitor < minCap Then
-                minCap = Capacitor
-                minCapTime = currentTime
+            If capacitor < minCap Then
+                minCap = capacitor
             End If
         End While
 
         ' Set the results
-        If Capacitor > 0 Then
-            ShipCapResults.CapIsDrained = False
-            ShipCapResults.TimeToDrain = -1
-            ShipCapResults.MinimumCap = Math.Min(minCap, CapacitorCapacity)
+        If capacitor > 0 Then
+            shipCapResults.CapIsDrained = False
+            shipCapResults.TimeToDrain = -1
+            shipCapResults.MinimumCap = Math.Min(minCap, capacitorCapacity)
         Else
-            ShipCapResults.CapIsDrained = True
-            ShipCapResults.TimeToDrain = currentTime
-            ShipCapResults.MinimumCap = 0
+            shipCapResults.CapIsDrained = True
+            shipCapResults.TimeToDrain = currentTime
+            shipCapResults.MinimumCap = 0
         End If
 
         ' Return the result
-        Return ShipCapResults
+        Return shipCapResults
 
     End Function
 
@@ -124,64 +119,62 @@ Public Class Capacitor
     ''' Method for recalculating cap stats once a previous set of results has been obtained
     ''' </summary>
     ''' <param name="baseShip">The Ship to be used for the calculations</param>
-    ''' <param name="RecordCapEvents">A boolean value indicating whether events should be recorded in the results</param>
-    ''' <param name="ShipCapResults">A set of existing CapSimResults</param>
+    ''' <param name="recordCapEvents">A boolean value indicating whether events should be recorded in the results</param>
+    ''' <param name="shipCapResults">A set of existing CapSimResults</param>
     ''' <remarks></remarks>
-    Public Shared Sub RecalculateCapStatistics(ByVal baseShip As Ship, ByVal RecordCapEvents As Boolean, ByRef ShipCapResults As CapSimResults)
-        Dim CapacitorCapacity As Double = baseShip.CapCapacity
-        Dim Capacitor As Double = CapacitorCapacity
+    Public Shared Sub RecalculateCapStatistics(ByVal baseShip As Ship, ByVal recordCapEvents As Boolean, ByRef shipCapResults As CapSimResults)
+        Dim capacitorCapacity As Double = baseShip.CapCapacity
+        Dim capacitor As Double = capacitorCapacity
         Dim currentTime, nextTime As Double
-        Dim RechargeRate As Double = baseShip.CapRecharge
-        Dim capConstant As Double = (RechargeRate / 5.0)
-        Dim maxTime As Double = 43200 ' 12 hour
-        Dim minCap As Double = Capacitor
-        Dim minCapTime As Double = 0
+        Dim rechargeRate As Double = baseShip.CapRecharge
+        Dim capConstant As Double = (rechargeRate / 5.0)
+        Const maxTime As Double = 43200 ' 12 hour
+        Dim minCap As Double = capacitor
 
         ' Reset Data
-        ShipCapResults.Events.Clear()
-        For Each cm As CapacitorModule In ShipCapResults.Modules
+        shipCapResults.Events.Clear()
+        For Each cm As CapacitorModule In shipCapResults.Modules
             cm.NextTime = 0
         Next
 
         ' Do the calculations
-        ShipCapResults.Events.Clear()
+        shipCapResults.Events.Clear()
         Dim rate As Double = 0
-        Dim Cap As Double = 0
-        Dim OldCap As Double = CapacitorCapacity
-        While ((Capacitor > 0.0) And (nextTime < maxTime))
-            OldCap = Capacitor
-            Capacitor = (((1.0 + ((Math.Sqrt((Capacitor / CapacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * CapacitorCapacity)
-            If RecordCapEvents = True Then
-                Cap = Capacitor - OldCap
-                rate = Cap / (nextTime - currentTime)
-                ShipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", OldCap, -Cap, rate))
+        Dim cap As Double
+        Dim oldCap As Double
+        While ((capacitor > 0.0) And (nextTime < maxTime))
+            oldCap = capacitor
+            capacitor = (((1.0 + ((Math.Sqrt((capacitor / capacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * capacitorCapacity)
+            If recordCapEvents = True Then
+                cap = capacitor - oldCap
+                rate = cap / (nextTime - currentTime)
+                shipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", oldCap, -cap, rate))
             End If
             currentTime = nextTime
             nextTime = maxTime
-            For Each cm As CapacitorModule In ShipCapResults.Modules
+            For Each cm As CapacitorModule In shipCapResults.Modules
                 If cm.IsActive = True Then
                     If cm.NextTime = currentTime Then
                         cm.NextTime += cm.CycleTime
-                        If RecordCapEvents = True Then
-                            ShipCapResults.Events.Add(New CapacitorEvent(currentTime, cm.Name, Capacitor, cm.CapAmount, rate))
+                        If recordCapEvents = True Then
+                            shipCapResults.Events.Add(New CapacitorEvent(currentTime, cm.Name, capacitor, cm.CapAmount, rate))
                         End If
-                        Capacitor -= cm.CapAmount
-                        Capacitor = Math.Min(Capacitor, CapacitorCapacity)
+                        capacitor -= cm.CapAmount
+                        capacitor = Math.Min(capacitor, capacitorCapacity)
                     End If
                     nextTime = Math.Min(nextTime, cm.NextTime)
                 End If
             Next
-            If Capacitor < minCap Then
-                minCap = Capacitor
-                minCapTime = currentTime
+            If capacitor < minCap Then
+                minCap = capacitor
             End If
         End While
 
         ' Set the results
-        If Capacitor > 0 Then
+        If capacitor > 0 Then
             ShipCapResults.CapIsDrained = False
             ShipCapResults.TimeToDrain = -1
-            ShipCapResults.MinimumCap = Math.Min(minCap, CapacitorCapacity)
+            shipCapResults.MinimumCap = Math.Min(minCap, capacitorCapacity)
         Else
             ShipCapResults.CapIsDrained = True
             ShipCapResults.TimeToDrain = currentTime
@@ -194,63 +187,61 @@ Public Class Capacitor
     ''' Method for providing a recharge only set of capacitor results by performing a simulation on an instance of the Ship class
     ''' </summary>
     ''' <param name="baseShip">The Ship to be used for the calculations</param>
-    ''' <param name="RecordCapEvents">A boolean value indicating whether events should be recorded in the results</param>
+    ''' <param name="recordCapEvents">A boolean value indicating whether events should be recorded in the results</param>
     ''' <returns>An instance of the CapSimResults class containing the simulation results</returns>
     ''' <remarks></remarks>
-    Public Shared Function CalculateCapRechargeProfile(ByVal baseShip As Ship, ByVal RecordCapEvents As Boolean) As CapSimResults
-        Dim CapacitorCapacity As Double = baseShip.CapCapacity
-        Dim Capacitor As Double = 0
+    Public Shared Function CalculateCapRechargeProfile(ByVal baseShip As Ship, ByVal recordCapEvents As Boolean) As CapSimResults
+        Dim capacitorCapacity As Double = baseShip.CapCapacity
+        Dim capacitor As Double = 0
         Dim currentTime, nextTime As Double
-        Dim RechargeRate As Double = baseShip.CapRecharge
-        Dim capConstant As Double = (RechargeRate / 5.0)
-        Dim maxTime As Double = 43200 ' 12 hour
-        Dim minCap As Double = Capacitor
-        Dim minCapTime As Double = 0
+        Dim rechargeRate As Double = baseShip.CapRecharge
+        Dim capConstant As Double = (rechargeRate / 5.0)
+        Const maxTime As Double = 43200 ' 12 hour
+        Dim minCap As Double = capacitor
 
         ' Create a new instance of the cap results class
-        Dim ShipCapResults As New CapSimResults(maxTime)
+        Dim shipCapResults As New CapSimResults(maxTime)
 
         ' Create a dummy module to trigger an event
-        ShipCapResults.Modules.Add(New CapacitorModule("Recharge Interval", SlotTypes.Low, 0, 1, True))
+        shipCapResults.Modules.Add(New CapacitorModule("Recharge Interval", SlotTypes.Low, 0, 1, True))
 
         ' Do the calculations
         Dim rate As Double = 0
-        Dim Cap As Double = 0
-        Dim OldCap As Double = 0.1
-        While Math.Round(Capacitor, 1) < Math.Round(CapacitorCapacity, 1)
-            OldCap = Capacitor
-            Capacitor = (((1.0 + ((Math.Sqrt((Capacitor / CapacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * CapacitorCapacity)
-            If RecordCapEvents = True Then
-                Cap = Capacitor - OldCap
-                rate = Cap / (nextTime - currentTime)
-                ShipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", OldCap, -Cap, rate))
+        Dim cap As Double
+        Dim oldCap As Double
+        While Math.Round(capacitor, 1) < Math.Round(capacitorCapacity, 1)
+            oldCap = capacitor
+            capacitor = (((1.0 + ((Math.Sqrt((capacitor / capacitorCapacity)) - 1.0) * Math.Exp(((currentTime - nextTime) / capConstant)))) ^ 2) * capacitorCapacity)
+            If recordCapEvents = True Then
+                cap = capacitor - oldCap
+                rate = cap / (nextTime - currentTime)
+                shipCapResults.Events.Add(New CapacitorEvent(nextTime, "Recharge", oldCap, -cap, rate))
             End If
             currentTime = nextTime
             nextTime = maxTime
-            For Each cm As CapacitorModule In ShipCapResults.Modules
+            For Each cm As CapacitorModule In shipCapResults.Modules
                 If cm.NextTime = currentTime Then
                     cm.NextTime += cm.CycleTime
-                    If RecordCapEvents = True Then
-                        ShipCapResults.Events.Add(New CapacitorEvent(currentTime, cm.Name, Capacitor, cm.CapAmount, rate))
+                    If recordCapEvents = True Then
+                        shipCapResults.Events.Add(New CapacitorEvent(currentTime, cm.Name, capacitor, cm.CapAmount, rate))
                     End If
-                    Capacitor -= cm.CapAmount
-                    Capacitor = Math.Min(Capacitor, CapacitorCapacity)
+                    capacitor -= cm.CapAmount
+                    capacitor = Math.Min(capacitor, capacitorCapacity)
                 End If
                 nextTime = Math.Min(nextTime, cm.NextTime)
             Next
-            If Capacitor < minCap Then
-                minCap = Capacitor
-                minCapTime = currentTime
+            If capacitor < minCap Then
+                minCap = capacitor
             End If
         End While
 
         ' Set the results
-        ShipCapResults.CapIsDrained = False
-        ShipCapResults.TimeToDrain = currentTime
-        ShipCapResults.MinimumCap = 0
+        shipCapResults.CapIsDrained = False
+        shipCapResults.TimeToDrain = currentTime
+        shipCapResults.MinimumCap = 0
 
         ' Return the result
-        Return ShipCapResults
+        Return shipCapResults
 
     End Function
 
@@ -262,12 +253,12 @@ End Class
 ''' <remarks></remarks>
 Public Class CapSimResults
 
-    Dim cSimulationTime As Double = 0
-    Dim cCapIsDrained As Boolean = False
-    Dim cTimeToDrain As Double = -1
-    Dim cMinimumCap As Double = 0
-    Dim cEvents As New List(Of CapacitorEvent)
-    Dim cModules As New List(Of CapacitorModule)
+    ReadOnly _simulationTime As Double = 0
+    Dim _capIsDrained As Boolean = False
+    Dim _timeToDrain As Double = -1
+    Dim _minimumCap As Double = 0
+    Dim _events As New List(Of CapacitorEvent)
+    Dim _modules As New List(Of CapacitorModule)
 
     ''' <summary>
     ''' Gets the initial maximum running time for the simulation
@@ -277,7 +268,7 @@ Public Class CapSimResults
     ''' <remarks></remarks>
     Public ReadOnly Property SimulationTime() As Double
         Get
-            Return cSimulationTime
+            Return _simulationTime
         End Get
     End Property
 
@@ -289,10 +280,10 @@ Public Class CapSimResults
     ''' <remarks></remarks>
     Public Property CapIsDrained() As Boolean
         Get
-            Return cCapIsDrained
+            Return _capIsDrained
         End Get
         Set(ByVal value As Boolean)
-            cCapIsDrained = value
+            _capIsDrained = value
         End Set
     End Property
 
@@ -304,10 +295,10 @@ Public Class CapSimResults
     ''' <remarks></remarks>
     Public Property TimeToDrain() As Double
         Get
-            Return cTimeToDrain
+            Return _timeToDrain
         End Get
         Set(ByVal value As Double)
-            cTimeToDrain = value
+            _timeToDrain = value
         End Set
     End Property
 
@@ -319,10 +310,10 @@ Public Class CapSimResults
     ''' <remarks></remarks>
     Public Property MinimumCap() As Double
         Get
-            Return cMinimumCap
+            Return _minimumCap
         End Get
         Set(ByVal value As Double)
-            cMinimumCap = value
+            _minimumCap = value
         End Set
     End Property
 
@@ -334,10 +325,10 @@ Public Class CapSimResults
     ''' <remarks></remarks>
     Public Property Events() As List(Of CapacitorEvent)
         Get
-            Return cEvents
+            Return _events
         End Get
         Set(ByVal value As List(Of CapacitorEvent))
-            cEvents = value
+            _events = value
         End Set
     End Property
 
@@ -349,25 +340,25 @@ Public Class CapSimResults
     ''' <remarks></remarks>
     Public Property Modules() As List(Of CapacitorModule)
         Get
-            Return cModules
+            Return _modules
         End Get
         Set(ByVal value As List(Of CapacitorModule))
-            cModules = value
+            _modules = value
         End Set
     End Property
 
     ''' <summary>
     ''' Creates a new class for storing results of a capacitor simulation
     ''' </summary>
-    ''' <param name="SimTime">The initial maximum running time of the simulation</param>
+    ''' <param name="simTime">The initial maximum running time of the simulation</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal SimTime As Double)
-        cSimulationTime = SimTime
-        cCapIsDrained = False
-        cTimeToDrain = -1
-        cMinimumCap = 0
-        cEvents = New List(Of CapacitorEvent)
-        cModules = New List(Of CapacitorModule)
+    Public Sub New(ByVal simTime As Double)
+        _simulationTime = simTime
+        _capIsDrained = False
+        _timeToDrain = -1
+        _minimumCap = 0
+        _events = New List(Of CapacitorEvent)
+        _modules = New List(Of CapacitorModule)
     End Sub
 
 End Class
@@ -378,12 +369,12 @@ End Class
 ''' <remarks></remarks>
 Public Class CapacitorModule
 
-    Dim cName As String = ""
-    Dim cSlotType As SlotTypes
-    Dim cIsActive As Boolean = False
-    Dim cCapAmount As Double = 0
-    Dim cCycleTime As Double = 0
-    Dim cNextTime As Double = 0
+    ReadOnly _name As String = ""
+    ReadOnly _slotType As SlotTypes
+    Dim _isActive As Boolean = False
+    ReadOnly _capAmount As Double = 0
+    ReadOnly _cycleTime As Double = 0
+    Dim _nextTime As Double = 0
 
     ''' <summary>
     ''' Gets the module name
@@ -393,7 +384,7 @@ Public Class CapacitorModule
     ''' <remarks></remarks>
     Public ReadOnly Property Name() As String
         Get
-            Return cName
+            Return _name
         End Get
     End Property
 
@@ -405,7 +396,7 @@ Public Class CapacitorModule
     ''' <remarks></remarks>
     Public ReadOnly Property SlotType As SlotTypes
         Get
-            Return cSlotType
+            Return _slotType
         End Get
     End Property
 
@@ -417,10 +408,10 @@ Public Class CapacitorModule
     ''' <remarks></remarks>
     Public Property IsActive As Boolean
         Get
-            Return cIsActive
+            Return _isActive
         End Get
         Set(value As Boolean)
-            cIsActive = value
+            _isActive = value
         End Set
     End Property
 
@@ -432,7 +423,7 @@ Public Class CapacitorModule
     ''' <remarks></remarks>
     Public ReadOnly Property CapAmount() As Double
         Get
-            Return cCapAmount
+            Return _capAmount
         End Get
     End Property
 
@@ -444,7 +435,7 @@ Public Class CapacitorModule
     ''' <remarks></remarks>
     Public ReadOnly Property CycleTime() As Double
         Get
-            Return cCycleTime
+            Return _cycleTime
         End Get
     End Property
 
@@ -456,27 +447,29 @@ Public Class CapacitorModule
     ''' <remarks></remarks>
     Public Property NextTime() As Double
         Get
-            Return cNextTime
+            Return _nextTime
         End Get
         Set(ByVal value As Double)
-            cNextTime = value
+            _nextTime = value
         End Set
     End Property
 
     ''' <summary>
     ''' Creates a new Capacitor Module
     ''' </summary>
-    ''' <param name="Name">The name of the module</param>
-    ''' <param name="CapAmount">The capacitor usage per cycle</param>
-    ''' <param name="CycleTime">The cycle time of the module</param>
+    ''' <param name="modName">The name of the module</param>
+    ''' <param name="modSlotType">The slot type of the module</param>
+    ''' <param name="modCapAmount">The capacitor usage per cycle</param>
+    ''' <param name="modCycleTime">The cycle time of the module</param>
+    '''<param name="modIsActive">Whether the module is active</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal Name As String, ByVal SlotType As SlotTypes, ByVal CapAmount As Double, ByVal CycleTime As Double, IsActive As Boolean)
-        Me.cName = Name
-        Me.cSlotType = SlotType
-        Me.cCapAmount = CapAmount
-        Me.cCycleTime = CycleTime
-        Me.cNextTime = 0
-        Me.cIsActive = IsActive
+    Public Sub New(ByVal modName As String, ByVal modSlotType As SlotTypes, ByVal modCapAmount As Double, ByVal modCycleTime As Double, modIsActive As Boolean)
+        _name = modName
+        _slotType = modSlotType
+        _capAmount = modCapAmount
+        _cycleTime = modCycleTime
+        _nextTime = 0
+        _isActive = modIsActive
     End Sub
 
 End Class
@@ -487,11 +480,11 @@ End Class
 ''' <remarks></remarks>
 Public Class CapacitorEvent
 
-    Dim cSimTime As Double = 0
-    Dim cModuleName As String = ""
-    Dim cStartingCap As Double = 0
-    Dim cActivationCost As Double = 0
-    Dim cRechargeRate As Double = 0
+    ReadOnly _simTime As Double = 0
+    ReadOnly _moduleName As String = ""
+    ReadOnly _startingCap As Double = 0
+    ReadOnly _activationCost As Double = 0
+    ReadOnly _rechargeRate As Double = 0
 
     ''' <summary>
     ''' Gets the time in the simulation of the event
@@ -501,7 +494,7 @@ Public Class CapacitorEvent
     ''' <remarks></remarks>
     Public ReadOnly Property SimTime() As Double
         Get
-            Return cSimTime
+            Return _simTime
         End Get
     End Property
 
@@ -513,7 +506,7 @@ Public Class CapacitorEvent
     ''' <remarks></remarks>
     Public ReadOnly Property ModuleName() As String
         Get
-            Return cModuleName
+            Return _moduleName
         End Get
     End Property
 
@@ -525,7 +518,7 @@ Public Class CapacitorEvent
     ''' <remarks></remarks>
     Public ReadOnly Property StartingCap() As Double
         Get
-            Return cStartingCap
+            Return _startingCap
         End Get
     End Property
 
@@ -537,7 +530,7 @@ Public Class CapacitorEvent
     ''' <remarks></remarks>
     Public ReadOnly Property ActivationCost() As Double
         Get
-            Return cActivationCost
+            Return _activationCost
         End Get
     End Property
 
@@ -549,25 +542,25 @@ Public Class CapacitorEvent
     ''' <remarks></remarks>
     Public ReadOnly Property RechargeRate() As Double
         Get
-            Return cRechargeRate
+            Return _rechargeRate
         End Get
     End Property
 
     ''' <summary>
     ''' Method for creating a new Capacitor Event
     ''' </summary>
-    ''' <param name="Time">The time offset of the event</param>
-    ''' <param name="ModName">The name of the module or type of event</param>
-    ''' <param name="StartCap">The capacitor prior to the event</param>
-    ''' <param name="CapCost">The capacitor usage or injection of the event</param>
+    ''' <param name="time">The time offset of the event</param>
+    ''' <param name="modName">The name of the module or type of event</param>
+    ''' <param name="startCap">The capacitor prior to the event</param>
+    ''' <param name="capCost">The capacitor usage or injection of the event</param>
     ''' <param name="Rate">The capacitor recharge rate at the start of the event</param>
     ''' <remarks></remarks>
-    Public Sub New(ByVal Time As Double, ByVal ModName As String, ByVal StartCap As Double, ByVal CapCost As Double, ByVal Rate As Double)
-        Me.cSimTime = Time
-        Me.cModuleName = ModName
-        Me.cStartingCap = StartCap
-        Me.cActivationCost = CapCost
-        Me.cRechargeRate = Rate
+    Public Sub New(ByVal time As Double, ByVal modName As String, ByVal startCap As Double, ByVal capCost As Double, ByVal rate As Double)
+        _simTime = time
+        _moduleName = modName
+        _startingCap = startCap
+        _activationCost = CapCost
+        _rechargeRate = rate
     End Sub
 
 End Class

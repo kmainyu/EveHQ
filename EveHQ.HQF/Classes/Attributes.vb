@@ -57,7 +57,7 @@ Public Enum AttributeEnum
     ShipHullThermResistance = 110
     ShipMineralHold = 1558
     ShipOreHold = 1556
-    ShipPICommoditiesHold = 1653
+    ShipPiCommoditiesHold = 1653
     ShipPowergridOutput = 11
     ShipReqSkill1 = 182
     ShipReqSkill1Level = 277
@@ -138,7 +138,7 @@ Public Enum AttributeEnum
     ModuleMidSlotModifier = 1375
     ModuleMiningAmount = 77
     ModuleMissileDamageMod = 212
-    ModuleMissileROF = 506
+    ModuleMissileRof = 506
     ModuleMissileTypeID = 507
     ModuleOptimalRange = 54
     ModulePowergridUsage = 30
@@ -152,8 +152,8 @@ Public Enum AttributeEnum
     ModuleReqSkill3 = 184
     ModuleReqSkill3Level = 279
     ModuleRigSize = 1547
-    ModuleROF = 51
-    ModuleROFBonus = 204
+    ModuleRof = 51
+    ModuleRofBonus = 204
     ModuleShieldEMResistance = 271
     ModuleShieldExpResistance = 272
     ModuleShieldHPRepaired = 68
@@ -177,7 +177,7 @@ Public Enum AttributeEnum
     ShipDroneTransferRate = 10078
     ShipDroneVolleyDamage = 10023
     ShipEMDamage = 10055
-    ShipEMDPS = 10070
+    ShipEmDPS = 10070
     ShipExpDamage = 10056
     ShipExpDPS = 10071
     ShipFighterControl = 10006
@@ -223,15 +223,15 @@ Public Enum AttributeEnum
     ModuleDroneOreMiningRate = 10040
     ModuleEMDamage = 10051
     ModuleEnergyDmgMod = 10014
-    ModuleEnergyROF = 10011
+    ModuleEnergyRof = 10011
     ModuleExpDamage = 10052
     ModuleHybridDmgMod = 10015
-    ModuleHybridROF = 10012
+    ModuleHybridRof = 10012
     ModuleKinDamage = 10053
     ModuleLoadedCharge = 10030
     ModuleMass = 10002
     ModuleProjectileDmgMod = 10016
-    ModuleProjectileROF = 10013
+    ModuleProjectileRof = 10013
     ModuleThermDamage = 10054
     ModuleTransferRate = 10074
     ModuleTurretGasMiningRate = 10082

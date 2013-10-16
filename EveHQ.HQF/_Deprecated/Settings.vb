@@ -17,19 +17,22 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System
+Imports System.Drawing
+Imports EveHQ.Core
 
+' ReSharper disable once CheckNamespace - for MS serialization compatability
 <Serializable()> Public Class Settings
 
     Public Shared HQFSettings As New Settings
     Public Shared HQFFolder As String
     Public Shared HQFCacheFolder As String
 
-    Private cHiSlotColour As Long = Drawing.Color.PeachPuff.ToArgb
-    Private cMidSlotColour As Long = Drawing.Color.LightSteelBlue.ToArgb
-    Private cLowSlotColour As Long = Drawing.Color.Thistle.ToArgb
-    Private cRigSlotColour As Long = Drawing.Color.LightGreen.ToArgb
-    Private cSubSlotColour As Long = Drawing.Color.DarkSeaGreen.ToArgb
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
+    Private cHiSlotColour As Long = Color.PeachPuff.ToArgb
+    Private cMidSlotColour As Long = Color.LightSteelBlue.ToArgb
+    Private cLowSlotColour As Long = Color.Thistle.ToArgb
+    Private cRigSlotColour As Long = Color.LightGreen.ToArgb
+    Private cSubSlotColour As Long = Color.DarkSeaGreen.ToArgb
     Private cDefaultPilot As String = ""
     Private cRestoreLastSession As Boolean = False
     Private cLastPriceUpdate As DateTime
@@ -59,14 +62,14 @@ Imports System
     Private cModuleListColWidths As New SortedList(Of Long, Integer)
     Private cIgnoredAttributeColumns As New List(Of String)
     Private cSortedAttributeColumn As String = ""
-    Private cMetaVariationsFormSize As New Drawing.Size
+    Private cMetaVariationsFormSize As New Size
     Private cDefensePanelIsCollapsed As Boolean = False
     Private cCapacitorPanelIsCollapsed As Boolean = False
     Private cDamagePanelIsCollapsed As Boolean = False
     Private cTargetingPanelIsCollapsed As Boolean = False
     Private cPropulsionPanelIsCollapsed As Boolean = False
     Private cCargoPanelIsCollapsed As Boolean = False
-    Private cSortedModuleListInfo As New EveHQ.Core.AdvTreeSortResult
+    Private cSortedModuleListInfo As New AdvTreeSortResult
     Private cAutoResizeColumns As Boolean = False
 
     Public Property AutoResizeColumns As Boolean
@@ -77,14 +80,14 @@ Imports System
             cAutoResizeColumns = value
         End Set
     End Property
-    Public Property SortedModuleListInfo As Core.AdvTreeSortResult
+    Public Property SortedModuleListInfo As AdvTreeSortResult
         Get
             If cSortedModuleListInfo Is Nothing Then
-                cSortedModuleListInfo = New Core.AdvTreeSortResult
+                cSortedModuleListInfo = New AdvTreeSortResult
             End If
             Return cSortedModuleListInfo
         End Get
-        Set(ByVal value As Core.AdvTreeSortResult)
+        Set(ByVal value As AdvTreeSortResult)
             cSortedModuleListInfo = value
         End Set
     End Property
@@ -136,7 +139,7 @@ Imports System
             cDefensePanelIsCollapsed = value
         End Set
     End Property
-    Public Property MetaVariationsFormSize As Drawing.Size
+    Public Property MetaVariationsFormSize As Size
         Get
             If cMetaVariationsFormSize.Width = 0 Then
                 cMetaVariationsFormSize.Width = 900
@@ -146,7 +149,7 @@ Imports System
             End If
             Return cMetaVariationsFormSize
         End Get
-        Set(value As Drawing.Size)
+        Set(value As Size)
             cMetaVariationsFormSize = value
         End Set
     End Property
@@ -429,5 +432,6 @@ Imports System
             cSubSlotColour = value
         End Set
     End Property
+    ' ReSharper restore InconsistentNaming
 
 End Class

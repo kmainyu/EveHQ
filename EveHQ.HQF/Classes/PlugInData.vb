@@ -17,19 +17,24 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.Drawing
+Imports EveHQ.HQF.Classes
+Imports EveHQ.Core
+Imports System.Net
 Imports System.Windows.Forms
 Imports System.IO
+Imports EveHQ.HQF.Forms
 Imports ProtoBuf
 
 Public Class PlugInData
-    Implements Core.IEveHQPlugIn
+    Implements IEveHQPlugIn
 
     Public Shared ModuleChanges As New SortedList(Of String, String)
     Private _activeForm As frmHQF
 
 #Region "Plug-in Interface Properties and Functions"
 
-    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements Core.IEveHQPlugIn.GetPlugInData
+    Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements IEveHQPlugIn.GetPlugInData
         Select Case dataType
             Case 0 ' Fitting Protocol
                 ' Check for fitting protocol
@@ -43,11 +48,11 @@ Public Class PlugInData
         End Select
     End Function
 
-    Public Function EveHQStartUp() As Boolean Implements Core.IEveHQPlugIn.EveHQStartUp
+    Public Function EveHQStartUp() As Boolean Implements IEveHQPlugIn.EveHQStartUp
         Try
             ' Check for existance of HQF folder & create if not existing
-            If Core.HQ.IsUsingLocalFolders = False Then
-                PluginSettings.HQFFolder = Path.Combine(Core.HQ.AppDataFolder, "HQF")
+            If HQ.IsUsingLocalFolders = False Then
+                PluginSettings.HQFFolder = Path.Combine(HQ.AppDataFolder, "HQF")
             Else
                 PluginSettings.HQFFolder = Path.Combine(Application.StartupPath, "HQF")
             End If
@@ -55,7 +60,7 @@ Public Class PlugInData
                 My.Computer.FileSystem.CreateDirectory(PluginSettings.HQFFolder)
             End If
 
-            PluginSettings.HQFCacheFolder = Core.HQ.coreCacheFolder
+            PluginSettings.HQFCacheFolder = HQ.coreCacheFolder
 
             Dim mods() As String = My.Resources.ModuleChanges.Split(ControlChars.CrLf.ToCharArray)
             ModuleChanges.Clear()
@@ -204,7 +209,7 @@ Public Class PlugInData
         For Each sMod As ShipModule In ModuleLists.ModuleList.Values
             If sMod.Icon <> "" Then
                 If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                    Dim oi As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Drawing.Bitmap)
+                    Dim oi As Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Bitmap)
                     If oi IsNot Nothing Then
                         ImageHandler.BaseIcons.Add(sMod.Icon, oi)
                     End If
@@ -213,7 +218,7 @@ Public Class PlugInData
         Next
         ImageHandler.MetaIcons.Clear()
         For idx As Integer = 0 To 32
-            Dim oi As Drawing.Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Drawing.Bitmap)
+            Dim oi As Bitmap = CType(My.Resources.ResourceManager.GetObject("Meta" & (2 ^ idx).ToString), Bitmap)
             If oi IsNot Nothing Then
                 ImageHandler.MetaIcons.Add((2 ^ idx).ToString, oi)
             End If
@@ -236,9 +241,9 @@ Public Class PlugInData
         Next
     End Sub
 
-    Public Function GetEveHQPlugInInfo() As Core.EveHQPlugIn Implements Core.IEveHQPlugIn.GetEveHQPlugInInfo
+    Public Function GetEveHQPlugInInfo() As EveHQPlugIn Implements IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim eveHQPlugIn As New Core.EveHQPlugIn
+        Dim eveHQPlugIn As New EveHQPlugIn
         eveHQPlugIn.Name = "EveHQ Fitter"
         eveHQPlugIn.Description = "Allows theoretical ship setup and simulation"
         eveHQPlugIn.Author = "EveHQ Team"
@@ -250,16 +255,16 @@ Public Class PlugInData
         Return eveHQPlugIn
     End Function
 
-    Public Function IGBService(ByVal igbContext As Net.HttpListenerContext) As String Implements Core.IEveHQPlugIn.IGBService
-        Return Classes.IGBData.Response(igbContext)
+    Public Function IGBService(ByVal igbContext As HttpListenerContext) As String Implements IEveHQPlugIn.IGBService
+        Return IGBData.Response(igbContext)
     End Function
 
-    Public Function RunEveHQPlugIn() As Form Implements Core.IEveHQPlugIn.RunEveHQPlugIn
+    Public Function RunEveHQPlugIn() As Form Implements IEveHQPlugIn.RunEveHQPlugIn
         _activeForm = New frmHQF()
         Return _activeForm
     End Function
 
-    Public Function SaveAll() As Boolean Implements Core.IEveHQPlugIn.SaveAll
+    Public Function SaveAll() As Boolean Implements IEveHQPlugIn.SaveAll
         If _activeForm IsNot Nothing Then
             _activeForm.SaveAll()
             Return True

@@ -53,7 +53,7 @@ Public Class HQFDamageProfiles
     Public Shared Sub Save()
 
         ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(ProfileList, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(ProfileList, Formatting.Indented)
 
         ' Write the JSON version of the settings
         Try

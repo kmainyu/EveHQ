@@ -1064,15 +1064,15 @@ Public Class FileConverter
                     Dim newProfile As New HQFDefenceProfile
                     newProfile.Name = profile.Name
                     newProfile.Type = CType(profile.Type, ProfileTypes)
-                    newProfile.SEM = profile.SEM
+                    newProfile.SEm = profile.SEM
                     newProfile.SExplosive = profile.SExplosive
                     newProfile.SKinetic = profile.SKinetic
                     newProfile.SThermal = profile.SThermal
-                    newProfile.AEM = profile.AEM
+                    newProfile.AEm = profile.AEM
                     newProfile.AExplosive = profile.AExplosive
                     newProfile.AKinetic = profile.AKinetic
                     newProfile.AThermal = profile.AThermal
-                    newProfile.HEM = profile.HEM
+                    newProfile.HEm = profile.HEM
                     newProfile.HExplosive = profile.HExplosive
                     newProfile.HKinetic = profile.HKinetic
                     newProfile.HThermal = profile.HThermal

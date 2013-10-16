@@ -25,6 +25,8 @@
 ''' <remarks></remarks>
 <Serializable()> Public Class SavedFitting
 
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
+
 #Region "Property variables"
 
     Dim cShipName As String = ""
@@ -65,7 +67,7 @@
         End Get
         Set(ByVal value As String)
             cShipName = value
-            Call Me.UpdateKeyName()
+            Call UpdateKeyName()
         End Set
     End Property
 
@@ -81,7 +83,7 @@
         End Get
         Set(ByVal value As String)
             cFittingName = value
-            Call Me.UpdateKeyName()
+            Call UpdateKeyName()
         End Set
     End Property
 
@@ -320,6 +322,8 @@
     
 
 #End Region
+
+    ' ReSharper restore InconsistentNaming
 
 #Region "Class Methods"
 

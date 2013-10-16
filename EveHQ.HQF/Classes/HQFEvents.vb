@@ -22,7 +22,7 @@ Public Class HQFEvents
     Public Shared Event UpdateFitting()
     Public Shared Event UpdateFittingList()
     Public Shared Event UpdateModuleList()
-    Public Shared Event UpdateMRUModuleList(ByVal ModName As String)
+    Public Shared Event UpdateMruModuleList(ByVal modName As String)
     Public Shared Event UpdateShipInfo(ByVal pilotName As String)
     Public Shared Event UpdateAllImplantLists()
     Public Shared Event ShowModuleMarketGroup(ByVal path As String)
@@ -79,10 +79,10 @@ Public Class HQFEvents
             End If
         End Set
     End Property
-    Shared WriteOnly Property StartUpdateMRUModuleList() As String
+    Shared WriteOnly Property StartUpdateMruModuleList() As String
         Set(ByVal value As String)
             If value <> "" Then
-                RaiseEvent UpdateMRUModuleList(value)
+                RaiseEvent UpdateMruModuleList(value)
             End If
         End Set
     End Property

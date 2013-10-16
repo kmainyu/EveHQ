@@ -18,11 +18,14 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+' ReSharper disable once CheckNamespace - for MS serialization compatability
 <Serializable()> Public Class ImplantGroup
 
 #Region "Property Variables"
 
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
     Private cGroupName As String
+    ' ReSharper disable once FieldCanBeMadeReadOnly.Local - for MS serialization compatability
     Private cImplantName(10) As String
 
 #End Region
@@ -47,6 +50,8 @@
     End Property
 
 #End Region
+
+    ' ReSharper restore InconsistentNaming
 
 End Class
 

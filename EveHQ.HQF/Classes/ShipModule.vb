@@ -19,15 +19,13 @@
 '=========================================================================
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
-Imports System.Runtime.Serialization
 Imports ProtoBuf
+Imports System.Runtime.Serialization
 
 <ProtoContract()>
 <Serializable()>
 Public Class ShipModule
-
-
-
+    
 #Region "Properties"
 
     ' Name and Classification
@@ -50,8 +48,8 @@ Public Class ShipModule
     <ProtoMember(15)> Public Property BoosterSlot() As Integer
     <ProtoMember(16)> Public Property Volume() As Double
     <ProtoMember(17)> Public Property Capacity() As Double
-    <ProtoMember(18)> Public Property CPU() As Double
-    <ProtoMember(19)> Public Property PG() As Double
+    <ProtoMember(18)> Public Property Cpu() As Double
+    <ProtoMember(19)> Public Property Pg() As Double
     <ProtoMember(20)> Public Property Calibration() As Integer
     <ProtoMember(21)> Public Property CapUsage() As Double
     <ProtoMember(22)> Public Property CapUsageRate() As Double
@@ -241,11 +239,11 @@ Public Enum ModuleEnum
     ItemProteusCovertReconfiguration = 30130
     ItemProteusWarfareProcessor = 29982
     ItemSiegeModuleI = 20280
-    ItemSiegeModuleII = 4292
+    ItemSiegeModuleT2 = 4292
     ItemTenguCovertReconfiguration = 30125
     ItemTenguWarfareProcessor = 29972
     ItemTriageModuleI = 27951
-    ItemTriageModuleII = 4294
+    ItemTriageModuleT2 = 4294
 
     ' categoryIDs (see invCategories)
     CategoryCelestials = 2
@@ -301,7 +299,7 @@ Public Enum ModuleEnum
     MarketgroupOrbitalEnergyAmmo = 1599
     MarketgroupOrbitalHybridAmmo = 1600
     MarketgroupOrbitalProjectileAmmo = 1598
-    MarketgroupORECapitalIndustrials = 1048
+    MarketgroupOreCapitalIndustrials = 1048
     MarketgroupStripMiners = 1040
 
 End Enum

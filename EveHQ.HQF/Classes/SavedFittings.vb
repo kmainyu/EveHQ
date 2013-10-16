@@ -27,6 +27,7 @@ Imports Newtonsoft.Json
 ''' <remarks></remarks>
 <Serializable()> Public Class SavedFittings
 
+    ' ReSharper disable once InconsistentNaming - for MS serialization compatability
     Private Shared SavedFittingList As New SortedList(Of String, SavedFitting)  ' Key = FittingKey
 
     ''' <summary>
@@ -62,7 +63,7 @@ Imports Newtonsoft.Json
         Call PrepareFittingsForSaving()
 
         ' Create a JSON string for writing
-        Dim json As String = JsonConvert.SerializeObject(SavedFittingList, Newtonsoft.Json.Formatting.Indented)
+        Dim json As String = JsonConvert.SerializeObject(SavedFittingList, Formatting.Indented)
 
         ' Write the JSON version of the fittings
         Try
@@ -71,7 +72,7 @@ Imports Newtonsoft.Json
                 s.Flush()
             End Using
         Catch e As Exception
-            Windows.Forms.MessageBox.Show("There was an error saving the fittings file. The error was: " & e.Message, "Save Fittings Failed :(", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information)
+            MessageBox.Show("There was an error saving the fittings file. The error was: " & e.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
 
     End Sub

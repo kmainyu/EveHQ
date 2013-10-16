@@ -21,6 +21,7 @@ Public Class DNAFitting
         For modNo As Integer = 1 To mods.Length - 1
             Dim modList As List(Of String) = mods(modNo).Split(";".ToCharArray).ToList
             If modList.Count > 0 Then
+                ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
                 For modCount As Integer = 1 To CInt(modList(1))
                     If ModuleLists.ModuleList.ContainsKey(CInt(modList(0))) = True Then
                         Dim fModule As ShipModule = ModuleLists.ModuleList(CInt(modList(0)))

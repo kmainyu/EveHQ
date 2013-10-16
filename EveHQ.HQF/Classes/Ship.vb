@@ -17,12 +17,12 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.ComponentModel
 Imports System.Windows.Forms
 Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
-Imports System.Runtime.Serialization
-Imports System.ComponentModel
 Imports ProtoBuf
+Imports System.Runtime.Serialization
 
 ''' <summary>
 ''' Public class for storing details of a ship used for processing
@@ -35,6 +35,8 @@ Imports ProtoBuf
     Const MaxRigSlots As Integer = 3
     Const MaxSubSlots As Integer = 5
 #End Region
+
+    ' ReSharper disable InconsistentNaming - for MS serialization compatability
 
 #Region "Property Variables"
 
@@ -1973,10 +1975,12 @@ Imports ProtoBuf
 
 #End Region
 
+    ' ReSharper restore InconsistentNaming
+
 #Region "Cloning"
     Public Function Clone() As Ship
         Dim shipMemoryStream As New MemoryStream
-        Dim objBinaryFormatter As New Runtime.Serialization.Formatters.Binary.BinaryFormatter(Nothing, New Runtime.Serialization.StreamingContext(Runtime.Serialization.StreamingContextStates.Clone))
+        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
         objBinaryFormatter.Serialize(shipMemoryStream, Me)
         shipMemoryStream.Seek(0, SeekOrigin.Begin)
         Dim newShip As Ship = CType(objBinaryFormatter.Deserialize(shipMemoryStream), Ship)

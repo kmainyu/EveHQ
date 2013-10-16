@@ -76,37 +76,37 @@ Namespace Forms
 
                 Select Case x
                     Case 25 ' Pod
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Pod"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 35 ' Crow
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Crow"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 49 ' Helios
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Helios"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 125 ' Zealot
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Zealot"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 180 ' Falcon
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Falcon"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 300 ' Myrmidon
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Myrmisdon"
                         Chart1.Series("Ships").Points.Add(sp)
                     Case 400 ' Megathron
-                        Dim sp As New Windows.Forms.DataVisualization.Charting.DataPoint
+                        Dim sp As New DataPoint
                         sp.SetValueXY(x, y)
                         sp.Label = "Megathron"
                         Chart1.Series("Ships").Points.Add(sp)
