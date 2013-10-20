@@ -299,10 +299,12 @@ Public Class PilotParseFunctions
         ' Check the API key status
         caccount.CheckAPIKey()
         ' Check Account Status
-        Call GetAccountStatus(caccount)
+        If caccount.APIKeyType <> APIKeyTypes.Corporation Then
+            Call GetAccountStatus(caccount)
+        End If
 
         ' Fetch the characters on account XML file
-        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
         Dim accountXML As XmlDocument = apiReq.GetAPIXML(APITypes.Characters, caccount.ToAPIAccount, APIReturnMethods.ReturnStandard)
         If apiReq.LastAPIResult = APIResults.CCPError Then
             HQ.APIResults.Add(caccount.UserID.ToString, -apiReq.LastAPIError)
@@ -343,7 +345,7 @@ Public Class PilotParseFunctions
                             HQ.TempPilots.Add(newPilot.Name, newPilot)
                         End If
                         caccount.Characters.Add(newPilot.Name)
-                        Call GetCharacterXMLs(caccount, newPilot)
+                        Call GetCharacterXmLs(caccount, newPilot)
                     Next
 
                     ' Check if we have any old pilots that the account does not have anymore
