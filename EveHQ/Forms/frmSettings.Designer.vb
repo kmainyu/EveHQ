@@ -40,6 +40,12 @@ Namespace Forms
             Dim TreeNode17 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Market & Price Data", New System.Windows.Forms.TreeNode() {TreeNode16})
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmSettings))
             Me.gbGeneral = New System.Windows.Forms.GroupBox()
+            Me.chkViewSkillTraining = New System.Windows.Forms.CheckBox()
+            Me.chkViewMarketPrices = New System.Windows.Forms.CheckBox()
+            Me.chkViewDashboard = New System.Windows.Forms.CheckBox()
+            Me.chkViewRequisitions = New System.Windows.Forms.CheckBox()
+            Me.chkViewPilotSummary = New System.Windows.Forms.CheckBox()
+            Me.chkViewPilotInfo = New System.Windows.Forms.CheckBox()
             Me.lblAutomaticSaveTime = New System.Windows.Forms.Label()
             Me.nudAutomaticSaveTime = New System.Windows.Forms.NumericUpDown()
             Me.chkEnableAutomaticSave = New System.Windows.Forms.CheckBox()
@@ -57,7 +63,6 @@ Namespace Forms
             Me.chkMinimiseOnExit = New System.Windows.Forms.CheckBox()
             Me.cboStartupPilot = New System.Windows.Forms.ComboBox()
             Me.Label3 = New System.Windows.Forms.Label()
-            Me.cboStartupView = New System.Windows.Forms.ComboBox()
             Me.Label2 = New System.Windows.Forms.Label()
             Me.chkAutoMinimise = New System.Windows.Forms.CheckBox()
             Me.chkAutoRun = New System.Windows.Forms.CheckBox()
@@ -381,6 +386,12 @@ Namespace Forms
             '
             'gbGeneral
             '
+            Me.gbGeneral.Controls.Add(Me.chkViewSkillTraining)
+            Me.gbGeneral.Controls.Add(Me.chkViewMarketPrices)
+            Me.gbGeneral.Controls.Add(Me.chkViewDashboard)
+            Me.gbGeneral.Controls.Add(Me.chkViewRequisitions)
+            Me.gbGeneral.Controls.Add(Me.chkViewPilotSummary)
+            Me.gbGeneral.Controls.Add(Me.chkViewPilotInfo)
             Me.gbGeneral.Controls.Add(Me.lblAutomaticSaveTime)
             Me.gbGeneral.Controls.Add(Me.nudAutomaticSaveTime)
             Me.gbGeneral.Controls.Add(Me.chkEnableAutomaticSave)
@@ -398,18 +409,83 @@ Namespace Forms
             Me.gbGeneral.Controls.Add(Me.chkMinimiseOnExit)
             Me.gbGeneral.Controls.Add(Me.cboStartupPilot)
             Me.gbGeneral.Controls.Add(Me.Label3)
-            Me.gbGeneral.Controls.Add(Me.cboStartupView)
             Me.gbGeneral.Controls.Add(Me.Label2)
             Me.gbGeneral.Controls.Add(Me.chkAutoMinimise)
             Me.gbGeneral.Controls.Add(Me.chkAutoRun)
             Me.gbGeneral.Controls.Add(Me.chkAutoHide)
-            Me.gbGeneral.Location = New System.Drawing.Point(389, 436)
+            Me.gbGeneral.Location = New System.Drawing.Point(195, 12)
             Me.gbGeneral.Name = "gbGeneral"
-            Me.gbGeneral.Size = New System.Drawing.Size(180, 42)
+            Me.gbGeneral.Size = New System.Drawing.Size(696, 498)
             Me.gbGeneral.TabIndex = 1
             Me.gbGeneral.TabStop = False
             Me.gbGeneral.Text = "General Settings"
             Me.gbGeneral.Visible = False
+            '
+            'chkViewSkillTraining
+            '
+            Me.chkViewSkillTraining.AutoSize = True
+            Me.chkViewSkillTraining.Location = New System.Drawing.Point(349, 82)
+            Me.chkViewSkillTraining.Name = "chkViewSkillTraining"
+            Me.chkViewSkillTraining.Size = New System.Drawing.Size(84, 17)
+            Me.chkViewSkillTraining.TabIndex = 61
+            Me.chkViewSkillTraining.Tag = "2"
+            Me.chkViewSkillTraining.Text = "Skill Training"
+            Me.chkViewSkillTraining.UseVisualStyleBackColor = True
+            '
+            'chkViewMarketPrices
+            '
+            Me.chkViewMarketPrices.AutoSize = True
+            Me.chkViewMarketPrices.Location = New System.Drawing.Point(349, 105)
+            Me.chkViewMarketPrices.Name = "chkViewMarketPrices"
+            Me.chkViewMarketPrices.Size = New System.Drawing.Size(90, 17)
+            Me.chkViewMarketPrices.TabIndex = 60
+            Me.chkViewMarketPrices.Tag = "4"
+            Me.chkViewMarketPrices.Text = "Market Prices"
+            Me.chkViewMarketPrices.UseVisualStyleBackColor = True
+            '
+            'chkViewDashboard
+            '
+            Me.chkViewDashboard.AutoSize = True
+            Me.chkViewDashboard.Location = New System.Drawing.Point(349, 128)
+            Me.chkViewDashboard.Name = "chkViewDashboard"
+            Me.chkViewDashboard.Size = New System.Drawing.Size(78, 17)
+            Me.chkViewDashboard.TabIndex = 59
+            Me.chkViewDashboard.Tag = "8"
+            Me.chkViewDashboard.Text = "Dashboard"
+            Me.chkViewDashboard.UseVisualStyleBackColor = True
+            '
+            'chkViewRequisitions
+            '
+            Me.chkViewRequisitions.AutoSize = True
+            Me.chkViewRequisitions.Location = New System.Drawing.Point(349, 151)
+            Me.chkViewRequisitions.Name = "chkViewRequisitions"
+            Me.chkViewRequisitions.Size = New System.Drawing.Size(83, 17)
+            Me.chkViewRequisitions.TabIndex = 58
+            Me.chkViewRequisitions.Tag = "16"
+            Me.chkViewRequisitions.Text = "Requisitions"
+            Me.chkViewRequisitions.UseVisualStyleBackColor = True
+            '
+            'chkViewPilotSummary
+            '
+            Me.chkViewPilotSummary.AutoSize = True
+            Me.chkViewPilotSummary.Location = New System.Drawing.Point(349, 174)
+            Me.chkViewPilotSummary.Name = "chkViewPilotSummary"
+            Me.chkViewPilotSummary.Size = New System.Drawing.Size(129, 17)
+            Me.chkViewPilotSummary.TabIndex = 57
+            Me.chkViewPilotSummary.Tag = "32"
+            Me.chkViewPilotSummary.Text = "Pilot Summary Report"
+            Me.chkViewPilotSummary.UseVisualStyleBackColor = True
+            '
+            'chkViewPilotInfo
+            '
+            Me.chkViewPilotInfo.AutoSize = True
+            Me.chkViewPilotInfo.Location = New System.Drawing.Point(349, 59)
+            Me.chkViewPilotInfo.Name = "chkViewPilotInfo"
+            Me.chkViewPilotInfo.Size = New System.Drawing.Size(105, 17)
+            Me.chkViewPilotInfo.TabIndex = 56
+            Me.chkViewPilotInfo.Tag = "1"
+            Me.chkViewPilotInfo.Text = "Pilot Information"
+            Me.chkViewPilotInfo.UseVisualStyleBackColor = True
             '
             'lblAutomaticSaveTime
             '
@@ -463,7 +539,7 @@ Namespace Forms
             'lblMDITabPosition
             '
             Me.lblMDITabPosition.AutoSize = True
-            Me.lblMDITabPosition.Location = New System.Drawing.Point(313, 89)
+            Me.lblMDITabPosition.Location = New System.Drawing.Point(21, 230)
             Me.lblMDITabPosition.Name = "lblMDITabPosition"
             Me.lblMDITabPosition.Size = New System.Drawing.Size(91, 13)
             Me.lblMDITabPosition.TabIndex = 46
@@ -474,7 +550,7 @@ Namespace Forms
             Me.cboMDITabPosition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboMDITabPosition.FormattingEnabled = True
             Me.cboMDITabPosition.Items.AddRange(New Object() {"Bottom", "Top"})
-            Me.cboMDITabPosition.Location = New System.Drawing.Point(411, 86)
+            Me.cboMDITabPosition.Location = New System.Drawing.Point(119, 227)
             Me.cboMDITabPosition.Name = "cboMDITabPosition"
             Me.cboMDITabPosition.Size = New System.Drawing.Size(161, 21)
             Me.cboMDITabPosition.Sorted = True
@@ -483,7 +559,7 @@ Namespace Forms
             'txtErrorRepEmail
             '
             Me.txtErrorRepEmail.Enabled = False
-            Me.txtErrorRepEmail.Location = New System.Drawing.Point(144, 317)
+            Me.txtErrorRepEmail.Location = New System.Drawing.Point(119, 352)
             Me.txtErrorRepEmail.Name = "txtErrorRepEmail"
             Me.txtErrorRepEmail.Size = New System.Drawing.Size(247, 21)
             Me.txtErrorRepEmail.TabIndex = 44
@@ -492,7 +568,7 @@ Namespace Forms
             '
             Me.lblErrorRepEmail.AutoSize = True
             Me.lblErrorRepEmail.Enabled = False
-            Me.lblErrorRepEmail.Location = New System.Drawing.Point(56, 320)
+            Me.lblErrorRepEmail.Location = New System.Drawing.Point(24, 355)
             Me.lblErrorRepEmail.Name = "lblErrorRepEmail"
             Me.lblErrorRepEmail.Size = New System.Drawing.Size(86, 13)
             Me.lblErrorRepEmail.TabIndex = 43
@@ -501,7 +577,7 @@ Namespace Forms
             'txtErrorRepName
             '
             Me.txtErrorRepName.Enabled = False
-            Me.txtErrorRepName.Location = New System.Drawing.Point(144, 291)
+            Me.txtErrorRepName.Location = New System.Drawing.Point(119, 325)
             Me.txtErrorRepName.Name = "txtErrorRepName"
             Me.txtErrorRepName.Size = New System.Drawing.Size(247, 21)
             Me.txtErrorRepName.TabIndex = 42
@@ -510,7 +586,7 @@ Namespace Forms
             '
             Me.lblErrorRepName.AutoSize = True
             Me.lblErrorRepName.Enabled = False
-            Me.lblErrorRepName.Location = New System.Drawing.Point(56, 294)
+            Me.lblErrorRepName.Location = New System.Drawing.Point(24, 328)
             Me.lblErrorRepName.Name = "lblErrorRepName"
             Me.lblErrorRepName.Size = New System.Drawing.Size(89, 13)
             Me.lblErrorRepName.TabIndex = 41
@@ -519,7 +595,7 @@ Namespace Forms
             'chkErrorReporting
             '
             Me.chkErrorReporting.AutoSize = True
-            Me.chkErrorReporting.Location = New System.Drawing.Point(24, 268)
+            Me.chkErrorReporting.Location = New System.Drawing.Point(21, 302)
             Me.chkErrorReporting.Name = "chkErrorReporting"
             Me.chkErrorReporting.Size = New System.Drawing.Size(190, 17)
             Me.chkErrorReporting.TabIndex = 40
@@ -528,7 +604,7 @@ Namespace Forms
             '
             'txtUpdateLocation
             '
-            Me.txtUpdateLocation.Location = New System.Drawing.Point(116, 226)
+            Me.txtUpdateLocation.Location = New System.Drawing.Point(119, 258)
             Me.txtUpdateLocation.Name = "txtUpdateLocation"
             Me.txtUpdateLocation.Size = New System.Drawing.Size(449, 21)
             Me.txtUpdateLocation.TabIndex = 39
@@ -536,7 +612,7 @@ Namespace Forms
             'lblUpdateLocation
             '
             Me.lblUpdateLocation.AutoSize = True
-            Me.lblUpdateLocation.Location = New System.Drawing.Point(21, 229)
+            Me.lblUpdateLocation.Location = New System.Drawing.Point(20, 261)
             Me.lblUpdateLocation.Name = "lblUpdateLocation"
             Me.lblUpdateLocation.Size = New System.Drawing.Size(89, 13)
             Me.lblUpdateLocation.TabIndex = 38
@@ -556,7 +632,7 @@ Namespace Forms
             '
             Me.cboStartupPilot.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboStartupPilot.FormattingEnabled = True
-            Me.cboStartupPilot.Location = New System.Drawing.Point(411, 59)
+            Me.cboStartupPilot.Location = New System.Drawing.Point(119, 200)
             Me.cboStartupPilot.Name = "cboStartupPilot"
             Me.cboStartupPilot.Size = New System.Drawing.Size(161, 21)
             Me.cboStartupPilot.Sorted = True
@@ -565,22 +641,11 @@ Namespace Forms
             'Label3
             '
             Me.Label3.AutoSize = True
-            Me.Label3.Location = New System.Drawing.Point(313, 62)
+            Me.Label3.Location = New System.Drawing.Point(21, 203)
             Me.Label3.Name = "Label3"
             Me.Label3.Size = New System.Drawing.Size(69, 13)
             Me.Label3.TabIndex = 6
             Me.Label3.Text = "Default Pilot:"
-            '
-            'cboStartupView
-            '
-            Me.cboStartupView.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-            Me.cboStartupView.FormattingEnabled = True
-            Me.cboStartupView.Items.AddRange(New Object() {"EveHQ Dashboard", "Pilot Information", "Pilot Summary Report", "Skill Training"})
-            Me.cboStartupView.Location = New System.Drawing.Point(411, 32)
-            Me.cboStartupView.Name = "cboStartupView"
-            Me.cboStartupView.Size = New System.Drawing.Size(161, 21)
-            Me.cboStartupView.Sorted = True
-            Me.cboStartupView.TabIndex = 5
             '
             'Label2
             '
@@ -1524,9 +1589,9 @@ Namespace Forms
             Me.gbTrainingQueue.Controls.Add(Me.lblIsPreReqColour)
             Me.gbTrainingQueue.Controls.Add(Me.lblSkillQueueColours)
             Me.gbTrainingQueue.Controls.Add(Me.lblQueueColumns)
-            Me.gbTrainingQueue.Location = New System.Drawing.Point(195, 12)
+            Me.gbTrainingQueue.Location = New System.Drawing.Point(357, 77)
             Me.gbTrainingQueue.Name = "gbTrainingQueue"
-            Me.gbTrainingQueue.Size = New System.Drawing.Size(688, 491)
+            Me.gbTrainingQueue.Size = New System.Drawing.Size(142, 27)
             Me.gbTrainingQueue.TabIndex = 3
             Me.gbTrainingQueue.TabStop = False
             Me.gbTrainingQueue.Text = "Training Queue"
@@ -1858,9 +1923,9 @@ Namespace Forms
             Me.gbEveServer.Controls.Add(Me.lblCurrentOffset)
             Me.gbEveServer.Controls.Add(Me.lblServerOffset)
             Me.gbEveServer.Controls.Add(Me.chkAutoAPI)
-            Me.gbEveServer.Location = New System.Drawing.Point(705, 432)
+            Me.gbEveServer.Location = New System.Drawing.Point(429, 429)
             Me.gbEveServer.Name = "gbEveServer"
-            Me.gbEveServer.Size = New System.Drawing.Size(196, 73)
+            Me.gbEveServer.Size = New System.Drawing.Size(196, 33)
             Me.gbEveServer.TabIndex = 2
             Me.gbEveServer.TabStop = False
             Me.gbEveServer.Text = "Eve API && Server Options"
@@ -2022,7 +2087,7 @@ Namespace Forms
             Me.gbPlugIns.Controls.Add(Me.lblPlugInInfo)
             Me.gbPlugIns.Controls.Add(Me.lblDetectedPlugIns)
             Me.gbPlugIns.Controls.Add(Me.lvwPlugins)
-            Me.gbPlugIns.Location = New System.Drawing.Point(389, 167)
+            Me.gbPlugIns.Location = New System.Drawing.Point(618, 202)
             Me.gbPlugIns.Name = "gbPlugIns"
             Me.gbPlugIns.Size = New System.Drawing.Size(70, 26)
             Me.gbPlugIns.TabIndex = 18
@@ -2856,8 +2921,8 @@ Namespace Forms
             '
             Me.panelSettings.CanvasColor = System.Drawing.SystemColors.Control
             Me.panelSettings.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
             Me.panelSettings.Controls.Add(Me.gbGeneral)
+            Me.panelSettings.Controls.Add(Me.gbTrainingQueue)
             Me.panelSettings.Controls.Add(Me.gbItemOverrides)
             Me.panelSettings.Controls.Add(Me.gbMarket)
             Me.panelSettings.Controls.Add(Me.gbEveServer)
@@ -3398,7 +3463,7 @@ Namespace Forms
             Me.STT.MinimumTooltipSize = New System.Drawing.Size(300, 24)
             Me.STT.PositionBelowControl = False
             '
-            'frmSettings
+            'FrmSettings
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -3411,7 +3476,7 @@ Namespace Forms
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.MaximizeBox = False
             Me.MinimizeBox = False
-            Me.Name = "frmSettings"
+            Me.Name = "FrmSettings"
             Me.ShowInTaskbar = False
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "EveHQ Settings"
@@ -3525,7 +3590,6 @@ Namespace Forms
         Friend WithEvents lblEveDir2 As System.Windows.Forms.Label
         Friend WithEvents btnEveDir1 As System.Windows.Forms.Button
         Friend WithEvents lblEveDir1 As System.Windows.Forms.Label
-        Friend WithEvents cboStartupView As System.Windows.Forms.ComboBox
         Friend WithEvents Label2 As System.Windows.Forms.Label
         Friend WithEvents cboStartupPilot As System.Windows.Forms.ComboBox
         Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -3781,5 +3845,11 @@ Namespace Forms
         Friend WithEvents _defaultAll As System.Windows.Forms.RadioButton
         Friend WithEvents _defaultBuy As System.Windows.Forms.RadioButton
         Friend WithEvents _defaultSell As System.Windows.Forms.RadioButton
+        Friend WithEvents chkViewSkillTraining As System.Windows.Forms.CheckBox
+        Friend WithEvents chkViewMarketPrices As System.Windows.Forms.CheckBox
+        Friend WithEvents chkViewDashboard As System.Windows.Forms.CheckBox
+        Friend WithEvents chkViewRequisitions As System.Windows.Forms.CheckBox
+        Friend WithEvents chkViewPilotSummary As System.Windows.Forms.CheckBox
+        Friend WithEvents chkViewPilotInfo As System.Windows.Forms.CheckBox
     End Class
 End NameSpace

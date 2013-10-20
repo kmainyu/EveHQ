@@ -183,13 +183,13 @@ Namespace Forms
             lblEveTime.Text = "EVE Time: " & now.ToString(fi.ShortDatePattern + " HH:mm")
         End Sub
 
-        Private Sub eveTQWorker_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _eveTQWorker.DoWork
+        Private Sub eveTQWorker_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _eveTqWorker.DoWork
             ' Defines what work the thread has to do
             Call HQ.MyTqServer.GetServerStatus()
         End Sub
 
         Private Sub eveTQWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) _
-            Handles _eveTQWorker.RunWorkerCompleted
+            Handles _eveTqWorker.RunWorkerCompleted
             ' Sub raised on the completion of a call to read the Eve TQ data
 
             ' Check if the server status has changed since the last result and notify user
@@ -518,34 +518,38 @@ Namespace Forms
         End Sub
 
         Private Sub frmEveHQ_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
-            ' Determine which view to display!
-            If HQ.Settings.StartupView = "" Then
-                HQ.Settings.StartupView = "EveHQ Dashboard"
-            End If
-            Select Case HQ.Settings.StartupView
-                Case "EveHQ Dashboard"
-                    ' Open the dashboard
-                    Call OpenDashboard()
-                Case "Pilot Information"
-                    If HQ.Settings.StartupPilot <> "" Then
-                        ' Open the pilot info form
-                        Call OpenPilotInfoForm()
-                    End If
-                Case "Pilot Summary Report"
-                    ' Show the pilot summary report form!
-                    Dim newReport As New FrmReportViewer
-                    Call Reports.GenerateCharSummary()
-                    newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PilotSummary.html"))
-                    Call DisplayReport(newReport, "Pilot Summary")
-                Case "Skill Training"
-                    If HQ.Settings.StartupPilot <> "" Then
-                        ' Open the skill training form
-                        Call OpenSkillTrainingForm()
-                    End If
-                Case Else
-                    ' Open the dashboard
-                    Call OpenDashboard()
-            End Select
+            ' Determine which view to display
+            For idx As Integer = 0 To 5
+                If (HQ.Settings.StartupForms And CInt(2 ^ idx)) = CInt(2 ^ idx) Then
+                    Select Case idx
+                        Case 0
+                            If HQ.Settings.StartupPilot <> "" Then
+                                ' Open the pilot info form
+                                Call OpenPilotInfoForm()
+                            End If
+                        Case 1
+                            If HQ.Settings.StartupPilot <> "" Then
+                                ' Open the skill training form
+                                Call OpenSkillTrainingForm()
+                            End If
+                        Case 2
+                            ' Open the market prices
+                            Call OpenMarketPricesForm()
+                        Case 3
+                            ' Open the dashboard
+                            Call OpenDashboard()
+                        Case 4
+                            ' Open the requisitions form
+                            Call OpenRequisitions()
+                        Case 5
+                            ' Show the pilot summary report form!
+                            Dim newReport As New FrmReportViewer
+                            Call Reports.GenerateCharSummary()
+                            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "PilotSummary.html"))
+                            Call DisplayReport(newReport, "Pilot Summary")
+                    End Select
+                End If
+            Next
         End Sub
 
         Private Sub frmEveHQ_Resize(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Resize

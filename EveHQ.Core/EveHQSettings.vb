@@ -432,7 +432,7 @@ Public Class EveHQSettings
     Public Property MinimiseExit() As Boolean
     Public Property AutoMinimise() As Boolean
     Public Property StartupPilot() As String
-    Public Property StartupView() As String
+    Public Property StartupForms As Integer
     Public Property EveFolder(ByVal index As Integer) As String
         Get
             If _eveFolder Is Nothing Then
@@ -614,6 +614,7 @@ Public Class EveHQSettings
         MaxUpdateThreads = 5
         MainFormWindowState = FormWindowState.Maximized
         StartupPilot = ""
+        StartupForms = 0
 
     End Sub
 

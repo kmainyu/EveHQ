@@ -144,11 +144,24 @@ Namespace Forms
             chkEnableAutomaticSave.Checked = HQ.Settings.EnableAutomaticSave
             nudAutomaticSaveTime.Enabled = HQ.Settings.EnableAutomaticSave
             nudAutomaticSaveTime.Value = HQ.Settings.AutomaticSaveTime
-            If cboStartupView.Items.Contains(HQ.Settings.StartupView) = True Then
-                cboStartupView.SelectedItem = HQ.Settings.StartupView
-            Else
-                cboStartupView.SelectedIndex = 0
-            End If
+            For idx As Integer = 0 To 5
+                If (HQ.Settings.StartupForms And CInt(2 ^ idx)) = CInt(2 ^ idx) Then
+                    Select Case idx
+                        Case 0
+                            chkViewPilotInfo.Checked = True
+                        Case 1
+                            chkViewSkillTraining.Checked = True
+                        Case 2
+                            chkViewMarketPrices.Checked = True
+                        Case 3
+                            chkViewDashboard.Checked = True
+                        Case 4
+                            chkViewRequisitions.Checked = True
+                        Case 5
+                            chkViewPilotSummary.Checked = True
+                    End Select
+                End If
+            Next
             txtUpdateLocation.Text = HQ.Settings.UpdateUrl
             txtUpdateLocation.Enabled = False
             chkErrorReporting.Checked = HQ.Settings.ErrorReportingEnabled
@@ -259,11 +272,6 @@ Namespace Forms
             frmEveHQ.tmrSave.Interval = CInt(nudAutomaticSaveTime.Value) * 60000
         End Sub
 
-        Private Sub cboStartupView_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
-            Handles cboStartupView.SelectedIndexChanged
-            HQ.Settings.StartupView = CStr(cboStartupView.SelectedItem)
-        End Sub
-
         Private Sub cboStartupPilot_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
             Handles cboStartupPilot.SelectedIndexChanged
             HQ.Settings.StartupPilot = CStr(cboStartupPilot.SelectedItem)
@@ -332,6 +340,18 @@ Namespace Forms
                     frmEveHQ.tabEveHQMDI.Dock = DockStyle.Bottom
                     frmEveHQ.tabEveHQMDI.TabAlignment = eTabStripAlignment.Bottom
             End Select
+        End Sub
+
+        Private Sub chkViewPilotInfo_CheckedChanged(sender As System.Object, e As EventArgs) Handles chkViewPilotInfo.CheckedChanged, chkViewSkillTraining.CheckedChanged, chkViewMarketPrices.CheckedChanged, chkViewDashboard.CheckedChanged, chkViewRequisitions.CheckedChanged, chkViewPilotSummary.CheckedChanged
+            If _startup = False Then
+                Dim chkbox As CheckBox = CType(sender, CheckBox)
+                Dim value As Integer = CInt(chkbox.Tag)
+                If chkbox.Checked = True Then
+                    HQ.Settings.StartupForms += value
+                Else
+                    HQ.Settings.StartupForms -= value
+                End If
+            End If
         End Sub
 
 #End Region
@@ -901,6 +921,21 @@ Namespace Forms
             End If
         End Sub
 
+        Private Sub clb_IGBAllowedDisplay_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) Handles clb_IGBAllowedDisplay.ItemCheck
+            If _startup = False Then
+                Dim cbx As String = clb_IGBAllowedDisplay.SelectedItem.ToString()
+                Dim chkSt As Boolean
+
+                If (e.NewValue = CheckState.Checked) Then
+                    chkSt = True
+                Else
+                    chkSt = False
+                End If
+
+                HQ.Settings.IgbAllowedData(cbx) = chkSt
+            End If
+        End Sub
+
 #End Region
 
 #Region "Training Queue Options"
@@ -1035,6 +1070,104 @@ Namespace Forms
                 pbPartiallyTrainedColour.BackColor = cd1.Color
                 HQ.Settings.PartialTrainColor = cd1.Color.ToArgb
                 _redrawColumns = True
+            End If
+        End Sub
+
+        Private Sub RedrawQueueColumnList()
+            ' Setup the listview
+            Dim newCol As ListViewItem
+            lvwColumns.BeginUpdate()
+            lvwColumns.Items.Clear()
+            For Each slot As String In HQ.Settings.UserQueueColumns
+                For Each stdSlot As ListViewItem In HQ.Settings.StandardQueueColumns
+                    If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
+                        newCol = CType(stdSlot.Clone, ListViewItem)
+                        newCol.Name = stdSlot.Name
+                        If slot.EndsWith("0", StringComparison.Ordinal) = True Then
+                            newCol.Checked = False
+                        Else
+                            newCol.Checked = True
+                        End If
+                        lvwColumns.Items.Add(newCol)
+                    End If
+                Next
+            Next
+            lvwColumns.EndUpdate()
+        End Sub
+
+        Private Sub btnMoveUp_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMoveUp.Click
+            ' Check we have something selected
+            If lvwColumns.SelectedItems.Count = 0 Then
+                MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            ' Save the selected item
+            ' Get the slot name of the item selected
+            Dim slotName As String = lvwColumns.SelectedItems(0).Name
+            Dim selName As String = slotName
+            ' Find the index in the user column list
+            Dim idx As Integer = HQ.Settings.UserQueueColumns.IndexOf(slotName & "0")
+            If idx = -1 Then
+                idx = HQ.Settings.UserQueueColumns.IndexOf(slotName & "1")
+            End If
+            ' Switch with the one above if the index is not zero
+            If idx <> 0 Then
+                slotName = CStr(HQ.Settings.UserQueueColumns(idx - 1))
+                HQ.Settings.UserQueueColumns(idx - 1) = HQ.Settings.UserQueueColumns(idx)
+                HQ.Settings.UserQueueColumns(idx) = slotName
+                ' Redraw the list
+                _redrawColumns = True
+                Call RedrawQueueColumnList()
+                _redrawColumns = False
+                lvwColumns.Items(selName).Selected = True
+                lvwColumns.Select()
+            End If
+        End Sub
+
+        Private Sub btnMoveDown_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMoveDown.Click
+            ' Check we have something selected
+            If lvwColumns.SelectedItems.Count = 0 Then
+                MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            ' Get the slot name of the item selected
+            Dim slotName As String = lvwColumns.SelectedItems(0).Name
+            Dim selName As String = slotName
+            ' Find the index in the user column list
+            Dim idx As Integer = HQ.Settings.UserQueueColumns.IndexOf(slotName & "0")
+            If idx = -1 Then
+                idx = HQ.Settings.UserQueueColumns.IndexOf(slotName & "1")
+            End If
+            ' Switch with the one above if the index is not the last
+            If idx <> HQ.Settings.UserQueueColumns.Count - 1 Then
+                slotName = CStr(HQ.Settings.UserQueueColumns(idx + 1))
+                HQ.Settings.UserQueueColumns(idx + 1) = HQ.Settings.UserQueueColumns(idx)
+                HQ.Settings.UserQueueColumns(idx) = slotName
+                ' Redraw the list
+                _redrawColumns = True
+                Call RedrawQueueColumnList()
+                _redrawColumns = False
+                lvwColumns.Items(selName).Selected = True
+                lvwColumns.Select()
+            End If
+        End Sub
+
+        Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
+            If _redrawColumns = False Then
+                ' Get the slot name of the ticked item
+                Dim slotName As String = e.Item.Name
+                ' Find the index in the user column list
+                Dim idx As Integer = HQ.Settings.UserQueueColumns.IndexOf(slotName & "0")
+                If idx = -1 Then
+                    idx = HQ.Settings.UserQueueColumns.IndexOf(slotName & "1")
+                End If
+                If e.Item.Checked = False Then
+                    HQ.Settings.UserQueueColumns(idx) = slotName & "0"
+                Else
+                    HQ.Settings.UserQueueColumns(idx) = slotName & "1"
+                End If
             End If
         End Sub
 
@@ -2439,124 +2572,12 @@ Namespace Forms
 
 #End Region
 
-        Private Sub RedrawQueueColumnList()
-            ' Setup the listview
-            Dim newCol As ListViewItem
-            lvwColumns.BeginUpdate()
-            lvwColumns.Items.Clear()
-            For Each slot As String In HQ.Settings.UserQueueColumns
-                For Each stdSlot As ListViewItem In HQ.Settings.StandardQueueColumns
-                    If slot.Substring(0, Len(slot) - 1) = stdSlot.Name Then
-                        newCol = CType(stdSlot.Clone, ListViewItem)
-                        newCol.Name = stdSlot.Name
-                        If slot.EndsWith("0", StringComparison.Ordinal) = True Then
-                            newCol.Checked = False
-                        Else
-                            newCol.Checked = True
-                        End If
-                        lvwColumns.Items.Add(newCol)
-                    End If
-                Next
-            Next
-            lvwColumns.EndUpdate()
-        End Sub
-
-        Private Sub btnMoveUp_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMoveUp.Click
-            ' Check we have something selected
-            If lvwColumns.SelectedItems.Count = 0 Then
-                MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-                Exit Sub
-            End If
-            ' Save the selected item
-            ' Get the slot name of the item selected
-            Dim slotName As String = lvwColumns.SelectedItems(0).Name
-            Dim selName As String = slotName
-            ' Find the index in the user column list
-            Dim idx As Integer = HQ.Settings.UserQueueColumns.IndexOf(slotName & "0")
-            If idx = -1 Then
-                idx = HQ.Settings.UserQueueColumns.IndexOf(slotName & "1")
-            End If
-            ' Switch with the one above if the index is not zero
-            If idx <> 0 Then
-                slotName = CStr(HQ.Settings.UserQueueColumns(idx - 1))
-                HQ.Settings.UserQueueColumns(idx - 1) = HQ.Settings.UserQueueColumns(idx)
-                HQ.Settings.UserQueueColumns(idx) = slotName
-                ' Redraw the list
-                _redrawColumns = True
-                Call RedrawQueueColumnList()
-                _redrawColumns = False
-                lvwColumns.Items(selName).Selected = True
-                lvwColumns.Select()
-            End If
-        End Sub
-
-        Private Sub btnMoveDown_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMoveDown.Click
-            ' Check we have something selected
-            If lvwColumns.SelectedItems.Count = 0 Then
-                MessageBox.Show("Please select an item before trying it move it!", "Item Required", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information)
-                Exit Sub
-            End If
-            ' Get the slot name of the item selected
-            Dim slotName As String = lvwColumns.SelectedItems(0).Name
-            Dim selName As String = slotName
-            ' Find the index in the user column list
-            Dim idx As Integer = HQ.Settings.UserQueueColumns.IndexOf(slotName & "0")
-            If idx = -1 Then
-                idx = HQ.Settings.UserQueueColumns.IndexOf(slotName & "1")
-            End If
-            ' Switch with the one above if the index is not the last
-            If idx <> HQ.Settings.UserQueueColumns.Count - 1 Then
-                slotName = CStr(HQ.Settings.UserQueueColumns(idx + 1))
-                HQ.Settings.UserQueueColumns(idx + 1) = HQ.Settings.UserQueueColumns(idx)
-                HQ.Settings.UserQueueColumns(idx) = slotName
-                ' Redraw the list
-                _redrawColumns = True
-                Call RedrawQueueColumnList()
-                _redrawColumns = False
-                lvwColumns.Items(selName).Selected = True
-                lvwColumns.Select()
-            End If
-        End Sub
-
-        Private Sub lvwColumns_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) Handles lvwColumns.ItemChecked
-            If _redrawColumns = False Then
-                ' Get the slot name of the ticked item
-                Dim slotName As String = e.Item.Name
-                ' Find the index in the user column list
-                Dim idx As Integer = HQ.Settings.UserQueueColumns.IndexOf(slotName & "0")
-                If idx = -1 Then
-                    idx = HQ.Settings.UserQueueColumns.IndexOf(slotName & "1")
-                End If
-                If e.Item.Checked = False Then
-                    HQ.Settings.UserQueueColumns(idx) = slotName & "0"
-                Else
-                    HQ.Settings.UserQueueColumns(idx) = slotName & "1"
-                End If
-            End If
-        End Sub
+      
 
         Public Sub FinaliseAPIServerUpdate()
             btnGetData.Enabled = True
             Call UpdatePilots()
         End Sub
 
-        Private Sub clb_IGBAllowedDisplay_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-            Handles clb_IGBAllowedDisplay.ItemCheck
-            If _startup = False Then
-                Dim cbx As String = clb_IGBAllowedDisplay.SelectedItem.ToString()
-                Dim chkSt As Boolean
-
-                If (e.NewValue = CheckState.Checked) Then
-                    chkSt = True
-                Else
-                    chkSt = False
-                End If
-
-                HQ.Settings.IgbAllowedData(cbx) = chkSt
-            End If
-        End Sub
-
     End Class
-End NameSpace
+End Namespace

@@ -406,7 +406,17 @@ Public Class FileConverter
             _newSettings.MinimiseExit = oldSettings.MinimiseExit
             _newSettings.AutoMinimise = oldSettings.AutoMinimise
             _newSettings.StartupPilot = oldSettings.StartupPilot
-            _newSettings.StartupView = oldSettings.StartupView
+            _newSettings.StartupForms = 0
+            Select Case oldSettings.StartupView
+                Case "EveHQ Dashboard"
+                    _newSettings.StartupForms = 8
+                Case "Pilot Information"
+                    _newSettings.StartupForms = 1
+                Case "Pilot Summary Report"
+                    _newSettings.StartupForms = 32
+                Case "Skill Training"
+                    _newSettings.StartupForms = 2
+            End Select
             For i As Integer = 1 To 4
                 _newSettings.EveFolder(i) = oldSettings.EveFolder(i)
             Next
