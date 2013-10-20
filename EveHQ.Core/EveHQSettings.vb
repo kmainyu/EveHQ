@@ -138,6 +138,7 @@ Public Class EveHQSettings
     End Property
     Public Property RibbonMinimised() As Boolean
     Public Property ThemeSetByUser() As Boolean
+    Public Property ThemeCanvas As Color
     Public Property ThemeTint() As Color
     Public Property ThemeStyle() As eStyle
     Public Property SQLQueries() As SortedList(Of String, String)

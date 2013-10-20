@@ -162,7 +162,11 @@ Namespace Forms
             Me.btnOffice2007VistaGlass = New DevComponents.DotNetBar.ButtonItem()
             Me.btnWindows7Blue = New DevComponents.DotNetBar.ButtonItem()
             Me.btnVisualStudio2010Blue = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnMetro = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnVisualStudio2012Light = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnVisualStudio2012Dark = New DevComponents.DotNetBar.ButtonItem()
             Me.btnCustomTheme = New DevComponents.DotNetBar.ColorPickerDropDown()
+            Me.btnCanvasColor = New DevComponents.DotNetBar.ColorPickerDropDown()
             Me.Office2007StartButton1 = New DevComponents.DotNetBar.Office2007StartButton()
             Me.ItemContainer1 = New DevComponents.DotNetBar.ItemContainer()
             Me.btnFileSettings = New DevComponents.DotNetBar.ButtonItem()
@@ -195,6 +199,7 @@ Namespace Forms
             Me.lblEveTime = New DevComponents.DotNetBar.LabelItem()
             Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
             Me.StyleManager1 = New DevComponents.DotNetBar.StyleManager(Me.components)
+            Me.ColorPickerDropDown1 = New DevComponents.DotNetBar.ColorPickerDropDown()
             Me.EveStatusIcon = New EveHQ.Core.EveHQIcon(Me.components)
             Me.rpPlugins.SuspendLayout()
             Me.EveIconMenu.SuspendLayout()
@@ -1763,7 +1768,7 @@ Namespace Forms
             Me.btnTheme.AutoExpandOnClick = True
             Me.btnTheme.ItemAlignment = DevComponents.DotNetBar.eItemAlignment.Far
             Me.btnTheme.Name = "btnTheme"
-            Me.btnTheme.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOffice2007Black, Me.btnOffice2007Blue, Me.btnOffice2007Silver, Me.btnOffice2010Black, Me.btnOffice2010Blue, Me.btnOffice2010Silver, Me.btnOffice2007VistaGlass, Me.btnWindows7Blue, Me.btnVisualStudio2010Blue, Me.btnCustomTheme})
+            Me.btnTheme.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnOffice2007Black, Me.btnOffice2007Blue, Me.btnOffice2007Silver, Me.btnOffice2010Black, Me.btnOffice2010Blue, Me.btnOffice2010Silver, Me.btnOffice2007VistaGlass, Me.btnWindows7Blue, Me.btnVisualStudio2010Blue, Me.btnMetro, Me.btnVisualStudio2012Light, Me.btnVisualStudio2012Dark, Me.btnCustomTheme, Me.btnCanvasColor})
             Me.btnTheme.Text = "Theme"
             '
             'btnOffice2007Black
@@ -1843,12 +1848,45 @@ Namespace Forms
             Me.btnVisualStudio2010Blue.OptionGroup = "Style"
             Me.btnVisualStudio2010Blue.Text = "VS 2010 Blue"
             '
+            'btnMetro
+            '
+            Me.btnMetro.Command = Me.AppCommandTheme
+            Me.btnMetro.CommandParameter = "Metro"
+            Me.btnMetro.Name = "btnMetro"
+            Me.btnMetro.OptionGroup = "Style"
+            Me.btnMetro.Text = "Metro"
+            '
+            'btnVisualStudio2012Light
+            '
+            Me.btnVisualStudio2012Light.Command = Me.AppCommandTheme
+            Me.btnVisualStudio2012Light.CommandParameter = "VisualStudio2012Light"
+            Me.btnVisualStudio2012Light.Name = "btnVisualStudio2012Light"
+            Me.btnVisualStudio2012Light.OptionGroup = "Style"
+            Me.btnVisualStudio2012Light.Text = "VS 2012 Light"
+            '
+            'btnVisualStudio2012Dark
+            '
+            Me.btnVisualStudio2012Dark.Command = Me.AppCommandTheme
+            Me.btnVisualStudio2012Dark.CommandParameter = "VisualStudio2012Dark"
+            Me.btnVisualStudio2012Dark.Name = "btnVisualStudio2012Dark"
+            Me.btnVisualStudio2012Dark.OptionGroup = "Style"
+            Me.btnVisualStudio2012Dark.Text = "VS 2012 Dark"
+            '
             'btnCustomTheme
             '
             Me.btnCustomTheme.BeginGroup = True
             Me.btnCustomTheme.Command = Me.AppCommandTheme
+            Me.btnCustomTheme.CommandParameter = ""
             Me.btnCustomTheme.Name = "btnCustomTheme"
-            Me.btnCustomTheme.Text = "Custom Theme"
+            Me.btnCustomTheme.Text = "Theme Color"
+            '
+            'btnCanvasColor
+            '
+            Me.btnCanvasColor.Command = Me.AppCommandTheme
+            Me.btnCanvasColor.CommandParameter = ""
+            Me.btnCanvasColor.Enabled = False
+            Me.btnCanvasColor.Name = "btnCanvasColor"
+            Me.btnCanvasColor.Text = "Canvas Color"
             '
             'Office2007StartButton1
             '
@@ -2211,7 +2249,14 @@ Namespace Forms
             'StyleManager1
             '
             Me.StyleManager1.ManagerStyle = DevComponents.DotNetBar.eStyle.Office2007Black
-            Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.White, System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(26, Byte), Integer)))
+            Me.StyleManager1.MetroColorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(System.Drawing.Color.FromArgb(CType(CType(45, Byte), Integer), CType(CType(45, Byte), Integer), CType(CType(48, Byte), Integer)), System.Drawing.Color.Yellow)
+            '
+            'ColorPickerDropDown1
+            '
+            Me.ColorPickerDropDown1.BeginGroup = True
+            Me.ColorPickerDropDown1.Command = Me.AppCommandTheme
+            Me.ColorPickerDropDown1.Name = "ColorPickerDropDown1"
+            Me.ColorPickerDropDown1.Text = "Custom Theme"
             '
             'EveStatusIcon
             '
@@ -2222,7 +2267,7 @@ Namespace Forms
             Me.EveStatusIcon.Icon = CType(resources.GetObject("EveStatusIcon.Icon"), System.Drawing.Icon)
             Me.EveStatusIcon.Text = ""
             '
-            'frmEveHQ
+            'FrmEveHQ
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -2242,7 +2287,7 @@ Namespace Forms
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
             Me.IsMdiContainer = True
-            Me.Name = "frmEveHQ"
+            Me.Name = "FrmEveHQ"
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "EveHQ"
             Me.rpPlugins.ResumeLayout(False)
@@ -2432,6 +2477,11 @@ Namespace Forms
         Friend WithEvents btnHTMLCertGrades4 As DevComponents.DotNetBar.ButtonItem
         Friend WithEvents btnHTMLCertGrades5 As DevComponents.DotNetBar.ButtonItem
         Friend WithEvents btnTextSkillRanks As DevComponents.DotNetBar.ButtonItem
+        Friend WithEvents btnMetro As DevComponents.DotNetBar.ButtonItem
+        Friend WithEvents btnVisualStudio2012Light As DevComponents.DotNetBar.ButtonItem
+        Friend WithEvents btnVisualStudio2012Dark As DevComponents.DotNetBar.ButtonItem
+        Friend WithEvents ColorPickerDropDown1 As DevComponents.DotNetBar.ColorPickerDropDown
+        Friend WithEvents btnCanvasColor As DevComponents.DotNetBar.ColorPickerDropDown
 
     End Class
 End Namespace

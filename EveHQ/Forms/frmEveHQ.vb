@@ -510,11 +510,28 @@ Namespace Forms
         End Sub
 
         Private Sub UpdateTheme(theme As eStyle, tint As Color)
-            StyleManager.ChangeStyle(theme, Tint)
+            StyleManager.ChangeStyle(theme, tint)
+            If StyleManager.IsMetro(StyleManager.Style) Then
+                StyleManager.MetroColorGeneratorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(HQ.Settings.ThemeCanvas, tint)
+                btnCanvasColor.Enabled = True
+            Else
+                StyleManager.ColorTint = tint
+                btnCanvasColor.Enabled = False
+            End If
         End Sub
 
         Private Sub UpdateTint(tint As Color)
-            StyleManager.ColorTint = tint
+            If StyleManager.IsMetro(StyleManager.Style) Then
+                StyleManager.MetroColorGeneratorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(HQ.Settings.ThemeCanvas, tint)
+            Else
+                StyleManager.ColorTint = tint
+            End If
+        End Sub
+
+        Private Sub UpdateCanvas(tint As Color)
+            If StyleManager.IsMetro(StyleManager.Style) Then
+                StyleManager.MetroColorGeneratorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(tint, HQ.Settings.ThemeTint)
+            End If
         End Sub
 
         Private Sub frmEveHQ_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
@@ -3328,35 +3345,54 @@ Namespace Forms
 #Region "Theme Modification and Automatic Color Scheme creation based on the selected color table"
 
         Private _mColorSelected As Boolean = False
+        Private _mCanvasColorSelected As Boolean = False
         Private _mManagerStyle As eStyle = eStyle.Office2007Black
 
-        Private Sub buttonStyleCustom_ExpandChange(ByVal sender As Object, ByVal e As EventArgs) _
-            Handles btnCustomTheme.ExpandChange
+        Private Sub buttonStyleCustom_ExpandChange(ByVal sender As Object, ByVal e As EventArgs) Handles btnCustomTheme.ExpandChange
             If btnCustomTheme.Expanded Then
                 ' Remember the starting color scheme to apply if no color is selected during live-preview
                 _mColorSelected = False
                 _mManagerStyle = StyleManager.Style
             Else
                 If Not _mColorSelected Then
-                    UpdateTint(Color.Empty)
-                    UpdateTheme(_mManagerStyle, Color.Empty)
+                    UpdateTint(HQ.Settings.ThemeTint)
+                    UpdateTheme(HQ.Settings.ThemeStyle, HQ.Settings.ThemeTint)
                 End If
             End If
         End Sub
 
-        Private Sub buttonStyleCustom_ColorPreview(ByVal sender As Object, ByVal e As ColorPreviewEventArgs) _
-            Handles btnCustomTheme.ColorPreview
+        Private Sub btnCanvasColor_ExpandChange(sender As Object, e As System.EventArgs) Handles btnCanvasColor.ExpandChange
+            If btnCanvasColor.Expanded Then
+                _mCanvasColorSelected = False
+            Else
+                UpdateCanvas(HQ.Settings.ThemeCanvas)
+            End If
+        End Sub
+
+        Private Sub buttonStyleCustom_ColorPreview(ByVal sender As Object, ByVal e As ColorPreviewEventArgs) Handles btnCustomTheme.ColorPreview
             Try
                 UpdateTint(e.Color)
             Catch ex As Exception
             End Try
         End Sub
 
-        Private Sub buttonStyleCustom_SelectedColorChanged(ByVal sender As Object, ByVal e As EventArgs) _
-            Handles btnCustomTheme.SelectedColorChanged
+        Private Sub buttonStyleCustom_SelectedColorChanged(ByVal sender As Object, ByVal e As EventArgs) Handles btnCustomTheme.SelectedColorChanged
             _mColorSelected = True
             ' Indicate that color was selected for buttonStyleCustom_ExpandChange method
             btnCustomTheme.CommandParameter = btnCustomTheme.SelectedColor
+        End Sub
+
+        Private Sub btnCanvasColor_ColorPreview(sender As Object, e As DevComponents.DotNetBar.ColorPreviewEventArgs) Handles btnCanvasColor.ColorPreview
+            Try
+                UpdateCanvas(e.Color)
+            Catch ex As Exception
+            End Try
+        End Sub
+
+        Private Sub btnCanvasColor_SelectedColorChanged(sender As System.Object, e As System.EventArgs) Handles btnCanvasColor.SelectedColorChanged
+            _mColorSelected = True
+            ' Indicate that color was selected for buttonStyleCustom_ExpandChange method
+            btnCanvasColor.CommandParameter = btnCanvasColor.SelectedColor
         End Sub
 
         Private Sub AppCommandTheme_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles AppCommandTheme.Executed
@@ -3368,11 +3404,34 @@ Namespace Forms
                 HQ.Settings.ThemeStyle = cs
                 HQ.Settings.ThemeSetByUser = True
                 UpdateTint(Color.Empty)
-                HQ.Settings.ThemeTint = Color.Empty
+                If StyleManager.IsMetro(StyleManager.Style) Then
+                    btnCanvasColor.Enabled = True
+                    StyleManager.MetroColorGeneratorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(HQ.Settings.ThemeCanvas, HQ.Settings.ThemeTint)
+                    HQ.Settings.ThemeCanvas = StyleManager.MetroColorGeneratorParameters.CanvasColor
+                    HQ.Settings.ThemeTint = StyleManager.MetroColorGeneratorParameters.BaseColor
+                Else
+                    btnCanvasColor.Enabled = False
+                    HQ.Settings.ThemeTint = Color.Empty
+                End If
             ElseIf TypeOf (source.CommandParameter) Is Color Then
-                UpdateTint(CType(source.CommandParameter, Color))
-                HQ.Settings.ThemeTint = StyleManager.ColorTint
-                HQ.Settings.ThemeSetByUser = True
+                Dim tint As Color = CType(source.CommandParameter, Color)
+                If CType(source, ColorPickerDropDown).Text = "Canvas Color" Then
+                    ' Updating then metro canvas color
+                    HQ.Settings.ThemeCanvas = tint
+                    HQ.Settings.ThemeSetByUser = True
+                    StyleManager.MetroColorGeneratorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(HQ.Settings.ThemeCanvas, HQ.Settings.ThemeTint)
+                Else
+                    ' Updating the theme tint or the metro base color
+                    If StyleManager.IsMetro(StyleManager.Style) Then
+                        HQ.Settings.ThemeTint = tint
+                        HQ.Settings.ThemeSetByUser = True
+                        StyleManager.MetroColorGeneratorParameters = New DevComponents.DotNetBar.Metro.ColorTables.MetroColorGeneratorParameters(HQ.Settings.ThemeCanvas, HQ.Settings.ThemeTint)
+                    Else
+                        UpdateTint(tint)
+                        HQ.Settings.ThemeTint = StyleManager.ColorTint
+                        HQ.Settings.ThemeSetByUser = True
+                    End If
+                End If
             End If
             Invalidate()
         End Sub
@@ -3504,5 +3563,6 @@ Namespace Forms
         '    End Try
         'End Function
 
+       
     End Class
 End Namespace
