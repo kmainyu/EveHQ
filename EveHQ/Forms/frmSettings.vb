@@ -2187,6 +2187,8 @@ Namespace Forms
 
         Private Sub UpdateMarketProviderList()
 
+            ' Clear the list of providers before we add items
+            _marketDataProvider.Items.Clear()
             _marketDataProvider.Items.Add(EveHQMarketDataProvider.Name)
             _marketDataProvider.Items.Add(EveCentralMarketDataProvider.Name)
 
