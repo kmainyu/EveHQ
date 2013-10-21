@@ -1070,7 +1070,7 @@ Public Class FileConverter
                 End Using
 
                 Dim newProfiles As New SortedList(Of String, HQFDefenceProfile)
-                For Each profile As DefenceProfile In oldProfiles
+                For Each profile As DefenceProfile In oldProfiles.Values
                     Dim newProfile As New HQFDefenceProfile
                     newProfile.Name = profile.Name
                     newProfile.Type = CType(profile.Type, ProfileTypes)
