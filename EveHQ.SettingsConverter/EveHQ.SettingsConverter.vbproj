@@ -170,8 +170,6 @@
   <Target Name="BeforeBuild">
     <CallTarget Targets="SetAssemblyVersion" />
   </Target>
-  <Target Name="BeforeBuild">
-  </Target>
   <Target Name="AfterBuild">
   </Target>
 </Project>
