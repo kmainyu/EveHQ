@@ -1097,7 +1097,7 @@ Public Class FileConverter
 
                 ' Write the JSON version of the settings
                 Try
-                    Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDefenseProfiles.json"), False)
+                    Using s As New StreamWriter(Path.Combine(hqfFolder, "HQFDefenceProfiles.json"), False)
                         s.Write(json)
                         s.Flush()
                     End Using
