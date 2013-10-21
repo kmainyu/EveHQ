@@ -1486,7 +1486,8 @@ Namespace Forms
 #End Region
 
         Private Sub IGBWorker_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _igbWorker.DoWork
-            HQ.myIGB.RunIGB(_igbWorker, e)
+            HQ.MyIGB = New IGB
+            HQ.MyIGB.RunIGB(_igbWorker, e)
         End Sub
 
 #Region "Background Module Loading"
@@ -2429,27 +2430,37 @@ Namespace Forms
             Call OpenRequisitions()
         End Sub
 
+        Private Sub btnIGB_CheckedChanged(sender As Object, e As EventArgs) Handles btnIGB.CheckedChanged
+            If btnIGB.Checked = True Then
+                lblIGB.Text = "Port: " & HQ.Settings.IgbPort.ToString & ControlChars.CrLf & "Status: On"
+            Else
+                lblIGB.Text = "Port: " & HQ.Settings.IgbPort.ToString & ControlChars.CrLf & "Status: Off"
+            End If
+        End Sub
+
         Private Sub btnIGB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnIGB.Click
             If HQ.IGBActive = False Then
                 If _igbWorker.CancellationPending = True Then
-                    MessageBox.Show("The IGB Server is still shutting down. Please wait a few moments", "IGB Server Busy",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    'MessageBox.Show("The IGB Server is still shutting down. Please wait a few moments", "IGB Server Busy", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     _igbWorker.Dispose()
                     _igbWorker = New BackgroundWorker
-                Else
-                    If IGBCanBeInitialised() = True Then
-                        _igbWorker.WorkerSupportsCancellation = True
-                        _igbWorker.RunWorkerAsync()
-                        HQ.IGBActive = True
-                        btnIGB.Checked = True
-                        lblIGB.Text = "Port: " & HQ.Settings.IgbPort.ToString & ControlChars.CrLf & "Status: On"
+                    If HQ.MyIGB.Listener.IsListening Then
+                        HQ.MyIGB.Listener.Stop()
+                        HQ.MyIGB.Listener.Close()
                     End If
+                    HQ.IGBActive = False
+                    btnIGB.Checked = False
+                End If
+                If IGBCanBeInitialised() = True Then
+                    _igbWorker.WorkerSupportsCancellation = True
+                    _igbWorker.RunWorkerAsync()
+                    HQ.IGBActive = True
+                    btnIGB.Checked = True
                 End If
             Else
-                _igbWorker.CancelAsync()
                 HQ.IGBActive = False
                 btnIGB.Checked = False
-                lblIGB.Text = "Port: " & HQ.Settings.IgbPort.ToString & ControlChars.CrLf & "Status: Off"
+                _igbWorker.CancelAsync()
             End If
         End Sub
 
@@ -3345,14 +3356,11 @@ Namespace Forms
 #Region "Theme Modification and Automatic Color Scheme creation based on the selected color table"
 
         Private _mColorSelected As Boolean = False
-        Private _mCanvasColorSelected As Boolean = False
-        Private _mManagerStyle As eStyle = eStyle.Office2007Black
 
         Private Sub buttonStyleCustom_ExpandChange(ByVal sender As Object, ByVal e As EventArgs) Handles btnCustomTheme.ExpandChange
             If btnCustomTheme.Expanded Then
                 ' Remember the starting color scheme to apply if no color is selected during live-preview
                 _mColorSelected = False
-                _mManagerStyle = StyleManager.Style
             Else
                 If Not _mColorSelected Then
                     UpdateTint(HQ.Settings.ThemeTint)
@@ -3361,9 +3369,8 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub btnCanvasColor_ExpandChange(sender As Object, e As System.EventArgs) Handles btnCanvasColor.ExpandChange
+        Private Sub btnCanvasColor_ExpandChange(sender As Object, e As EventArgs) Handles btnCanvasColor.ExpandChange
             If btnCanvasColor.Expanded Then
-                _mCanvasColorSelected = False
             Else
                 UpdateCanvas(HQ.Settings.ThemeCanvas)
             End If
@@ -3389,7 +3396,7 @@ Namespace Forms
             End Try
         End Sub
 
-        Private Sub btnCanvasColor_SelectedColorChanged(sender As System.Object, e As System.EventArgs) Handles btnCanvasColor.SelectedColorChanged
+        Private Sub btnCanvasColor_SelectedColorChanged(sender As System.Object, e As EventArgs) Handles btnCanvasColor.SelectedColorChanged
             _mColorSelected = True
             ' Indicate that color was selected for buttonStyleCustom_ExpandChange method
             btnCanvasColor.CommandParameter = btnCanvasColor.SelectedColor
@@ -3464,37 +3471,39 @@ Namespace Forms
             End If
 
             ' Create a listener and add the prefixes.
-            Dim listener As New HttpListener()
-            For Each s As String In prefixes
-                listener.Prefixes.Add(s)
-            Next
+            Using listener As New HttpListener()
+                For Each s As String In prefixes
+                    listener.Prefixes.Add(s)
+                Next
 
-            Try
-                ' Attempt to open the listener
-                listener.Start()
-                listener.Stop()
-                listener.Close()
-                IGBCanBeInitialised = True
-            Catch e As Exception
-                ' We have an initialisation error - disable it
-                IGBCanBeInitialised = False
-                btnIGB.Checked = False
-                btnIGB.Enabled = False
-                Dim msg As String = "The IGB Server has been disabled due to a failure to initialise correctly." &
-                                    ControlChars.CrLf & ControlChars.CrLf
-                msg &=
-                    "This is usually caused by insufficient permissions on the host machine or an incompatible (older) operating system." &
-                    ControlChars.CrLf & ControlChars.CrLf
-                msg &=
-                    "More information and resolutions can be found at http://forum.battleclinic.com/index.php/topic,42896.0/IGB-not-working.html"
-                Dim sti As New SuperTooltipInfo("IGB Server Access Error", "IGB Server Disabled", msg, Nothing,
-                                             My.Resources.Info32, eTooltipColor.Yellow)
-                SuperTooltip1.SetSuperTooltip(btnIGB, sti)
-            Finally
+                Try
+                    ' Attempt to open the listener
+                    listener.Start()
+                    listener.Stop()
+                    listener.Close()
+                    IGBCanBeInitialised = True
+                Catch e As Exception
+                    ' We have an initialisation error - disable it
+                    IGBCanBeInitialised = False
+                    btnIGB.Checked = False
+                    btnIGB.Enabled = False
+                    Dim msg As String = "The IGB Server has been disabled due to a failure to initialise correctly." &
+                                        ControlChars.CrLf & ControlChars.CrLf
+                    msg &=
+                        "This is usually caused by insufficient permissions on the host machine or an incompatible (older) operating system." &
+                        ControlChars.CrLf & ControlChars.CrLf
+                    msg &=
+                        "More information and resolutions can be found at http://forum.battleclinic.com/index.php/topic,42896.0/IGB-not-working.html"
+                    Dim sti As New SuperTooltipInfo("IGB Server Access Error", "IGB Server Disabled", msg, Nothing,
+                                                 My.Resources.Info32, eTooltipColor.Yellow)
+                    SuperTooltip1.SetSuperTooltip(btnIGB, sti)
+                Finally
 
-            End Try
+                End Try
+            End Using
 
             Return IGBCanBeInitialised
+
         End Function
 
         Private Sub btnIB_Click(sender As Object, e As EventArgs) Handles btnIB.Click

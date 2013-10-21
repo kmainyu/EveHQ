@@ -30,7 +30,7 @@ Imports System.Web
 
 Public Class IGB
     Shared _context As HttpListenerContext
-    Dim _listener As HttpListener
+    Public Listener As HttpListener
     Dim _response As HttpListenerResponse
     Shared _timeStart, _timeEnd As DateTime
     Shared _timeTaken As TimeSpan
@@ -62,9 +62,9 @@ Public Class IGB
         End If
 
         ' Create a listener and add the prefixes.
-        _listener = New HttpListener()
+        Listener = New HttpListener()
         For Each s As String In prefixes
-            _listener.Prefixes.Add(s)
+            Listener.Prefixes.Add(s)
         Next
 
         ' Check our IGB Access List is complete
@@ -72,10 +72,9 @@ Public Class IGB
 
         Try
             ' Start the listener to begin listening for requests.
-            _listener.Start()
+            Listener.Start()
 
             ' Set the number of requests this application will handle.
-            'Dim numRequestsToBeHandled As Integer = 10
 
             Do
                 _response = Nothing
@@ -83,9 +82,10 @@ Public Class IGB
                     ' Note: GetContext blocks while waiting for a request.
                     If worker.CancellationPending = True Then
                         e.Cancel = True
+                        Exit Do
                     Else
 
-                        _context = _listener.GetContext()
+                        _context = Listener.GetContext
 
                         ' Create the response.
                         _response = _context.Response
@@ -99,7 +99,7 @@ Public Class IGB
                             Case "/HOME", "/HOME/"
                                 responseString &= CreateHome()
                             Case "/ITEMDB", "/ITEMDB/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Item Database") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Item Database") = True Then
                                     responseString &= CreateHTMLItemDB()
                                 Else
                                     responseString &= CreateHome()
@@ -111,37 +111,37 @@ Public Class IGB
                             Case "/HEADERS", "/HEADERS/"
                                 responseString &= CreateHeaders()
                             Case "/REPORTS", "/REPORTS/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Reports - Main Menu") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Reports - Main Menu") = True Then
                                     responseString &= CreateReports()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/SKILLLEVELS", "/REPORTS/SKILLLEVELS/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Skill Level Table") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Skill Level Table") = True Then
                                     responseString &= CreateSPReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARACTER", "/REPORTS/CHARACTER/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= ShowCharReports()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARSUMM", "/REPORTS/CHARASUMM/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Character Summary") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Summary") = True Then
                                     responseString &= ShowCharSummary()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARREPORT", "/REPORTS/CHARREPORT/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= CreateCharReport()
                                 Else
                                     responseString &= CreateHome()
                                 End If
                             Case "/REPORTS/CHARREPORT/QUEUES", "/REPORTS/CHARREPORT/QUEUES/"
-                                If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Report - Character Individual Reports") = True Then
+                                If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Report - Character Individual Reports") = True Then
                                     responseString &= CreateQueueReport()
                                 Else
                                     responseString &= CreateHome()
@@ -180,7 +180,7 @@ Public Class IGB
                             Case Else
                                 ' Check for requisitions
                                 If _context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS") Or _context.Request.Url.AbsolutePath.ToUpper.StartsWith("/REQS/") Then
-                                    If HQ.Settings.IGBFullMode Or HQ.Settings.IGBAllowedData("Requisitions") = True Then
+                                    If HQ.Settings.IgbFullMode Or HQ.Settings.IgbAllowedData("Requisitions") = True Then
                                         responseString = RequisitionIGB.Response(_context)
                                     Else
                                         responseString = CreateHome()
@@ -226,7 +226,7 @@ Public Class IGB
                         output.Dispose()
                     End If
                 Catch ex As HttpListenerException
-                    Console.WriteLine(ex.Message)
+                    'Console.WriteLine(ex.Message)
                 Finally
                     If _response IsNot Nothing Then
                         _response.Close()
@@ -237,7 +237,7 @@ Public Class IGB
             MessageBox.Show("There was an error using the IGB server. The error was: " & ex.Message, "IGB Server Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         Finally
             ' Stop listening for requests.
-            _listener.Close()
+            Listener.Close()
         End Try
     End Sub
     Public Shared Function GetImage(ByVal localFile As String) As String
