@@ -212,7 +212,7 @@ Namespace BPCalc
 
             invCost.DatacoreCost =
                 itemCost.Keys.Where(
-                    Function(key) baseBp.Resources.Values.Any(Function(resource) resource(BlueprintActivity.Invention).TypeId = key)).Sum(
+                    Function(key) baseBp.Resources(BlueprintActivity.Invention).Values.Any(Function(resource) resource.TypeId = key)).Sum(
                         Function(key) itemCost(key) * quantityTable(key))
             If _decryptorUsed IsNot Nothing Then
                 invCost.DecryptorCost =
