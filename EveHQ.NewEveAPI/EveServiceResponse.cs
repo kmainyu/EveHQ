@@ -30,45 +30,24 @@ namespace EveHQ.EveApi
     public sealed class EveServiceResponse<T>
     {
         /// <summary>
-        /// Initializes a new instance of the EveServiceResponse class.
-        /// </summary>
-        /// <param name="serviceData">Data for the response</param>
-        /// <param name="serviceFault">Any exception that occurred processing the service call.</param>
-        /// <param name="isSuccessCode"></param>
-        /// <param name="statusCode">Http Status code.</param>
-        /// <param name="cacheUntil">Cache expiry time.</param>
-        /// <param name="eveErrorCode"></param>
-        /// <param name="eveErrorText"></param>
-        public EveServiceResponse(T serviceData, Exception serviceFault, bool isSuccessCode, HttpStatusCode statusCode, DateTimeOffset cacheUntil, int eveErrorCode, string eveErrorText)
-        {
-            ResultData = serviceData;
-            ServiceException = serviceFault;
-            IsSuccessfulHttpStatus = isSuccessCode;
-            HttpStatusCode = statusCode;
-            EveErrorCode = eveErrorCode;
-            CacheUntil = cacheUntil;
-            EveErrorText = eveErrorText;
-        }
-
-        /// <summary>
         /// Gets the date and time of when this response should be expired from cache.
         /// </summary>
-        public DateTimeOffset CacheUntil { get; private set; }
+        public DateTimeOffset CacheUntil { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance was retrieved from cache.
         /// </summary>
-        public bool CachedResponse { get; internal set; }
+        public bool CachedResponse { get; set; }
 
         /// <summary>
         /// Gets the data for the response.
         /// </summary>
-        public T ResultData { get; private set; }
+        public T ResultData { get; set; }
 
         /// <summary>
         /// Gets the exception related to this service response.
         /// </summary>
-        public Exception ServiceException { get; private set; }
+        public Exception ServiceException { get;  set; }
 
         /// <summary>
         /// Gets a value indicating whether there was an exception thrown during processing.
@@ -84,12 +63,12 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets a value indicating whether the call was successful (from an HTTP status POV).
         /// </summary>
-        public bool IsSuccessfulHttpStatus { get; private set; }
+        public bool IsSuccessfulHttpStatus { get; set; }
 
-        public HttpStatusCode HttpStatusCode { get; private set; }
+        public HttpStatusCode HttpStatusCode { get; set; }
 
-        public int EveErrorCode { get; private set; }
+        public int EveErrorCode { get; set; }
 
-        public string EveErrorText { get; private set; }
+        public string EveErrorText { get; set; }
     }
 }

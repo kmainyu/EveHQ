@@ -286,7 +286,8 @@ namespace EveHQ.EveApi
             }
 
             // store it.
-            var eveResult = new EveServiceResponse<T>(result, faultError, webTask.Result.IsSuccessStatusCode, webTask.Result.StatusCode, cacheTime, eveErrorCode, eveErrorText);
+            var eveResult = new EveServiceResponse<T>(){ ResultData= result, ServiceException= faultError, IsSuccessfulHttpStatus= webTask.Result.IsSuccessStatusCode,
+                HttpStatusCode = webTask.Result.StatusCode, CacheUntil = cacheTime, EveErrorCode = eveErrorCode, EveErrorText= eveErrorText};
 
             // cache it
             SetCacheEntry(cacheKey, eveResult);

@@ -77,8 +77,8 @@ Public Class PilotParseFunctions
                 newPilot.ActiveQueue = CType(oldPilot.ActiveQueue.Clone, SkillQueue)
                 newPilot.Active = oldPilot.Active
                 newPilot.PrimaryQueue = oldPilot.PrimaryQueue
-				newPilot.Standings = oldPilot.Standings
-				' Check if the old pilot has an account if using manual mode!!
+                newPilot.Standings = oldPilot.Standings
+                ' Check if the old pilot has an account if using manual mode!!
                 If oldPilot.Account <> "" And newPilot.Account = "" Then
                     newPilot.Account = oldPilot.Account
                     newPilot.AccountPosition = oldPilot.AccountPosition
@@ -314,6 +314,8 @@ Public Class PilotParseFunctions
             Return
         End If
 
+        ' TODO: Troubleshoot cached API result deserialization issue.
+
         ' Check the API key status
         caccount.CheckAPIKey()
         ' Check Account Status
@@ -407,7 +409,7 @@ Public Class PilotParseFunctions
             ' Add a corporation to the settings
             ' Get the list of characters and the character IDs
             CorpList = characterServiceResponse.ResultData.ToList()
-            ' Clear the current characters on the account
+            ' Clear the current characters on the account6
             caccount.Characters = New ArrayList
             If CorpList.Count > 0 Then
                 Dim corp As AccountCharacter = CorpList(0)
@@ -480,6 +482,8 @@ Public Class PilotParseFunctions
         ' Get the Character Sheet
         Dim cXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)
 
+        Dim characterSheetResponse As EveServiceResponse(Of CharacterData) = HQ.ApiProvider.Character.CharacterSheet(cAccount.userID, cAccount.APIKey, cPilot.ID.ToInt32())
+
         ' Store the Character Sheet API result
         If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
             If EveHQ.Core.HQ.APIResults.ContainsKey(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet) = False Then
@@ -490,6 +494,9 @@ Public Class PilotParseFunctions
                 EveHQ.Core.HQ.APIResults.Add(cAccount.userID & "_" & cPilot.Name & "_" & EveAPI.APITypes.CharacterSheet, APIReq.LastAPIResult)
             End If
         End If
+
+
+
 
         ' Get the Skill Queue
         Dim tXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.SkillQueue, cAccount.ToAPIAccount, cPilot.ID, EveAPI.APIReturnMethods.ReturnStandard)

@@ -71,12 +71,24 @@ namespace EveHQ.EveApi
             return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCalendarEventAttendeesResponse);
         }
 
+
         /// <summary>Retrieves the Character Sheet data from the Eve web service.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <returns>The given character's data.</returns>
-        public Task<EveServiceResponse<CharacterData>> CharacterSheet(string keyId, string vCode, int characterId)
+        public EveServiceResponse<CharacterData> CharacterSheet(string keyId, string vCode, int characterId)
+        {
+            var task = CharacterSheetAsync(keyId, vCode, characterId);
+            task.Wait();
+            return task.Result;
+        }
+        /// <summary>Retrieves the Character Sheet data from the Eve web service.</summary>
+        /// <param name="keyId">API Key ID to query</param>
+        /// <param name="vCode">The Verification Code for this ID</param>
+        /// <param name="characterId">Character to query.</param>
+        /// <returns>The given character's data.</returns>
+        public Task<EveServiceResponse<CharacterData>> CharacterSheetAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
