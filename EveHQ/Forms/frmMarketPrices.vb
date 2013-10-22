@@ -183,20 +183,22 @@ Namespace Forms
         Private Sub mnuPriceAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuPriceAdd.Click
             Dim selItem As Node = adtPrices.SelectedNodes(0)
             Dim itemID As Integer = CInt(selItem.Name)
-            Dim newPrice As New frmModifyPrice(itemID, 0)
-            newPrice.ShowDialog()
-            If HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
-                selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
-            End If
+            Using newPrice As New FrmModifyPrice(itemID, 0)
+                newPrice.ShowDialog()
+                If HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
+                    selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
+                End If
+            End Using
         End Sub
         Private Sub mnuPriceEdit_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuPriceEdit.Click
             Dim selItem As Node = adtPrices.SelectedNodes(0)
             Dim itemID As Integer = CInt(selItem.Name)
-            Dim newPrice As New frmModifyPrice(itemID, 0)
-            newPrice.ShowDialog()
-            If HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
-                selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
-            End If
+            Using newPrice As New FrmModifyPrice(itemID, 0)
+                newPrice.ShowDialog()
+                If HQ.CustomPriceList.ContainsKey(CInt(itemID)) Then
+                    selItem.Cells(3).Text = HQ.CustomPriceList(CInt(itemID)).ToString("N2")
+                End If
+            End Using
         End Sub
         Private Sub chkShowOnlyCustom_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkShowOnlyCustom.CheckedChanged
             If Len(txtSearchPrices.Text) > 2 Then
@@ -361,17 +363,16 @@ Namespace Forms
             _buyOrderMetrics.Volume = itemStat.Buy.Volume.ToInvariantString()
 
         End Sub
-
-
+        
         Private Sub OnMarketSettingsClick(sender As Object, e As EventArgs) Handles Button2.Click
             ShowMarketSettings()
         End Sub
 
         Private Sub ShowMarketSettings()
-            Dim eveHQSettings As New FrmSettings
-            eveHQSettings.Tag = "nodeMarket"
-            eveHQSettings.ShowDialog()
-            eveHQSettings.Dispose()
+            Using eveHQSettings As New FrmSettings
+                eveHQSettings.Tag = "nodeMarket"
+                eveHQSettings.ShowDialog()
+            End Using
         End Sub
     End Class
 End NameSpace

@@ -115,25 +115,26 @@ Namespace Controls
 
         Private Sub ctxFitting_Opening(sender As Object, e As CancelEventArgs) Handles ctxFitting.Opening
             e.Cancel = True
-            Dim nfp As New frmFittingPopup
-            ' Set Location, checking for edges of the dashboard
-            Dim fx As Integer = Location.X + Width
-            If fx + nfp.Width > Parent.Width Then
-                fx = Location.X - nfp.Width
-            End If
-            Dim fy As Integer = Location.Y
-            If fy + nfp.Height > Parent.Height Then
-                fy = Parent.Height - nfp.Height + 18
-            End If
-            nfp.Location = New Point(fx, fy)
-            nfp.ShowDialog()
-            If nfp.FittingName IsNot Nothing Then
-                ' Update the current fit and recalculate
-                If Fittings.FittingList.ContainsKey(nfp.FittingName) Then
-                    _widgetFit = Fittings.FittingList(nfp.FittingName).Clone
-                    Call UpdateFitting()
+            Using nfp As New FrmFittingPopup
+                ' Set Location, checking for edges of the dashboard
+                Dim fx As Integer = Location.X + Width
+                If fx + nfp.Width > Parent.Width Then
+                    fx = Location.X - nfp.Width
                 End If
-            End If
+                Dim fy As Integer = Location.Y
+                If fy + nfp.Height > Parent.Height Then
+                    fy = Parent.Height - nfp.Height + 18
+                End If
+                nfp.Location = New Point(fx, fy)
+                nfp.ShowDialog()
+                If nfp.FittingName IsNot Nothing Then
+                    ' Update the current fit and recalculate
+                    If Fittings.FittingList.ContainsKey(nfp.FittingName) Then
+                        _widgetFit = Fittings.FittingList(nfp.FittingName).Clone
+                        Call UpdateFitting()
+                    End If
+                End If
+            End Using
         End Sub
 
         Private Sub ctxPilot_Opening(sender As Object, e As CancelEventArgs) Handles ctxPilot.Opening

@@ -470,20 +470,21 @@ Namespace Forms
 
         Private Sub btnAddAccount_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddAccount.Click
             ' Clear the text boxes
-            Dim myAccounts As frmModifyEveAccounts = New frmModifyEveAccounts
-            With myAccounts
-                .Tag = "Add"
-                .txtUserIDV2.Text = ""
-                .txtUserIDV2.Enabled = True
-                .txtAPIKeyV2.Text = ""
-                .txtAPIKeyV2.Enabled = True
-                .txtAccountNameV2.Text = ""
-                .txtAccountNameV2.Enabled = True
-                .btnAcceptV2.Text = "OK"
-                .Text = "Add New Account"
-                .ShowDialog()
-            End With
-            UpdateAccounts()
+            Using myAccounts As FrmModifyEveAccounts = New FrmModifyEveAccounts
+                With myAccounts
+                    .Tag = "Add"
+                    .txtUserIDV2.Text = ""
+                    .txtUserIDV2.Enabled = True
+                    .txtAPIKeyV2.Text = ""
+                    .txtAPIKeyV2.Enabled = True
+                    .txtAccountNameV2.Text = ""
+                    .txtAccountNameV2.Enabled = True
+                    .btnAcceptV2.Text = "OK"
+                    .Text = "Add New Account"
+                    .ShowDialog()
+                End With
+                UpdateAccounts()
+            End Using
         End Sub
 
         Private Sub btnEditAccount_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditAccount.Click
@@ -497,28 +498,29 @@ Namespace Forms
                                 MessageBoxIcon.Exclamation)
                 adtAccounts.Select()
             Else
-                Dim myAccounts As frmModifyEveAccounts = New frmModifyEveAccounts
-                With myAccounts
-                    ' Load the account details into the text boxes
-                    Dim selAccount As EveHQAccount = HQ.Settings.Accounts(adtAccounts.SelectedNodes(0).Name)
-                    Select Case selAccount.ApiKeySystem
-                        Case APIKeySystems.Version2
-                            .txtUserIDV2.Text = selAccount.UserID
-                            .txtUserIDV2.Enabled = False
-                            .txtAPIKeyV2.Text = selAccount.APIKey
-                            .txtAPIKeyV2.Enabled = True
-                            .txtAccountNameV2.Text = selAccount.FriendlyName
-                            .txtAccountNameV2.Enabled = True
-                            .lblAPIKeyTypeV2.Text = selAccount.APIKeyType.ToString
-                            .lblAPIAccessMask.Text = selAccount.AccessMask.ToString
-                            .btnAcceptV2.Text = "OK"
-                    End Select
-                    .Tag = "Edit"
-                    .Text = "Edit '" & selAccount.FriendlyName & "' Account Details"
-                    ' Disable the username text box (cannot edit this by design!!)
-                    .ShowDialog()
-                End With
-                UpdateAccounts()
+                Using myAccounts As FrmModifyEveAccounts = New FrmModifyEveAccounts
+                    With myAccounts
+                        ' Load the account details into the text boxes
+                        Dim selAccount As EveHQAccount = HQ.Settings.Accounts(adtAccounts.SelectedNodes(0).Name)
+                        Select Case selAccount.ApiKeySystem
+                            Case APIKeySystems.Version2
+                                .txtUserIDV2.Text = selAccount.UserID
+                                .txtUserIDV2.Enabled = False
+                                .txtAPIKeyV2.Text = selAccount.APIKey
+                                .txtAPIKeyV2.Enabled = True
+                                .txtAccountNameV2.Text = selAccount.FriendlyName
+                                .txtAccountNameV2.Enabled = True
+                                .lblAPIKeyTypeV2.Text = selAccount.APIKeyType.ToString
+                                .lblAPIAccessMask.Text = selAccount.AccessMask.ToString
+                                .btnAcceptV2.Text = "OK"
+                        End Select
+                        .Tag = "Edit"
+                        .Text = "Edit '" & selAccount.FriendlyName & "' Account Details"
+                        ' Disable the username text box (cannot edit this by design!!)
+                        .ShowDialog()
+                    End With
+                    UpdateAccounts()
+                End Using
             End If
         End Sub
 
@@ -751,17 +753,18 @@ Namespace Forms
 
         Private Sub btnAddPilot_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddPilot.Click
             ' Clear the text boxes
-            Dim myPilots As frmModifyEvePilots = New frmModifyEvePilots
-            With myPilots
-                .txtPilotName.Text = ""
-                .txtPilotName.Enabled = True
-                .txtPilotID.Text = ""
-                .txtPilotID.Enabled = True
-                .Text = "Add New Pilot"
-                .ShowDialog()
-            End With
-            UpdatePilots()
-            Call frmEveHQ.UpdatePilotInfo()
+            Using myPilots As FrmModifyEvePilots = New FrmModifyEvePilots
+                With myPilots
+                    .txtPilotName.Text = ""
+                    .txtPilotName.Enabled = True
+                    .txtPilotID.Text = ""
+                    .txtPilotID.Enabled = True
+                    .Text = "Add New Pilot"
+                    .ShowDialog()
+                End With
+                UpdatePilots()
+            End Using
+            Call FrmEveHQ.UpdatePilotInfo()
         End Sub
 
         Private Sub btnAddPilotFromXML_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddPilotFromXML.Click
@@ -771,10 +774,10 @@ Namespace Forms
         End Sub
 
         Private Sub btnCreateBlankPilot_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCreateBlankPilot.Click
-            Dim newCharForm As New FrmCharCreate
-            newCharForm.ShowDialog()
-            Call UpdatePilots()
-            newCharForm.Dispose()
+            Using newCharForm As New FrmCharCreate
+                newCharForm.ShowDialog()
+                Call UpdatePilots()
+            End Using
         End Sub
 
         Public Sub UpdatePilots()
@@ -2059,25 +2062,25 @@ Namespace Forms
                 Dim myConfigFormName As String = pi.GetValue(newWidget, Nothing).ToString
                 If myConfigFormName <> "" Then
                     Dim configType As Type = Assembly.GetExecutingAssembly.GetType(myConfigFormName)
-                    Dim configForm As Form = CType(Activator.CreateInstance(configType), Form)
-                    Dim fi As PropertyInfo = configForm.GetType().GetProperty("DBWidget")
-                    fi.SetValue(configForm, newWidget, Nothing)
-                    configForm.ShowDialog()
-                    If configForm.DialogResult = DialogResult.OK Then
-                        ' Save the Widget
-                        Dim ci As PropertyInfo = myType.GetProperty("ControlConfiguration")
-                        Dim myConfig As SortedList(Of String, Object) = CType(ci.GetValue(newWidget, Nothing), 
-                                                                              SortedList(Of String, Object))
-                        HQ.Settings.DashboardConfiguration.Add(myConfig)
-                        Call UpdateWidgets()
-                        ' Update the dashboard
-                        frmDashboard.UpdateWidgets()
-                    Else
-                        ' Process Aborted
-                        MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End If
-                    configForm.Dispose()
+                    Using configForm As Form = CType(Activator.CreateInstance(configType), Form)
+                        Dim fi As PropertyInfo = configForm.GetType().GetProperty("DBWidget")
+                        fi.SetValue(configForm, newWidget, Nothing)
+                        configForm.ShowDialog()
+                        If configForm.DialogResult = DialogResult.OK Then
+                            ' Save the Widget
+                            Dim ci As PropertyInfo = myType.GetProperty("ControlConfiguration")
+                            Dim myConfig As SortedList(Of String, Object) = CType(ci.GetValue(newWidget, Nothing), 
+                                                                                  SortedList(Of String, Object))
+                            HQ.Settings.DashboardConfiguration.Add(myConfig)
+                            Call UpdateWidgets()
+                            ' Update the dashboard
+                            FrmDashboard.UpdateWidgets()
+                        Else
+                            ' Process Aborted
+                            MessageBox.Show("Widget configuration aborted - information not saved.", "Addition Cancelled",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
+                    End Using
                 Else
                     ' Save the Widget
                     Dim ci As PropertyInfo = myType.GetProperty("ControlConfiguration")
@@ -2086,7 +2089,7 @@ Namespace Forms
                     HQ.Settings.DashboardConfiguration.Add(myConfig)
                     Call UpdateWidgets()
                     ' Update the dashboard
-                    frmDashboard.UpdateWidgets()
+                    FrmDashboard.UpdateWidgets()
                 End If
             Else
                 ' Need a widget type before proceeding
@@ -2121,28 +2124,29 @@ Namespace Forms
                     Case "Pilot Information"
                         Dim newWidget As New DBCPilotInfo
                         newWidget.ControlConfiguration = HQ.Settings.DashboardConfiguration.Item(index)
-                        Dim newWidgetConfig As New DBCPilotInfoConfig
-                        newWidgetConfig.DBWidget = newWidget
-                        newWidgetConfig.ShowDialog()
-                        lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " &
-                                                                  CStr(newWidget.ControlConfiguration("DefaultPilotName"))
+                        Using newWidgetConfig As New DBCPilotInfoConfig
+                            newWidgetConfig.DBWidget = newWidget
+                            newWidgetConfig.ShowDialog()
+                            lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " & CStr(newWidget.ControlConfiguration("DefaultPilotName"))
+                        End Using
                     Case "Skill Queue Information"
                         Dim newWidget As New DBCSkillQueueInfo
                         newWidget.ControlConfiguration = HQ.Settings.DashboardConfiguration.Item(index)
-                        Dim newWidgetConfig As New DBCSkillQueueInfoConfig
-                        newWidgetConfig.DBWidget = newWidget
-                        newWidgetConfig.ShowDialog()
-                        If CBool(newWidget.ControlConfiguration("EveQueue")) = True Then
-                            lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " &
-                                                                      CStr(newWidget.ControlConfiguration("DefaultPilotName")) &
-                                                                      ", Eve Queue"
-                        Else
-                            lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " &
-                                                                      CStr(newWidget.ControlConfiguration("DefaultPilotName")) &
-                                                                      ", EveHQ Queue (" &
-                                                                      CStr(newWidget.ControlConfiguration("DefaultQueueName")) &
-                                                                      ")"
-                        End If
+                        Using newWidgetConfig As New DBCSkillQueueInfoConfig
+                            newWidgetConfig.DBWidget = newWidget
+                            newWidgetConfig.ShowDialog()
+                            If CBool(newWidget.ControlConfiguration("EveQueue")) = True Then
+                                lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " &
+                                                                          CStr(newWidget.ControlConfiguration("DefaultPilotName")) &
+                                                                          ", Eve Queue"
+                            Else
+                                lvWidgets.Items(index).SubItems(1).Text = "Default Pilot: " &
+                                                                          CStr(newWidget.ControlConfiguration("DefaultPilotName")) &
+                                                                          ", EveHQ Queue (" &
+                                                                          CStr(newWidget.ControlConfiguration("DefaultQueueName")) &
+                                                                          ")"
+                            End If
+                        End Using
                 End Select
                 ' Update the dashboard
                 frmDashboard.UpdateWidgets()

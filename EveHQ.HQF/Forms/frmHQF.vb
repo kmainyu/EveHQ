@@ -595,35 +595,35 @@ Namespace Forms
             ' Bug 83: Adding a check of the core pilots collection as well, since it may end up in an unstable state due to other actors, and needs to contain pilots before loading the new fitting.
             If HQ.Settings.Pilots.Count > 0 And FittingPilots.HQFPilots.Count > 0 Then
                 ' Clear the text boxes
-                Dim myNewFitting As New FrmModifyFittingName
-                Dim fittingName As String
-                With myNewFitting
-                    .txtFittingName.Text = "" : .txtFittingName.Enabled = True
-                    .btnAccept.Text = "Add" : .Tag = "Add"
-                    .btnAccept.Tag = shipName
-                    .Text = "Create New Fitting for " & shipName
-                    .ShowDialog()
-                    fittingName = .txtFittingName.Text
-                End With
-                If myNewFitting.DialogResult = DialogResult.Cancel Then
-                    'MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Else
-                    If fittingName <> "" Then
-                        Dim newFit As New Fitting(shipName, fittingName, PluginSettings.HQFSettings.DefaultPilot)
-                        Fittings.FittingList.Add(newFit.KeyName, newFit)
-                        If CreateNewFittingTab(newFit) = True Then
-                            Call UpdateFilteredShips()
-                            tabHQF.SelectedTab = tabHQF.Tabs(newFit.KeyName)
-                            If tabHQF.Tabs.Count = 1 Then
-                                Call UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
-                            End If
-                            ActiveFitting.ShipSlotCtrl.UpdateEverything()
-                        End If
+                Using myNewFitting As New FrmModifyFittingName
+                    Dim fittingName As String
+                    With myNewFitting
+                        .txtFittingName.Text = "" : .txtFittingName.Enabled = True
+                        .btnAccept.Text = "Add" : .Tag = "Add"
+                        .btnAccept.Tag = shipName
+                        .Text = "Create New Fitting for " & shipName
+                        .ShowDialog()
+                        fittingName = .txtFittingName.Text
+                    End With
+                    If myNewFitting.DialogResult = DialogResult.Cancel Then
+                        'MessageBox.Show("Create New Fitting has been cancelled!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
-                        MessageBox.Show("Unable to create new fitting due to insufficient data!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        If fittingName <> "" Then
+                            Dim newFit As New Fitting(shipName, fittingName, PluginSettings.HQFSettings.DefaultPilot)
+                            Fittings.FittingList.Add(newFit.KeyName, newFit)
+                            If CreateNewFittingTab(newFit) = True Then
+                                Call UpdateFilteredShips()
+                                tabHQF.SelectedTab = tabHQF.Tabs(newFit.KeyName)
+                                If tabHQF.Tabs.Count = 1 Then
+                                    Call UpdateSelectedTab()   ' Called when tabpage count=0 as SelectedIndexChanged does not fire!
+                                End If
+                                ActiveFitting.ShipSlotCtrl.UpdateEverything()
+                            End If
+                        Else
+                            MessageBox.Show("Unable to create new fitting due to insufficient data!", "New Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                     End If
-                End If
-                myNewFitting.Dispose()
+                End Using
             Else
                 Dim msg As String = "There appears to be no pilots or accounts created in EveHQ." & ControlChars.CrLf
                 msg &= "Please add an API account or manual pilot in the main EveHQ Settings before opening or creating a fitting."
@@ -1697,41 +1697,41 @@ Namespace Forms
             Dim fitToCopy As Fitting = Fittings.FittingList(oldKeyName)
 
             ' Clear the text boxes
-            Dim myNewFitting As New FrmModifyFittingName
-            Dim fittingName As String
-            With myNewFitting
-                .txtFittingName.Text = fitName : .txtFittingName.Enabled = True
-                .btnAccept.Text = "Edit" : .Tag = "Edit"
-                .btnAccept.Tag = shipName
-                .Text = "Edit Fitting Name for " & shipName
-                .ShowDialog()
-                fittingName = .txtFittingName.Text
-            End With
+            Using myNewFitting As New FrmModifyFittingName
+                Dim fittingName As String
+                With myNewFitting
+                    .txtFittingName.Text = fitName : .txtFittingName.Enabled = True
+                    .btnAccept.Text = "Edit" : .Tag = "Edit"
+                    .btnAccept.Tag = shipName
+                    .Text = "Edit Fitting Name for " & shipName
+                    .ShowDialog()
+                    fittingName = .txtFittingName.Text
+                End With
 
-            If myNewFitting.DialogResult = DialogResult.Cancel Then
-                'MessageBox.Show("Rename Fitting has been cancelled!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                If fittingName <> "" Then
-                    Fittings.FittingList.Remove(oldKeyName)
-                    Dim newFit As Fitting = fitToCopy.Clone(fitToCopy.ShipSlotCtrl, fitToCopy.ShipInfoCtrl)
-                    newFit.FittingName = fittingName
-                    Fittings.FittingList.Add(newFit.KeyName, newFit)
-                    ' Amend it in the tabs if it's there!
-                    Dim tp As TabItem = tabHQF.Tabs(oldKeyName)
-                    If tp IsNot Nothing Then
-                        Dim copyShip As Ship = ShipLists.FittedShipList(oldKeyName).Clone
-                        ShipLists.FittedShipList.Remove(oldKeyName)
-                        ShipLists.FittedShipList.Add(newFit.KeyName, copyShip)
-                        tp.Name = newFit.KeyName
-                        tp.Tag = newFit.KeyName
-                        tp.Text = newFit.KeyName
-                    End If
-                    Call UpdateFilteredShips()
+                If myNewFitting.DialogResult = DialogResult.Cancel Then
+                    'MessageBox.Show("Rename Fitting has been cancelled!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    MessageBox.Show("Unable to rename fitting due to insufficient data!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If fittingName <> "" Then
+                        Fittings.FittingList.Remove(oldKeyName)
+                        Dim newFit As Fitting = fitToCopy.Clone(fitToCopy.ShipSlotCtrl, fitToCopy.ShipInfoCtrl)
+                        newFit.FittingName = fittingName
+                        Fittings.FittingList.Add(newFit.KeyName, newFit)
+                        ' Amend it in the tabs if it's there!
+                        Dim tp As TabItem = tabHQF.Tabs(oldKeyName)
+                        If tp IsNot Nothing Then
+                            Dim copyShip As Ship = ShipLists.FittedShipList(oldKeyName).Clone
+                            ShipLists.FittedShipList.Remove(oldKeyName)
+                            ShipLists.FittedShipList.Add(newFit.KeyName, copyShip)
+                            tp.Name = newFit.KeyName
+                            tp.Tag = newFit.KeyName
+                            tp.Text = newFit.KeyName
+                        End If
+                        Call UpdateFilteredShips()
+                    Else
+                        MessageBox.Show("Unable to rename fitting due to insufficient data!", "Rename Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                 End If
-            End If
-            myNewFitting.Dispose()
+            End Using
         End Sub
         Private Sub mnuFittingsCopyFitting_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuFittingsCopyFitting.Click
             ' Get the node details
@@ -1743,35 +1743,35 @@ Namespace Forms
             Dim fitToCopy As Fitting = Fittings.FittingList(fitKeyName)
 
             ' Clear the text boxes
-            Dim myNewFitting As New FrmModifyFittingName
-            Dim fittingName As String
-            With myNewFitting
-                .txtFittingName.Text = fitName : .txtFittingName.Enabled = True : .txtFittingName.SelectionStart = fitName.Length
-                .btnAccept.Text = "Copy" : .Tag = "Copy"
-                .btnAccept.Tag = shipName
-                .Text = "Copy '" & fitName & "' Fitting for " & shipName
-                .ShowDialog()
-                fittingName = .txtFittingName.Text
-            End With
-            If myNewFitting.DialogResult = DialogResult.Cancel Then
-                'MessageBox.Show("Copy Fitting has been cancelled!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Else
-                If fittingName <> "" Then
-                    Dim newFit As Fitting = fitToCopy.Clone
-                    newFit.FittingName = fittingName
-                    Fittings.FittingList.Add(newFit.KeyName, newFit)
-                    If CreateNewFittingTab(newFit) = True Then
-                        Call UpdateFilteredShips()
-                        tabHQF.SelectedTab = tabHQF.Tabs(newFit.KeyName)
-                        If tabHQF.SelectedTabIndex = 0 Then Call UpdateSelectedTab()
-                        ActiveFitting.ShipSlotCtrl.UpdateEverything()
-                    End If
-                    Call UpdateFilteredShips()
+            Using myNewFitting As New FrmModifyFittingName
+                Dim fittingName As String
+                With myNewFitting
+                    .txtFittingName.Text = fitName : .txtFittingName.Enabled = True : .txtFittingName.SelectionStart = fitName.Length
+                    .btnAccept.Text = "Copy" : .Tag = "Copy"
+                    .btnAccept.Tag = shipName
+                    .Text = "Copy '" & fitName & "' Fitting for " & shipName
+                    .ShowDialog()
+                    fittingName = .txtFittingName.Text
+                End With
+                If myNewFitting.DialogResult = DialogResult.Cancel Then
+                    'MessageBox.Show("Copy Fitting has been cancelled!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    MessageBox.Show("Unable to copy fitting due to insufficient data!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    If fittingName <> "" Then
+                        Dim newFit As Fitting = fitToCopy.Clone
+                        newFit.FittingName = fittingName
+                        Fittings.FittingList.Add(newFit.KeyName, newFit)
+                        If CreateNewFittingTab(newFit) = True Then
+                            Call UpdateFilteredShips()
+                            tabHQF.SelectedTab = tabHQF.Tabs(newFit.KeyName)
+                            If tabHQF.SelectedTabIndex = 0 Then Call UpdateSelectedTab()
+                            ActiveFitting.ShipSlotCtrl.UpdateEverything()
+                        End If
+                        Call UpdateFilteredShips()
+                    Else
+                        MessageBox.Show("Unable to copy fitting due to insufficient data!", "Copy Fitting Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
                 End If
-            End If
-            myNewFitting.Dispose()
+            End Using
         End Sub
         Private Sub mnuFittingsDeleteFitting_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuFittingsDeleteFitting.Click
             ' Get the node details
@@ -1840,17 +1840,17 @@ Namespace Forms
             Dim shipName As String = mnuFittingsFittingName.Tag.ToString
 
             ' Clear the text boxes
-            Dim myNewFitting As New FrmModifyFittingName
             Dim fittingName As String
-            With myNewFitting
-                .txtFittingName.Text = "" : .txtFittingName.Enabled = True
-                .btnAccept.Text = "Add" : .Tag = "Add"
-                .btnAccept.Tag = shipName
-                .Text = "Create New Fitting for " & shipName
-                .ShowDialog()
-                fittingName = .txtFittingName.Text
-            End With
-            myNewFitting.Dispose()
+            Using myNewFitting As New FrmModifyFittingName
+                With myNewFitting
+                    .txtFittingName.Text = "" : .txtFittingName.Enabled = True
+                    .btnAccept.Text = "Add" : .Tag = "Add"
+                    .btnAccept.Tag = shipName
+                    .Text = "Create New Fitting for " & shipName
+                    .ShowDialog()
+                    fittingName = .txtFittingName.Text
+                End With
+            End Using
 
             ' Add the Fitting
             If fittingName <> "" Then
@@ -1929,10 +1929,10 @@ Namespace Forms
                         MessageBox.Show("You can always configure the columns later by going into the HQF settings and choosing the Slot Layout section", "For Future Reference...", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
                         ' Open options form
-                        Dim mySettings As New FrmHQFSettings
-                        mySettings.Tag = "nodeSlotFormat"
-                        mySettings.ShowDialog()
-                        mySettings.Dispose()
+                        Using mySettings As New FrmHQFSettings
+                            mySettings.Tag = "nodeSlotFormat"
+                            mySettings.ShowDialog()
+                        End Using
                         Call UpdateFittingsTree(False)
                     End If
                 End If
@@ -2010,10 +2010,10 @@ Namespace Forms
                     Next
                 End If
             Next
-            Dim compareShips As New FrmShipComparison
-            compareShips.ShipList = fittings
-            compareShips.ShowDialog()
-            compareShips.Dispose()
+            Using compareShips As New FrmShipComparison
+                compareShips.ShipList = fittings
+                compareShips.ShowDialog()
+            End Using
         End Sub
 #End Region
 
@@ -2101,9 +2101,9 @@ Namespace Forms
 
         Private Sub OpenSettingsForm()
             ' Open options form
-            Dim mySettings As New FrmHQFSettings
-            mySettings.ShowDialog()
-            mySettings.Dispose()
+            Using mySettings As New FrmHQFSettings
+                mySettings.ShowDialog()
+            End Using
             Call UpdateFittingsTree(False)
         End Sub
 
@@ -2113,21 +2113,21 @@ Namespace Forms
 
         Private Sub ExportFittingsToEve()
             Dim fittings As ArrayList = GetExportFittingsCollection()
-            Dim myEveExport As New FrmEveExport
-            myEveExport.FittingList = fittings
-            myEveExport.UpdateRequired = True
-            myEveExport.ShowDialog()
-            myEveExport.Dispose()
+            Using myEveExport As New FrmEveExport
+                myEveExport.FittingList = fittings
+                myEveExport.UpdateRequired = True
+                myEveExport.ShowDialog()
+            End Using
         End Sub
 
         Private Sub ExportMainFittingToEve()
             Dim fittings As New ArrayList
             fittings.Add(ActiveFitting.KeyName)
-            Dim myEveExport As New FrmEveExport
-            myEveExport.FittingList = fittings
-            myEveExport.UpdateRequired = True
-            myEveExport.ShowDialog()
-            myEveExport.Dispose()
+            Using myEveExport As New FrmEveExport
+                myEveExport.FittingList = fittings
+                myEveExport.UpdateRequired = True
+                myEveExport.ShowDialog()
+            End Using
         End Sub
 
         Private Function GetExportFittingsCollection() As ArrayList
@@ -2194,8 +2194,9 @@ Namespace Forms
 
                 Next
 
-                Dim newReq As New FrmAddRequisition("HQF", orders)
-                newReq.ShowDialog()
+                Using newReq As New FrmAddRequisition("HQF", orders)
+                    newReq.ShowDialog()
+                End Using
 
             End If
         End Sub
@@ -2207,9 +2208,10 @@ Namespace Forms
         Private Sub mnuShowMetaVariations_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuShowMetaVariations.Click
             Dim moduleID As Integer = CInt(tvwModules.SelectedNodes(0).Name)
             Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-            Dim newComparison As New FrmMetaVariations(ActiveFitting, cModule)
-            newComparison.Size = PluginSettings.HQFSettings.MetaVariationsFormSize
-            newComparison.ShowDialog()
+            Using newComparison As New FrmMetaVariations(ActiveFitting, cModule)
+                newComparison.Size = PluginSettings.HQFSettings.MetaVariationsFormSize
+                newComparison.ShowDialog()
+            End Using
         End Sub
 
 #End Region
@@ -2254,9 +2256,9 @@ Namespace Forms
 
         Private Sub btnFleetManager_Click(sender As Object, e As EventArgs) Handles btnFleetManager.Click
             'Open Fleet Manager form
-            Dim myFm As New FrmFleetManager
-            myFm.ShowDialog()
-            myFm.Dispose()
+            Using myFm As New FrmFleetManager
+                myFm.ShowDialog()
+            End Using
         End Sub
 
         Private Sub OpenPilotManagerForm(ByVal tabIdx As Integer)
@@ -2272,7 +2274,7 @@ Namespace Forms
                     End If
                 End If
                 _myPilotManager.Show()
-                _myPilotManager.tabControlPM.SelectedTabIndex = TabIdx
+                _myPilotManager.tabControlPM.SelectedTabIndex = tabIdx
             Else
                 If _myPilotManager.WindowState = FormWindowState.Minimized Then
                     _myPilotManager.WindowState = FormWindowState.Normal
@@ -2700,22 +2702,22 @@ Namespace Forms
             ' Add the current ship
             orders.Add(ActiveFitting.BaseShip.Name, 1)
             ' Setup the Requisition form for HQF and open it
-            Dim newReq As New FrmAddRequisition("HQF", orders)
-            newReq.ShowDialog()
-            newReq.Dispose()
+            Using newReq As New FrmAddRequisition("HQF", orders)
+                newReq.ShowDialog()
+            End Using
         End Sub
 
         Private Sub CollectModulesForExport(ByRef modList As SortedList(Of String, Integer), ByVal shipFitting As Fitting)
 
-            Dim currentship As Ship = ShipFitting.BaseShip
+            Dim currentship As Ship = shipFitting.BaseShip
 
             ' Parse HiSlots
             For slot As Integer = 1 To currentship.HiSlots
                 If currentship.HiSlot(slot) IsNot Nothing Then
-                    If ModList.ContainsKey(currentship.HiSlot(slot).Name) = True Then
-                        ModList(currentship.HiSlot(slot).Name) += 1
+                    If modList.ContainsKey(currentship.HiSlot(slot).Name) = True Then
+                        modList(currentship.HiSlot(slot).Name) += 1
                     Else
-                        ModList.Add(currentship.HiSlot(slot).Name, 1)
+                        modList.Add(currentship.HiSlot(slot).Name, 1)
                     End If
                 End If
             Next
@@ -2723,10 +2725,10 @@ Namespace Forms
             ' Parse MidSlots
             For slot As Integer = 1 To currentship.MidSlots
                 If currentship.MidSlot(slot) IsNot Nothing Then
-                    If ModList.ContainsKey(currentship.MidSlot(slot).Name) = True Then
-                        ModList(currentship.MidSlot(slot).Name) += 1
+                    If modList.ContainsKey(currentship.MidSlot(slot).Name) = True Then
+                        modList(currentship.MidSlot(slot).Name) += 1
                     Else
-                        ModList.Add(currentship.MidSlot(slot).Name, 1)
+                        modList.Add(currentship.MidSlot(slot).Name, 1)
                     End If
                 End If
             Next
@@ -2734,10 +2736,10 @@ Namespace Forms
             ' Parse LowSlots
             For slot As Integer = 1 To currentship.LowSlots
                 If currentship.LowSlot(slot) IsNot Nothing Then
-                    If ModList.ContainsKey(currentship.LowSlot(slot).Name) = True Then
-                        ModList(currentship.LowSlot(slot).Name) += 1
+                    If modList.ContainsKey(currentship.LowSlot(slot).Name) = True Then
+                        modList(currentship.LowSlot(slot).Name) += 1
                     Else
-                        ModList.Add(currentship.LowSlot(slot).Name, 1)
+                        modList.Add(currentship.LowSlot(slot).Name, 1)
                     End If
                 End If
             Next
@@ -2745,10 +2747,10 @@ Namespace Forms
             ' Parse RigSlots
             For slot As Integer = 1 To currentship.RigSlots
                 If currentship.RigSlot(slot) IsNot Nothing Then
-                    If ModList.ContainsKey(currentship.RigSlot(slot).Name) = True Then
-                        ModList(currentship.RigSlot(slot).Name) += 1
+                    If modList.ContainsKey(currentship.RigSlot(slot).Name) = True Then
+                        modList(currentship.RigSlot(slot).Name) += 1
                     Else
-                        ModList.Add(currentship.RigSlot(slot).Name, 1)
+                        modList.Add(currentship.RigSlot(slot).Name, 1)
                     End If
                 End If
             Next
@@ -2756,10 +2758,10 @@ Namespace Forms
             ' Parse subslots
             For slot As Integer = 1 To currentship.SubSlots
                 If currentship.SubSlot(slot) IsNot Nothing Then
-                    If ModList.ContainsKey(currentship.SubSlot(slot).Name) = True Then
-                        ModList(currentship.SubSlot(slot).Name) += 1
+                    If modList.ContainsKey(currentship.SubSlot(slot).Name) = True Then
+                        modList(currentship.SubSlot(slot).Name) += 1
                     Else
-                        ModList.Add(currentship.SubSlot(slot).Name, 1)
+                        modList.Add(currentship.SubSlot(slot).Name, 1)
                     End If
                 End If
             Next
@@ -2767,10 +2769,10 @@ Namespace Forms
             ' Parse drones
             If currentship.DroneBayItems.Count > 0 Then
                 For Each drone As DroneBayItem In currentship.DroneBayItems.Values
-                    If ModList.ContainsKey(drone.DroneType.Name) = True Then
-                        ModList(drone.DroneType.Name) += drone.Quantity
+                    If modList.ContainsKey(drone.DroneType.Name) = True Then
+                        modList(drone.DroneType.Name) += drone.Quantity
                     Else
-                        ModList.Add(drone.DroneType.Name, drone.Quantity)
+                        modList.Add(drone.DroneType.Name, drone.Quantity)
                     End If
                 Next
             End If
@@ -2778,10 +2780,10 @@ Namespace Forms
             ' Parse cargo bay
             If currentship.CargoBayItems.Count > 0 Then
                 For Each cargoitem As CargoBayItem In currentship.CargoBayItems.Values
-                    If ModList.ContainsKey(cargoitem.ItemType.Name) = True Then
-                        ModList(cargoitem.ItemType.Name) += cargoitem.Quantity
+                    If modList.ContainsKey(cargoitem.ItemType.Name) = True Then
+                        modList(cargoitem.ItemType.Name) += cargoitem.Quantity
                     Else
-                        ModList.Add(cargoitem.ItemType.Name, cargoitem.Quantity)
+                        modList.Add(cargoitem.ItemType.Name, cargoitem.Quantity)
                     End If
                 Next
             End If
@@ -2804,9 +2806,9 @@ Namespace Forms
         End Sub
 
         Private Sub btnImportEFT_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnImportEFT.Click
-            Dim myEftImport As New FrmEftImport
-            myEftImport.ShowDialog()
-            myEftImport.Dispose()
+            Using myEftImport As New FrmEftImport
+                myEftImport.ShowDialog()
+            End Using
             Call UpdateFittingsTree(False)
         End Sub
 
@@ -2914,8 +2916,9 @@ Namespace Forms
         End Sub
 
         Private Sub btnEditor_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditor.Click
-            Dim newShipEditor As New FrmShipEditor
-            newShipEditor.ShowDialog()
+            Using newShipEditor As New FrmShipEditor
+                newShipEditor.ShowDialog()
+            End Using
         End Sub
 
         Private Function OpenFittingsContains(ByVal fitKey As String) As Boolean
@@ -2928,9 +2931,9 @@ Namespace Forms
         End Function
 
         Private Sub btnShipSelector_Click(sender As Object, e As EventArgs) Handles btnShipSelector.Click
-            Dim form As New FrmShipSelection
-            form.ShowDialog()
-            form.Dispose()
+            Using form As New FrmShipSelection
+                form.ShowDialog()
+            End Using
         End Sub
 
 #End Region

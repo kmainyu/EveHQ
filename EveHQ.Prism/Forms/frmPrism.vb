@@ -2627,9 +2627,9 @@ Public Class frmPrism
     End Sub
 
     Private Sub btnCheckJournalOmissions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckJournalOmissions.Click
-        Dim checkJournals As New frmJournalCheck
-        checkJournals.ShowDialog()
-        checkJournals.Dispose()
+        Using checkJournals As New frmJournalCheck
+            checkJournals.ShowDialog()
+        End Using
     End Sub
 
     Private Sub btnExportEntries_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportEntries.Click
@@ -3929,12 +3929,12 @@ Public Class frmPrism
 
     Private Sub mnuAlterRecycleQuantity_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAlterRecycleQuantity.Click
         If adtRecycle.SelectedNodes.Count > 0 Then
-            Dim newQ As New frmSelectQuantity(CInt(_recyclerAssetList(CInt(adtRecycle.SelectedNodes(0).Tag))))
-            newQ.ShowDialog()
-            For Each rNode As Node In adtRecycle.SelectedNodes
-                _recyclerAssetList(CInt(rNode.Tag)) = newQ.Quantity
-            Next
-            newQ.Dispose()
+            Using newQ As New frmSelectQuantity(CInt(_recyclerAssetList(CInt(adtRecycle.SelectedNodes(0).Tag))))
+                newQ.ShowDialog()
+                For Each rNode As Node In adtRecycle.SelectedNodes
+                    _recyclerAssetList(CInt(rNode.Tag)) = newQ.Quantity
+                Next
+            End Using
             Call RecalcRecycling()
         End If
     End Sub
@@ -4004,17 +4004,17 @@ Public Class frmPrism
     End Sub
 
     Private Sub mnuAddRecycleItem_Click_1(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddRecycleItem.Click
-        Dim newI As New frmSelectItem
-        newI.ShowDialog()
-        Dim itemName As String = newI.Item
-        If itemName IsNot Nothing Then
-            Dim itemID As Integer = StaticData.TypeNames(itemName)
-            If _recyclerAssetList.ContainsKey(itemID) = False Then
-                _recyclerAssetList.Add(itemID, 1)
+        Using newI As New frmSelectItem
+            newI.ShowDialog()
+            Dim itemName As String = newI.Item
+            If itemName IsNot Nothing Then
+                Dim itemID As Integer = StaticData.TypeNames(itemName)
+                If _recyclerAssetList.ContainsKey(itemID) = False Then
+                    _recyclerAssetList.Add(itemID, 1)
+                End If
+                Call LoadRecyclingInfo()
             End If
-            newI.Dispose()
-            Call LoadRecyclingInfo()
-        End If
+        End Using
     End Sub
 
 #End Region
@@ -4693,16 +4693,15 @@ Public Class frmPrism
         Next
 
         ' Get location of imported BPs from user
-        Dim selectLoc As New frmSelectLocation
-        selectLoc.BPLocations = BPLocations
-        selectLoc.ShowDialog()
-        Dim bpLoc As String = selectLoc.BPLocation
-        If bpLoc Is Nothing Then
-            Exit Sub
-        End If
-        Dim includeBPOs As Boolean = selectLoc.IncludeBPOs
-        selectLoc.Dispose()
-
+        Using selectLoc As New frmSelectLocation
+            selectLoc.BPLocations = BPLocations
+            selectLoc.ShowDialog()
+            Dim bpLoc As String = selectLoc.BPLocation
+            If bpLoc Is Nothing Then
+                Exit Sub
+            End If
+            Dim includeBPOs As Boolean = selectLoc.IncludeBPOs
+       
         ' Match owned BPs at selected location to imported BPs and update their data
         Dim unknownBPs As List(Of BlueprintAsset) = New List(Of BlueprintAsset)()
         For Each ownedBP As BlueprintAsset In ownerBPAssets.Values
@@ -4733,34 +4732,35 @@ Public Class frmPrism
                         unknownBPs.Add(ownedBP)
                 End Select
             End If
-        Next
-
-        ' Match and update remaining BPs of unknown BP type
-        For Each ownedBP As BlueprintAsset In unknownBPs
-            ' Check imported BPCs
-            For Each impBP As BlueprintAsset In importedBPCAssets
-                If ownedBP.TypeID = impBP.TypeID Then
-                    ownedBP.BPType = impBP.BPType
-                    ownedBP.MELevel = impBP.MELevel
-                    ownedBP.PELevel = impBP.PELevel
-                    ownedBP.Runs = impBP.Runs
-                    importedBPCAssets.Remove(impBP)
-                    Exit For
-                End If
             Next
-            ' Check imported BPOs if no match was found in BPCs
-            If ownedBP.BPType = BPType.Unknown And includeBPOs = True Then
-                For Each impBP As BlueprintAsset In importedBPOAssets
+            
+            ' Match and update remaining BPs of unknown BP type
+            For Each ownedBP As BlueprintAsset In unknownBPs
+                ' Check imported BPCs
+                For Each impBP As BlueprintAsset In importedBPCAssets
                     If ownedBP.TypeID = impBP.TypeID Then
                         ownedBP.BPType = impBP.BPType
                         ownedBP.MELevel = impBP.MELevel
                         ownedBP.PELevel = impBP.PELevel
-                        importedBPOAssets.Remove(impBP)
+                        ownedBP.Runs = impBP.Runs
+                        importedBPCAssets.Remove(impBP)
                         Exit For
                     End If
                 Next
-            End If
-        Next
+                ' Check imported BPOs if no match was found in BPCs
+                If ownedBP.BPType = BPType.Unknown And includeBPOs = True Then
+                    For Each impBP As BlueprintAsset In importedBPOAssets
+                        If ownedBP.TypeID = impBP.TypeID Then
+                            ownedBP.BPType = impBP.BPType
+                            ownedBP.MELevel = impBP.MELevel
+                            ownedBP.PELevel = impBP.PELevel
+                            importedBPOAssets.Remove(impBP)
+                            Exit For
+                        End If
+                    Next
+                End If
+            Next
+        End Using
 
         ' Update the owner list if the option requires it
         If chkShowOwnedBPs.Checked = True Then
@@ -4829,31 +4829,32 @@ Public Class frmPrism
     End Sub
 
     Private Sub EditBlueprintDetails()
-        Dim BPForm As New frmEditBPDetails
-        BPForm.OwnerName = cboBPOwner.SelectedItem.ToString
-        Dim BPs As New List(Of Long)
-        For Each selItem As Node In adtBlueprints.SelectedNodes
-            BPs.Add(CLng(selItem.Tag))
-        Next
-        If BPs.Count > 0 Then
-            BPForm.AssetIDs = BPs
-            BPForm.ShowDialog()
-            ' Update the list using the details
-            Dim BP As New BlueprintAsset
-            Dim locationName As String = ""
-            For Each selitem As Node In adtBlueprints.SelectedNodes
-                BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(CLng(selitem.Tag))
-                locationName = Locations.GetLocationNameFromID(CInt(BP.LocationID))
-                Call Me.UpdateOwnerBPItem(BPForm.OwnerName, locationName, BP, selitem)
+        Using BPForm As New frmEditBPDetails
+            BPForm.OwnerName = cboBPOwner.SelectedItem.ToString
+            Dim BPs As New List(Of Long)
+            For Each selItem As Node In adtBlueprints.SelectedNodes
+                BPs.Add(CLng(selItem.Tag))
             Next
-        Else
-            Dim msg As New StringBuilder
-            msg.AppendLine("An attempt to start the BP Editor was made but it appears as if there is nothing to edit! Please take a screenshot of this message together with the Blueprint Manager list and submit it to the developers for investigation.")
-            msg.AppendLine("")
-            msg.AppendLine("ArrayList Count: " & BPs.Count.ToString)
-            msg.AppendLine("Selected Node Count: " & adtBlueprints.SelectedNodes.Count.ToString)
-            MessageBox.Show(msg.ToString, "No Blueprints Selected??", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+            If BPs.Count > 0 Then
+                BPForm.AssetIDs = BPs
+                BPForm.ShowDialog()
+                ' Update the list using the details
+                Dim BP As New BlueprintAsset
+                Dim locationName As String = ""
+                For Each selitem As Node In adtBlueprints.SelectedNodes
+                    BP = PlugInData.BlueprintAssets(BPForm.OwnerName).Item(CLng(selitem.Tag))
+                    locationName = Locations.GetLocationNameFromID(CInt(BP.LocationID))
+                    Call Me.UpdateOwnerBPItem(BPForm.OwnerName, locationName, BP, selitem)
+                Next
+            Else
+                Dim msg As New StringBuilder
+                msg.AppendLine("An attempt to start the BP Editor was made but it appears as if there is nothing to edit! Please take a screenshot of this message together with the Blueprint Manager list and submit it to the developers for investigation.")
+                msg.AppendLine("")
+                msg.AppendLine("ArrayList Count: " & BPs.Count.ToString)
+                msg.AppendLine("Selected Node Count: " & adtBlueprints.SelectedNodes.Count.ToString)
+                MessageBox.Show(msg.ToString, "No Blueprints Selected??", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+        End Using
     End Sub
 
     Private Sub txtBPSearch_TextChanged(ByVal sender As Object, ByVal e As EventArgs) Handles txtBPSearch.TextChanged
@@ -4865,16 +4866,17 @@ Public Class frmPrism
     End Sub
 
     Private Sub btnAddCustomBP_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCustomBP.Click
-        Dim BPForm As New frmAddCustomBP
-        If cboBPOwner.SelectedItem IsNot Nothing Then
-            BPForm.BPOwner = cboBPOwner.SelectedItem.ToString
-            BPForm.ShowDialog()
-            If BPForm.DialogResult = DialogResult.OK Then
-                Call Me.UpdateBPList()
+        Using BPForm As New frmAddCustomBP
+            If cboBPOwner.SelectedItem IsNot Nothing Then
+                BPForm.BPOwner = cboBPOwner.SelectedItem.ToString
+                BPForm.ShowDialog()
+                If BPForm.DialogResult = DialogResult.OK Then
+                    Call Me.UpdateBPList()
+                End If
+            Else
+                MessageBox.Show("Please select an BP Owner before adding a custom blueprint.", "BP Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
-        Else
-            MessageBox.Show("Please select an BP Owner before adding a custom blueprint.", "BP Owner Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End If
+        End Using
     End Sub
 
     Private Sub mnuRemoveCustomBP_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRemoveCustomBP.Click
@@ -4975,8 +4977,9 @@ Public Class frmPrism
         If mnuTransactionModifyPrice.Tag IsNot Nothing Then
             Dim itemID As Integer = CInt(mnuTransactionModifyPrice.Tag)
             Dim price As Double = Double.Parse(adtTransactions.SelectedNodes(0).Cells(3).Text, NumberStyles.Any, culture)
-            Dim newPrice As New frmModifyPrice(itemID, price)
-            newPrice.ShowDialog()
+            Using newPrice As New FrmModifyPrice(itemID, price)
+                newPrice.ShowDialog()
+            End Using
         End If
     End Sub
 
@@ -4998,8 +5001,9 @@ Public Class frmPrism
     End Sub
 
     Private Sub btnOptions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnOptions.Click
-        Dim NewSettings As New frmPrismSettings
-        NewSettings.ShowDialog()
+        Using NewSettings As New frmPrismSettings
+            NewSettings.ShowDialog()
+        End Using
     End Sub
 
     Private Sub btnDownloadAPIData_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDownloadAPIData.Click
@@ -5085,9 +5089,9 @@ Public Class frmPrism
     End Sub
 
     Private Sub btnInventionChance_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnInventionChance.Click
-        Dim InvCalc As New frmQuickInventionChance
-        InvCalc.ShowDialog()
-        InvCalc.Dispose()
+        Using InvCalc As New frmQuickInventionChance
+            InvCalc.ShowDialog()
+        End Using
     End Sub
 
     Private Sub btnBlueprintCalc_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnBlueprintCalc.Click
@@ -5107,9 +5111,9 @@ Public Class frmPrism
     End Sub
 
     Private Sub btnQuickProduction_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnQuickProduction.Click
-        Dim QP As New frmQuickProduction
-        QP.ShowDialog()
-        QP.Dispose()
+        Using QP As New frmQuickProduction
+            QP.ShowDialog()
+        End Using
     End Sub
 
     Private Sub btnRigBuilder_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRigBuilder.Click
@@ -5197,9 +5201,9 @@ Public Class frmPrism
                 ' Add the current item
                 Orders.Add(KeyName, 1)
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New FrmAddRequisition("Prism", Orders)
-                newReq.ShowDialog()
-                newReq.Dispose()
+                Using newReq As New FrmAddRequisition("Prism", Orders)
+                    newReq.ShowDialog()
+                End Using
             Case "Production"
                 ' Set up a new Sortedlist to store the required items
                 Dim Orders As New SortedList(Of String, Integer)
@@ -5208,9 +5212,9 @@ Public Class frmPrism
                     Call Me.CreateRequisitionFromJob(Orders, PJob)
                 End If
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New FrmAddRequisition("Prism", Orders)
-                newReq.ShowDialog()
-                newReq.Dispose()
+                Using newReq As New FrmAddRequisition("Prism", Orders)
+                    newReq.ShowDialog()
+                End Using
             Case "Batch"
                 ' Set up a new Sortedlist to store the required items
                 Dim Orders As New SortedList(Of String, Integer)
@@ -5223,16 +5227,16 @@ Public Class frmPrism
                     Next
                 End If
                 ' Setup the Requisition form for Prism and open it
-                Dim newReq As New FrmAddRequisition("Prism", Orders)
-                newReq.ShowDialog()
-                newReq.Dispose()
+                Using newReq As New FrmAddRequisition("Prism", Orders)
+                    newReq.ShowDialog()
+                End Using
         End Select
     End Sub
 
     Private Sub btnLinkProduction_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLinkProduction.Click
-        Dim QP As New frmQuickProduction(lblSelectedBP.Tag.ToString)
-        QP.ShowDialog()
-        QP.Dispose()
+        Using QP As New frmQuickProduction(lblSelectedBP.Tag.ToString)
+            QP.ShowDialog()
+        End Using
     End Sub
 
     Private Sub CreateRequisitionFromJob(ByVal orders As SortedList(Of String, Integer), ByVal currentJob As Job)
@@ -5508,17 +5512,17 @@ Public Class frmPrism
     End Sub
 
     Private Sub btnMakeBatch_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnMakeBatch.Click
-        Dim NewBatchName As New frmAddBatchJob
-        NewBatchName.ShowDialog()
-        If NewBatchName.DialogResult = DialogResult.OK Then
-            Dim NewBatch As New BatchJob
-            NewBatch.BatchName = NewBatchName.JobName
-            For Each JobNode As Node In adtProdJobs.SelectedNodes
-                NewBatch.ProductionJobs.Add(JobNode.Name)
-            Next
-            BatchJobs.Jobs.Add(NewBatch.BatchName, NewBatch)
-        End If
-        NewBatchName.Dispose()
+        Using NewBatchName As New frmAddBatchJob
+            NewBatchName.ShowDialog()
+            If NewBatchName.DialogResult = DialogResult.OK Then
+                Dim NewBatch As New BatchJob
+                NewBatch.BatchName = NewBatchName.JobName
+                For Each JobNode As Node In adtProdJobs.SelectedNodes
+                    NewBatch.ProductionJobs.Add(JobNode.Name)
+                Next
+                BatchJobs.Jobs.Add(NewBatch.BatchName, NewBatch)
+            End If
+        End Using
         PrismEvents.StartUpdateBatchJobs()
     End Sub
 

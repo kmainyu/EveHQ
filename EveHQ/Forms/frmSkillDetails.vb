@@ -433,8 +433,9 @@ Namespace Forms
         Private Sub mnuViewDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewItemDetailsInIB.Click
 
             Dim typeID As Integer = CInt(mnuItemName.Tag)
-            Dim myIB As New FrmIB(typeID)
-            myIB.ShowDialog()
+            Using myIB As New FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
 
         End Sub
         Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxDepend.Opening

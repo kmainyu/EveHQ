@@ -114,20 +114,20 @@ Namespace Forms
 
         Private Sub btnAddClass_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddClass.Click
             ' Add a new ShipClassEditor form
-            Dim newClassForm As New frmShipClassEditor
-            newClassForm.ShowDialog()
-            If newClassForm.DialogResult = DialogResult.OK Then
-                If newClassForm.NewShipClass IsNot Nothing Then
-                    ' User clicked Accept and the NewShipClass property is not blank, so add the new class
-                    CustomHQFClasses.CustomShipClasses.Add(newClassForm.NewShipClass.Name, newClassForm.NewShipClass)
-                    ' Update the list
-                    Call UpdateCustomShipClassList()
-                    ' Save the list
-                    Call CustomHQFClasses.SaveCustomShipClasses()
+            Using newClassForm As New FrmShipClassEditor
+                newClassForm.ShowDialog()
+                If newClassForm.DialogResult = DialogResult.OK Then
+                    If newClassForm.NewShipClass IsNot Nothing Then
+                        ' User clicked Accept and the NewShipClass property is not blank, so add the new class
+                        CustomHQFClasses.CustomShipClasses.Add(newClassForm.NewShipClass.Name, newClassForm.NewShipClass)
+                        ' Update the list
+                        Call UpdateCustomShipClassList()
+                        ' Save the list
+                        Call CustomHQFClasses.SaveCustomShipClasses()
+                    End If
                 End If
-            End If
-            ' Dispose of the form
-            newClassForm.Dispose()
+                ' Dispose of the form
+            End Using
         End Sub
 
         Private Sub btnClear_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClear.Click
@@ -184,21 +184,22 @@ Namespace Forms
 
         Private Sub EditShipClass(ByVal newShipClass As CustomShipClass)
             ' Add a new ShipClassEditor form
-            Dim newClassForm As New frmShipClassEditor
-            newClassForm.NewShipClass = NewShipClass
-            newClassForm.ShowDialog()
-            If newClassForm.DialogResult = DialogResult.OK Then
-                If newClassForm.NewShipClass IsNot Nothing Then
-                    ' Remove the old class
-                    CustomHQFClasses.CustomShipClasses.Remove(adtShipClasses.SelectedNodes(0).Text)
-                    ' Add the new class
-                    CustomHQFClasses.CustomShipClasses.Add(newClassForm.NewShipClass.Name, newClassForm.NewShipClass)
-                    ' Update the list
-                    Call UpdateCustomShipClassList()
-                    ' Save the list
-                    Call CustomHQFClasses.SaveCustomShipClasses()
+            Using newClassForm As New FrmShipClassEditor
+                newClassForm.NewShipClass = newShipClass
+                newClassForm.ShowDialog()
+                If newClassForm.DialogResult = DialogResult.OK Then
+                    If newClassForm.NewShipClass IsNot Nothing Then
+                        ' Remove the old class
+                        CustomHQFClasses.CustomShipClasses.Remove(adtShipClasses.SelectedNodes(0).Text)
+                        ' Add the new class
+                        CustomHQFClasses.CustomShipClasses.Add(newClassForm.NewShipClass.Name, newClassForm.NewShipClass)
+                        ' Update the list
+                        Call UpdateCustomShipClassList()
+                        ' Save the list
+                        Call CustomHQFClasses.SaveCustomShipClasses()
+                    End If
                 End If
-            End If
+            End Using
         End Sub
 
         Private Sub adtShipClasses_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtShipClasses.SelectionChanged
@@ -232,23 +233,23 @@ Namespace Forms
 
         Private Sub btnAddShip_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddShip.Click
             ' Add a new ShipEditorAttributes form
-            Dim newShipForm As New FrmShipEditorAttributes(Nothing)
-            newShipForm.ShowDialog()
-            ' Check result
-            If newShipForm.DialogResult = DialogResult.OK Then
-                ' We should have a valid custom ship here
-                Dim newCustomShip As CustomShip = newShipForm.CustomShip
-                If CustomHQFClasses.CustomShips.ContainsKey(newCustomShip.Name) = False Then
-                    CustomHQFClasses.CustomShips.Add(newCustomShip.Name, newCustomShip)
-                    CustomHQFClasses.CustomShipIDs.Add(newCustomShip.ID, newCustomShip.Name)
-                    ' Update the list
-                    Call UpdateCustomShipList()
-                    ' Save the list
-                    Call CustomHQFClasses.SaveCustomShips()
+            Using newShipForm As New FrmShipEditorAttributes(Nothing)
+                newShipForm.ShowDialog()
+                ' Check result
+                If newShipForm.DialogResult = DialogResult.OK Then
+                    ' We should have a valid custom ship here
+                    Dim newCustomShip As CustomShip = newShipForm.CustomShip
+                    If CustomHQFClasses.CustomShips.ContainsKey(newCustomShip.Name) = False Then
+                        CustomHQFClasses.CustomShips.Add(newCustomShip.Name, newCustomShip)
+                        CustomHQFClasses.CustomShipIDs.Add(newCustomShip.ID, newCustomShip.Name)
+                        ' Update the list
+                        Call UpdateCustomShipList()
+                        ' Save the list
+                        Call CustomHQFClasses.SaveCustomShips()
+                    End If
                 End If
-            End If
-            ' Dispose of the form
-            newShipForm.Dispose()
+                ' Dispose of the form
+            End Using
         End Sub
 
         Private Sub btnEditShip_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditShip.Click
@@ -300,24 +301,25 @@ Namespace Forms
             Dim oldName As String = NewShip.Name
             Dim oldID As Integer = NewShip.ID
             ' Add a new ShipClassEditor form
-            Dim newShipForm As New FrmShipEditorAttributes(newShip)
-            newShipForm.ShowDialog()
-            If newShipForm.DialogResult = DialogResult.OK Then
-                ' We should have a valid custom ship here
-                Dim newCustomShip As CustomShip = newShipForm.CustomShip
-                If newShipForm.CustomShip IsNot Nothing Then
-                    ' Remove the old class
-                    CustomHQFClasses.CustomShips.Remove(oldName)
-                    CustomHQFClasses.CustomShipIDs.Remove(oldID)
-                    ' Add the new class
-                    CustomHQFClasses.CustomShips.Add(newCustomShip.Name, newCustomShip)
-                    CustomHQFClasses.CustomShipIDs.Add(newCustomShip.ID, newCustomShip.Name)
-                    ' Update the list
-                    Call UpdateCustomShipList()
-                    ' Save the list
-                    Call CustomHQFClasses.SaveCustomShips()
+            Using newShipForm As New FrmShipEditorAttributes(newShip)
+                newShipForm.ShowDialog()
+                If newShipForm.DialogResult = DialogResult.OK Then
+                    ' We should have a valid custom ship here
+                    Dim newCustomShip As CustomShip = newShipForm.CustomShip
+                    If newShipForm.CustomShip IsNot Nothing Then
+                        ' Remove the old class
+                        CustomHQFClasses.CustomShips.Remove(oldName)
+                        CustomHQFClasses.CustomShipIDs.Remove(oldID)
+                        ' Add the new class
+                        CustomHQFClasses.CustomShips.Add(newCustomShip.Name, newCustomShip)
+                        CustomHQFClasses.CustomShipIDs.Add(newCustomShip.ID, newCustomShip.Name)
+                        ' Update the list
+                        Call UpdateCustomShipList()
+                        ' Save the list
+                        Call CustomHQFClasses.SaveCustomShips()
+                    End If
                 End If
-            End If
+            End Using
         End Sub
 
         Private Sub adtShips_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtShips.SelectionChanged

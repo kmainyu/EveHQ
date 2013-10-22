@@ -250,11 +250,11 @@ Namespace Controls.DBControls
             ' Open the configuration form if one exists
             If ControlConfigForm <> "" Then
                 Dim configType As Type = Assembly.GetExecutingAssembly.GetType(ControlConfigForm)
-                Dim configForm As Form = CType(Activator.CreateInstance(configType), Form)
-                Dim pi As PropertyInfo = configForm.GetType().GetProperty("DBWidget")
-                pi.SetValue(configForm, Me, Nothing)
-                configForm.ShowDialog()
-                configForm.Dispose()
+                Using configForm As Form = CType(Activator.CreateInstance(configType), Form)
+                    Dim pi As PropertyInfo = configForm.GetType().GetProperty("DBWidget")
+                    pi.SetValue(configForm, Me, Nothing)
+                    configForm.ShowDialog()
+                End Using
             End If
         End Sub
 #End Region

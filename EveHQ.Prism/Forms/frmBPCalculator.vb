@@ -1228,7 +1228,22 @@ Public Class frmBPCalculator
             InitialJob = currentJob.Clone
             PrismEvents.StartUpdateProductionJobs()
         Else
-            Dim NewJobName As New frmAddProductionJob
+            Using NewJobName As New frmAddProductionJob
+                NewJobName.ShowDialog()
+                If NewJobName.DialogResult = DialogResult.OK Then
+                    currentJob.JobName = NewJobName.JobName
+                    Jobs.JobList.Add(NewJobName.JobName, currentJob.Clone)
+                    ProductionChanged = False
+                    InitialJob = currentJob.Clone
+                    Text = "BPCalc - Production Job: " & currentJob.JobName
+                End If
+            End Using
+            PrismEvents.StartUpdateProductionJobs()
+        End If
+    End Sub
+
+    Private Sub btnSaveProductionJobAs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSaveProductionJobAs.Click
+        Using NewJobName As New frmAddProductionJob
             NewJobName.ShowDialog()
             If NewJobName.DialogResult = DialogResult.OK Then
                 currentJob.JobName = NewJobName.JobName
@@ -1237,22 +1252,7 @@ Public Class frmBPCalculator
                 InitialJob = currentJob.Clone
                 Text = "BPCalc - Production Job: " & currentJob.JobName
             End If
-            NewJobName.Dispose()
-            PrismEvents.StartUpdateProductionJobs()
-        End If
-    End Sub
-
-    Private Sub btnSaveProductionJobAs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSaveProductionJobAs.Click
-        Dim NewJobName As New frmAddProductionJob
-        NewJobName.ShowDialog()
-        If NewJobName.DialogResult = DialogResult.OK Then
-            currentJob.JobName = NewJobName.JobName
-            Jobs.JobList.Add(NewJobName.JobName, currentJob.Clone)
-            ProductionChanged = False
-            InitialJob = currentJob.Clone
-            Text = "BPCalc - Production Job: " & currentJob.JobName
-        End If
-        NewJobName.Dispose()
+        End Using
         PrismEvents.StartUpdateProductionJobs()
     End Sub
 
@@ -1356,38 +1356,38 @@ Public Class frmBPCalculator
     End Sub
 
     Private Sub lblFactoryCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblFactoryCostsLbl.LinkClicked
-        Dim newSettingsForm As New frmPrismSettings
-        newSettingsForm.Tag = "nodeCosts"
-        newSettingsForm.ShowDialog()
-        Call UpdateBlueprintInformation()
-        Call CalculateInvention()
-        newSettingsForm.Dispose()
+        Using newSettingsForm As New frmPrismSettings
+            newSettingsForm.Tag = "nodeCosts"
+            newSettingsForm.ShowDialog()
+            Call UpdateBlueprintInformation()
+            Call CalculateInvention()
+        End Using
     End Sub
 
     Private Sub lblInventionLabCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionLabCostsLbl.LinkClicked
-        Dim newSettingsForm As New frmPrismSettings
-        newSettingsForm.Tag = "nodeCosts"
-        newSettingsForm.ShowDialog()
-        Call UpdateBlueprintInformation()
-        Call CalculateInvention()
-        newSettingsForm.Dispose()
+        Using newSettingsForm As New frmPrismSettings
+            newSettingsForm.Tag = "nodeCosts"
+            newSettingsForm.ShowDialog()
+            Call UpdateBlueprintInformation()
+            Call CalculateInvention()
+        End Using
     End Sub
 
     Private Sub lblInventionBPCCostLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCostLbl.LinkClicked
-        Dim newSettingsForm As New frmPrismSettings
-        newSettingsForm.Tag = "nodeCosts"
-        newSettingsForm.ShowDialog()
-        Call UpdateBlueprintInformation()
-        Call CalculateInvention()
-        newSettingsForm.Dispose()
+        Using newSettingsForm As New frmPrismSettings
+            newSettingsForm.Tag = "nodeCosts"
+            newSettingsForm.ShowDialog()
+            Call UpdateBlueprintInformation()
+            Call CalculateInvention()
+        End Using
     End Sub
 
     Private Sub lblInventionBPCCost_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCost.LinkClicked
-        Dim priceForm As New frmAddBPCPrice(CurrentBP.Id)
-        priceForm.ShowDialog()
-        Call UpdateBlueprintInformation()
-        Call CalculateInvention()
-        priceForm.Dispose()
+        Using priceForm As New frmAddBPCPrice(CurrentBP.Id)
+            priceForm.ShowDialog()
+            Call UpdateBlueprintInformation()
+            Call CalculateInvention()
+        End Using
     End Sub
 
     Private Sub nudInventionSkill1_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudInventionSkill1.ButtonCustomClick

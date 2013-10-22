@@ -99,14 +99,14 @@ Namespace Forms
             Dim shipInfo As SortedList
             ' Create a sortedlist of holding results
             If cboPilots.SelectedItem IsNot Nothing And cboProfiles.SelectedItem IsNot Nothing Then
-                Dim compareWorker As New frmShipComparisonWorker
+                Using compareWorker As New FrmShipComparisonWorker
 
-                compareWorker.Pilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
-                compareWorker.Profile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
-                compareWorker.ShipList = ShipList
-                compareWorker.ShowDialog()
-                shipInfo = compareWorker.ShipInfo
-                compareWorker.Dispose()
+                    compareWorker.Pilot = FittingPilots.HQFPilots(cboPilots.SelectedItem.ToString)
+                    compareWorker.Profile = HQFDamageProfiles.ProfileList(cboProfiles.SelectedItem.ToString)
+                    compareWorker.ShipList = ShipList
+                    compareWorker.ShowDialog()
+                    shipInfo = compareWorker.ShipInfo
+                End Using
 
                 ' Add the details to the listview
                 adtShips.BeginUpdate()
@@ -117,7 +117,7 @@ Namespace Forms
                     newShipNode.Tag = newShip.Modules
                     adtShips.Nodes.Add(newShipNode)
                     STT.SetSuperTooltip(newShipNode, New SuperTooltipInfo("Fitting Info", newShip.Fitting, newShip.Modules, Nothing, Nothing, eTooltipColor.Yellow))
-                    newShipNode.Cells.Add(New Cell(newShip.EHP.ToString("N0")))
+                    newShipNode.Cells.Add(New Cell(newShip.Ehp.ToString("N0")))
                     newShipNode.Cells.Add(New Cell(newShip.Tank.ToString("N0")))
                     If newShip.Capacitor > 0 Then
                         newShipNode.Cells.Add(New Cell("Stable at " & newShip.Capacitor.ToString("N0") & "%"))

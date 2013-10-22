@@ -351,17 +351,18 @@ Namespace Forms
 #Region "Bonus Modification Routines"
 
         Private Sub btnAddBonus_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddBonus.Click
-            Dim newBonus As New FrmShipEditorBonus(CInt(_customShip.ID), Nothing)
-            newBonus.ShowDialog()
-            ' Check the result from the bonus form
-            If newBonus.DialogResult = DialogResult.OK Then
-                ' Add the new bonus
-                _customShip.Bonuses.Add(newBonus.NewShipEffect)
-                ' Update the list of bonuses
-                Call UpdateBonusList()
-                ' Update the description in case we have auto-bonus description enabled
-                Call UpdateDescription()
-            End If
+            Using newBonus As New FrmShipEditorBonus(CInt(_customShip.ID), Nothing)
+                newBonus.ShowDialog()
+                ' Check the result from the bonus form
+                If newBonus.DialogResult = DialogResult.OK Then
+                    ' Add the new bonus
+                    _customShip.Bonuses.Add(newBonus.NewShipEffect)
+                    ' Update the list of bonuses
+                    Call UpdateBonusList()
+                    ' Update the description in case we have auto-bonus description enabled
+                    Call UpdateDescription()
+                End If
+            End Using
         End Sub
 
         Private Sub btnClearBonuses_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClearBonuses.Click
@@ -413,22 +414,23 @@ Namespace Forms
             ' Store the old effect in case we need to revert
             Dim oldEffect As ShipEffect = selEffect.Clone
             ' Create a new form instance
-            Dim newBonus As New FrmShipEditorBonus(CInt(_customShip.ID), selEffect)
-            newBonus.ShowDialog()
-            ' Check the result from the bonus form
-            If newBonus.DialogResult = DialogResult.OK Then
-                ' Update the list of bonuses
-                Call UpdateBonusList()
-                ' Update the description in case we have auto-bonus description enabled
-                Call UpdateDescription()
-            Else
-                ' If cancelled, restore the old effect (as the form will change something)
-                _customShip.Bonuses(idx) = oldEffect
-                ' Update the list of bonuses
-                Call UpdateBonusList()
-                ' Update the description in case we have auto-bonus description enabled
-                Call UpdateDescription()
-            End If
+            Using newBonus As New FrmShipEditorBonus(CInt(_customShip.ID), selEffect)
+                newBonus.ShowDialog()
+                ' Check the result from the bonus form
+                If newBonus.DialogResult = DialogResult.OK Then
+                    ' Update the list of bonuses
+                    Call UpdateBonusList()
+                    ' Update the description in case we have auto-bonus description enabled
+                    Call UpdateDescription()
+                Else
+                    ' If cancelled, restore the old effect (as the form will change something)
+                    _customShip.Bonuses(idx) = oldEffect
+                    ' Update the list of bonuses
+                    Call UpdateBonusList()
+                    ' Update the description in case we have auto-bonus description enabled
+                    Call UpdateDescription()
+                End If
+            End Using
         End Sub
 
         Private Sub tvwBonuses_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles tvwBonuses.NodeDoubleClick

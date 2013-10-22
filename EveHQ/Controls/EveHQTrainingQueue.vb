@@ -770,25 +770,26 @@ Namespace Controls
                 For Each selItem As ListViewItem In adtQueue.SelectedNodes
                     keys.Add(selItem.Name)
                 Next
-                Dim noteForm As New FrmSkillNote
-                If keys.Count > 1 Then
-                    noteForm.lblDescription.Text = "Editing description for multiple queue entries..."
-                    noteForm.Text = "Skill Note - Multiple Skills"
-                Else
-                    Dim curToLevel As String = CStr(keys(0)).Substring(CStr(keys(0)).Length - 1, 1)
-                    Dim curSkillName As String = CStr(keys(0)).Substring(0, CStr(keys(0)).Length - 2)
-                    noteForm.lblDescription.Text = "Editing description for " & curSkillName & " (Lvl " & curToLevel & ")"
-                    noteForm.Text = "Skill Note - " & curSkillName & " (Lvl " & curToLevel & ")"
-                End If
-                noteForm.txtNotes.Text = _queue.Queue(keys(0)).Notes
-                noteForm.txtNotes.SelectAll()
-                noteForm.ShowDialog()
-                If noteForm.DialogResult = DialogResult.OK Then
-                    For Each key As String In keys
-                        _queue.Queue(key).Notes = noteForm.txtNotes.Text
-                    Next
-                    Call DrawQueue()
-                End If
+                Using noteForm As New FrmSkillNote
+                    If keys.Count > 1 Then
+                        noteForm.lblDescription.Text = "Editing description for multiple queue entries..."
+                        noteForm.Text = "Skill Note - Multiple Skills"
+                    Else
+                        Dim curToLevel As String = CStr(keys(0)).Substring(CStr(keys(0)).Length - 1, 1)
+                        Dim curSkillName As String = CStr(keys(0)).Substring(0, CStr(keys(0)).Length - 2)
+                        noteForm.lblDescription.Text = "Editing description for " & curSkillName & " (Lvl " & curToLevel & ")"
+                        noteForm.Text = "Skill Note - " & curSkillName & " (Lvl " & curToLevel & ")"
+                    End If
+                    noteForm.txtNotes.Text = _queue.Queue(keys(0)).Notes
+                    noteForm.txtNotes.SelectAll()
+                    noteForm.ShowDialog()
+                    If noteForm.DialogResult = DialogResult.OK Then
+                        For Each key As String In keys
+                            _queue.Queue(key).Notes = noteForm.txtNotes.Text
+                        Next
+                        Call DrawQueue()
+                    End If
+                End Using
             End If
         End Sub
 
@@ -904,15 +905,16 @@ Namespace Controls
                         Dim splitSkillQueueItem As Core.EveHQSkillQueueItem = CType(_queue.Queue(keyName).Clone, Core.EveHQSkillQueueItem)
                         selQueue.Queue.Add(keyName, splitSkillQueueItem)
                     Next
-                    Dim myQueue As New Core.FrmModifyQueues
-                    With myQueue
-                        ' Load the account details into the text boxes
-                        .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Queue
-                        .btnAccept.Text = "Split" : .Tag = "Split"
-                        .Text = "Split '" & _queue.Name & "' Queue Details"
-                        .DisplayPilotName = _queuePilot.Name
-                        .ShowDialog()
-                    End With
+                    Using myQueue As New Core.FrmModifyQueues
+                        With myQueue
+                            ' Load the account details into the text boxes
+                            .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Queue
+                            .btnAccept.Text = "Split" : .Tag = "Split"
+                            .Text = "Split '" & _queue.Name & "' Queue Details"
+                            .DisplayPilotName = _queuePilot.Name
+                            .ShowDialog()
+                        End With
+                    End Using
                 End If
             End If
 

@@ -105,10 +105,10 @@ Namespace Forms
                     If MessageBox.Show(msg, "Backup Location Required", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.No Then
                         Exit Sub
                     Else
-                        Dim eveHQSettings As New FrmSettings
-                        eveHQSettings.Tag = "nodeEveFolders"
-                        eveHQSettings.ShowDialog()
-                        eveHQSettings.Dispose()
+                        Using eveHQSettings As New FrmSettings
+                            eveHQSettings.Tag = "nodeEveFolders"
+                            eveHQSettings.ShowDialog()
+                        End Using
                     End If
                 End If
             Loop Until noLocations = False

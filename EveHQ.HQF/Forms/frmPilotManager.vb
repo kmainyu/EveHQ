@@ -409,8 +409,9 @@ Namespace Forms
         End Sub
 
         Private Sub AddNeededSkillsToQueue()
-            Dim selQ As New FrmSelectQueue(_currentPilot.PilotName, _queueSkills, "HQF: Pilot Manager")
-            selQ.ShowDialog()
+            Using selQ As New FrmSelectQueue(_currentPilot.PilotName, _queueSkills, "HQF: Pilot Manager")
+                selQ.ShowDialog()
+            End Using
             SkillQueueFunctions.StartQueueRefresh = True
         End Sub
 
@@ -589,41 +590,41 @@ Namespace Forms
         End Sub
         Private Sub btnSaveGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSaveGroup.Click
             ' Clear the text boxes and show the dialog box
-            Dim myGroup As New frmModifyImplantGroups
-            With myGroup
-                .txtGroupName.Text = "" : .txtGroupName.Enabled = True
-                .btnAccept.Text = "Add" : .Tag = "Add"
-                .Text = "Add New Group"
-                .ShowDialog()
-            End With
+            Using myGroup As New FrmModifyImplantGroups
+                With myGroup
+                    .txtGroupName.Text = "" : .txtGroupName.Enabled = True
+                    .btnAccept.Text = "Add" : .Tag = "Add"
+                    .Text = "Add New Group"
+                    .ShowDialog()
+                End With
+        
+                ' Set the implant group name is successful
+                If myGroup.txtGroupName.Tag IsNot Nothing Then
+                    Dim implantGroupName As String = myGroup.txtGroupName.Tag.ToString
+                    Dim implantgroup As ImplantCollection = PluginSettings.HQFSettings.ImplantGroups.Item(implantGroupName)
+                    ' Add the implants to the implant group
+                    For Each impNode As TreeNode In tvwImplants.Nodes
+                        If impNode.Text <> "No Implant" And impNode.Text.StartsWith("Slot") = False Then
+                            implantgroup.ImplantName(impNode.Index + 1) = impNode.Text
+                        Else
+                            implantgroup.ImplantName(impNode.Index + 1) = ""
+                        End If
+                    Next
 
-            ' Set the implant group name is successful
-            If myGroup.txtGroupName.Tag IsNot Nothing Then
-                Dim implantGroupName As String = myGroup.txtGroupName.Tag.ToString
-                Dim implantgroup As ImplantCollection = PluginSettings.HQFSettings.ImplantGroups.Item(implantGroupName)
-                ' Add the implants to the implant group
-                For Each impNode As TreeNode In tvwImplants.Nodes
-                    If impNode.Text <> "No Implant" And impNode.Text.StartsWith("Slot") = False Then
-                        implantgroup.ImplantName(impNode.Index + 1) = impNode.Text
-                    Else
-                        implantgroup.ImplantName(impNode.Index + 1) = ""
-                    End If
-                Next
+                    ' Update the group list in the Implant Manager
+                    Call LoadImplantManagerGroups()
+                    Call ShowImplantManagerGroups()
 
-                ' Update the group list in the Implant Manager
-                Call LoadImplantManagerGroups()
-                Call ShowImplantManagerGroups()
+                    ' Update the group list
+                    Call LoadImplantGroups()
 
-                ' Update the group list
-                Call LoadImplantGroups()
+                    ' Set the correct group name
+                    cboImplantGroup.SelectedItem = implantGroupName
 
-                ' Set the correct group name
-                cboImplantGroup.SelectedItem = implantGroupName
+                End If
 
-            End If
-
-            ' Dispose of the form
-            myGroup.Dispose()
+                ' Dispose of the form
+            End Using
         End Sub
         Private Sub LoadImplantGroups()
             cboImplantGroup.BeginUpdate()
@@ -770,18 +771,19 @@ Namespace Forms
         End Sub
         Private Sub btnAddImplantGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddImplantGroup.Click
             ' Clear the text boxes
-            Dim myGroup As New frmModifyImplantGroups
-            With myGroup
-                .txtGroupName.Text = "" : .txtGroupName.Enabled = True
-                .btnAccept.Text = "Add" : .Tag = "Add"
-                .Text = "Add New Group"
-                .ShowDialog()
-            End With
-            Call ShowImplantManagerGroups()
-            ' Redraw implant groups in the implant selection combobox
-            Dim oldImplantGroup As String = cboImplantGroup.SelectedItem.ToString
-            Call LoadImplantGroups()
-            cboImplantGroup.SelectedItem = oldImplantGroup
+            Using myGroup As New FrmModifyImplantGroups
+                With myGroup
+                    .txtGroupName.Text = "" : .txtGroupName.Enabled = True
+                    .btnAccept.Text = "Add" : .Tag = "Add"
+                    .Text = "Add New Group"
+                    .ShowDialog()
+                End With
+                Call ShowImplantManagerGroups()
+                ' Redraw implant groups in the implant selection combobox
+                Dim oldImplantGroup As String = cboImplantGroup.SelectedItem.ToString
+                Call LoadImplantGroups()
+                cboImplantGroup.SelectedItem = oldImplantGroup
+            End Using
             HQFEvents.StartUpdateImplantComboBox = True
             ForceUpdate = True
         End Sub
@@ -792,26 +794,27 @@ Namespace Forms
                 MessageBox.Show("Please select a Group to edit!", "Cannot Edit Implant Group", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lstImplantGroups.Select()
             Else
-                Dim myGroup As New frmModifyImplantGroups
-                With myGroup
-                    ' Load the account details into the text boxes
-                    Dim selGroup As String = lstImplantGroups.SelectedItems(0).ToString
-                    .txtGroupName.Text = selGroup : .txtGroupName.Tag = selGroup
-                    .btnAccept.Text = "Edit" : .Tag = "Edit"
-                    .Text = "Edit '" & selGroup & "' Queue Details"
-                    .ShowDialog()
-                End With
-                Call ShowImplantManagerGroups()
-                ' Redraw implant groups in the implant selection combobox
-                Dim newImplantGroup As String = myGroup.txtGroupName.Tag.ToString
-                Call LoadImplantGroups()
-                If PluginSettings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
-                    cboImplantGroup.SelectedItem = oldImplantGroup
-                Else
-                    cboImplantGroup.SelectedItem = newImplantGroup
-                End If
-                lblCurrentGroup.Text = "Current Group: " & newImplantGroup
-                HQFEvents.StartUpdateImplantComboBox = True
+                Using myGroup As New FrmModifyImplantGroups
+                    With myGroup
+                        ' Load the account details into the text boxes
+                        Dim selGroup As String = lstImplantGroups.SelectedItems(0).ToString
+                        .txtGroupName.Text = selGroup : .txtGroupName.Tag = selGroup
+                        .btnAccept.Text = "Edit" : .Tag = "Edit"
+                        .Text = "Edit '" & selGroup & "' Queue Details"
+                        .ShowDialog()
+                    End With
+                    Call ShowImplantManagerGroups()
+                    ' Redraw implant groups in the implant selection combobox
+                    Dim newImplantGroup As String = myGroup.txtGroupName.Tag.ToString
+                    Call LoadImplantGroups()
+                    If PluginSettings.HQFSettings.ImplantGroups.ContainsKey(oldImplantGroup) = True Then
+                        cboImplantGroup.SelectedItem = oldImplantGroup
+                    Else
+                        cboImplantGroup.SelectedItem = newImplantGroup
+                    End If
+                    lblCurrentGroup.Text = "Current Group: " & newImplantGroup
+                    HQFEvents.StartUpdateImplantComboBox = True
+                End Using
             End If
         End Sub
         Private Sub btnRemoveImplantGroup_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRemoveImplantGroup.Click

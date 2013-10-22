@@ -2181,20 +2181,20 @@ Namespace Controls
 
         Private Sub AnalyseAmmo(ByVal sender As Object, ByVal e As EventArgs)
             ' Display the ammo types available by this module
-            Dim ammoAnalysis As New frmGunnery
-            ammoAnalysis.CurrentFit = ParentFitting
-            ammoAnalysis.CurrentPilot = FittingPilots.HQFPilots(_currentInfo.cboPilots.SelectedItem.ToString)
-            ammoAnalysis.CurrentSlot = adtSlots.SelectedNodes(0).Name
-            ammoAnalysis.ShowDialog()
-            ammoAnalysis.Dispose()
+            Using ammoAnalysis As New FrmGunnery
+                ammoAnalysis.CurrentFit = ParentFitting
+                ammoAnalysis.CurrentPilot = FittingPilots.HQFPilots(_currentInfo.cboPilots.SelectedItem.ToString)
+                ammoAnalysis.CurrentSlot = adtSlots.SelectedNodes(0).Name
+                ammoAnalysis.ShowDialog()
+            End Using
         End Sub
 
         Private Sub ConfigureSlotColumns(ByVal sender As Object, ByVal e As EventArgs)
             ' Open options form
-            Dim mySettings As New frmHQFSettings
-            mySettings.Tag = "nodeSlotFormat"
-            mySettings.ShowDialog()
-            mySettings.Dispose()
+            Using mySettings As New FrmHQFSettings
+                mySettings.Tag = "nodeSlotFormat"
+                mySettings.ShowDialog()
+            End Using
         End Sub
 
         Private Sub AddModuleToRequisitions(ByVal sender As Object, ByVal e As EventArgs)
@@ -2209,8 +2209,9 @@ Namespace Controls
                 End If
             Next
             ' Setup the Requisition form for HQF and open it
-            Dim newReq As New FrmAddRequisition("HQF", orders)
-            newReq.ShowDialog()
+            Using newReq As New FrmAddRequisition("HQF", orders)
+                newReq.ShowDialog()
+            End Using
         End Sub
 
         Private Sub ShowModuleMarketGroup(ByVal sender As Object, ByVal e As EventArgs)
@@ -2237,9 +2238,10 @@ Namespace Controls
             Else
                 cModule = ModuleLists.ModuleList.Item(moduleID)
             End If
-            Dim newComparison As New frmMetaVariations(ParentFitting, cModule)
-            newComparison.Size = PluginSettings.HQFSettings.MetaVariationsFormSize
-            newComparison.ShowDialog()
+            Using newComparison As New FrmMetaVariations(ParentFitting, cModule)
+                newComparison.Size = PluginSettings.HQFSettings.MetaVariationsFormSize
+                newComparison.ShowDialog()
+            End Using
         End Sub
 
         Private Sub AddModuleToFavourites(ByVal sender As Object, ByVal e As EventArgs)
@@ -2958,16 +2960,16 @@ Namespace Controls
                     Dim selItem As ListViewItem = lvwCargoBay.SelectedItems(0)
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim cbi As CargoBayItem = ParentFitting.BaseShip.CargoBayItems.Item(idx)
-                    Dim newSelectForm As New frmSelectQuantity
-                    newSelectForm.fittedShip = ParentFitting.FittedShip
-                    newSelectForm.CBI = cbi
-                    newSelectForm.BayType = frmSelectQuantity.BayTypes.CargoBay
-                    newSelectForm.IsSplit = False
-                    newSelectForm.nudQuantity.Minimum = 1
-                    newSelectForm.nudQuantity.Maximum = cbi.Quantity + CInt(Int((ParentFitting.FittedShip.CargoBay - ParentFitting.BaseShip.CargoBayUsed) / cbi.ItemType.Volume))
-                    newSelectForm.nudQuantity.Value = cbi.Quantity
-                    newSelectForm.ShowDialog()
-                    newSelectForm.Dispose()
+                    Using newSelectForm As New FrmSelectQuantity
+                        newSelectForm.fittedShip = ParentFitting.FittedShip
+                        newSelectForm.CBI = cbi
+                        newSelectForm.BayType = FrmSelectQuantity.BayTypes.CargoBay
+                        newSelectForm.IsSplit = False
+                        newSelectForm.nudQuantity.Minimum = 1
+                        newSelectForm.nudQuantity.Maximum = cbi.Quantity + CInt(Int((ParentFitting.FittedShip.CargoBay - ParentFitting.BaseShip.CargoBayUsed) / cbi.ItemType.Volume))
+                        newSelectForm.nudQuantity.Value = cbi.Quantity
+                        newSelectForm.ShowDialog()
+                    End Using
                     ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
                     Call ParentFitting.UpdateFittingFromBaseShip()
                     Call RedrawCargoBay()
@@ -2975,37 +2977,37 @@ Namespace Controls
                     Dim selItem As ListViewItem = lvwShipBay.SelectedItems(0)
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim sbi As ShipBayItem = ParentFitting.BaseShip.ShipBayItems.Item(idx)
-                    Dim newSelectForm As New frmSelectQuantity
-                    newSelectForm.fittedShip = ParentFitting.FittedShip
-                    newSelectForm.SBI = sbi
-                    newSelectForm.BayType = frmSelectQuantity.BayTypes.ShipBay
-                    newSelectForm.IsSplit = False
-                    newSelectForm.nudQuantity.Minimum = 1
-                    newSelectForm.nudQuantity.Maximum = sbi.Quantity + CInt(Int((ParentFitting.FittedShip.ShipBay - ParentFitting.BaseShip.ShipBayUsed) / sbi.ShipType.Volume))
-                    newSelectForm.nudQuantity.Value = sbi.Quantity
-                    newSelectForm.ShowDialog()
-                    newSelectForm.Dispose()
+                    Using newSelectForm As New FrmSelectQuantity
+                        newSelectForm.FittedShip = ParentFitting.FittedShip
+                        newSelectForm.Sbi = sbi
+                        newSelectForm.BayType = FrmSelectQuantity.BayTypes.ShipBay
+                        newSelectForm.IsSplit = False
+                        newSelectForm.nudQuantity.Minimum = 1
+                        newSelectForm.nudQuantity.Maximum = sbi.Quantity + CInt(Int((ParentFitting.FittedShip.ShipBay - ParentFitting.BaseShip.ShipBayUsed) / sbi.ShipType.Volume))
+                        newSelectForm.nudQuantity.Value = sbi.Quantity
+                        newSelectForm.ShowDialog()
+                    End Using
                     Call ParentFitting.UpdateFittingFromBaseShip()
                     Call RedrawShipBay()
                 Case "lvwDroneBay"
                     Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim dbi As DroneBayItem = ParentFitting.BaseShip.DroneBayItems.Item(idx)
-                    Dim newSelectForm As New frmSelectQuantity
-                    newSelectForm.fittedShip = ParentFitting.FittedShip
-                    newSelectForm.DBI = dbi
-                    newSelectForm.BayType = frmSelectQuantity.BayTypes.DroneBay
-                    newSelectForm.IsSplit = False
-                    newSelectForm.nudQuantity.Minimum = 1
-                    newSelectForm.nudQuantity.Maximum = dbi.Quantity + CInt(Int((ParentFitting.FittedShip.DroneBay - ParentFitting.BaseShip.DroneBayUsed) / dbi.DroneType.Volume))
-                    newSelectForm.nudQuantity.Value = dbi.Quantity
-                    newSelectForm.ShowDialog()
-                    ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
-                    Call ParentFitting.UpdateFittingFromBaseShip()
-                    _updateDrones = True
-                    Call RedrawDroneBay()
-                    _updateDrones = False
-                    newSelectForm.Dispose()
+                    Using newSelectForm As New FrmSelectQuantity
+                        newSelectForm.FittedShip = ParentFitting.FittedShip
+                        newSelectForm.Dbi = dbi
+                        newSelectForm.BayType = FrmSelectQuantity.BayTypes.DroneBay
+                        newSelectForm.IsSplit = False
+                        newSelectForm.nudQuantity.Minimum = 1
+                        newSelectForm.nudQuantity.Maximum = dbi.Quantity + CInt(Int((ParentFitting.FittedShip.DroneBay - ParentFitting.BaseShip.DroneBayUsed) / dbi.DroneType.Volume))
+                        newSelectForm.nudQuantity.Value = dbi.Quantity
+                        newSelectForm.ShowDialog()
+                        ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
+                        Call ParentFitting.UpdateFittingFromBaseShip()
+                        _updateDrones = True
+                        Call RedrawDroneBay()
+                        _updateDrones = False
+                    End Using
             End Select
         End Sub
 
@@ -3015,56 +3017,56 @@ Namespace Controls
                     Dim selItem As ListViewItem = lvwCargoBay.SelectedItems(0)
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim cbi As CargoBayItem = ParentFitting.BaseShip.CargoBayItems.Item(idx)
-                    Dim newSelectForm As New frmSelectQuantity
-                    newSelectForm.fittedShip = ParentFitting.FittedShip
-                    newSelectForm.currentShip = ParentFitting.BaseShip
-                    newSelectForm.CBI = cbi
-                    newSelectForm.BayType = frmSelectQuantity.BayTypes.CargoBay
-                    newSelectForm.IsSplit = True
-                    newSelectForm.nudQuantity.Value = 1
-                    newSelectForm.nudQuantity.Minimum = 1
-                    newSelectForm.nudQuantity.Maximum = cbi.Quantity - 1
-                    newSelectForm.ShowDialog()
-                    newSelectForm.Dispose()
+                    Using newSelectForm As New FrmSelectQuantity
+                        newSelectForm.fittedShip = ParentFitting.FittedShip
+                        newSelectForm.currentShip = ParentFitting.BaseShip
+                        newSelectForm.CBI = cbi
+                        newSelectForm.BayType = FrmSelectQuantity.BayTypes.CargoBay
+                        newSelectForm.IsSplit = True
+                        newSelectForm.nudQuantity.Value = 1
+                        newSelectForm.nudQuantity.Minimum = 1
+                        newSelectForm.nudQuantity.Maximum = cbi.Quantity - 1
+                        newSelectForm.ShowDialog()
+                    End Using
                     Call ParentFitting.UpdateFittingFromBaseShip()
                     Call RedrawCargoBay()
                 Case "lvwShipBay"
                     Dim selItem As ListViewItem = lvwShipBay.SelectedItems(0)
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim sbi As ShipBayItem = ParentFitting.BaseShip.ShipBayItems.Item(idx)
-                    Dim newSelectForm As New frmSelectQuantity
-                    newSelectForm.fittedShip = ParentFitting.FittedShip
-                    newSelectForm.currentShip = ParentFitting.BaseShip
-                    newSelectForm.SBI = sbi
-                    newSelectForm.BayType = frmSelectQuantity.BayTypes.ShipBay
-                    newSelectForm.IsSplit = True
-                    newSelectForm.nudQuantity.Value = 1
-                    newSelectForm.nudQuantity.Minimum = 1
-                    newSelectForm.nudQuantity.Maximum = sbi.Quantity - 1
-                    newSelectForm.ShowDialog()
-                    newSelectForm.Dispose()
+                    Using newSelectForm As New FrmSelectQuantity
+                        newSelectForm.FittedShip = ParentFitting.FittedShip
+                        newSelectForm.CurrentShip = ParentFitting.BaseShip
+                        newSelectForm.Sbi = sbi
+                        newSelectForm.BayType = FrmSelectQuantity.BayTypes.ShipBay
+                        newSelectForm.IsSplit = True
+                        newSelectForm.nudQuantity.Value = 1
+                        newSelectForm.nudQuantity.Minimum = 1
+                        newSelectForm.nudQuantity.Maximum = sbi.Quantity - 1
+                        newSelectForm.ShowDialog()
+                    End Using
                     Call ParentFitting.UpdateFittingFromBaseShip()
                     Call RedrawShipBay()
                 Case "lvwDroneBay"
                     Dim selItem As ListViewItem = lvwDroneBay.SelectedItems(0)
                     Dim idx As Integer = CInt(selItem.Name)
                     Dim dbi As DroneBayItem = ParentFitting.BaseShip.DroneBayItems.Item(idx)
-                    Dim newSelectForm As New frmSelectQuantity
-                    newSelectForm.fittedShip = ParentFitting.FittedShip
-                    newSelectForm.currentShip = ParentFitting.BaseShip
-                    newSelectForm.DBI = dbi
-                    newSelectForm.BayType = frmSelectQuantity.BayTypes.DroneBay
-                    newSelectForm.IsSplit = True
-                    newSelectForm.nudQuantity.Value = 1
-                    newSelectForm.nudQuantity.Minimum = 1
-                    newSelectForm.nudQuantity.Maximum = dbi.Quantity - 1
-                    newSelectForm.ShowDialog()
-                    ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
-                    Call ParentFitting.UpdateFittingFromBaseShip()
-                    _updateDrones = True
-                    Call RedrawDroneBay()
-                    _updateDrones = False
-                    newSelectForm.Dispose()
+                    Using newSelectForm As New FrmSelectQuantity
+                        newSelectForm.FittedShip = ParentFitting.FittedShip
+                        newSelectForm.CurrentShip = ParentFitting.BaseShip
+                        newSelectForm.Dbi = dbi
+                        newSelectForm.BayType = FrmSelectQuantity.BayTypes.DroneBay
+                        newSelectForm.IsSplit = True
+                        newSelectForm.nudQuantity.Value = 1
+                        newSelectForm.nudQuantity.Minimum = 1
+                        newSelectForm.nudQuantity.Maximum = dbi.Quantity - 1
+                        newSelectForm.ShowDialog()
+                        ParentFitting.ApplyFitting(BuildType.BuildFromEffectsMaps)
+                        Call ParentFitting.UpdateFittingFromBaseShip()
+                        _updateDrones = True
+                        Call RedrawDroneBay()
+                        _updateDrones = False
+                    End Using
             End Select
         End Sub
 

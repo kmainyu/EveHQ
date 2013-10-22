@@ -191,8 +191,9 @@ Public Class Ticker
 
     Private Sub LaunchItemBrowser(ByVal itemID As Integer)
 
-        Dim myIB As New FrmIB(itemID)
-        myIB.ShowDialog()
+        Using myIB As New FrmIB(itemID)
+            myIB.ShowDialog()
+        End Using
 
     End Sub
 

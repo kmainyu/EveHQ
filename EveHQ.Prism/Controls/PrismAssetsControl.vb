@@ -1773,13 +1773,15 @@ Namespace Controls
         Private Sub mnuViewInIB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewInIB.Click
 
             Dim typeID As Integer = CInt(mnuItemName.Tag)
-            Dim myIB As New FrmIB(typeID)
-            myIB.ShowDialog()
-            
+            Using myIB As New FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
+
         End Sub
         Private Sub mnuModifyPrice_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuModifyPrice.Click
-            Dim newPrice As New FrmModifyPrice(CInt(mnuItemName.Tag), 0)
-            newPrice.ShowDialog()
+            Using newPrice As New FrmModifyPrice(CInt(mnuItemName.Tag), 0)
+                newPrice.ShowDialog()
+            End Using
         End Sub
         Private Sub mnuViewInHQF_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewInHQF.Click
             If adtAssets.SelectedNodes.Count > 0 Then
@@ -2020,21 +2022,21 @@ Namespace Controls
         Private Sub mnuAddCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCustomName.Click
             Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
             Dim assetName As String = mnuItemName.Text
-            Dim newCustomName As New frmAssetItemName
-            If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
-                newCustomName.Text = "Edit Custom Asset Name"
-                newCustomName.EditMode = True
-            Else
-                newCustomName.Text = "Add Custom Asset Name"
-                newCustomName.EditMode = False
-            End If
-            newCustomName.AssetID = assetID
-            newCustomName.AssetName = assetName
-            newCustomName.ShowDialog()
-            If newCustomName.AssetItemName <> "" Then
-                adtAssets.SelectedNodes(0).Text = newCustomName.AssetItemName
-            End If
-            newCustomName.Dispose()
+            Using newCustomName As New frmAssetItemName
+                If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
+                    newCustomName.Text = "Edit Custom Asset Name"
+                    newCustomName.EditMode = True
+                Else
+                    newCustomName.Text = "Add Custom Asset Name"
+                    newCustomName.EditMode = False
+                End If
+                newCustomName.AssetID = assetID
+                newCustomName.AssetName = assetName
+                newCustomName.ShowDialog()
+                If newCustomName.AssetItemName <> "" Then
+                    adtAssets.SelectedNodes(0).Text = newCustomName.AssetItemName
+                End If
+            End Using
         End Sub
         Private Sub mnuRemoveCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRemoveCustomName.Click
             Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
@@ -2557,11 +2559,11 @@ Namespace Controls
 
         Private Sub mnuConfigureColumns_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuConfigureColumns.Click
             ' Open options form
-            Dim mySettings As New frmPrismSettings
-            mySettings.Tag = "nodeAssetColumns"
-            mySettings.ShowDialog()
-            mySettings = Nothing
-            Call Me.RefreshAssets()
+            Using mySettings As New frmPrismSettings
+                mySettings.Tag = "nodeAssetColumns"
+                mySettings.ShowDialog()
+            End Using
+            Call RefreshAssets()
         End Sub
 
         Private Sub mnuViewAssetID_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewAssetID.Click

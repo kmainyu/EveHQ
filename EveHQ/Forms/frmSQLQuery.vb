@@ -105,19 +105,19 @@ Namespace Forms
             ' Check is this is a current query
             If _currentQuery = "" Then
                 ' We need a name so create a text name box
-                Dim textForm As New FrmModifyText
-                textForm.Text = "Enter SQL Query Name"
-                textForm.lblDescription.Text = "Please enter a name for this SQL query"
-                textForm.ShowDialog()
-                If textForm.DialogResult = DialogResult.OK Then
-                    HQ.Settings.SQLQueries.Add(textForm.TextData, txtQuery.Text)
-                    Call UpdateQueries()
-                    Call UpdateQuery(textForm.TextData)
-                    QueryAmended = False
-                Else
-                    MessageBox.Show("The saving of the SQL query has been cancelled.", "SQL Query Tool", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-                textForm.Dispose()
+                Using textForm As New FrmModifyText
+                    textForm.Text = "Enter SQL Query Name"
+                    textForm.lblDescription.Text = "Please enter a name for this SQL query"
+                    textForm.ShowDialog()
+                    If textForm.DialogResult = DialogResult.OK Then
+                        HQ.Settings.SQLQueries.Add(textForm.TextData, txtQuery.Text)
+                        Call UpdateQueries()
+                        Call UpdateQuery(textForm.TextData)
+                        QueryAmended = False
+                    Else
+                        MessageBox.Show("The saving of the SQL query has been cancelled.", "SQL Query Tool", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    End If
+                End Using
             Else
                 ' Save the query into the list
                 HQ.Settings.SQLQueries(_currentQuery) = txtQuery.Text
@@ -127,23 +127,23 @@ Namespace Forms
 
         Private Sub RenameQuery(ByVal oldQuery As String)
             ' We need a name so create a text name box
-            Dim textForm As New FrmModifyText
-            textForm.Text = "Rename SQL Query"
-            textForm.lblDescription.Text = "Please enter a new name for this SQL query"
-            textForm.txtText.Text = oldQuery
-            textForm.ShowDialog()
-            If textForm.DialogResult = DialogResult.OK Then
-                ' Remove the old data
-                Dim sql As String = HQ.Settings.SQLQueries(oldQuery)
-                HQ.Settings.SQLQueries.Remove(oldQuery)
-                HQ.Settings.SQLQueries.Add(textForm.TextData, sql)
-                Call UpdateQueries()
-                Call UpdateQuery(textForm.TextData)
-                QueryAmended = False
-            Else
-                MessageBox.Show("The saving of the SQL query has been cancelled.", "SQL Query Tool", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
-            textForm.Dispose()
+            Using textForm As New FrmModifyText
+                textForm.Text = "Rename SQL Query"
+                textForm.lblDescription.Text = "Please enter a new name for this SQL query"
+                textForm.txtText.Text = oldQuery
+                textForm.ShowDialog()
+                If textForm.DialogResult = DialogResult.OK Then
+                    ' Remove the old data
+                    Dim sql As String = HQ.Settings.SQLQueries(oldQuery)
+                    HQ.Settings.SQLQueries.Remove(oldQuery)
+                    HQ.Settings.SQLQueries.Add(textForm.TextData, sql)
+                    Call UpdateQueries()
+                    Call UpdateQuery(textForm.TextData)
+                    QueryAmended = False
+                Else
+                    MessageBox.Show("The saving of the SQL query has been cancelled.", "SQL Query Tool", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                End If
+            End Using
         End Sub
 
         Private Sub ResetCurrentQuery()

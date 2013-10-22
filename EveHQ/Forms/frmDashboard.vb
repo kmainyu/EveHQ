@@ -313,10 +313,10 @@ Namespace Forms
 #End Region
 
         Private Sub mnuConfigureDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuConfigureDB.Click
-            Dim eveHQSettings As New FrmSettings
-            eveHQSettings.Tag = "nodeDashboard"
-            eveHQSettings.ShowDialog()
-            eveHQSettings.Dispose()
+            Using eveHQSettings As New FrmSettings
+                eveHQSettings.Tag = "nodeDashboard"
+                eveHQSettings.ShowDialog()
+            End Using
         End Sub
 
         Private Sub mnuRefreshDB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuRefreshDB.Click

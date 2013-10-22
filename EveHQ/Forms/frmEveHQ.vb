@@ -142,9 +142,9 @@ Namespace Forms
         End Sub
 
         Private Sub ctxAbout_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ctxAbout.Click
-            If FrmAbout.Visible = False Then
-                FrmAbout.ShowDialog()
-            End If
+            Using aboutForm As New FrmAbout
+                aboutForm.ShowDialog()
+            End Using
         End Sub
 
         Private Sub RestoreWindowToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
@@ -469,18 +469,19 @@ Namespace Forms
                     HQ.EveHQServerMessage.MessageDate > HQ.Settings.LastMessageDate Or
                     (HQ.EveHQServerMessage.MessageDate = HQ.Settings.LastMessageDate And
                      HQ.Settings.IgnoreLastMessage = False) Then
-                    Dim newMsg As New FrmEveHQMessage
-                    newMsg.lblMessage.Text = HQ.EveHQServerMessage.Message
-                    newMsg.lblTitle.Text = HQ.EveHQServerMessage.MessageTitle
-                    HQ.Settings.LastMessageDate = HQ.EveHQServerMessage.MessageDate
-                    If HQ.EveHQServerMessage.AllowIgnore = False Then
-                        newMsg.chkIgnore.Checked = False
-                        newMsg.chkIgnore.Enabled = False
-                    Else
-                        newMsg.chkIgnore.Checked = False
-                        newMsg.chkIgnore.Enabled = True
-                    End If
-                    newMsg.ShowDialog()
+                    Using newMsg As New FrmEveHQMessage
+                        newMsg.lblMessage.Text = HQ.EveHQServerMessage.Message
+                        newMsg.lblTitle.Text = HQ.EveHQServerMessage.MessageTitle
+                        HQ.Settings.LastMessageDate = HQ.EveHQServerMessage.MessageDate
+                        If HQ.EveHQServerMessage.AllowIgnore = False Then
+                            newMsg.chkIgnore.Checked = False
+                            newMsg.chkIgnore.Enabled = False
+                        Else
+                            newMsg.chkIgnore.Checked = False
+                            newMsg.chkIgnore.Enabled = True
+                        End If
+                        newMsg.ShowDialog()
+                    End Using
                 End If
             End If
 
@@ -496,10 +497,10 @@ Namespace Forms
                         "You can add API accounts using the 'Manage API Account' button on the ribbon bar or by going into Settings and choosing the Eve Accounts section."
                     MessageBox.Show(wMsg, "API Account Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
-                    Dim eveHQSettings As New FrmSettings
-                    eveHQSettings.Tag = "nodeEveAccounts"
-                    eveHQSettings.ShowDialog()
-                    eveHQSettings.Dispose()
+                    Using eveHQSettings As New FrmSettings
+                        eveHQSettings.Tag = "nodeEveAccounts"
+                        eveHQSettings.ShowDialog()
+                    End Using
                 End If
             End If
 
@@ -2031,9 +2032,9 @@ Namespace Forms
 
         Private Sub lblAPIStatus_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles lblAPIStatus.DoubleClick
             If HQ.APIResults.Count > 0 Then
-                Dim apiStatus As New EveAPIStatusForm
-                apiStatus.ShowDialog()
-                apiStatus.Dispose()
+                Using apiStatus As New EveAPIStatusForm
+                    apiStatus.ShowDialog()
+                End Using
             End If
         End Sub
 
@@ -2088,13 +2089,14 @@ Namespace Forms
         End Sub
 
         Private Sub ShowUpdateForm(installerUrl As String)
-            Dim myUpdater As New NewUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), HQ.RemoteProxy.ProxyServer,
+            Using myUpdater As New NewUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), HQ.RemoteProxy.ProxyServer,
                                             HQ.RemoteProxy.
                                                UseDefaultCredentials,
                                             HQ.RemoteProxy.ProxyUsername,
                                             HQ.RemoteProxy.ProxyPassword,
                                             HQ.RemoteProxy.UseBasicAuthentication)
-            myUpdater.ShowDialog()
+                myUpdater.ShowDialog()
+            End Using
         End Sub
 
         Private Shared Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
@@ -2357,35 +2359,36 @@ Namespace Forms
 
         Public Shared Sub CatchGeneralException(ByRef e As Exception)
 
-            Diagnostics.Trace.TraceError(e.FormatException())
+            Trace.TraceError(e.FormatException())
 
-            Dim myException As New FrmException
-            myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
-            myException.lblError.Text = e.Message
-            Dim trace As New StringBuilder
-            trace.AppendLine(e.FormatException)
-            trace.AppendLine("")
-            trace.AppendLine("========== Plug-ins ==========")
-            trace.AppendLine("")
-            For Each myPlugIn As EveHQPlugIn In HQ.Plugins.Values
-                If myPlugIn.ShortFileName IsNot Nothing Then
-                    trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+            Using myException As New FrmException
+                myException.lblVersion.Text = "Version: " & My.Application.Info.Version.ToString
+                myException.lblError.Text = e.Message
+                Dim trace As New StringBuilder
+                trace.AppendLine(e.FormatException)
+                trace.AppendLine("")
+                trace.AppendLine("========== Plug-ins ==========")
+                trace.AppendLine("")
+                For Each myPlugIn As EveHQPlugIn In HQ.Plugins.Values
+                    If myPlugIn.ShortFileName IsNot Nothing Then
+                        trace.AppendLine(myPlugIn.ShortFileName & " (" & myPlugIn.Version & ")")
+                    End If
+                Next
+                trace.AppendLine("")
+                trace.AppendLine("")
+                trace.AppendLine("========= System Info =========")
+                trace.AppendLine("")
+                trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
+                trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
+                trace.AppendLine("EveHQ Location: " & HQ.AppFolder)
+                trace.AppendLine("EveHQ Cache Locations: " & HQ.AppDataFolder)
+                myException.txtStackTrace.Text = trace.ToString
+                Dim result As Integer = myException.ShowDialog()
+                If result = DialogResult.Ignore Then
+                Else
+                    Call FrmEveHQ.ShutdownRoutine()
                 End If
-            Next
-            trace.AppendLine("")
-            trace.AppendLine("")
-            trace.AppendLine("========= System Info =========")
-            trace.AppendLine("")
-            trace.AppendLine("Operating System: " & Environment.OSVersion.ToString)
-            trace.AppendLine(".Net Framework Version: " & Environment.Version.ToString)
-            trace.AppendLine("EveHQ Location: " & HQ.appFolder)
-            trace.AppendLine("EveHQ Cache Locations: " & HQ.AppDataFolder)
-            myException.txtStackTrace.Text = trace.ToString
-            Dim result As Integer = myException.ShowDialog()
-            If result = DialogResult.Ignore Then
-            Else
-                Call frmEveHQ.ShutdownRoutine()
-            End If
+            End Using
         End Sub
 
 #Region "Ribbon Button Routines"
@@ -2395,10 +2398,10 @@ Namespace Forms
         End Sub
 
         Private Sub btnManageAPI_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnManageAPI.Click
-            Dim eveHQSettings As New FrmSettings
-            eveHQSettings.Tag = "nodeEveAccounts"
-            eveHQSettings.ShowDialog()
-            eveHQSettings.Dispose()
+            Using eveHQSettings As New FrmSettings
+                eveHQSettings.Tag = "nodeEveAccounts"
+                eveHQSettings.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnQueryAPI_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnQueryAPI.Click
@@ -2675,9 +2678,9 @@ Namespace Forms
         End Sub
 
         Private Sub btnAbout_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAbout.Click
-            Dim aboutForm As New FrmAbout
-            aboutForm.ShowDialog()
-            aboutForm.Dispose()
+            Using aboutForm As New FrmAbout
+                aboutForm.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnSQLQueryTool_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSQLQueryTool.Click
@@ -3507,9 +3510,9 @@ Namespace Forms
         End Function
 
         Private Sub btnIB_Click(sender As Object, e As EventArgs) Handles btnIB.Click
-            Dim newIB As New FrmIB
-            newIB.ShowDialog()
-            newIB.Dispose()
+            Using newIB As New FrmIB
+                newIB.ShowDialog()
+            End Using
         End Sub
 
         'Private Sub GetServerMessage(state As Object)

@@ -714,11 +714,11 @@ Namespace Forms
         End Sub
 
         Private Sub btnAddProfile_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddProfile.Click
-            Dim profileForm As New FrmAddDamageProfile
-            profileForm.Tag = "Add"
-            profileForm.btnAccept.Text = "Add Profile"
-            profileForm.ShowDialog()
-            profileForm.Dispose()
+            Using profileForm As New FrmAddDamageProfile
+                profileForm.Tag = "Add"
+                profileForm.btnAccept.Text = "Add Profile"
+                profileForm.ShowDialog()
+            End Using
             Call UpdateDamageProfileOptions()
         End Sub
 
@@ -729,11 +729,11 @@ Namespace Forms
                     MessageBox.Show("You cannot edit this profile!", "Error Editing Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     Dim editProfile As HQFDamageProfile = HQFDamageProfiles.ProfileList(profileName)
-                    Dim profileForm As New frmAddDamageProfile
-                    profileForm.Tag = editProfile
-                    profileForm.btnAccept.Text = "Edit Profile"
-                    profileForm.ShowDialog()
-                    profileForm.Dispose()
+                    Using profileForm As New FrmAddDamageProfile
+                        profileForm.Tag = editProfile
+                        profileForm.btnAccept.Text = "Edit Profile"
+                        profileForm.ShowDialog()
+                    End Using
                     Call UpdateDamageProfileOptions()
                 End If
             Else
@@ -834,11 +834,11 @@ Namespace Forms
         End Sub
 
         Private Sub btnAddDefenceProfile_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddDefenceProfile.Click
-            Dim profileForm As New FrmAddDefenceProfile
-            profileForm.Tag = "Add"
-            profileForm.btnAccept.Text = "Add Profile"
-            profileForm.ShowDialog()
-            profileForm.Dispose()
+            Using profileForm As New FrmAddDefenceProfile
+                profileForm.Tag = "Add"
+                profileForm.btnAccept.Text = "Add Profile"
+                profileForm.ShowDialog()
+            End Using
             Call UpdateDefenceProfileOptions()
         End Sub
 
@@ -846,11 +846,11 @@ Namespace Forms
             If lvwDefenceProfiles.SelectedItems.Count > 0 Then
                 Dim profileName As String = lvwDefenceProfiles.SelectedItems(0).Name
                 Dim editProfile As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(profileName)
-                Dim profileForm As New frmAddDefenceProfile()
-                profileForm.Tag = editProfile
-                profileForm.btnAccept.Text = "Edit Profile"
-                profileForm.ShowDialog()
-                profileForm.Dispose()
+                Using profileForm As New FrmAddDefenceProfile()
+                    profileForm.Tag = editProfile
+                    profileForm.btnAccept.Text = "Edit Profile"
+                    profileForm.ShowDialog()
+                End Using
                 Call UpdateDefenceProfileOptions()
             Else
                 MessageBox.Show("Please select a profile before trying to delete.", "Error Deleting Profile", MessageBoxButtons.OK, MessageBoxIcon.Information)

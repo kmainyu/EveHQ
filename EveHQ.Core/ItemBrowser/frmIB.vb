@@ -1097,15 +1097,17 @@ Namespace ItemBrowser
         Private Sub btnRequisition_Click(sender As Object, e As EventArgs) Handles btnRequisition.Click
             Dim orders As New SortedList(Of String, Integer)
             orders.Add(_item.Name, 1)
-            Dim newReq As New FrmAddRequisition("Item Browser", orders)
-            newReq.ShowDialog()
+            Using newReq As New FrmAddRequisition("Item Browser", orders)
+                newReq.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnAddSkills_Click(sender As Object, e As EventArgs) Handles btnAddSkills.Click
             ' Add the needed skills to a queue
             Dim pilotName As String = cboPilots.SelectedItem.ToString
-            Dim selQ As New FrmSelectQueue(pilotName, adtSkills.RequiredSkills, "Item Browser: " & _item.Name)
-            selQ.ShowDialog()
+            Using selQ As New FrmSelectQueue(pilotName, adtSkills.RequiredSkills, "Item Browser: " & _item.Name)
+                selQ.ShowDialog()
+            End Using
             SkillQueueFunctions.StartQueueRefresh = True
             ' Refresh the skills display
             adtSkills.DisplaySkills(_item.Id, _itemSkills, HQ.Settings.Pilots(pilotName))

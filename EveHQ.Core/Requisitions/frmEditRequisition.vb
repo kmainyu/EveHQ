@@ -130,27 +130,27 @@ Namespace Requisitions
                 MessageBox.Show("You must enter a valid Requestor before adding any orders.", "Requestor Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            Dim newOrder As New FrmAddRequisitionItem("Requisitions")
-            newOrder.ShowDialog()
-            If newOrder.DialogResult = DialogResult.OK Then
-                ' Check if this is an existing requisition
-                If _newReq.Orders.ContainsKey(newOrder.ItemName) = False Then
-                    ' Create a new order
-                    Dim newReqOrder As New RequisitionOrder
-                    newReqOrder.ID = "-1" ' Will be replaced by the database ID on reloading from the DB
-                    newReqOrder.ItemID = newOrder.ItemID
-                    newReqOrder.ItemName = newOrder.ItemName
-                    newReqOrder.ItemQuantity = newOrder.ItemQuantity
-                    newReqOrder.RequestDate = Now
-                    newReqOrder.Source = newOrder.Source
-                    _newReq.Orders.Add(newReqOrder.ItemName, newReqOrder)
-                Else
-                    ' Update the existing order
-                    _newReq.Orders(newOrder.ItemName).ItemQuantity += newOrder.ItemQuantity
+            Using newOrder As New FrmAddRequisitionItem("Requisitions")
+                newOrder.ShowDialog()
+                If newOrder.DialogResult = DialogResult.OK Then
+                    ' Check if this is an existing requisition
+                    If _newReq.Orders.ContainsKey(newOrder.ItemName) = False Then
+                        ' Create a new order
+                        Dim newReqOrder As New RequisitionOrder
+                        newReqOrder.ID = "-1" ' Will be replaced by the database ID on reloading from the DB
+                        newReqOrder.ItemID = newOrder.ItemID
+                        newReqOrder.ItemName = newOrder.ItemName
+                        newReqOrder.ItemQuantity = newOrder.ItemQuantity
+                        newReqOrder.RequestDate = Now
+                        newReqOrder.Source = newOrder.Source
+                        _newReq.Orders.Add(newReqOrder.ItemName, newReqOrder)
+                    Else
+                        ' Update the existing order
+                        _newReq.Orders(newOrder.ItemName).ItemQuantity += newOrder.ItemQuantity
+                    End If
+                    Call RefreshRequisition()
                 End If
-                Call RefreshRequisition()
-            End If
-            newOrder.Dispose()
+            End Using
         End Sub
 
         Private Sub btnRemoveItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRemoveItem.Click

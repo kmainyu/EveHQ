@@ -1618,8 +1618,9 @@ Namespace Forms
         Private Sub mnuViewItemDetailsInIB_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewItemDetailsInIB.Click
 
             Dim typeID As Integer = CInt(mnuItemName.Tag)
-            Dim myIB As New FrmIB(typeID)
-            myIB.ShowDialog()
+            Using myIB As New FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
 
         End Sub
         Private Sub ctxDepend_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxDepend.Opening
@@ -2145,8 +2146,9 @@ Namespace Forms
                             planSkills.Add(skillName, skillLevel)
                         Next
                         ' Get a dialog for the new skills
-                        Dim selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
-                        selectQueue.ShowDialog()
+                        Using selectQueue As New FrmSelectQueue(_displayPilot.Name, planSkills, "Import from EveMon")
+                            selectQueue.ShowDialog()
+                        End Using
                         Call RefreshAllTraining()
                     End If
                 End If
@@ -2305,15 +2307,16 @@ Namespace Forms
 
         Private Sub btnRBAddQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRBAddQueue.Click, mnuAddQueue.Click
             ' Clear the text boxes
-            Dim myQueue As New FrmModifyQueues
-            With myQueue
-                .txtQueueName.Text = "" : .txtQueueName.Enabled = True
-                .btnAccept.Text = "Add" : .Tag = "Add"
-                .Text = "Add New Queue"
-                .DisplayPilotName = _displayPilot.Name
-                .ShowDialog()           ' New Queue checking and adding is done on the modal form!
-            End With
-            frmEveHQ.BuildQueueReportsMenu()
+            Using myQueue As New FrmModifyQueues
+                With myQueue
+                    .txtQueueName.Text = "" : .txtQueueName.Enabled = True
+                    .btnAccept.Text = "Add" : .Tag = "Add"
+                    .Text = "Add New Queue"
+                    .DisplayPilotName = _displayPilot.Name
+                    .ShowDialog()           ' New Queue checking and adding is done on the modal form!
+                End With
+            End Using
+            FrmEveHQ.BuildQueueReportsMenu()
             Call RefreshAllTraining()
         End Sub
 
@@ -2323,17 +2326,18 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to edit!", "Cannot Edit Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As New FrmModifyQueues
-                With myQueue
-                    ' Load the account details into the text boxes
-                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
-                    .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
-                    .btnAccept.Text = "Edit" : .Tag = "Edit"
-                    .Text = "Edit '" & selQueue.Name & "' Queue Details"
-                    .DisplayPilotName = _displayPilot.Name
-                    .ShowDialog()
-                End With
-                frmEveHQ.BuildQueueReportsMenu()
+                Using myQueue As New FrmModifyQueues
+                    With myQueue
+                        ' Load the account details into the text boxes
+                        Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                        .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
+                        .btnAccept.Text = "Edit" : .Tag = "Edit"
+                        .Text = "Edit '" & selQueue.Name & "' Queue Details"
+                        .DisplayPilotName = _displayPilot.Name
+                        .ShowDialog()
+                    End With
+                End Using
+                FrmEveHQ.BuildQueueReportsMenu()
                 Call RefreshAllTraining()
             End If
         End Sub
@@ -2394,14 +2398,15 @@ Namespace Forms
                 MessageBox.Show("Please select 2 or more Queues to merge!", "Cannot Merge Queues", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As New FrmModifyQueues
-                With myQueue
-                    .txtQueueName.Text = "" : .txtQueueName.Tag = lvQueues.SelectedItems
-                    .btnAccept.Text = "Merge" : .Tag = "Merge"
-                    .Text = "Merge Skill Queues"
-                    .DisplayPilotName = _displayPilot.Name
-                    .ShowDialog()           ' Queue checking and merging is done on the modal form!
-                End With
+                Using myQueue As New FrmModifyQueues
+                    With myQueue
+                        .txtQueueName.Text = "" : .txtQueueName.Tag = lvQueues.SelectedItems
+                        .btnAccept.Text = "Merge" : .Tag = "Merge"
+                        .Text = "Merge Skill Queues"
+                        .DisplayPilotName = _displayPilot.Name
+                        .ShowDialog()           ' Queue checking and merging is done on the modal form!
+                    End With
+                End Using
                 Call RefreshAllTraining()
             End If
         End Sub
@@ -2412,16 +2417,17 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to copy!", "Cannot Copy Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As New FrmModifyQueues
-                With myQueue
-                    ' Load the account details into the text boxes
-                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
-                    .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
-                    .btnAccept.Text = "Copy" : .Tag = "Copy"
-                    .Text = "Copy '" & selQueue.Name & "' Queue Details"
-                    .DisplayPilotName = _displayPilot.Name
-                    .ShowDialog()
-                End With
+                Using myQueue As New FrmModifyQueues
+                    With myQueue
+                        ' Load the account details into the text boxes
+                        Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                        .txtQueueName.Text = selQueue.Name : .txtQueueName.Tag = selQueue.Name
+                        .btnAccept.Text = "Copy" : .Tag = "Copy"
+                        .Text = "Copy '" & selQueue.Name & "' Queue Details"
+                        .DisplayPilotName = _displayPilot.Name
+                        .ShowDialog()
+                    End With
+                End Using
                 Call RefreshAllTraining()
             End If
         End Sub
@@ -2432,14 +2438,15 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to copy!", "Cannot Copy Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                Dim myQueue As FrmSelectQueuePilot = New FrmSelectQueuePilot
-                With myQueue
-                    ' Load the account details into the text boxes
-                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
-                    .DisplayPilotName = _displayPilot.Name
-                    .cboPilots.Tag = selQueue.Name
-                    .ShowDialog()
-                End With
+                Using myQueue As FrmSelectQueuePilot = New FrmSelectQueuePilot
+                    With myQueue
+                        ' Load the account details into the text boxes
+                        Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                        .DisplayPilotName = _displayPilot.Name
+                        .cboPilots.Tag = selQueue.Name
+                        .ShowDialog()
+                    End With
+                End Using
             End If
         End Sub
 
@@ -2484,10 +2491,10 @@ Namespace Forms
         End Sub
 
         Private Sub btnQueueSettings_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnQueueSettings.Click
-            Dim mySettings As New frmSettings
-            mySettings.Tag = "nodeTrainingQueue"
-            mySettings.ShowDialog()
-            mySettings.Dispose()
+            Using mySettings As New FrmSettings
+                mySettings.Tag = "nodeTrainingQueue"
+                mySettings.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnRBSplitQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnRBSplitQueue.Click
@@ -2510,9 +2517,9 @@ Namespace Forms
                 orders.Add(skill, 1)
             Next
             ' Setup the Requisition form for HQF and open it
-            Dim newReq As New FrmAddRequisition("Skill Queue", orders)
-            newReq.ShowDialog()
-            newReq.Dispose()
+            Using newReq As New FrmAddRequisition("Skill Queue", orders)
+                newReq.ShowDialog()
+            End Using
         End Sub
 
 #End Region

@@ -260,8 +260,9 @@ Namespace Forms
                     End If
                 End If
             Next
-            Dim selQ As New FrmSelectQueue(_reqPilot.Name, neededSkills, "HQF: " & _fittingName)
-            selQ.ShowDialog()
+            Using selQ As New FrmSelectQueue(_reqPilot.Name, neededSkills, "HQF: " & _fittingName)
+                selQ.ShowDialog()
+            End Using
             SkillQueueFunctions.StartQueueRefresh = True
         End Sub
 

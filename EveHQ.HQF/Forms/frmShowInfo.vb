@@ -460,11 +460,12 @@ Namespace Forms
         End Sub
 
         Private Sub lblUsableTime_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblUsableTime.LinkClicked
-            Dim selQ As New FrmSelectQueue(_hPilot.Name, _skillsNeeded, "HQF: " & _itemName)
-            selQ.TopMost = True
-            selQ.ShowDialog()
-            SkillQueueFunctions.StartQueueRefresh = True
-            Call GenerateSkills(_itemType)
+            Using selQ As New FrmSelectQueue(_hPilot.Name, _skillsNeeded, "HQF: " & _itemName)
+                selQ.TopMost = True
+                selQ.ShowDialog()
+                SkillQueueFunctions.StartQueueRefresh = True
+                Call GenerateSkills(_itemType)
+            End Using
         End Sub
 
         Private Sub lblDescription_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick

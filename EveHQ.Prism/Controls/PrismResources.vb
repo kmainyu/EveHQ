@@ -741,16 +741,18 @@ Namespace Controls
             ' Set up a new Sortedlist to store the required items
             Dim Orders As SortedList(Of String, Integer) = GetAmountsForRequisition(True)
             ' Setup the Requisition form for HQF and open it
-            Dim newReq As New frmAddRequisition("Prism", Orders)
-            newReq.ShowDialog()
+            Using newReq As New FrmAddRequisition("Prism", Orders)
+                newReq.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnAddAllToReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddAllToReq.Click
             ' Set up a new Sortedlist to store the required items
             Dim Orders As SortedList(Of String, Integer) = GetAmountsForRequisition(False)
             ' Setup the Requisition form for HQF and open it
-            Dim newReq As New frmAddRequisition("Prism", Orders)
-            newReq.ShowDialog()
+            Using newReq As New FrmAddRequisition("Prism", Orders)
+                newReq.ShowDialog()
+            End Using
         End Sub
 
         Private Function GetAmountsForRequisition(ByVal surplusOnly As Boolean) As SortedList(Of String, Integer)
@@ -915,20 +917,20 @@ Namespace Controls
             Call AddPricingResources(CurrentJob, itemIDs)
 
             ' Create a new price form instance
-            Dim modifyPrices As New FrmModifyPrices(itemIDs)
+            Using modifyPrices As New FrmModifyPrices(itemIDs)
 
-            ' Show the form
-            modifyPrices.ShowDialog()
+                ' Show the form
+                modifyPrices.ShowDialog()
 
-            ' Check if we need to update prices
-            If modifyPrices.DialogResult = DialogResult.OK Then
-                CurrentJob.RecalculateResourceRequirements()
-                Call Me.DisplayRequiredResources()
-                RaiseEvent ProductionResourcesChanged()
-            End If
+                ' Check if we need to update prices
+                If modifyPrices.DialogResult = DialogResult.OK Then
+                    CurrentJob.RecalculateResourceRequirements()
+                    Call Me.DisplayRequiredResources()
+                    RaiseEvent ProductionResourcesChanged()
+                End If
 
-            ' Dispose of the form
-            modifyPrices.Dispose()
+                ' Dispose of the form
+            End Using
 
         End Sub
 

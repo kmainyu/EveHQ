@@ -978,12 +978,13 @@ Namespace Forms
         Private Sub mnuExtrapolateStandings_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuExtrapolateStandings.Click
             If adtStandings.SelectedNodes.Count >= 1 Then
                 Dim standingsLine As Node = adtStandings.SelectedNodes(0)
-                Dim extraStandings As New frmExtraStandings
-                extraStandings.Pilot = standingsLine.Name
-                extraStandings.Party = standingsLine.Text
-                extraStandings.Standing = CDbl(standingsLine.Cells(2).Tag)
-                extraStandings.BaseStanding = CDbl(standingsLine.Cells(3).Tag)
-                extraStandings.ShowDialog()
+                Using extraStandings As New FrmExtraStandings
+                    extraStandings.Pilot = standingsLine.Name
+                    extraStandings.Party = standingsLine.Text
+                    extraStandings.Standing = CDbl(standingsLine.Cells(2).Tag)
+                    extraStandings.BaseStanding = CDbl(standingsLine.Cells(3).Tag)
+                    extraStandings.ShowDialog()
+                End Using
             End If
         End Sub
         Private Sub adtStandings_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtStandings.ColumnHeaderMouseUp

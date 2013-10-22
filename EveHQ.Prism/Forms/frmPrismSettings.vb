@@ -272,10 +272,10 @@ Public Class frmPrismSettings
     Private Sub lvwBPCCosts_DoubleClick(ByVal sender As Object, ByVal e As EventArgs) Handles lvwBPCCosts.DoubleClick
         If lvwBPCCosts.SelectedItems.Count = 1 Then
             Dim bpid As Integer = CInt(lvwBPCCosts.SelectedItems(0).Name)
-            Dim priceForm As New frmAddBPCPrice(bpid)
-            priceForm.ShowDialog()
-            Call PopulateBPCCostGrid()
-            priceForm.Dispose()
+            Using priceForm As New frmAddBPCPrice(bpid)
+                priceForm.ShowDialog()
+                Call PopulateBPCCostGrid()
+            End Using
         End If
     End Sub
 

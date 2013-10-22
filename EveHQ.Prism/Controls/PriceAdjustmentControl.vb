@@ -64,10 +64,10 @@ Namespace Controls
 
         Private Sub pbPAC_Click(ByVal sender As Object, ByVal e As EventArgs) Handles pbPAC.Click
             If _typeID > 0 And StaticData.Types.ContainsKey(_typeID) = True Then
-                Dim newPriceForm As New FrmModifyPrice(_typeID, _price)
-                newPriceForm.ShowDialog()
-                RaiseEvent PriceUpdated()
-                newPriceForm.Dispose()
+                Using newPriceForm As New FrmModifyPrice(_typeID, _price)
+                    newPriceForm.ShowDialog()
+                    RaiseEvent PriceUpdated()
+                End Using
             End If
         End Sub
 

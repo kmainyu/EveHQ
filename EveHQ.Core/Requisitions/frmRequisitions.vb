@@ -108,13 +108,13 @@ Namespace Requisitions
 
         Private Sub btnAddReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddReq.Click
             ' Save the current selected Requisition
-            Dim myReq As New FrmEditRequisition
-            myReq.ShowDialog()
-            If myReq.DialogResult = DialogResult.OK Then
-                Call ApplyFilter()
-                Call UpdateFilters()
-            End If
-            myReq.Dispose()
+            Using myReq As New FrmEditRequisition
+                myReq.ShowDialog()
+                If myReq.DialogResult = DialogResult.OK Then
+                    Call ApplyFilter()
+                    Call UpdateFilters()
+                End If
+            End Using
         End Sub
 
         Private Sub btnEditReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditReq.Click
@@ -132,13 +132,13 @@ Namespace Requisitions
                 End If
                 Dim reqName As String = selNode.Name
                 Dim req As Requisition = _currentReqs(reqName)
-                Dim myReq As New FrmEditRequisition(req)
-                myReq.ShowDialog()
-                If myReq.DialogResult = DialogResult.OK Then
-                    Call ApplyFilter()
-                    Call UpdateFilters()
-                End If
-                myReq.Dispose()
+                Using myReq As New FrmEditRequisition(req)
+                    myReq.ShowDialog()
+                    If myReq.DialogResult = DialogResult.OK Then
+                        Call ApplyFilter()
+                        Call UpdateFilters()
+                    End If
+                End Using
             End If
         End Sub
 
@@ -475,8 +475,9 @@ Namespace Requisitions
                 Next
 
                 ' Create a new merge form and wait for a result
-                Dim newMergeForm As New FrmMergeRequisitions(reqList)
-                newMergeForm.ShowDialog()
+                Using newMergeForm As New FrmMergeRequisitions(reqList)
+                    newMergeForm.ShowDialog()
+                End Using
 
                 ' DB handling is done in the merge form so just update the filters
                 Call ApplyFilter()
@@ -750,8 +751,9 @@ Namespace Requisitions
                         If reqList.Count > 0 Then
                             For Each req As XmlNode In reqList
                                 Dim orders As SortedList(Of String, Integer) = GetOrdersFromRequisitionXML(req)
-                                Dim newReq As New FrmAddRequisition(req.Attributes.GetNamedItem("name").Value, req.Attributes.GetNamedItem("source").Value, orders)
-                                newReq.ShowDialog()
+                                Using newReq As New FrmAddRequisition(req.Attributes.GetNamedItem("name").Value, req.Attributes.GetNamedItem("source").Value, orders)
+                                    newReq.ShowDialog()
+                                End Using
                             Next
                         Else
                             MessageBox.Show("This file does not contain any valid EveHQ Requisitions. Import Process aborted.", "No Requisitions Found", MessageBoxButtons.OK, MessageBoxIcon.Information)

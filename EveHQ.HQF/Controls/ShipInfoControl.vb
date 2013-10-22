@@ -525,10 +525,10 @@ Namespace Controls
 
         Private Sub btnEditProfiles_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditProfiles.Click
             ' Open options form
-            Dim mySettings As New frmHQFSettings
-            mySettings.Tag = "nodeDamageProfiles"
-            mySettings.ShowDialog()
-            mySettings.Dispose()
+            Using mySettings As New FrmHQFSettings
+                mySettings.Tag = "nodeDamageProfiles"
+                mySettings.ShowDialog()
+            End Using
             Dim oldProfile As String = cboDamageProfiles.SelectedItem.ToString
             Call LoadDamageProfiles()
             If cboDamageProfiles.Items.Contains(oldProfile) = True Then
@@ -565,10 +565,10 @@ Namespace Controls
 
         Private Sub btnEditDefenceProfiles_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnEditDefenceProfiles.Click
             ' Open options form
-            Dim mySettings As New frmHQFSettings
-            mySettings.Tag = "nodeDefenceProfiles"
-            mySettings.ShowDialog()
-            mySettings.Dispose()
+            Using mySettings As New FrmHQFSettings
+                mySettings.Tag = "nodeDefenceProfiles"
+                mySettings.ShowDialog()
+            End Using
             Dim oldProfile As String = ""
             If cboDefenceProfiles.SelectedItem IsNot Nothing Then
                 oldProfile = cboDefenceProfiles.SelectedItem.ToString
@@ -648,32 +648,33 @@ Namespace Controls
 
         Private Sub btnSkills_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSkills.Click
             If _reqSkillsCollection.TruePilotSkills.Count > 0 Then
-                Dim myRequiredSkills As New frmRequiredSkills(ParentFitting.FittingName)
-                myRequiredSkills.Pilot = HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
-                myRequiredSkills.Skills = _reqSkillsCollection.TruePilotSkills
-                myRequiredSkills.ShowDialog()
+                Using myRequiredSkills As New FrmRequiredSkills(ParentFitting.FittingName)
+                    myRequiredSkills.Pilot = HQ.Settings.Pilots(cboPilots.SelectedItem.ToString)
+                    myRequiredSkills.Skills = _reqSkillsCollection.TruePilotSkills
+                    myRequiredSkills.ShowDialog()
+                End Using
             End If
         End Sub
 
         Private Sub btnLog_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnLog.Click
-            Dim myAuditLog As New frmShipAudit
-            Dim logData() As String
-            Dim newLog As ListViewItem
-            myAuditLog.lvwAudit.BeginUpdate()
-            For Each log As String In ParentFitting.FittedShip.AuditLog
-                logData = log.Split("#".ToCharArray)
-                'If logData(2).Trim <> logData(3).Trim Then
-                newLog = New ListViewItem
-                newLog.Text = logData(0).Trim
-                newLog.SubItems.Add(logData(1).Trim)
-                newLog.SubItems.Add(CDbl(logData(2).Trim).ToString("N3"))
-                newLog.SubItems.Add(CDbl(logData(3).Trim).ToString("N3"))
-                myAuditLog.lvwAudit.Items.Add(newLog)
-                'End If
-            Next
-            myAuditLog.lvwAudit.EndUpdate()
-            myAuditLog.ShowDialog()
-            myAuditLog.Dispose()
+            Using myAuditLog As New FrmShipAudit
+                Dim logData() As String
+                Dim newLog As ListViewItem
+                myAuditLog.lvwAudit.BeginUpdate()
+                For Each log As String In ParentFitting.FittedShip.AuditLog
+                    logData = log.Split("#".ToCharArray)
+                    'If logData(2).Trim <> logData(3).Trim Then
+                    newLog = New ListViewItem
+                    newLog.Text = logData(0).Trim
+                    newLog.SubItems.Add(logData(1).Trim)
+                    newLog.SubItems.Add(CDbl(logData(2).Trim).ToString("N3"))
+                    newLog.SubItems.Add(CDbl(logData(3).Trim).ToString("N3"))
+                    myAuditLog.lvwAudit.Items.Add(newLog)
+                    'End If
+                Next
+                myAuditLog.lvwAudit.EndUpdate()
+                myAuditLog.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnTargetSpeed_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnTargetSpeed.Click
@@ -683,21 +684,21 @@ Namespace Controls
         End Sub
 
         Private Sub btnDamageAnalysis_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDamageAnalysis.Click
-            Dim myDa As New FrmDamageAnalysis
-            If cboPilots.SelectedItem IsNot Nothing Then
-                myDa.PilotName = cboPilots.SelectedItem.ToString
-            End If
-            If ParentFitting.ShipSlotCtrl IsNot Nothing Then
-                myDa.FittingName = ParentFitting.FittingName
-            End If
-            myDa.ShowDialog()
-            myDa.Dispose()
+            Using myDa As New FrmDamageAnalysis
+                If cboPilots.SelectedItem IsNot Nothing Then
+                    myDa.PilotName = cboPilots.SelectedItem.ToString
+                End If
+                If ParentFitting.ShipSlotCtrl IsNot Nothing Then
+                    myDa.FittingName = ParentFitting.FittingName
+                End If
+                myDa.ShowDialog()
+            End Using
         End Sub
 
         Private Sub btnCapSim_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCapSim.Click
-            Dim capSimForm As New frmCapSim(ParentFitting.FittedShip)
-            capSimForm.ShowDialog()
-            capSimForm.Dispose()
+            Using capSimForm As New FrmCapSim(ParentFitting.FittedShip)
+                capSimForm.ShowDialog()
+            End Using
         End Sub
 
         Private Sub epDefence_ExpandedChanged(sender As Object, e As ExpandedChangeEventArgs) Handles epDefence.ExpandedChanged
