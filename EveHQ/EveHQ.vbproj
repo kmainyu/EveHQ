@@ -834,6 +834,14 @@
     <None Include="Resources\level_200.gif" />
     <None Include="Resources\level_100.gif" />
     <None Include="Resources\level_000.gif" />
+    <Content Include="..\EveHQ.Core\ExternalLibs\GammaJul.LgLcd.Native32.dll">
+      <Link>GammaJul.LgLcd.Native32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Core\ExternalLibs\GammaJul.LgLcd.Native64.dll">
+      <Link>GammaJul.LgLcd.Native64.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\AssetsSafe32.png" />
     <Content Include="_updates.xml">
       <SubType>Designer</SubType>

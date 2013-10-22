@@ -109,6 +109,8 @@ SectionIn RO
   File "..\BuildOutput\Release\EveHQPatcher.exe"
   File "..\BuildOutput\Release\EveHQPatcher.exe.config"
   File "..\BuildOutput\Release\GammaJul.lglcd.dll"
+  File "..\BuildOutput\Release\GammaJul.lglcd.Native32.dll"
+  File "..\BuildOutput\Release\GammaJul.lglcd.Native64.dll"
   File "..\BuildOutput\Release\Ionic.Zip.dll"
   File "..\BuildOutput\Release\Newtonsoft.json.dll"
   File "..\BuildOutput\Release\System.Net.Http.dll"
@@ -123,7 +125,8 @@ ${If} $useLocalFlag == "0"
   SetOutPath $APPDATA\EveHQ
 ${EndIf}
 
-  File "..\EveHQ.Data\EveHQ.sdf"
+	# Old DB File
+  #File "..\EveHQ.Data\EveHQ.sdf"
   # delete cache files
   Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
