@@ -360,6 +360,8 @@ Namespace Forms
             Else
                 If _cDNAFit.Arguments.ContainsKey("LoadoutName") = True Then
                     _loadoutName = _cDNAFit.Arguments("LoadoutName")
+                Else
+                    _loadoutName = "Unknown Fitting"
                 End If
                 lblLoadoutTopic.Visible = False
                 LblLoadoutTopicLbl.Visible = False
