@@ -702,12 +702,14 @@ Namespace Forms
                 btnExportEMPFile.Enabled = False
             End If
             btnAddRequisition.Enabled = False
-            For Each skill As EveHQSkillQueueItem In _activeQueue.Queue.Values
-                If SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
-                    btnAddRequisition.Enabled = True
-                    Exit For
-                End If
-            Next
+            If _activeQueue IsNot Nothing Then
+                For Each skill As EveHQSkillQueueItem In _activeQueue.Queue.Values
+                    If SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
+                        btnAddRequisition.Enabled = True
+                        Exit For
+                    End If
+                Next
+            End If
             ' Reset the redraw flag
             _redrawingOptions = False
         End Sub

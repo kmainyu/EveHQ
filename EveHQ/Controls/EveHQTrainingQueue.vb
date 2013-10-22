@@ -19,6 +19,7 @@
 '=========================================================================
 Imports DevComponents.AdvTree
 Imports EveHQ.Forms
+Imports DevComponents.DotNetBar
 
 Namespace Controls
 
@@ -191,6 +192,21 @@ Namespace Controls
 
             If _queuePilot.PilotSkills.Count <> 0 Then
 
+                ' Define node background colours
+                Dim styleCurrentTraining As ElementStyle = adtQueue.Styles(0).Copy
+                Dim styleIsPreReq As ElementStyle = adtQueue.Styles(0).Copy
+                Dim styleHasPreReq As ElementStyle = adtQueue.Styles(0).Copy
+                Dim styleBothPreReq As ElementStyle = adtQueue.Styles(0).Copy
+                Dim stylePartialTraining As ElementStyle = adtQueue.Styles(0).Copy
+                Dim styleReadySkill As ElementStyle = adtQueue.Styles(0).Copy
+
+                styleCurrentTraining.BackColor = Color.LimeGreen
+                styleIsPreReq.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.IsPreReqColor))
+                styleHasPreReq.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.HasPreReqColor))
+                styleBothPreReq.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.BothPreReqColor))
+                stylePartialTraining.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.PartialTrainColor))
+                styleReadySkill.BackColor = Color.FromArgb(CInt(Core.HQ.Settings.ReadySkillColor))
+
                 ' Save the selected items
                 'For Each selNode As Node In adtQueue.SelectedNodes
                 '    _selectedNodes.Add(selNode)
@@ -238,26 +254,26 @@ Namespace Controls
                         If qItem.IsPrereq = True Then
                             If qItem.HasPrereq = True Then
                                 newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
-                                'newskill.BackColor = Color.FromArgb(CInt(Core.HQ.EveHQSettings.BothPreReqColor))
-                            Else
+                                newskill.Style = styleBothPreReq
+                                Else
                                 newskill.Tooltip = qItem.Prereq
-                                'newskill.BackColor = Color.FromArgb(CInt(Core.HQ.EveHQQSettings.IsPreReqColor))
+                                newskill.Style = styleIsPreReq
                             End If
                         Else
                             If qItem.HasPrereq = True Then
                                 newskill.Tooltip = qItem.Reqs
-                                'newskill.BackColor = Color.FromArgb(CInt(Core.HQ.EveHQSettings.HasPreReqColor))
+                                newskill.Style = styleHasPreReq
                             Else
                                 If qItem.PartTrained = True Then
-                                    'newskill.BackColor = Color.FromArgb(CInt(Core.HQ.EveHQSettings.PartialTrainColor))
+                                    newskill.Style = stylePartialTraining
                                 Else
-                                    'newskill.BackColor = Color.FromArgb(CInt(Core.HQ.EveHQSettings.ReadySkillColor))
+                                    newskill.Style = styleReadySkill
                                 End If
                             End If
                         End If
                         If qItem.IsTraining = True Then
                             newskill.DragDropEnabled = False
-                            'newskill.BackColor = Color.LimeGreen
+                            newskill.Style = styleCurrentTraining
                             ' Set a flag in the listview of the listviewitem name for later checking
                             adtQueue.Tag = newskill.Name
                         End If
@@ -740,8 +756,8 @@ Namespace Controls
         End Sub
         Private Sub mnuViewDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewDetails.Click
             Dim skillID As Integer = CInt(mnuSkillName.Tag)
-            frmSkillDetails.DisplayPilotName = _queuePilot.Name
-            Call frmSkillDetails.ShowSkillDetails(skillID)
+            FrmSkillDetails.DisplayPilotName = _queuePilot.Name
+            Call FrmSkillDetails.ShowSkillDetails(skillID)
         End Sub
         Private Sub mnuSplitQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSplitQueue.Click
             Call SplitQueue()
@@ -754,7 +770,7 @@ Namespace Controls
                 For Each selItem As ListViewItem In adtQueue.SelectedNodes
                     keys.Add(selItem.Name)
                 Next
-                Dim noteForm As New frmSkillNote
+                Dim noteForm As New FrmSkillNote
                 If keys.Count > 1 Then
                     noteForm.lblDescription.Text = "Editing description for multiple queue entries..."
                     noteForm.Text = "Skill Note - Multiple Skills"
