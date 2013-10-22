@@ -17,6 +17,7 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Prism.Classes
 Imports EveHQ.EveAPI
 Imports EveHQ.EveData
 Imports EveHQ.Core
@@ -24,18 +25,17 @@ Imports System.Net
 Imports System.Windows.Forms
 Imports System.Xml
 Imports System.IO
-Imports System.Reflection
+Imports EveHQ.Prism.Forms
 Imports Newtonsoft.Json
 
+' ReSharper disable once CheckNamespace - for binary serialization compatability
 Public Class PlugInData
     Implements IEveHQPlugIn
-    Public Shared itemFlags As New SortedList
     Public Shared RefTypes As New SortedList(Of String, String)
     Public Shared Activities As New SortedList(Of String, String)
     Public Shared Statuses As New SortedList(Of String, String)
-    Public Shared stations As New SortedList
-    Public Shared NPCCorps As New SortedList
-    Public Shared Corps As New SortedList
+    Public Shared Stations As New SortedList
+    Public Shared Corps As New SortedList(Of String, String) ' corpID, corpName
     Public Shared PackedVolumes As New SortedList(Of Integer, Double) ' groupID, volume
     Public Shared AssetItemNames As New SortedList(Of Long, String)
     Public Shared Products As New SortedList(Of String, String)
@@ -44,7 +44,7 @@ Public Class PlugInData
     Public Shared CategoryNames As New SortedList(Of String, Integer) ' catName, catID
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
-    Private activeForm As frmPrism
+    Private _activeForm As frmPrism
     Private Const OwnerBlueprintsFileName As String = "OwnerBlueprints.json"
     Private Shared ReadOnly LockObj As New Object
 
@@ -55,7 +55,7 @@ Public Class PlugInData
             Case 0 ' Return a location
                 ' Check the data is Long return the station name
                 If TypeOf (data) Is Long Then
-                    Return CType(stations(data.ToString), Station).stationName
+                    Return CType(Stations(data.ToString), Station).StationName
                 Else
                     Return data
                 End If
@@ -65,7 +65,7 @@ Public Class PlugInData
 
     Public Function EveHQStartUp() As Boolean Implements IEveHQPlugIn.EveHQStartUp
         Try
-            Return Me.LoadPlugIndata
+            Return LoadPlugIndata()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
             Return False
@@ -74,16 +74,16 @@ Public Class PlugInData
 
     Public Function GetEveHQPlugInInfo() As EveHQPlugIn Implements IEveHQPlugIn.GetEveHQPlugInInfo
         ' Returns data to EveHQ to identify it as a plugin
-        Dim EveHQPlugIn As New EveHQPlugIn
-        EveHQPlugIn.Name = "EveHQ Prism"
-        EveHQPlugIn.Description = "EveHQ Production, Research, Industry and Science Module"
-        EveHQPlugIn.Author = "EveHQ Team"
-        EveHQPlugIn.MainMenuText = "EveHQ Prism"
-        EveHQPlugIn.RunAtStartup = True
-        EveHQPlugIn.RunInIGB = False
-        EveHQPlugIn.MenuImage = My.Resources.plugin_icon
-        EveHQPlugIn.Version = My.Application.Info.Version.ToString
-        Return EveHQPlugIn
+        Dim eveHQPlugIn As New EveHQPlugIn
+        eveHQPlugIn.Name = "EveHQ Prism"
+        eveHQPlugIn.Description = "EveHQ Production, Research, Industry and Science Module"
+        eveHQPlugIn.Author = "EveHQ Team"
+        eveHQPlugIn.MainMenuText = "EveHQ Prism"
+        eveHQPlugIn.RunAtStartup = True
+        eveHQPlugIn.RunInIGB = False
+        eveHQPlugIn.MenuImage = My.Resources.plugin_icon
+        eveHQPlugIn.Version = My.Application.Info.Version.ToString
+        Return eveHQPlugIn
     End Function
 
     Public Function IGBService(ByVal igbContext As HttpListenerContext) As String Implements IEveHQPlugIn.IGBService
@@ -91,13 +91,13 @@ Public Class PlugInData
     End Function
 
     Public Function RunEveHQPlugIn() As Form Implements IEveHQPlugIn.RunEveHQPlugIn
-        activeForm = New frmPrism()
-        Return activeForm
+        _activeForm = New frmPrism()
+        Return _activeForm
     End Function
 
     Public Function SaveAll() As Boolean Implements IEveHQPlugIn.SaveAll
-        If activeForm IsNot Nothing Then
-            activeForm.SaveAll()
+        If _activeForm IsNot Nothing Then
+            _activeForm.SaveAll()
             Return True
         End If
         Return False
@@ -150,7 +150,7 @@ Public Class PlugInData
     End Sub
     Private Sub LoadAssetItemNames()
         Try
-            Dim strSQL As String = "SELECT * FROM assetItemNames;"
+            Const strSQL As String = "SELECT * FROM assetItemNames;"
             Dim nameData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
             AssetItemNames.Clear()
             If nameData IsNot Nothing Then
@@ -202,7 +202,7 @@ Public Class PlugInData
         PackedVolumes.Add(883, 1000000)
         PackedVolumes.Add(237, 2500)
     End Sub
-   Private Sub LoadStatuses()
+    Private Sub LoadStatuses()
         Statuses.Clear()
         Statuses.Add("0", "Failed")
         Statuses.Add("1", "Delivered")
@@ -216,12 +216,10 @@ Public Class PlugInData
     Public Function LoadRefTypes() As Boolean
         Try
             ' Dimension variables
-            Dim x As Integer = 0
             Dim refDetails As XmlNodeList
             Dim refNode As XmlNode
-            Dim fileName As String = ""
-            Dim APIReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-            Dim refXML As XmlDocument = APIReq.GetAPIXML(APITypes.RefTypes, APIReturnMethods.ReturnStandard)
+            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+            Dim refXML As XmlDocument = apiReq.GetAPIXML(APITypes.RefTypes, APIReturnMethods.ReturnStandard)
             If refXML Is Nothing Then
                 ' Problem with the API server so let's use our resources to populate it
                 Try
@@ -253,47 +251,12 @@ Public Class PlugInData
         Catch e As Exception
             MessageBox.Show("There was an error loading the RefTypes API. The error was: " & e.Message, "Prism RefTypes Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
-            Exit Function
         End Try
-    End Function
-   Private Function CheckVersion() As Boolean
-        Dim thisAssembly As Assembly = Assembly.GetExecutingAssembly()
-        ' Display the set of assemblies our assemblies references.
-        Dim refAssemblies As AssemblyName
-        For Each refAssemblies In thisAssembly.GetReferencedAssemblies()
-            If refAssemblies.Name = "EveHQ.Core" Then
-                If CompareVersions(refAssemblies.Version.ToString, "1.6.6.0") = True Then
-                    Dim msg As String = "This plug-in requires version 1.6.6.0 or greater of EveHQ." & ControlChars.CrLf & ControlChars.CrLf
-                    msg &= "Please check for any updates that are available."
-                    MessageBox.Show(msg, "EveHQ Assets", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                    Return False
-                Else
-                    Return True
-                End If
-            End If
-        Next
-    End Function
-    Private Function CompareVersions(ByVal thisVersion As String, ByVal requiredVersion As String) As Boolean
-        Dim localVers() As String = thisVersion.Split(CChar("."))
-        Dim remoteVers() As String = requiredVersion.Split(CChar("."))
-        Dim requiresUpdate As Boolean = False
-        For ver As Integer = 0 To 3
-            If CInt(remoteVers(ver)) <> CInt(localVers(ver)) Then
-                If CInt(remoteVers(ver)) > CInt(localVers(ver)) Then
-                    requiresUpdate = True
-                    Exit For
-                Else
-                    requiresUpdate = False
-                    Exit For
-                End If
-            End If
-        Next
-        Return requiresUpdate
     End Function
     Public Sub CheckForConqXMLFile()
         ' Check for the Conquerable XML file in the cache
         Dim stationXML As XmlDocument
-        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
         stationXML = apiReq.GetAPIXML(APITypes.Conquerables, APIReturnMethods.ReturnStandard)
         If stationXML IsNot Nothing Then
             Call ParseConquerableXML(stationXML)
@@ -311,19 +274,19 @@ Public Class PlugInData
                 ' This is an outpost so needs adding to the station list if it's not there
                 If StaticData.Stations.ContainsKey(stationID) = False Then
                     Dim cStation As New Station
-                    cStation.StationID = CInt(stationID)
-                    cStation.stationName = (loc.Attributes.GetNamedItem("stationName").Value)
-                    cStation.SystemID = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
-                    Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemID)
-                    cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionID) & ")"
-                    cStation.corpID = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
-                    StaticData.Stations.Add(cStation.StationID, cStation)
+                    cStation.StationId = CInt(stationID)
+                    cStation.StationName = (loc.Attributes.GetNamedItem("stationName").Value)
+                    cStation.SystemId = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemId)
+                    cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionId) & ")"
+                    cStation.CorpId = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
+                    StaticData.Stations.Add(cStation.StationId, cStation)
                 Else
                     Dim cStation As Station = StaticData.Stations(stationID)
-                    cStation.SystemID = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
-                    Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemID)
-                    cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionID) & ")"
-                    cStation.corpID = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
+                    cStation.SystemId = CInt(loc.Attributes.GetNamedItem("solarSystemID").Value)
+                    Dim system As SolarSystem = StaticData.SolarSystems(cStation.SystemId)
+                    cStation.StationName &= " (" & system.Name & ", " & StaticData.Regions(system.RegionId) & ")"
+                    cStation.CorpId = CInt(loc.Attributes.GetNamedItem("corporationID").Value)
                 End If
                 ' Add the corp if not already entered
                 If Corps.ContainsKey(CStr(loc.Attributes.GetNamedItem("corporationID").Value)) = False Then
@@ -332,7 +295,7 @@ Public Class PlugInData
             Next
         End If
     End Sub
-  
+
 #End Region
 
 #Region "Owner Blueprint Load/Save Methods"
@@ -398,29 +361,29 @@ Public Class PlugInData
 
 #Region "API Helper Methods"
 
-    Public Shared Function GetAccountForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As EveHQAccount
-        If Owner.IsCorp = True Then
-            Select Case Owner.APIVersion
+    Public Shared Function GetAccountForCorpOwner(owner As PrismOwner, apiType As CorpRepType) As EveHQAccount
+        If owner.IsCorp = True Then
+            Select Case owner.APIVersion
                 Case APIKeySystems.Version2
-                    Return Owner.Account
+                    Return owner.Account
                 Case Else
                     Return Nothing
             End Select
         Else
-            Return Owner.Account
+            Return owner.Account
         End If
     End Function
 
-    Public Shared Function GetAccountOwnerIDForCorpOwner(Owner As PrismOwner, APIType As CorpRepType) As String
-        If Owner.IsCorp = True Then
-            Select Case Owner.APIVersion
+    Public Shared Function GetAccountOwnerIDForCorpOwner(owner As PrismOwner, apiType As CorpRepType) As String
+        If owner.IsCorp = True Then
+            Select Case owner.APIVersion
                 Case APIKeySystems.Version2
-                    Return Owner.ID
+                    Return owner.ID
                 Case Else
                     Return ""
             End Select
         Else
-            Return Owner.ID
+            Return owner.ID
         End If
     End Function
 

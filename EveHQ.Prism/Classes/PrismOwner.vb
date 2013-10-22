@@ -19,10 +19,13 @@
 '=========================================================================
 Imports EveHQ.Core
 
-Public Class PrismOwner
-    Public Name As String
-    Public ID As String
-    Public Account As New EveHQAccount
-    Public IsCorp As Boolean
-    Public APIVersion As APIKeySystems
-End Class
+Namespace Classes
+
+    Public Class PrismOwner
+        Public Name As String
+        Public ID As String
+        Public Account As New EveHQAccount
+        Public IsCorp As Boolean
+        Public APIVersion As APIKeySystems
+    End Class
+End Namespace

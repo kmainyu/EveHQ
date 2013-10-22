@@ -19,47 +19,49 @@
 '=========================================================================
 Imports EveHQ.EveData
 
-Public Class Invention
+Namespace Classes
 
-    Public Shared Function LoadInventionData() As Boolean
+    Public Class Invention
 
-        ' Load all the decryptor data
-        Dim groupIDs As List(Of Integer) = {728, 729, 730, 731}.ToList
-        For Each groupID As Integer In groupIDs
-            ' Get the items in each group
-            Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(groupID)
-            PlugInData.Decryptors.Clear()
-            For Each item As EveType In items
-                ' Set data
-                Dim newDecryptor As New Decryptor
-                newDecryptor.ID = item.Id
-                newDecryptor.Name = item.Name
-                newDecryptor.GroupID = item.Group.ToString
-                PlugInData.Decryptors.Add(newDecryptor.Name, newDecryptor)
-                ' Get attributes of each item
-                Dim atts As SortedList(Of Integer, ItemAttribData) = StaticData.GetAttributeDataForItem(item.Id)
-                For Each att As Integer In atts.Keys
-                    Select Case att
-                        Case 1112
-                            newDecryptor.ProbMod = atts(att).Value
-                        Case 1113
-                            newDecryptor.MEMod = CInt(atts(att).Value)
-                        Case 1114
-                            newDecryptor.PEMod = CInt(atts(att).Value)
-                        Case 1124
-                            newDecryptor.RunMod = CInt(atts(att).Value)
-                    End Select
+        Public Shared Function LoadInventionData() As Boolean
+
+            ' Load all the decryptor data
+            Dim groupIDs As List(Of Integer) = {728, 729, 730, 731}.ToList
+            For Each groupID As Integer In groupIDs
+                ' Get the items in each group
+                Dim items As IEnumerable(Of EveType) = StaticData.GetItemsInGroup(groupID)
+                PlugInData.Decryptors.Clear()
+                For Each item As EveType In items
+                    ' Set data
+                    Dim newDecryptor As New Decryptor
+                    newDecryptor.ID = item.Id
+                    newDecryptor.Name = item.Name
+                    newDecryptor.GroupID = item.Group.ToString
+                    PlugInData.Decryptors.Add(newDecryptor.Name, newDecryptor)
+                    ' Get attributes of each item
+                    Dim atts As SortedList(Of Integer, ItemAttribData) = StaticData.GetAttributeDataForItem(item.Id)
+                    For Each att As Integer In atts.Keys
+                        Select Case att
+                            Case 1112
+                                newDecryptor.ProbMod = atts(att).Value
+                            Case 1113
+                                newDecryptor.MEMod = CInt(atts(att).Value)
+                            Case 1114
+                                newDecryptor.PEMod = CInt(atts(att).Value)
+                            Case 1124
+                                newDecryptor.RunMod = CInt(atts(att).Value)
+                        End Select
+                    Next
                 Next
             Next
-        Next
 
-        Return True
+            Return True
 
-    End Function
+        End Function
 
-    Public Shared Function CalculateInventionChance(ByVal baseChance As Double, ByVal encSkillLevel As Integer, ByVal dc1SkillLevel As Integer, ByVal dc2SkillLevel As Integer, ByVal metaLevel As Integer, ByVal decryptorModifier As Double) As Double
-        Return baseChance * (1 + (0.01 * encSkillLevel)) * (1 + ((dc1SkillLevel + dc2SkillLevel) * (0.1 / (5 - metaLevel)))) * DecryptorModifier
-    End Function
+        Public Shared Function CalculateInventionChance(ByVal baseChance As Double, ByVal encSkillLevel As Integer, ByVal dc1SkillLevel As Integer, ByVal dc2SkillLevel As Integer, ByVal metaLevel As Integer, ByVal decryptorModifier As Double) As Double
+            Return baseChance * (1 + (0.01 * encSkillLevel)) * (1 + ((dc1SkillLevel + dc2SkillLevel) * (0.1 / (5 - metaLevel)))) * DecryptorModifier
+        End Function
 
-End Class
-
+    End Class
+End Namespace

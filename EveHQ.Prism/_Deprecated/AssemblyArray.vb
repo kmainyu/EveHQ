@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+' ReSharper disable once CheckNamespace - For binary serialization compatability
 <Serializable()> Public Class AssemblyArray
     Public ID As String
     Public Name As String

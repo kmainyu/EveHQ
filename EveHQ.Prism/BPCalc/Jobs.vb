@@ -17,8 +17,10 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+
 Imports System.IO
 Imports System.Windows.Forms
+Imports EveHQ.Prism.Classes
 Imports Newtonsoft.Json
 
 Namespace BPCalc

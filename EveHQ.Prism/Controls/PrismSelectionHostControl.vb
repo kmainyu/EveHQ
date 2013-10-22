@@ -30,31 +30,31 @@ Namespace Controls
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            cboHost.DropDownControl = New PrismSelectionControl(cListType, cAllowMultipleSelections, cboHost)
+            cboHost.DropDownControl = New PrismSelectionControl(_listType, _allowMultipleSelections, cboHost)
             AddHandler CType(cboHost.DropDownControl, PrismSelectionControl).SelectionChanged, AddressOf HostSelectionChanged
 
         End Sub
 
-        Dim cListType As PrismSelectionType
+        Dim _listType As PrismSelectionType
         Public Property ListType As PrismSelectionType
             Get
-                Return cListType
+                Return _listType
             End Get
             Set(ByVal value As PrismSelectionType)
-                cListType = value
+                _listType = value
                 If cboHost IsNot Nothing Then
                     CType(cboHost.DropDownControl, PrismSelectionControl).ListType = value
                 End If
             End Set
         End Property
 
-        Dim cAllowMultipleSelections As Boolean
+        Dim _allowMultipleSelections As Boolean
         Public Property AllowMultipleSelections As Boolean
             Get
-                Return cAllowMultipleSelections
+                Return _allowMultipleSelections
             End Get
             Set(ByVal value As Boolean)
-                cAllowMultipleSelections = value
+                _allowMultipleSelections = value
                 If cboHost IsNot Nothing Then
                     CType(cboHost.DropDownControl, PrismSelectionControl).AllowMultipleSelections = value
                 End If

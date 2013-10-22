@@ -17,48 +17,47 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Namespace Forms
 
+    Public Class FrmSelectQuantity
 
-Public Class frmSelectQuantity
-
-    Private cQuantity As Integer
+        Private _quantity As Integer
 
 #Region "Form Constructor"
 
-    Public Sub New(ByVal DefaultValue As Integer)
+        Public Sub New(ByVal defaultValue As Integer)
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        cQuantity = DefaultValue
+            ' Add any initialization after the InitializeComponent() call.
+            _quantity = DefaultValue
 
-    End Sub
+        End Sub
 
 #End Region
 
-    Public Property Quantity() As Integer
-        Get
-            Return cQuantity
-        End Get
-        Set(ByVal value As Integer)
-            cQuantity = value
-        End Set
-    End Property
+        Public Property Quantity() As Integer
+            Get
+                Return _quantity
+            End Get
+            Set(ByVal value As Integer)
+                _quantity = value
+            End Set
+        End Property
 
-    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
-        Me.Close()
-    End Sub
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
+        End Sub
 
-    Private Sub frmSelectQuantity_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
-        nudQuantity.Value = cQuantity
-    End Sub
+        Private Sub frmSelectQuantity_Shown(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Shown
+            nudQuantity.Value = _quantity
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
-        cQuantity = nudQuantity.Value
-        Me.Close()
-    End Sub
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            _quantity = nudQuantity.Value
+            Close()
+        End Sub
 
-
-   
-End Class
+    End Class
+End NameSpace

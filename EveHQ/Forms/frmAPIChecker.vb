@@ -248,7 +248,7 @@ Namespace Forms
                     ownerID = HQ.Settings.Pilots(cboAPIOwner.SelectedItem.ToString).ID
                 Case "Corporation"
                     apiAccount = HQ.Settings.Accounts(HQ.Settings.Corporations(cboAPIOwner.SelectedItem.ToString).Accounts(0))
-                    ownerID = HQ.Settings.Corporations(cboAPIOwner.SelectedItem.ToString).ID
+                    ownerID = CStr(HQ.Settings.Corporations(cboAPIOwner.SelectedItem.ToString).ID)
                 Case "Account"
                     For Each checkAccount As EveHQAccount In HQ.Settings.Accounts.Values
                         If checkAccount.FriendlyName = cboAPIOwner.SelectedItem.ToString Then

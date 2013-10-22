@@ -21,6 +21,7 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
 Imports System.ComponentModel
+Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.BPCalc
 Imports Newtonsoft.Json
 Imports System.Xml

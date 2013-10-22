@@ -511,7 +511,7 @@ Namespace Requisitions
                     isCorp = False
                 Else
                     assetAccount = HQ.Settings.Accounts(HQ.Settings.Corporations(assetOwner).Accounts(0))
-                    ownerID = HQ.Settings.Corporations(assetOwner).ID
+                    ownerID = CStr(HQ.Settings.Corporations(assetOwner).ID)
                     isCorp = True
                 End If
 

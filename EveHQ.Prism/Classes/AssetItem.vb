@@ -17,25 +17,26 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class AssetItem
-    Public ItemID As Long
-    Public Station As String
-    Public System As String
-    Public Constellation As String
-    Public Region As String
-    Public SystemSec As String
-    Public TypeID As Integer
-    Public TypeName As String
-    Public Owner As String
-    Public Group As String
-    Public Category As String
-    Public Meta As String
-    Public Volume As String
-    Public CorpHangar As String
-    Public Location As String
-    Public Quantity As Long
-    Public Price As Double
-    Public RawQuantity As Integer
-    Public IsInHanger As Boolean = False
-End Class
-
+Namespace Classes
+    Public Class AssetItem
+        Public ItemID As Long
+        Public Station As String
+        Public System As String
+        Public Constellation As String
+        Public Region As String
+        Public SystemSec As String
+        Public TypeID As Integer
+        Public TypeName As String
+        Public Owner As String
+        Public Group As String
+        Public Category As String
+        Public Meta As String
+        Public Volume As String
+        Public CorpHangar As String
+        Public Location As String
+        Public Quantity As Long
+        Public Price As Double
+        Public RawQuantity As Integer
+        Public IsInHanger As Boolean = False
+    End Class
+End Namespace

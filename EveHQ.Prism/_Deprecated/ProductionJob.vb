@@ -21,10 +21,11 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Runtime.Serialization
 
-<Serializable()>
-Public Class ProductionJob
+' ReSharper disable once CheckNamespace - For binary serialization compatability
+<Serializable()>Public Class ProductionJob
     Public JobName As String
     Public CurrentBP As BlueprintSelection
+    ' ReSharper disable once InconsistentNaming - For binary serialization compatability
     Public BPID As Integer
     Public TypeID As Integer
     Public TypeName As String

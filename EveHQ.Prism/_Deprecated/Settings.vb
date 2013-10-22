@@ -18,12 +18,17 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+Imports EveHQ.Prism.Classes ' ReSharper disable once CheckNamespace - For binary serialization compatability
+
 <Serializable()> Public Class Settings
 
     Public Shared PrismSettings As New Settings
     Public Shared PrismFolder As String
 
+
+    ' ReSharper disable InconsistentNaming - For binary serialization compatability
     Private cFactoryInstallCost As Double = 1000
+
     Private cFactoryRunningCost As Double = 333
     Private cLabInstallCost As Double = 1000
     Private cLabRunningCost As Double = 333
@@ -35,8 +40,8 @@
     Private cStandardSlotColumns As New List(Of UserSlotColumn)
     Private cUserSlotColumns As New List(Of UserSlotColumn)
     Private cSlotNameWidth As Integer = 250
-    ' CorpReps: SortedList (of <CorpName>, Sortedlist(Of CorpRepType, PilotName))
     Private cCorpReps As New SortedList(Of String, SortedList(Of CorpRepType, String))
+    ' ReSharper restore InconsistentNaming
 
     Public Property HideAPIDownloadDialog As Boolean = False
     Public Property CorpReps As SortedList(Of String, SortedList(Of CorpRepType, String))

@@ -20,99 +20,102 @@
 Imports System.Windows.Forms
 Imports EveHQ.Core
 
-Public Class frmAssetItemName
+Namespace Forms
 
-    Dim cAssetID As Integer
-    Dim cAssetName As String = ""
-    Dim cAssetItemName As String = ""
-    Dim cEditMode As Boolean = False
-    Public Property AssetID() As Integer
-        Get
-            Return cAssetID
-        End Get
-        Set(ByVal value As Integer)
-            cAssetID = value
-        End Set
-    End Property
-    Public Property AssetName() As String
-        Get
-            Return cAssetName
-        End Get
-        Set(ByVal value As String)
-            cAssetName = value
-        End Set
-    End Property
-    Public Property AssetItemName() As String
-        Get
-            Return cAssetItemName
-        End Get
-        Set(ByVal value As String)
-            cAssetItemName = value
-        End Set
-    End Property
-    Public Property EditMode() As Boolean
-        Get
-            Return cEditMode
-        End Get
-        Set(ByVal value As Boolean)
-            cEditMode = value
-        End Set
-    End Property
+    Public Class FrmAssetItemName
 
-    Private Sub frmAssetItemName_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-        lblDescription.Text = "Please enter a name for the " & AssetName & " (assetID #" & cAssetID & ")"
-        If cEditMode = True Then
-            txtAssetItemName.Text = PlugInData.AssetItemNames(cAssetID)
-        End If
-    End Sub
+        Dim _assetID As Integer
+        Dim _assetName As String = ""
+        Dim _assetItemName As String = ""
+        Dim _editMode As Boolean = False
+        Public Property AssetID() As Integer
+            Get
+                Return _assetID
+            End Get
+            Set(ByVal value As Integer)
+                _assetID = value
+            End Set
+        End Property
+        Public Property AssetName() As String
+            Get
+                Return _assetName
+            End Get
+            Set(ByVal value As String)
+                _assetName = value
+            End Set
+        End Property
+        Public Property AssetItemName() As String
+            Get
+                Return _assetItemName
+            End Get
+            Set(ByVal value As String)
+                _assetItemName = value
+            End Set
+        End Property
+        Public Property EditMode() As Boolean
+            Get
+                Return _editMode
+            End Get
+            Set(ByVal value As Boolean)
+                _editMode = value
+            End Set
+        End Property
 
-    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
-        Me.Close()
-    End Sub
+        Private Sub frmAssetItemName_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+            lblDescription.Text = "Please enter a name for the " & AssetName & " (assetID #" & _assetID & ")"
+            If _editMode = True Then
+                txtAssetItemName.Text = PlugInData.AssetItemNames(_assetID)
+            End If
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
-        If txtAssetItemName.Text = "" Then
-            MessageBox.Show("You must enter some valid text to set a name", "Text Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        Else
-            cAssetItemName = txtAssetItemName.Text
-            ' Get the mode we are using
-            If cEditMode = False Then
-                ' Adding a new name
-                If Me.AddAssetItemName(cAssetID, cAssetItemName.Replace("'", "''")) = True Then
-                    PlugInData.AssetItemNames.Add(cAssetID, cAssetItemName)
-                Else
-                    cAssetItemName = ""
-                End If
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
+        End Sub
+
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            If txtAssetItemName.Text = "" Then
+                MessageBox.Show("You must enter some valid text to set a name", "Text Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
             Else
-                ' Editing a name
-                If Me.EditAssetItemName(cAssetID, cAssetItemName.Replace("'", "''")) = True Then
-                    PlugInData.AssetItemNames(cAssetID) = cAssetItemName
+                _assetItemName = txtAssetItemName.Text
+                ' Get the mode we are using
+                If _editMode = False Then
+                    ' Adding a new name
+                    If AddAssetItemName(_assetID, _assetItemName.Replace("'", "''")) = True Then
+                        PlugInData.AssetItemNames.Add(_assetID, _assetItemName)
+                    Else
+                        _assetItemName = ""
+                    End If
                 Else
-                    cAssetItemName = ""
+                    ' Editing a name
+                    If EditAssetItemName(_assetID, _assetItemName.Replace("'", "''")) = True Then
+                        PlugInData.AssetItemNames(_assetID) = _assetItemName
+                    Else
+                        _assetItemName = ""
+                    End If
                 End If
             End If
-        End If
-        Me.Close()
-    End Sub
+            Close()
+        End Sub
 
-    Private Function AddAssetItemName(ByVal assetID As Integer, ByVal assetName As String) As Boolean
-        Dim assetSQL As String = "INSERT INTO assetItemNames (itemID, itemName) VALUES (" & assetID & ", '" & assetName & "');"
-        If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-            MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            Return True
-        End If
-    End Function
+        Private Function AddAssetItemName(ByVal aID As Integer, ByVal aName As String) As Boolean
+            Dim assetSQL As String = "INSERT INTO assetItemNames (itemID, itemName) VALUES (" & aID & ", '" & aName & "');"
+            If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
+                MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                Return True
+            End If
+        End Function
 
-    Private Function EditAssetItemName(ByVal assetID As Integer, ByVal assetName As String) As Boolean
-        Dim assetSQL As String = "UPDATE assetItemNames SET itemName='" & assetName & "' WHERE itemID=" & assetID & ";"
-        If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-            MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-            Return False
-        Else
-            Return True
-        End If
-    End Function
-End Class
+        Private Function EditAssetItemName(ByVal aID As Integer, ByVal aName As String) As Boolean
+            Dim assetSQL As String = "UPDATE assetItemNames SET itemName='" & aName & "' WHERE itemID=" & aID & ";"
+            If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
+                MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Return False
+            Else
+                Return True
+            End If
+        End Function
+    End Class
+End NameSpace

@@ -86,7 +86,7 @@ Public Class FrmKmv
                             newPilot.Name = HQ.Settings.Pilots(character).ID
                         Else
                             If HQ.Settings.Corporations.ContainsKey(character) Then
-                                newPilot.Name = HQ.Settings.Corporations(character).ID
+                                newPilot.Name = CStr(HQ.Settings.Corporations(character).ID)
                             Else
                                 newPilot.Name = character
                             End If

@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.ComponentModel
+Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism
 Imports EveHQ.Core
 Imports System.Data.SqlServerCe

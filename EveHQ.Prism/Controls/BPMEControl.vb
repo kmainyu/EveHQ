@@ -21,48 +21,48 @@ Imports EveHQ.Prism.BPCalc
 
 Namespace Controls
 
-    Public Class BPMEControl
+    Public Class BlueprintMEControl
 
-        Dim cParentJob As Job
-        Dim cAssignedJob As Job
-        Dim cAssignedTypeID As String
+        Dim _parentJob As Job
+        Dim _assignedJob As Job
+        Dim _assignedTypeID As String
 
         Public Event ResourcesChanged()
 
         Public Property ParentJob() As Job
             Get
-                Return cParentJob
+                Return _parentJob
             End Get
             Set(ByVal value As Job)
-                cParentJob = value
+                _parentJob = value
             End Set
         End Property
 
         Public Property AssignedJob() As Job
             Get
-                Return cAssignedJob
+                Return _assignedJob
             End Get
             Set(ByVal value As Job)
-                cAssignedJob = value
+                _assignedJob = value
             End Set
         End Property
 
         Public Property AssignedTypeID() As String
             Get
-                Return cAssignedTypeID
+                Return _assignedTypeID
             End Get
             Set(ByVal value As String)
-                cAssignedTypeID = value
+                _assignedTypeID = value
             End Set
         End Property
 
         Private Sub nudME_ButtonCustomClick(ByVal sender As Object, ByVal e As EventArgs) Handles nudME.ButtonCustomClick
-            If cAssignedTypeID <> "" Then
-                If cAssignedJob IsNot Nothing Then
-                    cAssignedJob.CurrentBlueprint.MELevel = nudME.Value
+            If _assignedTypeID <> "" Then
+                If _assignedJob IsNot Nothing Then
+                    _assignedJob.CurrentBlueprint.MELevel = nudME.Value
                     ParentJob.RecalculateResourceRequirements()
                     RaiseEvent ResourcesChanged()
-                    If cAssignedJob.CurrentBlueprint.MELevel = nudME.Value Then
+                    If _assignedJob.CurrentBlueprint.MELevel = nudME.Value Then
                         nudME.ButtonCustom.Enabled = False
                     Else
                         nudME.ButtonCustom.Enabled = True
@@ -73,9 +73,9 @@ Namespace Controls
 
         Private Sub nudME_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudME.ValueChanged
             nudME.ButtonCustom.Enabled = False
-            If cAssignedTypeID <> "" Then
-                If cAssignedJob IsNot Nothing Then
-                    If cAssignedJob.CurrentBlueprint.MELevel = nudME.Value Then
+            If _assignedTypeID <> "" Then
+                If _assignedJob IsNot Nothing Then
+                    If _assignedJob.CurrentBlueprint.MELevel = nudME.Value Then
                         nudME.ButtonCustom.Enabled = False
                     Else
                         nudME.ButtonCustom.Enabled = True
@@ -85,12 +85,12 @@ Namespace Controls
         End Sub
 
         Private Sub nudME_LockUpdateChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudME.LockUpdateChanged
-            If cAssignedTypeID <> "" Then
+            If _assignedTypeID <> "" Then
                 If nudME.LockUpdateChecked = True Then
                     ParentJob.ReplaceResourceWithJob(CInt(AssignedTypeID))
                 Else
                     ParentJob.ReplaceJobWithResource(CInt(AssignedTypeID))
-                    cAssignedJob.CurrentBlueprint.MELevel = nudME.Value
+                    _assignedJob.CurrentBlueprint.MELevel = nudME.Value
                 End If
                 RaiseEvent ResourcesChanged()
             End If

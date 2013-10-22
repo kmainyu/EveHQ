@@ -19,39 +19,42 @@
 '=========================================================================
 Imports EveHQ.EveData
 
-Public Class frmSelectItem
+Namespace Forms
 
-    Private cItem As String
+    Public Class FrmSelectItem
 
-    Public ReadOnly Property Item() As String
-        Get
-            Return cItem
-        End Get
-    End Property
+        Private _item As String
 
-    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
-        Me.Close()
-    End Sub
+        Public ReadOnly Property Item() As String
+            Get
+                Return _item
+            End Get
+        End Property
 
-    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
-        If cboItems.SelectedItem IsNot Nothing Then
-            cItem = cboItems.SelectedItem.ToString
-        End If
-        Me.Close()
-    End Sub
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
+        End Sub
 
-    Private Sub frmSelectItem_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-
-        ' Load recyclable items
-        cboItems.BeginUpdate()
-        cboItems.Items.Clear()
-        For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
-            If bp.Resources.ContainsKey(6) Then
-                cboItems.AutoCompleteCustomSource.Add(StaticData.Types(bp.ProductId).Name)
-                cboItems.Items.Add(StaticData.Types(bp.ProductId).Name)
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            If cboItems.SelectedItem IsNot Nothing Then
+                _item = cboItems.SelectedItem.ToString
             End If
-        Next
-        cboItems.EndUpdate()
+            Close()
+        End Sub
 
-    End Sub
-End Class
+        Private Sub frmSelectItem_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+
+            ' Load recyclable items
+            cboItems.BeginUpdate()
+            cboItems.Items.Clear()
+            For Each bp As EveData.Blueprint In StaticData.Blueprints.Values
+                If bp.Resources.ContainsKey(6) Then
+                    cboItems.AutoCompleteCustomSource.Add(StaticData.Types(bp.ProductId).Name)
+                    cboItems.Items.Add(StaticData.Types(bp.ProductId).Name)
+                End If
+            Next
+            cboItems.EndUpdate()
+
+        End Sub
+    End Class
+End NameSpace

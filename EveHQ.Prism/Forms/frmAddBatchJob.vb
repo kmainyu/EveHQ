@@ -18,75 +18,79 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Windows.Forms
+Imports EveHQ.Prism.Classes
 
-Public Class frmAddBatchJob
+Namespace Forms
 
-    Dim cJobName As String = ""
-    Dim EditMode As Boolean = False
+    Public Class FrmAddBatchJob
 
-    Public Property JobName() As String
-        Get
-            Return cJobName
-        End Get
-        Set(ByVal value As String)
-            cJobName = value
-        End Set
-    End Property
+        Dim _jobName As String = ""
+        ReadOnly _editMode As Boolean = False
 
-    Public Sub New()
+        Public Property JobName() As String
+            Get
+                Return _jobName
+            End Get
+            Set(ByVal value As String)
+                _jobName = value
+            End Set
+        End Property
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        Public Sub New()
 
-        ' Add any initialization after the InitializeComponent() call.
-        cJobName = ""
-        EditMode = False
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-    End Sub
+            ' Add any initialization after the InitializeComponent() call.
+            _jobName = ""
+            _editMode = False
 
-    Public Sub New(ByVal JobName As String)
+        End Sub
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        Public Sub New(ByVal name As String)
 
-        ' Add any initialization after the InitializeComponent() call.
-        cJobName = JobName
-        EditMode = True
-        txtJobName.Text = cJobName
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-    End Sub
+            ' Add any initialization after the InitializeComponent() call.
+            _jobName = name
+            _editMode = True
+            txtJobName.Text = _jobName
 
-    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
-        Me.DialogResult = DialogResult.Cancel
-        Me.Close()
-    End Sub
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
-        If txtJobName.Text = "" Then
-            MessageBox.Show("You must enter some valid text to set a name!", "Batch Name Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        Else
-            ' Get the mode we are using
-            If EditMode = False Then
-                ' Adding a new name
-                If BatchJobs.Jobs.ContainsKey(txtJobName.Text) = False Then
-                    cJobName = txtJobName.Text
-                Else
-                    MessageBox.Show("Batch Name already exists - please choose another name.", "Batch Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
-                End If
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            DialogResult = DialogResult.Cancel
+            Close()
+        End Sub
+
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            If txtJobName.Text = "" Then
+                MessageBox.Show("You must enter some valid text to set a name!", "Batch Name Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
             Else
-                ' Editing a name
-                If BatchJobs.Jobs.ContainsKey(txtJobName.Text) = False Or (BatchJobs.Jobs.ContainsKey(txtJobName.Text) = True And txtJobName.Text = cJobName) Then
-                    cJobName = txtJobName.Text
+                ' Get the mode we are using
+                If _editMode = False Then
+                    ' Adding a new name
+                    If BatchJobs.Jobs.ContainsKey(txtJobName.Text) = False Then
+                        _jobName = txtJobName.Text
+                    Else
+                        MessageBox.Show("Batch Name already exists - please choose another name.", "Batch Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
                 Else
-                    MessageBox.Show("Batch Name already exists - please choose another name.", "Batch Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
-                    Exit Sub
+                    ' Editing a name
+                    If BatchJobs.Jobs.ContainsKey(txtJobName.Text) = False Or (BatchJobs.Jobs.ContainsKey(txtJobName.Text) = True And txtJobName.Text = _jobName) Then
+                        _jobName = txtJobName.Text
+                    Else
+                        MessageBox.Show("Batch Name already exists - please choose another name.", "Batch Name Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        Exit Sub
+                    End If
                 End If
             End If
-        End If
-        Me.DialogResult = DialogResult.OK
-        Me.Close()
-    End Sub
+            DialogResult = DialogResult.OK
+            Close()
+        End Sub
 
-End Class
+    End Class
+End Namespace
