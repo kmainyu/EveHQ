@@ -118,7 +118,7 @@ Namespace Forms
 
             ' Check for existence of a cache folder in the application directory
             HQ.WriteLogEvent("Start: Set core cache directory")
-            HQ.coreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
+            HQ.CoreCacheFolder = Path.Combine(Application.StartupPath, "StaticData")
             If My.Computer.FileSystem.DirectoryExists(HQ.coreCacheFolder) = False Then
                 MessageBox.Show("Unable to find core cache folder. EveHQ will now quit", "Cache Folder Required", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End

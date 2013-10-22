@@ -32,6 +32,7 @@ Imports System.Data.SQLite
 
 Public Class FrmCacheCreator
 
+    Private Const CacheFolderName As String = "StaticData"
     Private Const StaticDB As String = "EveHQMaster"
     Private Const StaticDBConnection As String = "Server=localhost\SQLEXPRESS; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
     Private Const BulkDB As String = "EveHQMaster"
@@ -71,7 +72,7 @@ Public Class FrmCacheCreator
     Private Sub btnGenerateCache_Click(sender As Object, e As EventArgs) Handles btnGenerateCache.Click
 
         ' Check for existence of a core cache folder in the application directory
-        _coreCacheFolder = Path.Combine(Application.StartupPath, "CoreCache")
+        _coreCacheFolder = Path.Combine(Application.StartupPath, CacheFolderName)
         If My.Computer.FileSystem.DirectoryExists(_coreCacheFolder) = False Then
             ' Create the cache folder if it doesn't exist
             My.Computer.FileSystem.CreateDirectory(_coreCacheFolder)
@@ -128,7 +129,7 @@ Public Class FrmCacheCreator
                             ' Pre-process the icon name to make it easier later on
                             Dim iconName As String = CType(subEntry.Value, Scalar).Text.Trim
                             ' Get the filename if the fullname starts with "res:"
-                            If iconName.StartsWith("res") Then
+                            If iconName.StartsWith("res", StringComparison.Ordinal) Then
                                 iconName = iconName.Split("/".ToCharArray).Last
                             End If
                             ' Set the icon item
@@ -1389,7 +1390,7 @@ Public Class FrmCacheCreator
         Dim att() As String
         Dim attData As Attribute
         For Each line As String In attributeLines
-            If line.Trim <> "" And line.StartsWith("#") = False Then
+            If line.Trim <> "" And line.StartsWith("#", StringComparison.Ordinal) = False Then
                 att = line.Split(",".ToCharArray)
                 attData = New Attribute
                 attData.ID = CInt(att(0))
@@ -2294,12 +2295,12 @@ Public Class FrmCacheCreator
             Dim implantGroups As String
             Dim implantGroup() As String
             For Each cImplant As String In implantsList
-                If cImplant.Trim <> "" And cImplant.StartsWith("#") = False Then
+                If cImplant.Trim <> "" And cImplant.StartsWith("#", StringComparison.Ordinal) = False Then
                     implantData = cImplant.Split(",".ToCharArray)
                     implantName = implantData(10)
                     implantGroups = implantData(9)
                     implantGroup = implantGroups.Split(";".ToCharArray)
-                    If Implants.implantList.ContainsKey(implantName) = True Then
+                    If Implants.ImplantList.ContainsKey(implantName) = True Then
                         Dim bImplant As ShipModule = Implants.ImplantList(implantName)
                         For Each impGroup As String In implantGroup
                             bImplant.ImplantGroups.Add(impGroup)
@@ -2335,7 +2336,7 @@ Public Class FrmCacheCreator
         Dim affectingIDs As List(Of String)
         Dim affectingName As String = ""
         For Each effectLine As String In effectLines
-            If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
+            If effectLine.Trim <> "" And effectLine.StartsWith("#", StringComparison.Ordinal) = False Then
                 effectData = effectLine.Split(",".ToCharArray).ToList
                 affectingIDs = effectData(2).Split(";".ToCharArray).ToList()
 
@@ -2382,7 +2383,7 @@ Public Class FrmCacheCreator
                     End Select
                     affectingName &= ";"
 
-                    For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                    For Each cModule As ShipModule In ModuleLists.ModuleList.Values
                         Select Case newEffect.AffectedType
                             Case HQFEffectType.All
                                 If newEffect.AffectingID <> 0 Then
@@ -2418,7 +2419,7 @@ Public Class FrmCacheCreator
                     ' Add the skills into the ship
                     If newEffect.Status < 16 Then
                         If affectingName.Contains(";Skill;") = True Then
-                            For Each cShip As Ship In ShipLists.shipList.Values
+                            For Each cShip As Ship In ShipLists.ShipList.Values
                                 Select Case newEffect.AffectedType
                                     Case HQFEffectType.All
                                         If newEffect.AffectingID <> 0 Then
@@ -2463,7 +2464,7 @@ Public Class FrmCacheCreator
         Dim atts As New ArrayList
         Dim affectingName As String
         For Each effectLine As String In effectLines
-            If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
+            If effectLine.Trim <> "" And effectLine.StartsWith("#", StringComparison.Ordinal) = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 atts.Clear()
                 If effectData(3).Contains(";") Then
@@ -2503,7 +2504,7 @@ Public Class FrmCacheCreator
 
                     affectingName = StaticData.Types(CInt(effectData(2))).Name & ";Implant;" & Attributes.AttributeQuickList(newEffect.AffectedAtt).ToString & ";"
 
-                    For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                    For Each cModule As ShipModule In ModuleLists.ModuleList.Values
                         Select Case newEffect.AffectedType
                             Case HQFEffectType.All
                                 If CInt(effectData(2)) <> 0 Then
@@ -2548,7 +2549,7 @@ Public Class FrmCacheCreator
         Dim ids() As String
         Dim affectingName As String
         For Each effectLine As String In effectLines
-            If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
+            If effectLine.Trim <> "" And effectLine.StartsWith("#", StringComparison.Ordinal) = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
                 newEffect.ShipID = CInt(effectData(0))
@@ -2585,7 +2586,7 @@ Public Class FrmCacheCreator
                 End If
 
                 ' Add the skills into the ship modules
-                For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                For Each cModule As ShipModule In ModuleLists.ModuleList.Values
                     Select Case newEffect.AffectedType
                         Case HQFEffectType.All
                             If newEffect.AffectingID <> 0 Then
@@ -2617,7 +2618,7 @@ Public Class FrmCacheCreator
                 ' Add the skills into the ship global skills
 
                 If newEffect.Status < 16 Then
-                    For Each cShip As Ship In ShipLists.shipList.Values
+                    For Each cShip As Ship In ShipLists.ShipList.Values
                         If newEffect.ShipID = CInt(cShip.ID) Then
                             If cShip.GlobalAffects Is Nothing Then
                                 cShip.GlobalAffects = New List(Of String)
@@ -2643,7 +2644,7 @@ Public Class FrmCacheCreator
         Dim ids() As String
         Dim affectingName As String
         For Each effectLine As String In effectLines
-            If effectLine.Trim <> "" And effectLine.StartsWith("#") = False Then
+            If effectLine.Trim <> "" And effectLine.StartsWith("#", StringComparison.Ordinal) = False Then
                 effectData = effectLine.Split(",".ToCharArray)
                 newEffect = New ShipEffect
                 newEffect.ShipID = CInt(effectData(0))
@@ -2679,7 +2680,7 @@ Public Class FrmCacheCreator
                     affectingName &= ";" & StaticData.Types(newEffect.AffectingID).Name
                 End If
 
-                For Each cModule As ShipModule In ModuleLists.moduleList.Values
+                For Each cModule As ShipModule In ModuleLists.ModuleList.Values
                     Select Case newEffect.AffectedType
                         Case HQFEffectType.All
                             If newEffect.AffectingID <> 0 Then
@@ -3027,7 +3028,7 @@ Public Class FrmCacheCreator
         Dim lines() As String = line.Split(Chr(13))
         ' Read the first line which is a header line
         For Each line In lines
-            If line.StartsWith("attributeID") = False And line <> "" Then
+            If line.StartsWith("attributeID", StringComparison.Ordinal) = False And line <> "" Then
                 Dim fields() As String = line.Split(",".ToCharArray)
                 Dim strSQL2 As String = "UPDATE dgmAttributeTypes SET attributeGroup=" & fields(1) & " WHERE attributeID=" & fields(0) & ";"
                 Dim keyCommand2 As New SqlCommand(strSQL2, connection)
