@@ -340,7 +340,7 @@ Namespace Forms
             lvwAttributes.Items.Clear()
             Dim attData As Attribute
             Dim itemData As String
-            For Each att As String In itemObject.Attributes.Keys
+            For Each att As Integer In itemObject.Attributes.Keys
                 Dim newItem As New ListViewItem
                 attData = Attributes.AttributeList(att)
                 If attData.DisplayName <> "" Then
@@ -357,20 +357,16 @@ Namespace Forms
                     Select Case attData.UnitName
                         Case "typeID"
                             If stdItem.Attributes.Item(att).ToString <> "0" Then
-                                If SkillLists.SkillList.ContainsKey(stdItem.Attributes.Item(att).ToString) = True Then
-                                    newItem.SubItems.Add(SkillLists.SkillList(stdItem.Attributes.Item(att).ToString).Name)
+                                If EveData.StaticData.Types.ContainsKey(CInt(stdItem.Attributes.Item(att))) Then
+                                    newItem.SubItems.Add(EveData.StaticData.Types(CInt(stdItem.Attributes.Item(att))).Name)
                                 Else
-                                    If ShipLists.ShipListKeyID.ContainsKey(stdItem.Attributes.Item(att).ToString) = True Then
-                                        newItem.SubItems.Add(ShipLists.ShipListKeyID(stdItem.Attributes.Item(att).ToString))
-                                    Else
-                                        newItem.SubItems.Add(ModuleLists.ModuleList(stdItem.Attributes.Item(att).ToString).Name)
-                                    End If
+                                    newItem.SubItems.Add("Unknown Item!")
                                 End If
                             Else
                                 newItem.SubItems.Add("n/a")
                             End If
                         Case "groupID"
-                            newItem.SubItems.Add(ModuleLists.TypeGroups(stdItem.Attributes.Item(att).ToString))
+                            newItem.SubItems.Add(ModuleLists.TypeGroups(CInt(stdItem.Attributes.Item(att))))
                         Case Else
                             If stdItem.Attributes.ContainsKey(att) = True Then
                                 newItem.SubItems.Add(stdItem.Attributes.Item(att) & " " & attData.UnitName)
@@ -382,16 +378,16 @@ Namespace Forms
                     Select Case attData.UnitName
                         Case "typeID"
                             If stdShip.Attributes.Item(att).ToString <> "0" Then
-                                If SkillLists.SkillList.ContainsKey(stdShip.Attributes.Item(att).ToString) = True Then
-                                    newItem.SubItems.Add(SkillLists.SkillList(stdShip.Attributes.Item(att).ToString).Name)
+                                If EveData.StaticData.Types.ContainsKey(CInt(stdShip.Attributes.Item(att))) Then
+                                    newItem.SubItems.Add(EveData.StaticData.Types(CInt(stdShip.Attributes.Item(att))).Name)
                                 Else
-                                    newItem.SubItems.Add(ModuleLists.ModuleList(stdShip.Attributes.Item(att).ToString).Name)
+                                    newItem.SubItems.Add("Unknown Item!")
                                 End If
                             Else
                                 newItem.SubItems.Add("n/a")
                             End If
                         Case "groupID"
-                            newItem.SubItems.Add(ModuleLists.TypeGroups(stdShip.Attributes.Item(att).ToString))
+                            newItem.SubItems.Add(ModuleLists.TypeGroups(CInt(stdShip.Attributes.Item(att))))
                         Case Else
                             If stdShip.Attributes.ContainsKey(att) = True Then
                                 newItem.SubItems.Add(stdShip.Attributes.Item(att) & " " & attData.UnitName)
@@ -404,21 +400,17 @@ Namespace Forms
                     Case "typeID"
                         If itemObject.Attributes.Item(att).ToString <> "0" Then
                             newItem.UseItemStyleForSubItems = False
-                            If SkillLists.SkillList.ContainsKey(itemObject.Attributes.Item(att).ToString) = True Then
-                                itemData = SkillLists.SkillList(itemObject.Attributes.Item(att).ToString).Name
+                            If EveData.StaticData.Types.ContainsKey(CInt(itemObject.Attributes.Item(att))) Then
+                                itemData = EveData.StaticData.Types(CInt(itemObject.Attributes.Item(att))).Name
                             Else
-                                If ShipLists.ShipListKeyID.ContainsKey(itemObject.Attributes.Item(att).ToString) = True Then
-                                    itemData = ShipLists.ShipListKeyID(itemObject.Attributes.Item(att).ToString)
-                                Else
-                                    itemData = ModuleLists.ModuleList(itemObject.Attributes.Item(att).ToString).Name
-                                End If
+                                itemData = "Unknown Item!"
                             End If
                         Else
                             itemData = "n/a"
-                            newItem.SubItems.Add("n/a")
                         End If
+                        newItem.SubItems.Add(itemData)
                     Case "groupID"
-                        itemData = ModuleLists.TypeGroups(itemObject.Attributes.Item(att).ToString)
+                        itemData = ModuleLists.TypeGroups(CInt(itemObject.Attributes.Item(att)))
                     Case Else
                         itemData = itemObject.Attributes.Item(att) & " " & attData.UnitName
                 End Select
@@ -476,10 +468,10 @@ Namespace Forms
         End Sub
 
         Private Sub lblDescription_MarkupLinkClick(sender As Object, e As MarkupLinkClickEventArgs) Handles lblDescription.MarkupLinkClick
-            'Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
-            'If StaticData.TypeNames.ContainsValue(typeID) = True Then
-            '    Call DisplayItem(CInt(typeID), True)
-            'End If
+            Dim typeID As String = e.HRef.TrimStart("http://".ToCharArray)
+            Using myIB As New ItemBrowser.FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
         End Sub
 
         Private Sub adtAffects_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAffects.ColumnHeaderMouseUp
