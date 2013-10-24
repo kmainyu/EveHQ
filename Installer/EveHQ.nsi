@@ -6,7 +6,6 @@ SetCompressor /solid lzma
 !include DotNetFramework.nsh
 !include MUI2.nsh
 !include x64.nsh
-!include SQLCE40.nsh
 !include Upgrade.nsh
 !include DirClean.nsh
 !include "FileFunc.nsh"
@@ -94,20 +93,14 @@ SectionIn RO
   File "..\BuildOutput\Release\EveHQ.Caching.dll"
   File "..\BuildOutput\Release\EveHQ.Common.dll"
   File "..\BuildOutput\Release\EveHQ.Core.dll"
-  File "..\BuildOutput\Release\EveHQ.CoreControls.dll"
-  File "..\BuildOutput\Release\EveHQ.DataUpgrader.exe"
-  File "..\BuildOutput\Release\EveHQ.DataUpgrader.exe.config"
   File "..\BuildOutput\Release\EveHQ.EveAPI.dll"
   File "..\BuildOutput\Release\EveHQ.exe"
   File "..\BuildOutput\Release\EveHQ.exe.config"
   File "..\BuildOutput\Release\EveHQ.HQF.dll"
-  File "..\BuildOutput\Release\EveHQ.ItemBrowser.dll"
   File "..\BuildOutput\Release\EveHQ.KillMailViewer.dll"
   File "..\BuildOutput\Release\EveHQ.Market.dll"
   File "..\BuildOutput\Release\EveHQ.Prism.dll"
   File "..\BuildOutput\Release\EveHQ.Void.dll"
-  File "..\BuildOutput\Release\EveHQPatcher.exe"
-  File "..\BuildOutput\Release\EveHQPatcher.exe.config"
   File "..\BuildOutput\Release\GammaJul.lglcd.dll"
   File "..\BuildOutput\Release\GammaJul.lglcd.Native32.dll"
   File "..\BuildOutput\Release\GammaJul.lglcd.Native64.dll"
@@ -121,16 +114,69 @@ SectionIn RO
   File "..\BuildOutput\Release\System.Threading.Tasks.dll"
   File "..\EveHQ\License.txt"
 
+###################################################################
+# Data files                                                      #
+###################################################################
+
 ${If} $useLocalFlag == "0" 
-  SetOutPath $APPDATA\EveHQ
+  SetOutPath $APPDATA\EveHQ\StaticData
+${Else}
+  SetOutPath $INSTDIR\StaticData
 ${EndIf}
 
-	# Old DB File
-  #File "..\EveHQ.Data\EveHQ.sdf"
+	File "..\BuildOutput\Release\StaticData\Agents.dat"
+	File "..\BuildOutput\Release\StaticData\AssemblyArrays.dat"
+	File "..\BuildOutput\Release\StaticData\attributes.dat"
+	File "..\BuildOutput\Release\StaticData\AttributeTypes.dat"
+	File "..\BuildOutput\Release\StaticData\Blueprints.dat"
+	File "..\BuildOutput\Release\StaticData\boosters.dat"
+	File "..\BuildOutput\Release\StaticData\CertCats.dat"
+	File "..\BuildOutput\Release\StaticData\CertCerts.dat"
+	File "..\BuildOutput\Release\StaticData\CertClasses.dat"
+	File "..\BuildOutput\Release\StaticData\CertRec.dat"
+	File "..\BuildOutput\Release\StaticData\Certs.dat"
+	File "..\BuildOutput\Release\StaticData\CertSkills.dat"
+	File "..\BuildOutput\Release\StaticData\Constellations.dat"
+	File "..\BuildOutput\Release\StaticData\Divisions.dat"
+	File "..\BuildOutput\Release\StaticData\EffectTypes.dat"
+	File "..\BuildOutput\Release\StaticData\GroupCats.dat"
+	File "..\BuildOutput\Release\StaticData\implants.dat"
+	File "..\BuildOutput\Release\StaticData\ItemCats.dat"
+	File "..\BuildOutput\Release\StaticData\ItemFlags.dat"
+	File "..\BuildOutput\Release\StaticData\ItemGroups.bin"
+	File "..\BuildOutput\Release\StaticData\ItemGroups.dat"
+	File "..\BuildOutput\Release\StaticData\ItemList.dat"
+	File "..\BuildOutput\Release\StaticData\ItemMarketGroups.dat"
+	File "..\BuildOutput\Release\StaticData\Items.dat"
+	File "..\BuildOutput\Release\StaticData\ItemUnlocks.dat"
+	File "..\BuildOutput\Release\StaticData\MarketGroups.dat"
+	File "..\BuildOutput\Release\StaticData\MetaGroups.dat"
+	File "..\BuildOutput\Release\StaticData\MetaTypes.dat"
+	File "..\BuildOutput\Release\StaticData\modules.dat"
+	File "..\BuildOutput\Release\StaticData\NPCCorps.dat"
+	File "..\BuildOutput\Release\StaticData\Regions.dat"
+	File "..\BuildOutput\Release\StaticData\ShipGroups.bin"
+	File "..\BuildOutput\Release\StaticData\ships.dat"
+	File "..\BuildOutput\Release\StaticData\skills.dat"
+	File "..\BuildOutput\Release\StaticData\SkillUnlocks.dat"
+	File "..\BuildOutput\Release\StaticData\Stations.dat"
+	File "..\BuildOutput\Release\StaticData\Systems.dat"
+  File "..\BuildOutput\Release\StaticData\TypeAttributes.dat"
+  File "..\BuildOutput\Release\StaticData\TypeEffects.dat"
+  File "..\BuildOutput\Release\StaticData\Units.dat"
+  
   # delete cache files
-  Delete $APPDATA\EveHQ\HQF\Cache\*.*
+  
+${If} $useLocalFlag == "0" 
+   Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
+${Else}
+   Delete $INSTDIR\EveHQ\HQF\Cache\*.*
+  Delete $INSTDIR\EveHQ\CoreCache\*.*
+  !insertmacro RemoveFilesAndSubDirs "$INSTDIR\EveHQ\MarketCache\"
+${EndIf}
+  
   
   
 

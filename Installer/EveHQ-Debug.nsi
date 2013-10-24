@@ -6,7 +6,6 @@ SetCompressor /solid lzma
 !include DotNetFramework.nsh
 !include MUI2.nsh
 !include x64.nsh
-!include SQLCE40.nsh
 !include Upgrade.nsh
 !include DirClean.nsh
 !include "FileFunc.nsh"
@@ -15,7 +14,7 @@ SetCompressor /solid lzma
 
  
 Name "EveHQ"
-OutFile "EveHQ-Setup.exe"
+OutFile "EveHQ-Debug-Setup.exe"
 
 RequestExecutionLevel admin
 
@@ -86,7 +85,9 @@ Section "EveHQ Files"
 
 SectionIn RO
   
-  ; Set output path to the installation directory.
+###################################################################
+# Program files                                                   #
+###################################################################
   SetOutPath $INSTDIR
   
   File "..\BuildOutput\Debug\DevComponents.DotNetBar2.dll"
@@ -96,11 +97,6 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.Common.dll"
   File "..\BuildOutput\Debug\EveHQ.Core.dll"
   File "..\BuildOutput\Debug\EveHQ.Core.pdb"
-  File "..\BuildOutput\Debug\EveHQ.CoreControls.dll"
-  File "..\BuildOutput\Debug\EveHQ.CoreControls.pdb"
-  File "..\BuildOutput\Debug\EveHQ.DataUpgrader.exe"
-  File "..\BuildOutput\Debug\EveHQ.DataUpgrader.pdb"
-  File "..\BuildOutput\Debug\EveHQ.DataUpgrader.exe.config"
   File "..\BuildOutput\Debug\EveHQ.EveAPI.dll"
   File "..\BuildOutput\Debug\EveHQ.EveAPI.pdb"
   File "..\BuildOutput\Debug\EveHQ.exe"
@@ -108,8 +104,6 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.exe.config"
   File "..\BuildOutput\Debug\EveHQ.HQF.dll"
   File "..\BuildOutput\Debug\EveHQ.HQF.pdb"
-  File "..\BuildOutput\Debug\EveHQ.ItemBrowser.dll"
-  File "..\BuildOutput\Debug\EveHQ.ItemBrowser.pdb"
   File "..\BuildOutput\Debug\EveHQ.KillMailViewer.dll"
   File "..\BuildOutput\Debug\EveHQ.KillMailViewer.pdb"
   File "..\BuildOutput\Debug\EveHQ.Market.dll"
@@ -118,9 +112,6 @@ SectionIn RO
   File "..\BuildOutput\Debug\EveHQ.Prism.pdb"
   File "..\BuildOutput\Debug\EveHQ.Void.dll"
   File "..\BuildOutput\Debug\EveHQ.Void.pdb"
-  File "..\BuildOutput\Debug\EveHQPatcher.exe"
-  File "..\BuildOutput\Debug\EveHQPatcher.pdb"
-  File "..\BuildOutput\Debug\EveHQPatcher.exe.config"
   File "..\BuildOutput\Debug\GammaJul.lglcd.dll"
   File "..\BuildOutput\Debug\GammaJul.lglcd.Native32.dll"
   File "..\BuildOutput\Debug\GammaJul.lglcd.Native64.dll"
@@ -134,16 +125,70 @@ SectionIn RO
   File "..\BuildOutput\Debug\System.Threading.Tasks.dll"
   File "..\EveHQ\License.txt"
 
+###################################################################
+# Data files                                                      #
+###################################################################
+
 ${If} $useLocalFlag == "0" 
-  SetOutPath $APPDATA\EveHQ
+  SetOutPath $APPDATA\EveHQ\StaticData
+${Else}
+  SetOutPath $INSTDIR\StaticData
 ${EndIf}
 
-	# Old DB File
-  #File "..\EveHQ.Data\EveHQ.sdf"
+	File "..\BuildOutput\Debug\StaticData\Agents.dat"
+	File "..\BuildOutput\Debug\StaticData\AssemblyArrays.dat"
+	File "..\BuildOutput\Debug\StaticData\attributes.dat"
+	File "..\BuildOutput\Debug\StaticData\AttributeTypes.dat"
+	File "..\BuildOutput\Debug\StaticData\Blueprints.dat"
+	File "..\BuildOutput\Debug\StaticData\boosters.dat"
+	File "..\BuildOutput\Debug\StaticData\CertCats.dat"
+	File "..\BuildOutput\Debug\StaticData\CertCerts.dat"
+	File "..\BuildOutput\Debug\StaticData\CertClasses.dat"
+	File "..\BuildOutput\Debug\StaticData\CertRec.dat"
+	File "..\BuildOutput\Debug\StaticData\Certs.dat"
+	File "..\BuildOutput\Debug\StaticData\CertSkills.dat"
+	File "..\BuildOutput\Debug\StaticData\Constellations.dat"
+	File "..\BuildOutput\Debug\StaticData\Divisions.dat"
+	File "..\BuildOutput\Debug\StaticData\EffectTypes.dat"
+	File "..\BuildOutput\Debug\StaticData\GroupCats.dat"
+	File "..\BuildOutput\Debug\StaticData\implants.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemCats.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemFlags.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemGroups.bin"
+	File "..\BuildOutput\Debug\StaticData\ItemGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemList.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemMarketGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\Items.dat"
+	File "..\BuildOutput\Debug\StaticData\ItemUnlocks.dat"
+	File "..\BuildOutput\Debug\StaticData\MarketGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\MetaGroups.dat"
+	File "..\BuildOutput\Debug\StaticData\MetaTypes.dat"
+	File "..\BuildOutput\Debug\StaticData\modules.dat"
+	File "..\BuildOutput\Debug\StaticData\NPCCorps.dat"
+	File "..\BuildOutput\Debug\StaticData\Regions.dat"
+	File "..\BuildOutput\Debug\StaticData\ShipGroups.bin"
+	File "..\BuildOutput\Debug\StaticData\ships.dat"
+	File "..\BuildOutput\Debug\StaticData\skills.dat"
+	File "..\BuildOutput\Debug\StaticData\SkillUnlocks.dat"
+	File "..\BuildOutput\Debug\StaticData\Stations.dat"
+	File "..\BuildOutput\Debug\StaticData\Systems.dat"
+  File "..\BuildOutput\Debug\StaticData\TypeAttributes.dat"
+  File "..\BuildOutput\Debug\StaticData\TypeEffects.dat"
+  File "..\BuildOutput\Debug\StaticData\Units.dat"
+  
   # delete cache files
-  Delete $APPDATA\EveHQ\HQF\Cache\*.*
+  
+${If} $useLocalFlag == "0" 
+   Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
+${Else}
+   Delete $INSTDIR\EveHQ\HQF\Cache\*.*
+  Delete $INSTDIR\EveHQ\CoreCache\*.*
+  !insertmacro RemoveFilesAndSubDirs "$INSTDIR\EveHQ\MarketCache\"
+${EndIf}
+  
+ 
   
   
 
