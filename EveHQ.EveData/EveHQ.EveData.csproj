@@ -71,6 +71,168 @@
     <Compile Include="TypeAttrib.cs" />
     <Compile Include="TypeEffect.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\EveHQ.Data\StaticData\Agents.dat">
+      <Link>StaticData\Agents.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\AssemblyArrays.dat">
+      <Link>StaticData\AssemblyArrays.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\attributes.dat">
+      <Link>StaticData\attributes.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\AttributeTypes.dat">
+      <Link>StaticData\AttributeTypes.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Blueprints.dat">
+      <Link>StaticData\Blueprints.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\boosters.dat">
+      <Link>StaticData\boosters.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\CertCats.dat">
+      <Link>StaticData\CertCats.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\CertCerts.dat">
+      <Link>StaticData\CertCerts.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\CertClasses.dat">
+      <Link>StaticData\CertClasses.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\CertRec.dat">
+      <Link>StaticData\CertRec.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Certs.dat">
+      <Link>StaticData\Certs.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\CertSkills.dat">
+      <Link>StaticData\CertSkills.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Constellations.dat">
+      <Link>StaticData\Constellations.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Divisions.dat">
+      <Link>StaticData\Divisions.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\EffectTypes.dat">
+      <Link>StaticData\EffectTypes.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\GroupCats.dat">
+      <Link>StaticData\GroupCats.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\implants.dat">
+      <Link>StaticData\implants.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemCats.dat">
+      <Link>StaticData\ItemCats.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemFlags.dat">
+      <Link>StaticData\ItemFlags.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemGroups.bin">
+      <Link>StaticData\ItemGroups.bin</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemGroups.dat">
+      <Link>StaticData\ItemGroups.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemList.dat">
+      <Link>StaticData\ItemList.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemMarketGroups.dat">
+      <Link>StaticData\ItemMarketGroups.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Items.dat">
+      <Link>StaticData\Items.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ItemUnlocks.dat">
+      <Link>StaticData\ItemUnlocks.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\MarketGroups.dat">
+      <Link>StaticData\MarketGroups.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\MetaGroups.dat">
+      <Link>StaticData\MetaGroups.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\MetaTypes.dat">
+      <Link>StaticData\MetaTypes.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\modules.dat">
+      <Link>StaticData\modules.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\NPCCorps.dat">
+      <Link>StaticData\NPCCorps.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Regions.dat">
+      <Link>StaticData\Regions.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ShipGroups.bin">
+      <Link>StaticData\ShipGroups.bin</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\ships.dat">
+      <Link>StaticData\ships.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\skills.dat">
+      <Link>StaticData\skills.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\SkillUnlocks.dat">
+      <Link>StaticData\SkillUnlocks.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Stations.dat">
+      <Link>StaticData\Stations.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Systems.dat">
+      <Link>StaticData\Systems.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\TypeAttributes.dat">
+      <Link>StaticData\TypeAttributes.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\TypeEffects.dat">
+      <Link>StaticData\TypeEffects.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Units.dat">
+      <Link>StaticData\Units.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(SolutionDir)\Version.Csharp.Targets" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -81,4 +243,29 @@
   <Target Name="BeforeBuild">
     <CallTarget Targets="SetAssemblyVersion" />
   </Target>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PreBuildEvent>IF NOT EXIST "$(SolutionDir)BuildOutput\Debug\" mkdir "$(SolutionDir)BuildOutput\Debug\"
+IF NOT EXIST "$(SolutionDir)BuildOutput\Debug\StaticData" mkdir "$(SolutionDir)BuildOutput\Debug\StaticData"</PreBuildEvent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PreBuildEvent>
+      IF NOT EXIST "$(SolutionDir)BuildOutput\Release\" mkdir "$(SolutionDir)BuildOutput\Release\"
+      IF NOT EXIST "$(SolutionDir)BuildOutput\Release\StaticData" mkdir "$(SolutionDir)BuildOutput\Release\StaticData"
+    </PreBuildEvent>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PostBuildEvent >
+      copy /Y "$(TargetDir)*.*" "$(SolutionDir)BuildOutput\Debug\"
+      copy /Y "$(TargetDir)StaticData\*.*" "$(SolutionDir)BuildOutput\Debug\StaticData"
+    </PostBuildEvent>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PostBuildEvent >
+      copy /Y "$(TargetDir)*.*" "$(SolutionDir)BuildOutput\Release\"
+      copy /Y "$(TargetDir)StaticData\*.*" "$(SolutionDir)BuildOutput\Release\StaticData"
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
