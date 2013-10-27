@@ -107,6 +107,7 @@ SectionIn RO
   File "..\BuildOutput\Release\GammaJul.lglcd.Native64.dll"
   File "..\BuildOutput\Release\Ionic.Zip.dll"
   File "..\BuildOutput\Release\Newtonsoft.json.dll"
+  File "..\BuildOutput\Release\protobuf-net.dll"
   File "..\BuildOutput\Release\System.Net.Http.dll"
   File "..\BuildOutput\Release\System.Net.Http.Extensions.dll"
   File "..\BuildOutput\Release\System.Net.Http.Primitives.dll"
