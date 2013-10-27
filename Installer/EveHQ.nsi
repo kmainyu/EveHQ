@@ -94,6 +94,7 @@ SectionIn RO
   File "..\BuildOutput\Release\EveHQ.Common.dll"
   File "..\BuildOutput\Release\EveHQ.Core.dll"
   File "..\BuildOutput\Release\EveHQ.EveAPI.dll"
+  File "..\BuildOutput\Release\EveHQ.EveData.dll"
   File "..\BuildOutput\Release\EveHQ.exe"
   File "..\BuildOutput\Release\EveHQ.exe.config"
   File "..\BuildOutput\Release\EveHQ.HQF.dll"
