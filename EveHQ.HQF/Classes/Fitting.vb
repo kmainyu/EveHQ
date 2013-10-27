@@ -1980,9 +1980,10 @@ Imports System.Runtime.Serialization
         Dim dpr As New HQFDefenceProfileResults
 
         If HQFDefenceProfiles.ProfileList.ContainsKey(DefenceProfileName) Then
-            Dim dp As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(DefenceProfileName)
 
-            If dp IsNot Nothing Then
+        Dim dp As HQFDefenceProfile = Nothing
+
+        If HQFDefenceProfiles.ProfileList.TryGetValue(DefenceProfileName, dp) And dp IsNot Nothing Then
                 Dim sEm As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.SEm / 100))
                 Dim sEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.SExplosive / 100))
                 Dim sKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.SKinetic / 100))
@@ -2289,6 +2290,8 @@ Imports System.Runtime.Serialization
 
 #Region "Data/BaseShip Conversion Routines"
 
+    Private Const UnknownModuleFitted As String = "A module with ID {0} was found in the ship fitting, but could not be found in the module list."
+
     ''' <summary>
     ''' Takes the modules etc and adds them to the base ship for processing
     ''' </summary>
@@ -2301,45 +2304,74 @@ Imports System.Runtime.Serialization
 
         ' Add the modules
         For Each mws As ModuleWithState In Modules
-            Dim newMod As ShipModule = ModuleLists.ModuleList(CInt(mws.ID)).Clone
-            If mws.ChargeID <> "" Then
-                newMod.LoadedCharge = ModuleLists.ModuleList(CInt(mws.ChargeID)).Clone
+            Dim temp As ShipModule
+            Dim tempCharge As ShipModule
+            If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
+                Dim newMod As ShipModule = temp
+                If String.IsNullOrWhiteSpace(mws.ChargeID) = False And ModuleLists.ModuleList.TryGetValue(CInt(mws.ChargeID), tempCharge) Then
+                    newMod.LoadedCharge = tempCharge.Clone
+                End If
+                newMod.ModuleState = mws.State
+                Call AddModule(newMod, 0, True, True, Nothing, False, False)
+            Else
+                Trace.TraceWarning(String.Format(UnknownModuleFitted, mws.ID))
             End If
-            newMod.ModuleState = mws.State
-            Call AddModule(newMod, 0, True, True, Nothing, False, False)
         Next
 
         ApplyFitting(BuildType.BuildFromEffectsMaps, False) ' Add modules/subsystems to FittedShip
 
         ' Add the drones
         For Each mws As ModuleQWithState In Drones
-            Dim newMod As ShipModule = ModuleLists.ModuleList(CInt(mws.ID)).Clone
-            newMod.ModuleState = mws.State
-            If mws.State = ModuleStates.Active Then
-                Call AddDrone(newMod, mws.Quantity, True, True)
+            Dim temp As ShipModule
+            If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
+                Dim newMod As ShipModule = temp.Clone
+                newMod.ModuleState = mws.State
+                If mws.State = ModuleStates.Active Then
+                    Call AddDrone(newMod, mws.Quantity, True, True)
+                Else
+                    Call AddDrone(newMod, mws.Quantity, False, True)
+                End If
             Else
-                Call AddDrone(newMod, mws.Quantity, False, True)
+                Trace.TraceWarning(String.Format(UnknownModuleFitted, mws.ID))
             End If
         Next
 
         ' Add items
         For Each mws As ModuleQWithState In Items
-            Dim newMod As ShipModule = ModuleLists.ModuleList(CInt(mws.ID)).Clone
-            newMod.ModuleState = mws.State
-            Call AddItem(newMod, mws.Quantity, True)
+            'Bug EVEHQ-380 : There is a key not found error in the module list. 
+            Dim temp As ShipModule
+            If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
+                Dim newMod As ShipModule = temp.Clone()
+                newMod.ModuleState = mws.State
+                Call AddItem(newMod, mws.Quantity, True)
+            Else
+                Trace.TraceWarning(String.Format(UnknownModuleFitted, mws.ID))
+            End If
         Next
 
         ' Add ships
         For Each mws As ModuleQWithState In Ships
-            Dim newMod As Ship = ShipLists.ShipList(ShipLists.ShipListKeyID(CInt(mws.ID))).Clone
-            Call AddShip(newMod, mws.Quantity, True)
+            Dim temp As Ship
+            Dim tempKey As String
+            If ShipLists.ShipListKeyID.TryGetValue(CInt(mws.ID), tempKey) Then
+                If ShipLists.ShipList.TryGetValue(tempKey, temp) Then
+                    Dim newMod As Ship = temp.Clone
+                    Call AddShip(newMod, mws.Quantity, True)
+                End If
+            End If
         Next
 
         ' Add Boosters
         BaseShip.BoosterSlotCollection.Clear()
         For Each mws As ModuleWithState In Boosters
-            Dim sMod As ShipModule = ModuleLists.ModuleList(CInt(mws.ID)).Clone
-            BaseShip.BoosterSlotCollection.Add(sMod)
+            Dim temp As ShipModule
+            If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
+                Dim sMod As ShipModule = temp.Clone
+                BaseShip.BoosterSlotCollection.Add(sMod)
+            Else
+                Trace.TraceWarning(String.Format(UnknownModuleFitted, mws.ID))
+            End If
+
         Next
 
     End Sub
