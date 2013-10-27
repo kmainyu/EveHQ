@@ -1978,29 +1978,32 @@ Imports System.Runtime.Serialization
     Public Function CalculateDamageStatsForDefenceProfile(ByRef newShip As Ship) As HQFDefenceProfileResults
 
         Dim dpr As New HQFDefenceProfileResults
-        Dim dp As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(DefenceProfileName)
 
-        If dp IsNot Nothing Then
-            Dim sEm As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.SEm / 100))
-            Dim sEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.SExplosive / 100))
-            Dim sKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.SKinetic / 100))
-            Dim sTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.SThermal / 100))
-            Dim st As Double = sEm + sEx + sKi + sTh
-            dpr.ShieldDPS = st
+        If HQFDefenceProfiles.ProfileList.ContainsKey(DefenceProfileName) Then
+            Dim dp As HQFDefenceProfile = HQFDefenceProfiles.ProfileList(DefenceProfileName)
 
-            Dim aEm As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.AEm / 100))
-            Dim aEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.AExplosive / 100))
-            Dim aKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.AKinetic / 100))
-            Dim aTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.AThermal / 100))
-            Dim at As Double = aEm + aEx + aKi + aTh
-            dpr.ArmorDPS = at
+            If dp IsNot Nothing Then
+                Dim sEm As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.SEm / 100))
+                Dim sEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.SExplosive / 100))
+                Dim sKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.SKinetic / 100))
+                Dim sTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.SThermal / 100))
+                Dim st As Double = sEm + sEx + sKi + sTh
+                dpr.ShieldDPS = st
 
-            Dim hem As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.HEm / 100))
-            Dim hEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.HExplosive / 100))
-            Dim hKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.HKinetic / 100))
-            Dim hTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.HThermal / 100))
-            Dim ht As Double = hem + hEx + hKi + hTh
-            dpr.HullDPS = ht
+                Dim aEm As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.AEm / 100))
+                Dim aEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.AExplosive / 100))
+                Dim aKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.AKinetic / 100))
+                Dim aTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.AThermal / 100))
+                Dim at As Double = aEm + aEx + aKi + aTh
+                dpr.ArmorDPS = at
+
+                Dim hem As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.HEm / 100))
+                Dim hEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.HExplosive / 100))
+                Dim hKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.HKinetic / 100))
+                Dim hTh As Double = newShip.Attributes(AttributeEnum.ShipThermDPS) * (1 - (dp.HThermal / 100))
+                Dim ht As Double = hem + hEx + hKi + hTh
+                dpr.HullDPS = ht
+            End If
         End If
 
         Return dpr

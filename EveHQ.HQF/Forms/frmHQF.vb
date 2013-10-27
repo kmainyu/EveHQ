@@ -967,7 +967,7 @@ Namespace Forms
                     groupID = CInt(groupNode.Tag)
                     ModuleDisplay = CStr(groupID)
                     Call AddGroupResults(ModuleLists.ModuleList, groupID, results)
-                    lblModuleDisplayType.Tag = Market.MarketGroupList(groupID).ToString
+                    lblModuleDisplayType.Tag = Market.MarketGroupList(CStr(groupID)).ToString
                     lblModuleDisplayType.Tag = "Displaying: " & lblModuleDisplayType.Tag.ToString
                     _lastModuleResults = results
                 Else

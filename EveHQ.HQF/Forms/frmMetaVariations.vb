@@ -138,8 +138,10 @@ Namespace Forms
                         adtComparisons.Columns.Add(newCol)
                         _columnIndexes.Add(CStr(att), columnIdx - 1)
                         ' Check if this is our sorted column
-                        If CInt(PluginSettings.HQFSettings.SortedAttributeColumn) = att Then
-                            sortColumn = columnIdx
+                        If PluginSettings.HQFSettings.SortedAttributeColumn <> "" Then
+                            If CInt(PluginSettings.HQFSettings.SortedAttributeColumn) = att Then
+                                sortColumn = columnIdx
+                            End If
                         End If
                     End If
                 End If
@@ -164,7 +166,7 @@ Namespace Forms
                     If _columnIndexes.ContainsKey(CStr(att)) Then
                         i = _columnIndexes(CStr(att))
                         ' Adjust for TypeIDs
-                        Select Case adtComparisons.Columns(att).Tag.ToString
+                        Select Case adtComparisons.Columns(CStr(att)).Tag.ToString
                             Case "typeID"
                                 newMod.Cells(i).Text = StaticData.Types(CInt(sMod.Attributes(att))).Name
                                 newMod.Cells(i).Tag = newMod.Cells(i).Text
@@ -174,7 +176,7 @@ Namespace Forms
                                 newMod.Cells(i).Tag = CStr(sMod.Attributes(att))
                                 newMod.Cells(i).Name = i.ToString
                             Case Else
-                                newMod.Cells(i).Text = Format(sMod.Attributes(att), "#,###,##0.########") & " " & adtComparisons.Columns(att).Tag.ToString
+                                newMod.Cells(i).Text = Format(sMod.Attributes(att), "#,###,##0.########") & " " & adtComparisons.Columns(CStr(att)).Tag.ToString
                                 newMod.Cells(i).Tag = CStr(sMod.Attributes(att))
                                 newMod.Cells(i).Name = i.ToString
                         End Select

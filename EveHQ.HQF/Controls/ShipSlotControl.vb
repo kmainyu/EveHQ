@@ -2219,7 +2219,7 @@ Namespace Controls
             Dim moduleName As String = showMarketMenu.Name
             Dim moduleID As Integer = ModuleLists.ModuleListName(moduleName)
             Dim cModule As ShipModule = ModuleLists.ModuleList.Item(moduleID)
-            Dim pathLine As String = CStr(Market.MarketGroupPath(cModule.MarketGroup))
+            Dim pathLine As String = CStr(Market.MarketGroupPath(CStr(cModule.MarketGroup)))
             If pathLine IsNot Nothing Then
                 HQFEvents.DisplayedMarketGroup = pathLine
             Else
