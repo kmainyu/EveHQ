@@ -464,6 +464,11 @@ Namespace Forms
             _appStartUp = False
 
             ' Display server message if applicable
+            Try
+                GetServerMessage()
+            Catch ex As Exception
+                ' just supress errors from getting the server message.
+            End Try
             If HQ.EveHQServerMessage IsNot Nothing Then
                 If _
                     HQ.EveHQServerMessage.MessageDate > HQ.Settings.LastMessageDate Or
@@ -3515,65 +3520,65 @@ Namespace Forms
             End Using
         End Sub
 
-        'Private Sub GetServerMessage(state As Object)
-        '    ' Download the message from the server
-        '    Dim msgXML As XmlDocument = FetchMessageXML()
-        '    Try
-        '        If msgXML IsNot Nothing Then
-        '            Dim newMessage As New EveHQMessage
-        '            Dim data As XmlNodeList = msgXML.SelectNodes("/eveHQMessage")
-        '            newMessage.MessageDate = DateTime.Parse(data(0).ChildNodes(0).InnerText, _culture)
-        '            newMessage.MessageTitle = data(0).ChildNodes(1).InnerText
-        '            newMessage.AllowIgnore = CBool(data(0).ChildNodes(2).InnerText)
-        '            newMessage.Message = data(0).ChildNodes(3).InnerText
-        '            If data(0).ChildNodes(4).ChildNodes.Count > 0 Then
-        '                newMessage.DisabledPlugins.Clear()
-        '                For Each disabledPlugin As XmlNode In data(0).ChildNodes(4).ChildNodes
-        '                    newMessage.DisabledPlugins.Add(disabledPlugin.Attributes.GetNamedItem("name").Value, disabledPlugin.Attributes.GetNamedItem("version").Value)
-        '                Next
-        '            End If
-        '            HQ.EveHQServerMessage = newMessage
-        '        Else
-        '            HQ.EveHQServerMessage = Nothing
-        '        End If
-        '    Catch e As Exception
-        '        HQ.EveHQServerMessage = Nothing
-        '    End Try
-        '    HQ.WriteLogEvent(" *** Message Finished Loading")
-        'End Sub
+        Private Sub GetServerMessage()
+            ' Download the message from the server
+            Dim msgXML As XmlDocument = FetchMessageXML()
+            Try
+                If msgXML IsNot Nothing Then
+                    Dim newMessage As New EveHQMessage
+                    Dim data As XmlNodeList = msgXML.SelectNodes("/eveHQMessage")
+                    newMessage.MessageDate = DateTime.Parse(data(0).ChildNodes(0).InnerText, New CultureInfo("en-gb"))
+                    newMessage.MessageTitle = data(0).ChildNodes(1).InnerText
+                    newMessage.AllowIgnore = CBool(data(0).ChildNodes(2).InnerText)
+                    newMessage.Message = data(0).ChildNodes(3).InnerText
+                    If data(0).ChildNodes(4).ChildNodes.Count > 0 Then
+                        newMessage.DisabledPlugins.Clear()
+                        For Each disabledPlugin As XmlNode In data(0).ChildNodes(4).ChildNodes
+                            newMessage.DisabledPlugins.Add(disabledPlugin.Attributes.GetNamedItem("name").Value, disabledPlugin.Attributes.GetNamedItem("version").Value)
+                        Next
+                    End If
+                    HQ.EveHQServerMessage = newMessage
+                Else
+                    HQ.EveHQServerMessage = Nothing
+                End If
+            Catch e As Exception
+                HQ.EveHQServerMessage = Nothing
+            End Try
+            HQ.WriteLogEvent(" *** Message Finished Loading")
+        End Sub
 
-        'Private Function FetchMessageXML() As XmlDocument
-        '    ' Set a default policy level for the "http:" and "https" schemes.
-        '    Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
-        '    Dim updateServer As String = HQ.Settings.UpdateUrl
-        '    Dim remoteURL As String = updateServer & "_message.xml"
-        '    Dim webdata As String
-        '    Dim updateXML As New XmlDocument
-        '    Try
-        '        ' Create the requester
-        '        ServicePointManager.DefaultConnectionLimit = 10
-        '        ServicePointManager.Expect100Continue = False
-        '        ServicePointManager.FindServicePoint(New Uri(remoteURL))
-        '        Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
-        '        request.UserAgent = "EveHQ " & My.Application.Info.Version.ToString
-        '        request.CachePolicy = policy
-        '        request.Timeout = 10000 ' timeout set to 10s
-        '        ' Setup proxy server (if required)
-        '        Call ProxyServerFunctions.SetupWebProxy(request)
-        '        ' Prepare for a response from the server
-        '        Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
-        '        ' Get the stream associated with the response.
-        '        Dim receiveStream As Stream = response.GetResponseStream()
-        '        ' Pipes the stream to a higher level stream reader with the required encoding format. 
-        '        Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
-        '        webdata = readStream.ReadToEnd()
-        '        ' Check response string for any error codes?
-        '        updateXML.LoadXml(webdata)
-        '        Return updateXML
-        '    Catch e As Exception
-        '        Return Nothing
-        '    End Try
-        'End Function
+        Private Function FetchMessageXML() As XmlDocument
+            ' Set a default policy level for the "http:" and "https" schemes.
+            Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
+            Dim updateServer As String = HQ.Settings.UpdateUrl
+            Dim remoteURL As String = updateServer & "_message.xml"
+            Dim webdata As String
+            Dim updateXML As New XmlDocument
+            Try
+                ' Create the requester
+                ServicePointManager.DefaultConnectionLimit = 10
+                ServicePointManager.Expect100Continue = False
+                ServicePointManager.FindServicePoint(New Uri(remoteURL))
+                Dim request As HttpWebRequest = CType(WebRequest.Create(remoteURL), HttpWebRequest)
+                request.UserAgent = "EveHQ " & My.Application.Info.Version.ToString
+                request.CachePolicy = policy
+                request.Timeout = 10000 ' timeout set to 10s
+                ' Setup proxy server (if required)
+                Call ProxyServerFunctions.SetupWebProxy(request)
+                ' Prepare for a response from the server
+                Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                ' Get the stream associated with the response.
+                Dim receiveStream As Stream = response.GetResponseStream()
+                ' Pipes the stream to a higher level stream reader with the required encoding format. 
+                Dim readStream As New StreamReader(receiveStream, Encoding.UTF8)
+                webdata = readStream.ReadToEnd()
+                ' Check response string for any error codes?
+                updateXML.LoadXml(webdata)
+                Return updateXML
+            Catch e As Exception
+                Return Nothing
+            End Try
+        End Function
 
        
     End Class
