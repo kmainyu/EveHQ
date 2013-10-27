@@ -122,6 +122,7 @@ SectionIn RO
   File "..\BuildOutput\Debug\protobuf-net.dll"
   File "..\BuildOutput\Debug\EveHQ.SettingsConverter.exe"
   File "..\BuildOutput\Debug\EveHQ.SettingsConverter.pdb"
+  File "..\BuildOutput\Debug\System.Data.SQLite.dll"
   File "..\BuildOutput\Debug\System.Net.Http.dll"
   File "..\BuildOutput\Debug\System.Net.Http.Extensions.dll"
   File "..\BuildOutput\Debug\System.Net.Http.Primitives.dll"

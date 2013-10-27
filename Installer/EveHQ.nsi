@@ -109,6 +109,7 @@ SectionIn RO
   File "..\BuildOutput\Release\Newtonsoft.json.dll"
   File "..\BuildOutput\Release\protobuf-net.dll"
   File "..\BuildOutput\Release\EveHQ.SettingsConverter.exe"
+  File "..\BuildOutput\Release\System.Data.SQLite.dll"
   File "..\BuildOutput\Release\System.Net.Http.dll"
   File "..\BuildOutput\Release\System.Net.Http.Extensions.dll"
   File "..\BuildOutput\Release\System.Net.Http.Primitives.dll"
