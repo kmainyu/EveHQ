@@ -166,9 +166,9 @@ Namespace Forms
 #Region "Server Status Routines"
 
         Private Sub GetServerStatus()
-            If _eveTQWorker.IsBusy Then
+            If _eveTqWorker.IsBusy Then
             Else
-                _eveTQWorker.RunWorkerAsync()
+                _eveTqWorker.RunWorkerAsync()
             End If
         End Sub
 
@@ -340,7 +340,7 @@ Namespace Forms
             Hide()
 
             ' error handlers for any unhandled error forground or background
-            AddHandler Application.ThreadException, AddressOf CatchUIThreadException
+            AddHandler Application.ThreadException, AddressOf CatchUiThreadException
             AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf CatchAppDomainUnhandledException
 
             ' Set global AdvTree settings
@@ -1535,7 +1535,7 @@ Namespace Forms
         End Sub
 
         Public Sub RunModuleStartUps(ByVal state As Object)
-            Dim plugInInfo As EveHQPlugIn = CType(State, EveHQPlugIn)
+            Dim plugInInfo As EveHQPlugIn = CType(state, EveHQPlugIn)
             Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
             Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
             plugInInfo.Instance = CType(Activator.CreateInstance(t), IEveHQPlugIn)
@@ -1721,7 +1721,7 @@ Namespace Forms
         Private Sub PlugInIconClick(ByVal sender As Object, ByVal e As EventArgs)
             Dim btn As ButtonItem = DirectCast(sender, ButtonItem)
             Dim plugInName As String = btn.Name.Remove(0, 3)
-            Dim tp As TabItem = HQ.GetMDITab(plugInName)
+            Dim tp As TabItem = HQ.GetMdiTab(plugInName)
             If tp IsNot Nothing Then
                 tabEveHQMDI.SelectedTab = tp
             Else
@@ -1752,7 +1752,7 @@ Namespace Forms
 
         Public Sub LoadAndOpenPlugIn(ByVal state As Object)
             ' Called usually from an instance
-            Dim plugInInfo As PlugIn = CType(State, PlugIn)
+            Dim plugInInfo As PlugIn = CType(state, PlugIn)
             Dim myAssembly As Assembly = Assembly.LoadFrom(plugInInfo.FileName)
             Dim t As Type = myAssembly.GetType(plugInInfo.FileType)
             plugInInfo.Instance = CType(Activator.CreateInstance(t), IEveHQPlugIn)
@@ -1796,7 +1796,7 @@ Namespace Forms
             Dim plugInInfo As EveHQPlugIn = HQ.Plugins(plugInName)
             If plugInInfo.Status = EveHQPlugInStatus.Active Then
                 Dim mainTab As TabStrip = CType(HQ.MainForm.Controls("tabEveHQMDI"), TabStrip)
-                Dim tp As TabItem = HQ.GetMDITab(plugInName)
+                Dim tp As TabItem = HQ.GetMdiTab(plugInName)
                 If tp IsNot Nothing Then
                     mainTab.SelectedTab = tp
                 Else
@@ -1813,7 +1813,7 @@ Namespace Forms
 #Region "TabbedMDI Window Routines"
 
         Public Sub OpenPilotInfoForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmPilot.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmPilot.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmPilot)
             Else
@@ -1822,7 +1822,7 @@ Namespace Forms
         End Sub
 
         Public Sub OpenSkillTrainingForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmTraining.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmTraining.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmTraining)
             Else
@@ -1831,7 +1831,7 @@ Namespace Forms
         End Sub
 
         Public Sub OpenEveHQMailForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmMail.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmMail.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmMail)
             Else
@@ -1840,7 +1840,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenBackUpForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmBackup.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmBackup.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmBackup)
             Else
@@ -1849,7 +1849,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenEveHQBackUpForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmBackupEveHQ.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmBackupEveHQ.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmBackupEveHQ)
             Else
@@ -1858,7 +1858,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenAPICheckerForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmAPIChecker.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmAPIChecker.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmAPIChecker)
             Else
@@ -1867,7 +1867,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenMarketPricesForm()
-            Dim tp As TabItem = HQ.GetMDITab(_eveHqmlf.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(_eveHqmlf.Text)
             If tp Is Nothing Then
                 _eveHqmlf = New FrmMarketPrices
                 Call DisplayChildForm(_eveHqmlf)
@@ -1877,7 +1877,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenDashboard()
-            Dim tp As TabItem = HQ.GetMDITab(FrmDashboard.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmDashboard.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmDashboard)
             Else
@@ -1886,7 +1886,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenRequisitions()
-            Dim tp As TabItem = HQ.GetMDITab("EveHQ Requisitions")
+            Dim tp As TabItem = HQ.GetMdiTab("EveHQ Requisitions")
             If tp Is Nothing Then
                 Dim myReq As New FrmRequisitions
                 Call DisplayChildForm(myReq)
@@ -1896,7 +1896,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenSQLQueryForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmSQLQuery.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmSQLQuery.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmSQLQuery)
             Else
@@ -1905,7 +1905,7 @@ Namespace Forms
         End Sub
 
         Private Sub OpenInfoHelpForm()
-            Dim tp As TabItem = HQ.GetMDITab(FrmHelp.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(FrmHelp.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(FrmHelp)
             Else
@@ -1915,7 +1915,7 @@ Namespace Forms
 
         Public Sub DisplayReport(ByRef reportForm As FrmReportViewer, ByVal reportText As String)
             reportForm.Text = reportText
-            Dim tp As TabItem = HQ.GetMDITab(reportForm.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(reportForm.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(reportForm)
             Else
@@ -1931,7 +1931,7 @@ Namespace Forms
 
         Public Sub DisplayChartReport(ByRef chartForm As FrmChartViewer, ByVal formTitle As String)
             chartForm.Text = formTitle
-            Dim tp As TabItem = HQ.GetMDITab(chartForm.Text)
+            Dim tp As TabItem = HQ.GetMdiTab(chartForm.Text)
             If tp Is Nothing Then
                 Call DisplayChildForm(chartForm)
             Else
@@ -1999,16 +1999,16 @@ Namespace Forms
 
                 ' Clear the EveHQ cache
                 Try
-                    If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) Then
-                        My.Computer.FileSystem.DeleteDirectory(HQ.cacheFolder, DeleteDirectoryOption.DeleteAllContents)
+                    If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) Then
+                        My.Computer.FileSystem.DeleteDirectory(HQ.CacheFolder, DeleteDirectoryOption.DeleteAllContents)
                     End If
                 Catch e As Exception
                 End Try
 
                 ' Recreate the EveHQ cache folder
                 Try
-                    If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) = False Then
-                        My.Computer.FileSystem.CreateDirectory(HQ.cacheFolder)
+                    If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) = False Then
+                        My.Computer.FileSystem.CreateDirectory(HQ.CacheFolder)
                     End If
                 Catch e As Exception
                 End Try
@@ -2074,17 +2074,19 @@ Namespace Forms
                     If (IsUpdateAvailable(currentVersion.ToString, updateVersion(0).InnerText)) Then
                         Trace.TraceInformation("Update Available")
                         btnUpdateEveHQ.Enabled = True
-                        Dim reply As Integer =
-                                MessageBox.Show(
-                                    "There is an update for EveHQ. Would you like to download the latest version?",
-                                    "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                        If reply = DialogResult.No Then
-                            Exit Sub
-                        Else
-                            Invoke(Sub()
-                                       ShowUpdateForm(installerLocation(0).InnerText)
-                                   End Sub)
-                        End If
+                        Invoke(Sub()
+                                   Dim reply As Integer =
+                                           MessageBox.Show(Me,
+                                               "There is an update for EveHQ. Would you like to download the latest version?",
+                                               "Update EveHQ?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+                                   If reply = DialogResult.No Then
+                                       Exit Sub
+                                   Else
+                                       Invoke(Sub()
+                                                  ShowUpdateForm(installerLocation(0).InnerText)
+                                              End Sub)
+                                   End If
+                               End Sub)
                     Else
                         Trace.TraceInformation("No Update Available")
                     End If
@@ -2181,7 +2183,7 @@ Namespace Forms
             Try
                 Call DownloadPatcherFile("EveHQPatcher.exe")
                 ' Copy the CoreControls.dll file to the same location
-                Dim oldCCfile As String = Path.Combine(HQ.appFolder, "EveHQ.CoreControls.dll")
+                Dim oldCCfile As String = Path.Combine(HQ.AppFolder, "EveHQ.CoreControls.dll")
                 Dim newCCfile As String = Path.Combine(patcherLocation, "EveHQ.CoreControls.dll")
                 My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
                 'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2196,7 +2198,7 @@ Namespace Forms
             startInfo.UseShellExecute = True
             startInfo.WorkingDirectory = Environment.CurrentDirectory
             startInfo.FileName = patcherFile
-            Dim args As String = " /App;" & ControlChars.Quote & HQ.appFolder & ControlChars.Quote
+            Dim args As String = " /App;" & ControlChars.Quote & HQ.AppFolder & ControlChars.Quote
             If HQ.IsUsingLocalFolders = True Then
                 args &= " /Local;True"
             Else
@@ -2520,7 +2522,7 @@ Namespace Forms
                     ' Clear the character XML files
                     Try
                         For Each charFile As String In _
-                            My.Computer.FileSystem.GetFiles(HQ.cacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
+                            My.Computer.FileSystem.GetFiles(HQ.CacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
                                                             "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "*")
                             My.Computer.FileSystem.DeleteFile(charFile)
                         Next
@@ -2530,7 +2532,7 @@ Namespace Forms
                     ' Clear the skill training XML files
                     Try
                         For Each charFile As String In _
-                            My.Computer.FileSystem.GetFiles(HQ.cacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
+                            My.Computer.FileSystem.GetFiles(HQ.CacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
                                                             "EVEHQAPI_" & APITypes.SkillTraining.ToString & "*")
                             My.Computer.FileSystem.DeleteFile(charFile)
                         Next
@@ -2540,7 +2542,7 @@ Namespace Forms
                     ' Clear the skill queue XML files
                     Try
                         For Each charFile As String In _
-                            My.Computer.FileSystem.GetFiles(HQ.cacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
+                            My.Computer.FileSystem.GetFiles(HQ.CacheFolder, FileIO.SearchOption.SearchTopLevelOnly,
                                                             "EVEHQAPI_" & APITypes.SkillQueue.ToString & "*")
                             My.Computer.FileSystem.DeleteFile(charFile)
                         Next
@@ -2568,7 +2570,7 @@ Namespace Forms
                 Catch ex As Exception
                     MessageBox.Show(
                         "Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " &
-                        ControlChars.CrLf & ControlChars.CrLf & HQ.cacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
+                        ControlChars.CrLf & ControlChars.CrLf & HQ.CacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
                 End Try
             End If
@@ -2583,8 +2585,8 @@ Namespace Forms
                 Try
                     ' Clear the EveHQ image cache
                     Try
-                        If My.Computer.FileSystem.DirectoryExists(HQ.imageCacheFolder) Then
-                            My.Computer.FileSystem.DeleteDirectory(HQ.imageCacheFolder,
+                        If My.Computer.FileSystem.DirectoryExists(HQ.ImageCacheFolder) Then
+                            My.Computer.FileSystem.DeleteDirectory(HQ.ImageCacheFolder,
                                                                    DeleteDirectoryOption.DeleteAllContents)
                         End If
                     Catch ex As Exception
@@ -2592,8 +2594,8 @@ Namespace Forms
 
                     ' Recreate the EveHQ image cache folder
                     Try
-                        If My.Computer.FileSystem.DirectoryExists(HQ.imageCacheFolder) = False Then
-                            My.Computer.FileSystem.CreateDirectory(HQ.imageCacheFolder)
+                        If My.Computer.FileSystem.DirectoryExists(HQ.ImageCacheFolder) = False Then
+                            My.Computer.FileSystem.CreateDirectory(HQ.ImageCacheFolder)
                         End If
                     Catch ex As Exception
                     End Try
@@ -2601,7 +2603,7 @@ Namespace Forms
                 Catch ex As Exception
                     MessageBox.Show(
                         "Error Deleting the EveHQ Image Cache Folder, please try to delete the following location manually: " &
-                        ControlChars.CrLf & ControlChars.CrLf & HQ.imageCacheFolder, "Error Deleting Cache",
+                        ControlChars.CrLf & ControlChars.CrLf & HQ.ImageCacheFolder, "Error Deleting Cache",
                         MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End Try
             End If
@@ -2624,16 +2626,16 @@ Namespace Forms
 
                     ' Clear the EveHQ cache
                     Try
-                        If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) Then
-                            My.Computer.FileSystem.DeleteDirectory(HQ.cacheFolder, DeleteDirectoryOption.DeleteAllContents)
+                        If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) Then
+                            My.Computer.FileSystem.DeleteDirectory(HQ.CacheFolder, DeleteDirectoryOption.DeleteAllContents)
                         End If
                     Catch ex As Exception
                     End Try
 
                     ' Recreate the EveHQ cache folder
                     Try
-                        If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) = False Then
-                            My.Computer.FileSystem.CreateDirectory(HQ.cacheFolder)
+                        If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) = False Then
+                            My.Computer.FileSystem.CreateDirectory(HQ.CacheFolder)
                         End If
                     Catch ex As Exception
                     End Try
@@ -2659,7 +2661,7 @@ Namespace Forms
                 Catch ex As Exception
                     MessageBox.Show(
                         "Error Deleting the EveHQ Cache Folder, please try to delete the following location manually: " &
-                        ControlChars.CrLf & ControlChars.CrLf & HQ.cacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
+                        ControlChars.CrLf & ControlChars.CrLf & HQ.CacheFolder, "Error Deleting Cache", MessageBoxButtons.OK,
                         MessageBoxIcon.Information)
                 End Try
             End If
@@ -2739,7 +2741,7 @@ Namespace Forms
         Private Sub btnOpenReportFolder_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnOpenReportFolder.Click
             Try
-                Process.Start(HQ.reportFolder)
+                Process.Start(HQ.ReportFolder)
             Catch ex As Exception
                 MessageBox.Show("Unable to start Windows Explorer: " & ex.Message, "Error Starting External Process",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -2828,22 +2830,22 @@ Namespace Forms
             Select Case reportType
                 Case "btnHTMLTrainingQueue"
                     Call Reports.GenerateTrainQueue(rPilot, rQueue)
-                    newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
+                    newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder,
                                                              "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").html"))
                     DisplayReport(newReport, "Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
                 Case "btnHTMLQueueShoppingList"
                     Call Reports.GenerateShoppingList(rPilot, rQueue)
-                    newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
+                    newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder,
                                                              "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").html"))
                     DisplayReport(newReport, "Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
                 Case "btnTextTrainingQueue"
                     Call Reports.GenerateTextTrainQueue(rPilot, rQueue)
-                    newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
+                    newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder,
                                                              "TrainQueue - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
                     DisplayReport(newReport, "Training Queue - " & rPilot.Name & " (" & rQueue.Name & ")")
                 Case "btnTextQueueShoppingList"
                     Call Reports.GenerateTextShoppingList(rPilot, rQueue)
-                    newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder,
+                    newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder,
                                                              "ShoppingList - " & rQueue.Name & " (" & rPilot.Name & ").txt"))
                     DisplayReport(newReport, "Shopping List - " & rPilot.Name & " (" & rQueue.Name & ")")
             End Select
@@ -2856,14 +2858,14 @@ Namespace Forms
         Private Sub btnStdCharSummary_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnStdCharSummary.Click
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCharSummary()
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PilotSummary.html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "PilotSummary.html"))
             DisplayReport(newReport, "Pilot Summary")
         End Sub
 
         Private Sub btnStdSkillLevels_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnStdSkillLevels.Click
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateSPSummary()
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SPSummary.html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SPSummary.html"))
             DisplayReport(newReport, "Skill Point Summary")
         End Sub
 
@@ -2901,7 +2903,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCharSheet(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CharSheet (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "CharSheet (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Character Sheet - " & rPilot.Name)
         End Sub
 
@@ -2915,7 +2917,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTrainingTime(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainTime (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "TrainTime (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Training Times - " & rPilot.Name)
         End Sub
 
@@ -2928,7 +2930,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTimeToLevel5(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "TimeToLevel5 (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Time To Level 5 - " & rPilot.Name)
         End Sub
 
@@ -2941,7 +2943,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateSkillLevels(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillLevels (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Skill Levels - " & rPilot.Name)
         End Sub
 
@@ -2953,7 +2955,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateSkillRanks(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillRanks (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillRanks (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Skill Ranks - " & rPilot.Name)
         End Sub
 
@@ -2967,7 +2969,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateSkillsAvailable(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillsToTrain (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Skills Available to Train - " & rPilot.Name)
         End Sub
 
@@ -2981,7 +2983,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateSkillsNotTrained(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillsNotTrained (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Skills Not Trained - " & rPilot.Name)
         End Sub
 
@@ -2995,7 +2997,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GeneratePartialSkills(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "PartialSkills (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
         End Sub
 
@@ -3008,7 +3010,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateSkillsCost(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillsCost (" & rPilot.Name & ").html"))
             DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
         End Sub
 
@@ -3021,7 +3023,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
             DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
@@ -3034,7 +3036,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
             DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
@@ -3047,7 +3049,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
             DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
@@ -3060,7 +3062,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
             DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
@@ -3073,7 +3075,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
             DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
@@ -3091,7 +3093,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextCharSheet(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CharSheet (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "CharSheet (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Character Sheet - " & rPilot.Name)
         End Sub
 
@@ -3105,7 +3107,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextTrainingTime(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainTime (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "TrainTime (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Training Times - " & rPilot.Name)
         End Sub
 
@@ -3118,7 +3120,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextTimeToLevel5(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TimeToLevel5 (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "TimeToLevel5 (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Time To Level 5 - " & rPilot.Name)
         End Sub
 
@@ -3131,7 +3133,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextSkillLevels(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillLevels (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillLevels (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Skill Levels - " & rPilot.Name)
         End Sub
 
@@ -3143,7 +3145,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextSkillRanks(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillRanks (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillRanks (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Skill Ranks - " & rPilot.Name)
         End Sub
 
@@ -3157,7 +3159,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextSkillsAvailable(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsToTrain (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillsToTrain (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Skills Available to Train - " & rPilot.Name)
         End Sub
 
@@ -3171,7 +3173,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextSkillsNotTrained(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsNotTrained (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillsNotTrained (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Skills Not Trained - " & rPilot.Name)
         End Sub
 
@@ -3185,7 +3187,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextPartialSkills(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PartialSkills (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "PartialSkills (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Partially Trained Skills - " & rPilot.Name)
         End Sub
 
@@ -3198,7 +3200,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTextSkillsCost(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "SkillsCost (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "SkillsCost (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "Skills Cost - " & rPilot.Name)
         End Sub
 
@@ -3215,7 +3217,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCharXML(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CharXML (" & rPilot.Name & ").xml"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "CharXML (" & rPilot.Name & ").xml"))
             DisplayReport(newReport, "Imported Character XML - " & rPilot.Name)
         End Sub
 
@@ -3228,7 +3230,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateTrainXML(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "TrainingXML (" & rPilot.Name & ").xml"))
             DisplayReport(newReport, "Imported Training XML - " & rPilot.Name)
         End Sub
 
@@ -3242,7 +3244,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCurrentPilotXML_Old(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CurrentXML - Old (" & rPilot.Name & ").xml"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "CurrentXML - Old (" & rPilot.Name & ").xml"))
             DisplayReport(newReport, "Old Style Character XML - " & rPilot.Name)
         End Sub
 
@@ -3256,7 +3258,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCurrentPilotXML_New(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "CurrentXML - New (" & rPilot.Name & ").xml"))
             DisplayReport(newReport, "Current Character XML - " & rPilot.Name)
         End Sub
 
@@ -3270,7 +3272,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GenerateCurrentTrainingXML_Old(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "TrainingXML - Old (" & rPilot.Name & ").xml"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "TrainingXML - Old (" & rPilot.Name & ").xml"))
             DisplayReport(newReport, "Old Style Training XML - " & rPilot.Name)
         End Sub
 
@@ -3298,7 +3300,7 @@ Namespace Forms
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
             Call Reports.GeneratePHPBBCharSheet(rPilot)
-            newReport.wbReport.Navigate(Path.Combine(HQ.reportFolder, "PHPBBCharSheet (" & rPilot.Name & ").txt"))
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, "PHPBBCharSheet (" & rPilot.Name & ").txt"))
             DisplayReport(newReport, "PHPBB Character Sheet - " & rPilot.Name)
         End Sub
 
@@ -3464,14 +3466,14 @@ Namespace Forms
                     ActiveMdiChild.WindowState = FormWindowState.Normal
                 End If
             End If
-            ChildForm.MdiParent = Me
-            ChildForm.WindowState = FormWindowState.Maximized
-            ChildForm.Show()
+            childForm.MdiParent = Me
+            childForm.WindowState = FormWindowState.Maximized
+            childForm.Show()
         End Sub
 
         Private Function IGBCanBeInitialised() As Boolean
             Dim prefixes(0) As String
-            prefixes(0) = "http://localhost:" & HQ.Settings.IGBPort & "/"
+            prefixes(0) = "http://localhost:" & HQ.Settings.IgbPort & "/"
 
             ' URI prefixes are required
             If prefixes Is Nothing OrElse prefixes.Length = 0 Then
@@ -3580,6 +3582,6 @@ Namespace Forms
             End Try
         End Function
 
-       
+
     End Class
 End Namespace
