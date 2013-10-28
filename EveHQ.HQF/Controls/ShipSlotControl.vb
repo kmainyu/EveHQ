@@ -48,8 +48,6 @@ Namespace Controls
 
         Private Const MaxTooltipWidth As Integer = 100
 
-        Private ReadOnly _fittingPriceCells As New Dictionary(Of String, List(Of Cell))
-
 #Region "Property Variables"
 
         Private _currentInfo As ShipInfoControl
@@ -313,16 +311,6 @@ Namespace Controls
                                                       lblFittingMarketPrice.Text = "Total Price: " &
                                                                                    (ParentFitting.BaseShip.FittingMarketPrice).
                                                                                        ToInvariantString("N2")
-
-                                                      ' update the fitting slots with their respective price value
-                                                      For Each itemId As Integer In prices.Keys
-                                                          Dim priceCells As New List(Of Cell)
-                                                          If _fittingPriceCells.TryGetValue(CStr(itemId), priceCells) Then
-                                                              For Each priceCell As Cell In priceCells
-                                                                  priceCell.Text = prices(itemId).ToInvariantString("N2")
-                                                              Next
-                                                          End If
-                                                      Next
                                                   End Sub)
                                        End If
 
@@ -596,13 +584,8 @@ Namespace Controls
                             Case "Calib"
                                 slotNode.Cells.Add(New Cell(shipMod.Calibration.ToString("N2")))
                             Case "Price"
-                                Dim temp As New List(Of Cell)
+
                                 Dim priceCell As New Cell()
-                                If _fittingPriceCells.TryGetValue(CStr(shipMod.ID), temp) = False Then
-                                    temp = New List(Of Cell)
-                                    _fittingPriceCells.Add(CStr(shipMod.ID), temp)
-                                End If
-                                temp.Add(priceCell)
                                 slotNode.Cells.Add(priceCell)
                             Case "ActCost"
                                 If shipMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) Then

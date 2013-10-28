@@ -1981,9 +1981,9 @@ Imports System.Runtime.Serialization
 
         If HQFDefenceProfiles.ProfileList.ContainsKey(DefenceProfileName) Then
 
-        Dim dp As HQFDefenceProfile = Nothing
+            Dim dp As HQFDefenceProfile = Nothing
 
-        If HQFDefenceProfiles.ProfileList.TryGetValue(DefenceProfileName, dp) And dp IsNot Nothing Then
+            If HQFDefenceProfiles.ProfileList.TryGetValue(DefenceProfileName, dp) And dp IsNot Nothing Then
                 Dim sEm As Double = newShip.Attributes(AttributeEnum.ShipEmDPS) * (1 - (dp.SEm / 100))
                 Dim sEx As Double = newShip.Attributes(AttributeEnum.ShipExpDPS) * (1 - (dp.SExplosive / 100))
                 Dim sKi As Double = newShip.Attributes(AttributeEnum.ShipKinDPS) * (1 - (dp.SKinetic / 100))
