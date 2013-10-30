@@ -73,7 +73,7 @@ Namespace Forms
             ' Set the application folder
             lblStatus.Text = "> Setting application directory..."
             lblStatus.Refresh()
-            HQ.appFolder = Application.StartupPath
+            HQ.AppFolder = Application.StartupPath
 
             ' Check for existence of an application folder in the application directory
             If _isLocal = False Then
@@ -85,7 +85,7 @@ Namespace Forms
                     My.Computer.FileSystem.CreateDirectory(HQ.AppDataFolder)
                 End If
             Else
-                HQ.AppDataFolder = HQ.appFolder
+                HQ.AppDataFolder = HQ.AppFolder
             End If
 
             ' Configure trace listener
@@ -105,11 +105,11 @@ Namespace Forms
             If _showSettings = True Then
                 Dim failedShowSettings As Boolean = EveHQSettings.Load(True)
                 If failedShowSettings = True Then
-                    frmSettings.ShowDialog()
+                    FrmSettings.ShowDialog()
                     ' Remove the icons
-                    frmEveHQ.EveStatusIcon.Visible = False : frmEveHQ.iconEveHQMLW.Visible = False
-                    frmEveHQ.EveStatusIcon.Icon = Nothing : frmEveHQ.iconEveHQMLW.Icon = Nothing
-                    frmEveHQ.EveStatusIcon.Dispose() : frmEveHQ.iconEveHQMLW.Dispose()
+                    FrmEveHQ.EveStatusIcon.Visible = False : FrmEveHQ.iconEveHQMLW.Visible = False
+                    FrmEveHQ.EveStatusIcon.Icon = Nothing : FrmEveHQ.iconEveHQMLW.Icon = Nothing
+                    FrmEveHQ.EveStatusIcon.Dispose() : FrmEveHQ.iconEveHQMLW.Dispose()
                 Else
                     MessageBox.Show("Unable to load and display settings. Check log file for errors.", "Error displaying settings.", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End If
@@ -119,7 +119,7 @@ Namespace Forms
             ' Check for existence of a cache folder in the application directory
             HQ.WriteLogEvent("Start: Set core cache directory")
             HQ.CoreCacheFolder = Path.Combine(Application.StartupPath, "StaticData")
-            If My.Computer.FileSystem.DirectoryExists(HQ.coreCacheFolder) = False Then
+            If My.Computer.FileSystem.DirectoryExists(HQ.CoreCacheFolder) = False Then
                 MessageBox.Show("Unable to find core cache folder. EveHQ will now quit", "Cache Folder Required", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End
             End If
@@ -158,13 +158,13 @@ Namespace Forms
             lblStatus.Text = "> Checking cache directory..."
             lblStatus.Refresh()
             If _isLocal = False Then
-                HQ.cacheFolder = Path.Combine(HQ.AppDataFolder, "Cache")
+                HQ.CacheFolder = Path.Combine(HQ.AppDataFolder, "Cache")
             Else
-                HQ.cacheFolder = Path.Combine(Application.StartupPath, "Cache")
+                HQ.CacheFolder = Path.Combine(Application.StartupPath, "Cache")
             End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.cacheFolder) = False Then
+            If My.Computer.FileSystem.DirectoryExists(HQ.CacheFolder) = False Then
                 ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.cacheFolder)
+                My.Computer.FileSystem.CreateDirectory(HQ.CacheFolder)
             End If
             HQ.WriteLogEvent("End: Set XML cache directory")
 
@@ -173,13 +173,13 @@ Namespace Forms
             lblStatus.Text = "> Checking image cache directory..."
             lblStatus.Refresh()
             If _isLocal = False Then
-                HQ.imageCacheFolder = Path.Combine(HQ.AppDataFolder, "ImageCache")
+                HQ.ImageCacheFolder = Path.Combine(HQ.AppDataFolder, "ImageCache")
             Else
-                HQ.imageCacheFolder = Path.Combine(Application.StartupPath, "ImageCache")
+                HQ.ImageCacheFolder = Path.Combine(Application.StartupPath, "ImageCache")
             End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.imageCacheFolder) = False Then
+            If My.Computer.FileSystem.DirectoryExists(HQ.ImageCacheFolder) = False Then
                 ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.imageCacheFolder)
+                My.Computer.FileSystem.CreateDirectory(HQ.ImageCacheFolder)
             End If
             HQ.WriteLogEvent("End: Set image cache directory")
 
@@ -188,14 +188,14 @@ Namespace Forms
             lblStatus.Text = "> Checking report folder..."
             lblStatus.Refresh()
             If _isLocal = False Then
-                HQ.reportFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
-                HQ.reportFolder = Path.Combine(HQ.reportFolder, "Reports")
+                HQ.ReportFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
+                HQ.ReportFolder = Path.Combine(HQ.ReportFolder, "Reports")
             Else
-                HQ.reportFolder = Path.Combine(Application.StartupPath, "Reports")
+                HQ.ReportFolder = Path.Combine(Application.StartupPath, "Reports")
             End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.reportFolder) = False Then
+            If My.Computer.FileSystem.DirectoryExists(HQ.ReportFolder) = False Then
                 ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.reportFolder)
+                My.Computer.FileSystem.CreateDirectory(HQ.ReportFolder)
             End If
             HQ.WriteLogEvent("End: Set report directory")
 
@@ -204,13 +204,13 @@ Namespace Forms
             lblStatus.Text = "> Checking data directory..."
             lblStatus.Refresh()
             If _isLocal = False Then
-                HQ.dataFolder = Path.Combine(HQ.AppDataFolder, "Data")
+                HQ.DataFolder = Path.Combine(HQ.AppDataFolder, "Data")
             Else
-                HQ.dataFolder = Path.Combine(Application.StartupPath, "Data")
+                HQ.DataFolder = Path.Combine(Application.StartupPath, "Data")
             End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.dataFolder) = False Then
+            If My.Computer.FileSystem.DirectoryExists(HQ.DataFolder) = False Then
                 ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.dataFolder)
+                My.Computer.FileSystem.CreateDirectory(HQ.DataFolder)
             End If
             HQ.WriteLogEvent("End: Set data directory")
 
@@ -219,14 +219,14 @@ Namespace Forms
             lblStatus.Text = "> Checking backup directory..."
             lblStatus.Refresh()
             If _isLocal = False Then
-                HQ.backupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
-                HQ.backupFolder = Path.Combine(HQ.backupFolder, "Backups")
+                HQ.BackupFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EveHQ")
+                HQ.BackupFolder = Path.Combine(HQ.BackupFolder, "Backups")
             Else
-                HQ.backupFolder = Path.Combine(Application.StartupPath, "Backups")
+                HQ.BackupFolder = Path.Combine(Application.StartupPath, "Backups")
             End If
-            If My.Computer.FileSystem.DirectoryExists(HQ.backupFolder) = False Then
+            If My.Computer.FileSystem.DirectoryExists(HQ.BackupFolder) = False Then
                 ' Create the cache folder if it doesn't exist
-                My.Computer.FileSystem.CreateDirectory(HQ.backupFolder)
+                My.Computer.FileSystem.CreateDirectory(HQ.BackupFolder)
             End If
             HQ.WriteLogEvent("End: Set Eve backup directory")
 
@@ -290,7 +290,7 @@ Namespace Forms
                     G15Lcd.InitLcd()
                 Catch ex As Exception
                 End Try
-                If HQ.IsG15LCDActive = False Then
+                If HQ.IsG15LcdActive = False Then
                     MessageBox.Show("Unable to start G15 Display. Please ensure you have the keyboard and drivers correctly installed.", "Error Starting G15", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     ' Check if the LCD will cycle chars
@@ -300,7 +300,7 @@ Namespace Forms
                     End If
                 End If
             End If
-            HQ.lcdPilot = HQ.Settings.StartupPilot
+            HQ.LcdPilot = HQ.Settings.StartupPilot
             HQ.WriteLogEvent("End: Activate G15")
 
             ' Force DBDataDirectory location if using SQL CE
@@ -316,7 +316,7 @@ Namespace Forms
             If My.Computer.FileSystem.FileExists(HQ.Settings.CustomDBFileName) = False Then
                 ' Looks like it hasn't been set so let's create it
                 If CustomDataFunctions.CreateCustomDB = False Then
-                    MessageBox.Show("There was an error creating the EveHQ database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("There was an error creating the EveHQ database. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError, "Error Creating Database", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Else
                     'MessageBox.Show("Database created successfully!", "Database Creation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 End If
@@ -343,7 +343,7 @@ Namespace Forms
             HQ.WriteLogEvent("Start: Set Eve Server details")
             lblStatus.Text = "> Setting Eve Server details..."
             lblStatus.Refresh()
-            HQ.myTQServer.Server = 0
+            HQ.MyTqServer.Server = 0
             HQ.WriteLogEvent("End: Set Eve Server details")
 
             ' Update the pilot account info
@@ -402,7 +402,7 @@ Namespace Forms
             lblStatus.Text = "> Initialising EveHQ..."
             lblStatus.Refresh()
             G15Lcd.SplashFlag = False
-            HQ.MainForm = frmEveHQ
+            HQ.MainForm = FrmEveHQ
             HQ.WriteLogEvent("End: Initialise main form")
 
             ' Await all loading
@@ -418,7 +418,7 @@ Namespace Forms
             Call PilotParseFunctions.CheckMissingTrainingSkills()
 
             HQ.WriteLogEvent("***** End: EveHQ Startup Routine via Splash Screen *****")
-            frmEveHQ.Show()
+            FrmEveHQ.Show()
 
         End Sub
 
@@ -463,12 +463,15 @@ Namespace Forms
         Private Sub LoadItemData(state As Object)
 
             ' Load data from the core cache
-            StaticData.LoadCoreCache(HQ.coreCacheFolder)
-
-            ' Finalise skill loading
-            HQ.WriteLogEvent(" *** Items Finished Loading")
-            _itemsLoaded = True
-
+            If (StaticData.LoadCoreCache(HQ.CoreCacheFolder)) Then
+                ' Finalise skill loading
+                HQ.WriteLogEvent(" *** Items Finished Loading")
+                _itemsLoaded = True
+            Else
+                MessageBox.Show("There was an error loading item data. The details of the error are in the EveHQ.log file.\r\n EveHQ will now exit.")
+                _itemsLoaded = False
+                Application.Exit()
+            End If
         End Sub
 
         Private Sub LoadModules(state As Object)
@@ -536,7 +539,7 @@ Namespace Forms
             _widgetsLoaded = True
         End Sub
 
-      Private Function IsDotNetAssembly(ByVal fileName As String) As Boolean
+        Private Function IsDotNetAssembly(ByVal fileName As String) As Boolean
             'private bool IsDotNetAssembly(string fileName)
             Using fs As New FileStream(fileName, FileMode.Open, FileAccess.Read)
                 Try
@@ -573,4 +576,4 @@ Namespace Forms
         End Function
 
     End Class
-End NameSpace
+End Namespace

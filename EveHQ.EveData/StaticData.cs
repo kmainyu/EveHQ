@@ -24,6 +24,8 @@ namespace EveHQ.EveData
     using System.IO;
     using System.Linq;
 
+    using EveHQ.Common.Extensions;
+
     using ProtoBuf;
 
     /// <summary>
@@ -807,9 +809,10 @@ namespace EveHQ.EveData
         /// <returns>An integer representing the typeID of the product</returns>
         public static int GetTypeId(int blueprintTypeId)
         {
-            if (Blueprints.ContainsKey(blueprintTypeId))
+            Blueprint item;
+            if (Blueprints.TryGetValue(blueprintTypeId, out item))
             {
-                return Blueprints[blueprintTypeId].ProductId;
+                return item.ProductId;
             }
 
             return -1;
@@ -822,9 +825,10 @@ namespace EveHQ.EveData
         {
             // Fetch the parent item ID for this item
             int parentTypeId = typeId;
-            if (MetaTypes.ContainsKey(typeId))
+            MetaType metaType;
+            if (MetaTypes.TryGetValue(typeId, out metaType))
             {
-                parentTypeId = MetaTypes[typeId].ParentId;
+                parentTypeId = metaType.ParentId;
             }
 
             // Fetch all items with this same parent ID
@@ -1113,9 +1117,9 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Flags Finished Loading");
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Load Core Cache failed
+                Trace.TraceError(ex.FormatException());
                 return false;
             }
         }

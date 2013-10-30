@@ -23,6 +23,59 @@ Namespace Forms
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
             Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEveHQ))
+            Dim SuperTooltipInfo1 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo53 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo2 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo3 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo4 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo5 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo6 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo7 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo8 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo9 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo10 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo11 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo12 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo13 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo14 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo15 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo16 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo17 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo18 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo19 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo20 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo21 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo22 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo23 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo24 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo25 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo26 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo27 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo28 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo29 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo30 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo31 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo32 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo33 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo34 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo35 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo36 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo37 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo38 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo39 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo40 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo41 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo42 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo43 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo44 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo45 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo46 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo47 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo48 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo49 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo50 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo51 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
+            Dim SuperTooltipInfo52 As DevComponents.DotNetBar.SuperTooltipInfo = New DevComponents.DotNetBar.SuperTooltipInfo()
             Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
             Me.rpPlugins = New DevComponents.DotNetBar.RibbonPanel()
             Me.rbPlugins = New DevComponents.DotNetBar.RibbonBar()
@@ -52,8 +105,6 @@ Namespace Forms
             Me.rpCore = New DevComponents.DotNetBar.RibbonPanel()
             Me.rbHelp = New DevComponents.DotNetBar.RibbonBar()
             Me.btnInfoHelp = New DevComponents.DotNetBar.ButtonItem()
-            Me.rbSQLTools = New DevComponents.DotNetBar.RibbonBar()
-            Me.ItemContainer3 = New DevComponents.DotNetBar.ItemContainer()
             Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
             Me.rbAPITools = New DevComponents.DotNetBar.RibbonBar()
             Me.ItemContainer2 = New DevComponents.DotNetBar.ItemContainer()
@@ -190,7 +241,6 @@ Namespace Forms
             Me.DockSite7 = New DevComponents.DotNetBar.DockSite()
             Me.DockSite3 = New DevComponents.DotNetBar.DockSite()
             Me.tabEveHQMDI = New DevComponents.DotNetBar.TabStrip()
-            Me.TabItem1 = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.barStatus = New DevComponents.DotNetBar.Bar()
             Me.lblTQStatus = New DevComponents.DotNetBar.LabelItem()
             Me.lblAPIStatus = New DevComponents.DotNetBar.LabelItem()
@@ -427,7 +477,6 @@ Namespace Forms
             '
             Me.rpCore.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.rpCore.Controls.Add(Me.rbHelp)
-            Me.rpCore.Controls.Add(Me.rbSQLTools)
             Me.rpCore.Controls.Add(Me.rbAPITools)
             Me.rpCore.Controls.Add(Me.rbBackup)
             Me.rpCore.Controls.Add(Me.rbIGB)
@@ -453,6 +502,7 @@ Namespace Forms
             '
             Me.rpCore.StyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rpCore.TabIndex = 1
+            Me.rpCore.Visible = True
             '
             'rbHelp
             '
@@ -469,7 +519,7 @@ Namespace Forms
             Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
             Me.rbHelp.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInfoHelp})
             Me.rbHelp.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbHelp.Location = New System.Drawing.Point(1051, 0)
+            Me.rbHelp.Location = New System.Drawing.Point(959, 0)
             Me.rbHelp.Name = "rbHelp"
             Me.rbHelp.Size = New System.Drawing.Size(73, 92)
             Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -490,58 +540,21 @@ Namespace Forms
             Me.btnInfoHelp.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnInfoHelp.Name = "btnInfoHelp"
             Me.btnInfoHelp.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnInfoHelp, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Info Centre", "Provides links and information relating to support on EveHQ." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo1.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo1.BodyText = "Provides links and information relating to support on EveHQ." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo1.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo1.FooterImage = Global.EveHQ.My.Resources.Resources.SkillBook32
+            SuperTooltipInfo1.FooterText = "View EveHQ Info Centre"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnInfoHelp, SuperTooltipInfo1)
             Me.btnInfoHelp.Text = "EveHQ Info Centre"
-            '
-            'rbSQLTools
-            '
-            Me.rbSQLTools.AutoOverflowEnabled = True
-            '
-            '
-            '
-            Me.rbSQLTools.BackgroundMouseOverStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            '
-            '
-            '
-            Me.rbSQLTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.rbSQLTools.ContainerControlProcessDialogKey = True
-            Me.rbSQLTools.Dock = System.Windows.Forms.DockStyle.Left
-            Me.rbSQLTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer3})
-            Me.rbSQLTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbSQLTools.Location = New System.Drawing.Point(959, 0)
-            Me.rbSQLTools.Name = "rbSQLTools"
-            Me.rbSQLTools.Size = New System.Drawing.Size(92, 92)
-            Me.rbSQLTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.rbSQLTools.TabIndex = 8
-            Me.rbSQLTools.Text = "SQL Tools"
-            '
-            '
-            '
-            Me.rbSQLTools.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            '
-            '
-            '
-            Me.rbSQLTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            '
-            'ItemContainer3
-            '
-            '
-            '
-            '
-            Me.ItemContainer3.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ItemContainer3.LayoutOrientation = DevComponents.DotNetBar.eOrientation.Vertical
-            Me.ItemContainer3.Name = "ItemContainer3"
-            Me.ItemContainer3.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnSQLQueryTool})
-            '
-            '
-            '
-            Me.ItemContainer3.TitleStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ItemContainer3.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
             '
             'btnSQLQueryTool
             '
             Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo53.BodyText = "Allows the static and custom databases to be queried using SQL statements."
+            SuperTooltipInfo53.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo53.FooterText = "SQL Query Tools"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, SuperTooltipInfo53)
             Me.btnSQLQueryTool.Text = "SQL Query Tool"
             '
             'rbAPITools
@@ -724,15 +737,25 @@ Namespace Forms
             Me.btnIGB.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnIGB.Name = "btnIGB"
             Me.btnIGB.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnIGB, New DevComponents.DotNetBar.SuperTooltipInfo("", "Toggle EveHQ IGB Server", "Toggles the IGB Server between active/inactive states.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.IGB32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo2.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo2.BodyText = "Toggles the IGB Server between active/inactive states."
+            SuperTooltipInfo2.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo2.FooterImage = Global.EveHQ.My.Resources.Resources.IGB32
+            SuperTooltipInfo2.FooterText = "Toggle EveHQ IGB Server"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnIGB, SuperTooltipInfo2)
             Me.btnIGB.Text = "Toggle IGB Server"
             '
             'lblIGB
             '
             Me.lblIGB.CanCustomize = False
             Me.lblIGB.Name = "lblIGB"
-            Me.SuperTooltip1.SetSuperTooltip(Me.lblIGB, New DevComponents.DotNetBar.SuperTooltipInfo("", "EveHQ IGB Server Status", "Provides the status of the EveHQ IGB Server including the port number to which th" & _
-                "e server is assigned.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.IGB32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo3.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo3.BodyText = "Provides the status of the EveHQ IGB Server including the port number to which th" & _
+        "e server is assigned."
+            SuperTooltipInfo3.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo3.FooterImage = Global.EveHQ.My.Resources.Resources.IGB32
+            SuperTooltipInfo3.FooterText = "EveHQ IGB Server Status"
+            Me.SuperTooltip1.SetSuperTooltip(Me.lblIGB, SuperTooltipInfo3)
             Me.lblIGB.Text = "Port: 26001" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Status: Off"
             Me.lblIGB.TextAlignment = System.Drawing.StringAlignment.Center
             '
@@ -772,7 +795,12 @@ Namespace Forms
             Me.btnEveMail.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnEveMail.Name = "btnEveMail"
             Me.btnEveMail.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnEveMail, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveMail and Eve Notifications", "Displays EveMail and Eve Notifications based on data provided by the API.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.EveMail32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo4.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo4.BodyText = "Displays EveMail and Eve Notifications based on data provided by the API."
+            SuperTooltipInfo4.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo4.FooterImage = Global.EveHQ.My.Resources.Resources.EveMail32
+            SuperTooltipInfo4.FooterText = "View EveMail and Eve Notifications"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnEveMail, SuperTooltipInfo4)
             Me.btnEveMail.Text = "View EveMail"
             '
             'lblEveMail
@@ -784,9 +812,14 @@ Namespace Forms
             Me.lblEveMail.PaddingRight = 3
             Me.lblEveMail.PaddingTop = 3
             Me.lblEveMail.Stretch = True
-            Me.SuperTooltip1.SetSuperTooltip(Me.lblEveMail, New DevComponents.DotNetBar.SuperTooltipInfo("", "Unread Mail and Notifications", "This is the number of unread EveMail and Eve Notifications that have been downloa" & _
-                "ded via the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This only refers to what has not been read in EveHQ, not in-" & _
-                "game.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.EveMail32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo5.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo5.BodyText = "This is the number of unread EveMail and Eve Notifications that have been downloa" & _
+        "ded via the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "This only refers to what has not been read in EveHQ, not in-" & _
+        "game."
+            SuperTooltipInfo5.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo5.FooterImage = Global.EveHQ.My.Resources.Resources.EveMail32
+            SuperTooltipInfo5.FooterText = "Unread Mail and Notifications"
+            Me.SuperTooltip1.SetSuperTooltip(Me.lblEveMail, SuperTooltipInfo5)
             Me.lblEveMail.Text = "EveMail: 0" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Notices: 0"
             Me.lblEveMail.Width = 75
             '
@@ -826,8 +859,13 @@ Namespace Forms
             Me.btnViewPilotInfo.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnViewPilotInfo.Name = "btnViewPilotInfo"
             Me.btnViewPilotInfo.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPilotInfo, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Pilot Information", "Opens the pilot information screen which provides basic details, as well as skill" & _
-                "s, certificates and standings.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Aura32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo6.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo6.BodyText = "Opens the pilot information screen which provides basic details, as well as skill" & _
+        "s, certificates and standings."
+            SuperTooltipInfo6.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo6.FooterImage = Global.EveHQ.My.Resources.Resources.Aura32
+            SuperTooltipInfo6.FooterText = "View Pilot Information"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPilotInfo, SuperTooltipInfo6)
             Me.btnViewPilotInfo.Text = "Pilot Info"
             '
             'btnViewSkillTraining
@@ -836,8 +874,13 @@ Namespace Forms
             Me.btnViewSkillTraining.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnViewSkillTraining.Name = "btnViewSkillTraining"
             Me.btnViewSkillTraining.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewSkillTraining, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Skill Planner", "Opens the skill planning feature which allows you to plan the future training for" & _
-                " each of the pilots.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.SkillBook32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo7.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo7.BodyText = "Opens the skill planning feature which allows you to plan the future training for" & _
+        " each of the pilots."
+            SuperTooltipInfo7.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo7.FooterImage = Global.EveHQ.My.Resources.Resources.SkillBook32
+            SuperTooltipInfo7.FooterText = "View Skill Planner"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewSkillTraining, SuperTooltipInfo7)
             Me.btnViewSkillTraining.Text = "Skill Planner"
             '
             'btnViewPrices
@@ -846,8 +889,13 @@ Namespace Forms
             Me.btnViewPrices.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnViewPrices.Name = "btnViewPrices"
             Me.btnViewPrices.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPrices, New DevComponents.DotNetBar.SuperTooltipInfo("", "View Prices System", "The prices system allows you to download market and faction prices from third par" & _
-                "ty sites, as well as providing your own custom prices.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Market32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo8.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo8.BodyText = "The prices system allows you to download market and faction prices from third par" & _
+        "ty sites, as well as providing your own custom prices."
+            SuperTooltipInfo8.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo8.FooterImage = Global.EveHQ.My.Resources.Resources.Market32
+            SuperTooltipInfo8.FooterText = "View Prices System"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewPrices, SuperTooltipInfo8)
             Me.btnViewPrices.Text = "Market Prices"
             '
             'btnViewDashboard
@@ -856,9 +904,14 @@ Namespace Forms
             Me.btnViewDashboard.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnViewDashboard.Name = "btnViewDashboard"
             Me.btnViewDashboard.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewDashboard, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Dashboard", "The EveHQ Dashboard provides users with a collection of widgets which display rel" & _
-                "evant data about pilots skills and training, along with some additional useful i" & _
-                "nformation.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Dashboard32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo9.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo9.BodyText = "The EveHQ Dashboard provides users with a collection of widgets which display rel" & _
+        "evant data about pilots skills and training, along with some additional useful i" & _
+        "nformation."
+            SuperTooltipInfo9.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo9.FooterImage = Global.EveHQ.My.Resources.Resources.Dashboard32
+            SuperTooltipInfo9.FooterText = "View EveHQ Dashboard"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewDashboard, SuperTooltipInfo9)
             Me.btnViewDashboard.Text = "EveHQ Dashboard"
             '
             'btnViewReqs
@@ -867,8 +920,13 @@ Namespace Forms
             Me.btnViewReqs.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnViewReqs.Name = "btnViewReqs"
             Me.btnViewReqs.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewReqs, New DevComponents.DotNetBar.SuperTooltipInfo("", "View EveHQ Requisitions", "Allows the creation, editing and viewing of requisitions (also known as Shopping " & _
-                "Lists)." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Requisitions created in other parts of EveHQ will be visible here.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Orders32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo10.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo10.BodyText = "Allows the creation, editing and viewing of requisitions (also known as Shopping " & _
+        "Lists)." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Requisitions created in other parts of EveHQ will be visible here."
+            SuperTooltipInfo10.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo10.FooterImage = Global.EveHQ.My.Resources.Resources.Orders32
+            SuperTooltipInfo10.FooterText = "View EveHQ Requisitions"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnViewReqs, SuperTooltipInfo10)
             Me.btnViewReqs.Text = "EveHQ Requisitions"
             '
             'btnIB
@@ -915,7 +973,12 @@ Namespace Forms
             Me.btnManageAPI.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnManageAPI.Name = "btnManageAPI"
             Me.btnManageAPI.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnManageAPI, New DevComponents.DotNetBar.SuperTooltipInfo("", "Manage API", "Opens the EveHQ Settings so that API Accounts can be added, edited or removed." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.ManageAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo11.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo11.BodyText = "Opens the EveHQ Settings so that API Accounts can be added, edited or removed." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo11.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo11.FooterImage = Global.EveHQ.My.Resources.Resources.ManageAPI32
+            SuperTooltipInfo11.FooterText = "Manage API"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnManageAPI, SuperTooltipInfo11)
             Me.btnManageAPI.Text = "Manage API"
             '
             'btnQueryAPI
@@ -924,9 +987,14 @@ Namespace Forms
             Me.btnQueryAPI.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnQueryAPI.Name = "btnQueryAPI"
             Me.btnQueryAPI.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnQueryAPI, New DevComponents.DotNetBar.SuperTooltipInfo("", "Update Character API", "Updates character associated APIs, including character sheet, training, standings" & _
-                " and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If the full API has been entered, the account status and d" & _
-                "etails will also be retrieved.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.QueryAPI32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo12.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo12.BodyText = "Updates character associated APIs, including character sheet, training, standings" & _
+        " and certificates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If the full API has been entered, the account status and d" & _
+        "etails will also be retrieved."
+            SuperTooltipInfo12.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo12.FooterImage = Global.EveHQ.My.Resources.Resources.QueryAPI32
+            SuperTooltipInfo12.FooterText = "Update Character API"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnQueryAPI, SuperTooltipInfo12)
             Me.btnQueryAPI.Text = "Update API"
             '
             'rbOptions
@@ -965,7 +1033,12 @@ Namespace Forms
             Me.btnSave.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnSave.Name = "btnSave"
             Me.btnSave.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnSave, New DevComponents.DotNetBar.SuperTooltipInfo("", "Save Data", "Saves settings and data of EveHQ Core and open plug-ins." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.AssetsSafe32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo13.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo13.BodyText = "Saves settings and data of EveHQ Core and open plug-ins." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo13.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo13.FooterImage = Global.EveHQ.My.Resources.Resources.AssetsSafe32
+            SuperTooltipInfo13.FooterText = "Save Data"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnSave, SuperTooltipInfo13)
             Me.btnSave.Text = "Save Data"
             '
             'rpReports
@@ -1036,8 +1109,13 @@ Namespace Forms
             Me.btnChartSkillGroup.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnChartSkillGroup.Name = "btnChartSkillGroup"
             Me.btnChartSkillGroup.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnChartSkillGroup, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Group Chart", "Produces a pie-chart showing the split of skills trained by the various skill gro" & _
-                "ups.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Chart32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo14.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo14.BodyText = "Produces a pie-chart showing the split of skills trained by the various skill gro" & _
+        "ups."
+            SuperTooltipInfo14.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo14.FooterImage = Global.EveHQ.My.Resources.Resources.Chart32
+            SuperTooltipInfo14.FooterText = "Skill Group Chart"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnChartSkillGroup, SuperTooltipInfo14)
             Me.btnChartSkillGroup.Text = "Skill Group Chart"
             '
             'btnChartSkillCost
@@ -1046,7 +1124,12 @@ Namespace Forms
             Me.btnChartSkillCost.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnChartSkillCost.Name = "btnChartSkillCost"
             Me.btnChartSkillCost.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnChartSkillCost, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Cost Chart", "Produces a chart showing the costs of each of the various skill groups.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Chart32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo15.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo15.BodyText = "Produces a chart showing the costs of each of the various skill groups."
+            SuperTooltipInfo15.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo15.FooterImage = Global.EveHQ.My.Resources.Resources.Chart32
+            SuperTooltipInfo15.FooterText = "Skill Cost Chart"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnChartSkillCost, SuperTooltipInfo15)
             Me.btnChartSkillCost.Text = "Skill Cost Chart"
             '
             'rbPHPBB
@@ -1087,8 +1170,13 @@ Namespace Forms
             Me.btnPHPBBCharacterSheet.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnPHPBBCharacterSheet.Name = "btnPHPBBCharacterSheet"
             Me.btnPHPBBCharacterSheet.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnPHPBBCharacterSheet, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character Sheet Report (PHPBB)", "Produces a Character Sheet based text file that can be copied and pasted into a P" & _
-                "HPBB forum.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo16.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo16.BodyText = "Produces a Character Sheet based text file that can be copied and pasted into a P" & _
+        "HPBB forum."
+            SuperTooltipInfo16.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo16.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo16.FooterText = "Character Sheet Report (PHPBB)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnPHPBBCharacterSheet, SuperTooltipInfo16)
             Me.btnPHPBBCharacterSheet.Text = "Character Sheet"
             '
             'rbXML
@@ -1129,7 +1217,12 @@ Namespace Forms
             Me.btnXMLCharacterXML.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnXMLCharacterXML.Name = "btnXMLCharacterXML"
             Me.btnXMLCharacterXML.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCharacterXML, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character XML Report (XML)", "Displays an XML report that is a copy of the pilot's CharacterSheet API.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo17.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo17.BodyText = "Displays an XML report that is a copy of the pilot's CharacterSheet API."
+            SuperTooltipInfo17.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo17.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo17.FooterText = "Character XML Report (XML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCharacterXML, SuperTooltipInfo17)
             Me.btnXMLCharacterXML.Text = "Character XML"
             '
             'btnXMLTrainingXML
@@ -1139,7 +1232,12 @@ Namespace Forms
             Me.btnXMLTrainingXML.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnXMLTrainingXML.Name = "btnXMLTrainingXML"
             Me.btnXMLTrainingXML.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLTrainingXML, New DevComponents.DotNetBar.SuperTooltipInfo("", "Training XML Report (XML)", "Displays an XML report that is a copy of the pilot's SkillQueue API.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo18.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo18.BodyText = "Displays an XML report that is a copy of the pilot's SkillQueue API."
+            SuperTooltipInfo18.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo18.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo18.FooterText = "Training XML Report (XML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLTrainingXML, SuperTooltipInfo18)
             Me.btnXMLTrainingXML.Text = "Training XML"
             '
             'btnXMLCurrentCharOld
@@ -1149,9 +1247,14 @@ Namespace Forms
             Me.btnXMLCurrentCharOld.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnXMLCurrentCharOld.Name = "btnXMLCurrentCharOld"
             Me.btnXMLCurrentCharOld.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCurrentCharOld, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character (Old Style) Report (XML)", "Produces a copy of the old style XML character sheet report prior to the introduc" & _
-                "tion of the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The report is updated to include the total skill points for " & _
-                "the current skill in training.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo19.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo19.BodyText = "Produces a copy of the old style XML character sheet report prior to the introduc" & _
+        "tion of the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The report is updated to include the total skill points for " & _
+        "the current skill in training."
+            SuperTooltipInfo19.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo19.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo19.FooterText = "Character (Old Style) Report (XML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCurrentCharOld, SuperTooltipInfo19)
             Me.btnXMLCurrentCharOld.Text = "Character (Old Style)"
             '
             'btnXMLCurrentCharNew
@@ -1161,8 +1264,13 @@ Namespace Forms
             Me.btnXMLCurrentCharNew.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnXMLCurrentCharNew.Name = "btnXMLCurrentCharNew"
             Me.btnXMLCurrentCharNew.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCurrentCharNew, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character (New Style) Report (XML)", "Produces a copy of the Character XML report but is updated to include the total s" & _
-                "kill points for the current skill in training." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo20.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo20.BodyText = "Produces a copy of the Character XML report but is updated to include the total s" & _
+        "kill points for the current skill in training." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo20.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo20.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo20.FooterText = "Character (New Style) Report (XML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCurrentCharNew, SuperTooltipInfo20)
             Me.btnXMLCurrentCharNew.Text = "Character (New Style)"
             '
             'btnXMLCurrentTrainingOld
@@ -1172,8 +1280,13 @@ Namespace Forms
             Me.btnXMLCurrentTrainingOld.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnXMLCurrentTrainingOld.Name = "btnXMLCurrentTrainingOld"
             Me.btnXMLCurrentTrainingOld.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCurrentTrainingOld, New DevComponents.DotNetBar.SuperTooltipInfo("", "Training (Old Style) Report (XML)", "Produces a copy of the old style XML training report prior to the introduction of" & _
-                " the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo21.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo21.BodyText = "Produces a copy of the old style XML training report prior to the introduction of" & _
+        " the API." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo21.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo21.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo21.FooterText = "Training (Old Style) Report (XML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLCurrentTrainingOld, SuperTooltipInfo21)
             Me.btnXMLCurrentTrainingOld.Text = "Training (Old Style)"
             '
             'btnXMLECMExport
@@ -1183,7 +1296,12 @@ Namespace Forms
             Me.btnXMLECMExport.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnXMLECMExport.Name = "btnXMLECMExport"
             Me.btnXMLECMExport.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLECMExport, New DevComponents.DotNetBar.SuperTooltipInfo("", "ECM Export (XML)", "Exports data in a format support by the now obsolete Eve Character Manager.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo22.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo22.BodyText = "Exports data in a format support by the now obsolete Eve Character Manager."
+            SuperTooltipInfo22.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo22.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo22.FooterText = "ECM Export (XML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnXMLECMExport, SuperTooltipInfo22)
             Me.btnXMLECMExport.Text = "ECM Export"
             '
             'rbText
@@ -1224,8 +1342,13 @@ Namespace Forms
             Me.btnTextCharacterSheet.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextCharacterSheet.Name = "btnTextCharacterSheet"
             Me.btnTextCharacterSheet.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextCharacterSheet, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character Sheet Report (Text)", "Produces a standard character sheet showing basic details, attributes and skills " & _
-                "for the selected character.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo23.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo23.BodyText = "Produces a standard character sheet showing basic details, attributes and skills " & _
+        "for the selected character."
+            SuperTooltipInfo23.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo23.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo23.FooterText = "Character Sheet Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextCharacterSheet, SuperTooltipInfo23)
             Me.btnTextCharacterSheet.Text = "Character Sheet"
             '
             'btnTextTrainingTimes
@@ -1235,7 +1358,12 @@ Namespace Forms
             Me.btnTextTrainingTimes.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextTrainingTimes.Name = "btnTextTrainingTimes"
             Me.btnTextTrainingTimes.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextTrainingTimes, New DevComponents.DotNetBar.SuperTooltipInfo("", "Training Times Report (Text)", "Displays the time required to train each of a pilot's skills to the next level.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo24.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo24.BodyText = "Displays the time required to train each of a pilot's skills to the next level."
+            SuperTooltipInfo24.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo24.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo24.FooterText = "Training Times Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextTrainingTimes, SuperTooltipInfo24)
             Me.btnTextTrainingTimes.Text = "Training Times"
             '
             'btnTextTimeToLvl5
@@ -1245,8 +1373,13 @@ Namespace Forms
             Me.btnTextTimeToLvl5.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextTimeToLvl5.Name = "btnTextTimeToLvl5"
             Me.btnTextTimeToLvl5.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextTimeToLvl5, New DevComponents.DotNetBar.SuperTooltipInfo("", "Time to Level 5 Report (Text)", "Displays a report showing the time taken for each skill to be trained to the maxi" & _
-                "mum level 5.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo25.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo25.BodyText = "Displays a report showing the time taken for each skill to be trained to the maxi" & _
+        "mum level 5."
+            SuperTooltipInfo25.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo25.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo25.FooterText = "Time to Level 5 Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextTimeToLvl5, SuperTooltipInfo25)
             Me.btnTextTimeToLvl5.Text = "TimeTo Level 5"
             '
             'btnTextSkillLevels
@@ -1256,7 +1389,12 @@ Namespace Forms
             Me.btnTextSkillLevels.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextSkillLevels.Name = "btnTextSkillLevels"
             Me.btnTextSkillLevels.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillLevels, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (Text)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo26.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo26.BodyText = "Displays a report grouping skills according to the level currently trained."
+            SuperTooltipInfo26.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo26.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo26.FooterText = "Skill Levels Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillLevels, SuperTooltipInfo26)
             Me.btnTextSkillLevels.Text = "Skill Levels"
             '
             'btnTextSkillRanks
@@ -1277,8 +1415,13 @@ Namespace Forms
             Me.btnTextTrainingQueue.Name = "btnTextTrainingQueue"
             Me.btnTextTrainingQueue.SplitButton = True
             Me.btnTextTrainingQueue.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextTrainingQueue, New DevComponents.DotNetBar.SuperTooltipInfo("", "Training Queue Report (Text)", "Displays the contents of a specific training queue for the selected pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Thi" & _
-                "s report cannot be added to the QAT.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo27.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo27.BodyText = "Displays the contents of a specific training queue for the selected pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Thi" & _
+        "s report cannot be added to the QAT."
+            SuperTooltipInfo27.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo27.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo27.FooterText = "Training Queue Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextTrainingQueue, SuperTooltipInfo27)
             Me.btnTextTrainingQueue.Text = "Training Queue"
             '
             'btnTextQueueShoppingList
@@ -1290,8 +1433,13 @@ Namespace Forms
             Me.btnTextQueueShoppingList.Name = "btnTextQueueShoppingList"
             Me.btnTextQueueShoppingList.SplitButton = True
             Me.btnTextQueueShoppingList.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextQueueShoppingList, New DevComponents.DotNetBar.SuperTooltipInfo("", "Queue Shopping List Report (Text)", "Displays the skills required to be purchased for a selected training queue." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Th" & _
-                "is report cannot be added to the QAT.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo28.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo28.BodyText = "Displays the skills required to be purchased for a selected training queue." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Th" & _
+        "is report cannot be added to the QAT."
+            SuperTooltipInfo28.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo28.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo28.FooterText = "Queue Shopping List Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextQueueShoppingList, SuperTooltipInfo28)
             Me.btnTextQueueShoppingList.Text = "Queue Shopping List"
             '
             'btnTextSkillsAvailable
@@ -1301,8 +1449,13 @@ Namespace Forms
             Me.btnTextSkillsAvailable.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextSkillsAvailable.Name = "btnTextSkillsAvailable"
             Me.btnTextSkillsAvailable.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillsAvailable, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Available To Train Report (Text)", "Lists the skills that the pilot does not own, but where all the pre-requisites fo" & _
-                "r those skills have already been met.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo29.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo29.BodyText = "Lists the skills that the pilot does not own, but where all the pre-requisites fo" & _
+        "r those skills have already been met."
+            SuperTooltipInfo29.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo29.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo29.FooterText = "Skills Available To Train Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillsAvailable, SuperTooltipInfo29)
             Me.btnTextSkillsAvailable.Text = "Skills Available To Train"
             '
             'btnTextSkillsNotTrained
@@ -1312,8 +1465,13 @@ Namespace Forms
             Me.btnTextSkillsNotTrained.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextSkillsNotTrained.Name = "btnTextSkillsNotTrained"
             Me.btnTextSkillsNotTrained.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillsNotTrained, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Not Trained Report (Text)", "Displays a list of all skills that the pilot has not yet trained, whether the pre" & _
-                "-requisite skills have been met or not.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo30.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo30.BodyText = "Displays a list of all skills that the pilot has not yet trained, whether the pre" & _
+        "-requisite skills have been met or not."
+            SuperTooltipInfo30.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo30.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo30.FooterText = "Skills Not Trained Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillsNotTrained, SuperTooltipInfo30)
             Me.btnTextSkillsNotTrained.Text = "Skills Not Trained"
             '
             'btnTextPartiallyTrained
@@ -1323,7 +1481,12 @@ Namespace Forms
             Me.btnTextPartiallyTrained.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextPartiallyTrained.Name = "btnTextPartiallyTrained"
             Me.btnTextPartiallyTrained.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextPartiallyTrained, New DevComponents.DotNetBar.SuperTooltipInfo("", "Partially Trained Skills Report (Text)", "Lists those skills that have been partially trained between levels.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo31.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo31.BodyText = "Lists those skills that have been partially trained between levels."
+            SuperTooltipInfo31.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo31.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo31.FooterText = "Partially Trained Skills Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextPartiallyTrained, SuperTooltipInfo31)
             Me.btnTextPartiallyTrained.Text = "Partially Trained Skills"
             '
             'btnTextSkillsCost
@@ -1333,8 +1496,13 @@ Namespace Forms
             Me.btnTextSkillsCost.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnTextSkillsCost.Name = "btnTextSkillsCost"
             Me.btnTextSkillsCost.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillsCost, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Cost Report (Text)", "Displays a report showing the cost of acquiring all the skill books currently tra" & _
-                "ined by the pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The values are taken from ""base"" cost.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo32.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo32.BodyText = "Displays a report showing the cost of acquiring all the skill books currently tra" & _
+        "ined by the pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The values are taken from ""base"" cost."
+            SuperTooltipInfo32.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo32.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo32.FooterText = "Skills Cost Report (Text)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnTextSkillsCost, SuperTooltipInfo32)
             Me.btnTextSkillsCost.Text = "Skills Cost"
             '
             'rbHTML
@@ -1375,8 +1543,13 @@ Namespace Forms
             Me.btnHTMLCharSheet.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLCharSheet.Name = "btnHTMLCharSheet"
             Me.btnHTMLCharSheet.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLCharSheet, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character Sheet Report (HTML)", "Produces a standard character sheet showing basic details, attributes and skills " & _
-                "for the selected character.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo33.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo33.BodyText = "Produces a standard character sheet showing basic details, attributes and skills " & _
+        "for the selected character."
+            SuperTooltipInfo33.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo33.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo33.FooterText = "Character Sheet Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLCharSheet, SuperTooltipInfo33)
             Me.btnHTMLCharSheet.Text = "Character Sheet"
             '
             'btnHTMLTrainingTimes
@@ -1386,7 +1559,12 @@ Namespace Forms
             Me.btnHTMLTrainingTimes.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLTrainingTimes.Name = "btnHTMLTrainingTimes"
             Me.btnHTMLTrainingTimes.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLTrainingTimes, New DevComponents.DotNetBar.SuperTooltipInfo("", "Training Times Report (HTML)", "Displays the time required to train each of a pilot's skills to the next level.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo34.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo34.BodyText = "Displays the time required to train each of a pilot's skills to the next level."
+            SuperTooltipInfo34.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo34.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo34.FooterText = "Training Times Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLTrainingTimes, SuperTooltipInfo34)
             Me.btnHTMLTrainingTimes.Text = "Training Times"
             '
             'btnHTMLTimeToLvl5
@@ -1396,8 +1574,13 @@ Namespace Forms
             Me.btnHTMLTimeToLvl5.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLTimeToLvl5.Name = "btnHTMLTimeToLvl5"
             Me.btnHTMLTimeToLvl5.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLTimeToLvl5, New DevComponents.DotNetBar.SuperTooltipInfo("", "Time to Level 5 Report (HTML)", "Displays a report showing the time taken for each skill to be trained to the maxi" & _
-                "mum level 5.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo35.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo35.BodyText = "Displays a report showing the time taken for each skill to be trained to the maxi" & _
+        "mum level 5."
+            SuperTooltipInfo35.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo35.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo35.FooterText = "Time to Level 5 Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLTimeToLvl5, SuperTooltipInfo35)
             Me.btnHTMLTimeToLvl5.Text = "TimeTo Level 5"
             '
             'btnHTMLSkillLevels
@@ -1407,7 +1590,12 @@ Namespace Forms
             Me.btnHTMLSkillLevels.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLSkillLevels.Name = "btnHTMLSkillLevels"
             Me.btnHTMLSkillLevels.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillLevels, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (HTML)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo36.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo36.BodyText = "Displays a report grouping skills according to the level currently trained."
+            SuperTooltipInfo36.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo36.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo36.FooterText = "Skill Levels Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillLevels, SuperTooltipInfo36)
             Me.btnHTMLSkillLevels.Text = "Skill Levels"
             '
             'btnHTMLSkillRanks
@@ -1417,7 +1605,12 @@ Namespace Forms
             Me.btnHTMLSkillRanks.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLSkillRanks.Name = "btnHTMLSkillRanks"
             Me.btnHTMLSkillRanks.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillRanks, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Levels Report (HTML)", "Displays a report grouping skills according to the level currently trained.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo37.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo37.BodyText = "Displays a report grouping skills according to the level currently trained."
+            SuperTooltipInfo37.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo37.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo37.FooterText = "Skill Levels Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillRanks, SuperTooltipInfo37)
             Me.btnHTMLSkillRanks.Text = "Skill Ranks"
             '
             'btnHTMLTrainingQueue
@@ -1429,8 +1622,13 @@ Namespace Forms
             Me.btnHTMLTrainingQueue.Name = "btnHTMLTrainingQueue"
             Me.btnHTMLTrainingQueue.SplitButton = True
             Me.btnHTMLTrainingQueue.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLTrainingQueue, New DevComponents.DotNetBar.SuperTooltipInfo("", "Training Queue Report (HTML)", "Displays the contents of a specific training queue for the selected pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Thi" & _
-                "s report cannot be added to the QAT.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo38.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo38.BodyText = "Displays the contents of a specific training queue for the selected pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Thi" & _
+        "s report cannot be added to the QAT."
+            SuperTooltipInfo38.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo38.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo38.FooterText = "Training Queue Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLTrainingQueue, SuperTooltipInfo38)
             Me.btnHTMLTrainingQueue.Text = "Training Queue"
             '
             'btnHTMLQueueShoppingList
@@ -1442,8 +1640,13 @@ Namespace Forms
             Me.btnHTMLQueueShoppingList.Name = "btnHTMLQueueShoppingList"
             Me.btnHTMLQueueShoppingList.SplitButton = True
             Me.btnHTMLQueueShoppingList.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLQueueShoppingList, New DevComponents.DotNetBar.SuperTooltipInfo("", "Queue Shopping List Report (HTML)", "Displays the skills required to be purchased for a selected training queue." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Th" & _
-                "is report cannot be added to the QAT.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo39.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo39.BodyText = "Displays the skills required to be purchased for a selected training queue." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Th" & _
+        "is report cannot be added to the QAT."
+            SuperTooltipInfo39.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo39.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo39.FooterText = "Queue Shopping List Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLQueueShoppingList, SuperTooltipInfo39)
             Me.btnHTMLQueueShoppingList.Text = "Queue Shopping List"
             '
             'btnHTMLSkillsAvailable
@@ -1453,8 +1656,13 @@ Namespace Forms
             Me.btnHTMLSkillsAvailable.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLSkillsAvailable.Name = "btnHTMLSkillsAvailable"
             Me.btnHTMLSkillsAvailable.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsAvailable, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Available to Train Report (HTML)", "Lists the skills that the pilot does not own, but where all the pre-requisites fo" & _
-                "r those skills have already been met.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo40.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo40.BodyText = "Lists the skills that the pilot does not own, but where all the pre-requisites fo" & _
+        "r those skills have already been met."
+            SuperTooltipInfo40.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo40.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo40.FooterText = "Skills Available to Train Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsAvailable, SuperTooltipInfo40)
             Me.btnHTMLSkillsAvailable.Text = "Skills Available To Train"
             '
             'btnHTMLSkillsNotTrained
@@ -1464,8 +1672,13 @@ Namespace Forms
             Me.btnHTMLSkillsNotTrained.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLSkillsNotTrained.Name = "btnHTMLSkillsNotTrained"
             Me.btnHTMLSkillsNotTrained.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsNotTrained, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Not Trained Report (HTML)", "Displays a list of all skills that the pilot has not yet trained, whether the pre" & _
-                "-requisite skills have been met or not.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo41.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo41.BodyText = "Displays a list of all skills that the pilot has not yet trained, whether the pre" & _
+        "-requisite skills have been met or not."
+            SuperTooltipInfo41.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo41.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo41.FooterText = "Skills Not Trained Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsNotTrained, SuperTooltipInfo41)
             Me.btnHTMLSkillsNotTrained.Text = "Skills Not Trained"
             '
             'btnHTMLPartiallyTrained
@@ -1475,7 +1688,12 @@ Namespace Forms
             Me.btnHTMLPartiallyTrained.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLPartiallyTrained.Name = "btnHTMLPartiallyTrained"
             Me.btnHTMLPartiallyTrained.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLPartiallyTrained, New DevComponents.DotNetBar.SuperTooltipInfo("", "Partially Trained Skills Report (HTML)", "Lists those skills that have been partially trained between levels.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo42.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo42.BodyText = "Lists those skills that have been partially trained between levels."
+            SuperTooltipInfo42.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo42.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo42.FooterText = "Partially Trained Skills Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLPartiallyTrained, SuperTooltipInfo42)
             Me.btnHTMLPartiallyTrained.Text = "Partially Trained Skills"
             '
             'btnHTMLSkillsCost
@@ -1485,8 +1703,13 @@ Namespace Forms
             Me.btnHTMLSkillsCost.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnHTMLSkillsCost.Name = "btnHTMLSkillsCost"
             Me.btnHTMLSkillsCost.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsCost, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skills Cost Report (HTML)", "Displays a report showing the cost of acquiring all the skill books currently tra" & _
-                "ined by the pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The values are taken from ""base"" cost.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo43.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo43.BodyText = "Displays a report showing the cost of acquiring all the skill books currently tra" & _
+        "ined by the pilot." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The values are taken from ""base"" cost."
+            SuperTooltipInfo43.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo43.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo43.FooterText = "Skills Cost Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnHTMLSkillsCost, SuperTooltipInfo43)
             Me.btnHTMLSkillsCost.Text = "Skills Cost"
             '
             'btnHTMLCertGrades
@@ -1562,8 +1785,13 @@ Namespace Forms
             Me.btnStdCharSummary.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnStdCharSummary.Name = "btnStdCharSummary"
             Me.btnStdCharSummary.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdCharSummary, New DevComponents.DotNetBar.SuperTooltipInfo("", "Character Summary Report (HTML)", "Displays a summary of all active pilots in EveHQ, giving skillpoints, Isk balance" & _
-                " and current training skill.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo44.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo44.BodyText = "Displays a summary of all active pilots in EveHQ, giving skillpoints, Isk balance" & _
+        " and current training skill."
+            SuperTooltipInfo44.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo44.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo44.FooterText = "Character Summary Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdCharSummary, SuperTooltipInfo44)
             Me.btnStdCharSummary.Text = "Character Summary"
             '
             'btnStdSkillLevels
@@ -1573,8 +1801,13 @@ Namespace Forms
             Me.btnStdSkillLevels.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnStdSkillLevels.Name = "btnStdSkillLevels"
             Me.btnStdSkillLevels.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdSkillLevels, New DevComponents.DotNetBar.SuperTooltipInfo("", "Skill Level Table (HTML)", "Displays a table showing the skillpoints required to train certain levels of skil" & _
-                "ls at varying ranks.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo45.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo45.BodyText = "Displays a table showing the skillpoints required to train certain levels of skil" & _
+        "ls at varying ranks."
+            SuperTooltipInfo45.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo45.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo45.FooterText = "Skill Level Table (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdSkillLevels, SuperTooltipInfo45)
             Me.btnStdSkillLevels.Text = "Skill Level Table"
             '
             'btnStdAlloyReport
@@ -1584,7 +1817,12 @@ Namespace Forms
             Me.btnStdAlloyReport.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnStdAlloyReport.Name = "btnStdAlloyReport"
             Me.btnStdAlloyReport.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdAlloyReport, New DevComponents.DotNetBar.SuperTooltipInfo("", "Alloy Composition Report (HTML)", "Shows the mineral breakdown of drone alloys." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo46.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo46.BodyText = "Shows the mineral breakdown of drone alloys." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo46.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo46.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo46.FooterText = "Alloy Composition Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdAlloyReport, SuperTooltipInfo46)
             Me.btnStdAlloyReport.Text = "Alloy Composition"
             '
             'btnStdAsteroidReport
@@ -1594,8 +1832,13 @@ Namespace Forms
             Me.btnStdAsteroidReport.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnStdAsteroidReport.Name = "btnStdAsteroidReport"
             Me.btnStdAsteroidReport.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdAsteroidReport, New DevComponents.DotNetBar.SuperTooltipInfo("", "Asteroid Composition Report (HTML)", "Shows the mineral composition of various asteroids. Also includes details of comp" & _
-                "ressed ores.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo47.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo47.BodyText = "Shows the mineral composition of various asteroids. Also includes details of comp" & _
+        "ressed ores."
+            SuperTooltipInfo47.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo47.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo47.FooterText = "Asteroid Composition Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdAsteroidReport, SuperTooltipInfo47)
             Me.btnStdAsteroidReport.Text = "Asteroid Composition"
             '
             'btnStdIceReport
@@ -1605,8 +1848,13 @@ Namespace Forms
             Me.btnStdIceReport.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
             Me.btnStdIceReport.Name = "btnStdIceReport"
             Me.btnStdIceReport.SubItemsExpandWidth = 14
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdIceReport, New DevComponents.DotNetBar.SuperTooltipInfo("", "Ice Composition Report (HTML)", "Shows the breakdown of each of the various Ice blocks. Also contains details of c" & _
-                "ompressed Ice.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo48.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo48.BodyText = "Shows the breakdown of each of the various Ice blocks. Also contains details of c" & _
+        "ompressed Ice."
+            SuperTooltipInfo48.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo48.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo48.FooterText = "Ice Composition Report (HTML)"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnStdIceReport, SuperTooltipInfo48)
             Me.btnStdIceReport.Text = "Ice Composition"
             '
             'rbReportOptions
@@ -1678,7 +1926,12 @@ Namespace Forms
             Me.cboReportPilot.DropDownHeight = 106
             Me.cboReportPilot.Name = "cboReportPilot"
             Me.cboReportPilot.Stretch = True
-            Me.SuperTooltip1.SetSuperTooltip(Me.cboReportPilot, New DevComponents.DotNetBar.SuperTooltipInfo("", "Pilot Selection", "Chooses the pilot who will be the focus of the selected report.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Aura32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo49.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo49.BodyText = "Chooses the pilot who will be the focus of the selected report."
+            SuperTooltipInfo49.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo49.FooterImage = Global.EveHQ.My.Resources.Resources.Aura32
+            SuperTooltipInfo49.FooterText = "Pilot Selection"
+            Me.SuperTooltip1.SetSuperTooltip(Me.cboReportPilot, SuperTooltipInfo49)
             Me.cboReportPilot.Text = "Report Pilot"
             Me.cboReportPilot.WatermarkFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.cboReportPilot.WatermarkText = "Report pilot..."
@@ -1709,8 +1962,13 @@ Namespace Forms
             Me.cboReportFormat.DropDownHeight = 106
             Me.cboReportFormat.Items.AddRange(New Object() {Me.ciReportHTML, Me.ciReportText, Me.ciReportXML, Me.ciReportPHPBB, Me.ciReportChart})
             Me.cboReportFormat.Name = "cboReportFormat"
-            Me.SuperTooltip1.SetSuperTooltip(Me.cboReportFormat, New DevComponents.DotNetBar.SuperTooltipInfo("", "Report Format Style", "Choose between HTML, Text, XML and PHPBB report formats. The ribbon will be updat" & _
-                "ed with the available reports for that style." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Document32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo50.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo50.BodyText = "Choose between HTML, Text, XML and PHPBB report formats. The ribbon will be updat" & _
+        "ed with the available reports for that style." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo50.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo50.FooterImage = Global.EveHQ.My.Resources.Resources.Document32
+            SuperTooltipInfo50.FooterText = "Report Format Style"
+            Me.SuperTooltip1.SetSuperTooltip(Me.cboReportFormat, SuperTooltipInfo50)
             Me.cboReportFormat.Text = "ComboBoxItem2"
             '
             'ciReportHTML
@@ -1740,8 +1998,13 @@ Namespace Forms
             Me.btnOpenReportFolder.ImageFixedSize = New System.Drawing.Size(20, 20)
             Me.btnOpenReportFolder.ImagePaddingVertical = 3
             Me.btnOpenReportFolder.Name = "btnOpenReportFolder"
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnOpenReportFolder, New DevComponents.DotNetBar.SuperTooltipInfo("", "Open Report Folder", "Opens the report folder in Windows Explorer so that reports can be accessed from " & _
-                "outside EveHQ.", Global.EveHQ.My.Resources.Resources.Info32, Global.EveHQ.My.Resources.Resources.Folder32, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            SuperTooltipInfo51.BodyImage = Global.EveHQ.My.Resources.Resources.Info32
+            SuperTooltipInfo51.BodyText = "Opens the report folder in Windows Explorer so that reports can be accessed from " & _
+        "outside EveHQ."
+            SuperTooltipInfo51.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo51.FooterImage = Global.EveHQ.My.Resources.Resources.Folder32
+            SuperTooltipInfo51.FooterText = "Open Report Folder"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnOpenReportFolder, SuperTooltipInfo51)
             Me.btnOpenReportFolder.Text = "Open Report Folder"
             '
             'rtiCore
@@ -1899,7 +2162,11 @@ Namespace Forms
             Me.Office2007StartButton1.Name = "Office2007StartButton1"
             Me.Office2007StartButton1.ShowSubItems = False
             Me.Office2007StartButton1.SubItems.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer1})
-            Me.SuperTooltip1.SetSuperTooltip(Me.Office2007StartButton1, New DevComponents.DotNetBar.SuperTooltipInfo("EveHQ Help and Options", "", "Click here to show the menu for EveHQ Settings, Help and Updates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10), Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow, True, False, New System.Drawing.Size(0, 0)))
+            SuperTooltipInfo52.BodyText = "Click here to show the menu for EveHQ Settings, Help and Updates." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+            SuperTooltipInfo52.Color = DevComponents.DotNetBar.eTooltipColor.Yellow
+            SuperTooltipInfo52.FooterVisible = False
+            SuperTooltipInfo52.HeaderText = "EveHQ Help and Options"
+            Me.SuperTooltip1.SetSuperTooltip(Me.Office2007StartButton1, SuperTooltipInfo52)
             Me.Office2007StartButton1.Text = "&EveHQ"
             '
             'ItemContainer1
@@ -2048,6 +2315,7 @@ Namespace Forms
             Me.pdc1.Style.ForeColor.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.pdc1.Style.GradientAngle = 90
             Me.pdc1.TabIndex = 0
+            Me.pdc1.Visible = True
             '
             'DockContainerItem1
             '
@@ -2141,19 +2409,13 @@ Namespace Forms
             Me.tabEveHQMDI.MdiForm = Me
             Me.tabEveHQMDI.MdiTabbedDocuments = True
             Me.tabEveHQMDI.Name = "tabEveHQMDI"
-            Me.tabEveHQMDI.SelectedTab = Me.TabItem1
+            Me.tabEveHQMDI.SelectedTab = Nothing
             Me.tabEveHQMDI.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
             Me.tabEveHQMDI.ShowMdiChildIcon = False
             Me.tabEveHQMDI.Size = New System.Drawing.Size(1231, 23)
             Me.tabEveHQMDI.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
             Me.tabEveHQMDI.TabIndex = 35
             Me.tabEveHQMDI.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
-            Me.tabEveHQMDI.Tabs.Add(Me.TabItem1)
-            '
-            'TabItem1
-            '
-            Me.TabItem1.Name = "TabItem1"
-            Me.TabItem1.Text = "TabItem1"
             '
             'barStatus
             '
@@ -2162,7 +2424,6 @@ Namespace Forms
             Me.barStatus.AccessibleRole = System.Windows.Forms.AccessibleRole.StatusBar
             Me.barStatus.BarType = DevComponents.DotNetBar.eBarType.StatusBar
             Me.barStatus.CanAutoHide = False
-            Me.barStatus.CanCustomize = False
             Me.barStatus.CanReorderTabs = False
             Me.barStatus.CanUndock = False
             Me.barStatus.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -2328,160 +2589,158 @@ Namespace Forms
         Friend WithEvents iconEveHQMLW As System.Windows.Forms.NotifyIcon
         Friend WithEvents tmrMemory As System.Windows.Forms.Timer
         Friend WithEvents EveStatusIcon As EveHQ.Core.EveHQIcon
-        Friend WithEvents RibbonControl1 As DevComponents.DotNetBar.RibbonControl
-        Friend WithEvents rpCore As DevComponents.DotNetBar.RibbonPanel
-        Friend WithEvents rbView As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents rpPlugins As DevComponents.DotNetBar.RibbonPanel
-        Friend WithEvents rtiCore As DevComponents.DotNetBar.RibbonTabItem
-        Friend WithEvents rtiPlugins As DevComponents.DotNetBar.RibbonTabItem
-        Friend WithEvents Office2007StartButton1 As DevComponents.DotNetBar.Office2007StartButton
-        Friend WithEvents ItemContainer1 As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents btnFileSettings As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnFileExit As DevComponents.DotNetBar.ButtonItem
         Friend WithEvents QatCustomizeItem1 As DevComponents.DotNetBar.QatCustomizeItem
-        Friend WithEvents rbEveMail As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnViewPilotInfo As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnViewSkillTraining As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnViewPrices As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnViewDashboard As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnEveMail As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents lblEveMail As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents rbIGB As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnIGB As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents lblIGB As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents rbBackup As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnBackupEveHQ As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents ItemContainer5 As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents btnBackupEve As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbOptions As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnSave As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbAPI As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnManageAPI As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnQueryAPI As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbAPITools As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents ItemContainer2 As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents btnAPIChecker As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnClearCache As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnClearCharacterCache As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnClearImageCache As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnClearAllCache As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHelp As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnCheckForUpdates As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnUpdateEveHQ As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnViewHistory As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnAbout As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbPlugins As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents rpReports As DevComponents.DotNetBar.RibbonPanel
-        Friend WithEvents rtiReports As DevComponents.DotNetBar.RibbonTabItem
-        Friend WithEvents rbReportOptions As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents icReportOptions As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents icReportPilot As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents lblReportPilot As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents cboReportPilot As DevComponents.DotNetBar.ComboBoxItem
-        Friend WithEvents icReportFormat As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents lblReportFormat As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents cboReportFormat As DevComponents.DotNetBar.ComboBoxItem
         Friend WithEvents ciReportHTML As DevComponents.Editors.ComboItem
         Friend WithEvents ciReportText As DevComponents.Editors.ComboItem
         Friend WithEvents ciReportXML As DevComponents.Editors.ComboItem
         Friend WithEvents ciReportPHPBB As DevComponents.Editors.ComboItem
         Friend WithEvents ciReportChart As DevComponents.Editors.ComboItem
-        Friend WithEvents rbXML As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents rbText As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents rbHTML As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents rbCharts As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents rbPHPBB As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnHTMLCharSheet As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLTrainingTimes As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLSkillLevels As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLTrainingQueue As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLQueueShoppingList As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLSkillsAvailable As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLPartiallyTrained As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLSkillsCost As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnPHPBBCharacterSheet As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextCharacterSheet As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextTrainingTimes As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextSkillLevels As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextTrainingQueue As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextQueueShoppingList As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextSkillsAvailable As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextPartiallyTrained As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextSkillsCost As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnChartSkillGroup As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnXMLCharacterXML As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnXMLTrainingXML As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnXMLCurrentCharOld As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnXMLCurrentCharNew As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnXMLCurrentTrainingOld As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnXMLECMExport As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbStandard As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnStdCharSummary As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnStdSkillLevels As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnStdAlloyReport As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnStdAsteroidReport As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnStdIceReport As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOpenReportFolder As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents DotNetBarManager1 As DevComponents.DotNetBar.DotNetBarManager
-        Friend WithEvents DockSite4 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite1 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite2 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite3 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite5 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite6 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite7 As DevComponents.DotNetBar.DockSite
-        Friend WithEvents DockSite8 As DevComponents.DotNetBar.DockSite
+        Friend WithEvents AppCommandTheme As DevComponents.DotNetBar.Command
+        Friend WithEvents TabItem1 As DevComponents.DotNetBar.TabItem
+        Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
+        Private WithEvents RibbonControl1 As DevComponents.DotNetBar.RibbonControl
+        Private WithEvents rpCore As DevComponents.DotNetBar.RibbonPanel
+        Private WithEvents rbView As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents rpPlugins As DevComponents.DotNetBar.RibbonPanel
+        Private WithEvents rtiCore As DevComponents.DotNetBar.RibbonTabItem
+        Private WithEvents rtiPlugins As DevComponents.DotNetBar.RibbonTabItem
+        Private WithEvents Office2007StartButton1 As DevComponents.DotNetBar.Office2007StartButton
+        Private WithEvents ItemContainer1 As DevComponents.DotNetBar.ItemContainer
+        Private WithEvents btnFileSettings As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnFileExit As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbEveMail As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnViewPilotInfo As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnViewSkillTraining As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnViewPrices As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnViewDashboard As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnEveMail As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents lblEveMail As DevComponents.DotNetBar.LabelItem
+        Private WithEvents rbIGB As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnIGB As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents lblIGB As DevComponents.DotNetBar.LabelItem
+        Private WithEvents rbBackup As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnBackupEveHQ As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents ItemContainer5 As DevComponents.DotNetBar.ItemContainer
+        Private WithEvents btnBackupEve As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbOptions As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnSave As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbAPI As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnManageAPI As DevComponents.DotNetBar.ButtonItem
+        Friend WithEvents btnQueryAPI As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbAPITools As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents ItemContainer2 As DevComponents.DotNetBar.ItemContainer
+        Private WithEvents btnAPIChecker As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnClearCache As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnClearCharacterCache As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnClearImageCache As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnClearAllCache As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHelp As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnCheckForUpdates As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnUpdateEveHQ As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnViewHistory As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnAbout As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbPlugins As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents rpReports As DevComponents.DotNetBar.RibbonPanel
+        Private WithEvents rtiReports As DevComponents.DotNetBar.RibbonTabItem
+        Private WithEvents rbReportOptions As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents icReportOptions As DevComponents.DotNetBar.ItemContainer
+        Private WithEvents icReportPilot As DevComponents.DotNetBar.ItemContainer
+        Private WithEvents lblReportPilot As DevComponents.DotNetBar.LabelItem
+        Private WithEvents cboReportPilot As DevComponents.DotNetBar.ComboBoxItem
+        Private WithEvents icReportFormat As DevComponents.DotNetBar.ItemContainer
+        Private WithEvents lblReportFormat As DevComponents.DotNetBar.LabelItem
+        Private WithEvents cboReportFormat As DevComponents.DotNetBar.ComboBoxItem
+        Private WithEvents rbXML As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents rbText As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents rbHTML As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents rbCharts As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents rbPHPBB As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnHTMLCharSheet As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLTrainingTimes As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLSkillLevels As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLTrainingQueue As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLQueueShoppingList As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLSkillsAvailable As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLPartiallyTrained As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLSkillsCost As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnPHPBBCharacterSheet As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextCharacterSheet As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextTrainingTimes As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextTimeToLvl5 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextSkillLevels As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextTrainingQueue As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextQueueShoppingList As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextSkillsAvailable As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextSkillsNotTrained As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextPartiallyTrained As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextSkillsCost As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnChartSkillGroup As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnXMLCharacterXML As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnXMLTrainingXML As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnXMLCurrentCharOld As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnXMLCurrentCharNew As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnXMLCurrentTrainingOld As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnXMLECMExport As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbStandard As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnStdCharSummary As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnStdSkillLevels As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnStdAlloyReport As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnStdAsteroidReport As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnStdIceReport As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOpenReportFolder As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents DotNetBarManager1 As DevComponents.DotNetBar.DotNetBarManager
+        Private WithEvents DockSite4 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite1 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite2 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite3 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite5 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite6 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite7 As DevComponents.DotNetBar.DockSite
+        Private WithEvents DockSite8 As DevComponents.DotNetBar.DockSite
         Friend WithEvents Bar1 As DevComponents.DotNetBar.Bar
         Friend WithEvents pdc1 As DevComponents.DotNetBar.PanelDockContainer
         Friend WithEvents DockContainerItem1 As DevComponents.DotNetBar.DockContainerItem
-        Friend WithEvents btnChartSkillCost As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnViewReqs As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbSQLTools As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents ItemContainer3 As DevComponents.DotNetBar.ItemContainer
-        Friend WithEvents btnSQLQueryTool As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTheme As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOffice2007Black As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOffice2007Blue As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOffice2007Silver As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOffice2010Blue As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOffice2010Silver As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnOffice2007VistaGlass As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnWindows7Blue As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents AppCommandTheme As DevComponents.DotNetBar.Command
-        Friend WithEvents btnCustomTheme As DevComponents.DotNetBar.ColorPickerDropDown
+        Private WithEvents btnChartSkillCost As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnViewReqs As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnSQLQueryTool As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTheme As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOffice2007Black As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOffice2007Blue As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOffice2007Silver As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOffice2010Blue As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOffice2010Silver As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnOffice2007VistaGlass As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnWindows7Blue As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnCustomTheme As DevComponents.DotNetBar.ColorPickerDropDown
         Friend WithEvents tabEveHQMDI As DevComponents.DotNetBar.TabStrip
-        Friend WithEvents TabItem1 As DevComponents.DotNetBar.TabItem
-        Friend WithEvents btnOffice2010Black As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents barStatus As DevComponents.DotNetBar.Bar
+        Private WithEvents btnOffice2010Black As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents barStatus As DevComponents.DotNetBar.Bar
         Friend WithEvents lblTQStatus As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents lblAPIStatus As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents lblMailAPITime As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents lblCharAPITime As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents lblEveTime As DevComponents.DotNetBar.LabelItem
-        Friend WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
-        Friend WithEvents btnOpenCacheFolder As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents rbHelp As DevComponents.DotNetBar.RibbonBar
-        Friend WithEvents btnInfoHelp As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnVisualStudio2010Blue As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents StyleManager1 As DevComponents.DotNetBar.StyleManager
-        Friend WithEvents btnIB As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLSkillRanks As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLCertGrades As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLCertGrades1 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLCertGrades2 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLCertGrades3 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLCertGrades4 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnHTMLCertGrades5 As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnTextSkillRanks As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnMetro As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnVisualStudio2012Light As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents btnVisualStudio2012Dark As DevComponents.DotNetBar.ButtonItem
-        Friend WithEvents ColorPickerDropDown1 As DevComponents.DotNetBar.ColorPickerDropDown
-        Friend WithEvents btnCanvasColor As DevComponents.DotNetBar.ColorPickerDropDown
+        Private WithEvents lblAPIStatus As DevComponents.DotNetBar.LabelItem
+        Private WithEvents lblMailAPITime As DevComponents.DotNetBar.LabelItem
+        Private WithEvents lblCharAPITime As DevComponents.DotNetBar.LabelItem
+        Private WithEvents lblEveTime As DevComponents.DotNetBar.LabelItem
+        Private WithEvents SuperTooltip1 As DevComponents.DotNetBar.SuperTooltip
+        Private WithEvents btnOpenCacheFolder As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents rbHelp As DevComponents.DotNetBar.RibbonBar
+        Private WithEvents btnInfoHelp As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnVisualStudio2010Blue As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnIB As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLSkillRanks As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLCertGrades As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLCertGrades1 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLCertGrades2 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLCertGrades3 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLCertGrades4 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnHTMLCertGrades5 As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnTextSkillRanks As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnMetro As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnVisualStudio2012Light As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents btnVisualStudio2012Dark As DevComponents.DotNetBar.ButtonItem
+        Private WithEvents ColorPickerDropDown1 As DevComponents.DotNetBar.ColorPickerDropDown
+        Private WithEvents btnCanvasColor As DevComponents.DotNetBar.ColorPickerDropDown
 
     End Class
 End Namespace
