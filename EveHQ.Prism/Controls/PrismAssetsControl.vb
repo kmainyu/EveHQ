@@ -597,7 +597,7 @@ Namespace Controls
                         If assetXML IsNot Nothing Then
                             Dim locList As XmlNodeList
                             Dim loc As XmlNode
-                            Dim eveLocation As SolarSystem
+                            Dim eveLocation As New SolarSystem
                             locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
                             If locList.Count > 0 Then
 
@@ -655,12 +655,19 @@ Namespace Controls
                                             End If
                                         Else
                                             If locID < 60000000 Then
-                                                Dim newSystem As SolarSystem = CType(PlugInData.Stations(locID), SolarSystem)
-                                                eveLocation = newSystem
-                                                locNode.Text = newSystem.Name
-                                                locNode.Tag = newSystem.Id
-                                                locNode.Cells(_assetColumn("AssetSystem")).Tag = eveLocation
-                                                stationLocation = newSystem.Name
+                                                If StaticData.SolarSystems.ContainsKey(locID) Then
+                                                    Dim newSystem As SolarSystem = StaticData.SolarSystems(locID)
+                                                    eveLocation = newSystem
+                                                    locNode.Text = newSystem.Name
+                                                    locNode.Tag = newSystem.Id
+                                                    locNode.Cells(_assetColumn("AssetSystem")).Tag = eveLocation
+                                                    stationLocation = newSystem.Name
+                                                Else
+                                                    eveLocation = Nothing
+                                                    locNode.Text = "Unknown System"
+                                                    locNode.Tag = locID
+                                                    stationLocation = locNode.Text
+                                                End If
                                             Else
                                                 newLocation = StaticData.Stations(locID)
                                                 If newLocation IsNot Nothing Then
@@ -682,7 +689,7 @@ Namespace Controls
                                                     stationLocation = newLocation.StationName
                                                 End If
                                             End If
-                                        End If
+                                            End If
                                         locNode.Cells(_assetColumn("AssetOwner")).Tag = locNode.Text
                                         If eveLocation IsNot Nothing Then
                                             locNode.Cells(_assetColumn("AssetSystem")).Text = eveLocation.Name
