@@ -2074,6 +2074,7 @@ Namespace Forms
                     If (IsUpdateAvailable(currentVersion.ToString, updateVersion(0).InnerText)) Then
                         Trace.TraceInformation("Update Available")
                         btnUpdateEveHQ.Enabled = True
+
                         Invoke(Sub()
                                    Dim reply As Integer =
                                            MessageBox.Show(Me,
@@ -2177,89 +2178,12 @@ Namespace Forms
 
         Private Sub UpdateNow()
             ' Try and download patchfile
-            Dim patcherLocation As String = HQ.AppDataFolder
+            If String.IsNullOrWhiteSpace(HQ.UpdateLocation) = False Then
 
-            Dim patcherFile As String = Path.Combine(patcherLocation, "EveHQPatcher.exe")
-            Try
-                Call DownloadPatcherFile("EveHQPatcher.exe")
-                ' Copy the CoreControls.dll file to the same location
-                Dim oldCCfile As String = Path.Combine(HQ.AppFolder, "EveHQ.CoreControls.dll")
-                Dim newCCfile As String = Path.Combine(patcherLocation, "EveHQ.CoreControls.dll")
-                My.Computer.FileSystem.CopyFile(oldCCfile, newCCfile, True)
-                'MessageBox.Show("Patcher Deployment Successful!", "Patcher Deployment Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Catch excep As COMException
-                Dim errMsg As String = "Unable to copy Patcher to " & ControlChars.CrLf & ControlChars.CrLf & patcherFile &
-                                       ControlChars.CrLf & ControlChars.CrLf
-                errMsg &= "Please make sure this file is in the EveHQ program directory before continuing."
-                MessageBox.Show(errMsg, "Error Copying Patcher", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Exit Sub
-            End Try
-            Dim startInfo As ProcessStartInfo = New ProcessStartInfo()
-            startInfo.UseShellExecute = True
-            startInfo.WorkingDirectory = Environment.CurrentDirectory
-            startInfo.FileName = patcherFile
-            Dim args As String = " /App;" & ControlChars.Quote & HQ.AppFolder & ControlChars.Quote
-            If HQ.IsUsingLocalFolders = True Then
-                args &= " /Local;True"
-            Else
-                args &= " /Local;False"
+                Invoke(Sub()
+                           ShowUpdateForm(HQ.UpdateLocation)
+                       End Sub)
             End If
-            startInfo.Arguments = args
-            Dim osInfo As OperatingSystem = Environment.OSVersion
-            If osInfo.Version.Major > 5 Then
-                startInfo.Verb = "runas"
-            End If
-            Process.Start(startInfo)
-            HQ.StartShutdownEveHQ = True
-        End Sub
-
-        Private Sub DownloadPatcherFile(ByVal fileNeeded As String)
-
-            ' Set a default policy level for the "http:" and "https" schemes.
-            Dim policy As HttpRequestCachePolicy = New HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
-
-            Dim httpUri As String = HQ.Settings.UpdateUrl & fileNeeded
-            Dim localFile As String = Path.Combine(HQ.AppDataFolder, fileNeeded)
-
-            ' Create the request to access the server and set credentials
-            ServicePointManager.DefaultConnectionLimit = 10
-            ServicePointManager.Expect100Continue = False
-            ServicePointManager.FindServicePoint(New Uri(httpUri))
-            Dim request As HttpWebRequest = CType(HttpWebRequest.Create(httpUri), HttpWebRequest)
-            request.CachePolicy = policy
-            ' Setup proxy server (if required)
-            Call ProxyServerFunctions.SetupWebProxy(request)
-            request.CachePolicy = policy
-            request.Method = WebRequestMethods.File.DownloadFile
-            request.Timeout = 900000
-            Try
-                Using response As HttpWebResponse = CType(request.GetResponse, HttpWebResponse)
-                    Using responseStream As Stream = response.GetResponseStream
-                        'loop to read & write to file
-                        Using fs As New FileStream(localFile, FileMode.Create)
-                            Dim buffer(16383) As Byte
-                            Dim read As Integer
-                            Do
-                                read = responseStream.Read(buffer, 0, buffer.Length)
-                                fs.Write(buffer, 0, read)
-                            Loop Until read = 0
-                            'see Note(1)
-                            responseStream.Close()
-                            fs.Flush()
-                            fs.Close()
-                        End Using
-                        responseStream.Close()
-                    End Using
-                    response.Close()
-                End Using
-                Return
-            Catch e As WebException
-                Dim errMsg As String = "An error has occurred:" & ControlChars.CrLf
-                errMsg &= "Status: " & e.Status & ControlChars.CrLf
-                errMsg &= "Message: " & e.Message & ControlChars.CrLf
-                MessageBox.Show(errMsg, "Error Downloading Patcher File", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                Return
-            End Try
         End Sub
 
 #End Region
