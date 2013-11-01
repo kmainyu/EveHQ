@@ -128,8 +128,7 @@ Namespace Requisitions
         ''' <returns>A copy of the instance of Requisition from where the function was called</returns>
         ''' <remarks></remarks>
         Public Function Clone() As Object Implements ICloneable.Clone
-            Dim clonedOrder As RequisitionOrder = CType(MemberwiseClone(), RequisitionOrder)
-            Return clonedOrder
+            Return CType(MemberwiseClone(), RequisitionOrder)
         End Function
     End Class
 End Namespace

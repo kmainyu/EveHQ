@@ -162,8 +162,7 @@ End Class
     Public Level As Integer
     Public LevelUp(5) As Integer
     Public Function Clone() As Object Implements ICloneable.Clone
-        Dim R As PilotSkill = CType(MemberwiseClone(), PilotSkill)
-        Return R
+        Return CType(MemberwiseClone(), PilotSkill)
     End Function
 End Class
 

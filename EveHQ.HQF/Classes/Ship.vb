@@ -1979,13 +1979,12 @@ Imports System.Runtime.Serialization
 
 #Region "Cloning"
     Public Function Clone() As Ship
-        Dim shipMemoryStream As New MemoryStream
-        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-        objBinaryFormatter.Serialize(shipMemoryStream, Me)
-        shipMemoryStream.Seek(0, SeekOrigin.Begin)
-        Dim newShip As Ship = CType(objBinaryFormatter.Deserialize(shipMemoryStream), Ship)
-        shipMemoryStream.Close()
-        Return newShip
+        Using shipMemoryStream As New MemoryStream
+            Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+            objBinaryFormatter.Serialize(shipMemoryStream, Me)
+            shipMemoryStream.Seek(0, SeekOrigin.Begin)
+            Return CType(objBinaryFormatter.Deserialize(shipMemoryStream), Ship)
+        End Using
     End Function
 #End Region
 

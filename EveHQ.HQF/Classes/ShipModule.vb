@@ -93,13 +93,12 @@ Public Class ShipModule
 
 #Region "Cloning"
     Public Function Clone() As ShipModule
-        Dim shipMemoryStream As New MemoryStream(10000)
-        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-        objBinaryFormatter.Serialize(shipMemoryStream, Me)
-        shipMemoryStream.Seek(0, SeekOrigin.Begin)
-        Dim newModule As ShipModule = CType(objBinaryFormatter.Deserialize(shipMemoryStream), ShipModule)
-        shipMemoryStream.Close()
-        Return newModule
+        Using shipMemoryStream As New MemoryStream(10000)
+            Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+            objBinaryFormatter.Serialize(shipMemoryStream, Me)
+            shipMemoryStream.Seek(0, SeekOrigin.Begin)
+            Return  CType(objBinaryFormatter.Deserialize(shipMemoryStream), ShipModule)
+        End Using
     End Function
 #End Region
 

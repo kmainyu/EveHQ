@@ -147,8 +147,7 @@
     ''' <returns>A copy of the instance of EveHQ.Core.SkillQueueItem from where the function was called</returns>
     ''' <remarks></remarks>
     Public Function Clone() As Object Implements ICloneable.Clone
-        Dim clonedQueueItem As SkillQueueItem = CType(MemberwiseClone(), SkillQueueItem)
-        Return clonedQueueItem
+        Return CType(MemberwiseClone(), SkillQueueItem)
     End Function
 
 End Class

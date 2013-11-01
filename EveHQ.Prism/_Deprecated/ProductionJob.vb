@@ -50,14 +50,12 @@ Imports System.Runtime.Serialization
     Public ProduceSubJob As Boolean = False
 
     Public Function Clone() As ProductionJob
-        Dim cloneMemoryStream As New MemoryStream
-        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-        objBinaryFormatter.Serialize(cloneMemoryStream, Me)
-        cloneMemoryStream.Seek(0, SeekOrigin.Begin)
-        Dim newJob As ProductionJob = CType(objBinaryFormatter.Deserialize(cloneMemoryStream), ProductionJob)
-        cloneMemoryStream.Close()
-        cloneMemoryStream.Dispose()
-        Return newJob
+        Using cloneMemoryStream As New MemoryStream
+            Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+            objBinaryFormatter.Serialize(cloneMemoryStream, Me)
+            cloneMemoryStream.Seek(0, SeekOrigin.Begin)
+            Return CType(objBinaryFormatter.Deserialize(cloneMemoryStream), ProductionJob)
+        End Using
     End Function
 
 End Class

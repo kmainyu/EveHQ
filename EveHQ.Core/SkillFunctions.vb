@@ -827,8 +827,7 @@ End Class
     Public PreReqSkills As New Dictionary(Of Integer, Integer) ' SkillID, SkillLevel
     Public BasePrice As Double
     Public Function Clone() As Object Implements ICloneable.Clone
-        Dim r As EveSkill = CType(MemberwiseClone(), EveSkill)
-        Return r
+        Return CType(MemberwiseClone(), EveSkill)
     End Function
 End Class
 
