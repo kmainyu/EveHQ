@@ -84,6 +84,8 @@ Public Class HQ
     Private Shared _tickerItemList As New List(Of Integer)
     Private Shared _loggingStream As Stream
     Private Shared _eveHqTracer As EveHQTraceLogger
+    Private Shared _updateLocation As String
+
 
     Shared Sub New()
 
@@ -207,7 +209,16 @@ Public Class HQ
         End Set
     End Property
 
-   Public Shared Sub ReduceMemory()
+    Public Shared Property UpdateLocation As String
+        Get
+            Return _updateLocation
+        End Get
+        Set(value As String)
+            _updateLocation = value
+        End Set
+    End Property
+
+    Public Shared Sub ReduceMemory()
         GC.Collect()
         GC.WaitForPendingFinalizers()
         Try

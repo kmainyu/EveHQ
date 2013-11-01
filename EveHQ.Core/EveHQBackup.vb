@@ -65,6 +65,7 @@ Public Class EveHQBackup
             End If
 
             ' Backup the data
+            ' TODO: Replace ZIP logic here from Fast zip to Ionic like the Market providers use.
             HQ.WriteLogEvent("Backup: Backup EveHQ settings")
             Const fileFilter As String = "-\.config$;-\.dll$;-\.exe$;-\.manifest$;-\.log$;-\.sdf$;-\.mdb$;-\.pdb;-\.sdf$;-\.zip$"
             Dim zipSettings As FastZip = New FastZip()

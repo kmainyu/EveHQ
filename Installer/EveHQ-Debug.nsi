@@ -117,6 +117,7 @@ SectionIn RO
   File "..\BuildOutput\Debug\GammaJul.lglcd.dll"
   File "..\BuildOutput\Debug\GammaJul.lglcd.Native32.dll"
   File "..\BuildOutput\Debug\GammaJul.lglcd.Native64.dll"
+  File "..\BuildOutput\Debug\ICSharpCode.SharpZipLib.dll"
   File "..\BuildOutput\Debug\Ionic.Zip.dll"
   File "..\BuildOutput\Debug\Newtonsoft.json.dll"
   File "..\BuildOutput\Debug\protobuf-net.dll"
