@@ -2305,8 +2305,8 @@ Imports System.Runtime.Serialization
 
         ' Add the modules
         For Each mws As ModuleWithState In Modules
-            Dim temp As ShipModule
-            Dim tempCharge As ShipModule
+            Dim temp As New ShipModule
+            Dim tempCharge As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim newMod As ShipModule = temp.Clone
                 If String.IsNullOrWhiteSpace(mws.ChargeID) = False And ModuleLists.ModuleList.TryGetValue(CInt(mws.ChargeID), tempCharge) Then
@@ -2323,7 +2323,7 @@ Imports System.Runtime.Serialization
 
         ' Add the drones
         For Each mws As ModuleQWithState In Drones
-            Dim temp As ShipModule
+            Dim temp As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim newMod As ShipModule = temp.Clone
                 newMod.ModuleState = mws.State
@@ -2340,7 +2340,7 @@ Imports System.Runtime.Serialization
         ' Add items
         For Each mws As ModuleQWithState In Items
             'Bug EVEHQ-380 : There is a key not found error in the module list. 
-            Dim temp As ShipModule
+            Dim temp As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim newMod As ShipModule = temp.Clone()
                 newMod.ModuleState = mws.State
@@ -2352,8 +2352,8 @@ Imports System.Runtime.Serialization
 
         ' Add ships
         For Each mws As ModuleQWithState In Ships
-            Dim temp As Ship
-            Dim tempKey As String
+            Dim temp As New Ship
+            Dim tempKey As String = ""
             If ShipLists.ShipListKeyID.TryGetValue(CInt(mws.ID), tempKey) Then
                 If ShipLists.ShipList.TryGetValue(tempKey, temp) Then
                     Dim newMod As Ship = temp.Clone
@@ -2367,7 +2367,7 @@ Imports System.Runtime.Serialization
         ' Add Boosters
         BaseShip.BoosterSlotCollection.Clear()
         For Each mws As ModuleWithState In Boosters
-            Dim temp As ShipModule
+            Dim temp As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim sMod As ShipModule = temp.Clone
                 BaseShip.BoosterSlotCollection.Add(sMod)
