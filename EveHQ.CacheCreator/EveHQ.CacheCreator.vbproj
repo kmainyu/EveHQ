@@ -52,16 +52,20 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevComponents.DotNetBar2, Version=11.4.0.4, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Ref\DotNetBar\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
     <Reference Include="EVECacheParser">
-      <HintPath>..\EveHQ.Core\ExternalLibs\EVECacheParser.dll</HintPath>
+      <HintPath>..\Ref\EveCacheParser\EVECacheParser.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>..\EveHQ.Core\ExternalLibs\protobuf-net.dll</HintPath>
+      <HintPath>..\Ref\Protobuf\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\EveHQ.Core\ExternalLibs\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\Ref\SQLite\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -71,7 +75,7 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="YamlUtility">
-      <HintPath>..\EveHQ.Core\ExternalLibs\YamlUtility.dll</HintPath>
+      <HintPath>..\Ref\Yaml\YamlUtility.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
