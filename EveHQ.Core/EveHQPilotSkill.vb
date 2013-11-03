@@ -14,7 +14,6 @@
     Public Property Level As Integer
 
     Public Function Clone() As Object Implements ICloneable.Clone
-        Dim r As PilotSkill = CType(MemberwiseClone(), PilotSkill)
-        Return r
+        Return CType(MemberwiseClone(), PilotSkill)
     End Function
 End Class

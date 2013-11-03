@@ -57,14 +57,12 @@ Namespace BPCalc
         Public Property ProduceSubJob As Boolean = False
 
         Public Function Clone() As Job
-            Dim cloneMemoryStream As New MemoryStream
-            Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-            objBinaryFormatter.Serialize(cloneMemoryStream, Me)
-            cloneMemoryStream.Seek(0, SeekOrigin.Begin)
-            Dim newJob As Job = CType(objBinaryFormatter.Deserialize(cloneMemoryStream), Job)
-            cloneMemoryStream.Close()
-            cloneMemoryStream.Dispose()
-            Return newJob
+            Using cloneMemoryStream As New MemoryStream
+                Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+                objBinaryFormatter.Serialize(cloneMemoryStream, Me)
+                cloneMemoryStream.Seek(0, SeekOrigin.Begin)
+                Return CType(objBinaryFormatter.Deserialize(cloneMemoryStream), Job)
+            End Using
         End Function
 
         Public Sub CalculateResourceRequirements(ByVal componentIteration As Boolean, owner As String)

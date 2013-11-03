@@ -326,7 +326,7 @@ Public Class FrmKmv
             Next
 
             ' Add the killmail to the collection
-            Dim temp As KillMail
+            Dim temp As New KillMail
             If _kms.TryGetValue(newKillmail.KillID, temp) = False Then
                 _kms.Add(newKillmail.KillID, newKillmail)
             End If
@@ -377,7 +377,7 @@ Public Class FrmKmv
         If adtKillmails.SelectedNodes.Count > 0 Then
             ' Get the killID of the selected Killmail
             Dim killID As Long = CInt(adtKillmails.SelectedNodes(0).Tag)
-            Dim selKillmail As KillMail
+            Dim selKillmail As New KillMail
             If _kms.TryGetValue(killID, selKillmail) Then
                 ' Write the killmail detail
                 Call DrawKillmailDetail(selKillmail)
@@ -551,7 +551,7 @@ Public Class FrmKmv
         If adtKillmails.SelectedNodes.Count > 0 Then
             ' Get the killID of the selected Killmail
             Dim killID As Long = CLng(adtKillmails.SelectedNodes(0).Tag)
-            Dim selKillmail As KillMail
+            Dim selKillmail As New KillMail
             If _kms.TryGetValue(killID, selKillmail) Then
                 ' Check for valid attackers (i.e. not all NPC ones)
                 Dim validKillmail As Boolean =
@@ -636,7 +636,7 @@ Public Class FrmKmv
 
             ' Get the killID of the selected Killmail
             Dim killID As Long = CLng(adtKillmails.SelectedNodes(0).Tag)
-            Dim selKillmail As KillMail
+            Dim selKillmail As New KillMail
             If _kms.TryGetValue(killID, selKillmail) Then
 
                 ' Make a list of dropped and destroyed items

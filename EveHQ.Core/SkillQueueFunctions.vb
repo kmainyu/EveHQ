@@ -1025,17 +1025,20 @@ Public Class SkillQueueFunctions
     End Function
 
     Public Shared Sub RemoveTrainedSkills(ByVal qPilot As EveHQPilot, ByVal aQ As EveHQSkillQueue)
-        Dim curSkill As EveHQSkillQueueItem
-        For Each curSkill In aQ.Queue.Values
+        Dim removalList As List(Of String) = New List(Of String)()
+        For Each curSkill As EveHQSkillQueueItem In aQ.Queue.Values
             If qPilot.PilotSkills.ContainsKey(curSkill.Name) Then
                 Dim toLevel As Integer = curSkill.ToLevel
                 Dim mySkill As EveHQPilotSkill = qPilot.PilotSkills(curSkill.Name)
                 Dim pilotLevel As Integer = mySkill.Level
                 If pilotLevel >= toLevel Then
                     Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
-                    aQ.Queue.Remove(oldKey)
+                    removalList.Add(oldKey)
                 End If
             End If
+        Next
+        For Each oldKey As String In removalList
+            aQ.Queue.Remove(oldKey)
         Next
         aQ.QueueSkills = aQ.Queue.Count
     End Sub

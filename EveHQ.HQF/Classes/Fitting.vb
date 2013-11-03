@@ -2291,6 +2291,7 @@ Imports System.Runtime.Serialization
 #Region "Data/BaseShip Conversion Routines"
 
     Private Const UnknownModuleFitted As String = "A module with ID {0} was found in the ship fitting, but could not be found in the module list."
+    Private Const UnknownShipLoaded As String = "A ship with ID {0} was found in the ship bay, but could not be found in the ship list."
 
     ''' <summary>
     ''' Takes the modules etc and adds them to the base ship for processing
@@ -2304,10 +2305,10 @@ Imports System.Runtime.Serialization
 
         ' Add the modules
         For Each mws As ModuleWithState In Modules
-            Dim temp As ShipModule
-            Dim tempCharge As ShipModule
+            Dim temp As New ShipModule
+            Dim tempCharge As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
-                Dim newMod As ShipModule = temp
+                Dim newMod As ShipModule = temp.Clone
                 If String.IsNullOrWhiteSpace(mws.ChargeID) = False And ModuleLists.ModuleList.TryGetValue(CInt(mws.ChargeID), tempCharge) Then
                     newMod.LoadedCharge = tempCharge.Clone
                 End If
@@ -2322,7 +2323,7 @@ Imports System.Runtime.Serialization
 
         ' Add the drones
         For Each mws As ModuleQWithState In Drones
-            Dim temp As ShipModule
+            Dim temp As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim newMod As ShipModule = temp.Clone
                 newMod.ModuleState = mws.State
@@ -2339,7 +2340,7 @@ Imports System.Runtime.Serialization
         ' Add items
         For Each mws As ModuleQWithState In Items
             'Bug EVEHQ-380 : There is a key not found error in the module list. 
-            Dim temp As ShipModule
+            Dim temp As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim newMod As ShipModule = temp.Clone()
                 newMod.ModuleState = mws.State
@@ -2351,20 +2352,22 @@ Imports System.Runtime.Serialization
 
         ' Add ships
         For Each mws As ModuleQWithState In Ships
-            Dim temp As Ship
-            Dim tempKey As String
+            Dim temp As New Ship
+            Dim tempKey As String = ""
             If ShipLists.ShipListKeyID.TryGetValue(CInt(mws.ID), tempKey) Then
                 If ShipLists.ShipList.TryGetValue(tempKey, temp) Then
                     Dim newMod As Ship = temp.Clone
                     Call AddShip(newMod, mws.Quantity, True)
                 End If
+            Else
+                Trace.TraceWarning(String.Format(UnknownShipLoaded, mws.ID))
             End If
         Next
 
         ' Add Boosters
         BaseShip.BoosterSlotCollection.Clear()
         For Each mws As ModuleWithState In Boosters
-            Dim temp As ShipModule
+            Dim temp As New ShipModule
             If ModuleLists.ModuleList.TryGetValue(CInt(mws.ID), temp) Then
                 Dim sMod As ShipModule = temp.Clone
                 BaseShip.BoosterSlotCollection.Add(sMod)
@@ -3678,28 +3681,27 @@ End Class
     End Sub
 
     Public Function Clone() As Fitting
-        Dim fitMemoryStream As New MemoryStream
-        Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
-        objBinaryFormatter.Serialize(fitMemoryStream, Me)
-        fitMemoryStream.Seek(0, SeekOrigin.Begin)
-        Dim newFitClone As FittingClone = CType(objBinaryFormatter.Deserialize(fitMemoryStream), FittingClone)
-        fitMemoryStream.Close()
+        Using fitMemoryStream As New MemoryStream
+            Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
+            objBinaryFormatter.Serialize(fitMemoryStream, Me)
+            fitMemoryStream.Seek(0, SeekOrigin.Begin)
+            Dim newFitClone As FittingClone = CType(objBinaryFormatter.Deserialize(fitMemoryStream), FittingClone)
+            fitMemoryStream.Close()
 
-        Dim newFit As New Fitting(newFitClone.ShipName, newFitClone.FittingName, newFitClone.PilotName)
+            Dim newFit As New Fitting(newFitClone.ShipName, newFitClone.FittingName, newFitClone.PilotName)
 
-        Dim typ As Type = newFit.GetType()
-        Dim pi As PropertyInfo() = typ.GetProperties()
-        For Each p As PropertyInfo In pi
-            If newFitClone.GetType.GetProperty(p.Name) IsNot Nothing Then
-                Dim fitPI As PropertyInfo = newFitClone.GetType().GetProperty(p.Name)
-                If p.CanWrite Then
-                    p.SetValue(newFit, fitPI.GetValue(newFitClone, Nothing), Nothing)
+            Dim typ As Type = newFit.GetType()
+            Dim pi As PropertyInfo() = typ.GetProperties()
+            For Each p As PropertyInfo In pi
+                If newFitClone.GetType.GetProperty(p.Name) IsNot Nothing Then
+                    Dim fitPI As PropertyInfo = newFitClone.GetType().GetProperty(p.Name)
+                    If p.CanWrite Then
+                        p.SetValue(newFit, fitPI.GetValue(newFitClone, Nothing), Nothing)
+                    End If
                 End If
-            End If
-        Next
-
-        Return newFit
-
+            Next
+            Return newFit
+        End Using
     End Function
 
 End Class

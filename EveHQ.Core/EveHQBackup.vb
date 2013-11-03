@@ -21,7 +21,10 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports DevComponents.DotNetBar
 Imports Microsoft.VisualBasic.FileIO
-Imports ICSharpCode.SharpZipLib.Zip
+
+Imports System.Text
+Imports Ionic.Zip
+
 
 ''' <summary>
 ''' Contains shared routines for handling backup and restore of EveHQ
@@ -66,15 +69,34 @@ Public Class EveHQBackup
 
             ' Backup the data
             ' TODO: Replace ZIP logic here from Fast zip to Ionic like the Market providers use.
-            HQ.WriteLogEvent("Backup: Backup EveHQ settings")
-            Const fileFilter As String = "-\.config$;-\.dll$;-\.exe$;-\.manifest$;-\.log$;-\.sdf$;-\.mdb$;-\.pdb;-\.sdf$;-\.zip$"
-            Dim zipSettings As FastZip = New FastZip()
-            zipSettings.CreateZip(zipFileName, HQ.AppDataFolder, True, fileFilter, "^(?:(?!cache).)*$")
 
-            ' Update backup details
-            HQ.WriteLogEvent("Backup: Store EveHQ backup results")
-            HQ.Settings.EveHQBackupLast = backupTime
-            HQ.Settings.EveHQBackupLastResult = -1
+            HQ.WriteLogEvent("Backup: Backup EveHQ settings")
+            Using zip As New ZipFile(zipFileName, UTF8Encoding.UTF8)
+                zip.AddDirectory(Path.Combine(HQ.AppDataFolder, "Data"), "Data")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "EveHQSettings.json"), "")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "EveHQData.db3"), "")
+
+                'TODO: Plugin backup should be a delegate method that can be called to get files for backup
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "Fittings.json"), "HQF")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFDamageProfiles.json"), "HQF")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFPilotSettings.json"), "HQF")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFDefenceProfiles.json"), "HQF")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "HQF", "HQFSettings.json"), "HQF")
+
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "BatchJobs.json"), "Prism")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "OwnerBlueprints.json"), "Prism")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "PrismSettings.json"), "Prism")
+                zip.AddFile(Path.Combine(HQ.AppDataFolder, "Prism", "ProductionJobs.json"), "Prism")
+
+
+                zip.Save()
+                ' Update backup details
+                HQ.WriteLogEvent("Backup: Store EveHQ backup results")
+                HQ.Settings.EveHqBackupLast = backupTime
+                HQ.Settings.EveHqBackupLastResult = -1
+            End Using
+
+
             Return True
         Catch e As Exception
             ' Report the error
@@ -84,8 +106,8 @@ Public Class EveHQBackup
                 msg &= "Inner Exception: " & e.InnerException.Message & ControlChars.CrLf
             End If
             MessageBox.Show(msg, "EveHQ Backup Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            HQ.Settings.EveHQBackupLastResult = 0
-            HQ.Settings.EveHQBackupLast = oldTime
+            HQ.Settings.EveHqBackupLastResult = 0
+            HQ.Settings.EveHqBackupLast = oldTime
             ' Try and delete the zip folder
             Try
                 If My.Computer.FileSystem.DirectoryExists(zipFolder) = True Then
@@ -115,14 +137,17 @@ Public Class EveHQBackup
 
         ' Try and unzip the backup file
         Try
-            Dim zipSettings As FastZip = New FastZip()
-            zipSettings.ExtractZip(backupFile, HQ.AppDataFolder, "")
 
-            ' Report success
-            MessageBox.Show("Restore successful! EveHQ needs to be restarted for the new settings to apply - Click OK to close EveHQ.", "Restore Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Using zip As ZipFile = ZipFile.Read(backupFile)
 
-            ' If all is good, set the exit flag
-            HQ.RestoredSettings = True
+                zip.ExtractAll(HQ.AppDataFolder)
+             
+                ' Report success
+                MessageBox.Show("Restore successful! EveHQ needs to be restarted for the new settings to apply - Click OK to close EveHQ.", "Restore Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+                ' If all is good, set the exit flag
+                HQ.RestoredSettings = True
+            End Using
 
             ' Exit EveHQ
             Application.Exit()
