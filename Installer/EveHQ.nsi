@@ -105,7 +105,6 @@ SectionIn RO
   File "..\BuildOutput\Release\GammaJul.lglcd.dll"
   File "..\BuildOutput\Release\GammaJul.lglcd.Native32.dll"
   File "..\BuildOutput\Release\GammaJul.lglcd.Native64.dll"
-  File "..\BuildOutput\Release\ICSharpCode.SharpZipLib.dll"
   File "..\BuildOutput\Release\Ionic.Zip.dll"
   File "..\BuildOutput\Release\Newtonsoft.json.dll"
   File "..\BuildOutput\Release\protobuf-net.dll"
