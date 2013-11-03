@@ -121,18 +121,18 @@ Public Class PilotParseFunctions
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
             Dim cXMLDoc, tXMLDoc As New XmlDocument
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
                 cXML = True
             End If
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
+            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
                 tXML = True
             End If
 
             ' Only load in and parse if both files are available
             If cXML = True Then
-                cXMLDoc.Load(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
+                cXMLDoc.Load(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
                 If tXML = True Then
-                    tXMLDoc.Load(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
+                    tXMLDoc.Load(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
                 End If
                 Call ParsePilotSkills(currentPilot, cXMLDoc)
                 Call ParsePilotXML(currentPilot, cXMLDoc)
@@ -390,38 +390,40 @@ Public Class PilotParseFunctions
         Else
             Dim corpList As XmlNodeList
             Dim corp As XmlNode
-            ' Add a corporation to the settings
-            ' Get the list of characters and the character IDs
-            corpList = accountXML.SelectNodes("/eveapi/result/rowset/row")
-            ' Clear the current characters on the account
-            caccount.Characters = New List(Of String)
-            If corpList.Count > 0 Then
-                corp = corpList(0)
-                Dim newCorp As New Corporation
-                ' Get the existing corp if appropriate
-                If HQ.TempCorps.ContainsKey(corp.Attributes.GetNamedItem("corporationName").Value) = True Then
-                    newCorp = HQ.TempCorps(corp.Attributes.GetNamedItem("corporationName").Value)
-                Else
-                    newCorp.Name = corp.Attributes.GetNamedItem("corporationName").Value
-                    newCorp.ID = corp.Attributes.GetNamedItem("corporationID").Value
-                    HQ.TempCorps.Add(newCorp.Name, newCorp)
-                    caccount.Characters.Add(newCorp.Name)
-                End If
-                If newCorp.CharacterIDs.Contains(corp.Attributes.GetNamedItem("characterID").Value) = False Then
-                    newCorp.CharacterIDs.Add(corp.Attributes.GetNamedItem("characterID").Value)
-                End If
-                If newCorp.CharacterNames.Contains(corp.Attributes.GetNamedItem("name").Value) = False Then
-                    newCorp.CharacterNames.Add(corp.Attributes.GetNamedItem("name").Value)
-                End If
-                If newCorp.Accounts.Contains(caccount.UserID) = False Then
-                    newCorp.Accounts.Add(caccount.UserID)
+            If (accountXML IsNot Nothing) Then
+                ' Add a corporation to the settings
+                ' Get the list of characters and the character IDs
+                corpList = accountXML.SelectNodes("/eveapi/result/rowset/row")
+                ' Clear the current characters on the account
+                caccount.Characters = New List(Of String)
+                If corpList.Count > 0 Then
+                    corp = corpList(0)
+                    Dim newCorp As New Corporation
+                    ' Get the existing corp if appropriate
+                    If HQ.TempCorps.ContainsKey(corp.Attributes.GetNamedItem("corporationName").Value) = True Then
+                        newCorp = HQ.TempCorps(corp.Attributes.GetNamedItem("corporationName").Value)
+                    Else
+                        newCorp.Name = corp.Attributes.GetNamedItem("corporationName").Value
+                        newCorp.ID = corp.Attributes.GetNamedItem("corporationID").Value
+                        HQ.TempCorps.Add(newCorp.Name, newCorp)
+                        caccount.Characters.Add(newCorp.Name)
+                    End If
+                    If newCorp.CharacterIDs.Contains(corp.Attributes.GetNamedItem("characterID").Value) = False Then
+                        newCorp.CharacterIDs.Add(corp.Attributes.GetNamedItem("characterID").Value)
+                    End If
+                    If newCorp.CharacterNames.Contains(corp.Attributes.GetNamedItem("name").Value) = False Then
+                        newCorp.CharacterNames.Add(corp.Attributes.GetNamedItem("name").Value)
+                    End If
+                    If newCorp.Accounts.Contains(caccount.UserID) = False Then
+                        newCorp.Accounts.Add(caccount.UserID)
+                    End If
                 End If
             End If
         End If
     End Sub
     Private Shared Sub GetAccountStatus(ByRef cAccount As EveHQAccount)
         ' Attempts to get the AccountStatus API for additional information and for checking API key status
-        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
         Dim accountXML As XmlDocument = apiReq.GetAPIXML(APITypes.AccountStatus, cAccount.ToAPIAccount, APIReturnMethods.ReturnStandard)
         Select Case cAccount.ApiKeySystem
             Case APIKeySystems.Version2
@@ -458,7 +460,7 @@ Public Class PilotParseFunctions
     Private Shared Sub GetCharacterXmLs(ByVal cAccount As EveHQAccount, ByVal cPilot As EveHQPilot)
 
         ' Set up an API Request for this character
-        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
         ' Get the Character Sheet
         Dim cXML As XmlDocument = apiReq.GetAPIXML(APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, APIReturnMethods.ReturnStandard)
@@ -516,21 +518,21 @@ Public Class PilotParseFunctions
             ' Get the Pilot name & charID in the character node
             With cPilot
                 ' Get the additional pilot data nodes
-                .Name = CXMLDoc.GetElementsByTagName("name").Item(0).InnerText
-                .Race = CXMLDoc.GetElementsByTagName("race").Item(0).InnerText
-                .Blood = CXMLDoc.GetElementsByTagName("bloodLine").Item(0).InnerText
-                .Gender = CXMLDoc.GetElementsByTagName("gender").Item(0).InnerText
-                .Corp = CXMLDoc.GetElementsByTagName("corporationName").Item(0).InnerText
-                .CorpID = CXMLDoc.GetElementsByTagName("corporationID").Item(0).InnerText
-                .CloneName = CXMLDoc.GetElementsByTagName("cloneName").Item(0).InnerText
-                .CloneSP = CInt(CXMLDoc.GetElementsByTagName("cloneSkillPoints").Item(0).InnerText)
-                Dim isk As Double = Double.Parse(CXMLDoc.GetElementsByTagName("balance").Item(0).InnerText, NumberStyles.Any, Culture)
+                .Name = cxmlDoc.GetElementsByTagName("name").Item(0).InnerText
+                .Race = cxmlDoc.GetElementsByTagName("race").Item(0).InnerText
+                .Blood = cxmlDoc.GetElementsByTagName("bloodLine").Item(0).InnerText
+                .Gender = cxmlDoc.GetElementsByTagName("gender").Item(0).InnerText
+                .Corp = cxmlDoc.GetElementsByTagName("corporationName").Item(0).InnerText
+                .CorpID = cxmlDoc.GetElementsByTagName("corporationID").Item(0).InnerText
+                .CloneName = cxmlDoc.GetElementsByTagName("cloneName").Item(0).InnerText
+                .CloneSP = CInt(cxmlDoc.GetElementsByTagName("cloneSkillPoints").Item(0).InnerText)
+                Dim isk As Double = Double.Parse(cxmlDoc.GetElementsByTagName("balance").Item(0).InnerText, NumberStyles.Any, Culture)
                 .Isk = isk
                 ' Put cache info here??
             End With
 
             ' Get the implant details
-            charDetails = CXMLDoc.SelectNodes("/eveapi/result/attributeEnhancers")
+            charDetails = cxmlDoc.SelectNodes("/eveapi/result/attributeEnhancers")
             ' Get the relevant node!
             toon = charDetails(0)       ' This is zero because there is only 1 occurence of the attributeEnhancers node in each XML doc
             If toon.HasChildNodes Then
@@ -567,7 +569,7 @@ Public Class PilotParseFunctions
             End If
 
             ' Get the attribute details
-            charDetails = CXMLDoc.SelectNodes("/eveapi/result/attributes")
+            charDetails = cxmlDoc.SelectNodes("/eveapi/result/attributes")
             ' Get the relevant node!
             toon = charDetails(0)       ' This is zero because there is only 1 occurence of the attributes node in each XML doc
             If toon.HasChildNodes Then
@@ -588,7 +590,7 @@ Public Class PilotParseFunctions
             End If
 
             ' Get Cache details
-            charDetails = CXMLDoc.SelectNodes("/eveapi")
+            charDetails = cxmlDoc.SelectNodes("/eveapi")
             cPilot.CacheFileTime = CDate(charDetails(0).ChildNodes(0).InnerText)
             cPilot.CacheExpirationTime = CDate(charDetails(0).ChildNodes(2).InnerText)
         Else
@@ -599,7 +601,7 @@ Public Class PilotParseFunctions
     End Sub                'ParsePilotXML
     Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQPilot, ByVal txmlDoc As XmlDocument)
         ' Get the training details
-        If TXMLDoc IsNot Nothing Then
+        If txmlDoc IsNot Nothing Then
             Dim trainingDetails As XmlNodeList
             Dim trainingNode As XmlNode
             trainingDetails = txmlDoc.SelectNodes("/eveapi/result/rowset/row")
@@ -830,9 +832,9 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 HQ.TempPilots.Clear()
                 HQ.TempPilots.Add(newPilot.Name, newPilot)
-                pilotXML.Save(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                pilotXML.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTxml IsNot Nothing Then
-                    pilotTxml.Save(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                    pilotTxml.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 End If
 
                 For Each currentPilot As EveHQPilot In HQ.TempPilots.Values
@@ -923,10 +925,10 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = "0"
                 HQ.TempPilots.Clear()
                 HQ.TempPilots.Add(newPilot.Name, newPilot)
-                pilotXML.Save(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                pilotXML.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                 If pilotTxml IsNot Nothing Then
                     If pilotTxml.InnerText <> "" Then
-                        pilotTxml.Save(Path.Combine(HQ.cacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                        pilotTxml.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
                     End If
                 End If
 
