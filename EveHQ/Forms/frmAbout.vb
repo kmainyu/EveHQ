@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.Text
+Imports System.Reflection
 
 Namespace Forms
     Public Class FrmAbout
@@ -25,7 +26,7 @@ Namespace Forms
         Private Sub frmAbout_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
             ' Insert the version number to the splash screen
-            lblVersion.Text = "Version " & My.Application.Info.Version.ToString
+            lblVersion.Text = "Version " & FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion
             lblCopyright.Text = My.Application.Info.Copyright
             lblDate.Text = My.Application.Info.Trademark
             ' Add the credits to the WBControl
