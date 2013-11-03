@@ -835,9 +835,11 @@
     <None Include="Resources\level_000.gif" />
     <Content Include="..\Ref\G15 Drivers\GammaJul.LgLcd.Native32.dll">
       <Link>GammaJul.LgLcd.Native32.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Ref\G15 Drivers\GammaJul.LgLcd.Native64.dll">
       <Link>GammaJul.LgLcd.Native64.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\AssetsSafe32.png" />
     <Content Include="_updates.xml">
