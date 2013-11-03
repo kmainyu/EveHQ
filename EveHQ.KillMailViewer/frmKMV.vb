@@ -555,7 +555,7 @@ Public Class FrmKmv
             If _kms.TryGetValue(killID, selKillmail) Then
                 ' Check for valid attackers (i.e. not all NPC ones)
                 Dim validKillmail As Boolean =
-                        selKillmail.Attackers.Values.Cast (Of KillmailAttacker)().Any(
+                        selKillmail.Attackers.Values.Cast(Of KillmailAttacker)().Any(
                             Function(attacker) attacker.CharName <> "")
                 If validKillmail = False Then
                     MessageBox.Show(

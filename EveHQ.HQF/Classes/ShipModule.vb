@@ -97,7 +97,7 @@ Public Class ShipModule
             Dim objBinaryFormatter As New BinaryFormatter(Nothing, New StreamingContext(StreamingContextStates.Clone))
             objBinaryFormatter.Serialize(shipMemoryStream, Me)
             shipMemoryStream.Seek(0, SeekOrigin.Begin)
-            Return  CType(objBinaryFormatter.Deserialize(shipMemoryStream), ShipModule)
+            Return CType(objBinaryFormatter.Deserialize(shipMemoryStream), ShipModule)
         End Using
     End Function
 #End Region

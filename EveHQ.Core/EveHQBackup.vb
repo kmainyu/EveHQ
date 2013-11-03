@@ -140,7 +140,7 @@ Public Class EveHQBackup
 
             Using zip As ZipFile = ZipFile.Read(backupFile)
 
-                zip.ExtractAll(HQ.AppDataFolder)
+                zip.ExtractAll(HQ.AppDataFolder, ExtractExistingFileAction.OverwriteSilently)
              
                 ' Report success
                 MessageBox.Show("Restore successful! EveHQ needs to be restarted for the new settings to apply - Click OK to close EveHQ.", "Restore Successful!", MessageBoxButtons.OK, MessageBoxIcon.Information)
