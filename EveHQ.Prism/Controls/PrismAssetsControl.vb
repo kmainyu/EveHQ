@@ -1269,7 +1269,8 @@ Namespace Controls
                 ' Get the orders
                 Dim orderCollection As MarketOrdersCollection = ParseMarketOrders(owner)
                 ' Add the orders (outstanding ones only)
-                Dim itemName, category, group, meta, vol As String
+                Dim itemName, category, group, meta As String
+                Dim vol As Double
                 Dim eveLocation As SolarSystem
                 For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
                     If ownerOrder.OrderState = MarketOrderState.Open Then
@@ -1282,13 +1283,13 @@ Namespace Controls
                             category = StaticData.TypeCats(orderItem.Category)
                             group = StaticData.TypeGroups(orderItem.Group)
                             meta = orderItem.MetaLevel.ToString
-                            vol = orderItem.Volume.ToString
+                            vol = orderItem.Volume
                         Else
                             itemName = "ItemID: " & ownerOrder.TypeID.ToString
                             category = "<Unknown>"
                             group = "<Unknown>"
                             meta = "0"
-                            vol = "1"
+                            vol = 1
                         End If
                         ' Check for search criteria
                         If Not ((_filters.Count > 0 And _catFilters.Contains(category) = False And _groupFilters.Contains(group) = False) Or (_searchText <> "" And itemName.ToLower.Contains(_searchText.ToLower) = False)) Then
@@ -1322,7 +1323,7 @@ Namespace Controls
                                 orderNode.Cells(_assetColumn("AssetSystemSec")).Text = "Unknown"
                             End If
                             orderNode.Cells(_assetColumn("AssetMeta")).Text = meta
-                            orderNode.Cells(_assetColumn("AssetVolume")).Text = CDbl(vol).ToInvariantString("N2")
+                            orderNode.Cells(_assetColumn("AssetVolume")).Text = CDbl(vol * ownerOrder.VolRemaining).ToInvariantString("N2")
                             orderNode.Cells(_assetColumn("AssetQuantity")).Text = ownerOrder.VolRemaining.ToInvariantString("N0")
                             If ownerOrder.Bid = 0 Then
                                 orderNode.Cells(_assetColumn("AssetPrice")).Text = ownerOrder.Price.ToInvariantString("N2")
