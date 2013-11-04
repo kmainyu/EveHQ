@@ -34,13 +34,12 @@ Public Class PlugInData
     Public Shared RefTypes As New SortedList(Of String, String)
     Public Shared Activities As New SortedList(Of String, String)
     Public Shared Statuses As New SortedList(Of String, String)
-    Public Shared Stations As New SortedList
     Public Shared Corps As New SortedList(Of String, String) ' corpID, corpName
     Public Shared PackedVolumes As New SortedList(Of Integer, Double) ' groupID, volume
     Public Shared AssetItemNames As New SortedList(Of Long, String)
     Public Shared Products As New SortedList(Of String, String)
     Public Shared BlueprintAssets As New SortedList(Of String, SortedList(Of Long, BlueprintAsset))
-    Public Shared CorpList As New SortedList
+    Public Shared CorpList As New SortedList(Of String, Integer) ' corpName, corpID
     Public Shared CategoryNames As New SortedList(Of String, Integer) ' catName, catID
     Public Shared Decryptors As New SortedList(Of String, Decryptor)
     Public Shared PrismOwners As New SortedList(Of String, PrismOwner)
@@ -53,9 +52,10 @@ Public Class PlugInData
     Public Function GetPlugInData(ByVal data As Object, ByVal dataType As Integer) As Object Implements IEveHQPlugIn.GetPlugInData
         Select Case dataType
             Case 0 ' Return a location
+                ' TODO: Check if any code actually uses this as it should no longer be that useful
                 ' Check the data is Long return the station name
-                If TypeOf (data) Is Long Then
-                    Return CType(Stations(data.ToString), Station).StationName
+                If TypeOf (data) Is Integer Then
+                    Return StaticData.Stations(CInt(data)).StationName
                 Else
                     Return data
                 End If

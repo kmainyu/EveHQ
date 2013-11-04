@@ -66,7 +66,7 @@ Namespace Forms
         ' Recycling Variables
         Dim _recyclerAssetList As New SortedList(Of Integer, Long)
         Dim _recyclerAssetOwner As String = ""
-        Dim _recyclerAssetLocation As String = ""
+        Dim _recyclerAssetLocation As Integer
         ReadOnly _itemList As New SortedList(Of Integer, SortedList(Of String, Long))
         Dim _matList As New SortedList(Of String, Long)
         Dim _baseYield As Double = 0.5
@@ -270,7 +270,7 @@ Namespace Forms
                                                     PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
                                                 End If
                                                 ' Add the corp to the CorpList
-                                                PlugInData.CorpList.Add(selCorp.Name, selCorp.ID)
+                                                PlugInData.CorpList.Add(selCorp.Name, CInt(selCorp.ID))
                                             End If
                                         End If
                                     Next
@@ -1613,8 +1613,8 @@ Namespace Forms
                                         Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value, NumberStyles.Any, _culture)
                                         sOrder.Cells(2).Text = price.ToString("N2")
                                         Dim loc As String
-                                        If PlugInData.Stations.Contains(order.Attributes.GetNamedItem("stationID").Value) = True Then
-                                            loc = CType(PlugInData.Stations(order.Attributes.GetNamedItem("stationID").Value), Station).StationName
+                                        If StaticData.Stations.ContainsKey(CInt(order.Attributes.GetNamedItem("stationID").Value)) = True Then
+                                            loc = StaticData.Stations(CInt(order.Attributes.GetNamedItem("stationID").Value)).StationName
                                         Else
                                             loc = "StationID: " & order.Attributes.GetNamedItem("stationID").Value
                                         End If
@@ -1649,8 +1649,8 @@ Namespace Forms
                                         Dim price As Double = Double.Parse(order.Attributes.GetNamedItem("price").Value, NumberStyles.Any, _culture)
                                         bOrder.Cells(2).Text = price.ToString("N2")
                                         Dim loc As String
-                                        If PlugInData.Stations.Contains(order.Attributes.GetNamedItem("stationID").Value) = True Then
-                                            loc = CType(PlugInData.Stations(order.Attributes.GetNamedItem("stationID").Value), Station).StationName
+                                        If StaticData.Stations.ContainsKey(CInt(order.Attributes.GetNamedItem("stationID").Value)) = True Then
+                                            loc = StaticData.Stations(CInt(order.Attributes.GetNamedItem("stationID").Value)).StationName
                                         Else
                                             loc = "StationID: " & order.Attributes.GetNamedItem("stationID").Value
                                         End If
@@ -3118,14 +3118,14 @@ Namespace Forms
             tabPrism.SelectedTab = tiRecycler
             tiRecycler.Visible = True
         End Sub
-        Private Function GetLocationID(ByVal item As Node) As String
+        Private Function GetLocationID(ByVal item As Node) As Integer
             Do While item.Level > 0
                 item = item.Parent
             Loop
             If item.Tag IsNot Nothing Then
-                Return item.Tag.ToString
+                Return CInt(item.Tag)
             Else
-                Return ""
+                Return 0
             End If
         End Function
         Private Sub LoadRecyclingInfo()
@@ -3155,9 +3155,9 @@ Namespace Forms
             Next
 
             ' Get the location details
-            If PlugInData.Stations.ContainsKey(_recyclerAssetLocation) = True Then
+            If StaticData.Stations.ContainsKey(_recyclerAssetLocation) = True Then
                 If CDbl(_recyclerAssetLocation) >= 60000000 Then ' Is a station
-                    Dim aLocation As Station = CType(PlugInData.Stations(_recyclerAssetLocation), Station)
+                    Dim aLocation As Station = StaticData.Stations(_recyclerAssetLocation)
                     lblStation.Text = aLocation.StationName
                     lblCorp.Text = aLocation.CorpId.ToString
                     If StaticData.NpcCorps.ContainsKey(aLocation.CorpId) = True Then

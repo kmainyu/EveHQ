@@ -633,7 +633,7 @@ Namespace Controls
                                         End If
                                         Dim newLocation As Station
                                         If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
-                                            If PlugInData.Stations.Contains(locID) = True Then
+                                            If StaticData.Stations.ContainsKey(locID) = True Then
                                                 ' Known Outpost
                                                 newLocation = StaticData.Stations(locID)
                                                 locNode.Text = newLocation.StationName
@@ -1322,10 +1322,11 @@ Namespace Controls
                             Else
                                 orderNode.Cells(_assetColumn("AssetCategory")).Text = StaticData.TypeCats(category)
                             End If
-                            If PlugInData.Stations.Contains(ownerOrder.StationID) = True Then
-                                orderNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerOrder.StationID), Station).StationName
-                                eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerOrder.StationID), Station).SystemId)
+                            If StaticData.Stations.ContainsKey(ownerOrder.StationID) = True Then
+                                orderNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(ownerOrder.StationID).StationName
+                                eveLocation = StaticData.SolarSystems(StaticData.Stations(ownerOrder.StationID).SystemId)
                             Else
+
                                 orderNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerOrder.StationID
                                 eveLocation = Nothing
                             End If
@@ -1393,9 +1394,9 @@ Namespace Controls
                         Dim orders As XmlNodeList = orderXML.SelectNodes("/eveapi/result/rowset/row")
                         For Each order As XmlNode In orders
                             Dim newOrder As New MarketOrder
-                            newOrder.OrderID = order.Attributes.GetNamedItem("orderID").Value
-                            newOrder.CharID = order.Attributes.GetNamedItem("charID").Value
-                            newOrder.StationID = order.Attributes.GetNamedItem("stationID").Value
+                            newOrder.OrderID = CLng(order.Attributes.GetNamedItem("orderID").Value)
+                            newOrder.CharID = CInt(order.Attributes.GetNamedItem("charID").Value)
+                            newOrder.StationID = CInt(order.Attributes.GetNamedItem("stationID").Value)
                             newOrder.VolEntered = CLng(order.Attributes.GetNamedItem("volEntered").Value)
                             newOrder.VolRemaining = CLng(order.Attributes.GetNamedItem("volRemaining").Value)
                             newOrder.MinVolume = CLng(order.Attributes.GetNamedItem("minVolume").Value)
@@ -1465,9 +1466,9 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                If PlugInData.Stations.ContainsKey(job.OutputLocationID.ToString) = True Then
-                                    rNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).StationName
-                                    eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).SystemId)
+                                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
+                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
+                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
                                 Else
                                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -1536,9 +1537,9 @@ Namespace Controls
                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                If PlugInData.Stations.ContainsKey(job.OutputLocationID.ToString) = True Then
-                    rNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).StationName
-                    eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).SystemId)
+                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
+                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
+                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
                 Else
                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -1594,9 +1595,9 @@ Namespace Controls
                             End If
                             contractNode.Text &= " (" & ownerContract.Type.ToString & ")"
                             contractNode.Cells(_assetColumn("AssetOwner")).Text = owner
-                            If PlugInData.Stations.Contains(ownerContract.StartStationID.ToString) = True Then
-                                contractNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).StationName
-                                eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).SystemId)
+                            If StaticData.Stations.ContainsKey(ownerContract.StartStationID) = True Then
+                                contractNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(ownerContract.StartStationID).StationName
+                                eveLocation = StaticData.SolarSystems(StaticData.Stations(ownerContract.StartStationID).SystemId)
                             Else
                                 contractNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerContract.StartStationID.ToString
                                 eveLocation = Nothing
@@ -1645,9 +1646,9 @@ Namespace Controls
                                     itemNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                     itemNode.Cells(_assetColumn("AssetGroup")).Text = group
                                     itemNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                    If PlugInData.Stations.Contains(ownerContract.StartStationID.ToString) = True Then
-                                        itemNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).StationName
-                                        eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).SystemId)
+                                    If StaticData.Stations.ContainsKey(ownerContract.StartStationID) = True Then
+                                        itemNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(ownerContract.StartStationID).StationName
+                                        eveLocation = StaticData.SolarSystems(StaticData.Stations(ownerContract.StartStationID).SystemId)
                                     Else
                                         itemNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerContract.StartStationID.ToString
                                         eveLocation = Nothing
