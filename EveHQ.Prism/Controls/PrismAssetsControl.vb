@@ -1269,7 +1269,8 @@ Namespace Controls
                 ' Get the orders
                 Dim orderCollection As MarketOrdersCollection = ParseMarketOrders(owner)
                 ' Add the orders (outstanding ones only)
-                Dim itemName, category, group, meta As String
+                Dim itemName As String
+                Dim category, group, meta As Integer
                 Dim vol As Double
                 Dim eveLocation As SolarSystem
                 For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
@@ -1280,15 +1281,24 @@ Namespace Controls
                         If StaticData.Types.ContainsKey(ownerOrder.TypeID) = True Then
                             Dim orderItem As EveType = StaticData.Types(ownerOrder.TypeID)
                             itemName = orderItem.Name
-                            category = StaticData.TypeCats(orderItem.Category)
-                            group = StaticData.TypeGroups(orderItem.Group)
-                            meta = orderItem.MetaLevel.ToString
-                            vol = orderItem.Volume
+                            category = orderItem.Category
+                            group = orderItem.Group
+                            meta = orderItem.MetaLevel
+                            ' Check for packaged ship volumes
+                            If category = 6 Then
+                                If PlugInData.PackedVolumes.ContainsKey(group) Then
+                                    vol = PlugInData.PackedVolumes(group)
+                                Else
+                                    vol = orderItem.Volume
+                                End If
+                            Else
+                                vol = orderItem.Volume
+                            End If
                         Else
                             itemName = "ItemID: " & ownerOrder.TypeID.ToString
-                            category = "<Unknown>"
-                            group = "<Unknown>"
-                            meta = "0"
+                            category = -1
+                            group = -1
+                            meta = 0
                             vol = 1
                         End If
                         ' Check for search criteria
@@ -1302,8 +1312,16 @@ Namespace Controls
                                 buyValue += ownerOrder.Escrow * ownerOrder.VolRemaining
                             End If
                             orderNode.Cells(_assetColumn("AssetOwner")).Text = owner
-                            orderNode.Cells(_assetColumn("AssetGroup")).Text = group
-                            orderNode.Cells(_assetColumn("AssetCategory")).Text = category
+                            If group = -1 Then
+                                orderNode.Cells(_assetColumn("AssetGroup")).Text = "<Unknown>"
+                            Else
+                                orderNode.Cells(_assetColumn("AssetGroup")).Text = StaticData.TypeGroups(group)
+                            End If
+                            If category = -1 Then
+                                orderNode.Cells(_assetColumn("AssetCategory")).Text = "<Unknown>"
+                            Else
+                                orderNode.Cells(_assetColumn("AssetCategory")).Text = StaticData.TypeCats(category)
+                            End If
                             If PlugInData.Stations.Contains(ownerOrder.StationID) = True Then
                                 orderNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerOrder.StationID), Station).StationName
                                 eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerOrder.StationID), Station).SystemId)
@@ -1322,7 +1340,7 @@ Namespace Controls
                                 orderNode.Cells(_assetColumn("AssetRegion")).Text = "Unknown"
                                 orderNode.Cells(_assetColumn("AssetSystemSec")).Text = "Unknown"
                             End If
-                            orderNode.Cells(_assetColumn("AssetMeta")).Text = meta
+                            orderNode.Cells(_assetColumn("AssetMeta")).Text = meta.ToInvariantString("N0")
                             orderNode.Cells(_assetColumn("AssetVolume")).Text = CDbl(vol * ownerOrder.VolRemaining).ToInvariantString("N2")
                             orderNode.Cells(_assetColumn("AssetQuantity")).Text = ownerOrder.VolRemaining.ToInvariantString("N0")
                             If ownerOrder.Bid = 0 Then
