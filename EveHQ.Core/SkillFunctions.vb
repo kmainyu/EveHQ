@@ -74,7 +74,7 @@ Public Class SkillFunctions
         Return CalculateSPLevel(HQ.SkillListID(skillID).Rank, level)
     End Function
 
-    Public Shared Function TimeToString(ByVal sTime As Double, Optional ByVal skillTime As Boolean = True) As String
+    Public Shared Function TimeToString(ByVal sTime As Double, Optional ByVal skillTime As Boolean = True, Optional completedText As String = "") As String
 
         Dim days, hours, minutes, seconds As Long
         Dim strTime As String = ""
@@ -84,7 +84,11 @@ Public Class SkillFunctions
             If skillTime = True Then
                 strTime = "Training Complete"
             Else
-                strTime = "0s"
+                If completedText <> "" Then
+                    strTime = completedText
+                Else
+                    strTime = "0s"
+                End If
             End If
         Else
             days = CInt(Int(sTime / (60 * 60 * 24)))

@@ -231,9 +231,14 @@ Namespace Forms
                     cboRecyclePilots.SelectedIndex = 0
                 End If
             End If
+
             ' Set the recycling mode
             cboRefineMode.SelectedIndex = 0
             _startup = False
+
+            ' Start the update timer
+            tmrUpdateInfo.Enabled = True
+            tmrUpdateInfo.Start()
 
         End Sub
 
@@ -2929,14 +2934,16 @@ Namespace Forms
                                 End If
                             End If
                             transItem.Cells(5).Text = job.EndProductionTime.ToString
+                            transItem.Cells(5).Tag = job.EndProductionTime
+                            transItem.Cells(6).Text = SkillFunctions.TimeToString(Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60, False, "Complete")
                             If job.Completed = 0 Then
                                 If job.EndProductionTime < DateTime.Now.ToUniversalTime Then
-                                    transItem.Cells(6).Text = PlugInData.Statuses("B")
+                                    transItem.Cells(7).Text = PlugInData.Statuses("B")
                                 Else
-                                    transItem.Cells(6).Text = PlugInData.Statuses("A")
+                                    transItem.Cells(7).Text = PlugInData.Statuses("A")
                                 End If
                             Else
-                                transItem.Cells(6).Text = PlugInData.Statuses(job.CompletedStatus.ToString)
+                                transItem.Cells(7).Text = PlugInData.Statuses(job.CompletedStatus.ToString)
                             End If
                         End If
                     Next
@@ -2957,6 +2964,12 @@ Namespace Forms
                 End If
                 adtJobs.EndUpdate()
             End If
+        End Sub
+
+        Private Sub UpdateIndustryJobTimes()
+            For Each transItem As Node In adtJobs.Nodes
+                transItem.Cells(6).Text = SkillFunctions.TimeToString(Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60, False, "Complete")
+            Next
         End Sub
 
         Private Sub cboInstallerFilter_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboInstallerFilter.SelectedIndexChanged
@@ -6118,6 +6131,20 @@ Namespace Forms
         Private Sub adtInventionStats_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
+        End Sub
+
+#End Region
+
+#Region "Timer Update Methods"
+
+        Private Sub tmrUpdateInfo_Tick(sender As Object, e As EventArgs) Handles tmrUpdateInfo.Tick
+            ' Use this to update any information on the form with reasonable frequency
+
+            ' Check if the jobs tab is visible
+            If tiJobs.Visible = True Then
+                ' Update the jobs screen as appropriate
+                Call UpdateIndustryJobTimes()
+            End If
         End Sub
 
 #End Region
