@@ -2284,6 +2284,8 @@ Namespace Controls
                                 cLoc.Visible = False
                                 _totalAssetCount -= GetLocationQuantity(cLoc)
                             End If
+                        Else
+                            _totalAssetValue += locPrice
                         End If
 
                     End If
