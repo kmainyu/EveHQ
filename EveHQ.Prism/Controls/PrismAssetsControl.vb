@@ -1251,6 +1251,7 @@ Namespace Controls
             Dim buyOrders As New Node
             Dim sellOrders As New Node
             Dim buyValue, sellValue As Double
+            Dim buyVolume, sellVolume As Double
             ordersNode.Tag = "Orders"
             ordersNode.Text = "Market Orders"
             CreateNodeCells(ordersNode)
@@ -1307,9 +1308,11 @@ Namespace Controls
                             If ownerOrder.Bid = 0 Then
                                 sellOrders.Nodes.Add(orderNode)
                                 sellValue += ownerOrder.Price * ownerOrder.VolRemaining
+                                sellVolume += vol * ownerOrder.VolRemaining
                             Else
                                 buyOrders.Nodes.Add(orderNode)
                                 buyValue += ownerOrder.Escrow * ownerOrder.VolRemaining
+                                buyVolume += vol * ownerOrder.VolRemaining
                             End If
                             orderNode.Cells(_assetColumn("AssetOwner")).Text = owner
                             If group = -1 Then
@@ -1355,6 +1358,11 @@ Namespace Controls
                     End If
                 Next
             Next
+            ' Update order volumes
+            buyOrders.Cells(_assetColumn("AssetVolume")).Text = buyVolume.ToInvariantString("N2")
+            sellOrders.Cells(_assetColumn("AssetVolume")).Text = sellVolume.ToInvariantString("N2")
+            ordersNode.Cells(_assetColumn("AssetVolume")).Text = (buyVolume + sellVolume).ToInvariantString("N2")
+            ' Update order values
             buyOrders.Cells(_assetColumn("AssetValue")).Text = buyValue.ToInvariantString("N2")
             sellOrders.Cells(_assetColumn("AssetValue")).Text = sellValue.ToInvariantString("N2")
             ordersNode.Cells(_assetColumn("AssetValue")).Text = (buyValue + sellValue).ToInvariantString("N2")
