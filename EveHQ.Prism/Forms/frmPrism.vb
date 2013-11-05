@@ -673,7 +673,7 @@ Namespace Forms
         End Sub
         Private Sub DisplayAPICompleteDialog()
             TaskDialog.AntiAlias = True
-            TaskDialog.EnableGlass = True
+            TaskDialog.EnableGlass = False
             Dim tdi As New TaskDialogInfo
             tdi.TaskDialogIcon = eTaskDialogIcon.CheckMark2
             tdi.DialogButtons = eTaskDialogButton.Ok
@@ -683,7 +683,7 @@ Namespace Forms
             tdi.Text = "Prism has completed the download of the API data. You may need to refresh your views to get updated information."
             tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
             tdi.CheckBoxCommand = APIDownloadDialogCheckBox
-            TaskDialog.Show(tdi)
+            TaskDialog.Show(Me, tdi)
         End Sub
         Private Sub APIDownloadDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles APIDownloadDialogCheckBox.Executed
             PrismSettings.UserSettings.HideAPIDownloadDialog = APIDownloadDialogCheckBox.Checked
