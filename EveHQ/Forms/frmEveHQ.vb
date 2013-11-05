@@ -39,7 +39,6 @@ Imports EveHQ.Core.Requisitions
 Imports System.Text
 Imports EveHQ.Common.Extensions
 Imports System.Net.Http
-Imports System.Runtime.InteropServices
 Imports EveHQ.Core.ItemBrowser
 Imports Microsoft.VisualBasic.FileIO
 Imports System.Threading.Tasks
@@ -2054,7 +2053,7 @@ Namespace Forms
 #Region "Update Check & Menu"
 
         Private Sub CheckForUpdates(ByVal state As Object)
-            Trace.TraceInformation("Checking For Updates")
+            Trace.TraceInformation("Checking For Updates...")
             Dim currentComponents As New SortedList
             Dim updateXML As XmlDocument = FetchUpdateXML()
 
@@ -2090,6 +2089,9 @@ Namespace Forms
                                End Sub)
                     Else
                         Trace.TraceInformation("No Update Available")
+                        If CBool(state) = True Then
+                            MessageBox.Show("There is no new EveHQ update currently available.", "No Update Available", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                     End If
                 Catch ex As Exception
                 End Try
@@ -2592,7 +2594,7 @@ Namespace Forms
         End Sub
 
         Private Sub btnCheckForUpdates_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckForUpdates.Click
-            Call CheckForUpdates(Nothing)
+            Call CheckForUpdates(True)
         End Sub
 
         Private Sub btnUpdateEveHQ_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpdateEveHQ.Click
