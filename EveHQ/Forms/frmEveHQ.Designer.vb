@@ -60,6 +60,7 @@ Namespace Forms
             Me.btnClearCharacterCache = New DevComponents.DotNetBar.ButtonItem()
             Me.btnClearImageCache = New DevComponents.DotNetBar.ButtonItem()
             Me.btnClearAllCache = New DevComponents.DotNetBar.ButtonItem()
+            Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
             Me.rbBackup = New DevComponents.DotNetBar.RibbonBar()
             Me.ItemContainer5 = New DevComponents.DotNetBar.ItemContainer()
             Me.btnBackupEveHQ = New DevComponents.DotNetBar.ButtonItem()
@@ -174,7 +175,6 @@ Namespace Forms
             Me.btnAbout = New DevComponents.DotNetBar.ButtonItem()
             Me.btnFileExit = New DevComponents.DotNetBar.ButtonItem()
             Me.QatCustomizeItem1 = New DevComponents.DotNetBar.QatCustomizeItem()
-            Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
             Me.DotNetBarManager1 = New DevComponents.DotNetBar.DotNetBarManager(Me.components)
             Me.DockSite4 = New DevComponents.DotNetBar.DockSite()
             Me.Bar1 = New DevComponents.DotNetBar.Bar()
@@ -465,7 +465,7 @@ Namespace Forms
             Me.rbHelp.Dock = System.Windows.Forms.DockStyle.Left
             Me.rbHelp.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnInfoHelp})
             Me.rbHelp.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbHelp.Location = New System.Drawing.Point(959, 0)
+            Me.rbHelp.Location = New System.Drawing.Point(1020, 0)
             Me.rbHelp.Name = "rbHelp"
             Me.rbHelp.Size = New System.Drawing.Size(73, 92)
             Me.rbHelp.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -502,14 +502,14 @@ Namespace Forms
             Me.rbAPITools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbAPITools.ContainerControlProcessDialogKey = True
             Me.rbAPITools.Dock = System.Windows.Forms.DockStyle.Left
-            Me.rbAPITools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2})
+            Me.rbAPITools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnSQLQueryTool})
             Me.rbAPITools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbAPITools.Location = New System.Drawing.Point(839, 0)
             Me.rbAPITools.Name = "rbAPITools"
-            Me.rbAPITools.Size = New System.Drawing.Size(120, 92)
+            Me.rbAPITools.Size = New System.Drawing.Size(181, 92)
             Me.rbAPITools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.rbAPITools.TabIndex = 6
-            Me.rbAPITools.Text = "API Tools"
+            Me.rbAPITools.Text = "API and Data Tools"
             '
             '
             '
@@ -567,6 +567,15 @@ Namespace Forms
             '
             Me.btnClearAllCache.Name = "btnClearAllCache"
             Me.btnClearAllCache.Text = "Clear All Cached XML Data"
+            '
+            'btnSQLQueryTool
+            '
+            Me.btnSQLQueryTool.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+            Me.btnSQLQueryTool.Image = Global.EveHQ.My.Resources.Resources.Database32
+            Me.btnSQLQueryTool.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+            Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
+            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
+            Me.btnSQLQueryTool.Text = "SQL Query Tool"
             '
             'rbBackup
             '
@@ -1922,12 +1931,6 @@ Namespace Forms
             'QatCustomizeItem1
             '
             Me.QatCustomizeItem1.Name = "QatCustomizeItem1"
-            '
-            'btnSQLQueryTool
-            '
-            Me.btnSQLQueryTool.Name = "btnSQLQueryTool"
-            Me.SuperTooltip1.SetSuperTooltip(Me.btnSQLQueryTool, New DevComponents.DotNetBar.SuperTooltipInfo("", "SQL Query Tools", "Allows the static and custom databases to be queried using SQL statements.", Nothing, Nothing, DevComponents.DotNetBar.eTooltipColor.Yellow))
-            Me.btnSQLQueryTool.Text = "SQL Query Tool"
             '
             'DotNetBarManager1
             '
