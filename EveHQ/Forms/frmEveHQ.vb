@@ -838,25 +838,23 @@ Namespace Forms
 
             Call CheckNotifications()
 
-            If FrmPilot.IsHandleCreated = True Then
+            Dim ti As TabItem
+
+            ' Update pilot form if open
+            ti = HQ.GetMdiTab(FrmPilot.Text)
+            If ti IsNot Nothing Then
                 Call FrmPilot.UpdateSkillInfo()
             End If
-            If FrmTraining.IsHandleCreated = True Then
+
+            ' Update training form if open
+            ti = HQ.GetMdiTab(FrmTraining.Text)
+            If ti IsNot Nothing Then
                 Call FrmTraining.UpdateTraining()
             End If
-            If FrmSkillDetails.IsHandleCreated = True Then
+
+            If FrmSkillDetails.Visible = True Then
                 Call FrmSkillDetails.UpdateSkillDetails()
             End If
-
-            ' Update the G15 LCD if applicable
-            'If EveHQ.Core.HQ.Settings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
-            '    Select Case EveHQ.Core.HQ.lcdCharMode
-            '        Case 0
-            '            Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
-            '        Case 1
-            '            Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
-            '    End Select
-            'End If
 
             Call CheckForCharAPIUpdate()
 
@@ -866,7 +864,6 @@ Namespace Forms
         Private Sub tmrSkillUpdate_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrSkillUpdate.Tick
             If _skillWorker.IsBusy = False Then
                 _skillWorker.RunWorkerAsync()
-                tmrSkillUpdate.Interval = 1000
             End If
         End Sub
 
