@@ -91,22 +91,6 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheConversionClasses\AttributeTypes.vb" />
-    <Compile Include="CacheConversionClasses\BlueprintTypes.vb" />
-    <Compile Include="CacheConversionClasses\Categories.vb" />
-    <Compile Include="CacheConversionClasses\Effects.vb" />
-    <Compile Include="CacheConversionClasses\Groups.vb" />
-    <Compile Include="CacheConversionClasses\MarketGroups.vb" />
-    <Compile Include="CacheConversionClasses\MetaGroups.vb" />
-    <Compile Include="CacheConversionClasses\MetaTypes.vb" />
-    <Compile Include="CacheConversionClasses\TypeAttributes.vb" />
-    <Compile Include="CacheConversionClasses\TypeEffects.vb" />
-    <Compile Include="CacheConversionClasses\TypeMaterials.vb" />
-    <Compile Include="CacheConversionClasses\TypeRequirements.vb" />
-    <Compile Include="CacheConversionClasses\Types.vb" />
-    <Compile Include="CacheConversionClasses\Units.vb" />
-    <Compile Include="CacheTypeConstants.vb" />
-    <Compile Include="EveCacheFunctions.vb" />
     <Compile Include="frmCacheCreator.Designer.vb">
       <DependentUpon>frmCacheCreator.vb</DependentUpon>
     </Compile>
@@ -169,9 +153,6 @@
       <Project>{59CBD1C7-EB1B-4DC9-B063-A9889F6FAE41}</Project>
       <Name>EveHQ.HQF</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PKs.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SQLQueries.txt" />
