@@ -39,7 +39,6 @@ Namespace Forms
         Dim _omitQueuedSkills As Boolean = False
         Dim _selQTime As Double = 0
         Dim _activeQueueName As String = ""
-        Dim _activeQueue As New EveHQSkillQueue
         Dim _activeQueueControl As EveHQTrainingQueue
         Dim _activeQueueTree As AdvTree
         Dim _usingFilter As Boolean = True
@@ -98,7 +97,7 @@ Namespace Forms
             Call SetupQueues()
             Call RefreshAllTrainingQueues()
             AddHandler SkillQueueFunctions.RefreshQueue, AddressOf RefreshAllTraining
-           
+
             ' Disable the startup flag
             _startup = False
 
@@ -321,18 +320,16 @@ Namespace Forms
                 If _displayPilot.TrainingQueues.ContainsKey(tabQueues.SelectedTab.Name) = True Then
                     _activeQueueName = tabQueues.SelectedTab.Name
                     _displayPilot.ActiveQueueName = _activeQueueName
-                    Dim aq As EveHQSkillQueue = _displayPilot.TrainingQueues(_activeQueueName)
-                    _activeQueue = aq
-                    _displayPilot.ActiveQueue = _activeQueue
                     _activeQueueControl = CType(tabQueues.Tabs.Item(_activeQueueName).AttachedControl, EveHQTrainingQueue)
                     _activeQueueTree = _activeQueueControl.adtQueue
+                    _displayPilot.ActiveQueue = _activeQueueControl.Queue
                     Call RedrawOptions()
                     _activeQueueControl.RedrawMenuOptions()
                     _activeQueueTree.Select()
                     mnuAddToQueue.Enabled = True
                 Else
                     _activeQueueName = ""
-                    _activeQueue = Nothing
+                    _activeQueueControl = Nothing
                     _displayPilot.ActiveQueueName = _activeQueueName
                     mnuAddToQueue.Enabled = False
                     btnRBIncreaseLevel.Enabled = False
@@ -701,8 +698,8 @@ Namespace Forms
                 btnExportEMPFile.Enabled = False
             End If
             btnAddRequisition.Enabled = False
-            If _activeQueue IsNot Nothing Then
-                For Each skill As EveHQSkillQueueItem In _activeQueue.Queue.Values
+            If _activeQueueControl IsNot Nothing Then
+                For Each skill As EveHQSkillQueueItem In _activeQueueControl.Queue.Queue.Values
                     If SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
                         btnAddRequisition.Enabled = True
                         Exit For
@@ -834,7 +831,7 @@ Namespace Forms
                 btnRBDeleteSkill.Enabled = False
                 btnRBMoveUpQueue.Enabled = False
                 btnRBMoveDownQueue.Enabled = False
-                If _activeQueue IsNot Nothing Then
+                If _activeQueueControl IsNot Nothing Then
                     btnRBAddSkill.Enabled = True
                 Else
                     btnRBAddSkill.Enabled = False
@@ -941,7 +938,7 @@ Namespace Forms
         Private Sub activeLVW_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs)
             Select Case e.KeyCode
                 Case Keys.Delete
-                    If _activeQueue.IncCurrentTraining = True And _activeQueueTree.SelectedNodes.Count = 1 Then
+                    If _activeQueueControl.Queue.IncCurrentTraining = True And _activeQueueTree.SelectedNodes.Count = 1 Then
                         If _activeQueueTree.SelectedNodes(0).Index = 0 Then
                             ' Do nothing
                         Else
@@ -1047,7 +1044,7 @@ Namespace Forms
         End Sub
         Private Sub SortQueue(ByVal primarySortColumn As String, ByVal sortDirection As SortDirection)
             ' Get the sorted queue list from the list of saved sorted queues
-            Dim testQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueue, False, True)
+            Dim testQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueueControl.Queue, False, True)
             ' Initialise a new ClassSorter instance and add a standard SortClass (i.e. sort method)
             Dim myClassSorter As New ClassSorter(primarySortColumn, sortDirection)
             ' Always sort by name to handle similarly ranked items in the first sort
@@ -1055,7 +1052,7 @@ Namespace Forms
             ' Sort the class
             testQueue.Sort(myClassSorter)
             ' Call the TidyQueue function to set the pre-built queue to the revised sorted one
-            SkillQueueFunctions.TidyQueue(_displayPilot, _activeQueue, testQueue)
+            SkillQueueFunctions.TidyQueue(_displayPilot, _activeQueueControl.Queue, testQueue)
             ' Now we need to refresh the queue again to calculate the correct skill orders and pre-reqs
             Call RefreshTraining(_activeQueueName, False)
         End Sub
@@ -1249,7 +1246,7 @@ Namespace Forms
         Private Sub AddCertSkills(ByVal cert As Certificate)
             Dim reqSkills As SortedList(Of Integer, Integer) = cert.RequiredSkills
             For Each reqSkill As Integer In reqSkills.Keys
-                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueue.Queue.Count + 1, _activeQueue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
+                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
             Next
             ' Get a list of the certs that are required
             For Each reqCertID As Integer In cert.RequiredCertificates.Keys
@@ -1684,7 +1681,7 @@ Namespace Forms
 #Region "Skill Queue Modification Functions"
 
         Private Sub AddSkillToQueueOption()
-            _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 0, False, False, "")
+            _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, 0, False, False, "")
             Call RefreshTraining(_activeQueueName, False)
         End Sub
 
@@ -1908,52 +1905,52 @@ Namespace Forms
             Call FrmSkillDetails.ShowSkillDetails(skillID)
         End Sub
         Private Sub mnuAddToQueueNext_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueueNext.Click
-            If _activeQueue IsNot Nothing Then
+            If _activeQueueControl IsNot Nothing Then
                 Call AddSkillToQueueOption()
             End If
         End Sub
         Private Sub mnuAddToQueue1_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue1.Click
-            If _activeQueue IsNot Nothing Then
+            If _activeQueueControl IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
-                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 1, False, False, "")
+                    _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, 1, False, False, "")
                     Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
         Private Sub mnuAddToQueue2_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue2.Click
-            If _activeQueue IsNot Nothing Then
+            If _activeQueueControl.Queue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
-                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 2, False, False, "")
+                    _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, 2, False, False, "")
                     Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
         Private Sub mnuAddToQueue3_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue3.Click
-            If _activeQueue IsNot Nothing Then
+            If _activeQueueControl.Queue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
-                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 3, False, False, "")
+                    _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, 3, False, False, "")
                     Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
         Private Sub mnuAddToQueue4_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue4.Click
             If adtSkillList.SelectedNode IsNot Nothing Then
-                If _activeQueue IsNot Nothing Then
-                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 4, False, False, "")
+                If _activeQueueControl.Queue IsNot Nothing Then
+                    _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, 4, False, False, "")
                     Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
         Private Sub mnuAddToQueue5_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddToQueue5.Click
             If adtSkillList.SelectedNode IsNot Nothing Then
-                If _activeQueue IsNot Nothing Then
-                    _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 5, False, False, "")
+                If _activeQueueControl.Queue IsNot Nothing Then
+                    _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, 5, False, False, "")
                     Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
         Private Sub mnuAddGroupToQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddGroupLevel1.Click, mnuAddGroupLevel2.Click, mnuAddGroupLevel3.Click, mnuAddGroupLevel4.Click, mnuAddGroupLevel5.Click
-            If _activeQueue IsNot Nothing Then
+            If _activeQueueControl.Queue IsNot Nothing Then
                 Dim men As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
                 Dim level As Integer = CInt(men.Text.Replace("To Level ", ""))
                 Dim parentNode As Node
@@ -1961,7 +1958,7 @@ Namespace Forms
                 If adtSkillList.SelectedNode IsNot Nothing Then
                     parentNode = adtSkillList.SelectedNode
                     For Each curNode In parentNode.Nodes
-                        _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, curNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, level, True, True, "")
+                        _activeQueueControl.Queue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, curNode.Text, _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, level, True, True, "")
                     Next
                     Call RefreshTraining(_activeQueueName, False)
                 End If
@@ -2167,8 +2164,8 @@ Namespace Forms
         End Sub
 
         Private Sub ExportEveMonPlan()
-            If _activeQueue IsNot Nothing Then
-                Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueue, False, True)
+            If _activeQueueControl.Queue IsNot Nothing Then
+                Dim arrQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueueControl.Queue, False, True)
                 Dim qItem As SortedQueueItem
                 If arrQueue IsNot Nothing Then
                     Dim empAtt As XmlAttribute
@@ -2182,7 +2179,7 @@ Namespace Forms
                     empxml.AppendChild(empRoot)
 
                     empAtt = empxml.CreateAttribute("name")
-                    empAtt.Value = _activeQueue.Name
+                    empAtt.Value = _activeQueueControl.Queue.Name
                     empRoot.Attributes.Append(empAtt)
 
                     'EMPAtt = EMPXML.CreateAttribute("owner")
@@ -2463,11 +2460,11 @@ Namespace Forms
 
         Private Sub btnIncTraining_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnIncTraining.Click
             If _redrawingOptions = False Then
-                If _activeQueue IsNot Nothing Then
+                If _activeQueueControl.Queue IsNot Nothing Then
                     _activeQueueControl.IncludesCurrentTraining = btnIncTraining.Checked
-                    _activeQueue.IncCurrentTraining = btnIncTraining.Checked
-                    If _activeQueue.Name IsNot Nothing Then
-                        RefreshTraining(_activeQueue.Name, False)
+                    _activeQueueControl.Queue.IncCurrentTraining = btnIncTraining.Checked
+                    If _activeQueueControl.Queue.Name IsNot Nothing Then
+                        RefreshTraining(_activeQueueControl.Queue.Name, False)
                     End If
                 End If
             End If
@@ -2515,7 +2512,7 @@ Namespace Forms
 
         Private Sub btnAddRequisition_Click(sender As Object, e As EventArgs) Handles btnAddRequisition.Click
             Dim requiredSkills As New List(Of String)
-            For Each skill As EveHQSkillQueueItem In _activeQueue.Queue.Values
+            For Each skill As EveHQSkillQueueItem In _activeQueueControl.Queue.Queue.Values
                 If SkillFunctions.IsSkillTrained(_displayPilot, skill.Name) = False Then
                     If requiredSkills.Contains(skill.Name) = False Then
                         requiredSkills.Add(skill.Name)

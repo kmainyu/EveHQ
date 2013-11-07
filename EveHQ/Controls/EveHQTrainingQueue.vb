@@ -33,6 +33,7 @@ Namespace Controls
         Dim _queuePilot As Core.EveHQPilot
         Dim _queueName As String
         Dim _queue As Core.EveHQSkillQueue
+        Dim _storedQueue As Core.EveHQSkillQueue = Nothing
 
         ReadOnly _startup As Boolean
 
@@ -57,6 +58,15 @@ Namespace Controls
             Set(value As String)
                 _queueName = value
                 _queue = _queuePilot.TrainingQueues(_queueName)
+            End Set
+        End Property
+
+        Public Property Queue As Core.EveHQSkillQueue
+            Get
+                Return _queue
+            End Get
+            Set(value As Core.EveHQSkillQueue)
+                _queue = value
             End Set
         End Property
 
@@ -313,7 +323,7 @@ Namespace Controls
                 '    lvwQueue.TopItem = lvwQueue.Items(FVI)
                 'End If
 
-                Call Core.SkillQueueFunctions.TidyQueue(_queuePilot, aq, sortedQueue)
+                Core.SkillQueueFunctions.TidyQueue(_queuePilot, aq, sortedQueue)
 
                 RaiseEvent QueueUpdated()
 
@@ -499,6 +509,20 @@ Namespace Controls
                 e.Effect = DragDropEffects.Copy
             Else
                 e.Effect = DragDropEffects.Move
+            End If
+        End Sub
+
+        Private Sub btnStoreQueue_Click(sender As Object, e As EventArgs) Handles btnStoreQueue.Click
+            If btnStoreQueue.Checked = True Then
+                _storedQueue = CType(_queue.Clone, Core.EveHQSkillQueue)
+                btnStoreQueue.Text = "Restore Queue"
+            Else
+                If _storedQueue IsNot Nothing Then
+                    _queuePilot.TrainingQueues(_queueName) = CType(_storedQueue.Clone, Core.EveHQSkillQueue)
+                    _storedQueue = Nothing
+                    Call DrawQueue(True)
+                End If
+                btnStoreQueue.Text = "Store Queue"
             End If
         End Sub
 
@@ -794,7 +818,7 @@ Namespace Controls
                 End Using
             End If
         End Sub
-        Private Sub mnuChangePriority_Click(sender As System.Object, e As System.EventArgs) Handles mnuChangePriority.Click
+        Private Sub mnuChangePriority_Click(sender As Object, e As EventArgs) Handles mnuChangePriority.Click
             If adtQueue.SelectedNodes.Count > 0 Then
                 Dim keys As New List(Of String)
                 For Each selItem As Node In adtQueue.SelectedNodes
@@ -1126,6 +1150,5 @@ Namespace Controls
 
 #End Region
 
-      
     End Class
 End Namespace
