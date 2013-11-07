@@ -769,25 +769,49 @@ Namespace Controls
             ' Try to get the keys of the skill(s) we are changing
             If adtQueue.SelectedNodes.Count > 0 Then
                 Dim keys As New List(Of String)
-                For Each selItem As ListViewItem In adtQueue.SelectedNodes
+                For Each selItem As Node In adtQueue.SelectedNodes
                     keys.Add(selItem.Name)
                 Next
-                Using noteForm As New FrmSkillNote
+                Using skillForm As New FrmSkillNote
                     If keys.Count > 1 Then
-                        noteForm.lblDescription.Text = "Editing description for multiple queue entries..."
-                        noteForm.Text = "Skill Note - Multiple Skills"
+                        skillForm.lblDescription.Text = "Editing description for multiple queue entries..."
+                        skillForm.Text = "Skill Note - Multiple Skills"
                     Else
                         Dim curToLevel As String = CStr(keys(0)).Substring(CStr(keys(0)).Length - 1, 1)
                         Dim curSkillName As String = CStr(keys(0)).Substring(0, CStr(keys(0)).Length - 2)
-                        noteForm.lblDescription.Text = "Editing description for " & curSkillName & " (Lvl " & curToLevel & ")"
-                        noteForm.Text = "Skill Note - " & curSkillName & " (Lvl " & curToLevel & ")"
+                        skillForm.lblDescription.Text = "Editing description for " & curSkillName & " (Lvl " & curToLevel & ")"
+                        skillForm.Text = "Skill Note - " & curSkillName & " (Lvl " & curToLevel & ")"
                     End If
-                    noteForm.txtNotes.Text = _queue.Queue(keys(0)).Notes
-                    noteForm.txtNotes.SelectAll()
-                    noteForm.ShowDialog()
-                    If noteForm.DialogResult = DialogResult.OK Then
+                    skillForm.txtNotes.Text = _queue.Queue(keys(0)).Notes
+                    skillForm.txtNotes.SelectAll()
+                    skillForm.ShowDialog()
+                    If skillForm.DialogResult = DialogResult.OK Then
                         For Each key As String In keys
-                            _queue.Queue(key).Notes = noteForm.txtNotes.Text
+                            _queue.Queue(key).Notes = skillForm.txtNotes.Text
+                        Next
+                        Call DrawQueue(False)
+                    End If
+                End Using
+            End If
+        End Sub
+        Private Sub mnuChangePriority_Click(sender As System.Object, e As System.EventArgs) Handles mnuChangePriority.Click
+            If adtQueue.SelectedNodes.Count > 0 Then
+                Dim keys As New List(Of String)
+                For Each selItem As Node In adtQueue.SelectedNodes
+                    keys.Add(selItem.Name)
+                Next
+                Using skillForm As New FrmSkillPriority
+                    If keys.Count > 1 Then
+                        skillForm.Text = "Change Skill Priorities"
+                        skillForm.nudPriority.Value = 0
+                    Else
+                        skillForm.Text = "Change Skill Priority"
+                        skillForm.nudPriority.Value = _queue.Queue(keys(0)).Priority
+                    End If
+                    skillForm.ShowDialog()
+                    If skillForm.DialogResult = DialogResult.OK Then
+                        For Each key As String In keys
+                            _queue.Queue(key).Priority = skillForm.nudPriority.Value
                         Next
                         Call DrawQueue(False)
                     End If
@@ -1102,5 +1126,6 @@ Namespace Controls
 
 #End Region
 
+      
     End Class
 End Namespace

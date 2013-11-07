@@ -62,6 +62,8 @@ Namespace Controls
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
             Me.SkillCompleted = New DevComponents.DotNetBar.ElementStyle()
+            Me.mnuChangePriority = New System.Windows.Forms.ToolStripMenuItem()
+            Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
             Me.panelInfo.SuspendLayout()
             CType(Me.adtQueue, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.ctxQueue.SuspendLayout()
@@ -169,9 +171,9 @@ Namespace Controls
             'ctxQueue
             '
             Me.ctxQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-            Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.ToolStripMenuItem8, Me.mnuSplitQueue, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuViewDetails, Me.mnuEditNote})
+            Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.ToolStripMenuItem8, Me.mnuSplitQueue, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuChangePriority, Me.mnuEditNote, Me.ToolStripMenuItem1, Me.mnuViewDetails})
             Me.ctxQueue.Name = "ctxDepend"
-            Me.ctxQueue.Size = New System.Drawing.Size(207, 348)
+            Me.ctxQueue.Size = New System.Drawing.Size(207, 376)
             '
             'mnuSkillName
             '
@@ -359,6 +361,18 @@ Namespace Controls
             Me.SkillCompleted.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.SkillCompleted.Name = "SkillCompleted"
             '
+            'mnuChangePriority
+            '
+            Me.mnuChangePriority.Font = New System.Drawing.Font("Tahoma", 8.25!)
+            Me.mnuChangePriority.Name = "mnuChangePriority"
+            Me.mnuChangePriority.Size = New System.Drawing.Size(206, 22)
+            Me.mnuChangePriority.Text = "Change Priority"
+            '
+            'ToolStripMenuItem1
+            '
+            Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+            Me.ToolStripMenuItem1.Size = New System.Drawing.Size(203, 6)
+            '
             'EveHQTrainingQueue
             '
             Me.AllowDrop = True
@@ -414,6 +428,8 @@ Namespace Controls
         Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents mnuViewDetails As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents mnuEditNote As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents mnuChangePriority As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
 
     End Class
 End NameSpace

@@ -1028,6 +1028,8 @@ Namespace Forms
                     ch.SortDirection = eSortDirection.None
                 Case "Notes"
                     Call SortQueue("Notes", sortDirection)
+                Case "Priority"
+                    Call SortQueue("Priority", sortDirection)
             End Select
         End Sub
         Private Sub activeLVW_Click(ByVal sender As Object, ByVal e As EventArgs)
