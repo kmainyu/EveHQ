@@ -50,7 +50,6 @@ Namespace Forms
         Dim _cDisplayPilotName As String = ""
         Dim _startup As Boolean = False
         Dim _redrawingOptions As Boolean = False
-        ReadOnly _sortedQueues As New SortedList(Of String, ArrayList)
         Dim _retainQueue As Boolean = False
         Dim _oldTabName As String = "tabSummary"
 
@@ -312,7 +311,7 @@ Namespace Forms
 
         Public Sub RefreshAllTrainingQueues()
             For Each newQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
-                Call RefreshTraining(newQ.Name)
+                Call RefreshTraining(newQ.Name, True)
             Next
             Call DrawQueueSummary()
         End Sub
@@ -572,7 +571,7 @@ Namespace Forms
                 End If
             Next
         End Sub
-        Public Sub RefreshTraining(ByVal queueName As String)
+        Public Sub RefreshTraining(ByVal queueName As String, updateColumnHeaders As Boolean)
 
             Dim ti As TabItem = tabQueues.Tabs.Item(queueName)
             If ti Is Nothing Then
@@ -581,7 +580,7 @@ Namespace Forms
 
             Dim tq As EveHQTrainingQueue = CType(tabQueues.Tabs.Item(queueName).AttachedControl, EveHQTrainingQueue)
 
-            tq.DrawQueue()
+            tq.DrawQueue(updateColumnHeaders)
 
             Call RedrawOptions()
 
@@ -991,6 +990,12 @@ Namespace Forms
                 sortDirection = SortDirection.Descending
                 ch.SortDirection = eSortDirection.Descending
             End If
+
+            For Each col As ColumnHeader In _activeQueueTree.Columns
+                col.SortDirection = eSortDirection.None
+            Next
+            ch.SortDirection = CType(sortDirection, eSortDirection)
+
             ' We are going to get the column text and base the sort on this!
             Select Case ch.Text
                 Case "Skill Name"
@@ -1005,8 +1010,10 @@ Namespace Forms
                     Call SortQueue("Percent", sortDirection)
                 Case "Training Time"
                     Call SortQueue("TrainTime", sortDirection) ' Sort on training time
-                Case "Time To Complete"
+                Case "Time to Complete"
                     Call SortQueue("TimeBeforeTrained", sortDirection) ' Sort on time to level
+                Case "Date Completed"
+                    ch.SortDirection = eSortDirection.None
                 Case "Rank"
                     Call SortQueue("Rank", sortDirection)
                 Case "Pri Attr"
@@ -1017,6 +1024,8 @@ Namespace Forms
                     Call SortQueue("SPRate", sortDirection)
                 Case "SP Added"
                     Call SortQueue("SPTrained", sortDirection)
+                Case "SP @ End"
+                    ch.SortDirection = eSortDirection.None
                 Case "Notes"
                     Call SortQueue("Notes", sortDirection)
             End Select
@@ -1036,7 +1045,7 @@ Namespace Forms
         End Sub
         Private Sub SortQueue(ByVal primarySortColumn As String, ByVal sortDirection As SortDirection)
             ' Get the sorted queue list from the list of saved sorted queues
-            Dim testQueue As ArrayList = _sortedQueues(_activeQueueName)
+            Dim testQueue As ArrayList = SkillQueueFunctions.BuildQueue(_displayPilot, _activeQueue, False, True)
             ' Initialise a new ClassSorter instance and add a standard SortClass (i.e. sort method)
             Dim myClassSorter As New ClassSorter(primarySortColumn, sortDirection)
             ' Always sort by name to handle similarly ranked items in the first sort
@@ -1046,7 +1055,7 @@ Namespace Forms
             ' Call the TidyQueue function to set the pre-built queue to the revised sorted one
             SkillQueueFunctions.TidyQueue(_displayPilot, _activeQueue, testQueue)
             ' Now we need to refresh the queue again to calculate the correct skill orders and pre-reqs
-            Call RefreshTraining(_activeQueueName)
+            Call RefreshTraining(_activeQueueName, False)
         End Sub
 #End Region
 
@@ -1232,7 +1241,7 @@ Namespace Forms
                 End If
             Next
             ' Refresh our training queue
-            Call RefreshTraining(_activeQueueName)
+            Call RefreshTraining(_activeQueueName, False)
         End Sub
 
         Private Sub AddCertSkills(ByVal cert As Certificate)
@@ -1258,7 +1267,7 @@ Namespace Forms
                 End If
             Next
             ' Refresh our training queue
-            Call RefreshTraining(_activeQueueName)
+            Call RefreshTraining(_activeQueueName, False)
         End Sub
 
 #End Region
@@ -1674,7 +1683,7 @@ Namespace Forms
 
         Private Sub AddSkillToQueueOption()
             _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 0, False, False, "")
-            Call RefreshTraining(_activeQueueName)
+            Call RefreshTraining(_activeQueueName, False)
         End Sub
 
 #End Region
@@ -1905,7 +1914,7 @@ Namespace Forms
             If _activeQueue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
                     _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 1, False, False, "")
-                    Call RefreshTraining(_activeQueueName)
+                    Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
@@ -1913,7 +1922,7 @@ Namespace Forms
             If _activeQueue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
                     _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 2, False, False, "")
-                    Call RefreshTraining(_activeQueueName)
+                    Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
@@ -1921,7 +1930,7 @@ Namespace Forms
             If _activeQueue IsNot Nothing Then
                 If adtSkillList.SelectedNode IsNot Nothing Then
                     _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 3, False, False, "")
-                    Call RefreshTraining(_activeQueueName)
+                    Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
@@ -1929,7 +1938,7 @@ Namespace Forms
             If adtSkillList.SelectedNode IsNot Nothing Then
                 If _activeQueue IsNot Nothing Then
                     _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 4, False, False, "")
-                    Call RefreshTraining(_activeQueueName)
+                    Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
@@ -1937,7 +1946,7 @@ Namespace Forms
             If adtSkillList.SelectedNode IsNot Nothing Then
                 If _activeQueue IsNot Nothing Then
                     _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, adtSkillList.SelectedNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, 5, False, False, "")
-                    Call RefreshTraining(_activeQueueName)
+                    Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
@@ -1952,7 +1961,7 @@ Namespace Forms
                     For Each curNode In parentNode.Nodes
                         _activeQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, curNode.Text, _activeQueue.Queue.Count + 1, _activeQueue, level, True, True, "")
                     Next
-                    Call RefreshTraining(_activeQueueName)
+                    Call RefreshTraining(_activeQueueName, False)
                 End If
             End If
         End Sub
@@ -2456,7 +2465,7 @@ Namespace Forms
                     _activeQueueControl.IncludesCurrentTraining = btnIncTraining.Checked
                     _activeQueue.IncCurrentTraining = btnIncTraining.Checked
                     If _activeQueue.Name IsNot Nothing Then
-                        RefreshTraining(_activeQueue.Name)
+                        RefreshTraining(_activeQueue.Name, False)
                     End If
                 End If
             End If

@@ -188,7 +188,7 @@ Namespace Controls
             Next
         End Sub
 
-        Public Sub DrawQueue()
+        Public Sub DrawQueue(updateColumnHeaders As Boolean)
 
             If _queuePilot.PilotSkills.Count <> 0 Then
 
@@ -238,7 +238,9 @@ Namespace Controls
                 Dim totalSP As Long = _queuePilot.SkillPoints
 
                 ' Create the columns according to the selection in the settings
-                Call DrawColumnHeadings()
+                If updateColumnHeaders = True Then
+                    Call DrawColumnHeadings()
+                End If
 
                 If sortedQueue IsNot Nothing Then
                     For Each qItem In sortedQueue
@@ -255,7 +257,7 @@ Namespace Controls
                             If qItem.HasPrereq = True Then
                                 newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
                                 newskill.Style = styleBothPreReq
-                                Else
+                            Else
                                 newskill.Tooltip = qItem.Prereq
                                 newskill.Style = styleIsPreReq
                             End If
@@ -451,7 +453,7 @@ Namespace Controls
         Private Sub chkShowCompletedSkills_CheckedChanged(sender As Object, e As EventArgs) Handles chkShowCompletedSkills.CheckedChanged
             _queue.ShowCompletedSkills = chkShowCompletedSkills.Checked
             If _startup = False Then
-                Call DrawQueue()
+                Call DrawQueue(False)
             End If
         End Sub
 
@@ -459,7 +461,7 @@ Namespace Controls
             If e.IsCopy = False Then
                 ' Drag/Drop is within the same control
                 ReOrderSkillQueue()
-                DrawQueue()
+                DrawQueue(False)
             End If
         End Sub
 
@@ -481,7 +483,7 @@ Namespace Controls
                 e.Cancel = True
                 ' Rebuild the queue now
                 Call ReOrderSkillQueue()
-                Call DrawQueue()
+                Call DrawQueue(False)
             End If
         End Sub
 
@@ -696,7 +698,7 @@ Namespace Controls
                     Next
                 End If
             Next selItem
-            Call DrawQueue()
+            Call DrawQueue(False)
         End Sub
         Private Sub mnuSeparateTopLevel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSeparateTopLevel.Click
             For selItem As Integer = 0 To adtQueue.SelectedNodes.Count - 1
@@ -715,7 +717,7 @@ Namespace Controls
                 _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skillName, mySkillPos + 1, _queue, CInt(toLevel), False, False, "")
             Next selItem
 
-            Call DrawQueue()
+            Call DrawQueue(False)
         End Sub
         Private Sub mnuSeparateBottomLevel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSeparateBottomLevel.Click
             For selItem As Integer = 0 To adtQueue.SelectedNodes.Count - 1
@@ -734,7 +736,7 @@ Namespace Controls
                 _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skillName, mySkillPos, _queue, CInt(fromLevel) + 1, False, False, "")
                 _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skillName, mySkillPos + 1, _queue, CInt(toLevel), False, False, "")
             Next selItem
-            Call DrawQueue()
+            Call DrawQueue(False)
         End Sub
         Private Sub mnuDeleteFromQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuDeleteFromQueue.Click
             Call DeleteFromQueueOption()
@@ -747,12 +749,12 @@ Namespace Controls
             Else
                 Call Core.SkillQueueFunctions.RemoveTrainedSkills(_queuePilot, _queue)
                 ' Refresh the training view!
-                Call DrawQueue()
+                Call DrawQueue(False)
             End If
         End Sub
         Private Sub mnuClearTrainingQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuClearTrainingQueue.Click
             Call ClearTrainingQueue()
-            Call DrawQueue()
+            Call DrawQueue(False)
         End Sub
         Private Sub mnuViewDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewDetails.Click
             Dim skillID As Integer = CInt(mnuSkillName.Tag)
@@ -761,7 +763,7 @@ Namespace Controls
         End Sub
         Private Sub mnuSplitQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSplitQueue.Click
             Call SplitQueue()
-            DrawQueue()
+            DrawQueue(False)
         End Sub
         Private Sub mnuEditNote_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuEditNote.Click
             ' Try to get the keys of the skill(s) we are changing
@@ -787,7 +789,7 @@ Namespace Controls
                         For Each key As String In keys
                             _queue.Queue(key).Notes = noteForm.txtNotes.Text
                         Next
-                        Call DrawQueue()
+                        Call DrawQueue(False)
                     End If
                 End Using
             End If
@@ -813,7 +815,7 @@ Namespace Controls
                     myTSkill.ToLevel = selectedLevel
                     ' Add the item back in at its new levels
                     _queue.Queue.Add(myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel, myTSkill)
-                    Call DrawQueue()
+                    Call DrawQueue(False)
                     adtQueue.SelectedNodes.Add(adtQueue.Nodes(oldIndex))
                     adtQueue.Nodes(oldIndex).EnsureVisible()
                 End If
@@ -865,7 +867,7 @@ Namespace Controls
                     myTSkill.ToLevel = selectedLevel
                     ' Add the item back in at its new levels
                     _queue.Queue.Add(myTSkill.Name & myTSkill.FromLevel & myTSkill.ToLevel, myTSkill)
-                    Call DrawQueue()
+                    Call DrawQueue(False)
                     adtQueue.SelectedNodes.Add(adtQueue.Nodes(oldIndex))
                     adtQueue.Nodes(oldIndex).EnsureVisible()
                 End If
@@ -1002,7 +1004,7 @@ Namespace Controls
 
             Loop Until oldPos <> newPos Or di = maxJump
 
-            Call DrawQueue()
+            Call DrawQueue(False)
             adtQueue.SelectedNodes.Add(adtQueue.FindNodeByName(keyName))
             adtQueue.FindNodeByName(keyName).EnsureVisible()
         End Sub
@@ -1059,7 +1061,7 @@ Namespace Controls
 
             Loop Until oldpos <> newpos Or di = maxJump
 
-            Call DrawQueue()
+            Call DrawQueue(False)
             adtQueue.SelectedNodes.Add(adtQueue.FindNodeByName(keyName))
             adtQueue.FindNodeByName(keyName).EnsureVisible()
         End Sub
@@ -1095,7 +1097,7 @@ Namespace Controls
                 End If
             End If
             ' Refresh the training view!
-            Call DrawQueue()
+            Call DrawQueue(False)
         End Sub
 
 #End Region
