@@ -2037,7 +2037,7 @@ Namespace Controls
             End If
         End Sub
         Private Sub mnuAddCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCustomName.Click
-            Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
+            Dim assetID As Long = CLng(mnuAddCustomName.Tag)
             Dim assetName As String = mnuItemName.Text
             Using newCustomName As New frmAssetItemName
                 If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
@@ -2069,6 +2069,17 @@ Namespace Controls
         Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
+        End Sub
+        Private Sub mnuViewAssetID_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewAssetID.Click
+            Dim itemName As String = adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag.ToString
+            Dim itemText As String = adtAssets.SelectedNodes(0).Text
+            Dim itemID As String = adtAssets.SelectedNodes(0).Tag.ToString
+            Dim msg As String = "Item Type: " & itemName & ControlChars.CrLf
+            If itemText <> itemName Then
+                msg &= "Specific Name: " & itemText & ControlChars.CrLf
+            End If
+            msg &= "Asset ID: " & itemID.ToString & ControlChars.CrLf
+            MessageBox.Show(msg, "AssetID Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Sub
 #End Region
 
@@ -2529,17 +2540,7 @@ Namespace Controls
             Call RefreshAssets()
         End Sub
 
-        Private Sub mnuViewAssetID_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewAssetID.Click
-            Dim itemName As String = adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag.ToString
-            Dim itemText As String = adtAssets.SelectedNodes(0).Text
-            Dim itemID As String = adtAssets.SelectedNodes(0).Tag.ToString
-            Dim msg As String = "Item Name: " & itemName
-            If itemText <> itemName Then
-                msg &= " (Named: " & itemText & ")"
-            End If
-            msg &= ControlChars.CrLf & itemID.ToString & ControlChars.CrLf
-            MessageBox.Show(msg, "AssetID Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Sub
+    
 
 #Region "Asset Export Routines"
 

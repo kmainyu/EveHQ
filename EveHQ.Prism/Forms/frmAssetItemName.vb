@@ -24,15 +24,15 @@ Namespace Forms
 
     Public Class FrmAssetItemName
 
-        Dim _assetID As Integer
+        Dim _assetID As Long
         Dim _assetName As String = ""
         Dim _assetItemName As String = ""
         Dim _editMode As Boolean = False
-        Public Property AssetID() As Integer
+        Public Property AssetID() As Long
             Get
                 Return _assetID
             End Get
-            Set(ByVal value As Integer)
+            Set(ByVal value As Long)
                 _assetID = value
             End Set
         End Property
@@ -62,7 +62,7 @@ Namespace Forms
         End Property
 
         Private Sub frmAssetItemName_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-            lblDescription.Text = "Please enter a name for the " & AssetName & " (assetID #" & _assetID & ")"
+            lblDescription.Text = "Please enter a name for the " & AssetName & ControlChars.CrLf & "AssetID #" & _assetID & ")"
             If _editMode = True Then
                 txtAssetItemName.Text = PlugInData.AssetItemNames(_assetID)
             End If
@@ -98,20 +98,20 @@ Namespace Forms
             Close()
         End Sub
 
-        Private Function AddAssetItemName(ByVal aID As Integer, ByVal aName As String) As Boolean
+        Private Function AddAssetItemName(ByVal aID As Long, ByVal aName As String) As Boolean
             Dim assetSQL As String = "INSERT INTO assetItemNames (itemID, itemName) VALUES (" & aID & ", '" & aName & "');"
             If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-                MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
                 Return True
             End If
         End Function
 
-        Private Function EditAssetItemName(ByVal aID As Integer, ByVal aName As String) As Boolean
+        Private Function EditAssetItemName(ByVal aID As Long, ByVal aName As String) As Boolean
             Dim assetSQL As String = "UPDATE assetItemNames SET itemName='" & aName & "' WHERE itemID=" & aID & ";"
             If CustomDataFunctions.SetCustomData(assetSQL) = -2 Then
-                MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.dataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("There was an error writing data to the Asset Item Names database table. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & assetSQL, "Error Writing Asset Name Data", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 Return False
             Else
                 Return True

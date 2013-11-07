@@ -156,7 +156,7 @@ Public Class PlugInData
             If nameData IsNot Nothing Then
                 If nameData.Tables(0).Rows.Count > 0 Then
                     For Each nameRow As DataRow In nameData.Tables(0).Rows
-                        AssetItemNames.Add(CInt(nameRow.Item("itemID")), CStr(nameRow.Item("itemName")))
+                        AssetItemNames.Add(CLng(nameRow.Item("itemID")), CStr(nameRow.Item("itemName")))
                     Next
                 End If
             End If
