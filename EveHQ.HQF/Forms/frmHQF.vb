@@ -2254,13 +2254,6 @@ Namespace Forms
             Call OpenPilotManagerForm(2)
         End Sub
 
-        Private Sub btnFleetManager_Click(sender As Object, e As EventArgs) Handles btnFleetManager.Click
-            'Open Fleet Manager form
-            Using myFm As New FrmFleetManager
-                myFm.ShowDialog()
-            End Using
-        End Sub
-
         Private Sub OpenPilotManagerForm(ByVal tabIdx As Integer)
             If _myPilotManager.IsHandleCreated = False Then
                 _myPilotManager = New FrmPilotManager
