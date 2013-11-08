@@ -122,10 +122,10 @@ SectionIn RO
 # Data files                                                      #
 ###################################################################
 
-${If} $useLocalFlag == "0" 
-  SetOutPath $APPDATA\EveHQ\StaticData
-${Else}
+${If} $useLocalFlag == "1" 
   SetOutPath $INSTDIR\StaticData
+${Else}
+  SetOutPath $APPDATA\EveHQ\StaticData
 ${EndIf}
 
 	File "..\BuildOutput\Release\StaticData\Agents.dat"
@@ -171,14 +171,14 @@ ${EndIf}
   
   # delete cache files
   
-${If} $useLocalFlag == "0" 
-   Delete $APPDATA\EveHQ\HQF\Cache\*.*
-  Delete $APPDATA\EveHQ\CoreCache\*.*
-  !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
-${Else}
+${If} $useLocalFlag == "1" 
    Delete $INSTDIR\EveHQ\HQF\Cache\*.*
   Delete $INSTDIR\EveHQ\CoreCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$INSTDIR\EveHQ\MarketCache\"
+${Else}
+   Delete $APPDATA\EveHQ\HQF\Cache\*.*
+  Delete $APPDATA\EveHQ\CoreCache\*.*
+  !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
 ${EndIf}
   
   
@@ -221,7 +221,17 @@ Section "un.Uninstall"
   DeleteRegKey HKLM SOFTWARE\EveHQ
 
   ; Remove files and uninstaller
-  Delete $INSTDIR\*.*
+  Delete $INSTDIR\*.exe
+  Delete $INSTDIR\*.dll
+  Delete $INSTDIR\*.pdb
+  Delete $INSTDIR\*.txt
+  
+${If} $useLocalFlag == "1" 
+  !insertmacro RemoveFilesAndSubDirs "$INSTDIR\StaticData" 
+${Else}
+  !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\StaticData" 
+${EndIf}
+
 
   ; Remove shortcuts, if any
   !insertmacro MUI_STARTMENU_GETFOLDER EveHQ $StartMenuFolder
