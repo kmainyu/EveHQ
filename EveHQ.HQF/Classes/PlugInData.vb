@@ -209,7 +209,7 @@ Public Class PlugInData
         For Each sMod As ShipModule In ModuleLists.ModuleList.Values
             If sMod.Icon <> "" Then
                 If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                    Dim oi As Bitmap = CType(My.Resources.ResourceManager.GetObject("_" & sMod.Icon), Bitmap)
+                    Dim oi As Bitmap = CType(Core.ImageHandler.GetImage(sMod.ID, 64, sMod.Icon), Bitmap)
                     If oi IsNot Nothing Then
                         ImageHandler.BaseIcons.Add(sMod.Icon, oi)
                     End If

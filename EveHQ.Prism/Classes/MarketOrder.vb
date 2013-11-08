@@ -29,9 +29,9 @@ Namespace Classes
     End Class
 
     Public Class MarketOrder
-        Public OrderID As String
-        Public CharID As String
-        Public StationID As String
+        Public OrderID As Long
+        Public CharID As Integer
+        Public StationID As Integer
         Public VolEntered As Long
         Public VolRemaining As Long
         Public MinVolume As Long

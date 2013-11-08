@@ -139,24 +139,6 @@
     <Compile Include="Controls\EveSpace.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\FleetDashboard.Designer.vb">
-      <DependentUpon>FleetDashboard.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FleetDashboard.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ShipWidget.Designer.vb">
-      <DependentUpon>ShipWidget.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ShipWidget.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ShipWidgetModules.Designer.vb">
-      <DependentUpon>ShipWidgetModules.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ShipWidgetModules.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Forms\frmAddDefenceProfile.Designer.vb">
       <DependentUpon>frmAddDefenceProfile.vb</DependentUpon>
     </Compile>
@@ -167,18 +149,6 @@
       <DependentUpon>frmCapSim.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmCapSim.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmFittingPopup.Designer.vb">
-      <DependentUpon>frmFittingPopup.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmFittingPopup.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmFleetManager.Designer.vb">
-      <DependentUpon>frmFleetManager.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\frmFleetManager.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\frmFittingBrowser.Designer.vb">
@@ -382,27 +352,12 @@
     <EmbeddedResource Include="Controls\EveSpace.resx">
       <DependentUpon>EveSpace.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FleetDashboard.resx">
-      <DependentUpon>FleetDashboard.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ShipWidget.resx">
-      <DependentUpon>ShipWidget.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ShipWidgetModules.resx">
-      <DependentUpon>ShipWidgetModules.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAddDefenceProfile.resx">
       <DependentUpon>frmAddDefenceProfile.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmCapSim.resx">
       <DependentUpon>frmCapSim.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmFittingPopup.resx">
-      <DependentUpon>frmFittingPopup.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmFleetManager.resx">
-      <DependentUpon>frmFleetManager.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmFittingBrowser.resx">
       <DependentUpon>frmFittingBrowser.vb</DependentUpon>

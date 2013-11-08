@@ -57,11 +57,14 @@ Namespace Controls
             Me.mnuRemoveTrainedSkills = New System.Windows.Forms.ToolStripMenuItem()
             Me.mnuClearTrainingQueue = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-            Me.mnuViewDetails = New System.Windows.Forms.ToolStripMenuItem()
+            Me.mnuChangePriority = New System.Windows.Forms.ToolStripMenuItem()
             Me.mnuEditNote = New System.Windows.Forms.ToolStripMenuItem()
+            Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+            Me.mnuViewDetails = New System.Windows.Forms.ToolStripMenuItem()
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle1 = New DevComponents.DotNetBar.ElementStyle()
             Me.SkillCompleted = New DevComponents.DotNetBar.ElementStyle()
+            Me.btnStoreQueue = New DevComponents.DotNetBar.ButtonX()
             Me.panelInfo.SuspendLayout()
             CType(Me.adtQueue, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.ctxQueue.SuspendLayout()
@@ -105,6 +108,7 @@ Namespace Controls
             '
             Me.panelInfo.CanvasColor = System.Drawing.SystemColors.Control
             Me.panelInfo.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.panelInfo.Controls.Add(Me.btnStoreQueue)
             Me.panelInfo.Controls.Add(Me.chkShowCompletedSkills)
             Me.panelInfo.Controls.Add(Me.lblSkillCount)
             Me.panelInfo.Controls.Add(Me.lblTotalTrainingTimeLabel)
@@ -131,6 +135,7 @@ Namespace Controls
             '
             '
             Me.chkShowCompletedSkills.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.chkShowCompletedSkills.FocusCuesEnabled = False
             Me.chkShowCompletedSkills.Location = New System.Drawing.Point(627, 13)
             Me.chkShowCompletedSkills.Name = "chkShowCompletedSkills"
             Me.chkShowCompletedSkills.Size = New System.Drawing.Size(132, 16)
@@ -169,9 +174,9 @@ Namespace Controls
             'ctxQueue
             '
             Me.ctxQueue.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-            Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.ToolStripMenuItem8, Me.mnuSplitQueue, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuViewDetails, Me.mnuEditNote})
+            Me.ctxQueue.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuSkillName, Me.ToolStripSeparator1, Me.mnuChangeLevel, Me.mnuIncreaseLevel, Me.mnuDecreaseLevel, Me.ToolStripSeparator3, Me.mnuMoveUpQueue, Me.mnuMoveDownQueue, Me.ToolStripMenuItem3, Me.mnuSeparateLevels, Me.ToolStripMenuItem8, Me.mnuSplitQueue, Me.mnuSeperateLevelSep, Me.mnuDeleteFromQueue, Me.mnuRemoveTrainedSkills, Me.mnuClearTrainingQueue, Me.ToolStripSeparator2, Me.mnuChangePriority, Me.mnuEditNote, Me.ToolStripMenuItem1, Me.mnuViewDetails})
             Me.ctxQueue.Name = "ctxDepend"
-            Me.ctxQueue.Size = New System.Drawing.Size(207, 348)
+            Me.ctxQueue.Size = New System.Drawing.Size(207, 354)
             '
             'mnuSkillName
             '
@@ -329,12 +334,12 @@ Namespace Controls
             Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
             Me.ToolStripSeparator2.Size = New System.Drawing.Size(203, 6)
             '
-            'mnuViewDetails
+            'mnuChangePriority
             '
-            Me.mnuViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
-            Me.mnuViewDetails.Name = "mnuViewDetails"
-            Me.mnuViewDetails.Size = New System.Drawing.Size(206, 22)
-            Me.mnuViewDetails.Text = "View Details"
+            Me.mnuChangePriority.Font = New System.Drawing.Font("Tahoma", 8.25!)
+            Me.mnuChangePriority.Name = "mnuChangePriority"
+            Me.mnuChangePriority.Size = New System.Drawing.Size(206, 22)
+            Me.mnuChangePriority.Text = "Change Priority"
             '
             'mnuEditNote
             '
@@ -342,6 +347,18 @@ Namespace Controls
             Me.mnuEditNote.Name = "mnuEditNote"
             Me.mnuEditNote.Size = New System.Drawing.Size(206, 22)
             Me.mnuEditNote.Text = "Edit Note"
+            '
+            'ToolStripMenuItem1
+            '
+            Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+            Me.ToolStripMenuItem1.Size = New System.Drawing.Size(203, 6)
+            '
+            'mnuViewDetails
+            '
+            Me.mnuViewDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
+            Me.mnuViewDetails.Name = "mnuViewDetails"
+            Me.mnuViewDetails.Size = New System.Drawing.Size(206, 22)
+            Me.mnuViewDetails.Text = "View Details"
             '
             'NodeConnector1
             '
@@ -358,6 +375,19 @@ Namespace Controls
             Me.SkillCompleted.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.SkillCompleted.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.SkillCompleted.Name = "SkillCompleted"
+            '
+            'btnStoreQueue
+            '
+            Me.btnStoreQueue.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnStoreQueue.AutoCheckOnClick = True
+            Me.btnStoreQueue.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnStoreQueue.FocusCuesEnabled = False
+            Me.btnStoreQueue.Location = New System.Drawing.Point(387, 9)
+            Me.btnStoreQueue.Name = "btnStoreQueue"
+            Me.btnStoreQueue.Size = New System.Drawing.Size(100, 23)
+            Me.btnStoreQueue.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnStoreQueue.TabIndex = 7
+            Me.btnStoreQueue.Text = "Store Queue"
             '
             'EveHQTrainingQueue
             '
@@ -414,6 +444,9 @@ Namespace Controls
         Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents mnuViewDetails As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents mnuEditNote As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents mnuChangePriority As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripSeparator
+        Friend WithEvents btnStoreQueue As DevComponents.DotNetBar.ButtonX
 
     End Class
 End NameSpace

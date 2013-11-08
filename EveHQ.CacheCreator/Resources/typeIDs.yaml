@@ -1355,7 +1355,7 @@
     graphicID: 50
 995:
     graphicID: 64
-996: {}
+996: 
 997:
     graphicID: 297
 998:
@@ -1364,7 +1364,7 @@
     graphicID: 318
 1001:
     graphicID: 331
-1002: {}
+1002: 
 1010:
     iconID: 1044
 1013:
@@ -1646,14 +1646,14 @@
     iconID: 109
 1212:
     iconID: 104
-1214: {}
+1214: 
 1215:
     iconID: 192
 1216:
     iconID: 1336
 1217:
     iconID: 1007
-1218: {}
+1218: 
 1220:
     iconID: 1350
 1221:
@@ -2535,11 +2535,11 @@
 2173:
     graphicID: 2778
     radius: 20.0
-2174: {}
+2174: 
 2175:
     graphicID: 1109
     radius: 20.0
-2176: {}
+2176: 
 2178:
     graphicID: 20046
     iconID: 185
@@ -2592,11 +2592,11 @@
 2193:
     graphicID: 1119
     radius: 35.0
-2194: {}
+2194: 
 2195:
     graphicID: 1120
     radius: 35.0
-2196: {}
+2196: 
 2197:
     iconID: 2852
 2198:
@@ -2618,7 +2618,7 @@
 2205:
     graphicID: 2764
     radius: 15.0
-2206: {}
+2206: 
 2207:
     graphicID: 1236
     radius: 150.0
@@ -3006,7 +3006,7 @@
 2436:
     graphicID: 1080
     radius: 35.0
-2437: {}
+2437: 
 2438:
     graphicID: 4552
 2439:
@@ -3066,11 +3066,11 @@
 2464:
     graphicID: 1104
     radius: 15.0
-2465: {}
+2465: 
 2466:
     graphicID: 1105
     radius: 15.0
-2467: {}
+2467: 
 2468:
     graphicID: 2406
     radius: 39957.0
@@ -4104,7 +4104,7 @@
 2948:
     graphicID: 10039
     radius: 35.0
-2949: {}
+2949: 
 2950:
     graphicID: 10039
     radius: 35.0
@@ -10049,14 +10049,14 @@
 10246:
     graphicID: 1009
     radius: 5.0
-10247: {}
+10247: 
 10248:
     graphicID: 1009
     radius: 5.0
 10250:
     graphicID: 20263
     radius: 5.0
-10251: {}
+10251: 
 10252:
     graphicID: 1009
     radius: 5.0
@@ -12164,7 +12164,7 @@
     graphicID: 4515
     radius: 400.0
     soundID: 20061
-11937: {}
+11937: 
 11938:
     graphicID: 2240
     radius: 250.0
@@ -17270,11 +17270,11 @@
 15508:
     graphicID: 2776
     radius: 20.0
-15509: {}
+15509: 
 15510:
     graphicID: 2780
     radius: 20.0
-15511: {}
+15511: 
 15577:
     graphicID: 1067
     radius: 36.0
@@ -22921,7 +22921,7 @@
     graphicID: 2122
     radius: 400.0
     soundID: 20061
-17921: {}
+17921: 
 17922:
     graphicID: 2636
     radius: 137.0
@@ -24954,22 +24954,22 @@
     graphicID: 2743
     radius: 1700.0
     soundID: 20061
-19721: {}
+19721: 
 19722:
     graphicID: 2755
     radius: 1700.0
     soundID: 20076
-19723: {}
+19723: 
 19724:
     graphicID: 2744
     radius: 1613.0
     soundID: 20072
-19725: {}
+19725: 
 19726:
     graphicID: 2786
     radius: 1700.0
     soundID: 20068
-19727: {}
+19727: 
 19728:
     graphicID: 10026
     iconID: 0
@@ -28476,11 +28476,11 @@
 21638:
     graphicID: 2775
     radius: 20.0
-21639: {}
+21639: 
 21640:
     graphicID: 2772
     radius: 20.0
-21641: {}
+21641: 
 21642:
     graphicID: 2784
     radius: 12748.0
@@ -30781,7 +30781,7 @@
 22780:
     graphicID: 20250
     radius: 35.0
-22781: {}
+22781: 
 22782:
     iconID: 2990
 22783:
@@ -31423,19 +31423,19 @@
 23055:
     graphicID: 2899
     radius: 35.0
-23056: {}
+23056: 
 23057:
     graphicID: 2975
     radius: 35.0
-23058: {}
+23058: 
 23059:
     graphicID: 2972
     radius: 35.0
-23060: {}
+23060: 
 23061:
     graphicID: 2973
     radius: 35.0
-23062: {}
+23062: 
 23063:
     graphicID: 319
     radius: 113.0
@@ -32883,7 +32883,7 @@
 23525:
     graphicID: 2980
     radius: 35.0
-23526: {}
+23526: 
 23527:
     iconID: 2989
     radius: 100.0
@@ -32951,15 +32951,15 @@
 23559:
     graphicID: 2981
     radius: 35.0
-23560: {}
+23560: 
 23561:
     graphicID: 20254
     radius: 35.0
-23562: {}
+23562: 
 23563:
     graphicID: 2979
     radius: 35.0
-23564: {}
+23564: 
 23565:
     graphicID: 59
     radius: 39.0
@@ -33414,7 +33414,7 @@
 23759:
     graphicID: 2899
     radius: 35.0
-23760: {}
+23760: 
 23761:
     graphicID: 2296
     radius: 3394.0
@@ -43583,19 +43583,19 @@
 28209:
     graphicID: 20259
     radius: 35.0
-28210: {}
+28210: 
 28211:
     graphicID: 20255
     radius: 35.0
-28212: {}
+28212: 
 28213:
     graphicID: 20257
     radius: 35.0
-28214: {}
+28214: 
 28215:
     graphicID: 20268
     radius: 35.0
-28216: {}
+28216: 
 28221:
     graphicID: 3117
     radius: 14.0
@@ -43686,7 +43686,7 @@
 28264:
     graphicID: 1084
     radius: 15.0
-28265: {}
+28265: 
 28266:
     graphicID: 1089
     radius: 35.0
@@ -43695,87 +43695,87 @@
 28268:
     graphicID: 1089
     radius: 35.0
-28269: {}
+28269: 
 28270:
     graphicID: 2774
     radius: 20.0
-28271: {}
+28271: 
 28272:
     graphicID: 2774
     radius: 20.0
-28273: {}
+28273: 
 28274:
     graphicID: 1099
     radius: 15.0
-28275: {}
+28275: 
 28276:
     graphicID: 1099
     radius: 15.0
-28277: {}
+28277: 
 28278:
     graphicID: 1104
     radius: 15.0
-28279: {}
+28279: 
 28280:
     graphicID: 1104
     radius: 15.0
-28281: {}
+28281: 
 28282:
     graphicID: 2778
     radius: 20.0
-28283: {}
+28283: 
 28284:
     graphicID: 2778
     radius: 20.0
-28285: {}
+28285: 
 28286:
     graphicID: 20250
     radius: 35.0
-28287: {}
+28287: 
 28288:
     graphicID: 20250
     radius: 35.0
-28289: {}
+28289: 
 28290:
     graphicID: 1119
     radius: 35.0
-28291: {}
+28291: 
 28292:
     graphicID: 1119
     radius: 35.0
-28293: {}
+28293: 
 28294:
     graphicID: 2780
     radius: 20.0
-28295: {}
+28295: 
 28296:
     graphicID: 2780
     radius: 20.0
-28297: {}
+28297: 
 28298:
     graphicID: 2776
     radius: 20.0
-28299: {}
+28299: 
 28300:
     graphicID: 2776
     radius: 20.0
-28301: {}
+28301: 
 28302:
     graphicID: 1124
     radius: 15.0
-28303: {}
+28303: 
 28304:
     graphicID: 1124
     radius: 15.0
-28305: {}
+28305: 
 28306:
     graphicID: 1079
     radius: 35.0
-28307: {}
+28307: 
 28308:
     graphicID: 1079
     radius: 35.0
-28309: {}
+28309: 
 28314:
     graphicID: 2598
     radius: 907.0
@@ -51173,39 +51173,39 @@
 31866:
     graphicID: 2773
     radius: 20.0
-31867: {}
+31867: 
 31868:
     graphicID: 20258
     radius: 35.0
-31869: {}
+31869: 
 31870:
     graphicID: 2824
     radius: 35.0
-31871: {}
+31871: 
 31872:
     graphicID: 2822
     radius: 15.0
-31873: {}
+31873: 
 31874:
     graphicID: 2770
     radius: 20.0
-31875: {}
+31875: 
 31876:
     graphicID: 2968
     radius: 35.0
-31877: {}
+31877: 
 31878:
     graphicID: 20260
     radius: 35.0
-31879: {}
+31879: 
 31880:
     graphicID: 20246
     radius: 15.0
-31881: {}
+31881: 
 31882:
     graphicID: 20248
     radius: 20.0
-31883: {}
+31883: 
 31884:
     graphicID: 20252
     radius: 35.0
@@ -51214,7 +51214,7 @@
 31886:
     graphicID: 20256
     radius: 35.0
-31887: {}
+31887: 
 31888:
     graphicID: 20264
     radius: 15.0
@@ -51223,7 +51223,7 @@
 31890:
     graphicID: 20266
     radius: 20.0
-31891: {}
+31891: 
 31892:
     graphicID: 20267
     radius: 35.0
@@ -51232,7 +51232,7 @@
 31894:
     graphicID: 20269
     radius: 35.0
-31895: {}
+31895: 
 31896:
     iconID: 79
 31897:
@@ -52015,21 +52015,21 @@
 32325:
     graphicID: 3818
     radius: 35.0
-32326: {}
+32326: 
 32339:
     iconID: 33
 32340:
     graphicID: 3825
     radius: 35.0
-32341: {}
+32341: 
 32342:
     graphicID: 3831
     radius: 35.0
-32343: {}
+32343: 
 32344:
     graphicID: 3819
     radius: 35.0
-32345: {}
+32345: 
 32347:
     graphicID: 2403
     radius: 1255.0
@@ -53086,19 +53086,19 @@
 33151:
     graphicID: 20229
     radius: 196.0
-33152: {}
+33152: 
 33153:
     graphicID: 20283
     radius: 263.0
-33154: {}
+33154: 
 33155:
     graphicID: 20227
     radius: 199.0
-33156: {}
+33156: 
 33157:
     graphicID: 20230
     radius: 246.0
-33158: {}
+33158: 
 33159:
     graphicID: 20285
 33160:
@@ -53169,7 +53169,7 @@
 33190:
     graphicID: 20300
     radius: 32.0
-33191: {}
+33191: 
 33195:
     iconID: 2185
 33196:

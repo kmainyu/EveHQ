@@ -465,8 +465,8 @@ Public Class SkillQueueFunctions
                         'Dim oldKey As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
                         curSkill.FromLevel += 1
                         Dim keyName As String = curSkill.Name & curSkill.FromLevel & curSkill.ToLevel
+                        newQueue.Add(newKey, newskill)
                         newQueue.Add(keyName, curSkill)
-                        newQueue.Add(newKey, curSkill)
                     Else
                         ' Add in as standard
                         newQueue.Add(curSkill.Key, curSkill)

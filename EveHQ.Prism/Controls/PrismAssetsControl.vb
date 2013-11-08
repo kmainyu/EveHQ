@@ -633,7 +633,7 @@ Namespace Controls
                                         End If
                                         Dim newLocation As Station
                                         If CDbl(locID) >= 61000000 And CDbl(locID) <= 61999999 Then
-                                            If PlugInData.Stations.Contains(locID) = True Then
+                                            If StaticData.Stations.ContainsKey(locID) = True Then
                                                 ' Known Outpost
                                                 newLocation = StaticData.Stations(locID)
                                                 locNode.Text = newLocation.StationName
@@ -1251,6 +1251,7 @@ Namespace Controls
             Dim buyOrders As New Node
             Dim sellOrders As New Node
             Dim buyValue, sellValue As Double
+            Dim buyVolume, sellVolume As Double
             ordersNode.Tag = "Orders"
             ordersNode.Text = "Market Orders"
             CreateNodeCells(ordersNode)
@@ -1269,7 +1270,9 @@ Namespace Controls
                 ' Get the orders
                 Dim orderCollection As MarketOrdersCollection = ParseMarketOrders(owner)
                 ' Add the orders (outstanding ones only)
-                Dim itemName, category, group, meta, vol As String
+                Dim itemName As String
+                Dim category, group, meta As Integer
+                Dim vol As Double
                 Dim eveLocation As SolarSystem
                 For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
                     If ownerOrder.OrderState = MarketOrderState.Open Then
@@ -1279,16 +1282,25 @@ Namespace Controls
                         If StaticData.Types.ContainsKey(ownerOrder.TypeID) = True Then
                             Dim orderItem As EveType = StaticData.Types(ownerOrder.TypeID)
                             itemName = orderItem.Name
-                            category = StaticData.TypeCats(orderItem.Category)
-                            group = StaticData.TypeGroups(orderItem.Group)
-                            meta = orderItem.MetaLevel.ToString
-                            vol = orderItem.Volume.ToString
+                            category = orderItem.Category
+                            group = orderItem.Group
+                            meta = orderItem.MetaLevel
+                            ' Check for packaged ship volumes
+                            If category = 6 Then
+                                If PlugInData.PackedVolumes.ContainsKey(group) Then
+                                    vol = PlugInData.PackedVolumes(group)
+                                Else
+                                    vol = orderItem.Volume
+                                End If
+                            Else
+                                vol = orderItem.Volume
+                            End If
                         Else
                             itemName = "ItemID: " & ownerOrder.TypeID.ToString
-                            category = "<Unknown>"
-                            group = "<Unknown>"
-                            meta = "0"
-                            vol = "1"
+                            category = -1
+                            group = -1
+                            meta = 0
+                            vol = 1
                         End If
                         ' Check for search criteria
                         If Not ((_filters.Count > 0 And _catFilters.Contains(category) = False And _groupFilters.Contains(group) = False) Or (_searchText <> "" And itemName.ToLower.Contains(_searchText.ToLower) = False)) Then
@@ -1296,17 +1308,28 @@ Namespace Controls
                             If ownerOrder.Bid = 0 Then
                                 sellOrders.Nodes.Add(orderNode)
                                 sellValue += ownerOrder.Price * ownerOrder.VolRemaining
+                                sellVolume += vol * ownerOrder.VolRemaining
                             Else
                                 buyOrders.Nodes.Add(orderNode)
                                 buyValue += ownerOrder.Escrow * ownerOrder.VolRemaining
+                                buyVolume += vol * ownerOrder.VolRemaining
                             End If
                             orderNode.Cells(_assetColumn("AssetOwner")).Text = owner
-                            orderNode.Cells(_assetColumn("AssetGroup")).Text = group
-                            orderNode.Cells(_assetColumn("AssetCategory")).Text = category
-                            If PlugInData.Stations.Contains(ownerOrder.StationID) = True Then
-                                orderNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerOrder.StationID), Station).StationName
-                                eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerOrder.StationID), Station).SystemId)
+                            If group = -1 Then
+                                orderNode.Cells(_assetColumn("AssetGroup")).Text = "<Unknown>"
                             Else
+                                orderNode.Cells(_assetColumn("AssetGroup")).Text = StaticData.TypeGroups(group)
+                            End If
+                            If category = -1 Then
+                                orderNode.Cells(_assetColumn("AssetCategory")).Text = "<Unknown>"
+                            Else
+                                orderNode.Cells(_assetColumn("AssetCategory")).Text = StaticData.TypeCats(category)
+                            End If
+                            If StaticData.Stations.ContainsKey(ownerOrder.StationID) = True Then
+                                orderNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(ownerOrder.StationID).StationName
+                                eveLocation = StaticData.SolarSystems(StaticData.Stations(ownerOrder.StationID).SystemId)
+                            Else
+
                                 orderNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerOrder.StationID
                                 eveLocation = Nothing
                             End If
@@ -1321,8 +1344,8 @@ Namespace Controls
                                 orderNode.Cells(_assetColumn("AssetRegion")).Text = "Unknown"
                                 orderNode.Cells(_assetColumn("AssetSystemSec")).Text = "Unknown"
                             End If
-                            orderNode.Cells(_assetColumn("AssetMeta")).Text = meta
-                            orderNode.Cells(_assetColumn("AssetVolume")).Text = CDbl(vol).ToInvariantString("N2")
+                            orderNode.Cells(_assetColumn("AssetMeta")).Text = meta.ToInvariantString("N0")
+                            orderNode.Cells(_assetColumn("AssetVolume")).Text = CDbl(vol * ownerOrder.VolRemaining).ToInvariantString("N2")
                             orderNode.Cells(_assetColumn("AssetQuantity")).Text = ownerOrder.VolRemaining.ToInvariantString("N0")
                             If ownerOrder.Bid = 0 Then
                                 orderNode.Cells(_assetColumn("AssetPrice")).Text = ownerOrder.Price.ToInvariantString("N2")
@@ -1335,6 +1358,11 @@ Namespace Controls
                     End If
                 Next
             Next
+            ' Update order volumes
+            buyOrders.Cells(_assetColumn("AssetVolume")).Text = buyVolume.ToInvariantString("N2")
+            sellOrders.Cells(_assetColumn("AssetVolume")).Text = sellVolume.ToInvariantString("N2")
+            ordersNode.Cells(_assetColumn("AssetVolume")).Text = (buyVolume + sellVolume).ToInvariantString("N2")
+            ' Update order values
             buyOrders.Cells(_assetColumn("AssetValue")).Text = buyValue.ToInvariantString("N2")
             sellOrders.Cells(_assetColumn("AssetValue")).Text = sellValue.ToInvariantString("N2")
             ordersNode.Cells(_assetColumn("AssetValue")).Text = (buyValue + sellValue).ToInvariantString("N2")
@@ -1374,9 +1402,9 @@ Namespace Controls
                         Dim orders As XmlNodeList = orderXML.SelectNodes("/eveapi/result/rowset/row")
                         For Each order As XmlNode In orders
                             Dim newOrder As New MarketOrder
-                            newOrder.OrderID = order.Attributes.GetNamedItem("orderID").Value
-                            newOrder.CharID = order.Attributes.GetNamedItem("charID").Value
-                            newOrder.StationID = order.Attributes.GetNamedItem("stationID").Value
+                            newOrder.OrderID = CLng(order.Attributes.GetNamedItem("orderID").Value)
+                            newOrder.CharID = CInt(order.Attributes.GetNamedItem("charID").Value)
+                            newOrder.StationID = CInt(order.Attributes.GetNamedItem("stationID").Value)
                             newOrder.VolEntered = CLng(order.Attributes.GetNamedItem("volEntered").Value)
                             newOrder.VolRemaining = CLng(order.Attributes.GetNamedItem("volRemaining").Value)
                             newOrder.MinVolume = CLng(order.Attributes.GetNamedItem("minVolume").Value)
@@ -1446,9 +1474,9 @@ Namespace Controls
                                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                If PlugInData.Stations.ContainsKey(job.OutputLocationID.ToString) = True Then
-                                    rNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).StationName
-                                    eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).SystemId)
+                                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
+                                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
+                                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
                                 Else
                                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -1517,9 +1545,9 @@ Namespace Controls
                 rNode.Cells(_assetColumn("AssetOwner")).Text = owner
                 rNode.Cells(_assetColumn("AssetGroup")).Text = group
                 rNode.Cells(_assetColumn("AssetCategory")).Text = category
-                If PlugInData.Stations.ContainsKey(job.OutputLocationID.ToString) = True Then
-                    rNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).StationName
-                    eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(job.OutputLocationID.ToString), Station).SystemId)
+                If StaticData.Stations.ContainsKey(job.OutputLocationID) = True Then
+                    rNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(job.OutputLocationID).StationName
+                    eveLocation = StaticData.SolarSystems(StaticData.Stations(job.OutputLocationID).SystemId)
                 Else
                     rNode.Cells(_assetColumn("AssetLocation")).Text = "POS in " & StaticData.SolarSystems(job.InstalledInSolarSystemID).Name
                     eveLocation = StaticData.SolarSystems(job.InstalledInSolarSystemID)
@@ -1575,9 +1603,9 @@ Namespace Controls
                             End If
                             contractNode.Text &= " (" & ownerContract.Type.ToString & ")"
                             contractNode.Cells(_assetColumn("AssetOwner")).Text = owner
-                            If PlugInData.Stations.Contains(ownerContract.StartStationID.ToString) = True Then
-                                contractNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).StationName
-                                eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).SystemId)
+                            If StaticData.Stations.ContainsKey(ownerContract.StartStationID) = True Then
+                                contractNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(ownerContract.StartStationID).StationName
+                                eveLocation = StaticData.SolarSystems(StaticData.Stations(ownerContract.StartStationID).SystemId)
                             Else
                                 contractNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerContract.StartStationID.ToString
                                 eveLocation = Nothing
@@ -1626,9 +1654,9 @@ Namespace Controls
                                     itemNode.Cells(_assetColumn("AssetOwner")).Text = owner
                                     itemNode.Cells(_assetColumn("AssetGroup")).Text = group
                                     itemNode.Cells(_assetColumn("AssetCategory")).Text = category
-                                    If PlugInData.Stations.Contains(ownerContract.StartStationID.ToString) = True Then
-                                        itemNode.Cells(_assetColumn("AssetLocation")).Text = CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).StationName
-                                        eveLocation = StaticData.SolarSystems(CType(PlugInData.Stations(ownerContract.StartStationID.ToString), Station).SystemId)
+                                    If StaticData.Stations.ContainsKey(ownerContract.StartStationID) = True Then
+                                        itemNode.Cells(_assetColumn("AssetLocation")).Text = StaticData.Stations(ownerContract.StartStationID).StationName
+                                        eveLocation = StaticData.SolarSystems(StaticData.Stations(ownerContract.StartStationID).SystemId)
                                     Else
                                         itemNode.Cells(_assetColumn("AssetLocation")).Text = "StationID: " & ownerContract.StartStationID.ToString
                                         eveLocation = Nothing
@@ -2009,7 +2037,7 @@ Namespace Controls
             End If
         End Sub
         Private Sub mnuAddCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCustomName.Click
-            Dim assetID As Integer = CInt(mnuAddCustomName.Tag)
+            Dim assetID As Long = CLng(mnuAddCustomName.Tag)
             Dim assetName As String = mnuItemName.Text
             Using newCustomName As New frmAssetItemName
                 If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
@@ -2041,6 +2069,17 @@ Namespace Controls
         Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
+        End Sub
+        Private Sub mnuViewAssetID_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewAssetID.Click
+            Dim itemName As String = adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag.ToString
+            Dim itemText As String = adtAssets.SelectedNodes(0).Text
+            Dim itemID As String = adtAssets.SelectedNodes(0).Tag.ToString
+            Dim msg As String = "Item Type: " & itemName & ControlChars.CrLf
+            If itemText <> itemName Then
+                msg &= "Specific Name: " & itemText & ControlChars.CrLf
+            End If
+            msg &= "Asset ID: " & itemID.ToString & ControlChars.CrLf
+            MessageBox.Show(msg, "AssetID Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Sub
 #End Region
 
@@ -2284,6 +2323,8 @@ Namespace Controls
                                 cLoc.Visible = False
                                 _totalAssetCount -= GetLocationQuantity(cLoc)
                             End If
+                        Else
+                            _totalAssetValue += locPrice
                         End If
 
                     End If
@@ -2499,17 +2540,7 @@ Namespace Controls
             Call RefreshAssets()
         End Sub
 
-        Private Sub mnuViewAssetID_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewAssetID.Click
-            Dim itemName As String = adtAssets.SelectedNodes(0).Cells(_assetColumn("AssetOwner")).Tag.ToString
-            Dim itemText As String = adtAssets.SelectedNodes(0).Text
-            Dim itemID As String = adtAssets.SelectedNodes(0).Tag.ToString
-            Dim msg As String = "Item Name: " & itemName
-            If itemText <> itemName Then
-                msg &= " (Named: " & itemText & ")"
-            End If
-            msg &= ControlChars.CrLf & itemID.ToString & ControlChars.CrLf
-            MessageBox.Show(msg, "AssetID Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        End Sub
+    
 
 #Region "Asset Export Routines"
 

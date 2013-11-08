@@ -39,7 +39,6 @@ Imports EveHQ.Core.Requisitions
 Imports System.Text
 Imports EveHQ.Common.Extensions
 Imports System.Net.Http
-Imports System.Runtime.InteropServices
 Imports EveHQ.Core.ItemBrowser
 Imports Microsoft.VisualBasic.FileIO
 Imports System.Threading.Tasks
@@ -839,25 +838,23 @@ Namespace Forms
 
             Call CheckNotifications()
 
-            If FrmPilot.IsHandleCreated = True Then
+            Dim ti As TabItem
+
+            ' Update pilot form if open
+            ti = HQ.GetMdiTab(FrmPilot.Text)
+            If ti IsNot Nothing Then
                 Call FrmPilot.UpdateSkillInfo()
             End If
-            If FrmTraining.IsHandleCreated = True Then
+
+            ' Update training form if open
+            ti = HQ.GetMdiTab(FrmTraining.Text)
+            If ti IsNot Nothing Then
                 Call FrmTraining.UpdateTraining()
             End If
-            If FrmSkillDetails.IsHandleCreated = True Then
+
+            If FrmSkillDetails.Visible = True Then
                 Call FrmSkillDetails.UpdateSkillDetails()
             End If
-
-            ' Update the G15 LCD if applicable
-            'If EveHQ.Core.HQ.Settings.ActivateG15 = True And EveHQ.Core.HQ.IsG15LCDActive = True Then
-            '    Select Case EveHQ.Core.HQ.lcdCharMode
-            '        Case 0
-            '            Call EveHQ.Core.HQ.EveHQLCD.DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot)
-            '        Case 1
-            '            Call EveHQ.Core.HQ.EveHQLCD.DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot)
-            '    End Select
-            'End If
 
             Call CheckForCharAPIUpdate()
 
@@ -867,7 +864,6 @@ Namespace Forms
         Private Sub tmrSkillUpdate_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrSkillUpdate.Tick
             If _skillWorker.IsBusy = False Then
                 _skillWorker.RunWorkerAsync()
-                tmrSkillUpdate.Interval = 1000
             End If
         End Sub
 
@@ -2054,7 +2050,7 @@ Namespace Forms
 #Region "Update Check & Menu"
 
         Private Sub CheckForUpdates(ByVal state As Object)
-            Trace.TraceInformation("Checking For Updates")
+            Trace.TraceInformation("Checking For Updates...")
             Dim currentComponents As New SortedList
             Dim updateXML As XmlDocument = FetchUpdateXML()
 
@@ -2090,6 +2086,9 @@ Namespace Forms
                                End Sub)
                     Else
                         Trace.TraceInformation("No Update Available")
+                        If CBool(state) = True Then
+                            MessageBox.Show("There is no new EveHQ update currently available.", "No Update Available", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        End If
                     End If
                 Catch ex As Exception
                 End Try
@@ -2592,7 +2591,7 @@ Namespace Forms
         End Sub
 
         Private Sub btnCheckForUpdates_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCheckForUpdates.Click
-            Call CheckForUpdates(Nothing)
+            Call CheckForUpdates(True)
         End Sub
 
         Private Sub btnUpdateEveHQ_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpdateEveHQ.Click

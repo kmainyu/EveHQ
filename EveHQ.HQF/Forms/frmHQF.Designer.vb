@@ -127,14 +127,13 @@ Namespace Forms
             Me.btnExportImplants = New DevComponents.DotNetBar.ButtonItem()
             Me.btnExportReq = New DevComponents.DotNetBar.ButtonItem()
             Me.rbTools = New DevComponents.DotNetBar.RibbonBar()
+            Me.btnShipSelector = New DevComponents.DotNetBar.ButtonItem()
             Me.btnPilotManager = New DevComponents.DotNetBar.ButtonItem()
             Me.btnImplantManager = New DevComponents.DotNetBar.ButtonItem()
-            Me.btnFleetManager = New DevComponents.DotNetBar.ButtonItem()
             Me.rbOptions = New DevComponents.DotNetBar.RibbonBar()
             Me.btnOptions = New DevComponents.DotNetBar.ButtonItem()
             Me.SuperTooltip1 = New DevComponents.DotNetBar.SuperTooltip()
             Me.STTShips = New DevComponents.DotNetBar.SuperTooltip()
-            Me.btnShipSelector = New DevComponents.DotNetBar.ButtonItem()
             Me.ctxFittings.SuspendLayout()
             CType(Me.tvwShips, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.ctxShipBrowser.SuspendLayout()
@@ -349,7 +348,7 @@ Namespace Forms
             'cboFlyable
             '
             Me.cboFlyable.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                                          Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.cboFlyable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
             Me.cboFlyable.FormattingEnabled = True
             Me.cboFlyable.Location = New System.Drawing.Point(53, 298)
@@ -371,7 +370,7 @@ Namespace Forms
             'txtShipSearch
             '
             Me.txtShipSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                                             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.txtShipSearch.Location = New System.Drawing.Point(31, 271)
             Me.txtShipSearch.Name = "txtShipSearch"
             Me.txtShipSearch.Size = New System.Drawing.Size(141, 21)
@@ -536,7 +535,7 @@ Namespace Forms
             'txtSearchModules
             '
             Me.txtSearchModules.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                                                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.txtSearchModules.Location = New System.Drawing.Point(56, 328)
             Me.txtSearchModules.Name = "txtSearchModules"
             Me.txtSearchModules.Size = New System.Drawing.Size(171, 21)
@@ -656,8 +655,8 @@ Namespace Forms
             Me.tvwModules.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
             Me.tvwModules.AllowDrop = True
             Me.tvwModules.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                           Or System.Windows.Forms.AnchorStyles.Left) _
-                                          Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tvwModules.BackColor = System.Drawing.SystemColors.Window
             '
             '
@@ -742,30 +741,30 @@ Namespace Forms
             '
             'SplitterMods
             '
-            Me.SplitterMods.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterMods.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterMods.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterMods.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.SplitterMods.Dock = System.Windows.Forms.DockStyle.Top
             Me.SplitterMods.Expandable = False
-            Me.SplitterMods.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterMods.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterMods.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterMods.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterMods.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.SplitterMods.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterMods.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterMods.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterMods.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterMods.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterMods.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.SplitterMods.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.SplitterMods.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.SplitterMods.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.SplitterMods.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterMods.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterMods.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterMods.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterMods.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterMods.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterMods.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterMods.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.SplitterMods.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterMods.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterMods.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterMods.Location = New System.Drawing.Point(0, 355)
             Me.SplitterMods.Name = "SplitterMods"
@@ -809,8 +808,8 @@ Namespace Forms
             Me.tvwItems.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
             Me.tvwItems.AllowDrop = True
             Me.tvwItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                         Or System.Windows.Forms.AnchorStyles.Left) _
-                                        Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tvwItems.BackColor = System.Drawing.SystemColors.Window
             '
             '
@@ -843,30 +842,30 @@ Namespace Forms
             '
             'SplitterModules
             '
-            Me.SplitterModules.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterModules.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterModules.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterModules.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.SplitterModules.Dock = System.Windows.Forms.DockStyle.Right
             Me.SplitterModules.ExpandableControl = Me.panelModules
-            Me.SplitterModules.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterModules.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterModules.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterModules.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterModules.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.SplitterModules.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterModules.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterModules.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterModules.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterModules.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterModules.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.SplitterModules.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.SplitterModules.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.SplitterModules.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.SplitterModules.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterModules.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterModules.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterModules.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterModules.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterModules.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterModules.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterModules.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.SplitterModules.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterModules.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterModules.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterModules.Location = New System.Drawing.Point(1048, 0)
             Me.SplitterModules.Name = "SplitterModules"
@@ -897,30 +896,30 @@ Namespace Forms
             '
             'SplitterFittings
             '
-            Me.SplitterFittings.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterFittings.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterFittings.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterFittings.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.SplitterFittings.Dock = System.Windows.Forms.DockStyle.Top
             Me.SplitterFittings.Expandable = False
-            Me.SplitterFittings.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterFittings.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterFittings.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterFittings.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterFittings.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.SplitterFittings.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterFittings.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterFittings.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterFittings.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterFittings.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterFittings.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.SplitterFittings.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.SplitterFittings.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.SplitterFittings.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.SplitterFittings.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterFittings.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterFittings.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterFittings.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterFittings.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterFittings.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterFittings.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterFittings.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.SplitterFittings.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterFittings.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterFittings.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterFittings.Location = New System.Drawing.Point(0, 324)
             Me.SplitterFittings.Name = "SplitterFittings"
@@ -957,8 +956,8 @@ Namespace Forms
             Me.tvwFittings.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
             Me.tvwFittings.AllowDrop = True
             Me.tvwFittings.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                                            Or System.Windows.Forms.AnchorStyles.Left) _
-                                           Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+                Or System.Windows.Forms.AnchorStyles.Left) _
+                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.tvwFittings.BackColor = System.Drawing.SystemColors.Window
             '
             '
@@ -994,29 +993,29 @@ Namespace Forms
             '
             'SplitterShips
             '
-            Me.SplitterShips.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterShips.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterShips.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterShips.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.SplitterShips.ExpandableControl = Me.panelShips
-            Me.SplitterShips.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterShips.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterShips.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterShips.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterShips.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.SplitterShips.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterShips.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterShips.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterShips.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterShips.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterShips.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.SplitterShips.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.SplitterShips.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.SplitterShips.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.SplitterShips.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterShips.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterShips.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.SplitterShips.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.SplitterShips.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.SplitterShips.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.SplitterShips.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.SplitterShips.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.SplitterShips.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.SplitterShips.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.SplitterShips.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.SplitterShips.Location = New System.Drawing.Point(228, 0)
             Me.SplitterShips.Name = "SplitterShips"
@@ -1084,7 +1083,7 @@ Namespace Forms
             Me.rbEditor.ContainerControlProcessDialogKey = True
             Me.rbEditor.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnEditor})
             Me.rbEditor.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbEditor.Location = New System.Drawing.Point(770, 0)
+            Me.rbEditor.Location = New System.Drawing.Point(719, 0)
             Me.rbEditor.Name = "rbEditor"
             Me.rbEditor.Size = New System.Drawing.Size(53, 100)
             Me.rbEditor.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1123,7 +1122,7 @@ Namespace Forms
             Me.rbImport.ContainerControlProcessDialogKey = True
             Me.rbImport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.ItemContainer2, Me.btnImport})
             Me.rbImport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbImport.Location = New System.Drawing.Point(572, 0)
+            Me.rbImport.Location = New System.Drawing.Point(521, 0)
             Me.rbImport.Name = "rbImport"
             Me.rbImport.Size = New System.Drawing.Size(196, 100)
             Me.rbImport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1194,7 +1193,7 @@ Namespace Forms
             Me.rbExport.ContainerControlProcessDialogKey = True
             Me.rbExport.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnScreenGrab, Me.btnExportEve, Me.ItemContainer1, Me.btnExportReq})
             Me.rbExport.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.rbExport.Location = New System.Drawing.Point(270, 0)
+            Me.rbExport.Location = New System.Drawing.Point(219, 0)
             Me.rbExport.Name = "rbExport"
             Me.rbExport.Size = New System.Drawing.Size(300, 100)
             Me.rbExport.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1316,11 +1315,11 @@ Namespace Forms
             '
             Me.rbTools.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbTools.ContainerControlProcessDialogKey = True
-            Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShipSelector, Me.btnPilotManager, Me.btnImplantManager, Me.btnFleetManager})
+            Me.rbTools.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.btnShipSelector, Me.btnPilotManager, Me.btnImplantManager})
             Me.rbTools.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
             Me.rbTools.Location = New System.Drawing.Point(59, 0)
             Me.rbTools.Name = "rbTools"
-            Me.rbTools.Size = New System.Drawing.Size(209, 100)
+            Me.rbTools.Size = New System.Drawing.Size(158, 100)
             Me.rbTools.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
             Me.rbTools.TabIndex = 1
             Me.rbTools.Text = "Tools"
@@ -1333,6 +1332,16 @@ Namespace Forms
             '
             Me.rbTools.TitleStyleMouseOver.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.rbTools.VerticalItemAlignment = DevComponents.DotNetBar.eVerticalItemsAlignment.Middle
+            '
+            'btnShipSelector
+            '
+            Me.btnShipSelector.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
+            Me.btnShipSelector.Image = CType(resources.GetObject("btnShipSelector.Image"), System.Drawing.Image)
+            Me.btnShipSelector.ImageFixedSize = New System.Drawing.Size(36, 36)
+            Me.btnShipSelector.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
+            Me.btnShipSelector.Name = "btnShipSelector"
+            Me.btnShipSelector.SubItemsExpandWidth = 14
+            Me.btnShipSelector.Text = "Ship Selector"
             '
             'btnPilotManager
             '
@@ -1357,18 +1366,6 @@ Namespace Forms
             Me.btnImplantManager.Stretch = True
             Me.btnImplantManager.SubItemsExpandWidth = 14
             Me.btnImplantManager.Text = "Implant Manager"
-            '
-            'btnFleetManager
-            '
-            Me.btnFleetManager.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-            Me.btnFleetManager.Image = CType(resources.GetObject("btnFleetManager.Image"), System.Drawing.Image)
-            Me.btnFleetManager.ImageFixedSize = New System.Drawing.Size(36, 36)
-            Me.btnFleetManager.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-            Me.btnFleetManager.Name = "btnFleetManager"
-            Me.btnFleetManager.Stretch = True
-            Me.btnFleetManager.SubItemsExpandWidth = 14
-            Me.btnFleetManager.Text = "Fleet Manager"
-            Me.btnFleetManager.Visible = False
             '
             'rbOptions
             '
@@ -1424,17 +1421,7 @@ Namespace Forms
             Me.STTShips.PositionBelowControl = False
             Me.STTShips.TooltipDuration = 0
             '
-            'btnShipSelector
-            '
-            Me.btnShipSelector.ButtonStyle = DevComponents.DotNetBar.eButtonStyle.ImageAndText
-            Me.btnShipSelector.Image = CType(resources.GetObject("btnShipSelector.Image"), System.Drawing.Image)
-            Me.btnShipSelector.ImageFixedSize = New System.Drawing.Size(36, 36)
-            Me.btnShipSelector.ImagePosition = DevComponents.DotNetBar.eImagePosition.Top
-            Me.btnShipSelector.Name = "btnShipSelector"
-            Me.btnShipSelector.SubItemsExpandWidth = 14
-            Me.btnShipSelector.Text = "Ship Selector"
-            '
-            'frmHQF
+            'FrmHQF
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -1448,7 +1435,7 @@ Namespace Forms
             Me.DoubleBuffered = True
             Me.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.KeyPreview = True
-            Me.Name = "frmHQF"
+            Me.Name = "FrmHQF"
             Me.Text = "EveHQ Fitter"
             Me.ctxFittings.ResumeLayout(False)
             CType(Me.tvwShips, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1578,7 +1565,6 @@ Namespace Forms
         Friend WithEvents btnExportReq As DevComponents.DotNetBar.ButtonItem
         Friend WithEvents ToolStripMenuItem7 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents mnuExportToRequisitions As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents btnFleetManager As DevComponents.DotNetBar.ButtonItem
         Friend WithEvents STTShips As DevComponents.DotNetBar.SuperTooltip
         Friend WithEvents btnShipSelector As DevComponents.DotNetBar.ButtonItem
     End Class
