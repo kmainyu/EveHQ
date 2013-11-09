@@ -254,7 +254,6 @@ Namespace Forms
             PlugInData.CorpList.Clear()
 
             For Each selAccount As EveHQAccount In HQ.Settings.Accounts.Values
-                If selAccount.APIAccountStatus = APIAccountStatuses.Active Then
                     Select Case selAccount.ApiKeySystem
                         Case APIKeySystems.Version2
                             ' Check the type of the key
@@ -297,9 +296,7 @@ Namespace Forms
                                     Next
                             End Select
                     End Select
-                End If
             Next
-
         End Sub
 
         ''' <summary>
