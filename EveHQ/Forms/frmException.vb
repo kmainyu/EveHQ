@@ -56,13 +56,13 @@ Namespace Forms
             End If
 
             Try
-                Const bugEmailAddress As String = "bugs@evehq.net"
-                Const bugSmtpServer As String = "mail.evehq.net"
+                Const BugEmailAddress As String = "bugs@evehq.net"
+                Const BugSmtpServer As String = "mail.evehq.net"
 
                 Dim subject As String = "EveHQ v" & My.Application.Info.Version.ToString & " Error! - " & lblError.Text
                 Dim message As String = "Error Message : " & lblError.Text & "\r\n" & "StackTrace :\r\n" & txtStackTrace.Text
-                Dim payload As New MailMessage(reportingEmail, bugEmailAddress, subject, message)
-                Dim client As New SmtpClient(bugSmtpServer)
+                Dim payload As New MailMessage(reportingEmail, BugEmailAddress, subject, message)
+                Dim client As New SmtpClient(BugSmtpServer)
                 client.Send(payload)
 
                 MessageBox.Show("Your bug report was successfully submitted and will be reviewed shortly.", "Submission Successful", MessageBoxButtons.OK, MessageBoxIcon.Information)

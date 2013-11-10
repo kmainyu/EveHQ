@@ -173,13 +173,13 @@ Public Class EveMail
         ' Stage 4: Post all new messages to the database
         RaiseEvent MailProgress("Posting new EveMails to the database...")
         Dim newMails As New ArrayList
-        Const strInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail, messageBody) VALUES "
+        Const StrInsert As String = "INSERT INTO eveMail (messageKey, messageID, originatorID, senderID, sentDate, title, toCorpOrAllianceID, toCharacterIDs, toListIDs, readMail, messageBody) VALUES "
         For Each mailKey As String In mails.Keys
             Dim cMail As EveMailMessage = mails(mailKey)
             If existingMails.Contains(mailKey) = False Then
                 ' Add the message to the database
                 Dim uSQL As New StringBuilder
-                uSQL.Append(strInsert)
+                uSQL.Append(StrInsert)
                 uSQL.Append("(")
                 uSQL.Append("'" & cMail.MessageKey & "', ")
                 uSQL.Append(cMail.MessageID & ", ")
@@ -354,13 +354,13 @@ Public Class EveMail
         ' Stage 4: Post all new messages to the database
         RaiseEvent MailProgress("Posting new Eve Notifications to the database...")
         Dim newNotifys As New ArrayList
-        Const strInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail, messageBody) VALUES "
+        Const StrInsert As String = "INSERT INTO eveNotifications (messageKey, messageID, originatorID, senderID, typeID, sentDate, readMail, messageBody) VALUES "
         For Each noticeKey As String In notices.Keys
             Dim cMail As EveNotification = notices(noticeKey)
             If existingMails.Contains(cMail.MessageKey) = False Then
                 ' Add the message to the database
                 Dim uSQL As New StringBuilder
-                uSQL.Append(strInsert)
+                uSQL.Append(StrInsert)
                 uSQL.Append("(")
                 uSQL.Append("'" & cMail.MessageKey & "', ")
                 uSQL.Append(cMail.MessageID & ", ")

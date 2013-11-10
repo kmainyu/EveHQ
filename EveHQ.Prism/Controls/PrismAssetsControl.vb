@@ -614,7 +614,7 @@ Namespace Controls
                                     CreateNodeCells(locNode)
                                     Dim addLocation As Boolean = True
                                     Dim stationLocation As String
-                                    Const corpHangarName As String = "n/a"
+                                    Const CorpHangarName As String = "n/a"
                                     For Each testNode As Node In adtAssets.Nodes
                                         If testNode.Tag.ToString = (loc.Attributes.GetNamedItem("locationID").Value) Then
                                             locNode = testNode
@@ -689,7 +689,7 @@ Namespace Controls
                                                     stationLocation = newLocation.StationName
                                                 End If
                                             End If
-                                            End If
+                                        End If
                                         locNode.Cells(_assetColumn("AssetOwner")).Tag = locNode.Text
                                         If eveLocation IsNot Nothing Then
                                             locNode.Cells(_assetColumn("AssetSystem")).Text = eveLocation.Name
@@ -795,7 +795,7 @@ Namespace Controls
                                     ' Add the asset to the list of assets
                                     Dim newAssetList As New AssetItem
                                     newAssetList.ItemID = CLng(newAsset.Tag)
-                                    newAssetList.CorpHangar = corpHangarName
+                                    newAssetList.CorpHangar = CorpHangarName
                                     newAssetList.Station = stationLocation
                                     newAssetList.System = locNode.Text
                                     newAssetList.TypeID = itemID
@@ -844,7 +844,7 @@ Namespace Controls
 
                                     ' Check if this row has child nodes and repeat
                                     If loc.HasChildNodes = True Then
-                                        Call PopulateAssetNode(newAsset, loc, owner.Name, locNode.Text, owner, eveLocation, stationLocation, corpHangarName)
+                                        Call PopulateAssetNode(newAsset, loc, owner.Name, locNode.Text, owner, eveLocation, stationLocation, CorpHangarName)
                                     End If
 
                                     ' Update hangar price if applicable
@@ -904,7 +904,7 @@ Namespace Controls
             Dim containerPrice As Double
             Dim assetIsInHanger As Boolean
             Dim hangarPrice As Double
-            Const linePrice As Double = 0
+            Const LinePrice As Double = 0
             subLocList = loc.ChildNodes(0).ChildNodes
             If IsNumeric(parentAsset.Cells(_assetColumn("AssetPrice")).Text) = True Then
                 containerPrice = CDbl(parentAsset.Cells(_assetColumn("AssetPrice")).Text)
@@ -1052,11 +1052,11 @@ Namespace Controls
                         containerPrice += (newAssetList.Price * newAssetList.Quantity)
                         If assetIsInHanger = True Then
                             hangarPrice = CDbl(subAsset.Parent.Cells(_assetColumn("AssetValue")).Text)
-                            subAsset.Parent.Cells(_assetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToInvariantString("N2")
+                            subAsset.Parent.Cells(_assetColumn("AssetValue")).Text = (hangarPrice + LinePrice).ToInvariantString("N2")
                         End If
 
                         If subLoc.HasChildNodes = True Then
-                            containerPrice -= linePrice
+                            containerPrice -= LinePrice
                             containerPrice += PopulateAssetNode(subAsset, subLoc, assetOwner, assetLocation, owner, eveLocation, stationLocation, corpHangarName)
                         End If
 

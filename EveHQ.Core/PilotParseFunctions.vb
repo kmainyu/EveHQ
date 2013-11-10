@@ -510,10 +510,10 @@ Public Class PilotParseFunctions
 
         Dim charDetails As XmlNodeList
         Dim toon As XmlNode
-        Const toonNo As Integer = 0
+        Const ToonNo As Integer = 0
 
         charDetails = cxmlDoc.SelectNodes("/eveapi/result")
-        toon = charDetails(toonNo)
+        toon = charDetails(ToonNo)
         If toon IsNot Nothing Then
             ' Get the Pilot name & charID in the character node
             With cPilot

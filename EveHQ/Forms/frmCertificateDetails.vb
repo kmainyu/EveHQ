@@ -90,11 +90,11 @@ Namespace Forms
 
             For Each skillID As Integer In cCert.RequiredSkills.Keys
 
-                Const level As Integer = 1
+                Const Level As Integer = 1
                 Dim pointer(20) As Integer
                 Dim parentItem(20) As Integer
-                pointer(level) = 1
-                parentItem(level) = CInt(skillID)
+                pointer(Level) = 1
+                parentItem(Level) = CInt(skillID)
 
                 Dim cSkill As EveSkill = HQ.SkillListID(skillID)
                 Dim curLevel As Integer = CInt(cCert.RequiredSkills(skillID))

@@ -188,14 +188,14 @@ Public Class FrmConverter
     Private Sub UpdateDatabases()
         cboSQLDatabase.BeginUpdate()
         cboSQLDatabase.Items.Clear()
-        Const strSQL As String = "SELECT name FROM sys.databases"
+        Const StrSQL As String = "SELECT name FROM sys.databases"
         Dim conn As String = "Server=localhost\" & _dbServerName
         If _dbSQLSec = True Then
             conn &= "; User ID=" & _dbUsername & "; Password=" & _dbPassword & ";"
         Else
             conn &= "; Integrated Security = SSPI;"
         End If
-        Using eveData As DataSet = GetData(strSQL, DBFormat.Sql, conn)
+        Using eveData As DataSet = GetData(StrSQL, DBFormat.Sql, conn)
             If eveData IsNot Nothing Then
                 For Each row As DataRow In eveData.Tables(0).Rows
                     cboSQLDatabase.Items.Add(row.Item(0).ToString)

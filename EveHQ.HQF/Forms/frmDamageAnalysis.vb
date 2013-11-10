@@ -225,20 +225,20 @@ Namespace Forms
                 End If
                 ' Check for mixed turrets and ammo
                 If mixedTurrets = True Then
-                    Const msg As String = "HQF has detected that you are using a setup with multiple turret types. As such, only the first turret (and identical instances thereof) will be used for the calculations."
-                    MessageBox.Show(msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    Const Msg As String = "HQF has detected that you are using a setup with multiple turret types. As such, only the first turret (and identical instances thereof) will be used for the calculations."
+                    MessageBox.Show(Msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Else
                     If mixedAmmo = True Then
-                        Const msg As String = "HQF has detected that you are using a setup with varying ammo types. As such, only the first turret (and identical instances thereof) will be used for the calculations."
-                        MessageBox.Show(msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        Const Msg As String = "HQF has detected that you are using a setup with varying ammo types. As such, only the first turret (and identical instances thereof) will be used for the calculations."
+                        MessageBox.Show(Msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
                     Else
                         If mixedLaunchers = True Then
-                            Const msg As String = "HQF has detected that you are using a setup with varying launcher types. As such, only the first launcher (and identical instances thereof) will be used for the calculations."
-                            MessageBox.Show(msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Const Msg As String = "HQF has detected that you are using a setup with varying launcher types. As such, only the first launcher (and identical instances thereof) will be used for the calculations."
+                            MessageBox.Show(Msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Else
                             If mixedMissiles = True Then
-                                Const msg As String = "HQF has detected that you are using a setup with varying missile types. As such, only the first launcher (and identical instances thereof) will be used for the calculations."
-                                MessageBox.Show(msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Const Msg As String = "HQF has detected that you are using a setup with varying missile types. As such, only the first launcher (and identical instances thereof) will be used for the calculations."
+                                MessageBox.Show(Msg, "Don't Mix Guns!", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             End If
                         End If
                     End If
@@ -305,7 +305,7 @@ Namespace Forms
 
                     ' Set the titles and axis labels
                     Dim maxRange As Double = Math.Max(_tor + (2 * _tf), _mor * 1.5)
-                    Const graphPoints As Integer = 50
+                    Const GraphPoints As Integer = 50
                     _graphForm.chartHQF.Titles(0).Text = "Range vs Hit Chance - " & EveSpace1.SourceShip.Ship.Name
 
                     _graphForm.chartHQF.ChartAreas("Default").AxisX.Minimum = 0
@@ -316,7 +316,7 @@ Namespace Forms
                     ' Create some points from 0 to tor + (2 * tf)
                     Dim x As Double, y As Double
 
-                    For x = 0 To maxRange Step maxRange / graphPoints
+                    For x = 0 To maxRange Step maxRange / GraphPoints
                         If _tc > 0 Then
                             y = (0.5 ^ (((Math.Max(0, x - _tor)) / _tf) ^ 2)) * 100 ' Range Element Only
                             _graphForm.chartHQF.Series("Range").Points.AddXY(x, y)
@@ -382,12 +382,12 @@ Namespace Forms
             _graphForm.chartHQF.Series("Missile").Points.Clear()
 
             Dim maxRange As Double = Math.Max(_tor + (2 * _tf), _mor * 1.5)
-            Const graphPoints As Integer = 50
+            Const GraphPoints As Integer = 50
 
             ' Create some points from 0 to tor + (2 * tf)
             Dim x As Double, y As Double
 
-            For x = 0 To maxRange Step maxRange / graphPoints
+            For x = 0 To maxRange Step maxRange / GraphPoints
                 If _tc > 0 Then
                     y = (0.5 ^ (((Math.Max(0, x - _tor)) / _tf) ^ 2)) * 100 ' Range Element Only
                     _graphForm.chartHQF.Series("Range").Points.AddXY(x, y)

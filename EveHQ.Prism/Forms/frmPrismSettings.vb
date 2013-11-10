@@ -672,8 +672,8 @@ Namespace Forms
 #End Region
 
         Private Sub btnDeleteUndefinedJournals_Click(sender As Object, e As EventArgs) Handles btnDeleteUndefinedJournals.Click
-            Const strSQL As String = "DELETE FROM walletJournal WHERE refTypeID = 0;"
-            If CustomDataFunctions.SetCustomData(strSQL) = -2 Then
+            Const StrSQL As String = "DELETE FROM walletJournal WHERE refTypeID = 0;"
+            If CustomDataFunctions.SetCustomData(StrSQL) = -2 Then
                 MessageBox.Show("Error deleting undefined entries from the Wallet Journal table!", "Delete Undefined Entries Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Else
                 MessageBox.Show("Successfully deleted undefined entries from the Wallet Journal table!", "Delete Undefined Entries Success", MessageBoxButtons.OK, MessageBoxIcon.Information)

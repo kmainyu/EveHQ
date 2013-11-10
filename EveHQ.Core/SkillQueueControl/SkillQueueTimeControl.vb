@@ -50,8 +50,8 @@ Namespace SkillQueueControl
 
         Private Sub DrawTimeBar()
             Dim g As Graphics = panelSQT.CreateGraphics
-            Const sx As Integer = 2
-            Const sy As Integer = 16
+            Const Sx As Integer = 2
+            Const Sy As Integer = 16
             ' Calculate number of seconds from now till start
             For Each queuedSkill As EveHQPilotQueuedSkill In _queuedSkills.Values
                 If SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime) >= Now Then
@@ -62,9 +62,9 @@ Namespace SkillQueueControl
                     Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQT.Width - 4)), 0)
                     Dim endMark As Integer = CInt(endSec / 86400 * (panelSQT.Width - 4))
                     If Math.IEEERemainder(queuedSkill.Position, 2) = 0 Then
-                        g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
+                        g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(Sx + startMark, Sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
                     Else
-                        g.FillRectangle(Brushes.SkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
+                        g.FillRectangle(Brushes.SkyBlue, New RectangleF(Sx + startMark, Sy, Math.Min(endMark - startMark, panelSQT.Width - 4), 15))
                     End If
                 End If
                 _lastTime = SkillFunctions.ConvertEveTimeToLocal(queuedSkill.EndTime)
@@ -76,21 +76,21 @@ Namespace SkillQueueControl
 
         Private Sub DrawMarks()
             Dim g As Graphics = panelSQT.CreateGraphics
-            Const sx As Integer = 2
-            Const sy As Integer = 34
+            Const Sx As Integer = 2
+            Const Sy As Integer = 34
             Dim cx As Integer
-            g.DrawLine(Pens.Silver, sx, sy, sx, sy + 6)
-            g.DrawLine(Pens.Silver, panelSQT.Width - 4, sy, panelSQT.Width - 4, sy + 6)
+            g.DrawLine(Pens.Silver, Sx, Sy, Sx, Sy + 6)
+            g.DrawLine(Pens.Silver, panelSQT.Width - 4, Sy, panelSQT.Width - 4, Sy + 6)
             For timeMark As Integer = 1 To 23
                 cx = (panelSQT.Width - 4)
                 If Math.IEEERemainder(timeMark, 6) = 0 Then
-                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), sy, CInt(cx / 24 * timeMark), sy + 6)
+                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), Sy, CInt(cx / 24 * timeMark), Sy + 6)
                 Else
-                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), sy, CInt(cx / 24 * timeMark), sy + 3)
+                    g.DrawLine(Pens.Silver, CInt(cx / 24 * timeMark), Sy, CInt(cx / 24 * timeMark), Sy + 3)
                 End If
             Next
             Dim gFont As New Font("Tahoma", 6)
-            g.DrawString("0", gFont, Brushes.Silver, sx + 2, 35)
+            g.DrawString("0", gFont, Brushes.Silver, Sx + 2, 35)
             g.DrawString("24", gFont, Brushes.Silver, panelSQT.Width - 15, 35)
         End Sub
 

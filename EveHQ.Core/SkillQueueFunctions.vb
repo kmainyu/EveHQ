@@ -948,11 +948,11 @@ Public Class SkillQueueFunctions
     Public Shared Function GetSkillReqs(ByVal qPilot As EveHQPilot, ByVal skillID As Integer) As String
         Dim strReqs As String = ""
 
-        Const level As Integer = 1
+        Const Level As Integer = 1
         Dim pointer(20) As Integer
         Dim parent(20) As Integer
-        pointer(level) = 1
-        parent(level) = CInt(skillID)
+        pointer(Level) = 1
+        parent(Level) = CInt(skillID)
 
         Dim cSkill As EveSkill = HQ.SkillListID(skillID)
         Dim curNode As TreeNode = New TreeNode

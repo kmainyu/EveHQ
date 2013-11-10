@@ -2435,11 +2435,11 @@ Namespace Forms
 
         Private Sub OnOverrideItemListIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideItemList.SelectedIndexChanged
 
-            Const item As String = ""
+            Const Item As String = ""
             Dim itemId As Integer
             Dim activeStat As MarketMetric = HQ.Settings.MarketDefaultMetric
             Dim activeTransactionType As MarketTransactionKind = HQ.Settings.MarketDefaultTransactionType
-            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) And Integer.TryParse(item, itemId) Then
+            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) And Integer.TryParse(Item, itemId) Then
 
                 ' see if the item is in the override list, otherwise set values to default
                 Dim itemOverride As New ItemMarketOverride
@@ -2459,7 +2459,7 @@ Namespace Forms
         End Sub
 
         Private Sub OnAddUpdateItemOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideAddOverride.Click
-            Const item As String = ""
+            Const Item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2470,7 +2470,7 @@ Namespace Forms
                 Return
             End If
 
-            If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Or (Integer.TryParse(item, itemID) = False) Then
+            If (StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False) Or (Integer.TryParse(Item, itemID) = False) Then
                 Return 'not a real item
             End If
 
@@ -2543,7 +2543,7 @@ Namespace Forms
         End Sub
 
         Private Sub OnRemoveOverrideClick(ByVal sender As Object, ByVal e As EventArgs) Handles _itemOverrideRemoveOverride.Click
-            Const item As String = ""
+            Const Item As String = ""
             Dim itemID As Integer
 
             If _itemOverrideItemList Is Nothing Then
@@ -2554,7 +2554,7 @@ Namespace Forms
                 Return
             End If
 
-            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Or (Integer.TryParse(item, itemID) = False) Then
+            If StaticData.TypeNames.ContainsKey(_itemOverrideItemList.SelectedItem.ToString) = False Or (Integer.TryParse(Item, itemID) = False) Then
                 Return 'not a real item
             End If
 

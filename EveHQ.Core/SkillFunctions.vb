@@ -24,7 +24,7 @@ Imports System.Xml
 Public Class SkillFunctions
 
     ' Shared variables for repeated usage
-    Shared _sTimeSpan, _eTimeSpan, _tTimeSpan As TimeSpan
+    Shared sTimeSpan, eTimeSpan, tTimeSpan As TimeSpan
 
     Public Shared Function Roman(ByVal dec As Integer) As String
 
@@ -211,8 +211,8 @@ Public Class SkillFunctions
 
     Public Shared Function CalcCurrentSkillTime(ByRef myPilot As EveHQPilot) As Long
         If myPilot.Training = True Then
-            _eTimeSpan = ConvertEveTimeToLocal(myPilot.TrainingEndTime) - Now
-            myPilot.TrainingCurrentTime = CLng(Math.Max(_eTimeSpan.TotalSeconds, 0))
+            eTimeSpan = ConvertEveTimeToLocal(myPilot.TrainingEndTime) - Now
+            myPilot.TrainingCurrentTime = CLng(Math.Max(eTimeSpan.TotalSeconds, 0))
             Return myPilot.TrainingCurrentTime
         Else
             Return 0
@@ -221,13 +221,13 @@ Public Class SkillFunctions
 
     Public Shared Function CalcCurrentSkillPoints(ByRef myPilot As EveHQPilot) As Long
         If myPilot.Training = True Then
-            _tTimeSpan = myPilot.TrainingEndTime - myPilot.TrainingStartTime
+            tTimeSpan = myPilot.TrainingEndTime - myPilot.TrainingStartTime
             If DateTime.Compare(Now, ConvertEveTimeToLocal(myPilot.TrainingEndTime)) < 0 Then
-                _sTimeSpan = Now - ConvertEveTimeToLocal(myPilot.TrainingStartTime)
+                sTimeSpan = Now - ConvertEveTimeToLocal(myPilot.TrainingStartTime)
             Else
-                _sTimeSpan = _tTimeSpan
+                sTimeSpan = tTimeSpan
             End If
-            myPilot.TrainingCurrentSP = CInt(_sTimeSpan.TotalSeconds / _tTimeSpan.TotalSeconds * (myPilot.TrainingEndSP - myPilot.TrainingStartSP))
+            myPilot.TrainingCurrentSP = CInt(sTimeSpan.TotalSeconds / tTimeSpan.TotalSeconds * (myPilot.TrainingEndSP - myPilot.TrainingStartSP))
             Return myPilot.TrainingCurrentSP
         Else
             Return 0
@@ -315,10 +315,10 @@ Public Class SkillFunctions
         ' Filter attributes to skills for quicker parsing in the loop
         Dim skillAtts As List(Of TypeAttrib) = (From ta In StaticData.TypeAttributes Where skillAttFilter.Contains(ta.TypeId)).ToList
 
-        Const maxPreReqs As Integer = 10
+        Const MaxPreReqs As Integer = 10
         For Each newSkill As EveSkill In HQ.SkillListID.Values
-            Dim preReqSkills(maxPreReqs) As Integer
-            Dim preReqSkillLevels(maxPreReqs) As Integer
+            Dim preReqSkills(MaxPreReqs) As Integer
+            Dim preReqSkillLevels(MaxPreReqs) As Integer
 
             ' Fetch the attributes for the item
             Dim skillID As Integer = CInt(newSkill.ID)
@@ -328,28 +328,28 @@ Public Class SkillFunctions
                     Case 180
                         Select Case CInt(att.Value)
                             Case 164
-                                newSkill.PA = "Charisma"
+                                newSkill.Pa = "Charisma"
                             Case 165
-                                newSkill.PA = "Intelligence"
+                                newSkill.Pa = "Intelligence"
                             Case 166
-                                newSkill.PA = "Memory"
+                                newSkill.Pa = "Memory"
                             Case 167
-                                newSkill.PA = "Perception"
+                                newSkill.Pa = "Perception"
                             Case 168
-                                newSkill.PA = "Willpower"
+                                newSkill.Pa = "Willpower"
                         End Select
                     Case 181
                         Select Case CInt(att.Value)
                             Case 164
-                                newSkill.SA = "Charisma"
+                                newSkill.Sa = "Charisma"
                             Case 165
-                                newSkill.SA = "Intelligence"
+                                newSkill.Sa = "Intelligence"
                             Case 166
-                                newSkill.SA = "Memory"
+                                newSkill.Sa = "Memory"
                             Case 167
-                                newSkill.SA = "Perception"
+                                newSkill.Sa = "Perception"
                             Case 168
-                                newSkill.SA = "Willpower"
+                                newSkill.Sa = "Willpower"
                         End Select
                     Case 275
                         newSkill.Rank = CInt(att.Value)
@@ -382,7 +382,7 @@ Public Class SkillFunctions
             Next
 
             ' Add the pre-reqs into the list
-            For prereq As Integer = 1 To maxPreReqs
+            For prereq As Integer = 1 To MaxPreReqs
                 If preReqSkills(prereq) <> 0 Then
                     newSkill.PreReqSkills.Add(preReqSkills(prereq), preReqSkillLevels(prereq))
                 End If

@@ -183,8 +183,8 @@ Namespace Forms
                         Next
                     End If
                 Next
-                Const strSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
-                Dim mailData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+                Const StrSQL As String = "SELECT * FROM eveMail ORDER BY messageID DESC;"
+                Dim mailData As DataSet = CustomDataFunctions.GetCustomData(StrSQL)
                 If mailData IsNot Nothing Then
                     If mailData.Tables(0).Rows.Count > 0 Then
                         Dim ids As New List(Of String)
@@ -437,9 +437,9 @@ Namespace Forms
             If reply = DialogResult.No Then
                 Exit Sub
             Else
-                Const updateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
-                If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                    MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Const UpdateSQL As String = "UPDATE eveMail SET readMail=1 WHERE readMail=0;"
+                If CustomDataFunctions.SetCustomData(UpdateSQL) = -2 Then
+                    MessageBox.Show("There was an error setting the read status of the EveMails. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & UpdateSQL.ToString, "Error Setting EveMail Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
                 Call UpdateMails()
                 Call MailUpdateCompleted()
@@ -452,9 +452,9 @@ Namespace Forms
             If reply = DialogResult.No Then
                 Exit Sub
             Else
-                Const updateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
-                If CustomDataFunctions.SetCustomData(updateSQL) = -2 Then
-                    MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & updateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                Const UpdateSQL As String = "UPDATE eveNotifications SET readMail=1 WHERE readMail=0;"
+                If CustomDataFunctions.SetCustomData(UpdateSQL) = -2 Then
+                    MessageBox.Show("There was an error setting the read status of the Eve Notifications. The error was: " & ControlChars.CrLf & ControlChars.CrLf & HQ.DataError & ControlChars.CrLf & ControlChars.CrLf & "Data: " & UpdateSQL.ToString, "Error Setting Eve Notification Status", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End If
                 Call UpdateNotifications()
                 Call MailUpdateCompleted()

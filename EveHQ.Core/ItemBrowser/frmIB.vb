@@ -919,8 +919,8 @@ Namespace ItemBrowser
             If bpID <> 0 Then
 
                 ' Get the materials for the BP and add them to the list
-                Const activity As Integer = 1
-                For Each br As BlueprintResource In StaticData.Blueprints(bpID).Resources(activity).Values
+                Const Activity As Integer = 1
+                For Each br As BlueprintResource In StaticData.Blueprints(bpID).Resources(Activity).Values
                     Dim mn As New Node
                     mn.Text = StaticData.Types(br.TypeId).Name
                     mn.Cells.Add(New Cell(br.Quantity.ToString("N0")))
@@ -963,13 +963,13 @@ Namespace ItemBrowser
             If bpID <> 0 Then
 
                 ' Get the materials for the BP and add them to the list
-                Const activity As Integer = 1
+                Const Activity As Integer = 1
                 For Each bt As Blueprint In StaticData.Blueprints.Values
-                    If bt.Resources.ContainsKey(activity) Then
-                        If bt.Resources(activity).ContainsKey(itemID) Then
+                    If bt.Resources.ContainsKey(Activity) Then
+                        If bt.Resources(Activity).ContainsKey(itemID) Then
                             Dim mn As New Node
                             mn.Text = StaticData.Types(bt.ProductId).Name
-                            mn.Cells.Add(New Cell(bt.Resources(activity).Item(itemID).Quantity.ToString("N0")))
+                            mn.Cells.Add(New Cell(bt.Resources(Activity).Item(itemID).Quantity.ToString("N0")))
                             adtComponents.Nodes.Add(mn)
                         End If
                     End If

@@ -102,14 +102,14 @@ Public Class Standings
                             If standingsList IsNot Nothing Then
                                 If standingsList.Count > 0 Then
 
-                                    Const currentStandingsType As StandingType = StandingType.PlayerCorp
+                                    Const CurrentStandingsType As StandingType = StandingType.PlayerCorp
 
                                     For Each entity As XmlNode In standingsList
 
                                         Dim newStanding As New PilotStanding
                                         newStanding.ID = CLng(entity.Attributes.GetNamedItem("contactID").Value)
                                         newStanding.Name = entity.Attributes.GetNamedItem("contactName").Value
-                                        newStanding.Type = currentStandingsType
+                                        newStanding.Type = CurrentStandingsType
                                         newStanding.Standing = Double.Parse(entity.Attributes.GetNamedItem("standing").Value, culture)
                                         If pilot.Standings.ContainsKey(newStanding.ID) = False Then
                                             pilot.Standings.Add(newStanding.ID, newStanding)

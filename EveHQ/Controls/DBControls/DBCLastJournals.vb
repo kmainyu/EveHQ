@@ -117,12 +117,12 @@ Namespace Controls.DBControls
                 Dim cPilot As EveHQPilot = HQ.Settings.Pilots(cboPilotList.SelectedItem.ToString)
                 Dim cAccount As EveHQAccount = HQ.Settings.Accounts(cPilot.Account)
                 Dim cCharID As String = cPilot.ID
-                Const accountKey As Integer = 1000
+                Const AccountKey As Integer = 1000
                 Dim transA As Double
                 Dim transB As Double
 
-                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                transactionsXML = apiReq.GetAPIXML(APITypes.WalletJournalChar, cAccount.ToAPIAccount, cCharID, accountKey, 0, 256, APIReturnMethods.ReturnStandard)
+                Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                transactionsXML = apiReq.GetAPIXML(APITypes.WalletJournalChar, cAccount.ToAPIAccount, cCharID, AccountKey, 0, 256, APIReturnMethods.ReturnStandard)
 
                 'Parse the XML document
                 If transactionsXML IsNot Nothing Then

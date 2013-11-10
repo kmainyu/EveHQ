@@ -55,12 +55,12 @@ Public Class ImageHandler
     End Function
 
     Public Shared Function CombineIcons24() As Boolean
-        Const iconSize As Integer = 24
+        Const IconSize As Integer = 24
         ItemIcons24.Clear()
 
         For Each baseIcon As String In BaseIcons.Keys
             For Each metaIcon As String In MetaIcons.Keys
-                ItemIcons24.Add(baseIcon & "_" & metaIcon, CreateIcon(baseIcon, metaIcon, iconSize))
+                ItemIcons24.Add(baseIcon & "_" & metaIcon, CreateIcon(baseIcon, metaIcon, IconSize))
             Next
         Next
 
@@ -69,12 +69,12 @@ Public Class ImageHandler
     End Function
 
     Public Shared Function CombineIcons48() As Boolean
-        Const iconSize As Integer = 48
+        Const IconSize As Integer = 48
         ItemIcons48.Clear()
 
         For Each baseIcon As String In BaseIcons.Keys
             For Each metaIcon As String In MetaIcons.Keys
-                ItemIcons48.Add(baseIcon & "_" & metaIcon, CreateIcon(baseIcon, metaIcon, iconSize))
+                ItemIcons48.Add(baseIcon & "_" & metaIcon, CreateIcon(baseIcon, metaIcon, IconSize))
             Next
         Next
 

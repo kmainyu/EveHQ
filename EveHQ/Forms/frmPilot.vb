@@ -261,8 +261,8 @@ Namespace Forms
         End Sub
 
         Private Sub DisplaySkills()
-            Const maxGroups As Integer = 21
-            Dim groupHeaders(maxGroups, 3) As String
+            Const MaxGroups As Integer = 21
+            Dim groupHeaders(MaxGroups, 3) As String
             groupHeaders(0, 0) = "Armor"
             groupHeaders(1, 0) = "Corporation Management"
             groupHeaders(2, 0) = "Drones"
@@ -341,7 +341,7 @@ Namespace Forms
 
             Dim groupStructure As New SortedList
             If chkGroupSkills.Checked = True Then
-                For group As Integer = 0 To maxGroups
+                For group As Integer = 0 To MaxGroups
                     Dim newSkillGroup As New Node("", skillGroupStyle)
                     newSkillGroup.FullRowBackground = True
                     For cell As Integer = 1 To 5
@@ -429,7 +429,7 @@ Namespace Forms
                     newClvItem.Cells(4).Tag = cSkill.SP
 
                     If chkGroupSkills.Checked = True Then
-                        For group As Integer = 0 To maxGroups
+                        For group As Integer = 0 To MaxGroups
                             If cSkill.GroupID = CInt(groupHeaders(group, 1)) Then
                                 'newLine.Group = lvSkills.Groups.Item(skillGroup)
                                 groupHeaders(group, 2) = CStr(CDbl(groupHeaders(group, 2)) + cSkill.SP)

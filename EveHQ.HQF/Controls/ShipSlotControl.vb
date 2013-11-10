@@ -431,7 +431,7 @@ Namespace Controls
             adtSlots.BeginUpdate()
             adtSlots.Nodes.Clear()
 
-            Const shiz As Integer = 24
+            Const Shiz As Integer = 24
             Dim hiSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
             Dim midSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
             Dim lowSlotStyle As ElementStyle = adtSlots.Styles("SlotStyle").Copy
@@ -448,7 +448,7 @@ Namespace Controls
                 Dim parentNode As New Node("High Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "8"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgHiSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgHiSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.HiSlots
                     Dim slotNode As New Node("", hiSlotStyle)
@@ -467,7 +467,7 @@ Namespace Controls
                 Dim parentNode As New Node("Mid Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "4"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgMidSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgMidSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.MidSlots
                     Dim slotNode As New Node("", midSlotStyle)
@@ -486,7 +486,7 @@ Namespace Controls
                 Dim parentNode As New Node("Low Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "2"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgLowSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgLowSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.LowSlots
                     Dim slotNode As New Node("", lowSlotStyle)
@@ -505,7 +505,7 @@ Namespace Controls
                 Dim parentNode As New Node("Rig Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "1"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgRigSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgRigSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.RigSlots
                     Dim slotNode As New Node("", rigSlotStyle)
@@ -524,7 +524,7 @@ Namespace Controls
                 Dim parentNode As New Node("Subsystem Slots", adtSlots.Styles("HeaderStyle"))
                 parentNode.Name = "16"
                 parentNode.FullRowBackground = True
-                parentNode.Image = New Bitmap(My.Resources.imgSubSlot, shiz, shiz)
+                parentNode.Image = New Bitmap(My.Resources.imgSubSlot, Shiz, Shiz)
                 adtSlots.Nodes.Add(parentNode)
                 For slot As Integer = 1 To ParentFitting.BaseShip.SubSlots
                     Dim slotNode As New Node("", subSlotStyle)
@@ -1222,8 +1222,8 @@ Namespace Controls
                     ' Check for activation of siege mode with remote effects
                     If fittedMod.ID = ModuleEnum.ItemSiegeModuleI Or fittedMod.ID = ModuleEnum.ItemSiegeModuleT2 Then
                         If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                            Const msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
-                            Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode",
+                            Const Msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
+                            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Siege Mode",
                                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                             If reply = DialogResult.No Then
                                 fittedMod.ModuleState = oldState
@@ -1237,8 +1237,8 @@ Namespace Controls
                     ' Check for activation of triage mode with remote effects
                     If fittedMod.ID = ModuleEnum.ItemTriageModuleI Or fittedMod.ID = ModuleEnum.ItemTriageModuleT2 Then
                         If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                            Const msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                            Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                            Const Msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
 
                             If reply = DialogResult.No Then
                                 fittedMod.ModuleState = oldState
@@ -2390,8 +2390,8 @@ Namespace Controls
             ' Check for activation of siege mode with remote effects
             If sModule.ID = ModuleEnum.ItemSiegeModuleI Or sModule.ID = ModuleEnum.ItemSiegeModuleT2 Then
                 If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                    Const msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
-                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Const Msg As String = "You have active remote modules and activating Siege Mode will cancel these effects. Do you wish to continue activating Siege Mode?"
+                    Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Siege Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.No Then
                         sModule.ModuleState = oldState
                         Exit Sub
@@ -2404,8 +2404,8 @@ Namespace Controls
             ' Check for activation of triage mode with remote effects
             If sModule.ID = ModuleEnum.ItemTriageModuleI Or sModule.ID = ModuleEnum.ItemTriageModuleT2 Then
                 If ParentFitting.FittedShip.RemoteSlotCollection.Count > 0 Then
-                    Const msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
-                    Dim reply As Integer = MessageBox.Show(msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    Const Msg As String = "You have active remote modules and activating Triage Mode will cancel these effects. Do you wish to continue activating Triage Mode?"
+                    Dim reply As Integer = MessageBox.Show(Msg, "Confirm Activate Triage Mode", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                     If reply = DialogResult.No Then
                         sModule.ModuleState = oldState
                         Exit Sub

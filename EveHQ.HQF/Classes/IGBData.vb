@@ -27,8 +27,8 @@ Namespace Classes
 
     Public Class IGBData
 
-        Shared _currentFitting As Fitting
-        Shared _hqfPilotName As String
+        Shared currentFitting As Fitting
+        Shared hqfPilotName As String
 
         Shared Function Response(ByVal context As HttpListenerContext) As String
             Dim strHTML As New StringBuilder
@@ -65,19 +65,19 @@ Namespace Classes
                 If context.Request.Headers("EVE_TRUSTED") = "no" Then
                     strHTML.Append("<p>This website is not trusted so cannot interact with </p>")
                 Else
-                    _hqfPilotName = context.Request.Headers("EVE_CHARNAME")
-                    If FittingPilots.HQFPilots.ContainsKey(_hqfPilotName) = False Then
+                    hqfPilotName = context.Request.Headers("EVE_CHARNAME")
+                    If FittingPilots.HQFPilots.ContainsKey(hqfPilotName) = False Then
                         If FittingPilots.HQFPilots.Count = 0 Then
-                            _hqfPilotName = ""
+                            hqfPilotName = ""
                         Else
-                            _hqfPilotName = FittingPilots.HQFPilots.Keys(0).ToString
+                            hqfPilotName = FittingPilots.HQFPilots.Keys(0).ToString
                         End If
                     End If
                 End If
-                If _hqfPilotName = "" Then
+                If hqfPilotName = "" Then
                     strHTML.Append("<p>Unable to find a suitable pilot to display skills. Check HQF is enabled and has been loaded.</p>")
                 Else
-                    strHTML.Append("<p>Fitting statistics will be for " & _hqfPilotName & " unless otherwise stated</p>")
+                    strHTML.Append("<p>Fitting statistics will be for " & hqfPilotName & " unless otherwise stated</p>")
                     strHTML.Append("</p>")
                     strHTML.Append("<form method=""GET"" action=""/EveHQFitter/EveFitting"">")
                     strHTML.Append("Paste Eve Fitting:  ")
@@ -96,12 +96,12 @@ Namespace Classes
             Dim fittingName As String
 
             strHTML.Append("<table width=100% border=1>")
-            Const lastShip As String = ""
+            Const LastShip As String = ""
             For Each fitting As String In Fittings.FittingList.Keys
                 shipName = Fittings.FittingList(fitting).ShipName
                 fittingName = Fittings.FittingList(fitting).FittingName
 
-                If shipName <> lastShip Then
+                If shipName <> LastShip Then
                     strHTML.Append("<tr>")
                     strHTML.Append("<td width=20px>&nbsp;</td>")
                     strHTML.Append("<td width=32px><img src='http://image.eveonline.com/Render/" & ShipLists.ShipListKeyName(shipName) & "_32.png' width=32px height=32px></td>")
@@ -153,61 +153,61 @@ Namespace Classes
                         'Next
 
                         ' Set the fitting details and apply it
-                        _currentFitting = DNAFitting.GetFittingFromEveDNA(fittingDNA, fittingName)
+                        currentFitting = DNAFitting.GetFittingFromEveDNA(fittingDNA, fittingName)
 
                         If HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot")) <> "" Then
-                            _currentFitting.PilotName = HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot"))
+                            currentFitting.PilotName = HttpUtility.UrlDecode(context.Request.QueryString.Item("pilot"))
                         Else
-                            _currentFitting.PilotName = _hqfPilotName
+                            currentFitting.PilotName = hqfPilotName
                         End If
-                        _currentFitting.UpdateBaseShipFromFitting()
+                        currentFitting.UpdateBaseShipFromFitting()
 
                         If HttpUtility.UrlDecode(context.Request.QueryString.Item("implants")) <> "" Then
-                            _currentFitting.ImplantGroup = HttpUtility.UrlDecode(context.Request.QueryString.Item("implants"))
+                            currentFitting.ImplantGroup = HttpUtility.UrlDecode(context.Request.QueryString.Item("implants"))
                         Else
-                            _currentFitting.ImplantGroup = FittingPilots.HQFPilots(_currentFitting.PilotName).ImplantName(0)
+                            currentFitting.ImplantGroup = FittingPilots.HQFPilots(currentFitting.PilotName).ImplantName(0)
                         End If
-                        FittingPilots.HQFPilots(_currentFitting.PilotName).ImplantName(0) = _currentFitting.ImplantGroup
+                        FittingPilots.HQFPilots(currentFitting.PilotName).ImplantName(0) = currentFitting.ImplantGroup
 
                         If HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")) <> "" Then
-                            _currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList(HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")))
+                            currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList(HttpUtility.UrlDecode(context.Request.QueryString.Item("damage")))
                         Else
-                            _currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
+                            currentFitting.BaseShip.DamageProfile = HQFDamageProfiles.ProfileList("<Omni-Damage>")
                         End If
 
                         ' Check for charges
-                        For slot As Integer = 1 To _currentFitting.BaseShip.HiSlots
-                            If _currentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
-                                Dim chargeName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item(_currentFitting.BaseShip.HiSlot(slot).Name))
+                        For slot As Integer = 1 To currentFitting.BaseShip.HiSlots
+                            If currentFitting.BaseShip.HiSlot(slot) IsNot Nothing Then
+                                Dim chargeName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item(currentFitting.BaseShip.HiSlot(slot).Name))
                                 If chargeName <> "" Then
                                     ' Load the charge
                                     Dim charge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(chargeName)).Clone
-                                    _currentFitting.BaseShip.HiSlot(slot).LoadedCharge = charge
+                                    currentFitting.BaseShip.HiSlot(slot).LoadedCharge = charge
                                 Else
-                                    If _currentFitting.BaseShip.HiSlot(slot).Charges.Count <> 0 Then
-                                        Dim firstCharge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(_currentFitting.BaseShip.HiSlot(slot).GetChargeList.Keys(0))).Clone
-                                        _currentFitting.BaseShip.HiSlot(slot).LoadedCharge = firstCharge
+                                    If currentFitting.BaseShip.HiSlot(slot).Charges.Count <> 0 Then
+                                        Dim firstCharge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(currentFitting.BaseShip.HiSlot(slot).GetChargeList.Keys(0))).Clone
+                                        currentFitting.BaseShip.HiSlot(slot).LoadedCharge = firstCharge
                                     End If
                                 End If
                             End If
                         Next
-                        For slot As Integer = 1 To _currentFitting.BaseShip.MidSlots
-                            If _currentFitting.BaseShip.MidSlot(slot) IsNot Nothing Then
-                                Dim chargeName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item(_currentFitting.BaseShip.MidSlot(slot).Name))
+                        For slot As Integer = 1 To currentFitting.BaseShip.MidSlots
+                            If currentFitting.BaseShip.MidSlot(slot) IsNot Nothing Then
+                                Dim chargeName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item(currentFitting.BaseShip.MidSlot(slot).Name))
                                 If chargeName <> "" Then
                                     ' Load the charge
                                     Dim charge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(chargeName)).Clone
-                                    _currentFitting.BaseShip.MidSlot(slot).LoadedCharge = charge
+                                    currentFitting.BaseShip.MidSlot(slot).LoadedCharge = charge
                                 Else
-                                    If _currentFitting.BaseShip.MidSlot(slot).Charges.Count <> 0 Then
-                                        Dim firstCharge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(_currentFitting.BaseShip.MidSlot(slot).GetChargeList.Keys(0))).Clone
-                                        _currentFitting.BaseShip.MidSlot(slot).LoadedCharge = firstCharge
+                                    If currentFitting.BaseShip.MidSlot(slot).Charges.Count <> 0 Then
+                                        Dim firstCharge As ShipModule = ModuleLists.ModuleList(ModuleLists.ModuleListName(currentFitting.BaseShip.MidSlot(slot).GetChargeList.Keys(0))).Clone
+                                        currentFitting.BaseShip.MidSlot(slot).LoadedCharge = firstCharge
                                     End If
                                 End If
                             End If
                         Next
 
-                        _currentFitting.ApplyFitting()
+                        currentFitting.ApplyFitting()
 
                         strHTML.Append("<form method=""GET"" action=""/EveHQFitter/EveFitting"">")
 
@@ -217,7 +217,7 @@ Namespace Classes
                         strHTML.Append("<select name=pilot style='width: 100%; height:16px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                         For Each pilot As String In FittingPilots.HQFPilots.Keys
                             strHTML.Append("<option ")
-                            If pilot = _currentFitting.PilotName Then
+                            If pilot = currentFitting.PilotName Then
                                 strHTML.Append("selected='selected'")
                             End If
                             strHTML.Append(">" & pilot & "</option>")
@@ -227,7 +227,7 @@ Namespace Classes
                         strHTML.Append("<select name=implants style='width: 100%; height:16px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                         For Each implant As String In PluginSettings.HQFSettings.ImplantGroups.Keys
                             strHTML.Append("<option ")
-                            If implant = _currentFitting.ImplantGroup Then
+                            If implant = currentFitting.ImplantGroup Then
                                 strHTML.Append("selected='selected'")
                             End If
                             strHTML.Append(">" & implant & "</option>")
@@ -237,7 +237,7 @@ Namespace Classes
                         strHTML.Append("<select name=damage style='width: 100%; height:16px; font:normal 10px Arial, Tahoma; text-decoration:none;'>")
                         For Each profile As String In HQFDamageProfiles.ProfileList.Keys
                             strHTML.Append("<option ")
-                            If profile = _currentFitting.BaseShip.DamageProfile.Name Then
+                            If profile = currentFitting.BaseShip.DamageProfile.Name Then
                                 strHTML.Append("selected='selected'")
                             End If
                             strHTML.Append(">" & HttpUtility.HtmlEncode(profile) & "</option>")
@@ -251,43 +251,43 @@ Namespace Classes
                         Dim lowSlots As New SortedList(Of String, Integer)
                         Dim rigSlots As New SortedList(Of String, Integer)
                         Dim drones As New SortedList(Of String, Integer)
-                        For slot As Integer = 1 To _currentFitting.FittedShip.HiSlots
-                            If _currentFitting.FittedShip.HiSlot(slot) IsNot Nothing Then
-                                If hiSlots.ContainsKey(_currentFitting.FittedShip.HiSlot(slot).Name) = False Then
-                                    hiSlots.Add(_currentFitting.FittedShip.HiSlot(slot).Name, 1)
+                        For slot As Integer = 1 To currentFitting.FittedShip.HiSlots
+                            If currentFitting.FittedShip.HiSlot(slot) IsNot Nothing Then
+                                If hiSlots.ContainsKey(currentFitting.FittedShip.HiSlot(slot).Name) = False Then
+                                    hiSlots.Add(currentFitting.FittedShip.HiSlot(slot).Name, 1)
                                 Else
-                                    hiSlots(_currentFitting.FittedShip.HiSlot(slot).Name) += 1
+                                    hiSlots(currentFitting.FittedShip.HiSlot(slot).Name) += 1
                                 End If
                             End If
                         Next
-                        For slot As Integer = 1 To _currentFitting.FittedShip.MidSlots
-                            If _currentFitting.FittedShip.MidSlot(slot) IsNot Nothing Then
-                                If midSlots.ContainsKey(_currentFitting.FittedShip.MidSlot(slot).Name) = False Then
-                                    midSlots.Add(_currentFitting.FittedShip.MidSlot(slot).Name, 1)
+                        For slot As Integer = 1 To currentFitting.FittedShip.MidSlots
+                            If currentFitting.FittedShip.MidSlot(slot) IsNot Nothing Then
+                                If midSlots.ContainsKey(currentFitting.FittedShip.MidSlot(slot).Name) = False Then
+                                    midSlots.Add(currentFitting.FittedShip.MidSlot(slot).Name, 1)
                                 Else
-                                    midSlots(_currentFitting.FittedShip.MidSlot(slot).Name) += 1
+                                    midSlots(currentFitting.FittedShip.MidSlot(slot).Name) += 1
                                 End If
                             End If
                         Next
-                        For slot As Integer = 1 To _currentFitting.FittedShip.LowSlots
-                            If _currentFitting.FittedShip.LowSlot(slot) IsNot Nothing Then
-                                If lowSlots.ContainsKey(_currentFitting.FittedShip.LowSlot(slot).Name) = False Then
-                                    lowSlots.Add(_currentFitting.FittedShip.LowSlot(slot).Name, 1)
+                        For slot As Integer = 1 To currentFitting.FittedShip.LowSlots
+                            If currentFitting.FittedShip.LowSlot(slot) IsNot Nothing Then
+                                If lowSlots.ContainsKey(currentFitting.FittedShip.LowSlot(slot).Name) = False Then
+                                    lowSlots.Add(currentFitting.FittedShip.LowSlot(slot).Name, 1)
                                 Else
-                                    lowSlots(_currentFitting.FittedShip.LowSlot(slot).Name) += 1
+                                    lowSlots(currentFitting.FittedShip.LowSlot(slot).Name) += 1
                                 End If
                             End If
                         Next
-                        For slot As Integer = 1 To _currentFitting.FittedShip.RigSlots
-                            If _currentFitting.FittedShip.RigSlot(slot) IsNot Nothing Then
-                                If rigSlots.ContainsKey(_currentFitting.FittedShip.RigSlot(slot).Name) = False Then
-                                    rigSlots.Add(_currentFitting.FittedShip.RigSlot(slot).Name, 1)
+                        For slot As Integer = 1 To currentFitting.FittedShip.RigSlots
+                            If currentFitting.FittedShip.RigSlot(slot) IsNot Nothing Then
+                                If rigSlots.ContainsKey(currentFitting.FittedShip.RigSlot(slot).Name) = False Then
+                                    rigSlots.Add(currentFitting.FittedShip.RigSlot(slot).Name, 1)
                                 Else
-                                    rigSlots(_currentFitting.FittedShip.RigSlot(slot).Name) += 1
+                                    rigSlots(currentFitting.FittedShip.RigSlot(slot).Name) += 1
                                 End If
                             End If
                         Next
-                        For Each dbi As DroneBayItem In _currentFitting.FittedShip.DroneBayItems.Values
+                        For Each dbi As DroneBayItem In currentFitting.FittedShip.DroneBayItems.Values
                             If drones.ContainsKey(dbi.DroneType.Name) = False Then
                                 drones.Add(dbi.DroneType.Name, dbi.Quantity)
                             Else
@@ -301,22 +301,22 @@ Namespace Classes
 
                         ' Draw ship
                         strHTML.Append("<table width=100% border=1>")
-                        strHTML.Append("<tr><td width=64px><img src='http://image.eveonline.com/Render/" & ShipLists.shipListKeyName(_currentFitting.ShipName) & "_64.png' width=64px height=64px>")
+                        strHTML.Append("<tr><td width=64px><img src='http://image.eveonline.com/Render/" & ShipLists.ShipListKeyName(currentFitting.ShipName) & "_64.png' width=64px height=64px>")
                         strHTML.Append("</td><td valign=top style='font:normal 16px  Arial, Tahoma;'>")
-                        strHTML.Append("<div style='font:normal 18px  Arial, Tahoma;'><b>" & _currentFitting.ShipName & "</b></div><br />")
+                        strHTML.Append("<div style='font:normal 18px  Arial, Tahoma;'><b>" & currentFitting.ShipName & "</b></div><br />")
                         strHTML.Append("<div style='font:normal 12px  Arial, Tahoma;'>[" & fittingName & "]</div></td></tr>")
                         strHTML.Append("</table>")
 
                         ' Draw fitting table
                         strHTML.Append("<table width=100% border=1>")
 
-                        If _currentFitting.FittedShip.HiSlots > 0 Then
+                        If currentFitting.FittedShip.HiSlots > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>High Slots</b></td></tr>")
                             Dim modCount As Integer = 0
                             For Each slot As String In hiSlots.Keys
                                 Dim chargeList As SortedList(Of String, String) = ModuleLists.ModuleList(ModuleLists.ModuleListName(slot)).GetChargeList
                                 If chargeList.Count > 0 Then
-                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
                                         strHTML.Append("<tr><td width=50% bgcolor=#333333>" & hiSlots(slot) & "x " & slot & "</td>")
                                     Else
                                         strHTML.Append("<tr><td width=50% bgcolor=#333333><font color=""red"">" & hiSlots(slot) & "x " & slot & "</font></td>")
@@ -332,7 +332,7 @@ Namespace Classes
                                     Next
                                     strHTML.Append("</select></td></tr>")
                                 Else
-                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
                                         strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & hiSlots(slot) & "x " & slot & "</td></tr>")
                                     Else
                                         strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & hiSlots(slot) & "x " & slot & "</font></td></tr>")
@@ -340,21 +340,21 @@ Namespace Classes
                                 End If
                                 modCount += hiSlots(slot)
                             Next
-                            If modCount < _currentFitting.FittedShip.HiSlots Then
+                            If modCount < currentFitting.FittedShip.HiSlots Then
                                 ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                For emptySlot As Integer = 1 To _currentFitting.FittedShip.HiSlots - modCount
+                                For emptySlot As Integer = 1 To currentFitting.FittedShip.HiSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
                             End If
                         End If
 
-                        If _currentFitting.FittedShip.MidSlots > 0 Then
+                        If currentFitting.FittedShip.MidSlots > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Mid Slots</b></td></tr>")
                             Dim modCount As Integer = 0
                             For Each slot As String In midSlots.Keys
                                 Dim chargeList As SortedList(Of String, String) = ModuleLists.ModuleList(ModuleLists.ModuleListName(slot)).GetChargeList
                                 If chargeList.Count > 0 Then
-                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
                                         strHTML.Append("<tr><td width=50% bgcolor=#333333>" & midSlots(slot) & "x " & slot & "</td>")
                                     Else
                                         strHTML.Append("<tr><td width=50% bgcolor=#333333><font color=""red"">" & midSlots(slot) & "x " & slot & "</font></td>")
@@ -370,68 +370,68 @@ Namespace Classes
                                     Next
                                     strHTML.Append("</select></td></tr>")
                                 Else
-                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
                                         strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & midSlots(slot) & "x " & slot & "</td></tr>")
-                                        Else
+                                    Else
                                         strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & midSlots(slot) & "x " & slot & "</font></td></tr>")
                                     End If
                                 End If
                                 modCount += midSlots(slot)
                             Next
-                            If modCount < _currentFitting.FittedShip.MidSlots Then
+                            If modCount < currentFitting.FittedShip.MidSlots Then
                                 ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                For emptySlot As Integer = 1 To _currentFitting.FittedShip.MidSlots - modCount
+                                For emptySlot As Integer = 1 To currentFitting.FittedShip.MidSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
                             End If
                         End If
 
-                        If _currentFitting.FittedShip.LowSlots > 0 Then
+                        If currentFitting.FittedShip.LowSlots > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Low Slots</b></td></tr>")
                             Dim modCount As Integer = 0
                             For Each slot As String In lowSlots.Keys
-                                If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & lowSlots(slot) & "x " & slot & "</td></tr>")
                                 Else
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & lowSlots(slot) & "x " & slot & "</font></td></tr>")
                                 End If
                                 modCount += lowSlots(slot)
                             Next
-                            If modCount < _currentFitting.FittedShip.LowSlots Then
+                            If modCount < currentFitting.FittedShip.LowSlots Then
                                 ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                For emptySlot As Integer = 1 To _currentFitting.FittedShip.LowSlots - modCount
+                                For emptySlot As Integer = 1 To currentFitting.FittedShip.LowSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
                             End If
                         End If
 
-                        If _currentFitting.FittedShip.RigSlots > 0 Then
+                        If currentFitting.FittedShip.RigSlots > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Rig Slots</b></td></tr>")
                             Dim modCount As Integer = 0
                             For Each slot As String In rigSlots.Keys
-                                If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
+                                If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(slot))) Then
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & rigSlots(slot) & "x " & slot & "</td></tr>")
                                 Else
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & rigSlots(slot) & "x " & slot & "</font></td></tr>")
                                 End If
                                 modCount += rigSlots(slot)
                             Next
-                            If modCount < _currentFitting.FittedShip.RigSlots Then
+                            If modCount < currentFitting.FittedShip.RigSlots Then
                                 ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                                For emptySlot As Integer = 1 To _currentFitting.FittedShip.RigSlots - modCount
+                                For emptySlot As Integer = 1 To currentFitting.FittedShip.RigSlots - modCount
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
                                 Next
                             End If
                         End If
 
-                        If _currentFitting.FittedShip.SubSlots > 0 Then
+                        If currentFitting.FittedShip.SubSlots > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Subsystem Slots</b></td></tr>")
-                            For slot As Integer = 1 To _currentFitting.FittedShip.SubSlots
-                                If _currentFitting.FittedShip.SubSlot(slot) IsNot Nothing Then
-                                    If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), _currentFitting.FittedShip.SubSlot(slot)) Then
-                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & _currentFitting.FittedShip.SubSlot(slot).Name & "</td></tr>")
+                            For slot As Integer = 1 To currentFitting.FittedShip.SubSlots
+                                If currentFitting.FittedShip.SubSlot(slot) IsNot Nothing Then
+                                    If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), currentFitting.FittedShip.SubSlot(slot)) Then
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & currentFitting.FittedShip.SubSlot(slot).Name & "</td></tr>")
                                     Else
-                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & _currentFitting.FittedShip.SubSlot(slot).Name & "</font></td></tr>")
+                                        strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & currentFitting.FittedShip.SubSlot(slot).Name & "</font></td></tr>")
                                     End If
                                 Else
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>[Empty]</td></tr>")
@@ -439,10 +439,10 @@ Namespace Classes
                             Next
                         End If
 
-                        If _currentFitting.FittedShip.DroneBayItems.Count > 0 Then
+                        If currentFitting.FittedShip.DroneBayItems.Count > 0 Then
                             strHTML.Append("<tr><td colspan=2 bgcolor=#111111><b>Drone Bay</b></td></tr>")
                             For Each droneName As String In drones.Keys
-                                If Engine.IsUsable(FittingPilots.HQFPilots(_currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(droneName))) Then
+                                If Engine.IsUsable(FittingPilots.HQFPilots(currentFitting.PilotName), ModuleLists.ModuleList(ModuleLists.ModuleListName(droneName))) Then
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333>" & drones(droneName).ToString("N0") & "x " & droneName & "</td></tr>")
                                 Else
                                     strHTML.Append("<tr><td colspan=2 bgcolor=#333333><font color=""red"">" & drones(droneName).ToString("N0") & "x " & droneName & "</font></td></tr>")
@@ -459,34 +459,34 @@ Namespace Classes
                         ' Write fitting stats
                         strHTML.Append("<table width=100% border=1>")
                         strHTML.Append("<tr bgcolor=#111111><td colspan=5><b>Fitting</b></td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>CPU</b></td><td colspan=4>" & _currentFitting.FittedShip.CPUUsed.ToString("N2") & " / " & _currentFitting.FittedShip.CPU.ToString("N2") & "</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>PG</b></td><td colspan=4>" & _currentFitting.FittedShip.PGUsed.ToString("N2") & " / " & _currentFitting.FittedShip.PG.ToString("N2") & "</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Calibration</b></td><td colspan=4>" & _currentFitting.FittedShip.CalibrationUsed.ToString("N2") & " / " & _currentFitting.FittedShip.Calibration.ToString("N2") & "</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>CPU</b></td><td colspan=4>" & currentFitting.FittedShip.CPUUsed.ToString("N2") & " / " & currentFitting.FittedShip.CPU.ToString("N2") & "</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>PG</b></td><td colspan=4>" & currentFitting.FittedShip.PGUsed.ToString("N2") & " / " & currentFitting.FittedShip.PG.ToString("N2") & "</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Calibration</b></td><td colspan=4>" & currentFitting.FittedShip.CalibrationUsed.ToString("N2") & " / " & currentFitting.FittedShip.Calibration.ToString("N2") & "</td></tr>")
                         strHTML.Append("</table>")
 
                         ' Write defence stats
                         strHTML.Append("<table width=100% border=1>")
                         strHTML.Append("<tr bgcolor=#111111><td colspan=5><b>Defence</b></td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Shield HP</b></td><td colspan=2>" & _currentFitting.FittedShip.ShieldCapacity.ToString("N0") & " (Effective: " & _currentFitting.FittedShip.EffectiveShieldHP.ToString("N0") & ")</td><td width=20%><b>Recharge</b></td><td>" & _currentFitting.FittedShip.ShieldRecharge.ToString("N2") & "s</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Armor HP</b></td><td colspan=4>" & _currentFitting.FittedShip.ArmorCapacity.ToString("N0") & " (Effective: " & _currentFitting.FittedShip.EffectiveArmorHP.ToString("N0") & ")</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Hull HP</b></td><td colspan=4>" & _currentFitting.FittedShip.StructureCapacity.ToString("N0") & " (Effective: " & _currentFitting.FittedShip.EffectiveStructureHP.ToString("N0") & ")</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Total EHP</b></td><td colspan=4>" & _currentFitting.FittedShip.EffectiveHP.ToString("N0") & " (Eve: " & _currentFitting.FittedShip.EveEffectiveHP.ToString("N0") & ")</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Tank Ability</b></td><td colspan=4>" & CDbl(_currentFitting.FittedShip.Attributes(10062)).ToString("N2") & " DPS</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Shield Resists</b></td><td width=20%>EM: " & _currentFitting.FittedShip.ShieldEMResist.ToString("N2") & "%</td> <td width=20%>Exp: " & _currentFitting.FittedShip.ShieldExResist.ToString("N2") & "%</td><td width=20%>Kin: " & _currentFitting.FittedShip.ShieldKiResist.ToString("N2") & "%</td><td width=20%>Th: " & _currentFitting.FittedShip.ShieldThResist.ToString("N2") & "%</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Armor Resists</b></td><td width=20%>EM: " & _currentFitting.FittedShip.ArmorEMResist.ToString("N2") & "%</td> <td width=20%>Exp: " & _currentFitting.FittedShip.ArmorExResist.ToString("N2") & "%</td><td width=20%>Kin: " & _currentFitting.FittedShip.ArmorKiResist.ToString("N2") & "%</td><td width=20%>Th: " & _currentFitting.FittedShip.ArmorThResist.ToString("N2") & "%</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Hull Resists</b></td><td width=20%>EM: " & _currentFitting.FittedShip.StructureEMResist.ToString("N2") & "%</td> <td width=20%>Exp: " & _currentFitting.FittedShip.StructureExResist.ToString("N2") & "%</td><td width=20%>Kin: " & _currentFitting.FittedShip.StructureKiResist.ToString("N2") & "%</td><td width=20%>Th: " & _currentFitting.FittedShip.StructureThResist.ToString("N2") & "%</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Shield HP</b></td><td colspan=2>" & currentFitting.FittedShip.ShieldCapacity.ToString("N0") & " (Effective: " & currentFitting.FittedShip.EffectiveShieldHP.ToString("N0") & ")</td><td width=20%><b>Recharge</b></td><td>" & currentFitting.FittedShip.ShieldRecharge.ToString("N2") & "s</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Armor HP</b></td><td colspan=4>" & currentFitting.FittedShip.ArmorCapacity.ToString("N0") & " (Effective: " & currentFitting.FittedShip.EffectiveArmorHP.ToString("N0") & ")</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Hull HP</b></td><td colspan=4>" & currentFitting.FittedShip.StructureCapacity.ToString("N0") & " (Effective: " & currentFitting.FittedShip.EffectiveStructureHP.ToString("N0") & ")</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Total EHP</b></td><td colspan=4>" & currentFitting.FittedShip.EffectiveHP.ToString("N0") & " (Eve: " & currentFitting.FittedShip.EveEffectiveHP.ToString("N0") & ")</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Tank Ability</b></td><td colspan=4>" & CDbl(currentFitting.FittedShip.Attributes(10062)).ToString("N2") & " DPS</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Shield Resists</b></td><td width=20%>EM: " & currentFitting.FittedShip.ShieldEMResist.ToString("N2") & "%</td> <td width=20%>Exp: " & currentFitting.FittedShip.ShieldExResist.ToString("N2") & "%</td><td width=20%>Kin: " & currentFitting.FittedShip.ShieldKiResist.ToString("N2") & "%</td><td width=20%>Th: " & currentFitting.FittedShip.ShieldThResist.ToString("N2") & "%</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Armor Resists</b></td><td width=20%>EM: " & currentFitting.FittedShip.ArmorEMResist.ToString("N2") & "%</td> <td width=20%>Exp: " & currentFitting.FittedShip.ArmorExResist.ToString("N2") & "%</td><td width=20%>Kin: " & currentFitting.FittedShip.ArmorKiResist.ToString("N2") & "%</td><td width=20%>Th: " & currentFitting.FittedShip.ArmorThResist.ToString("N2") & "%</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Hull Resists</b></td><td width=20%>EM: " & currentFitting.FittedShip.StructureEMResist.ToString("N2") & "%</td> <td width=20%>Exp: " & currentFitting.FittedShip.StructureExResist.ToString("N2") & "%</td><td width=20%>Kin: " & currentFitting.FittedShip.StructureKiResist.ToString("N2") & "%</td><td width=20%>Th: " & currentFitting.FittedShip.StructureThResist.ToString("N2") & "%</td></tr>")
                         strHTML.Append("</table>")
 
                         ' Write capacitor stats
                         strHTML.Append("<table width=100% border=1>")
                         strHTML.Append("<tr bgcolor=#111111><td colspan=4><b>Capacitor</b></td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Capacity</b></td><td width=30%>" & _currentFitting.FittedShip.CapCapacity.ToString("N2") & " GJ</td>")
-                        strHTML.Append("<td width=20%><b>Recharge</b></td><td width=30%>" & _currentFitting.FittedShip.CapRecharge.ToString("N2") & " s</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Peak Recharge</b></td><td width=30%>" & (PluginSettings.HQFSettings.CapRechargeConstant * _currentFitting.FittedShip.CapCapacity / _currentFitting.FittedShip.CapRecharge).ToString("N2") & " GJ/s</td>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Capacity</b></td><td width=30%>" & currentFitting.FittedShip.CapCapacity.ToString("N2") & " GJ</td>")
+                        strHTML.Append("<td width=20%><b>Recharge</b></td><td width=30%>" & currentFitting.FittedShip.CapRecharge.ToString("N2") & " s</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Peak Recharge</b></td><td width=30%>" & (PluginSettings.HQFSettings.CapRechargeConstant * currentFitting.FittedShip.CapCapacity / currentFitting.FittedShip.CapRecharge).ToString("N2") & " GJ/s</td>")
                         strHTML.Append("<td width=20%><b>Stability</b></td><td width=30%>")
-                        Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(_currentFitting.FittedShip, False)
+                        Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(currentFitting.FittedShip, False)
                         If csr.CapIsDrained = False Then
-                            strHTML.Append("Stable at " & (csr.MinimumCap / _currentFitting.FittedShip.CapCapacity * 100).ToString("N2") & "%")
+                            strHTML.Append("Stable at " & (csr.MinimumCap / currentFitting.FittedShip.CapCapacity * 100).ToString("N2") & "%")
                         Else
                             strHTML.Append("Lasts " & SkillFunctions.TimeToString(csr.TimeToDrain, False))
                         End If
@@ -496,26 +496,26 @@ Namespace Classes
                         ' Write Damage Stats
                         strHTML.Append("<table width=100% border=1>")
                         strHTML.Append("<tr bgcolor=#111111><td colspan=4><b>Damage</b></td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Volley Damage</b></td><td width=30%>" & _currentFitting.FittedShip.TotalVolley.ToString("N2") & "</td>")
-                        strHTML.Append("<td width=20%><b>DPS</b></td><td width=30%>" & _currentFitting.FittedShip.TotalDPS.ToString("N2") & "</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Volley Damage</b></td><td width=30%>" & currentFitting.FittedShip.TotalVolley.ToString("N2") & "</td>")
+                        strHTML.Append("<td width=20%><b>DPS</b></td><td width=30%>" & currentFitting.FittedShip.TotalDPS.ToString("N2") & "</td></tr>")
                         strHTML.Append("</table>")
 
                         ' Write Targeting Stats
                         strHTML.Append("<table width=100% border=1>")
                         strHTML.Append("<tr bgcolor=#111111><td colspan=4><b>Targeting</b></td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Max Range</b></td><td width=30%>" & _currentFitting.FittedShip.MaxTargetRange.ToString("N0") & " m</td>")
-                        strHTML.Append("<td width=20%><b>Scan Resolution</b></td><td width=30%>" & _currentFitting.FittedShip.ScanResolution.ToString("N2") & " mm</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Signature Radius</b></td><td width=30%>" & _currentFitting.FittedShip.SigRadius.ToString("N0") & " m</td>")
-                        strHTML.Append("<td width=20%><b>Max Targets</b></td><td width=30%>" & _currentFitting.FittedShip.MaxLockedTargets.ToString("N0") & "</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Max Range</b></td><td width=30%>" & currentFitting.FittedShip.MaxTargetRange.ToString("N0") & " m</td>")
+                        strHTML.Append("<td width=20%><b>Scan Resolution</b></td><td width=30%>" & currentFitting.FittedShip.ScanResolution.ToString("N2") & " mm</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Signature Radius</b></td><td width=30%>" & currentFitting.FittedShip.SigRadius.ToString("N0") & " m</td>")
+                        strHTML.Append("<td width=20%><b>Max Targets</b></td><td width=30%>" & currentFitting.FittedShip.MaxLockedTargets.ToString("N0") & "</td></tr>")
                         strHTML.Append("</table>")
 
                         ' Write Propulsion Stats
                         strHTML.Append("<table width=100% border=1>")
                         strHTML.Append("<tr bgcolor=#111111><td colspan=4><b>Propulsion</b></td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Max Velocity</b></td><td width=30%>" & _currentFitting.FittedShip.MaxVelocity.ToString("N2") & " m/s</td>")
-                        strHTML.Append("<td width=20%><b>Warp Velocity</b></td><td width=30%>" & _currentFitting.FittedShip.WarpSpeed.ToString("N2") & " au/s</td></tr>")
-                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Inertia</b></td><td width=30%>" & _currentFitting.FittedShip.Inertia.ToString("N5") & "</td>")
-                        strHTML.Append("<td width=20%><b>Warp Align Time</b></td><td width=30%>" & (-Math.Log(0.25) * _currentFitting.FittedShip.Inertia * _currentFitting.FittedShip.Mass / 1000000).ToString("N2") & " s</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Max Velocity</b></td><td width=30%>" & currentFitting.FittedShip.MaxVelocity.ToString("N2") & " m/s</td>")
+                        strHTML.Append("<td width=20%><b>Warp Velocity</b></td><td width=30%>" & currentFitting.FittedShip.WarpSpeed.ToString("N2") & " au/s</td></tr>")
+                        strHTML.Append("<tr bgcolor=#333333><td width=20%><b>Inertia</b></td><td width=30%>" & currentFitting.FittedShip.Inertia.ToString("N5") & "</td>")
+                        strHTML.Append("<td width=20%><b>Warp Align Time</b></td><td width=30%>" & (-Math.Log(0.25) * currentFitting.FittedShip.Inertia * currentFitting.FittedShip.Mass / 1000000).ToString("N2") & " s</td></tr>")
                         strHTML.Append("</table>")
 
                         strHTML.Append("</td></tr>")
@@ -546,17 +546,17 @@ Namespace Classes
                 Try
                     Dim fittingNameExists As Boolean = False
                     Dim fittingName As String = HttpUtility.UrlDecode(context.Request.QueryString.Item("fittingname"))
-                    If Fittings.FittingList.ContainsKey(_currentFitting.ShipName & ", " & fittingName) = True Then
+                    If Fittings.FittingList.ContainsKey(currentFitting.ShipName & ", " & fittingName) = True Then
                         fittingNameExists = True
                         Dim newFittingName As String
                         Dim revision As Integer = 1
                         Do
                             revision += 1
                             newFittingName = fittingName & " " & revision.ToString
-                        Loop Until Fittings.FittingList.ContainsKey(_currentFitting.ShipName & ", " & newFittingName) = False
+                        Loop Until Fittings.FittingList.ContainsKey(currentFitting.ShipName & ", " & newFittingName) = False
                         fittingName = newFittingName
                     End If
-                    Dim newFitting As Fitting = _currentFitting.Clone
+                    Dim newFitting As Fitting = currentFitting.Clone
                     newFitting.FittingName = fittingName
                     newFitting.UpdateFittingFromBaseShip()
                     ' Let's save the fitting

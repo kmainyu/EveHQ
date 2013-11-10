@@ -19,7 +19,6 @@
 '=========================================================================
 Imports System.ComponentModel
 Imports EveHQ.Prism.Classes
-Imports EveHQ.Prism
 Imports EveHQ.Core
 Imports System.Data.SqlServerCe
 Imports System.Data.SqlClient

@@ -125,7 +125,7 @@ Namespace Forms
             tvwReqs.Nodes.Clear()
 
             Dim cSkill As EveSkill = HQ.SkillListID(skillID)
-            Const curLevel As Integer = 0
+            Const CurLevel As Integer = 0
             Dim curNode As TreeNode = New TreeNode
 
             ' Write the skill we are querying as the first (parent) node
@@ -136,18 +136,18 @@ Namespace Forms
                 If _displayPilot.PilotSkills.ContainsKey(cSkill.Name) Then
                     Dim mySkill As EveHQPilotSkill = _displayPilot.PilotSkills(cSkill.Name)
                     myLevel = CInt(mySkill.Level)
-                    If myLevel >= curLevel Then skillTrained = True
+                    If myLevel >= CurLevel Then skillTrained = True
                     If skillTrained = True Then
                         curNode.ForeColor = Color.LimeGreen
                         curNode.ToolTipText = "Already Trained"
                     Else
-                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                        Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, CurLevel)
                         If planLevel = 0 Then
                             curNode.ForeColor = Color.Red
                             curNode.ToolTipText = "Not trained & no planned training"
                         Else
                             curNode.ToolTipText = "Planned training to Level " & planLevel
-                            If planLevel >= curLevel Then
+                            If planLevel >= CurLevel Then
                                 curNode.ForeColor = Color.Blue
                             Else
                                 curNode.ForeColor = Color.Orange
@@ -155,13 +155,13 @@ Namespace Forms
                         End If
                     End If
                 Else
-                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, curLevel)
+                    Dim planLevel As Integer = SkillQueueFunctions.IsPlanned(_displayPilot, cSkill.Name, CurLevel)
                     If planLevel = 0 Then
                         curNode.ForeColor = Color.Red
                         curNode.ToolTipText = "Not trained & no planned training"
                     Else
                         curNode.ToolTipText = "Planned training to Level " & planLevel
-                        If planLevel >= curLevel Then
+                        If planLevel >= CurLevel Then
                             curNode.ForeColor = Color.Blue
                         Else
                             curNode.ForeColor = Color.Orange

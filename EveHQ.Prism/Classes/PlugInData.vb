@@ -150,8 +150,8 @@ Public Class PlugInData
     End Sub
     Private Sub LoadAssetItemNames()
         Try
-            Const strSQL As String = "SELECT * FROM assetItemNames;"
-            Dim nameData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+            Const StrSQL As String = "SELECT * FROM assetItemNames;"
+            Dim nameData As DataSet = CustomDataFunctions.GetCustomData(StrSQL)
             AssetItemNames.Clear()
             If nameData IsNot Nothing Then
                 If nameData.Tables(0).Rows.Count > 0 Then

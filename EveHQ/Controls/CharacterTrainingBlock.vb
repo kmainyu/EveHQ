@@ -249,7 +249,7 @@ Namespace Controls
                 If Core.HQ.Settings.NotifyInsuffClone = True Then
                     If Core.HQ.Settings.Pilots.ContainsKey(_displayPilotName) Then
                         If (_displayPilot.SkillPoints + Core.SkillFunctions.CalcCurrentSkillPoints(_displayPilot)) > CLng(_displayPilot.CloneSP) Then
-                            Const overlayText As String = "Clone"
+                            Const OverlayText As String = "Clone"
                             Dim overlayFont As Font = New Font(Font.FontFamily, 7)
                             Dim overlayBrush As New SolidBrush(Color.Coral)
                             ' Define a new image
@@ -259,8 +259,8 @@ Namespace Controls
                             myGraphics.FillRectangle(overlayBrush, 0, pbPilot.Height - 20, pbPilot.Width, 10)
                             ' Add the text to the new bitmap.
                             myGraphics.TextRenderingHint = Drawing.Text.TextRenderingHint.ClearTypeGridFit
-                            Dim ts As Size = Size.Round(myGraphics.MeasureString(overlayText, overlayFont, 40))
-                            myGraphics.DrawString(overlayText, overlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
+                            Dim ts As Size = Size.Round(myGraphics.MeasureString(OverlayText, overlayFont, 40))
+                            myGraphics.DrawString(OverlayText, overlayFont, New SolidBrush(Color.Black), CInt((40 - ts.Width) / 2), pbPilot.Height - 20)
                             pbPilot.Image = olImage
                         End If
                     End If

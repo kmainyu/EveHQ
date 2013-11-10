@@ -179,8 +179,8 @@ Namespace Forms
             End If
 
             ' Set default widths of module list
-            Const moduleListColumns As Integer = 5
-            If PluginSettings.HQFSettings.ModuleListColWidths.Count <> moduleListColumns Then
+            Const ModuleListColumns As Integer = 5
+            If PluginSettings.HQFSettings.ModuleListColWidths.Count <> ModuleListColumns Then
                 PluginSettings.HQFSettings.ModuleListColWidths.Clear()
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(0, 150)
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(1, 40)
@@ -188,7 +188,7 @@ Namespace Forms
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(3, 40)
                 PluginSettings.HQFSettings.ModuleListColWidths.Add(4, 80)
             End If
-            For col As Integer = 0 To moduleListColumns - 1
+            For col As Integer = 0 To ModuleListColumns - 1
                 tvwModules.Columns(col).Width.Absolute = PluginSettings.HQFSettings.ModuleListColWidths(CLng(col))
             Next
 
@@ -2285,8 +2285,8 @@ Namespace Forms
                 Dim sy As Integer = xy.Y
                 Dim fittingImage As Bitmap = ScreenGrab.GrabScreen(New Rectangle(sx, sy, tabHQF.Width, tabHQF.Height))
                 Clipboard.SetDataObject(fittingImage)
-                Const rgPattern As String = "[\\\/:\*\?""'<>|]"
-                Dim objRegEx As New Regex(rgPattern)
+                Const RgPattern As String = "[\\\/:\*\?""'<>|]"
+                Dim objRegEx As New Regex(RgPattern)
                 Dim fittingName As String = objRegEx.Replace(ActiveFitting.KeyName, "_")
                 Dim filename As String = "HQF_" & fittingName & "_" & Format(Now, "yyyy-MM-dd-HH-mm-ss") & ".png"
                 fittingImage.Save(Path.Combine(HQ.ReportFolder, filename), ImageFormat.Png)
@@ -2297,8 +2297,8 @@ Namespace Forms
 
         Private Sub btnExportEve_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportEve.Click
             If ActiveFitting Is Nothing Then
-                Const msg As String = "Please make sure you have a fit open and active before exporting to Eve."
-                MessageBox.Show(msg, "Open Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Const Msg As String = "Please make sure you have a fit open and active before exporting to Eve."
+                MessageBox.Show(Msg, "Open Fitting Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Else
                 Call ExportMainFittingToEve()
             End If

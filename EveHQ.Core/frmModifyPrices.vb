@@ -113,8 +113,8 @@ Public Class FrmModifyPrices
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         ' Check if the prices have changed before closing
         If _pricesChanged = True Then
-            Const msg As String = "At least one price has changed. Are you sure you wish to cancel the changes?"
-            Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Const Msg As String = "At least one price has changed. Are you sure you wish to cancel the changes?"
+            Dim reply As DialogResult = MessageBox.Show(Msg, "Confirm Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 DialogResult = DialogResult.Cancel
                 Close()
@@ -134,8 +134,8 @@ Public Class FrmModifyPrices
             Close()
         Else
             ' Check we really want to save the prices
-            Const msg As String = "Are you sure you wish to save the changes to the price databases?"
-            Dim reply As DialogResult = MessageBox.Show(msg, "Confirm Price Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            Const Msg As String = "Are you sure you wish to save the changes to the price databases?"
+            Dim reply As DialogResult = MessageBox.Show(Msg, "Confirm Price Save", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 ' Update the prices
                 Call UpdatePrices()

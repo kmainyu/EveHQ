@@ -937,10 +937,10 @@ Public Class CustomDataFunctions
             Do
 
                 ' Break the ID list into groups of 200
-                Const maxIDs As Integer = 200
+                Const MaxIDs As Integer = 200
                 Dim reqIDList As New List(Of String)
                 ' ReSharper disable once RedundantAssignment - Incorrect warning by R#
-                For idx As Integer = 0 To Math.Min(mainIDList.Count, maxIDs) - 1
+                For idx As Integer = 0 To Math.Min(mainIDList.Count, MaxIDs) - 1
                     reqIDList.Add(mainIDList.Item(0))
                     mainIDList.RemoveAt(0)
                 Next
@@ -1209,8 +1209,8 @@ Public Class CustomDataFunctions
     Public Shared Function CountRequisitions() As Long
 
         ' Return the number of available requisitions
-        Const strSQL As String = "SELECT * FROM requisitions;"
-        Using reqData As DataSet = GetCustomData(strSQL.ToString)
+        Const StrSQL As String = "SELECT * FROM requisitions;"
+        Using reqData As DataSet = GetCustomData(StrSQL.ToString)
             If reqData IsNot Nothing Then
                 Return reqData.Tables(0).Rows.Count
             Else

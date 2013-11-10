@@ -35,17 +35,17 @@ Public Class FrmCacheCreator
     ReadOnly _sqLiteDBFolder As String = Path.Combine(Application.StartupPath, "EveCache")
     ReadOnly _sqLiteDB As String = Path.Combine(_sqLiteDBFolder, "EveHQMaster.db3")
 
-    Shared _marketGroupData As DataSet
-    Shared _shipGroupData As DataSet
-    Shared _shipNameData As DataSet
-    Shared _moduleData As DataSet
-    Shared _moduleEffectData As DataSet
-    Shared _moduleAttributeData As DataSet
-    Shared _coreCacheFolder As String
-    Shared _yamlTypes As SortedList(Of Integer, YAMLType) ' Key = typeID
-    Shared _yamlIcons As SortedList(Of Integer, String) ' Key = iconID, Value = iconFile
+    Shared marketGroupData As DataSet
+    Shared shipGroupData As DataSet
+    Shared shipNameData As DataSet
+    Shared moduleData As DataSet
+    Shared moduleEffectData As DataSet
+    Shared moduleAttributeData As DataSet
+    Shared coreCacheFolder As String
+    Shared yamlTypes As SortedList(Of Integer, YAMLType) ' Key = typeID
+    Shared yamlIcons As SortedList(Of Integer, String) ' Key = iconID, Value = iconFile
 
-   Private Sub frmCacheCreator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub frmCacheCreator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.FileSystem.DirectoryExists(_sqLiteDBFolder) = False Then
             My.Computer.FileSystem.CreateDirectory(_sqLiteDBFolder)
         End If
@@ -57,10 +57,10 @@ Public Class FrmCacheCreator
     Private Sub btnGenerateCache_Click(sender As Object, e As EventArgs) Handles btnGenerateCache.Click
 
         ' Check for existence of a core cache folder in the application directory
-        _coreCacheFolder = Path.Combine(Application.StartupPath, CacheFolderName)
-        If My.Computer.FileSystem.DirectoryExists(_coreCacheFolder) = False Then
+        coreCacheFolder = Path.Combine(Application.StartupPath, CacheFolderName)
+        If My.Computer.FileSystem.DirectoryExists(coreCacheFolder) = False Then
             ' Create the cache folder if it doesn't exist
-            My.Computer.FileSystem.CreateDirectory(_coreCacheFolder)
+            My.Computer.FileSystem.CreateDirectory(coreCacheFolder)
         End If
 
         ' Parse the YAML files
@@ -81,8 +81,8 @@ Public Class FrmCacheCreator
 
     Private Sub ParseYAMLFiles()
 
-        _yamlTypes = New SortedList(Of Integer, YAMLType)
-        _yamlIcons = New SortedList(Of Integer, String)
+        yamlTypes = New SortedList(Of Integer, YAMLType)
+        yamlIcons = New SortedList(Of Integer, String)
 
         ' Parse the icons file first
         Call ParseIconsYAMLFile()
@@ -118,7 +118,7 @@ Public Class FrmCacheCreator
                                 iconName = iconName.Split("/".ToCharArray).Last
                             End If
                             ' Set the icon item
-                            _yamlIcons.Add(iconID, iconName)
+                            yamlIcons.Add(iconID, iconName)
                     End Select
                 Next
             Next
@@ -159,11 +159,11 @@ Public Class FrmCacheCreator
                     Next
                 End If
                 ' Get the iconFile if relevant
-                If _yamlIcons.ContainsKey(yamlItem.IconID) Then
-                    yamlItem.IconName = _yamlIcons(yamlItem.IconID)
+                If yamlIcons.ContainsKey(yamlItem.IconID) Then
+                    yamlItem.IconName = yamlIcons(yamlItem.IconID)
                 End If
                 ' Add the item
-                _yamlTypes.Add(yamlItem.TypeID, yamlItem)
+                yamlTypes.Add(yamlItem.TypeID, yamlItem)
             Next
         End If
     End Sub
@@ -221,7 +221,7 @@ Public Class FrmCacheCreator
         For Each itemRow As DataRow In evehqData.Tables(0).Rows
             If IsDBNull(itemRow.Item("typeName")) = False Then
                 newItem = New EveType
-                newItem.ID = CInt(itemRow.Item("typeID"))
+                newItem.Id = CInt(itemRow.Item("typeID"))
                 newItem.Name = CStr(itemRow.Item("typeName"))
                 If IsDBNull(itemRow.Item("description")) = False Then
                     newItem.Description = CStr(itemRow.Item("description"))
@@ -232,9 +232,9 @@ Public Class FrmCacheCreator
                 newItem.Published = CBool(itemRow.Item("published"))
                 newItem.Category = CInt(itemRow.Item("categoryID"))
                 If IsDBNull(itemRow.Item("marketGroupID")) = False Then
-                    newItem.MarketGroupID = CInt(itemRow.Item("marketGroupID"))
+                    newItem.MarketGroupId = CInt(itemRow.Item("marketGroupID"))
                 Else
-                    newItem.MarketGroupID = 0
+                    newItem.MarketGroupId = 0
                 End If
                 newItem.Mass = CDbl(itemRow.Item("mass"))
                 newItem.Capacity = CDbl(itemRow.Item("capacity"))
@@ -271,14 +271,14 @@ Public Class FrmCacheCreator
                 If evehqData.Tables(0).Rows.Count > 0 Then
                     For Each itemRow As DataRow In evehqData.Tables(0).Rows
                         Dim mg As New MarketGroup
-                        mg.ID = CInt(itemRow.Item("marketGroupID"))
+                        mg.Id = CInt(itemRow.Item("marketGroupID"))
                         mg.Name = CStr(itemRow.Item("marketGroupName"))
                         If IsDBNull(itemRow.Item("parentGroupID")) = False Then
-                            mg.ParentGroupID = CInt(itemRow.Item("parentGroupID"))
+                            mg.ParentGroupId = CInt(itemRow.Item("parentGroupID"))
                         Else
-                            mg.ParentGroupID = 0
+                            mg.ParentGroupId = 0
                         End If
-                        StaticData.MarketGroups.Add(mg.ID, mg)
+                        StaticData.MarketGroups.Add(mg.Id, mg)
                     Next
                 End If
             End If
@@ -366,13 +366,13 @@ Public Class FrmCacheCreator
     Private Sub LoadCertCategories()
 
         StaticData.CertificateCategories.Clear()
-        Const strSQL As String = "SELECT * FROM crtCategories;"
-        Using evehqData As DataSet = GetStaticData(strSQL)
+        Const StrSQL As String = "SELECT * FROM crtCategories;"
+        Using evehqData As DataSet = GetStaticData(StrSQL)
             For Each certRow As DataRow In evehqData.Tables(0).Rows
                 Dim newCat As New CertificateCategory
-                newCat.ID = CInt(certRow.Item("categoryID"))
+                newCat.Id = CInt(certRow.Item("categoryID"))
                 newCat.Name = certRow.Item("categoryName").ToString
-                StaticData.CertificateCategories.Add(newCat.ID.ToString, newCat)
+                StaticData.CertificateCategories.Add(newCat.Id.ToString, newCat)
             Next
         End Using
 
@@ -381,13 +381,13 @@ Public Class FrmCacheCreator
     Private Sub LoadCertClasses()
 
         StaticData.CertificateClasses.Clear()
-        Const strSQL As String = "SELECT * FROM crtClasses;"
-        Using evehqData As DataSet = GetStaticData(strSQL)
+        Const StrSQL As String = "SELECT * FROM crtClasses;"
+        Using evehqData As DataSet = GetStaticData(StrSQL)
             For Each certRow As DataRow In evehqData.Tables(0).Rows
                 Dim newClass As New CertificateClass
-                newClass.ID = CInt(certRow.Item("classID"))
+                newClass.Id = CInt(certRow.Item("classID"))
                 newClass.Name = certRow.Item("className").ToString
-                StaticData.CertificateClasses.Add(newClass.ID.ToString, newClass)
+                StaticData.CertificateClasses.Add(newClass.Id.ToString, newClass)
             Next
         End Using
 
@@ -400,12 +400,12 @@ Public Class FrmCacheCreator
         evehqData = GetStaticData("SELECT * FROM crtCertificates;")
         For Each certRow As DataRow In evehqData.Tables(0).Rows
             Dim newCert As New Certificate
-            newCert.ID = CInt(certRow.Item("certificateID"))
-            newCert.CategoryID = CInt(certRow.Item("categoryID"))
-            newCert.ClassID = CInt(certRow.Item("classID"))
+            newCert.Id = CInt(certRow.Item("certificateID"))
+            newCert.CategoryId = CInt(certRow.Item("categoryID"))
+            newCert.ClassId = CInt(certRow.Item("classID"))
             newCert.Description = CStr(certRow.Item("description"))
             newCert.Grade = CInt(certRow.Item("grade"))
-            newCert.CorpID = CInt(certRow.Item("corpID"))
+            newCert.CorpId = CInt(certRow.Item("corpID"))
             StaticData.Certificates.Add(newCert.Id, newCert)
         Next
 
@@ -431,12 +431,12 @@ Public Class FrmCacheCreator
     Private Sub LoadCertRecs()
 
         StaticData.CertificateRecommendations.Clear()
-        Const strSQL As String = "SELECT * FROM crtRecommendations;"
-        Using evehqData As DataSet = GetStaticData(strSQL)
+        Const StrSQL As String = "SELECT * FROM crtRecommendations;"
+        Using evehqData As DataSet = GetStaticData(StrSQL)
             For Each certRow As DataRow In evehqData.Tables(0).Rows
                 Dim certRec As New CertificateRecommendation
-                certRec.ShipTypeID = CInt(certRow.Item("shiptypeID").ToString)
-                certRec.CertificateID = CInt(certRow.Item("certificateID").ToString)
+                certRec.ShipTypeId = CInt(certRow.Item("shiptypeID").ToString)
+                certRec.CertificateId = CInt(certRow.Item("certificateID").ToString)
                 StaticData.CertificateRecommendations.Add(certRec)
             Next
         End Using
@@ -458,9 +458,9 @@ Public Class FrmCacheCreator
             For row As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
                 If evehqData.Tables(0).Rows(row).Item("invTypeID").ToString <> lastAtt Then
                     Dim attRows() As DataRow = evehqData.Tables(0).Select("invTypeID=" & evehqData.Tables(0).Rows(row).Item("invtypeID").ToString)
-                    Const maxPreReqs As Integer = 10
-                    Dim preReqSkills(maxPreReqs) As String
-                    Dim preReqSkillLevels(maxPreReqs) As Integer
+                    Const MaxPreReqs As Integer = 10
+                    Dim preReqSkills(MaxPreReqs) As String
+                    Dim preReqSkillLevels(MaxPreReqs) As Integer
                     For Each attRow As DataRow In attRows
                         If IsDBNull(attRow.Item("valueInt")) = False Then
                             attValue = CDbl(attRow.Item("valueInt"))
@@ -494,7 +494,7 @@ Public Class FrmCacheCreator
                                 preReqSkillLevels(6) = CInt(attValue)
                         End Select
                     Next
-                    For prereq As Integer = 1 To maxPreReqs
+                    For prereq As Integer = 1 To MaxPreReqs
                         If preReqSkills(prereq) <> "" Then
                             skillIDLevel = preReqSkills(prereq) & "." & preReqSkillLevels(prereq).ToString
                             itemList.Add(skillIDLevel & "_" & evehqData.Tables(0).Rows(row).Item("invtypeID").ToString & "_" & evehqData.Tables(0).Rows(row).Item("groupID").ToString)
@@ -598,15 +598,15 @@ Public Class FrmCacheCreator
             Dim cSystem As SolarSystem
             For Each solarRow As DataRow In evehqData.Tables(0).Rows
                 cSystem = New SolarSystem
-                cSystem.ID = CInt(solarRow.Item("solarSystemID"))
+                cSystem.Id = CInt(solarRow.Item("solarSystemID"))
                 cSystem.Name = CStr(solarRow.Item("solarSystemName"))
                 cSystem.Security = CDbl(solarRow.Item("security"))
-                cSystem.RegionID = CInt(solarRow.Item("mapSolarSystems_regionID"))
-                cSystem.ConstellationID = CInt(solarRow.Item("mapSolarSystems_constellationID"))
+                cSystem.RegionId = CInt(solarRow.Item("mapSolarSystems_regionID"))
+                cSystem.ConstellationId = CInt(solarRow.Item("mapSolarSystems_constellationID"))
                 cSystem.X = CDbl(solarRow.Item("x"))
                 cSystem.Y = CDbl(solarRow.Item("y"))
                 cSystem.Z = CDbl(solarRow.Item("z"))
-                StaticData.SolarSystems.Add(cSystem.ID, cSystem)
+                StaticData.SolarSystems.Add(cSystem.Id, cSystem)
             Next
         End Using
 
@@ -713,14 +713,14 @@ Public Class FrmCacheCreator
                 Dim s As Station
                 Do While reader.Read()
                     s = New Station
-                    s.StationID = CInt(reader.Item("stationID"))
+                    s.StationId = CInt(reader.Item("stationID"))
                     s.StationName = reader.Item("stationName").ToString
-                    s.CorpID = CInt(reader.Item("corporationID"))
-                    s.SystemID = CInt(reader.Item("solarSystemID"))
+                    s.CorpId = CInt(reader.Item("corporationID"))
+                    s.SystemId = CInt(reader.Item("solarSystemID"))
                     s.RefiningEfficiency = CDbl(reader.Item("reprocessingEfficiency"))
                     s.StationTake = CDbl(reader.Item("reprocessingStationsTake"))
                     s.Services = operationServices(CInt(reader.Item("operationID")))
-                    StaticData.Stations.Add(s.StationID, s)
+                    StaticData.Stations.Add(s.StationId, s)
                 Loop
             End If
 
@@ -762,15 +762,15 @@ Public Class FrmCacheCreator
                 Dim a As Agent
                 Do While reader.Read()
                     a = New Agent
-                    a.AgentID = CInt(reader.Item("agentID"))
+                    a.AgentId = CInt(reader.Item("agentID"))
                     a.AgentName = reader.Item("agentName").ToString
                     a.AgentType = CInt(reader.Item("agentTypeID"))
-                    a.CorporationID = CInt(reader.Item("corporationID"))
-                    a.DivisionID = CInt(reader.Item("divisionID"))
+                    a.CorporationId = CInt(reader.Item("corporationID"))
+                    a.DivisionId = CInt(reader.Item("divisionID"))
                     a.IsLocator = CBool(reader.Item("isLocator"))
                     a.Level = CInt(reader.Item("level"))
-                    a.LocationID = CInt(reader.Item("locationID"))
-                    StaticData.Agents.Add(a.AgentID, a)
+                    a.LocationId = CInt(reader.Item("locationID"))
+                    StaticData.Agents.Add(a.AgentId, a)
                 Loop
             End If
 
@@ -786,7 +786,7 @@ Public Class FrmCacheCreator
         Using evehqData As DataSet = GetStaticData("SELECT * FROM dgmAttributeTypes;")
             For item As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
                 Dim at As New AttributeType
-                at.AttributeID = CInt(evehqData.Tables(0).Rows(item).Item("attributeID"))
+                at.AttributeId = CInt(evehqData.Tables(0).Rows(item).Item("attributeID"))
                 at.AttributeName = CStr(evehqData.Tables(0).Rows(item).Item("attributeName")).Trim
                 If IsDBNull(evehqData.Tables(0).Rows(item).Item("displayName")) = False Then
                     at.DisplayName = CStr(evehqData.Tables(0).Rows(item).Item("displayName")).Trim
@@ -794,16 +794,16 @@ Public Class FrmCacheCreator
                     at.DisplayName = at.AttributeName
                 End If
                 If IsDBNull(evehqData.Tables(0).Rows(item).Item("unitID")) = False Then
-                    at.UnitID = CInt(evehqData.Tables(0).Rows(item).Item("unitID"))
+                    at.UnitId = CInt(evehqData.Tables(0).Rows(item).Item("unitID"))
                 Else
-                    at.UnitID = 0
+                    at.UnitId = 0
                 End If
                 If IsDBNull(evehqData.Tables(0).Rows(item).Item("categoryID")) = False Then
-                    at.CategoryID = CInt(evehqData.Tables(0).Rows(item).Item("categoryID"))
+                    at.CategoryId = CInt(evehqData.Tables(0).Rows(item).Item("categoryID"))
                 Else
-                    at.CategoryID = 0
+                    at.CategoryId = 0
                 End If
-                StaticData.AttributeTypes.Add(at.AttributeID, at)
+                StaticData.AttributeTypes.Add(at.AttributeId, at)
             Next
         End Using
 
@@ -815,8 +815,8 @@ Public Class FrmCacheCreator
         Using evehqData As DataSet = GetStaticData("SELECT * FROM dgmTypeAttributes;")
             For item As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
                 Dim ta As New TypeAttrib
-                ta.TypeID = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
-                ta.AttributeID = CInt(evehqData.Tables(0).Rows(item).Item("attributeID"))
+                ta.TypeId = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
+                ta.AttributeId = CInt(evehqData.Tables(0).Rows(item).Item("attributeID"))
                 If IsDBNull(evehqData.Tables(0).Rows(item).Item("valueInt")) = False Then
                     ta.Value = CDbl(evehqData.Tables(0).Rows(item).Item("valueInt"))
                 Else
@@ -850,9 +850,9 @@ Public Class FrmCacheCreator
         Using evehqData As DataSet = GetStaticData("SELECT * FROM dgmEffects;")
             For item As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
                 Dim et As New EffectType
-                et.EffectID = CInt(evehqData.Tables(0).Rows(item).Item("effectID"))
+                et.EffectId = CInt(evehqData.Tables(0).Rows(item).Item("effectID"))
                 et.EffectName = CStr(evehqData.Tables(0).Rows(item).Item("effectName")).Trim
-                StaticData.EffectTypes.Add(et.EffectID, et)
+                StaticData.EffectTypes.Add(et.EffectId, et)
             Next
         End Using
 
@@ -864,8 +864,8 @@ Public Class FrmCacheCreator
         Using evehqData As DataSet = GetStaticData("SELECT * FROM dgmTypeEffects;")
             For item As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
                 Dim te As New TypeEffect
-                te.TypeID = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
-                te.EffectID = CInt(evehqData.Tables(0).Rows(item).Item("effectID"))
+                te.TypeId = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
+                te.EffectId = CInt(evehqData.Tables(0).Rows(item).Item("effectID"))
                 StaticData.TypeEffects.Add(te)
             Next
         End Using
@@ -889,10 +889,10 @@ Public Class FrmCacheCreator
         Using evehqData As DataSet = GetStaticData("SELECT * FROM invMetaTypes;")
             For item As Integer = 0 To evehqData.Tables(0).Rows.Count - 1
                 Dim mt As New MetaType
-                mt.ID = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
-                mt.ParentID = CInt(evehqData.Tables(0).Rows(item).Item("parentTypeID"))
-                mt.MetaGroupID = CInt(evehqData.Tables(0).Rows(item).Item("metaGroupID"))
-                StaticData.MetaTypes.Add(mt.ID, mt)
+                mt.Id = CInt(evehqData.Tables(0).Rows(item).Item("typeID"))
+                mt.ParentId = CInt(evehqData.Tables(0).Rows(item).Item("parentTypeID"))
+                mt.MetaGroupId = CInt(evehqData.Tables(0).Rows(item).Item("metaGroupID"))
+                StaticData.MetaTypes.Add(mt.Id, mt)
             Next
         End Using
 
@@ -905,8 +905,8 @@ Public Class FrmCacheCreator
         ' Populate the main data
         For Each bp As DataRow In evehqData.Tables(0).Rows
             Dim bt As New Blueprint
-            bt.ID = CInt(bp.Item("blueprintTypeID"))
-            bt.ProductID = CInt(bp.Item("productTypeID"))
+            bt.Id = CInt(bp.Item("blueprintTypeID"))
+            bt.ProductId = CInt(bp.Item("productTypeID"))
             bt.TechLevel = CInt(bp.Item("techLevel"))
             bt.WasteFactor = CInt(bp.Item("wasteFactor"))
             bt.MaterialModifier = CInt(bp.Item("materialModifier"))
@@ -917,7 +917,7 @@ Public Class FrmCacheCreator
             bt.ResearchProductionLevelTime = CLng(bp.Item("researchProductivityTime"))
             bt.ResearchCopyTime = CLng(bp.Item("researchCopyTime"))
             bt.ResearchTechTime = CLng(bp.Item("researchTechTime"))
-            StaticData.Blueprints.Add(bt.ID, bt)
+            StaticData.Blueprints.Add(bt.Id, bt)
         Next
 
         ' Good so far so let's add the material requirements
@@ -926,12 +926,12 @@ Public Class FrmCacheCreator
         ' Go through each BP and refine the Dataset
         For Each bp As Blueprint In StaticData.Blueprints.Values
             ' Select resource data for the blueprint
-            Dim bpRows() As DataRow = evehqData.Tables(0).Select("typeID=" & bp.ID.ToString)
+            Dim bpRows() As DataRow = evehqData.Tables(0).Select("typeID=" & bp.Id.ToString)
             For Each req As DataRow In bpRows
                 Dim newReq As New BlueprintResource
                 newReq.Activity = CType(req.Item("activityID"), BlueprintActivity)
                 newReq.DamagePerJob = CDbl(req.Item("damagePerJob"))
-                newReq.TypeID = CInt(req.Item("requiredTypeID"))
+                newReq.TypeId = CInt(req.Item("requiredTypeID"))
                 newReq.TypeGroup = CInt(req.Item("groupID"))
                 newReq.TypeCategory = CInt(req.Item("categoryID"))
                 newReq.Quantity = CInt(req.Item("quantity"))
@@ -944,16 +944,16 @@ Public Class FrmCacheCreator
                 If bp.Resources.ContainsKey(newReq.Activity) = False Then
                     bp.Resources.Add(newReq.Activity, New Dictionary(Of Integer, BlueprintResource))
                 End If
-                If bp.Resources(newReq.Activity).ContainsKey(newReq.TypeID) = False Then
-                    bp.Resources(newReq.Activity).Add(newReq.TypeID, newReq)
+                If bp.Resources(newReq.Activity).ContainsKey(newReq.TypeId) = False Then
+                    bp.Resources(newReq.Activity).Add(newReq.TypeId, newReq)
                 End If
             Next
             ' Select resource data for the product
-            If bp.ProductID <> bp.ID Then
-                bpRows = evehqData.Tables(0).Select("typeID=" & bp.ProductID.ToString)
+            If bp.ProductId <> bp.Id Then
+                bpRows = evehqData.Tables(0).Select("typeID=" & bp.ProductId.ToString)
                 For Each req As DataRow In bpRows
                     Dim newReq As New BlueprintResource
-                    newReq.TypeID = CInt(req.Item("requiredTypeID"))
+                    newReq.TypeId = CInt(req.Item("requiredTypeID"))
                     newReq.TypeGroup = CInt(req.Item("groupID"))
                     newReq.TypeCategory = CInt(req.Item("categoryID"))
                     newReq.Activity = CType(req.Item("activityID"), BlueprintActivity)
@@ -967,8 +967,8 @@ Public Class FrmCacheCreator
                     If bp.Resources.ContainsKey(newReq.Activity) = False Then
                         bp.Resources.Add(newReq.Activity, New Dictionary(Of Integer, BlueprintResource))
                     End If
-                    If bp.Resources(newReq.Activity).ContainsKey(newReq.TypeID) = False Then
-                        bp.Resources(newReq.Activity).Add(newReq.TypeID, newReq)
+                    If bp.Resources(newReq.Activity).ContainsKey(newReq.TypeId) = False Then
+                        bp.Resources(newReq.Activity).Add(newReq.TypeId, newReq)
                     End If
                 Next
             End If
@@ -1014,12 +1014,12 @@ Public Class FrmCacheCreator
     Private Sub LoadAssemblyArrays()
 
         ' Get Data
-        Const arraySQL As String = "SELECT * FROM ramAssemblyLineTypes WHERE activityID=1 AND (baseTimeMultiplier<>1 OR baseMaterialMultiplier<>1);"
-        Const groupSQL As String = "SELECT * FROM ramAssemblyLineTypeDetailPerGroup;"
-        Const catSQL As String = "SELECT * FROM ramAssemblyLineTypeDetailPerCategory;"
-        Dim arrayDataSet As DataSet = GetStaticData(arraySQL)
-        Dim groupDataSet As DataSet = GetStaticData(groupSQL)
-        Dim catDataSet As DataSet = GetStaticData(catSQL)
+        Const ArraySQL As String = "SELECT * FROM ramAssemblyLineTypes WHERE activityID=1 AND (baseTimeMultiplier<>1 OR baseMaterialMultiplier<>1);"
+        Const GroupSQL As String = "SELECT * FROM ramAssemblyLineTypeDetailPerGroup;"
+        Const CatSQL As String = "SELECT * FROM ramAssemblyLineTypeDetailPerCategory;"
+        Dim arrayDataSet As DataSet = GetStaticData(ArraySQL)
+        Dim groupDataSet As DataSet = GetStaticData(GroupSQL)
+        Dim catDataSet As DataSet = GetStaticData(CatSQL)
 
         ' Reset the list
         StaticData.AssemblyArrays.Clear()
@@ -1027,16 +1027,16 @@ Public Class FrmCacheCreator
         ' Populate the arrays
         For Each assArray As DataRow In arrayDataSet.Tables(0).Rows
             Dim newArray As New AssemblyArray
-            newArray.ID = CStr(assArray.Item("assemblyLineTypeID"))
+            newArray.Id = CStr(assArray.Item("assemblyLineTypeID"))
             newArray.Name = CStr(assArray.Item("assemblyLineTypeName"))
             newArray.MaterialMultiplier = CDbl(assArray.Item("baseMaterialMultiplier"))
             newArray.TimeMultiplier = CDbl(assArray.Item("baseTimeMultiplier"))
 
-            Dim groupRows() As DataRow = groupDataSet.Tables(0).Select("assemblyLineTypeID=" & newArray.ID)
+            Dim groupRows() As DataRow = groupDataSet.Tables(0).Select("assemblyLineTypeID=" & newArray.Id)
             For Each group As DataRow In groupRows
                 newArray.AllowableGroups.Add(CInt(group.Item("groupID")))
             Next
-            Dim catRows() As DataRow = catDataSet.Tables(0).Select("assemblyLineTypeID=" & newArray.ID)
+            Dim catRows() As DataRow = catDataSet.Tables(0).Select("assemblyLineTypeID=" & newArray.Id)
             For Each cat As DataRow In catRows
                 newArray.AllowableCategories.Add(CInt(cat.Item("categoryID")))
             Next
@@ -1051,10 +1051,10 @@ Public Class FrmCacheCreator
 
     Private Sub LoadNPCCorps()
 
-        StaticData.NPCCorps.Clear()
+        StaticData.NpcCorps.Clear()
         Using evehqData As DataSet = GetStaticData("SELECT itemID, itemName FROM invUniqueNames WHERE groupID=2;")
             For Each corpRow As DataRow In evehqData.Tables(0).Rows
-                StaticData.NPCCorps.Add(CInt(corpRow.Item("itemID")), CStr(corpRow.Item("itemname")))
+                StaticData.NpcCorps.Add(CInt(corpRow.Item("itemID")), CStr(corpRow.Item("itemname")))
             Next
         End Using
 
@@ -1081,195 +1081,195 @@ Public Class FrmCacheCreator
         Dim s As FileStream
 
         ' Item Data
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Items.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Items.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Types)
         s.Flush()
         s.Close()
 
         ' Market Groups
-        s = New FileStream(Path.Combine(_coreCacheFolder, "MarketGroups.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "MarketGroups.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.MarketGroups)
         s.Flush()
         s.Close()
 
         ' Item Market Groups
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ItemMarketGroups.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ItemMarketGroups.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.ItemMarketGroups)
         s.Flush()
         s.Close()
 
         ' Item List
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ItemList.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Create)
 
         Serializer.Serialize(s, StaticData.TypeNames)
         s.Flush()
         s.Close()
 
         ' Item Groups
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ItemGroups.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ItemGroups.dat"), FileMode.Create)
 
         Serializer.Serialize(s, StaticData.TypeGroups)
         s.Flush()
         s.Close()
 
         ' Items Cats
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ItemCats.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ItemCats.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.TypeCats)
         s.Flush()
         s.Close()
 
         ' Group Cats
-        s = New FileStream(Path.Combine(_coreCacheFolder, "GroupCats.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "GroupCats.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.GroupCats)
         s.Flush()
         s.Close()
 
         ' Cert Categories
-        s = New FileStream(Path.Combine(_coreCacheFolder, "CertCats.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "CertCats.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.CertificateCategories)
         s.Flush()
         s.Close()
 
         ' Cert Classes
-        s = New FileStream(Path.Combine(_coreCacheFolder, "CertClasses.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "CertClasses.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.CertificateClasses)
         s.Flush()
         s.Close()
 
         ' Certs
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Certs.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Certificates)
         s.Flush()
         s.Close()
 
         ' Cert Recommendations
-        s = New FileStream(Path.Combine(_coreCacheFolder, "CertRec.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.CertificateRecommendations)
         s.Flush()
         s.Close()
 
         ' Unlocks
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ItemUnlocks.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ItemUnlocks.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.ItemUnlocks)
         s.Flush()
         s.Close()
 
         ' SkillUnlocks
-        s = New FileStream(Path.Combine(_coreCacheFolder, "SkillUnlocks.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.SkillUnlocks)
         s.Flush()
         s.Close()
 
         ' CertCerts
-        s = New FileStream(Path.Combine(_coreCacheFolder, "CertCerts.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "CertCerts.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.CertUnlockCertificates)
         s.Flush()
         s.Close()
 
         ' CertSkills
-        s = New FileStream(Path.Combine(_coreCacheFolder, "CertSkills.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.CertUnlockSkills)
         s.Flush()
         s.Close()
 
         ' Regions
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Regions.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Regions)
         s.Flush()
         s.Close()
 
         ' Constellations
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Constellations.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Constellations.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Constellations)
         s.Flush()
         s.Close()
 
         ' Solar Systems
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Systems.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Systems.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.SolarSystems)
         s.Flush()
         s.Close()
 
         ' Stations
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Stations.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Stations.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Stations)
         s.Flush()
         s.Close()
 
         ' Divisions
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Divisions.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Divisions.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Divisions)
         s.Flush()
         s.Close()
 
         ' Agents
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Agents.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Agents.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Agents)
         s.Flush()
         s.Close()
 
         ' Attribute Types
-        s = New FileStream(Path.Combine(_coreCacheFolder, "AttributeTypes.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "AttributeTypes.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.AttributeTypes)
         s.Flush()
         s.Close()
 
         ' Type Attributes
-        s = New FileStream(Path.Combine(_coreCacheFolder, "TypeAttributes.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "TypeAttributes.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.TypeAttributes)
         s.Flush()
         s.Close()
 
         ' Attribute Units
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Units.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Units.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.AttributeUnits)
         s.Flush()
         s.Close()
 
         ' Effect Types
-        s = New FileStream(Path.Combine(_coreCacheFolder, "EffectTypes.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "EffectTypes.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.EffectTypes)
         s.Flush()
         s.Close()
 
         ' Type Effects
-        s = New FileStream(Path.Combine(_coreCacheFolder, "TypeEffects.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "TypeEffects.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.TypeEffects)
         s.Flush()
         s.Close()
 
         ' Meta Groups
-        s = New FileStream(Path.Combine(_coreCacheFolder, "MetaGroups.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "MetaGroups.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.MetaGroups)
         s.Flush()
         s.Close()
 
         ' Meta Types
-        s = New FileStream(Path.Combine(_coreCacheFolder, "MetaTypes.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "MetaTypes.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.MetaTypes)
         s.Flush()
         s.Close()
 
         ' Blueprint Types
-        s = New FileStream(Path.Combine(_coreCacheFolder, "Blueprints.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Blueprints)
         s.Flush()
         s.Close()
 
         ' Assembly Arrays
-        s = New FileStream(Path.Combine(_coreCacheFolder, "AssemblyArrays.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "AssemblyArrays.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.AssemblyArrays)
         s.Flush()
         s.Close()
 
         ' NPC Corps
-        s = New FileStream(Path.Combine(_coreCacheFolder, "NPCCorps.dat"), FileMode.Create)
-        Serializer.Serialize(s, StaticData.NPCCorps)
+        s = New FileStream(Path.Combine(coreCacheFolder, "NPCCorps.dat"), FileMode.Create)
+        Serializer.Serialize(s, StaticData.NpcCorps)
         s.Flush()
         s.Close()
 
         ' Item Flags
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ItemFlags.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ItemFlags.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.ItemMarkers)
         s.Flush()
         s.Close()
@@ -1310,11 +1310,11 @@ Public Class FrmCacheCreator
         Try
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invMarketGroups ORDER BY parentGroupID;"
-            _marketGroupData = GetStaticData(strSQL)
-            If _marketGroupData IsNot Nothing Then
-                If _marketGroupData.Tables(0).Rows.Count <> 0 Then
+            marketGroupData = GetStaticData(strSQL)
+            If marketGroupData IsNot Nothing Then
+                If marketGroupData.Tables(0).Rows.Count <> 0 Then
                     Market.MarketGroupList.Clear()
-                    For Each row As DataRow In _marketGroupData.Tables(0).Rows
+                    For Each row As DataRow In marketGroupData.Tables(0).Rows
                         Market.MarketGroupList.Add(row.Item("marketGroupID").ToString, row.Item("marketGroupName").ToString)
                     Next
                     Return
@@ -1473,10 +1473,10 @@ Public Class FrmCacheCreator
         ' Filter attributes to skills for quicker parsing in the loop
         Dim skillAtts As List(Of TypeAttrib) = (From ta In StaticData.TypeAttributes Where skillAttFilter.Contains(ta.TypeId)).ToList
 
-        Const maxPreReqs As Integer = 10
+        Const MaxPreReqs As Integer = 10
         For Each newSkill As Core.EveSkill In Core.HQ.SkillListID.Values
-            Dim preReqSkills(maxPreReqs) As Integer
-            Dim preReqSkillLevels(maxPreReqs) As Integer
+            Dim preReqSkills(MaxPreReqs) As Integer
+            Dim preReqSkillLevels(MaxPreReqs) As Integer
 
             ' Fetch the attributes for the item
             Dim skillID As Integer = CInt(newSkill.ID)
@@ -1486,28 +1486,28 @@ Public Class FrmCacheCreator
                     Case 180
                         Select Case CInt(att.Value)
                             Case 164
-                                newSkill.PA = "Charisma"
+                                newSkill.Pa = "Charisma"
                             Case 165
-                                newSkill.PA = "Intelligence"
+                                newSkill.Pa = "Intelligence"
                             Case 166
-                                newSkill.PA = "Memory"
+                                newSkill.Pa = "Memory"
                             Case 167
-                                newSkill.PA = "Perception"
+                                newSkill.Pa = "Perception"
                             Case 168
-                                newSkill.PA = "Willpower"
+                                newSkill.Pa = "Willpower"
                         End Select
                     Case 181
                         Select Case CInt(att.Value)
                             Case 164
-                                newSkill.SA = "Charisma"
+                                newSkill.Sa = "Charisma"
                             Case 165
-                                newSkill.SA = "Intelligence"
+                                newSkill.Sa = "Intelligence"
                             Case 166
-                                newSkill.SA = "Memory"
+                                newSkill.Sa = "Memory"
                             Case 167
-                                newSkill.SA = "Perception"
+                                newSkill.Sa = "Perception"
                             Case 168
-                                newSkill.SA = "Willpower"
+                                newSkill.Sa = "Willpower"
                         End Select
                     Case 275
                         newSkill.Rank = CInt(att.Value)
@@ -1540,7 +1540,7 @@ Public Class FrmCacheCreator
             Next
 
             ' Add the pre-reqs into the list
-            For prereq As Integer = 1 To maxPreReqs
+            For prereq As Integer = 1 To MaxPreReqs
                 If preReqSkills(prereq) <> 0 Then
                     newSkill.PreReqSkills.Add(preReqSkills(prereq), preReqSkillLevels(prereq))
                 End If
@@ -1558,9 +1558,9 @@ Public Class FrmCacheCreator
         Try
             Dim strSQL As String = ""
             strSQL &= "SELECT * FROM invGroups WHERE invGroups.categoryID=6 ORDER BY groupName;"
-            _shipGroupData = GetStaticData(strSQL)
-            If _shipGroupData IsNot Nothing Then
-                If _shipGroupData.Tables(0).Rows.Count <> 0 Then
+            shipGroupData = GetStaticData(strSQL)
+            If shipGroupData IsNot Nothing Then
+                If shipGroupData.Tables(0).Rows.Count <> 0 Then
                     Return
                 Else
                     Return
@@ -1579,9 +1579,9 @@ Public Class FrmCacheCreator
             strSQL &= "SELECT invCategories.categoryID, invGroups.groupID, invGroups.groupName, invTypes.typeID, invTypes.description, invTypes.typeName, invTypes.published, invTypes.raceID, invTypes.marketGroupID"
             strSQL &= " FROM (invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID"
             strSQL &= " WHERE (invCategories.categoryID=6 AND invTypes.published=1) ORDER BY typeName;"
-            _shipNameData = GetStaticData(strSQL)
-            If _shipNameData IsNot Nothing Then
-                If _shipNameData.Tables(0).Rows.Count <> 0 Then
+            shipNameData = GetStaticData(strSQL)
+            If shipNameData IsNot Nothing Then
+                If shipNameData.Tables(0).Rows.Count <> 0 Then
                     Return
                 Else
                     Return
@@ -1607,7 +1607,7 @@ Public Class FrmCacheCreator
             Dim shipData As DataSet = GetStaticData(strSQL)
             If shipData IsNot Nothing Then
                 If shipData.Tables(0).Rows.Count <> 0 Then
-                    ShipLists.shipList.Clear()
+                    ShipLists.ShipList.Clear()
                     Dim lastShipName As String = ""
                     Dim newShip As New Ship
                     pSkillName = "" : sSkillName = "" : tSkillName = ""
@@ -1620,7 +1620,7 @@ Public Class FrmCacheCreator
                                 Call newShip.AddCustomShipAttributes()
                                 ' Map the attributes
                                 Ship.MapShipAttributes(newShip)
-                                ShipLists.shipList.Add(newShip.Name, newShip)
+                                ShipLists.ShipList.Add(newShip.Name, newShip)
                                 newShip = New Ship
                                 pSkillName = "" : sSkillName = "" : tSkillName = ""
                             End If
@@ -1716,7 +1716,7 @@ Public Class FrmCacheCreator
                     ' Map the remaining attributes for the last ship type
                     Ship.MapShipAttributes(newShip)
                     ' Perform the last addition for the last ship type
-                    ShipLists.shipList.Add(newShip.Name, newShip)
+                    ShipLists.ShipList.Add(newShip.Name, newShip)
                     Return
                 Else
                     MessageBox.Show("Ship Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1732,11 +1732,11 @@ Public Class FrmCacheCreator
         End Try
     End Sub
     Private Sub PopulateShipLists()
-        ShipLists.shipListKeyName.Clear()
-        ShipLists.shipListKeyID.Clear()
-        For Each baseShip As Ship In ShipLists.shipList.Values
-            ShipLists.shipListKeyName.Add(baseShip.Name, baseShip.ID)
-            ShipLists.shipListKeyID.Add(baseShip.ID, baseShip.Name)
+        ShipLists.ShipListKeyName.Clear()
+        ShipLists.ShipListKeyID.Clear()
+        For Each baseShip As Ship In ShipLists.ShipList.Values
+            ShipLists.ShipListKeyName.Add(baseShip.Name, baseShip.ID)
+            ShipLists.ShipListKeyID.Add(baseShip.ID, baseShip.Name)
         Next
     End Sub
     Private Sub LoadModuleData()
@@ -1746,9 +1746,9 @@ Public Class FrmCacheCreator
             strSQL &= " FROM invCategories INNER JOIN (invGroups INNER JOIN invTypes ON invGroups.groupID = invTypes.groupID) ON invCategories.categoryID = invGroups.categoryID"
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY invTypes.typeName;"
-            _moduleData = GetStaticData(strSQL)
-            If _moduleData IsNot Nothing Then
-                If _moduleData.Tables(0).Rows.Count <> 0 Then
+            moduleData = GetStaticData(strSQL)
+            If moduleData IsNot Nothing Then
+                If moduleData.Tables(0).Rows.Count <> 0 Then
                     Return
                 Else
                     MessageBox.Show("Module Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1770,9 +1770,9 @@ Public Class FrmCacheCreator
             strSQL &= " FROM ((invCategories INNER JOIN invGroups ON invCategories.categoryID=invGroups.categoryID) INNER JOIN invTypes ON invGroups.groupID=invTypes.groupID) INNER JOIN dgmTypeEffects ON invTypes.typeID=dgmTypeEffects.typeID"
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY typeName, effectID;"
-            _moduleEffectData = GetStaticData(strSQL)
-            If _moduleEffectData IsNot Nothing Then
-                If _moduleEffectData.Tables(0).Rows.Count <> 0 Then
+            moduleEffectData = GetStaticData(strSQL)
+            If moduleEffectData IsNot Nothing Then
+                If moduleEffectData.Tables(0).Rows.Count <> 0 Then
                     Return
                 Else
                     MessageBox.Show("Module Effect Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1795,9 +1795,9 @@ Public Class FrmCacheCreator
             strSQL &= " WHERE (((invCategories.categoryID In (7,8,18,20,32)) or (invTypes.marketGroupID=379) or (invTypes.groupID=920)) AND (invTypes.published=1)) OR invTypes.groupID=1010"
             strSQL &= " ORDER BY invTypes.typeName, dgmTypeAttributes.attributeID;"
 
-            _moduleAttributeData = GetStaticData(strSQL)
-            If _moduleAttributeData IsNot Nothing Then
-                If _moduleAttributeData.Tables(0).Rows.Count <> 0 Then
+            moduleAttributeData = GetStaticData(strSQL)
+            If moduleAttributeData IsNot Nothing Then
+                If moduleAttributeData.Tables(0).Rows.Count <> 0 Then
                     Return
                 Else
                     MessageBox.Show("Module Attribute Data returned no rows", "HQF Initialisation Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -1821,8 +1821,8 @@ Public Class FrmCacheCreator
             Dim metaTypeData As DataSet = GetStaticData(strSQL)
             If metaTypeData IsNot Nothing Then
                 If metaTypeData.Tables(0).Rows.Count <> 0 Then
-                    ModuleLists.moduleMetaTypes.Clear()
-                    ModuleLists.moduleMetaGroups.Clear()
+                    ModuleLists.ModuleMetaTypes.Clear()
+                    ModuleLists.ModuleMetaGroups.Clear()
                     For Each row As DataRow In metaTypeData.Tables(0).Rows
                         If ModuleLists.ModuleMetaTypes.ContainsKey(CInt(row.Item("invTypes_typeID"))) = False Then
                             ModuleLists.ModuleMetaTypes.Add(CInt(row.Item("invTypes_typeID")), CInt(row.Item("parentTypeID")))
@@ -1849,11 +1849,11 @@ Public Class FrmCacheCreator
     End Sub
     Private Sub BuildModuleData()
         Try
-            ModuleLists.moduleList.Clear()
-            ModuleLists.moduleListName.Clear()
-            Implants.implantList.Clear()
+            ModuleLists.ModuleList.Clear()
+            ModuleLists.ModuleListName.Clear()
+            Implants.ImplantList.Clear()
             Boosters.BoosterList.Clear()
-            For Each row As DataRow In _moduleData.Tables(0).Rows
+            For Each row As DataRow In moduleData.Tables(0).Rows
                 Dim newModule As New ShipModule
                 newModule.ID = CInt(row.Item("typeID"))
                 newModule.Description = row.Item("description").ToString
@@ -1868,21 +1868,21 @@ Public Class FrmCacheCreator
                 newModule.MarketPrice = 0
                 ' Get icon from the YAML parsing
                 'newModule.Icon = row.Item("iconFile").ToString
-                If _yamlTypes.ContainsKey(CInt(newModule.ID)) Then
-                    newModule.Icon = _yamlTypes(CInt(newModule.ID)).IconName
+                If yamlTypes.ContainsKey(CInt(newModule.ID)) Then
+                    newModule.Icon = yamlTypes(CInt(newModule.ID)).IconName
                 End If
                 If IsDBNull(row.Item("marketGroupID")) = False Then
                     newModule.MarketGroup = CInt(row.Item("marketGroupID"))
                 Else
                     newModule.MarketGroup = 0
                 End If
-                newModule.CPU = 0
-                newModule.PG = 0
+                newModule.Cpu = 0
+                newModule.Pg = 0
                 newModule.Calibration = 0
                 newModule.CapUsage = 0
                 newModule.ActivationTime = 0
-                ModuleLists.moduleList.Add(newModule.ID, newModule)
-                ModuleLists.moduleListName.Add(newModule.Name, newModule.ID)
+                ModuleLists.ModuleList.Add(newModule.ID, newModule)
+                ModuleLists.ModuleListName.Add(newModule.Name, newModule.ID)
 
                 ' Determine whether implant, drone, charge etc
                 Select Case CInt(row.Item("categoryID"))
@@ -1909,11 +1909,11 @@ Public Class FrmCacheCreator
             Dim nModule As ShipModule
             Dim eModule As ShipModule
             For setNo = 0 To 1
-                For Each row As DataRow In _moduleData.Tables(0).Rows
+                For Each row As DataRow In moduleData.Tables(0).Rows
                     If IsDBNull(row.Item("marketGroupID")) = True Then
                         modID = CInt(row.Item("typeID"))
                         nModule = ModuleLists.ModuleList(modID)
-                        If ModuleLists.moduleMetaTypes.ContainsKey(modID) = True Then
+                        If ModuleLists.ModuleMetaTypes.ContainsKey(modID) = True Then
                             parentID = ModuleLists.ModuleMetaTypes(modID)
                             eModule = ModuleLists.ModuleList(parentID)
                             nModule.MarketGroup = eModule.MarketGroup
@@ -1930,7 +1930,7 @@ Public Class FrmCacheCreator
                     Dim typeID As Integer = CInt(changeData(0))
                     Dim marketGroupID As Integer = CInt(changeData(1))
                     Dim metaTypeID As Integer = CInt(changeData(2))
-                    If ModuleLists.moduleList.ContainsKey(typeID) = True Then
+                    If ModuleLists.ModuleList.ContainsKey(typeID) = True Then
                         Dim mModule As ShipModule = ModuleLists.ModuleList(typeID)
                         mModule.MarketGroup = marketGroupID
                         If metaTypeID <> 0 Then
@@ -1949,7 +1949,7 @@ Public Class FrmCacheCreator
     Private Sub BuildModuleEffectData()
         Try
             ' Get details of module attributes from already retrieved dataset
-            For Each modRow As DataRow In _moduleEffectData.Tables(0).Rows
+            For Each modRow As DataRow In moduleEffectData.Tables(0).Rows
                 Dim effMod As ShipModule = ModuleLists.ModuleList.Item(CInt(modRow.Item("typeID")))
                 If effMod IsNot Nothing Then
                     Select Case CInt(modRow.Item("effectID"))
@@ -2021,7 +2021,7 @@ Public Class FrmCacheCreator
             Dim attValue As Double
             Dim pSkillName As String = "" : Dim sSkillName As String = "" : Dim tSkillName As String = ""
             Dim lastModName As String = ""
-            For Each modRow As DataRow In _moduleAttributeData.Tables(0).Rows
+            For Each modRow As DataRow In moduleAttributeData.Tables(0).Rows
                 Dim attMod As ShipModule = ModuleLists.ModuleList.Item(CInt(modRow.Item("typeID")))
                 'If attMod IsNot Nothing Then
                 If lastModName <> modRow.Item("typeName").ToString And lastModName <> "" Then
@@ -2113,9 +2113,9 @@ Public Class FrmCacheCreator
 
                 Select Case CInt(modRow.Item("attributeID"))
                     Case 30
-                        attMod.PG = attValue
+                        attMod.Pg = attValue
                     Case 50
-                        attMod.CPU = attValue
+                        attMod.Cpu = attValue
                     Case 6
                         attMod.CapUsage = attValue
                     Case 51
@@ -2211,8 +2211,8 @@ Public Class FrmCacheCreator
                 'End If
             Next
             ' Build the metaType data
-            For Each cMod As ShipModule In ModuleLists.moduleList.Values
-                If ModuleLists.moduleMetaGroups.ContainsKey(cMod.ID) = True Then
+            For Each cMod As ShipModule In ModuleLists.ModuleList.Values
+                If ModuleLists.ModuleMetaGroups.ContainsKey(cMod.ID) = True Then
                     If ModuleLists.ModuleMetaGroups(cMod.ID) = 0 Then
                         If cMod.Attributes.ContainsKey(422) = True Then
                             Select Case CInt(cMod.Attributes(422))
@@ -2236,7 +2236,7 @@ Public Class FrmCacheCreator
                 End If
             Next
             ' Build charge data
-            For Each cMod As ShipModule In ModuleLists.moduleList.Values
+            For Each cMod As ShipModule In ModuleLists.ModuleList.Values
                 If cMod.IsCharge = True Then
                     If Charges.ChargeGroups.ContainsKey(cMod.ID) = False Then
                         Charges.ChargeGroups.Add(cMod.ID, cMod.MarketGroup & "_" & cMod.DatabaseGroup & "_" & cMod.Name & "_" & cMod.ChargeSize)
@@ -2244,7 +2244,7 @@ Public Class FrmCacheCreator
                 End If
             Next
             ' Check for drone missiles
-            For Each cMod As ShipModule In ModuleLists.moduleList.Values
+            For Each cMod As ShipModule In ModuleLists.ModuleList.Values
                 If cMod.IsDrone = True And cMod.Attributes.ContainsKey(507) = True Then
                     Dim chg As ShipModule = ModuleLists.ModuleList(CInt(cMod.Attributes(507)))
                     cMod.LoadedCharge = chg
@@ -2264,9 +2264,9 @@ Public Class FrmCacheCreator
     Private Function BuildImplantData() As Boolean
         Try
             ' Build the List of implants from the modules?
-            For Each impMod As ShipModule In ModuleLists.moduleList.Values
+            For Each impMod As ShipModule In ModuleLists.ModuleList.Values
                 If impMod.IsImplant = True Then
-                    Implants.implantList.Add(impMod.Name, impMod)
+                    Implants.ImplantList.Add(impMod.Name, impMod)
                 End If
                 If impMod.IsBooster = True Then
                     Boosters.BoosterList.Add(impMod.Name, impMod)
@@ -2744,7 +2744,7 @@ Public Class FrmCacheCreator
         Dim tvwShips As New TreeView
         tvwShips.BeginUpdate()
         tvwShips.Nodes.Clear()
-        Dim marketTable As DataTable = _marketGroupData.Tables(0)
+        Dim marketTable As DataTable = marketGroupData.Tables(0)
         Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
         For Each rootRow As DataRow In rootRows
             Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
@@ -2758,7 +2758,7 @@ Public Class FrmCacheCreator
         Next
         ' Now check for Faction ships
         Dim shipGroup As String
-        Dim factionRows() As DataRow = _shipNameData.Tables(0).Select("ISNULL(marketGroupID, 0) = 0")
+        Dim factionRows() As DataRow = shipNameData.Tables(0).Select("ISNULL(marketGroupID, 0) = 0")
         For Each factionRow As DataRow In factionRows
             shipGroup = factionRow.Item("groupName").ToString & "s"
             For Each groupNode As TreeNode In tvwShips.Nodes
@@ -2781,7 +2781,7 @@ Public Class FrmCacheCreator
         Dim tvwItems As New TreeView
         tvwItems.BeginUpdate()
         tvwItems.Nodes.Clear()
-        Dim marketTable As DataTable = _marketGroupData.Tables(0)
+        Dim marketTable As DataTable = marketGroupData.Tables(0)
         Dim rootRows() As DataRow = marketTable.Select("ISNULL(parentGroupID, 0) = 0")
         For Each rootRow As DataRow In rootRows
             Dim rootNode As New TreeNode(CStr(rootRow.Item("marketGroupName")))
@@ -2811,12 +2811,12 @@ Public Class FrmCacheCreator
         tvwItems.Dispose()
     End Sub
     Private Sub CleanUpData()
-        _marketGroupData = Nothing
-        _shipGroupData = Nothing
-        _shipNameData = Nothing
-        _moduleData = Nothing
-        _moduleEffectData = Nothing
-        _moduleAttributeData = Nothing
+        marketGroupData = Nothing
+        shipGroupData = Nothing
+        shipNameData = Nothing
+        moduleData = Nothing
+        moduleEffectData = Nothing
+        moduleAttributeData = Nothing
         GC.Collect()
     End Sub
 
@@ -2830,37 +2830,37 @@ Public Class FrmCacheCreator
         Dim s As FileStream
 
         ' Save ships
-        s = New FileStream(Path.Combine(_coreCacheFolder, "ships.dat"), FileMode.Create)
-        Serializer.Serialize(s, ShipLists.shipList)
+        s = New FileStream(Path.Combine(coreCacheFolder, "ships.dat"), FileMode.Create)
+        Serializer.Serialize(s, ShipLists.ShipList)
         s.Flush()
         s.Close()
 
         ' Save modules
-        s = New FileStream(Path.Combine(_coreCacheFolder, "modules.dat"), FileMode.Create)
-        Serializer.Serialize(s, ModuleLists.moduleList)
+        s = New FileStream(Path.Combine(coreCacheFolder, "modules.dat"), FileMode.Create)
+        Serializer.Serialize(s, ModuleLists.ModuleList)
         s.Flush()
         s.Close()
 
         ' Save implants
-        s = New FileStream(Path.Combine(_coreCacheFolder, "implants.dat"), FileMode.Create)
-        Serializer.Serialize(s, Implants.implantList)
+        s = New FileStream(Path.Combine(coreCacheFolder, "implants.dat"), FileMode.Create)
+        Serializer.Serialize(s, Implants.ImplantList)
         s.Flush()
         s.Close()
 
         ' Save boosters
-        s = New FileStream(Path.Combine(_coreCacheFolder, "boosters.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "boosters.dat"), FileMode.Create)
         Serializer.Serialize(s, Boosters.BoosterList)
         s.Flush()
         s.Close()
 
         ' Save skills
-        s = New FileStream(Path.Combine(_coreCacheFolder, "skills.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "skills.dat"), FileMode.Create)
         Serializer.Serialize(s, SkillLists.SkillList)
         s.Flush()
         s.Close()
 
         ' Save attributes
-        s = New FileStream(Path.Combine(_coreCacheFolder, "attributes.dat"), FileMode.Create)
+        s = New FileStream(Path.Combine(coreCacheFolder, "attributes.dat"), FileMode.Create)
         Serializer.Serialize(s, Attributes.AttributeList)
         s.Flush()
         s.Close()
@@ -2883,7 +2883,7 @@ Public Class FrmCacheCreator
             conn.Close()
             Return evehqData
         Catch e As Exception
-            Core.HQ.dataError = e.Message
+            Core.HQ.DataError = e.Message
             Return Nothing
         Finally
             If conn.State = ConnectionState.Open Then
@@ -2906,7 +2906,7 @@ Public Class FrmCacheCreator
             parentnode.Tag = parentRow.Item("marketGroupID")
             PopulateShipGroups(CInt(parentnode.Tag), parentnode, marketTable)
         Next parentRow
-        Dim groupRows() As DataRow = _shipNameData.Tables(0).Select("marketGroupID=" & inParentID)
+        Dim groupRows() As DataRow = shipNameData.Tables(0).Select("marketGroupID=" & inParentID)
         For Each shipRow As DataRow In groupRows
             inTreeNode.Nodes.Add(shipRow.Item("typeName").ToString)
         Next
@@ -2937,7 +2937,7 @@ Public Class FrmCacheCreator
         Next
     End Sub
     Private Sub WriteShipGroups(ByVal tvwShips As TreeView)
-        Dim sw As New StreamWriter(Path.Combine(_coreCacheFolder, "ShipGroups.bin"))
+        Dim sw As New StreamWriter(Path.Combine(coreCacheFolder, "ShipGroups.bin"))
         For Each rootNode As TreeNode In tvwShips.Nodes
             WriteShipNodes(rootNode, sw)
         Next
@@ -2945,7 +2945,7 @@ Public Class FrmCacheCreator
         sw.Close()
     End Sub
     Private Sub WriteItemGroups(ByVal tvwItems As TreeView)
-        Dim sw As New StreamWriter(Path.Combine(_coreCacheFolder, "ItemGroups.bin"))
+        Dim sw As New StreamWriter(Path.Combine(coreCacheFolder, "ItemGroups.bin"))
         For Each rootNode As TreeNode In tvwItems.Nodes
             WriteGroupNodes(rootNode, sw)
         Next
@@ -3024,8 +3024,8 @@ Public Class FrmCacheCreator
 
     Private Sub CorrectSQLEveUnits(ByVal connection As SqlConnection)
 
-        Const strSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
-        Dim keyCommand As New SqlCommand(strSQL, connection)
+        Const StrSQL As String = "UPDATE dgmAttributeTypes SET unitID=122 WHERE unitID IS NULL;"
+        Dim keyCommand As New SqlCommand(StrSQL, connection)
         keyCommand.ExecuteNonQuery()
 
     End Sub
@@ -3045,8 +3045,8 @@ Public Class FrmCacheCreator
     Private Sub btnCheckMarketGroup_Click(sender As Object, e As EventArgs) Handles btnCheckMarketGroup.Click
 
         Dim evehqData As DataSet
-        Const strSQL As String = "SELECT * FROM invMarketGroups;"
-        evehqData = GetStaticData(strSQL)
+        Const StrSQL As String = "SELECT * FROM invMarketGroups;"
+        evehqData = GetStaticData(StrSQL)
 
         Dim marketGroups As New List(Of Integer)
         For Each dr As DataRow In evehqData.Tables(0).Rows

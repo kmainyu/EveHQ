@@ -34,25 +34,25 @@ Namespace SkillQueueControl
         Private Sub DrawSkillLevelBlock()
             Dim g As Graphics = panelSQB.CreateGraphics
             Dim sx As Integer = panelSQB.Width - 60
-            Const sy As Integer = 7
+            Const Sy As Integer = 7
 
-            g.DrawRectangle(New Pen(Color.Silver, 1), New Rectangle(sx, sy, 47, 9))
+            g.DrawRectangle(New Pen(Color.Silver, 1), New Rectangle(sx, Sy, 47, 9))
             If _trainedLevel > 0 Then
                 For lvl As Integer = 1 To _trainedLevel
-                    g.FillRectangle(Brushes.White, New RectangleF(sx + (lvl * 9) - 7, sy + 2, 8, 6))
+                    g.FillRectangle(Brushes.White, New RectangleF(sx + (lvl * 9) - 7, Sy + 2, 8, 6))
                 Next
             End If
             For lvl As Integer = _trainedLevel + 1 To Math.Min(_currentQueuedSkill.Level, 5)
-                g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + (lvl * 9) - 7, sy + 2, 8, 6))
+                g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + (lvl * 9) - 7, Sy + 2, 8, 6))
             Next
         End Sub
 
         Private Sub DrawTimeBar()
             Dim g As Graphics = panelSQB.CreateGraphics
-            Const sx As Integer = 2
+            Const Sx As Integer = 2
             Dim sy As Integer = panelSQB.Height - 5
-            g.FillRectangle(Brushes.DimGray, New RectangleF(sx, sy, panelSQB.Width - 4, 4))
-            g.FillRectangle(Brushes.Silver, New RectangleF(sx, sy + 3, panelSQB.Width - 4, 1))
+            g.FillRectangle(Brushes.DimGray, New RectangleF(Sx, sy, panelSQB.Width - 4, 4))
+            g.FillRectangle(Brushes.Silver, New RectangleF(Sx, sy + 3, panelSQB.Width - 4, 1))
             ' Calculate number of seconds from now till start
             Dim startSpan As TimeSpan = SkillFunctions.ConvertEveTimeToLocal(_currentQueuedSkill.StartTime) - Now
             Dim startSec As Double = Math.Min(startSpan.TotalSeconds, 86400)
@@ -61,21 +61,21 @@ Namespace SkillQueueControl
             Dim startMark As Integer = Math.Max(CInt(startSec / 86400 * (panelSQB.Width - 4)), 0)
             Dim endMark As Integer = CInt(endSec / 86400 * (panelSQB.Width - 4))
             If Math.IEEERemainder(_currentQueuedSkill.Position, 2) = 0 Then
-                g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQB.Width - 4), 3))
+                g.FillRectangle(Brushes.DeepSkyBlue, New RectangleF(Sx + startMark, sy, Math.Min(endMark - startMark, panelSQB.Width - 4), 3))
             Else
-                g.FillRectangle(Brushes.SkyBlue, New RectangleF(sx + startMark, sy, Math.Min(endMark - startMark, panelSQB.Width - 4), 3))
+                g.FillRectangle(Brushes.SkyBlue, New RectangleF(Sx + startMark, sy, Math.Min(endMark - startMark, panelSQB.Width - 4), 3))
             End If
         End Sub
 
         Private Sub DrawPercentBar()
             Dim g As Graphics = panelSQB.CreateGraphics
             Dim sx As Integer = panelSQB.Width - 60
-            Const sy As Integer = 24
-            g.DrawRectangle(New Pen(Color.Silver, 1), New Rectangle(sx, sy, 47, 7))
-            g.FillRectangle(Brushes.White, New RectangleF(sx, sy + 2, 1, 4))
-            g.FillRectangle(Brushes.White, New RectangleF(sx + 47, sy + 2, 1, 4))
+            Const Sy As Integer = 24
+            g.DrawRectangle(New Pen(Color.Silver, 1), New Rectangle(sx, Sy, 47, 7))
+            g.FillRectangle(Brushes.White, New RectangleF(sx, Sy + 2, 1, 4))
+            g.FillRectangle(Brushes.White, New RectangleF(sx + 47, Sy + 2, 1, 4))
             Dim endMark As Integer = CInt(_percent * 0.44)
-            g.FillRectangle(Brushes.Silver, New RectangleF(sx + 2, sy + 2, endMark, 4))
+            g.FillRectangle(Brushes.Silver, New RectangleF(sx + 2, Sy + 2, endMark, 4))
         End Sub
 
         Private Sub panelSQB_Paint(ByVal sender As Object, ByVal e As PaintEventArgs) Handles panelSQB.Paint

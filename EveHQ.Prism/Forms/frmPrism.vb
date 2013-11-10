@@ -362,42 +362,42 @@ Namespace Forms
                     Dim pilotAccount As EveHQAccount = pOwner.Account
 
                     Dim apixml As XmlDocument
-                    Const returnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
+                    Const ReturnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
                     Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
                     ' Check for char assets
-                    apixml = apireq.GetAPIXML(APITypes.AssetsChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.AssetsChar, pilotAccount.ToAPIAccount, selPilot.ID, ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.Assets)
 
                     ' Check for char balances
-                    apixml = apireq.GetAPIXML(APITypes.AccountBalancesChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.AccountBalancesChar, pilotAccount.ToAPIAccount, selPilot.ID, ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.Balances)
 
                     ' Check for char jobs
-                    apixml = apireq.GetAPIXML(APITypes.IndustryChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.IndustryChar, pilotAccount.ToAPIAccount, selPilot.ID, ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.Jobs)
 
                     ' Check for char journal
-                    apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, selPilot.ID, 1000, 0, 256, returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, selPilot.ID, 1000, 0, 256, ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.WalletJournal)
 
                     ' Check for char orders
-                    apixml = apireq.GetAPIXML(APITypes.OrdersChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.OrdersChar, pilotAccount.ToAPIAccount, selPilot.ID, ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.Orders)
 
                     ' Check for char transactions
-                    apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, selPilot.ID, 1000, "", returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, selPilot.ID, 1000, "", ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.WalletTransactions)
 
                     ' Check for char contracts
-                    apixml = apireq.GetAPIXML(APITypes.ContractsChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
+                    apixml = apireq.GetAPIXML(APITypes.ContractsChar, pilotAccount.ToAPIAccount, selPilot.ID, ReturnMethod)
                     Call CheckXML(apixml, pOwner, CorpRepType.Contracts)
 
                     ' Check for corp sheets
                     If PrismSettings.UserSettings.CorpReps.ContainsKey(selPilot.Corp) Then
                         If PrismSettings.UserSettings.CorpReps(selPilot.Corp).ContainsKey(CorpRepType.CorpSheet) Then
                             If PrismSettings.UserSettings.CorpReps(selPilot.Corp).Item(CorpRepType.CorpSheet) = selPilot.Name Then
-                                apixml = apireq.GetAPIXML(APITypes.CorpSheet, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
+                                apixml = apireq.GetAPIXML(APITypes.CorpSheet, pilotAccount.ToAPIAccount, selPilot.ID, ReturnMethod)
                                 Call CheckXML(apixml, pOwner, CorpRepType.CorpSheet)
                             Else
 
@@ -420,48 +420,48 @@ Namespace Forms
                 Dim corpAccount As EveHQAccount = pOwner.Account
 
                 Dim apixml As XmlDocument
-                Const returnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
+                Const ReturnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
                 Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
                 Dim ownerID As String
 
                 ' Check for corp assets
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
-                apixml = apireq.GetAPIXML(APITypes.AssetsCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.AssetsCorp, corpAccount.ToAPIAccount, ownerID, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.Assets)
 
                 ' Check for corp balances
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
-                apixml = apireq.GetAPIXML(APITypes.AccountBalancesCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.AccountBalancesCorp, corpAccount.ToAPIAccount, ownerID, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.Balances)
 
                 ' Check for corp jobs
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
-                apixml = apireq.GetAPIXML(APITypes.IndustryCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.IndustryCorp, corpAccount.ToAPIAccount, ownerID, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.Jobs)
 
                 ' Check for corp journal
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
-                apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, corpAccount.ToAPIAccount, ownerID, 1000, 0, 256, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, corpAccount.ToAPIAccount, ownerID, 1000, 0, 256, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.WalletJournal)
 
                 ' Check for corp orders
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                apixml = apireq.GetAPIXML(APITypes.OrdersCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.OrdersCorp, corpAccount.ToAPIAccount, ownerID, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.Orders)
 
                 ' Check for corp transactions
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, corpAccount.ToAPIAccount, ownerID, 1000, "", returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, corpAccount.ToAPIAccount, ownerID, 1000, "", ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.WalletTransactions)
 
                 ' Check for corp contracts
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
-                apixml = apireq.GetAPIXML(APITypes.ContractsCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.ContractsCorp, corpAccount.ToAPIAccount, ownerID, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.Contracts)
 
                 ' Check for corp sheets
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
-                apixml = apireq.GetAPIXML(APITypes.CorpSheet, corpAccount.ToAPIAccount, ownerID, returnMethod)
+                apixml = apireq.GetAPIXML(APITypes.CorpSheet, corpAccount.ToAPIAccount, ownerID, ReturnMethod)
                 Call CheckXML(apixml, pOwner, CorpRepType.CorpSheet)
 
             End If
@@ -551,7 +551,7 @@ Namespace Forms
 
                         ' Checking XML of APIv2 keys
                         If apiXML IsNot Nothing Then
-                            If CanUseAPIv2(pOwner, apiType) Then
+                            If CanUseApiV2(pOwner, apiType) Then
                                 Call DisplayAPIDetails(apiXML, apiOwner, pos)
                             Else
                                 apiOwner.SubItems(pos).ForeColor = Color.Red
@@ -562,7 +562,7 @@ Namespace Forms
                                 apiOwner.SubItems(pos).ForeColor = Color.Black
                                 apiOwner.SubItems(pos).Text = "n/a"
                             Else
-                                If CanUseAPIv2(pOwner, apiType) Then
+                                If CanUseApiV2(pOwner, apiType) Then
                                     ' ...but we can use it (it's just missing for now)
                                     apiOwner.SubItems(pos).ForeColor = Color.Red
                                     apiOwner.SubItems(pos).Text = "Missing"
@@ -606,12 +606,12 @@ Namespace Forms
         Private Function CanUseAPI(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Select Case pOwner.APIVersion
                 Case APIKeySystems.Version2
-                    Return CanUseAPIv2(pOwner, apiType)
+                    Return CanUseApiV2(pOwner, apiType)
                 Case Else
                     Return False
             End Select
         End Function
-        Private Function CanUseAPIv2(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
+        Private Function CanUseApiV2(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Dim account As EveHQAccount = pOwner.Account
             If account.ApiKeySystem = APIKeySystems.Version2 Then
                 Select Case account.APIKeyType
@@ -994,7 +994,7 @@ Namespace Forms
                     If pOwner.IsCorp = False Then
 
                         ' Setup the array of transactions
-                        Const transID As String = ""
+                        Const TransID As String = ""
 
                         Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = pOwner.Account
@@ -1007,7 +1007,7 @@ Namespace Forms
                             Dim retries As Integer = 0
                             Do
                                 retries += 1
-                                apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, transID, APIReturnMethods.ReturnStandard)
+                                apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, pOwner.ID, 1000, TransID, APIReturnMethods.ReturnStandard)
                             Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                             ' Write the journal to the database!
@@ -1392,7 +1392,7 @@ Namespace Forms
                     If pOwner.IsCorp = True Then
 
                         ' Setup the array of transactions
-                        Const transID As String = ""
+                        Const TransID As String = ""
 
                         Dim apixml As New XmlDocument
                         Dim pilotAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(pOwner, CorpRepType.WalletTransactions)
@@ -1409,7 +1409,7 @@ Namespace Forms
                                     Dim retries As Integer = 0
                                     Do
                                         retries += 1
-                                        apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, pilotAccount.ToAPIAccount, ownerID, divID, transID, APIReturnMethods.ReturnStandard)
+                                        apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, pilotAccount.ToAPIAccount, ownerID, divID, TransID, APIReturnMethods.ReturnStandard)
                                     Loop Until retries >= MaxAPIRetries Or apireq.LastAPIError <> 0
 
                                     ' Write the journal to the database!
@@ -2385,8 +2385,8 @@ Namespace Forms
                 Dim sfd As New SaveFileDialog
                 sfd.Title = "Export Wallet Journal Entries"
                 sfd.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-                Const filterText As String = "XML files (*.xml)|*.xml"
-                sfd.Filter = filterText
+                Const FilterText As String = "XML files (*.xml)|*.xml"
+                sfd.Filter = FilterText
                 sfd.FilterIndex = 0
                 sfd.AddExtension = True
                 sfd.ShowDialog()
@@ -2459,8 +2459,8 @@ Namespace Forms
             Dim ofd As New OpenFileDialog
             ofd.Title = "Import Wallet Journal Entries"
             ofd.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
-            Const filterText As String = "XML files (*.xml)|*.xml"
-            ofd.Filter = filterText
+            Const FilterText As String = "XML files (*.xml)|*.xml"
+            ofd.Filter = FilterText
             ofd.FilterIndex = 0
             ofd.AddExtension = True
             ofd.CheckPathExists = True
@@ -3015,11 +3015,11 @@ Namespace Forms
 
                     For Each c As Contract In contractList.Values
                         ' Setup filter result
-                        Const displayContract As Boolean = True
+                        Const DisplayContract As Boolean = True
                         ' Apply filtering...
 
                         ' Display the result if allowed by filters
-                        If displayContract = True Then
+                        If DisplayContract = True Then
                             Dim newContract As New Node
                             adtContracts.Nodes.Add(newContract)
                             newContract.CreateCells()
@@ -3761,16 +3761,16 @@ Namespace Forms
 #Region "CSV Export Routines"
 
         Private Sub btnExportTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportTransactions.Click
-            Call GenerateCSVFileFromCLV(cboTransactionOwner.Text, "Wallet Transactions", adtTransactions)
+            Call GenerateCsvFileFromClv(cboTransactionOwner.Text, "Wallet Transactions", adtTransactions)
         End Sub
 
         Private Sub btnExportJournal_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportJournal.Click
             'TODO: Update the called routine
-            Call GenerateCSVFileFromCLV(cboJournalOwners.Text, "Wallet Journal", adtJournal)
+            Call GenerateCsvFileFromClv(cboJournalOwners.Text, "Wallet Journal", adtJournal)
         End Sub
 
         Private Sub btnExportJobs_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportJobs.Click
-            Call GenerateCSVFileFromCLV(cboJobOwner.SelectedItem.ToString, "Industry Jobs", adtJobs)
+            Call GenerateCsvFileFromClv(cboJobOwner.SelectedItem.ToString, "Industry Jobs", adtJobs)
         End Sub
 
         'Private Sub btnExportOrders_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -3778,7 +3778,7 @@ Namespace Forms
         '    Call GenerateCSVFileFromCLV(cboOrdersOwner.SelectedItem.ToString, "Buy Orders", adtBuyOrders)
         'End Sub
 
-        Private Sub GenerateCSVFileFromCLV(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
+        Private Sub GenerateCsvFileFromClv(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
 
             Try
                 Dim csvFile As String = Path.Combine(HQ.ReportFolder, Description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
@@ -5888,10 +5888,10 @@ Namespace Forms
             Call GetBuildList()
         End Sub
         Private Sub btnExportRigList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportRigList.Click
-            Call GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig List", adtRigs)
+            Call GenerateCsvFileFromClv(PSCRigOwners.cboHost.Text, "Rig List", adtRigs)
         End Sub
         Private Sub btnExportRigBuildList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportRigBuildList.Click
-            Call GenerateCSVFileFromCLV(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
+            Call GenerateCsvFileFromClv(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
         End Sub
         Private Sub adtRigs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigs.ColumnHeaderMouseUp
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)

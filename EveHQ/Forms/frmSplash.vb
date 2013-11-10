@@ -349,8 +349,8 @@ Namespace Forms
             ' Update the pilot account info
             HQ.WriteLogEvent("Start: Check key skill information")
             If PilotParseFunctions.LoadKeySkills() = False Then
-                Const msg As String = "There was an error parsing your character skill data. This will be reset. Please connect to the API to download the latest data."
-                MessageBox.Show(msg, "Error Parsing Pilot Skills", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Const Msg As String = "There was an error parsing your character skill data. This will be reset. Please connect to the API to download the latest data."
+                MessageBox.Show(Msg, "Error Parsing Pilot Skills", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 For Each rPilot As EveHQPilot In HQ.Settings.Pilots.Values
                     rPilot.PilotSkills = New Dictionary(Of String, EveHQPilotSkill)
                     rPilot.SkillPoints = 0

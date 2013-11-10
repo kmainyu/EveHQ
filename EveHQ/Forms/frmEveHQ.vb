@@ -295,8 +295,8 @@ Namespace Forms
                         Else
                             ' Check if there are updates available
                             If HQ.AppUpdateAvailable = True Then
-                                Const msg As String = "There are pending updates available - these will be installed now."
-                                MessageBox.Show(msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                                Const Msg As String = "There are pending updates available - these will be installed now."
+                                MessageBox.Show(Msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                                 Call UpdateNow()
                             Else
                                 HQ.WriteLogEvent("Shutdown: Calling main shutdown routine")
@@ -306,8 +306,8 @@ Namespace Forms
                     Else
                         ' Check if there are updates available
                         If HQ.AppUpdateAvailable = True Then
-                            Const msg As String = "There are pending updates available - these will be installed now."
-                            MessageBox.Show(msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            Const Msg As String = "There are pending updates available - these will be installed now."
+                            MessageBox.Show(Msg, "Update Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                             Call UpdateNow()
                         Else
                             HQ.WriteLogEvent("Shutdown: Calling main shutdown routine")
@@ -2428,9 +2428,9 @@ Namespace Forms
 
         Private Sub btnClearCharacterCache_Click(ByVal sender As Object, ByVal e As EventArgs) _
             Handles btnClearCharacterCache.Click
-            Const msg As String = "This will delete the character specific XML files, clear the pilot data and reconnect to the API." &
+            Const Msg As String = "This will delete the character specific XML files, clear the pilot data and reconnect to the API." &
                                   ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
-            Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
+            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 Try
@@ -2500,9 +2500,9 @@ Namespace Forms
         End Sub
 
         Private Sub btnClearImageCache_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClearImageCache.Click
-            Const msg As String = "This will delete the entire contents of the image cache folder." & ControlChars.CrLf &
+            Const Msg As String = "This will delete the entire contents of the image cache folder." & ControlChars.CrLf &
                                   ControlChars.CrLf & "Are you sure you wish to continue?"
-            Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Image Cache", MessageBoxButtons.YesNo,
+            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Image Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 Try
@@ -2533,9 +2533,9 @@ Namespace Forms
         End Sub
 
         Private Sub btnClearAllCache_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClearAllCache.Click
-            Const msg As String = "This will delete the entire contents of the cache folder, clear the pilot data and reconnect to the API." &
+            Const Msg As String = "This will delete the entire contents of the cache folder, clear the pilot data and reconnect to the API." &
                                   ControlChars.CrLf & ControlChars.CrLf & "Are you sure you wish to continue?"
-            Dim reply As Integer = MessageBox.Show(msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
+            Dim reply As Integer = MessageBox.Show(Msg, "Confirm Delete Cache", MessageBoxButtons.YesNo,
                                                    MessageBoxIcon.Question)
             If reply = DialogResult.Yes Then
                 Try
@@ -2938,68 +2938,68 @@ Namespace Forms
         End Sub
 
         Private Sub btnHTMLCertGrades1_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades1.Click
-            Const grade As Integer = 1
+            Const Grade As Integer = 1
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades2_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades2.Click
-            Const grade As Integer = 2
+            Const Grade As Integer = 2
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades3_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades3.Click
-            Const grade As Integer = 3
+            Const Grade As Integer = 3
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades4_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades4.Click
-            Const grade As Integer = 4
+            Const Grade As Integer = 4
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
         Private Sub btnHTMLCertGrades5_Click(sender As Object, e As EventArgs) Handles btnHTMLCertGrades5.Click
-            Const grade As Integer = 5
+            Const Grade As Integer = 5
             If cboReportPilot.SelectedItem Is Nothing Then
                 MessageBox.Show("Please select a pilot before running this report!", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             Dim rPilot As EveHQPilot = HQ.Settings.Pilots(cboReportPilot.SelectedItem.ToString)
             Dim newReport As New FrmReportViewer
-            Call Reports.GenerateCertGradeTimes(rPilot, grade)
-            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
-            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), grade) & " Certificate Grade Times - " & rPilot.Name)
+            Call Reports.GenerateCertGradeTimes(rPilot, Grade)
+            newReport.wbReport.Navigate(Path.Combine(HQ.ReportFolder, [Enum].GetName(GetType(CertificateGrade), Grade) & "CertGradeTimes (" & rPilot.Name & ").html"))
+            DisplayReport(newReport, [Enum].GetName(GetType(CertificateGrade), Grade) & " Certificate Grade Times - " & rPilot.Name)
         End Sub
 
 #End Region
