@@ -402,7 +402,7 @@ namespace EveHQ.Tests.Api
         {
             var url = new Uri("https://api.eveonline.com/char/NotificationTexts.xml.aspx");
             const int characterId = 123456;
-            int[] ids = new[] { 1234, 5678 };
+            long[] ids = new[] { 1234L, 5678L };
             Dictionary<string, string> data = ApiTestHelpers.GetBaseTestParams();
 
             data.Add(ApiConstants.CharacterId, characterId.ToString(CultureInfo.InvariantCulture));
@@ -412,7 +412,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.NotificationTexts(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId, ids);
+                var task = client.Character.NotificationTextsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId, ids);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
                 var result = task.Result.ResultData.ToList();

@@ -24,6 +24,7 @@ Imports EveHQ.Core
 Imports System.Threading
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports EveHQ.Common.Extensions
 
 Namespace Forms
 
@@ -133,6 +134,7 @@ Namespace Forms
             Catch e As Exception
                 ' Handles cases where application is sluggish due to plug-in loading etc
                 ' Simply abort
+                Trace.TraceError(e.FormatException())
             Finally
                 RemoveHandler myMail.MailProgress, AddressOf DisplayMailProgress
                 EveMailEvents.MailIsBeingProcessed = False

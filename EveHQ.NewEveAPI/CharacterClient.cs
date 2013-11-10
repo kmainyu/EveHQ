@@ -1,28 +1,24 @@
-﻿// ========================================================================
+﻿// ===========================================================================
+// <copyright file="CharacterClient.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
-//  
+//  Copyright © 2005-2013  EveHQ Development Team
 //  This file (CharacterClient.cs), is part of EveHQ.
-// 
 //  EveHQ is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
-// 
 //  EveHQ is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
 //  You should have received a copy of the GNU General Public License
-//  along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
-// =========================================================================
-
+//  along with EveHQ.  If not, see http://www.gnu.org/licenses/.
+// </copyright>
+// ============================================================================
 namespace EveHQ.EveApi
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -68,9 +64,8 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams[ApiConstants.EventId] = eventId.ToInvariantString();
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCalendarEventAttendeesResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ParseCalendarEventAttendeesResponse);
         }
-
 
         /// <summary>Retrieves the Character Sheet data from the Eve web service.</summary>
         /// <param name="keyId">API Key ID to query</param>
@@ -79,10 +74,11 @@ namespace EveHQ.EveApi
         /// <returns>The given character's data.</returns>
         public EveServiceResponse<CharacterData> CharacterSheet(string keyId, string vCode, int characterId)
         {
-            var task = CharacterSheetAsync(keyId, vCode, characterId);
+            Task<EveServiceResponse<CharacterData>> task = CharacterSheetAsync(keyId, vCode, characterId);
             task.Wait();
             return task.Result;
         }
+
         /// <summary>Retrieves the Character Sheet data from the Eve web service.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
@@ -99,7 +95,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterSheetResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseCharacterSheetResponse);
         }
 
         /// <summary>Gets a collection of mailing lists the user belongs to.</summary>
@@ -109,7 +105,7 @@ namespace EveHQ.EveApi
         /// <returns>a collection of mailing lists</returns>
         public EveServiceResponse<IEnumerable<MailingList>> MailingLists(string keyId, string vCode, int characterId)
         {
-            var task = MailingListsAsync(keyId, vCode, characterId);
+            Task<EveServiceResponse<IEnumerable<MailingList>>> task = MailingListsAsync(keyId, vCode, characterId);
             task.Wait();
             return task.Result;
         }
@@ -130,7 +126,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseMailingListsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ParseMailingListsResponse);
         }
 
         /// <summary>Retrieves the mail bodies for given IDs</summary>
@@ -141,7 +137,7 @@ namespace EveHQ.EveApi
         /// <returns>a collection of mail bodies</returns>
         public EveServiceResponse<IEnumerable<MailBody>> MailBodies(string keyId, string vCode, int characterId, IEnumerable<int> ids)
         {
-            var task = MailBodiesAsync(keyId, vCode, characterId, ids);
+            Task<EveServiceResponse<IEnumerable<MailBody>>> task = MailBodiesAsync(keyId, vCode, characterId, ids);
             task.Wait();
             return task.Result;
         }
@@ -160,16 +156,16 @@ namespace EveHQ.EveApi
             System.Diagnostics.Contracts.Contract.Requires(ids != null);
             System.Diagnostics.Contracts.Contract.Requires(ids.Any());
 
-            const string MethodPath = "{0}/MailBodiesAsync.xml.aspx";
-            const string CacheKeyFormat = "CharacterMailBodies{0}_{1}_[2}";
+            const string MethodPath = "{0}/MailBodies.xml.aspx";
+            const string CacheKeyFormat = "CharacterMailBodies{0}_{1}_{2}";
 
             // TODO: switch to using a hash value for making a unique key or a long batch of mail ids can cause a filename length issue.
-            string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId, string.Join("_", ids.Select(id => id.ToInvariantString())));
+            string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId, string.Join("_", ids.Select(id => id.ToInvariantString())).GetHashCode());
 
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams[ApiConstants.Ids] = string.Join(",", ids.Select(id => id.ToInvariantString()));
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessMailBodyResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessMailBodyResponse);
         }
 
         /// <summary>Retrieves the collection of mail message headers from the eve web service</summary>
@@ -179,7 +175,7 @@ namespace EveHQ.EveApi
         /// <returns>A collection of mail headers </returns>
         public EveServiceResponse<IEnumerable<MailHeader>> MailMessages(string keyId, string vCode, int characterId)
         {
-            var task = MailMessagesAsync(keyId, vCode, characterId);
+            Task<EveServiceResponse<IEnumerable<MailHeader>>> task = MailMessagesAsync(keyId, vCode, characterId);
             task.Wait();
             return task.Result;
         }
@@ -200,7 +196,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessMailMessagesResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessMailMessagesResponse);
         }
 
         /// <summary>Gets the collection of notification for the user.</summary>
@@ -210,7 +206,7 @@ namespace EveHQ.EveApi
         /// <returns>The <see cref="Task"/>.</returns>
         public EveServiceResponse<IEnumerable<Notification>> Notifications(string keyId, string vCode, int characterId)
         {
-            var task = NotificationsAsync(keyId, vCode, characterId);
+            Task<EveServiceResponse<IEnumerable<Notification>>> task = NotificationsAsync(keyId, vCode, characterId);
             task.Wait();
             return task.Result;
         }
@@ -231,7 +227,14 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessNotificationsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessNotificationsResponse);
+        }
+
+        public EveServiceResponse<IEnumerable<NotificationText>> NotificationTexts(string keyId, string vCode, int characterId, IEnumerable<long> notificationIds)
+        {
+            Task<EveServiceResponse<IEnumerable<NotificationText>>> task = NotificationTextsAsync(keyId, vCode, characterId, notificationIds);
+            task.Wait();
+            return task.Result;
         }
 
         /// <summary>The notification texts.</summary>
@@ -240,12 +243,11 @@ namespace EveHQ.EveApi
         /// <param name="characterId">The character id.</param>
         /// <param name="notificationIds">The notification ids.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<IEnumerable<NotificationText>>> NotificationTexts(string keyId, string vCode, int characterId, int[] notificationIds)
+        public Task<EveServiceResponse<IEnumerable<NotificationText>>> NotificationTextsAsync(string keyId, string vCode, int characterId, IEnumerable<long> notificationIds)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
-            System.Diagnostics.Contracts.Contract.Requires(notificationIds.Length > 0);
 
             const string MethodPath = "{0}/NotificationTexts.xml.aspx";
             const string CacheKeyFormat = "NotificationTexts{0}_{1}_{2}";
@@ -254,7 +256,7 @@ namespace EveHQ.EveApi
             IDictionary<string, string> apiParams = new Dictionary<string, string>();
             apiParams[ApiConstants.Ids] = string.Join(",", notificationIds.Select(id => id.ToInvariantString()));
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessNotificationTextsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), apiParams, cacheKey, ApiConstants.SixtyMinuteCache, ProcessNotificationTextsResponse);
         }
 
         /// <summary>The upcoming calendar events.</summary>
@@ -273,7 +275,7 @@ namespace EveHQ.EveApi
 
             string cacheKey = CacheKeyFormat.FormatInvariant(keyId, characterId);
 
-            return this.GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(this.PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessUpcomingCalendarEventsResponse);
+            return GetServiceResponseAsync(keyId, vCode, characterId, MethodPath.FormatInvariant(PathPrefix), null, cacheKey, ApiConstants.SixtyMinuteCache, ProcessUpcomingCalendarEventsResponse);
         }
 
         /// <summary>Parses the Eve web service response for the CharacterSheet method.</summary>
@@ -324,17 +326,17 @@ namespace EveHQ.EveApi
             // build the enumerable collection for the skills.
             IEnumerable<CharacterSkillRecord> skills =
                 results.Elements(ApiConstants.Rowset)
-                       .First(set => set.Attribute(ApiConstants.Name).Value == "skills")
-                       .Elements(ApiConstants.Row)
-                       .Select(
-                           row =>
-                           new CharacterSkillRecord
-                           {
-                               SkillId = int.Parse(row.Attribute("typeID").Value),
-                               SkillPoints = int.Parse(row.Attribute("skillpoints").Value),
-                               Level = int.Parse(row.Attribute("level").Value),
-                               Published = int.Parse(row.Attribute("published").Value) == 1
-                           });
+                    .First(set => set.Attribute(ApiConstants.Name).Value == "skills")
+                    .Elements(ApiConstants.Row)
+                    .Select(
+                        row =>
+                        new CharacterSkillRecord
+                            {
+                                SkillId = int.Parse(row.Attribute("typeID").Value), 
+                                SkillPoints = int.Parse(row.Attribute("skillpoints").Value), 
+                                Level = int.Parse(row.Attribute("level").Value), 
+                                Published = int.Parse(row.Attribute("published").Value) == 1
+                            });
 
             // certificates
             IEnumerable<int> certificates =
@@ -349,45 +351,45 @@ namespace EveHQ.EveApi
             // titles
             IEnumerable<CharacterCorporationTitles> corpTitles =
                 results.Elements(ApiConstants.Rowset)
-                       .First(set => set.Attribute(ApiConstants.Name).Value == "corporationTitles")
-                       .Elements(ApiConstants.Row)
-                       .Select(row => new CharacterCorporationTitles { TitleId = int.Parse(row.Attribute("titleID").Value), TitleName = row.Attribute("titleName").Value });
+                    .First(set => set.Attribute(ApiConstants.Name).Value == "corporationTitles")
+                    .Elements(ApiConstants.Row)
+                    .Select(row => new CharacterCorporationTitles { TitleId = int.Parse(row.Attribute("titleID").Value), TitleName = row.Attribute("titleName").Value });
 
             // pack it into to the entity type and return.
             return new CharacterData
-                   {
-                       CharacterId = characterId,
-                       Name = name,
-                       BirthDate = birthDate,
-                       Race = race,
-                       BloodLine = bloodline,
-                       Ancestry = ancestry,
-                       Gender = gender,
-                       CorporationName = corporationName,
-                       CorporationId = corporationId,
-                       AllianceName = allianceName,
-                       AllianceId = allianceId,
-                       CloneName = cloneName,
-                       CloneSkillPoints = cloneSkillpoints,
-                       Balance = balance,
-                       MemoryBonus = memoryBonus,
-                       PerceptionBonus = perceptionBonus,
-                       WillpowerBonus = willpowerBonus,
-                       IntelligenceBonus = intelligenceBonus,
-                       CharismaBonus = charismaBonus,
-                       Intelligence = intelligence,
-                       Memory = memory,
-                       Charisma = charisma,
-                       Perception = perception,
-                       Willpower = willpower,
-                       Skills = skills,
-                       Certificates = certificates,
-                       CorporationRoles = corpRoles,
-                       CorporationRolesAtHq = corpRolesAtHq,
-                       CorporationRolesAtBase = corpRolesAtBase,
-                       CorporationRolesAtOthers = corpRolesAtOther,
-                       CorporationTitles = corpTitles
-                   };
+                       {
+                           CharacterId = characterId, 
+                           Name = name, 
+                           BirthDate = birthDate, 
+                           Race = race, 
+                           BloodLine = bloodline, 
+                           Ancestry = ancestry, 
+                           Gender = gender, 
+                           CorporationName = corporationName, 
+                           CorporationId = corporationId, 
+                           AllianceName = allianceName, 
+                           AllianceId = allianceId, 
+                           CloneName = cloneName, 
+                           CloneSkillPoints = cloneSkillpoints, 
+                           Balance = balance, 
+                           MemoryBonus = memoryBonus, 
+                           PerceptionBonus = perceptionBonus, 
+                           WillpowerBonus = willpowerBonus, 
+                           IntelligenceBonus = intelligenceBonus, 
+                           CharismaBonus = charismaBonus, 
+                           Intelligence = intelligence, 
+                           Memory = memory, 
+                           Charisma = charisma, 
+                           Perception = perception, 
+                           Willpower = willpower, 
+                           Skills = skills, 
+                           Certificates = certificates, 
+                           CorporationRoles = corpRoles, 
+                           CorporationRolesAtHq = corpRolesAtHq, 
+                           CorporationRolesAtBase = corpRolesAtBase, 
+                           CorporationRolesAtOthers = corpRolesAtOther, 
+                           CorporationTitles = corpTitles
+                       };
         }
 
         /// <summary>The parse corp roles.</summary>
@@ -398,9 +400,9 @@ namespace EveHQ.EveApi
         {
             return
                 results.Elements(ApiConstants.Rowset)
-                       .First(set => set.Attribute(ApiConstants.Name).Value == corpRoleName)
-                       .Elements(ApiConstants.Row)
-                       .Select(row => new CharacterCorporationRoles { RoleId = int.Parse(row.Attribute("roleID").Value), RoleName = row.Attribute("roleName").Value });
+                    .First(set => set.Attribute(ApiConstants.Name).Value == corpRoleName)
+                    .Elements(ApiConstants.Row)
+                    .Select(row => new CharacterCorporationRoles { RoleId = int.Parse(row.Attribute("roleID").Value), RoleName = row.Attribute("roleName").Value });
         }
 
         /// <summary>The get enhancer.</summary>
@@ -421,10 +423,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new UpcomingCalendarEvent[0]; //empty collection
+                return new UpcomingCalendarEvent[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let eventId = row.Attribute("eventID").Value.ToInt64()
                     let ownerId = row.Attribute("ownerID").Value.ToInt64()
@@ -437,17 +439,17 @@ namespace EveHQ.EveApi
                     let response = row.Attribute("response").Value
                     select
                         new UpcomingCalendarEvent
-                        {
-                            Duration = duration,
-                            EventDate = eventDate,
-                            EventId = eventId,
-                            EventText = eventText,
-                            EventTitle = eventTitle,
-                            IsImportant = importance,
-                            OwnerId = ownerId,
-                            OwnerName = ownerName,
-                            Response = response
-                        });
+                            {
+                                Duration = duration, 
+                                EventDate = eventDate, 
+                                EventId = eventId, 
+                                EventText = eventText, 
+                                EventTitle = eventTitle, 
+                                IsImportant = importance, 
+                                OwnerId = ownerId, 
+                                OwnerName = ownerName, 
+                                Response = response
+                            };
         }
 
         /// <summary>The process notification texts response.</summary>
@@ -457,13 +459,14 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new NotificationText[0]; //empty collection
+                return new NotificationText[0]; // empty collection
             }
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let id = row.Attribute("notificationID").Value.ToInt32()
                     let text = row.Value
-                    select new NotificationText { NotificationId = id, Text = text });
+                    select new NotificationText { NotificationId = id, Text = text };
         }
 
         /// <summary>Processes the notifications response.</summary>
@@ -473,17 +476,17 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new Notification[0]; //empty collection
+                return new Notification[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let notifcationId = row.Attribute("notificationID").Value.ToInt32()
                     let type = row.Attribute("typeID").Value.ToEnum<NotificationType>()
                     let sender = row.Attribute("senderID").Value.ToInt32()
                     let sentDate = row.Attribute("sentDate").Value.ToDateTimeOffset(0)
                     let isRead = row.Attribute("read").Value.ToBoolean()
-                    select new Notification { IsRead = isRead, NotificationId = notifcationId, SenderId = sender, SentDate = sentDate, TypeId = type });
+                    select new Notification { IsRead = isRead, NotificationId = notifcationId, SenderId = sender, SentDate = sentDate, TypeId = type };
         }
 
         /// <summary>processes the mail message payload into objects</summary>
@@ -493,10 +496,10 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new MailHeader[0]; //empty collection
+                return new MailHeader[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let messageId = row.Attribute("messageID").Value.ToInt32()
                     let senderId = row.Attribute("senderID").Value.ToInt32()
@@ -504,18 +507,18 @@ namespace EveHQ.EveApi
                     let title = row.Attribute("title").Value
                     let toCorpOrAllianceId = row.Attribute("toCorpOrAllianceID").Value
                     let toCharacterIds = row.Attribute("toCharacterIDs").Value.Split(',').Select(id => id.ToInt32())
-                    let toListIds = row.Attribute("toListIDs").Value.Split(',').Select(id => id.ToInt32())
+                    let toListIds = row.Attribute("toListID").Value.Split(',').Select(id => id.ToInt32())
                     select
                         new MailHeader
-                        {
-                            MessageId = messageId,
-                            SenderId = senderId,
-                            SentDate = sentDate,
-                            Title = title,
-                            ToCorpOrAllianceId = toCorpOrAllianceId,
-                            ToCharacterIds = toCharacterIds,
-                            ToListListIds = toListIds
-                        });
+                            {
+                                MessageId = messageId, 
+                                SenderId = senderId, 
+                                SentDate = sentDate, 
+                                Title = title, 
+                                ToCorpOrAllianceId = toCorpOrAllianceId, 
+                                ToCharacterIds = toCharacterIds, 
+                                ToListListIds = toListIds
+                            };
         }
 
         /// <summary>Processes the xml response into mail body object.</summary>
@@ -525,14 +528,14 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new MailBody[0]; //empty collection
+                return new MailBody[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let messageId = row.Attribute("messageID").Value.ToInt32()
                     let message = row.Value
-                    select new MailBody { MessageId = messageId, Body = message });
+                    select new MailBody { MessageId = messageId, Body = message };
         }
 
         /// <summary>processes the xml for the mailing list method.</summary>
@@ -542,14 +545,14 @@ namespace EveHQ.EveApi
         {
             if (result == null)
             {
-                return new MailingList[0]; //empty collection
+                return new MailingList[0]; // empty collection
             }
 
-            return (from rowset in result.Elements(ApiConstants.Rowset)
+            return from rowset in result.Elements(ApiConstants.Rowset)
                     from row in rowset.Elements(ApiConstants.Row)
                     let listId = row.Attribute("listID").Value.ToInt32()
                     let displayName = row.Attribute("displayName").Value
-                    select new MailingList { ListId = listId, DisplayName = displayName });
+                    select new MailingList { ListId = listId, DisplayName = displayName };
         }
 
         /// <summary>The parser for processing the response from the CalendarEventAttendees Method</summary>
@@ -566,20 +569,20 @@ namespace EveHQ.EveApi
 
             return rowset.Elements(ApiConstants.Row).Select(
                 row =>
-                {
-                    XAttribute idAttribute = row.Attribute(ApiConstants.CharacterId);
-                    XAttribute nameAttribute = row.Attribute(ApiConstants.CharacterName);
-                    XAttribute responseAttribute = row.Attribute(ApiConstants.Response);
+                    {
+                        XAttribute idAttribute = row.Attribute(ApiConstants.CharacterId);
+                        XAttribute nameAttribute = row.Attribute(ApiConstants.CharacterName);
+                        XAttribute responseAttribute = row.Attribute(ApiConstants.Response);
 
-                    int charId;
-                    AttendeeResponseType response;
+                        int charId;
+                        AttendeeResponseType response;
 
-                    charId = int.TryParse(idAttribute.Value, out charId) ? charId : 0;
-                    string charName = nameAttribute != null ? nameAttribute.Value : string.Empty;
-                    response = Enum.TryParse(responseAttribute.Value, out response) ? response : AttendeeResponseType.Invalid;
+                        charId = int.TryParse(idAttribute.Value, out charId) ? charId : 0;
+                        string charName = nameAttribute != null ? nameAttribute.Value : string.Empty;
+                        response = Enum.TryParse(responseAttribute.Value, out response) ? response : AttendeeResponseType.Invalid;
 
-                    return new CalendarEventAttendee { CharacterId = charId, CharacterName = charName, Response = response };
-                });
+                        return new CalendarEventAttendee { CharacterId = charId, CharacterName = charName, Response = response };
+                    });
         }
     }
 }
