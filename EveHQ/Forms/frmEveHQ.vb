@@ -2096,9 +2096,8 @@ Namespace Forms
         End Sub
 
         Private Sub ShowUpdateForm(installerUrl As String)
-        Dim myUpdater As New NewUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), New HttpRequestProvider(HQ.ProxyDetails))
-        myUpdater.ShowDialog()
-            End Using
+            Dim myUpdater As New NewUpdater(installerUrl, Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "EveHQ"), New HttpRequestProvider(HQ.ProxyDetails))
+            myUpdater.ShowDialog()
         End Sub
 
         Private Shared Function IsUpdateAvailable(ByVal localVer As String, ByVal remoteVer As String) As Boolean
@@ -2141,9 +2140,9 @@ Namespace Forms
                     Return Nothing
                 End If
 
-            Dim provider As New HttpRequestProvider(HQ.ProxyDetails)
+                Dim provider As New HttpRequestProvider(HQ.ProxyDetails)
 
-            Dim requestTask As Task(Of HttpResponseMessage) = provider.GetAsync(temp)
+                Dim requestTask As Task(Of HttpResponseMessage) = provider.GetAsync(temp)
 
                 requestTask.Wait()
                 If (requestTask.IsFaulted Or requestTask.Exception IsNot Nothing) Then

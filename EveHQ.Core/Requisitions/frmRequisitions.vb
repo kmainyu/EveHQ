@@ -19,19 +19,16 @@
 '=========================================================================
 Imports DevComponents.AdvTree
 Imports System.Windows.Forms
-Imports System.Xml
 Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
-Imports EveHQ.EveAPI
-Imports System.Threading.Tasks
 Imports EveHQ.EveApi
+Imports System.Xml
+Imports System.Threading.Tasks
 Imports EveHQ.Common.Extensions
 Imports System.Text
 
 Namespace Requisitions
-
     Public Class FrmRequisitions
-
         Dim _selectedReqName As String = ""
         Dim _ownedAssets As New SortedList(Of String, RequisitionAsset)
         ReadOnly _groupResources As New SortedList(Of String, Long)
@@ -124,7 +121,9 @@ Namespace Requisitions
 
         Private Sub EditRequisition()
             If adtReqs.SelectedNodes.Count > 1 Then
-                MessageBox.Show("You cannot edit multiple Requisitions at the same time. Please ensure only one is selected before using this option.", "Single Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(
+                    "You cannot edit multiple Requisitions at the same time. Please ensure only one is selected before using this option.",
+                    "Single Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
                 Dim selNode As Node = adtReqs.SelectedNode
@@ -171,9 +170,9 @@ Namespace Requisitions
 
         Private Sub ResetFilter()
             txtSearch.Text = ""
-            cboRequestor.SelectedIndex = -1
-            cboRequisition.SelectedIndex = -1
-            cboSource.SelectedIndex = -1
+            cboRequestor.SelectedIndex = - 1
+            cboRequisition.SelectedIndex = - 1
+            cboSource.SelectedIndex = - 1
             Call ApplyFilter()
         End Sub
 
@@ -185,7 +184,9 @@ Namespace Requisitions
             adtReqs.Nodes.Clear()
             For Each newReq As Requisition In _currentReqs.Values
                 Dim reqNode As New Node
-                reqNode.Text = newReq.Name & "<font color=""#BBBBBB""> (" & newReq.Requestor & " - " & newReq.Orders.Count.ToString("N0") & IIf(newReq.Orders.Count = 1, " item)", " items)").ToString & "</font>"
+                reqNode.Text = newReq.Name & "<font color=""#BBBBBB""> (" & newReq.Requestor & " - " &
+                               newReq.Orders.Count.ToString("N0") &
+                               IIf(newReq.Orders.Count = 1, " item)", " items)").ToString & "</font>"
                 reqNode.Name = newReq.Name
                 For Each newOrder As RequisitionOrder In newReq.Orders.Values
                     Dim item As EveType = StaticData.Types(CInt(newOrder.ItemID))
@@ -203,13 +204,15 @@ Namespace Requisitions
             adtReqs.EndUpdate()
         End Sub
 
-        Private Sub adtReqs_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles adtReqs.NodeDoubleClick
+        Private Sub adtReqs_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) _
+            Handles adtReqs.NodeDoubleClick
             If e.Node.Level > 0 Then
                 Call EditRequisition()
             End If
         End Sub
 
-        Private Sub adtReqs_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles adtReqs.SelectionChanged
+        Private Sub adtReqs_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles adtReqs.SelectionChanged
             Call UpdateOrderList()
         End Sub
 
@@ -285,15 +288,19 @@ Namespace Requisitions
             If cboAssetSelection.SelectedItem IsNot Nothing Then
                 Call GetOwnedResources()
             End If
-            Dim totalItems As Long = 0 : Dim totalItemsReqd As Long = 0
-            Dim totalVolume As Double = 0 : Dim totalVolumeReqd As Double = 0
-            Dim totalCost As Double = 0 : Dim totalCostReqd As Double = 0
+            Dim totalItems As Long = 0
+            Dim totalItemsReqd As Long = 0
+            Dim totalVolume As Double = 0
+            Dim totalVolumeReqd As Double = 0
+            Dim totalCost As Double = 0
+            Dim totalCostReqd As Double = 0
             ' Set style
             Dim numberStyle As New ElementStyle
             numberStyle.TextAlignment = eStyleTextAlignment.Far
             adtOrders.BeginUpdate()
             adtOrders.Nodes.Clear()
-            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From o In req.Orders.Values Select CInt(o.ItemID))
+            Dim priceTask As Task(Of Dictionary(Of Integer, Double)) =
+                    DataFunctions.GetMarketPrices(From o In req.Orders.Values Select CInt(o.ItemID))
             For Each order As RequisitionOrder In req.Orders.Values
                 Dim orderOwned As Long
                 Dim item As EveType = StaticData.Types(CInt(order.ItemID))
@@ -311,7 +318,7 @@ Namespace Requisitions
                 mlCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(mlCell)
                 ' Add Volume cell
-                Dim vCell As New Cell((item.Volume * order.ItemQuantity).ToString("N2"))
+                Dim vCell As New Cell((item.Volume*order.ItemQuantity).ToString("N2"))
                 vCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(vCell)
                 Dim ucCell As New Cell("Processing...")
@@ -345,55 +352,56 @@ Namespace Requisitions
                 sCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(sCell)
                 ' Add Surplus Cost cell
-                Dim scCell As New Cell((unitCost * (Math.Max(order.ItemQuantity - orderOwned, 0))).ToString("N2"))
+                Dim scCell As New Cell((unitCost*(Math.Max(order.ItemQuantity - orderOwned, 0))).ToString("N2"))
                 scCell.StyleNormal = numberStyle
                 orderNode.Cells.Add(scCell)
                 ' Add Node to the list
                 adtOrders.Nodes.Add(orderNode)
                 totalItems += order.ItemQuantity
                 totalItemsReqd += Math.Max(order.ItemQuantity - orderOwned, 0)
-                totalVolume += item.Volume * order.ItemQuantity
-                totalVolumeReqd += (item.Volume * (Math.Max(order.ItemQuantity - orderOwned, 0)))
-                totalCost += (unitCost * order.ItemQuantity)
-                totalCostReqd += (unitCost * (Math.Max(order.ItemQuantity - orderOwned, 0)))
+                totalVolume += item.Volume*order.ItemQuantity
+                totalVolumeReqd += (item.Volume*(Math.Max(order.ItemQuantity - orderOwned, 0)))
+                totalCost += (unitCost*order.ItemQuantity)
+                totalCostReqd += (unitCost*(Math.Max(order.ItemQuantity - orderOwned, 0)))
             Next
             adtOrders.EndUpdate()
             ' Update summary information
             lblSummary.Text = "Summary - " & req.Name
             lblUniqueItems.Text = req.Orders.Count.ToString("N0")
-            lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & totalVolumeReqd.ToString("N2") & " m³"
+            lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " &
+                                  totalVolumeReqd.ToString("N2") & " m³"
 
             ' Update Pricing from task
             priceTask.ContinueWith(Sub(currentTask As Task(Of Dictionary(Of Integer, Double)))
-                                       If IsHandleCreated Then
-                                           Dim priceData As Dictionary(Of Integer, Double) = currentTask.Result
-                                           ' cut over to main thread
-                                           Invoke(Sub()
-                                                      For Each row As Node In adtOrders.Nodes
-                                                          Dim price As Double
-                                                          Dim quantity As Long
-                                                          If (priceData.TryGetValue(StaticData.TypeNames(row.Name), price)) Then
-                                                              row.Cells(4).Text = price.ToInvariantString("F2")
-                                                              Long.TryParse(row.Cells(1).Text, quantity)
-                                                              row.Cells(5).Text = (price * quantity).ToInvariantString("F2")
+                If IsHandleCreated Then
+                    Dim priceData As Dictionary(Of Integer, Double) = currentTask.Result
+                    ' cut over to main thread
+                    Invoke(Sub()
+                        For Each row As Node In adtOrders.Nodes
+                            Dim price As Double
+                            Dim quantity As Long
+                            If (priceData.TryGetValue(StaticData.TypeNames(row.Name), price)) Then
+                                row.Cells(4).Text = price.ToInvariantString("F2")
+                                Long.TryParse(row.Cells(1).Text, quantity)
+                                row.Cells(5).Text = (price*quantity).ToInvariantString("F2")
 
-                                                          End If
-                                                          Dim asset As New RequisitionAsset
-                                                          Dim owned As Long = 0
-                                                          If (_ownedAssets.TryGetValue(row.Text, asset)) Then
-                                                              owned = asset.TotalQuantity
-                                                          End If
-                                                          totalCost += (price * quantity)
-                                                          totalCostReqd += (price * (Math.Max(quantity - owned, 0)))
-                                                      Next
-                                                      lblTotalItems.Text = totalItems.ToString("N0") & " (" & totalItemsReqd.ToString("N0") & ")"
-                                                      lblTotalCost.Text = "Total: " & totalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " & totalCostReqd.ToString("N2") & " ISK"
-                                                      lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf & "Reqd: " & totalVolumeReqd.ToString("N2") & " m³"
-
-                                                  End Sub)
-                                       End If
-
-                                   End Sub)
+                              End If
+                            Dim asset As New RequisitionAsset
+                            Dim owned As Long = 0
+                            If (_ownedAssets.TryGetValue(row.Text, asset)) Then
+                                owned = asset.TotalQuantity
+                              End If
+                            totalCost += (price*quantity)
+                            totalCostReqd += (price*(Math.Max(quantity - owned, 0)))
+                        Next
+                        lblTotalItems.Text = totalItems.ToString("N0") & " (" & totalItemsReqd.ToString("N0") & ")"
+                        lblTotalCost.Text = "Total: " & totalCost.ToString("N2") & " ISK" & ControlChars.CrLf & "Reqd: " &
+                                            totalCostReqd.ToString("N2") & " ISK"
+                        lblTotalVolume.Text = "Total: " & totalVolume.ToString("N2") & " m³" & ControlChars.CrLf &
+                                              "Reqd: " & totalVolumeReqd.ToString("N2") & " m³"
+                              End Sub)
+                                      End If
+                                      End Sub)
         End Sub
 
         Private Sub btnDeleteReq_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteReq.Click
@@ -409,10 +417,14 @@ Namespace Requisitions
                 End If
             Next
             If parentNodeCount = 0 Then
-                MessageBox.Show("At least one Requisition heading must be selected before deleting. Please make a selection before using this option.", "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(
+                    "At least one Requisition heading must be selected before deleting. Please make a selection before using this option.",
+                    "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
-                Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to delete the selected Requisitions?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                Dim reply As DialogResult = MessageBox.Show("Are you sure you wish to delete the selected Requisitions?",
+                                                            "Confirm Delete", MessageBoxButtons.YesNo,
+                                                            MessageBoxIcon.Question)
                 If reply = DialogResult.No Then
                     Exit Sub
                 Else
@@ -439,7 +451,9 @@ Namespace Requisitions
                 End If
             Next
             If parentNodeCount = 0 Then
-                MessageBox.Show("At least one Requisition heading must be selected before copying. Please make a selection before using this option.", "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(
+                    "At least one Requisition heading must be selected before copying. Please make a selection before using this option.",
+                    "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
                 ' Clone the selected requisition
@@ -467,7 +481,9 @@ Namespace Requisitions
                 End If
             Next
             If parentNodeCount < 2 Then
-                MessageBox.Show("At least two Requisition headings must be selected before merging. Please make the appropriate selection before using this option.", "Mulitple Requisitions Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(
+                    "At least two Requisition headings must be selected before merging. Please make the appropriate selection before using this option.",
+                    "Mulitple Requisitions Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
                 Dim reqList As New SortedList(Of String, Requisition)
@@ -486,12 +502,14 @@ Namespace Requisitions
             End If
         End Sub
 
-        Private Sub adtOrders_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtOrders.ColumnHeaderMouseDown
+        Private Sub adtOrders_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) _
+            Handles adtOrders.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
 
-        Private Sub adtOrders_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) Handles adtOrders.NodeDoubleClick
+        Private Sub adtOrders_NodeDoubleClick(ByVal sender As Object, ByVal e As TreeNodeMouseEventArgs) _
+            Handles adtOrders.NodeDoubleClick
             Call EditRequisition()
         End Sub
 
@@ -521,70 +539,83 @@ Namespace Requisitions
 
                 ' Fetch the resources owned
                 ' Parse the Assets XML
-            Dim assests As EveServiceResponse(Of IEnumerable(Of AssetItem))
+                Dim assests As EveServiceResponse(Of IEnumerable(Of AssetItem))
                 If isCorp = True Then
-                assests = HQ.ApiProvider.Corporation.AssetList(AssetAccount.userID, AssetAccount.APIKey, Integer.Parse(OwnerID))
+                    assests = HQ.ApiProvider.Corporation.AssetList(AssetAccount.userID, AssetAccount.APIKey,
+                                                                   Integer.Parse(OwnerID))
                 Else
-                assests = HQ.ApiProvider.Character.AssetList(AssetAccount.userID, AssetAccount.APIKey, Integer.Parse(OwnerID))
+                    assests = HQ.ApiProvider.Character.AssetList(AssetAccount.userID, AssetAccount.APIKey,
+                                                                 Integer.Parse(OwnerID))
                 End If
-            If assests.ResultData IsNot Nothing Then
-                If assests.ResultData.Any() Then
+                If assests.ResultData IsNot Nothing Then
+                    If assests.ResultData.Any() Then
                         ' Define what we want to obtain
                         Dim categories, groups As New ArrayList
-                    For Each item As AssetItem In assests.ResultData
-                        Call GetAssetQuantitesFromNode(item, "", categories, groups, ownedAssets)
+                        For Each item As AssetItem In assests.ResultData
+                            Call GetAssetQuantitesFromNode(item, "", categories, groups, _ownedAssets)
                         Next
                     End If
                 End If
             End If
         End Sub
 
-    Private Sub GetAssetQuantitesFromNode(ByVal item As AssetItem, ByVal locationID As String, ByVal categories As ArrayList, ByVal groups As ArrayList, ByRef Assets As SortedList(Of String, EveHQ.Core.RequisitionAsset))
+        Private Sub GetAssetQuantitesFromNode(ByVal item As AssetItem, ByVal locationID As String,
+                                              ByVal categories As ArrayList, ByVal groups As ArrayList,
+                                              ByRef Assets As SortedList(Of String, RequisitionAsset))
             Dim itemData As EveType
             Dim itemID As String
-        AssetID = item.ItemId.ToInvariantString()
-        itemID = item.TypeId.ToInvariantString()
+
+            itemID = item.TypeId.ToInvariantString()
             ' Check if the flag is excluded
-        If ExclusionFlags.Contains(item.Flag) = False Then
-            If item.LocationId > 0 Then
-                locationID = item.LocationId.ToInvariantString
+            If _exclusionFlags.Contains(item.Flag) = False Then
+                If item.LocationId > 0 Then
+                    locationID = item.LocationId.ToInvariantString
                 End If
                 If StaticData.Types.ContainsKey(CInt(itemID)) Then
                     itemData = StaticData.Types(CInt(itemID))
                     If categories.Count > 0 Or groups.Count > 0 Then
                         ' Check if this is an excluded ship first
-                    If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And ItemData.Category = 6 And item.Singleton = True) Then
-                            If categories.Contains(itemData.Category) Or groups.Contains(itemData.Group) Or _groupResources.ContainsKey(CStr(itemData.Id)) Then
+                        If _
+                            chkAssembledShips.Checked = False Or
+                            Not (chkAssembledShips.Checked = True And itemData.Category = 6 And item.Singleton = True) _
+                            Then
+                            If _
+                                categories.Contains(itemData.Category) Or groups.Contains(itemData.Group) Or
+                                _groupResources.ContainsKey(CStr(itemData.Id)) Then
                                 ' Check if the item is in the list
-                                If assets.ContainsKey(CStr(itemData.Name)) = False Then
-                                Assets.Add(CStr(ItemData.Name), New EveHQ.Core.RequisitionAsset(locationID, item.Quantity))
+                                If Assets.ContainsKey(CStr(itemData.Name)) = False Then
+                                    Assets.Add(CStr(itemData.Name), New RequisitionAsset(locationID, item.Quantity))
                                 Else
-                                Assets(CStr(ItemData.Name)).AddAsset(locationID, item.Quantity)
+                                    Assets(CStr(itemData.Name)).AddAsset(locationID, item.Quantity)
                                 End If
                             End If
                         End If
                     Else
                         ' Check if this is an excluded ship first
-                    If chkAssembledShips.Checked = False Or Not (chkAssembledShips.Checked = True And ItemData.Category = 6 And item.Singleton = True) Then
+                        If _
+                            chkAssembledShips.Checked = False Or
+                            Not (chkAssembledShips.Checked = True And itemData.Category = 6 And item.Singleton = True) _
+                            Then
                             ' Check if the item is in the list
-                            If assets.ContainsKey(CStr(itemData.Name)) = False Then
-                            Assets.Add(CStr(ItemData.Name), New EveHQ.Core.RequisitionAsset(locationID, item.Quantity))
+                            If Assets.ContainsKey(CStr(itemData.Name)) = False Then
+                                Assets.Add(CStr(itemData.Name), New RequisitionAsset(locationID, item.Quantity))
                             Else
-                            Assets(CStr(ItemData.Name)).AddAsset(locationID, item.Quantity)
+                                Assets(CStr(itemData.Name)).AddAsset(locationID, item.Quantity)
                             End If
                         End If
                     End If
                 End If
                 ' Check child items if they exist
-            If item.Contents.Count > 0 Then
-                For Each subitem As AssetItem In item.Contents
-                        Call GetAssetQuantitesFromNode(subitem, locationID, categories, groups, assets)
+                If item.Contents.Count > 0 Then
+                    For Each subitem As AssetItem In item.Contents
+                        Call GetAssetQuantitesFromNode(subitem, locationID, categories, groups, Assets)
                     Next
                 End If
             End If
         End Sub
 
-        Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboAssetSelection.SelectedIndexChanged
+        Private Sub cboAssetSelection_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles cboAssetSelection.SelectedIndexChanged
             Call UpdateOrderList()
         End Sub
 
@@ -605,7 +636,9 @@ Namespace Requisitions
                 End If
             Next
             If parentNodeCount = 0 Then
-                MessageBox.Show("At least one Requisition heading must be selected before exporting. Please make a selection before using this option.", "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(
+                    "At least one Requisition heading must be selected before exporting. Please make a selection before using this option.",
+                    "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
                 ' Export the selected requisition
@@ -625,7 +658,8 @@ Namespace Requisitions
                 Try
                     Clipboard.SetText(str.ToString)
                 Catch ex As Exception
-                    MessageBox.Show("There was an error exporting the data to the clipboard", "Export Requisition Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("There was an error exporting the data to the clipboard", "Export Requisition Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
         End Sub
@@ -640,7 +674,9 @@ Namespace Requisitions
                 End If
             Next
             If parentNodeCount = 0 Then
-                MessageBox.Show("At least one Requisition heading must be selected before exporting. Please make a selection before using this option.", "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(
+                    "At least one Requisition heading must be selected before exporting. Please make a selection before using this option.",
+                    "Requisition Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             Else
                 ' Create XML Document
@@ -674,7 +710,8 @@ Namespace Requisitions
             End If
         End Sub
 
-        Private Sub GenerateXMLForRequisition(ByVal req As Requisition, ByRef reqXML As XmlDocument, ByRef reqRoot As XmlElement)
+        Private Sub GenerateXMLForRequisition(ByVal req As Requisition, ByRef reqXML As XmlDocument,
+                                              ByRef reqRoot As XmlElement)
             Dim reqAtt As XmlAttribute
 
             ' Create various elements
@@ -737,7 +774,8 @@ Namespace Requisitions
                 .RestoreDirectory = True
                 If .ShowDialog() = DialogResult.OK Then
                     If My.Computer.FileSystem.FileExists(.FileName) = False Then
-                        MessageBox.Show("Specified file does not exist. Please try again.", "Error Finding File", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                        MessageBox.Show("Specified file does not exist. Please try again.", "Error Finding File",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information)
                         Exit Sub
                     Else
                         ' Open the file for reading
@@ -745,18 +783,25 @@ Namespace Requisitions
                         Try
                             reqXML.Load(.FileName)
                         Catch ex As Exception
-                            MessageBox.Show("Unable to read file data. Please check the file is not corrupted and you have permission to access this file", "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show(
+                                "Unable to read file data. Please check the file is not corrupted and you have permission to access this file",
+                                "File Access Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End Try
                         Dim reqList As XmlNodeList = reqXML.SelectNodes("/EveHQRequisitions/requisition")
                         If reqList.Count > 0 Then
                             For Each req As XmlNode In reqList
                                 Dim orders As SortedList(Of String, Integer) = GetOrdersFromRequisitionXML(req)
-                                Using newReq As New FrmAddRequisition(req.Attributes.GetNamedItem("name").Value, req.Attributes.GetNamedItem("source").Value, orders)
+                                Using _
+                                    newReq As _
+                                        New FrmAddRequisition(req.Attributes.GetNamedItem("name").Value,
+                                                              req.Attributes.GetNamedItem("source").Value, orders)
                                     newReq.ShowDialog()
                                 End Using
                             Next
                         Else
-                            MessageBox.Show("This file does not contain any valid EveHQ Requisitions. Import Process aborted.", "No Requisitions Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                            MessageBox.Show(
+                                "This file does not contain any valid EveHQ Requisitions. Import Process aborted.",
+                                "No Requisitions Found", MessageBoxButtons.OK, MessageBoxIcon.Information)
                         End If
                     End If
                 End If
@@ -767,12 +812,14 @@ Namespace Requisitions
             Dim orders As New SortedList(Of String, Integer)
             Dim orderList As XmlNodeList = req.SelectNodes("orders/order")
             For Each order As XmlNode In orderList
-                orders.Add(order.Attributes.GetNamedItem("itemName").Value, CInt(order.Attributes.GetNamedItem("itemQuantity").Value))
+                orders.Add(order.Attributes.GetNamedItem("itemName").Value,
+                           CInt(order.Attributes.GetNamedItem("itemQuantity").Value))
             Next
             Return orders
         End Function
 
-        Private Sub chkFittedModules_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkFittedModules.CheckedChanged
+        Private Sub chkFittedModules_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles chkFittedModules.CheckedChanged
             If chkFittedModules.Checked = True Then
                 If _exclusionFlags.Contains(11) = False Then
                     For flag As Integer = 11 To 34
@@ -801,7 +848,8 @@ Namespace Requisitions
             Call UpdateOrderList()
         End Sub
 
-        Private Sub chkCargoBay_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkCargoBay.CheckedChanged
+        Private Sub chkCargoBay_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles chkCargoBay.CheckedChanged
             If chkCargoBay.Checked = True Then
                 If _exclusionFlags.Contains(5) = False Then
                     _exclusionFlags.Add(5)
@@ -814,7 +862,8 @@ Namespace Requisitions
             Call UpdateOrderList()
         End Sub
 
-        Private Sub chkDroneBay_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkDroneBay.CheckedChanged
+        Private Sub chkDroneBay_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles chkDroneBay.CheckedChanged
             If chkDroneBay.Checked = True Then
                 If _exclusionFlags.Contains(87) = False Then
                     _exclusionFlags.Add(87)
@@ -827,9 +876,9 @@ Namespace Requisitions
             Call UpdateOrderList()
         End Sub
 
-        Private Sub chkAssembledShips_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAssembledShips.CheckedChanged
+        Private Sub chkAssembledShips_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
+            Handles chkAssembledShips.CheckedChanged
             Call UpdateOrderList()
         End Sub
-
     End Class
 End Namespace

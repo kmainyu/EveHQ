@@ -27,7 +27,7 @@ namespace EveHQ.EveApi
     /// Describes the response data from a call to the EveAPI Service.
     /// </summary>
     /// <typeparam name="T">Object for the response data.</typeparam>
-    public sealed class EveServiceResponse<T>
+    public sealed class EveServiceResponse<T> where T : class
     {
         /// <summary>
         /// Gets the date and time of when this response should be expired from cache.
@@ -47,7 +47,7 @@ namespace EveHQ.EveApi
         /// <summary>
         /// Gets the exception related to this service response.
         /// </summary>
-        public Exception ServiceException { get;  set; }
+        public Exception ServiceException { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether there was an exception thrown during processing.
@@ -66,6 +66,14 @@ namespace EveHQ.EveApi
         public bool IsSuccessfulHttpStatus { get; set; }
 
         public HttpStatusCode HttpStatusCode { get; set; }
+
+        public bool IsSuccess
+        {
+            get
+            {
+                return IsSuccessfulHttpStatus && !IsFaulted && ServiceException == null && EveErrorCode == 0 && string.IsNullOrWhiteSpace(EveErrorText) && ResultData != null;
+            }
+        }
 
         public int EveErrorCode { get; set; }
 

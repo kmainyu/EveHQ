@@ -271,6 +271,7 @@ Public Class EveAPIRequest
     ''' <returns>An XMLDocument containing the request API data</returns>
     ''' <remarks></remarks>
     <Obsolete>
+    Public Overloads Function GetAPIXML(ByVal APIType As APITypes, ByVal APIAccount As EveAPIAccount, ByVal APIReturnMethod As APIReturnMethods) As XmlDocument
         Dim remoteURL As String
         Dim postdata As String
         postdata = "keyID=" & APIAccount.UserID & "&vCode=" & APIAccount.APIKey
@@ -876,7 +877,7 @@ Public Class EveAPIRequest
     ''' <remarks></remarks>
     Private Function ConvertEveTimeToLocal(ByVal eveTime As Date) As Date
         ' Calculate the local time and UTC offset.
-        Return TimeZone.CurrentTimeZone.ToLocalTime(EveTime)
+        Return TimeZone.CurrentTimeZone.ToLocalTime(eveTime)
     End Function
 
 
@@ -902,10 +903,10 @@ Public Class EveAPIRequest
     ''' <param name="serverInfo">The API server details used for access to the API</param>
     ''' <remarks></remarks>
     Public Sub New(ByVal serverInfo As APIServerInfo)
-        If ServerInfo.UseAPIRS = True Then
-            APIServerAddress = ServerInfo.APIRSServer
+        If serverInfo.UseAPIRS = True Then
+            APIServerAddress = serverInfo.APIRSServer
         Else
-            APIServerAddress = ServerInfo.CCPServer
+            APIServerAddress = serverInfo.CCPServer
         End If
         ProxyServer = Nothing
         APIFileExtension = ""
@@ -966,7 +967,7 @@ Public Class EveAPIRequest
             APIServerAddress = serverInfo.CCPServer
         End If
         ProxyServer = proxyDetails
-        APIFileExtension = FileExtension
+        APIFileExtension = fileExtension
         APICacheLocation = ""
         _cAPILastResult = APIResults.NotYetProcessed
     End Sub
@@ -987,7 +988,7 @@ Public Class EveAPIRequest
         End If
         ProxyServer = Nothing
         APIFileExtension = fileExtension
-        APICacheLocation = CacheLocation
+        APICacheLocation = cacheLocation
         _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 
@@ -1008,7 +1009,7 @@ Public Class EveAPIRequest
         End If
         ProxyServer = proxyDetails
         APIFileExtension = fileExtension
-        APICacheLocation = CacheLocation
+        APICacheLocation = cacheLocation
         _cAPILastResult = APIResults.NotYetProcessed
     End Sub
 

@@ -22,7 +22,6 @@ Imports System.Xml
 Imports EveHQ.EveAPI
 Imports System.IO
 Imports System.Windows.Forms
-Imports EveHQ.EveApi
 Imports EveHQ.Common.Extensions
 
 Public Class PilotParseFunctions
@@ -95,7 +94,6 @@ Public Class PilotParseFunctions
 
         ' Reload pilot key skills
         Call LoadKeySkills()
-
     End Sub          'CopyTempPilotsToMain
 
     Public Shared Sub CopyTempCorpsToMain()
@@ -114,7 +112,6 @@ Public Class PilotParseFunctions
                 HQ.Settings.Corporations.Add(newCorp.Name, newCorp)
             End If
         Next
-
     End Sub
 
     Private Shared Sub GetPilotCachedInfo()
@@ -123,18 +120,30 @@ Public Class PilotParseFunctions
             Dim cXML As Boolean = False
             Dim tXML As Boolean = False
             Dim cXMLDoc, tXMLDoc As New XmlDocument
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
+            If _
+                My.Computer.FileSystem.FileExists(Path.Combine(HQ.CacheFolder,
+                                                               "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" &
+                                                               currentPilot.Account & "_" & currentPilot.ID & ".xml")) =
+                True Then
                 cXML = True
             End If
-            If My.Computer.FileSystem.FileExists(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml")) = True Then
+            If _
+                My.Computer.FileSystem.FileExists(Path.Combine(HQ.CacheFolder,
+                                                               "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" &
+                                                               currentPilot.Account & "_" & currentPilot.ID & ".xml")) =
+                True Then
                 tXML = True
             End If
 
             ' Only load in and parse if both files are available
             If cXML = True Then
-                cXMLDoc.Load(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
+                cXMLDoc.Load(Path.Combine(HQ.CacheFolder,
+                                          "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & currentPilot.Account &
+                                          "_" & currentPilot.ID & ".xml"))
                 If tXML = True Then
-                    tXMLDoc.Load(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account & "_" & currentPilot.ID & ".xml"))
+                    tXMLDoc.Load(Path.Combine(HQ.CacheFolder,
+                                              "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & currentPilot.Account &
+                                              "_" & currentPilot.ID & ".xml"))
                 End If
                 Call ParsePilotSkills(currentPilot, cXMLDoc)
                 Call ParsePilotXML(currentPilot, cXMLDoc)
@@ -147,9 +156,11 @@ Public Class PilotParseFunctions
                 End If
                 msg &= ControlChars.CrLf
                 If CDbl(currentPilot.AccountPosition) = 0 Then
-                    msg &= "This pilot is to be updated manually. Please do this via the integrated web browser or the import XML option."
+                    msg &=
+                        "This pilot is to be updated manually. Please do this via the integrated web browser or the import XML option."
                 Else
-                    msg &= "This pilot is linked to an account. Please update the account via the Tools > Retrieve Account Data menu option."
+                    msg &=
+                        "This pilot is linked to an account. Please update the account via the Tools > Retrieve Account Data menu option."
                 End If
                 MessageBox.Show(msg, "Missing XML File(s)", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
@@ -164,6 +175,7 @@ Public Class PilotParseFunctions
         Next
         Return True
     End Function
+
     Public Shared Function LoadKeySkillsForPilot(ByVal curPilot As EveHQPilot) As Boolean
         Try
             For Each curSkill As EveHQPilotSkill In curPilot.PilotSkills.Values
@@ -281,6 +293,7 @@ Public Class PilotParseFunctions
             Return False
         End Try
     End Function
+
     Private Shared Sub ResetKeySkills()
         For Each curPilot As EveHQPilot In HQ.Settings.Pilots.Values
             curPilot.KeySkills = New Dictionary(Of KeySkill, Integer)
@@ -289,8 +302,6 @@ Public Class PilotParseFunctions
             Next
         Next
     End Sub
-
-#Region "Eve API Retrieval Methods"
 
     Public Shared Sub GetCharactersInAccount(ByVal caccount As EveHQAccount)
 
@@ -308,14 +319,8 @@ Public Class PilotParseFunctions
         End If
 
         ' Fetch the characters on account XML file
-        Dim characterServiceResponse As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) = HQ.ApiProvider.Account.Characters(caccount.userID, caccount.APIKey)
-        'Dim APIReq As New EveApi.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-        'Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.Characters, caccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
-        'If APIReq.LastAPIResult = EveAPI.APIResults.CCPError Then
-        '    EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, -APIReq.LastAPIError)
-        'Else
-        '    EveHQ.Core.HQ.APIResults.Add(caccount.userID.ToString, APIReq.LastAPIResult)
-        'End If
+        Dim characterServiceResponse As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) =
+                HQ.ApiProvider.Account.Characters(caccount.UserID, caccount.APIKey)
 
         ' Ignore for APIv2 corp keys
         If Not (caccount.ApiKeySystem = APIKeySystems.Version2 And caccount.APIKeyType = APIKeyTypes.Corporation) Then
@@ -376,8 +381,11 @@ Public Class PilotParseFunctions
                     oldPilots = oldPilots.Trim(CChar(","))
                     If oldPilots <> "" Then
                         Dim msg As String = ""
-                        msg &= "You have pilots registered in EveHQ that were previously assigned to account '" & caccount.UserID & "'" & ControlChars.CrLf
-                        msg &= "but are no longer part of that account. The following pilots have been converted to manual pilots:" & ControlChars.CrLf & ControlChars.CrLf
+                        msg &= "You have pilots registered in EveHQ that were previously assigned to account '" &
+                               caccount.UserID & "'" & ControlChars.CrLf
+                        msg &=
+                            "but are no longer part of that account. The following pilots have been converted to manual pilots:" &
+                            ControlChars.CrLf & ControlChars.CrLf
                         Dim olderPilots() As String = oldPilots.Split(CChar(","))
                         Dim dPilot As String
                         For Each dPilot In olderPilots
@@ -390,29 +398,29 @@ Public Class PilotParseFunctions
             End If
         Else
             Dim CorpList As List(Of AccountCharacter)
-            If (accountXML IsNot Nothing) Then
+            If (characterServiceResponse IsNot Nothing And characterServiceResponse.IsSuccess) Then
                 ' Add a corporation to the settings
                 ' Get the list of characters and the character IDs
-            CorpList = characterServiceResponse.ResultData.ToList()
-            ' Clear the current characters on the account6
+                CorpList = characterServiceResponse.ResultData.ToList()
+                ' Clear the current characters on the account6
                 caccount.Characters = New List(Of String)
-                If corpList.Count > 0 Then
-                Dim corp As AccountCharacter = CorpList(0)
+                If CorpList.Count > 0 Then
+                    Dim corp As AccountCharacter = CorpList(0)
                     Dim newCorp As New Corporation
                     ' Get the existing corp if appropriate
-                If EveHQ.Core.HQ.TCorps.ContainsKey(corp.CorporationName) = True Then
-                    NewCorp = EveHQ.Core.HQ.TCorps(corp.CorporationName)
+                    If HQ.TempCorps.ContainsKey(corp.CorporationName) = True Then
+                        newCorp = HQ.TempCorps(corp.CorporationName)
                     Else
-                    NewCorp.Name = corp.CorporationName
-                    NewCorp.ID = corp.CorporationId.ToInvariantString()
+                        newCorp.Name = corp.CorporationName
+                        newCorp.ID = corp.CorporationId.ToInvariantString()
                         HQ.TempCorps.Add(newCorp.Name, newCorp)
                         caccount.Characters.Add(newCorp.Name)
                     End If
-                If NewCorp.CharacterIDs.Contains(corp.CharacterId.ToInvariantString()) = False Then
-                    NewCorp.CharacterIDs.Add(corp.CharacterId.ToInvariantString())
+                    If newCorp.CharacterIDs.Contains(corp.CharacterId.ToInvariantString()) = False Then
+                        newCorp.CharacterIDs.Add(corp.CharacterId.ToInvariantString())
                     End If
-                If NewCorp.CharacterNames.Contains(corp.Name) = False Then
-                    NewCorp.CharacterNames.Add(corp.Name)
+                    If newCorp.CharacterNames.Contains(corp.Name) = False Then
+                        newCorp.CharacterNames.Add(corp.Name)
                     End If
                     If newCorp.Accounts.Contains(caccount.UserID) = False Then
                         newCorp.Accounts.Add(caccount.UserID)
@@ -421,11 +429,13 @@ Public Class PilotParseFunctions
             End If
         End If
     End Sub
+
     Private Shared Sub GetAccountStatus(ByRef cAccount As EveHQAccount)
         ' Attempts to get the AccountStatus API for additional information and for checking API key status
         'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
         'Dim accountXML As XmlDocument = APIReq.GetAPIXML(EveAPI.APITypes.AccountStatus, cAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
-        Dim response As EveServiceResponse(Of Account) = HQ.ApiProvider.Account.AccountStatus(cAccount.userID, cAccount.APIKey)
+        Dim response As EveServiceResponse(Of Account) = HQ.ApiProvider.Account.AccountStatus(cAccount.UserID,
+                                                                                              cAccount.APIKey)
 
         If response.IsSuccessfulHttpStatus Then
 
@@ -435,9 +445,9 @@ Public Class PilotParseFunctions
                 ' Parse the account information
 
                 Dim cd As Date = response.ResultData.CreateDate.DateTime
-                cAccount.CreateDate = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cd)
+                cAccount.CreateDate = SkillFunctions.ConvertEveTimeToLocal(cd)
                 Dim pu As Date = response.ResultData.ExpiryDate.DateTime
-                cAccount.PaidUntil = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(pu)
+                cAccount.PaidUntil = SkillFunctions.ConvertEveTimeToLocal(pu)
                 cAccount.LogonCount = response.ResultData.LogOnCount
                 cAccount.LogonMinutes = CLng(response.ResultData.LoggedInTime.TotalMinutes)
                 If cAccount.PaidUntil < Now Then
@@ -458,39 +468,46 @@ Public Class PilotParseFunctions
             '        Case Else
             '' Ignore
         End If
-
     End Sub
+
     Private Shared Sub GetCharacterXmLs(ByVal cAccount As EveHQAccount, ByVal cPilot As EveHQPilot)
 
         ' Set up an API Request for this character
-        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+        Dim _
+            apiReq As _
+                New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
 
         ' Get the Character Sheet
-        Dim cXML As XmlDocument = apiReq.GetAPIXML(APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID, APIReturnMethods.ReturnStandard)
+        Dim cXML As XmlDocument = apiReq.GetAPIXML(APITypes.CharacterSheet, cAccount.ToAPIAccount, cPilot.ID,
+                                                   APIReturnMethods.ReturnStandard)
 
-        Dim characterSheetResponse As EveServiceResponse(Of CharacterData) = HQ.ApiProvider.Character.CharacterSheet(cAccount.userID, cAccount.APIKey, cPilot.ID.ToInt32())
+        Dim characterSheetResponse As EveServiceResponse(Of CharacterData) =
+                HQ.ApiProvider.Character.CharacterSheet(cAccount.UserID, cAccount.APIKey, cPilot.ID.ToInt32())
 
         ' Store the Character Sheet API result
         If apiReq.LastAPIResult = APIResults.CCPError Then
-            If HQ.APIResults.ContainsKey(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet) = False Then
-                HQ.APIResults.Add(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet, -apiReq.LastAPIError)
+            If HQ.APIResults.ContainsKey(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet) = False _
+                Then
+                HQ.APIResults.Add(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet,
+                                  - apiReq.LastAPIError)
             End If
         Else
-            If HQ.APIResults.ContainsKey(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet) = False Then
-                HQ.APIResults.Add(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet, apiReq.LastAPIResult)
+            If HQ.APIResults.ContainsKey(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet) = False _
+                Then
+                HQ.APIResults.Add(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.CharacterSheet,
+                                  apiReq.LastAPIResult)
             End If
         End If
 
 
-
-
         ' Get the Skill Queue
-        Dim tXML As XmlDocument = apiReq.GetAPIXML(APITypes.SkillQueue, cAccount.ToAPIAccount, cPilot.ID, APIReturnMethods.ReturnStandard)
+        Dim tXML As XmlDocument = apiReq.GetAPIXML(APITypes.SkillQueue, cAccount.ToAPIAccount, cPilot.ID,
+                                                   APIReturnMethods.ReturnStandard)
 
         ' Store the Skill Queue API result
         If apiReq.LastAPIResult = APIResults.CCPError Then
             If HQ.APIResults.ContainsKey(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.SkillQueue) = False Then
-                HQ.APIResults.Add(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.SkillQueue, -apiReq.LastAPIError)
+                HQ.APIResults.Add(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.SkillQueue, - apiReq.LastAPIError)
             End If
         Else
             If HQ.APIResults.ContainsKey(cAccount.UserID & "_" & cPilot.Name & "_" & APITypes.SkillQueue) = False Then
@@ -512,8 +529,8 @@ Public Class PilotParseFunctions
             Call ParseTrainingXML(cPilot, tXML)
             Call BuildAttributeData(cPilot)
         End If
-
     End Sub
+
     Private Shared Sub ParsePilotXML(ByRef cPilot As EveHQPilot, ByVal cxmlDoc As XmlDocument)
 
         Dim charDetails As XmlNodeList
@@ -534,7 +551,8 @@ Public Class PilotParseFunctions
                 .CorpID = cxmlDoc.GetElementsByTagName("corporationID").Item(0).InnerText
                 .CloneName = cxmlDoc.GetElementsByTagName("cloneName").Item(0).InnerText
                 .CloneSP = CInt(cxmlDoc.GetElementsByTagName("cloneSkillPoints").Item(0).InnerText)
-                Dim isk As Double = Double.Parse(cxmlDoc.GetElementsByTagName("balance").Item(0).InnerText, NumberStyles.Any, Culture)
+                Dim isk As Double = Double.Parse(cxmlDoc.GetElementsByTagName("balance").Item(0).InnerText,
+                                                 NumberStyles.Any, Culture)
                 .Isk = isk
                 ' Put cache info here??
             End With
@@ -542,7 +560,8 @@ Public Class PilotParseFunctions
             ' Get the implant details
             charDetails = cxmlDoc.SelectNodes("/eveapi/result/attributeEnhancers")
             ' Get the relevant node!
-            toon = charDetails(0)       ' This is zero because there is only 1 occurence of the attributeEnhancers node in each XML doc
+            toon = charDetails(0) _
+            ' This is zero because there is only 1 occurence of the attributeEnhancers node in each XML doc
             If toon.HasChildNodes Then
                 For implant As Integer = 0 To toon.ChildNodes.Count - 1
                     Select Case toon.ChildNodes(implant).Name
@@ -579,7 +598,8 @@ Public Class PilotParseFunctions
             ' Get the attribute details
             charDetails = cxmlDoc.SelectNodes("/eveapi/result/attributes")
             ' Get the relevant node!
-            toon = charDetails(0)       ' This is zero because there is only 1 occurence of the attributes node in each XML doc
+            toon = charDetails(0) _
+            ' This is zero because there is only 1 occurence of the attributes node in each XML doc
             If toon.HasChildNodes Then
                 For implant As Integer = 0 To toon.ChildNodes.Count - 1
                     Select Case toon.ChildNodes(implant).Name
@@ -605,7 +625,6 @@ Public Class PilotParseFunctions
             cPilot.CacheFileTime = DateTime.Now.AddHours(1)
             cPilot.CacheExpirationTime = DateTime.Now.AddHours(1)
         End If
-
     End Sub                'ParsePilotXML
     Private Shared Sub ParseTrainingXML(ByRef cPilot As EveHQPilot, ByVal txmlDoc As XmlDocument)
         ' Get the training details
@@ -616,16 +635,21 @@ Public Class PilotParseFunctions
             ' Check if a training file has been loaded!
             If trainingDetails.Count > 0 Then
                 ' Get the first node i.e. the current training skill
-                trainingNode = trainingDetails(0)       ' This is zero because there is only 1 occurence of the skillTraining node in each XML doc
+                trainingNode = trainingDetails(0) _
+                ' This is zero because there is only 1 occurence of the skillTraining node in each XML doc
                 With cPilot
-                    If trainingNode.Attributes("startTime").Value <> "" And trainingNode.Attributes("endTime").Value <> "" Then
+                    If _
+                        trainingNode.Attributes("startTime").Value <> "" And
+                        trainingNode.Attributes("endTime").Value <> "" Then
                         .Training = True
                         .TrainingSkillID = CInt(trainingNode.Attributes("typeID").Value)
                         .TrainingSkillName = SkillFunctions.SkillIDToName(.TrainingSkillID)
-                        Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, Culture, DateTimeStyles.None)
+                        Dim dt As Date = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat,
+                                                             Culture, DateTimeStyles.None)
                         .TrainingStartTimeActual = dt
                         .TrainingStartTime = .TrainingStartTimeActual.AddSeconds(HQ.Settings.ServerOffset)
-                        dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, Culture, DateTimeStyles.None)
+                        dt = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, Culture,
+                                                 DateTimeStyles.None)
                         .TrainingEndTimeActual = dt
                         .TrainingEndTime = .TrainingEndTimeActual.AddSeconds(HQ.Settings.ServerOffset)
                         .TrainingStartSP = CInt(trainingNode.Attributes("startSP").Value)
@@ -643,12 +667,18 @@ Public Class PilotParseFunctions
                 If trainingDetails.Count > 0 Then
                     For queuedSkillNo As Integer = 0 To trainingDetails.Count - 1
                         trainingNode = trainingDetails(queuedSkillNo)
-                        If trainingNode.Attributes("startTime").Value <> "" And trainingNode.Attributes("endTime").Value <> "" Then
+                        If _
+                            trainingNode.Attributes("startTime").Value <> "" And
+                            trainingNode.Attributes("endTime").Value <> "" Then
                             Dim queuedSkill As New EveHQPilotQueuedSkill
                             queuedSkill.Position = CInt(trainingNode.Attributes("queuePosition").Value)
                             queuedSkill.SkillID = CInt(trainingNode.Attributes("typeID").Value)
-                            queuedSkill.StartTime = DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, Culture, DateTimeStyles.None).AddSeconds(HQ.Settings.ServerOffset)
-                            queuedSkill.EndTime = DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, Culture, DateTimeStyles.None).AddSeconds(HQ.Settings.ServerOffset)
+                            queuedSkill.StartTime =
+                                DateTime.ParseExact(trainingNode.Attributes("startTime").Value, SkillTimeFormat, Culture,
+                                                    DateTimeStyles.None).AddSeconds(HQ.Settings.ServerOffset)
+                            queuedSkill.EndTime =
+                                DateTime.ParseExact(trainingNode.Attributes("endTime").Value, SkillTimeFormat, Culture,
+                                                    DateTimeStyles.None).AddSeconds(HQ.Settings.ServerOffset)
                             queuedSkill.StartSP = CLng(trainingNode.Attributes("startSP").Value)
                             queuedSkill.EndSP = CLng(trainingNode.Attributes("endSP").Value)
                             queuedSkill.Level = CInt(trainingNode.Attributes("level").Value)
@@ -672,6 +702,7 @@ Public Class PilotParseFunctions
             cPilot.Training = False
         End If
     End Sub
+
     Private Shared Sub ParsePilotSkills(ByRef cPilot As EveHQPilot, ByVal xmlDoc As XmlDocument)
         Dim charDetails As XmlNodeList
         Dim toon As XmlNode
@@ -720,10 +751,13 @@ Public Class PilotParseFunctions
                             missingSkill.ID = newSkill.ID
                             missingSkill.Name = "Skill " & newSkill.ID
                             newSkill.Name = "Skill " & newSkill.ID         ' temp line to avoid error
-                            missingSkill.GroupID = 267 : newSkill.GroupID = 267
-                            missingSkill.Rank = 20 : newSkill.Rank = 20
+                            missingSkill.GroupID = 267
+                            newSkill.GroupID = 267
+                            missingSkill.Rank = 20
+                            newSkill.Rank = 20
                             missingSkill.Level = newSkill.Level
-                            missingSkill.Pa = "Intelligence" : missingSkill.Sa = "Memory"
+                            missingSkill.Pa = "Intelligence"
+                            missingSkill.Sa = "Memory"
                             missingSkill.LevelUp(0) = 0
                             missingSkill.LevelUp(1) = 5000
                             missingSkill.LevelUp(2) = 28284
@@ -738,12 +772,16 @@ Public Class PilotParseFunctions
                             End If
                         End If
                         ' Check if the skillID is present but the skillname is different (CCP changing bloody skill names!!!)
-                        If HQ.SkillListID.ContainsKey(newSkill.ID) = True And HQ.SkillListName.ContainsKey(newSkill.Name) = False Then
+                        If _
+                            HQ.SkillListID.ContainsKey(newSkill.ID) = True And
+                            HQ.SkillListName.ContainsKey(newSkill.Name) = False Then
                             Dim changeSkill As EveSkill = HQ.SkillListID(newSkill.ID)
                             Dim oldName As String = changeSkill.Name
                             changeSkill.Name = newSkill.Name
-                            HQ.SkillListID.Remove(newSkill.ID) : HQ.SkillListID.Add(changeSkill.ID, changeSkill)
-                            HQ.SkillListName.Remove(oldName) : HQ.SkillListName.Add(changeSkill.Name, changeSkill)
+                            HQ.SkillListID.Remove(newSkill.ID)
+                            HQ.SkillListID.Add(changeSkill.ID, changeSkill)
+                            HQ.SkillListName.Remove(oldName)
+                            HQ.SkillListName.Add(changeSkill.Name, changeSkill)
                         End If
                     Next
                     cPilot.SkillPoints = sp
@@ -754,7 +792,8 @@ Public Class PilotParseFunctions
                     Next
                 Case "corporationRoles"
                     For Each roleNode As XmlNode In charDetails(section).ChildNodes
-                        cPilot.CorpRoles.Add(CType(CLng(roleNode.Attributes.GetNamedItem("roleID").Value), CorporationRoles))
+                        cPilot.CorpRoles.Add(CType(CLng(roleNode.Attributes.GetNamedItem("roleID").Value),
+                                                   CorporationRoles))
                     Next
             End Select
         Next
@@ -762,10 +801,15 @@ Public Class PilotParseFunctions
         ' If missing skills were identified then report that fact!
         If missingSkills <> "" Then
             Dim msg As String = ""
-            msg &= cPilot.Name & " has skills that are not listed in the database. These skills are:" & ControlChars.CrLf & ControlChars.CrLf
+            msg &= cPilot.Name & " has skills that are not listed in the database. These skills are:" &
+                   ControlChars.CrLf & ControlChars.CrLf
             msg &= missingSkills & ControlChars.CrLf
-            msg &= "These skills have been added to the database on a temporary basis but the information is incomplete." & ControlChars.CrLf
-            msg &= "Any calcaulations performed on the above skills will contain errors until the main database is updated." & ControlChars.CrLf
+            msg &=
+                "These skills have been added to the database on a temporary basis but the information is incomplete." &
+                ControlChars.CrLf
+            msg &=
+                "Any calcaulations performed on the above skills will contain errors until the main database is updated." &
+                ControlChars.CrLf
             msg &= "This includes level-up times and skill training schedules." & ControlChars.CrLf
             msg &= "Please check the EveHQ website for any available update."
             MessageBox.Show(msg, "Missing Skill Details", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -781,6 +825,7 @@ Public Class PilotParseFunctions
             Next
         Next
     End Sub
+
     Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQPilot)
         Dim pilotSkill As New EveHQPilotSkill
         ' Check if the main skill list has the skill we are checking for
@@ -801,10 +846,7 @@ Public Class PilotParseFunctions
             Dim sq As EveHQPilotSkill = cPilot.PilotSkills(SkillFunctions.SkillIDToName(cPilot.TrainingSkillID))
             sq.Level = cPilot.TrainingSkillLevel - 1
         End If
-
     End Sub
-
-#End Region
 
     Public Shared Sub ImportPilotFromXML(ByVal pilotXMLFile As String, ByVal pilotTxmlFile As String)
         ' Need to determine which pilot we are going to import
@@ -840,9 +882,13 @@ Public Class PilotParseFunctions
                 newPilot.Updated = True
                 HQ.TempPilots.Clear()
                 HQ.TempPilots.Add(newPilot.Name, newPilot)
-                pilotXML.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                pilotXML.Save(Path.Combine(HQ.CacheFolder,
+                                           "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" &
+                                           newPilot.ID & ".xml"))
                 If pilotTxml IsNot Nothing Then
-                    pilotTxml.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                    pilotTxml.Save(Path.Combine(HQ.CacheFolder,
+                                                "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account &
+                                                "_" & newPilot.ID & ".xml"))
                 End If
 
                 For Each currentPilot As EveHQPilot In HQ.TempPilots.Values
@@ -853,17 +899,20 @@ Public Class PilotParseFunctions
                     Call CopyTempPilotsToMain()
                 Next
             Else
-                MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Else
-            MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File",
+                            MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
-
     End Sub
+
     Public Shared Sub LoadPilotCachedInfo()
         Call GetPilotCachedInfo()
         Call CopyTempPilotsToMain()
     End Sub
+
     Public Shared Sub LoadPilotFromXML()
         Dim pilotXMLFile As String
         Dim ofd1 As New OpenFileDialog
@@ -876,16 +925,19 @@ Public Class PilotParseFunctions
             .RestoreDirectory = True
             If .ShowDialog() = DialogResult.OK Then
                 If My.Computer.FileSystem.FileExists(.FileName) = False Then
-                    MessageBox.Show("File does not exist. Please re-try.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    MessageBox.Show("File does not exist. Please re-try.", "File Error", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation)
                 End If
                 pilotXMLFile = .FileName
                 Call ExaminePilotXML(pilotXMLFile)
             Else
-                MessageBox.Show("Import cancelled by user.", "Pilot Import Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Import cancelled by user.", "Pilot Import Cancelled", MessageBoxButtons.OK,
+                                MessageBoxIcon.Information)
                 Exit Sub
             End If
         End With
     End Sub
+
     Private Shared Sub ExaminePilotXML(ByVal pilotXMLFile As String)
         ' Need to determine which pilot we are going to import
 
@@ -911,16 +963,22 @@ Public Class PilotParseFunctions
                         pilotName = charDetails(toonNo).ChildNodes(1).InnerText
                         ' Check if this pilot already exists
                         If HQ.Settings.Pilots.ContainsKey(pilotName) = True Then
-                            reply = MessageBox.Show("This pilot already exists, would you like to update the pilot?", "Update Pilot?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                            reply = MessageBox.Show("This pilot already exists, would you like to update the pilot?",
+                                                    "Update Pilot?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                             If reply = DialogResult.No Then
                                 Exit Sub
                             End If
                         End If
-                        reply = MessageBox.Show("You will be importing pilot " & pilotName & " (id: " & pilotID & "). Do you want to import the training XML?", "Import Training XML?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        reply =
+                            MessageBox.Show(
+                                "You will be importing pilot " & pilotName & " (id: " & pilotID &
+                                "). Do you want to import the training XML?", "Import Training XML?",
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                         If reply = DialogResult.Yes Then
                             pilotTxml = ImportTrainingXML()
                             If pilotTxml Is Nothing Then
-                                MessageBox.Show("Import of Training XML failed.", "Import Training XML failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                                MessageBox.Show("Import of Training XML failed.", "Import Training XML failed",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                             End If
                         End If
                     End If
@@ -933,10 +991,14 @@ Public Class PilotParseFunctions
                 newPilot.AccountPosition = "0"
                 HQ.TempPilots.Clear()
                 HQ.TempPilots.Add(newPilot.Name, newPilot)
-                pilotXML.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                pilotXML.Save(Path.Combine(HQ.CacheFolder,
+                                           "EVEHQAPI_" & APITypes.CharacterSheet.ToString & "_" & newPilot.Account & "_" &
+                                           newPilot.ID & ".xml"))
                 If pilotTxml IsNot Nothing Then
                     If pilotTxml.InnerText <> "" Then
-                        pilotTxml.Save(Path.Combine(HQ.CacheFolder, "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account & "_" & newPilot.ID & ".xml"))
+                        pilotTxml.Save(Path.Combine(HQ.CacheFolder,
+                                                    "EVEHQAPI_" & APITypes.SkillQueue.ToString & "_" & newPilot.Account &
+                                                    "_" & newPilot.ID & ".xml"))
                     End If
                 End If
 
@@ -949,13 +1011,15 @@ Public Class PilotParseFunctions
                     Call CopyTempPilotsToMain()
                 Next
             Else
-                MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File",
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
             End If
         Else
-            MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+            MessageBox.Show("The XML file does not appear to be a valid Character XML file.", "Invalid XML File",
+                            MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
         End If
-
     End Sub
+
     Private Shared Function ImportTrainingXML() As XmlDocument
         Dim retry As Boolean = False
         Dim pilotXMLFile As String
@@ -971,7 +1035,8 @@ Public Class PilotParseFunctions
                 .RestoreDirectory = True
                 If .ShowDialog() = DialogResult.OK Then
                     If My.Computer.FileSystem.FileExists(.FileName) = False Then
-                        MessageBox.Show("File does not exist. Please re-try.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                        MessageBox.Show("File does not exist. Please re-try.", "File Error", MessageBoxButtons.OK,
+                                        MessageBoxIcon.Exclamation)
                     End If
                     pilotXMLFile = .FileName
                     ' Examine the training XML file to see if it is viable
@@ -982,7 +1047,10 @@ Public Class PilotParseFunctions
                     ' Check if the file contains a valid "skillTraining" node
                     charDetails = pilotXML.SelectNodes("/eveapi/result")
                     If charDetails.Count = 0 Then
-                        reply = MessageBox.Show("The XML file does not appear to be a valid Training XML file. Would you like to try again?", "Invalid XML File", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                        reply =
+                            MessageBox.Show(
+                                "The XML file does not appear to be a valid Training XML file. Would you like to try again?",
+                                "Invalid XML File", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                         If reply = DialogResult.Yes Then
                             retry = True
                         Else
@@ -992,37 +1060,19 @@ Public Class PilotParseFunctions
                         ' Check for a matching valid character
                         charDetails = pilotXML.SelectNodes("/eveapi/result")
                         If charDetails(0).ChildNodes(0).OuterXml.StartsWith("<trainingEndTime>") = True Then
-                            ' Get the relevant node!
-                            'For toonNo = 0 To CharDetails.Count - 1
-                            '    If CharDetails(toonNo).HasChildNodes = True Then
-                            '        Dim pilotName As String = CharDetails(toonNo).Attributes("name").Value
-                            '        Dim pilotID As String = CharDetails(toonNo).Attributes("characterID").Value
-                            '        ' Check if this pilot matches the original import
-                            '        If pID <> pilotID Then
-                            '            reply = MessageBox.Show("The Training XML does not match the original pilot, would you like to retry?", "Retry Training Import?", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-                            '            If reply = Windows.Forms.DialogResult.Yes Then
-                            '                Retry = True
-                            '            Else
-                            '                Retry = False
-                            '                Return Nothing
-                            '                Exit Function
-                            '            End If
-                            '        Else
-                            '            Retry = False
-                            '            Success = CStr(True)
-                            '        End If
-                            '    End If
-                            'Next
+
                         End If
                     End If
                 Else
-                    MessageBox.Show("Import cancelled by user.", "Pilot Training Import Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                    MessageBox.Show("Import cancelled by user.", "Pilot Training Import Cancelled", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information)
                     Return Nothing
                 End If
             End With
         Loop Until retry = False
         Return pilotXML
     End Function
+
     Public Shared Sub SwitchImplants(ByVal iPilot As EveHQPilot)
         ' Decide whether to use Auto or Manual Implants
         If iPilot.UseManualImplants = True Then
@@ -1041,5 +1091,4 @@ Public Class PilotParseFunctions
         ' Rebuild the attribute data
         Call BuildAttributeData(iPilot)
     End Sub
-
 End Class

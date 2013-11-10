@@ -108,6 +108,8 @@ namespace EveHQ.EveApi
 
         public EveServiceResponse<ApiKeyInfo> ApiKeyInfo(string keyId, string vCode)
         {
+            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
+            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
             var task = ApiKeyInfoAsync(keyId, vCode);
             task.Wait();
             return task.Result;
@@ -131,6 +133,8 @@ namespace EveHQ.EveApi
         /// <returns>A Service Response object, containing the collection of Characters.</returns>
         public EveServiceResponse<IEnumerable<AccountCharacter>> Characters(string keyId, string vCode)
         {
+            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
+            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
             var task = CharactersAsync(keyId, vCode);
             task.Wait();
             return task.Result;

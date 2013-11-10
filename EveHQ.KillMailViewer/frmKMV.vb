@@ -21,15 +21,14 @@ Imports System.Globalization
 Imports DevComponents.AdvTree
 Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
-Imports EveHQ.EveAPI
+Imports EveHQ.EveApi
 Imports EveHQ.Core
 Imports System.Xml
 Imports System.Windows.Forms
+Imports EveHQ.Common.Extensions
 Imports System.Text
 Imports System.Net
 Imports System.IO
-Imports EveHQ.EveAPI
-Imports EveHQ.Common.Extensions
 
 Public Class FrmKmv
     Private Const KillTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
@@ -38,8 +37,6 @@ Public Class FrmKmv
     Dim _charName As String = ""
     Dim _charID As String = ""
     ReadOnly _kms As New SortedList(Of Long, KillMail)
-
-#Region "Form Loading Routines"
 
     Private Sub frmKMV_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         Call UpdateAccounts()
@@ -57,10 +54,6 @@ Public Class FrmKmv
         Next
         cboAccount.EndUpdate()
     End Sub
-
-#End Region
-
-#Region "Account Select Method Routines"
 
     Private Sub radUseAccount_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles radUseAccount.CheckedChanged
@@ -118,10 +111,6 @@ Public Class FrmKmv
         Next
     End Sub
 
-#End Region
-
-#Region "Character Retrieval Routines"
-
     Private Sub btnGetCharacters_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetCharacters.Click
 
         ' Check for blank UserID and APIKey
@@ -137,27 +126,20 @@ Public Class FrmKmv
         _kmAccount.APIKey = txtAPIKey.Text
         _kmAccount.FriendlyName = "Killmail Viewing Account"
 
-            apiReq As _
-                New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+        Dim accountCharacters As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) =
+                HQ.ApiProvider.Account.Characters(_kmAccount.UserID, _kmAccount.APIKey)
 
-        Dim accountCharacters As EveServiceResponse(Of IEnumerable(Of AccountCharacter)) = Core.HQ.ApiProvider.Account.Characters(KMAccount.userID, KMAccount.APIKey)
-
-        ''  Create an instance of the API Request class
-        'Dim APIReq As New EveAPI.EveAPIRequest(EveHQ.Core.HQ.EveHQAPIServerInfo, EveHQ.Core.HQ.RemoteProxy, EveHQ.Core.HQ.EveHqSettings.APIFileExtension, EveHQ.Core.HQ.cacheFolder)
-
-        '' Create an XML document for retrieving characters
-        'Dim CharactersXML As New XmlDocument
-        'CharactersXML = APIReq.GetAPIXML(EveAPI.APITypes.Characters, KMAccount.ToAPIAccount, EveAPI.APIReturnMethods.ReturnStandard)
 
         ' Check for errors
-        If accountCharacters.IsFaulted Or accountCharacters.IsSuccessfulHttpStatus = False Or accountCharacters.EveErrorCode <> 0 Then
+        If _
+            accountCharacters.IsFaulted Or accountCharacters.IsSuccessfulHttpStatus = False Or
+            accountCharacters.EveErrorCode <> 0 Then
 
-            MessageBox.Show("There was an error retrieving character information from the API.", "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    lblAPIStatus.Text = "API Status: Character retrieval failed." : lblAPIStatus.Refresh()
-                        "There was an error retrieving character information from the API. The error was " &
-                        apiReq.LastAPIErrorText, "API Error", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    lblAPIStatus.Text = "API Status: Character retrieval failed."
-                    lblAPIStatus.Refresh()
+            MessageBox.Show("There was an error retrieving character information from the API.", "API Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+            lblAPIStatus.Text = "API Status: Character retrieval failed."
+            lblAPIStatus.Refresh()
             Exit Sub
 
         End If
@@ -183,10 +165,6 @@ Public Class FrmKmv
             lblAPIStatus.Refresh()
         End If
     End Sub
-
-#End Region
-
-#Region "Fetch KillMails Routines"
 
     Private Sub btnFetchKillMails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnFetchKillMails.Click
 
@@ -251,10 +229,6 @@ Public Class FrmKmv
         ' Do a summary of the killmails
         Call DrawKillmailSummary()
     End Sub
-
-#End Region
-
-#Region "Killmail XML Parsing Routines"
 
     Private Sub ParseKillmailXML(ByVal km As XmlDocument)
 
@@ -335,10 +309,6 @@ Public Class FrmKmv
         Next
     End Sub
 
-#End Region
-
-#Region "Killmail Summary Routines"
-
     Private Sub DrawKillmailSummary()
         ' Update the list of killmails
         adtKillmails.BeginUpdate()
@@ -362,10 +332,6 @@ Public Class FrmKmv
         txtKillMailDetails.Text = ""
         AdvTreeSorter.Sort(adtKillmails, 1, True, True)
     End Sub
-
-#End Region
-
-#Region "Killmail Detail Routines"
 
     Private Sub adtKillmails_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) _
         Handles adtKillmails.ColumnHeaderMouseDown
@@ -541,10 +507,6 @@ Public Class FrmKmv
         Return killmailText.ToString
     End Function
 
-#End Region
-
-#Region "Killmail Upload Routines"
-
     Private Sub btnUploadToBC_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUploadToBC.Click
         ' Only do selected KM for now for testing purposes
         Const uri As String = "http://eve.battleclinic.com/killboard/index.php"
@@ -609,10 +571,6 @@ Public Class FrmKmv
         End Try
     End Sub
 
-
-#End Region
-
-#Region "Export Options"
 
     Private Sub btnCopyKillmail_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCopyKillmail.Click
         If txtKillMailDetails.Text <> "" Then
@@ -690,6 +648,4 @@ Public Class FrmKmv
 
         End If
     End Sub
-
-#End Region
 End Class

@@ -1,11 +1,11 @@
 ﻿// ===========================================================================
 // <copyright file="EveHQMarketDataProvider.cs" company="EveHQ Development Team">
 //  EveHQ - An Eve-Online™ character assistance application
-//  Copyright © 2005-2012  EveHQ Development Team
+//  Copyright © 2005-2013  EveHQ Development Team
 //  This file (EveHQMarketDataProvider.cs), is part of EveHQ.
 //  EveHQ is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation, either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //  EveHQ is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,8 +42,6 @@ namespace EveHQ.Market.MarketServices
     /// </summary>
     public class EveHQMarketDataProvider : IMarketStatDataProvider
     {
-        #region Constants
-
         /// <summary>The cache folder.</summary>
         private const string CacheFolder = "PriceCache";
 
@@ -62,10 +60,6 @@ namespace EveHQ.Market.MarketServices
         /// <summary>The last download ts.</summary>
         private const string LastDownloadTs = "LastDownloadTime- {0}";
 
-        #endregion
-
-        #region Static Fields
-
         /// <summary>The download lock.</summary>
         private static readonly object DownloadLock = new object();
 
@@ -77,43 +71,16 @@ namespace EveHQ.Market.MarketServices
 
         /// <summary>The download in progres.</summary>
         private static bool downloadInProgres;
-
-        #endregion
-
-        #region Fields
-
-
-        #endregion
-
-        #region Static Fields
-
-        /// <summary>The download lock.</summary>
-        private static readonly object DownloadLock = new object();
-
-        /// <summary>The init lock obj.</summary>
-        private static readonly object InitLockObj = new object();
-
-        /// <summary>The location cache.</summary>
-        private static readonly ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache = new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
-        /// <summary>The _request provider.</summary>
-        private readonly IHttpRequestProvider _requestProvider;
-
-
-        /// <summary>The download in progres.</summary>
-        private static bool downloadInProgres;
-
-        #endregion
-
-        #region Fields
 
         /// <summary>The _cache ttl.</summary>
         private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(12);
+
         /// <summary>The _region data cache.</summary>
         private readonly ICacheProvider _priceCache;
-        /// <summary>The _request provider.</summary>
-        #endregion
 
-        #region Constructors and Destructors
+        /// <summary>The _request provider.</summary>
+        private readonly IHttpRequestProvider _requestProvider;
+
         /// <summary>Initializes a new instance of the <see cref="EveHQMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
         /// <param name="requestProvider">The request Provider.</param>
@@ -122,12 +89,6 @@ namespace EveHQ.Market.MarketServices
             _priceCache = new TextFileCacheProvider(Path.Combine(cacheRootFolder, CacheFolder));
             _requestProvider = requestProvider;
         }
-
-        #endregion
-       
-
-        #region Public Properties
-
 
         /// <summary>Gets the name.</summary>
         public static string Name
@@ -183,10 +144,6 @@ namespace EveHQ.Market.MarketServices
             }
         }
 
-        #endregion
-
-        #region Public Methods and Operators
-
         /// <summary>The get order stats.</summary>
         /// <param name="typeIds">The type ids.</param>
         /// <param name="includeRegions">The include regions.</param>
@@ -198,10 +155,6 @@ namespace EveHQ.Market.MarketServices
             return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(() => RetrievePriceData(typeIds, includeRegions, systemId));
         }
 
-        #endregion
-
-        #region Methods
-
         /// <summary>The download data.</summary>
         /// <param name="entityId">The entity id.</param>
         /// <returns>The <see cref="IEnumerable"/>.</returns>
@@ -210,7 +163,6 @@ namespace EveHQ.Market.MarketServices
             IEnumerable<ItemOrderStats> results = null;
             Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())));
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
-              
 
             if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
             {
@@ -300,8 +252,8 @@ namespace EveHQ.Market.MarketServices
         /// <returns>The <see cref="MarketLocationData"/>.</returns>
         private MarketLocationData LastMarketUpdate(int marketLocationId)
         {
-            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()),"application/json");
-               
+            Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()), "application/json");
+
             requestTask.Wait();
             MarketLocationData results = null;
             if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
@@ -381,7 +333,5 @@ namespace EveHQ.Market.MarketServices
 
             return cachedResults;
         }
-
-        #endregion
     }
 }

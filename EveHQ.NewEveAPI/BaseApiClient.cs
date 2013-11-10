@@ -85,8 +85,8 @@ namespace EveHQ.EveApi
             GC.SuppressFinalize(this);
         }
 
-        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(
-            string keyId, string vCode, int characterId, string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(string keyId, string vCode, int characterId, string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+            where T : class
         {
             if (callParams == null)
             {
@@ -121,8 +121,8 @@ namespace EveHQ.EveApi
         /// <param name="defaultCacheSeconds">how long to cache data if service doesn't provide a value</param>
         /// <param name="xmlParseDelegate">the delegate for parsing the xml.</param>
         /// <returns>A reference to the async task.</returns>
-        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(
-            string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+        protected internal Task<EveServiceResponse<T>> GetServiceResponseAsync<T>(string servicePath, IDictionary<string, string> callParams, string cacheKey, int defaultCacheSeconds, Func<XElement, T> xmlParseDelegate)
+            where T : class
         {
             Uri temp;
             if (!Uri.TryCreate(_eveWebServiceLocation + servicePath, UriKind.Absolute, out temp))
@@ -168,7 +168,7 @@ namespace EveHQ.EveApi
         /// <typeparam name="T">ApiType of data.</typeparam>
         /// <param name="key">The key to retrieve</param>
         /// <returns>And instance of the service response object.</returns>
-        protected CacheItem<EveServiceResponse<T>> GetCacheEntry<T>(string key)
+        protected CacheItem<EveServiceResponse<T>> GetCacheEntry<T>(string key) where T : class
         {
             return _cache.Get<EveServiceResponse<T>>(key);
         }
@@ -221,6 +221,7 @@ namespace EveHQ.EveApi
         /// <param name="cachedResult">cached data.</param>
         /// <returns>A TPL task.</returns>
         private static Task<EveServiceResponse<T>> ReturnCachedResponse<T>(CacheItem<EveServiceResponse<T>> cachedResult)
+            where T : class
         {
             // cachedResult was found in cache.
             cachedResult.Data.CachedResponse = true;
@@ -240,6 +241,7 @@ namespace EveHQ.EveApi
         /// <returns>The strongly typed data response.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required in order to pass exception information to callers.")]
         private EveServiceResponse<T> ProcessServiceResponse<T>(Task<HttpResponseMessage> webTask, string cacheKey, int defaultCacheSeconds, Func<XElement, T> parseXml)
+            where T : class
         {
             Exception faultError = null;
             T result = default(T);
@@ -277,7 +279,7 @@ namespace EveHQ.EveApi
                     eveErrorCode = 999999;
                     eveErrorText = "Unknown Error.";
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -286,8 +288,16 @@ namespace EveHQ.EveApi
             }
 
             // store it.
-            var eveResult = new EveServiceResponse<T>(){ ResultData= result, ServiceException= faultError, IsSuccessfulHttpStatus= webTask.Result.IsSuccessStatusCode,
-                HttpStatusCode = webTask.Result.StatusCode, CacheUntil = cacheTime, EveErrorCode = eveErrorCode, EveErrorText= eveErrorText};
+            var eveResult = new EveServiceResponse<T>()
+            {
+                ResultData = result,
+                ServiceException = faultError,
+                IsSuccessfulHttpStatus = webTask.Result.IsSuccessStatusCode,
+                HttpStatusCode = webTask.Result.StatusCode,
+                CacheUntil = cacheTime,
+                EveErrorCode = eveErrorCode,
+                EveErrorText = eveErrorText
+            };
 
             // cache it
             SetCacheEntry(cacheKey, eveResult);
@@ -308,7 +318,7 @@ namespace EveHQ.EveApi
         /// <typeparam name="T">type of data being stored.</typeparam>
         /// <param name="key">key to store the data under.</param>
         /// <param name="data">date to store.</param>
-        private void SetCacheEntry<T>(string key, EveServiceResponse<T> data)
+        private void SetCacheEntry<T>(string key, EveServiceResponse<T> data) where T : class
         {
             _cache.Add(key, data, data.CacheUntil);
         }

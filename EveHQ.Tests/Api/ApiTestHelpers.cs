@@ -48,7 +48,7 @@ namespace EveHQ.Tests.Api
 
         public const string VCodeValue = "120398475akdsfjhaslfkjhsdfkjhfasdf=";
 
-        public static void BasicSuccessResultValidations<T>(Task<EveServiceResponse<T>> asyncTask)
+        public static void BasicSuccessResultValidations<T>(Task<EveServiceResponse<T>> asyncTask) where T : class
         {
             // validate return
             Assert.IsFalse(asyncTask.IsFaulted);
