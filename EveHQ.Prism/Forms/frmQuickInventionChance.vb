@@ -17,177 +17,163 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports EveHQ.Prism.Classes
 
-Public Class frmQuickInventionChance
+Namespace Forms
 
-    Dim FormStartup As Boolean = True
-    Dim InventionChance As Double = 0
+    Public Class FrmQuickInventionChance
 
-    Private Sub frmQuickInventionChance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim _formStartup As Boolean = True
+        Dim _inventionChance As Double = 0
 
-        ' Set the startup flag
-        FormStartup = True
+        Private Sub frmQuickInventionChance_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
-        ' Set the comboboxes to the first item in the list
-        cboBaseChance.SelectedIndex = 0
-        cboSkill1.SelectedIndex = 0
-        cboSkill2.SelectedIndex = 0
-        cboSkill3.SelectedIndex = 0
-        cboItemMetaLevel.SelectedIndex = 0
-        cboDecryptor.SelectedIndex = 0
+            ' Set the startup flag
+            _formStartup = True
 
-        FormStartup = False
+            ' Set the comboboxes to the first item in the list
+            cboBaseChance.SelectedIndex = 0
+            cboSkill1.SelectedIndex = 0
+            cboSkill2.SelectedIndex = 0
+            cboSkill3.SelectedIndex = 0
+            cboItemMetaLevel.SelectedIndex = 0
+            cboDecryptor.SelectedIndex = 0
 
-        ' Do an initial calculation
-        Call Me.RecalculateInventionChance()
+            _formStartup = False
 
-    End Sub
+            ' Do an initial calculation
+            Call RecalculateInventionChance()
 
-    Private Sub cboBaseChance_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboBaseChance.SelectedIndexChanged
-        If FormStartup = False Then
-            Call Me.RecalculateInventionChance()
-        End If
-    End Sub
+        End Sub
 
-    Private Sub cboSkill1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkill1.SelectedIndexChanged
-        If FormStartup = False Then
-            Call Me.RecalculateInventionChance()
-        End If
-    End Sub
+        Private Sub cboBaseChance_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboBaseChance.SelectedIndexChanged
+            If _formStartup = False Then
+                Call RecalculateInventionChance()
+            End If
+        End Sub
 
-    Private Sub cboSkill2_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkill2.SelectedIndexChanged
-        If FormStartup = False Then
-            Call Me.RecalculateInventionChance()
-        End If
-    End Sub
+        Private Sub cboSkill1_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkill1.SelectedIndexChanged
+            If _formStartup = False Then
+                Call RecalculateInventionChance()
+            End If
+        End Sub
 
-    Private Sub cboSkill3_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboSkill3.SelectedIndexChanged
-        If FormStartup = False Then
-            Call Me.RecalculateInventionChance()
-        End If
-    End Sub
+        Private Sub cboSkill2_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkill2.SelectedIndexChanged
+            If _formStartup = False Then
+                Call RecalculateInventionChance()
+            End If
+        End Sub
 
-    Private Sub cboItemMetaLevel_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboItemMetaLevel.SelectedIndexChanged
-        If FormStartup = False Then
-            Call Me.RecalculateInventionChance()
-        End If
-    End Sub
+        Private Sub cboSkill3_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboSkill3.SelectedIndexChanged
+            If _formStartup = False Then
+                Call RecalculateInventionChance()
+            End If
+        End Sub
 
-    Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboDecryptor.SelectedIndexChanged
-        If FormStartup = False Then
-            Call Me.RecalculateInventionChance()
-        End If
-    End Sub
+        Private Sub cboItemMetaLevel_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboItemMetaLevel.SelectedIndexChanged
+            If _formStartup = False Then
+                Call RecalculateInventionChance()
+            End If
+        End Sub
 
-    Private Sub RecalculateInventionChance()
+        Private Sub cboDecryptor_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboDecryptor.SelectedIndexChanged
+            If _formStartup = False Then
+                Call RecalculateInventionChance()
+            End If
+        End Sub
 
-        ' Set up the variable
-        Dim BaseChance As Double = 0
+        Private Sub RecalculateInventionChance()
 
-        ' Determine base chance
-        Select Case cboBaseChance.SelectedIndex
-            Case 0
-                BaseChance = 20
-            Case 1
-                BaseChance = 25
-            Case 2
-                BaseChance = 30
-            Case 3
-                BaseChance = 40
-        End Select
+            ' Set up the variable
+            Dim baseChance As Double = 0
 
-        Dim EncSkillLevel As Integer = cboSkill1.SelectedIndex
-        Dim DC1SkillLevel As Integer = cboSkill2.SelectedIndex
-        Dim DC2SkillLevel As Integer = cboSkill3.SelectedIndex
-        Dim MetaLevel As Integer = Math.Max(cboItemMetaLevel.SelectedIndex - 1, 0)
+            ' Determine base chance
+            Select Case cboBaseChance.SelectedIndex
+                Case 0
+                    baseChance = 20
+                Case 1
+                    baseChance = 25
+                Case 2
+                    baseChance = 30
+                Case 3
+                    baseChance = 40
+            End Select
 
-        Dim DecryptorModifier As Double = 1
-        Select Case cboDecryptor.SelectedIndex
-            Case 0
-                DecryptorModifier = 1
-            Case 1
-                DecryptorModifier = 0.6
-            Case 2
-                DecryptorModifier = 0.9
-            Case 3
-                DecryptorModifier = 1
-            Case 4
-                DecryptorModifier = 1.1
-            Case 5
-                DecryptorModifier = 1.2
-            Case 6
-                DecryptorModifier = 1.5
-            Case 7
-                DecryptorModifier = 1.8
-            Case 8
-                DecryptorModifier = 1.9
-        End Select
+            Dim encSkillLevel As Integer = cboSkill1.SelectedIndex
+            Dim dc1SkillLevel As Integer = cboSkill2.SelectedIndex
+            Dim dc2SkillLevel As Integer = cboSkill3.SelectedIndex
+            Dim metaLevel As Integer = Math.Max(cboItemMetaLevel.SelectedIndex - 1, 0)
 
-        InventionChance = Invention.CalculateInventionChance(BaseChance, EncSkillLevel, DC1SkillLevel, DC2SkillLevel, MetaLevel, DecryptorModifier)
+            Dim decryptorModifier As Double = 1
+            Select Case cboDecryptor.SelectedIndex
+                Case 0
+                    decryptorModifier = 1
+                Case 1
+                    decryptorModifier = 0.6
+                Case 2
+                    decryptorModifier = 0.9
+                Case 3
+                    decryptorModifier = 1
+                Case 4
+                    decryptorModifier = 1.1
+                Case 5
+                    decryptorModifier = 1.2
+                Case 6
+                    decryptorModifier = 1.5
+                Case 7
+                    decryptorModifier = 1.8
+                Case 8
+                    decryptorModifier = 1.9
+            End Select
 
-        Me.lblInventionChance.Text = "Invention Chance: " & InventionChance.ToString("N2") & "%"
+            _inventionChance = Invention.CalculateInventionChance(baseChance, encSkillLevel, dc1SkillLevel, dc2SkillLevel, metaLevel, decryptorModifier)
 
-        Call Me.RecalculateProbability()
+            lblInventionChance.Text = "Invention Chance: " & _inventionChance.ToString("N2") & "%"
 
-    End Sub
+            Call RecalculateProbability()
 
-    Private Sub RecalculateProbability()
-        ' Calculate the probability of the successful vs total attempts
-        Dim IC As Double = Math.Min(InventionChance, 100) / 100.0
-        Dim Attempts As Integer = nudAttempts.Value
-        Dim Success As Integer = nudSuccess.Value
+        End Sub
 
-        'Calculate probability to get exactly the specified number of successes 
-        'Dim PS As Double = Math.Pow(IC, Success)
-        'Dim PF As Double = Math.Pow(1 - IC, Attempts - Success)
-        'Dim FP As Double = Factorial(Attempts) / Factorial(Success) / Factorial(Attempts - Success)
-        'Dim TP As Double = FP * PS * PF
+        Private Sub RecalculateProbability()
+            ' Calculate the probability of the successful vs total attempts
+            Dim ic As Double = Math.Min(_inventionChance, 100) / 100.0
+            Dim attempts As Integer = nudAttempts.Value
+            Dim success As Integer = nudSuccess.Value
 
-        'Calculate cumulative probability to get at least the specified number of successes
-        Dim CP As Double = 0
-        If Success = 0 Or IC = 1 Then
-            CP = 1
-        ElseIf Success >= Attempts Then
-            CP = Math.Pow(IC, Attempts)
-        Else
-            BinomialDistribution(CP, Attempts, Success - 1, IC)
-            CP = 1 - CP
-        End If
+           'Calculate cumulative probability to get at least the specified number of successes
+            Dim cp As Double = 0
+            If success = 0 Or ic = 1 Then
+                cp = 1
+            ElseIf success >= attempts Then
+                cp = Math.Pow(ic, attempts)
+            Else
+                BinomialDistribution(cp, attempts, success - 1, ic)
+                cp = 1 - cp
+            End If
 
-        Me.lblProbability.Text = "Probability: " & (CP * 100).ToString("N4") & "%"
-    End Sub
+            lblProbability.Text = "Probability: " & (cp * 100).ToString("N4") & "%"
+        End Sub
 
-    Private Function Factorial(ByVal n As Integer) As Double
-        Dim sum As Double = 1
-        If n >= 1 Then
-            For i As Integer = 1 To n
-                sum *= i
-            Next
-            Return sum
-        Else
-            Return 1
-        End If
-    End Function
+        Private Function BinomialDistribution(ByRef cp As Double, ByVal n As Integer, ByVal k As Integer, ByVal p As Double) As Double
+            Dim value As Double
+            If k > 0 Then
+                value = (n - k + 1) / k * p / (1 - p) * BinomialDistribution(cp, n, k - 1, p)
+                cp += value
+                Return value
+            Else
+                value = Math.Pow(1 - p, n)
+                cp += value
+                Return value
+            End If
+        End Function
 
-    Private Function BinomialDistribution(ByRef cp As Double, ByVal n As Integer, ByVal k As Integer, ByVal p As Double) As Double
-        Dim value As Double = 0
-        If k > 0 Then
-            value = (n - k + 1) / k * p / (1 - p) * BinomialDistribution(cp, n, k - 1, p)
-            cp += value
-            Return value
-        Else
-            value = Math.Pow(1 - p, n)
-            cp += value
-            Return value
-        End If
-    End Function
+        Private Sub nudAttempts_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudAttempts.ValueChanged
+            nudSuccess.MaxValue = nudAttempts.Value
+            Call RecalculateProbability()
+        End Sub
 
-    Private Sub nudAttempts_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudAttempts.ValueChanged
-        nudSuccess.MaxValue = nudAttempts.Value
-        Call Me.RecalculateProbability()
-    End Sub
-
-    Private Sub nudSuccess_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles nudSuccess.ValueChanged
-        Call Me.RecalculateProbability()
-    End Sub
-End Class
+        Private Sub nudSuccess_ValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles nudSuccess.ValueChanged
+            Call RecalculateProbability()
+        End Sub
+    End Class
+End NameSpace

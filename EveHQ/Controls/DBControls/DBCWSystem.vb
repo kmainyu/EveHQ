@@ -17,240 +17,223 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Data
+Imports EveHQ.EveData
 
-Public Class DBCWSystem
+Namespace Controls.DBControls
 
-    Dim WormholeSystems As New SortedList(Of String, WormholeSystem)
-    Dim WormholeEffects As New SortedList(Of String, WormholeEffect)
-    Dim WHEffects As New SortedList(Of String, String)
+    Public Class DBCWSystem
 
-    Public Sub New()
+        ReadOnly _wormholeSystems As New SortedList(Of String, WormholeSystem)
+        ReadOnly _wormholeEffects As New SortedList(Of String, WormholeEffect)
+        Dim _whEffects As New SortedList(Of String, String)
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+        Public Sub New()
 
-        ' Add any initialization after the InitializeComponent() call.
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Initialise configuration form name
-        Me.ControlConfigForm = ""
+            ' Add any initialization after the InitializeComponent() call.
 
-        ' Try and load the wormhole information
-        Call Me.LoadWHSystemData()
-        Call Me.LoadWHAttributeData()
+            ' Initialise configuration form name
+            ControlConfigForm = ""
 
-    End Sub
+            ' Try and load the wormhole information
+            Call LoadWormholeSystemData()
+            Call LoadWormholeAttributeData()
 
-    Private Sub DBCWSystem_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-        ' Load the combo box with wormhole information
-        Call Me.PopulateWormholeData()
-    End Sub
+        End Sub
+
+        Private Sub DBCWSystem_Load(sender As Object, e As EventArgs) Handles Me.Load
+            ' Load the combo box with wormhole information
+            Call PopulateWormholeData()
+        End Sub
 
 #Region "Public Overriding Propeties"
 
-    Public Overrides ReadOnly Property ControlName() As String
-        Get
-            Return "W-Space Information"
-        End Get
-    End Property
+        Public Overrides ReadOnly Property ControlName() As String
+            Get
+                Return "W-Space Information"
+            End Get
+        End Property
 
 #End Region
 
-    Private Function LoadWHSystemData() As Boolean
-        ' Parse the location classes
-        Dim WHClasses As New SortedList(Of String, String)
-        Dim Classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
-        For Each WHClass As String In Classes
-            If WHClass <> "" Then
-                Dim ClassData() As String = WHClass.Split(",".ToCharArray)
-                If WHClasses.ContainsKey(ClassData(0)) = False Then
-                    WHClasses.Add(ClassData(0), ClassData(1))
-                End If
-            End If
-        Next
-        ' Parse the location effects
-        Dim WHEffects As New SortedList(Of String, String)
-        Dim Effects() As String = My.Resources.WSpaceTypes.Split((ControlChars.CrLf).ToCharArray)
-        For Each WHEffect As String In Effects
-            If WHEffect <> "" Then
-                Dim EffectData() As String = WHEffect.Split(",".ToCharArray)
-                If WHEffects.ContainsKey(EffectData(0)) = False Then
-                    WHEffects.Add(EffectData(0), EffectData(1))
-                End If
-            End If
-        Next
-        ' Load the data
-        Dim strSQL As String = "SELECT * FROM mapSolarSystems WHERE regionID>11000000;"
-        Dim systemData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If systemData IsNot Nothing Then
-                If systemData.Tables(0).Rows.Count > 0 Then
-                    Dim cSystem As WormholeSystem = New WormholeSystem
-                    WormholeSystems.Clear()
-                    For solar As Integer = 0 To systemData.Tables(0).Rows.Count - 1
-                        cSystem = New WormholeSystem
-                        cSystem.ID = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemID"))
-                        cSystem.Name = CStr(systemData.Tables(0).Rows(solar).Item("solarSystemName"))
-                        cSystem.Region = CStr(systemData.Tables(0).Rows(solar).Item("regionID"))
-                        cSystem.Constellation = CStr(systemData.Tables(0).Rows(solar).Item("constellationID"))
-                        cSystem.WClass = WHClasses(cSystem.Region)
-                        If WHEffects.ContainsKey(cSystem.Name) = True Then
-                            cSystem.WEffect = WHEffects(cSystem.Name)
-                        Else
-                            cSystem.WEffect = ""
-                        End If
-                        WormholeSystems.Add(CStr(cSystem.Name), cSystem)
-                    Next
-                    WHClasses.Clear()
-                    WHEffects.Clear()
-                    systemData.Dispose()
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading System Data for Prism Plugin" & ControlChars.CrLf & ex.Message, "Prism Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-
-    Private Function LoadWHAttributeData() As Boolean
-        ' Load the data
-        Dim strSQL As String = "SELECT invTypes.typeName, dgmTypeAttributes.attributeID, dgmTypeAttributes.valueInt, dgmTypeAttributes.valueFloat, dgmAttributeTypes.unitID"
-        strSQL &= " FROM dgmAttributeTypes INNER JOIN (invTypes INNER JOIN dgmTypeAttributes ON invTypes.typeID = dgmTypeAttributes.typeID) ON dgmAttributeTypes.attributeID = dgmTypeAttributes.attributeID"
-        strSQL &= " WHERE (((invTypes.groupID)=920));"
-        Dim WHData As DataSet = EveHQ.Core.DataFunctions.GetData(strSQL)
-        Try
-            If WHData IsNot Nothing Then
-                If WHData.Tables(0).Rows.Count > 0 Then
-                    Dim cWH As New WormHole
-                    WormholeEffects.Clear()
-                    Dim currentEffect As New WormholeEffect
-                    For WH As Integer = 0 To WHData.Tables(0).Rows.Count - 1
-                        Dim typeName As String = CStr(WHData.Tables(0).Rows(WH).Item("typeName"))
-                        Dim attID As String = CStr(WHData.Tables(0).Rows(WH).Item("attributeID"))
-                        Dim attValue As Double = 0
-                        If IsDBNull(WHData.Tables(0).Rows(WH).Item("valueInt")) = False Then
-                            attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueInt"))
-                        Else
-                            attValue = CDbl(WHData.Tables(0).Rows(WH).Item("valueFloat"))
-                        End If
-                        If CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "124" Or CStr(WHData.Tables(0).Rows(WH).Item("unitID")) = "105" Then
-                            attValue = -attValue
-                        End If
-                        If WormholeEffects.ContainsKey(typeName) = False Then
-                            WormholeEffects.Add(typeName, New WormholeEffect)
-                        End If
-                        currentEffect = WormholeEffects(typeName)
-                        currentEffect.WormholeType = typeName
-                        currentEffect.Attributes.Add(attID, attValue)
-                    Next
-                    WHData.Dispose()
-                    Return True
-                Else
-                    Return False
-                End If
-            Else
-                Return False
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error Loading Wormhole Effect Data for the Void Plugin" & ControlChars.CrLf & ex.Message, "Void Plug-in Error!", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return False
-        End Try
-    End Function
-
-    Private Sub PopulateWormholeData()
-        ' Load up pilot information
-        cboWHSystem.BeginUpdate()
-        cboWHSystem.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cboWHSystem.AutoCompleteSource = AutoCompleteSource.CustomSource
-        cboWHSystem.Items.Clear()
-        For Each WH As WormholeSystem In WormholeSystems.Values
-            cboWHSystem.Items.Add(WH.Name)
-            cboWHSystem.AutoCompleteCustomSource.Add(WH.Name)
-        Next
-        cboWHSystem.EndUpdate()
-        ' Parse the WHEffects resource
-        WHEffects = New SortedList(Of String, String)
-        Dim Effects() As String = My.Resources.WHEffects.Split((ControlChars.CrLf).ToCharArray)
-        For Each Effect As String In Effects
-            If Effect <> "" Then
-                Dim EffectData() As String = Effect.Split(",".ToCharArray)
-                If WHEffects.ContainsKey(EffectData(0)) = False Then
-                    WHEffects.Add(EffectData(0), EffectData(10))
-                End If
-            End If
-        Next
-    End Sub
-
-    Private Sub cboWHSystem_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboWHSystem.SelectedIndexChanged
-        ' Update the WH System Details
-        If WormholeSystems.ContainsKey(cboWHSystem.SelectedItem.ToString) = True Then
-            Dim WH As WormholeSystem = WormholeSystems(cboWHSystem.SelectedItem.ToString)
-            If WH.WEffect <> "" Then
-                Dim modName As String = ""
-                If WH.WEffect = "Red Giant" Then
-                    modName = WH.WEffect & " Beacon Class " & WH.WClass
-                Else
-                    modName = WH.WEffect & " Effect Beacon Class " & WH.WClass
-                End If
-                'Dim SSun As EveHQ.Core.EveItem = EveHQ.Core.HQ.itemData(EveHQ.Core.HQ.itemList(modName))
-                lblAnomalyName.Text = WH.WEffect
-                ' Establish the effects
-                Dim EffectList As New SortedList(Of String, Double)
-                Dim SysEffects As WormholeEffect = WormholeEffects(modName)
-                For Each att As String In SysEffects.Attributes.Keys
-                    If WHEffects.ContainsKey(att) = True Then
-                        EffectList.Add(WHEffects(att), SysEffects.Attributes(att))
+        Private Sub LoadWormholeSystemData()
+            ' Parse the location classes
+            Dim whClasses As New SortedList(Of String, String)
+            Dim classes() As String = My.Resources.WHClasses.Split((ControlChars.CrLf).ToCharArray)
+            For Each whClass As String In classes
+                If whClass <> "" Then
+                    Dim classData() As String = whClass.Split(",".ToCharArray)
+                    If whClasses.ContainsKey(classData(0)) = False Then
+                        whClasses.Add(classData(0), classData(1))
                     End If
-                Next
-                lvwEffects.BeginUpdate()
-                lvwEffects.Items.Clear()
-                For Each Effect As String In EffectList.Keys
-                    Dim newEffect As New ListViewItem
-                    newEffect.Text = Effect
-                    Dim value As Double = CDbl(EffectList(Effect))
-                    If value < 5 And value > -5 Then
-                        If value < 1 Or Effect.EndsWith("Penalty") Then
-                            newEffect.ForeColor = Drawing.Color.Red
-                        Else
-                            newEffect.ForeColor = Drawing.Color.LimeGreen
-                        End If
-                        newEffect.SubItems.Add(EffectList(Effect).ToString("N2") & " x")
+                End If
+            Next
+            ' Parse the location effects
+            _whEffects.Clear()
+            Dim effects() As String = My.Resources.WSpaceTypes.Split((ControlChars.CrLf).ToCharArray)
+            For Each whEffect As String In effects
+                If whEffect <> "" Then
+                    Dim effectData() As String = whEffect.Split(",".ToCharArray)
+                    If _whEffects.ContainsKey(effectData(0)) = False Then
+                        _whEffects.Add(effectData(0), effectData(1))
+                    End If
+                End If
+            Next
+            ' Load the data
+
+            Dim systems As IEnumerable(Of SolarSystem) = From item In StaticData.SolarSystems.Values Where item.RegionID > 11000000
+
+            Dim cSystem As WormholeSystem
+            _wormholeSystems.Clear()
+
+            For Each solar As SolarSystem In systems
+                cSystem = New WormholeSystem
+                cSystem.ID = solar.ID.ToString
+                cSystem.Name = solar.Name
+                cSystem.Region = solar.RegionID.ToString
+                cSystem.Constellation = solar.ConstellationID.ToString
+                cSystem.WClass = whClasses(cSystem.Region)
+                If _whEffects.ContainsKey(cSystem.Name) = True Then
+                    cSystem.WEffect = _whEffects(cSystem.Name)
+                Else
+                    cSystem.WEffect = ""
+                End If
+                _wormholeSystems.Add(CStr(cSystem.Name), cSystem)
+            Next
+            whClasses.Clear()
+            _whEffects.Clear()
+
+        End Sub
+
+        Private Sub LoadWormholeAttributeData()
+            ' Load the data
+            Dim taqs As IEnumerable = (From item In StaticData.Types.Values Join ta In StaticData.TypeAttributes On item.Id Equals ta.TypeId Join at In StaticData.AttributeTypes.Values On ta.AttributeId Equals at.AttributeId
+                    Where item.Group = 920
+                    Select New TypeAttributeQuery With {
+                    .TypeID = item.Id,
+                    .TypeName = item.Name,
+                    .AttributeID = ta.AttributeId,
+                    .UnitID = at.UnitId,
+                    .Value = ta.Value}).ToList
+
+            _wormholeEffects.Clear()
+            Dim currentEffect As WormholeEffect
+            For Each taq As TypeAttributeQuery In taqs
+                Dim typeName As String = taq.TypeName
+                Dim attID As String = CStr(taq.AttributeID)
+                Dim attValue As Double = taq.Value
+                If taq.UnitID = 124 Or taq.UnitID = 105 Then
+                    attValue = -attValue
+                End If
+                If _wormholeEffects.ContainsKey(typeName) = False Then
+                    _wormholeEffects.Add(typeName, New WormholeEffect)
+                End If
+                currentEffect = _wormholeEffects(typeName)
+                currentEffect.WormholeType = typeName
+                currentEffect.Attributes.Add(attID, attValue)
+            Next
+        End Sub
+
+        Private Sub PopulateWormholeData()
+            ' Load up pilot information
+            cboWHSystem.BeginUpdate()
+            cboWHSystem.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+            cboWHSystem.AutoCompleteSource = AutoCompleteSource.CustomSource
+            cboWHSystem.Items.Clear()
+            For Each wh As WormholeSystem In _wormholeSystems.Values
+                cboWHSystem.Items.Add(wh.Name)
+                cboWHSystem.AutoCompleteCustomSource.Add(wh.Name)
+            Next
+            cboWHSystem.EndUpdate()
+            ' Parse the WHEffects resource
+            _whEffects = New SortedList(Of String, String)
+            Dim effects() As String = My.Resources.WHEffects.Split((ControlChars.CrLf).ToCharArray)
+            For Each effect As String In effects
+                If effect <> "" Then
+                    Dim effectData() As String = effect.Split(",".ToCharArray)
+                    If _whEffects.ContainsKey(effectData(0)) = False Then
+                        _whEffects.Add(effectData(0), effectData(10))
+                    End If
+                End If
+            Next
+        End Sub
+
+        Private Sub cboWHSystem_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cboWHSystem.SelectedIndexChanged
+            ' Update the WH System Details
+            If _wormholeSystems.ContainsKey(cboWHSystem.SelectedItem.ToString) = True Then
+                Dim wh As WormholeSystem = _wormholeSystems(cboWHSystem.SelectedItem.ToString)
+                If wh.WEffect <> "" Then
+                    Dim modName As String
+                    If wh.WEffect = "Red Giant" Then
+                        modName = wh.WEffect & " Beacon Class " & wh.WClass
                     Else
-                        If value < 0 Or Effect.EndsWith("Penalty") Then
-                            newEffect.ForeColor = Drawing.Color.Red
-                        Else
-                            newEffect.ForeColor = Drawing.Color.LimeGreen
-                        End If
-                        newEffect.SubItems.Add(EffectList(Effect).ToString("N2") & " %")
+                        modName = wh.WEffect & " Effect Beacon Class " & wh.WClass
                     End If
-                    lvwEffects.Items.Add(newEffect)
-                Next
-                lvwEffects.EndUpdate()
-            Else
-                lblAnomalyName.Text = "<None>"
-                lvwEffects.Items.Clear()
+                    'Dim SSun As EveHQ.Core.EveItem = EveHQ.StaticData.Types(EveHQ.StaticData.TypeNames(modName))
+                    lblAnomalyName.Text = wh.WEffect
+                    ' Establish the effects
+                    Dim effectList As New SortedList(Of String, Double)
+                    Dim sysEffects As WormholeEffect = _wormholeEffects(modName)
+                    For Each att As String In sysEffects.Attributes.Keys
+                        If _whEffects.ContainsKey(att) = True Then
+                            effectList.Add(_whEffects(att), sysEffects.Attributes(att))
+                        End If
+                    Next
+                    lvwEffects.BeginUpdate()
+                    lvwEffects.Items.Clear()
+                    For Each effect As String In effectList.Keys
+                        Dim newEffect As New ListViewItem
+                        newEffect.Text = effect
+                        Dim value As Double = CDbl(effectList(effect))
+                        If value < 5 And value > -5 Then
+                            If value < 1 Or effect.EndsWith("Penalty", StringComparison.Ordinal) Then
+                                newEffect.ForeColor = Color.Red
+                            Else
+                                newEffect.ForeColor = Color.LimeGreen
+                            End If
+                            newEffect.SubItems.Add(effectList(effect).ToString("N2") & " x")
+                        Else
+                            If value < 0 Or effect.EndsWith("Penalty", StringComparison.Ordinal) Then
+                                newEffect.ForeColor = Color.Red
+                            Else
+                                newEffect.ForeColor = Color.LimeGreen
+                            End If
+                            newEffect.SubItems.Add(effectList(effect).ToString("N2") & " %")
+                        End If
+                        lvwEffects.Items.Add(newEffect)
+                    Next
+                    lvwEffects.EndUpdate()
+                Else
+                    lblAnomalyName.Text = "<None>"
+                    lvwEffects.Items.Clear()
+                End If
+                lblSystemClass.Text = wh.WClass
             End If
-            lblSystemClass.Text = WH.WClass
-        End If
-    End Sub
+        End Sub
 
-End Class
+        Private NotInheritable Class TypeAttributeQuery
+            Public Property TypeID As Long
+            Public Property TypeName As String
+            Public Property AttributeID As Integer
+            Public Property UnitID As Integer
+            Public Property Value As Double
+        End Class
 
-Public Class WormholeSystem
-    Public ID As String
-    Public Name As String
-    Public Constellation As String
-    Public Region As String
-    Public WClass As String
-    Public WEffect As String
-End Class
+    End Class
 
-Public Class WormholeEffect
-    Public WormholeType As String
-    Public Attributes As New SortedList(Of String, Double)
-End Class
+    Public Class WormholeSystem
+        Public ID As String
+        Public Name As String
+        Public Constellation As String
+        Public Region As String
+        Public WClass As String
+        Public WEffect As String
+    End Class
+
+    Public Class WormholeEffect
+        Public WormholeType As String
+        Public Attributes As New SortedList(Of String, Double)
+    End Class
+End NameSpace

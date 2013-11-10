@@ -121,6 +121,17 @@ namespace EveHQ.Market.MarketServices
         #endregion
 
         #region Public Properties
+            string cacheRootFolder, 
+            IHttpRequestProvider requestProvider, 
+            Uri proxyServerAddress, 
+            bool useDefaultCredential, 
+            string proxyUserName, 
+            string proxyPassword, 
+            bool useBasicAuth)
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>Gets the name.</summary>
         public static string Name
@@ -217,61 +228,62 @@ namespace EveHQ.Market.MarketServices
         {
             return Task<ItemMarketOrders>.Factory.TryRun(
                 () =>
-                {
-                    string cacheKey;
-                    IList<int> regionList = includedRegions as IList<int> ?? includedRegions.ToList();
-                    if (systemId.HasValue)
                     {
-                        cacheKey = CalcCacheKey(new[] { systemId.Value });
-                    }
-                    else if (includedRegions != null && regionList.Any())
-                    {
-                        cacheKey = CalcCacheKey(regionList);
-                    }
-                    else
-                    {
-                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
-                    }
-
-                    CacheItem<ItemMarketOrders> cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
-                    ItemMarketOrders itemData = null;
-                    if (cachedData == null || cachedData.IsDirty)
-                    {
-                        // make the request for the types we don't have valid caches for
-                        NameValueCollection requestParameters = CreateMarketRequestParameters(new[] { itemTypeId }, regionList, systemId ?? 0, minQuantity);
-                        Task<HttpResponseMessage> requestTask = _requestProvider.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters);
-                        requestTask.Wait(); // wait for the completion (we're in a background task anyways)
-
-                        if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
+                        string cacheKey;
+                    IList<int> regionList = includedRegions != null ? includedRegions.ToList(): new List<int>();
+                        if (systemId.HasValue)
                         {
-                            var contentStreamTask = requestTask.Result.Content.ReadAsStreamAsync();
-                            contentStreamTask.Wait();
-                            using (Stream stream = contentStreamTask.Result)
-                            {
-                                try
-                                {
-                                    // process result
-                                    ItemMarketOrders data = GetMarketOrdersFromXml(stream);
-
-                                    _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
-
-                                    itemData = data;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Trace.TraceError(ex.FormatException());
-                                    throw;
-                                }
-                            }
+                            cacheKey = CalcCacheKey(new[] { systemId.Value });
+                        }
+                    else if (includedRegions != null && regionList.Any())
+                        {
+                        cacheKey = CalcCacheKey(regionList);
                         }
                         else
                         {
-                            throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
+                            cacheKey = CalcCacheKey(new[] { JitaSystemId });
                         }
-                    }
 
-                    return itemData ?? (cachedData != null ? cachedData.Data : null);
-                });
+                        CacheItem<ItemMarketOrders> cachedData = _marketOrderCache.Get<ItemMarketOrders>(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey));
+                        ItemMarketOrders itemData = null;
+                        if (cachedData == null || cachedData.IsDirty)
+                        {
+                            // make the request for the types we don't have valid caches for
+                        NameValueCollection requestParameters = CreateMarketRequestParameters(new[] { itemTypeId }, regionList, systemId ?? 0, minQuantity);
+                        Task<HttpResponseMessage> requestTask = _requestProvider.PostAsync(new Uri(EveCentralBaseUrl + QuickLookApi), requestParameters);
+                         
+                            requestTask.Wait(); // wait for the completion (we're in a background task anyways)
+
+                            if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null && requestTask.Result != null)
+                            {
+                            var contentStreamTask = requestTask.Result.Content.ReadAsStreamAsync();
+                            contentStreamTask.Wait();
+                            using (Stream stream = contentStreamTask.Result)
+                                {
+                                    try
+                                    {
+                                        // process result
+                                        ItemMarketOrders data = GetMarketOrdersFromXml(stream);
+
+                                        _marketOrderCache.Add(ItemKeyFormat.FormatInvariant(itemTypeId, cacheKey), data, DateTimeOffset.Now.Add(TimeSpan.FromHours(1)));
+
+                                        itemData = data;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                    Trace.TraceError(ex.FormatException());
+                                    throw;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                throw new InvalidOperationException("There was a problem requesting the market data.", requestTask.Exception);
+                            }
+                        }
+
+                        return itemData ?? (cachedData != null ? cachedData.Data : null);
+                    });
         }
 
         /// <summary>The get region based order stats.</summary>
@@ -286,61 +298,70 @@ namespace EveHQ.Market.MarketServices
         {
             return Task<IEnumerable<ItemOrderStats>>.Factory.TryRun(
                 () =>
-                {
-                    var cachedItems = new List<ItemOrderStats>();
-                    var typesToRequest = new List<int>();
-                    string cacheKey;
-                    var dirtyCache = new Dictionary<int, ItemOrderStats>();
+                    {
+                        var cachedItems = new List<ItemOrderStats>();
+                        var typesToRequest = new List<int>();
+                        string cacheKey;
+                        var dirtyCache = new Dictionary<int, ItemOrderStats>();
                     includeRegions = includeRegions ?? new List<int>();
                     IList<int> regionList = includeRegions as IList<int> ?? includeRegions.ToList();
-                    if (systemId.HasValue)
-                    {
-                        cacheKey = CalcCacheKey(new[] { systemId.Value });
-                    }
-                    else if (includeRegions != null && regionList.Any())
-                    {
-                        cacheKey = CalcCacheKey(regionList);
-                    }
-                    else
-                    {
-                        cacheKey = CalcCacheKey(new[] { JitaSystemId });
-                    }
-
-                    foreach (int typeId in typeIds.Distinct())
-                    {
-                        CacheItem<ItemOrderStats> itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
-                        if (itemStats != null && itemStats.Data != null && !itemStats.IsDirty)
+                        if (includeRegions != null)
                         {
-                            cachedItems.Add(itemStats.Data);
+                            regionList = includeRegions as IList<int> ?? includeRegions.ToList();
                         }
                         else
                         {
-                            // queue for refresh
-                            typesToRequest.Add(typeId);
+                            regionList = new List<int>();
+                        }
 
-                            // add to dirty cache incase of no data/error
-                            if (itemStats != null && itemStats.IsDirty)
+                        if (systemId.HasValue)
+                        {
+                            cacheKey = CalcCacheKey(new[] { systemId.Value });
+                        }
+                    else if (includeRegions != null && regionList.Any())
+                        {
+                        cacheKey = CalcCacheKey(regionList);
+                        }
+                        else
+                        {
+                            cacheKey = CalcCacheKey(new[] { JitaSystemId });
+                        }
+
+                        foreach (int typeId in typeIds.Distinct())
+                        {
+                            CacheItem<ItemOrderStats> itemStats = _regionDataCache.Get<ItemOrderStats>(ItemKeyFormat.FormatInvariant(typeId, cacheKey));
+                            if (itemStats != null && itemStats.Data != null && !itemStats.IsDirty)
                             {
-                                dirtyCache.Add(typeId, itemStats.Data);
+                                cachedItems.Add(itemStats.Data);
+                            }
+                            else
+                            {
+                                // queue for refresh
+                                typesToRequest.Add(typeId);
+
+                                // add to dirty cache incase of no data/error
+                                if (itemStats != null && itemStats.IsDirty)
+                                {
+                                    dirtyCache.Add(typeId, itemStats.Data);
+                                }
                             }
                         }
-                    }
 
-                    if (typesToRequest.Any())
-                    {
+                        if (typesToRequest.Any())
+                        {
                         cachedItems.AddRange(RetrieveItems(typesToRequest, regionList, systemId ?? 0, minQuantity, cacheKey));
 
-                        // add in "dirty/expired" items as filler for items that didn't get downloaded or to smooth over loss of connection issues
-                        foreach (int itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
-                        {
-                            cachedItems.Add(dirtyCache[itemKey]);
-                        }
+                            // add in "dirty/expired" items as filler for items that didn't get downloaded or to smooth over loss of connection issues
+                            foreach (int itemKey in dirtyCache.Keys.Where(itemKey => cachedItems.All(c => c.ItemTypeId != itemKey)))
+                            {
+                                cachedItems.Add(dirtyCache[itemKey]);
+                            }
 
                         // TODO: log warning/error when task doesn't complete properly.
-                    }
+                        }
 
-                    return cachedItems;
-                });
+                        return cachedItems;
+                    });
         }
 
         /// <summary>Attempts to upload the data values to the receiver</summary>
@@ -368,6 +389,8 @@ namespace EveHQ.Market.MarketServices
                         _uploadServiceOnline = false;
                         _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
                     }
+                            _nextUploadAttempt = DateTimeOffset.Now.AddHours(1);
+                        }
 
                     return task;
                 });
@@ -414,6 +437,10 @@ namespace EveHQ.Market.MarketServices
 
             if (minQuantity > 1)
             {
+                parameters.Add(MinQuantity, minQuantity.ToInvariantString());
+            }
+
+            return parameters;
                 parameters.Add(MinQuantity, minQuantity.ToInvariantString());
             }
 
@@ -567,11 +594,16 @@ namespace EveHQ.Market.MarketServices
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
 
             if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
+                var contentStreamTask = requestTask.Result.Content.ReadAsStreamAsync();
+                contentStreamTask.Wait();
+
+                          if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
             {
                 var contentStreamTask = requestTask.Result.Content.ReadAsStreamAsync();
                 contentStreamTask.Wait();
 
                 using (Stream stream = contentStreamTask.Result)
+
                 {
                     try
                     {
@@ -581,6 +613,8 @@ namespace EveHQ.Market.MarketServices
                         // cache it.
                         foreach (ItemOrderStats item in retrievedItems)
                         {
+                            _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
+                            resultItems.Add(item);
                             _regionDataCache.Add(ItemKeyFormat.FormatInvariant(item.ItemTypeId, cacheKey), item, DateTimeOffset.Now.Add(_cacheTtl));
                             resultItems.Add(item);
                         }

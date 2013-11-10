@@ -17,261 +17,259 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Imports System.ComponentModel
+Imports System.Text
 
-Public Class frmShipComparisonWorker
+Namespace Forms
 
-    Dim pPilot As HQFPilot
-    Dim pProfile As DamageProfile
-    Dim pShipList As New SortedList
-    Dim pShipInfo As New SortedList
-    Dim WithEvents CompareWorker As New System.ComponentModel.BackgroundWorker
+    Public Class FrmShipComparisonWorker
 
-    Public Property Pilot() As HQFPilot
-        Get
-            Return pPilot
-        End Get
-        Set(ByVal value As HQFPilot)
-            pPilot = value
-        End Set
-    End Property
-    Public Property Profile() As DamageProfile
-        Get
-            Return pProfile
-        End Get
-        Set(ByVal value As DamageProfile)
-            pProfile = value
-        End Set
-    End Property
-    Public Property ShipList() As SortedList
-        Get
-            Return pShipList
-        End Get
-        Set(ByVal value As SortedList)
-            pShipList = value
-        End Set
-    End Property
-    Public Property ShipInfo() As SortedList
-        Get
-            Return pShipInfo
-        End Get
-        Set(ByVal value As SortedList)
-            pShipInfo = value
-        End Set
-    End Property
+        Dim _pilot As FittingPilot
+        Dim _profile As HQFDamageProfile
+        Dim _shipList As New SortedList
+        Dim _shipInfo As New SortedList
+        Dim WithEvents _comparisonWorker As New BackgroundWorker
 
-    Public Sub GenerateShipData()
-        For Each shipFit As String In pShipList.Keys
-            ' Let's try and generate a fitting and get some damage info
-            Dim NewFit As Fitting = Fittings.FittingList(shipFit).Clone
-            NewFit.UpdateBaseShipFromFitting()
-            NewFit.BaseShip.DamageProfile = pProfile
-            NewFit.PilotName = pPilot.PilotName
-            NewFit.ApplyFitting(BuildType.BuildEverything)
-            Dim profileShip As Ship = NewFit.FittedShip
+        Public Property Pilot() As FittingPilot
+            Get
+                Return _pilot
+            End Get
+            Set(ByVal value As FittingPilot)
+                _pilot = value
+            End Set
+        End Property
+        Public Property Profile() As HQFDamageProfile
+            Get
+                Return _profile
+            End Get
+            Set(ByVal value As HQFDamageProfile)
+                _profile = value
+            End Set
+        End Property
+        Public Property ShipList() As SortedList
+            Get
+                Return _shipList
+            End Get
+            Set(ByVal value As SortedList)
+                _shipList = value
+            End Set
+        End Property
+        Public Property ShipInfo() As SortedList
+            Get
+                Return _shipInfo
+            End Get
+            Set(ByVal value As SortedList)
+                _shipInfo = value
+            End Set
+        End Property
 
-            ' Place details of the ship into the Ship Data class
-            Dim newShip As New ShipData
-            newShip.Ship = NewFit.ShipName
-            newShip.Fitting = NewFit.FittingName
-            newShip.Modules = CopyForForums(profileShip)
-            newShip.EHP = profileShip.EffectiveHP
-            newShip.Tank = CDbl(profileShip.Attributes("10062"))
-            Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(profileShip, False)
-            If csr.CapIsDrained = False Then
-                newShip.Capacitor = csr.MinimumCap / profileShip.CapCapacity * 100
-            Else
-                newShip.Capacitor = -csr.TimeToDrain
+        Public Sub GenerateShipData()
+            For Each shipFit As String In _shipList.Keys
+                ' Let's try and generate a fitting and get some damage info
+                Dim newFit As Fitting = Fittings.FittingList(shipFit).Clone
+                newFit.UpdateBaseShipFromFitting()
+                newFit.BaseShip.DamageProfile = _profile
+                newFit.PilotName = _pilot.PilotName
+                newFit.ApplyFitting(BuildType.BuildEverything)
+                Dim profileShip As Ship = newFit.FittedShip
+
+                ' Place details of the ship into the Ship Data class
+                Dim newShip As New ShipData
+                newShip.Ship = newFit.ShipName
+                newShip.Fitting = newFit.FittingName
+                newShip.Modules = CopyForForums(profileShip)
+                newShip.EHP = profileShip.EffectiveHP
+                newShip.Tank = CDbl(profileShip.Attributes(10062))
+                Dim csr As CapSimResults = Capacitor.CalculateCapStatistics(profileShip, False)
+                If csr.CapIsDrained = False Then
+                    newShip.Capacitor = csr.MinimumCap / profileShip.CapCapacity * 100
+                Else
+                    newShip.Capacitor = -csr.TimeToDrain
+                End If
+                newShip.Volley = CDbl(profileShip.Attributes(10028))
+                newShip.DPS = CDbl(profileShip.Attributes(10029))
+                newShip.SEm = profileShip.ShieldEMResist
+                newShip.SEx = profileShip.ShieldExResist
+                newShip.SKi = profileShip.ShieldKiResist
+                newShip.STh = profileShip.ShieldThResist
+                newShip.AEm = profileShip.ArmorEMResist
+                newShip.AEx = profileShip.ArmorExResist
+                newShip.AKi = profileShip.ArmorKiResist
+                newShip.ATh = profileShip.ArmorThResist
+                newShip.Speed = profileShip.MaxVelocity
+                _shipInfo.Add(shipFit, newShip)
+            Next
+        End Sub
+
+        Private Sub frmShipComparisonWorker_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
+            Refresh()
+            _comparisonWorker.RunWorkerAsync()
+        End Sub
+
+        Private Sub CompareWorker_DoWork(ByVal sender As Object, ByVal e As DoWorkEventArgs) Handles _comparisonWorker.DoWork
+            GenerateShipData()
+        End Sub
+
+        Private Sub CompareWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As RunWorkerCompletedEventArgs) Handles _comparisonWorker.RunWorkerCompleted
+            Close()
+        End Sub
+
+        Private Function CopyForForums(ByVal currentShip As Ship) As String
+            Dim slots As Dictionary(Of String, Integer)
+            Dim slotList As New ArrayList
+            Dim slotCount As Integer
+            Dim fitting As New StringBuilder
+
+            slots = New Dictionary(Of String, Integer)
+            For slot As Integer = 1 To currentShip.HiSlots
+                If currentShip.HiSlot(slot) IsNot Nothing Then
+                    If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
+                        If slotList.Contains(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")") = True Then
+                            ' Get the dictionary item
+                            slotCount = slots(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")")
+                            slots(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")")
+                            slots.Add(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")", 1)
+                        End If
+                    Else
+                        If slotList.Contains(currentShip.HiSlot(slot).Name) = True Then
+                            slotCount = slots(currentShip.HiSlot(slot).Name)
+                            slots(currentShip.HiSlot(slot).Name) = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.HiSlot(slot).Name)
+                            slots.Add(currentShip.HiSlot(slot).Name, 1)
+                        End If
+                    End If
+                End If
+            Next
+            If slots.Count > 0 Then
+                For Each cMod As String In slots.Keys
+                    If CInt(slots(cMod)) > 1 Then
+                        fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                    Else
+                        fitting.AppendLine(cMod)
+                    End If
+                Next
             End If
-            newShip.Volley = CDbl(profileShip.Attributes("10028"))
-            newShip.DPS = CDbl(profileShip.Attributes("10029"))
-            newShip.SEM = profileShip.ShieldEMResist
-            newShip.SEx = profileShip.ShieldExResist
-            newShip.SKi = profileShip.ShieldKiResist
-            newShip.STh = profileShip.ShieldThResist
-            newShip.AEM = profileShip.ArmorEMResist
-            newShip.AEx = profileShip.ArmorExResist
-            newShip.AKi = profileShip.ArmorKiResist
-            newShip.ATh = profileShip.ArmorThResist
-            newShip.Speed = profileShip.MaxVelocity
-            pShipInfo.Add(shipFit, newShip)
-        Next
-    End Sub
 
-    Private Sub frmShipComparisonWorker_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Me.Refresh()
-        CompareWorker.RunWorkerAsync()
-    End Sub
-
-    Private Sub CompareWorker_DoWork(ByVal sender As Object, ByVal e As System.ComponentModel.DoWorkEventArgs) Handles CompareWorker.DoWork
-        Me.GenerateShipData()
-    End Sub
-
-    Private Sub CompareWorker_RunWorkerCompleted(ByVal sender As Object, ByVal e As System.ComponentModel.RunWorkerCompletedEventArgs) Handles CompareWorker.RunWorkerCompleted
-        Me.Close()
-    End Sub
-
-    Private Function CopyForForums(ByVal currentShip As Ship) As String
-        Dim slots As Dictionary(Of String, Integer)
-        Dim slotList As New ArrayList
-        Dim slotCount As Integer = 0
-        Dim cModule As New ShipModule
-        Dim state As Integer
-        Dim fitting As New System.Text.StringBuilder
-
-        slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentShip.HiSlots
-            If currentShip.HiSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentShip.HiSlot(slot).ModuleState) / Math.Log(2))
-                If currentShip.HiSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")") = True Then
-                        ' Get the dictionary item
-                        slotCount = slots(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+            slots = New Dictionary(Of String, Integer)
+            For slot As Integer = 1 To currentShip.MidSlots
+                If currentShip.MidSlot(slot) IsNot Nothing Then
+                    If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
+                        If slotList.Contains(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")") = True Then
+                            ' Get the dictionary item
+                            slotCount = slots(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")")
+                            slots(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")")
+                            slots.Add(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")", 1)
+                        End If
                     Else
-                        slotList.Add(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentShip.HiSlot(slot).Name & " (" & currentShip.HiSlot(slot).LoadedCharge.Name & ")", 1)
-                    End If
-                Else
-                    If slotList.Contains(currentShip.HiSlot(slot).Name) = True Then
-                        slotCount = slots(currentShip.HiSlot(slot).Name)
-                        slots(currentShip.HiSlot(slot).Name) = slotCount + 1
-                    Else
-                        slotList.Add(currentShip.HiSlot(slot).Name)
-                        slots.Add(currentShip.HiSlot(slot).Name, 1)
+                        If slotList.Contains(currentShip.MidSlot(slot).Name) = True Then
+                            slotCount = slots(currentShip.MidSlot(slot).Name)
+                            slots(currentShip.MidSlot(slot).Name) = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.MidSlot(slot).Name)
+                            slots.Add(currentShip.MidSlot(slot).Name, 1)
+                        End If
                     End If
                 End If
+            Next
+            If slots.Count > 0 Then
+                fitting.AppendLine("")
+                For Each cMod As String In slots.Keys
+                    If CInt(slots(cMod)) > 1 Then
+                        fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
+                    Else
+                        fitting.AppendLine(cMod)
+                    End If
+                Next
             End If
-        Next
-        If slots.Count > 0 Then
-            For Each cMod As String In slots.Keys
-                If CInt(slots(cMod)) > 1 Then
-                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
-                Else
-                    fitting.AppendLine(cMod)
+
+            slots = New Dictionary(Of String, Integer)
+            For slot As Integer = 1 To currentShip.LowSlots
+                If currentShip.LowSlot(slot) IsNot Nothing Then
+                    If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
+                        If slotList.Contains(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")") = True Then
+                            ' Get the dictionary item
+                            slotCount = slots(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")")
+                            slots(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")")
+                            slots.Add(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")", 1)
+                        End If
+                    Else
+                        If slotList.Contains(currentShip.LowSlot(slot).Name) = True Then
+                            slotCount = slots(currentShip.LowSlot(slot).Name)
+                            slots(currentShip.LowSlot(slot).Name) = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.LowSlot(slot).Name)
+                            slots.Add(currentShip.LowSlot(slot).Name, 1)
+                        End If
+                    End If
                 End If
             Next
-        End If
-
-        slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentShip.MidSlots
-            If currentShip.MidSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentShip.MidSlot(slot).ModuleState) / Math.Log(2))
-                If currentShip.MidSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")") = True Then
-                        ' Get the dictionary item
-                        slotCount = slots(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+            If slots.Count > 0 Then
+                fitting.AppendLine("")
+                For Each cMod As String In slots.Keys
+                    If CInt(slots(cMod)) > 1 Then
+                        fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
                     Else
-                        slotList.Add(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentShip.MidSlot(slot).Name & " (" & currentShip.MidSlot(slot).LoadedCharge.Name & ")", 1)
+                        fitting.AppendLine(cMod)
                     End If
-                Else
-                    If slotList.Contains(currentShip.MidSlot(slot).Name) = True Then
-                        slotCount = slots(currentShip.MidSlot(slot).Name)
-                        slots(currentShip.MidSlot(slot).Name) = slotCount + 1
-                    Else
-                        slotList.Add(currentShip.MidSlot(slot).Name)
-                        slots.Add(currentShip.MidSlot(slot).Name, 1)
-                    End If
-                End If
+                Next
             End If
-        Next
-        If slots.Count > 0 Then
-            fitting.AppendLine("")
-            For Each cMod As String In slots.Keys
-                If CInt(slots(cMod)) > 1 Then
-                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
-                Else
-                    fitting.AppendLine(cMod)
+
+
+            slots = New Dictionary(Of String, Integer)
+            For slot As Integer = 1 To currentShip.RigSlots
+                If currentShip.RigSlot(slot) IsNot Nothing Then
+                    If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
+                        If slotList.Contains(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")") = True Then
+                            ' Get the dictionary item
+                            slotCount = slots(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")")
+                            slots(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")")
+                            slots.Add(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")", 1)
+                        End If
+                    Else
+                        If slotList.Contains(currentShip.RigSlot(slot).Name) = True Then
+                            slotCount = slots(currentShip.RigSlot(slot).Name)
+                            slots(currentShip.RigSlot(slot).Name) = slotCount + 1
+                        Else
+                            slotList.Add(currentShip.RigSlot(slot).Name)
+                            slots.Add(currentShip.RigSlot(slot).Name, 1)
+                        End If
+                    End If
                 End If
             Next
-        End If
-
-        slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentShip.LowSlots
-            If currentShip.LowSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentShip.LowSlot(slot).ModuleState) / Math.Log(2))
-                If currentShip.LowSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")") = True Then
-                        ' Get the dictionary item
-                        slotCount = slots(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
+            If slots.Count > 0 Then
+                fitting.AppendLine("")
+                For Each cMod As String In slots.Keys
+                    If CInt(slots(cMod)) > 1 Then
+                        fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
                     Else
-                        slotList.Add(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentShip.LowSlot(slot).Name & " (" & currentShip.LowSlot(slot).LoadedCharge.Name & ")", 1)
+                        fitting.AppendLine(cMod)
                     End If
-                Else
-                    If slotList.Contains(currentShip.LowSlot(slot).Name) = True Then
-                        slotCount = slots(currentShip.LowSlot(slot).Name)
-                        slots(currentShip.LowSlot(slot).Name) = slotCount + 1
-                    Else
-                        slotList.Add(currentShip.LowSlot(slot).Name)
-                        slots.Add(currentShip.LowSlot(slot).Name, 1)
-                    End If
-                End If
+                Next
             End If
-        Next
-        If slots.Count > 0 Then
-            fitting.AppendLine("")
-            For Each cMod As String In slots.Keys
-                If CInt(slots(cMod)) > 1 Then
-                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
-                Else
-                    fitting.AppendLine(cMod)
-                End If
-            Next
-        End If
 
-
-        slots = New Dictionary(Of String, Integer)
-        For slot As Integer = 1 To currentShip.RigSlots
-            If currentShip.RigSlot(slot) IsNot Nothing Then
-                state = CInt(Math.Log(currentShip.RigSlot(slot).ModuleState) / Math.Log(2))
-                If currentShip.RigSlot(slot).LoadedCharge IsNot Nothing Then
-                    If slotList.Contains(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")") = True Then
-                        ' Get the dictionary item
-                        slotCount = slots(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")")
-                        slots(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")") = slotCount + 1
-                    Else
-                        slotList.Add(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")")
-                        slots.Add(currentShip.RigSlot(slot).Name & " (" & currentShip.RigSlot(slot).LoadedCharge.Name & ")", 1)
-                    End If
-                Else
-                    If slotList.Contains(currentShip.RigSlot(slot).Name) = True Then
-                        slotCount = slots(currentShip.RigSlot(slot).Name)
-                        slots(currentShip.RigSlot(slot).Name) = slotCount + 1
-                    Else
-                        slotList.Add(currentShip.RigSlot(slot).Name)
-                        slots.Add(currentShip.RigSlot(slot).Name, 1)
-                    End If
-                End If
+            If currentShip.DroneBayItems.Count > 0 Then
+                fitting.AppendLine("")
+                For Each drone As DroneBayItem In currentShip.DroneBayItems.Values
+                    fitting.AppendLine(drone.Quantity & "x " & drone.DroneType.Name)
+                Next
             End If
-        Next
-        If slots.Count > 0 Then
-            fitting.AppendLine("")
-            For Each cMod As String In slots.Keys
-                If CInt(slots(cMod)) > 1 Then
-                    fitting.AppendLine(slots(cMod).ToString & "x " & cMod)
-                Else
-                    fitting.AppendLine(cMod)
-                End If
-            Next
-        End If
 
-        If currentShip.DroneBayItems.Count > 0 Then
-            fitting.AppendLine("")
-            For Each drone As DroneBayItem In currentShip.DroneBayItems.Values
-                fitting.AppendLine(drone.Quantity & "x " & drone.DroneType.Name)
-            Next
-        End If
-
-        If currentShip.CargoBayItems.Count > 0 Then
-            fitting.AppendLine("")
-            For Each cargo As CargoBayItem In currentShip.CargoBayItems.Values
-                fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name & " (cargo)")
-            Next
-        End If
-        Return fitting.ToString
-    End Function
-End Class
-
+            If currentShip.CargoBayItems.Count > 0 Then
+                fitting.AppendLine("")
+                For Each cargo As CargoBayItem In currentShip.CargoBayItems.Values
+                    fitting.AppendLine(cargo.Quantity & "x " & cargo.ItemType.Name & " (cargo)")
+                Next
+            End If
+            Return fitting.ToString
+        End Function
+    End Class
+End NameSpace

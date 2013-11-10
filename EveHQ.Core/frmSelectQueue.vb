@@ -1,6 +1,6 @@
 ' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
-' Copyright © 2005-2012  EveHQ Development Team
+' Copyright © 2012-2013 EveHQ Development Team
 ' 
 ' This file is part of EveHQ.
 '
@@ -19,83 +19,80 @@
 '=========================================================================
 Imports System.Windows.Forms
 
-Public Class frmSelectQueue
+Public Class FrmSelectQueue
 
-    Dim skillsNeeded As New List(Of String)
-    Dim displayPilot As New EveHQ.Core.Pilot
-    Dim QueueReason As String = ""
+    ReadOnly _skillsNeeded As New SortedList(Of String, Integer)
+    ReadOnly _displayPilot As New EveHQPilot
+    ReadOnly _queueReason As String = ""
 
-    Public Sub New(ByVal PilotName As String, ByVal QueuedSkills As List(Of String), ByVal Reason As String)
+    Public Sub New(ByVal pilotName As String, ByVal queuedSkills As SortedList(Of String, Integer), ByVal reason As String)
 
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
 
         ' Set the queue reason
-        QueueReason = Reason
+        _queueReason = reason
 
         ' Setup the pilot for this form
-        displayPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(PilotName), Core.Pilot)
-        skillsNeeded = QueuedSkills
-        Me.Text = "Add to Skill Queue - " & PilotName
+        _displayPilot = HQ.Settings.Pilots(pilotName)
+        _skillsNeeded = queuedSkills
+        Text = "Add to Skill Queue - " & pilotName
     End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        Dim qName As String = ""
-        Dim qQueue As New EveHQ.Core.SkillQueue
+    Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+        Dim qName As String
+        Dim qQueue As EveHQSkillQueue
 
         If radNewQueue.Checked = True Then
             If txtQueueName.Text = "" Then
                 MessageBox.Show("A valid Skill Queue must be selected for this pilot!", "Error Creating Queue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
-            qName = txtQueueName.Text
-            If displayPilot.TrainingQueues.Contains(txtQueueName.Text) Then
+            If _displayPilot.TrainingQueues.ContainsKey(txtQueueName.Text) Then
                 Dim reply As Integer = MessageBox.Show("Queue name " & txtQueueName.Text & " already exists for this pilot!" & ControlChars.CrLf & "Would you like to try another Queue name?", "Error Creating Queue", MessageBoxButtons.RetryCancel, MessageBoxIcon.Question)
-                If reply = Windows.Forms.DialogResult.Retry Then
+                If reply = DialogResult.Retry Then
                     Exit Sub
                 Else
-                    Me.Close()
+                    Close()
                     Exit Sub
                 End If
             End If
-            qQueue = New EveHQ.Core.SkillQueue
+            qQueue = New EveHQSkillQueue
             qQueue.Name = txtQueueName.Text
             qQueue.IncCurrentTraining = True
             qQueue.Primary = False
-            qQueue.Queue = New Collection
-            displayPilot.TrainingQueues.Add(qQueue.Name, qQueue)
+            qQueue.Queue = New Dictionary(Of String, EveHQSkillQueueItem)
+            _displayPilot.TrainingQueues.Add(qQueue.Name, qQueue)
         Else
             If cboQueueName.SelectedItem Is Nothing Then
                 MessageBox.Show("A valid Skill Queue must be selected for this pilot!", "Error Creating Queue", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Exit Sub
             End If
             qName = cboQueueName.SelectedItem.ToString
-            qQueue = CType(displayPilot.TrainingQueues(qName), Core.SkillQueue)
+            qQueue = _displayPilot.TrainingQueues(qName)
         End If
-        If displayPilot.Name <> "" Then
-            If skillsNeeded.Count <> 0 Then
-                For Each skill As String In skillsNeeded
-                    Dim skillName As String = skill.Substring(0, skill.Length - 1)
-                    Dim skillLvl As Integer = CInt(skill.Substring(skill.Length - 1, 1))
-                    qQueue = EveHQ.Core.SkillQueueFunctions.AddSkillToQueue(displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, skillLvl, False, True, QueueReason)
+        If _displayPilot.Name <> "" Then
+            If _skillsNeeded.Count <> 0 Then
+                For Each skillName As String In _skillsNeeded.Keys
+                    qQueue = SkillQueueFunctions.AddSkillToQueue(_displayPilot, skillName, qQueue.Queue.Count + 1, qQueue, _skillsNeeded(skillName), False, True, _queueReason)
                 Next
             Else
-                MessageBox.Show(displayPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(_displayPilot.Name & " has already trained all necessary skills to use this item.", "Already Trained!", MessageBoxButtons.OK, MessageBoxIcon.Information)
             End If
         Else
             MessageBox.Show("There is no pilot selected to add the skills to.", "Cannot Add Skills to Training Queue", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
-        Me.Close()
+        Close()
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.Close()
+    Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+        Close()
     End Sub
 
-    Private Sub frmModifyQueues_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmModifyQueues_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         ' Load up existing queues
         cboQueueName.Items.Clear()
-        For Each qName As String In displayPilot.TrainingQueues.GetKeyList
+        For Each qName As String In _displayPilot.TrainingQueues.Keys
             cboQueueName.Items.Add(qName)
         Next
 
@@ -115,7 +112,7 @@ Public Class frmSelectQueue
         End If
     End Sub
 
-    Private Sub radExistingQueue_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radExistingQueue.CheckedChanged
+    Private Sub radExistingQueue_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles radExistingQueue.CheckedChanged
         If radExistingQueue.Checked = True Then
             cboQueueName.Visible = True
             txtQueueName.Visible = False
@@ -123,7 +120,7 @@ Public Class frmSelectQueue
         End If
     End Sub
 
-    Private Sub radNewQueue_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radNewQueue.CheckedChanged
+    Private Sub radNewQueue_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles radNewQueue.CheckedChanged
         If radNewQueue.Checked = True Then
             cboQueueName.Visible = False
             txtQueueName.Visible = True

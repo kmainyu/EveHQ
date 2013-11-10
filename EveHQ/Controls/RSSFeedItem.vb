@@ -17,17 +17,19 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class RSSFeedItem
-    Private Sub lblFeedItemTitle_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblFeedItemTitle.LinkClicked
-        Try
-            If lblFeedItemTitle.Tag IsNot Nothing Then
-                Dim URL As String = lblFeedItemTitle.Tag.ToString
-                If URL <> "" Then
-                    Process.Start(URL)
+Namespace Controls
+    Public Class RSSFeedItem
+        Private Sub lblFeedItemTitle_LinkClicked(ByVal sender As System.Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblFeedItemTitle.LinkClicked
+            Try
+                If lblFeedItemTitle.Tag IsNot Nothing Then
+                    Dim url As String = lblFeedItemTitle.Tag.ToString
+                    If url <> "" Then
+                        Process.Start(url)
+                    End If
                 End If
-            End If
-        Catch ex As Exception
-            ' Suppress any error message and do nothing
-        End Try
-    End Sub
-End Class
+            Catch ex As Exception
+                ' Suppress any error message and do nothing
+            End Try
+        End Sub
+    End Class
+End NameSpace

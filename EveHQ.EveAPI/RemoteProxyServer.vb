@@ -23,13 +23,13 @@
 ''' </summary>
 ''' <remarks></remarks>
 Public Class RemoteProxyServer
-    Private cProxyRequired As Boolean = False
-    Private cProxyServer As String = ""
-    Private cProxyPort As Integer = 0
-    Private cProxyUsername As String = ""
-    Private cProxyPassword As String = ""
-    Private cUseDefaultCredentials As Boolean = True
-    Private cUseBasicAuthenticaion As Boolean = True
+    Private _proxyRequired As Boolean = False
+    Private _proxyServer As String = ""
+    Private _proxyPort As Integer = 0
+    Private _proxyUsername As String = ""
+    Private _proxyPassword As String = ""
+    Private _useDefaultCredentials As Boolean = True
+    Private _useBasicAuthenticaion As Boolean = True
 
     ''' <summary>
     ''' Determines whether a Proxy Server should be used or not
@@ -39,10 +39,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property ProxyRequired() As Boolean
         Get
-            Return cProxyRequired
+            Return _proxyRequired
         End Get
         Set(ByVal value As Boolean)
-            cProxyRequired = value
+            _proxyRequired = value
         End Set
     End Property
 
@@ -54,10 +54,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property ProxyServer() As String
         Get
-            Return cProxyServer
+            Return _proxyServer
         End Get
         Set(ByVal value As String)
-            cProxyServer = value
+            _proxyServer = value
         End Set
     End Property
 
@@ -69,10 +69,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property ProxyPort() As Integer
         Get
-            Return cProxyPort
+            Return _proxyPort
         End Get
         Set(ByVal value As Integer)
-            cProxyPort = value
+            _proxyPort = value
         End Set
     End Property
 
@@ -84,10 +84,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property UseDefaultCredentials() As Boolean
         Get
-            Return cUseDefaultCredentials
+            Return _useDefaultCredentials
         End Get
         Set(ByVal value As Boolean)
-            cUseDefaultCredentials = value
+            _useDefaultCredentials = value
         End Set
     End Property
 
@@ -99,10 +99,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property UseBasicAuthentication() As Boolean
         Get
-            Return cUseBasicAuthenticaion
+            Return _useBasicAuthenticaion
         End Get
         Set(ByVal value As Boolean)
-            cUseBasicAuthenticaion = value
+            _useBasicAuthenticaion = value
         End Set
     End Property
 
@@ -114,10 +114,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property ProxyUsername() As String
         Get
-            Return cProxyUsername
+            Return _proxyUsername
         End Get
         Set(ByVal value As String)
-            cProxyUsername = value
+            _proxyUsername = value
         End Set
     End Property
 
@@ -129,10 +129,10 @@ Public Class RemoteProxyServer
     ''' <remarks></remarks>
     Public Property ProxyPassword() As String
         Get
-            Return cProxyPassword
+            Return _proxyPassword
         End Get
         Set(ByVal value As String)
-            cProxyPassword = value
+            _proxyPassword = value
         End Set
     End Property
 
@@ -141,20 +141,20 @@ Public Class RemoteProxyServer
     ''' </summary>
     ''' <returns>A System.Net.WebProxy instance</returns>
     ''' <remarks></remarks>
-    Public Function SetupWebProxy() As System.Net.WebProxy
-        Dim EveHQProxy As New System.Net.WebProxy(Me.ProxyServer)
-        If Me.UseDefaultCredentials = True Then
-            EveHQProxy.UseDefaultCredentials = True
+    Public Function SetupWebProxy() As Net.WebProxy
+        Dim eveHQProxy As New Net.WebProxy(ProxyServer)
+        If UseDefaultCredentials = True Then
+            eveHQProxy.UseDefaultCredentials = True
         Else
-            EveHQProxy.UseDefaultCredentials = False
-            If Me.UseBasicAuthentication = False Then
-                EveHQProxy.Credentials = New System.Net.NetworkCredential(Me.ProxyUsername, Me.ProxyPassword)
+            eveHQProxy.UseDefaultCredentials = False
+            If UseBasicAuthentication = False Then
+                eveHQProxy.Credentials = New Net.NetworkCredential(ProxyUsername, ProxyPassword)
             Else
-                Dim ProxyCredentials As New System.Net.NetworkCredential(Me.ProxyUsername, Me.ProxyPassword)
-                EveHQProxy.Credentials = ProxyCredentials.GetCredential(New Uri(Me.ProxyServer), "Basic")
+                Dim proxyCredentials As New Net.NetworkCredential(ProxyUsername, ProxyPassword)
+                eveHQProxy.Credentials = proxyCredentials.GetCredential(New Uri(ProxyServer), "Basic")
             End If
         End If
-        Return EveHQProxy
+        Return eveHQProxy
     End Function
 
 End Class

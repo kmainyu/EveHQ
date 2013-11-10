@@ -17,49 +17,53 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class DBCMarketOrdersConfig
+Imports EveHQ.Controls.DBControls
+
+Namespace Controls.DBConfigs
+    Public Class DBCMarketOrdersConfig
 
 #Region "Properties"
 
-    Dim cDBWidget As New DBCMarketOrders
-    Public Property DBWidget() As DBCMarketOrders
-        Get
-            Return cDBWidget
-        End Get
-        Set(ByVal value As DBCMarketOrders)
-            cDBWidget = value
-            Call SetControlInfo()
-        End Set
-    End Property
+        Dim _dbWidget As New DBCMarketOrders
+        Public Property DBWidget() As DBCMarketOrders
+            Get
+                Return _dbWidget
+            End Get
+            Set(ByVal value As DBCMarketOrders)
+                _dbWidget = value
+                Call SetControlInfo()
+            End Set
+        End Property
 
 #End Region
 
-    Private Sub SetControlInfo()
-        If cboPilots.Items.Contains(cDBWidget.DefaultPilotName) = True Then
-            cboPilots.SelectedItem = cDBWidget.DefaultPilotName
-        Else
-            If cboPilots.Items.Count > 0 Then
-                cboPilots.SelectedIndex = 0
+        Private Sub SetControlInfo()
+            If cboPilots.Items.Contains(_dbWidget.DefaultPilotName) = True Then
+                cboPilots.SelectedItem = _dbWidget.DefaultPilotName
+            Else
+                If cboPilots.Items.Count > 0 Then
+                    cboPilots.SelectedIndex = 0
+                End If
             End If
-        End If
-    End Sub
+        End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        ' Just close the form and do nothing
-        Me.Close()
-    End Sub
+        Private Sub btnCancel_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            ' Just close the form and do nothing
+            Close()
+        End Sub
 
-    Private Sub btnAccept_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        ' Update the control properties
-        If cboPilots.SelectedItem Is Nothing Then
-            MessageBox.Show("You must select a valid pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-        If cboPilots.SelectedItem IsNot Nothing Then
-            cDBWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
-        End If
-        ' Now close the form
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
-    End Sub
-End Class
+        Private Sub btnAccept_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            ' Update the control properties
+            If cboPilots.SelectedItem Is Nothing Then
+                MessageBox.Show("You must select a valid pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            If cboPilots.SelectedItem IsNot Nothing Then
+                _dbWidget.DefaultPilotName = cboPilots.SelectedItem.ToString
+            End If
+            ' Now close the form
+            DialogResult = DialogResult.OK
+            Close()
+        End Sub
+    End Class
+End NameSpace

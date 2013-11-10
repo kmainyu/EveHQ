@@ -50,7 +50,7 @@
     <DocumentationFile>EveHQ.Prism.xml</DocumentationFile>
     <NoWarn>42353,42354,42355,40010</NoWarn>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -66,15 +66,22 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevComponents.DotNetBar2, Version=8.6.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
+    <Reference Include="DevComponents.DotNetBar2, Version=11.4.0.4, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\EveHQ.Core\ExternalLibs\DevComponents.DotNetBar2.dll</HintPath>
+      <HintPath>..\Ref\DotNetBar\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Ref\SQLite\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -90,23 +97,37 @@
     <Import Include="System.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AssemblyArray.vb" />
+    <Compile Include="BPCalc\BPAssetComboBoxItem.vb" />
+    <Compile Include="BPCalc\InventionCost.vb" />
+    <Compile Include="BPCalc\InventionJob.vb" />
+    <Compile Include="BPCalc\Job.vb" />
+    <Compile Include="BPCalc\JobResource.vb" />
+    <Compile Include="BPCalc\OwnedBlueprint.vb" />
+    <Compile Include="BPCalc\SwapResource.vb" />
+    <Compile Include="Classes\BlueprintAsset.vb" />
+    <Compile Include="_Deprecated\BPCCostInfo.vb" />
+    <Compile Include="Classes\BlueprintCopyCostInfo.vb" />
+    <Compile Include="Classes\BPStatus.vb" />
+    <Compile Include="Classes\BPType.vb" />
+    <Compile Include="Classes\PrismSettings.vb" />
+    <Compile Include="_Deprecated\AssemblyArray.vb" />
     <Compile Include="Classes\AssetItem.vb" />
     <Compile Include="Classes\BatchJob.vb" />
     <Compile Include="Classes\BatchJobs.vb" />
-    <Compile Include="Classes\Blueprint.vb" />
+    <Compile Include="_Deprecated\Blueprint.vb" />
+    <Compile Include="BPCalc\Jobs.vb" />
     <Compile Include="Classes\Decryptor.vb" />
     <Compile Include="Classes\Contract.vb" />
     <Compile Include="Classes\InventionAPIJob.vb" />
-    <Compile Include="Classes\DataFunctions.vb" />
+    <Compile Include="Classes\PrismDataFunctions.vb" />
     <Compile Include="Classes\IndustryJob.vb" />
     <Compile Include="Classes\Invention.vb" />
-    <Compile Include="Classes\InventionJob.vb" />
     <Compile Include="Classes\PrismEvents.vb" />
     <Compile Include="Classes\PrismOwner.vb" />
-    <Compile Include="Classes\ProductionJob.vb" />
-    <Compile Include="Classes\ProductionJobs.vb" />
-    <Compile Include="Classes\Reports.vb" />
+    <Compile Include="_Deprecated\InventionJob.vb" />
+    <Compile Include="_Deprecated\ProductionJob.vb" />
+    <Compile Include="_Deprecated\ProductionJobs.vb" />
+    <Compile Include="Classes\PrismReports.vb" />
     <Compile Include="Classes\WalletJournalItem.vb" />
     <Compile Include="Controls\BPMEControl.Designer.vb">
       <DependentUpon>BPMEControl.vb</DependentUpon>
@@ -234,7 +255,7 @@
     <Compile Include="Forms\frmSelectQuantity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Classes\Location.vb" />
+    <Compile Include="Classes\Locations.vb" />
     <Compile Include="Classes\MarketOrder.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -252,12 +273,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Classes\PlugInData.vb" />
-    <Compile Include="Classes\Settings.vb" />
-    <Compile Include="Classes\SolarSystem.vb" />
+    <Compile Include="_Deprecated\Settings.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\BPMEControl.resx">
       <DependentUpon>BPMEControl.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PriceAdjustmentControl.resx">
       <DependentUpon>PriceAdjustmentControl.vb</DependentUpon>
@@ -347,10 +368,6 @@
       <Project>{7CD9A34B-9635-4D69-B451-1CE93B8280D8}</Project>
       <Name>EveHQ.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EveHQ.CoreControls\EveHQ.CoreControls.csproj">
-      <Project>{16CDA693-2A09-4A2B-8058-EA3109246155}</Project>
-      <Name>EveHQ.CoreControls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EveHQ.Core\EveHQ.Core.vbproj">
       <Project>{AD4AA9C0-F258-44D8-9D71-07493198B580}</Project>
       <Name>EveHQ.Core</Name>
@@ -358,6 +375,10 @@
     <ProjectReference Include="..\EveHQ.EveAPI\EveHQ.EveAPI.vbproj">
       <Project>{A936DB0B-2C9B-406C-85E4-D7AC13E605EC}</Project>
       <Name>EveHQ.EveAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EveHQ.EveData\EveHQ.EveData.csproj">
+      <Project>{C3FEE7B0-5E02-4910-BBB9-A03425294B7A}</Project>
+      <Name>EveHQ.EveData</Name>
     </ProjectReference>
     <ProjectReference Include="..\EveHQ.Market\EveHQ.Market.csproj">
       <Project>{99C775D1-F465-40C6-AF18-D1803B976E3D}</Project>
@@ -411,6 +432,7 @@
   <ItemGroup>
     <None Include="Resources\icon38_111.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets. -->

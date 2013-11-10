@@ -18,6 +18,7 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 
+' ReSharper disable once CheckNamespace - for binary serialization compatability
 <Serializable()> Public Class BatchJob
     Public BatchName As String
     Public ProductionJobs As New List(Of String)

@@ -17,70 +17,75 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class DBCLasttransactionConfig
-    Public Sub New()
+Imports EveHQ.Core
+Imports EveHQ.Controls.DBControls
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
+Namespace Controls.DBConfigs
+    Public Class DBCLasttransactionConfig
+        Public Sub New()
 
-        ' Add any initialization after the InitializeComponent() call.
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
 
-        ' Load the combo box with the pilot info
-        cboPilots.BeginUpdate()
-        cboPilots.Items.Clear()
+            ' Add any initialization after the InitializeComponent() call.
 
-        For Each pilot As EveHQ.Core.Pilot In EveHQ.Core.HQ.EveHqSettings.Pilots
-            If pilot.Active = True Then
-                cboPilots.Items.Add(pilot.Name)
-            End If
-        Next
+            ' Load the combo box with the pilot info
+            cboPilots.BeginUpdate()
+            cboPilots.Items.Clear()
 
-        cboPilots.EndUpdate()
+            For Each pilot As EveHQPilot In HQ.Settings.Pilots.Values
+                If pilot.Active = True Then
+                    cboPilots.Items.Add(pilot.Name)
+                End If
+            Next
 
-    End Sub
+            cboPilots.EndUpdate()
+
+        End Sub
 
 #Region "Properties"
 
-    Dim cDBWidget As New DBCLastTransactions
-    Public Property DBWidget() As DBCLastTransactions
-        Get
-            Return cDBWidget
-        End Get
-        Set(ByVal value As DBCLastTransactions)
-            cDBWidget = value
-            Call SetControlInfo()
-        End Set
-    End Property
+        Dim _dbWidget As New DBCLastTransactions
+        Public Property DBWidget() As DBCLastTransactions
+            Get
+                Return _dbWidget
+            End Get
+            Set(ByVal value As DBCLastTransactions)
+                _dbWidget = value
+                Call SetControlInfo()
+            End Set
+        End Property
 
 #End Region
 
-    Private Sub SetControlInfo()
-        If cboPilots.Items.Contains(cDBWidget.DBCDefaultPilotName) = True Then
-            cboPilots.SelectedItem = cDBWidget.DBCDefaultPilotName
-        Else
-            If cboPilots.Items.Count > 0 Then
-                cboPilots.SelectedIndex = 0
+        Private Sub SetControlInfo()
+            If cboPilots.Items.Contains(_dbWidget.DBCDefaultPilotName) = True Then
+                cboPilots.SelectedItem = _dbWidget.DBCDefaultPilotName
+            Else
+                If cboPilots.Items.Count > 0 Then
+                    cboPilots.SelectedIndex = 0
+                End If
             End If
-        End If
-        spinDefaultTransactions.Value = CInt(cDBWidget.DBCDefaultTransactionsCount)
+            spinDefaultTransactions.Value = CInt(_dbWidget.DBCDefaultTransactionsCount)
 
-    End Sub
+        End Sub
 
-    Private Sub btnCancelForm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
-        Me.Close()
-    End Sub
+        Private Sub btnCancelForm_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancel.Click
+            Close()
+        End Sub
 
-    Private Sub btnAcceptForm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAccept.Click
-        ' Update the control properties
-        If cboPilots.SelectedItem IsNot Nothing Then
-            cDBWidget.DBCDefaultPilotName = cboPilots.SelectedItem.ToString
-        Else
-            MessageBox.Show("You must select a valid Pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            Exit Sub
-        End If
-        cDBWidget.DBCDefaultTransactionsCount = CInt(spinDefaultTransactions.Value)
-        ' Now close the form
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
-    End Sub
-End Class
+        Private Sub btnAcceptForm_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAccept.Click
+            ' Update the control properties
+            If cboPilots.SelectedItem IsNot Nothing Then
+                _dbWidget.DBCDefaultPilotName = cboPilots.SelectedItem.ToString
+            Else
+                MessageBox.Show("You must select a valid Pilot before adding this widget.", "Pilot Required", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Exit Sub
+            End If
+            _dbWidget.DBCDefaultTransactionsCount = CInt(spinDefaultTransactions.Value)
+            ' Now close the form
+            DialogResult = DialogResult.OK
+            Close()
+        End Sub
+    End Class
+End NameSpace

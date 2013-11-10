@@ -373,7 +373,7 @@ Partial Class frmItemBrowser
         Me.lblMELevel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMELevel.AutoSize = True
         Me.lblMELevel.BackColor = System.Drawing.Color.Transparent
-        Me.lblMELevel.Location = New System.Drawing.Point(4, 363)
+        Me.lblMELevel.Location = New System.Drawing.Point(4, 362)
         Me.lblMELevel.Name = "lblMELevel"
         Me.lblMELevel.Size = New System.Drawing.Size(53, 13)
         Me.lblMELevel.TabIndex = 4
@@ -382,7 +382,7 @@ Partial Class frmItemBrowser
         'nudMELevel
         '
         Me.nudMELevel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.nudMELevel.Location = New System.Drawing.Point(65, 361)
+        Me.nudMELevel.Location = New System.Drawing.Point(65, 360)
         Me.nudMELevel.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nudMELevel.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudMELevel.Name = "nudMELevel"
@@ -405,7 +405,7 @@ Partial Class frmItemBrowser
         Me.lstM1.GridLines = True
         Me.lstM1.Location = New System.Drawing.Point(4, 1)
         Me.lstM1.Name = "lstM1"
-        Me.lstM1.Size = New System.Drawing.Size(901, 356)
+        Me.lstM1.Size = New System.Drawing.Size(901, 355)
         Me.lstM1.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM1.TabIndex = 2
         Me.lstM1.UseCompatibleStateImageBehavior = False
@@ -447,7 +447,7 @@ Partial Class frmItemBrowser
         Me.lstM2.GridLines = True
         Me.lstM2.Location = New System.Drawing.Point(1, 1)
         Me.lstM2.Name = "lstM2"
-        Me.lstM2.Size = New System.Drawing.Size(910, 385)
+        Me.lstM2.Size = New System.Drawing.Size(910, 384)
         Me.lstM2.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM2.TabIndex = 3
         Me.lstM2.UseCompatibleStateImageBehavior = False
@@ -477,7 +477,7 @@ Partial Class frmItemBrowser
         Me.lstM3.GridLines = True
         Me.lstM3.Location = New System.Drawing.Point(1, 1)
         Me.lstM3.Name = "lstM3"
-        Me.lstM3.Size = New System.Drawing.Size(910, 385)
+        Me.lstM3.Size = New System.Drawing.Size(910, 384)
         Me.lstM3.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM3.TabIndex = 3
         Me.lstM3.UseCompatibleStateImageBehavior = False
@@ -507,7 +507,7 @@ Partial Class frmItemBrowser
         Me.lstM4.GridLines = True
         Me.lstM4.Location = New System.Drawing.Point(1, 1)
         Me.lstM4.Name = "lstM4"
-        Me.lstM4.Size = New System.Drawing.Size(910, 385)
+        Me.lstM4.Size = New System.Drawing.Size(910, 384)
         Me.lstM4.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM4.TabIndex = 3
         Me.lstM4.UseCompatibleStateImageBehavior = False
@@ -537,7 +537,7 @@ Partial Class frmItemBrowser
         Me.lstM5.GridLines = True
         Me.lstM5.Location = New System.Drawing.Point(1, 1)
         Me.lstM5.Name = "lstM5"
-        Me.lstM5.Size = New System.Drawing.Size(910, 385)
+        Me.lstM5.Size = New System.Drawing.Size(910, 384)
         Me.lstM5.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM5.TabIndex = 3
         Me.lstM5.UseCompatibleStateImageBehavior = False
@@ -567,7 +567,7 @@ Partial Class frmItemBrowser
         Me.lstM6.GridLines = True
         Me.lstM6.Location = New System.Drawing.Point(1, 1)
         Me.lstM6.Name = "lstM6"
-        Me.lstM6.Size = New System.Drawing.Size(910, 385)
+        Me.lstM6.Size = New System.Drawing.Size(910, 384)
         Me.lstM6.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM6.TabIndex = 3
         Me.lstM6.UseCompatibleStateImageBehavior = False
@@ -597,7 +597,7 @@ Partial Class frmItemBrowser
         Me.lstM7.GridLines = True
         Me.lstM7.Location = New System.Drawing.Point(1, 1)
         Me.lstM7.Name = "lstM7"
-        Me.lstM7.Size = New System.Drawing.Size(910, 385)
+        Me.lstM7.Size = New System.Drawing.Size(910, 384)
         Me.lstM7.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM7.TabIndex = 3
         Me.lstM7.UseCompatibleStateImageBehavior = False
@@ -627,7 +627,7 @@ Partial Class frmItemBrowser
         Me.lstM8.GridLines = True
         Me.lstM8.Location = New System.Drawing.Point(1, 1)
         Me.lstM8.Name = "lstM8"
-        Me.lstM8.Size = New System.Drawing.Size(910, 385)
+        Me.lstM8.Size = New System.Drawing.Size(910, 384)
         Me.lstM8.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM8.TabIndex = 3
         Me.lstM8.UseCompatibleStateImageBehavior = False
@@ -657,7 +657,7 @@ Partial Class frmItemBrowser
         Me.lstM9.GridLines = True
         Me.lstM9.Location = New System.Drawing.Point(1, 1)
         Me.lstM9.Name = "lstM9"
-        Me.lstM9.Size = New System.Drawing.Size(910, 385)
+        Me.lstM9.Size = New System.Drawing.Size(910, 384)
         Me.lstM9.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstM9.TabIndex = 4
         Me.lstM9.UseCompatibleStateImageBehavior = False
@@ -687,7 +687,7 @@ Partial Class frmItemBrowser
         Me.lstVariations.GridLines = True
         Me.lstVariations.Location = New System.Drawing.Point(1, 1)
         Me.lstVariations.Name = "lstVariations"
-        Me.lstVariations.Size = New System.Drawing.Size(910, 385)
+        Me.lstVariations.Size = New System.Drawing.Size(910, 384)
         Me.lstVariations.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstVariations.TabIndex = 0
         Me.lstVariations.UseCompatibleStateImageBehavior = False
@@ -708,7 +708,7 @@ Partial Class frmItemBrowser
         Me.chkShowAllColumns.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkShowAllColumns.AutoSize = True
         Me.chkShowAllColumns.BackColor = System.Drawing.Color.Transparent
-        Me.chkShowAllColumns.Location = New System.Drawing.Point(4, 364)
+        Me.chkShowAllColumns.Location = New System.Drawing.Point(4, 363)
         Me.chkShowAllColumns.Name = "chkShowAllColumns"
         Me.chkShowAllColumns.Size = New System.Drawing.Size(109, 17)
         Me.chkShowAllColumns.TabIndex = 2
@@ -730,7 +730,7 @@ Partial Class frmItemBrowser
         Me.lstComparisons.GridLines = True
         Me.lstComparisons.Location = New System.Drawing.Point(4, 4)
         Me.lstComparisons.Name = "lstComparisons"
-        Me.lstComparisons.Size = New System.Drawing.Size(904, 354)
+        Me.lstComparisons.Size = New System.Drawing.Size(904, 353)
         Me.lstComparisons.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstComparisons.TabIndex = 1
         Me.lstComparisons.UseCompatibleStateImageBehavior = False
@@ -759,7 +759,7 @@ Partial Class frmItemBrowser
         Me.lstFitting.GridLines = True
         Me.lstFitting.Location = New System.Drawing.Point(1, 1)
         Me.lstFitting.Name = "lstFitting"
-        Me.lstFitting.Size = New System.Drawing.Size(912, 410)
+        Me.lstFitting.Size = New System.Drawing.Size(912, 409)
         Me.lstFitting.TabIndex = 1
         Me.lstFitting.UseCompatibleStateImageBehavior = False
         Me.lstFitting.View = System.Windows.Forms.View.Details
@@ -786,7 +786,7 @@ Partial Class frmItemBrowser
         Me.tvwReqs.Location = New System.Drawing.Point(4, 4)
         Me.tvwReqs.Name = "tvwReqs"
         Me.tvwReqs.ShowPlusMinus = False
-        Me.tvwReqs.Size = New System.Drawing.Size(906, 375)
+        Me.tvwReqs.Size = New System.Drawing.Size(906, 374)
         Me.tvwReqs.TabIndex = 1
         '
         'lstAttributes
@@ -803,7 +803,7 @@ Partial Class frmItemBrowser
         Me.lstAttributes.Location = New System.Drawing.Point(1, 1)
         Me.lstAttributes.Name = "lstAttributes"
         Me.lstAttributes.ShowItemToolTips = True
-        Me.lstAttributes.Size = New System.Drawing.Size(912, 410)
+        Me.lstAttributes.Size = New System.Drawing.Size(912, 409)
         Me.lstAttributes.TabIndex = 0
         Me.lstAttributes.UseCompatibleStateImageBehavior = False
         Me.lstAttributes.View = System.Windows.Forms.View.Details
@@ -825,7 +825,7 @@ Partial Class frmItemBrowser
         Me.lblDescription.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lblDescription.Location = New System.Drawing.Point(1, 1)
         Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Size = New System.Drawing.Size(912, 410)
+        Me.lblDescription.Size = New System.Drawing.Size(912, 409)
         Me.lblDescription.TabIndex = 0
         '
         'lvwRecommended
@@ -841,7 +841,7 @@ Partial Class frmItemBrowser
         Me.lvwRecommended.GridLines = True
         Me.lvwRecommended.Location = New System.Drawing.Point(1, 1)
         Me.lvwRecommended.Name = "lvwRecommended"
-        Me.lvwRecommended.Size = New System.Drawing.Size(912, 410)
+        Me.lvwRecommended.Size = New System.Drawing.Size(912, 409)
         Me.lvwRecommended.SmallImageList = Me.imgListCerts
         Me.lvwRecommended.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwRecommended.TabIndex = 1
@@ -883,7 +883,7 @@ Partial Class frmItemBrowser
         Me.lvwDepend.Location = New System.Drawing.Point(1, 1)
         Me.lvwDepend.Name = "lvwDepend"
         Me.lvwDepend.ShowItemToolTips = True
-        Me.lvwDepend.Size = New System.Drawing.Size(912, 410)
+        Me.lvwDepend.Size = New System.Drawing.Size(912, 409)
         Me.lvwDepend.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lvwDepend.TabIndex = 1
         Me.lvwDepend.UseCompatibleStateImageBehavior = False
@@ -917,7 +917,7 @@ Partial Class frmItemBrowser
         Me.lstEveCentral.GridLines = True
         Me.lstEveCentral.Location = New System.Drawing.Point(1, 1)
         Me.lstEveCentral.Name = "lstEveCentral"
-        Me.lstEveCentral.Size = New System.Drawing.Size(912, 410)
+        Me.lstEveCentral.Size = New System.Drawing.Size(912, 409)
         Me.lstEveCentral.TabIndex = 1
         Me.lstEveCentral.UseCompatibleStateImageBehavior = False
         Me.lstEveCentral.View = System.Windows.Forms.View.Details
@@ -969,7 +969,7 @@ Partial Class frmItemBrowser
         Me.chkBrowseNonPublished.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.chkBrowseNonPublished.AutoSize = True
         Me.chkBrowseNonPublished.BackColor = System.Drawing.Color.Transparent
-        Me.chkBrowseNonPublished.Location = New System.Drawing.Point(4, 582)
+        Me.chkBrowseNonPublished.Location = New System.Drawing.Point(4, 581)
         Me.chkBrowseNonPublished.Name = "chkBrowseNonPublished"
         Me.chkBrowseNonPublished.Size = New System.Drawing.Size(162, 17)
         Me.chkBrowseNonPublished.TabIndex = 1
@@ -984,7 +984,7 @@ Partial Class frmItemBrowser
         Me.tvwBrowse.HideSelection = False
         Me.tvwBrowse.Location = New System.Drawing.Point(4, 4)
         Me.tvwBrowse.Name = "tvwBrowse"
-        Me.tvwBrowse.Size = New System.Drawing.Size(353, 572)
+        Me.tvwBrowse.Size = New System.Drawing.Size(353, 571)
         Me.tvwBrowse.TabIndex = 0
         '
         'lstSearch
@@ -995,7 +995,7 @@ Partial Class frmItemBrowser
         Me.lstSearch.FormattingEnabled = True
         Me.lstSearch.Location = New System.Drawing.Point(4, 47)
         Me.lstSearch.Name = "lstSearch"
-        Me.lstSearch.Size = New System.Drawing.Size(352, 537)
+        Me.lstSearch.Size = New System.Drawing.Size(352, 524)
         Me.lstSearch.TabIndex = 5
         '
         'lblSearchCount
@@ -1044,7 +1044,7 @@ Partial Class frmItemBrowser
         Me.lstAttSearch.Location = New System.Drawing.Point(4, 48)
         Me.lstAttSearch.Name = "lstAttSearch"
         Me.lstAttSearch.ShowItemToolTips = True
-        Me.lstAttSearch.Size = New System.Drawing.Size(353, 551)
+        Me.lstAttSearch.Size = New System.Drawing.Size(353, 550)
         Me.lstAttSearch.TabIndex = 11
         Me.lstAttSearch.UseCompatibleStateImageBehavior = False
         Me.lstAttSearch.View = System.Windows.Forms.View.Details
@@ -1539,7 +1539,7 @@ Partial Class frmItemBrowser
         Me.tabBrowser.Name = "tabBrowser"
         Me.tabBrowser.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tabBrowser.SelectedTabIndex = 0
-        Me.tabBrowser.Size = New System.Drawing.Size(361, 626)
+        Me.tabBrowser.Size = New System.Drawing.Size(361, 625)
         Me.tabBrowser.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tabBrowser.TabIndex = 44
         Me.tabBrowser.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -1559,7 +1559,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel2.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel2.Name = "TabControlPanel2"
         Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel2.Size = New System.Drawing.Size(361, 603)
+        Me.TabControlPanel2.Size = New System.Drawing.Size(361, 602)
         Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1586,7 +1586,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel3.Name = "TabControlPanel3"
         Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel3.Size = New System.Drawing.Size(361, 603)
+        Me.TabControlPanel3.Size = New System.Drawing.Size(361, 602)
         Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1613,7 +1613,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel35.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel35.Name = "TabControlPanel35"
         Me.TabControlPanel35.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel35.Size = New System.Drawing.Size(361, 603)
+        Me.TabControlPanel35.Size = New System.Drawing.Size(361, 602)
         Me.TabControlPanel35.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel35.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel35.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1640,7 +1640,7 @@ Partial Class frmItemBrowser
         Me.lstEffectSearch.Location = New System.Drawing.Point(4, 48)
         Me.lstEffectSearch.Name = "lstEffectSearch"
         Me.lstEffectSearch.ShowItemToolTips = True
-        Me.lstEffectSearch.Size = New System.Drawing.Size(353, 551)
+        Me.lstEffectSearch.Size = New System.Drawing.Size(353, 550)
         Me.lstEffectSearch.TabIndex = 15
         Me.lstEffectSearch.UseCompatibleStateImageBehavior = False
         Me.lstEffectSearch.View = System.Windows.Forms.View.Details
@@ -1695,7 +1695,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel1.Name = "TabControlPanel1"
         Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel1.Size = New System.Drawing.Size(361, 603)
+        Me.TabControlPanel1.Size = New System.Drawing.Size(361, 602)
         Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1731,7 +1731,6 @@ Partial Class frmItemBrowser
         '
         '
         '
-        Me.lblPilot.BackgroundStyle.Class = ""
         Me.lblPilot.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
         Me.lblPilot.Location = New System.Drawing.Point(366, 121)
         Me.lblPilot.Name = "lblPilot"
@@ -1779,9 +1778,9 @@ Partial Class frmItemBrowser
         Me.barStatus.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.barStatus.GrabHandleStyle = DevComponents.DotNetBar.eGrabHandleStyle.ResizeHandle
         Me.barStatus.Items.AddRange(New DevComponents.DotNetBar.BaseItem() {Me.lblStatus, Me.lblDBLocation, Me.lblID})
-        Me.barStatus.Location = New System.Drawing.Point(0, 626)
+        Me.barStatus.Location = New System.Drawing.Point(0, 625)
         Me.barStatus.Name = "barStatus"
-        Me.barStatus.Size = New System.Drawing.Size(1284, 21)
+        Me.barStatus.Size = New System.Drawing.Size(1284, 22)
         Me.barStatus.Stretch = True
         Me.barStatus.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
         Me.barStatus.TabIndex = 50
@@ -1843,7 +1842,7 @@ Partial Class frmItemBrowser
         Me.panelIB.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelIB.Location = New System.Drawing.Point(0, 0)
         Me.panelIB.Name = "panelIB"
-        Me.panelIB.Size = New System.Drawing.Size(1284, 626)
+        Me.panelIB.Size = New System.Drawing.Size(1284, 625)
         Me.panelIB.Style.Alignment = System.Drawing.StringAlignment.Center
         Me.panelIB.Style.BackColor1.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
         Me.panelIB.Style.BackColor2.ColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground2
@@ -1893,7 +1892,7 @@ Partial Class frmItemBrowser
         Me.tabIB.Name = "tabIB"
         Me.tabIB.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tabIB.SelectedTabIndex = 1
-        Me.tabIB.Size = New System.Drawing.Size(914, 435)
+        Me.tabIB.Size = New System.Drawing.Size(914, 434)
         Me.tabIB.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tabIB.TabIndex = 50
         Me.tabIB.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -1917,7 +1916,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel4.Name = "TabControlPanel4"
         Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel4.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel4.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1943,7 +1942,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel6.Name = "TabControlPanel6"
         Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel6.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel6.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -1959,7 +1958,7 @@ Partial Class frmItemBrowser
         Me.btnAddSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnAddSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnAddSkills.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnAddSkills.Location = New System.Drawing.Point(149, 385)
+        Me.btnAddSkills.Location = New System.Drawing.Point(149, 384)
         Me.btnAddSkills.Name = "btnAddSkills"
         Me.btnAddSkills.Size = New System.Drawing.Size(155, 23)
         Me.btnAddSkills.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1971,7 +1970,7 @@ Partial Class frmItemBrowser
         Me.btnViewSkills.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
         Me.btnViewSkills.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnViewSkills.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-        Me.btnViewSkills.Location = New System.Drawing.Point(8, 385)
+        Me.btnViewSkills.Location = New System.Drawing.Point(8, 384)
         Me.btnViewSkills.Name = "btnViewSkills"
         Me.btnViewSkills.Size = New System.Drawing.Size(121, 23)
         Me.btnViewSkills.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
@@ -1991,7 +1990,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel34.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel34.Name = "TabControlPanel34"
         Me.TabControlPanel34.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel34.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel34.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel34.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel34.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel34.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2016,7 +2015,7 @@ Partial Class frmItemBrowser
         Me.lstEffects.Location = New System.Drawing.Point(1, 1)
         Me.lstEffects.Name = "lstEffects"
         Me.lstEffects.ShowItemToolTips = True
-        Me.lstEffects.Size = New System.Drawing.Size(912, 410)
+        Me.lstEffects.Size = New System.Drawing.Size(912, 409)
         Me.lstEffects.TabIndex = 1
         Me.lstEffects.UseCompatibleStateImageBehavior = False
         Me.lstEffects.View = System.Windows.Forms.View.Details
@@ -2044,7 +2043,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel5.Name = "TabControlPanel5"
         Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel5.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel5.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2068,7 +2067,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel13.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel13.Name = "TabControlPanel13"
         Me.TabControlPanel13.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel13.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel13.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2092,7 +2091,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel11.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel11.Name = "TabControlPanel11"
         Me.TabControlPanel11.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel11.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel11.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2126,7 +2125,7 @@ Partial Class frmItemBrowser
         Me.tcComponents.Name = "tcComponents"
         Me.tcComponents.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tcComponents.SelectedTabIndex = 7
-        Me.tcComponents.Size = New System.Drawing.Size(912, 410)
+        Me.tcComponents.Size = New System.Drawing.Size(912, 409)
         Me.tcComponents.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tcComponents.TabIndex = 2
         Me.tcComponents.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -2150,7 +2149,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel33.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel33.Name = "TabControlPanel33"
         Me.TabControlPanel33.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel33.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel33.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel33.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel33.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel33.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2166,7 +2165,7 @@ Partial Class frmItemBrowser
         Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Transparent
-        Me.Label2.Location = New System.Drawing.Point(4, 363)
+        Me.Label2.Location = New System.Drawing.Point(4, 362)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(53, 13)
         Me.Label2.TabIndex = 4
@@ -2175,7 +2174,7 @@ Partial Class frmItemBrowser
         'nudMELevelC
         '
         Me.nudMELevelC.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.nudMELevelC.Location = New System.Drawing.Point(65, 361)
+        Me.nudMELevelC.Location = New System.Drawing.Point(65, 360)
         Me.nudMELevelC.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
         Me.nudMELevelC.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
         Me.nudMELevelC.Name = "nudMELevelC"
@@ -2198,7 +2197,7 @@ Partial Class frmItemBrowser
         Me.lstC1.GridLines = True
         Me.lstC1.Location = New System.Drawing.Point(4, 1)
         Me.lstC1.Name = "lstC1"
-        Me.lstC1.Size = New System.Drawing.Size(901, 356)
+        Me.lstC1.Size = New System.Drawing.Size(901, 355)
         Me.lstC1.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC1.TabIndex = 2
         Me.lstC1.UseCompatibleStateImageBehavior = False
@@ -2240,7 +2239,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel26.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel26.Name = "TabControlPanel26"
         Me.TabControlPanel26.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel26.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel26.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel26.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel26.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel26.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2264,7 +2263,7 @@ Partial Class frmItemBrowser
         Me.lstC8.GridLines = True
         Me.lstC8.Location = New System.Drawing.Point(1, 1)
         Me.lstC8.Name = "lstC8"
-        Me.lstC8.Size = New System.Drawing.Size(910, 385)
+        Me.lstC8.Size = New System.Drawing.Size(910, 384)
         Me.lstC8.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC8.TabIndex = 3
         Me.lstC8.UseCompatibleStateImageBehavior = False
@@ -2294,7 +2293,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel27.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel27.Name = "TabControlPanel27"
         Me.TabControlPanel27.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel27.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel27.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel27.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel27.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel27.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2318,7 +2317,7 @@ Partial Class frmItemBrowser
         Me.lstC7.GridLines = True
         Me.lstC7.Location = New System.Drawing.Point(1, 1)
         Me.lstC7.Name = "lstC7"
-        Me.lstC7.Size = New System.Drawing.Size(910, 385)
+        Me.lstC7.Size = New System.Drawing.Size(910, 384)
         Me.lstC7.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC7.TabIndex = 3
         Me.lstC7.UseCompatibleStateImageBehavior = False
@@ -2348,7 +2347,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel25.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel25.Name = "TabControlPanel25"
         Me.TabControlPanel25.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel25.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel25.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel25.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel25.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel25.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2372,7 +2371,7 @@ Partial Class frmItemBrowser
         Me.lstC9.GridLines = True
         Me.lstC9.Location = New System.Drawing.Point(1, 1)
         Me.lstC9.Name = "lstC9"
-        Me.lstC9.Size = New System.Drawing.Size(910, 385)
+        Me.lstC9.Size = New System.Drawing.Size(910, 384)
         Me.lstC9.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC9.TabIndex = 4
         Me.lstC9.UseCompatibleStateImageBehavior = False
@@ -2402,7 +2401,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel28.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel28.Name = "TabControlPanel28"
         Me.TabControlPanel28.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel28.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel28.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel28.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel28.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel28.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2426,7 +2425,7 @@ Partial Class frmItemBrowser
         Me.lstC6.GridLines = True
         Me.lstC6.Location = New System.Drawing.Point(1, 1)
         Me.lstC6.Name = "lstC6"
-        Me.lstC6.Size = New System.Drawing.Size(910, 385)
+        Me.lstC6.Size = New System.Drawing.Size(910, 384)
         Me.lstC6.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC6.TabIndex = 3
         Me.lstC6.UseCompatibleStateImageBehavior = False
@@ -2456,7 +2455,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel29.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel29.Name = "TabControlPanel29"
         Me.TabControlPanel29.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel29.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel29.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel29.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel29.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel29.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2480,7 +2479,7 @@ Partial Class frmItemBrowser
         Me.lstC5.GridLines = True
         Me.lstC5.Location = New System.Drawing.Point(1, 1)
         Me.lstC5.Name = "lstC5"
-        Me.lstC5.Size = New System.Drawing.Size(910, 385)
+        Me.lstC5.Size = New System.Drawing.Size(910, 384)
         Me.lstC5.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC5.TabIndex = 3
         Me.lstC5.UseCompatibleStateImageBehavior = False
@@ -2510,7 +2509,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel30.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel30.Name = "TabControlPanel30"
         Me.TabControlPanel30.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel30.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel30.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel30.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel30.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel30.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2534,7 +2533,7 @@ Partial Class frmItemBrowser
         Me.lstC4.GridLines = True
         Me.lstC4.Location = New System.Drawing.Point(1, 1)
         Me.lstC4.Name = "lstC4"
-        Me.lstC4.Size = New System.Drawing.Size(910, 385)
+        Me.lstC4.Size = New System.Drawing.Size(910, 384)
         Me.lstC4.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC4.TabIndex = 3
         Me.lstC4.UseCompatibleStateImageBehavior = False
@@ -2564,7 +2563,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel31.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel31.Name = "TabControlPanel31"
         Me.TabControlPanel31.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel31.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel31.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel31.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel31.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel31.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2588,7 +2587,7 @@ Partial Class frmItemBrowser
         Me.lstC3.GridLines = True
         Me.lstC3.Location = New System.Drawing.Point(1, 1)
         Me.lstC3.Name = "lstC3"
-        Me.lstC3.Size = New System.Drawing.Size(910, 385)
+        Me.lstC3.Size = New System.Drawing.Size(910, 384)
         Me.lstC3.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC3.TabIndex = 3
         Me.lstC3.UseCompatibleStateImageBehavior = False
@@ -2618,7 +2617,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel32.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel32.Name = "TabControlPanel32"
         Me.TabControlPanel32.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel32.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel32.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel32.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel32.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel32.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2642,7 +2641,7 @@ Partial Class frmItemBrowser
         Me.lstC2.GridLines = True
         Me.lstC2.Location = New System.Drawing.Point(1, 1)
         Me.lstC2.Name = "lstC2"
-        Me.lstC2.Size = New System.Drawing.Size(910, 385)
+        Me.lstC2.Size = New System.Drawing.Size(910, 384)
         Me.lstC2.Sorting = System.Windows.Forms.SortOrder.Ascending
         Me.lstC2.TabIndex = 3
         Me.lstC2.UseCompatibleStateImageBehavior = False
@@ -2678,7 +2677,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel10.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel10.Name = "TabControlPanel10"
         Me.TabControlPanel10.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel10.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel10.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel10.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel10.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel10.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2712,7 +2711,7 @@ Partial Class frmItemBrowser
         Me.tcMaterials.Name = "tcMaterials"
         Me.tcMaterials.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tcMaterials.SelectedTabIndex = 7
-        Me.tcMaterials.Size = New System.Drawing.Size(912, 410)
+        Me.tcMaterials.Size = New System.Drawing.Size(912, 409)
         Me.tcMaterials.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tcMaterials.TabIndex = 1
         Me.tcMaterials.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -2736,7 +2735,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel16.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel16.Name = "TabControlPanel16"
         Me.TabControlPanel16.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel16.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel16.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel16.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2760,7 +2759,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel24.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel24.Name = "TabControlPanel24"
         Me.TabControlPanel24.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel24.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel24.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel24.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel24.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel24.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2784,7 +2783,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel23.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel23.Name = "TabControlPanel23"
         Me.TabControlPanel23.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel23.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel23.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel23.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel23.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel23.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2808,7 +2807,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel22.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel22.Name = "TabControlPanel22"
         Me.TabControlPanel22.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel22.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel22.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel22.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel22.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel22.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2832,7 +2831,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel21.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel21.Name = "TabControlPanel21"
         Me.TabControlPanel21.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel21.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel21.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel21.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel21.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel21.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2856,7 +2855,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel20.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel20.Name = "TabControlPanel20"
         Me.TabControlPanel20.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel20.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel20.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel20.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel20.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel20.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2880,7 +2879,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel19.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel19.Name = "TabControlPanel19"
         Me.TabControlPanel19.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel19.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel19.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel19.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel19.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel19.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2904,7 +2903,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel18.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel18.Name = "TabControlPanel18"
         Me.TabControlPanel18.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel18.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel18.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel18.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel18.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel18.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2928,7 +2927,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel17.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel17.Name = "TabControlPanel17"
         Me.TabControlPanel17.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel17.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel17.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel17.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2958,7 +2957,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel9.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel9.Name = "TabControlPanel9"
         Me.TabControlPanel9.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel9.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel9.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -2982,7 +2981,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel8.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel8.Name = "TabControlPanel8"
         Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel8.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel8.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -3009,7 +3008,7 @@ Partial Class frmItemBrowser
         Me.tcVariations.Name = "tcVariations"
         Me.tcVariations.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
         Me.tcVariations.SelectedTabIndex = 0
-        Me.tcVariations.Size = New System.Drawing.Size(912, 410)
+        Me.tcVariations.Size = New System.Drawing.Size(912, 409)
         Me.tcVariations.Style = DevComponents.DotNetBar.eTabStripStyle.Office2007Document
         Me.tcVariations.TabIndex = 2
         Me.tcVariations.TabLayoutType = DevComponents.DotNetBar.eTabLayoutType.FixedWithNavigationBox
@@ -3024,7 +3023,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel14.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel14.Name = "TabControlPanel14"
         Me.TabControlPanel14.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel14.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel14.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -3049,7 +3048,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel15.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel15.Name = "TabControlPanel15"
         Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel15.Size = New System.Drawing.Size(912, 387)
+        Me.TabControlPanel15.Size = New System.Drawing.Size(912, 386)
         Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -3079,7 +3078,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel7.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel7.Name = "TabControlPanel7"
         Me.TabControlPanel7.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel7.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel7.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
@@ -3103,7 +3102,7 @@ Partial Class frmItemBrowser
         Me.TabControlPanel12.Location = New System.Drawing.Point(0, 23)
         Me.TabControlPanel12.Name = "TabControlPanel12"
         Me.TabControlPanel12.Padding = New System.Windows.Forms.Padding(1)
-        Me.TabControlPanel12.Size = New System.Drawing.Size(914, 412)
+        Me.TabControlPanel12.Size = New System.Drawing.Size(914, 411)
         Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
         Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
         Me.TabControlPanel12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine

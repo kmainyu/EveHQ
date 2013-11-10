@@ -19,32 +19,35 @@
 '=========================================================================
 Imports System.IO
 
-Public Class CharacterBlock
+Namespace Controls
 
-    Public Sub New(ByVal pilotName As String)
+    Public Class CharacterBlock
 
-        ' This call is required by the Windows Form Designer.
-        InitializeComponent()
-        ' Add any initialization after the InitializeComponent() call.
+        Public Sub New(ByVal pilotName As String)
 
-        ' Get pilot
-        Dim dPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots(pilotName), Core.Pilot)
+            ' This call is required by the Windows Form Designer.
+            InitializeComponent()
+            ' Add any initialization after the InitializeComponent() call.
 
-        ' Draw image
-        pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
-        Dim imgFilename As String = Path.Combine(EveHQ.Core.HQ.imageCacheFolder, dPilot.ID & ".png")
-        If My.Computer.FileSystem.FileExists(imgFilename) = True Then
-            pbPilot.ImageLocation = imgFilename
-        Else
-            pbPilot.Image = My.Resources.nochar
-        End If
+            ' Get pilot
+            Dim dPilot As Core.EveHQPilot = Core.HQ.Settings.Pilots(pilotName)
 
-        ' Add labels
-        lblPilotName.Text = dPilot.Name
-        lblSkill.Text = dPilot.TrainingSkillName & " " & EveHQ.Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel)
-        Dim currentDate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
-        lblTime.Text = Format(currentDate, "ddd") & " " & currentDate & " (" & EveHQ.Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime) & ")"
-        lblIsk.Text = "Isk: " & dPilot.Isk.ToString("N2")
+            ' Draw image
+            pbPilot.SizeMode = PictureBoxSizeMode.StretchImage
+            Dim imgFilename As String = Path.Combine(Core.HQ.imageCacheFolder, dPilot.ID & ".png")
+            If My.Computer.FileSystem.FileExists(imgFilename) = True Then
+                pbPilot.ImageLocation = imgFilename
+            Else
+                pbPilot.Image = My.Resources.nochar
+            End If
 
-    End Sub
-End Class
+            ' Add labels
+            lblPilotName.Text = dPilot.Name
+            lblSkill.Text = dPilot.TrainingSkillName & " " & Core.SkillFunctions.Roman(dPilot.TrainingSkillLevel)
+            Dim currentDate As Date = Core.SkillFunctions.ConvertEveTimeToLocal(dPilot.TrainingEndTime)
+            lblTime.Text = Format(currentDate, "ddd") & " " & currentDate & " (" & Core.SkillFunctions.TimeToString(dPilot.TrainingCurrentTime) & ")"
+            lblIsk.Text = "Isk: " & dPilot.Isk.ToString("N2")
+
+        End Sub
+    End Class
+End NameSpace

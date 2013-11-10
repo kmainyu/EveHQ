@@ -17,25 +17,26 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
+Namespace Classes
+    Public Class PrismEvents
 
-Public Class PrismEvents
+        Public Shared Event UpdateProductionJobs()
+        Public Shared Event UpdateInventionJobs()
+        Public Shared Event UpdateBatchJobs()
+        Public Shared Event RecyclingInfoAvailable()
 
-    Public Shared Event UpdateProductionJobs()
-    Public Shared Event UpdateInventionJobs()
-    Public Shared Event UpdateBatchJobs()
-    Public Shared Event RecyclingInfoAvailable()
+        Public Shared Sub StartUpdateProductionJobs()
+            RaiseEvent UpdateProductionJobs()
+            RaiseEvent UpdateInventionJobs()
+        End Sub
 
-    Public Shared Sub StartUpdateProductionJobs()
-        RaiseEvent UpdateProductionJobs()
-        RaiseEvent UpdateInventionJobs()
-    End Sub
+        Public Shared Sub StartUpdateBatchJobs()
+            RaiseEvent UpdateBatchJobs()
+        End Sub
 
-    Public Shared Sub StartUpdateBatchJobs()
-        RaiseEvent UpdateBatchJobs()
-    End Sub
+        Public Shared Sub StartRecyclingInfoAvailable()
+            RaiseEvent RecyclingInfoAvailable()
+        End Sub
 
-    Public Shared Sub StartRecyclingInfoAvailable()
-        RaiseEvent RecyclingInfoAvailable()
-    End Sub
-
-End Class
+    End Class
+End Namespace

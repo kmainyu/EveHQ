@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmModifyPrices
+Partial Class FrmModifyPrices
     Inherits DevComponents.DotNetBar.Office2007Form
 
     'Form overrides dispose to clean up the component list.

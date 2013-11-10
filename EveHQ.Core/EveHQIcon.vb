@@ -17,138 +17,138 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System
 Imports System.ComponentModel
-Imports System.Collections.Generic
-Imports System.Diagnostics
-Imports System.Text
 Imports System.Windows.Forms
 Imports System.Drawing
 Imports System.Runtime.InteropServices
+Imports System.Threading
+Imports Timer = System.Threading.Timer
 
 Public Class EveHQIcon
     Inherits Component
 
-    Private iconText As String
-    Private cMouseHoverTime As Integer
-    Private cMouseState As MouseState
-    Private notifyIcon As NotifyIcon
-
-
+    Private _iconText As String
+    Private _mouseHoverTime As Integer
+    ' ReSharper disable once NotAccessedField.Local
+    Private _mouseState As MouseState
+    Private _notifyIcon As NotifyIcon
+    
 #Region "Constructors"
-   
+
 #End Region
 
 #Region "Methods"
     Public Sub ShowBalloonTip(ByVal timeout As Integer)
-        Call Me.notifyIcon.ShowBalloonTip(timeout)
+        Call _notifyIcon.ShowBalloonTip(timeout)
     End Sub
     Public Sub ShowBalloonTip(ByVal timeout As Integer, ByVal tipTitle As String, ByVal tipText As String, ByVal tipIcon As ToolTipIcon)
-        Call Me.notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon)
+        Call _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon)
     End Sub
 #End Region
 
 #Region "Properties"
     <Category("Appearance"), Description("The title of balloon popup")> _
-  Public Property BalloonTipIcon() As ToolTipIcon
+    Public Property BalloonTipIcon() As ToolTipIcon
         Get
-            Return Me.notifyIcon.BalloonTipIcon
+            Return _notifyIcon.BalloonTipIcon
         End Get
         Set(ByVal value As ToolTipIcon)
-            Me.notifyIcon.BalloonTipIcon = value
+            _notifyIcon.BalloonTipIcon = value
         End Set
     End Property
     <Category("Appearance"), Description("The title of balloon popup")> _
-   Public Property BalloonTipText() As String
+    Public Property BalloonTipText() As String
         Get
-            Return Me.notifyIcon.BalloonTipText
+            Return _notifyIcon.BalloonTipText
         End Get
         Set(ByVal value As String)
-            Me.notifyIcon.BalloonTipText = value
+            _notifyIcon.BalloonTipText = value
         End Set
     End Property
     <Category("Appearance"), Description("The title of balloon popup")> _
-   Public Property BalloonTipTitle() As String
+    Public Property BalloonTipTitle() As String
         Get
-            Return Me.notifyIcon.BalloonTipTitle
+            Return _notifyIcon.BalloonTipTitle
         End Get
         Set(ByVal value As String)
-            Me.notifyIcon.BalloonTipTitle = value
+            _notifyIcon.BalloonTipTitle = value
         End Set
     End Property
     <Category("Behaviour")> _
     Public Property ContextMenuStrip() As ContextMenuStrip
         Get
-            Return Me.notifyIcon.ContextMenuStrip
+            Return _notifyIcon.ContextMenuStrip
         End Get
         Set(ByVal value As ContextMenuStrip)
-            Me.notifyIcon.ContextMenuStrip = value
+            _notifyIcon.ContextMenuStrip = value
         End Set
     End Property
     <Description("The icon to display in the system tray"), Category("Appearance")> _
     Public Property Icon() As Icon
         Get
-            Return Me.notifyIcon.Icon
+            Return _notifyIcon.Icon
         End Get
         Set(ByVal value As Icon)
-            Me.notifyIcon.Icon = value
+            _notifyIcon.Icon = value
         End Set
     End Property
     <Category("Behaviour"), DefaultValue(250), Description("The length of time, in milliseconds, for which the mouse must remain stationary over the control before the MouseHover event is raised")> _
     Public Property MouseHoverTime() As Integer
         Get
-            Return Me.cMouseHoverTime
+            Return _mouseHoverTime
         End Get
         Set(ByVal value As Integer)
-            Me.cMouseHoverTime = value
+            _mouseHoverTime = value
         End Set
     End Property
     <Category("Appearance"), Description("The text that will be displayed when the mouse hovers over the icon")> _
     Public Property [Text]() As String
         Get
-            Return Me.notifyIcon.Text
+            Return _notifyIcon.Text
         End Get
         Set(ByVal value As String)
-            Me.notifyIcon.Text = value
+            _notifyIcon.Text = value
         End Set
     End Property
     <Description("Determines whether the control is visible or hidden"), Category("Behaviour"), DefaultValue(False)> _
     Public Property Visible() As Boolean
         Get
-            Return Me.notifyIcon.Visible
+            Return _notifyIcon.Visible
         End Get
         Set(ByVal value As Boolean)
-            Me.notifyIcon.Visible = value
+            _notifyIcon.Visible = value
         End Set
     End Property
 #End Region
 
 #Region "Events"
+    ' ReSharper disable EventNeverInvoked - events are invoked in the event handlers!
     <Category("Action"), Description("Occurs when the icon is clicked")> _
-   Public Event Click As EventHandler
+    Public Event Click As EventHandler
     <Category("Mouse"), Description("Occurs when the mouse remains stationary inside the control for an amount of time")> _
     Public Event MouseHover As EventHandler
     <Category("Mouse"), Description("Occurs when the mouse leaves the visible part of the control")> _
     Public Event MouseLeave As EventHandler
+    ' ReSharper restore EventNeverInvoked
 #End Region
 
 #Region "NotifyIcon Event Handlers"
     Private Sub notifyIcon_Click(ByVal sender As Object, ByVal e As EventArgs)
-        Me.OnClick(e)
+        OnClick(e)
     End Sub
 #End Region
 
 #Region "Event Handlers"
     Protected Overridable Sub OnClick(ByVal e As EventArgs)
-        Me.FireEvent(Me.ClickEvent, e)
+        FireEvent(ClickEvent, e)
     End Sub
 
     Protected Overridable Sub OnMouseHover(ByVal e As EventArgs)
-        Me.FireEvent(Me.MouseHoverEvent, e)
+        FireEvent(MouseHoverEvent, e)
     End Sub
 
     Protected Overridable Sub OnMouseLeave(ByVal e As EventArgs)
-        Me.FireEvent(Me.MouseLeaveEvent, e)
+        FireEvent(MouseLeaveEvent, e)
     End Sub
 
     Private Sub FireEvent(ByVal mainHandler As EventHandler, ByVal e As EventArgs)
@@ -179,38 +179,38 @@ Public Class EveHQIcon
         Protected Sub ChangeState(ByVal state As States)
             Select Case state
                 Case States.MouseOut
-                    Me.trayIcon.cMouseState = New MouseStateOut(Me.trayIcon)
+                    trayIcon._mouseState = New MouseStateOut(trayIcon)
                     Exit Select
                 Case States.MouseOver
-                    Me.trayIcon.cMouseState = New MouseStateOver(Me.trayIcon, Me.mousePosition)
+                    trayIcon._mouseState = New MouseStateOver(trayIcon, mousePosition)
                     Exit Select
                 Case States.MouseHovering
-                    Me.trayIcon.cMouseState = New MouseStateHovering(Me.trayIcon, Me.mousePosition)
+                    TrayIcon._mouseState = New MouseStateHovering(TrayIcon, MousePosition)
                     Exit Select
             End Select
         End Sub
 
         Protected Sub DisableMouseTracking()
             SyncLock Me.syncLock
-                If Me.mouseTrackingEnabled Then
-                    RemoveHandler Me.trayIcon.notifyIcon.MouseMove, New MouseEventHandler(AddressOf Me.notifyIcon_MouseMove)
-                    Me.mouseTrackingEnabled = False
+                If _mouseTrackingEnabled Then
+                    RemoveHandler trayIcon._notifyIcon.MouseMove, New MouseEventHandler(AddressOf notifyIcon_MouseMove)
+                    _mouseTrackingEnabled = False
                 End If
             End SyncLock
         End Sub
 
         Protected Sub EnableMouseTracking()
             SyncLock Me.syncLock
-                AddHandler Me.trayIcon.notifyIcon.MouseMove, New MouseEventHandler(AddressOf Me.notifyIcon_MouseMove)
-                Me.mouseTrackingEnabled = True
+                AddHandler trayIcon._notifyIcon.MouseMove, New MouseEventHandler(AddressOf notifyIcon_MouseMove)
+                _mouseTrackingEnabled = True
             End SyncLock
         End Sub
 
         Private Sub notifyIcon_MouseMove(ByVal sender As Object, ByVal e As MouseEventArgs)
             SyncLock Me.syncLock
-                If Me.mouseTrackingEnabled Then
-                    Me.mousePosition = Control.MousePosition
-                    Me.OnMouseMove()
+                If _mouseTrackingEnabled Then
+                    MousePosition = Control.MousePosition
+                    OnMouseMove()
                 End If
             End SyncLock
         End Sub
@@ -219,10 +219,10 @@ Public Class EveHQIcon
         End Sub
 
         ' Fields
-        Protected mousePosition As Point
-        Private mouseTrackingEnabled As Boolean = False
-        Protected [syncLock] As Object
-        Protected trayIcon As EveHQIcon
+        Protected MousePosition As Point
+        Private _mouseTrackingEnabled As Boolean = False
+        Protected ReadOnly [SyncLock] As Object
+        Protected ReadOnly TrayIcon As EveHQIcon
 
         ' Nested Types
         Protected Enum States
@@ -238,12 +238,12 @@ Public Class EveHQIcon
         ' Methods
         Public Sub New(ByVal trayIcon As EveHQIcon)
             MyBase.New(trayIcon, New Point(0, 0))
-            MyBase.EnableMouseTracking()
+            EnableMouseTracking()
         End Sub
 
         Protected Overrides Sub OnMouseMove()
-            MyBase.DisableMouseTracking()
-            MyBase.ChangeState(States.MouseOver)
+            DisableMouseTracking()
+            ChangeState(States.MouseOver)
         End Sub
 
     End Class
@@ -253,28 +253,28 @@ Public Class EveHQIcon
         ' Methods
         Public Sub New(ByVal trayIcon As EveHQIcon, ByVal mousePosition As Point)
             MyBase.New(trayIcon, mousePosition)
-            trayIcon.iconText = trayIcon.notifyIcon.Text
-            trayIcon.notifyIcon.Text = ""
+            trayIcon._iconText = trayIcon._notifyIcon.Text
+            trayIcon._notifyIcon.Text = ""
             SyncLock MyBase.syncLock
-                Me.timer = New Threading.Timer(New Threading.TimerCallback(AddressOf Me.HoverTimeout), Nothing, MyBase.trayIcon.MouseHoverTime, -1)
-                MyBase.EnableMouseTracking()
+                _timer = New Timer(New TimerCallback(AddressOf HoverTimeout), Nothing, MyBase.TrayIcon.MouseHoverTime, -1)
+                EnableMouseTracking()
             End SyncLock
         End Sub
 
         Private Sub HoverTimeout(ByVal state As Object)
-            SyncLock MyBase.syncLock
-                If (Not Me.timer Is Nothing) Then
+            SyncLock MyBase.SyncLock
+                If (Not _timer Is Nothing) Then
                     Try
-                        Me.timer.Change(-1, -1)
+                        _timer.Change(-1, -1)
                     Finally
-                        Me.timer.Dispose()
-                        Me.timer = Nothing
+                        _timer.Dispose()
+                        _timer = Nothing
                     End Try
-                    MyBase.DisableMouseTracking()
-                    If (Control.MousePosition = MyBase.mousePosition) Then
-                        MyBase.ChangeState(States.MouseHovering)
+                    DisableMouseTracking()
+                    If (Control.MousePosition = MousePosition) Then
+                        ChangeState(States.MouseHovering)
                     Else
-                        MyBase.ChangeState(States.MouseOut)
+                        ChangeState(States.MouseOut)
                     End If
                 End If
             End SyncLock
@@ -282,13 +282,13 @@ Public Class EveHQIcon
 
         Protected Overrides Sub OnMouseMove()
             Try
-                Me.timer.Change(MyBase.trayIcon.MouseHoverTime, -1)
+                _timer.Change(TrayIcon.MouseHoverTime, -1)
             Catch exception1 As ObjectDisposedException
             End Try
         End Sub
 
         ' Fields
-        Private timer As Threading.Timer
+        Private _timer As Timer
     End Class
 
     Private Class MouseStateHovering
@@ -298,27 +298,27 @@ Public Class EveHQIcon
             MyBase.New(trayicon, mousePosition)
             MyBase.trayIcon.OnMouseHover(New EventArgs)
             SyncLock MyBase.syncLock
-                MyBase.EnableMouseTracking()
-                Me.timer = New Threading.Timer(New Threading.TimerCallback(AddressOf Me.MouseMonitor), Nothing, 100, -1)
+                EnableMouseTracking()
+                _timer = New Timer(New TimerCallback(AddressOf MouseMonitor), Nothing, 100, -1)
             End SyncLock
         End Sub
 
         Private Sub MouseMonitor(ByVal state As Object)
-            SyncLock MyBase.syncLock
-                If (Control.MousePosition = MyBase.mousePosition) Then
-                    Me.timer.Change(100, -1)
+            SyncLock MyBase.SyncLock
+                If (Control.MousePosition = MousePosition) Then
+                    _timer.Change(100, -1)
                 Else
-                    Me.timer.Dispose()
-                    MyBase.DisableMouseTracking()
-                    MyBase.trayIcon.notifyIcon.Text = MyBase.trayIcon.iconText
-                    MyBase.trayIcon.OnMouseLeave(New EventArgs)
-                    MyBase.ChangeState(States.MouseOut)
+                    _timer.Dispose()
+                    DisableMouseTracking()
+                    TrayIcon._notifyIcon.Text = TrayIcon._iconText
+                    TrayIcon.OnMouseLeave(New EventArgs)
+                    ChangeState(States.MouseOut)
                 End If
             End SyncLock
         End Sub
 
         ' Fields
-        Private timer As Threading.Timer
+        Private ReadOnly _timer As Timer
     End Class
 #End Region
 
@@ -379,6 +379,7 @@ Public Class EveHQIcon
         End Function
 
         ' Fields
+        ' ReSharper disable InconsistentNaming
         Public Const ABE_BOTTOM As Integer = 3
         Public Const ABE_LEFT As Integer = 0
         Public Const ABE_RIGHT As Integer = 2
@@ -405,43 +406,43 @@ Public Class EveHQIcon
 
         <Serializable(), StructLayout(LayoutKind.Sequential)> _
         Public Structure RECT
-            Public Left As Integer
-            Public Top As Integer
+            Public ReadOnly Left As Integer
+            Public ReadOnly Top As Integer
             Public Right As Integer
             Public Bottom As Integer
             Public Sub New(ByVal left_ As Integer, ByVal top_ As Integer, ByVal right_ As Integer, ByVal bottom_ As Integer)
-                Me.Left = left_
-                Me.Top = top_
-                Me.Right = right_
-                Me.Bottom = bottom_
+                Left = left_
+                Top = top_
+                Right = right_
+                Bottom = bottom_
             End Sub
 
             Public ReadOnly Property Height() As Integer
                 Get
-                    Return ((Me.Bottom - Me.Top) + 1)
+                    Return ((Bottom - Top) + 1)
                 End Get
             End Property
 
             Public ReadOnly Property Width() As Integer
                 Get
-                    Return ((Me.Right - Me.Left) + 1)
+                    Return ((Right - Left) + 1)
                 End Get
             End Property
 
             Public ReadOnly Property Size() As Size
                 Get
-                    Return New Size(Me.Width, Me.Height)
+                    Return New Size(Width, Height)
                 End Get
             End Property
 
             Public ReadOnly Property Location() As Point
                 Get
-                    Return New Point(Me.Left, Me.Top)
+                    Return New Point(Left, Top)
                 End Get
             End Property
 
             Public Function ToRectangle() As Rectangle
-                Return Rectangle.FromLTRB(Me.Left, Me.Top, Me.Right, Me.Bottom)
+                Return Rectangle.FromLTRB(Left, Top, Right, Bottom)
             End Function
 
             Public Shared Function FromRectangle(ByVal rectangle As Rectangle) As RECT
@@ -449,7 +450,7 @@ Public Class EveHQIcon
             End Function
 
             Public Overrides Function GetHashCode() As Integer
-                Return (((Me.Left Xor ((Me.Top << 13) Or (Me.Top >> &H13))) Xor ((Me.Width << &H1A) Or (Me.Width >> 6))) Xor ((Me.Height << 7) Or (Me.Height >> &H19)))
+                Return (((Left Xor ((Top << 13) Or (Top >> &H13))) Xor ((Width << &H1A) Or (Width >> 6))) Xor ((Height << 7) Or (Height >> &H19)))
             End Function
 
             Public Shared Widening Operator CType(ByVal rect As RECT) As Rectangle
@@ -460,6 +461,7 @@ Public Class EveHQIcon
                 Return New RECT(rect.Left, rect.Top, rect.Right, rect.Bottom)
             End Operator
         End Structure
+        ' ReSharper restore InconsistentNaming
     End Class
 
 

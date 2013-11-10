@@ -19,11 +19,11 @@
 '=========================================================================
 Public Class Effect
     Public AffectingAtt As Integer
-    Public AffectingType As EffectType
+    Public AffectingType As HQFEffectType
     Public AffectingID As Integer
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
-    Public AffectedID As New List(Of String)
+    Public AffectedType As HQFEffectType
+    Public AffectedID As New List(Of Integer)
     Public StackNerf As EffectStackType
     Public IsPerLevel As Boolean
     Public CalcType As EffectCalcType
@@ -32,11 +32,11 @@ End Class
 
 <Serializable()> Public Class ShipEffect
     Public ShipID As Integer
-    Public AffectingType As EffectType
+    Public AffectingType As HQFEffectType
     Public AffectingID As Integer
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
-    Public AffectedID As New List(Of String)
+    Public AffectedType As HQFEffectType
+    Public AffectedID As New List(Of Integer)
     Public StackNerf As EffectStackType
     Public IsPerLevel As Boolean
     Public CalcType As EffectCalcType
@@ -44,21 +44,21 @@ End Class
     Public Value As Double
 
     Public Function Clone() As ShipEffect
-        Dim NewEffect As New ShipEffect
-        NewEffect.ShipID = Me.ShipID
-        NewEffect.AffectingType = Me.AffectingType
-        NewEffect.AffectingID = Me.AffectingID
-        NewEffect.AffectedAtt = Me.AffectedAtt
-        NewEffect.AffectedType = Me.AffectedType
-        For Each id As String In Me.AffectedID
-            NewEffect.AffectedID.Add(id)
+        Dim newEffect As New ShipEffect
+        newEffect.ShipID = ShipID
+        newEffect.AffectingType = AffectingType
+        newEffect.AffectingID = AffectingID
+        newEffect.AffectedAtt = AffectedAtt
+        newEffect.AffectedType = AffectedType
+        For Each id As Integer In AffectedID
+            newEffect.AffectedID.Add(id)
         Next
-        NewEffect.StackNerf = Me.StackNerf
-        NewEffect.IsPerLevel = Me.IsPerLevel
-        NewEffect.CalcType = Me.CalcType
-        NewEffect.Status = Me.Status
-        NewEffect.Value = Me.Value
-        Return NewEffect
+        newEffect.StackNerf = StackNerf
+        newEffect.IsPerLevel = IsPerLevel
+        newEffect.CalcType = CalcType
+        newEffect.Status = Status
+        newEffect.Value = Value
+        Return newEffect
     End Function
 
 End Class
@@ -67,8 +67,8 @@ Public Class ImplantEffect
     Public ImplantName As String
     Public AffectingAtt As Integer
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
-    Public AffectedID As New List(Of String)
+    Public AffectedType As HQFEffectType
+    Public AffectedID As New List(Of Integer)
     Public CalcType As EffectCalcType
     Public Status As Integer
     Public Value As Double
@@ -78,8 +78,8 @@ End Class
 
 <Serializable()> Public Class FinalEffect
     Public AffectedAtt As Integer
-    Public AffectedType As EffectType
-    Public AffectedID As New List(Of String)
+    Public AffectedType As HQFEffectType
+    Public AffectedID As New List(Of Integer)
     Public AffectedValue As Double
     Public StackNerf As EffectStackType
     Public Cause As String
@@ -87,7 +87,7 @@ End Class
     Public Status As Integer
 End Class
 
-Public Enum EffectType As Integer
+Public Enum HQFEffectType As Integer
     All = 0
     Item = 1
     Group = 2

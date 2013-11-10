@@ -17,22 +17,20 @@
 '' You should have received a copy of the GNU General Public License
 '' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 ''=========================================================================
-
-Imports GammaJul.LgLcd
 Imports System.Threading
 Imports System.Drawing
-Imports System.IO
-Imports System.Reflection
+Imports GammaJul.LgLcd
+Imports System.Drawing.Text
+Imports Timer = System.Windows.Forms.Timer
 
-Public Class G15LCDv2
+Public Class G15Lcd
 
     ' Fields
     Private Shared _monoArrived As Boolean
     Private Shared _mustExit As Boolean
     Private Shared _qvgaArrived As Boolean
-    Private Shared ReadOnly _random As Random
-    Private Shared ReadOnly _waitAre As New AutoResetEvent(False)
-    Public Shared WithEvents tmrLCDChar As New System.Windows.Forms.Timer
+    Private Shared ReadOnly WaitAre As New AutoResetEvent(False)
+    Public Shared WithEvents TmrLcdChar As New Timer
     Public Shared SplashFlag As Boolean = True
     Public Shared Event UpdateAPI()
 
@@ -46,7 +44,7 @@ Public Class G15LCDv2
         End Set
     End Property
 
-    Public Shared Function InitLCD() As Boolean
+    Public Shared Function InitLcd() As Boolean
 
         Try
             Dim applet As New LcdApplet("EveHQ LCD Display", LcdAppletCapabilities.Both)
@@ -57,20 +55,20 @@ Public Class G15LCDv2
 
             applet.Connect()
 
-            EveHQ.Core.HQ.IsG15LCDActive = True
+            HQ.IsG15LCDActive = True
             _mustExit = False
 
-            Threading.ThreadPool.QueueUserWorkItem(AddressOf MainLCDProcess, applet)
+            ThreadPool.QueueUserWorkItem(AddressOf MainLCDProcess, applet)
 
         Catch e As Exception
-            EveHQ.Core.HQ.IsG15LCDActive = False
+            HQ.IsG15LCDActive = False
         End Try
     End Function
 
-    Private Shared Sub MainLCDProcess(state As Object)
+    Private Shared Sub MainLcdProcess(state As Object)
 
         Dim applet As LcdApplet = CType(state, LcdApplet)
-        _waitAre.WaitOne()
+        WaitAre.WaitOne()
         Dim monoDevice As LcdDeviceMonochrome = Nothing
 
         Do
@@ -98,7 +96,7 @@ Public Class G15LCDv2
 
     End Sub
 
-    Public Shared Sub CloseLCD()
+    Public Shared Sub CloseLcd()
         _mustExit = True
     End Sub
 
@@ -111,7 +109,7 @@ Public Class G15LCDv2
         If (e.DeviceType = LcdDeviceType.Monochrome) Then
             _monoArrived = True
         End If
-        _waitAre.Set()
+        WaitAre.Set()
     End Sub
 
     Private Shared Sub Applet_DeviceRemoval(ByVal sender As Object, ByVal e As LcdDeviceTypeEventArgs)
@@ -152,32 +150,31 @@ Public Class G15LCDv2
     End Sub
 
     Private Shared Sub MonoDevice_SoftButtonsChanged(ByVal sender As Object, ByVal e As LcdSoftButtonsEventArgs)
-        Dim device As LcdDevice = DirectCast(sender, LcdDevice)
         Console.WriteLine(e.SoftButtons)
         If ((e.SoftButtons And LcdSoftButtons.Button0) = LcdSoftButtons.Button0) Then
             ' Select the next char
-            Call G15LCDv2.SelectNextChar()
+            Call SelectNextChar()
         End If
         If ((e.SoftButtons And LcdSoftButtons.Button1) = LcdSoftButtons.Button1) Then
             ' Toggle cycle pilots
-            If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = False Then
-                EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True
-                G15LCDv2.tmrLCDChar.Interval = (1000 * EveHQ.Core.HQ.EveHqSettings.CycleG15Time)
-                G15LCDv2.tmrLCDChar.Enabled = True
-                G15LCDv2.tmrLCDChar.Start()
+            If HQ.Settings.CycleG15Pilots = False Then
+                HQ.Settings.CycleG15Pilots = True
+                TmrLcdChar.Interval = (1000 * HQ.Settings.CycleG15Time)
+                TmrLcdChar.Enabled = True
+                TmrLcdChar.Start()
             Else
-                EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = False
-                G15LCDv2.tmrLCDChar.Stop()
+                HQ.Settings.CycleG15Pilots = False
+                TmrLcdChar.Stop()
             End If
         End If
         If ((e.SoftButtons And LcdSoftButtons.Button2) = LcdSoftButtons.Button2) Then
             ' Change character mode
-            EveHQ.Core.HQ.lcdCharMode += 1
-            If EveHQ.Core.HQ.lcdCharMode > 1 Then EveHQ.Core.HQ.lcdCharMode = 0
+            HQ.lcdCharMode += 1
+            If HQ.lcdCharMode > 1 Then HQ.lcdCharMode = 0
         End If
         If ((e.SoftButtons And LcdSoftButtons.Button3) = LcdSoftButtons.Button3) Then
             ' Update the API
-            G15LCDv2.StartAPIUpdate = True
+            StartAPIUpdate = True
         End If
     End Sub
 
@@ -186,11 +183,11 @@ Public Class G15LCDv2
         If SplashFlag = True Then
             page.Children(0) = New LcdGdiImage(IntroScreenImage)
         Else
-            Select Case EveHQ.Core.HQ.lcdCharMode
+            Select Case HQ.lcdCharMode
                 Case 0
-                    page.Children(0) = New LcdGdiImage(DrawSkillTrainingInfo(EveHQ.Core.HQ.lcdPilot))
+                    page.Children(0) = New LcdGdiImage(DrawSkillTrainingInfo(HQ.lcdPilot))
                 Case 1
-                    page.Children(0) = New LcdGdiImage(DrawCharacterInfo(EveHQ.Core.HQ.lcdPilot))
+                    page.Children(0) = New LcdGdiImage(DrawCharacterInfo(HQ.lcdPilot))
             End Select
         End If
 
@@ -215,12 +212,12 @@ Public Class G15LCDv2
         '' B&W are inverted when they are drawn on the LCD!
 
         'Declare a Bitmap to work with
-        Dim img As New System.Drawing.Bitmap(160, 43)
+        Dim img As New Bitmap(160, 43)
         'Declare a Graphics object to use as the 'tool' for drawing on the bitmap
-        Dim screen As Drawing.Graphics = Graphics.FromImage(img)
+        Dim screen As Graphics = Graphics.FromImage(img)
 
         'Create and set properties of a StringFormat object used for DrawString
-        Dim strformat As New Drawing.StringFormat
+        Dim strformat As New StringFormat
         strformat.Alignment = StringAlignment.Center
         strformat.LineAlignment = StringAlignment.Center
 
@@ -232,31 +229,31 @@ Public Class G15LCDv2
     End Function
 
     Public Shared Function DrawSkillTrainingInfo(ByVal lcdPilot As String) As Image
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(lcdPilot) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots.Item(lcdPilot), Pilot)
+        If HQ.Settings.Pilots.ContainsKey(lcdPilot) = True Then
+            Dim cPilot As EveHQPilot = HQ.Settings.Pilots.Item(lcdPilot)
             Dim lcdFont As Font = New Font("Tahoma", 9, FontStyle.Regular, GraphicsUnit.Pixel)
-            Dim img As New System.Drawing.Bitmap(160, 43)
+            Dim img As New Bitmap(160, 43)
             'Declare a Graphics object to use as the 'tool' for drawing on the bitmap
-            Dim screen As Drawing.Graphics = Graphics.FromImage(img)
-            screen.TextRenderingHint = Text.TextRenderingHint.SingleBitPerPixelGridFit
+            Dim screen As Graphics = Graphics.FromImage(img)
+            screen.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit
 
             'Create and set properties of a StringFormat object used for DrawString
-            Dim strformat As New Drawing.StringFormat
+            Dim strformat As New StringFormat
             strformat.Alignment = StringAlignment.Near
             strformat.LineAlignment = StringAlignment.Near
-            Dim strLCD As String = ""
-            strLCD &= cPilot.Name & ControlChars.CrLf
-            strLCD &= cPilot.TrainingSkillName
-            strLCD &= " (Lvl " & cPilot.TrainingSkillLevel & ")" & ControlChars.CrLf
-            Dim localdate As Date = EveHQ.Core.SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
-            Dim trainingTime As Long = EveHQ.Core.SkillFunctions.CalcCurrentSkillTime(cPilot)
-            strLCD &= (Format(localdate, "ddd") & " " & localdate) & ControlChars.CrLf
-            strLCD &= EveHQ.Core.SkillFunctions.TimeToString(trainingTime)
-            screen.DrawString(strLCD, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
-            If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True Then
+            Dim strLcd As String = ""
+            strLcd &= cPilot.Name & ControlChars.CrLf
+            strLcd &= cPilot.TrainingSkillName
+            strLcd &= " (Lvl " & cPilot.TrainingSkillLevel & ")" & ControlChars.CrLf
+            Dim localdate As Date = SkillFunctions.ConvertEveTimeToLocal(cPilot.TrainingEndTime)
+            Dim trainingTime As Long = SkillFunctions.CalcCurrentSkillTime(cPilot)
+            strLcd &= (Format(localdate, "ddd") & " " & localdate) & ControlChars.CrLf
+            strLcd &= SkillFunctions.TimeToString(trainingTime)
+            screen.DrawString(strLcd, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
+            If HQ.Settings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
-            If EveHQ.Core.HQ.APIUpdateAvailable = True Then
+            If HQ.APIUpdateAvailable = True Then
                 screen.DrawString("(U)", lcdFont, Brushes.Black, 128, 32, strformat)
             End If
 
@@ -271,30 +268,30 @@ Public Class G15LCDv2
     End Function
 
     Public Shared Function DrawCharacterInfo(ByVal lcdPilot As String) As Image
-        If EveHQ.Core.HQ.EveHqSettings.Pilots.Contains(lcdPilot) = True Then
-            Dim cPilot As EveHQ.Core.Pilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots.Item(lcdPilot), Pilot)
+        If HQ.Settings.Pilots.ContainsKey(lcdPilot) = True Then
+            Dim cPilot As EveHQPilot = HQ.Settings.Pilots.Item(lcdPilot)
             'Dim lcdFont As Font = New Font("Microsoft Sans Serif", 13.5F, FontStyle.Regular, GraphicsUnit.Point)
             Dim lcdFont As Font = New Font("Tahoma", 9, FontStyle.Regular, GraphicsUnit.Pixel)
-            Dim img As New System.Drawing.Bitmap(160, 43)
+            Dim img As New Bitmap(160, 43)
             'Declare a Graphics object to use as the 'tool' for drawing on the bitmap
-            Dim screen As Drawing.Graphics = Graphics.FromImage(img)
-            screen.TextRenderingHint = Text.TextRenderingHint.SingleBitPerPixelGridFit
+            Dim screen As Graphics = Graphics.FromImage(img)
+            screen.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit
 
             'Create and set properties of a StringFormat object used for DrawString
-            Dim strformat As New Drawing.StringFormat
+            Dim strformat As New StringFormat
             strformat.Alignment = StringAlignment.Near
             strformat.LineAlignment = StringAlignment.Near
-            Dim strLCD As String = ""
-            strLCD &= cPilot.Name & ControlChars.CrLf
-            strLCD &= cPilot.Corp & ControlChars.CrLf
-            Dim SP As String = (cPilot.SkillPoints + cPilot.TrainingCurrentSP).ToString("N0")
-            strLCD &= "SP: " & SP & ControlChars.CrLf
-            strLCD &= "ISK: " & cPilot.Isk.ToString("N2")
-            screen.DrawString(strLCD, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
-            If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True Then
+            Dim strLcd As String = ""
+            strLcd &= cPilot.Name & ControlChars.CrLf
+            strLcd &= cPilot.Corp & ControlChars.CrLf
+            Dim sp As String = (cPilot.SkillPoints + cPilot.TrainingCurrentSP).ToString("N0")
+            strLcd &= "SP: " & sp & ControlChars.CrLf
+            strLcd &= "ISK: " & cPilot.Isk.ToString("N2")
+            screen.DrawString(strLcd, lcdFont, Brushes.Black, New RectangleF(0, 0, 160, 43), strformat)
+            If HQ.Settings.CycleG15Pilots = True Then
                 screen.DrawImage(My.Resources.refresh, 144, 27, 16, 16)
             End If
-            If EveHQ.Core.HQ.APIUpdateAvailable = True Then
+            If HQ.APIUpdateAvailable = True Then
                 screen.DrawString("(U)", lcdFont, Brushes.Black, 128, 32, strformat)
             End If
 
@@ -308,8 +305,8 @@ Public Class G15LCDv2
         End If
     End Function
 
-    Private Shared Sub tmrLCDChar_Tick(ByVal sender As Object, ByVal e As System.EventArgs) Handles tmrLCDChar.Tick
-        If EveHQ.Core.HQ.EveHqSettings.CycleG15Pilots = True And EveHQ.Core.HQ.EveHqSettings.Pilots.Count > 0 Then
+    Private Shared Sub tmrLCDChar_Tick(ByVal sender As Object, ByVal e As EventArgs) Handles tmrLCDChar.Tick
+        If HQ.Settings.CycleG15Pilots = True And HQ.Settings.Pilots.Count > 0 Then
             Call SelectNextChar()
         End If
     End Sub
@@ -318,12 +315,12 @@ Public Class G15LCDv2
         ' Check for the next character
         Dim startSearch As Boolean = False
         Dim startSearchIndex As Integer = 0
-        Dim searchChar As Integer = 0
-        Dim cPilot As New EveHQ.Core.Pilot
+        Dim searchChar As Integer = -1
+        Dim cPilot As EveHQPilot
         Do
             searchChar += 1
-            If searchChar = EveHQ.Core.HQ.EveHqSettings.Pilots.Count + 1 Then searchChar = 1
-            cPilot = CType(EveHQ.Core.HQ.EveHqSettings.Pilots.Item(searchChar), Pilot)
+            If searchChar = HQ.Settings.Pilots.Count Then searchChar = 0
+            cPilot = HQ.Settings.Pilots.Values(searchChar)
             If startSearch = True And cPilot.Training = True Then
                 Exit Do
             End If
@@ -331,12 +328,12 @@ Public Class G15LCDv2
             If searchChar = startSearchIndex Then
                 Exit Sub
             End If
-            If cPilot.Name = EveHQ.Core.HQ.lcdPilot Then
+            If cPilot.Name = HQ.lcdPilot Then
                 startSearch = True
                 startSearchIndex = searchChar
             End If
         Loop
-        EveHQ.Core.HQ.lcdPilot = cPilot.Name
+        HQ.lcdPilot = cPilot.Name
     End Sub
 
 End Class

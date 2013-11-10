@@ -18,8 +18,8 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.IO
-Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
+Imports Newtonsoft.Json
 
 ''' <summary>
 ''' Class used to serialize fittings onto storage
@@ -27,6 +27,7 @@ Imports System.Windows.Forms
 ''' <remarks></remarks>
 <Serializable()> Public Class SavedFittings
 
+    ' ReSharper disable once InconsistentNaming - for MS serialization compatability
     Private Shared SavedFittingList As New SortedList(Of String, SavedFitting)  ' Key = FittingKey
 
     ''' <summary>
@@ -34,45 +35,46 @@ Imports System.Windows.Forms
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub LoadFittings()
-        ' Load the fittings from the binary file
-        Fittings.FittingList.Clear()
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin")) = True Then
-            Dim s As FileStream
+       
+       ' Check for the profiles file so we can load it
+        If My.Computer.FileSystem.FileExists(Path.Combine(PluginSettings.HQFFolder, "Fittings.json")) = True Then
             Try
-                s = New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Open)
-                Dim f As BinaryFormatter = New BinaryFormatter
-                SavedFittingList = CType(f.Deserialize(s), SortedList(Of String, SavedFitting))
-
-
+                Using s As New StreamReader(Path.Combine(PluginSettings.HQFFolder, "Fittings.json"))
+                    Dim json As String = s.ReadToEnd
+                    SavedFittingList = JsonConvert.DeserializeObject(Of SortedList(Of String, SavedFitting))(json)
+                End Using
             Catch ex As Exception
                 MessageBox.Show("There was an error loading the Fittings file. The file appears corrupt, so it cannot be loaded at this time.")
-            Finally
-
-                s.Close()
             End Try
-            
         End If
+
         ' Copy the saved fittings ready for use
         Call CopySavedFittings()
+
     End Sub
 
     ''' <summary>
-    ''' Saves fittings into storage
+    ''' Saves fittings into storage.
     ''' </summary>
     ''' <remarks></remarks>
     Public Shared Sub SaveFittings()
+
+        ' Prepare the list of fittings to save
+        Call PrepareFittingsForSaving()
+
+        ' Create a JSON string for writing
+        Dim json As String = JsonConvert.SerializeObject(SavedFittingList, Formatting.Indented)
+
+        ' Write the JSON version of the fittings
         Try
-            ' Prepare the list of fittings to save
-            Call PrepareFittingsForSaving()
-            ' Save fittings as a binary file
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Create)
-            Dim f As New BinaryFormatter
-            f.Serialize(s, SavedFittingList)
-            s.Flush()
-            s.Close()
-        Catch ex As Exception
-            Windows.Forms.MessageBox.Show("There was an error saving the fittings file. The error was: " & ex.Message, "Save Fittings Failed :(", Windows.Forms.MessageBoxButtons.OK, Windows.Forms.MessageBoxIcon.Information)
+            Using s As New StreamWriter(Path.Combine(PluginSettings.HQFFolder, "Fittings.json"), False)
+                s.Write(json)
+                s.Flush()
+            End Using
+        Catch e As Exception
+            MessageBox.Show("There was an error saving the fittings file. The error was: " & e.Message, "Save Fittings Failed :(", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
+
     End Sub
 
     ''' <summary>
@@ -103,36 +105,39 @@ Imports System.Windows.Forms
     ''' <summary>
     ''' Copies an instance of a Fitting to a SavedFitting
     ''' </summary>
-    ''' <param name="Fit">The instance of a Fitting class to convert</param>
+    ''' <param name="fit">The instance of a Fitting class to convert</param>
     ''' <returns>An instance of the SavedFitting class</returns>
     ''' <remarks></remarks>
-    Public Shared Function CreateSavedFittingFromFitting(ByVal Fit As Fitting) As SavedFitting
-        Dim SavedFit As New SavedFitting
-        SavedFit.ShipName = Fit.ShipName
-        SavedFit.FittingName = Fit.FittingName
-        SavedFit.PilotName = Fit.PilotName
-        SavedFit.DamageProfileName = Fit.DamageProfileName
-        SavedFit.Modules = Fit.Modules
-        SavedFit.Drones = Fit.Drones
-        SavedFit.Items = Fit.Items
-        SavedFit.Ships = Fit.Ships
-        SavedFit.ImplantGroup = Fit.ImplantGroup
-        SavedFit.Implants = Fit.Implants
-        SavedFit.Boosters = Fit.Boosters
-        SavedFit.WHEffect = Fit.WHEffect
-        SavedFit.WHLevel = Fit.WHLevel
-        SavedFit.FleetEffects = Fit.FleetEffects
-        SavedFit.RemoteEffects = Fit.RemoteEffects
-        Return SavedFit
+    Public Shared Function CreateSavedFittingFromFitting(ByVal fit As Fitting) As SavedFitting
+        Dim savedFit As New SavedFitting
+        savedFit.ShipName = Fit.ShipName
+        savedFit.FittingName = Fit.FittingName
+        savedFit.PilotName = Fit.PilotName
+        savedFit.DamageProfileName = Fit.DamageProfileName
+        savedFit.Modules = Fit.Modules
+        savedFit.Drones = Fit.Drones
+        savedFit.Items = Fit.Items
+        savedFit.Ships = Fit.Ships
+        savedFit.ImplantGroup = Fit.ImplantGroup
+        savedFit.Implants = Fit.Implants
+        savedFit.Boosters = Fit.Boosters
+        savedFit.WHEffect = Fit.WHEffect
+        savedFit.WHLevel = Fit.WHLevel
+        savedFit.FleetEffects = Fit.FleetEffects
+        savedFit.RemoteEffects = fit.RemoteEffects
+        savedFit.Notes = fit.Notes
+        savedFit.Tags = fit.Tags
+        savedFit.Rating = fit.rating
+        Return savedFit
     End Function
 
     ''' <summary>
     ''' Copies an instance of a SavedFitting to a Fitting
     ''' </summary>
-    ''' <param name="Fit">The instance of the SavedFitting class to convert</param>
+    ''' <param name="fit">The instance of the SavedFitting class to convert</param>
     ''' <returns>An instance of the Fitting class</returns>
     ''' <remarks></remarks>
-    Public Shared Function CreateFittingFromSavedFitting(ByVal Fit As SavedFitting) As Fitting
+    Public Shared Function CreateFittingFromSavedFitting(ByVal fit As SavedFitting) As Fitting
         Select Case Fit.ShipName
             Case "Badger Mark II"
                 Fit.ShipName = "Tayra"
@@ -146,76 +151,27 @@ Imports System.Windows.Forms
                 Fit.ShipName = "Miasmos"
         End Select
         If ShipLists.shipList.ContainsKey(Fit.ShipName) Then
-            Dim NewFit As New Fitting(Fit.ShipName, Fit.FittingName, Fit.PilotName)
-            NewFit.DamageProfileName = Fit.DamageProfileName
-            NewFit.Modules = Fit.Modules
-            NewFit.Drones = Fit.Drones
-            NewFit.Items = Fit.Items
-            NewFit.Ships = Fit.Ships
-            NewFit.ImplantGroup = Fit.ImplantGroup
-            NewFit.Implants = Fit.Implants
-            NewFit.Boosters = Fit.Boosters
-            NewFit.WHEffect = Fit.WHEffect
-            NewFit.WHLevel = Fit.WHLevel
-            NewFit.FleetEffects = Fit.FleetEffects
-            NewFit.RemoteEffects = Fit.RemoteEffects
-            Return NewFit
+            Dim newFit As New Fitting(Fit.ShipName, Fit.FittingName, Fit.PilotName)
+            newFit.DamageProfileName = Fit.DamageProfileName
+            newFit.Modules = Fit.Modules
+            newFit.Drones = Fit.Drones
+            newFit.Items = Fit.Items
+            newFit.Ships = Fit.Ships
+            newFit.ImplantGroup = Fit.ImplantGroup
+            newFit.Implants = Fit.Implants
+            newFit.Boosters = Fit.Boosters
+            newFit.WHEffect = Fit.WHEffect
+            newFit.WHLevel = Fit.WHLevel
+            newFit.FleetEffects = Fit.FleetEffects
+            newFit.RemoteEffects = fit.RemoteEffects
+            newFit.Notes = fit.Notes
+            newFit.Tags = fit.Tags
+            newFit.rating = fit.Rating
+            Return newFit
         Else
             Return Nothing
         End If
     End Function
-
-    ''' <summary>
-    ''' Converts the old fittings file to the new version
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Shared Sub ConvertOldFittingsFile()
-        ' Step 1: Load fittings file
-        ' Step 2: Cycle through fittings, creating a new one for each
-        ' Step 3: Save new fittings file
-        ' Step 4: Rename old fittings file
-
-        If My.Computer.FileSystem.FileExists(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin")) = True Then
-
-            ' Step 1
-            Dim TempFittings As New SortedList
-            Dim s As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), FileMode.Open)
-            Dim f As BinaryFormatter = New BinaryFormatter
-            TempFittings = CType(f.Deserialize(s), SortedList)
-            s.Close()
-            s.Dispose()
-
-            ' Step 2
-            Dim TempNewFittings As New SortedList(Of String, SavedFitting)
-            For Each TempFittingName As String In TempFittings.Keys
-                Dim TempFitting As ArrayList = CType(TempFittings(TempFittingName), ArrayList)
-                Dim SavedFit As Fitting = Fittings.ConvertOldFitToNewFit(TempFittingName, TempFitting)
-                TempNewFittings.Add(SavedFit.KeyName, SavedFittings.CreateSavedFittingFromFitting(SavedFit))
-            Next
-
-            ' Step 3
-            Dim ss As New FileStream(Path.Combine(HQF.Settings.HQFFolder, "Fittings.bin"), FileMode.Create)
-            Dim ff As New BinaryFormatter
-            ff.Serialize(ss, TempNewFittings)
-            ss.Flush()
-            ss.Close()
-            ss.Dispose()
-
-            ' Step 4
-            Try
-                My.Computer.FileSystem.RenameFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), "HQFFittings.old")
-            Catch e As Exception
-                ' File exists - try one more rename
-                Try
-                    My.Computer.FileSystem.RenameFile(Path.Combine(HQF.Settings.HQFFolder, "HQFFittings.bin"), "HQFFittings.bin.old")
-                Catch ex As Exception
-                    ' Just exit
-                End Try
-            End Try
-
-        End If
-
-    End Sub
 
 End Class
 

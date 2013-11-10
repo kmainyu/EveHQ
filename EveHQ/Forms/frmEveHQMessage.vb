@@ -17,20 +17,25 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Public Class frmEveHQMessage
+Imports EveHQ.Core
+Imports DevComponents.DotNetBar
 
-    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-        EveHQ.Core.HQ.EveHqSettings.IgnoreLastMessage = chkIgnore.Checked
-        Me.Close()
-        Me.Dispose()
-    End Sub
+Namespace Forms
+    Public Class FrmEveHQMessage
 
-    Private Sub LinkClicked(ByVal sender As Object, ByVal e As DevComponents.DotNetBar.MarkupLinkClickEventArgs) Handles lblMessage.MarkupLinkClick
-        Try
-            Process.Start(e.HRef)
-        Catch ex As Exception
-            ' Don't do anything
-        End Try
-    End Sub
+        Private Sub btnClose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnClose.Click
+            HQ.Settings.IgnoreLastMessage = chkIgnore.Checked
+            Close()
+            Dispose()
+        End Sub
 
-End Class
+        Private Sub LinkClicked(ByVal sender As Object, ByVal e As MarkupLinkClickEventArgs) Handles lblMessage.MarkupLinkClick
+            Try
+                Process.Start(e.HRef)
+            Catch ex As Exception
+                ' Don't do anything
+            End Try
+        End Sub
+
+    End Class
+End NameSpace

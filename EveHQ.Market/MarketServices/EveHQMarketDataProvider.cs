@@ -82,19 +82,38 @@ namespace EveHQ.Market.MarketServices
 
         #region Fields
 
-        /// <summary>The _cache ttl.</summary>
-        private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(12);
-
-        /// <summary>The _region data cache.</summary>
-        private readonly ICacheProvider _priceCache;
-
-        /// <summary>The _request provider.</summary>
-        private readonly IHttpRequestProvider _requestProvider;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Static Fields
 
+        /// <summary>The download lock.</summary>
+        private static readonly object DownloadLock = new object();
+
+        /// <summary>The init lock obj.</summary>
+        private static readonly object InitLockObj = new object();
+
+        /// <summary>The location cache.</summary>
+        private static readonly ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>> LocationCache = new ConcurrentDictionary<string, CacheItem<IEnumerable<ItemOrderStats>>>();
+        /// <summary>The _request provider.</summary>
+        private readonly IHttpRequestProvider _requestProvider;
+
+
+        /// <summary>The download in progres.</summary>
+        private static bool downloadInProgres;
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>The _cache ttl.</summary>
+        private readonly TimeSpan _cacheTtl = TimeSpan.FromHours(12);
+        /// <summary>The _region data cache.</summary>
+        private readonly ICacheProvider _priceCache;
+        /// <summary>The _request provider.</summary>
+        #endregion
+
+        #region Constructors and Destructors
         /// <summary>Initializes a new instance of the <see cref="EveHQMarketDataProvider"/> class.</summary>
         /// <param name="cacheRootFolder">The cache root folder.</param>
         /// <param name="requestProvider">The request Provider.</param>
@@ -105,8 +124,10 @@ namespace EveHQ.Market.MarketServices
         }
 
         #endregion
+       
 
         #region Public Properties
+
 
         /// <summary>Gets the name.</summary>
         public static string Name
@@ -189,6 +210,7 @@ namespace EveHQ.Market.MarketServices
             IEnumerable<ItemOrderStats> results = null;
             Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqMarketDataDumpsLocation.FormatInvariant(entityId.ToInvariantString())));
             requestTask.Wait(); // wait for the completion (we're in a background task anyways)
+              
 
             if (requestTask.IsCompleted && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)
             {
@@ -279,6 +301,7 @@ namespace EveHQ.Market.MarketServices
         private MarketLocationData LastMarketUpdate(int marketLocationId)
         {
             Task<HttpResponseMessage> requestTask = _requestProvider.GetAsync(new Uri(EveHqBaseLocation + marketLocationId.ToInvariantString()),"application/json");
+               
             requestTask.Wait();
             MarketLocationData results = null;
             if (requestTask.IsCompleted && requestTask.Result != null && !requestTask.IsCanceled && !requestTask.IsFaulted && requestTask.Exception == null)

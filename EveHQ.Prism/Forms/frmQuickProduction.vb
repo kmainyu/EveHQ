@@ -17,121 +17,113 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-
+Imports System.Threading.Tasks
 Imports System.Windows.Forms
 Imports DevComponents.AdvTree
-Imports System.Threading.Tasks
+Imports EveHQ.Core
+Imports EveHQ.EveData
+Imports EveHQ.Prism.BPCalc
 
-Public Class frmQuickProduction
+Namespace Forms
 
-    Dim FormStartup As Boolean = True
+    Public Class FrmQuickProduction
 
 #Region "Constructors"
 
-    Public Sub New()
+        Public Sub New()
 
-        ' This call is required by the designer.
-        InitializeComponent()
+            ' This call is required by the designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        Call Me.DisplayAllBlueprints()
+            ' Add any initialization after the InitializeComponent() call.
+            Call DisplayAllBlueprints()
 
-    End Sub
+        End Sub
 
-    Public Sub New(BlueprintName As String)
+        Public Sub New(blueprintName As String)
 
-        ' This call is required by the designer.
-        InitializeComponent()
+            ' This call is required by the designer.
+            InitializeComponent()
 
-        ' Add any initialization after the InitializeComponent() call.
-        Call Me.DisplayAllBlueprints()
-        If cboBPs.Items.Contains(BlueprintName) Then
-            cboBPs.SelectedItem = BlueprintName
-        End If
+            ' Add any initialization after the InitializeComponent() call.
+            Call DisplayAllBlueprints()
+            If cboBPs.Items.Contains(BlueprintName) Then
+                cboBPs.SelectedItem = BlueprintName
+            End If
 
-    End Sub
+        End Sub
 
 #End Region
 
-    Private Sub DisplayAllBlueprints()
-        ' Load the Blueprints into the combo box
-        cboBPs.BeginUpdate()
-        cboBPs.Items.Clear()
-        cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-        cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
-        For Each newBP As Blueprint In PlugInData.Blueprints.Values
-            cboBPs.Items.Add(newBP.Name)
-        Next
-        cboBPs.Sorted = True
-        cboBPs.EndUpdate()
-    End Sub
+        Private Sub DisplayAllBlueprints()
+            ' Load the Blueprints into the combo box
+            cboBPs.BeginUpdate()
+            cboBPs.Items.Clear()
+            cboBPs.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+            cboBPs.AutoCompleteSource = AutoCompleteSource.ListItems
+            For Each newBP As EveData.Blueprint In StaticData.Blueprints.Values
+                cboBPs.Items.Add(StaticData.Types(newBP.Id).Name)
+            Next
+            cboBPs.Sorted = True
+            cboBPs.EndUpdate()
+        End Sub
 
-    Private Sub CalculateMaterials()
-        Dim bpID As String = EveHQ.Core.HQ.itemList(cboBPs.SelectedItem.ToString.Trim)
-        Dim CurrentBP As BlueprintSelection = BlueprintSelection.CopyFromBlueprint(PlugInData.Blueprints(bpID))
-        CurrentBP.MELevel = nudMELevel.Value
-        CurrentBP.PELevel = nudPELevel.Value
-        CurrentBP.Runs = -1
-        CurrentBP.AssetID = CLng(bpID)
-        Dim CurrentJob As ProductionJob = CurrentBP.CreateProductionJob("", "", 5, 5, 0, CStr(CurrentBP.MELevel), CStr(CurrentBP.PELevel), nudCopyRuns.Value, Nothing, False)
-        Call Me.DisplayMaterials(CurrentJob)
-    End Sub
+        Private Sub CalculateMaterials()
+            Dim bpID As Integer = StaticData.TypeNames(cboBPs.SelectedItem.ToString.Trim)
+            Dim currentBP As OwnedBlueprint = OwnedBlueprint.CopyFromBlueprint(StaticData.Blueprints(bpID))
+            currentBP.MELevel = nudMELevel.Value
+            currentBP.PELevel = nudPELevel.Value
+            currentBP.Runs = -1
+            currentBP.AssetID = CLng(bpID)
+            Dim currentJob As Job = currentBP.CreateProductionJob("", "", 5, 5, 0, CStr(currentBP.MELevel), CStr(currentBP.PELevel), nudCopyRuns.Value, Nothing, False)
+            Call DisplayMaterials(currentJob)
+        End Sub
 
-    Private Sub DisplayMaterials(CurrentJob As ProductionJob)
-        adtResources.BeginUpdate()
-        adtResources.Nodes.Clear()
-        Dim UnitMaterial As Double = 0
-        Dim UnitWaste As Double = 0
-        If CurrentJob IsNot Nothing Then
-            Dim priceTask As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From r In CurrentJob.RequiredResources.Values Where TypeOf (r) Is RequiredResource Select CStr(CType(r, RequiredResource).TypeID))
-            priceTask.Wait()
-            Dim prices As Dictionary(Of String, Double) = priceTask.Result
-            For Each resource As Object In CurrentJob.RequiredResources.Values
-                If TypeOf (resource) Is RequiredResource Then
+        Private Sub DisplayMaterials(currentJob As Job)
+            adtResources.BeginUpdate()
+            adtResources.Nodes.Clear()
+            If CurrentJob IsNot Nothing Then
+                Dim priceTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From r In currentJob.Resources.Values Where TypeOf (r) Is JobResource Select r.TypeID)
+                priceTask.Wait()
+                For Each resource As JobResource In CurrentJob.Resources.Values
                     ' This is a resource so add it
-                    Dim rResource As RequiredResource = CType(resource, RequiredResource)
-                    If rResource.TypeCategory <> 16 Then
-                        Dim perfectRaw As Integer = CInt(rResource.PerfectUnits)
-                        Dim waste As Integer = CInt(rResource.WasteUnits)
+                    If resource.TypeCategory <> 16 Then
+                        Dim perfectRaw As Integer = CInt(resource.PerfectUnits)
+                        Dim waste As Integer = CInt(resource.WasteUnits)
                         Dim total As Integer = perfectRaw + waste
-                        Dim price As Double = prices(CStr(rResource.TypeID))
-                        Dim value As Double = total * price
                         ' Add a new list view item
                         If total > 0 Then
-                            Dim newRes As New Node(rResource.TypeName)
+                            Dim newRes As New Node(resource.TypeName)
                             newRes.TextDisplayFormat = "N0"
                             ' Calculate costs
-                            UnitMaterial += value
-                            UnitWaste += waste * price
-
-                            Dim TotalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
-                            newRes.Cells.Add(New Cell(TotalTotal.ToString))
+                            Dim totalTotal As Long = CLng(total) * CLng(CurrentJob.Runs)
+                            newRes.Cells.Add(New Cell(totalTotal.ToString))
                             newRes.Cells(1).TextDisplayFormat = "N0"
                             adtResources.Nodes.Add(newRes)
                         End If
                     End If
-                End If
-            Next
-        End If
-        EveHQ.Core.AdvTreeSorter.Sort(adtResources, 2, False, True)
-        adtResources.EndUpdate()
-    End Sub
+                Next
+            End If
+            AdvTreeSorter.Sort(adtResources, 2, False, True)
+            adtResources.EndUpdate()
+        End Sub
 
-    Private Sub cboBPs_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles cboBPs.SelectedIndexChanged
-        Call Me.CalculateMaterials()
-    End Sub
+        Private Sub cboBPs_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboBPs.SelectedIndexChanged
+            Call CalculateMaterials()
+        End Sub
 
-    Private Sub nudMELevel_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudMELevel.ValueChanged
-        Call Me.CalculateMaterials()
-    End Sub
+        Private Sub nudMELevel_ValueChanged(sender As Object, e As EventArgs) Handles nudMELevel.ValueChanged
+            Call CalculateMaterials()
+        End Sub
 
-    Private Sub nudPELevel_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudPELevel.ValueChanged
-        Call Me.CalculateMaterials()
-    End Sub
+        Private Sub nudPELevel_ValueChanged(sender As Object, e As EventArgs) Handles nudPELevel.ValueChanged
+            Call CalculateMaterials()
+        End Sub
 
-    Private Sub nudCopyRuns_ValueChanged(sender As System.Object, e As System.EventArgs) Handles nudCopyRuns.ValueChanged
-        Call Me.CalculateMaterials()
-    End Sub
+        Private Sub nudCopyRuns_ValueChanged(sender As Object, e As EventArgs) Handles nudCopyRuns.ValueChanged
+            Call CalculateMaterials()
+        End Sub
 
-   
-End Class
+
+    End Class
+End NameSpace
