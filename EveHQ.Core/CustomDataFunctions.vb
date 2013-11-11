@@ -1049,23 +1049,19 @@ Public Class CustomDataFunctions
         If accountName <> "" Then
             Dim mAccount As EveHQAccount = HQ.Settings.Accounts.Item(accountName)
             ' Send this to the API
-            Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-            Dim idxml As XmlDocument = apiReq.GetAPIXML(APITypes.MailingLists, mAccount.ToAPIAccount, mPilot.ID, APIReturnMethods.ReturnStandard)
+            Dim mailingListResponse As EveServiceResponse(Of IEnumerable(Of MailingList)) = HQ.ApiProvider.Character.MailingLists(mAccount.UserID, mAccount.APIKey, Int32.Parse(mPilot.ID))
+            
             ' Parse this XML
-            Dim idList As XmlNodeList
-            Dim idNode As XmlNode
-            Dim eveID As Long
-            Dim eveName As String
-            idList = idxml.SelectNodes("/eveapi/result/rowset/row")
-            If idList.Count > 0 Then
-                For Each idNode In idList
-                    eveID = CLng(idNode.Attributes.GetNamedItem("listID").Value)
-                    eveName = idNode.Attributes.GetNamedItem("displayName").Value
-                    If finalIDs.ContainsKey(eveID) = False Then
-                        finalIDs.Add(eveID, eveName)
-                    End If
-                Next
+            If mailingListResponse.IsSuccess Then
+                Dim mailingLists As IEnumerable(Of MailingList) = mailingListResponse.ResultData
+
+                If mailingLists.Any() Then
+                    For Each list As MailingList In From list1 In mailingLists Where finalIDs.ContainsKey(list1.ListId) = False
+                        finalIDs.Add(list.ListId, list.DisplayName)
+                    Next
+                End If
             End If
+
             ' Add all the data to the database
             Call CommitEveIDListToDB(finalIDs)
         End If

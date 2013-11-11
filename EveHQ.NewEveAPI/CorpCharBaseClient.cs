@@ -80,9 +80,7 @@ namespace EveHQ.EveApi
 
         public EveServiceResponse<IEnumerable<AssetItem>> AssetList(string keyId, string vCode, int characterId)
         {
-            var task = AssetListAsync(keyId, vCode, characterId);
-            task.Wait();
-            return task.Result;
+            return RunAsyncMethod(AssetListAsync, keyId, vCode, characterId);
         }
 
         /// <summary>Retrieves the given character's asset list.</summary>
@@ -253,12 +251,7 @@ namespace EveHQ.EveApi
 
         public EveServiceResponse<IEnumerable<MarketOrder>> MarketOrders(string keyId, string vCode, int characterId)
         {
-            System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            System.Diagnostics.Contracts.Contract.Requires(characterId > 0);
-            var task = MarketOrdersAsync(keyId, vCode, characterId);
-            task.Wait();
-            return task.Result;
+            return RunAsyncMethod(MarketOrdersAsync, keyId, vCode, characterId);
         }
 
 
@@ -343,7 +336,17 @@ namespace EveHQ.EveApi
         /// <param name="vCode">The v code.</param>
         /// <param name="characterId">The character id.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task<EveServiceResponse<IEnumerable<QueuedSkill>>> SkillQueue(string keyId, string vCode, int characterId)
+        public EveServiceResponse<IEnumerable<QueuedSkill>> SkillQueue(string keyId, string vCode, int characterId)
+        {
+            return RunAsyncMethod(SkillQueueAsync, keyId, vCode, characterId);
+        }
+
+        /// <summary>The skill queue.</summary>
+        /// <param name="keyId">The key id.</param>
+        /// <param name="vCode">The v code.</param>
+        /// <param name="characterId">The character id.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task<EveServiceResponse<IEnumerable<QueuedSkill>>> SkillQueueAsync(string keyId, string vCode, int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
@@ -558,7 +561,7 @@ namespace EveHQ.EveApi
         /// <summary>The process skill queue response.</summary>
         /// <param name="result">The result.</param>
         /// <returns>The collection of skills in queue</returns>
-        private static IEnumerable<QueuedSkill> ProcessSkillQueueResponse(XElement result)
+        public static IEnumerable<QueuedSkill> ProcessSkillQueueResponse(XElement result)
         {
             if (result == null)
             {
@@ -975,7 +978,7 @@ namespace EveHQ.EveApi
                     let contacts = (from row in rowset.Elements(ApiConstants.Row)
                                     let contactId = int.Parse(row.Attribute("contactID").Value)
                                     let contactName = row.Attribute("contactName").Value
-                                    let isInWatchList = row.Attributes("inWatchlist").Any() && bool.Parse(row.Attribute("inWatchlist").Value)                                                          
+                                    let isInWatchList = row.Attributes("inWatchlist").Any() && bool.Parse(row.Attribute("inWatchlist").Value)
                                     let standing = int.Parse(row.Attribute("standing").Value)
                                     select new Contact { ContactId = contactId, ContactName = contactName, IsInWatchList = isInWatchList, Standing = standing })
                     select new ContactList { Name = rowset.Attribute(ApiConstants.Name).Value, Contacts = contacts });

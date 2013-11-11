@@ -91,6 +91,7 @@ Public Class HQ
     Private Shared _plugins As Dictionary(Of String, EveHQPlugIn)
     Private Shared _eveCentralProvider As EveCentralMarketDataProvider
     Private Shared _eveHqProvider As EveHQMarketDataProvider
+    Private Const ApiCacheFolderName As String = "ApiCache"
 
 
     Shared Sub New()
@@ -247,12 +248,16 @@ Public Class HQ
         End Set
     End Property
 
-                
+    Public Shared ReadOnly Property ApiCacheFolder As String
+        Get
+            Return Path.Combine(AppDataFolder, ApiCacheFolderName)
+        End Get
+    End Property
 
     Public Shared ReadOnly Property ApiProvider As EveApi.EveAPI
         Get
             If _apiProvider Is Nothing Then
-                _apiProvider = New EveApi.EveAPI(Path.Combine(AppDataFolder, "ApiCache"), New HttpRequestProvider(ProxyDetails))
+                _apiProvider = New EveApi.EveAPI(ApiCacheFolder, New HttpRequestProvider(ProxyDetails))
             End If
             Return _apiProvider
         End Get

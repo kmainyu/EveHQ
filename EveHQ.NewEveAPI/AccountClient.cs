@@ -84,10 +84,8 @@ namespace EveHQ.EveApi
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            
-            var task = AccountStatusAsync(keyId, vCode);
-            task.Wait();
-            return task.Result;
+
+            return RunAsyncMethod(AccountStatusAsync, keyId, vCode);
         }
 
         /// <summary>
@@ -110,9 +108,7 @@ namespace EveHQ.EveApi
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            var task = ApiKeyInfoAsync(keyId, vCode);
-            task.Wait();
-            return task.Result;
+            return RunAsyncMethod(ApiKeyInfoAsync, keyId, vCode);
         }
 
         public Task<EveServiceResponse<ApiKeyInfo>> ApiKeyInfoAsync(string keyId, string vCode)
@@ -135,9 +131,7 @@ namespace EveHQ.EveApi
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
-            var task = CharactersAsync(keyId, vCode);
-            task.Wait();
-            return task.Result;
+            return RunAsyncMethod(CharactersAsync, keyId, vCode);
         }
 
         /// <summary>

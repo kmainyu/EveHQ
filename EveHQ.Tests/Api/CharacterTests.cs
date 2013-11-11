@@ -501,7 +501,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.SkillQueue(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.SkillQueueAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 

@@ -593,7 +593,7 @@ Namespace Forms
             ' Set the redraw flag to avoid triggering a recalc
             _redrawingOptions = True
             ' Determines what buttons and menus are available from the listview!
-            If _activeQueueTree IsNot Nothing Then
+            If _activeQueueTree IsNot Nothing And _activeQueueControl IsNot Nothing Then
                 ' Check the queue status
                 btnIncTraining.Checked = _activeQueueControl.IncludesCurrentTraining
                 btnImplants.Enabled = True
