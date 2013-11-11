@@ -2386,20 +2386,16 @@ Namespace Forms
             If lvQueues.SelectedItems.Count = 0 Then
                 MessageBox.Show("Please select a Queue to call Primary!", "Cannot Set Primary Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
-            Else
-                ' Remove the current primary queue (if it exists!)
-                If _displayPilot.TrainingQueues.ContainsKey(_displayPilot.PrimaryQueue) Then
-                    Dim oldPq As EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
-                    If oldPq IsNot Nothing Then
-                        oldPq.Primary = False
+            Else 
+                For Each tq As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                    If tq.Name = lvQueues.SelectedItems(0).Name Then
+                        tq.Primary = True
+                        _displayPilot.PrimaryQueue = tq.Name
+                    Else
+                        tq.Primary = False
                     End If
-                    _displayPilot.PrimaryQueue = ""
-                    ' Select the new primary queue
-                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
-                    selQueue.Primary = True
-                    _displayPilot.PrimaryQueue = selQueue.Name
-                    Call DrawQueueSummary()
-                End If
+                Next
+                Call DrawQueueSummary()
             End If
         End Sub
 
