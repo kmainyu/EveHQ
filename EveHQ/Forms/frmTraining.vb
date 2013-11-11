@@ -593,7 +593,7 @@ Namespace Forms
             ' Set the redraw flag to avoid triggering a recalc
             _redrawingOptions = True
             ' Determines what buttons and menus are available from the listview!
-            If _activeQueueTree IsNot Nothing Then
+            If _activeQueueControl IsNot Nothing Then
                 ' Check the queue status
                 btnIncTraining.Checked = _activeQueueControl.IncludesCurrentTraining
                 btnImplants.Enabled = True
@@ -2387,17 +2387,19 @@ Namespace Forms
                 MessageBox.Show("Please select a Queue to call Primary!", "Cannot Set Primary Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
             Else
-                ' Remove the current primary queue (if exists!)
-                Dim oldPq As EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
-                If oldPq IsNot Nothing Then
-                    oldPq.Primary = False
+                ' Remove the current primary queue (if it exists!)
+                If _displayPilot.TrainingQueues.ContainsKey(_displayPilot.PrimaryQueue) Then
+                    Dim oldPq As EveHQSkillQueue = _displayPilot.TrainingQueues(_displayPilot.PrimaryQueue)
+                    If oldPq IsNot Nothing Then
+                        oldPq.Primary = False
+                    End If
+                    _displayPilot.PrimaryQueue = ""
+                    ' Select the new primary queue
+                    Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
+                    selQueue.Primary = True
+                    _displayPilot.PrimaryQueue = selQueue.Name
+                    Call DrawQueueSummary()
                 End If
-                _displayPilot.PrimaryQueue = ""
-                ' Select the new primary queue
-                Dim selQueue As EveHQSkillQueue = _displayPilot.TrainingQueues(lvQueues.SelectedItems(0).Name)
-                selQueue.Primary = True
-                _displayPilot.PrimaryQueue = selQueue.Name
-                Call DrawQueueSummary()
             End If
         End Sub
 
