@@ -254,48 +254,48 @@ Namespace Forms
             PlugInData.CorpList.Clear()
 
             For Each selAccount As EveHQAccount In HQ.Settings.Accounts.Values
-                    Select Case selAccount.ApiKeySystem
-                        Case APIKeySystems.Version2
-                            ' Check the type of the key
-                            Select Case selAccount.APIKeyType
-                                Case APIKeyTypes.Corporation
-                                    ' A corporate API key
-                                    For Each xmlOwner As String In selAccount.Characters
-                                        If HQ.Settings.Corporations.ContainsKey(xmlOwner) Then
-                                            Dim selCorp As Corporation = HQ.Settings.Corporations(xmlOwner)
-                                            If StaticData.NpcCorps.ContainsKey(CInt(selCorp.ID)) = False Then
-                                                If PlugInData.PrismOwners.ContainsKey(xmlOwner) = False Then
-                                                    Dim newOwner As New PrismOwner
-                                                    newOwner.Account = selAccount
-                                                    newOwner.Name = selCorp.Name
-                                                    newOwner.ID = CStr(selCorp.ID)
-                                                    newOwner.IsCorp = True
-                                                    newOwner.APIVersion = APIKeySystems.Version2
-                                                    PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
-                                                End If
-                                                ' Add the corp to the CorpList
-                                                PlugInData.CorpList.Add(selCorp.Name, CInt(selCorp.ID))
-                                            End If
-                                        End If
-                                    Next
-                                Case APIKeyTypes.Account, APIKeyTypes.Character
-                                    ' A character related API key
-                                    For Each xmlOwner As String In selAccount.Characters
-                                        If HQ.Settings.Pilots.ContainsKey(xmlOwner) Then
-                                            Dim selPilot As EveHQPilot = HQ.Settings.Pilots(xmlOwner)
+                Select Case selAccount.ApiKeySystem
+                    Case APIKeySystems.Version2
+                        ' Check the type of the key
+                        Select Case selAccount.APIKeyType
+                            Case APIKeyTypes.Corporation
+                                ' A corporate API key
+                                For Each xmlOwner As String In selAccount.Characters
+                                    If HQ.Settings.Corporations.ContainsKey(xmlOwner) Then
+                                        Dim selCorp As Corporation = HQ.Settings.Corporations(xmlOwner)
+                                        If StaticData.NpcCorps.ContainsKey(CInt(selCorp.ID)) = False Then
                                             If PlugInData.PrismOwners.ContainsKey(xmlOwner) = False Then
                                                 Dim newOwner As New PrismOwner
                                                 newOwner.Account = selAccount
-                                                newOwner.Name = selPilot.Name
-                                                newOwner.ID = selPilot.ID
-                                                newOwner.IsCorp = False
+                                                newOwner.Name = selCorp.Name
+                                                newOwner.ID = CStr(selCorp.ID)
+                                                newOwner.IsCorp = True
                                                 newOwner.APIVersion = APIKeySystems.Version2
                                                 PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
                                             End If
+                                            ' Add the corp to the CorpList
+                                            PlugInData.CorpList.Add(selCorp.Name, CInt(selCorp.ID))
                                         End If
-                                    Next
-                            End Select
-                    End Select
+                                    End If
+                                Next
+                            Case APIKeyTypes.Account, APIKeyTypes.Character
+                                ' A character related API key
+                                For Each xmlOwner As String In selAccount.Characters
+                                    If HQ.Settings.Pilots.ContainsKey(xmlOwner) Then
+                                        Dim selPilot As EveHQPilot = HQ.Settings.Pilots(xmlOwner)
+                                        If PlugInData.PrismOwners.ContainsKey(xmlOwner) = False Then
+                                            Dim newOwner As New PrismOwner
+                                            newOwner.Account = selAccount
+                                            newOwner.Name = selPilot.Name
+                                            newOwner.ID = selPilot.ID
+                                            newOwner.IsCorp = False
+                                            newOwner.APIVersion = APIKeySystems.Version2
+                                            PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
+                                        End If
+                                    End If
+                                Next
+                        End Select
+                End Select
             Next
         End Sub
 
@@ -1555,7 +1555,7 @@ Namespace Forms
 
         Private Function CacheDate(ByVal apixml As XmlDocument) As DateTime
             ' Get Cache time details
-            Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
+            Dim cacheDetails As XmlNodeList = apixml.SelectNodes("/eveapi")
             Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
             Dim localCacheTime As Date = SkillFunctions.ConvertEveTimeToLocal(cacheTime)
             Return localCacheTime
@@ -2792,7 +2792,7 @@ Namespace Forms
             End If
         End Sub
 
-       Private Sub btnGetTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetTransactions.Click
+        Private Sub btnGetTransactions_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnGetTransactions.Click
             Call DisplayWalletTransactions()
         End Sub
 
@@ -3781,7 +3781,7 @@ Namespace Forms
         Private Sub GenerateCsvFileFromClv(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
 
             Try
-                Dim csvFile As String = Path.Combine(HQ.ReportFolder, Description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
+                Dim csvFile As String = Path.Combine(HQ.ReportFolder, description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
                 Dim csvText As New StringBuilder
                 With cAdvTree
                     ' Write the columns
@@ -3811,9 +3811,9 @@ Namespace Forms
                 sw.Write(csvText.ToString)
                 sw.Flush()
                 sw.Close()
-                MessageBox.Show(Description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show(description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Catch ex As Exception
-                MessageBox.Show("There was an error writing the " & Description & " File. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("There was an error writing the " & description & " File. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
 
@@ -3927,7 +3927,6 @@ Namespace Forms
                     Dim locationName As String
                     Dim matchCat As Boolean
                     For Each blueprint As BlueprintAsset In ownerBPs.Values
-                        Dim bpName As String = StaticData.Types(CInt(blueprint.TypeID)).Name
                         If blueprint.LocationDetails Is Nothing Then blueprint.LocationDetails = "" ' Resets details
                         If blueprint.LocationID Is Nothing Then blueprint.LocationID = "0" ' Resets details
                         If StaticData.Blueprints.ContainsKey(CInt(blueprint.TypeID)) Then
@@ -3946,14 +3945,15 @@ Namespace Forms
                                         End If
                                     End If
                                     If matchCat = True Then
+                                        Dim bpName As String = StaticData.Types(CInt(blueprint.TypeID)).Name
                                         If search = "" Or bpName.ToLower.Contains(search.ToLower) Or blueprint.LocationDetails.ToLower.Contains(search.ToLower) Or locationName.ToLower.Contains(search.ToLower) Then
-                                            Dim newBPItem As New Node
-                                            adtBlueprints.Nodes.Add(newBPItem)
-                                            newBPItem.CreateCells()
-                                            newBPItem.Text = bpName
-                                            newBPItem.Tag = blueprint.AssetID
-                                            newBPItem.Cells(3).Text = bpData.TechLevel.ToString
-                                            Call UpdateOwnerBPItem(prismOwner, locationName, blueprint, newBPItem)
+                                            Dim newBpItem As New Node
+                                            adtBlueprints.Nodes.Add(newBpItem)
+                                            newBpItem.CreateCells()
+                                            newBpItem.Text = bpName
+                                            newBpItem.Tag = blueprint.AssetID
+                                            newBpItem.Cells(3).Text = bpData.TechLevel.ToString
+                                            Call UpdateOwnerBPItem(prismOwner, locationName, blueprint, newBpItem)
                                         End If
                                     End If
                                 End If
@@ -3970,19 +3970,19 @@ Namespace Forms
             newBPItem.Cells(5).Text = bpAsset.PELevel.ToString("N0")
             Select Case bpAsset.BPType
                 Case BPType.Unknown  ' Undetermined
-                    newBPItem.Cells(1).Text = LocationName
+                    newBPItem.Cells(1).Text = locationName
                     newBPItem.Cells(2).Text = bpAsset.LocationDetails
                     newBPItem.Cells(6).Text = "Unknown"
                     newBPItem.Cells(6).Tag = bpAsset.Runs
                     newBPItem.Style = _bpmStyleUnknown
                 Case BPType.Original  ' BPO
-                    newBPItem.Cells(1).Text = LocationName
+                    newBPItem.Cells(1).Text = locationName
                     newBPItem.Cells(2).Text = bpAsset.LocationDetails
                     newBPItem.Cells(6).Text = "BPO"
                     newBPItem.Cells(6).Tag = 1000000
                     newBPItem.Style = _bpmStyleBpo
                 Case BPType.Copy ' BPC
-                    newBPItem.Cells(1).Text = LocationName
+                    newBPItem.Cells(1).Text = locationName
                     newBPItem.Cells(2).Text = bpAsset.LocationDetails
                     newBPItem.Cells(6).Text = bpAsset.Runs.ToString("N0")
                     newBPItem.Cells(6).Tag = bpAsset.Runs
@@ -4559,8 +4559,8 @@ Namespace Forms
         End Sub
 
         Private Sub OpenBPCalculator(ByVal bpCalc As frmBPCalculator)
-            BPCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - BPCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - BPCalc.Height) / 2)))
-            BPCalc.Show()
+            bpCalc.Location = New Point(CInt(ParentForm.Left + ((ParentForm.Width - bpCalc.Width) / 2)), CInt(ParentForm.Top + ((ParentForm.Height - bpCalc.Height) / 2)))
+            bpCalc.Show()
         End Sub
 
         Private Sub mnuAmendBPDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAmendBPDetails.Click
@@ -4629,9 +4629,9 @@ Namespace Forms
                 ' Remove the nodes
                 Dim bpOwner As String = cboBPOwner.SelectedItem.ToString
                 For Each rn As Node In removalList
-                    Dim assetID As Integer = CInt(rn.Tag)
-                    If PlugInData.BlueprintAssets(bpOwner).ContainsKey(assetID) = True Then
-                        PlugInData.BlueprintAssets(bpOwner).Remove(assetID)
+                    Dim assetId As Long = CLng(rn.Tag)
+                    If PlugInData.BlueprintAssets(bpOwner).ContainsKey(assetId) = True Then
+                        PlugInData.BlueprintAssets(bpOwner).Remove(assetId)
                         adtBlueprints.Nodes.Remove(rn)
                     End If
                 Next
@@ -5688,16 +5688,16 @@ Namespace Forms
                         If CLng(groupID) = 754 Then
                             Dim quantity As Long = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
                             Dim itemName As String = StaticData.Types(itemID).Name
-                            If SalvageList.Contains(itemName) = False Then
-                                SalvageList.Add(itemName, quantity)
+                            If salvageList.Contains(itemName) = False Then
+                                salvageList.Add(itemName, quantity)
                             Else
-                                SalvageList.Item(itemName) = CLng(SalvageList.Item(itemName)) + quantity
+                                salvageList.Item(itemName) = CLng(salvageList.Item(itemName)) + quantity
                             End If
                         End If
                     End If
 
                     If subLoc.HasChildNodes = True Then
-                        Call GetSalvageNode(SalvageList, subLoc)
+                        Call GetSalvageNode(salvageList, subLoc)
                     End If
 
                 Catch ex As Exception
