@@ -27,7 +27,7 @@ namespace EveHQ.EveApi
         public NpcType Kind { get; set; }
 
         /// <summary>Gets or sets the from id.</summary>
-        public int FromId { get; set; }
+        public long FromId { get; set; }
 
         /// <summary>Gets or sets the from name.</summary>
         public string FromName { get; set; }

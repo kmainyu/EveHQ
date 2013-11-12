@@ -33,10 +33,19 @@ namespace EveHQ.EveApi
         /// <summary>Gets the contact name.</summary>
         public string ContactName { get; set; }
 
+        public ContactType ContactType { get; set; }
+
         /// <summary>Gets a value indicating whether is in watch list.</summary>
         public bool IsInWatchList { get; set; }
 
         /// <summary>Gets the standing.</summary>
         public int Standing { get; set; }
+    }
+
+    public enum ContactType
+    {
+        ContactList,
+        CorporateContactList,
+        AllianceContactList
     }
 }

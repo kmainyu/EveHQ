@@ -164,34 +164,32 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\ContactList.xml"));
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.ContactList(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.ContactListAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
                 var result = task.Result;
                 var resultData = result.ResultData.ToList();
 
-                Assert.AreEqual(3, resultData.Count());
+                Assert.AreEqual(4, resultData.Count());
 
                 // personal contacts
-                Assert.AreEqual("contactList", resultData[0].Name);
-                Assert.AreEqual(2, resultData[0].Contacts.Count());
-                Assert.AreEqual(3010913, resultData[0].Contacts.Take(1).First().ContactId);
-                Assert.AreEqual("Hirento Raikkanen", resultData[0].Contacts.Take(1).First().ContactName);
-                Assert.AreEqual(false, resultData[0].Contacts.Take(1).First().IsInWatchList);
-                Assert.AreEqual(0, resultData[0].Contacts.Take(1).First().Standing);
+                Assert.AreEqual(3010913, resultData.Take(1).First().ContactId);
+                Assert.AreEqual("Hirento Raikkanen", resultData.Take(1).First().ContactName);
+                Assert.AreEqual(false, resultData.Take(1).First().IsInWatchList);
+                Assert.AreEqual(0, resultData.Take(1).First().Standing);
 
-                Assert.AreEqual(797400947, resultData[0].Contacts.Skip(1).Take(1).First().ContactId);
-                Assert.AreEqual("CCP Garthagk", resultData[0].Contacts.Skip(1).Take(1).First().ContactName);
-                Assert.AreEqual(true, resultData[0].Contacts.Skip(1).Take(1).First().IsInWatchList);
-                Assert.AreEqual(10, resultData[0].Contacts.Skip(1).Take(1).First().Standing);
+                Assert.AreEqual(797400947, resultData.Skip(1).Take(1).First().ContactId);
+                Assert.AreEqual("CCP Garthagk", resultData.Skip(1).Take(1).First().ContactName);
+                Assert.AreEqual(true, resultData.Skip(1).Take(1).First().IsInWatchList);
+                Assert.AreEqual(10, resultData.Skip(1).Take(1).First().Standing);
 
                 // corp contacts
-                Assert.AreEqual("corporateContactList", resultData[1].Name);
-                Assert.AreEqual(797400947, resultData[1].Contacts.Take(1).First().ContactId);
-                Assert.AreEqual("CCP Garthagk", resultData[1].Contacts.Take(1).First().ContactName);
-                Assert.AreEqual(false, resultData[1].Contacts.Take(1).First().IsInWatchList);
-                Assert.AreEqual(-10, resultData[1].Contacts.Take(1).First().Standing);
+                Assert.AreEqual(797400947, resultData[2].ContactId);
+                Assert.AreEqual("CCP Garthagk", resultData[2].ContactName);
+                Assert.AreEqual(false, resultData[2].IsInWatchList);
+               // Assert.AreEqual(ContactType.CorporateContactList, resultData[2].ContactType);
+                Assert.AreEqual(-10, resultData[2].Standing);
             }
         }
 
@@ -537,7 +535,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.NPCStandings(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.NPCStandingsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 

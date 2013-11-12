@@ -22,6 +22,7 @@ Imports System.Text
 Imports System.Xml
 Imports EveHQ.Core
 Imports EveHQ.EveAPI
+Imports EveHQ.Common.Extensions
 
 Namespace Classes
 
@@ -70,11 +71,13 @@ Namespace Classes
                 Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Contracts)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Contracts)
                 Dim contractXML As XmlDocument
+                Dim contractResponse As EveServiceResponse(Of IEnumerable(Of EveHQ.EveAPI.Contract))
                 Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
 
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
+                        contractResponse = HQ.ApiProvider.Corporation.Contracts(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         contractXML = apiReq.GetAPIXML(APITypes.ContractsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                     Else
                         contractXML = apiReq.GetAPIXML(APITypes.ContractsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
