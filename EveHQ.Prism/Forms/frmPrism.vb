@@ -511,6 +511,7 @@ Namespace Forms
             ' Perform this so that the API download process doesn't block the main UI thread
             GetXMLData()
         End Sub
+
         Private Sub GetXMLData()
 
             _prismThreadMax = 16
@@ -536,6 +537,7 @@ Namespace Forms
             ThreadPool.QueueUserWorkItem(AddressOf UpdateNullCorpSheet2)
 
         End Sub
+
         Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType)
 
             ' Get the listviewitem of the relevant Owner
@@ -583,6 +585,7 @@ Namespace Forms
                 MessageBox.Show(msg, "CheckXML Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End Sub
+
         Private Sub DisplayAPIDetails(ByVal apiXML As XmlDocument, ByVal apiOwner As ListViewItem, ByVal pos As Integer)
             ' Check response string for any error codes?
             Dim errlist As XmlNodeList = apiXML.SelectNodes("/eveapi/error")
@@ -603,6 +606,7 @@ Namespace Forms
                 End If
             End If
         End Sub
+
         Private Function CanUseAPI(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Select Case pOwner.APIVersion
                 Case APIKeySystems.Version2
@@ -611,6 +615,7 @@ Namespace Forms
                     Return False
             End Select
         End Function
+
         Private Function CanUseApiV2(ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType) As Boolean
             Dim account As EveHQAccount = pOwner.Account
             If account.ApiKeySystem = APIKeySystems.Version2 Then
@@ -658,6 +663,7 @@ Namespace Forms
                 Return False
             End If
         End Function
+
         Private Sub CompleteAPIUpdate()
             ' Populate the various Owner boxes
             Call UpdatePrismOwners()
@@ -668,6 +674,7 @@ Namespace Forms
                 DisplayAPICompleteDialog()
             End If
         End Sub
+
         Private Sub DisplayAPICompleteDialog()
             TaskDialog.AntiAlias = True
             TaskDialog.EnableGlass = False
@@ -682,6 +689,7 @@ Namespace Forms
             tdi.CheckBoxCommand = APIDownloadDialogCheckBox
             TaskDialog.Show(Me, tdi)
         End Sub
+
         Private Sub APIDownloadDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles APIDownloadDialogCheckBox.Executed
             PrismSettings.UserSettings.HideAPIDownloadDialog = APIDownloadDialogCheckBox.Checked
         End Sub

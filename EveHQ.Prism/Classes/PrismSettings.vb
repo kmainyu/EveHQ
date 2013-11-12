@@ -43,6 +43,7 @@ Namespace Classes
         ' CorpReps: SortedList (of <CorpName>, Sortedlist(Of CorpRepType, PilotName))
         Private _corpReps As New SortedList(Of String, SortedList(Of CorpRepType, String))
 
+        Public Property HideSaveJobDialog As Boolean = False
         Public Property HideAPIDownloadDialog As Boolean = False
         Public Property CorpReps As SortedList(Of String, SortedList(Of CorpRepType, String))
             Get

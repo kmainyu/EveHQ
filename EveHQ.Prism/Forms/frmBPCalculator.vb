@@ -25,6 +25,7 @@ Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.Controls
+Imports DevComponents.DotNetBar
 
 Namespace Forms
 
@@ -106,7 +107,8 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a default blank BPCalc
-            _usingOwnedBPs = UsingOwnedBPs
+            _startUp = True
+            _usingOwnedBPs = usingOwnedBPs
             _startMode = BPCalcStartMode.None
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
 
@@ -118,7 +120,8 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a non-owned BP
-            _bpName = BPName
+            _startUp = True
+            _bpName = bpName
             _usingOwnedBPs = False
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
             _startMode = BPCalcStartMode.StandardBP
@@ -131,8 +134,9 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a non-owned BP
+            _startUp = True
             _bpOwnerName = bpOwner
-            _ownedBpid = CStr(BPAssetID)
+            _ownedBpid = CStr(bpAssetID)
             _usingOwnedBPs = True
             _startMode = BPCalcStartMode.OwnerBP
 
@@ -147,7 +151,7 @@ Namespace Forms
             _initialJob = existingJob
             _currentJob = existingJob.Clone
             _currentBP = _currentJob.CurrentBlueprint
-            If ForInvention = False Then
+            If forInvention = False Then
                 _startMode = BPCalcStartMode.ProductionJob
             Else
                 _startMode = BPCalcStartMode.InventionJob
@@ -167,12 +171,25 @@ Namespace Forms
         Private Sub frmBPCalculator_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles Me.FormClosing
 
             ' Check for changed production values
-            If ProductionChanged = True Then
-                Dim reply As DialogResult = MessageBox.Show("There are unsaved changes to this Production Job. Would you like to save these now?", "Save Job Changes?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
-                If reply = DialogResult.Cancel Then
+            If ProductionChanged = True And PrismSettings.UserSettings.HideSaveJobDialog = False Then
+
+                TaskDialog.AntiAlias = True
+                TaskDialog.EnableGlass = False
+                Dim tdi As New TaskDialogInfo
+                tdi.TaskDialogIcon = eTaskDialogIcon.Information
+                tdi.DialogButtons = eTaskDialogButton.Yes Or eTaskDialogButton.No Or eTaskDialogButton.Cancel
+                tdi.DefaultButton = eTaskDialogButton.Yes
+                tdi.Title = "Save Job Changes?"
+                tdi.Header = "Save Job Changes?"
+                tdi.Text = "There are unsaved changes to this Production Job. Would you like to save these now?"
+                tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+                tdi.CheckBoxCommand = SaveJobDialogCheckBox
+                Dim reply As eTaskDialogResult = TaskDialog.Show(Me, tdi)
+
+                If reply = eTaskDialogResult.Cancel Then
                     e.Cancel = True
                 Else
-                    If reply = DialogResult.Yes Then
+                    If reply = eTaskDialogResult.Yes Then
                         ' Save the current job before exiting
                         Call SaveCurrentProductionJob()
                     End If
@@ -193,6 +210,11 @@ Namespace Forms
                 End If
             End If
         End Sub
+
+        Private Sub SaveJobDialogCheckBox_Executed(ByVal sender As Object, ByVal e As EventArgs) Handles SaveJobDialogCheckBox.Executed
+            PrismSettings.UserSettings.HideSaveJobDialog = SaveJobDialogCheckBox.Checked
+        End Sub
+
         Private Sub frmBPCalculator_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
             ' Set up the event handlers from the PrismProductionResources controls
@@ -506,7 +528,7 @@ Namespace Forms
                         End If
 
                         ' Check if this matches the ownedBPID
-                        If bpacbi.AssetID = _ownedBPID Then
+                        If bpacbi.AssetID = _ownedBpid Then
                             _ownedBP = bpacbi
                         End If
                     End If
@@ -926,7 +948,10 @@ Namespace Forms
             Dim copyImplant As Double = 1 - (CDbl(cboScienceImplant.SelectedItem.ToString.TrimEnd(CChar("%"))) / 100)
             Dim meTime As Double = _currentBP.ResearchMaterialLevelTime * (1 - (0.05 * cboMetallurgySkill.SelectedIndex)) * meImplant
             Dim peTime As Double = _currentBP.ResearchProductionLevelTime * (1 - (0.05 * cboResearchSkill.SelectedIndex)) * peImplant
-            Dim copyTime As Double = _currentBP.ResearchCopyTime / _currentBP.MaxProductionLimit * 2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * copyImplant
+            Dim copyTime As Double = 0
+            If _currentBP.MaxProductionLimit <> 0 Then
+                copyTime = _currentBP.ResearchCopyTime / _currentBP.MaxProductionLimit * 2 * (1 - (0.05 * cboScienceSkill.SelectedIndex)) * copyImplant
+            End If
             If chkResearchAtPOS.Checked = True Then
                 meTime *= 0.75
                 peTime *= 0.75
@@ -1149,7 +1174,7 @@ Namespace Forms
             End If
         End Sub
 
-       Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAdvancedLab.CheckedChanged
+        Private Sub chkAdvancedLab_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkAdvancedLab.CheckedChanged
             If chkAdvancedLab.Checked = True Then
                 _copyTimeMod = 0.65
             Else
@@ -1339,7 +1364,7 @@ Namespace Forms
         End Sub
 
         Private Sub lblFactoryCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblFactoryCostsLbl.LinkClicked
-            Using newSettingsForm As New frmPrismSettings
+            Using newSettingsForm As New FrmPrismSettings
                 newSettingsForm.Tag = "nodeCosts"
                 newSettingsForm.ShowDialog()
                 Call UpdateBlueprintInformation()
@@ -1348,7 +1373,7 @@ Namespace Forms
         End Sub
 
         Private Sub lblInventionLabCostsLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionLabCostsLbl.LinkClicked
-            Using newSettingsForm As New frmPrismSettings
+            Using newSettingsForm As New FrmPrismSettings
                 newSettingsForm.Tag = "nodeCosts"
                 newSettingsForm.ShowDialog()
                 Call UpdateBlueprintInformation()
@@ -1357,7 +1382,7 @@ Namespace Forms
         End Sub
 
         Private Sub lblInventionBPCCostLbl_LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles lblInventionBPCCostLbl.LinkClicked
-            Using newSettingsForm As New frmPrismSettings
+            Using newSettingsForm As New FrmPrismSettings
                 newSettingsForm.Tag = "nodeCosts"
                 newSettingsForm.ShowDialog()
                 Call UpdateBlueprintInformation()

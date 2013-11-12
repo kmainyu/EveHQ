@@ -148,6 +148,7 @@ Namespace Forms
             End If
 
             chkHideAPIDialog.Checked = PrismSettings.UserSettings.HideAPIDownloadDialog
+            chkHideSaveJobDialog.Checked = PrismSettings.UserSettings.HideSaveJobDialog
 
         End Sub
 
@@ -177,6 +178,10 @@ Namespace Forms
 
         Private Sub chkHideAPIDialog_CheckedChanged(sender As Object, e As EventArgs) Handles chkHideAPIDialog.CheckedChanged
             PrismSettings.UserSettings.HideAPIDownloadDialog = chkHideAPIDialog.Checked
+        End Sub
+
+        Private Sub chkHideSaveJobDialog_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkHideSaveJobDialog.CheckedChanged
+            PrismSettings.UserSettings.HideSaveJobDialog = chkHideSaveJobDialog.Checked
         End Sub
 
         Private Sub btnDeleteDuplicateJournals_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnDeleteDuplicateJournals.Click
@@ -680,5 +685,6 @@ Namespace Forms
             End If
         End Sub
 
+     
     End Class
 End NameSpace
