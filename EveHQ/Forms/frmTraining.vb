@@ -36,7 +36,8 @@ Namespace Forms
 
         Dim _oldNodeIndex As Integer = -1
         ReadOnly _openNodes As New List(Of String)
-        Dim _omitQueuedSkills As Boolean = False
+        Dim _hideQueuedSkills As Boolean = False
+        Dim _hideLevel5Skills As Boolean = False
         Dim _selQTime As Double = 0
         Dim _activeQueueName As String = ""
         Dim _activeQueueControl As EveHQTrainingQueue
@@ -534,33 +535,49 @@ Namespace Forms
                                 End If
                         End Select
                         If addSkill = True Then
-                            If _omitQueuedSkills = False Then
+
+                            If HideSkill(newSkill) = False Then
                                 If groupNode IsNot Nothing Then
                                     groupNode.Nodes.Add(skillNode)
                                 End If
-                            Else
-                                Dim inQ As Boolean = False
-                                For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
-                                    If inQ = True Then Exit For
-                                    Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
-                                    For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
-                                        If newSkill.Name = skillQueueItem.Name Then
-                                            inQ = True
-                                            Exit For
-                                        End If
-                                    Next
-                                Next
-                                If inQ = False Then
-                                    If groupNode IsNot Nothing Then
-                                        groupNode.Nodes.Add(skillNode)
-                                    End If
-                                End If
                             End If
+                            
                         End If
                     End If
                 End If
             Next
         End Sub
+        Public Function HideSkill(skill As EveSkill) As Boolean
+            If _hideQueuedSkills = False Then
+                If _hideLevel5Skills = False Then
+                    Return False
+                Else
+                    Return SkillFunctions.IsSkillTrained(_displayPilot, skill.Name, 5)
+                End If
+            Else
+                Dim inQ As Boolean = False
+                For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
+                    If inQ = True Then Exit For
+                    Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
+                    For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
+                        If skill.Name = skillQueueItem.Name Then
+                            inQ = True
+                            Exit For
+                        End If
+                    Next
+                Next
+                If inQ = False Then
+                    If _hideLevel5Skills = False Then
+                        Return False
+                    Else
+                        Return SkillFunctions.IsSkillTrained(_displayPilot, skill.Name, 5)
+                    End If
+                Else
+                    Return True
+                End If
+            End If
+        End Function
+
         Private Sub ShowSkillGroups()
             For Each groupNode As Node In _skillListNodes.Values
                 If groupNode.Nodes.Count > 0 Then
@@ -568,6 +585,7 @@ Namespace Forms
                 End If
             Next
         End Sub
+
         Public Sub RefreshTraining(ByVal queueName As String, updateColumnHeaders As Boolean)
 
             Dim ti As TabItem = tabQueues.Tabs.Item(queueName)
@@ -860,12 +878,16 @@ Namespace Forms
                 Call LoadSkillTreeSearch()
             End If
         End Sub
-        Private Sub chkOmitQueuesSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkOmitQueuesSkills.CheckedChanged
-            If chkOmitQueuesSkills.Checked = True Then
-                _omitQueuedSkills = True
+        Private Sub chkOmitQueuedSkills_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkOmitQueuedSkills.CheckedChanged
+            _hideQueuedSkills = chkOmitQueuedSkills.Checked
+            If _usingFilter = True Then
+                Call LoadSkillTree()
             Else
-                _omitQueuedSkills = False
+                Call LoadSkillTreeSearch()
             End If
+        End Sub
+        Private Sub chkOmitLevel5Skills_CheckedChanged(sender As Object, e As EventArgs) Handles chkOmitLevel5Skills.CheckedChanged
+            _hideLevel5Skills = chkOmitLevel5Skills.Checked
             If _usingFilter = True Then
                 Call LoadSkillTree()
             Else
@@ -898,23 +920,9 @@ Namespace Forms
                         Else
                             skillNode.ImageIndex = 10
                         End If
-                        If _omitQueuedSkills = False Then
+
+                        If HideSkill(newSkill) = False Then
                             adtSkillList.Nodes.Add(skillNode)
-                        Else
-                            Dim inQ As Boolean = False
-                            For Each skillQ As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
-                                If inQ = True Then Exit For
-                                Dim sQ As Dictionary(Of String, EveHQSkillQueueItem) = skillQ.Queue
-                                For Each skillQueueItem As EveHQSkillQueueItem In sQ.Values
-                                    If newSkill.Name = skillQueueItem.Name Then
-                                        inQ = True
-                                        Exit For
-                                    End If
-                                Next
-                            Next
-                            If inQ = False Then
-                                adtSkillList.Nodes.Add(skillNode)
-                            End If
                         End If
 
                     End If
@@ -2530,6 +2538,6 @@ Namespace Forms
 
 #End Region
         
-    End Class
+     End Class
 
 End Namespace
