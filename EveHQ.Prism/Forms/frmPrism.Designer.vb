@@ -493,6 +493,7 @@ Namespace Forms
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.APIDownloadDialogCheckBox = New DevComponents.DotNetBar.Command(Me.components)
             Me.tmrUpdateInfo = New System.Windows.Forms.Timer(Me.components)
+            Me.btnExportOrders = New System.Windows.Forms.Button()
             Me.ctxTransactions.SuspendLayout()
             CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2674,18 +2675,18 @@ Namespace Forms
             Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
+            Me.tabPrism.Controls.Add(Me.TabControlPanel4)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel6)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel5)
             Me.tabPrism.Controls.Add(Me.TabControlPanel7)
             Me.tabPrism.Controls.Add(Me.TabControlPanel1)
             Me.tabPrism.Controls.Add(Me.TabControlPanel3)
             Me.tabPrism.Controls.Add(Me.TabControlPanel14)
             Me.tabPrism.Controls.Add(Me.TabControlPanel16)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel6)
             Me.tabPrism.Controls.Add(Me.TabControlPanel8)
             Me.tabPrism.Controls.Add(Me.TabControlPanel15)
             Me.tabPrism.Controls.Add(Me.TabControlPanel17)
             Me.tabPrism.Controls.Add(Me.TabControlPanel11)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel5)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel4)
             Me.tabPrism.Controls.Add(Me.TabControlPanel9)
             Me.tabPrism.Controls.Add(Me.TabControlPanel2)
             Me.tabPrism.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -5657,6 +5658,7 @@ Namespace Forms
             '
             Me.pnlSellOrders.CanvasColor = System.Drawing.SystemColors.Control
             Me.pnlSellOrders.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.pnlSellOrders.Controls.Add(Me.btnExportOrders)
             Me.pnlSellOrders.Controls.Add(Me.cboOrdersOwner)
             Me.pnlSellOrders.Controls.Add(Me.lblOrdersOwner)
             Me.pnlSellOrders.Controls.Add(Me.adtSellOrders)
@@ -6283,6 +6285,16 @@ Namespace Forms
             Me.tmrUpdateInfo.Enabled = True
             Me.tmrUpdateInfo.Interval = 60000
             '
+            'btnExportOrders
+            '
+            Me.btnExportOrders.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Me.btnExportOrders.Location = New System.Drawing.Point(1197, 7)
+            Me.btnExportOrders.Name = "btnExportOrders"
+            Me.btnExportOrders.Size = New System.Drawing.Size(75, 23)
+            Me.btnExportOrders.TabIndex = 31
+            Me.btnExportOrders.Text = "Export"
+            Me.btnExportOrders.UseVisualStyleBackColor = True
+            '
             'FrmPrism
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6850,5 +6862,6 @@ Namespace Forms
         Friend WithEvents APIDownloadDialogCheckBox As DevComponents.DotNetBar.Command
         Friend WithEvents tmrUpdateInfo As System.Windows.Forms.Timer
         Friend WithEvents colJobsTTC As DevComponents.AdvTree.ColumnHeader
+        Friend WithEvents btnExportOrders As System.Windows.Forms.Button
     End Class
 End NameSpace

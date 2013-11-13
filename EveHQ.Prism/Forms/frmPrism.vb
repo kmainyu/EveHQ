@@ -3780,7 +3780,6 @@ Namespace Forms
         End Sub
 
         Private Sub btnExportJournal_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportJournal.Click
-            'TODO: Update the called routine
             Call GenerateCsvFileFromClv(cboJournalOwners.Text, "Wallet Journal", adtJournal)
         End Sub
 
@@ -3788,10 +3787,10 @@ Namespace Forms
             Call GenerateCsvFileFromClv(cboJobOwner.SelectedItem.ToString, "Industry Jobs", adtJobs)
         End Sub
 
-        'Private Sub btnExportOrders_Click(ByVal sender As Object, ByVal e As EventArgs)
-        '    Call GenerateCSVFileFromCLV(cboOrdersOwner.SelectedItem.ToString, "Sell Orders", adtSellOrders)
-        '    Call GenerateCSVFileFromCLV(cboOrdersOwner.SelectedItem.ToString, "Buy Orders", adtBuyOrders)
-        'End Sub
+        Private Sub btnExportOrders_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportOrders.Click
+            Call GenerateCsvFileFromClv(cboOrdersOwner.SelectedItem.ToString, "Sell Orders", adtSellOrders)
+            Call GenerateCsvFileFromClv(cboOrdersOwner.SelectedItem.ToString, "Buy Orders", adtBuyOrders)
+        End Sub
 
         Private Sub GenerateCsvFileFromClv(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
 
