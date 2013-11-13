@@ -54,6 +54,7 @@ Namespace Forms
         Dim _prismThreadCurrent As Integer = 0
         Private Const MaxAPIRetries As Integer = 3
         Private Const MaxAPIJournals As Integer = 2000
+        Dim _csvFile As String = ""
 
         Dim _bpManagerUpdate As Boolean = False
         ReadOnly _bpLocations As List(Of String) = New List(Of String)()
@@ -3000,7 +3001,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub adtJobs_ColumnHeaderMouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtJobs.ColumnHeaderMouseDown
+        Private Sub adtJobs_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtJobs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -3795,7 +3796,7 @@ Namespace Forms
         Private Sub GenerateCsvFileFromClv(ByVal ownerName As String, ByVal description As String, ByVal cAdvTree As AdvTree)
 
             Try
-                Dim csvFile As String = Path.Combine(HQ.ReportFolder, description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
+                _csvFile = Path.Combine(HQ.ReportFolder, description.Replace(" ", "") & " - " & ownerName & " (" & Format(Now, "yyyy-MM-dd HH-mm-ss") & ").csv")
                 Dim csvText As New StringBuilder
                 With cAdvTree
                     ' Write the columns
@@ -3821,14 +3822,50 @@ Namespace Forms
                         csvText.AppendLine("")
                     Next
                 End With
-                Dim sw As New StreamWriter(csvFile)
+                Dim sw As New StreamWriter(_csvFile)
                 sw.Write(csvText.ToString)
                 sw.Flush()
                 sw.Close()
-                MessageBox.Show(description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                DisplayCsvExportDialog()
+                'MessageBox.Show(description & " successfully exported to " & csvFile, "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Catch ex As Exception
                 MessageBox.Show("There was an error writing the " & description & " File. The error was: " & ControlChars.CrLf & ControlChars.CrLf & ex.Message, "Error Writing File", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
+
+        End Sub
+
+        Private Sub DisplayCsvExportDialog()
+            TaskDialog.AntiAlias = True
+            TaskDialog.EnableGlass = False
+            Dim tdi As New TaskDialogInfo
+            tdi.TaskDialogIcon = eTaskDialogIcon.CheckMark2
+            tdi.DialogButtons = eTaskDialogButton.Ok
+            tdi.DefaultButton = eTaskDialogButton.Ok
+            tdi.Buttons = New Command() {CSVExportOpenFolderButton, CSVExportOpenFileButton}
+            tdi.Title = "CSV Export Complete"
+            tdi.Header = "CSV Export Complete"
+            tdi.Text = "Prism has completed the export of the CSV data." & ControlChars.CrLf & ControlChars.CrLf
+            tdi.Text &= "You can close this screen or optionally select one of the following additional tasks below."
+            tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+            'tdi.CheckBoxCommand = CSVExportDialogCheckBox
+            TaskDialog.Show(Me, tdi)
+        End Sub
+
+        Private Sub CSVExportOpenFolderButton_Executed(sender As System.Object, e As System.EventArgs) Handles CSVExportOpenFolderButton.Executed
+            Try
+                Process.Start(HQ.ReportFolder)
+            Catch ex As Exception
+                MessageBox.Show("Unable to start Windows Explorer: " & ex.Message, "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+            TaskDialog.Close()
+        End Sub
+        Private Sub CSVExportOpenFileButton_Executed(sender As System.Object, e As System.EventArgs) Handles CSVExportOpenFileButton.Executed
+            Try
+                Process.Start(_csvFile)
+            Catch ex As Exception
+                MessageBox.Show("Unable to open CSV File in the defaul application: " & ex.Message, "Error Starting External Process", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Try
+            TaskDialog.Close()
         End Sub
 
 #End Region
@@ -6160,6 +6197,5 @@ Namespace Forms
 
 #End Region
 
- 
     End Class
 End Namespace
