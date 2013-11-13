@@ -138,6 +138,7 @@
     <Compile Include="Entities\ContractItem.cs" />
     <Compile Include="Entities\ContractStatus.cs" />
     <Compile Include="Entities\ContractType.cs" />
+    <Compile Include="Entities\CorporateData.cs" />
     <Compile Include="Entities\FactionalWarfareStats.cs" />
     <Compile Include="Entities\IndustryJob.cs" />
     <Compile Include="Entities\IndustryJobCompletedStatus.cs" />

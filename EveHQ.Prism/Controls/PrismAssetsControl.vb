@@ -19,8 +19,9 @@
 '=========================================================================
 Imports System.Globalization
 Imports System.ComponentModel
+Imports EveHQ.EveApi
 Imports EveHQ.Prism.Classes
-Imports EveHQ.EveAPI
+
 Imports EveHQ.Core
 Imports DevComponents.AdvTree
 Imports System.Windows.Forms
@@ -38,7 +39,7 @@ Namespace Controls
     Public Class PrismAssetsControl
 
         Dim _hqfShip As New ArrayList
-        Private ReadOnly _assetList As New SortedList(Of Long, AssetItem)
+        Private ReadOnly _assetList As New SortedList(Of Long, Classes.AssetItem)
         ReadOnly _tempAssetList As New ArrayList
         Dim _totalAssetValue As Double = 0
         Dim _totalAssetCount As Long = 0
@@ -182,11 +183,11 @@ Namespace Controls
             For newCell As Integer = 1 To _numberOfActiveColumns
                 assetNode.Cells.Add(New Cell)
             Next
-            AssetNode.Cells(_assetColumn("AssetMeta")).StyleNormal = adtAssets.Styles("AssetRight")
-            AssetNode.Cells(_assetColumn("AssetVolume")).StyleNormal = adtAssets.Styles("AssetRight")
-            AssetNode.Cells(_assetColumn("AssetQuantity")).StyleNormal = adtAssets.Styles("AssetRight")
-            AssetNode.Cells(_assetColumn("AssetPrice")).StyleNormal = adtAssets.Styles("AssetRight")
-            AssetNode.Cells(_assetColumn("AssetValue")).StyleNormal = adtAssets.Styles("AssetRight")
+            assetNode.Cells(_assetColumn("AssetMeta")).StyleNormal = adtAssets.Styles("AssetRight")
+            assetNode.Cells(_assetColumn("AssetVolume")).StyleNormal = adtAssets.Styles("AssetRight")
+            assetNode.Cells(_assetColumn("AssetQuantity")).StyleNormal = adtAssets.Styles("AssetRight")
+            assetNode.Cells(_assetColumn("AssetPrice")).StyleNormal = adtAssets.Styles("AssetRight")
+            assetNode.Cells(_assetColumn("AssetValue")).StyleNormal = adtAssets.Styles("AssetRight")
 
         End Sub
 
@@ -196,10 +197,10 @@ Namespace Controls
         ''' <param name="assetData">The data to populate the cell information from</param>
         ''' <param name="assetNode">The particular node to update</param>
         ''' <remarks></remarks>
-        Private Sub UpdateAssetColumnData(ByVal assetData As AssetItem, ByVal assetNode As Node)
+        Private Sub UpdateAssetColumnData(ByVal assetData As Classes.AssetItem, ByVal assetNode As Node)
 
             ' Check for custom name
-            AssetNode.Cells(_assetColumn("AssetOwner")).Tag = assetData.TypeName
+            assetNode.Cells(_assetColumn("AssetOwner")).Tag = assetData.TypeName
 
             ' Add subitems based on the user selected columns
             If PlugInData.AssetItemNames.ContainsKey(assetData.ItemID) = True Then
@@ -210,7 +211,7 @@ Namespace Controls
 
             ' Establish price & fix references to Blueprint if applicable
             If assetData.Category = "Blueprint" Then
-                If AssetNode.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
+                If assetNode.Text.Contains("Blueprint") = True And chkExcludeBPs.Checked = True Then
                     assetData.Price = 0
                 Else
                     ' Check with BP Manager if this is a BPO
@@ -369,7 +370,7 @@ Namespace Controls
                 'End If
             End If
             If chkExcludeCash.Checked = False And txtSearch.Text = "" Then
-                Call DisplayISKAssets()
+                Call DisplayIskAssets()
             End If
             If chkExcludeOrders.Checked = False Then
                 Call DisplayOrders()
@@ -398,7 +399,7 @@ Namespace Controls
         End Sub
 
         Private Sub FetchPricingData()
-            Dim distinctItemTypes As List(Of Integer) = (From ownedAssets As AssetItem In _assetList.Values Select ownedAssets.TypeID Distinct).ToList()
+            Dim distinctItemTypes As List(Of Integer) = (From ownedAssets As Classes.AssetItem In _assetList.Values Select ownedAssets.TypeID Distinct).ToList()
             ' limit request batches to 50
             Dim requestBatches As New List(Of IEnumerable(Of Integer))
             If distinctItemTypes.Count > 50 Then
@@ -437,18 +438,18 @@ Namespace Controls
         Private Sub UpdateAssetPricing(prices As Dictionary(Of Integer, Double))
 
             ' find the assests that need updating in this batch
-            Dim assetsUpdated As New List(Of AssetItem)
+            Dim assetsUpdated As New List(Of Classes.AssetItem)
             Dim testItem As Integer
             For Each itemTypeID As Integer In prices.Keys
                 testItem = itemTypeID
-                Dim updatedAssets As IEnumerable(Of AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = testItem Select ownedAsset.Value).Select(Function(a As AssetItem)
-                                                                                                                                                                             a.Price = prices(testItem)
-                                                                                                                                                                             Return a
-                                                                                                                                                                         End Function)
+                Dim updatedAssets As IEnumerable(Of Classes.AssetItem) = (From ownedAsset In _assetList Where ownedAsset.Value.TypeID = testItem Select ownedAsset.Value).Select(Function(a As Classes.AssetItem)
+                                                                                                                                                                                     a.Price = prices(testItem)
+                                                                                                                                                                                     Return a
+                                                                                                                                                                                 End Function)
                 assetsUpdated.AddRange(updatedAssets)
 
                 ' Update prices of BPCs
-                For Each ownedAsset As AssetItem In assetsUpdated
+                For Each ownedAsset As Classes.AssetItem In assetsUpdated
                     If ownedAsset.TypeID = itemTypeID Then
                         If ownedAsset.RawQuantity = -2 Then
                             ownedAsset.Price = CalculateBPCPrice(ownedAsset.Owner, ownedAsset.ItemID, ownedAsset.TypeID)
@@ -458,14 +459,14 @@ Namespace Controls
 
             Next
 
-            Dim assetNodesToUpdate As New List(Of Tuple(Of Node, AssetItem))
+            Dim assetNodesToUpdate As New List(Of Tuple(Of Node, Classes.AssetItem))
             ' next get a list of the nodes to update
-            Dim testAsset As AssetItem
-            For Each updatedAsset As AssetItem In assetsUpdated
+            Dim testAsset As Classes.AssetItem
+            For Each updatedAsset As Classes.AssetItem In assetsUpdated
                 testAsset = updatedAsset
                 Dim updateTarget As Node = (From assetNode In _assetNodes Where CLng(assetNode.Key) = testAsset.ItemID Select assetNode.Value).Single
 
-                assetNodesToUpdate.Add(New Tuple(Of Node, AssetItem)(updateTarget, updatedAsset))
+                assetNodesToUpdate.Add(New Tuple(Of Node, Classes.AssetItem)(updateTarget, updatedAsset))
 
             Next
 
@@ -475,7 +476,7 @@ Namespace Controls
                 Invoke(Sub()
                            'Check to see if system value filtering is enabled
 
-                           For Each updateSet As Tuple(Of Node, AssetItem) In assetNodesToUpdate
+                           For Each updateSet As Tuple(Of Node, Classes.AssetItem) In assetNodesToUpdate
 
                                ' Update the price and value of each item
                                updateSet.Item1.Cells(_assetColumn("AssetPrice")).Text = updateSet.Item2.Price.ToInvariantString("N2")
@@ -529,32 +530,26 @@ Namespace Controls
                     If ownerAccount IsNot Nothing Then
 
                         If owner.IsCorp = True Then
-                            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                            Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-                            If corpXML IsNot Nothing Then
-                                ' Check response string for any error codes?
-                                Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                                If errlist.Count = 0 Then
+                            'Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+                            'Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            Dim corpResponse As EveServiceResponse(Of CorporateData) = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey)
+                            If corpResponse IsNot Nothing Then
+                              
+                                If corpResponse.IsSuccess Then
                                     ' No errors so parse the files
                                     Dim divList As XmlNodeList
-                                    Dim div As XmlNode
-                                    divList = corpXML.SelectNodes("/eveapi/result/rowset")
-                                    For Each div In divList
-                                        Select Case div.Attributes.GetNamedItem("name").Value
-                                            Case "divisions"
-                                                For Each divName As XmlNode In div.ChildNodes
-                                                    If _divisions.ContainsKey(ownerID & "_" & divName.Attributes.GetNamedItem("accountKey").Value) = False Then
-                                                        _divisions.Add(owner.ID & "_" & divName.Attributes.GetNamedItem("accountKey").Value, StrConv(divName.Attributes.GetNamedItem("description").Value, VbStrConv.ProperCase))
-                                                    End If
-                                                Next
-                                            Case "walletDivisions"
-                                                For Each divName As XmlNode In div.ChildNodes
-                                                    If _walletDivisions.ContainsKey(ownerID & "_" & divName.Attributes.GetNamedItem("accountKey").Value) = False Then
-                                                        _walletDivisions.Add(owner.ID & "_" & divName.Attributes.GetNamedItem("accountKey").Value, divName.Attributes.GetNamedItem("description").Value)
-                                                    End If
-                                                Next
-                                        End Select
+                                   
+                                    For Each div As CorporateDivision In corpResponse.ResultData.Divisions
+                                        If _divisions.ContainsKey(ownerID & "_" & div.AccountKey) = False Then
+                                            _divisions.Add(owner.ID & "_" & div.AccountKey, StrConv(div.Description, VbStrConv.ProperCase))
+                                        End If
                                     Next
+
+                                    For Each wallDiv As CorporateDivision In corpResponse.ResultData.WalletDivisions
+                                        If _walletDivisions.ContainsKey(ownerID & "_" & wallDiv.AccountKey) = False Then
+                                            _walletDivisions.Add(owner.ID & "_" & wallDiv.AccountKey, wallDiv.Description)
+                                        End If
+                                    Next      
                                 End If
                             Else
                                 For divID As Integer = 1000 To 1006
@@ -689,7 +684,7 @@ Namespace Controls
                                                     stationLocation = newLocation.StationName
                                                 End If
                                             End If
-                                            End If
+                                        End If
                                         locNode.Cells(_assetColumn("AssetOwner")).Tag = locNode.Text
                                         If eveLocation IsNot Nothing Then
                                             locNode.Cells(_assetColumn("AssetSystem")).Text = eveLocation.Name
@@ -793,7 +788,7 @@ Namespace Controls
                                     End If
 
                                     ' Add the asset to the list of assets
-                                    Dim newAssetList As New AssetItem
+                                    Dim newAssetList As New Classes.AssetItem
                                     newAssetList.ItemID = CLng(newAsset.Tag)
                                     newAssetList.CorpHangar = corpHangarName
                                     newAssetList.Station = stationLocation
@@ -991,7 +986,7 @@ Namespace Controls
                     End If
 
                     ' Add the asset to the list of assets
-                    Dim newAssetList As New AssetItem
+                    Dim newAssetList As New Classes.AssetItem
                     newAssetList.ItemID = CLng(subAsset.Tag)
                     newAssetList.CorpHangar = corpHangarName
                     newAssetList.Station = stationLocation
@@ -1274,8 +1269,8 @@ Namespace Controls
                 Dim category, group, meta As Integer
                 Dim vol As Double
                 Dim eveLocation As SolarSystem
-                For Each ownerOrder As MarketOrder In orderCollection.MarketOrders
-                    If ownerOrder.OrderState = MarketOrderState.Open Then
+                For Each ownerOrder As Classes.MarketOrder In orderCollection.MarketOrders
+                    If ownerOrder.OrderState = Classes.MarketOrderState.Open Then
                         Dim orderNode As New Node
                         CreateNodeCells(orderNode)
                         orderNode.Tag = ownerOrder.TypeID
@@ -1401,7 +1396,7 @@ Namespace Controls
                     If orderXML IsNot Nothing Then
                         Dim orders As XmlNodeList = orderXML.SelectNodes("/eveapi/result/rowset/row")
                         For Each order As XmlNode In orders
-                            Dim newOrder As New MarketOrder
+                            Dim newOrder As New Classes.MarketOrder
                             newOrder.OrderID = CLng(order.Attributes.GetNamedItem("orderID").Value)
                             newOrder.CharID = CInt(order.Attributes.GetNamedItem("charID").Value)
                             newOrder.StationID = CInt(order.Attributes.GetNamedItem("stationID").Value)
@@ -1448,7 +1443,7 @@ Namespace Controls
                 Dim owner As String = cPilot.Text
 
                 ' Get the JobList
-                Dim jobList As List(Of IndustryJob) = IndustryJob.ParseIndustryJobs(owner)
+                Dim jobList As List(Of Classes.IndustryJob) = Classes.IndustryJob.ParseIndustryJobs(owner)
                 If jobList IsNot Nothing Then
                     Dim category, group As String
                     Dim eveLocation As SolarSystem
@@ -1458,7 +1453,7 @@ Namespace Controls
                     ' priceData.Wait()
                     ' Dim prices As Dictionary(Of String, Double) = priceData.Result
 
-                    For Each job As IndustryJob In jobList
+                    For Each job As Classes.IndustryJob In jobList
                         If job.Completed = 0 Then
                             Dim rNode As New Node
                             CreateNodeCells(rNode)
@@ -1528,7 +1523,7 @@ Namespace Controls
             End If
             _totalAssetValue += researchValue
         End Sub
-        Private Function DisplayResearchOutput(ByVal researchNode As Node, ByVal job As IndustryJob, ByVal owner As String) As Double
+        Private Function DisplayResearchOutput(ByVal researchNode As Node, ByVal job As Classes.IndustryJob, ByVal owner As String) As Double
             Dim rNode As New Node
             CreateNodeCells(rNode)
             rNode.Tag = job.OutputTypeID.ToString
@@ -1585,12 +1580,12 @@ Namespace Controls
                 ' Get the owner we will use
                 Dim owner As String = cPilot.Text
                 ' Get the orders
-                Dim contractsCollection As SortedList(Of Long, Contract) = Contracts.ParseContracts(owner)
+                Dim contractsCollection As SortedList(Of Long, Classes.Contract) = Contracts.ParseContracts(owner)
                 If contractsCollection IsNot Nothing Then
                     ' Add the orders (outstanding ones only)
                     Dim itemName, category, group, meta, vol As String
                     Dim eveLocation As SolarSystem
-                    For Each ownerContract As Contract In contractsCollection.Values
+                    For Each ownerContract As Classes.Contract In contractsCollection.Values
                         If ownerContract.Status = ContractStatuses.Outstanding Then
                             Dim contractNode As New Node
                             CreateNodeCells(contractNode)
@@ -2039,7 +2034,7 @@ Namespace Controls
         Private Sub mnuAddCustomName_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuAddCustomName.Click
             Dim assetID As Long = CLng(mnuAddCustomName.Tag)
             Dim assetName As String = mnuItemName.Text
-            Using newCustomName As New frmAssetItemName
+            Using newCustomName As New FrmAssetItemName
                 If PlugInData.AssetItemNames.ContainsKey(assetID) = True Then
                     newCustomName.Text = "Edit Custom Asset Name"
                     newCustomName.EditMode = True
@@ -2408,9 +2403,9 @@ Namespace Controls
                 lstFilters.Items.Add(fullPath)
                 ' Add to the category filter if a category
                 If addGroup = False Then
-                    _catFilters.Add(FilterName)
+                    _catFilters.Add(filterName)
                 Else
-                    _groupFilters.Add(FilterName)
+                    _groupFilters.Add(filterName)
                 End If
             End If
             Call SetGroupFilterLabel()
@@ -2533,14 +2528,14 @@ Namespace Controls
 
         Private Sub mnuConfigureColumns_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuConfigureColumns.Click
             ' Open options form
-            Using mySettings As New frmPrismSettings
+            Using mySettings As New FrmPrismSettings
                 mySettings.Tag = "nodeAssetColumns"
                 mySettings.ShowDialog()
             End Using
             Call RefreshAssets()
         End Sub
 
-    
+
 
 #Region "Asset Export Routines"
 
@@ -2571,7 +2566,7 @@ Namespace Controls
             ' Collect all the information
             Dim assetExport As New SortedList(Of String, AssetExportGroupedResult)
             Dim aer As AssetExportGroupedResult
-            For Each assetItem As AssetItem In _assetList.Values
+            For Each assetItem As Classes.AssetItem In _assetList.Values
                 If assetExport.ContainsKey(assetItem.TypeName) = False Then
                     aer = New AssetExportGroupedResult
                     aer.TypeName = assetItem.TypeName
@@ -2637,7 +2632,7 @@ Namespace Controls
 
             Try
 
-                Dim sw As New StreamWriter(FileName)
+                Dim sw As New StreamWriter(fileName)
                 Dim sb As New StringBuilder
 
                 ' Write Header
@@ -2684,7 +2679,7 @@ Namespace Controls
 
             ' Collect all the information
             Dim assets As New ArrayList
-            For Each assetItem As AssetItem In _assetList.Values
+            For Each assetItem As Classes.AssetItem In _assetList.Values
                 Dim aer As New AssetExportResult
                 aer.Category = assetItem.Category
                 aer.Constellation = assetItem.Constellation
@@ -2724,7 +2719,7 @@ Namespace Controls
             ' Select a location for the export
             Dim sfd As New SaveFileDialog
             sfd.Title = "Export Assets"
-            sfd.InitialDirectory = HQ.reportFolder
+            sfd.InitialDirectory = HQ.ReportFolder
             Dim filterText As String = "Comma Separated Variable files (*.csv)|*.csv"
             filterText &= "|Tab Separated Variable files (*.txt)|*.txt"
             sfd.Filter = filterText
@@ -2749,7 +2744,7 @@ Namespace Controls
 
             Try
 
-                Dim sw As New StreamWriter(FileName)
+                Dim sw As New StreamWriter(fileName)
                 Dim sb As New StringBuilder
 
                 ' Write Header
@@ -2853,4 +2848,4 @@ Namespace Controls
         Location = 12
     End Enum
 
-End NameSpace
+End Namespace
