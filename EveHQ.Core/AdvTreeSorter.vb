@@ -82,15 +82,15 @@ Public Class AdvTreeSorter
 
         ' Reset the old image
         If lastSortResult IsNot Nothing Then
-            hostedTree.Columns(lastSortResult.SortedIndex - 1).Image = Nothing
+            hostedTree.Columns(lastSortResult.SortedIndex - 1).SortDirection = eSortDirection.None
         End If
 
         ' Set new image
         hostedTree.Columns(colIdx).ImageAlignment = eColumnImageAlignment.Right
         If orderToSort = AdvTreeSortOrder.Ascending Then
-            hostedTree.Columns(colIdx).Image = My.Resources.ArrowUp
+            hostedTree.Columns(colIdx).SortDirection = eSortDirection.Ascending
         Else
-            hostedTree.Columns(colIdx).Image = My.Resources.ArrowDown
+            hostedTree.Columns(colIdx).SortDirection = eSortDirection.Descending
         End If
 
         hostedTree.Nodes.Sort(New AdvTreeSortComparer(colIdx, orderToSort, sortByTag))
