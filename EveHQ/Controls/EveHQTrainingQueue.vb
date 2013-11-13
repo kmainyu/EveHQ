@@ -534,9 +534,16 @@ Namespace Controls
         Public Sub RedrawMenuOptions()
             ' Determines what buttons and menus are available from the listview!
             ' Check the clipboard status
-            If ClipboardData() Is Nothing Then
+            Dim skillList As List(Of Core.EveHQSkillQueueItem) = ClipboardData()
+            mnuPasteSkills.DropDownItems.Clear()
+            If skillList Is Nothing Then
                 mnuPasteSkills.Enabled = False
             Else
+                For Each skill As Core.EveHQSkillQueueItem In skillList
+                    Dim subMenu As New ToolStripMenuItem(skill.Name & " (" & skill.FromLevel.ToString & " -> " & skill.ToLevel.ToString & ")", Nothing, AddressOf PasteSkill)
+                    subMenu.Tag = skill
+                    mnuPasteSkills.DropDownItems.Add(subMenu)
+                Next
                 mnuPasteSkills.Enabled = True
             End If
             If adtQueue.SelectedNodes.Count <> 0 Then
@@ -836,7 +843,20 @@ Namespace Controls
                     _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skill.Name, _queue.Queue.Count + 1, _queue, skill.ToLevel, False, False, "")
                 Next
             End If
+            ' Force closing the menu as we may be clicking the parent (which would normally just expand it)
+            ctxQueue.Close()
             Call DrawQueue(False)
+        End Sub
+        Public Sub PasteSkill(ByVal sender As Object, ByVal e As EventArgs)
+            ' Get the skill from the menu tag
+            Try
+                Dim menu As ToolStripMenuItem = CType(sender, ToolStripMenuItem)
+                Dim skill As Core.EveHQSkillQueueItem = CType(menu.Tag, Core.EveHQSkillQueueItem)
+                _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skill.Name, _queue.Queue.Count + 1, _queue, skill.ToLevel, False, False, "")
+                DrawQueue(False)
+            Catch ex As Exception
+                ' Oops, something bad happened with the tagging!
+            End Try
         End Sub
         Private Sub mnuEditNote_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuEditNote.Click
             ' Try to get the keys of the skill(s) we are changing
