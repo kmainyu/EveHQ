@@ -1304,7 +1304,7 @@ Namespace Forms
 
 #Region "Module List Routines"
 
-        Private Sub tvwModules_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles tvwModules.ColumnHeaderMouseUp
+        Private Sub tvwModules_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles tvwModules.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             PluginSettings.HQFSettings.SortedModuleListInfo = AdvTreeSorter.Sort(ch, True, False)
         End Sub

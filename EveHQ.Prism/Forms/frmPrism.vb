@@ -2579,7 +2579,7 @@ Namespace Forms
 
         End Sub
 
-        Private Sub adtJournal_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtJournal.ColumnHeaderMouseUp
+        Private Sub adtJournal_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtJournal.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -2820,7 +2820,7 @@ Namespace Forms
             dtiTransEndDate.Value = SkillFunctions.ConvertLocalTimeToEve(Now)
         End Sub
 
-        Private Sub adtTransactions_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseUp
+        Private Sub adtTransactions_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTransactions.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -3475,7 +3475,7 @@ Namespace Forms
             Call RecalcRecycling()
         End Sub
 
-        Private Sub adtRecycle_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRecycle.ColumnHeaderMouseUp
+        Private Sub adtRecycle_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRecycle.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -3489,7 +3489,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub adtTotals_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTotals.ColumnHeaderMouseUp
+        Private Sub adtTotals_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtTotals.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -5226,7 +5226,7 @@ Namespace Forms
             bpCalc.Show()
         End Sub
 
-        Private Sub adtProdJobs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtProdJobs.ColumnHeaderMouseUp
+        Private Sub adtProdJobs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtProdJobs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -5393,7 +5393,7 @@ Namespace Forms
             End If
         End Sub
 
-        Private Sub adtInventionJobs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseUp
+        Private Sub adtInventionJobs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionJobs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -5908,11 +5908,11 @@ Namespace Forms
         Private Sub btnExportRigBuildList_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnExportRigBuildList.Click
             Call GenerateCsvFileFromClv(PSCRigOwners.cboHost.Text, "Rig Build List", adtRigBuildList)
         End Sub
-        Private Sub adtRigs_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigs.ColumnHeaderMouseUp
+        Private Sub adtRigs_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigs.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
-        Private Sub adtRigBuildList_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseUp
+        Private Sub adtRigBuildList_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtRigBuildList.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
@@ -6135,12 +6135,12 @@ Namespace Forms
             dtiInventionEndDate.Value = Now
         End Sub
 
-        Private Sub adtInventionResults_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseUp
+        Private Sub adtInventionResults_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionResults.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
 
-        Private Sub adtInventionStats_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseUp
+        Private Sub adtInventionStats_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtInventionStats.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub

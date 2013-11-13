@@ -987,7 +987,7 @@ Namespace Forms
                 End Using
             End If
         End Sub
-        Private Sub adtStandings_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtStandings.ColumnHeaderMouseUp
+        Private Sub adtStandings_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtStandings.ColumnHeaderMouseDown
             Dim ch As ColumnHeader = CType(sender, ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub

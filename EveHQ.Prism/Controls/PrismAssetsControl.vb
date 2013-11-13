@@ -2066,7 +2066,7 @@ Namespace Controls
                 adtAssets.SelectedNodes(0).Text = itemName
             End If
         End Sub
-        Private Sub adtAssets_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseUp
+        Private Sub adtAssets_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtAssets.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub

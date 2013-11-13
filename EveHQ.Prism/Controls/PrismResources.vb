@@ -878,7 +878,7 @@ Namespace Controls
             adtProductionList.EndUpdate()
         End Sub
 
-        Private Sub adtProductionList_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseUp
+        Private Sub adtProductionList_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtProductionList.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub

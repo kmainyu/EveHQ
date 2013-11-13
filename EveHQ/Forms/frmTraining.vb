@@ -249,7 +249,7 @@ Namespace Forms
                         RemoveHandler tq.adtQueue.Click, AddressOf activeLVW_Click
                         RemoveHandler tq.adtQueue.DoubleClick, AddressOf activeLVW_DoubleClick
                         RemoveHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
-                        RemoveHandler tq.adtQueue.ColumnHeaderMouseUp, AddressOf activeLVW_ColumnClick
+                        RemoveHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
                         RemoveHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
                         RemoveHandler tq.QueueUpdated, AddressOf QueueUpdated
                     End If
@@ -276,7 +276,7 @@ Namespace Forms
                             AddHandler tq.adtQueue.Click, AddressOf activeLVW_Click
                             AddHandler tq.adtQueue.DoubleClick, AddressOf activeLVW_DoubleClick
                             AddHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
-                            AddHandler tq.adtQueue.ColumnHeaderMouseUp, AddressOf activeLVW_ColumnClick
+                            AddHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
                             AddHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
                             AddHandler tq.QueueUpdated, AddressOf QueueUpdated
 

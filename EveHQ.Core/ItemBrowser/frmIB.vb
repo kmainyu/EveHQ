@@ -294,7 +294,7 @@ Namespace ItemBrowser
             lblAttSearchCount.Text = adtAttSearch.Nodes.Count & " items found"
         End Sub
 
-        Private Sub adtAttSearch_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAttSearch.ColumnHeaderMouseUp
+        Private Sub adtAttSearch_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtAttSearch.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -336,7 +336,7 @@ Namespace ItemBrowser
 
         End Sub
 
-        Private Sub adtEffectSearch_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtEffectSearch.ColumnHeaderMouseUp
+        Private Sub adtEffectSearch_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtEffectSearch.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub

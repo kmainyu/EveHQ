@@ -475,7 +475,7 @@ Namespace Forms
             End Using
         End Sub
 
-        Private Sub adtAffects_ColumnHeaderMouseUp(sender As Object, e As MouseEventArgs) Handles adtAffects.ColumnHeaderMouseUp
+        Private Sub adtAffects_ColumnHeaderMouseDown(sender As Object, e As MouseEventArgs) Handles adtAffects.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, True, False)
         End Sub
