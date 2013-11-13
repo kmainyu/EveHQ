@@ -223,20 +223,6 @@ Namespace Forms
             Me.btnDownloadAPIData = New DevComponents.DotNetBar.ButtonItem()
             Me.pnlPrism = New DevComponents.DotNetBar.PanelEx()
             Me.tabPrism = New DevComponents.DotNetBar.TabControl()
-            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
-            Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
-            Me.btnLinkProduction = New DevComponents.DotNetBar.ButtonX()
-            Me.btnLinkBPCalc = New DevComponents.DotNetBar.ButtonX()
-            Me.lblSelectedBP = New System.Windows.Forms.Label()
-            Me.lblSelectedItem = New System.Windows.Forms.Label()
-            Me.adtSearch = New DevComponents.AdvTree.AdvTree()
-            Me.colItemSearch = New DevComponents.AdvTree.ColumnHeader()
-            Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
-            Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
-            Me.txtItemSearch = New DevComponents.DotNetBar.Controls.TextBoxX()
-            Me.lblSearch = New System.Windows.Forms.Label()
-            Me.tiPrismHome = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel7 = New DevComponents.DotNetBar.TabControlPanel()
             Me.lblStatusFilter = New System.Windows.Forms.Label()
             Me.cboStatusFilter = New DevComponents.DotNetBar.Controls.ComboBoxEx()
@@ -257,6 +243,20 @@ Namespace Forms
             Me.NodeConnector7 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle5 = New DevComponents.DotNetBar.ElementStyle()
             Me.tiJobs = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.btnRefreshAPI = New DevComponents.DotNetBar.ButtonX()
+            Me.btnLinkRequisition = New DevComponents.DotNetBar.ButtonX()
+            Me.btnLinkProduction = New DevComponents.DotNetBar.ButtonX()
+            Me.btnLinkBPCalc = New DevComponents.DotNetBar.ButtonX()
+            Me.lblSelectedBP = New System.Windows.Forms.Label()
+            Me.lblSelectedItem = New System.Windows.Forms.Label()
+            Me.adtSearch = New DevComponents.AdvTree.AdvTree()
+            Me.colItemSearch = New DevComponents.AdvTree.ColumnHeader()
+            Me.NodeConnector2 = New DevComponents.AdvTree.NodeConnector()
+            Me.ElementStyle2 = New DevComponents.DotNetBar.ElementStyle()
+            Me.txtItemSearch = New DevComponents.DotNetBar.Controls.TextBoxX()
+            Me.lblSearch = New System.Windows.Forms.Label()
+            Me.tiPrismHome = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
             Me.wbReport = New System.Windows.Forms.WebBrowser()
             Me.pnlReportControls = New DevComponents.DotNetBar.PanelEx()
@@ -512,10 +512,10 @@ Namespace Forms
             Me.pnlPrism.SuspendLayout()
             CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tabPrism.SuspendLayout()
-            Me.TabControlPanel1.SuspendLayout()
-            CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel7.SuspendLayout()
             CType(Me.adtJobs, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel1.SuspendLayout()
+            CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel3.SuspendLayout()
             Me.pnlReportControls.SuspendLayout()
             CType(Me.dtiReportEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2674,8 +2674,8 @@ Namespace Forms
             Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
-            Me.tabPrism.Controls.Add(Me.TabControlPanel1)
             Me.tabPrism.Controls.Add(Me.TabControlPanel7)
+            Me.tabPrism.Controls.Add(Me.TabControlPanel1)
             Me.tabPrism.Controls.Add(Me.TabControlPanel3)
             Me.tabPrism.Controls.Add(Me.TabControlPanel14)
             Me.tabPrism.Controls.Add(Me.TabControlPanel16)
@@ -2712,191 +2712,6 @@ Namespace Forms
             Me.tabPrism.Tabs.Add(Me.tiRigBuilder)
             Me.tabPrism.Tabs.Add(Me.tiInventionResults)
             Me.tabPrism.Text = "TabControl2"
-            '
-            'TabControlPanel1
-            '
-            Me.TabControlPanel1.Controls.Add(Me.btnRefreshAPI)
-            Me.TabControlPanel1.Controls.Add(Me.btnLinkRequisition)
-            Me.TabControlPanel1.Controls.Add(Me.btnLinkProduction)
-            Me.TabControlPanel1.Controls.Add(Me.btnLinkBPCalc)
-            Me.TabControlPanel1.Controls.Add(Me.lblSelectedBP)
-            Me.TabControlPanel1.Controls.Add(Me.lblSelectedItem)
-            Me.TabControlPanel1.Controls.Add(Me.adtSearch)
-            Me.TabControlPanel1.Controls.Add(Me.txtItemSearch)
-            Me.TabControlPanel1.Controls.Add(Me.lblSearch)
-            Me.TabControlPanel1.Controls.Add(Me.lblCurrentAPI)
-            Me.TabControlPanel1.Controls.Add(Me.lvwCurrentAPIs)
-            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel1.Name = "TabControlPanel1"
-            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel1.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel1.Style.GradientAngle = 90
-            Me.TabControlPanel1.TabIndex = 1
-            Me.TabControlPanel1.TabItem = Me.tiPrismHome
-            '
-            'btnRefreshAPI
-            '
-            Me.btnRefreshAPI.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnRefreshAPI.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnRefreshAPI.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnRefreshAPI.Image = CType(resources.GetObject("btnRefreshAPI.Image"), System.Drawing.Image)
-            Me.btnRefreshAPI.ImageFixedSize = New System.Drawing.Size(24, 24)
-            Me.btnRefreshAPI.Location = New System.Drawing.Point(405, 614)
-            Me.btnRefreshAPI.Name = "btnRefreshAPI"
-            Me.btnRefreshAPI.Size = New System.Drawing.Size(145, 28)
-            Me.btnRefreshAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnRefreshAPI.TabIndex = 16
-            Me.btnRefreshAPI.Text = "Refresh API Status"
-            Me.btnRefreshAPI.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
-            '
-            'btnLinkRequisition
-            '
-            Me.btnLinkRequisition.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnLinkRequisition.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnLinkRequisition.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnLinkRequisition.Enabled = False
-            Me.btnLinkRequisition.Image = CType(resources.GetObject("btnLinkRequisition.Image"), System.Drawing.Image)
-            Me.btnLinkRequisition.ImageFixedSize = New System.Drawing.Size(24, 24)
-            Me.btnLinkRequisition.Location = New System.Drawing.Point(231, 614)
-            Me.btnLinkRequisition.Name = "btnLinkRequisition"
-            Me.btnLinkRequisition.Size = New System.Drawing.Size(106, 28)
-            Me.btnLinkRequisition.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnLinkRequisition.TabIndex = 15
-            Me.btnLinkRequisition.Text = "Requisition"
-            Me.btnLinkRequisition.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
-            '
-            'btnLinkProduction
-            '
-            Me.btnLinkProduction.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnLinkProduction.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnLinkProduction.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnLinkProduction.Enabled = False
-            Me.btnLinkProduction.Image = CType(resources.GetObject("btnLinkProduction.Image"), System.Drawing.Image)
-            Me.btnLinkProduction.ImageFixedSize = New System.Drawing.Size(24, 24)
-            Me.btnLinkProduction.Location = New System.Drawing.Point(119, 614)
-            Me.btnLinkProduction.Name = "btnLinkProduction"
-            Me.btnLinkProduction.Size = New System.Drawing.Size(106, 28)
-            Me.btnLinkProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnLinkProduction.TabIndex = 14
-            Me.btnLinkProduction.Text = "Quick Quote"
-            Me.btnLinkProduction.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
-            '
-            'btnLinkBPCalc
-            '
-            Me.btnLinkBPCalc.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
-            Me.btnLinkBPCalc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.btnLinkBPCalc.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
-            Me.btnLinkBPCalc.Enabled = False
-            Me.btnLinkBPCalc.Image = CType(resources.GetObject("btnLinkBPCalc.Image"), System.Drawing.Image)
-            Me.btnLinkBPCalc.ImageFixedSize = New System.Drawing.Size(24, 24)
-            Me.btnLinkBPCalc.Location = New System.Drawing.Point(7, 614)
-            Me.btnLinkBPCalc.Name = "btnLinkBPCalc"
-            Me.btnLinkBPCalc.Size = New System.Drawing.Size(106, 28)
-            Me.btnLinkBPCalc.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
-            Me.btnLinkBPCalc.TabIndex = 12
-            Me.btnLinkBPCalc.Text = "BP Calc"
-            Me.btnLinkBPCalc.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
-            '
-            'lblSelectedBP
-            '
-            Me.lblSelectedBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.lblSelectedBP.AutoSize = True
-            Me.lblSelectedBP.BackColor = System.Drawing.Color.Transparent
-            Me.lblSelectedBP.Location = New System.Drawing.Point(7, 592)
-            Me.lblSelectedBP.Name = "lblSelectedBP"
-            Me.lblSelectedBP.Size = New System.Drawing.Size(96, 13)
-            Me.lblSelectedBP.TabIndex = 11
-            Me.lblSelectedBP.Text = "Blueprint: <none>"
-            '
-            'lblSelectedItem
-            '
-            Me.lblSelectedItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.lblSelectedItem.AutoSize = True
-            Me.lblSelectedItem.BackColor = System.Drawing.Color.Transparent
-            Me.lblSelectedItem.Location = New System.Drawing.Point(7, 575)
-            Me.lblSelectedItem.Name = "lblSelectedItem"
-            Me.lblSelectedItem.Size = New System.Drawing.Size(76, 13)
-            Me.lblSelectedItem.TabIndex = 10
-            Me.lblSelectedItem.Text = "Item: <none>"
-            '
-            'adtSearch
-            '
-            Me.adtSearch.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
-            Me.adtSearch.AllowDrop = True
-            Me.adtSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-            Me.adtSearch.BackColor = System.Drawing.SystemColors.Window
-            '
-            '
-            '
-            Me.adtSearch.BackgroundStyle.Class = "TreeBorderKey"
-            Me.adtSearch.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.adtSearch.Columns.Add(Me.colItemSearch)
-            Me.adtSearch.ExpandWidth = 0
-            Me.adtSearch.GridLinesColor = System.Drawing.Color.Gainsboro
-            Me.adtSearch.GridRowLines = True
-            Me.adtSearch.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
-            Me.adtSearch.Location = New System.Drawing.Point(7, 48)
-            Me.adtSearch.Name = "adtSearch"
-            Me.adtSearch.NodesConnector = Me.NodeConnector2
-            Me.adtSearch.NodeStyle = Me.ElementStyle2
-            Me.adtSearch.PathSeparator = ";"
-            Me.adtSearch.Size = New System.Drawing.Size(387, 524)
-            Me.adtSearch.Styles.Add(Me.ElementStyle2)
-            Me.adtSearch.TabIndex = 8
-            Me.adtSearch.Text = "AdvTree1"
-            '
-            'colItemSearch
-            '
-            Me.colItemSearch.Name = "colItemSearch"
-            Me.colItemSearch.SortingEnabled = False
-            Me.colItemSearch.Text = "Item Name"
-            Me.colItemSearch.Width.Absolute = 360
-            '
-            'NodeConnector2
-            '
-            Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
-            '
-            'ElementStyle2
-            '
-            Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.ElementStyle2.Name = "ElementStyle2"
-            Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
-            '
-            'txtItemSearch
-            '
-            '
-            '
-            '
-            Me.txtItemSearch.Border.Class = "TextBoxBorder"
-            Me.txtItemSearch.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
-            Me.txtItemSearch.Location = New System.Drawing.Point(7, 25)
-            Me.txtItemSearch.Name = "txtItemSearch"
-            Me.txtItemSearch.Size = New System.Drawing.Size(387, 21)
-            Me.txtItemSearch.TabIndex = 7
-            '
-            'lblSearch
-            '
-            Me.lblSearch.AutoSize = True
-            Me.lblSearch.BackColor = System.Drawing.Color.Transparent
-            Me.lblSearch.Location = New System.Drawing.Point(4, 9)
-            Me.lblSearch.Name = "lblSearch"
-            Me.lblSearch.Size = New System.Drawing.Size(44, 13)
-            Me.lblSearch.TabIndex = 6
-            Me.lblSearch.Text = "Search:"
-            '
-            'tiPrismHome
-            '
-            Me.tiPrismHome.AttachedControl = Me.TabControlPanel1
-            Me.tiPrismHome.Name = "tiPrismHome"
-            Me.tiPrismHome.Text = "Prism Home"
             '
             'TabControlPanel7
             '
@@ -3096,6 +2911,7 @@ Namespace Forms
             'colJobsTTC
             '
             Me.colJobsTTC.DisplayIndex = 7
+            Me.colJobsTTC.EditorType = DevComponents.AdvTree.eCellEditorType.Custom
             Me.colJobsTTC.Name = "colJobsTTC"
             Me.colJobsTTC.SortingEnabled = False
             Me.colJobsTTC.Text = "Time To Complete"
@@ -3124,6 +2940,191 @@ Namespace Forms
             Me.tiJobs.AttachedControl = Me.TabControlPanel7
             Me.tiJobs.Name = "tiJobs"
             Me.tiJobs.Text = "Jobs"
+            '
+            'TabControlPanel1
+            '
+            Me.TabControlPanel1.Controls.Add(Me.btnRefreshAPI)
+            Me.TabControlPanel1.Controls.Add(Me.btnLinkRequisition)
+            Me.TabControlPanel1.Controls.Add(Me.btnLinkProduction)
+            Me.TabControlPanel1.Controls.Add(Me.btnLinkBPCalc)
+            Me.TabControlPanel1.Controls.Add(Me.lblSelectedBP)
+            Me.TabControlPanel1.Controls.Add(Me.lblSelectedItem)
+            Me.TabControlPanel1.Controls.Add(Me.adtSearch)
+            Me.TabControlPanel1.Controls.Add(Me.txtItemSearch)
+            Me.TabControlPanel1.Controls.Add(Me.lblSearch)
+            Me.TabControlPanel1.Controls.Add(Me.lblCurrentAPI)
+            Me.TabControlPanel1.Controls.Add(Me.lvwCurrentAPIs)
+            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel1.Name = "TabControlPanel1"
+            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel1.Size = New System.Drawing.Size(1284, 650)
+            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel1.Style.GradientAngle = 90
+            Me.TabControlPanel1.TabIndex = 1
+            Me.TabControlPanel1.TabItem = Me.tiPrismHome
+            '
+            'btnRefreshAPI
+            '
+            Me.btnRefreshAPI.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnRefreshAPI.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnRefreshAPI.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnRefreshAPI.Image = CType(resources.GetObject("btnRefreshAPI.Image"), System.Drawing.Image)
+            Me.btnRefreshAPI.ImageFixedSize = New System.Drawing.Size(24, 24)
+            Me.btnRefreshAPI.Location = New System.Drawing.Point(405, 614)
+            Me.btnRefreshAPI.Name = "btnRefreshAPI"
+            Me.btnRefreshAPI.Size = New System.Drawing.Size(145, 28)
+            Me.btnRefreshAPI.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnRefreshAPI.TabIndex = 16
+            Me.btnRefreshAPI.Text = "Refresh API Status"
+            Me.btnRefreshAPI.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
+            '
+            'btnLinkRequisition
+            '
+            Me.btnLinkRequisition.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnLinkRequisition.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnLinkRequisition.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnLinkRequisition.Enabled = False
+            Me.btnLinkRequisition.Image = CType(resources.GetObject("btnLinkRequisition.Image"), System.Drawing.Image)
+            Me.btnLinkRequisition.ImageFixedSize = New System.Drawing.Size(24, 24)
+            Me.btnLinkRequisition.Location = New System.Drawing.Point(231, 614)
+            Me.btnLinkRequisition.Name = "btnLinkRequisition"
+            Me.btnLinkRequisition.Size = New System.Drawing.Size(106, 28)
+            Me.btnLinkRequisition.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnLinkRequisition.TabIndex = 15
+            Me.btnLinkRequisition.Text = "Requisition"
+            Me.btnLinkRequisition.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
+            '
+            'btnLinkProduction
+            '
+            Me.btnLinkProduction.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnLinkProduction.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnLinkProduction.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnLinkProduction.Enabled = False
+            Me.btnLinkProduction.Image = CType(resources.GetObject("btnLinkProduction.Image"), System.Drawing.Image)
+            Me.btnLinkProduction.ImageFixedSize = New System.Drawing.Size(24, 24)
+            Me.btnLinkProduction.Location = New System.Drawing.Point(119, 614)
+            Me.btnLinkProduction.Name = "btnLinkProduction"
+            Me.btnLinkProduction.Size = New System.Drawing.Size(106, 28)
+            Me.btnLinkProduction.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnLinkProduction.TabIndex = 14
+            Me.btnLinkProduction.Text = "Quick Quote"
+            Me.btnLinkProduction.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
+            '
+            'btnLinkBPCalc
+            '
+            Me.btnLinkBPCalc.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton
+            Me.btnLinkBPCalc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.btnLinkBPCalc.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground
+            Me.btnLinkBPCalc.Enabled = False
+            Me.btnLinkBPCalc.Image = CType(resources.GetObject("btnLinkBPCalc.Image"), System.Drawing.Image)
+            Me.btnLinkBPCalc.ImageFixedSize = New System.Drawing.Size(24, 24)
+            Me.btnLinkBPCalc.Location = New System.Drawing.Point(7, 614)
+            Me.btnLinkBPCalc.Name = "btnLinkBPCalc"
+            Me.btnLinkBPCalc.Size = New System.Drawing.Size(106, 28)
+            Me.btnLinkBPCalc.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled
+            Me.btnLinkBPCalc.TabIndex = 12
+            Me.btnLinkBPCalc.Text = "BP Calc"
+            Me.btnLinkBPCalc.TextAlignment = DevComponents.DotNetBar.eButtonTextAlignment.Left
+            '
+            'lblSelectedBP
+            '
+            Me.lblSelectedBP.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.lblSelectedBP.AutoSize = True
+            Me.lblSelectedBP.BackColor = System.Drawing.Color.Transparent
+            Me.lblSelectedBP.Location = New System.Drawing.Point(7, 592)
+            Me.lblSelectedBP.Name = "lblSelectedBP"
+            Me.lblSelectedBP.Size = New System.Drawing.Size(96, 13)
+            Me.lblSelectedBP.TabIndex = 11
+            Me.lblSelectedBP.Text = "Blueprint: <none>"
+            '
+            'lblSelectedItem
+            '
+            Me.lblSelectedItem.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.lblSelectedItem.AutoSize = True
+            Me.lblSelectedItem.BackColor = System.Drawing.Color.Transparent
+            Me.lblSelectedItem.Location = New System.Drawing.Point(7, 575)
+            Me.lblSelectedItem.Name = "lblSelectedItem"
+            Me.lblSelectedItem.Size = New System.Drawing.Size(76, 13)
+            Me.lblSelectedItem.TabIndex = 10
+            Me.lblSelectedItem.Text = "Item: <none>"
+            '
+            'adtSearch
+            '
+            Me.adtSearch.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtSearch.AllowDrop = True
+            Me.adtSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+            Me.adtSearch.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtSearch.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtSearch.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtSearch.Columns.Add(Me.colItemSearch)
+            Me.adtSearch.ExpandWidth = 0
+            Me.adtSearch.GridLinesColor = System.Drawing.Color.Gainsboro
+            Me.adtSearch.GridRowLines = True
+            Me.adtSearch.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtSearch.Location = New System.Drawing.Point(7, 48)
+            Me.adtSearch.Name = "adtSearch"
+            Me.adtSearch.NodesConnector = Me.NodeConnector2
+            Me.adtSearch.NodeStyle = Me.ElementStyle2
+            Me.adtSearch.PathSeparator = ";"
+            Me.adtSearch.Size = New System.Drawing.Size(387, 524)
+            Me.adtSearch.Styles.Add(Me.ElementStyle2)
+            Me.adtSearch.TabIndex = 8
+            Me.adtSearch.Text = "AdvTree1"
+            '
+            'colItemSearch
+            '
+            Me.colItemSearch.Name = "colItemSearch"
+            Me.colItemSearch.SortingEnabled = False
+            Me.colItemSearch.Text = "Item Name"
+            Me.colItemSearch.Width.Absolute = 360
+            '
+            'NodeConnector2
+            '
+            Me.NodeConnector2.LineColor = System.Drawing.SystemColors.ControlText
+            '
+            'ElementStyle2
+            '
+            Me.ElementStyle2.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.ElementStyle2.Name = "ElementStyle2"
+            Me.ElementStyle2.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'txtItemSearch
+            '
+            '
+            '
+            '
+            Me.txtItemSearch.Border.Class = "TextBoxBorder"
+            Me.txtItemSearch.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.txtItemSearch.Location = New System.Drawing.Point(7, 25)
+            Me.txtItemSearch.Name = "txtItemSearch"
+            Me.txtItemSearch.Size = New System.Drawing.Size(387, 21)
+            Me.txtItemSearch.TabIndex = 7
+            '
+            'lblSearch
+            '
+            Me.lblSearch.AutoSize = True
+            Me.lblSearch.BackColor = System.Drawing.Color.Transparent
+            Me.lblSearch.Location = New System.Drawing.Point(4, 9)
+            Me.lblSearch.Name = "lblSearch"
+            Me.lblSearch.Size = New System.Drawing.Size(44, 13)
+            Me.lblSearch.TabIndex = 6
+            Me.lblSearch.Text = "Search:"
+            '
+            'tiPrismHome
+            '
+            Me.tiPrismHome.AttachedControl = Me.TabControlPanel1
+            Me.tiPrismHome.Name = "tiPrismHome"
+            Me.tiPrismHome.Text = "Prism Home"
             '
             'TabControlPanel3
             '
@@ -6313,12 +6314,12 @@ Namespace Forms
             Me.pnlPrism.ResumeLayout(False)
             CType(Me.tabPrism, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tabPrism.ResumeLayout(False)
-            Me.TabControlPanel1.ResumeLayout(False)
-            Me.TabControlPanel1.PerformLayout()
-            CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel7.ResumeLayout(False)
             Me.TabControlPanel7.PerformLayout()
             CType(Me.adtJobs, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel1.ResumeLayout(False)
+            Me.TabControlPanel1.PerformLayout()
+            CType(Me.adtSearch, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel3.ResumeLayout(False)
             Me.pnlReportControls.ResumeLayout(False)
             Me.pnlReportControls.PerformLayout()

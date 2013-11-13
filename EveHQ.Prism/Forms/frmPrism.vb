@@ -2940,7 +2940,8 @@ Namespace Forms
                             End If
                             transItem.Cells(5).Text = job.EndProductionTime.ToString
                             transItem.Cells(5).Tag = job.EndProductionTime
-                            transItem.Cells(6).Text = SkillFunctions.TimeToString(Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60, False, "Complete")
+                            transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
+                            transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
                             If job.Completed = 0 Then
                                 If job.EndProductionTime < DateTime.Now.ToUniversalTime Then
                                     transItem.Cells(7).Text = PlugInData.Statuses("B")
@@ -2973,7 +2974,8 @@ Namespace Forms
 
         Private Sub UpdateIndustryJobTimes()
             For Each transItem As Node In adtJobs.Nodes
-                transItem.Cells(6).Text = SkillFunctions.TimeToString(Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60, False, "Complete")
+                transItem.Cells(6).Tag = Int((CDate(transItem.Cells(5).Tag) - Now).TotalMinutes) * 60
+                transItem.Cells(6).Text = SkillFunctions.TimeToString(CDbl(transItem.Cells(6).Tag), False, "Complete")
             Next
         End Sub
 
@@ -2996,6 +2998,11 @@ Namespace Forms
                 ' We are not triggering a change in the selected item from the main drawing routine
                 Call DisplayIndustryJobs()
             End If
+        End Sub
+
+        Private Sub adtJobs_ColumnHeaderMouseDown(sender As Object, e As System.Windows.Forms.MouseEventArgs) Handles adtJobs.ColumnHeaderMouseDown
+            Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
+            AdvTreeSorter.Sort(ch, False, False)
         End Sub
 
 #End Region
@@ -3118,7 +3125,7 @@ Namespace Forms
 
         End Sub
 
-        Private Sub adtContracts_ColumnHeaderMouseUp(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtContracts.ColumnHeaderMouseUp
+        Private Sub adtContracts_ColumnHeaderMouseDown(ByVal sender As Object, ByVal e As MouseEventArgs) Handles adtContracts.ColumnHeaderMouseDown
             Dim ch As DevComponents.AdvTree.ColumnHeader = CType(sender, DevComponents.AdvTree.ColumnHeader)
             AdvTreeSorter.Sort(ch, False, False)
         End Sub
@@ -6154,5 +6161,6 @@ Namespace Forms
 
 #End Region
 
+ 
     End Class
 End Namespace
