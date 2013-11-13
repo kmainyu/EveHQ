@@ -555,6 +555,7 @@ End Class
 ''' <remarks></remarks>
 Public Enum EveNotificationTypes As Integer
     ' ReSharper disable InconsistentNaming
+    Legacy = 1
     Character_Deleted = 2
     Give_Medal_To_Character = 3
     Alliance_Maintenance_Bill = 4
@@ -643,5 +644,46 @@ Public Enum EveNotificationTypes As Integer
     Sovereignty_Blockade_Unit_Under_Attack = 87
     Infrastructure_Hub_Under_Attack = 88
     Contact_Notification = 89
+    Contact_Edit_Notification = 90
+    Incursion_Completed = 91
+    Corp_Kicked = 92
+    Customs_Office_Has_Been_Attacked = 93
+    Customs_Office_Has_Entered_Reinforced = 94
+    Customs_Office_Has_Been_Transferred = 95
+    FW_Alliance_Warning = 96
+    FW_Alliance_Kick = 97
+    All_War_Corp_Joined = 98
+    Ally_Joined_Defender = 99
+    Ally_Has_Joined_A_War_Aggressor = 100
+    Ally_Joined_War_Ally = 101
+    Entity_Is_Offering_Assistance_In_A_War = 102
+    War_Surrender_Offer = 103
+    War_Surrender_Declined = 104
+    FacWar_LP_Payout_Kill = 105
+    FacWar_LP_Payout_Event = 106
+    FacWar_LP_Disqualified_Event = 107
+    FacWar_LP_Disqualified_Kill = 108
+    Alliance_Contract_Cancelled = 109
+    War_Ally_Declined_Offer = 110
+    Your_Bounty_Claimed = 111
+    Bounty_Placed_Char = 112
+    Bounty_Placed_Corp = 113
+    Bounty_Placed_Alliance = 114
+    Kill_Right_Available = 115
+    Kill_Right_Available_Open = 116
+    Kill_Right_Earned = 117
+    Kill_Right_Used = 118
+    Kill_Right_Unavailable = 119
+    Kill_Right_Unavailable_Open = 120
+    Declare_War = 121
+    Offered_Surrender = 122
+    Accepted_Surrender = 123
+    Made_War_Mutual = 124
+    Retracts_War = 125
+    Offered_To_Ally = 126
+    Accepted_Ally = 127
+    Character_Application_Accept_Message = 128
+    Character_Application_Reject_Message = 129
+    Character_Application_Withdraw_Message = 130
     ' ReSharper restore InconsistentNaming
 End Enum
