@@ -20,6 +20,7 @@
 Imports DevComponents.AdvTree
 Imports EveHQ.Forms
 Imports DevComponents.DotNetBar
+Imports System.Text
 
 Namespace Controls
 
@@ -532,8 +533,17 @@ Namespace Controls
 
         Public Sub RedrawMenuOptions()
             ' Determines what buttons and menus are available from the listview!
-            ' Check the queue status
+            ' Check the clipboard status
+            If ClipboardData() Is Nothing Then
+                mnuPasteSkills.Enabled = False
+            Else
+                mnuPasteSkills.Enabled = True
+            End If
             If adtQueue.SelectedNodes.Count <> 0 Then
+                ' This is for zero nodes selected - we want just paste!
+                For Each subMenu As ToolStripItem In ctxQueue.Items
+                    subMenu.Visible = True
+                Next
                 Select Case adtQueue.SelectedNodes.Count
                     Case 1
                         Dim skillKey As String = adtQueue.SelectedNodes(0).Name
@@ -638,41 +648,51 @@ Namespace Controls
                         mnuSeparateTopLevel.Enabled = False
                         mnuSeperateLevelSep.Visible = True
                 End Select
+            Else
+                ' This is for zero nodes selected - we want just paste!
+                For Each subMenu As ToolStripItem In ctxQueue.Items
+                    subMenu.Visible = False
+                Next
+                mnuPasteSkills.Visible = True
             End If
         End Sub
 
         Private Sub ctxQueue_Opening(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles ctxQueue.Opening
-            ' Cancel the menu opening if there are no skills selected
+            ' Cancel the menu opening if there are no skills selected and we might not want to paste
             If adtQueue.SelectedNodes.Count = 0 Then
-                e.Cancel = True
-                Exit Sub
-            End If
-            Call RedrawMenuOptions()
-            ' Determine enabled menu items of adding to queue
-            Dim keyName As String = adtQueue.SelectedNodes(0).Name
-            Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
-            Dim skillName As String = mnuSkillName.Text
-            Dim currentLevel As Integer = 0
-            If _queuePilot.PilotSkills.ContainsKey(skillName) = True Then
-                Dim cSkill As Core.EveHQPilotSkill = _queuePilot.PilotSkills(skillName)
-                currentLevel = cSkill.Level
-            End If
-            For a As Integer = 1 To 5
-                If a <= CInt(fromLevel) Then
-                    mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = False
-                Else
-                    mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = True
+                ' Check for pasting
+                If ClipboardData() Is Nothing Then
+                    e.Cancel = True
+                    Exit Sub
                 End If
-            Next
-            If currentLevel = 4 Then
-                mnuChangeLevel.Enabled = False
             Else
-                mnuChangeLevel.Enabled = True
-            End If
-            If _queue.Queue.ContainsKey(keyName) = False Then
-                mnuEditNote.Enabled = False
-            Else
-                mnuEditNote.Enabled = True
+                Call RedrawMenuOptions()
+                ' Determine enabled menu items of adding to queue
+                Dim keyName As String = adtQueue.SelectedNodes(0).Name
+                Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+                Dim skillName As String = mnuSkillName.Text
+                Dim currentLevel As Integer = 0
+                If _queuePilot.PilotSkills.ContainsKey(skillName) = True Then
+                    Dim cSkill As Core.EveHQPilotSkill = _queuePilot.PilotSkills(skillName)
+                    currentLevel = cSkill.Level
+                End If
+                For a As Integer = 1 To 5
+                    If a <= CInt(fromLevel) Then
+                        mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = False
+                    Else
+                        mnuChangeLevel.DropDownItems("mnuChangeLevel" & a).Enabled = True
+                    End If
+                Next
+                If currentLevel = 4 Then
+                    mnuChangeLevel.Enabled = False
+                Else
+                    mnuChangeLevel.Enabled = True
+                End If
+                If _queue.Queue.ContainsKey(keyName) = False Then
+                    mnuEditNote.Enabled = False
+                Else
+                    mnuEditNote.Enabled = True
+                End If
             End If
         End Sub
 
@@ -788,6 +808,35 @@ Namespace Controls
         Private Sub mnuSplitQueue_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuSplitQueue.Click
             Call SplitQueue()
             DrawQueue(False)
+        End Sub
+        Private Sub mnuCopySkills_Click(sender As Object, e As EventArgs) Handles mnuCopySkills.Click
+            ' Create a custom string to place on the clipboard for copying
+            If adtQueue IsNot Nothing Then
+                If adtQueue.SelectedNodes.Count > 0 Then
+                    ' Add skills to a string
+                    Dim copySkills As New StringBuilder("EveHQSkills")
+                    For Each lvi As Node In adtQueue.SelectedNodes
+                        copySkills.Append(":" & lvi.Name)
+                    Next
+                    ' Copy string to the clipboard
+                    Try
+                        Clipboard.SetText(copySkills.ToString)
+                    Catch ex As Exception
+                        ' Inform the user of an error!
+                        MessageBox.Show("There was an error copying the skills to the clipboard. The error was: " & ex.Message)
+                    End Try
+                End If
+            End If
+        End Sub
+        Private Sub mnuPasteSkills_Click(sender As Object, e As EventArgs) Handles mnuPasteSkills.Click
+            ' Check if the clipboard data is actually relevant for use
+            Dim skillList As List(Of Core.EveHQSkillQueueItem) = ClipboardData()
+            If skillList IsNot Nothing Then
+                For Each skill As Core.EveHQSkillQueueItem In skillList
+                    _queue = Core.SkillQueueFunctions.AddSkillToQueue(_queuePilot, skill.Name, _queue.Queue.Count + 1, _queue, skill.ToLevel, False, False, "")
+                Next
+            End If
+            Call DrawQueue(False)
         End Sub
         Private Sub mnuEditNote_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuEditNote.Click
             ' Try to get the keys of the skill(s) we are changing
@@ -970,6 +1019,62 @@ Namespace Controls
 
         End Sub
 
+        Public Function ClipboardData() As List(Of Core.EveHQSkillQueueItem)
+            Dim skillText As String
+            Try
+                skillText = Clipboard.GetText()
+            Catch ex As Exception
+                ' Unlikely to be valid data, so exit as not valid
+                Return Nothing
+            End Try
+            If skillText.StartsWith("EveHQSkills:") Then
+                Dim skillList As New List(Of Core.EveHQSkillQueueItem)
+                ' Could potentially be valid, so let's parse it and find out
+                Dim keyList As List(Of String) = skillText.Split(":".ToCharArray).ToList
+                ' We can safely remove the first item
+                keyList.RemoveAt(0)
+                ' Check each entry has a valid skill name and skill level
+                For Each keyName As String In keyList
+                    Try
+                        Dim skillName As String = CStr(keyName.Substring(0, keyName.Length - 2))
+                        Dim fromLevel As Integer = CInt(keyName.Substring(keyName.Length - 2, 1))
+                        Dim toLevel As Integer = CInt(keyName.Substring(keyName.Length - 1, 1))
+                        ' Check valid skill name
+                        If Core.HQ.SkillListName.ContainsKey(skillName) = True Then
+                            ' Check valid "from" level
+                            If fromLevel >= 0 And fromLevel < 5 Then
+                                ' Check valid "to" level
+                                If toLevel > 0 And toLevel <= 5 And toLevel > fromLevel Then
+                                    ' Add this skill to the list to return if there are no errors
+                                    Dim skill As New Core.EveHQSkillQueueItem
+                                    skill.Name = skillName
+                                    skill.FromLevel = fromLevel
+                                    skill.ToLevel = toLevel
+                                    skillList.Add(skill)
+                                Else
+                                    ' "to" level failed the test
+                                    Return Nothing
+                                End If
+                            Else
+                                ' "from" level failed the test
+                                Return Nothing
+                            End If
+                        Else
+                            ' Skill name failed the test
+                            Return Nothing
+                        End If
+                    Catch e As Exception
+                        ' Failed on invalid length or integer conversion, therefore not valid
+                        Return Nothing
+                    End Try
+                Next
+                ' All seem to be valid!
+                Return skillList
+            Else
+                Return Nothing
+            End If
+        End Function
+
         Public Sub IncreaseLevel()
 
             ' Get the skill name
@@ -1149,6 +1254,7 @@ Namespace Controls
         End Sub
 
 #End Region
+
 
     End Class
 End Namespace
