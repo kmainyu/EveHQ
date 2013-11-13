@@ -645,20 +645,23 @@ Public Class FileConverter
     End Sub
 
     Private Sub ConvertDashboard(ByVal oldSettings As EveSettings)
-        Try
-            _newSettings.DashboardConfiguration.Clear()
-            For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+        _newSettings.DashboardConfiguration.Clear()
+        For Each config As SortedList(Of String, Object) In oldSettings.DashboardConfiguration
+            Try
+                Dim newConfig As New SortedList(Of String, Object)
                 For Each configProperty As String In config.Keys
                     Select Case configProperty
                         Case "ControlLocation", "ControlSize"
-                            config(configProperty) = config(configProperty).ToString
+                            newConfig.Add(configProperty, config(configProperty).ToString)
+                        Case Else
+                            newConfig.Add(configProperty, config(configProperty))
                     End Select
                 Next
-                _newSettings.DashboardConfiguration.Add(config)
-            Next
-        Catch e As Exception
-            _worker.ReportProgress(0, "Error converting dashboard settings: " & e.Message)
-        End Try
+                _newSettings.DashboardConfiguration.Add(newConfig)
+            Catch e As Exception
+                _worker.ReportProgress(0, "Error converting dashboard widget: " & e.Message)
+            End Try
+        Next
     End Sub
 
 #End Region
