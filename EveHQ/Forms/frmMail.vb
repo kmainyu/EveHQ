@@ -411,9 +411,9 @@ Namespace Forms
             For Each newNotice As EveNotification In _allNotices.Values
                 Dim strNotice As String
                 If [Enum].IsDefined(GetType(EveNotificationTypes), CInt(newNotice.TypeID)) = True Then
-                    strNotice = [Enum].GetName(GetType(EveNotificationTypes), newNotice.TypeID)
+                    strNotice = [Enum].GetName(GetType(EveNotificationTypes), newNotice.TypeID).Replace("_", " ")
                 Else
-                    strNotice = "Unknown Notification"
+                    strNotice = "Unknown Notification: TypeID = " & newNotice.TypeID.ToString
                 End If
                 Dim senderName As String = "ID: " & newNotice.SenderID.ToString
                 If finalIDs.ContainsKey(newNotice.SenderID) = True Then
