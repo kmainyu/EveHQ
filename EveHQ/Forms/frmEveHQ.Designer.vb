@@ -175,7 +175,6 @@ Namespace Forms
             Me.btnAbout = New DevComponents.DotNetBar.ButtonItem()
             Me.btnFileExit = New DevComponents.DotNetBar.ButtonItem()
             Me.QatCustomizeItem1 = New DevComponents.DotNetBar.QatCustomizeItem()
-            Me.btnSQLQueryTool = New DevComponents.DotNetBar.ButtonItem()
             Me.DotNetBarManager1 = New DevComponents.DotNetBar.DotNetBarManager(Me.components)
             Me.DockSite4 = New DevComponents.DotNetBar.DockSite()
             Me.Bar1 = New DevComponents.DotNetBar.Bar()
