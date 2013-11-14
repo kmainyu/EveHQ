@@ -1124,6 +1124,40 @@ namespace EveHQ.EveData
             }
         }
 
+        /// <summary>Loads the core cache for data from storage for conversion purposes.</summary>
+        /// <param name="coreCacheFolder">The full path to the folder containing the EveHQ cache files.</param>
+        /// <returns>A boolean value indicating whether the load procedure was successful.</returns>
+        public static bool LoadCoreCacheForConversion(string coreCacheFolder)
+        {
+            try
+            {
+                // Check for existence of a core cache folder in the application directory
+                if (!Directory.Exists(coreCacheFolder))
+                {
+                    return false;
+                }
+
+                // Blueprint Types
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Open))
+                {
+                    blueprints = Serializer.Deserialize<SortedList<int, Blueprint>>(s);
+                }
+
+                // Assembly Arrays
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AssemblyArrays.dat"), FileMode.Open))
+                {
+                    assemblyArrays = Serializer.Deserialize<SortedList<string, AssemblyArray>>(s);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.FormatException());
+                return false;
+            }
+        }
+
         #endregion
     }
 }

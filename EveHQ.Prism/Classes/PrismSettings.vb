@@ -274,67 +274,68 @@ Namespace Classes
         End Sub
     End Class
 
-    <Serializable()> Public Class UserSlotColumn
-        ' ReSharper disable InconsistentNaming - for binary serialization compatability
-        Dim cName As String = ""
-        Dim cDescription As String = ""
-        Dim cWidth As Integer = 75
-        Dim cActive As Boolean = False
-        ' ReSharper restore InconsistentNaming
-
-        Public Property Name() As String
-            Get
-                Return cName
-            End Get
-            Set(ByVal value As String)
-                cName = value
-            End Set
-        End Property
-
-        Public Property Description() As String
-            Get
-                Return cDescription
-            End Get
-            Set(ByVal value As String)
-                cDescription = value
-            End Set
-        End Property
-
-        Public Property Width() As Integer
-            Get
-                Return cWidth
-            End Get
-            Set(ByVal value As Integer)
-                cWidth = value
-            End Set
-        End Property
-
-        Public Property Active() As Boolean
-            Get
-                Return cActive
-            End Get
-            Set(ByVal value As Boolean)
-                cActive = value
-            End Set
-        End Property
-
-        Public Sub New(ByVal columnName As String, ByVal desc As String, ByVal columnWidth As Integer, ByVal isActive As Boolean)
-            cName = columnName
-            cDescription = desc
-            cWidth = columnWidth
-            cActive = IsActive
-        End Sub
-
-    End Class
-
-    <Serializable()> Public Enum CorpRepType
-        Assets = 0
-        Balances = 1
-        Jobs = 2
-        WalletJournal = 3
-        Orders = 4
-        WalletTransactions = 5
-        Contracts = 6
-        CorpSheet = 7
-    End Enum
 End Namespace
+
+<Serializable()> Public Enum CorpRepType
+    Assets = 0
+    Balances = 1
+    Jobs = 2
+    WalletJournal = 3
+    Orders = 4
+    WalletTransactions = 5
+    Contracts = 6
+    CorpSheet = 7
+End Enum
+
+<Serializable()> Public Class UserSlotColumn
+    ' ReSharper disable InconsistentNaming - for binary serialization compatability
+    Dim cName As String = ""
+    Dim cDescription As String = ""
+    Dim cWidth As Integer = 75
+    Dim cActive As Boolean = False
+    ' ReSharper restore InconsistentNaming
+
+    Public Property Name() As String
+        Get
+            Return cName
+        End Get
+        Set(ByVal value As String)
+            cName = value
+        End Set
+    End Property
+
+    Public Property Description() As String
+        Get
+            Return cDescription
+        End Get
+        Set(ByVal value As String)
+            cDescription = value
+        End Set
+    End Property
+
+    Public Property Width() As Integer
+        Get
+            Return cWidth
+        End Get
+        Set(ByVal value As Integer)
+            cWidth = value
+        End Set
+    End Property
+
+    Public Property Active() As Boolean
+        Get
+            Return cActive
+        End Get
+        Set(ByVal value As Boolean)
+            cActive = value
+        End Set
+    End Property
+
+    Public Sub New(ByVal columnName As String, ByVal desc As String, ByVal columnWidth As Integer, ByVal isActive As Boolean)
+        cName = columnName
+        cDescription = desc
+        cWidth = columnWidth
+        cActive = IsActive
+    End Sub
+
+End Class

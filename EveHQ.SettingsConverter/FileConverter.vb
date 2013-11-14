@@ -574,7 +574,7 @@ Public Class FileConverter
     End Sub
 
     Private Sub ConvertPilotSkills(ByVal pilot As Pilot, ByVal newPilot As EveHQPilot)
-      newPilot.PilotSkills.Clear()
+        newPilot.PilotSkills.Clear()
         For Each oldskill As PilotSkill In pilot.PilotSkills
             Dim newSkill As New EveHQPilotSkill
             newSkill.ID = CInt(oldskill.ID)
@@ -782,6 +782,9 @@ Public Class FileConverter
                     Dim f As BinaryFormatter = New BinaryFormatter
                     oldJobs = CType(f.Deserialize(s), SortedList(Of String, ProductionJob))
                 End Using
+
+                ' Load up some static data for the conversion
+                EveData.StaticData.LoadCoreCacheForConversion(Path.Combine(Application.StartupPath, "StaticData"))
 
                 ' Convert the old jobs into the new format
                 Dim newJobs As New SortedList(Of String, Job)
@@ -1003,8 +1006,8 @@ Public Class FileConverter
                 newSettings.StandardSlotColumns = oldSettings.StandardSlotColumns
                 newSettings.UserSlotColumns = oldSettings.UserSlotColumns
                 newSettings.Favourites = oldSettings.Favourites
-                newSettings.MRULimit = oldSettings.MRULimit
-                newSettings.MRUModules = oldSettings.MRUModules
+                newSettings.MruLimit = oldSettings.MRULimit
+                newSettings.MruModules = oldSettings.MRUModules
                 newSettings.ShipPanelWidth = oldSettings.ShipPanelWidth
                 newSettings.ModPanelWidth = oldSettings.ModPanelWidth
                 newSettings.ShipSplitterWidth = oldSettings.ShipSplitterWidth
