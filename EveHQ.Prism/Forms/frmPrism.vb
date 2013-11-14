@@ -3851,7 +3851,7 @@ Namespace Forms
             TaskDialog.Show(Me, tdi)
         End Sub
 
-        Private Sub CSVExportOpenFolderButton_Executed(sender As System.Object, e As System.EventArgs) Handles CSVExportOpenFolderButton.Executed
+        Private Sub CSVExportOpenFolderButton_Executed(sender As System.Object, e As EventArgs) Handles CSVExportOpenFolderButton.Executed
             Try
                 Process.Start(HQ.ReportFolder)
             Catch ex As Exception
@@ -3859,7 +3859,8 @@ Namespace Forms
             End Try
             TaskDialog.Close()
         End Sub
-        Private Sub CSVExportOpenFileButton_Executed(sender As System.Object, e As System.EventArgs) Handles CSVExportOpenFileButton.Executed
+
+        Private Sub CSVExportOpenFileButton_Executed(sender As System.Object, e As EventArgs) Handles CSVExportOpenFileButton.Executed
             Try
                 Process.Start(_csvFile)
             Catch ex As Exception
@@ -5168,6 +5169,7 @@ Namespace Forms
                 newJob.Text = cJob.JobName
                 newJob.Cells.Add(New Cell(cJob.TypeName))
                 If cJob.CurrentBlueprint IsNot Nothing Then
+                    cJob.Cost = cJob.CalculateCost()
                     Dim product As EveType = StaticData.Types(cJob.CurrentBlueprint.ProductId)
                     Dim totalcosts As Double = cJob.Cost + Math.Round((PrismSettings.UserSettings.FactoryRunningCost / 3600 * cJob.RunTime) + PrismSettings.UserSettings.FactoryInstallCost, 2, MidpointRounding.AwayFromZero)
                     Dim unitcosts As Double = Math.Round(totalcosts / (cJob.Runs * product.PortionSize), 2, MidpointRounding.AwayFromZero)

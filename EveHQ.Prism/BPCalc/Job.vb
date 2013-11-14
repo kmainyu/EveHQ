@@ -182,7 +182,7 @@ Namespace BPCalc
             Cost = CalculateCost()
         End Sub
 
-        Private Function CalculateCost() As Double
+        Public Function CalculateCost() As Double
             Dim costs As Double = 0
 
             'Get the ID's of the required resources

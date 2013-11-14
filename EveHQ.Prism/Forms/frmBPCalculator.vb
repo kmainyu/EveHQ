@@ -107,7 +107,6 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a default blank BPCalc
-            _startUp = True
             _usingOwnedBPs = usingOwnedBPs
             _startMode = BPCalcStartMode.None
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
@@ -120,7 +119,6 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a non-owned BP
-            _startUp = True
             _bpName = bpName
             _usingOwnedBPs = False
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
@@ -134,7 +132,6 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a non-owned BP
-            _startUp = True
             _bpOwnerName = bpOwner
             _ownedBpid = CStr(bpAssetID)
             _usingOwnedBPs = True
@@ -147,7 +144,6 @@ Namespace Forms
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
 
-            _startUp = True
             _initialJob = existingJob
             _currentJob = existingJob.Clone
             _currentBP = _currentJob.CurrentBlueprint
