@@ -2239,7 +2239,32 @@ Namespace Controls
         End Sub
 
         Private Sub pbShipInfo_MouseHover(ByVal sender As Object, ByVal e As EventArgs) Handles pbShipInfo.MouseHover
-            ToolTip1.SetToolTip(pbShipInfo, SquishText(ParentFitting.BaseShip.Description))
+            Dim description As String = ParentFitting.BaseShip.Description
+
+            ' adjust bare LFs to be CRLFs
+            ' turn already existing CRLFs into LFs first so they don't end up CRCRLFs
+            description = description.Replace(vbCrLf, vbLf).Replace(vbLf, vbCrLf)
+
+            'use CRLFs instead of <br> tags 
+            description = description.Replace("<br>", vbCrLf)
+
+            ' remove double spaces and spaces before CRLFs
+            description = description.Replace("  ", " ").Replace(" " & vbCrLf, vbCrLf)
+
+            Dim charlist As List(Of Char) = New List(Of Char)
+            Dim skip As Boolean
+            ' remove any HTML markup/format tags
+            For Each letter As Char In description
+                If letter = "<" Then
+                    skip = True
+                ElseIf letter = ">" Then
+                    skip = False
+                ElseIf skip = False Then
+                    charlist.Add(letter)
+                End If
+            Next
+
+            ToolTip1.SetToolTip(pbShipInfo, SquishText(charlist.ToArray()))
         End Sub
 
         Private Sub SetPilotSkillLevel(ByVal sender As Object, ByVal e As EventArgs)
