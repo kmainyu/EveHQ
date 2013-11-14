@@ -250,7 +250,7 @@ Namespace Forms
                         RemoveHandler tq.adtQueue.DoubleClick, AddressOf activeLVW_DoubleClick
                         RemoveHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
                         RemoveHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
-                        RemoveHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
+                        RemoveHandler tq.adtQueue.SelectionChanged, AddressOf activeLVW_SelectionChanged
                         RemoveHandler tq.QueueUpdated, AddressOf QueueUpdated
                     End If
                     tabQueues.Tabs.Remove(ti)
@@ -277,7 +277,7 @@ Namespace Forms
                             AddHandler tq.adtQueue.DoubleClick, AddressOf activeLVW_DoubleClick
                             AddHandler tq.adtQueue.DragEnter, AddressOf activeLVW_DragEnter
                             AddHandler tq.adtQueue.ColumnHeaderMouseDown, AddressOf activeLVW_ColumnClick
-                            AddHandler tq.adtQueue.SelectedIndexChanged, AddressOf activeLVW_SelectedIndexChanged
+                            AddHandler tq.adtQueue.SelectionChanged, AddressOf activeLVW_SelectionChanged
                             AddHandler tq.QueueUpdated, AddressOf QueueUpdated
 
                             Call tq.DrawColumnHeadings()
@@ -541,7 +541,7 @@ Namespace Forms
                                     groupNode.Nodes.Add(skillNode)
                                 End If
                             End If
-                            
+
                         End If
                     End If
                 End If
@@ -1041,7 +1041,7 @@ Namespace Forms
             Call RedrawOptions()
             _activeQueueControl.RedrawMenuOptions()
         End Sub
-        Private Sub activeLVW_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs)
+        Private Sub activeLVW_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs)
             If _activeQueueTree.SelectedNodes.Count <> 0 Then
                 Call RedrawOptions()
                 _activeQueueControl.RedrawMenuOptions()
