@@ -78,9 +78,11 @@ Namespace Forms
                 Return _productionChanged
             End Get
             Set(ByVal value As Boolean)
-                _productionChanged = value
-                If _initialJob IsNot Nothing Then
-                    btnSaveProductionJob.Enabled = value
+                If _startUp = False Then
+                    _productionChanged = value
+                    If _initialJob IsNot Nothing Then
+                        btnSaveProductionJob.Enabled = value
+                    End If
                 End If
             End Set
         End Property
@@ -212,6 +214,8 @@ Namespace Forms
         End Sub
 
         Private Sub frmBPCalculator_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+
+            _startUp = True
 
             ' Set up the event handlers from the PrismProductionResources controls
             AddHandler PPRInvention.ProductionResourcesChanged, AddressOf InventionResourcesChanged
@@ -371,6 +375,9 @@ Namespace Forms
                     Call DisplayProductionJobDetails()
                     tabBPCalcFunctions.SelectedTab = tiInvention
             End Select
+
+            ' Reset the changed flag - nothing has really changed as we've just finished loading the form!
+            _productionChanged = False
 
         End Sub
 
