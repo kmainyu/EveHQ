@@ -1,4 +1,5 @@
-﻿' ========================================================================
+﻿
+' ========================================================================
 ' EveHQ - An Eve-Online™ character assistance application
 ' Copyright © 2005-2012  EveHQ Development Team
 ' 
@@ -17,17 +18,13 @@
 ' You should have received a copy of the GNU General Public License
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
-Imports System.Globalization
 Imports System.Text
-Imports System.Xml
-Imports EveHQ.Core
 Imports EveHQ.EveAPI
 Imports EveHQ.Common.Extensions
+Imports EveHQ.Core
 
 Namespace Classes
-
     Public Class Contract
-
         Public ContractID As Long
         Public Owner As String
         Public IssuerID As Long
@@ -53,12 +50,9 @@ Namespace Classes
         Public Buyout As Double
         Public Volume As Double
         Public Items As New SortedList(Of Integer, Long)
-
     End Class
 
     Public Class Contracts
-        Private Const IndustryTimeFormat As String = "yyyy-MM-dd HH:mm:ss"
-        Private Shared ReadOnly Culture As New CultureInfo("en-GB")
         Public Shared Contracts As SortedList(Of Long, Contract)
 
         Public Shared Function ParseContracts(orderOwner As String) As SortedList(Of Long, Contract)
@@ -70,82 +64,91 @@ Namespace Classes
                 owner = PlugInData.PrismOwners(OrderOwner)
                 Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Contracts)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Contracts)
-                Dim contractXML As XmlDocument
-                Dim contractResponse As EveServiceResponse(Of IEnumerable(Of EveHQ.EveAPI.Contract))
-                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
 
+                Dim contractResponse As EveServiceResponse(Of IEnumerable(Of EveApi.Contract))
+                Dim contractItemsResponse As EveServiceResponse(Of IEnumerable(Of ContractItem))
+             
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
-                        contractResponse = HQ.ApiProvider.Corporation.Contracts(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
-                        contractXML = apiReq.GetAPIXML(APITypes.ContractsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        contractResponse = HQ.ApiProvider.Corporation.Contracts(ownerAccount.UserID, ownerAccount.APIKey,
+                                                                                ownerID.ToInt32())
+
                     Else
-                        contractXML = apiReq.GetAPIXML(APITypes.ContractsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        contractResponse = HQ.ApiProvider.Character.Contracts(ownerAccount.UserID, ownerAccount.APIKey,
+                                                                              ownerID.ToInt32())
+
                     End If
 
-                    If contractXML IsNot Nothing Then
+                    If contractResponse IsNot Nothing Then
 
                         ' Get the Node List
-                        Dim contractNodes As XmlNodeList = contractXML.SelectNodes("/eveapi/result/rowset/row")
 
                         ' Parse the Node List
+                        ' TODO: if both the API entity and prism class are identical, they should use the same type
                         Dim contractList As New SortedList(Of Long, Contract)
-                        For Each contract As XmlNode In contractNodes
+                        For Each contract As EveApi.Contract In contractResponse.ResultData
                             Dim newContract As New Contract
-                            newContract.ContractID = CLng(contract.Attributes.GetNamedItem("contractID").Value)
+                            newContract.ContractID = contract.ContractId
                             newContract.Owner = owner.Name
-                            newContract.IssuerID = CLng(contract.Attributes.GetNamedItem("issuerID").Value)
-                            newContract.IssuerCorpID = CLng(contract.Attributes.GetNamedItem("issuerCorpID").Value)
-                            newContract.AssigneeID = CLng(contract.Attributes.GetNamedItem("assigneeID").Value)
-                            newContract.AcceptorID = CLng(contract.Attributes.GetNamedItem("acceptorID").Value)
-                            newContract.StartStationID = CInt(contract.Attributes.GetNamedItem("startStationID").Value)
-                            newContract.EndStationID = CInt(contract.Attributes.GetNamedItem("endStationID").Value)
-                            Select Case contract.Attributes.GetNamedItem("type").Value
-                                Case "ItemExchange"
+                            newContract.IssuerID = contract.IssuerId
+                            newContract.IssuerCorpID = contract.IssuserCorpId
+                            newContract.AssigneeID = contract.AssigneeId
+                            newContract.AcceptorID = contract.AcceptorId
+                            newContract.StartStationID = contract.StartStationId
+                            newContract.EndStationID = contract.EndStationId
+                            Select Case contract.Type
+                                Case ContractType.ItemExchange
                                     newContract.Type = ContractTypes.ItemExchange
-                                Case "Auction"
+                                Case ContractType.Auction
                                     newContract.Type = ContractTypes.Auction
 
-                                Case "Courier"
+                                Case ContractType.Courier
                                     newContract.Type = ContractTypes.Courier
                                 Case Else
                                     newContract.Type = ContractTypes.Other
                             End Select
-                            Select Case contract.Attributes.GetNamedItem("status").Value
-                                Case "Outstanding"
+                            Select Case contract.Status
+                                Case ContractStatus.Outstanding
                                     newContract.Status = ContractStatuses.Outstanding
-                                Case "Completed"
+                                Case ContractStatus.Completed
                                     newContract.Status = ContractStatuses.Completed
-                                Case "CompletedByContractor"
+                                Case ContractStatus.CompletedByContractor
                                     newContract.Status = ContractStatuses.CompletedByContractor
                                 Case Else
                                     newContract.Status = ContractStatuses.Other
                             End Select
-                            newContract.Title = contract.Attributes.GetNamedItem("title").Value
-                            newContract.ForCorp = CBool(contract.Attributes.GetNamedItem("forCorp").Value)
+                            newContract.Title = contract.Title
+                            newContract.ForCorp = contract.ForCorp
                             If newContract.IssuerID = CLng(owner.ID) Or newContract.IssuerCorpID = CLng(owner.ID) Then
                                 newContract.IsIssuer = True
                             End If
-                            newContract.Availability = contract.Attributes.GetNamedItem("availability").Value
-                            newContract.DateIssued = DateTime.ParseExact(contract.Attributes.GetNamedItem("dateIssued").Value, IndustryTimeFormat, Culture)
-                            newContract.DateExpired = DateTime.ParseExact(contract.Attributes.GetNamedItem("dateExpired").Value, IndustryTimeFormat, Culture)
-                            newContract.DateAccepted = contract.Attributes.GetNamedItem("dateAccepted").Value
-                            newContract.NumDays = CInt(contract.Attributes.GetNamedItem("numDays").Value)
-                            newContract.DateCompleted = contract.Attributes.GetNamedItem("dateCompleted").Value
-                            newContract.Price = Double.Parse(contract.Attributes.GetNamedItem("price").Value, NumberStyles.Any, Culture)
-                            newContract.Reward = Double.Parse(contract.Attributes.GetNamedItem("reward").Value, NumberStyles.Any, Culture)
-                            newContract.Collateral = Double.Parse(contract.Attributes.GetNamedItem("collateral").Value, NumberStyles.Any, Culture)
-                            newContract.Buyout = Double.Parse(contract.Attributes.GetNamedItem("buyout").Value, NumberStyles.Any, Culture)
-                            newContract.Volume = Double.Parse(contract.Attributes.GetNamedItem("volume").Value, NumberStyles.Any, Culture)
+                            newContract.Availability = contract.Availability.ToString()
+                            newContract.DateIssued = contract.DateIssued.DateTime
+                            newContract.DateExpired = contract.DateExpired.DateTime
+                            newContract.DateAccepted = contract.DateAccepted.DateTime.ToInvariantString()
+                            newContract.NumDays = contract.NumberOfDays
+                            newContract.DateCompleted = contract.DateCompleted.DateTime.ToInvariantString()
+                            newContract.Price = contract.Price
+                            newContract.Reward = contract.Reward
+                            newContract.Collateral = contract.Collateral
+                            newContract.Buyout = contract.Buyout
+                            newContract.Volume = contract.Volume
 
                             ' Check for items
                             If owner.IsCorp = True Then
-                                contractXML = apiReq.GetAPIXML(APITypes.ContractItemsCorp, ownerAccount.ToAPIAccount, ownerID, newContract.ContractID, APIReturnMethods.ReturnCacheOnly)
+                                contractItemsResponse = HQ.ApiProvider.Corporation.ContractItems(ownerAccount.UserID,
+                                                                                                 ownerAccount.UserID,
+                                                                                                 ownerID.ToInt32(),
+                                                                                                 newContract.ContractID)
                             Else
-                                contractXML = apiReq.GetAPIXML(APITypes.ContractItemsChar, ownerAccount.ToAPIAccount, ownerID, newContract.ContractID, APIReturnMethods.ReturnCacheOnly)
+                                contractItemsResponse = HQ.ApiProvider.Character.ContractItems(ownerAccount.UserID,
+                                                                                               ownerAccount.UserID,
+                                                                                               ownerID.ToInt32(),
+                                                                                               newContract.ContractID)
                             End If
-                            If contractXML IsNot Nothing Then
-                                newContract.Items = ParseContractItems(contractXML)
+                            If contractItemsResponse.IsSuccess Then
+                                newContract.Items = ParseContractItems(contractItemsResponse.ResultData)
                             End If
 
                             'Check whether this is a corp contract and if the owner is a corp etc
@@ -164,19 +167,18 @@ Namespace Classes
             Else
                 Return Nothing
             End If
-
         End Function
 
-        Private Shared Function ParseContractItems(itemXML As XmlDocument) As SortedList(Of Integer, Long)
+        Private Shared Function ParseContractItems(items As IEnumerable(Of ContractItem)) _
+            As SortedList(Of Integer, Long)
             Dim itemList As New SortedList(Of Integer, Long)
-            If itemXML IsNot Nothing Then
-                ' Get the Node List
-                Dim contractItems As XmlNodeList = itemXML.SelectNodes("/eveapi/result/rowset/row")
+            If items IsNot Nothing Then
                 ' Parse the Node List
-                For Each contractItem As XmlNode In contractItems
-                    If contractItem.Attributes.GetNamedItem("included").Value = "1" Then
-                        Dim typeID As Integer = CInt(contractItem.Attributes.GetNamedItem("typeID").Value)
-                        Dim qty As Long = CLng(contractItem.Attributes.GetNamedItem("quantity").Value)
+                For Each contractItem As ContractItem In items
+                    If contractItem.IsIncluded Then
+                        Dim typeID As Integer = contractItem.TypeId
+                        Dim qty As Long = contractItem.Quantity
+
                         If itemList.ContainsKey(typeID) = False Then
                             itemList.Add(typeID, qty)
                         Else
@@ -188,7 +190,8 @@ Namespace Classes
             Return itemList
         End Function
 
-        Public Shared Function GetContractIDList(ByVal contractList As SortedList(Of Long, Contract)) As SortedList(Of Long, String)
+        Public Shared Function GetContractIDList(ByVal contractList As SortedList(Of Long, Contract)) _
+            As SortedList(Of Long, String)
             Dim idList As New List(Of String)
             For Each c As Contract In contractList.Values
                 If idList.Contains(c.AcceptorID.ToString) = False Then
@@ -211,8 +214,8 @@ Namespace Classes
                 Next
                 strID.Remove(0, 1)
                 ' Get the name data from the DB
-                Dim strSQL As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
-                Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSQL)
+                Dim strSql As String = "SELECT * FROM eveIDToName WHERE eveID IN (" & strID.ToString & ");"
+                Dim idData As DataSet = CustomDataFunctions.GetCustomData(strSql)
                 If idData IsNot Nothing Then
                     If idData.Tables(0).Rows.Count > 0 Then
                         For Each idRow As DataRow In idData.Tables(0).Rows
@@ -229,7 +232,6 @@ Namespace Classes
             Next
             Return installerList
         End Function
-
     End Class
 
     Public Enum ContractTypes
@@ -245,5 +247,4 @@ Namespace Classes
         CompletedByContractor = 2
         Other = 3
     End Enum
-
 End Namespace

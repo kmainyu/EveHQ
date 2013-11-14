@@ -2834,12 +2834,12 @@ Namespace Forms
                 adtJobs.BeginUpdate()
                 adtJobs.Nodes.Clear()
 
-                Dim jobList As List(Of IndustryJob) = IndustryJob.ParseIndustryJobs(pOwner)
+                Dim jobList As List(Of Prism.Classes.IndustryJob) = Prism.Classes.IndustryJob.ParseIndustryJobs(pOwner)
 
                 If jobList IsNot Nothing Then
 
                     ' Get InstallerIDs from the database and return list
-                    Dim installerList As SortedList(Of Long, String) = IndustryJob.GetInstallerList(jobList)
+                    Dim installerList As SortedList(Of Long, String) = Prism.Classes.IndustryJob.GetInstallerList(jobList)
 
                     ' Initialise the installer filter
                     cboInstallerFilter.Tag = True
@@ -2871,7 +2871,7 @@ Namespace Forms
                     Dim locationID As Integer
                     Dim displayJob As Boolean
 
-                    For Each job As IndustryJob In jobList
+                    For Each job As Prism.Classes.IndustryJob In jobList
 
                         ' Check filters to see if the job is allowed
                         displayJob = False
@@ -3006,14 +3006,14 @@ Namespace Forms
             ' Get the owner we will use
             If cboContractOwner.SelectedItem IsNot Nothing Then
                 Dim pOwner As String = cboContractOwner.SelectedItem.ToString
-                Dim contractList As SortedList(Of Long, Contract) = Contracts.ParseContracts(pOwner)
+                Dim contractList As SortedList(Of Long, Prism.Classes.Contract) = Contracts.ParseContracts(pOwner)
 
                 If contractList IsNot Nothing Then
 
                     ' Get InstallerIDs from the database and return list
                     Dim idList As SortedList(Of Long, String) = Contracts.GetContractIDList(contractList)
 
-                    For Each c As Contract In contractList.Values
+                    For Each c As Prism.Classes.Contract In contractList.Values
                         ' Setup filter result
                         Const displayContract As Boolean = True
                         ' Apply filtering...

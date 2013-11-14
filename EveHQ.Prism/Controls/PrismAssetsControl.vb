@@ -576,20 +576,19 @@ Namespace Controls
                     owner = PlugInData.PrismOwners(cOwner.Text)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Assets)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Assets)
-
+                    Dim assetResponse As EveServiceResponse(Of IEnumerable(Of EveApi.AssetItem))
                     If ownerAccount IsNot Nothing Then
 
-                        Dim assetXML As XmlDocument
-                        Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
                         If owner.IsCorp = True Then
                             _assetCorpMode = chkCorpHangarMode.Checked
-                            assetXML = apiReq.GetAPIXML(APITypes.AssetsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            assetResponse = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                            '
                         Else
                             _assetCorpMode = False
-                            assetXML = apiReq.GetAPIXML(APITypes.AssetsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                            assetResponse = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         End If
 
-                        If assetXML IsNot Nothing Then
+                        If assetResponse IsNot Nothing Then
                             Dim locList As XmlNodeList
                             Dim loc As XmlNode
                             Dim eveLocation As SolarSystem

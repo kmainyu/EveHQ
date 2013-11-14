@@ -23,6 +23,7 @@ Imports System.Xml
 Imports EveHQ.Core
 Imports EveHQ.EveAPI
 Imports EveHQ.EveData
+Imports EveHQ.Common.Extensions
 
 Namespace Classes
 
@@ -60,46 +61,56 @@ Namespace Classes
                 owner = PlugInData.PrismOwners(jobOwner)
                 Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Jobs)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Jobs)
-                Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
                 Dim transXML As XmlDocument
-
+                Dim jobsResponse As EveServiceResponse(Of IEnumerable(Of EveApi.IndustryJob))
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
-                        transXML = apiReq.GetAPIXML(APITypes.IndustryCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        jobsResponse = HQ.ApiProvider.Corporation.IndustryJobs(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                        ''    transXML = apiReq.GetAPIXML(APITypes.IndustryCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                     Else
-                        transXML = apiReq.GetAPIXML(APITypes.IndustryChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        jobsResponse = HQ.ApiProvider.Character.IndustryJobs(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                        ' transXML = apiReq.GetAPIXML(APITypes.IndustryChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                     End If
 
-                    If transXML IsNot Nothing Then
+                    If jobsResponse.IsSuccess Then
 
                         ' Get the Node List
-                        Dim jobNodes As XmlNodeList = transXML.SelectNodes("/eveapi/result/rowset/row")
-
                         ' Parse the Node List
                         Dim jobList As New List(Of IndustryJob)
-                        For Each tran As XmlNode In jobNodes
+                        For Each tran As EveApi.IndustryJob In jobsResponse.ResultData
                             Dim newJob As New IndustryJob
-                            newJob.JobID = CLng(tran.Attributes.GetNamedItem("jobID").Value)
-                            newJob.InstalledItemLocationID = CInt(tran.Attributes.GetNamedItem("installedItemLocationID").Value)
-                            newJob.InstallerID = CLng(tran.Attributes.GetNamedItem("installerID").Value)
-                            newJob.ActivityID = CType(tran.Attributes.GetNamedItem("activityID").Value, BlueprintActivity)
-                            newJob.InstalledItemTypeID = CInt(tran.Attributes.GetNamedItem("installedItemTypeID").Value)
-                            newJob.OutputTypeID = CInt(tran.Attributes.GetNamedItem("outputTypeID").Value)
-                            newJob.Runs = CInt(tran.Attributes.GetNamedItem("runs").Value)
-                            newJob.OutputLocationID = CInt(tran.Attributes.GetNamedItem("outputLocationID").Value)
-                            newJob.InstalledInSolarSystemID = CInt(tran.Attributes.GetNamedItem("installedInSolarSystemID").Value)
-                            newJob.Completed = CInt(tran.Attributes.GetNamedItem("completed").Value)
-                            newJob.CompletedStatus = CInt(tran.Attributes.GetNamedItem("completedStatus").Value)
-                            newJob.CompletedSuccessfully = CInt(tran.Attributes.GetNamedItem("completedSuccessfully").Value)
-                            newJob.InstallTime = DateTime.ParseExact(tran.Attributes.GetNamedItem("installTime").Value, IndustryTimeFormat, Culture)
-                            newJob.BeginProductionTime = DateTime.ParseExact(tran.Attributes.GetNamedItem("beginProductionTime").Value, IndustryTimeFormat, Culture)
-                            newJob.EndProductionTime = DateTime.ParseExact(tran.Attributes.GetNamedItem("endProductionTime").Value, IndustryTimeFormat, Culture)
-                            newJob.InstalledMELevel = CInt(tran.Attributes.GetNamedItem("installedItemMaterialLevel").Value)
-                            newJob.InstalledPELevel = CInt(tran.Attributes.GetNamedItem("installedItemProductivityLevel").Value)
-                            newJob.InstalledRuns = CInt(tran.Attributes.GetNamedItem("installedItemLicensedProductionRunsRemaining").Value)
-                            newJob.MaterialMultiplier = Double.Parse(tran.Attributes.GetNamedItem("materialMultiplier").Value, Culture)
-                            newJob.TimeMultiplier = Double.Parse(tran.Attributes.GetNamedItem("timeMultiplier").Value, Culture)
+                            newJob.JobID = tran.JobId
+                            newJob.InstalledItemLocationID = tran.InstalledItemLocationId
+                            newJob.InstallerID = tran.InstallerId
+                            newJob.ActivityID = CType(tran.ActivityId, BlueprintActivity)
+                            newJob.InstalledItemTypeID = tran.InstalledItemTypeId
+                            newJob.OutputTypeID = tran.OutputTypeId
+                            newJob.Runs = tran.Runs
+                            newJob.OutputLocationID = tran.OutputLocationId
+                            newJob.InstalledInSolarSystemID = tran.InstalledInSolarSystemId
+                            If tran.Completed Then
+                                newJob.Completed = 1
+                            Else
+                                newJob.Completed = 0
+                            End If
+
+                            newJob.CompletedStatus = tran.CompletedStatus
+
+                            If tran.CompletedSuccessfully Then
+                                newJob.CompletedSuccessfully = 1
+                            Else
+                                newJob.CompletedSuccessfully = 0
+                            End If
+
+                            newJob.InstallTime = tran.InstallTime.DateTime
+                            newJob.BeginProductionTime = tran.BeginProductionTime.DateTime
+                            newJob.EndProductionTime = tran.EndProductionTime.DateTime
+                            newJob.InstalledMELevel = tran.InstalledItemMaterialLevel
+                            newJob.InstalledPELevel = tran.InstalledItemProductivityLevel
+                            newJob.InstalledRuns = tran.Runs
+                            newJob.MaterialMultiplier = tran.CharMaterialMultiplier
+                            newJob.TimeMultiplier = tran.TimeMultiplier
                             jobList.Add(newJob)
                         Next
                         Return jobList

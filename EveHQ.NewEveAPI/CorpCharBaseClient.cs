@@ -187,14 +187,21 @@ namespace EveHQ.EveApi
                 cacheKey, ApiConstants.SixtyMinuteCache, ParseContractResponse);
         }
 
+        public EveServiceResponse<IEnumerable<ContractItem>> ContractItems(string keyId, string vCode, int characterId,
+            long contractId)
+        {
+            return RunAsyncMethod(ContractItemsAsync, keyId, vCode, characterId, contractId);
+        }
+
+
         /// <summary>Retrieves the list of contracts</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <param name="contractId">Contract ID to get items for.</param>
         /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<ContractItem>>> ContractItems(string keyId, string vCode,
-            int characterId, int contractId)
+        public Task<EveServiceResponse<IEnumerable<ContractItem>>> ContractItemsAsync(string keyId, string vCode,
+            int characterId, long contractId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
             System.Diagnostics.Contracts.Contract.Requires(!vCode.IsNullOrWhiteSpace());
@@ -256,12 +263,18 @@ namespace EveHQ.EveApi
                 cacheKey, ApiConstants.SixtyMinuteCache, ParseFacWarfareResponse);
         }
 
+        public EveServiceResponse<IEnumerable<IndustryJob>> IndustryJobs(string keyId, string vCode,
+            int characterId)
+        {
+            return RunAsyncMethod(IndustryJobsAsync, keyId, vCode, characterId);
+        }
+
         /// <summary>Gets the Industry Jobs for the given user.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
         /// <param name="characterId">Character to query.</param>
         /// <returns>A collection of Industry Job data.</returns>
-        public Task<EveServiceResponse<IEnumerable<IndustryJob>>> IndustryJobs(string keyId, string vCode,
+        public Task<EveServiceResponse<IEnumerable<IndustryJob>>> IndustryJobsAsync(string keyId, string vCode,
             int characterId)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());

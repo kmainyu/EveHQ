@@ -278,7 +278,7 @@ namespace EveHQ.Tests.Api
             IHttpRequestProvider mockProvider = MockRequests.GetMockedProvider(url, data, ApiTestHelpers.GetXmlData("TestData\\Api\\IndustryJobs.xml"));
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.IndustryJobs(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
+                var task = client.Character.IndustryJobsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId);
                 task.Wait();
 
                 ApiTestHelpers.BasicSuccessResultValidations(task);
@@ -695,7 +695,7 @@ namespace EveHQ.Tests.Api
 
             using (var client = new EveAPI(ApiTestHelpers.EveServiceApiHost, ApiTestHelpers.GetNullCacheProvider(), mockProvider))
             {
-                var task = client.Character.ContractItems(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId, contractId);
+                var task = client.Character.ContractItemsAsync(ApiTestHelpers.KeyIdValue, ApiTestHelpers.VCodeValue, characterId, contractId);
                 task.Wait();
                 ApiTestHelpers.BasicSuccessResultValidations(task);
 
