@@ -287,7 +287,7 @@ Namespace Controls
                         If qItem.IsTraining = True Then
                             newskill.DragDropEnabled = False
                             newskill.Style = styleCurrentTraining
-                            ' Set a flag in the listview of the listviewitem name for later checking
+                            ' Set a flag in the tree of the skill name for later checking
                             adtQueue.Tag = newskill.Name
                         End If
                         ' Do some additional calcs
@@ -1019,7 +1019,7 @@ Namespace Controls
                 If adtQueue.SelectedNodes.Count > 0 Then
                     ' Build a new queue
                     Dim selQueue As New Core.EveHQSkillQueue
-                    For Each lvi As ListViewItem In adtQueue.SelectedNodes
+                    For Each lvi As Node In adtQueue.SelectedNodes
                         Dim keyName As String = lvi.Name
                         Dim splitSkillQueueItem As Core.EveHQSkillQueueItem = CType(_queue.Queue(keyName).Clone, Core.EveHQSkillQueueItem)
                         selQueue.Queue.Add(keyName, splitSkillQueueItem)
@@ -1047,7 +1047,7 @@ Namespace Controls
                 ' Unlikely to be valid data, so exit as not valid
                 Return Nothing
             End Try
-            If skillText.StartsWith("EveHQSkills:") Then
+            If skillText.StartsWith("EveHQSkills:", StringComparison.Ordinal) Then
                 Dim skillList As New List(Of Core.EveHQSkillQueueItem)
                 ' Could potentially be valid, so let's parse it and find out
                 Dim keyList As List(Of String) = skillText.Split(":".ToCharArray).ToList
