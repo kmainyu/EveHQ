@@ -48,6 +48,7 @@ Namespace Forms
         ReadOnly _culture As CultureInfo = New CultureInfo("en-GB")
 
         Dim _startup As Boolean = True
+        Dim _jobsUpdated As Boolean = False
         Dim _selectedTab As TabItem
         ReadOnly _divisions As New SortedList
         Dim _prismThreadMax As Integer = 16
@@ -116,7 +117,8 @@ Namespace Forms
             Call PrismSettings.UserSettings.LoadPrismSettings()
 
             ' Load the Production Jobs
-            Call Jobs.Load()
+            _jobsUpdated = Jobs.Load()
+           
             ' Load the Batch Jobs
             Call BatchJobs.LoadBatchJobs()
 
@@ -241,6 +243,28 @@ Namespace Forms
             tmrUpdateInfo.Enabled = True
             tmrUpdateInfo.Start()
 
+        End Sub
+
+        Private Sub FrmPrism_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+            If _jobsUpdated = True Then
+                TaskDialog.AntiAlias = True
+                TaskDialog.EnableGlass = False
+                Dim tdi As New TaskDialogInfo
+                tdi.TaskDialogIcon = eTaskDialogIcon.Information2
+                tdi.DialogButtons = eTaskDialogButton.Ok
+                tdi.DefaultButton = eTaskDialogButton.Ok
+                tdi.Title = "Production Jobs Updated"
+                tdi.Header = "Production Jobs Updated"
+                Dim msg As New StringBuilder
+                msg.Append("Prism has detected that materials required for certain Eve blueprints no longer match the production jobs. ")
+                msg.AppendLine("As a result, Prism has now updated these production jobs to reflect the new blueprint requirements.")
+                msg.AppendLine()
+                msg.AppendLine("Please ensure all your production jobs are updated for any known changes to blueprint requirements.")
+                tdi.Text = msg.ToString
+                tdi.DialogColor = eTaskDialogBackgroundColor.DarkBlue
+                TaskDialog.Show(Me, tdi)
+                _jobsUpdated = False
+            End If
         End Sub
 
         ''' <summary>

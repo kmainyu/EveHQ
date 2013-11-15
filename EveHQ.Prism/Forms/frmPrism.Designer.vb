@@ -409,6 +409,7 @@ Namespace Forms
             Me.colRigBuildMargin = New DevComponents.AdvTree.ColumnHeader()
             Me.NodeConnector13 = New DevComponents.AdvTree.NodeConnector()
             Me.ElementStyle10 = New DevComponents.DotNetBar.ElementStyle()
+            Me.PSCRigOwners = New EveHQ.Prism.Controls.PrismSelectionHostControl()
             Me.lblTotalRigMargin = New System.Windows.Forms.Label()
             Me.lblTotalRigProfit = New System.Windows.Forms.Label()
             Me.lblTotalRigSalePrice = New System.Windows.Forms.Label()
@@ -463,6 +464,8 @@ Namespace Forms
             Me.PanelEx1 = New DevComponents.DotNetBar.PanelEx()
             Me.btnClearBatches = New DevComponents.DotNetBar.ButtonX()
             Me.tiBatchJobs = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.splitterProductionMngr = New DevComponents.DotNetBar.ExpandableSplitter()
+            Me.PRPM = New EveHQ.Prism.Controls.PrismResources()
             Me.tiProductionManager = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel9 = New DevComponents.DotNetBar.TabControlPanel()
             Me.cboBPOwner = New DevComponents.DotNetBar.Controls.ComboBoxEx()
@@ -486,16 +489,13 @@ Namespace Forms
             Me.pbUserBP = New System.Windows.Forms.PictureBox()
             Me.tiBPManager = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.PAC = New EveHQ.Prism.Controls.PrismAssetsControl()
             Me.tiAssets = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.NodeConnector1 = New DevComponents.AdvTree.NodeConnector()
             Me.APIDownloadDialogCheckBox = New DevComponents.DotNetBar.Command(Me.components)
             Me.tmrUpdateInfo = New System.Windows.Forms.Timer(Me.components)
             Me.CSVExportOpenFileButton = New DevComponents.DotNetBar.Command(Me.components)
             Me.CSVExportOpenFolderButton = New DevComponents.DotNetBar.Command(Me.components)
-            Me.PSCRigOwners = New EveHQ.Prism.Controls.PrismSelectionHostControl()
-            Me.splitterProductionMngr = New DevComponents.DotNetBar.ExpandableSplitter()
-            Me.PRPM = New EveHQ.Prism.Controls.PrismResources()
-            Me.PAC = New EveHQ.Prism.Controls.PrismAssetsControl()
             Me.ctxTransactions.SuspendLayout()
             CType(Me.dtiJournalEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
             CType(Me.dtiJournalStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -2674,9 +2674,10 @@ Namespace Forms
             Me.tabPrism.CloseButtonVisible = True
             Me.tabPrism.ColorScheme.TabBackground = System.Drawing.Color.Transparent
             Me.tabPrism.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-            Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+            Me.tabPrism.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tabPrism.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-            Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+            Me.tabPrism.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
+            Me.tabPrism.Controls.Add(Me.TabControlPanel11)
             Me.tabPrism.Controls.Add(Me.TabControlPanel1)
             Me.tabPrism.Controls.Add(Me.TabControlPanel4)
             Me.tabPrism.Controls.Add(Me.TabControlPanel6)
@@ -2688,7 +2689,6 @@ Namespace Forms
             Me.tabPrism.Controls.Add(Me.TabControlPanel8)
             Me.tabPrism.Controls.Add(Me.TabControlPanel15)
             Me.tabPrism.Controls.Add(Me.TabControlPanel17)
-            Me.tabPrism.Controls.Add(Me.TabControlPanel11)
             Me.tabPrism.Controls.Add(Me.TabControlPanel9)
             Me.tabPrism.Controls.Add(Me.TabControlPanel2)
             Me.tabPrism.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -2734,10 +2734,10 @@ Namespace Forms
             Me.TabControlPanel1.Name = "TabControlPanel1"
             Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel1.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel1.Style.GradientAngle = 90
@@ -2912,10 +2912,10 @@ Namespace Forms
             Me.TabControlPanel4.Name = "TabControlPanel4"
             Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel4.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel4.Style.GradientAngle = 90
@@ -3062,30 +3062,30 @@ Namespace Forms
             '
             'splitterMarketOrders
             '
-            Me.splitterMarketOrders.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.splitterMarketOrders.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.splitterMarketOrders.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.splitterMarketOrders.Dock = System.Windows.Forms.DockStyle.Bottom
             Me.splitterMarketOrders.ExpandableControl = Me.pnlBuyOrders
-            Me.splitterMarketOrders.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.splitterMarketOrders.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.splitterMarketOrders.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.splitterMarketOrders.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.splitterMarketOrders.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.splitterMarketOrders.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterMarketOrders.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.splitterMarketOrders.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.splitterMarketOrders.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.splitterMarketOrders.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.splitterMarketOrders.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.splitterMarketOrders.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.splitterMarketOrders.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.splitterMarketOrders.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.splitterMarketOrders.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.splitterMarketOrders.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.splitterMarketOrders.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterMarketOrders.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.splitterMarketOrders.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.splitterMarketOrders.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterMarketOrders.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.splitterMarketOrders.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.splitterMarketOrders.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.splitterMarketOrders.Location = New System.Drawing.Point(1, 284)
             Me.splitterMarketOrders.Name = "splitterMarketOrders"
@@ -3280,10 +3280,10 @@ Namespace Forms
             Me.TabControlPanel6.Name = "TabControlPanel6"
             Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel6.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel6.Style.GradientAngle = 90
@@ -3431,10 +3431,10 @@ Namespace Forms
             Me.TabControlPanel5.Name = "TabControlPanel5"
             Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel5.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel5.Style.GradientAngle = 90
@@ -3873,10 +3873,10 @@ Namespace Forms
             Me.TabControlPanel7.Name = "TabControlPanel7"
             Me.TabControlPanel7.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel7.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel7.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel7.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel7.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel7.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel7.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel7.Style.GradientAngle = 90
@@ -4093,10 +4093,10 @@ Namespace Forms
             Me.TabControlPanel3.Name = "TabControlPanel3"
             Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel3.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel3.Style.GradientAngle = 90
@@ -4347,10 +4347,10 @@ Namespace Forms
             Me.TabControlPanel14.Name = "TabControlPanel14"
             Me.TabControlPanel14.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel14.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel14.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel14.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel14.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel14.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel14.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel14.Style.GradientAngle = 90
@@ -4540,10 +4540,10 @@ Namespace Forms
             Me.TabControlPanel16.Name = "TabControlPanel16"
             Me.TabControlPanel16.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel16.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel16.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel16.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel16.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel16.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel16.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel16.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel16.Style.GradientAngle = 90
@@ -4912,10 +4912,10 @@ Namespace Forms
             Me.TabControlPanel8.Name = "TabControlPanel8"
             Me.TabControlPanel8.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel8.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel8.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel8.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel8.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel8.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel8.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel8.Style.GradientAngle = 90
@@ -4946,10 +4946,10 @@ Namespace Forms
             Me.TabControlPanel15.Name = "TabControlPanel15"
             Me.TabControlPanel15.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel15.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel15.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel15.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel15.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel15.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel15.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel15.Style.GradientAngle = 90
@@ -5097,29 +5097,29 @@ Namespace Forms
             '
             'ExpandableSplitter1
             '
-            Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
             Me.ExpandableSplitter1.Dock = System.Windows.Forms.DockStyle.Bottom
-            Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
             Me.ExpandableSplitter1.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.ExpandableSplitter1.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.ExpandableSplitter1.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.ExpandableSplitter1.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
             Me.ExpandableSplitter1.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
             Me.ExpandableSplitter1.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
             Me.ExpandableSplitter1.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
             Me.ExpandableSplitter1.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
             Me.ExpandableSplitter1.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
+            Me.ExpandableSplitter1.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
             Me.ExpandableSplitter1.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
+            Me.ExpandableSplitter1.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
             Me.ExpandableSplitter1.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
             Me.ExpandableSplitter1.Location = New System.Drawing.Point(0, 259)
             Me.ExpandableSplitter1.Name = "ExpandableSplitter1"
@@ -5243,6 +5243,16 @@ Namespace Forms
             Me.ElementStyle10.CornerType = DevComponents.DotNetBar.eCornerType.Square
             Me.ElementStyle10.Name = "ElementStyle10"
             Me.ElementStyle10.TextColor = System.Drawing.SystemColors.ControlText
+            '
+            'PSCRigOwners
+            '
+            Me.PSCRigOwners.AllowMultipleSelections = True
+            Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.PSCRigOwners.ListType = EveHQ.Prism.Controls.PrismSelectionType.AllOwners
+            Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
+            Me.PSCRigOwners.Name = "PSCRigOwners"
+            Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
+            Me.PSCRigOwners.TabIndex = 70
             '
             'lblTotalRigMargin
             '
@@ -5486,10 +5496,10 @@ Namespace Forms
             Me.TabControlPanel17.Name = "TabControlPanel17"
             Me.TabControlPanel17.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel17.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel17.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel17.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel17.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel17.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel17.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel17.Style.GradientAngle = 90
@@ -5619,10 +5629,10 @@ Namespace Forms
             Me.TabControlPanel11.Name = "TabControlPanel11"
             Me.TabControlPanel11.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel11.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel11.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel11.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel11.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel11.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel11.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel11.Style.GradientAngle = 90
@@ -5635,9 +5645,9 @@ Namespace Forms
             Me.tcPM.CanReorderTabs = True
             Me.tcPM.ColorScheme.TabBackground = System.Drawing.Color.Transparent
             Me.tcPM.ColorScheme.TabBackground2 = System.Drawing.Color.Transparent
-            Me.tcPM.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(216, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(226, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(180, Byte), Integer), CType(CType(189, Byte), Integer), CType(CType(199, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(212, Byte), Integer), CType(CType(217, Byte), Integer), CType(CType(223, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer), CType(CType(235, Byte), Integer)), 1.0!)})
+            Me.tcPM.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tcPM.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
-            Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
+            Me.tcPM.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
             Me.tcPM.Controls.Add(Me.TabControlPanel12)
             Me.tcPM.Controls.Add(Me.TabControlPanel13)
             Me.tcPM.Dock = System.Windows.Forms.DockStyle.Fill
@@ -5662,10 +5672,10 @@ Namespace Forms
             Me.TabControlPanel12.Name = "TabControlPanel12"
             Me.TabControlPanel12.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel12.Size = New System.Drawing.Size(676, 625)
-            Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel12.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel12.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel12.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel12.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel12.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel12.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel12.Style.GradientAngle = 90
@@ -5838,10 +5848,10 @@ Namespace Forms
             Me.TabControlPanel13.Name = "TabControlPanel13"
             Me.TabControlPanel13.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel13.Size = New System.Drawing.Size(676, 625)
-            Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel13.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel13.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel13.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel13.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel13.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel13.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel13.Style.GradientAngle = 90
@@ -5928,6 +5938,52 @@ Namespace Forms
             Me.tiBatchJobs.Name = "tiBatchJobs"
             Me.tiBatchJobs.Text = "Batch Jobs"
             '
+            'splitterProductionMngr
+            '
+            Me.splitterProductionMngr.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.splitterProductionMngr.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
+            Me.splitterProductionMngr.Dock = System.Windows.Forms.DockStyle.Right
+            Me.splitterProductionMngr.ExpandableControl = Me.PRPM
+            Me.splitterProductionMngr.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.splitterProductionMngr.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterProductionMngr.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterProductionMngr.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterProductionMngr.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterProductionMngr.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
+            Me.splitterProductionMngr.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+            Me.splitterProductionMngr.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
+            Me.splitterProductionMngr.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
+            Me.splitterProductionMngr.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
+            Me.splitterProductionMngr.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
+            Me.splitterProductionMngr.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.splitterProductionMngr.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+            Me.splitterProductionMngr.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
+            Me.splitterProductionMngr.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(101, Byte), Integer), CType(CType(147, Byte), Integer), CType(CType(207, Byte), Integer))
+            Me.splitterProductionMngr.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
+            Me.splitterProductionMngr.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(227, Byte), Integer), CType(CType(239, Byte), Integer), CType(CType(255, Byte), Integer))
+            Me.splitterProductionMngr.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
+            Me.splitterProductionMngr.Location = New System.Drawing.Point(677, 1)
+            Me.splitterProductionMngr.Name = "splitterProductionMngr"
+            Me.splitterProductionMngr.Size = New System.Drawing.Size(6, 648)
+            Me.splitterProductionMngr.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
+            Me.splitterProductionMngr.TabIndex = 2
+            Me.splitterProductionMngr.TabStop = False
+            '
+            'PRPM
+            '
+            Me.PRPM.BatchJob = Nothing
+            Me.PRPM.Dock = System.Windows.Forms.DockStyle.Right
+            Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.PRPM.InventionBP = Nothing
+            Me.PRPM.Location = New System.Drawing.Point(683, 1)
+            Me.PRPM.Name = "PRPM"
+            Me.PRPM.ProductionJob = Nothing
+            Me.PRPM.Size = New System.Drawing.Size(600, 648)
+            Me.PRPM.TabIndex = 3
+            '
             'tiProductionManager
             '
             Me.tiProductionManager.AttachedControl = Me.TabControlPanel11
@@ -5972,10 +6028,10 @@ Namespace Forms
             Me.TabControlPanel9.Name = "TabControlPanel9"
             Me.TabControlPanel9.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel9.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel9.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel9.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel9.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel9.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel9.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel9.Style.GradientAngle = 90
@@ -6201,15 +6257,24 @@ Namespace Forms
             Me.TabControlPanel2.Name = "TabControlPanel2"
             Me.TabControlPanel2.Padding = New System.Windows.Forms.Padding(1)
             Me.TabControlPanel2.Size = New System.Drawing.Size(1284, 650)
-            Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer), CType(CType(247, Byte), Integer))
-            Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer), CType(CType(195, Byte), Integer))
+            Me.TabControlPanel2.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel2.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
             Me.TabControlPanel2.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+            Me.TabControlPanel2.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
             Me.TabControlPanel2.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
             Me.TabControlPanel2.Style.GradientAngle = 90
             Me.TabControlPanel2.TabIndex = 2
             Me.TabControlPanel2.TabItem = Me.tiAssets
+            '
+            'PAC
+            '
+            Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            Me.PAC.Location = New System.Drawing.Point(1, 1)
+            Me.PAC.Name = "PAC"
+            Me.PAC.Size = New System.Drawing.Size(1282, 648)
+            Me.PAC.TabIndex = 0
             '
             'tiAssets
             '
@@ -6245,71 +6310,6 @@ Namespace Forms
             Me.CSVExportOpenFolderButton.Name = "CSVExportOpenFolderButton"
             Me.CSVExportOpenFolderButton.Text = "<font size=""+1"">Open Report Folder</font><br/><font size=""-1"">Usually under User " & _
         "Documents</font>"
-            '
-            'PSCRigOwners
-            '
-            Me.PSCRigOwners.AllowMultipleSelections = True
-            Me.PSCRigOwners.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.PSCRigOwners.ListType = EveHQ.Prism.Controls.PrismSelectionType.AllOwners
-            Me.PSCRigOwners.Location = New System.Drawing.Point(10, 8)
-            Me.PSCRigOwners.Name = "PSCRigOwners"
-            Me.PSCRigOwners.Size = New System.Drawing.Size(278, 21)
-            Me.PSCRigOwners.TabIndex = 70
-            '
-            'splitterProductionMngr
-            '
-            Me.splitterProductionMngr.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-            Me.splitterProductionMngr.BackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.BackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBackground
-            Me.splitterProductionMngr.Dock = System.Windows.Forms.DockStyle.Right
-            Me.splitterProductionMngr.ExpandableControl = Me.PRPM
-            Me.splitterProductionMngr.ExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-            Me.splitterProductionMngr.ExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.ExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterProductionMngr.ExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterProductionMngr.GripDarkColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterProductionMngr.GripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterProductionMngr.GripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
-            Me.splitterProductionMngr.GripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-            Me.splitterProductionMngr.HotBackColor = System.Drawing.Color.FromArgb(CType(CType(252, Byte), Integer), CType(CType(151, Byte), Integer), CType(CType(61, Byte), Integer))
-            Me.splitterProductionMngr.HotBackColor2 = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(184, Byte), Integer), CType(CType(94, Byte), Integer))
-            Me.splitterProductionMngr.HotBackColor2SchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground2
-            Me.splitterProductionMngr.HotBackColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemPressedBackground
-            Me.splitterProductionMngr.HotExpandFillColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-            Me.splitterProductionMngr.HotExpandFillColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.HotExpandLineColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-            Me.splitterProductionMngr.HotExpandLineColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.ItemText
-            Me.splitterProductionMngr.HotGripDarkColor = System.Drawing.Color.FromArgb(CType(CType(167, Byte), Integer), CType(CType(173, Byte), Integer), CType(CType(182, Byte), Integer))
-            Me.splitterProductionMngr.HotGripDarkColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.PanelBorder
-            Me.splitterProductionMngr.HotGripLightColor = System.Drawing.Color.FromArgb(CType(CType(205, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(213, Byte), Integer))
-            Me.splitterProductionMngr.HotGripLightColorSchemePart = DevComponents.DotNetBar.eColorSchemePart.BarBackground
-            Me.splitterProductionMngr.Location = New System.Drawing.Point(677, 1)
-            Me.splitterProductionMngr.Name = "splitterProductionMngr"
-            Me.splitterProductionMngr.Size = New System.Drawing.Size(6, 648)
-            Me.splitterProductionMngr.Style = DevComponents.DotNetBar.eSplitterStyle.Office2007
-            Me.splitterProductionMngr.TabIndex = 2
-            Me.splitterProductionMngr.TabStop = False
-            '
-            'PRPM
-            '
-            Me.PRPM.BatchJob = Nothing
-            Me.PRPM.Dock = System.Windows.Forms.DockStyle.Right
-            Me.PRPM.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.PRPM.InventionBP = Nothing
-            Me.PRPM.Location = New System.Drawing.Point(683, 1)
-            Me.PRPM.Name = "PRPM"
-            Me.PRPM.ProductionJob = Nothing
-            Me.PRPM.Size = New System.Drawing.Size(600, 648)
-            Me.PRPM.TabIndex = 3
-            '
-            'PAC
-            '
-            Me.PAC.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.PAC.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.PAC.Location = New System.Drawing.Point(1, 1)
-            Me.PAC.Name = "PAC"
-            Me.PAC.Size = New System.Drawing.Size(1282, 648)
-            Me.PAC.TabIndex = 0
             '
             'FrmPrism
             '

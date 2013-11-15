@@ -2411,6 +2411,24 @@ window and press Ctrl-C.)</value>
         NTU95fOHfPe7va5PsL7nB0+/zGts7P8BGZKXAU5hxOsAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="colJobName.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1106, 17</value>
+  </metadata>
+  <metadata name="colJobItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>588, 134</value>
+  </metadata>
+  <metadata name="colJobUnitProfit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1175, 56</value>
+  </metadata>
+  <metadata name="colJobProfitRate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>699, 134</value>
+  </metadata>
+  <metadata name="colJobMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1050, 56</value>
+  </metadata>
+  <metadata name="colBatchName.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>839, 134</value>
+  </metadata>
   <data name="btnRefreshAPI.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -2784,24 +2802,6 @@ window and press Ctrl-C.)</value>
   <metadata name="colInvProfitMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>291, 485</value>
   </metadata>
-  <metadata name="colJobName.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1106, 17</value>
-  </metadata>
-  <metadata name="colJobItem.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>588, 134</value>
-  </metadata>
-  <metadata name="colJobUnitProfit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1175, 56</value>
-  </metadata>
-  <metadata name="colJobProfitRate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>699, 134</value>
-  </metadata>
-  <metadata name="colJobMargin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1050, 56</value>
-  </metadata>
-  <metadata name="colBatchName.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>839, 134</value>
-  </metadata>
   <metadata name="colBPMBlueprint.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 95</value>
   </metadata>
@@ -2838,7 +2838,7 @@ window and press Ctrl-C.)</value>
   <data name="CSVExportOpenFileButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAIaklEQVRYR+2X
+        wQAADsEBuJFr7QAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAIaklEQVRYR+2X
         f1CT9x3H2bXrstMCEXFEkkAgCT4kkB8kBB4ggSfkAUKCEA0GESHE8WMUMKLIilBFav2BWi2KZ53dqazq
         1WmdnnXWna1br9PNu/ZWt+6HOz23brd17uZtrtruvc/zjfZcK84/drf9sc/diyTk7vt5PZ/n8/k+38T9
         P/6nwmIX0NjUzwgGW2AwFIDLdsXIERlWSwAWgi9pZAhlkRieGN6qLkZwQRs4Q8mztOzjsdUfIVxCK3xu
