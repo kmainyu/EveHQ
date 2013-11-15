@@ -853,6 +853,7 @@ Public Class FileConverter
                 newJob.CurrentBlueprint.MELevel = oldJob.CurrentBP.MELevel
                 newJob.CurrentBlueprint.PELevel = oldJob.CurrentBP.PELevel
                 newJob.CurrentBlueprint.Runs = oldJob.CurrentBP.Runs
+                newJob.CurrentBlueprint.AssetId = oldJob.CurrentBP.AssetID
             Else
                 newJob.CurrentBlueprint = Nothing
             End If
