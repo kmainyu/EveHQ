@@ -61,31 +61,28 @@ Public Class EveHQAccount
         Select Case ApiKeySystem
             Case APIKeySystems.Version2
                 ' New style system
-                Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                Dim apixml As XmlDocument = apiReq.GetAPIXML(APITypes.APIKeyInfo, ToAPIAccount, APIReturnMethods.BypassCache)
-                Select Case apiReq.LastAPIError
-                    Case -1
-                        ' Should be version 2 info, get Access mask
-                        AccessMask = 0
-                        If apixml IsNot Nothing Then
-                            Dim keyList As XmlNodeList = apixml.GetElementsByTagName("key")
-                            If keyList.Count > 0 Then
-                                AccessMask = CLng(keyList(0).Attributes.GetNamedItem("accessMask").Value)
-                                Select Case keyList(0).Attributes.GetNamedItem("type").Value
-                                    Case "Corporation"
-                                        APIKeyType = APIKeyTypes.Corporation
-                                    Case "Character"
-                                        APIKeyType = APIKeyTypes.Character
-                                    Case "Account"
-                                        APIKeyType = APIKeyTypes.Account
-                                End Select
-                                Exit Select
-                            End If
+                Dim apiResponse = HQ.ApiProvider.Account.ApiKeyInfo(UserID, APIKey)
+                If apiResponse.IsSuccess Then
+
+                    ' Should be version 2 info, get Access mask
+                    AccessMask = 0
+                    If apiResponse.ResultData IsNot Nothing Then
+                      
+                        AccessMask = apiResponse.ResultData.AccessMask
+                        Select Case apiResponse.ResultData.ApiType
+                            Case EveApi.ApiKeyType.Corporation
+                                APIKeyType = APIKeyTypes.Corporation
+                            Case EveApi.ApiKeyType.Character
+                                APIKeyType = APIKeyTypes.Character
+                            Case EveApi.ApiKeyType.Account
+                                APIKeyType = APIKeyTypes.Account
+                        End Select
+                            Exit Select
                         End If
-                    Case Else
-                        ' Still unknown!
-                        AccessMask = 0
-                End Select
+                Else
+                    ' Still unknown!
+                    AccessMask = 0
+                End If
         End Select
     End Sub
 
@@ -94,22 +91,22 @@ Public Class EveHQAccount
         Dim charList As New List(Of String)
 
         ' Fetch the characters on account XML file
-        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-        Dim accountXML As XmlDocument = apiReq.GetAPIXML(APITypes.Characters, ToAPIAccount, APIReturnMethods.ReturnStandard)
-
+        'Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+        'Dim accountXML As XmlDocument = apiReq.GetAPIXML(APITypes.Characters, ToAPIAccount, APIReturnMethods.ReturnStandard)
+        Dim characters = HQ.ApiProvider.Account.Characters(UserID, APIKey)
         ' Get characters
-        If accountXML IsNot Nothing Then
-            Dim characterList As XmlNodeList = accountXML.SelectNodes("/eveapi/result/rowset/row")
-            For Each character As XmlNode In characterList
+        If characters.IsSuccess Then
+            Dim characterList = characters.ResultData
+            For Each character As EveApi.AccountCharacter In characterList
                 Select Case ApiKeySystem
                     Case APIKeySystems.Version2
                         If APIKeyType = APIKeyTypes.Corporation Then
-                            If charList.Contains(character.Attributes.GetNamedItem("corporationName").Value) = False Then
-                                charList.Add(character.Attributes.GetNamedItem("corporationName").Value)
+                            If charList.Contains(character.CorporationName) = False Then
+                                charList.Add(character.CorporationName)
                             End If
                         Else
-                            If charList.Contains(character.Attributes.GetNamedItem("name").Value) = False Then
-                                charList.Add(character.Attributes.GetNamedItem("name").Value)
+                            If charList.Contains(character.Name) = False Then
+                                charList.Add(character.Name)
                             End If
                         End If
                 End Select

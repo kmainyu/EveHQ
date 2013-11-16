@@ -193,6 +193,14 @@ namespace EveHQ.EveApi
             task.Wait();
             return task.Result;
         }
+        protected EveServiceResponse<TReturn> RunAsyncMethod<T1, T2, T3, T4, T5, TReturn>(Func<T1, T2, T3, T4, T5, Task<EveServiceResponse<TReturn>>> apiTask, T1 param1, T2 param2, T3 param3, T4 param4, T5 param5) where TReturn : class
+        {
+            var task = apiTask(param1, param2, param3, param4, param5);
+            task.Wait();
+            return task.Result;
+        }
+
+
 
         /// <summary>
         /// Gets the caching details from the service response if exists, or uses the provided defaults.

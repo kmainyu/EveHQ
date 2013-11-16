@@ -592,7 +592,7 @@ Namespace Controls
                             Dim locList As XmlNodeList
                             Dim loc As XmlNode
                             Dim eveLocation As SolarSystem
-                            locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
+                            ' locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
                             If locList.Count > 0 Then
 
                                 ' batch query the contents of the location for their prices

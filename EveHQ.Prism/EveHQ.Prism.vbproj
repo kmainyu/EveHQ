@@ -15,7 +15,7 @@
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>On</OptionStrict>
-    <OptionInfer>Off</OptionInfer>
+    <OptionInfer>On</OptionInfer>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

@@ -472,6 +472,11 @@ namespace EveHQ.EveApi
                 cacheKey, ApiConstants.SixtyMinuteCache, ProcessWalletJournalResponse);
         }
 
+        public EveServiceResponse<IEnumerable<WalletTransaction>> WalletTransactions(string keyId, string vCode,
+            int characterId, long? fromId = null, int? rowCount = null)
+        {
+            return RunAsyncMethod(WalletTransactionsAsync, keyId, vCode, characterId, fromId, rowCount);
+        }
         /// <summary>The wallet transactions.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
@@ -479,7 +484,7 @@ namespace EveHQ.EveApi
         /// <param name="fromId">The from id.</param>
         /// <param name="rowCount">The row count.</param>
         /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<WalletTransaction>>> WalletTransactions(string keyId, string vCode,
+        public Task<EveServiceResponse<IEnumerable<WalletTransaction>>> WalletTransactionsAsync(string keyId, string vCode,
             int characterId, long? fromId = null, int? rowCount = null)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());

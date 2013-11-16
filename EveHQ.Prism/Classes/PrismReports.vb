@@ -22,6 +22,7 @@ Imports System.Text
 Imports EveHQ.EveAPI
 Imports EveHQ.Core
 Imports System.Xml
+Imports EveHQ.Common.Extensions
 
 Namespace Classes
 
@@ -641,36 +642,35 @@ Namespace Classes
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
-                        Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
-                        Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-                        If corpXML IsNot Nothing Then
+                        '  Dim apiReq As New EveAPIRequest(HQ.EveHQAPIServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.cacheFolder)
+                        ' Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        Dim corpSheetResponse = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                        If corpSheetResponse IsNot Nothing Then
                             ' Check response string for any error codes?
-                            Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                            If errlist.Count = 0 Then
+                            'Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
+                            If corpSheetResponse.IsSuccess Then
                                 ' No errors so parse the files
-                                Dim divList As XmlNodeList
-                                Dim div As XmlNode
-                                divList = corpXML.SelectNodes("/eveapi/result/rowset")
-                                For Each div In divList
-                                    Select Case div.Attributes.GetNamedItem("name").Value
-                                        Case "divisions"
-                                            If isWalletDivisions = False Then
-                                                For Each divName As XmlNode In div.ChildNodes
-                                                    If divisionNames.ContainsKey(divName.Attributes.GetNamedItem("accountKey").Value) = False Then
-                                                        divisionNames.Add(divName.Attributes.GetNamedItem("accountKey").Value, StrConv(divName.Attributes.GetNamedItem("description").Value, VbStrConv.ProperCase))
-                                                    End If
-                                                Next
-                                            End If
-                                        Case "walletDivisions"
-                                            If isWalletDivisions = True Then
-                                                For Each divName As XmlNode In div.ChildNodes
-                                                    If divisionNames.ContainsKey(divName.Attributes.GetNamedItem("accountKey").Value) = False Then
-                                                        divisionNames.Add(divName.Attributes.GetNamedItem("accountKey").Value, divName.Attributes.GetNamedItem("description").Value)
-                                                    End If
-                                                Next
-                                            End If
-                                    End Select
-                                Next
+                                'Dim divList As XmlNodeList
+                                'Dim div As XmlNode
+                                'divList = corpXML.SelectNodes("/eveapi/result/rowset")
+
+
+                                '    Case "divisions"
+                                If isWalletDivisions = False And corpSheetResponse.ResultData.Divisions IsNot Nothing Then
+                                    For Each div In corpSheetResponse.ResultData.Divisions
+                                        If divisionNames.ContainsKey(div.AccountKey.ToInvariantString()) = False Then
+                                            divisionNames.Add(div.AccountKey.ToInvariantString(), StrConv(div.Description, VbStrConv.ProperCase))
+                                        End If
+                                    Next
+                                End If
+                                '   Case "walletDivisions"
+                                If isWalletDivisions = True And corpSheetResponse.ResultData.WalletDivisions IsNot Nothing Then
+                                    For Each div In corpSheetResponse.ResultData.WalletDivisions
+                                        If divisionNames.ContainsKey(div.AccountKey.ToInvariantString()) = False Then
+                                            divisionNames.Add(div.AccountKey.ToInvariantString(), StrConv(div.Description, VbStrConv.ProperCase))
+                                        End If
+                                    Next
+                                End If
                             End If
                         Else
                             For divID As Integer = 1000 To 1006
