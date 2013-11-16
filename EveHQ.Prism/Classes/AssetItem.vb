@@ -36,7 +36,7 @@ Namespace Classes
         Public Location As String
         Public Quantity As Long
         Public Price As Double
-        Public RawQuantity As Integer
+        Public RawQuantity As Long
         Public IsInHanger As Boolean = False
     End Class
 End Namespace

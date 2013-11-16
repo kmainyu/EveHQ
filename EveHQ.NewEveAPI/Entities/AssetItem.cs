@@ -49,6 +49,8 @@ namespace EveHQ.EveApi
         /// </summary>
         public long Quantity { get; set; }
 
+        public long RawQuantity { get; set; }
+
         /// <summary>
         /// Gets the flag value for the item.
         /// </summary>

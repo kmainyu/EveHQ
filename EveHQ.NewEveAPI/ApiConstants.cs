@@ -145,6 +145,8 @@ namespace EveHQ.EveApi
         /// </summary>
         public const string Quantity = "quantity";
 
+        public const string RawQuantity = "rawQuantity";
+
         /// <summary>
         /// The flag.
         /// </summary>

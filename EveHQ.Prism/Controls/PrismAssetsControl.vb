@@ -59,7 +59,7 @@ Namespace Controls
         Dim _recyclingAssetLocation As New Node
         Dim _numberOfActiveColumns As Integer = 0
         ReadOnly _assetColumn As New SortedList(Of String, Integer)
-        Private ReadOnly _assetNodes As New Dictionary(Of String, Node)
+        Private ReadOnly _assetNodes As New Dictionary(Of Long, List(Of Node))
         Private Const TotalValueText As String = "Total Displayed Asset Value: {0} ISK  ({1} total quantity)"
         Public ReadOnly Property RecyclingAssetList As SortedList(Of Integer, Long)
             Get
@@ -464,9 +464,10 @@ Namespace Controls
             Dim testAsset As Classes.AssetItem
             For Each updatedAsset As Classes.AssetItem In assetsUpdated
                 testAsset = updatedAsset
-                Dim updateTarget As Node = (From assetNode In _assetNodes Where CLng(assetNode.Key) = testAsset.ItemID Select assetNode.Value).Single
+                Dim updateTarget As IEnumerable(Of Tuple(Of Node, Classes.AssetItem)) = (From assetNode In _assetNodes Where CLng(assetNode.Key) = testAsset.TypeID Select assetNode).SelectMany(Function(a) a.Value).Select(Function(n) New Tuple(Of Node, Classes.AssetItem)(n, testAsset)).ToList()
 
-                assetNodesToUpdate.Add(New Tuple(Of Node, Classes.AssetItem)(updateTarget, updatedAsset))
+
+                assetNodesToUpdate.AddRange(updateTarget)
 
             Next
 
@@ -530,8 +531,6 @@ Namespace Controls
                     If ownerAccount IsNot Nothing Then
 
                         If owner.IsCorp = True Then
-                            'Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                            'Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.CorpSheet, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
                             Dim corpResponse As EveServiceResponse(Of CorporateData) = HQ.ApiProvider.Corporation.CorporationSheet(ownerAccount.UserID, ownerAccount.APIKey)
                             If corpResponse IsNot Nothing Then
                               
@@ -582,27 +581,20 @@ Namespace Controls
                         If owner.IsCorp = True Then
                             _assetCorpMode = chkCorpHangarMode.Checked
                             assetResponse = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
-                            '
                         Else
                             _assetCorpMode = False
                             assetResponse = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                         End If
 
                         If assetResponse IsNot Nothing Then
-                            Dim locList As XmlNodeList
-                            Dim loc As XmlNode
-                            Dim eveLocation As SolarSystem
-                            ' locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                            If locList.Count > 0 Then
 
-                                ' batch query the contents of the location for their prices
-                                '  Dim priceData As Task(Of Dictionary(Of String, Double)) = Core.DataFunctions.GetMarketPrices(From node In locList Let n = CType(node, XmlNode) Select n.Attributes.GetNamedItem("typeID").Value)
-                                ' priceData.Wait()
-                                'Dim prices As Dictionary(Of String, Double) = priceData.Result
-                                'Dim linePrice As Double = 0
+                            Dim assetItem As EveApi.AssetItem
+                            Dim eveLocation As SolarSystem
+
+                            If assetResponse.IsSuccess Then
                                 Dim assetIsInHanger As Boolean
                                 Dim hangarPrice As Double
-                                For Each loc In locList
+                                For Each assetItem In assetResponse.ResultData
                                     ' Check if the location is already listed
                                     Dim locNode As New Node
                                     CreateNodeCells(locNode)
@@ -610,13 +602,13 @@ Namespace Controls
                                     Dim stationLocation As String
                                     Const corpHangarName As String = "n/a"
                                     For Each testNode As Node In adtAssets.Nodes
-                                        If testNode.Tag.ToString = (loc.Attributes.GetNamedItem("locationID").Value) Then
+                                        If testNode.Tag.ToString() = assetItem.LocationId.ToInvariantString() Then
                                             locNode = testNode
                                             addLocation = False
                                             Exit For
                                         End If
                                     Next
-                                    Dim locID As Integer = CInt(loc.Attributes.GetNamedItem("locationID").Value)
+                                    Dim locID As Integer = assetItem.LocationId
                                     If addLocation = True Then
                                         If locID >= 66000000 Then
                                             If locID < 66014933 Then
@@ -702,7 +694,7 @@ Namespace Controls
                                     End If
 
                                     eveLocation = CType(locNode.Cells(_assetColumn("AssetSystem")).Tag, SolarSystem)
-                                    Dim itemID As Integer = CInt(loc.Attributes.GetNamedItem("typeID").Value)
+                                    Dim itemID As Integer = assetItem.TypeId
                                     Dim itemData As EveType
                                     Dim itemName As String
                                     Dim groupID As Integer
@@ -718,13 +710,13 @@ Namespace Controls
                                         catName = StaticData.TypeCats(itemData.Category)
                                         metaLevel = StaticData.Types(itemID).MetaLevel.ToString
                                         If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
-                                            If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
-                                                volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                                            If assetItem.Singleton = False Then
+                                                volume = (PlugInData.PackedVolumes(groupID) * assetItem.Quantity).ToInvariantString("N2")
                                             Else
-                                                volume = (StaticData.Types(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                                                volume = (StaticData.Types(itemID).Volume * assetItem.Quantity).ToInvariantString("N2")
                                             End If
                                         Else
-                                            volume = (StaticData.Types(itemID).Volume * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                                            volume = (StaticData.Types(itemID).Volume * assetItem.Quantity).ToInvariantString("N2")
                                         End If
                                     Else
                                         ' Can't find the item in the database
@@ -737,8 +729,8 @@ Namespace Controls
 
                                     Dim newAsset As New Node
                                     CreateNodeCells(newAsset)
-                                    newAsset.Tag = loc.Attributes.GetNamedItem("itemID").Value
-                                    Dim flagID As Integer = CInt(loc.Attributes.GetNamedItem("flag").Value)
+                                    newAsset.Tag = assetItem.TypeId.ToInvariantString()
+                                    Dim flagID As Integer = assetItem.Flag
                                     Dim flagName As String = StaticData.ItemMarkers(flagID)
                                     Dim accountID As Integer = flagID + 885
                                     If accountID = 889 Then accountID = 1000
@@ -814,9 +806,9 @@ Namespace Controls
                                     newAssetList.Location = flagName
                                     newAssetList.Meta = metaLevel
                                     newAssetList.Volume = volume
-                                    newAssetList.Quantity = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                    If loc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
-                                        newAssetList.RawQuantity = CInt(loc.Attributes.GetNamedItem("rawQuantity").Value)
+                                    newAssetList.Quantity = assetItem.Quantity
+                                    If assetItem.RawQuantity <> 0 Then
+                                        newAssetList.RawQuantity = assetItem.RawQuantity
                                     Else
                                         newAssetList.RawQuantity = 0
                                     End If
@@ -832,13 +824,14 @@ Namespace Controls
                                         _assetList.Add(newAssetList.ItemID, newAssetList)
                                     End If
 
-                                    If _assetNodes.ContainsKey(CStr(newAssetList.ItemID)) = False Then
-                                        _assetNodes.Add(CStr(newAssetList.ItemID), newAsset)
+                                    If _assetNodes.ContainsKey(newAssetList.TypeID) = False Then
+                                        _assetNodes.Add(newAssetList.TypeID, New List(Of Node))
                                     End If
+                                    _assetNodes(newAssetList.ItemID).Add(newAsset)
 
                                     ' Check if this row has child nodes and repeat
-                                    If loc.HasChildNodes = True Then
-                                        Call PopulateAssetNode(newAsset, loc, owner.Name, locNode.Text, owner, eveLocation, stationLocation, corpHangarName)
+                                    If assetItem.Contents IsNot Nothing Then
+                                        Call PopulateAssetNode(newAsset, assetItem, owner.Name, locNode.Text, owner, eveLocation, stationLocation, corpHangarName)
                                     End If
 
                                     ' Update hangar price if applicable
@@ -892,14 +885,14 @@ Namespace Controls
             End If
 
         End Sub
-        Private Function PopulateAssetNode(ByVal parentAsset As Node, ByVal loc As XmlNode, ByVal assetOwner As String, ByVal assetLocation As String, owner As PrismOwner, ByVal eveLocation As SolarSystem, ByVal stationLocation As String, corpHangarName As String) As Double
-            Dim subLocList As XmlNodeList
-            Dim subLoc As XmlNode
+        Private Function PopulateAssetNode(ByVal parentAsset As Node, ByVal assetItem As EveApi.AssetItem, ByVal assetOwner As String, ByVal assetLocation As String, owner As PrismOwner, ByVal eveLocation As SolarSystem, ByVal stationLocation As String, corpHangarName As String) As Double
+            Dim subAssets As IEnumerable(Of EveApi.AssetItem)
+            Dim subAssetItem As EveApi.AssetItem
             Dim containerPrice As Double
             Dim assetIsInHanger As Boolean
             Dim hangarPrice As Double
             Const linePrice As Double = 0
-            subLocList = loc.ChildNodes(0).ChildNodes
+            subAssets = assetItem.Contents
             If IsNumeric(parentAsset.Cells(_assetColumn("AssetPrice")).Text) = True Then
                 containerPrice = CDbl(parentAsset.Cells(_assetColumn("AssetPrice")).Text)
             Else
@@ -911,9 +904,9 @@ Namespace Controls
             '  priceData.Wait()
             ' Dim prices As Dictionary(Of String, Double) = priceData.Result
 
-            For Each subLoc In subLocList
+            For Each subAssetItem In subAssets
                 Try
-                    Dim itemID As Integer = CInt(subLoc.Attributes.GetNamedItem("typeID").Value)
+                    Dim itemID As Integer = subAssetItem.TypeId
                     Dim itemData As EveType
                     Dim itemName As String
                     Dim groupID As Integer
@@ -929,13 +922,13 @@ Namespace Controls
                         catName = StaticData.TypeCats(itemData.Category)
                         metaLevel = StaticData.Types(itemID).MetaLevel.ToString
                         If PlugInData.PackedVolumes.ContainsKey(groupID) = True Then
-                            If loc.Attributes.GetNamedItem("singleton").Value = "0" Then
-                                volume = (PlugInData.PackedVolumes(groupID) * CDbl(loc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                            If subAssetItem.Singleton = False Then
+                                volume = (PlugInData.PackedVolumes(groupID) * subAssetItem.Quantity).ToInvariantString("N2")
                             Else
-                                volume = (StaticData.Types(itemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                                volume = (StaticData.Types(itemID).Volume * subAssetItem.Quantity).ToInvariantString("N2")
                             End If
                         Else
-                            volume = (StaticData.Types(itemID).Volume * CDbl(subLoc.Attributes.GetNamedItem("quantity").Value)).ToInvariantString("N2")
+                            volume = (StaticData.Types(itemID).Volume * subAssetItem.Quantity).ToInvariantString("N2")
                         End If
                     Else
                         ' Can't find the item in the database
@@ -948,8 +941,8 @@ Namespace Controls
 
                     Dim subAsset As New Node
                     CreateNodeCells(subAsset)
-                    subAsset.Tag = subLoc.Attributes.GetNamedItem("itemID").Value
-                    Dim subFlagID As Integer = CInt(subLoc.Attributes.GetNamedItem("flag").Value)
+                    subAsset.Tag = subAssetItem.ItemId
+                    Dim subFlagID As Integer = subAssetItem.Flag
                     Dim subFlagName As String = StaticData.ItemMarkers(subFlagID)
                     Dim accountID As Integer = subFlagID + 885
                     If accountID = 889 Then accountID = 1000
@@ -986,7 +979,7 @@ Namespace Controls
 
                     ' Add the asset to the list of assets
                     Dim newAssetList As New Classes.AssetItem
-                    newAssetList.ItemID = CLng(subAsset.Tag)
+                    newAssetList.ItemID = subAssetItem.ItemId
                     newAssetList.CorpHangar = corpHangarName
                     newAssetList.Station = stationLocation
                     newAssetList.System = assetLocation
@@ -1010,57 +1003,54 @@ Namespace Controls
                     newAssetList.Location = parentAsset.Text & ": " & subFlagName
                     newAssetList.Meta = metaLevel
                     newAssetList.Volume = volume
-                    newAssetList.Quantity = CLng(subLoc.Attributes.GetNamedItem("quantity").Value)
-                    If subLoc.Attributes.GetNamedItem("rawQuantity") IsNot Nothing Then
-                        newAssetList.RawQuantity = CInt(subLoc.Attributes.GetNamedItem("rawQuantity").Value)
-                    Else
-                        newAssetList.RawQuantity = 0
-                    End If
-
+                    newAssetList.Quantity = subAssetItem.Quantity
+                    newAssetList.RawQuantity = subAssetItem.RawQuantity
+                    
                     _totalAssetCount += newAssetList.Quantity
 
-                    If _assetList.ContainsKey(newAssetList.ItemID) = False Then
-                        _assetList.Add(newAssetList.ItemID, newAssetList)
+                    If _assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
+                        parentAsset.Nodes(accountID - 1000).Nodes.Add(subAsset)
+                        assetIsInHanger = True
+                    Else
+                        parentAsset.Nodes.Add(subAsset)
+                        assetIsInHanger = False
+                    End If
 
-                        If _assetCorpMode = True And itemName <> "Office" And (subFlagID = 4 Or (subFlagID >= 116 And subFlagID <= 121)) Then
-                            parentAsset.Nodes(accountID - 1000).Nodes.Add(subAsset)
-                            assetIsInHanger = True
-                        Else
-                            parentAsset.Nodes.Add(subAsset)
-                            assetIsInHanger = False
-                        End If
+                    Call UpdateAssetColumnData(newAssetList, subAsset)
 
-                        Call UpdateAssetColumnData(newAssetList, subAsset)
+                    newAssetList.IsInHanger = assetIsInHanger
+                    ' add a reference to the asset and the node for async price update later on.
+                    If _assetList.ContainsKey(newAssetList.TypeID) = False Then
+                        _assetList.Add(newAssetList.TypeID, newAssetList)
+                    End If
 
-                        newAssetList.IsInHanger = assetIsInHanger
-                        ' add a reference to the asset and the node for async price update later on.
-                        If _assetList.ContainsKey(newAssetList.ItemID) = False Then
-                            _assetList.Add(newAssetList.ItemID, newAssetList)
-                        End If
+                    If _assetNodes.ContainsKey(newAssetList.TypeID) = False Then
+                        _assetNodes.Add(newAssetList.TypeID, New List(Of Node))
+                    End If
+                    _assetNodes(newAssetList.TypeID).Add(subAsset)
 
-                        If _assetNodes.ContainsKey(CStr(newAssetList.ItemID)) = False Then
-                            _assetNodes.Add(CStr(newAssetList.ItemID), subAsset)
-                        End If
+                    ' Update hangar price if applicable
+                    containerPrice += (newAssetList.Price * newAssetList.Quantity)
+                    If assetIsInHanger = True Then
+                        hangarPrice = CDbl(subAsset.Parent.Cells(_assetColumn("AssetValue")).Text)
+                        subAsset.Parent.Cells(_assetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToInvariantString("N2")
+                    End If
 
-                        ' Update hangar price if applicable
-                        containerPrice += (newAssetList.Price * newAssetList.Quantity)
-                        If assetIsInHanger = True Then
-                            hangarPrice = CDbl(subAsset.Parent.Cells(_assetColumn("AssetValue")).Text)
-                            subAsset.Parent.Cells(_assetColumn("AssetValue")).Text = (hangarPrice + linePrice).ToInvariantString("N2")
-                        End If
-
-                        If subLoc.HasChildNodes = True Then
+                    If subAssetItem.Contents IsNot Nothing Then
+                        If subAssetItem.Contents.Any() Then
                             containerPrice -= linePrice
-                            containerPrice += PopulateAssetNode(subAsset, subLoc, assetOwner, assetLocation, owner, eveLocation, stationLocation, corpHangarName)
+                            containerPrice += PopulateAssetNode(subAsset, subAssetItem, assetOwner, assetLocation, owner, eveLocation, stationLocation, corpHangarName)
                         End If
 
                     End If
+
+
 
                 Catch ex As Exception
                     Dim msg As String = "Unable to parse Asset:" & ControlChars.CrLf
-                    msg &= "InnerXML: " & subLoc.InnerXml & ControlChars.CrLf
-                    msg &= "InnerText: " & subLoc.InnerText & ControlChars.CrLf
-                    msg &= "TypeID: " & subLoc.Attributes.GetNamedItem("typeID").Value
+                    msg &= "TypeID: " & subAssetItem.TypeId
+                    msg &= ex.FormatException()
+                    Trace.TraceError(msg)
                     MessageBox.Show(msg, "Error Parsing Assets File For " & assetOwner, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End Try
             Next
@@ -1111,26 +1101,22 @@ Namespace Controls
                     owner = PlugInData.PrismOwners(cOwner.Text)
                     Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Balances)
                     Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Balances)
-
+                    Dim accountBalances As EveServiceResponse(Of IEnumerable(Of AccountBalance))
                     If ownerAccount IsNot Nothing Then
 
                         If owner.IsCorp = True Then
                             ' Check for corp wallets
-                            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                            Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.AccountBalancesCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-                            If corpXML IsNot Nothing Then
-                                ' Check response string for any error codes?
-                                Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                                If errlist.Count = 0 Then
+                            accountBalances = HQ.ApiProvider.Corporation.AccountBalance(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                            If accountBalances IsNot Nothing Then
+                                If accountBalances.IsSuccess Then
                                     ' No errors so parse the files
-                                    Dim accountList As XmlNodeList
-                                    Dim account As XmlNode
+
                                     If _corpWallets.Contains(owner.Name) = False Then
                                         _corpWallets.Add(owner.Name, owner.ID)
-                                        accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
-                                        For Each account In accountList
-                                            Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, NumberStyles.Any, _culture)
-                                            Dim accountKey As String = account.Attributes.GetNamedItem("accountKey").Value
+
+                                        For Each account As AccountBalance In accountBalances.ResultData
+                                            Dim isk As Double = account.Balance
+                                            Dim accountKey As String = account.AccountKey.ToInvariantString()
                                             If _corpWalletDivisions.ContainsKey(owner.ID & "_" & accountKey) = False Then
                                                 _corpWalletDivisions.Add(owner.ID & "_" & accountKey, isk)
                                             End If
@@ -1146,18 +1132,13 @@ Namespace Controls
                             End If
                         Else
                             ' Check for character wallets
-                            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-                            Dim corpXML As XmlDocument = apiReq.GetAPIXML(APITypes.AccountBalancesChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-                            If corpXML IsNot Nothing Then
-                                ' Check response string for any error codes?
-                                Dim errlist As XmlNodeList = corpXML.SelectNodes("/eveapi/error")
-                                If errlist.Count = 0 Then
+                            accountBalances = HQ.ApiProvider.Character.AccountBalance(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
+                            If accountBalances IsNot Nothing Then
+                                If accountBalances.IsSuccess Then
                                     ' No errors so parse the files
-                                    Dim accountList As XmlNodeList
-                                    Dim account As XmlNode
-                                    accountList = corpXML.SelectNodes("/eveapi/result/rowset/row")
-                                    For Each account In accountList
-                                        Dim isk As Double = Double.Parse(account.Attributes.GetNamedItem("balance").Value, NumberStyles.Any, _culture)
+                                
+                                    For Each account As AccountBalance In accountBalances.ResultData
+                                        Dim isk As Double = account.Balance
                                         If _charWallets.ContainsKey(owner.Name) = False Then
                                             _charWallets.Add(owner.Name, isk)
                                         End If
@@ -1381,36 +1362,37 @@ Namespace Controls
                 owner = PlugInData.PrismOwners(orderOwner)
                 Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Orders)
                 Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Orders)
-                Dim orderXML As XmlDocument
-                Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
+                Dim ordersResponse As EveServiceResponse(Of IEnumerable(Of EveAPI.MarketOrder))
                 If ownerAccount IsNot Nothing Then
 
                     If owner.IsCorp = True Then
-                        orderXML = apiReq.GetAPIXML(APITypes.OrdersCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                        ordersResponse = HQ.ApiProvider.Corporation.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                     Else
-                        orderXML = apiReq.GetAPIXML(APITypes.OrdersChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
-
+                        ordersResponse = HQ.ApiProvider.Character.MarketOrders(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                     End If
-                    If orderXML IsNot Nothing Then
-                        Dim orders As XmlNodeList = orderXML.SelectNodes("/eveapi/result/rowset/row")
-                        For Each order As XmlNode In orders
+                    If ordersResponse IsNot Nothing Then
+
+                        For Each order As EveAPI.MarketOrder In ordersResponse.ResultData
                             Dim newOrder As New Classes.MarketOrder
-                            newOrder.OrderID = CLng(order.Attributes.GetNamedItem("orderID").Value)
-                            newOrder.CharID = CInt(order.Attributes.GetNamedItem("charID").Value)
-                            newOrder.StationID = CInt(order.Attributes.GetNamedItem("stationID").Value)
-                            newOrder.VolEntered = CLng(order.Attributes.GetNamedItem("volEntered").Value)
-                            newOrder.VolRemaining = CLng(order.Attributes.GetNamedItem("volRemaining").Value)
-                            newOrder.MinVolume = CLng(order.Attributes.GetNamedItem("minVolume").Value)
-                            newOrder.OrderState = CInt(order.Attributes.GetNamedItem("orderState").Value)
-                            newOrder.TypeID = CInt(order.Attributes.GetNamedItem("typeID").Value)
-                            newOrder.Range = CInt(order.Attributes.GetNamedItem("range").Value)
-                            newOrder.AccountKey = CInt(order.Attributes.GetNamedItem("accountKey").Value)
-                            newOrder.Duration = CInt(order.Attributes.GetNamedItem("duration").Value)
-                            newOrder.Escrow = Double.Parse(order.Attributes.GetNamedItem("escrow").Value, _culture) / newOrder.VolRemaining
-                            newOrder.Price = Double.Parse(order.Attributes.GetNamedItem("price").Value, _culture)
-                            newOrder.Bid = CInt(order.Attributes.GetNamedItem("bid").Value)
-                            newOrder.Issued = DateTime.ParseExact(order.Attributes.GetNamedItem("issued").Value, IndustryTimeFormat, _culture, DateTimeStyles.None)
+                            newOrder.OrderID = order.OrderId
+                            newOrder.CharID = order.CharId
+                            newOrder.StationID = order.StationId
+                            newOrder.VolEntered = order.QuantityEntered
+                            newOrder.VolRemaining = order.QuantityRemaining
+                            newOrder.MinVolume = order.MinQuantity
+                            newOrder.OrderState = CInt(order.OrderState)
+                            newOrder.TypeID = order.TypeId
+                            newOrder.Range = order.Range
+                            newOrder.AccountKey = order.AccountKey
+                            newOrder.Duration = CInt(order.Duration.TotalDays)
+                            newOrder.Escrow = order.Escrow / newOrder.VolRemaining
+                            newOrder.Price = order.Price
+                            If order.IsBuyOrder Then
+                                newOrder.Bid = 1
+                            Else
+                                newOrder.Bid = 0
+                            End If
+                            newOrder.Issued = order.DateIssued.UtcDateTime
                             newOrderCollection.MarketOrders.Add(newOrder)
                             If newOrder.Bid = 0 Then ' Sell Order
                                 newOrderCollection.SellOrders += 1
@@ -1887,58 +1869,54 @@ Namespace Controls
                         owner = PlugInData.PrismOwners(cOwner.Text)
                         Dim ownerAccount As EveHQAccount = PlugInData.GetAccountForCorpOwner(owner, CorpRepType.Assets)
                         Dim ownerID As String = PlugInData.GetAccountOwnerIDForCorpOwner(owner, CorpRepType.Assets)
-
+                        Dim assetResponse As EveServiceResponse(Of IEnumerable(Of EveAPI.AssetItem))
                         If ownerAccount IsNot Nothing Then
 
-                            Dim assetXML As XmlDocument
-                            Dim apiReq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
+
                             If owner.IsCorp = True Then
-                                assetXML = apiReq.GetAPIXML(APITypes.AssetsCorp, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                                assetResponse = HQ.ApiProvider.Corporation.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                             Else
-                                assetXML = apiReq.GetAPIXML(APITypes.AssetsChar, ownerAccount.ToAPIAccount, ownerID, APIReturnMethods.ReturnCacheOnly)
+                                assetResponse = HQ.ApiProvider.Character.AssetList(ownerAccount.UserID, ownerAccount.APIKey, ownerID.ToInt32())
                             End If
 
-                            If assetXML IsNot Nothing Then
+                            If assetResponse IsNot Nothing Then
 
-                                If assetXML IsNot Nothing Then
-                                    Dim locList As XmlNodeList
-                                    Dim loc As XmlNode
-                                    locList = assetXML.SelectNodes("/eveapi/result/rowset/row")
-                                    If locList.Count > 0 Then
-                                        For Each loc In locList
-                                            ' Let's search for our asset!
-                                            If loc.Attributes.GetNamedItem("itemID").Value = assetID Then
-                                                ' We found our ship so extract the subitem data
-                                                Dim catID As String
-                                                Dim modList As XmlNodeList
-                                                Dim mods As XmlNode
-                                                If loc.ChildNodes.Count > 0 Then
-                                                    modList = loc.ChildNodes(0).ChildNodes
-                                                    For Each mods In modList
-                                                        Dim itemID As Integer = CInt(mods.Attributes.GetNamedItem("typeID").Value)
-                                                        Dim itemName As String
-                                                        If StaticData.Types.ContainsKey(itemID) = True Then
-                                                            Dim itemData As EveType = StaticData.Types(itemID)
-                                                            itemName = itemData.Name
-                                                            catID = itemData.Category.ToString
-                                                            Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
-                                                            Dim flagName As String = StaticData.ItemMarkers(flagID)
-                                                            Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
-                                                            _hqfShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
-                                                        End If
-                                                    Next
-                                                End If
-                                                Exit Sub
-                                            Else
-                                                ' Check if this row has child nodes and repeat
-                                                If loc.HasChildNodes = True Then
-                                                    Call SearchForShipNode(loc, assetID)
-                                                    If _hqfShip.Count > 0 Then Exit Sub
-                                                End If
+
+                                If assetResponse.IsSuccess Then
+                                    For Each assetItem As EveAPI.AssetItem In assetResponse.ResultData
+                                        ' Let's search for our asset!
+                                        If assetItem.TypeId.ToInvariantString() = assetID Then
+                                            ' We found our ship so extract the subitem data
+                                            Dim catID As String
+                                            Dim modList As IEnumerable(Of EveAPI.AssetItem)
+                                            Dim mods As EveAPI.AssetItem
+                                            If assetItem.Contents.Any() Then
+                                                modList = assetItem.Contents
+                                                For Each mods In modList
+                                                    Dim itemID As Integer = mods.TypeId
+                                                    Dim itemName As String
+                                                    If StaticData.Types.ContainsKey(itemID) = True Then
+                                                        Dim itemData As EveType = StaticData.Types(itemID)
+                                                        itemName = itemData.Name
+                                                        catID = itemData.Category.ToString
+                                                        Dim flagID As Integer = mods.Flag
+                                                        Dim flagName As String = StaticData.ItemMarkers(flagID)
+                                                        Dim quantity As String = mods.Quantity.ToInvariantString()
+                                                        _hqfShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
+                                                    End If
+                                                Next
                                             End If
-                                        Next
-                                    End If
+                                            Exit Sub
+                                        ElseIf assetItem.Contents IsNot Nothing Then
+                                            ' Check if this row has child nodes and repeat
+                                            If assetItem.Contents.Any() Then
+                                                Call SearchForShipNode(assetItem, assetID)
+                                                If _hqfShip.Count > 0 Then Exit Sub
+                                            End If
+                                        End If
+                                    Next
                                 End If
+
 
                             End If
 
@@ -1948,46 +1926,46 @@ Namespace Controls
             Next
 
         End Sub
-        Private Sub SearchForShipNode(ByVal loc As XmlNode, ByVal assetID As String)
-            Dim subLocList As XmlNodeList
-            Dim subLoc As XmlNode
-            subLocList = loc.ChildNodes(0).ChildNodes
+        Private Sub SearchForShipNode(ByVal loc As EveAPI.AssetItem, ByVal assetID As String)
+            Dim subLocList As IEnumerable(Of EveApi.AssetItem)
+            Dim subLoc As EveApi.AssetItem
+            subLocList = loc.Contents
             For Each subLoc In subLocList
                 ' Let's search for our asset!
                 Try
-                    If subLoc.Attributes.GetNamedItem("itemID").Value = assetID Then
+                    If subLoc.ItemId.ToInvariantString() = assetID Then
                         ' We found our ship so extract the subitem data
                         Dim catID As String
-                        Dim modList As XmlNodeList
-                        Dim mods As XmlNode
-                        If subLoc.HasChildNodes = True Then
-                            modList = subLoc.ChildNodes(0).ChildNodes
+                        Dim modList As IEnumerable(Of EveApi.AssetItem)
+                        Dim mods As EveApi.AssetItem
+                        If subLoc.Contents.Any() Then
+                            modList = subLoc.Contents
                             For Each mods In modList
-                                Dim itemID As Integer = CInt(mods.Attributes.GetNamedItem("typeID").Value)
+                                Dim itemID As Integer = mods.ItemId
                                 Dim itemName As String
                                 If StaticData.Types.ContainsKey(itemID) = True Then
                                     Dim itemData As EveType = StaticData.Types(itemID)
                                     itemName = itemData.Name
                                     catID = itemData.Category.ToString
-                                    Dim flagID As Integer = CInt(mods.Attributes.GetNamedItem("flag").Value)
+                                    Dim flagID As Integer = mods.Flag
                                     Dim flagName As String = StaticData.ItemMarkers(flagID)
-                                    Dim quantity As String = mods.Attributes.GetNamedItem("quantity").Value
+                                    Dim quantity As String = mods.Quantity.ToInvariantString()
                                     _hqfShip.Add(flagName & "," & itemName & "," & quantity & "," & catID)
                                 End If
                             Next
                         End If
                         Exit Sub
-                    Else
+                    ElseIf subLoc.Contents IsNot Nothing Then
                         ' Check if this row has child nodes and repeat
-                        If subLoc.HasChildNodes = True Then
+                        If subLoc.Contents.Any() Then
                             Call SearchForShipNode(subLoc, assetID)
                         End If
                     End If
                 Catch ex As Exception
                     Dim msg As String = "Unable to parse Asset:" & ControlChars.CrLf
-                    msg &= "InnerXML: " & subLoc.InnerXml & ControlChars.CrLf
-                    msg &= "InnerText: " & subLoc.InnerText & ControlChars.CrLf
-                    msg &= "TypeID: " & subLoc.Attributes.GetNamedItem("typeID").Value
+                    msg &= "TypeID: " & subLoc.TypeId
+                    msg &= ex.FormatException()
+                    Trace.TraceError(msg)
                     MessageBox.Show(msg, "Error Getting Ship Information!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 End Try
             Next

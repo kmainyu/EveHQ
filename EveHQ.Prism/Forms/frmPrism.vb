@@ -36,6 +36,7 @@ Imports EveHQ.EveData
 Imports EveHQ.Prism.BPCalc
 Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.Controls
+Imports EveHQ.Common.Extensions
 Imports SearchOption = Microsoft.VisualBasic.FileIO.SearchOption
 
 Namespace Forms
@@ -93,9 +94,6 @@ Namespace Forms
         Dim _bpmStyleMissing As ElementStyle
         Dim _bpmStyleExhausted As ElementStyle
 
-        Delegate Sub CheckXMLDelegate(ByVal apiXML As XmlDocument, ByVal xmlOwner As PrismOwner, ByVal apiType As CorpRepType)
-        Private _xmlDelegate As CheckXMLDelegate
-
         Friend Shared LockObj As New Object()
 
 #End Region
@@ -103,7 +101,7 @@ Namespace Forms
 #Region "Form Initialisation Routines"
 
         Private Sub frmPrism_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-            _xmlDelegate = New CheckXMLDelegate(AddressOf CheckXML)
+
 
             ' Add events
             AddHandler PrismEvents.UpdateProductionJobs, AddressOf UpdateProductionJobList
@@ -254,48 +252,48 @@ Namespace Forms
             PlugInData.CorpList.Clear()
 
             For Each selAccount As EveHQAccount In HQ.Settings.Accounts.Values
-                    Select Case selAccount.ApiKeySystem
-                        Case APIKeySystems.Version2
-                            ' Check the type of the key
-                            Select Case selAccount.APIKeyType
-                                Case APIKeyTypes.Corporation
-                                    ' A corporate API key
-                                    For Each xmlOwner As String In selAccount.Characters
-                                        If HQ.Settings.Corporations.ContainsKey(xmlOwner) Then
-                                            Dim selCorp As Corporation = HQ.Settings.Corporations(xmlOwner)
-                                            If StaticData.NpcCorps.ContainsKey(CInt(selCorp.ID)) = False Then
-                                                If PlugInData.PrismOwners.ContainsKey(xmlOwner) = False Then
-                                                    Dim newOwner As New PrismOwner
-                                                    newOwner.Account = selAccount
-                                                    newOwner.Name = selCorp.Name
-                                                    newOwner.ID = CStr(selCorp.ID)
-                                                    newOwner.IsCorp = True
-                                                    newOwner.APIVersion = APIKeySystems.Version2
-                                                    PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
-                                                End If
-                                                ' Add the corp to the CorpList
-                                                PlugInData.CorpList.Add(selCorp.Name, CInt(selCorp.ID))
-                                            End If
-                                        End If
-                                    Next
-                                Case APIKeyTypes.Account, APIKeyTypes.Character
-                                    ' A character related API key
-                                    For Each xmlOwner As String In selAccount.Characters
-                                        If HQ.Settings.Pilots.ContainsKey(xmlOwner) Then
-                                            Dim selPilot As EveHQPilot = HQ.Settings.Pilots(xmlOwner)
+                Select Case selAccount.ApiKeySystem
+                    Case APIKeySystems.Version2
+                        ' Check the type of the key
+                        Select Case selAccount.APIKeyType
+                            Case APIKeyTypes.Corporation
+                                ' A corporate API key
+                                For Each xmlOwner As String In selAccount.Characters
+                                    If HQ.Settings.Corporations.ContainsKey(xmlOwner) Then
+                                        Dim selCorp As Corporation = HQ.Settings.Corporations(xmlOwner)
+                                        If StaticData.NpcCorps.ContainsKey(CInt(selCorp.ID)) = False Then
                                             If PlugInData.PrismOwners.ContainsKey(xmlOwner) = False Then
                                                 Dim newOwner As New PrismOwner
                                                 newOwner.Account = selAccount
-                                                newOwner.Name = selPilot.Name
-                                                newOwner.ID = selPilot.ID
-                                                newOwner.IsCorp = False
+                                                newOwner.Name = selCorp.Name
+                                                newOwner.ID = CStr(selCorp.ID)
+                                                newOwner.IsCorp = True
                                                 newOwner.APIVersion = APIKeySystems.Version2
                                                 PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
                                             End If
+                                            ' Add the corp to the CorpList
+                                            PlugInData.CorpList.Add(selCorp.Name, CInt(selCorp.ID))
                                         End If
-                                    Next
-                            End Select
-                    End Select
+                                    End If
+                                Next
+                            Case APIKeyTypes.Account, APIKeyTypes.Character
+                                ' A character related API key
+                                For Each xmlOwner As String In selAccount.Characters
+                                    If HQ.Settings.Pilots.ContainsKey(xmlOwner) Then
+                                        Dim selPilot As EveHQPilot = HQ.Settings.Pilots(xmlOwner)
+                                        If PlugInData.PrismOwners.ContainsKey(xmlOwner) = False Then
+                                            Dim newOwner As New PrismOwner
+                                            newOwner.Account = selAccount
+                                            newOwner.Name = selPilot.Name
+                                            newOwner.ID = selPilot.ID
+                                            newOwner.IsCorp = False
+                                            newOwner.APIVersion = APIKeySystems.Version2
+                                            PlugInData.PrismOwners.Add(newOwner.Name, newOwner)
+                                        End If
+                                    End If
+                                Next
+                        End Select
+                End Select
             Next
         End Sub
 
@@ -361,44 +359,42 @@ Namespace Forms
                     Dim selPilot As EveHQPilot = HQ.Settings.Pilots(pOwner.Name)
                     Dim pilotAccount As EveHQAccount = pOwner.Account
 
-                    Dim apixml As XmlDocument
-                    Const returnMethod As APIReturnMethods = APIReturnMethods.ReturnCacheOnly
-                    Dim apireq As New EveAPIRequest(HQ.EveHqapiServerInfo, HQ.RemoteProxy, HQ.Settings.APIFileExtension, HQ.CacheFolder)
-
                     ' Check for char assets
-                    apixml = apireq.GetAPIXML(APITypes.AssetsChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.Assets)
+                    Dim assetResponse = HQ.ApiProvider.Character.AssetList(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Call CheckApiResult(assetResponse, pOwner, CorpRepType.Assets)
 
                     ' Check for char balances
-                    apixml = apireq.GetAPIXML(APITypes.AccountBalancesChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.Balances)
+                    Dim balanceResponse = HQ.ApiProvider.Character.AccountBalance(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Call CheckApiResult(balanceResponse, pOwner, CorpRepType.Balances)
 
                     ' Check for char jobs
-                    apixml = apireq.GetAPIXML(APITypes.IndustryChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.Jobs)
+                    Dim jobsResponse = HQ.ApiProvider.Character.IndustryJobs(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Call CheckApiResult(jobsResponse, pOwner, CorpRepType.Jobs)
 
                     ' Check for char journal
-                    apixml = apireq.GetAPIXML(APITypes.WalletJournalChar, pilotAccount.ToAPIAccount, selPilot.ID, 1000, 0, 256, returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.WalletJournal)
+                    Dim walletResponse = HQ.ApiProvider.Character.WalletJournal(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Call CheckApiResult(walletResponse, pOwner, CorpRepType.WalletJournal)
 
                     ' Check for char orders
-                    apixml = apireq.GetAPIXML(APITypes.OrdersChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.Orders)
+                    Dim ordersResponse = HQ.ApiProvider.Character.MarketOrders(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Call CheckApiResult(ordersResponse, pOwner, CorpRepType.Orders)
 
                     ' Check for char transactions
-                    apixml = apireq.GetAPIXML(APITypes.WalletTransChar, pilotAccount.ToAPIAccount, selPilot.ID, 1000, "", returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.WalletTransactions)
+                    Dim transactionsResponse = HQ.ApiProvider.Character.WalletTransactions(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+
+                    Call CheckApiResult(transactionsResponse, pOwner, CorpRepType.WalletTransactions)
 
                     ' Check for char contracts
-                    apixml = apireq.GetAPIXML(APITypes.ContractsChar, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
-                    Call CheckXML(apixml, pOwner, CorpRepType.Contracts)
+                    Dim contractsResponse = HQ.ApiProvider.Character.Contracts(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+                    Call CheckApiResult(contractsResponse, pOwner, CorpRepType.Contracts)
 
                     ' Check for corp sheets
                     If PrismSettings.UserSettings.CorpReps.ContainsKey(selPilot.Corp) Then
                         If PrismSettings.UserSettings.CorpReps(selPilot.Corp).ContainsKey(CorpRepType.CorpSheet) Then
                             If PrismSettings.UserSettings.CorpReps(selPilot.Corp).Item(CorpRepType.CorpSheet) = selPilot.Name Then
-                                apixml = apireq.GetAPIXML(APITypes.CorpSheet, pilotAccount.ToAPIAccount, selPilot.ID, returnMethod)
-                                Call CheckXML(apixml, pOwner, CorpRepType.CorpSheet)
+                                Dim corpSheetRepsonse = HQ.ApiProvider.Corporation.CorporationSheet(pilotAccount.UserID, pilotAccount.APIKey, selPilot.ID.ToInt32())
+
+                                Call CheckApiResult(corpSheetRepsonse, pOwner, CorpRepType.CorpSheet)
                             Else
 
                             End If
@@ -426,43 +422,44 @@ Namespace Forms
 
                 ' Check for corp assets
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Assets)
-                apixml = apireq.GetAPIXML(APITypes.AssetsCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.Assets)
+                Dim assetResponse = HQ.ApiProvider.Corporation.AssetList(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(assetResponse, pOwner, CorpRepType.Assets)
 
                 ' Check for corp balances
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Balances)
-                apixml = apireq.GetAPIXML(APITypes.AccountBalancesCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.Balances)
+                Dim balances = HQ.ApiProvider.Corporation.AssetList(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(balances, pOwner, CorpRepType.Balances)
 
                 ' Check for corp jobs
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Jobs)
-                apixml = apireq.GetAPIXML(APITypes.IndustryCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.Jobs)
+                Dim jobs = HQ.ApiProvider.Corporation.IndustryJobs(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(jobs, pOwner, CorpRepType.Jobs)
 
                 ' Check for corp journal
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletJournal)
-                apixml = apireq.GetAPIXML(APITypes.WalletJournalCorp, corpAccount.ToAPIAccount, ownerID, 1000, 0, 256, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.WalletJournal)
+                ' TODO: add account id support (previous call used account 1000)
+                Dim journal = HQ.ApiProvider.Corporation.WalletJournal(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32(), 0, 256)
+                Call CheckApiResult(journal, pOwner, CorpRepType.WalletJournal)
 
                 ' Check for corp orders
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Orders)
-                apixml = apireq.GetAPIXML(APITypes.OrdersCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.Orders)
+                Dim orders = HQ.ApiProvider.Corporation.MarketOrders(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(orders, pOwner, CorpRepType.Orders)
 
                 ' Check for corp transactions
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.WalletTransactions)
-                apixml = apireq.GetAPIXML(APITypes.WalletTransCorp, corpAccount.ToAPIAccount, ownerID, 1000, "", returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.WalletTransactions)
+                Dim transactions = HQ.ApiProvider.Corporation.WalletTransactions(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(transactions, pOwner, CorpRepType.WalletTransactions)
 
                 ' Check for corp contracts
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.Contracts)
-                apixml = apireq.GetAPIXML(APITypes.ContractsCorp, corpAccount.ToAPIAccount, ownerID, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.Contracts)
+                Dim contracts = HQ.ApiProvider.Corporation.Contracts(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(contracts, pOwner, CorpRepType.Contracts)
 
                 ' Check for corp sheets
                 ownerID = PlugInData.GetAccountOwnerIDForCorpOwner(pOwner, CorpRepType.CorpSheet)
-                apixml = apireq.GetAPIXML(APITypes.CorpSheet, corpAccount.ToAPIAccount, ownerID, returnMethod)
-                Call CheckXML(apixml, pOwner, CorpRepType.CorpSheet)
+                Dim sheet = HQ.ApiProvider.Corporation.CorporationSheet(corpAccount.UserID, corpAccount.APIKey, ownerID.ToInt32())
+                Call CheckApiResult(sheet, pOwner, CorpRepType.CorpSheet)
 
             End If
 
@@ -536,7 +533,7 @@ Namespace Forms
             ThreadPool.QueueUserWorkItem(AddressOf UpdateNullCorpSheet2)
 
         End Sub
-        Private Sub CheckXML(ByVal apiXML As XmlDocument, ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType)
+        Private Sub CheckApiResult(Of T)(ByRef apiResult As EveServiceResponse(Of T), ByVal pOwner As PrismOwner, ByVal apiType As CorpRepType)
 
             ' Get the listviewitem of the relevant Owner
             Dim apiOwner As ListViewItem = lvwCurrentAPIs.Items(pOwner.ID)
@@ -550,9 +547,9 @@ Namespace Forms
                     Case APIKeySystems.Version2
 
                         ' Checking XML of APIv2 keys
-                        If apiXML IsNot Nothing Then
+                        If apiResult IsNot Nothing Then
                             If CanUseAPIv2(pOwner, apiType) Then
-                                Call DisplayAPIDetails(apiXML, apiOwner, pos)
+                                Call DisplayAPIDetails(apiResult, apiOwner, pos)
                             Else
                                 apiOwner.SubItems(pos).ForeColor = Color.Red
                                 apiOwner.SubItems(pos).Text = "No Access"
@@ -1555,7 +1552,7 @@ Namespace Forms
 
         Private Function CacheDate(ByVal apixml As XmlDocument) As DateTime
             ' Get Cache time details
-            Dim cacheDetails As XmlNodeList = APIXML.SelectNodes("/eveapi")
+            Dim cacheDetails As XmlNodeList = apixml.SelectNodes("/eveapi")
             Dim cacheTime As DateTime = CDate(cacheDetails(0).ChildNodes(2).InnerText)
             Dim localCacheTime As Date = SkillFunctions.ConvertEveTimeToLocal(cacheTime)
             Return localCacheTime

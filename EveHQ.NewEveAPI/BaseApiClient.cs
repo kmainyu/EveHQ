@@ -200,8 +200,6 @@ namespace EveHQ.EveApi
             return task.Result;
         }
 
-
-
         /// <summary>
         /// Gets the caching details from the service response if exists, or uses the provided defaults.
         /// </summary>

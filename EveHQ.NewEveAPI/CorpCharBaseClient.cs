@@ -57,6 +57,11 @@ namespace EveHQ.EveApi
             get { return _pathPrefix; }
         }
 
+        public EveServiceResponse<IEnumerable<AccountBalance>> AccountBalance(string keyId, string vCode, int characterId)
+        {
+            return RunAsyncMethod(AccountBalanceAsync, keyId, vCode, characterId);
+        }
+
         /// <summary>Gets the balance of a character.</summary>
         /// <param name="keyId">API Key ID to query</param>
         /// <param name="vCode">The Verification Code for this ID</param>
@@ -435,6 +440,11 @@ namespace EveHQ.EveApi
                 cacheKey, ApiConstants.SixtyMinuteCache, ProcessStandingsResponse);
         }
 
+        public EveServiceResponse<IEnumerable<WalletJournalEntry>> WalletJournal(string keyId, string vCode, int characterId, long? fromId = null, int? rowCount = null)
+        {
+            return RunAsyncMethod(WalletJournalAsync, keyId, vCode, characterId, fromId, rowCount);
+        }
+
         /// <summary>The wallet journal.</summary>
         /// <param name="keyId">The key id.</param>
         /// <param name="vCode">The v code.</param>
@@ -442,7 +452,7 @@ namespace EveHQ.EveApi
         /// <param name="fromId">The from id.</param>
         /// <param name="rowCount">The row count.</param>
         /// <returns>The <see cref="Task" />.</returns>
-        public Task<EveServiceResponse<IEnumerable<WalletJournalEntry>>> WalletJournal(string keyId, string vCode,
+        public Task<EveServiceResponse<IEnumerable<WalletJournalEntry>>> WalletJournalAsync(string keyId, string vCode,
             int characterId, long? fromId = null, int? rowCount = null)
         {
             System.Diagnostics.Contracts.Contract.Requires(!keyId.IsNullOrWhiteSpace());
@@ -800,7 +810,7 @@ namespace EveHQ.EveApi
                 let typeId = row.Attribute("typeID").Value.ToInt32()
                 let range = row.Attribute("range").Value.ToInt32()
                 let accountKey = row.Attribute("accountKey").Value.ToInt32()
-                let duration = TimeSpan.FromDays(row.Attribute("minVolume").Value.ToInt32())
+                let duration = TimeSpan.FromDays(row.Attribute("duration").Value.ToInt32())
                 let escrow = row.Attribute("escrow").Value.ToDouble()
                 let price = row.Attribute("price").Value.ToDouble()
                 let isBuyOrder = row.Attribute("bid").Value.ToBoolean()
@@ -1172,13 +1182,14 @@ namespace EveHQ.EveApi
         /// <returns>an AssetItem.</returns>
         private static AssetItem CreateItemFromRow(XElement row, int parentId)
         {
-            int itemId, locationId, typeId, quantity, flag;
+            int itemId, locationId, typeId, quantity, flag,rawQuantity;
             bool single;
 
             XAttribute item = row.Attribute(ApiConstants.ItemId);
             XAttribute location = row.Attribute(ApiConstants.LocationId);
             XAttribute type = row.Attribute(ApiConstants.TypeId);
             XAttribute count = row.Attribute(ApiConstants.Quantity);
+            XAttribute rawCount = row.Attribute(ApiConstants.RawQuantity);
             XAttribute flagAttrib = row.Attribute(ApiConstants.Flag);
             XAttribute singleton = row.Attribute(ApiConstants.Singleton);
 
@@ -1186,6 +1197,7 @@ namespace EveHQ.EveApi
             locationId = location != null && int.TryParse(location.Value, out locationId) ? locationId : 0;
             typeId = type != null && int.TryParse(type.Value, out typeId) ? typeId : 0;
             quantity = count != null && int.TryParse(count.Value, out quantity) ? quantity : 0;
+            rawQuantity = rawCount != null ? rawCount.Value.ToInt32() : 0;
             flag = flagAttrib != null && int.TryParse(flagAttrib.Value, out flag) ? flag : 0;
             single = singleton != null && bool.TryParse(singleton.Value, out single) && single;
 
@@ -1203,6 +1215,7 @@ namespace EveHQ.EveApi
                 LocationId = locationId,
                 TypeId = typeId,
                 Quantity = quantity,
+                RawQuantity = rawQuantity,
                 Flag = flag,
                 Singleton = single,
                 Contents = children,

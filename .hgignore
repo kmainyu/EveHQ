@@ -9,6 +9,7 @@ Release/*
 *.bak
 *.exe
 *.cache
+*AssemblyInfo.*
 _ReSharper.EveHQ/
 Utilities/EveHQ.Market.ProxyCollector/*
 Ref/EveCache.Net/EveCache.dll
