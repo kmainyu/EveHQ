@@ -24,8 +24,9 @@ namespace EveHQ.EveData
         /// </summary>
         public Certificate()
         {
-            this.RequiredSkills = new SortedList<int, int>();
-            this.RequiredCertificates = new SortedList<int, int>();
+            GradesAndSkills = new SortedList<CertificateGrade, SortedList<int, int>>();
+
+            RecommendedTypes = new List<int>();
         }
 
         /// <summary>
@@ -35,45 +36,33 @@ namespace EveHQ.EveData
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the grade.
+        /// Gets or sets the group ID.
         /// </summary>
         [ProtoMember(2)]
-        public int Grade { get; set; }
-
-        /// <summary>
-        /// Gets or sets the class ID.
-        /// </summary>
-        [ProtoMember(3)]
-        public int ClassId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the category ID.
-        /// </summary>
-        [ProtoMember(4)]
-        public int CategoryId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the issuing corp ID.
-        /// </summary>
-        [ProtoMember(5)]
-        public long CorpId { get; set; }
+        public int GroupID { get; set; }
 
         /// <summary>
         /// Gets or sets the description.
         /// </summary>
-        [ProtoMember(6)]
+        [ProtoMember(3)]
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the pre-requisite skills for the certificate.
+        /// Gets or sets the name of the certificate
         /// </summary>
-        [ProtoMember(7)]
-        public SortedList<int, int> RequiredSkills { get; set; }
+        [ProtoMember(4)]
+        public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the pre-requisite certificates for the certificate.
+        /// Gets or sets the collection of type IDs that benefit from this cert.
         /// </summary>
-        [ProtoMember(8)]
-        public SortedList<int, int> RequiredCertificates { get; set; }
+        [ProtoMember(5)]
+        public IList<int> RecommendedTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of grades available in this cert and the collection of skills (and their levels) in order to qualify.
+        /// </summary>
+        [ProtoMember(6)]
+        public SortedList<CertificateGrade, SortedList<int, int>> GradesAndSkills { get; set; }
     }
 }

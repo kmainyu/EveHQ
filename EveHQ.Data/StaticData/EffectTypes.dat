@@ -882,7 +882,7 @@ $ŠŠgangPropulsionJammingBoost
  ÁÁcynosuralGenerationTmp
 ÂÂdroneDmgBonus
 ÃÃtestDroneShieldEffect
-ÊÊopenSpawnContainer
+ÊÊ	doHacking
 (Ì#ÌdataMiningSkillMultiplierFixed
 ÑÑsiegeModeEffectOld
 'Ò"ÒgangArmorRepairSpeedAmplifier
@@ -3412,6 +3412,7 @@ $³+³+shipBonusHeavyDroneSpeedGC
 Aµ+<µ+7shipBonusSentryDroneOptimalRangeEliteBonusHeavyGunship2
 =¶+8¶+3shipBonusSentryDroneTrackingEliteBonusHeavyGunship2
 '·+"·+shipBonusShieldBoostAmountMC2
+5¸+0¸++roleBonusMarauderMJDRReactivationDelayBonus
 8¹+3¹+.subSystemBonusAmarrDefensiveInformationWarfare
 >º+9º+4subSystemBonusAmarrDefensiveInformationWarfareHidden
 5»+0»++subSystemBonusAmarrDefensiveSkirmishWarfare
@@ -3428,4 +3429,71 @@ Aµ+<µ+7shipBonusSentryDroneOptimalRangeEliteBonusHeavyGunship2
 *Æ+%Æ+ eliteBonusCommandShipSkirmishCS3
 -Ç+(Ç+#eliteBonusCommandShipInformationCS3
 3È+.È+)eliteBonusCommandShipInformationHiddenCS3
+Ì+Ì+marauderModeEffect3
+Í+Í+marauderModeEffect4
+Ï+Ï+marauderModeEffect6
+Ð+Ð+marauderModeEffect7
+Ñ+Ñ+marauderModeEffect8
+Ò+Ò+marauderModeEffect9
+Ó+Ó+marauderModeEffect10
+Ô+Ô+marauderModeEffect11
+ Ø+Ø+shipMWDBlockActivation
+$Ù+Ù+shieldBoostAmplifierActive
+(Ú+#Ú+repairSystemsAmountBonusActive
+Û+Û+marauderModeEffect14
+Ü+Ü+marauderModeEffect15
+Ý+Ý+marauderModeEffect16
+Þ+Þ+marauderModeEffect17
+ß+ß+marauderModeEffect18
+à+à+marauderModeEffect19
+á+á+marauderModeEffect20
+â+â+marauderModeEffect21
+ã+ã+marauderModeEffect22
+ä+ä+marauderModeEffect23
+å+å+marauderModeEffect24
 &ç+!ç+capacitorEmissionSystemskill
+.ê+)ê+$shipBonusLargeEnergyTurretMaxRangeAB
+ë+ë+shipBonusHTFalloffGB2
+%î+ î+piCustomsOfficeTaxReduction
+-ï+(ï+#piTaxReductionModifierSkillModifier
+ò+ò+shipBonusRHMLROF2CB
+ó+ó+shipBonusRHMLROFCB
+ô+ô+shipBonusRHMLROFMB
+õ+õ+shipBonusCruiseROFMB
+ö+ö+shipBonusTorpedoROFMB
+'ü+"ü+shipBonusCruiseMissileEMDmgMB
+*ý+%ý+ shipBonusCruiseMissileThermDmgMB
+,þ+'þ+"shipBonusCruiseMissileKineticDmgMB
+*ÿ+%ÿ+ shipBonusCruiseMissileExploDmgMB
++€,&€,!shipBonusTorpedoMissileExploDmgMB
+(,#,shipBonusTorpedoMissileEMDmgMB
++‚,&‚,!shipBonusTorpedoMissileThermDmgMB
+-ƒ,(ƒ,#shipBonusTorpedoMissileKineticDmgMB
+&„,!„,shipBonusHeavyMissileEMDmgMB
+)…,$…,shipBonusHeavyMissileThermDmgMB
++†,&†,!shipBonusHeavyMissileKineticDmgMB
+)‡,$‡,shipBonusHeavyMissileExploDmgMB
+‹,‹,marauderModeEffect25
+%Œ, Œ,shipBonusMissileVelocityCC2
+4,/,*covertOpsCloakCPUPercentBonusPirateFaction
+ ’,’,shipArmorResistanceAF1
+"™,™,Interceptor2ShieldResist
+ ¨,¨,shipSmallMissileDmgGF2
+&©,!©,interceptor2ProjectileDamage
+1¬,,¬,'shipBonusSmallMissileExplosionRadiusCD2
+ ·,·,shipSmallMissileDmgAD1
+%¸, ¸,shipBonusMissileVelocityAD2
+,¿,'¿,"eliteBonusInterdictorsArmorResist1
+1Â,,Â,'shipBonusSmallMissileExplosionRadiusGD2
+3Ñ,.Ñ,)eliteBonusInterdictorsSmallMissileDamage1
+*Ò,%Ò, eliteBonusInterdictorsSHTDamage1
+ Ó,Ó,setWarpSpeedMultiplier
+Õ,Õ,implantSetWarpSpeed
+/Ù,*Ù,%shipBonusMETOptimalRangePirateFaction
+Ú,Ú,shipHybridOptimalGD1
+-Û,(Û,#eliteBonusInterdictorsMWDSigRadius2
+Ü,Ü,shipSHTOptimalBonusGF
+7å,2å,-eliteBonusMaraudersHeavyMissileDamageExpRole1
+7æ,2æ,-eliteBonusMaraudersHeavyMissileDamageKinRole1
+6ç,1ç,,eliteBonusMaraudersHeavyMissileDamageEMRole1
+9è,4è,/eliteBonusMaraudersHeavyMissileDamageThermRole1

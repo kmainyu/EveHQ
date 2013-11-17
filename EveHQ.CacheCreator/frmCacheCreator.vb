@@ -24,14 +24,15 @@ Imports EveHQ.HQF
 Imports System.Data.SqlClient
 Imports ProtoBuf
 Imports EveHQ.EveData
-Imports QiHe.Yaml.Grammar
+
 Imports System.Data.SQLite
+Imports YamlDotNet.RepresentationModel
 
 Public Class FrmCacheCreator
 
     Private Const CacheFolderName As String = "StaticData"
     Private Const StaticDB As String = "EveHQMaster"
-    Private Const StaticDBConnection As String = "Server=localhost\SQLEXPRESS; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
+    Private Const StaticDBConnection As String = "Server=localhost; Database = " & StaticDB & "; Integrated Security = SSPI;" ' For SDE connection
     ReadOnly _sqLiteDBFolder As String = Path.Combine(Application.StartupPath, "EveCache")
     ReadOnly _sqLiteDB As String = Path.Combine(_sqLiteDBFolder, "EveHQMaster.db3")
 
@@ -44,6 +45,7 @@ Public Class FrmCacheCreator
     Shared coreCacheFolder As String
     Shared yamlTypes As SortedList(Of Integer, YAMLType) ' Key = typeID
     Shared yamlIcons As SortedList(Of Integer, String) ' Key = iconID, Value = iconFile
+    Shared yamlCerts As New SortedList(Of Integer, YAMLCert) ' Key = CertID
 
     Private Sub frmCacheCreator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.FileSystem.DirectoryExists(_sqLiteDBFolder) = False Then
@@ -87,85 +89,160 @@ Public Class FrmCacheCreator
         ' Parse the icons file first
         Call ParseIconsYAMLFile()
         Call ParseTypesYAMLFile()
-
+        ParseCertsYAMLFile()
     End Sub
 
     Private Sub ParseIconsYAMLFile()
-        Dim parser As New YamlParser
-        Dim textData As String = System.Text.Encoding.UTF8.GetString(My.Resources.iconIDs)
-        Dim input As New TextInput(textData)
-        Dim success As Boolean = False
-        Dim yamlData As YamlStream = parser.ParseYamlStream(input, success)
-        If success Then
-            ' Should only be 1 document so go with the first
-            Dim yamlDoc As YamlDocument = yamlData.Documents(0)
-            ' Cycle through the keys, which will be the typeIDs
-            Dim root As Mapping = CType(yamlDoc.Root, Mapping)
-            For Each entry As MappingEntry In root.Entries
-                ' Parse the typeID
-                Dim iconID As Integer = CInt(CType(entry.Key, Scalar).Text)
-                ' Parse anything underneath
-                For Each subEntry As MappingEntry In CType(entry.Value, Mapping).Entries
-                    ' Get the key and value of th sub entry
-                    Dim keyName As String = CType(subEntry.Key, Scalar).Text
-                    ' Do something based on the key
-                    Select Case keyName
-                        Case "iconFile"
-                            ' Pre-process the icon name to make it easier later on
-                            Dim iconName As String = CType(subEntry.Value, Scalar).Text.Trim
-                            ' Get the filename if the fullname starts with "res:"
-                            If iconName.StartsWith("res", StringComparison.Ordinal) Then
-                                iconName = iconName.Split("/".ToCharArray).Last
-                            End If
-                            ' Set the icon item
-                            yamlIcons.Add(iconID, iconName)
-                    End Select
-                Next
-            Next
-        End If
+        Using dataStream = New MemoryStream(My.Resources.iconIDs)
+            Using reader = New StreamReader(dataStream)
+
+                Dim yaml = New YamlDotNet.RepresentationModel.YamlStream()
+                yaml.Load(reader)
+                If yaml.Documents.Any() Then
+                    ' Should only be 1 document so go with the first
+                    Dim yamlDoc = yaml.Documents(0)
+                    ' Cycle through the keys, which will be the typeIDs
+                    Dim root = CType(yamlDoc.RootNode, YamlMappingNode)
+                    For Each entry In root.Children
+                        ' Parse the typeID
+                        Dim iconID As Integer = CInt(CType(entry.Key, YamlScalarNode).Value)
+                        ' Parse anything underneath
+                        For Each subEntry In CType(entry.Value, YamlMappingNode).Children
+                            ' Get the key and value of th sub entry
+                            Dim keyName As String = CType(subEntry.Key, YamlScalarNode).Value
+                            ' Do something based on the key
+                            Select Case keyName
+                                Case "iconFile"
+                                    ' Pre-process the icon name to make it easier later on
+                                    Dim iconName As String = CType(subEntry.Value, YamlScalarNode).Value.Trim
+                                    ' Get the filename if the fullname starts with "res:"
+                                    If iconName.StartsWith("res", StringComparison.Ordinal) Then
+                                        iconName = iconName.Split("/".ToCharArray).Last
+                                    End If
+                                    ' Set the icon item
+                                    yamlIcons.Add(iconID, iconName)
+                            End Select
+                        Next
+                    Next
+                End If
+            End Using
+        End Using
+
+    End Sub
+
+    Private Sub ParseCertsYAMLFile()
+        Using dataStream = New MemoryStream(My.Resources.certificates)
+            Using reader = New StreamReader(dataStream)
+
+                Dim yaml = New YamlDotNet.RepresentationModel.YamlStream()
+                yaml.Load(reader)
+
+                If yaml.Documents.Count > 0 Then
+                    ' Should only be 1 document so go with the first
+                    Dim yamlDoc = yaml.Documents(0)
+                    ' Cycle through the keys, which will be the certIDs
+                    Dim root = CType(yamlDoc.RootNode, YamlMappingNode)
+                    For Each entry In root.Children
+                        Dim certID = CInt(CType(entry.Key, YamlScalarNode).Value)
+                        Dim cert As New YAMLCert
+                        cert.RecommendedFor = New List(Of Integer)
+                        cert.CertID = certID
+                        ' Parse anything underneath
+                        Dim dataItem = TryCast(entry.Value, YamlMappingNode)
+                        If dataItem IsNot Nothing Then
+                            For Each subEntry In dataItem.Children
+                                ' Get the key and value of th sub entry
+                                Dim keyName As String = CType(subEntry.Key, YamlScalarNode).Value
+                                ' Do something based on the key
+                                Select Case keyName
+                                    Case "description"
+                                        ' Set the description
+                                        cert.Description = CType(subEntry.Value, YamlScalarNode).Value
+                                    Case "groupID"
+                                        ' Set the groupID
+                                        cert.GroupID = CInt(CType(subEntry.Value, YamlScalarNode).Value)
+                                    Case "name"
+                                        ' Set the name
+                                        cert.Name = CType(subEntry.Value, YamlScalarNode).Value
+                                    Case "recommendedFor"
+                                        ' Set the type recommendations.
+                                        cert.RecommendedFor = CType(subEntry.Value, YamlSequenceNode).Children.Select(Function(e) CInt(CType(e, YamlScalarNode).Value))
+                                    Case "skillTypes"
+                                        ' Set the required Skills
+                                        Dim skillMaps = CType(subEntry.Value, YamlMappingNode)
+                                        Dim reqSkills As New List(Of CertReqSkill)
+                                        If skillMaps IsNot Nothing Then
+                                            For Each skillMap In skillMaps.Children
+                                                Dim reqSkill As New CertReqSkill
+                                                reqSkill.SkillID = CInt(CType(skillMap.Key, YamlScalarNode).Value)
+                                                reqSkill.SkillLevels = New Dictionary(Of String, Integer)
+                                                For Each level In CType(skillMap.Value, YamlMappingNode).Children
+                                                    reqSkill.SkillLevels.Add(CType(level.Key, YamlScalarNode).Value, CInt(CType(level.Value, YamlScalarNode).Value))
+                                                Next
+                                                reqSkills.Add(reqSkill)
+                                            Next
+                                        End If
+                                        cert.RequiredSkills = reqSkills
+                                End Select
+                            Next
+                            yamlCerts.Add(cert.CertID, cert)
+                        End If
+                    Next
+                End If
+            End Using
+        End Using
     End Sub
 
     Private Sub ParseTypesYAMLFile()
-        Dim parser As New YamlParser
-        Dim textData As String = System.Text.Encoding.UTF8.GetString(My.Resources.typeIDs)
-        Dim input As New TextInput(textData)
-        Dim success As Boolean = False
-        Dim yamlData As YamlStream = parser.ParseYamlStream(input, success)
+        Using dataStream = New MemoryStream(My.Resources.typeIDs)
+            Using reader = New StreamReader(dataStream)
 
-        ' Note: If success is false, check the YAML file for invalid characters (was ID 1002 in Retribution 1.1)
+                Dim yaml = New YamlDotNet.RepresentationModel.YamlStream()
+                yaml.Load(reader)
 
-        If success Then
-            ' Should only be 1 document so go with the first
-            Dim yamlDoc As YamlDocument = yamlData.Documents(0)
-            ' Cycle through the keys, which will be the typeIDs
-            Dim root As Mapping = CType(yamlDoc.Root, Mapping)
-            For Each entry As MappingEntry In root.Entries
-                ' Parse the typeID
-                Dim typeID As Integer = CInt(CType(entry.Key, Scalar).Text)
-                Dim yamlItem As New YAMLType
-                yamlItem.TypeID = typeID
-                ' Parse anything underneath
-                Dim dataItem = TryCast(entry.Value, Mapping)
-                If dataItem IsNot Nothing Then
-                    For Each subEntry As MappingEntry In dataItem.Entries
-                        ' Get the key and value of th sub entry
-                        Dim keyName As String = CType(subEntry.Key, Scalar).Text
-                        ' Do something based on the key
-                        Select Case keyName
-                            Case "iconID"
-                                ' Set the icon item
-                                yamlItem.IconID = CInt(CType(subEntry.Value, Scalar).Text)
-                        End Select
+                If yaml.Documents.Any() Then
+                    ' Should only be 1 document so go with the first
+                    Dim yamlDoc = yaml.Documents(0)
+                    ' Cycle through the keys, which will be the typeIDs
+                    Dim root = CType(yamlDoc.RootNode, YamlMappingNode)
+                    For Each entry In root.Children
+                        ' Parse the typeID
+                        Dim typeID As Integer = CInt(CType(entry.Key, YamlScalarNode).Value)
+                        Dim yamlItem As New YAMLType
+                        yamlItem.TypeID = typeID
+                        ' Parse anything underneath
+                        Dim dataItem = TryCast(entry.Value, YamlMappingNode)
+                        If dataItem IsNot Nothing Then
+                            For Each subEntry In dataItem.Children
+                                ' Get the key and value of th sub entry
+                                Dim keyName As String = CType(subEntry.Key, YamlScalarNode).Value
+                                ' Do something based on the key
+                                Select Case keyName
+                                    Case "iconID"
+                                        ' Set the icon item
+                                        yamlItem.IconID = CInt(CType(subEntry.Value, YamlScalarNode).Value)
+                                    Case "masteries"
+                                        ' set the various collections of certificates needed for each level of master
+                                        yamlItem.Masteries = New Dictionary(Of Integer, List(Of Integer))
+                                        Dim masteryLevels = CType(subEntry.Value, YamlMappingNode)
+                                        For Each level In masteryLevels.Children
+                                            Dim levelID = CInt(CType(level.Key, YamlScalarNode).Value)
+                                            Dim certs = CType(level.Value, YamlSequenceNode).Children.Select(Function(node) CInt(CType(node, YamlScalarNode).Value)).ToList()
+                                            yamlItem.Masteries.Add(levelID, certs)
+                                        Next
+                                End Select
+                            Next
+                        End If
+                        ' Get the iconFile if relevant
+                        If yamlIcons.ContainsKey(yamlItem.IconID) Then
+                            yamlItem.IconName = yamlIcons(yamlItem.IconID)
+                        End If
+                        ' Add the item
+                        yamlTypes.Add(yamlItem.TypeID, yamlItem)
                     Next
                 End If
-                ' Get the iconFile if relevant
-                If yamlIcons.ContainsKey(yamlItem.IconID) Then
-                    yamlItem.IconName = yamlIcons(yamlItem.IconID)
-                End If
-                ' Add the item
-                yamlTypes.Add(yamlItem.TypeID, yamlItem)
-            Next
-        End If
+            End Using
+        End Using
     End Sub
 
 #End Region
@@ -183,7 +260,6 @@ Public Class FrmCacheCreator
         Call LoadGroupCats()
 
         Call LoadCertCategories()
-        Call LoadCertClasses()
         Call LoadCerts()
         Call LoadCertRecs()
 
@@ -364,83 +440,57 @@ Public Class FrmCacheCreator
     End Sub
 
     Private Sub LoadCertCategories()
-
         StaticData.CertificateCategories.Clear()
-        Const StrSQL As String = "SELECT * FROM crtCategories;"
-        Using evehqData As DataSet = GetStaticData(StrSQL)
-            For Each certRow As DataRow In evehqData.Tables(0).Rows
-                Dim newCat As New CertificateCategory
-                newCat.Id = CInt(certRow.Item("categoryID"))
-                newCat.Name = certRow.Item("categoryName").ToString
-                StaticData.CertificateCategories.Add(newCat.Id.ToString, newCat)
-            Next
-        End Using
-
-    End Sub
-
-    Private Sub LoadCertClasses()
-
-        StaticData.CertificateClasses.Clear()
-        Const StrSQL As String = "SELECT * FROM crtClasses;"
-        Using evehqData As DataSet = GetStaticData(StrSQL)
-            For Each certRow As DataRow In evehqData.Tables(0).Rows
-                Dim newClass As New CertificateClass
-                newClass.Id = CInt(certRow.Item("classID"))
-                newClass.Name = certRow.Item("className").ToString
-                StaticData.CertificateClasses.Add(newClass.Id.ToString, newClass)
-            Next
-        End Using
-
+        For Each groupID In yamlCerts.Values.Select(Function(c) c.GroupID).Distinct()
+            Dim newCat As New CertificateCategory
+            newCat.Id = groupID
+            newCat.Name = StaticData.TypeGroups(groupID)
+            StaticData.CertificateCategories.Add(newCat.Id.ToString, newCat)
+        Next
     End Sub
 
     Private Sub LoadCerts()
 
         StaticData.Certificates.Clear()
-        Dim evehqData As DataSet
-        evehqData = GetStaticData("SELECT * FROM crtCertificates;")
-        For Each certRow As DataRow In evehqData.Tables(0).Rows
+        ' With Rubicon 1.0 certs are no longer in the database, but stored in yaml
+        For Each cert In yamlCerts.Values
             Dim newCert As New Certificate
-            newCert.Id = CInt(certRow.Item("certificateID"))
-            newCert.CategoryId = CInt(certRow.Item("categoryID"))
-            newCert.ClassId = CInt(certRow.Item("classID"))
-            newCert.Description = CStr(certRow.Item("description"))
-            newCert.Grade = CInt(certRow.Item("grade"))
-            newCert.CorpId = CInt(certRow.Item("corpID"))
+            newCert.GradesAndSkills.Add(CertificateGrade.Basic, New SortedList(Of Integer, Integer))
+            newCert.GradesAndSkills.Add(CertificateGrade.Standard, New SortedList(Of Integer, Integer))
+            newCert.GradesAndSkills.Add(CertificateGrade.Improved, New SortedList(Of Integer, Integer))
+            newCert.GradesAndSkills.Add(CertificateGrade.Advanced, New SortedList(Of Integer, Integer))
+            newCert.GradesAndSkills.Add(CertificateGrade.Elite, New SortedList(Of Integer, Integer))
+                                      
+            newCert.Id = cert.CertID
+            newCert.Description = cert.Description
+            newCert.GroupId = cert.GroupID
+            newCert.Name = cert.Name
+            newCert.RecommendedTypes = cert.RecommendedFor.ToList()
+            For Each reqSkill In cert.RequiredSkills
+                newCert.GradesAndSkills(CertificateGrade.Basic).Add(reqSkill.SkillID, reqSkill.SkillLevels("basic"))
+                newCert.GradesAndSkills(CertificateGrade.Standard).Add(reqSkill.SkillID, reqSkill.SkillLevels("standard"))
+                newCert.GradesAndSkills(CertificateGrade.Improved).Add(reqSkill.SkillID, reqSkill.SkillLevels("improved"))
+                newCert.GradesAndSkills(CertificateGrade.Advanced).Add(reqSkill.SkillID, reqSkill.SkillLevels("advanced"))
+                newCert.GradesAndSkills(CertificateGrade.Elite).Add(reqSkill.SkillID, reqSkill.SkillLevels("elite"))
+            Next
             StaticData.Certificates.Add(newCert.Id, newCert)
         Next
 
-        evehqData = GetStaticData("SELECT * FROM crtRelationships;")
-        For Each certRow As DataRow In evehqData.Tables(0).Rows
-            Dim certID As Integer = CInt(certRow.Item("childID"))
-            If StaticData.Certificates.ContainsKey(certID) = True Then
-                Dim newCert As Certificate = StaticData.Certificates(certID)
-                If IsDBNull(certRow.Item("parentID")) Then
-                    ' This is a skill ID
-                    newCert.RequiredSkills.Add(CInt(certRow.Item("parentTypeID")), CInt(certRow.Item("parentLevel")))
-                Else
-                    ' This is a certID
-                    newCert.RequiredCertificates.Add(CInt(certRow.Item("parentID")), 1)
-                End If
-            End If
-        Next
-
-        evehqData.Dispose()
-
     End Sub
 
-    Private Sub LoadCertRecs()
 
+    Private Sub LoadCertRecs()
+        ' cert recommendations are now in the cert yaml data
         StaticData.CertificateRecommendations.Clear()
-        Const StrSQL As String = "SELECT * FROM crtRecommendations;"
-        Using evehqData As DataSet = GetStaticData(StrSQL)
-            For Each certRow As DataRow In evehqData.Tables(0).Rows
+
+        For Each certRow In yamlCerts.Values
+            For Each shipRec In certRow.RecommendedFor
                 Dim certRec As New CertificateRecommendation
-                certRec.ShipTypeId = CInt(certRow.Item("shiptypeID").ToString)
-                certRec.CertificateId = CInt(certRow.Item("certificateID").ToString)
+                certRec.ShipTypeId = shipRec
+                certRec.CertificateId = certRow.CertID
                 StaticData.CertificateRecommendations.Add(certRec)
             Next
-        End Using
-
+        Next
     End Sub
 
     Private Sub LoadUnlocks()
@@ -536,8 +586,9 @@ Public Class FrmCacheCreator
 
             ' Add certificates into the skill unlocks?
             For Each cert As Certificate In StaticData.Certificates.Values
-                For Each skill As Integer In cert.RequiredSkills.Keys
-                    Dim skillID As String = skill & "." & cert.RequiredSkills(skill).ToString
+
+                For Each skill As Integer In cert.GradesAndSkills(CertificateGrade.Basic).Keys
+                    Dim skillID As String = skill & "." & cert.GradesAndSkills(CertificateGrade.Basic)(skill).ToString
                     If StaticData.CertUnlockSkills.ContainsKey(skillID) = False Then
                         ' Create an arraylist and add the item
                         certUnlocked = New List(Of Integer)
@@ -549,18 +600,18 @@ Public Class FrmCacheCreator
                         certUnlocked.Add(cert.Id)
                     End If
                 Next
-                For Each certID As Integer In cert.RequiredCertificates.Keys
-                    If StaticData.CertUnlockCertificates.ContainsKey(certID) = False Then
-                        ' Create an arraylist and add the item
-                        certUnlocked = New List(Of Integer)
-                        certUnlocked.Add(cert.Id)
-                        StaticData.CertUnlockCertificates.Add(certID, certUnlocked)
-                    Else
-                        ' Fetch the item and add the new one
-                        certUnlocked = StaticData.CertUnlockCertificates(certID)
-                        certUnlocked.Add(cert.Id)
-                    End If
-                Next
+                'For Each certID As Integer In cert.RequiredCertificates.Keys
+                '    If StaticData.CertUnlockCertificates.ContainsKey(certID) = False Then
+                '        ' Create an arraylist and add the item
+                '        certUnlocked = New List(Of Integer)
+                '        certUnlocked.Add(cert.Id)
+                '        StaticData.CertUnlockCertificates.Add(certID, certUnlocked)
+                '    Else
+                '        ' Fetch the item and add the new one
+                '        certUnlocked = StaticData.CertUnlockCertificates(certID)
+                '        certUnlocked.Add(cert.Id)
+                '    End If
+                'Next
             Next
 
         End Using
@@ -1130,11 +1181,11 @@ Public Class FrmCacheCreator
         s.Flush()
         s.Close()
 
-        ' Cert Classes
-        s = New FileStream(Path.Combine(coreCacheFolder, "CertClasses.dat"), FileMode.Create)
-        Serializer.Serialize(s, StaticData.CertificateClasses)
-        s.Flush()
-        s.Close()
+        '' Cert Classes
+        's = New FileStream(Path.Combine(coreCacheFolder, "CertClasses.dat"), FileMode.Create)
+        'Serializer.Serialize(s, StaticData.CertificateClasses)
+        's.Flush()
+        's.Close()
 
         ' Certs
         s = New FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Create)
@@ -1157,12 +1208,6 @@ Public Class FrmCacheCreator
         ' SkillUnlocks
         s = New FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.SkillUnlocks)
-        s.Flush()
-        s.Close()
-
-        ' CertCerts
-        s = New FileStream(Path.Combine(coreCacheFolder, "CertCerts.dat"), FileMode.Create)
-        Serializer.Serialize(s, StaticData.CertUnlockCertificates)
         s.Flush()
         s.Close()
 

@@ -25,6 +25,7 @@ Imports System.Windows.Forms
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports EveHQ.Core.Requisitions
+Imports EveHQ.Common.Extensions
 Imports MarkupLinkClickEventArgs = DevComponents.DotNetBar.MarkupLinkClickEventArgs
 
 Namespace ItemBrowser
@@ -757,24 +758,24 @@ Namespace ItemBrowser
                 For Each cert As Integer In certs
                     Dim newCert As Certificate = StaticData.Certificates(cert)
                     Dim certNode As New Node
-                    certNode.Text = StaticData.CertificateClasses(newCert.ClassId.ToString).Name
+                    certNode.Text = newCert.Name
                     certNode.Tag = newCert.Id
-                    adtCerts.Nodes.Add(certNode)
-                    certNode.Cells.Add(New Cell)
-                    certNode.Cells(1).Tag = newCert.Grade
-                    certNode.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & newCert.Grade.ToString), Image)
-                    Select Case newCert.Grade
-                        Case 1
-                            certNode.Cells(1).Text = "Basic"
-                        Case 2
-                            certNode.Cells(1).Text = "Standard"
-                        Case 3
-                            certNode.Cells(1).Text = "Improved"
-                        Case 4
-                            certNode.Cells(1).Text = "Advanced"
-                        Case 5
-                            certNode.Cells(1).Text = "Elite"
-                    End Select
+                    'adtCerts.Nodes.Add(certNode)
+                    'certNode.Cells.Add(New Cell)
+                    'certNode.Cells(1).Tag = newCert.Grade
+                    'certNode.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & newCert.Grade.ToString), Image)
+                    'Select Case newCert.Grade
+                    '    Case 1
+                    '        certNode.Cells(1).Text = "Basic"
+                    '    Case 2
+                    '        certNode.Cells(1).Text = "Standard"
+                    '    Case 3
+                    '        certNode.Cells(1).Text = "Improved"
+                    '    Case 4
+                    '        certNode.Cells(1).Text = "Advanced"
+                    '    Case 5
+                    '        certNode.Cells(1).Text = "Elite"
+                    'End Select
                 Next
 
             End If

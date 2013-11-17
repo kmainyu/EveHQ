@@ -989,10 +989,10 @@ Namespace Forms
             ' Establish the sort direction and store it for later comparison and use
             Dim sortDirection As SortDirection
             If ch.SortDirection = eSortDirection.None Or ch.SortDirection = eSortDirection.Descending Then
-                sortDirection = SortDirection.Ascending
+                sortDirection = sortDirection.Ascending
                 ch.SortDirection = eSortDirection.Ascending
             Else
-                sortDirection = SortDirection.Descending
+                sortDirection = sortDirection.Descending
                 ch.SortDirection = eSortDirection.Descending
             End If
 
@@ -1099,7 +1099,7 @@ Namespace Forms
             _certListNodes.Clear()
             For Each certCat As CertificateCategory In StaticData.CertificateCategories.Values
                 Dim groupNode As TreeNode = New TreeNode
-                groupNode.Name = certCat.ID.ToString
+                groupNode.Name = certCat.Id.ToString
                 groupNode.Text = certCat.Name
                 groupNode.ImageIndex = 8
                 groupNode.SelectedImageIndex = 8
@@ -1110,60 +1110,59 @@ Namespace Forms
             Dim groupNode As TreeNode
             Dim addCert As Boolean
             For Each newCert As Certificate In StaticData.Certificates.Values
-                addCert = False
-                groupNode = CType(_certListNodes.Item(newCert.CategoryID.ToString), TreeNode)
-                Select Case filter
-                    Case 0
-                        addCert = True
-                    Case 1
-                        If _displayPilot.Certificates.Contains(newCert.Id) = True Then
+                For Each grade As CertificateGrade In newCert.GradesAndSkills.Keys
+                    ' since each cert contains the 5 grades instead of having 5 different certs, loop for each grade
+                    addCert = False
+                    groupNode = CType(_certListNodes.Item(newCert.GroupID.ToString), TreeNode)
+                    Select Case filter
+                        Case 0
                             addCert = True
-                        End If
-                    Case 2
-                        If _displayPilot.Certificates.Contains(newCert.Id) = False Then
-                            addCert = True
-                        End If
-                    Case 3 To 7
-                        If newCert.Grade = filter - 2 Then
-                            addCert = True
-                        End If
-                    Case 8 To 12
-                        If newCert.Grade = filter - 7 And _displayPilot.Certificates.Contains(newCert.Id) = False Then
-                            addCert = True
-                        End If
-                End Select
-                If addCert = True Then
-                    Dim certNode As New TreeNode
-                    certNode.Text = StaticData.CertificateClasses(newCert.ClassID.ToString).Name & " (" & newCert.Grade & " - " & _certGrades(newCert.Grade) & ")"
-                    certNode.Name = newCert.ID.ToString
-                    If _displayPilot.Certificates.Contains(newCert.Id) = True Then
-                        certNode.ImageIndex = newCert.Grade
-                        certNode.SelectedImageIndex = newCert.Grade
-                    Else
-                        certNode.ImageIndex = 10
-                        certNode.SelectedImageIndex = 10
-                        ' Check if we have the pre-reqs for the certificate
-                        Dim canClaimCert As Boolean = True
-                        For Each reqSkill As Integer In newCert.RequiredSkills.Keys
-                            If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkill), newCert.RequiredSkills(reqSkill)) = False Then
-                                canClaimCert = False
-                                Exit For
+                        Case 1
+                            If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = True Then
+                                addCert = True
                             End If
-                        Next
-                        If canClaimCert = True Then
-                            For Each reqCert As Integer In newCert.RequiredCertificates.Keys
-                                If _displayPilot.Certificates.Contains(reqCert) = False Then
+                        Case 2
+                            If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = False Then
+                                addCert = True
+                            End If
+
+
+                        Case 3 To 7
+                            If grade = filter - 2 Then
+                                addCert = True
+                            End If
+                        Case 8 To 12
+                            If grade = filter - 7 And _displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(newCert.Id, grade)) = False Then
+                                addCert = True
+                            End If
+                    End Select
+                    If addCert = True Then
+                        Dim certNode As New TreeNode
+                        Dim rank = CInt(grade)
+                        certNode.Text = newCert.Name & " (" & rank & " - " & _certGrades(rank) & ")"
+                        certNode.Name = newCert.Id.ToString
+                        If _displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(newCert.Id, grade)) = True Then
+                            certNode.ImageIndex = rank
+                            certNode.SelectedImageIndex = rank
+                        Else
+                            certNode.ImageIndex = 10
+                            certNode.SelectedImageIndex = 10
+                            ' Check if we have the pre-reqs for the certificate
+                            Dim canClaimCert As Boolean = True
+                            For Each reqSkillAndLevel In newCert.GradesAndSkills(grade)
+                                If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkillAndLevel.Key), reqSkillAndLevel.Value) = False Then
                                     canClaimCert = False
                                     Exit For
                                 End If
                             Next
+
+                            If canClaimCert = True Then
+                                certNode.ForeColor = Color.LimeGreen
+                            End If
                         End If
-                        If canClaimCert = True Then
-                            certNode.ForeColor = Color.LimeGreen
-                        End If
+                        groupNode.Nodes.Add(certNode)
                     End If
-                    groupNode.Nodes.Add(certNode)
-                End If
+                Next
             Next
         End Sub
         Private Sub ShowCertGroups()
@@ -1214,15 +1213,18 @@ Namespace Forms
                     mnuAddCertToQueue.Enabled = True
                     ' Determine enabled menu items of adding to queue
                     Dim selCert As Certificate = StaticData.Certificates(certID)
-                    Dim selCertClass As Integer = selCert.ClassID
+                    Dim selCertClass As Integer = selCert.Id
                     For Each testCert As Certificate In StaticData.Certificates.Values
-                        If testCert.ClassID = selCertClass Then
-                            ' Check if the pilot has it
-                            If _displayPilot.Certificates.Contains(testCert.Id) = False Then
-                                mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = True
-                            Else
-                                mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & testCert.Grade).Enabled = False
-                            End If
+                        If testCert.Id = selCertClass Then
+                            For Each grade In testCert.GradesAndSkills.Keys
+
+                                ' Check if the pilot has it
+                                If _displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(testCert.Id, grade)) = False Then
+                                    mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & grade.ToString()).Enabled = True
+                                Else
+                                    mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & grade.ToString()).Enabled = False
+                                End If
+                            Next
                         End If
                     Next
                 End If
@@ -1239,26 +1241,19 @@ Namespace Forms
             ' Get the certificate details
             Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
             Dim certID As Integer = CInt(mnuCertName.Tag)
-            Dim certClass As Integer = StaticData.Certificates(certID).ClassID
             For Each cert As Certificate In StaticData.Certificates.Values
-                If cert.ClassID = certClass Then
-                    If cert.Grade = grade Then
-                        Call AddCertSkills(cert)
-                    End If
+                If cert.Id = certID Then
+                    Call AddCertSkills(cert, CType(grade, CertificateGrade))
                 End If
             Next
             ' Refresh our training queue
             Call RefreshTraining(_activeQueueName, False)
         End Sub
 
-        Private Sub AddCertSkills(ByVal cert As Certificate)
-            Dim reqSkills As SortedList(Of Integer, Integer) = cert.RequiredSkills
+        Private Sub AddCertSkills(ByVal cert As Certificate, ByVal grade As CertificateGrade)
+            Dim reqSkills As SortedList(Of Integer, Integer) = cert.GradesAndSkills(grade)
             For Each reqSkill As Integer In reqSkills.Keys
-                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & StaticData.CertificateClasses(cert.ClassId.ToString).Name)
-            Next
-            ' Get a list of the certs that are required
-            For Each reqCertID As Integer In cert.RequiredCertificates.Keys
-                Call AddCertSkills(StaticData.Certificates(reqCertID))
+                SkillQueueFunctions.AddSkillToQueue(_displayPilot, CStr(SkillFunctions.SkillIDToName(reqSkill)), _activeQueueControl.Queue.Queue.Count + 1, _activeQueueControl.Queue, CInt(reqSkills(reqSkill)), True, True, "Certificate: " & cert.Name)
             Next
         End Sub
 
@@ -1267,10 +1262,8 @@ Namespace Forms
             Dim grade As Integer = CInt(CType(sender, ToolStripItem).Name.Substring(CType(sender, ToolStripItem).Name.Length - 1, 1))
             Dim certCat As String = mnuCertName.Tag.ToString
             For Each cert As Certificate In StaticData.Certificates.Values
-                If cert.CategoryID = CInt(certCat) Then
-                    If cert.Grade = grade Then
-                        Call AddCertSkills(cert)
-                    End If
+                If cert.GroupID = CInt(certCat) Then
+                    Call AddCertSkills(cert, CType(grade, CertificateGrade))
                 End If
             Next
             ' Refresh our training queue
@@ -1463,7 +1456,6 @@ Namespace Forms
             Dim catID As Integer
             Dim skillName As String
             Dim certName As String
-            Dim certGrade As String = ""
             Dim itemData(1) As String
             Dim skillData(1) As String
             For lvl As Integer = 1 To 5
@@ -1517,51 +1509,24 @@ Namespace Forms
                         Dim newItem As New ListViewItem
                         newItem.Group = lvwDepend.Groups("CatCerts")
                         Dim cert As Certificate = StaticData.Certificates(item)
-                        newItem.Tag = cert.Id
-                        certName = StaticData.CertificateClasses(cert.ClassId.ToString).Name
-                        Select Case cert.Grade
-                            Case 1
-                                certGrade = "Basic"
-                            Case 2
-                                certGrade = "Standard"
-                            Case 3
-                                certGrade = "Improved"
-                            Case 4
-                                certGrade = "Advanced"
-                            Case 5
-                                certGrade = "Elite"
-                        End Select
-                        For Each reqCertID As Integer In cert.RequiredCertificates.Keys
-                            Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
-                            If reqCert.Id <> item Then
-                                newItem.ToolTipText &= StaticData.CertificateClasses(reqCert.ClassId.ToString).Name
-                                Select Case reqCert.Grade
-                                    Case 1
-                                        newItem.ToolTipText &= " (Basic), "
-                                    Case 2
-                                        newItem.ToolTipText &= " (Standard), "
-                                    Case 3
-                                        newItem.ToolTipText &= " (Improved), "
-                                    Case 4
-                                        newItem.ToolTipText &= " (Advanced), "
-                                    Case 5
-                                        newItem.ToolTipText &= " (Elite), "
-                                End Select
+                        For Each grade In cert.GradesAndSkills.Keys
+                            newItem.Tag = cert.Id
+                            certName = cert.Name
+
+                            If newItem.ToolTipText <> "" Then
+                                newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
+                                newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
                             End If
+                            If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
+                                newItem.ForeColor = Color.Green
+                            Else
+                                newItem.ForeColor = Color.Red
+                            End If
+                            newItem.Text = certName & " (" & grade.ToString() & ")"
+                            newItem.Name = CStr(item)
+                            newItem.SubItems.Add("Level " & lvl)
+                            lvwDepend.Items.Add(newItem)
                         Next
-                        If newItem.ToolTipText <> "" Then
-                            newItem.ToolTipText = "Also Requires: " & newItem.ToolTipText
-                            newItem.ToolTipText = newItem.ToolTipText.TrimEnd(", ".ToCharArray)
-                        End If
-                        If _displayPilot.Certificates.Contains(cert.Id) = True Then
-                            newItem.ForeColor = Color.Green
-                        Else
-                            newItem.ForeColor = Color.Red
-                        End If
-                        newItem.Text = certName & " (" & certGrade & ")"
-                        newItem.Name = CStr(item)
-                        newItem.SubItems.Add("Level " & lvl)
-                        lvwDepend.Items.Add(newItem)
                     Next
                 End If
             Next
@@ -2381,7 +2346,7 @@ Namespace Forms
                         _displayPilot.ActiveQueue = Nothing
                     End If
                     ' Remove the item from the list
-                    frmEveHQ.BuildQueueReportsMenu()
+                    FrmEveHQ.BuildQueueReportsMenu()
                     Call RefreshAllTraining()
                 Else
                     lvQueues.Select()
@@ -2394,7 +2359,7 @@ Namespace Forms
             If lvQueues.SelectedItems.Count = 0 Then
                 MessageBox.Show("Please select a Queue to call Primary!", "Cannot Set Primary Queue", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
                 lvQueues.Select()
-            Else 
+            Else
                 For Each tq As EveHQSkillQueue In _displayPilot.TrainingQueues.Values
                     If tq.Name = lvQueues.SelectedItems(0).Name Then
                         tq.Primary = True
@@ -2537,7 +2502,7 @@ Namespace Forms
         End Sub
 
 #End Region
-        
-     End Class
+
+    End Class
 
 End Namespace

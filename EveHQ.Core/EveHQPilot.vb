@@ -1,6 +1,8 @@
-﻿<Serializable()> Public Class EveHQPilot
+﻿Imports EveHQ.EveData
 
-   Public Property Name As String = ""
+<Serializable()> Public Class EveHQPilot
+
+    Public Property Name As String = ""
     Public Property ID As String = ""
     Public Property Account As String = ""
     Public Property AccountPosition As String = ""
@@ -56,7 +58,7 @@
     Public Property PilotSkills As New Dictionary(Of String, EveHQPilotSkill)
     Public Property QueuedSkills As New SortedList(Of Integer, EveHQPilotQueuedSkill)
     Public Property QueuedSkillTime As Long
-    Public Property Certificates As New List(Of Integer)
+    Public Property QualifiedCertificates As New Dictionary(Of Integer, CertificateGrade)
     Public Property PrimaryQueue As String = ""
     Public Property ActiveQueue As New EveHQSkillQueue
     Public Property ActiveQueueName As String = ""

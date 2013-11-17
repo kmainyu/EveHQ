@@ -3528,7 +3528,7 @@ Namespace CoreReports
 
                 strHTML &= "<tr height=20px>"
                 strHTML &= "<td>" & ct.CertName & "</td>"
-                strHTML &= "<td>" & cert.Grade.ToString & "</td>"
+                strHTML &= "<td>" & CType(grade, CertificateGrade) & "</td>"
                 strHTML &= "<td>" & ttc & "</td>"
                 strHTML &= "</tr>"
 
@@ -3541,12 +3541,7 @@ Namespace CoreReports
         Private Shared Function GetCertificateList(grade As Integer) As ArrayList
 
             ' Get a list of the relevant cert grades
-            Dim certList As New List(Of Certificate)
-            For Each cert As Certificate In StaticData.Certificates.Values
-                If cert.Grade = grade Then
-                    certList.Add(cert)
-                End If
-            Next
+            Dim certList As List(Of Certificate) = StaticData.Certificates.Values.ToList()
 
             Dim certQueues As New ArrayList
             ' Calculate time for each cert
@@ -3554,7 +3549,7 @@ Namespace CoreReports
             For Each cert As Certificate In certList
                 skillList.Clear()
                 ' Calculate skills for the current cert
-                GetSkillsForCertificate(cert, skillList)
+                GetSkillsForCertificate(cert, CType(grade, CertificateGrade), skillList)
 
                 ' Work out time for this cert
                 Dim qQueue As New EveHQSkillQueue
@@ -3569,9 +3564,9 @@ Namespace CoreReports
                 Next
                 Dim q As ArrayList = SkillQueueFunctions.BuildQueue(displayPilot, qQueue, False, True)
                 If q.Count > 0 Then
-                    certQueues.Add(New CertTimes(cert.Id, StaticData.CertificateClasses(cert.ClassId.ToString).Name, CLng((CType(q(q.Count - 1), SortedQueueItem).DateFinished - Now).TotalSeconds)))
+                    certQueues.Add(New CertTimes(cert.Id, cert.Name, CLng((CType(q(q.Count - 1), SortedQueueItem).DateFinished - Now).TotalSeconds)))
                 Else
-                    certQueues.Add(New CertTimes(cert.Id, StaticData.CertificateClasses(cert.ClassId.ToString).Name, 0))
+                    certQueues.Add(New CertTimes(cert.Id, cert.Name, 0))
                 End If
             Next
 
@@ -3586,20 +3581,18 @@ Namespace CoreReports
 
         End Function
 
-        Private Shared Sub GetSkillsForCertificate(ByRef cert As Certificate, ByRef skillList As SortedList(Of Integer, Integer))
+        Private Shared Sub GetSkillsForCertificate(ByRef cert As Certificate, ByVal grade As CertificateGrade, ByRef skillList As SortedList(Of Integer, Integer))
             ' Get skills for the cert
-            For Each skill As Integer In cert.RequiredSkills.Keys
+            Dim skillsNeeded = cert.GradesAndSkills(grade)
+
+            For Each skill As Integer In skillsNeeded.Keys
                 If skillList.ContainsKey(skill) = False Then
-                    skillList.Add(skill, cert.RequiredSkills(skill))
+                    skillList.Add(skill, skillsNeeded(skill))
                 Else
-                    If cert.RequiredSkills(skill) > skillList(skill) Then
-                        skillList(skill) = cert.RequiredSkills(skill)
+                    If skillsNeeded(skill) > skillList(skill) Then
+                        skillList(skill) = skillsNeeded(skill)
                     End If
                 End If
-            Next
-            ' Parse the required certs
-            For Each certID As Integer In cert.RequiredCertificates.Keys
-                GetSkillsForCertificate(StaticData.Certificates(certID), skillList)
             Next
         End Sub
 

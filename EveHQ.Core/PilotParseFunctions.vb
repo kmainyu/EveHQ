@@ -19,6 +19,7 @@
 '=========================================================================
 Imports System.Globalization
 Imports System.Xml
+Imports EveHQ.EveData
 Imports EveHQ.EveAPI
 Imports System.IO
 Imports System.Windows.Forms
@@ -739,17 +740,15 @@ Public Class PilotParseFunctions
                         End If
                     Next
                     cPilot.SkillPoints = sp
-                Case "certificates"
-                    toon = charDetails(section)
-                    For Each certNode As XmlNode In toon.ChildNodes
-                        cPilot.Certificates.Add(CInt(certNode.Attributes.GetNamedItem("certificateID").Value))
-                    Next
                 Case "corporationRoles"
                     For Each roleNode As XmlNode In charDetails(section).ChildNodes
                         cPilot.CorpRoles.Add(CType(CLng(roleNode.Attributes.GetNamedItem("roleID").Value), CorporationRoles))
                     Next
             End Select
         Next
+
+        cPilot.QualifiedCertificates = RetrieveCertificates(cPilot)
+
 
         ' If missing skills were identified then report that fact!
         If missingSkills <> "" Then
@@ -773,6 +772,39 @@ Public Class PilotParseFunctions
             Next
         Next
     End Sub
+
+    Public Shared Function RetrieveCertificates(ByRef cPilot As EveHQPilot) As Dictionary(Of Integer, CertificateGrade)
+        Dim qualifiedCerts As New Dictionary(Of Integer, CertificateGrade)
+
+        For Each cert In StaticData.Certificates.Values
+            For Each grade In cert.GradesAndSkills.Keys.ToList()
+                If CheckPilotSkillsForCertGrade(cert.GradesAndSkills(grade), cPilot) Then
+                    If qualifiedCerts.ContainsKey(cert.Id) Then
+                        qualifiedCerts(cert.Id) = grade
+                    Else
+                        qualifiedCerts.Add(cert.Id, grade)
+                    End If
+                End If
+            Next
+        Next
+        Return qualifiedCerts
+    End Function
+
+    Private Shared Function CheckPilotSkillsForCertGrade(ByRef reqSkills As SortedList(Of Integer, Integer), ByRef pilot As EveHQPilot) As Boolean
+        Dim qualifications As New SortedList(Of Integer, Boolean)
+        For Each skill In reqSkills.Keys
+            Dim pSkill As EveHQPilotSkill
+            qualifications.Add(skill, False)
+            If pilot.PilotSkills.TryGetValue(skill.ToString(), pSkill) Then
+                If pSkill.Rank >= reqSkills(skill) Then
+                    qualifications(skill) = True
+                End If
+            End If
+        Next
+        Return qualifications.Values.All(Function(q) q = True)
+    End Function
+
+
     Private Shared Sub CheckMissingTrainingSkill(ByRef cPilot As EveHQPilot)
         Dim pilotSkill As New EveHQPilotSkill
         ' Check if the main skill list has the skill we are checking for

@@ -290,37 +290,22 @@ Namespace Forms
 
                         newItem.Group = lvwDepend.Groups("CatCerts")
                         Dim cert As Certificate = StaticData.Certificates(item)
-                        certName = StaticData.CertificateClasses(cert.ClassId.ToString).Name
-                        Select Case cert.Grade
-                            Case 1
-                                certGrade = "Basic"
-                            Case 2
-                                certGrade = "Standard"
-                            Case 3
-                                certGrade = "Improved"
-                            Case 4
-                                certGrade = "Advanced"
-                            Case 5
-                                certGrade = "Elite"
-                        End Select
-                        For Each reqCertID As Integer In cert.RequiredCertificates.Keys
-                            Dim reqCert As Certificate = StaticData.Certificates(reqCertID)
-                            If reqCert.Id <> item Then
-                                toolTipText.Append(StaticData.CertificateClasses(reqCert.ClassId.ToString).Name)
-                                Select Case reqCert.Grade
-                                    Case 1
-                                        toolTipText.Append(" (Basic), ")
-                                    Case 2
-                                        toolTipText.Append(" (Standard), ")
-                                    Case 3
-                                        toolTipText.Append(" (Improved), ")
-                                    Case 4
-                                        toolTipText.Append(" (Advanced), ")
-                                    Case 5
-                                        toolTipText.Append(" (Elite), ")
-                                End Select
-                            End If
-                        Next
+                        certName = cert.Name
+                        ' Todo: Possibly need a better way to show the different reqs for the differnt 
+                        '  levels of the cert, since each cert is now all 5 grades, versus a cert for each grade.
+                        'Select Case cert.Grade
+                        '    Case 1
+                        '        certGrade = "Basic"
+                        '    Case 2
+                        '        certGrade = "Standard"
+                        '    Case 3
+                        '        certGrade = "Improved"
+                        '    Case 4
+                        '        certGrade = "Advanced"
+                        '    Case 5
+                        '        certGrade = "Elite"
+                        'End Select
+                       
                         If toolTipText.Length > 0 Then
                             toolTipText.Insert(0, "Also Requires: ")
 
@@ -328,13 +313,13 @@ Namespace Forms
                                 toolTipText.Remove(toolTipText.Length - 2, 2)
                             End If
                         End If
-                        If _displayPilot.Certificates.Contains(cert.Id) = True Then
+                        If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
                             newItem.ForeColor = Color.Green
                         Else
                             newItem.ForeColor = Color.Red
                         End If
                         newItem.ToolTipText = toolTipText.ToString()
-                        newItem.Text = certName & " (" & certGrade & ")"
+                        newItem.Text = certName
                         newItem.Name = CStr(item)
                         newItem.SubItems.Add("Level " & lvl)
                         lvwDepend.Items.Add(newItem)

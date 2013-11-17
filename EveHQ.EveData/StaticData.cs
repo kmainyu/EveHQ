@@ -260,17 +260,6 @@ namespace EveHQ.EveData
         }
 
         /// <summary>
-        ///     Gets the cert unlock certs.
-        /// </summary>
-        public static SortedList<int, List<int>> CertUnlockCertificates
-        {
-            get
-            {
-                return certUnlockCertificates;
-            }
-        }
-
-        /// <summary>
         ///     Gets the cert unlock skills.
         /// </summary>
         public static SortedList<string, List<int>> CertUnlockSkills
@@ -289,17 +278,6 @@ namespace EveHQ.EveData
             get
             {
                 return certificateCategories;
-            }
-        }
-
-        /// <summary>
-        ///     Gets the certificate classes.
-        /// </summary>
-        public static SortedList<string, CertificateClass> CertificateClasses
-        {
-            get
-            {
-                return certificateClasses;
             }
         }
 
@@ -924,14 +902,6 @@ namespace EveHQ.EveData
 
                 Trace.TraceInformation(" *** Certificate Categories Finished Loading");
 
-                // Cert Classes
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertClasses.dat"), FileMode.Open))
-                {
-                    certificateClasses = Serializer.Deserialize<SortedList<string, CertificateClass>>(s);
-                }
-
-                Trace.TraceInformation(" *** Certificate Classes Finished Loading");
-
                 // Certs
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Open))
                 {
@@ -963,15 +933,7 @@ namespace EveHQ.EveData
                 }
 
                 Trace.TraceInformation(" *** Skill Unlocks Finished Loading");
-
-                // CertCerts
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertCerts.dat"), FileMode.Open))
-                {
-                    certUnlockCertificates = Serializer.Deserialize<SortedList<int, List<int>>>(s);
-                }
-
-                Trace.TraceInformation(" *** Certificate Unlocks Finished Loading");
-
+                
                 // CertSkills
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open))
                 {

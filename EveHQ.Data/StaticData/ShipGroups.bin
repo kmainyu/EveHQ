@@ -202,6 +202,7 @@ Cruisers\Advanced Cruisers\Strategic Cruisers\Minmatar
 Cruisers\Advanced Cruisers\Strategic Cruisers\Minmatar\Loki
 Cruisers\Faction
 Cruisers\Faction\Opux Luxury Yacht
+Cruisers\Faction\Stratios Emergency Responder
 Cruisers\Faction Cruisers
 Cruisers\Faction Cruisers\Navy Faction
 Cruisers\Faction Cruisers\Navy Faction\Augoror Navy Issue
@@ -217,6 +218,7 @@ Cruisers\Faction Cruisers\Pirate Faction\Ashimmu
 Cruisers\Faction Cruisers\Pirate Faction\Cynabal
 Cruisers\Faction Cruisers\Pirate Faction\Gila
 Cruisers\Faction Cruisers\Pirate Faction\Phantasm
+Cruisers\Faction Cruisers\Pirate Faction\Stratios
 Cruisers\Faction Cruisers\Pirate Faction\Vigilant
 Cruisers\Standard Cruisers
 Cruisers\Standard Cruisers\Amarr
@@ -320,6 +322,7 @@ Frigates\Faction Frigates\Navy Faction\Federation Navy Comet
 Frigates\Faction Frigates\Navy Faction\Imperial Navy Slicer
 Frigates\Faction Frigates\Navy Faction\Republic Fleet Firetail
 Frigates\Faction Frigates\Pirate Faction
+Frigates\Faction Frigates\Pirate Faction\Astero
 Frigates\Faction Frigates\Pirate Faction\Cruor
 Frigates\Faction Frigates\Pirate Faction\Daredevil
 Frigates\Faction Frigates\Pirate Faction\Dramiel
@@ -413,6 +416,8 @@ Shuttles\Amarr
 Shuttles\Amarr\Amarr Shuttle
 Shuttles\Caldari
 Shuttles\Caldari\Caldari Shuttle
+Shuttles\Faction
+Shuttles\Faction\Leopard
 Shuttles\Faction Shuttles
 Shuttles\Faction Shuttles\Goru's Shuttle
 Shuttles\Faction Shuttles\Guristas Shuttle
@@ -435,6 +440,8 @@ Special Edition Ships\Special Edition Battleships\Megathron Federate Issue
 Special Edition Ships\Special Edition Battleships\Raven State Issue
 Special Edition Ships\Special Edition Battleships\Scorpion Ishukone Watch
 Special Edition Ships\Special Edition Battleships\Tempest Tribal Issue
+Special Edition Ships\Special Edition Covert Ops
+Special Edition Ships\Special Edition Covert Ops\Chremoas
 Special Edition Ships\Special Edition Cruisers
 Special Edition Ships\Special Edition Cruisers\Guardian-Vexor
 Special Edition Ships\Special Edition Destroyers
@@ -470,6 +477,8 @@ Special Edition Ships\Special Edition Industrial Ships\Miasmos Quafe Ultramarine
 Special Edition Ships\Special Edition Industrial Ships\Primae
 Special Edition Ships\Special Edition Logistics
 Special Edition Ships\Special Edition Logistics\Etana
+Special Edition Ships\Special Edition Recon Ships
+Special Edition Ships\Special Edition Recon Ships\Moracha
 Special Edition Ships\Special Edition Shuttles
 Special Edition Ships\Special Edition Shuttles\Apotheosis
 Special Edition Ships\Special Edition Shuttles\Interbus Shuttle

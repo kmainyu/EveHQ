@@ -203,6 +203,10 @@
 1651,Ship Equipment\Deployable Equipment\Cargo Containers\Secure Containers
 1657,Ship Equipment\Deployable Equipment\Cargo Containers\Standard Containers
 1658,Ship Equipment\Deployable Equipment\Cargo Containers\Station Containers
+1832,Ship Equipment\Deployable Equipment\Mobile Cynosural Inhibitors
+1831,Ship Equipment\Deployable Equipment\Mobile Depots
+1835,Ship Equipment\Deployable Equipment\Mobile Siphon Units
+1833,Ship Equipment\Deployable Equipment\Mobile Tractor Units
 405,Ship Equipment\Deployable Equipment\Warp Disruption Fields 
 938,Ship Equipment\Drone Upgrades
 0,Ship Equipment\Electronic Warfare
@@ -428,6 +432,7 @@
 974,Ship Equipment\Turrets & Bays\Missile Launchers\Heavy Assault Launchers
 642,Ship Equipment\Turrets & Bays\Missile Launchers\Heavy Launchers
 640,Ship Equipment\Turrets & Bays\Missile Launchers\Light Missile Launchers
+1827,Ship Equipment\Turrets & Bays\Missile Launchers\Rapid Heavy Missile Launchers
 641,Ship Equipment\Turrets & Bays\Missile Launchers\Rapid Light Missile Launchers
 639,Ship Equipment\Turrets & Bays\Missile Launchers\Rocket Launchers
 644,Ship Equipment\Turrets & Bays\Missile Launchers\Torpedo Launchers

@@ -74,8 +74,11 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="YamlUtility">
-      <HintPath>..\Ref\Yaml\YamlUtility.dll</HintPath>
+    <Reference Include="YamlDotNet.Core">
+      <HintPath>..\packages\YamlDotNet.Core.2.2.0\lib\net35\YamlDotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet.RepresentationModel">
+      <HintPath>..\packages\YamlDotNet.RepresentationModel.2.2.0\lib\net35\YamlDotNet.RepresentationModel.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +115,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="YAMLCert.vb" />
     <Compile Include="YAMLType.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -136,7 +140,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="packages.config" />
     <None Include="Resources\attributeGroups.csv" />
+    <None Include="Resources\certificates.yaml" />
     <None Include="Resources\iconIDs.yaml" />
     <None Include="Resources\typeIDs.yaml" />
   </ItemGroup>

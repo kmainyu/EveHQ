@@ -21,6 +21,7 @@ Imports System.IO
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports System.Windows.Forms
 Imports System.ComponentModel
+Imports EveHQ.EveData
 Imports EveHQ.Prism.Classes
 Imports EveHQ.Prism.BPCalc
 Imports Newtonsoft.Json
@@ -546,10 +547,13 @@ Public Class FileConverter
                 ConvertPilotSkills(pilot, newPilot)
                 ConvertPilotQueuedSkills(pilot, newPilot)
                 newPilot.QueuedSkillTime = pilot.QueuedSkillTime
-                newPilot.Certificates.Clear()
-                For Each c As String In pilot.Certificates
-                    newPilot.Certificates.Add(CInt(c))
-                Next
+                newPilot.QualifiedCertificates.Clear()
+                'For Each c As String In pilot.Certificates
+                '    newPilot.Certificates.Add(CInt(c))
+                'Next
+
+                ConvertPilotCertificates(newPilot)
+
                 newPilot.PrimaryQueue = pilot.PrimaryQueue
                 ConvertTrainingQueues(pilot, newPilot)
                 newPilot.ActiveQueue = ConvertPilotSkillQueue(pilot.ActiveQueue)
@@ -586,7 +590,44 @@ Public Class FileConverter
             newPilot.PilotSkills.Add(newSkill.Name, newSkill)
         Next
     End Sub
+    Private Sub ConvertPilotCertificates(ByRef pilot As EveHQPilot)
+        pilot.QualifiedCertificates.Clear()
 
+        Dim qualifiedCerts As New Dictionary(Of Integer, CertificateGrade)
+
+        For Each cert In StaticData.Certificates.Values
+            For Each grade In cert.GradesAndSkills.Keys
+                If CheckPilotSkillsForCertGrade(cert.GradesAndSkills(grade), pilot) Then
+                    If qualifiedCerts.ContainsKey(cert.Id) Then
+                        qualifiedCerts(cert.Id) = grade
+                    Else
+                        qualifiedCerts.Add(cert.Id, grade)
+                    End If
+                End If
+            Next
+        Next
+
+        ' take the collection of qualified certs and apply them to the pilot
+        For Each certId In qualifiedCerts.Keys
+            pilot.QualifiedCertificates.Add(certId, qualifiedCerts(certId))
+        Next
+    End Sub
+
+    Private Shared Function CheckPilotSkillsForCertGrade(ByRef reqSkills As SortedList(Of Integer, Integer), ByRef pilot As EveHQPilot) As Boolean
+        Dim qualifications As New SortedList(Of Integer, Boolean)
+        For Each skill In reqSkills.Keys
+            Dim pSkill As EveHQPilotSkill
+            qualifications.Add(skill, False)
+            If pilot.PilotSkills.TryGetValue(skill.ToString(), pSkill) Then
+                If pSkill.Rank >= reqSkills(skill) Then
+                    qualifications(skill) = True
+                End If
+            End If
+        Next
+        Return qualifications.Values.All(Function(q) q = True)
+    End Function
+
+    
     Private Sub ConvertPilotQueuedSkills(ByVal pilot As Pilot, ByVal newPilot As EveHQPilot)
         newPilot.QueuedSkills.Clear()
         For Each oldskill As PilotQueuedSkill In pilot.QueuedSkills.Values

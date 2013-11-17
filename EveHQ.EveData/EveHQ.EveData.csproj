@@ -100,14 +100,6 @@
       <Link>StaticData\CertCats.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\EveHQ.Data\StaticData\CertCerts.dat">
-      <Link>StaticData\CertCerts.dat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\EveHQ.Data\StaticData\CertClasses.dat">
-      <Link>StaticData\CertClasses.dat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\EveHQ.Data\StaticData\CertRec.dat">
       <Link>StaticData\CertRec.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

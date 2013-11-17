@@ -17,6 +17,7 @@
 // ============================================================================
 namespace EveHQ.Common.Extensions
 {
+    using System;
     using System.Globalization;
 
     /// <summary>
@@ -88,7 +89,6 @@ namespace EveHQ.Common.Extensions
         {
             return number.ToString(formatter, CultureInfo.InvariantCulture);
         }
-
         #endregion
     }
 }
