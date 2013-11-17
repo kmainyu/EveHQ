@@ -108,15 +108,16 @@
 323,1,11207,30,2,53,0,1,0,0,Advanced Weapon Upgrades - Energy
 323,1,11207,30,2,74,0,1,0,0,Advanced Weapon Upgrades - Hybrid
 323,1,11207,30,2,55,0,1,0,0,Advanced Weapon Upgrades - Projectile
-323,1,11207,30,2,511,0,1,0,0,Advanced Weapon Upgrades - Assault
+323,1,11207,30,2,511,0,1,0,0,Advanced Weapon Upgrades - Rapid Light
+323,1,11207,30,2,1245,0,1,0,0,Advanced Weapon Upgrades - Rapid Heavy
 323,1,11207,30,2,862,0,1,0,0,Advanced Weapon Upgrades - Bomb
 323,1,11207,30,2,524,0,1,0,0,Advanced Weapon Upgrades - Citadel
 323,1,11207,30,2,506,0,1,0,0,Advanced Weapon Upgrades - Cruise
 323,1,11207,30,2,510,0,1,0,0,Advanced Weapon Upgrades - Heavy
 323,1,11207,30,2,771,0,1,0,0,Advanced Weapon Upgrades - Heavy Assault
 323,1,11207,30,2,507,0,1,0,0,Advanced Weapon Upgrades - Rocket
-323,1,11207,30,2,508,0,1,0,0,Advanced Weapon Upgrades - Siege
-323,1,11207,30,2,509,0,1,0,0,Advanced Weapon Upgrades - Standard
+323,1,11207,30,2,508,0,1,0,0,Advanced Weapon Upgrades - Torpedo
+323,1,11207,30,2,509,0,1,0,0,Advanced Weapon Upgrades - Light
 292,1,20327,10014,4,773,0,1,0,0,Capital Energy Turret - Beam
 292,1,20327,10014,4,774,0,1,0,0,Capital Energy Turret - Pulse
 292,1,21666,10015,4,771,0,1,0,0,Capital Hybrid Turret - Blaster
@@ -185,15 +186,16 @@
 310,1,3318,50,2,74,0,1,0,0,Weapon Upgrades - Hybrid
 310,1,3318,50,2,55,0,1,0,0,Weapon Upgrades - Projectile
 310,1,3318,50,2,72,0,1,0,0,Weapon Upgrades - Smartbomb
-310,1,3318,50,2,511,0,1,0,0,Weapon Upgrades - Assault
+310,1,3318,50,2,511,0,1,0,0,Weapon Upgrades - Rapid Light
+310,1,3318,50,2,1245,0,1,0,0,Weapon Upgrades - Rapid Heavy
 310,1,3318,50,2,862,0,1,0,0,Weapon Upgrades - Bomb
 310,1,3318,50,2,524,0,1,0,0,Weapon Upgrades - Citadel
 310,1,3318,50,2,506,0,1,0,0,Weapon Upgrades - Cruise
 310,1,3318,50,2,510,0,1,0,0,Weapon Upgrades - Heavy
 310,1,3318,50,2,771,0,1,0,0,Weapon Upgrades - Heavy Assault
 310,1,3318,50,2,507,0,1,0,0,Weapon Upgrades - Rocket
-310,1,3318,50,2,508,0,1,0,0,Weapon Upgrades - Siege
-310,1,3318,50,2,509,0,1,0,0,Weapon Upgrades - Standard
+310,1,3318,50,2,508,0,1,0,0,Weapon Upgrades - Torpedo
+310,1,3318,50,2,509,0,1,0,0,Weapon Upgrades - Light
 # INDUSTRY,,,,,,,,,,
 280,1,25544,763,2,737,0,1,10,0,Gas Cloud Harvesting
 780,1,16281,73,4,1038,0,1,0,0,Ice Harvesting
@@ -230,7 +232,7 @@
 850,1,3354,1323,2,316,0,1,0,0,Warfare Link Specialist
 #,1,11574,,,,0,1,0,0,Wing Command
 # MECHANIC,,,,,,,,,,
-1856,1,33078,796,2,329,0,1,0,0,Armor Honeycombing
+1856,1,33078,796,2,329,0,1,0,0,Armor Layering
 317,1,32797,6,2,1150,0,1,0,0,Armor Resistance Phasing - Cap Usage
 66,1,32797,73,2,1150,0,1,0,0,Armor Resistance Phasing - Duration
 1139,1,26253,1138,2,773;1232,0,1,0,0,Armor Rigging
@@ -328,6 +330,7 @@
 557,1,12441,281,2,88;1158,0,1,0,0,Missile Bombardment - Defender
 557,1,12441,281,2,394;395;396,0,1,0,0,Missile Bombardment - FoF
 293,1,3319,51,2,511,0,1,0,0,Missile Launcher Operation - Rapid Light
+293,1,3319,51,2,1245,0,1,0,0,Missile Launcher Operation - Rapid Heavy
 293,1,3319,51,2,524,0,1,0,0,Missile Launcher Operation - Citadel
 293,1,3319,51,2,506,0,1,0,0,Missile Launcher Operation - Cruise
 293,1,3319,51,2,510,0,1,0,0,Missile Launcher Operation - Heavy
@@ -352,6 +355,7 @@
 20,1,12442,37,2,88;1158,0,1,0,0,Missile Projection - Defender
 20,1,12442,37,2,394;395;396,0,1,0,0,Missile Projection - FoF
 293,1,21071,51,2,511,0,1,0,0,Rapid Launch - Rapid Light
+293,1,21071,51,2,1245,0,1,0,0,Rapid Launch - Rapid Heavy
 293,1,21071,51,2,524,0,1,0,0,Rapid Launch - Citadel
 293,1,21071,51,2,506,0,1,0,0,Rapid Launch - Cruise
 293,1,21071,51,2,510,0,1,0,0,Rapid Launch - Heavy
@@ -596,14 +600,15 @@
 1206,2,63,73,6,0,0,0,0,8,Hull Rep Duration
 1205,2,74,10012,6,0,0,0,0,8,Hybrid Weapon ROF Bonus
 1210,2,74,10015,6,0,0,0,0,8,Hybrid Weapon Damage Bonus
-1205,2,511,51,6,0,0,0,0,8,Assault Launcher ROF Bonus
+1205,2,511,51,6,0,0,0,0,8,Rapid Light Launcher ROF Bonus
+1205,2,1245,51,6,0,0,0,0,8,Rapid Heavy Launcher ROF Bonus
 1205,2,524,51,6,0,0,0,0,8,Citadel Launcher ROF Bonus
 1205,2,506,51,6,0,0,0,0,8,Cruise Launcher ROF Bonus
 1205,2,510,51,6,0,0,0,0,8,Heavy Launcher ROF Bonus
 1205,2,771,51,6,0,0,0,0,8,Heavy Assault Launcher ROF Bonus
 1205,2,507,51,6,0,0,0,0,8,Rocket Launcher ROF Bonus
-1205,2,508,51,6,0,0,0,0,8,Siege Launcher ROF Bonus
-1205,2,509,51,6,0,0,0,0,8,Standard Launcher ROF Bonus
+1205,2,508,51,6,0,0,0,0,8,Torpedo Launcher ROF Bonus
+1205,2,509,51,6,0,0,0,0,8,Light Launcher ROF Bonus
 1205,2,55,10013,6,0,0,0,0,8,Projectile Weapon ROF Bonus
 1210,2,55,10016,6,0,0,0,0,8,Projectile Weapon Damage Bonus
 1231,2,40,68,6,0,0,0,0,8,Shield Booster Boost Amount
@@ -932,7 +937,7 @@
 987,2,295,274,3,6,1,0,2,14,Shield Amplifiers - Passive Therm Resist
 # TURRETS & BAYS,,,,,,,,,,
 # Ballistic Control Systems,,,,,,,,,,
-204,2,367,51,2,511;524;506;510;771;507;508;509,1,0,0,14,ROF Bonus
+204,2,367,51,2,511;524;506;510;771;507;508;509;1245,1,0,0,14,ROF Bonus
 213,2,367,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,1,0,0,14,Damage Bonus - EM
 213,2,367,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,1,0,0,14,Damage Bonus - Explosive
 213,2,367,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,1,0,0,14,Damage Bonus - Kinetic
@@ -946,6 +951,25 @@
 # Magnetic Field Stabilizers,,,,,,,,,,
 204,2,302,10012,2,74,1,0,0,14,ROF
 64,2,302,10015,2,74,1,0,5,14,Damage Bonus
+# Bastion Module,,,,,,,,,,
+20,1,33400,37,3,6,0,0,0,4,Max Velocity Bonus
+547,1,33400,37,2,656;657;386;89;396,2,0,0,4,Large Missile Velocity Bonus
+351,1,33400,54,4,563;566;576;579;569;573,1,0,0,4,Large Turret Optimal Bonus
+349,1,33400,158,4,563;566;576;579;569;573,1,0,0,4,Large Turret Falloff Bonus
+548,1,33400,68,2,40;1156,1,0,0,4,Shield Boost Bonus
+895,1,33400,84,2,62;1199,1,0,0,4,Armor Repair Amount
+267,1,33400,267,3,6,0,0,2,4,Armor EM Resistance Bonus
+268,1,33400,268,3,6,0,0,2,4,Armor Exp Resistance Bonus
+269,1,33400,269,3,6,0,0,2,4,Armor Kin Resistance Bonus
+270,1,33400,270,3,6,0,0,2,4,Armor Therm Resistance Bonus
+271,1,33400,271,3,6,0,0,2,4,Shield EM Resistance Bonus
+272,1,33400,272,3,6,0,0,2,4,Shield Exp Resistance Bonus
+273,1,33400,273,3,6,0,0,2,4,Shield Kin Resistance Bonus
+274,1,33400,274,3,6,0,0,2,4,Shield Therm Resistance Bonus
+974,1,33400,113,3,6,0,0,2,4,Hull EM Resistance Bonus
+975,1,33400,111,3,6,0,0,2,4,Hull Exp Resistance Bonus
+976,1,33400,109,3,6,0,0,2,4,Hull Kin Resistance Bonus
+977,1,33400,110,3,6,0,0,2,4,Hull Therm Resistance Bonus
 # Industrial Core,,,,,,,,,,
 20,1,28583,37,3,6,0,0,0,4,Max Velocity Bonus
 1238,1,28583,833,4,1638,0,0,5,4,Mining Foreman Ganglink Bonus
@@ -980,6 +1004,7 @@
 897,1,4292,73,2,40;1156,0,0,0,4,Shield Booster Duration
 # Triage Modules,,,,,,,,,,
 20,1,27951,37,3,6,0,0,0,4,Max Velocity Bonus
+235,1,27951,192,3,6,0,0,1,4,Max Locked Targets Bonus
 548,1,27951,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 565,1,27951,564,3,6,0,0,0,4,Scan Resolution Bonus
 895,1,27951,84,2,62;1199,0,0,0,4,Armor Repair Amount
@@ -996,6 +1021,7 @@
 1203,1,27951,90,2,67,0,0,0,4,Energy Transfer Bonus
 1204,1,27951,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
 20,1,4294,37,3,6,0,0,0,4,Max Velocity Bonus
+235,1,4294,192,3,6,0,0,1,4,Max Locked Targets Bonus
 548,1,4294,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 565,1,4294,564,3,6,0,0,0,4,Scan Resolution Bonus
 895,1,4294,84,2,62;1199,0,0,0,4,Armor Repair Amount
@@ -1204,7 +1230,70 @@
 317,2,773,6,2,325,0,0,0,15,Remote Repair Augmentor
 335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
-1138,2,782,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26056,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26058,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26060,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26062,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26066,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26070,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26072,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26304,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26306,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26308,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26310,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26312,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26318,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26320,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31105,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31107,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31109,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31111,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31113,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31115,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31117,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31119,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31121,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31123,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31125,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31127,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31129,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31131,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31133,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31135,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31137,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31139,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31141,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31143,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31145,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31147,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31149,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31151,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31153,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31155,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31157,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31171,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31173,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31175,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31177,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31179,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31181,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31183,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31185,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31187,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31189,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31191,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31193,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31195,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31197,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,31199,265,3,6,0,0,0,15,Astronautic Rig Drawback - Armor HP Penalty
+1138,1,26068,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,26322,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,31159,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,31161,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,31163,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,31165,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,31167,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
+1138,1,31169,48,3,6,0,0,0,15,Astronautic Rig Drawback - CPU Output
 315,2,782,37,3,6,1,0,0,15,Auxiliary Thrusters
 614,2,782,10004,3,6,0,0,0,15,Cargohold Optimization
 317,2,782,6,2,46,0,0,0,15,Dynamic Fuel Valve
@@ -1346,8 +1435,8 @@
 351,2,776,54,2,74,1,0,0,15,Hybrid Locus Coordinator
 767,2,776,160,2,74,1,0,0,15,Hybrid Metastasis Adjuster
 # RIGS - LAUNCHER,,,,,,,,,,
-1138,2,779,50,2,511;524;506;510;771;507;508;509,0,0,0,15,Launcher Rig Drawback - CPU Penalty
-204,2,779,51,2,511;524;506;510;771;507;508;509,1,0,0,15,Bay Loading Accelerator
+1138,2,779,50,2,511;524;506;510;771;507;508;509;1245,0,0,0,15,Launcher Rig Drawback - CPU Penalty
+204,2,779,51,2,511;524;506;510;771;507;508;509;1245,1,0,0,15,Bay Loading Accelerator
 20,2,779,37,2,654;656;655;653;648;657;772;476;1019;386;88;1158;396;395;394;385;384;387;89,2,0,0,15,Hydraulic Bay Thrusters
 557,2,779,281,2,654;656;655;653;648;657;772;476;1019;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Rocket Fuel Cache Partition
 213,2,779,114,2,654;656;655;653;648;657;772;476;1019;386;88;1158;396;395;394;385;384;387;89,1,0,0,15,Warhead Calefaction Catalyst

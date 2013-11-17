@@ -1661,8 +1661,6 @@ Public Class FrmCacheCreator
                                 attValue = attValue / 1000
                             Case 113, 111, 109, 110, 267, 268, 269, 270, 271, 272, 273, 274
                                 attValue = (1 - attValue) * 100
-                            Case 1281
-                                attValue = attValue * 3
                             Case 1154 ' Reset this field to be used as Calibration_Used
                                 attValue = 0
                         End Select
@@ -2047,8 +2045,8 @@ Public Class FrmCacheCreator
                         End If
                 End Select
 
-                ' Modify the attribute value if we using damage controls - this is to stack up later on
-                If CInt(attMod.DatabaseGroup) = 60 Then
+                ' Modify the resists attribute values of damage controls and bastion mods - this is to stack up later on
+                If attMod.DatabaseGroup = 60 Or attMod.ID = 33400 Then
                     Select Case CInt(modRow.Item("attributeID"))
                         Case 267, 268, 269, 270, 271, 272, 273, 274, 974, 975, 976, 977
                             attValue = -attValue
@@ -2979,6 +2977,7 @@ Public Class FrmCacheCreator
 
     Private Sub btnCheckDB_Click(sender As Object, e As EventArgs) Handles btnCheckDB.Click
         Call CheckSQLDatabase()
+        MessageBox.Show("SQL Database check complete!")
     End Sub
 
     Private Sub CheckSQLDatabase()
