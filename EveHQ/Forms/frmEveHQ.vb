@@ -1197,7 +1197,7 @@ Namespace Forms
             Call FrmSettings.FinaliseAPIServerUpdate()
         End Sub
 
-        Public Sub UpdatePilotInfo(Optional ByVal startUp As Boolean = False)
+        Public Sub UpdatePilotInfo()
 
             ' Setup the Training Status Bar
             Call SetupTrainingStatus()
@@ -2019,7 +2019,7 @@ Namespace Forms
                 End Try
 
                 ' Update the pilot lists
-                Call UpdatePilotInfo(True)
+                Call UpdatePilotInfo()
 
                 ' Restart the timer
                 tmrSkillUpdate.Start()
@@ -2482,7 +2482,7 @@ Namespace Forms
                     End Try
 
                     ' Update the pilot lists
-                    Call UpdatePilotInfo(True)
+                    Call UpdatePilotInfo()
 
                     ' Restart the timer
                     tmrSkillUpdate.Start()
@@ -2573,7 +2573,7 @@ Namespace Forms
                     End Try
 
                     ' Update the pilot lists
-                    Call UpdatePilotInfo(True)
+                    Call UpdatePilotInfo()
 
                     ' Restart the timer
                     tmrSkillUpdate.Start()
