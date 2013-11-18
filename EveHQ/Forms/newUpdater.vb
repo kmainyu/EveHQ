@@ -1,3 +1,4 @@
+Imports EveHQ.Core
 Imports EveHQ.Common
 Imports EveHQ.Common.Extensions
 Imports System.Net.Http
@@ -156,6 +157,11 @@ Namespace Forms
 
         Private Sub RunUpdateInstaller(sender As Object, e As EventArgs) Handles _continueButton.Click
             Dim exeFile As String = GetFileNameFromUrl(_updateLocation)
+
+
+            If HQ.IsUsingLocalFolders Then
+                exeFile = exeFile & " /local /D=" & System.Environment.CurrentDirectory
+            End If
 
             'exit evehq so the installer will run
             Dim formsToClose As New List(Of String)
