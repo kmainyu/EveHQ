@@ -85,14 +85,19 @@ Namespace BPCalc
                         ' Check resources of the blueprints to see if anything has changed in the static data
                         For Each checkJob As Job In JobList.Values
                             Dim jobChanged As Boolean = False
-                            Dim bpID As Integer = checkJob.CurrentBlueprint.Id
-                            Dim bp As EveData.Blueprint = EveData.StaticData.Blueprints(bpID)
-                            For Each typeID As Integer In checkJob.Resources.Keys
-                                If bp.Resources.ContainsKey(1) Then
-                                    If bp.Resources(1).ContainsKey(typeID) Then
-                                        If checkJob.Resources(typeID).BaseUnits = bp.Resources(1).Item(typeID).BaseMaterial Then
-                                            If checkJob.Resources(typeID).PerfectUnits = bp.Resources(1).Item(typeID).Quantity Then
-                                                Continue For
+                            If checkJob.CurrentBlueprint IsNot Nothing Then
+                                Dim bpID As Integer = checkJob.CurrentBlueprint.Id
+                                Dim bp As EveData.Blueprint = EveData.StaticData.Blueprints(bpID)
+                                For Each typeID As Integer In checkJob.Resources.Keys
+                                    If bp.Resources.ContainsKey(1) Then
+                                        If bp.Resources(1).ContainsKey(typeID) Then
+                                            If checkJob.Resources(typeID).BaseUnits = bp.Resources(1).Item(typeID).BaseMaterial Then
+                                                If checkJob.Resources(typeID).PerfectUnits = bp.Resources(1).Item(typeID).Quantity Then
+                                                    Continue For
+                                                Else
+                                                    jobChanged = True
+                                                    Exit For
+                                                End If
                                             Else
                                                 jobChanged = True
                                                 Exit For
@@ -105,18 +110,23 @@ Namespace BPCalc
                                         jobChanged = True
                                         Exit For
                                     End If
-                                Else
-                                    jobChanged = True
-                                    Exit For
+                                Next
+                                If jobChanged = True Then
+                                    ' Update the job
+                                    checkJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(bpID))
+                                    checkJob.CalculateResourceRequirements(True, checkJob.BlueprintOwner)
+                                    checkJob.Cost = checkJob.CalculateCost
+                                    jobsUpdated = True
                                 End If
-                            Next
-                            If jobChanged = False Then
                             Else
-                                ' Update the job
-                                checkJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(bpID))
-                                checkJob.CalculateResourceRequirements(True, checkJob.BlueprintOwner)
-                                checkJob.Cost = checkJob.CalculateCost
-                                jobsUpdated = True
+                                ' Try and update the job using the type id
+                                If EveData.StaticData.Blueprints.ContainsKey(checkJob.TypeID) Then
+                                    checkJob.CurrentBlueprint = OwnedBlueprint.CopyFromBlueprint(EveData.StaticData.Blueprints(checkJob.TypeID))
+                                    checkJob.CalculateResourceRequirements(True, checkJob.BlueprintOwner)
+                                    checkJob.Cost = checkJob.CalculateCost
+                                    checkJob.CurrentBlueprint.AssetId = checkJob.CurrentBlueprint.Id
+                                    jobsUpdated = True
+                                End If
                             End If
                         Next
 
