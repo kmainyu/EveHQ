@@ -18,18 +18,20 @@
 ' along with EveHQ.  If not, see <http://www.gnu.org/licenses/>.
 '=========================================================================
 Imports System.ComponentModel
+Imports DevComponents.DotNetBar
 Imports EveHQ.EveData
 Imports EveHQ.Core
-Imports System.Text
 Imports EveHQ.Common.Extensions
+Imports DevComponents.AdvTree
+Imports EveHQ.Core.ItemBrowser
 
 Namespace Forms
 
     Public Class FrmCertificateDetails
 
-        ReadOnly _certGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
         Dim _displayPilotName As String
         Dim _displayPilot As New EveHQPilot
+
         Public Property DisplayPilotName() As String
             Get
                 Return _displayPilotName
@@ -46,13 +48,13 @@ Namespace Forms
             Text = cCert.Name
             Call PrepareDescription(certID)
             Call PrepareTree(certID)
+            Call PrepareRecommendations(certID)
 
             If IsHandleCreated = False Then
                 Show()
             Else
                 BringToFront()
             End If
-
         End Sub
 
         Private Sub PrepareDescription(ByVal certID As Integer)
@@ -67,22 +69,21 @@ Namespace Forms
 
             For Each grade As CertificateGrade In cCert.GradesAndSkills.Keys
 
-                Dim currentTreeVite As TreeView
+                Dim currentTreeView As TreeView
                 Select Case grade
                     Case CertificateGrade.Basic
-                        currentTreeVite = tvwBasicReqs
+                        currentTreeView = tvwBasicReqs
                     Case CertificateGrade.Standard
-                        currentTreeVite = tvwStandardReqs
+                        currentTreeView = tvwStandardReqs
                     Case CertificateGrade.Improved
-                        currentTreeVite = tvwImprovedReqs
+                        currentTreeView = tvwImprovedReqs
                     Case CertificateGrade.Advanced
-                        currentTreeVite = tvwAdvancedReqs
+                        currentTreeView = tvwAdvancedReqs
                     Case CertificateGrade.Elite
-                        currentTreeVite = tvwEliteReqs
+                        currentTreeView = tvwEliteReqs
                     Case Else
                         Throw New InvalidOperationException("Invalid Certificate grade data was found when processing '{0}'".FormatInvariant(cCert.Name))
                 End Select
-
 
                 For Each skillID As Integer In cCert.GradesAndSkills(grade).Keys
                     Const Level As Integer = 1
@@ -138,7 +139,7 @@ Namespace Forms
                             End If
                         End If
                     End If
-                    currentTreeVite.Nodes.Add(curNode)
+                    currentTreeView.Nodes.Add(curNode)
 
                     If cSkill.PreReqSkills.Count > 0 Then
                         Dim subSkill As EveSkill
@@ -200,11 +201,47 @@ Namespace Forms
             End If
         End Sub
 
-    
+        Private Sub PrepareRecommendations(certID As Integer)
+            Dim certGroupStyle As ElementStyle = adtShips.Styles("SkillGroup").Copy
+            certGroupStyle.BackColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupBackgroundColor))
+            certGroupStyle.BackColor2 = Color.Black
+            certGroupStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupTextColor))
+            Dim selSkillStyle As ElementStyle = adtShips.Styles("Skill").Copy
+            selSkillStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotSkillHighlightColor))
+            selSkillStyle.BackColor = Color.FromArgb(32, selSkillStyle.BackColor2)
+
+            Dim groupNodes As New SortedList(Of String, Node) ' groupName, groupNode
+            Dim cert As Certificate = StaticData.Certificates(certID)
+            adtShips.BeginUpdate()
+            adtShips.Nodes.Clear()
+            For Each shipID As Integer In cert.RecommendedTypes
+                Dim ship As EveType = StaticData.Types(shipID)
+                Dim shipNode As New Node(ship.Name)
+                shipNode.FullRowBackground = True
+                shipNode.StyleSelected = selSkillStyle
+                If groupNodes.ContainsKey(StaticData.TypeGroups(ship.Group)) = False Then
+                    ' Create a new node
+                    Dim groupNode As New Node(StaticData.TypeGroups(ship.Group))
+                    groupNode.Style = certGroupStyle
+                    groupNode.FullRowBackground = True
+                    groupNodes.Add(groupNode.Text, groupNode)
+                End If
+                ' Add the ship to the group node
+                groupNodes(StaticData.TypeGroups(ship.Group)).Nodes.Add(shipNode)
+                shipNode.Image = ImageHandler.GetImage(shipID, 32)
+                shipNode.ContextMenu = ctxShips
+            Next
+            ' Add all the group nodes
+            For Each groupNode As Node In groupNodes.Values
+                adtShips.Nodes.Add(groupNode)
+                groupNode.Text &= " [" & groupNode.Nodes.Count.ToString & "]"
+            Next
+            adtShips.EndUpdate()
+        End Sub
 
         Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxSkills.Opening
-            Dim curNode As TreeNode
-            curNode = tvwBasicReqs.SelectedNode
+            Dim ctx As ContextMenuStrip = CType(sender, ContextMenuStrip)
+            Dim curNode As TreeNode = CType(ctx.SourceControl, TreeView).SelectedNode
             Dim skillName As String
             Dim skillID As Integer
             skillName = curNode.Text
@@ -218,22 +255,52 @@ Namespace Forms
 
         Private Sub mnuViewSkillDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewSkillDetails.Click
             Dim skillID As Integer = CInt(mnuSkillName.Tag)
-            frmSkillDetails.DisplayPilotName = _displayPilotName
-            Call frmSkillDetails.ShowSkillDetails(skillID)
+            FrmSkillDetails.DisplayPilotName = _displayPilotName
+            Call FrmSkillDetails.ShowSkillDetails(skillID)
         End Sub
 
-        Private Sub tvwReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwBasicReqs.NodeMouseClick
+        Private Sub tvwBasicReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwBasicReqs.NodeMouseClick
             tvwBasicReqs.SelectedNode = e.Node
         End Sub
 
-       Private Sub mnuViewCertDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewCertDetails.Click
-            Dim certID As Integer = CInt(mnuCertName.Tag)
-            Dim cCert As Certificate = StaticData.Certificates(certID)
-            Text = cCert.Name
-            Call PrepareDescription(certID)
-            Call PrepareTree(certID)
-           
+        Private Sub tvwStandardReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwStandardReqs.NodeMouseClick
+            tvwStandardReqs.SelectedNode = e.Node
         End Sub
 
+        Private Sub tvwImprovedReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwImprovedReqs.NodeMouseClick
+            tvwImprovedReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub tvwAdvancedReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwAdvancedReqs.NodeMouseClick
+            tvwAdvancedReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub tvwEliteReqs_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvwEliteReqs.NodeMouseClick
+            tvwEliteReqs.SelectedNode = e.Node
+        End Sub
+
+        Private Sub mnuShowInfo_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuShowInfo.Click
+            Dim typeID As Integer = CInt(mnuShipName.Tag)
+            Using myIB As New FrmIB(typeID)
+                myIB.ShowDialog()
+            End Using
+        End Sub
+
+        Private Sub adtShips_NodeClick(sender As Object, e As TreeNodeMouseEventArgs) Handles adtShips.NodeClick
+            If e.Node.Level = 0 Then
+                e.Node.Toggle()
+            End If
+        End Sub
+
+        Private Sub ctxShips_Opening(sender As System.Object, e As System.ComponentModel.CancelEventArgs) Handles ctxShips.Opening
+            Dim ctx As ContextMenuStrip = CType(sender, ContextMenuStrip)
+            Dim selNode As Node = CType(ctx.SourceControl, AdvTree).SelectedNode
+            If selNode IsNot Nothing Then
+                mnuShipName.Text = selNode.Text
+                mnuShipName.Tag = StaticData.TypeNames(selNode.Text)
+            Else
+                e.Cancel = True
+            End If
+        End Sub
     End Class
-End NameSpace
+End Namespace

@@ -23,22 +23,26 @@
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container()
-            Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCertificateDetails))
-            Me.tvwBasicReqs = New System.Windows.Forms.TreeView()
-            Me.ctxSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
-            Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem()
-            Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
-            Me.mnuViewSkillDetails = New System.Windows.Forms.ToolStripMenuItem()
-            Me.ctxCerts = New System.Windows.Forms.ContextMenuStrip(Me.components)
-            Me.mnuCertName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCertificateDetails))
+        Me.tvwBasicReqs = New System.Windows.Forms.TreeView()
+        Me.ctxSkills = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuSkillName = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.mnuViewSkillDetails = New System.Windows.Forms.ToolStripMenuItem()
+            Me.ctxShips = New System.Windows.Forms.ContextMenuStrip(Me.components)
+            Me.mnuShipName = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
-            Me.mnuViewCertDetails = New System.Windows.Forms.ToolStripMenuItem()
+            Me.mnuShowInfo = New System.Windows.Forms.ToolStripMenuItem()
             Me.lblDescription = New System.Windows.Forms.Label()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.tcCerts = New DevComponents.DotNetBar.TabControl()
-            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel6 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.adtShips = New DevComponents.AdvTree.AdvTree()
+            Me.colShip = New DevComponents.AdvTree.ColumnHeader()
+            Me.Skill = New DevComponents.DotNetBar.ElementStyle()
+            Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
+            Me.recommendedTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwEliteReqs = New System.Windows.Forms.TreeView()
             Me.eliteSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -51,15 +55,19 @@
             Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwStandardReqs = New System.Windows.Forms.TreeView()
             Me.standardSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.ctxSkills.SuspendLayout()
-            Me.ctxCerts.SuspendLayout()
+            Me.ctxShips.SuspendLayout()
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tcCerts.SuspendLayout()
-            Me.TabControlPanel1.SuspendLayout()
+            Me.TabControlPanel6.SuspendLayout()
+            CType(Me.adtShips, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.TabControlPanel5.SuspendLayout()
             Me.TabControlPanel4.SuspendLayout()
             Me.TabControlPanel3.SuspendLayout()
             Me.TabControlPanel2.SuspendLayout()
+            Me.TabControlPanel1.SuspendLayout()
             Me.SuspendLayout()
             '
             'tvwBasicReqs
@@ -98,30 +106,30 @@
             Me.mnuViewSkillDetails.Size = New System.Drawing.Size(132, 22)
             Me.mnuViewSkillDetails.Text = "View Details"
             '
-            'ctxCerts
+            'ctxShips
             '
-            Me.ctxCerts.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
-            Me.ctxCerts.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCertName, Me.ToolStripSeparator1, Me.mnuViewCertDetails})
-            Me.ctxCerts.Name = "ctxDepend"
-            Me.ctxCerts.Size = New System.Drawing.Size(133, 54)
+            Me.ctxShips.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
+            Me.ctxShips.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuShipName, Me.ToolStripSeparator1, Me.mnuShowInfo})
+            Me.ctxShips.Name = "ctxDepend"
+            Me.ctxShips.Size = New System.Drawing.Size(134, 54)
             '
-            'mnuCertName
+            'mnuShipName
             '
-            Me.mnuCertName.Name = "mnuCertName"
-            Me.mnuCertName.Size = New System.Drawing.Size(132, 22)
-            Me.mnuCertName.Text = "Skill Name"
+            Me.mnuShipName.Name = "mnuShipName"
+            Me.mnuShipName.Size = New System.Drawing.Size(133, 22)
+            Me.mnuShipName.Text = "Ship Name"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(129, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(130, 6)
             '
-            'mnuViewCertDetails
+            'mnuShowInfo
             '
-            Me.mnuViewCertDetails.Font = New System.Drawing.Font("Tahoma", 8.25!)
-            Me.mnuViewCertDetails.Name = "mnuViewCertDetails"
-            Me.mnuViewCertDetails.Size = New System.Drawing.Size(132, 22)
-            Me.mnuViewCertDetails.Text = "View Details"
+            Me.mnuShowInfo.Font = New System.Drawing.Font("Tahoma", 8.25!)
+            Me.mnuShowInfo.Name = "mnuShowInfo"
+            Me.mnuShowInfo.Size = New System.Drawing.Size(133, 22)
+            Me.mnuShowInfo.Text = "Show Info"
             '
             'lblDescription
             '
@@ -147,6 +155,7 @@
             Me.tcCerts.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tcCerts.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tcCerts.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
+            Me.tcCerts.Controls.Add(Me.TabControlPanel6)
             Me.tcCerts.Controls.Add(Me.TabControlPanel1)
             Me.tcCerts.Controls.Add(Me.TabControlPanel5)
             Me.tcCerts.Controls.Add(Me.TabControlPanel4)
@@ -165,31 +174,101 @@
             Me.tcCerts.Tabs.Add(Me.improvedSkillsTab)
             Me.tcCerts.Tabs.Add(Me.advancedSkillsTab)
             Me.tcCerts.Tabs.Add(Me.eliteSkillsTab)
+            Me.tcCerts.Tabs.Add(Me.recommendedTab)
             Me.tcCerts.Text = "TabControl2"
             '
-            'TabControlPanel1
+            'TabControlPanel6
             '
-            Me.TabControlPanel1.Controls.Add(Me.tvwBasicReqs)
-            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel1.Name = "TabControlPanel1"
-            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
-            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+            Me.TabControlPanel6.Controls.Add(Me.adtShips)
+            Me.TabControlPanel6.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel6.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel6.Name = "TabControlPanel6"
+            Me.TabControlPanel6.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel6.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel6.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel6.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel6.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel6.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel6.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
                 Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel1.Style.GradientAngle = 90
-            Me.TabControlPanel1.TabIndex = 1
-            Me.TabControlPanel1.TabItem = Me.basicSkillsTab
+            Me.TabControlPanel6.Style.GradientAngle = 90
+            Me.TabControlPanel6.TabIndex = 6
+            Me.TabControlPanel6.TabItem = Me.recommendedTab
             '
-            'basicSkillsTab
+            'adtShips
             '
-            Me.basicSkillsTab.AttachedControl = Me.TabControlPanel1
-            Me.basicSkillsTab.Name = "basicSkillsTab"
-            Me.basicSkillsTab.Text = "Basic"
+            Me.adtShips.AccessibleRole = System.Windows.Forms.AccessibleRole.Outline
+            Me.adtShips.AllowDrop = True
+            Me.adtShips.BackColor = System.Drawing.SystemColors.Window
+            '
+            '
+            '
+            Me.adtShips.BackgroundStyle.Class = "TreeBorderKey"
+            Me.adtShips.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.adtShips.Columns.Add(Me.colShip)
+            Me.adtShips.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.adtShips.DragDropEnabled = False
+            Me.adtShips.DragDropNodeCopyEnabled = False
+            Me.adtShips.ExpandButtonType = DevComponents.AdvTree.eExpandButtonType.Triangle
+            Me.adtShips.KeyboardSearchEnabled = False
+            Me.adtShips.LicenseKey = "F962CEC7-CD8F-4911-A9E9-CAB39962FC1F"
+            Me.adtShips.Location = New System.Drawing.Point(1, 1)
+            Me.adtShips.Name = "adtShips"
+            Me.adtShips.NodeSpacing = 1
+            Me.adtShips.NodeStyle = Me.Skill
+            Me.adtShips.PathSeparator = ";"
+            Me.adtShips.SelectionBox = False
+            Me.adtShips.Size = New System.Drawing.Size(464, 330)
+            Me.adtShips.Styles.Add(Me.Skill)
+            Me.adtShips.Styles.Add(Me.SkillGroup)
+            Me.adtShips.TabIndex = 39
+            '
+            'colShip
+            '
+            Me.colShip.DisplayIndex = 1
+            Me.colShip.Name = "colShip"
+            Me.colShip.SortingEnabled = False
+            Me.colShip.Text = "Ship"
+            Me.colShip.Width.Absolute = 440
+            '
+            'Skill
+            '
+            Me.Skill.BackColorGradientAngle = 45
+            Me.Skill.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+            Me.Skill.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.Skill.Name = "Skill"
+            Me.Skill.TextColor = System.Drawing.Color.Black
+            '
+            'SkillGroup
+            '
+            Me.SkillGroup.BackColor = System.Drawing.Color.FromArgb(CType(CType(96, Byte), Integer), CType(CType(96, Byte), Integer), CType(CType(96, Byte), Integer))
+            Me.SkillGroup.BackColor2 = System.Drawing.Color.FromArgb(CType(CType(32, Byte), Integer), CType(CType(32, Byte), Integer), CType(CType(32, Byte), Integer))
+            Me.SkillGroup.BackColorGradientAngle = 90
+            Me.SkillGroup.BackColorGradientType = DevComponents.DotNetBar.eGradientType.Radial
+            Me.SkillGroup.BorderBottom = DevComponents.DotNetBar.eStyleBorderType.Solid
+            Me.SkillGroup.BorderBottomWidth = 1
+            Me.SkillGroup.BorderColor = System.Drawing.Color.DarkGray
+            Me.SkillGroup.BorderLeft = DevComponents.DotNetBar.eStyleBorderType.Solid
+            Me.SkillGroup.BorderLeftWidth = 1
+            Me.SkillGroup.BorderRight = DevComponents.DotNetBar.eStyleBorderType.Solid
+            Me.SkillGroup.BorderRightWidth = 1
+            Me.SkillGroup.BorderTop = DevComponents.DotNetBar.eStyleBorderType.Solid
+            Me.SkillGroup.BorderTopWidth = 1
+            Me.SkillGroup.CornerDiameter = 4
+            Me.SkillGroup.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.SkillGroup.Description = "Gray"
+            Me.SkillGroup.Name = "SkillGroup"
+            Me.SkillGroup.PaddingBottom = 1
+            Me.SkillGroup.PaddingLeft = 1
+            Me.SkillGroup.PaddingRight = 1
+            Me.SkillGroup.PaddingTop = 1
+            Me.SkillGroup.TextColor = System.Drawing.Color.White
+            '
+            'recommendedTab
+            '
+            Me.recommendedTab.AttachedControl = Me.TabControlPanel6
+            Me.recommendedTab.Name = "recommendedTab"
+            Me.recommendedTab.Text = "Recommended For"
             '
             'TabControlPanel5
             '
@@ -211,6 +290,7 @@
             '
             'tvwEliteReqs
             '
+            Me.tvwEliteReqs.ContextMenuStrip = Me.ctxSkills
             Me.tvwEliteReqs.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tvwEliteReqs.Indent = 25
             Me.tvwEliteReqs.ItemHeight = 20
@@ -245,6 +325,7 @@
             '
             'tvwAdvancedReqs
             '
+            Me.tvwAdvancedReqs.ContextMenuStrip = Me.ctxSkills
             Me.tvwAdvancedReqs.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tvwAdvancedReqs.Indent = 25
             Me.tvwAdvancedReqs.ItemHeight = 20
@@ -279,6 +360,7 @@
             '
             'tvwImprovedReqs
             '
+            Me.tvwImprovedReqs.ContextMenuStrip = Me.ctxSkills
             Me.tvwImprovedReqs.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tvwImprovedReqs.Indent = 25
             Me.tvwImprovedReqs.ItemHeight = 20
@@ -313,6 +395,7 @@
             '
             'tvwStandardReqs
             '
+            Me.tvwStandardReqs.ContextMenuStrip = Me.ctxSkills
             Me.tvwStandardReqs.Dock = System.Windows.Forms.DockStyle.Fill
             Me.tvwStandardReqs.Indent = 25
             Me.tvwStandardReqs.ItemHeight = 20
@@ -326,6 +409,30 @@
             Me.standardSkillsTab.AttachedControl = Me.TabControlPanel2
             Me.standardSkillsTab.Name = "standardSkillsTab"
             Me.standardSkillsTab.Text = "Standard"
+            '
+            'TabControlPanel1
+            '
+            Me.TabControlPanel1.Controls.Add(Me.tvwBasicReqs)
+            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel1.Name = "TabControlPanel1"
+            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel1.Style.GradientAngle = 90
+            Me.TabControlPanel1.TabIndex = 1
+            Me.TabControlPanel1.TabItem = Me.basicSkillsTab
+            '
+            'basicSkillsTab
+            '
+            Me.basicSkillsTab.AttachedControl = Me.TabControlPanel1
+            Me.basicSkillsTab.Name = "basicSkillsTab"
+            Me.basicSkillsTab.Text = "Basic"
             '
             'FrmCertificateDetails
             '
@@ -345,14 +452,16 @@
             Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             Me.Text = "Certificate Details"
             Me.ctxSkills.ResumeLayout(False)
-            Me.ctxCerts.ResumeLayout(False)
+            Me.ctxShips.ResumeLayout(False)
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tcCerts.ResumeLayout(False)
-            Me.TabControlPanel1.ResumeLayout(False)
+            Me.TabControlPanel6.ResumeLayout(False)
+            CType(Me.adtShips, System.ComponentModel.ISupportInitialize).EndInit()
             Me.TabControlPanel5.ResumeLayout(False)
             Me.TabControlPanel4.ResumeLayout(False)
             Me.TabControlPanel3.ResumeLayout(False)
             Me.TabControlPanel2.ResumeLayout(False)
+            Me.TabControlPanel1.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -363,10 +472,10 @@
         Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents mnuViewSkillDetails As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents ctxCerts As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents mnuCertName As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents ctxShips As System.Windows.Forms.ContextMenuStrip
+        Friend WithEvents mnuShipName As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
-        Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents mnuShowInfo As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents tvwStandardReqs As System.Windows.Forms.TreeView
         Friend WithEvents tvwEliteReqs As System.Windows.Forms.TreeView
         Friend WithEvents tvwAdvancedReqs As System.Windows.Forms.TreeView
@@ -382,5 +491,11 @@
         Private WithEvents advancedSkillsTab As DevComponents.DotNetBar.TabItem
         Private WithEvents TabControlPanel5 As DevComponents.DotNetBar.TabControlPanel
         Private WithEvents eliteSkillsTab As DevComponents.DotNetBar.TabItem
+        Friend WithEvents TabControlPanel6 As DevComponents.DotNetBar.TabControlPanel
+        Friend WithEvents recommendedTab As DevComponents.DotNetBar.TabItem
+        Friend WithEvents adtShips As DevComponents.AdvTree.AdvTree
+        Friend WithEvents colShip As DevComponents.AdvTree.ColumnHeader
+        Friend WithEvents Skill As DevComponents.DotNetBar.ElementStyle
+        Friend WithEvents SkillGroup As DevComponents.DotNetBar.ElementStyle
     End Class
 End NameSpace
