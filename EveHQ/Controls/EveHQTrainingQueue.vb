@@ -257,7 +257,11 @@ Namespace Controls
                     For Each qItem In sortedQueue
                         Dim newskill As New Node
                         newskill.Name = qItem.Key
-                        newskill.Image = My.Resources.SkillBook16
+                        Try
+                            newskill.Image = My.Resources.SkillBook16
+                        Catch e As Exception
+                            'TODO: Not sure why this fails, possibly some delay in fetching the image from resources?
+                        End Try
                         If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
                             newskill.Visible = True
                         Else
