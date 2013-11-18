@@ -226,9 +226,7 @@ Namespace Forms
             tvwBasicReqs.SelectedNode = e.Node
         End Sub
 
-       
-
-        Private Sub mnuViewCertDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewCertDetails.Click
+       Private Sub mnuViewCertDetails_Click(ByVal sender As Object, ByVal e As EventArgs) Handles mnuViewCertDetails.Click
             Dim certID As Integer = CInt(mnuCertName.Tag)
             Dim cCert As Certificate = StaticData.Certificates(certID)
             Text = cCert.Name
@@ -237,6 +235,5 @@ Namespace Forms
            
         End Sub
 
-       
     End Class
 End NameSpace

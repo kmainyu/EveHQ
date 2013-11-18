@@ -37,6 +37,8 @@
             Me.lblDescription = New System.Windows.Forms.Label()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.tcCerts = New DevComponents.DotNetBar.TabControl()
+            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwEliteReqs = New System.Windows.Forms.TreeView()
             Me.eliteSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -49,17 +51,15 @@
             Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwStandardReqs = New System.Windows.Forms.TreeView()
             Me.standardSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.ctxSkills.SuspendLayout()
             Me.ctxCerts.SuspendLayout()
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tcCerts.SuspendLayout()
+            Me.TabControlPanel1.SuspendLayout()
             Me.TabControlPanel5.SuspendLayout()
             Me.TabControlPanel4.SuspendLayout()
             Me.TabControlPanel3.SuspendLayout()
             Me.TabControlPanel2.SuspendLayout()
-            Me.TabControlPanel1.SuspendLayout()
             Me.SuspendLayout()
             '
             'tvwBasicReqs
@@ -70,7 +70,6 @@
             Me.tvwBasicReqs.ItemHeight = 20
             Me.tvwBasicReqs.Location = New System.Drawing.Point(1, 1)
             Me.tvwBasicReqs.Name = "tvwBasicReqs"
-            Me.tvwBasicReqs.ShowPlusMinus = False
             Me.tvwBasicReqs.Size = New System.Drawing.Size(464, 330)
             Me.tvwBasicReqs.TabIndex = 0
             '
@@ -168,6 +167,30 @@
             Me.tcCerts.Tabs.Add(Me.eliteSkillsTab)
             Me.tcCerts.Text = "TabControl2"
             '
+            'TabControlPanel1
+            '
+            Me.TabControlPanel1.Controls.Add(Me.tvwBasicReqs)
+            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel1.Name = "TabControlPanel1"
+            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel1.Style.GradientAngle = 90
+            Me.TabControlPanel1.TabIndex = 1
+            Me.TabControlPanel1.TabItem = Me.basicSkillsTab
+            '
+            'basicSkillsTab
+            '
+            Me.basicSkillsTab.AttachedControl = Me.TabControlPanel1
+            Me.basicSkillsTab.Name = "basicSkillsTab"
+            Me.basicSkillsTab.Text = "Basic"
+            '
             'TabControlPanel5
             '
             Me.TabControlPanel5.Controls.Add(Me.tvwEliteReqs)
@@ -189,6 +212,8 @@
             'tvwEliteReqs
             '
             Me.tvwEliteReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwEliteReqs.Indent = 25
+            Me.tvwEliteReqs.ItemHeight = 20
             Me.tvwEliteReqs.Location = New System.Drawing.Point(1, 1)
             Me.tvwEliteReqs.Name = "tvwEliteReqs"
             Me.tvwEliteReqs.Size = New System.Drawing.Size(464, 330)
@@ -221,6 +246,8 @@
             'tvwAdvancedReqs
             '
             Me.tvwAdvancedReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwAdvancedReqs.Indent = 25
+            Me.tvwAdvancedReqs.ItemHeight = 20
             Me.tvwAdvancedReqs.Location = New System.Drawing.Point(1, 1)
             Me.tvwAdvancedReqs.Name = "tvwAdvancedReqs"
             Me.tvwAdvancedReqs.Size = New System.Drawing.Size(464, 330)
@@ -253,6 +280,8 @@
             'tvwImprovedReqs
             '
             Me.tvwImprovedReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwImprovedReqs.Indent = 25
+            Me.tvwImprovedReqs.ItemHeight = 20
             Me.tvwImprovedReqs.Location = New System.Drawing.Point(1, 1)
             Me.tvwImprovedReqs.Name = "tvwImprovedReqs"
             Me.tvwImprovedReqs.Size = New System.Drawing.Size(464, 330)
@@ -285,6 +314,8 @@
             'tvwStandardReqs
             '
             Me.tvwStandardReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwStandardReqs.Indent = 25
+            Me.tvwStandardReqs.ItemHeight = 20
             Me.tvwStandardReqs.Location = New System.Drawing.Point(1, 1)
             Me.tvwStandardReqs.Name = "tvwStandardReqs"
             Me.tvwStandardReqs.Size = New System.Drawing.Size(464, 330)
@@ -295,30 +326,6 @@
             Me.standardSkillsTab.AttachedControl = Me.TabControlPanel2
             Me.standardSkillsTab.Name = "standardSkillsTab"
             Me.standardSkillsTab.Text = "Standard"
-            '
-            'TabControlPanel1
-            '
-            Me.TabControlPanel1.Controls.Add(Me.tvwBasicReqs)
-            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel1.Name = "TabControlPanel1"
-            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
-            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel1.Style.GradientAngle = 90
-            Me.TabControlPanel1.TabIndex = 1
-            Me.TabControlPanel1.TabItem = Me.basicSkillsTab
-            '
-            'basicSkillsTab
-            '
-            Me.basicSkillsTab.AttachedControl = Me.TabControlPanel1
-            Me.basicSkillsTab.Name = "basicSkillsTab"
-            Me.basicSkillsTab.Text = "Basic"
             '
             'FrmCertificateDetails
             '
@@ -341,11 +348,11 @@
             Me.ctxCerts.ResumeLayout(False)
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tcCerts.ResumeLayout(False)
+            Me.TabControlPanel1.ResumeLayout(False)
             Me.TabControlPanel5.ResumeLayout(False)
             Me.TabControlPanel4.ResumeLayout(False)
             Me.TabControlPanel3.ResumeLayout(False)
             Me.TabControlPanel2.ResumeLayout(False)
-            Me.TabControlPanel1.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -360,20 +367,20 @@
         Friend WithEvents mnuCertName As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents mnuViewCertDetails As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents tcCerts As DevComponents.DotNetBar.TabControl
-        Friend WithEvents TabControlPanel1 As DevComponents.DotNetBar.TabControlPanel
-        Friend WithEvents basicSkillsTab As DevComponents.DotNetBar.TabItem
-        Friend WithEvents TabControlPanel3 As DevComponents.DotNetBar.TabControlPanel
-        Friend WithEvents improvedSkillsTab As DevComponents.DotNetBar.TabItem
-        Friend WithEvents TabControlPanel2 As DevComponents.DotNetBar.TabControlPanel
-        Friend WithEvents standardSkillsTab As DevComponents.DotNetBar.TabItem
-        Friend WithEvents TabControlPanel4 As DevComponents.DotNetBar.TabControlPanel
-        Friend WithEvents advancedSkillsTab As DevComponents.DotNetBar.TabItem
-        Friend WithEvents TabControlPanel5 As DevComponents.DotNetBar.TabControlPanel
-        Friend WithEvents eliteSkillsTab As DevComponents.DotNetBar.TabItem
         Friend WithEvents tvwStandardReqs As System.Windows.Forms.TreeView
         Friend WithEvents tvwEliteReqs As System.Windows.Forms.TreeView
         Friend WithEvents tvwAdvancedReqs As System.Windows.Forms.TreeView
         Friend WithEvents tvwImprovedReqs As System.Windows.Forms.TreeView
+        Private WithEvents tcCerts As DevComponents.DotNetBar.TabControl
+        Private WithEvents TabControlPanel1 As DevComponents.DotNetBar.TabControlPanel
+        Private WithEvents basicSkillsTab As DevComponents.DotNetBar.TabItem
+        Private WithEvents TabControlPanel3 As DevComponents.DotNetBar.TabControlPanel
+        Private WithEvents improvedSkillsTab As DevComponents.DotNetBar.TabItem
+        Private WithEvents TabControlPanel2 As DevComponents.DotNetBar.TabControlPanel
+        Private WithEvents standardSkillsTab As DevComponents.DotNetBar.TabItem
+        Private WithEvents TabControlPanel4 As DevComponents.DotNetBar.TabControlPanel
+        Private WithEvents advancedSkillsTab As DevComponents.DotNetBar.TabItem
+        Private WithEvents TabControlPanel5 As DevComponents.DotNetBar.TabControlPanel
+        Private WithEvents eliteSkillsTab As DevComponents.DotNetBar.TabItem
     End Class
 End NameSpace
