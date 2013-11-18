@@ -40,6 +40,7 @@ Public Class Engine
     Public Shared Sub BuildPirateImplants()
         Dim pirateImplantComponents As New ArrayList
         PirateImplantGroups.Clear()
+        PirateImplantGroups.Add("Ascendancy", 1)
         PirateImplantGroups.Add("Centurion", 1)
         PirateImplantGroups.Add("Crystal", 1)
         PirateImplantGroups.Add("Edge", 1)
@@ -54,6 +55,7 @@ Public Class Engine
         PirateImplantGroups.Add("Talisman", 1)
         PirateImplantGroups.Add("Talon", 1)
         PirateImplantGroups.Add("Virtue", 1)
+        PirateImplantGroups.Add("Low-grade Ascendancy", 1)
         PirateImplantGroups.Add("Low-grade Centurion", 1)
         PirateImplantGroups.Add("Low-grade Crystal", 1)
         PirateImplantGroups.Add("Low-grade Edge", 1)

@@ -1118,7 +1118,7 @@ Namespace Controls
                 Dim canDeactivate As Boolean = False
                 Dim canOverload As Boolean = False
                 ' Check for activation cost
-                If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleConsumptionType) Then
+                If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleActivationTime) Then
 
                     canDeactivate = True
                 End If
@@ -1717,7 +1717,7 @@ Namespace Controls
                                     statusMenuItem.Name = adtSlots.SelectedNodes(0).Name
                                     statusMenuItem.Text = "Set Module Status"
                                     ' Check for activation cost
-                                    If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleConsumptionType) Then
+                                    If currentMod.Attributes.ContainsKey(AttributeEnum.ModuleCapacitorNeed) = True Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleReactivationDelay) Or currentMod.IsTurret Or currentMod.IsLauncher Or currentMod.Attributes.ContainsKey(AttributeEnum.ModuleActivationTime) Then
 
                                         canDeactivate = True
                                     End If
