@@ -561,36 +561,38 @@ Namespace Forms
             End If
 
             'Set up items
-            ' TODO: Needs a way to display the highest grade of cert.
-            For Each cCert In certList.Values
-                Dim certGroup As Node = CType(certGroups(cCert.GroupID.ToString), Node)
-                Dim newCert As New Node("", normalCertStyle)
-                newCert.FullRowBackground = True
-                newCert.Text = cCert.Name
-                newCert.Tag = cCert.Id
-                If chkGroupSkills.Checked = True Then
-                    certGroup.Nodes.Add(newCert)
-                    certGroup.Tag = CInt(certGroup.Tag) + 1
-                Else
-                    adtCerts.Nodes.Add(newCert)
+            For Each cCertID As Integer In _displayPilot.QualifiedCertificates.Keys
+                If StaticData.Certificates.ContainsKey(cCertID) Then
+                    cCert = StaticData.Certificates(cCertID)
+                    Dim certGroup As Node = CType(certGroups(cCert.GroupId.ToString), Node)
+                    Dim newCert As New Node("", normalCertStyle)
+                    newCert.FullRowBackground = True
+                    newCert.Text = cCert.Name
+                    newCert.Tag = cCert.Id
+                    If chkGroupSkills.Checked = True Then
+                        certGroup.Nodes.Add(newCert)
+                        certGroup.Tag = CInt(certGroup.Tag) + 1
+                    Else
+                        adtCerts.Nodes.Add(newCert)
+                    End If
+                    newCert.StyleSelected = selCertStyle
+                    newCert.Cells.Add(New Cell)
+                    Dim certGrade As Integer = _displayPilot.QualifiedCertificates(cCertID)
+                    newCert.Cells(1).Tag = certGrade
+                    newCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & certGrade.ToString), Image)
+                    Select Case certGrade
+                        Case 1
+                            newCert.Cells(1).Text = "Basic"
+                        Case 2
+                            newCert.Cells(1).Text = "Standard"
+                        Case 3
+                            newCert.Cells(1).Text = "Improved"
+                        Case 4
+                            newCert.Cells(1).Text = "Advanced"
+                        Case 5
+                            newCert.Cells(1).Text = "Elite"
+                    End Select
                 End If
-                newCert.StyleSelected = selCertStyle
-                'newCert.Cells.Add(New Cell)
-                'newCert.Cells(1).Tag = cCert.Grade
-                'newCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & cCert.Grade.ToString), Image)
-                'Select Case cCert.Grade
-                '    Case 1
-                '        newCert.Cells(1).Text = "Basic"
-                '    Case 2
-                '        newCert.Cells(1).Text = "Standard"
-                '    Case 3
-                '        newCert.Cells(1).Text = "Improved"
-                '    Case 4
-                '        newCert.Cells(1).Text = "Advanced"
-                '    Case 5
-                '        newCert.Cells(1).Text = "Elite"
-                'End Select
-
             Next
 
             ' Add certificate count and remove empty groups
