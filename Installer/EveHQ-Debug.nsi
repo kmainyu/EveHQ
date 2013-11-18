@@ -63,8 +63,9 @@ Var StartMenuFolder
 !insertmacro MUI_PAGE_INSTFILES
 
 #Finish page
-!define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe
-!define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
+
+#!define MUI_FINISHPAGE_RUN $INSTDIR\EveHQ.exe /local
+#!define MUI_FINISHPAGE_RUN_TEXT "Run EveHQ.exe"
 !define MUI_FINISHPAGE_SHOWREADME ""
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
@@ -192,7 +193,7 @@ ${Else}
   !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
 ${EndIf}
   
- 
+ SetOutPath $INSTDIR
   
   
 
@@ -204,7 +205,7 @@ ${EndIf}
 	 SetShellVarContext current
 		 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
 ${If} $useLocalFlag == "1"
-		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe /local"
+		 CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe" "/local"
 ${Else}
      CreateShortCut "$SMPROGRAMS\$StartMenuFolder\EveHQ.lnk" "$INSTDIR\EveHQ.exe"
 ${EndIf}
@@ -396,16 +397,12 @@ StrCpy $useLocalFlag 0
 
     ; /local
 
-    ${GetOptions} $cmdLineParams '/local' $R0
+    ${GetOptions} $cmdLineParams 'local' $R0
 
     IfErrors +2 0
 
     StrCpy $useLocalFlag 1
     
-    ; /instdir
-    ${GetOptions} $cmdLineParams '/instdir=' $R0
-    IfErrors +2 0
-    StrCpy $INSTDIR $R0
 
 FunctionEnd
 
@@ -417,7 +414,7 @@ FunctionEnd
 
 Function CreateDesktopShortcut
 ${If} $useLocalFlag == "1"
-CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe /local"
+CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe" "/local"
 ${Else}
 CreateShortcut "$desktop\EveHQ.lnk" "$instdir\EveHQ.exe"
 ${EndIf}
