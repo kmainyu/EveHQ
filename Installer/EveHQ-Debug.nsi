@@ -136,11 +136,8 @@ SectionIn RO
 # Data files                                                      #
 ###################################################################
 
-${If} $useLocalFlag == "1" 
+
   SetOutPath $INSTDIR\StaticData
-${Else}
-  SetOutPath $APPDATA\EveHQ\StaticData
-${EndIf}
 
 	File "..\BuildOutput\Debug\StaticData\Agents.dat"
 	File "..\BuildOutput\Debug\StaticData\AssemblyArrays.dat"
