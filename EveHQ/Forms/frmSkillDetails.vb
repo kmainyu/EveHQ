@@ -281,52 +281,42 @@ Namespace Forms
                         lvwDepend.Items.Add(newItem)
                     Next
                 End If
-                ' Add the certificate unlocks
-                If StaticData.CertUnlockSkills.ContainsKey(skillID & "." & CStr(lvl)) = True Then
-                    Dim certUnlocked As List(Of Integer) = StaticData.CertUnlockSkills(skillID & "." & CStr(lvl))
-                    For Each item As Integer In certUnlocked
-                        Dim newItem As New ListViewItem
-                        Dim toolTipText As New StringBuilder
-
-                        newItem.Group = lvwDepend.Groups("CatCerts")
-                        Dim cert As Certificate = StaticData.Certificates(item)
-                        certName = cert.Name
-                        ' Todo: Possibly need a better way to show the different reqs for the differnt 
-                        '  levels of the cert, since each cert is now all 5 grades, versus a cert for each grade.
-                        'Select Case cert.Grade
-                        '    Case 1
-                        '        certGrade = "Basic"
-                        '    Case 2
-                        '        certGrade = "Standard"
-                        '    Case 3
-                        '        certGrade = "Improved"
-                        '    Case 4
-                        '        certGrade = "Advanced"
-                        '    Case 5
-                        '        certGrade = "Elite"
-                        'End Select
-                       
-                        If toolTipText.Length > 0 Then
-                            toolTipText.Insert(0, "Also Requires: ")
-
-                            If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
-                                toolTipText.Remove(toolTipText.Length - 2, 2)
-                            End If
-                        End If
-                        If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
-                            newItem.ForeColor = Color.Green
-                        Else
-                            newItem.ForeColor = Color.Red
-                        End If
-                        newItem.ToolTipText = toolTipText.ToString()
-                        newItem.Text = certName
-                        newItem.Name = CStr(item)
-                        newItem.SubItems.Add("Level " & lvl)
-                        lvwDepend.Items.Add(newItem)
-                    Next
-                End If
             Next
-            lvwDepend.EndUpdate()
+
+            ' Add the certificate unlocks
+            For Each cert As Certificate In StaticData.Certificates.Values
+                For Each cGrade As CertificateGrade In System.Enum.GetValues(GetType(CertificateGrade))
+                    If cert.GradesAndSkills.ContainsKey(cGrade) Then
+                        If cert.GradesAndSkills(cGrade).ContainsKey(skillID) Then
+                            Dim newItem As New ListViewItem
+                            Dim toolTipText As New StringBuilder
+
+                            newItem.Group = lvwDepend.Groups("CatCerts")
+                            certName = cert.Name
+
+                            If toolTipText.Length > 0 Then
+                                toolTipText.Insert(0, "Also Requires: ")
+
+                                If toolTipText.ToString().EndsWith(", ", StringComparison.Ordinal) Then
+                                    toolTipText.Remove(toolTipText.Length - 2, 2)
+                                End If
+                            End If
+                            If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
+                                newItem.ForeColor = Color.Green
+                            Else
+                                newItem.ForeColor = Color.Red
+                            End If
+                            newItem.ToolTipText = toolTipText.ToString()
+                            newItem.Text = certName & " (Grade: " & cGrade & " - " & cGrade.ToString & ")"
+                            newItem.Name = cert.Id.ToString
+                            newItem.SubItems.Add("Level " & cert.GradesAndSkills(cGrade)(skillID))
+                            lvwDepend.Items.Add(newItem)
+                        End If
+                    End If
+                Next
+            Next
+
+           lvwDepend.EndUpdate()
         End Sub
         Private Sub PrepareQueues(ByVal skillID As Integer)
             lvwQueues.BeginUpdate()
