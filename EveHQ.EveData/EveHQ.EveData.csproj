@@ -55,7 +55,6 @@
     <Compile Include="BlueprintResource.cs" />
     <Compile Include="Certificate.cs" />
     <Compile Include="CertificateCategory.cs" />
-    <Compile Include="CertificateClass.cs" />
     <Compile Include="CertificateGrade.cs" />
     <Compile Include="CertificateRecommendation.cs" />
     <Compile Include="EffectType.cs" />

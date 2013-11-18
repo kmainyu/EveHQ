@@ -39,7 +39,7 @@ namespace EveHQ.EveData
         /// Gets or sets the group ID.
         /// </summary>
         [ProtoMember(2)]
-        public int GroupID { get; set; }
+        public int GroupId { get; set; }
 
         /// <summary>
         /// Gets or sets the description.

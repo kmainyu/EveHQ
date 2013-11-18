@@ -28,10 +28,11 @@ namespace EveHQ.EveData
 
     using ProtoBuf;
 
+    // TODO: using static classes does not promote a good separation of concerns or DI coding pattern. Refactor this into an instance that can be passed around at a later date.
+    
     /// <summary>
     ///     Defines the collection of Eve static data and associated functions.
     /// </summary>
-    // TODO: using static classes does not promote a good separation of concerns or DI coding pattern. Refactor this into an instance that can be passed around at a later date.
     public static class StaticData
     {
         #region Static Fields
@@ -62,11 +63,6 @@ namespace EveHQ.EveData
         private static SortedList<int, Blueprint> blueprints = new SortedList<int, Blueprint>(); // typeID, BlueprintType
 
         /// <summary>
-        ///     The cert unlock certificates.
-        /// </summary>
-        private static SortedList<int, List<int>> certUnlockCertificates = new SortedList<int, List<int>>();
-
-        /// <summary>
         ///     The cert unlock skills.
         /// </summary>
         private static SortedList<string, List<int>> certUnlockSkills = new SortedList<string, List<int>>();
@@ -75,11 +71,6 @@ namespace EveHQ.EveData
         ///     The certificate categories.
         /// </summary>
         private static SortedList<string, CertificateCategory> certificateCategories = new SortedList<string, CertificateCategory>();
-
-        /// <summary>
-        ///     The certificate classes.
-        /// </summary>
-        private static SortedList<string, CertificateClass> certificateClasses = new SortedList<string, CertificateClass>();
 
         /// <summary>
         ///     The certificate recommendations.
@@ -224,7 +215,7 @@ namespace EveHQ.EveData
         }
 
         /// <summary>
-        ///     Stores a collection of the available attribute types.
+        ///     Gets a collection of the available attribute types.
         /// </summary>
         public static SortedList<int, AttributeType> AttributeTypes
         {
@@ -482,7 +473,7 @@ namespace EveHQ.EveData
         }
 
         /// <summary>
-        ///     Holds the attributes for each EveType.
+        ///     Gets the attributes for each EveType.
         /// </summary>
         public static List<TypeAttrib> TypeAttributes
         {
@@ -528,7 +519,7 @@ namespace EveHQ.EveData
         }
 
         /// <summary>
-        ///     Stores a collection of type names as key, with typeIDs as values.
+        ///     Gets a collection of type names as key, with typeIDs as values.
         /// </summary>
         public static SortedList<string, int> TypeNames
         {
@@ -612,12 +603,12 @@ namespace EveHQ.EveData
         public static SortedList<int, ItemAttribData> GetAttributeDataForItem(int typeId)
         {
             // Fetch the attributes for the item
-            List<ItemAttrib> atts = (from ta in TypeAttributes where ta.TypeId == typeId select new ItemAttrib { Id = ta.AttributeId, Value = ta.Value }).ToList();
+            var atts = (from ta in TypeAttributes where ta.TypeId == typeId select new ItemAttrib { Id = ta.AttributeId, Value = ta.Value }).ToList();
 
             // Prepare the attribute data
             var attributeList = new SortedList<int, ItemAttribData>();
 
-            foreach (ItemAttrib att in atts)
+            foreach (var att in atts)
             {
                 attributeList.Add(att.Id, new ItemAttribData(att.Id, att.Value, AttributeTypes[att.Id].DisplayName, " " + AttributeUnits[AttributeTypes[att.Id].UnitId]));
             }
@@ -625,7 +616,7 @@ namespace EveHQ.EveData
             // Process attribute data
             var attributesToAdd = new SortedList<int, ItemAttribData>();
 
-            foreach (ItemAttribData att in attributeList.Values)
+            foreach (var att in attributeList.Values)
             {
                 CorrectAttributeValue(att);
 
@@ -638,7 +629,7 @@ namespace EveHQ.EveData
                     case 1285:
                     case 1289:
                     case 1290:
-                        int skillLevelAttribute = 0;
+                        var skillLevelAttribute = 0;
                         switch (att.Id)
                         {
                             case 182:
@@ -678,7 +669,7 @@ namespace EveHQ.EveData
             }
 
             // Add in new attributes we need for skill levels
-            foreach (ItemAttribData iba in attributesToAdd.Values)
+            foreach (var iba in attributesToAdd.Values)
             {
                 attributeList.Add(iba.Id, iba);
             }
@@ -691,7 +682,7 @@ namespace EveHQ.EveData
         /// <returns>An integer representing the blueprint type ID</returns>
         public static int GetBPTypeId(int productId)
         {
-            List<int> itemIDs = (from bt in Blueprints.Values where bt.ProductId == productId select bt.Id).ToList();
+            var itemIDs = (from bt in Blueprints.Values where bt.ProductId == productId select bt.Id).ToList();
 
             if (itemIDs.Count > 0)
             {
@@ -774,7 +765,7 @@ namespace EveHQ.EveData
         public static SortedList<string, int> GetSortedItemListInGroup(int groupId)
         {
             var items = new SortedList<string, int>();
-            foreach (EveType item in GetItemsInGroup(groupId))
+            foreach (var item in GetItemsInGroup(groupId))
             {
                 items.Add(item.Name, item.Id);
             }
@@ -802,7 +793,7 @@ namespace EveHQ.EveData
         public static List<int> GetVariationsForItem(int typeId)
         {
             // Fetch the parent item ID for this item
-            int parentTypeId = typeId;
+            var parentTypeId = typeId;
             MetaType metaType;
             if (MetaTypes.TryGetValue(typeId, out metaType))
             {
@@ -810,7 +801,7 @@ namespace EveHQ.EveData
             }
 
             // Fetch all items with this same parent ID
-            List<int> itemIDs = (from mt in MetaTypes.Values where mt.ParentId == parentTypeId select mt.Id).ToList();
+            var itemIDs = (from mt in MetaTypes.Values where mt.ParentId == parentTypeId select mt.Id).ToList();
 
             // Add the current item if it is the parent item
             if (itemIDs.Contains(parentTypeId) == false)
