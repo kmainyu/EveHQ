@@ -302,7 +302,11 @@ Namespace Forms
                                 End If
                             End If
                             If _displayPilot.QualifiedCertificates.ContainsKey(cert.Id) = True Then
-                                newItem.ForeColor = Color.Green
+                                If _displayPilot.QualifiedCertificates(cert.Id) >= cGrade Then
+                                    newItem.ForeColor = Color.Green
+                                Else
+                                    newItem.ForeColor = Color.Red
+                                End If
                             Else
                                 newItem.ForeColor = Color.Red
                             End If
