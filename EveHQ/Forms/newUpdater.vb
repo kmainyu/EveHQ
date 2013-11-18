@@ -158,9 +158,9 @@ Namespace Forms
         Private Sub RunUpdateInstaller(sender As Object, e As EventArgs) Handles _continueButton.Click
             Dim exeFile As String = GetFileNameFromUrl(_updateLocation)
 
-
+            Dim arguments As String = ""
             If HQ.IsUsingLocalFolders Then
-                exeFile = exeFile & " /local /D=" & System.Environment.CurrentDirectory
+                arguments = " /local /D=" & System.Environment.CurrentDirectory
             End If
 
             'exit evehq so the installer will run
@@ -176,7 +176,7 @@ Namespace Forms
                     openForm.Close()
                 End If
             Next
-            Process.Start(Path.Combine(_storageFolder, exeFile))
+            Process.Start(Path.Combine(_storageFolder, exeFile), arguments)
         End Sub
     End Class
 End NameSpace
