@@ -45,7 +45,6 @@ Namespace Forms
         Dim _usingFilter As Boolean = True
         ReadOnly _skillListNodes As New SortedList(Of String, Node)
         ReadOnly _certListNodes As New SortedList
-        ReadOnly _certGrades() As String = New String() {"", "Basic", "Standard", "Improved", "Advanced", "Elite"}
         Dim _displayPilot As New EveHQPilot
         Dim _cDisplayPilotName As String = ""
         Dim _startup As Boolean = False
@@ -1126,9 +1125,8 @@ Namespace Forms
                         If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = False Then
                             addCert = True
                         End If
-
                     Case 3 To 7
-                        grade = CType(filter - 7, CertificateGrade)
+                        grade = CType(filter - 2, CertificateGrade)
                         Dim pilotCertGrade As CertificateGrade
                         If _displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = False Or (_displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = True And pilotCertGrade < grade) Then
                             addCert = True
@@ -1136,7 +1134,6 @@ Namespace Forms
                 End Select
                 If addCert = True Then
                     Dim certNode As New TreeNode
-                    Dim rank = CInt(grade)
                     certNode.Text = newCert.Name
                     certNode.Name = newCert.Id.ToString
                     Dim pilotCertGrade As CertificateGrade
