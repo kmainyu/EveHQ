@@ -236,6 +236,8 @@ Namespace Controls
                 adtQueue.BeginUpdate()
                 adtQueue.Nodes.Clear()
 
+                adtQueue.CellHorizontalSpacing = 1
+
                 ' Call the main procedure
                 Dim aq As Core.EveHQSkillQueue = _queuePilot.TrainingQueues(_queueName)
                 Dim sortedQueue As ArrayList = Core.SkillQueueFunctions.BuildQueue(_queuePilot, aq, False, True)
@@ -262,44 +264,70 @@ Namespace Controls
                         Catch e As Exception
                             'TODO: Not sure why this fails, possibly some delay in fetching the image from resources?
                         End Try
-                        If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
-                            newskill.Visible = True
-                        Else
-                            newskill.Visible = False
-                        End If
-                        If qItem.Done = True Then newskill.Style = adtQueue.Styles("SkillCompleted")
-                        If qItem.IsPrereq = True Then
-                            If qItem.HasPrereq = True Then
-                                newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
-                                newskill.Style = styleBothPreReq
-                            Else
-                                newskill.Tooltip = qItem.Prereq
-                                newskill.Style = styleIsPreReq
-                            End If
-                        Else
-                            If qItem.HasPrereq = True Then
-                                newskill.Tooltip = qItem.Reqs
-                                newskill.Style = styleHasPreReq
-                            Else
-                                If qItem.PartTrained = True Then
-                                    newskill.Style = stylePartialTraining
-                                Else
-                                    newskill.Style = styleReadySkill
-                                End If
-                            End If
-                        End If
-                        If qItem.IsTraining = True Then
-                            newskill.DragDropEnabled = False
-                            newskill.Style = styleCurrentTraining
-                            ' Set a flag in the tree of the skill name for later checking
-                            adtQueue.Tag = newskill.Name
-                        End If
+
                         ' Do some additional calcs
                         totalSP += CLng(qItem.SPTrained)
                         totalTime += CLng(qItem.TrainTime)
                         newskill.Text = qItem.Name
                         newskill.Tag = qItem.ID
                         Call AddUserColumns(newskill, qItem, totalSP)
+
+                        If qItem.Done = False Or (qItem.Done = True And _queue.ShowCompletedSkills = True) Then
+                            newskill.Visible = True
+                        Else
+                            newskill.Visible = False
+                        End If
+                        If qItem.Done = True Then
+                            'newskill.Style = adtQueue.Styles("SkillCompleted")
+                            For Each c As Cell In newskill.Cells
+                                c.StyleNormal = adtQueue.Styles("SkillCompleted")
+                            Next
+                        End If
+                        If qItem.IsPrereq = True Then
+                            If qItem.HasPrereq = True Then
+                                newskill.Tooltip &= qItem.Prereq & ControlChars.CrLf & qItem.Reqs
+                                'newskill.Style = styleBothPreReq
+                                For Each c As Cell In newskill.Cells
+                                    c.StyleNormal = styleBothPreReq
+                                Next
+                            Else
+                                newskill.Tooltip = qItem.Prereq
+                                'newskill.Style = styleIsPreReq
+                                For Each c As Cell In newskill.Cells
+                                    c.StyleNormal = styleIsPreReq
+                                Next
+                            End If
+                        Else
+                            If qItem.HasPrereq = True Then
+                                newskill.Tooltip = qItem.Reqs
+                                'newskill.Style = styleHasPreReq
+                                For Each c As Cell In newskill.Cells
+                                    c.StyleNormal = styleHasPreReq
+                                Next
+                            Else
+                                If qItem.PartTrained = True Then
+                                    'newskill.Style = stylePartialTraining
+                                    For Each c As Cell In newskill.Cells
+                                        c.StyleNormal = stylePartialTraining
+                                    Next
+                                Else
+                                    'newskill.Style = styleReadySkill
+                                    For Each c As Cell In newskill.Cells
+                                        c.StyleNormal = styleReadySkill
+                                    Next
+                                End If
+                            End If
+                        End If
+                        If qItem.IsTraining = True Then
+                            newskill.DragDropEnabled = False
+                            'newskill.Style = styleCurrentTraining
+                            For Each c As Cell In newskill.Cells
+                                c.StyleNormal = styleCurrentTraining
+                            Next
+                            ' Set a flag in the tree of the skill name for later checking
+                            adtQueue.Tag = newskill.Name
+                        End If
+
                         adtQueue.Nodes.Add(newskill)
                     Next
                 End If
