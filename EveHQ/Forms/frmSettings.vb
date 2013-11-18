@@ -559,10 +559,14 @@ Namespace Forms
                     ' Remove the item from the list
                     adtAccounts.Nodes.Remove(adtAccounts.SelectedNodes(0))
                     ' Remove the pilots
+                    Dim removeList As New List(Of String)
                     For Each dPilot As EveHQPilot In HQ.Settings.Pilots.Values
                         If dPilot.Account = selAccount Then
-                            HQ.Settings.Pilots.Remove(dPilot.Name)
+                            removeList.Add(dPilot.Name)
                         End If
+                    Next
+                    For Each pilotName As String In removeList
+                        HQ.Settings.Pilots.Remove(pilotName)
                     Next
                     Call frmEveHQ.UpdatePilotInfo()
                     Call UpdatePilots()
