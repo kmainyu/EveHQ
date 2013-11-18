@@ -135,8 +135,6 @@ ${EndIf}
 	File "..\BuildOutput\Release\StaticData\Blueprints.dat"
 	File "..\BuildOutput\Release\StaticData\boosters.dat"
 	File "..\BuildOutput\Release\StaticData\CertCats.dat"
-	File "..\BuildOutput\Release\StaticData\CertCerts.dat"
-	File "..\BuildOutput\Release\StaticData\CertClasses.dat"
 	File "..\BuildOutput\Release\StaticData\CertRec.dat"
 	File "..\BuildOutput\Release\StaticData\Certs.dat"
 	File "..\BuildOutput\Release\StaticData\CertSkills.dat"

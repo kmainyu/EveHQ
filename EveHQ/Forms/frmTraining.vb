@@ -1110,59 +1110,61 @@ Namespace Forms
             Dim groupNode As TreeNode
             Dim addCert As Boolean
             For Each newCert As Certificate In StaticData.Certificates.Values
-                For Each grade As CertificateGrade In newCert.GradesAndSkills.Keys
-                    ' since each cert contains the 5 grades instead of having 5 different certs, loop for each grade
-                    addCert = False
-                    groupNode = CType(_certListNodes.Item(newCert.GroupID.ToString), TreeNode)
-                    Select Case filter
-                        Case 0
+                'For Each grade As CertificateGrade In newCert.GradesAndSkills.Keys
+                ' since each cert contains the 5 grades instead of having 5 different certs, loop for each grade
+                Dim grade = CertificateGrade.Basic
+                addCert = False
+                groupNode = CType(_certListNodes.Item(newCert.GroupID.ToString), TreeNode)
+                Select Case filter
+                    Case 0
+                        addCert = True
+                    Case 1
+                        If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = True Then
                             addCert = True
-                        Case 1
-                            If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = True Then
-                                addCert = True
-                            End If
-                        Case 2
-                            If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = False Then
-                                addCert = True
-                            End If
-
-
-                        Case 3 To 7
-                            If grade = filter - 2 Then
-                                addCert = True
-                            End If
-                        Case 8 To 12
-                            If grade = filter - 7 And _displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(newCert.Id, grade)) = False Then
-                                addCert = True
-                            End If
-                    End Select
-                    If addCert = True Then
-                        Dim certNode As New TreeNode
-                        Dim rank = CInt(grade)
-                        certNode.Text = newCert.Name & " (" & rank & " - " & _certGrades(rank) & ")"
-                        certNode.Name = newCert.Id.ToString
-                        If _displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(newCert.Id, grade)) = True Then
-                            certNode.ImageIndex = rank
-                            certNode.SelectedImageIndex = rank
-                        Else
-                            certNode.ImageIndex = 10
-                            certNode.SelectedImageIndex = 10
-                            ' Check if we have the pre-reqs for the certificate
-                            Dim canClaimCert As Boolean = True
-                            For Each reqSkillAndLevel In newCert.GradesAndSkills(grade)
-                                If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkillAndLevel.Key), reqSkillAndLevel.Value) = False Then
-                                    canClaimCert = False
-                                    Exit For
-                                End If
-                            Next
-
-                            If canClaimCert = True Then
-                                certNode.ForeColor = Color.LimeGreen
-                            End If
                         End If
-                        groupNode.Nodes.Add(certNode)
+                    Case 2
+                        If _displayPilot.QualifiedCertificates.ContainsKey(newCert.Id) = False Then
+                            addCert = True
+                        End If
+
+                    Case 3 To 7
+                        grade = CType(filter - 7, CertificateGrade)
+                        Dim pilotCertGrade As CertificateGrade
+                        If _displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = False Or (_displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = True And pilotCertGrade < grade) Then
+                            addCert = True
+                        End If
+                End Select
+                If addCert = True Then
+                    Dim certNode As New TreeNode
+                    Dim rank = CInt(grade)
+                    certNode.Text = newCert.Name
+                    certNode.Name = newCert.Id.ToString
+                    Dim pilotCertGrade As CertificateGrade
+                    If _displayPilot.QualifiedCertificates.TryGetValue(newCert.Id, pilotCertGrade) = True Then
+                        '_displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(newCert.Id, grade))
+                        certNode.ImageIndex = pilotCertGrade
+                        certNode.SelectedImageIndex = pilotCertGrade
+                    Else
+                        ' Does not even qualify for any level.
+                        certNode.ImageIndex = 10
+                        certNode.SelectedImageIndex = 10
+                        ' Check if we have the pre-reqs for the certificate
+                        'Dim canClaimCert As Boolean = True
+                        'For Each reqSkillAndLevel In newCert.GradesAndSkills(grade)
+                        '    If SkillFunctions.IsSkillTrained(_displayPilot, SkillFunctions.SkillIDToName(reqSkillAndLevel.Key), reqSkillAndLevel.Value) = False Then
+                        '        canClaimCert = False
+                        '        Exit For
+                        '    End If
+                        'Next
+
+                        'If canClaimCert = True Then
+                        '    certNode.ForeColor = Color.LimeGreen
+                        'End If
                     End If
-                Next
+                    groupNode.Nodes.Add(certNode)
+                End If
+                'Next
+
             Next
         End Sub
         Private Sub ShowCertGroups()

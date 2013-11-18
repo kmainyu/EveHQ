@@ -150,6 +150,10 @@ Namespace Forms
                 Next
             Next
             tvwBasicReqs.ExpandAll()
+            tvwStandardReqs.ExpandAll()
+            tvwImprovedReqs.ExpandAll()
+            tvwAdvancedReqs.ExpandAll()
+            tvwEliteReqs.ExpandAll()
             tvwBasicReqs.EndUpdate()
         End Sub
 

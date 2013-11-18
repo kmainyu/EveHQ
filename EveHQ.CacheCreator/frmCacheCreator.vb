@@ -476,6 +476,17 @@ Public Class FrmCacheCreator
             StaticData.Certificates.Add(newCert.Id, newCert)
         Next
 
+        ' Trim certs of any skills that have a 0 rank value
+        For Each cert In StaticData.Certificates.Values
+            For Each gradeAndSkills In cert.GradesAndSkills
+                Dim skills = gradeAndSkills.Value.ToList()
+                For Each skill In skills
+                    If skill.Value = 0 Then
+                        gradeAndSkills.Value.Remove(skill.Key)
+                    End If
+                Next
+            Next
+        Next
     End Sub
 
 

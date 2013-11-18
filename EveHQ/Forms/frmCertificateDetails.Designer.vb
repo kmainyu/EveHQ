@@ -37,29 +37,29 @@
             Me.lblDescription = New System.Windows.Forms.Label()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.tcCerts = New DevComponents.DotNetBar.TabControl()
+            Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tvwEliteReqs = New System.Windows.Forms.TreeView()
+            Me.eliteSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tvwAdvancedReqs = New System.Windows.Forms.TreeView()
+            Me.advancedSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.tvwImprovedReqs = New System.Windows.Forms.TreeView()
+            Me.improvedSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwStandardReqs = New System.Windows.Forms.TreeView()
             Me.standardSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
             Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.eliteSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel4 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.advancedSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel3 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.improvedSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.tvwImprovedReqs = New System.Windows.Forms.TreeView()
-            Me.tvwAdvancedReqs = New System.Windows.Forms.TreeView()
-            Me.tvwEliteReqs = New System.Windows.Forms.TreeView()
             Me.ctxSkills.SuspendLayout()
             Me.ctxCerts.SuspendLayout()
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tcCerts.SuspendLayout()
-            Me.TabControlPanel2.SuspendLayout()
-            Me.TabControlPanel1.SuspendLayout()
             Me.TabControlPanel5.SuspendLayout()
             Me.TabControlPanel4.SuspendLayout()
             Me.TabControlPanel3.SuspendLayout()
+            Me.TabControlPanel2.SuspendLayout()
+            Me.TabControlPanel1.SuspendLayout()
             Me.SuspendLayout()
             '
             'tvwBasicReqs
@@ -148,11 +148,11 @@
             Me.tcCerts.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tcCerts.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tcCerts.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
+            Me.tcCerts.Controls.Add(Me.TabControlPanel1)
             Me.tcCerts.Controls.Add(Me.TabControlPanel5)
             Me.tcCerts.Controls.Add(Me.TabControlPanel4)
             Me.tcCerts.Controls.Add(Me.TabControlPanel3)
             Me.tcCerts.Controls.Add(Me.TabControlPanel2)
-            Me.tcCerts.Controls.Add(Me.TabControlPanel1)
             Me.tcCerts.Location = New System.Drawing.Point(12, 253)
             Me.tcCerts.Name = "tcCerts"
             Me.tcCerts.SelectedTabFont = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold)
@@ -167,6 +167,102 @@
             Me.tcCerts.Tabs.Add(Me.advancedSkillsTab)
             Me.tcCerts.Tabs.Add(Me.eliteSkillsTab)
             Me.tcCerts.Text = "TabControl2"
+            '
+            'TabControlPanel5
+            '
+            Me.TabControlPanel5.Controls.Add(Me.tvwEliteReqs)
+            Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel5.Name = "TabControlPanel5"
+            Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel5.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel5.Style.GradientAngle = 90
+            Me.TabControlPanel5.TabIndex = 5
+            Me.TabControlPanel5.TabItem = Me.eliteSkillsTab
+            '
+            'tvwEliteReqs
+            '
+            Me.tvwEliteReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwEliteReqs.Location = New System.Drawing.Point(1, 1)
+            Me.tvwEliteReqs.Name = "tvwEliteReqs"
+            Me.tvwEliteReqs.Size = New System.Drawing.Size(464, 330)
+            Me.tvwEliteReqs.TabIndex = 1
+            '
+            'eliteSkillsTab
+            '
+            Me.eliteSkillsTab.AttachedControl = Me.TabControlPanel5
+            Me.eliteSkillsTab.Name = "eliteSkillsTab"
+            Me.eliteSkillsTab.Text = "Elite"
+            '
+            'TabControlPanel4
+            '
+            Me.TabControlPanel4.Controls.Add(Me.tvwAdvancedReqs)
+            Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel4.Name = "TabControlPanel4"
+            Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel4.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel4.Style.GradientAngle = 90
+            Me.TabControlPanel4.TabIndex = 4
+            Me.TabControlPanel4.TabItem = Me.advancedSkillsTab
+            '
+            'tvwAdvancedReqs
+            '
+            Me.tvwAdvancedReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwAdvancedReqs.Location = New System.Drawing.Point(1, 1)
+            Me.tvwAdvancedReqs.Name = "tvwAdvancedReqs"
+            Me.tvwAdvancedReqs.Size = New System.Drawing.Size(464, 330)
+            Me.tvwAdvancedReqs.TabIndex = 1
+            '
+            'advancedSkillsTab
+            '
+            Me.advancedSkillsTab.AttachedControl = Me.TabControlPanel4
+            Me.advancedSkillsTab.Name = "advancedSkillsTab"
+            Me.advancedSkillsTab.Text = "Advanced"
+            '
+            'TabControlPanel3
+            '
+            Me.TabControlPanel3.Controls.Add(Me.tvwImprovedReqs)
+            Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel3.Name = "TabControlPanel3"
+            Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel3.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel3.Style.GradientAngle = 90
+            Me.TabControlPanel3.TabIndex = 3
+            Me.TabControlPanel3.TabItem = Me.improvedSkillsTab
+            '
+            'tvwImprovedReqs
+            '
+            Me.tvwImprovedReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwImprovedReqs.Location = New System.Drawing.Point(1, 1)
+            Me.tvwImprovedReqs.Name = "tvwImprovedReqs"
+            Me.tvwImprovedReqs.Size = New System.Drawing.Size(464, 330)
+            Me.tvwImprovedReqs.TabIndex = 1
+            '
+            'improvedSkillsTab
+            '
+            Me.improvedSkillsTab.AttachedControl = Me.TabControlPanel3
+            Me.improvedSkillsTab.Name = "improvedSkillsTab"
+            Me.improvedSkillsTab.Text = "Improved"
             '
             'TabControlPanel2
             '
@@ -188,12 +284,10 @@
             '
             'tvwStandardReqs
             '
-            Me.tvwStandardReqs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.tvwStandardReqs.Location = New System.Drawing.Point(0, 0)
+            Me.tvwStandardReqs.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.tvwStandardReqs.Location = New System.Drawing.Point(1, 1)
             Me.tvwStandardReqs.Name = "tvwStandardReqs"
-            Me.tvwStandardReqs.Size = New System.Drawing.Size(466, 332)
+            Me.tvwStandardReqs.Size = New System.Drawing.Size(464, 330)
             Me.tvwStandardReqs.TabIndex = 0
             '
             'standardSkillsTab
@@ -226,108 +320,6 @@
             Me.basicSkillsTab.Name = "basicSkillsTab"
             Me.basicSkillsTab.Text = "Basic"
             '
-            'TabControlPanel5
-            '
-            Me.TabControlPanel5.Controls.Add(Me.tvwEliteReqs)
-            Me.TabControlPanel5.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel5.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel5.Name = "TabControlPanel5"
-            Me.TabControlPanel5.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel5.Size = New System.Drawing.Size(466, 332)
-            Me.TabControlPanel5.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel5.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel5.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel5.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel5.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel5.Style.GradientAngle = 90
-            Me.TabControlPanel5.TabIndex = 5
-            Me.TabControlPanel5.TabItem = Me.eliteSkillsTab
-            '
-            'eliteSkillsTab
-            '
-            Me.eliteSkillsTab.AttachedControl = Me.TabControlPanel5
-            Me.eliteSkillsTab.Name = "eliteSkillsTab"
-            Me.eliteSkillsTab.Text = "Elite"
-            '
-            'TabControlPanel4
-            '
-            Me.TabControlPanel4.Controls.Add(Me.tvwAdvancedReqs)
-            Me.TabControlPanel4.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel4.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel4.Name = "TabControlPanel4"
-            Me.TabControlPanel4.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel4.Size = New System.Drawing.Size(466, 332)
-            Me.TabControlPanel4.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel4.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel4.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel4.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel4.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel4.Style.GradientAngle = 90
-            Me.TabControlPanel4.TabIndex = 4
-            Me.TabControlPanel4.TabItem = Me.advancedSkillsTab
-            '
-            'advancedSkillsTab
-            '
-            Me.advancedSkillsTab.AttachedControl = Me.TabControlPanel4
-            Me.advancedSkillsTab.Name = "advancedSkillsTab"
-            Me.advancedSkillsTab.Text = "Advanced"
-            '
-            'TabControlPanel3
-            '
-            Me.TabControlPanel3.Controls.Add(Me.tvwImprovedReqs)
-            Me.TabControlPanel3.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel3.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel3.Name = "TabControlPanel3"
-            Me.TabControlPanel3.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel3.Size = New System.Drawing.Size(466, 332)
-            Me.TabControlPanel3.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel3.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel3.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel3.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel3.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel3.Style.GradientAngle = 90
-            Me.TabControlPanel3.TabIndex = 3
-            Me.TabControlPanel3.TabItem = Me.improvedSkillsTab
-            '
-            'improvedSkillsTab
-            '
-            Me.improvedSkillsTab.AttachedControl = Me.TabControlPanel3
-            Me.improvedSkillsTab.Name = "improvedSkillsTab"
-            Me.improvedSkillsTab.Text = "Improved"
-            '
-            'tvwImprovedReqs
-            '
-            Me.tvwImprovedReqs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.tvwImprovedReqs.Location = New System.Drawing.Point(0, 0)
-            Me.tvwImprovedReqs.Name = "tvwImprovedReqs"
-            Me.tvwImprovedReqs.Size = New System.Drawing.Size(466, 332)
-            Me.tvwImprovedReqs.TabIndex = 1
-            '
-            'tvwAdvancedReqs
-            '
-            Me.tvwAdvancedReqs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.tvwAdvancedReqs.Location = New System.Drawing.Point(0, 0)
-            Me.tvwAdvancedReqs.Name = "tvwAdvancedReqs"
-            Me.tvwAdvancedReqs.Size = New System.Drawing.Size(466, 332)
-            Me.tvwAdvancedReqs.TabIndex = 1
-            '
-            'tvwEliteReqs
-            '
-            Me.tvwEliteReqs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                Or System.Windows.Forms.AnchorStyles.Left) _
-                Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-            Me.tvwEliteReqs.Location = New System.Drawing.Point(0, 0)
-            Me.tvwEliteReqs.Name = "tvwEliteReqs"
-            Me.tvwEliteReqs.Size = New System.Drawing.Size(466, 336)
-            Me.tvwEliteReqs.TabIndex = 1
-            '
             'FrmCertificateDetails
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -349,11 +341,11 @@
             Me.ctxCerts.ResumeLayout(False)
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).EndInit()
             Me.tcCerts.ResumeLayout(False)
-            Me.TabControlPanel2.ResumeLayout(False)
-            Me.TabControlPanel1.ResumeLayout(False)
             Me.TabControlPanel5.ResumeLayout(False)
             Me.TabControlPanel4.ResumeLayout(False)
             Me.TabControlPanel3.ResumeLayout(False)
+            Me.TabControlPanel2.ResumeLayout(False)
+            Me.TabControlPanel1.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub

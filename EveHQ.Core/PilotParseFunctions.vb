@@ -793,10 +793,11 @@ Public Class PilotParseFunctions
     Private Shared Function CheckPilotSkillsForCertGrade(ByRef reqSkills As SortedList(Of Integer, Integer), ByRef pilot As EveHQPilot) As Boolean
         Dim qualifications As New SortedList(Of Integer, Boolean)
         For Each skill In reqSkills.Keys
-            Dim pSkill As EveHQPilotSkill
+
             qualifications.Add(skill, False)
-            If pilot.PilotSkills.TryGetValue(skill.ToString(), pSkill) Then
-                If pSkill.Rank >= reqSkills(skill) Then
+            Dim pSkill = pilot.PilotSkills.FirstOrDefault(Function(s) s.Value.ID = skill)
+            If pSkill.Value IsNot Nothing Then
+                If pSkill.Value.Level >= reqSkills(skill) Then
                     qualifications(skill) = True
                 End If
             End If
