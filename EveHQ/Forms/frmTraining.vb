@@ -1211,21 +1211,29 @@ Namespace Forms
                     mnuAddCertGroupToQueue.Enabled = True
                     mnuAddCertToQueue.Enabled = True
                     ' Determine enabled menu items of adding to queue
-                    Dim selCert As Certificate = StaticData.Certificates(certID)
-                    Dim selCertClass As Integer = selCert.Id
-                    For Each testCert As Certificate In StaticData.Certificates.Values
-                        If testCert.Id = selCertClass Then
-                            For Each grade In testCert.GradesAndSkills.Keys
+                    If curNode.Parent IsNot Nothing Then
+                        Dim selCert As Certificate = StaticData.Certificates(certID)
+                        Dim selCertClass As Integer = selCert.Id
+                        For Each testCert As Certificate In StaticData.Certificates.Values
+                            If testCert.Id = selCertClass Then
+                                For Each grade In testCert.GradesAndSkills.Keys
 
-                                ' Check if the pilot has it
-                                If _displayPilot.QualifiedCertificates.Contains(New KeyValuePair(Of Integer, CertificateGrade)(testCert.Id, grade)) = False Then
-                                    mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & grade.ToString()).Enabled = True
-                                Else
-                                    mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & grade.ToString()).Enabled = False
-                                End If
-                            Next
-                        End If
-                    Next
+                                    ' Check if the pilot has it
+                                    If _displayPilot.QualifiedCertificates.ContainsKey(testCert.Id) Then
+                                        If _displayPilot.QualifiedCertificates(testCert.Id) >= grade Then
+                                            mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & CStr(grade)).Enabled = False
+                                        Else
+                                            mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & CStr(grade)).Enabled = True
+                                        End If
+                                    Else
+                                        mnuAddCertToQueue.DropDownItems("mnuAddCertToQueue" & CStr(grade)).Enabled = True
+                                    End If
+
+                                Next
+                            End If
+                        Next
+                   End If
+
                 End If
             End If
         End Sub

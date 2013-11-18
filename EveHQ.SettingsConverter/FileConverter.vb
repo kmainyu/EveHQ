@@ -616,7 +616,7 @@ Public Class FileConverter
     Private Shared Function CheckPilotSkillsForCertGrade(ByRef reqSkills As SortedList(Of Integer, Integer), ByRef pilot As EveHQPilot) As Boolean
         Dim qualifications As New SortedList(Of Integer, Boolean)
         For Each skill In reqSkills.Keys
-            Dim pSkill As EveHQPilotSkill
+            Dim pSkill As New EveHQPilotSkill
             qualifications.Add(skill, False)
             If pilot.PilotSkills.TryGetValue(skill.ToString(), pSkill) Then
                 If pSkill.Rank >= reqSkills(skill) Then

@@ -26,7 +26,6 @@ Namespace Forms
     Public Class FrmToolTrayIconPopup
 
         Dim _currentLabel As New Label
-        Dim _currentPilot As EveHQPilot
         Dim _currentDate As Date
 
         Protected Overrides Sub OnPaint(ByVal e As PaintEventArgs)
@@ -72,11 +71,11 @@ Namespace Forms
         End Sub
 
         Public Sub UpdateSkillTimes()
-            For Each _currentPilot In HQ.Settings.Pilots.Values
-                If AGP1.Controls.ContainsKey(_currentPilot.Name) Then
-                    _currentLabel = CType(AGP1.Controls(_currentPilot.Name), CharacterBlock).lblTime
-                    _currentDate = SkillFunctions.ConvertEveTimeToLocal(_currentPilot.TrainingEndTime)
-                    _currentLabel.Text = Format(_currentDate, "ddd") & " " & _currentDate & " (" & SkillFunctions.TimeToString(_currentPilot.TrainingCurrentTime) & ")"
+            For Each currentPilot In HQ.Settings.Pilots.Values
+                If AGP1.Controls.ContainsKey(currentPilot.Name) Then
+                    _currentLabel = CType(AGP1.Controls(currentPilot.Name), CharacterBlock).lblTime
+                    _currentDate = SkillFunctions.ConvertEveTimeToLocal(currentPilot.TrainingEndTime)
+                    _currentLabel.Text = Format(_currentDate, "ddd") & " " & _currentDate & " (" & SkillFunctions.TimeToString(currentPilot.TrainingCurrentTime) & ")"
                 End If
             Next
         End Sub
