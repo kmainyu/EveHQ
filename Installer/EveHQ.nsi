@@ -150,6 +150,7 @@ SectionIn RO
 	File "..\BuildOutput\Release\StaticData\Items.dat"
 	File "..\BuildOutput\Release\StaticData\ItemUnlocks.dat"
 	File "..\BuildOutput\Release\StaticData\MarketGroups.dat"
+	File "..\BuildOutput\Release\StaticData\Masteries.dat"
 	File "..\BuildOutput\Release\StaticData\MetaGroups.dat"
 	File "..\BuildOutput\Release\StaticData\MetaTypes.dat"
 	File "..\BuildOutput\Release\StaticData\modules.dat"
