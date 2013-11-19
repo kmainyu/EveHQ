@@ -184,10 +184,12 @@ SectionIn RO
 ${If} $useLocalFlag == "1" 
    Delete $INSTDIR\EveHQ\HQF\Cache\*.*
   Delete $INSTDIR\EveHQ\CoreCache\*.*
+  Delete $INSTDIR\EveHQ\ImageCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$INSTDIR\EveHQ\MarketCache\"
 ${Else}
    Delete $APPDATA\EveHQ\HQF\Cache\*.*
   Delete $APPDATA\EveHQ\CoreCache\*.*
+  Delete $APPDATA\EveHQ\ImageCache\*.*
   !insertmacro RemoveFilesAndSubDirs "$APPDATA\EveHQ\MarketCache\"
 ${EndIf}
   
