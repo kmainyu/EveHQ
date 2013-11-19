@@ -687,12 +687,10 @@ Namespace Forms
                 If _currentBP.InventFrom.Count > 0 Then
                     ' Populate invention data
                     Call UpdateInventionUi()
-                    tiInvention.Visible = True
-                Else
+                  Else
                     If _currentBP.Inventions.Count > 0 Then
                         ' Populate invention data
                         Call UpdateInventionUi()
-                        tiInvention.Visible = True
                     Else
                         tiInvention.Visible = False
                     End If
@@ -752,54 +750,65 @@ Namespace Forms
 
             ' Update the decryptors and get skills by looking at the resources and determining the type of interface used
             Dim decryptorGroupID As String = ""
-            For Each resource As EveData.BlueprintResource In _currentInventionBP.Resources(8).Values
-                ' Add the resource to the list
-                Dim resName As String = StaticData.Types(resource.TypeId).Name
-                If resName.EndsWith("Interface", StringComparison.Ordinal) = True Then
-                    Select Case resName.Substring(0, 1)
-                        Case "O"
-                            ' Amarr
-                            decryptorGroupID = "728"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Amarr Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Amarr Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", skillLevel))
-                        Case "C"
-                            ' Minmatar
-                            decryptorGroupID = "729"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Minmatar Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Minmatar Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", skillLevel))
-                        Case "I"
-                            ' Gallente
-                            decryptorGroupID = "730"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Gallente Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Gallente Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", skillLevel))
-                        Case "E"
-                            ' Caldari
-                            decryptorGroupID = "731"
-                            Dim skillLevel As Integer = 0
-                            If _bpPilot.PilotSkills.ContainsKey("Caldari Encryption Methods") = True Then
-                                skillLevel = _bpPilot.PilotSkills("Caldari Encryption Methods").Level
-                            End If
-                            inventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", skillLevel))
-                    End Select
-                    ' Terminate early once we know
-                ElseIf resName.StartsWith("Datacore") = True Then
-                    Dim skillName As String = resName.TrimStart("Datacore - ".ToCharArray)
-                    Dim skillLevel As Integer = 0
-                    If _bpPilot.PilotSkills.ContainsKey(skillName) = True Then
-                        skillLevel = _bpPilot.PilotSkills(skillName).Level
+            If _currentInventionBP.Resources.ContainsKey(BlueprintActivity.Invention) = False Then
+                Dim msg As New System.Text.StringBuilder
+                msg.AppendLine("There are invention resources missing from the " & StaticData.Types(_currentInventionBP.Id).Name & ".")
+                msg.AppendLine()
+                msg.AppendLine("This could be caused by a corrupt database. Please report this to the developers so it can be investigated.")
+                MessageBox.Show(msg.ToString, "Missing Invention Resources", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                tiInvention.Visible = False
+                Exit Sub
+            Else
+                tiInvention.Visible = True
+                For Each resource As EveData.BlueprintResource In _currentInventionBP.Resources(BlueprintActivity.Invention).Values
+                    ' Add the resource to the list
+                    Dim resName As String = StaticData.Types(resource.TypeId).Name
+                    If resName.EndsWith("Interface", StringComparison.Ordinal) = True Then
+                        Select Case resName.Substring(0, 1)
+                            Case "O"
+                                ' Amarr
+                                decryptorGroupID = "728"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Amarr Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Amarr Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Amarr Encryption Methods", skillLevel))
+                            Case "C"
+                                ' Minmatar
+                                decryptorGroupID = "729"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Minmatar Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Minmatar Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Minmatar Encryption Methods", skillLevel))
+                            Case "I"
+                                ' Gallente
+                                decryptorGroupID = "730"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Gallente Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Gallente Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Gallente Encryption Methods", skillLevel))
+                            Case "E"
+                                ' Caldari
+                                decryptorGroupID = "731"
+                                Dim skillLevel As Integer = 0
+                                If _bpPilot.PilotSkills.ContainsKey("Caldari Encryption Methods") = True Then
+                                    skillLevel = _bpPilot.PilotSkills("Caldari Encryption Methods").Level
+                                End If
+                                inventionSkills.AddFirst(New DictionaryEntry("Caldari Encryption Methods", skillLevel))
+                        End Select
+                        ' Terminate early once we know
+                    ElseIf resName.StartsWith("Datacore", StringComparison.Ordinal) = True Then
+                        Dim skillName As String = resName.TrimStart("Datacore - ".ToCharArray)
+                        Dim skillLevel As Integer = 0
+                        If _bpPilot.PilotSkills.ContainsKey(skillName) = True Then
+                            skillLevel = _bpPilot.PilotSkills(skillName).Level
+                        End If
+                        inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
                     End If
-                    inventionSkills.AddLast(New DictionaryEntry(skillName, skillLevel))
-                End If
-            Next
+                Next
+            End If
             ' Update the invention resources with this BP
             PPRInvention.InventionBP = _currentInventionBP
 
