@@ -168,6 +168,10 @@
       <Link>StaticData\MarketGroups.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\EveHQ.Data\StaticData\Masteries.dat">
+      <Link>StaticData\Masteries.dat</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\EveHQ.Data\StaticData\MetaGroups.dat">
       <Link>StaticData\MetaGroups.dat</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
