@@ -851,10 +851,10 @@
 268,2,60,268,3,6,2,0,2,12,Armor Exp Resistance Bonus
 269,2,60,269,3,6,2,0,2,12,Armor Kin Resistance Bonus
 270,2,60,270,3,6,2,0,2,12,Armor Therm Resistance Bonus
-271,2,60,271,3,6,0,0,2,12,Shield EM Resistance Bonus
-272,2,60,272,3,6,0,0,2,12,Shield Exp Resistance Bonus
-273,2,60,273,3,6,0,0,2,12,Shield Kin Resistance Bonus
-274,2,60,274,3,6,0,0,2,12,Shield Therm Resistance Bonus
+271,2,60,271,3,6,2,0,2,12,Shield EM Resistance Bonus
+272,2,60,272,3,6,2,0,2,12,Shield Exp Resistance Bonus
+273,2,60,273,3,6,2,0,2,12,Shield Kin Resistance Bonus
+274,2,60,274,3,6,2,0,2,12,Shield Therm Resistance Bonus
 974,2,60,113,3,6,0,0,2,12,Hull EM Resistance Bonus
 975,2,60,111,3,6,0,0,2,12,Hull Exp Resistance Bonus
 976,2,60,109,3,6,0,0,2,12,Hull Kin Resistance Bonus
@@ -958,14 +958,14 @@
 349,1,33400,158,4,563;566;576;579;569;573,1,0,0,4,Large Turret Falloff Bonus
 548,1,33400,68,2,40;1156,1,0,0,4,Shield Boost Bonus
 895,1,33400,84,2,62;1199,1,0,0,4,Armor Repair Amount
-267,1,33400,267,3,6,0,0,2,4,Armor EM Resistance Bonus
-268,1,33400,268,3,6,0,0,2,4,Armor Exp Resistance Bonus
-269,1,33400,269,3,6,0,0,2,4,Armor Kin Resistance Bonus
-270,1,33400,270,3,6,0,0,2,4,Armor Therm Resistance Bonus
-271,1,33400,271,3,6,0,0,2,4,Shield EM Resistance Bonus
-272,1,33400,272,3,6,0,0,2,4,Shield Exp Resistance Bonus
-273,1,33400,273,3,6,0,0,2,4,Shield Kin Resistance Bonus
-274,1,33400,274,3,6,0,0,2,4,Shield Therm Resistance Bonus
+267,1,33400,267,3,6,2,0,2,4,Armor EM Resistance Bonus
+268,1,33400,268,3,6,2,0,2,4,Armor Exp Resistance Bonus
+269,1,33400,269,3,6,2,0,2,4,Armor Kin Resistance Bonus
+270,1,33400,270,3,6,2,0,2,4,Armor Therm Resistance Bonus
+271,1,33400,271,3,6,2,0,2,4,Shield EM Resistance Bonus
+272,1,33400,272,3,6,2,0,2,4,Shield Exp Resistance Bonus
+273,1,33400,273,3,6,2,0,2,4,Shield Kin Resistance Bonus
+274,1,33400,274,3,6,2,0,2,4,Shield Therm Resistance Bonus
 974,1,33400,113,3,6,0,0,2,4,Hull EM Resistance Bonus
 975,1,33400,111,3,6,0,0,2,4,Hull Exp Resistance Bonus
 976,1,33400,109,3,6,0,0,2,4,Hull Kin Resistance Bonus
@@ -982,12 +982,11 @@
 292,1,20280,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
 292,1,20280,10014,2,53,0,0,0,4,Damage Bonus - Lasers
 292,1,20280,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
-548,1,20280,68,2,40;1156,1,0,0,4,Shield Boost Bonus
+548,1,20280,68,4,778,1,0,0,4,Shield Boost Bonus
 565,1,20280,564,3,6,0,0,0,4,Scan Resolution Penalty
-847,1,20280,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,4,Missile Explosion Velocity
-895,1,20280,84,2,62;1199,0,0,0,4,Armor Repair Amount
-896,1,20280,73,2,62;1199,0,0,0,4,Armor Repair Duration
-897,1,20280,73,2,40;1156,0,0,0,4,Shield Booster Duration
+895,1,20280,84,4,1052,1,0,0,4,Armor Repair Amount
+896,1,20280,73,4,1052,0,0,0,4,Armor Repair Duration
+897,1,20280,73,4,778,0,0,0,4,Shield Booster Duration
 20,1,4292,37,3,6,0,0,0,4,Max Velocity Bonus
 292,1,4292,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - EM Missiles
 292,1,4292,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Explosive Missiles
@@ -996,51 +995,50 @@
 292,1,4292,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
 292,1,4292,10014,2,53,0,0,0,4,Damage Bonus - Lasers
 292,1,4292,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
-548,1,4292,68,2,40;1156,1,0,0,4,Shield Boost Bonus
+548,1,4292,68,4,778,1,0,0,4,Shield Boost Bonus
 565,1,4292,564,3,6,0,0,0,4,Scan Resolution Penalty
-847,1,4292,653,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;394;395;396,0,0,0,4,Missile Explosion Velocity
-895,1,4292,84,2,62;1199,0,0,0,4,Armor Repair Amount
-896,1,4292,73,2,62;1199,0,0,0,4,Armor Repair Duration
-897,1,4292,73,2,40;1156,0,0,0,4,Shield Booster Duration
+895,1,4292,84,4,1052,1,0,0,4,Armor Repair Amount
+896,1,4292,73,4,1052,0,0,0,4,Armor Repair Duration
+897,1,4292,73,4,778,0,0,0,4,Shield Booster Duration
 # Triage Modules,,,,,,,,,,
 20,1,27951,37,3,6,0,0,0,4,Max Velocity Bonus
 235,1,27951,192,3,6,0,0,1,4,Max Locked Targets Bonus
-548,1,27951,68,2,40;1156,1,0,0,4,Shield Boost Bonus
+548,1,27951,68,4,778,1,0,0,4,Shield Boost Bonus
 565,1,27951,564,3,6,0,0,0,4,Scan Resolution Bonus
-895,1,27951,84,2,62;1199,0,0,0,4,Armor Repair Amount
-896,1,27951,73,2,62;1199,0,0,0,4,Armor Repair Duration
-897,1,27951,73,2,40;1156,0,0,0,4,Shield Booster Duration
-1186,1,27951,84,2,325,0,0,0,4,Remote Armor Repair Bonus
-1187,1,27951,73,2,325,0,0,0,4,Remote Armor Repair Duration Bonus
-1188,1,27951,73,2,41,0,0,0,4,Shield Transporter Duration Bonus
-1189,1,27951,68,2,41,0,0,0,4,Shield Transporter Amount Bonus
+895,1,27951,84,4,1052,1,0,0,4,Armor Repair Amount
+896,1,27951,73,4,1052,0,0,0,4,Armor Repair Duration
+897,1,27951,73,4,778,0,0,0,4,Shield Booster Duration
+1186,1,27951,84,4,1056,0,0,0,4,Remote Armor Repair Bonus
+1187,1,27951,73,4,1056,0,0,0,4,Remote Armor Repair Duration Bonus
+1188,1,27951,73,4,600,0,0,0,4,Shield Transporter Duration Bonus
+1189,1,27951,68,4,600,0,0,0,4,Shield Transporter Amount Bonus
 1190,1,27951,6,2,201;80;208;65;379;291;52,0,0,0,4,EW Capacitor Need Bonus
 1191,1,27951,10005,3,6,0,0,0,4,Drone Control Bonus
-1201,1,27951,83,2,585,0,0,0,4,Remote Hull Repair Bonus
-1202,1,27951,73,2,585,0,0,0,4,Remote Hull Repair Duration Bonus
-1203,1,27951,90,2,67,0,0,0,4,Energy Transfer Bonus
-1204,1,27951,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
+1201,1,27951,83,4,1063,0,0,0,4,Remote Hull Repair Bonus
+1202,1,27951,73,4,1063,0,0,0,4,Remote Hull Repair Duration Bonus
+1203,1,27951,90,4,910,0,0,0,4,Energy Transfer Bonus
+1204,1,27951,73,4,910,0,0,0,4,Energy Transfer Duration Bonus
 20,1,4294,37,3,6,0,0,0,4,Max Velocity Bonus
 235,1,4294,192,3,6,0,0,1,4,Max Locked Targets Bonus
-548,1,4294,68,2,40;1156,1,0,0,4,Shield Boost Bonus
+548,1,4294,68,4,778,1,0,0,4,Shield Boost Bonus
 565,1,4294,564,3,6,0,0,0,4,Scan Resolution Bonus
-895,1,4294,84,2,62;1199,0,0,0,4,Armor Repair Amount
-896,1,4294,73,2,62;1199,0,0,0,4,Armor Repair Duration
-897,1,4294,73,2,40;1156,0,0,0,4,Shield Booster Duration
-1186,1,4294,84,2,325,0,0,0,4,Remote Armor Repair Bonus
-1187,1,4294,73,2,325,0,0,0,4,Remote Armor Repair Duration Bonus
-1188,1,4294,73,2,41,0,0,0,4,Shield Transporter Duration Bonus
-1189,1,4294,68,2,41,0,0,0,4,Shield Transporter Amount Bonus
+895,1,4294,84,4,1052,1,0,0,4,Armor Repair Amount
+896,1,4294,73,4,1052,0,0,0,4,Armor Repair Duration
+897,1,4294,73,4,778,0,0,0,4,Shield Booster Duration
+1186,1,4294,84,4,1056,0,0,0,4,Remote Armor Repair Bonus
+1187,1,4294,73,4,1056,0,0,0,4,Remote Armor Repair Duration Bonus
+1188,1,4294,73,4,600,0,0,0,4,Shield Transporter Duration Bonus
+1189,1,4294,68,4,600,0,0,0,4,Shield Transporter Amount Bonus
 1190,1,4294,6,2,201;80;208;65;379;291;52,0,0,0,4,EW Capacitor Need Bonus
 1191,1,4294,10005,3,6,0,0,0,4,Drone Control Bonus
-1201,1,4294,83,2,585,0,0,0,4,Remote Hull Repair Bonus
-1202,1,4294,73,2,585,0,0,0,4,Remote Hull Repair Duration Bonus
-1203,1,4294,90,2,67,0,0,0,4,Energy Transfer Bonus
-1204,1,4294,73,2,67,0,0,0,4,Energy Transfer Duration Bonus
-1802,1,4294,6,2,41,0,0,0,4,Shield Transporter Cap Use
-1802,1,4294,6,2,325,0,0,0,4,Remote Armor Repair Cap Use
-1802,1,4294,6,2,585,0,0,0,4,Remote Hull Repair Cap Use
-1802,1,4294,6,2,67,0,0,0,4,Energy Transfer Cap Use
+1201,1,4294,83,4,1063,0,0,0,4,Remote Hull Repair Bonus
+1202,1,4294,73,4,1063,0,0,0,4,Remote Hull Repair Duration Bonus
+1203,1,4294,90,4,910,0,0,0,4,Energy Transfer Bonus
+1204,1,4294,73,4,910,0,0,0,4,Energy Transfer Duration Bonus
+1802,1,4294,6,4,778,0,0,0,4,Shield Transporter Cap Use
+1802,1,4294,6,4,1056,0,0,0,4,Remote Armor Repair Cap Use
+1802,1,4294,6,4,1063,0,0,0,4,Remote Hull Repair Cap Use
+1802,1,4294,6,4,910,0,0,0,4,Energy Transfer Cap Use
 # Tracking Computers,,,,,,,,,,
 349,2,213,158,2,55;53;74,1,0,0,4,Falloff
 351,2,213,54,2,55;53;74,1,0,0,4,Optimal Range
