@@ -5733,11 +5733,10 @@ Namespace Forms
                                         If CLng(groupID) = 754 Then
 
                                             Dim quantity As Long = CLng(loc.Attributes.GetNamedItem("quantity").Value)
-                                            Dim itemName As String = StaticData.Types(itemID).Name
-                                            If _salvageList.Contains(itemName) = False Then
-                                                _salvageList.Add(itemName, quantity)
+                                            If _salvageList.Contains(itemID) = False Then
+                                                _salvageList.Add(itemID, quantity)
                                             Else
-                                                _salvageList.Item(itemName) = CLng(_salvageList.Item(itemName)) + quantity
+                                                _salvageList.Item(itemID) = CLng(_salvageList.Item(itemID)) + quantity
                                             End If
                                         End If
                                     End If
@@ -5845,7 +5844,7 @@ Namespace Forms
                     ' Find the results
                     If buildableBP = True Then
                         ' Caluclate the build cost
-                        Dim costTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(From mat In _rigBuildData.Keys Select StaticData.TypeNames(CStr(mat)))
+                        Dim costTask As Task(Of Dictionary(Of Integer, Double)) = DataFunctions.GetMarketPrices(_rigBuildData.Keys)
                         costTask.Wait()
                         Dim costs As Dictionary(Of Integer, Double) = costTask.Result
                         For Each material In _rigBuildData.Keys
