@@ -207,14 +207,17 @@ Public Class PlugInData
         ' Create Image Cache
         ImageHandler.BaseIcons.Clear()
         For Each sMod As ShipModule In ModuleLists.ModuleList.Values
-            If sMod.Icon <> "" Then
-                If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
-                    Dim oi As Bitmap = CType(Core.ImageHandler.GetImage(sMod.ID, 64, sMod.Icon), Bitmap)
-                    If oi IsNot Nothing Then
-                        ImageHandler.BaseIcons.Add(sMod.Icon, oi)
+            ' Only get Tech 1 & 3 icons as base icons to avoid meta group indicators on the base icons
+            If sMod.MetaType = MetaTypes.Tech1 Or sMod.MetaType = MetaTypes.Tech3 Then
+                If sMod.Icon <> "" Then
+                    If ImageHandler.BaseIcons.ContainsKey(sMod.Icon) = False Then
+                        Dim oi As Bitmap = CType(Core.ImageHandler.GetImage(sMod.ID, 64, sMod.Icon), Bitmap)
+                        If oi IsNot Nothing Then
+                            ImageHandler.BaseIcons.Add(sMod.Icon, oi)
+                        End If
                     End If
                 End If
-            End If
+            End If     
         Next
         ImageHandler.MetaIcons.Clear()
         For idx As Integer = 0 To 32
