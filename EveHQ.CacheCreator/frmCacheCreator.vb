@@ -47,6 +47,7 @@ Public Class FrmCacheCreator
     Shared yamlIcons As SortedList(Of Integer, String) ' Key = iconID, Value = iconFile
     Shared yamlCerts As New SortedList(Of Integer, YAMLCert) ' Key = CertID
 
+
     Private Sub frmCacheCreator_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         If My.Computer.FileSystem.DirectoryExists(_sqLiteDBFolder) = False Then
             My.Computer.FileSystem.CreateDirectory(_sqLiteDBFolder)
@@ -262,7 +263,7 @@ Public Class FrmCacheCreator
         Call LoadCertCategories()
         Call LoadCerts()
         Call LoadCertRecs()
-
+        Call LoadMasteries()
         Call LoadUnlocks() ' Populates 4 data classes here
 
         Call LoadRegions()
@@ -285,6 +286,24 @@ Public Class FrmCacheCreator
         Call LoadNPCCorps()
         Call LoadItemFlags()
 
+    End Sub
+
+    Private Sub LoadMasteries()
+        StaticData.Masteries.Clear()
+
+        For Each type In yamlTypes.Values.Where(Function(i) i.Masteries IsNot Nothing)
+            Dim mastery As New Mastery()
+            mastery.TypeId = type.TypeID
+            mastery.RequiredCertificates = New SortedList(Of Integer, List(Of Integer))
+            For Each rank In type.Masteries
+                mastery.RequiredCertificates.Add(rank.Key, New List(Of Integer))
+                For Each cert In rank.Value
+                    mastery.RequiredCertificates(rank.Key).Add(cert)
+                Next
+
+            Next
+            StaticData.Masteries.Add(mastery.TypeId, mastery)
+        Next
     End Sub
 
     Private Sub LoadItemData()
@@ -1192,12 +1211,6 @@ Public Class FrmCacheCreator
         s.Flush()
         s.Close()
 
-        '' Cert Classes
-        's = New FileStream(Path.Combine(coreCacheFolder, "CertClasses.dat"), FileMode.Create)
-        'Serializer.Serialize(s, StaticData.CertificateClasses)
-        's.Flush()
-        's.Close()
-
         ' Certs
         s = New FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.Certificates)
@@ -1207,6 +1220,12 @@ Public Class FrmCacheCreator
         ' Cert Recommendations
         s = New FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Create)
         Serializer.Serialize(s, StaticData.CertificateRecommendations)
+        s.Flush()
+        s.Close()
+
+        'Masteries
+        s = New FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Create)
+        Serializer.Serialize(s, StaticData.Masteries)
         s.Flush()
         s.Close()
 

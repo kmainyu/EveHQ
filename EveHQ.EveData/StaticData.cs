@@ -29,7 +29,7 @@ namespace EveHQ.EveData
     using ProtoBuf;
 
     // TODO: using static classes does not promote a good separation of concerns or DI coding pattern. Refactor this into an instance that can be passed around at a later date.
-    
+
     /// <summary>
     ///     Defines the collection of Eve static data and associated functions.
     /// </summary>
@@ -121,6 +121,11 @@ namespace EveHQ.EveData
         ///     The market groups.
         /// </summary>
         private static SortedList<int, MarketGroup> marketGroups = new SortedList<int, MarketGroup>(); // typeID, MarketGroup
+
+        /// <summary>
+        ///  The item masteries
+        /// </summary>
+        private static SortedList<int, Mastery> masteries = new SortedList<int, Mastery>(); // typeID, masteryRank,requiredCerts
 
         /// <summary>
         ///     The meta groups.
@@ -389,6 +394,18 @@ namespace EveHQ.EveData
             get
             {
                 return marketGroups;
+            }
+        }
+
+        /// <summary>
+        /// Gets the masteries.
+        /// </summary>
+        public static SortedList<int, Mastery> Masteries
+        {
+            // typeID, rank, requiredCerts
+            get
+            {
+                return masteries;
             }
         }
 
@@ -924,7 +941,7 @@ namespace EveHQ.EveData
                 }
 
                 Trace.TraceInformation(" *** Skill Unlocks Finished Loading");
-                
+
                 // CertSkills
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open))
                 {
@@ -932,6 +949,14 @@ namespace EveHQ.EveData
                 }
 
                 Trace.TraceInformation(" *** Certificate Skills Finished Loading");
+
+                // Masteries
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Open))
+                {
+                    masteries = Serializer.Deserialize<SortedList<int, Mastery>>(s);
+                }
+
+                Trace.TraceInformation(" *** Masteries Finished Loading");
 
                 // Regions
                 using (var s = new FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Open))
