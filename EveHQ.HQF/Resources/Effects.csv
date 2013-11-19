@@ -975,26 +975,26 @@
 1238,1,28583,833,4,1638,0,0,5,4,Mining Foreman Ganglink Bonus
 # Siege Modules,,,,,,,,,,
 20,1,20280,37,3,6,0,0,0,4,Max Velocity Bonus
-292,1,20280,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - EM Missiles
-292,1,20280,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Explosive Missiles
-292,1,20280,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Kinetic Missiles
-292,1,20280,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Thermal Missiles
-292,1,20280,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
-292,1,20280,10014,2,53,0,0,0,4,Damage Bonus - Lasers
-292,1,20280,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
+292,1,20280,114,2,476;1019,0,0,0,4,Damage Bonus - EM Citadel Missiles
+292,1,20280,116,2,476;1019,0,0,0,4,Damage Bonus - Explosive Citadel Missiles
+292,1,20280,117,2,476;1019,0,0,0,4,Damage Bonus - Kinetic Citadel Missiles
+292,1,20280,118,2,476;1019,0,0,0,4,Damage Bonus - Thermal Citadel Missiles
+292,1,20280,10016,4,775;776,0,0,0,4,Damage Bonus - Projectiles
+292,1,20280,10014,4,773;774,0,0,0,4,Damage Bonus - Energy
+292,1,20280,10015,4,771;772,0,0,0,4,Damage Bonus - Hybrids
 548,1,20280,68,4,778,1,0,0,4,Shield Boost Bonus
 565,1,20280,564,3,6,0,0,0,4,Scan Resolution Penalty
 895,1,20280,84,4,1052,1,0,0,4,Armor Repair Amount
 896,1,20280,73,4,1052,0,0,0,4,Armor Repair Duration
 897,1,20280,73,4,778,0,0,0,4,Shield Booster Duration
 20,1,4292,37,3,6,0,0,0,4,Max Velocity Bonus
-292,1,4292,114,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - EM Missiles
-292,1,4292,116,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Explosive Missiles
-292,1,4292,117,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Kinetic Missiles
-292,1,4292,118,2,654;656;655;653;648;657;772;386;385;384;387;89;476;1019;88;1158;394;395;396,0,0,0,4,Damage Bonus - Thermal Missiles
-292,1,4292,10016,2,55,0,0,0,4,Damage Bonus - Projectiles
-292,1,4292,10014,2,53,0,0,0,4,Damage Bonus - Lasers
-292,1,4292,10015,2,74,0,0,0,4,Damage Bonus - Hybrids
+292,1,4292,114,2,476;1019,0,0,0,4,Damage Bonus - EM Citadel Missiles
+292,1,4292,116,2,476;1019,0,0,0,4,Damage Bonus - Explosive Citadel Missiles
+292,1,4292,117,2,476;1019,0,0,0,4,Damage Bonus - Kinetic Citadel Missiles
+292,1,4292,118,2,476;1019,0,0,0,4,Damage Bonus - Thermal Citadel Missiles
+292,1,4292,10016,4,775;776,0,0,0,4,Damage Bonus - Projectiles
+292,1,4292,10014,4,773;774,0,0,0,4,Damage Bonus - Energy
+292,1,4292,10015,4,771;772,0,0,0,4,Damage Bonus - Hybrids
 548,1,4292,68,4,778,1,0,0,4,Shield Boost Bonus
 565,1,4292,564,3,6,0,0,0,4,Scan Resolution Penalty
 895,1,4292,84,4,1052,1,0,0,4,Armor Repair Amount
@@ -1224,7 +1224,7 @@
 986,2,773,269,3,6,1,0,2,15,Anti-Kinetic Pump
 987,2,773,270,3,6,1,0,2,15,Anti-Thermal Pump
 806,2,773,84,4,1049;1050;1051;1052,1,0,0,15,Auxiliary Nano Pump
-312,2,773,73,4,1049;1050;1051;1052,1,0,0,15,Nanobot Accelerator
+312,2,773,73,4,1049;1050;1051;1052,0,0,0,15,Nanobot Accelerator
 317,2,773,6,2,325,0,0,0,15,Remote Repair Augmentor
 335,2,773,265,3,6,0,0,0,15,Trimark Armor Pump
 # RIGS - ASTRONAUTIC,,,,,,,,,,
