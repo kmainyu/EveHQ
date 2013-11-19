@@ -46,6 +46,7 @@ Namespace Forms
 
             Dim cCert As Certificate = StaticData.Certificates(certID)
             Text = cCert.Name
+            Call PrepareImage(certID)
             Call PrepareDescription(certID)
             Call PrepareTree(certID)
             Call PrepareRecommendations(certID)
@@ -55,6 +56,14 @@ Namespace Forms
             Else
                 BringToFront()
             End If
+        End Sub
+
+        Private Sub PrepareImage(certID As Integer)
+            Dim certGrade As Integer = 0
+            If _displayPilot.QualifiedCertificates.ContainsKey(certID) = True Then
+                certGrade = _displayPilot.QualifiedCertificates(certID)
+            End If
+            riCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & certGrade.ToString), Image)
         End Sub
 
         Private Sub PrepareDescription(ByVal certID As Integer)
@@ -237,6 +246,12 @@ Namespace Forms
                 groupNode.Text &= " [" & groupNode.Nodes.Count.ToString & "]"
             Next
             adtShips.EndUpdate()
+            ' Hide the tab if no recommendations
+            If adtShips.Nodes.Count = 0 Then
+                recommendedTab.Visible = False
+            Else
+                recommendedTab.Visible = True
+            End If
         End Sub
 
         Private Sub ctxSkills_Opening(ByVal sender As Object, ByVal e As CancelEventArgs) Handles ctxSkills.Opening

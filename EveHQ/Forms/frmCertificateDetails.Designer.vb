@@ -43,6 +43,8 @@
             Me.Skill = New DevComponents.DotNetBar.ElementStyle()
             Me.SkillGroup = New DevComponents.DotNetBar.ElementStyle()
             Me.recommendedTab = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
+            Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
             Me.TabControlPanel5 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwEliteReqs = New System.Windows.Forms.TreeView()
             Me.eliteSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
@@ -55,19 +57,18 @@
             Me.TabControlPanel2 = New DevComponents.DotNetBar.TabControlPanel()
             Me.tvwStandardReqs = New System.Windows.Forms.TreeView()
             Me.standardSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
-            Me.TabControlPanel1 = New DevComponents.DotNetBar.TabControlPanel()
-            Me.basicSkillsTab = New DevComponents.DotNetBar.TabItem(Me.components)
+            Me.riCert = New DevComponents.DotNetBar.Controls.ReflectionImage()
             Me.ctxSkills.SuspendLayout()
             Me.ctxShips.SuspendLayout()
             CType(Me.tcCerts, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.tcCerts.SuspendLayout()
             Me.TabControlPanel6.SuspendLayout()
             CType(Me.adtShips, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.TabControlPanel1.SuspendLayout()
             Me.TabControlPanel5.SuspendLayout()
             Me.TabControlPanel4.SuspendLayout()
             Me.TabControlPanel3.SuspendLayout()
             Me.TabControlPanel2.SuspendLayout()
-            Me.TabControlPanel1.SuspendLayout()
             Me.SuspendLayout()
             '
             'tvwBasicReqs
@@ -136,11 +137,11 @@
             Me.lblDescription.BackColor = System.Drawing.Color.White
             Me.lblDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
             Me.lblDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.lblDescription.Location = New System.Drawing.Point(12, 14)
+            Me.lblDescription.Location = New System.Drawing.Point(85, 14)
             Me.lblDescription.Margin = New System.Windows.Forms.Padding(5)
             Me.lblDescription.Name = "lblDescription"
             Me.lblDescription.Padding = New System.Windows.Forms.Padding(5)
-            Me.lblDescription.Size = New System.Drawing.Size(466, 231)
+            Me.lblDescription.Size = New System.Drawing.Size(393, 231)
             Me.lblDescription.TabIndex = 0
             '
             'tcCerts
@@ -155,8 +156,8 @@
             Me.tcCerts.ColorScheme.TabItemBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(249, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(199, Byte), Integer), CType(CType(220, Byte), Integer), CType(CType(248, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(179, Byte), Integer), CType(CType(208, Byte), Integer), CType(CType(245, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(215, Byte), Integer), CType(CType(229, Byte), Integer), CType(CType(247, Byte), Integer)), 1.0!)})
             Me.tcCerts.ColorScheme.TabItemHotBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(235, Byte), Integer)), 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(236, Byte), Integer), CType(CType(168, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(218, Byte), Integer), CType(CType(89, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(230, Byte), Integer), CType(CType(141, Byte), Integer)), 1.0!)})
             Me.tcCerts.ColorScheme.TabItemSelectedBackgroundColorBlend.AddRange(New DevComponents.DotNetBar.BackgroundColorBlend() {New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.White, 0.0!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 0.45!), New DevComponents.DotNetBar.BackgroundColorBlend(System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer)), 1.0!)})
-            Me.tcCerts.Controls.Add(Me.TabControlPanel6)
             Me.tcCerts.Controls.Add(Me.TabControlPanel1)
+            Me.tcCerts.Controls.Add(Me.TabControlPanel6)
             Me.tcCerts.Controls.Add(Me.TabControlPanel5)
             Me.tcCerts.Controls.Add(Me.TabControlPanel4)
             Me.tcCerts.Controls.Add(Me.TabControlPanel3)
@@ -269,6 +270,30 @@
             Me.recommendedTab.AttachedControl = Me.TabControlPanel6
             Me.recommendedTab.Name = "recommendedTab"
             Me.recommendedTab.Text = "Recommended For"
+            '
+            'TabControlPanel1
+            '
+            Me.TabControlPanel1.Controls.Add(Me.tvwBasicReqs)
+            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
+            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
+            Me.TabControlPanel1.Name = "TabControlPanel1"
+            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
+            Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
+            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
+            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
+            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
+            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
+            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
+                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
+            Me.TabControlPanel1.Style.GradientAngle = 90
+            Me.TabControlPanel1.TabIndex = 1
+            Me.TabControlPanel1.TabItem = Me.basicSkillsTab
+            '
+            'basicSkillsTab
+            '
+            Me.basicSkillsTab.AttachedControl = Me.TabControlPanel1
+            Me.basicSkillsTab.Name = "basicSkillsTab"
+            Me.basicSkillsTab.Text = "Basic"
             '
             'TabControlPanel5
             '
@@ -410,35 +435,25 @@
             Me.standardSkillsTab.Name = "standardSkillsTab"
             Me.standardSkillsTab.Text = "Standard"
             '
-            'TabControlPanel1
+            'riCert
             '
-            Me.TabControlPanel1.Controls.Add(Me.tvwBasicReqs)
-            Me.TabControlPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-            Me.TabControlPanel1.Location = New System.Drawing.Point(0, 23)
-            Me.TabControlPanel1.Name = "TabControlPanel1"
-            Me.TabControlPanel1.Padding = New System.Windows.Forms.Padding(1)
-            Me.TabControlPanel1.Size = New System.Drawing.Size(466, 332)
-            Me.TabControlPanel1.Style.BackColor1.Color = System.Drawing.Color.FromArgb(CType(CType(253, Byte), Integer), CType(CType(253, Byte), Integer), CType(CType(254, Byte), Integer))
-            Me.TabControlPanel1.Style.BackColor2.Color = System.Drawing.Color.FromArgb(CType(CType(157, Byte), Integer), CType(CType(188, Byte), Integer), CType(CType(227, Byte), Integer))
-            Me.TabControlPanel1.Style.Border = DevComponents.DotNetBar.eBorderType.SingleLine
-            Me.TabControlPanel1.Style.BorderColor.Color = System.Drawing.Color.FromArgb(CType(CType(146, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(199, Byte), Integer))
-            Me.TabControlPanel1.Style.BorderSide = CType(((DevComponents.DotNetBar.eBorderSide.Left Or DevComponents.DotNetBar.eBorderSide.Right) _
-                Or DevComponents.DotNetBar.eBorderSide.Bottom), DevComponents.DotNetBar.eBorderSide)
-            Me.TabControlPanel1.Style.GradientAngle = 90
-            Me.TabControlPanel1.TabIndex = 1
-            Me.TabControlPanel1.TabItem = Me.basicSkillsTab
             '
-            'basicSkillsTab
             '
-            Me.basicSkillsTab.AttachedControl = Me.TabControlPanel1
-            Me.basicSkillsTab.Name = "basicSkillsTab"
-            Me.basicSkillsTab.Text = "Basic"
+            '
+            Me.riCert.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square
+            Me.riCert.BackgroundStyle.TextAlignment = DevComponents.DotNetBar.eStyleTextAlignment.Center
+            Me.riCert.Image = CType(resources.GetObject("riCert.Image"), System.Drawing.Image)
+            Me.riCert.Location = New System.Drawing.Point(13, 14)
+            Me.riCert.Name = "riCert"
+            Me.riCert.Size = New System.Drawing.Size(64, 96)
+            Me.riCert.TabIndex = 5
             '
             'FrmCertificateDetails
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.ClientSize = New System.Drawing.Size(490, 614)
+            Me.Controls.Add(Me.riCert)
             Me.Controls.Add(Me.tcCerts)
             Me.Controls.Add(Me.lblDescription)
             Me.DoubleBuffered = True
@@ -457,11 +472,11 @@
             Me.tcCerts.ResumeLayout(False)
             Me.TabControlPanel6.ResumeLayout(False)
             CType(Me.adtShips, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.TabControlPanel1.ResumeLayout(False)
             Me.TabControlPanel5.ResumeLayout(False)
             Me.TabControlPanel4.ResumeLayout(False)
             Me.TabControlPanel3.ResumeLayout(False)
             Me.TabControlPanel2.ResumeLayout(False)
-            Me.TabControlPanel1.ResumeLayout(False)
             Me.ResumeLayout(False)
 
         End Sub
@@ -497,5 +512,6 @@
         Friend WithEvents colShip As DevComponents.AdvTree.ColumnHeader
         Friend WithEvents Skill As DevComponents.DotNetBar.ElementStyle
         Friend WithEvents SkillGroup As DevComponents.DotNetBar.ElementStyle
+        Friend WithEvents riCert As DevComponents.DotNetBar.Controls.ReflectionImage
     End Class
 End NameSpace

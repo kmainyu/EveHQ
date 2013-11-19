@@ -532,7 +532,7 @@ Namespace Forms
             certGroupStyle.BackColor2 = Color.Black
             certGroupStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotGroupTextColor))
             Dim normalCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
-            normalCertStyle.BackColor2 = Color.FromArgb(CInt(HQ.Settings.PilotStandardSkillColor))
+            normalCertStyle.BackColor2 = Color.FromArgb(160, 160, 160)
             normalCertStyle.BackColor = Color.FromArgb(128, normalCertStyle.BackColor2)
             normalCertStyle.TextColor = Color.FromArgb(CInt(HQ.Settings.PilotSkillTextColor))
             Dim selCertStyle As ElementStyle = adtSkills.Styles("Skill").Copy
@@ -579,26 +579,15 @@ Namespace Forms
                     newCert.Cells.Add(New Cell)
                     Dim certGrade As Integer = _displayPilot.QualifiedCertificates(cCertID)
                     newCert.Cells(1).Tag = certGrade
-                    newCert.Image = CType(My.Resources.ResourceManager.GetObject("Cert" & certGrade.ToString), Image)
-                    Select Case certGrade
-                        Case 1
-                            newCert.Cells(1).Text = "Basic"
-                        Case 2
-                            newCert.Cells(1).Text = "Standard"
-                        Case 3
-                            newCert.Cells(1).Text = "Improved"
-                        Case 4
-                            newCert.Cells(1).Text = "Advanced"
-                        Case 5
-                            newCert.Cells(1).Text = "Elite"
-                    End Select
+                    newCert.Image = New Bitmap(CType(My.Resources.ResourceManager.GetObject("Cert" & certGrade.ToString), Image), 32, 32)
+                    newCert.Cells(1).Text = CType(certGrade, CertificateGrade).ToString
                 End If
             Next
 
             ' Add certificate count and remove empty groups
             If chkGroupSkills.Checked = True Then
                 For Each certGroup As Node In adtCerts.Nodes
-                    certGroup.Text &= " (" & certGroup.Tag.ToString & " certificates)"
+                    certGroup.Text &= " [" & certGroup.Tag.ToString & " certificates]"
                 Next
                 Dim sg As Node
                 Dim sgNo As Integer = 0

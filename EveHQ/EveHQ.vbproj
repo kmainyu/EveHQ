@@ -812,12 +812,6 @@
   <ItemGroup>
     <None Include="Resources\EveHQErrorProf.png" />
     <None Include="Resources\nochar.jpg" />
-    <None Include="Resources\icon79_01.png" />
-    <None Include="Resources\icon79_02.png" />
-    <None Include="Resources\icon79_03.png" />
-    <None Include="Resources\icon79_04.png" />
-    <None Include="Resources\icon79_05.png" />
-    <None Include="Resources\icon79_06.png" />
     <None Include="Resources\RefTypes.txt" />
     <None Include="Resources\EveHQSplash9.jpg" />
     <None Include="Resources\icon77_07.png" />
@@ -854,6 +848,12 @@
       <Link>GammaJul.LgLcd.Native64.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\79_64_1.png" />
+    <None Include="Resources\79_64_2.png" />
+    <None Include="Resources\79_64_3.png" />
+    <None Include="Resources\79_64_4.png" />
+    <None Include="Resources\79_64_5.png" />
+    <None Include="Resources\79_64_6.png" />
     <Content Include="Resources\AssetsSafe32.png" />
     <Content Include="_updates.xml">
       <SubType>Designer</SubType>
