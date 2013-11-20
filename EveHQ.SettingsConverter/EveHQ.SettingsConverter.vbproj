@@ -174,9 +174,9 @@
   <Target Name="AfterBuild">
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>IF NOT EXIST "$(SolutionDir)BuildOutput\Release\" mkdir "$(SolutionDir)BuildOutput\Release\"</PreBuildEvent>
+    <PreBuildEvent>IF NOT EXIST "$(SolutionDir)BuildOutput\$(ConfigurationName)\" mkdir "$(SolutionDir)BuildOutput\$(ConfigurationName)\"</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)*.*" "$(SolutionDir)BuildOutput\Release\"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetDir)*.*" "$(SolutionDir)BuildOutput\$(ConfigurationName)\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
