@@ -585,7 +585,7 @@ Public Class EveHQSettings
         PilotPartTrainedSkillColor = Color.Gold.ToArgb
         PilotCurrentTrainSkillColor = Color.LimeGreen.ToArgb
         CcpapiServerAddress = OfficialApiLocation
-        UpdateUrl = "http://evehq.net/betaupdate/"
+        UpdateUrl = "http://evehq.net/update/"
         APIFileExtension = "aspx"
         PilotGroupBackgroundColor = Color.DimGray.ToArgb
         PilotGroupTextColor = Color.White.ToArgb
@@ -742,8 +742,8 @@ Public Class EveHQSettings
         If showRawData = False Then
 
             ' Reset the update URL to a temp location
-            If HQ.Settings.UpdateUrl <> "http://evehq.net/betaupdate/" Then
-                HQ.Settings.UpdateUrl = "http://evehq.net/betaupdate/"
+            If HQ.Settings.UpdateUrl <> "http://evehq.net/update/" Then
+                HQ.Settings.UpdateUrl = "http://evehq.net/update/"
             End If
 
             ' Set the Custom database connection
