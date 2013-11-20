@@ -109,6 +109,7 @@ Namespace Forms
             InitializeComponent()
 
             ' This is for a default blank BPCalc
+            _startUp = True
             _usingOwnedBPs = usingOwnedBPs
             _startMode = BPCalcStartMode.None
             _bpOwnerName = PrismSettings.UserSettings.DefaultBPOwner
@@ -146,6 +147,7 @@ Namespace Forms
             ' This call is required by the Windows Form Designer.
             InitializeComponent()
 
+            _startUp = True
             _initialJob = existingJob
             _currentJob = existingJob.Clone
             _currentBP = _currentJob.CurrentBlueprint
@@ -215,7 +217,7 @@ Namespace Forms
 
         Private Sub frmBPCalculator_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
 
-            _startUp = True
+            '_startUp = True
 
             ' Set up the event handlers from the PrismProductionResources controls
             AddHandler PPRInvention.ProductionResourcesChanged, AddressOf InventionResourcesChanged
