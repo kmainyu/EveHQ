@@ -28,6 +28,7 @@ Imports EveHQ.Common.Logging
 Imports System.Reflection
 Imports System.Windows.Forms.VisualStyles
 Imports System.Text
+Imports EveHQ.Common.Extensions
 Imports SearchOption = Microsoft.VisualBasic.FileIO.SearchOption
 
 Namespace Forms
@@ -123,7 +124,7 @@ Namespace Forms
                 MessageBox.Show("Unable to find core cache folder. EveHQ will now quit", "Cache Folder Required", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End
             End If
-            HQ.WriteLogEvent("End: Set core cache directory")
+            HQ.WriteLogEvent("End: Set core cache directory ({0})".FormatInvariant(HQ.CoreCacheFolder))
 
             ' Load static data
             ThreadPool.QueueUserWorkItem(AddressOf LoadItemData)
