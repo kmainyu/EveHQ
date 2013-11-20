@@ -847,7 +847,7 @@ namespace EveHQ.EveData
                 // Get files from dump
 
                 // Item List
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemList.dat"), FileMode.Open,FileAccess.Read))
                 {
                     typeNames = Serializer.Deserialize<SortedList<string, int>>(s);
                 }
@@ -855,7 +855,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item List Finished Loading");
 
                 // Item Data
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Items.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Items.dat"), FileMode.Open, FileAccess.Read))
                 {
                     types = Serializer.Deserialize<SortedList<int, EveType>>(s);
                 }
@@ -863,7 +863,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Items Finished Loading");
 
                 // Item Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemGroups.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemGroups.dat"), FileMode.Open, FileAccess.Read))
                 {
                     typeGroups = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -871,7 +871,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Groups Finished Loading");
 
                 // Items Cats
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemCats.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemCats.dat"), FileMode.Open, FileAccess.Read))
                 {
                     typeCats = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -879,7 +879,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Categories Finished Loading");
 
                 // Group Cats
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "GroupCats.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "GroupCats.dat"), FileMode.Open, FileAccess.Read))
                 {
                     groupCats = Serializer.Deserialize<SortedList<int, int>>(s);
                 }
@@ -887,7 +887,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Group Categories Finished Loading");
 
                 // Market Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MarketGroups.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MarketGroups.dat"), FileMode.Open, FileAccess.Read))
                 {
                     marketGroups = Serializer.Deserialize<SortedList<int, MarketGroup>>(s);
                 }
@@ -895,7 +895,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Market Groups Finished Loading");
 
                 // Item Market Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemMarketGroups.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemMarketGroups.dat"), FileMode.Open, FileAccess.Read))
                 {
                     itemMarketGroups = Serializer.Deserialize<SortedList<string, string>>(s);
                 }
@@ -903,7 +903,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Market Groups Finished Loading");
 
                 // Cert Categories
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertCats.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertCats.dat"), FileMode.Open, FileAccess.Read))
                 {
                     certificateCategories = Serializer.Deserialize<SortedList<string, CertificateCategory>>(s);
                 }
@@ -911,7 +911,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificate Categories Finished Loading");
 
                 // Certs
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Certs.dat"), FileMode.Open, FileAccess.Read))
                 {
                     certificates = Serializer.Deserialize<SortedList<int, Certificate>>(s);
                 }
@@ -919,7 +919,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificates Finished Loading");
 
                 // Cert Recommendations
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertRec.dat"), FileMode.Open, FileAccess.Read))
                 {
                     certificateRecommendations = Serializer.Deserialize<List<CertificateRecommendation>>(s);
                 }
@@ -927,7 +927,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificate Recommendations Finished Loading");
 
                 // Unlocks
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemUnlocks.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemUnlocks.dat"), FileMode.Open, FileAccess.Read))
                 {
                     itemUnlocks = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
@@ -935,7 +935,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Item Unlocks Finished Loading");
 
                 // SkillUnlocks
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "SkillUnlocks.dat"), FileMode.Open, FileAccess.Read))
                 {
                     skillUnlocks = Serializer.Deserialize<SortedList<string, List<string>>>(s);
                 }
@@ -943,7 +943,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Skill Unlocks Finished Loading");
 
                 // CertSkills
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "CertSkills.dat"), FileMode.Open, FileAccess.Read))
                 {
                     certUnlockSkills = Serializer.Deserialize<SortedList<string, List<int>>>(s);
                 }
@@ -951,7 +951,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Certificate Skills Finished Loading");
 
                 // Masteries
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Masteries.dat"), FileMode.Open, FileAccess.Read))
                 {
                     masteries = Serializer.Deserialize<SortedList<int, Mastery>>(s);
                 }
@@ -959,7 +959,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Masteries Finished Loading");
 
                 // Regions
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Regions.dat"), FileMode.Open, FileAccess.Read))
                 {
                     regions = Serializer.Deserialize<Dictionary<int, string>>(s);
                 }
@@ -967,7 +967,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Regions Finished Loading");
 
                 // Constellations
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Constellations.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Constellations.dat"), FileMode.Open, FileAccess.Read))
                 {
                     constellations = Serializer.Deserialize<Dictionary<int, string>>(s);
                 }
@@ -975,7 +975,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Constellations Finished Loading");
 
                 // SolarSystems
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Systems.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Systems.dat"), FileMode.Open, FileAccess.Read))
                 {
                     solarSystems = Serializer.Deserialize<Dictionary<int, SolarSystem>>(s);
                 }
@@ -983,7 +983,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Solar Systems Finished Loading");
 
                 // Stations
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Stations.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Stations.dat"), FileMode.Open, FileAccess.Read))
                 {
                     stations = Serializer.Deserialize<Dictionary<int, Station>>(s);
                 }
@@ -991,7 +991,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Stations Finished Loading");
 
                 // Divisions
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Divisions.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Divisions.dat"), FileMode.Open, FileAccess.Read))
                 {
                     divisions = Serializer.Deserialize<Dictionary<int, string>>(s);
                 }
@@ -999,7 +999,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Divisions Finished Loading");
 
                 // Agents
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Agents.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Agents.dat"), FileMode.Open, FileAccess.Read))
                 {
                     agents = Serializer.Deserialize<Dictionary<int, Agent>>(s);
                 }
@@ -1007,7 +1007,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Agents Finished Loading");
 
                 // Attribute Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AttributeTypes.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AttributeTypes.dat"), FileMode.Open, FileAccess.Read))
                 {
                     attributeTypes = Serializer.Deserialize<SortedList<int, AttributeType>>(s);
                 }
@@ -1015,7 +1015,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Attribute Types Finished Loading");
 
                 // Type Attributes
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeAttributes.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeAttributes.dat"), FileMode.Open, FileAccess.Read))
                 {
                     typeAttributes = Serializer.Deserialize<List<TypeAttrib>>(s);
                 }
@@ -1023,7 +1023,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Type Attributes Finished Loading");
 
                 // Attribute Units
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Units.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Units.dat"), FileMode.Open, FileAccess.Read))
                 {
                     attributeUnits = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -1031,7 +1031,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Units Finished Loading");
 
                 // Effect Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "EffectTypes.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "EffectTypes.dat"), FileMode.Open, FileAccess.Read))
                 {
                     effectTypes = Serializer.Deserialize<SortedList<int, EffectType>>(s);
                 }
@@ -1039,7 +1039,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Effect Types Finished Loading");
 
                 // Type Effects
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeEffects.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "TypeEffects.dat"), FileMode.Open, FileAccess.Read))
                 {
                     typeEffects = Serializer.Deserialize<List<TypeEffect>>(s);
                 }
@@ -1047,7 +1047,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Type Effects Finished Loading");
 
                 // Meta Groups
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MetaGroups.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MetaGroups.dat"), FileMode.Open, FileAccess.Read))
                 {
                     metaGroups = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -1055,7 +1055,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Meta Groups Finished Loading");
 
                 // Meta Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MetaTypes.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "MetaTypes.dat"), FileMode.Open, FileAccess.Read))
                 {
                     metaTypes = Serializer.Deserialize<SortedList<int, MetaType>>(s);
                 }
@@ -1063,7 +1063,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Meta Types Finished Loading");
 
                 // Blueprint Types
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "Blueprints.dat"), FileMode.Open, FileAccess.Read))
                 {
                     blueprints = Serializer.Deserialize<SortedList<int, Blueprint>>(s);
                 }
@@ -1071,7 +1071,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Blueprints Finished Loading");
 
                 // Assembly Arrays
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AssemblyArrays.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "AssemblyArrays.dat"), FileMode.Open, FileAccess.Read))
                 {
                     assemblyArrays = Serializer.Deserialize<SortedList<string, AssemblyArray>>(s);
                 }
@@ -1079,7 +1079,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** Assembly Arrays Finished Loading");
 
                 // NPC Corps
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "NPCCorps.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "NPCCorps.dat"), FileMode.Open, FileAccess.Read))
                 {
                     npcCorps = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
@@ -1087,7 +1087,7 @@ namespace EveHQ.EveData
                 Trace.TraceInformation(" *** NPC Corps Finished Loading");
 
                 // Item Flags
-                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemFlags.dat"), FileMode.Open))
+                using (var s = new FileStream(Path.Combine(coreCacheFolder, "ItemFlags.dat"), FileMode.Open, FileAccess.Read))
                 {
                     itemMarkers = Serializer.Deserialize<SortedList<int, string>>(s);
                 }
