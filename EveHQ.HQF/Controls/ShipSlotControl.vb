@@ -3841,7 +3841,7 @@ Namespace Controls
                                     newFit.PilotName = pPilot.PilotName
                                     newFit.ApplyFitting(BuildType.BuildEverything)
                                     Dim remoteShip As Ship = newFit.FittedShip
-                                    Dim wcModules As New ArrayList
+                                    Dim wcModules As New List(Of ShipModule)
                                     For Each fleetModule As ShipModule In remoteShip.SlotCollection
                                         If _fleetGroups.Contains(CInt(fleetModule.DatabaseGroup)) = True Then
                                             fleetModule.ModuleState = ModuleStates.Gang
@@ -3883,7 +3883,7 @@ Namespace Controls
                                     newFit.PilotName = pPilot.PilotName
                                     newFit.ApplyFitting(BuildType.BuildEverything)
                                     Dim remoteShip As Ship = newFit.FittedShip
-                                    Dim fcModules As New ArrayList
+                                    Dim fcModules As New List(Of ShipModule)
                                     For Each fleetModule As ShipModule In remoteShip.SlotCollection
                                         If _fleetGroups.Contains(CInt(fleetModule.DatabaseGroup)) = True Then
                                             fleetModule.ModuleState = ModuleStates.Gang
@@ -3918,7 +3918,7 @@ Namespace Controls
             Dim fleetCollection As New SortedList(Of String, ShipModule)
 
             If cboSCShip.Tag IsNot Nothing Then
-                Dim scModules As ArrayList = CType(cboSCShip.Tag, ArrayList)
+                Dim scModules As List(Of ShipModule) = CType(cboSCShip.Tag, List(Of ShipModule))
                 For Each fleetModule As ShipModule In scModules
                     If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                         ' Add it to the Fleet Collection
@@ -3946,7 +3946,7 @@ Namespace Controls
             End If
 
             If cboWCShip.Tag IsNot Nothing Then
-                Dim wcModules As ArrayList = CType(cboWCShip.Tag, ArrayList)
+                Dim wcModules As List(Of ShipModule) = CType(cboWCShip.Tag, List(Of ShipModule))
                 For Each fleetModule As ShipModule In wcModules
                     If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                         ' Add it to the Fleet Collection
@@ -3974,7 +3974,7 @@ Namespace Controls
             End If
 
             If cboFCShip.Tag IsNot Nothing Then
-                Dim fcModules As ArrayList = CType(cboFCShip.Tag, ArrayList)
+                Dim fcModules As List(Of ShipModule) = CType(cboFCShip.Tag, List(Of ShipModule))
                 For Each fleetModule As ShipModule In fcModules
                     If fleetCollection.ContainsKey(fleetModule.Name) = False Then
                         ' Add it to the Fleet Collection
