@@ -266,5 +266,6 @@ IF NOT EXIST "$(SolutionDir)BuildOutput\Debug\StaticData" mkdir "$(SolutionDir)B
       copy /Y "$(TargetDir)*.*" "$(SolutionDir)BuildOutput\Release\"
       copy /Y "$(TargetDir)StaticData\*.*" "$(SolutionDir)BuildOutput\Release\StaticData"
     </PostBuildEvent>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 </Project>
