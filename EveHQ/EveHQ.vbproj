@@ -50,6 +50,8 @@
     <AssemblyInfoTitle>EveHQ</AssemblyInfoTitle>
     <AssemblyInfoDescription>Eve Online game tool</AssemblyInfoDescription>
     <AssemblyInfoGUID>f8be6b56-f761-4ee7-a722-da54af312ecb</AssemblyInfoGUID>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -928,4 +930,5 @@
   </Target>-->
   <Target Name="AfterBuild">
   </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
 </Project>
