@@ -294,11 +294,14 @@ Public Class PlugInData
 
         shipDNA.ShipID = CInt(mods(0))
         For modNo As Integer = 1 To mods.Length - 1
-            Dim modList As List(Of String) = mods(modNo).Split(";".ToCharArray).ToList
-            If modList.Count > 0 Then
-                For Each modID As String In modList
-                    If ModuleLists.ModuleList.ContainsKey(CInt(modID)) = True Then
-                        Dim fModule As ShipModule = ModuleLists.ModuleList(CInt(modID))
+            Dim modData As List(Of String) = mods(modNo).Split("*".ToCharArray).ToList
+            If modData.Count > 0 Then
+                Dim modID As Integer = CInt(modData(0))
+                Dim modCount As Integer = CInt(modData(1))
+                ' ReSharper disable once RedundantAssignment - incorrect warning by R#
+                For m As Integer = 1 To modCount
+                    If ModuleLists.ModuleList.ContainsKey(modID) = True Then
+                        Dim fModule As ShipModule = ModuleLists.ModuleList(modID)
                         If fModule.IsCharge Then
                             shipDNA.Charges.Add(fModule.ID)
                         Else
@@ -306,7 +309,16 @@ Public Class PlugInData
                         End If
                     End If
                 Next
-            End If
+            Else
+                If ModuleLists.ModuleList.ContainsKey(CInt(modData(0))) = True Then
+                    Dim fModule As ShipModule = CType(ModuleLists.ModuleList(CInt(modData(0))), ShipModule)
+                    If fModule.IsCharge Then
+                        shipDNA.Charges.Add(fModule.ID)
+                    Else
+                        shipDNA.Modules.Add(fModule.ID)
+                    End If
+                End If
+           End If
         Next
 
         If parts.Length > 1 Then
